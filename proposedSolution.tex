@@ -97,13 +97,22 @@ Our \texttt{LEARNER} for learning constaints will depend on all files having a c
 The types of constraints, and the proposed solution to learn such constraints are outlined here.
 
 \subsection{Format - Lexical}
-This problem is exemplified in box (a) of the image.
+This problem is exemplified in box (a) of the image - a certain parameter cannot contain lowercase values.
+To build these rules, we collect every instance of setting that parameter over $[D]$, then infer a partition (like strisynth) on those examples.
 
 \subsection{Format - Syntax}
 This problem is exemplified in box (b) and (c) of the image.
+These are ordering/dependency errors and require analysis over multiple lines.
+Looking for substrings over lines can solve (b).
+Not sure about (c)
 
 \subsection{Value - Value Inconsistency}
 This problem is exemplified in box (f) (g) and (h) of the image.
+I don't understand (f), how can we know if query.log is a file or a table.
+
+Interger constraints are hard to find since we dont know which ones are supposed to be coorelated.
+Maybe we can build constraints between all integers in a file, then remove constraints as we see counter examples.
+Is this counter-example guided synthesis?
 
 \section{Usertime Checking}
 
