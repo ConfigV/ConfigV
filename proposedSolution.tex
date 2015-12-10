@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Proposed Solution}
+\author{}
+\date{December 2015}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{color}
+
+\definecolor{identifierColor}{rgb}{0.65,0.16,0.16}
+\definecolor{comment_color}{rgb}{0.40,0.46,0.3}
+\definecolor{num_color}{gray}{0.55}
+\lstset{
+  basicstyle=\footnotesize,
+  breaklines=true,
+  frame=bottomline,
+  language=haskell,
+  %identifierstyle=\color{identifierColor},
+  morecomment=[l][\color{comment_color}\ttfamily]{--},
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  %captionpos=b,                    % sets the caption-position to bottom
+  %commentstyle=\color{mygreen},    % comment style
+  %frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  otherkeywords={*,let, Server, Replication, FaultGraph, rankRCG, print, fialProb, goal, ...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{num_color}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  %title=\lstname                  % show the filename of files included with \lstinputlisting; also try caption instead of title
+  mathescape=true,
+  tabsize=3,
+  literate=*{->}{{\textcolor{blue}{$\to$}}}{1}
+           {<-}{{\textcolor{blue}{$\leftarrow$}}}{1}
+}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In order to solve the misconfiguration problems outlined in \cite{yin2011}, we take a two stage process.
+
+\begin{enumerate}
+  \item Preprocessor
+  \begin{enumerate}
+    \item Given a set of config files in a language $[C_{httpd}]$, convert them to a set $[D]$ in our language.
+    \item Learn constraints on syntax based on $[D]$ to generate the rule set $R_{httpd}$
+  \end{enumerate}
+  \item Usertime checking
+  \begin{enumerate}
+    \item convert a given configuration file $c_{httpd}$, into a file $d$, in our own language.
+    \item check $d$ against $R_{httpd}$ and report errors to user.
+  \end{enumerate}
+\end{enumerate}
+
+Expressed in pseduocode:
+
+\begin{lstlisting}
+main = 
+  r = preproc learningSet
+  e = usertime r userFile
+
+preproc :: [ConfigFile a] -> (RuleSet,a)
+preproc cs =
+  ds = map convert cs 
+  rules = learnOn ds
+  fileType = getType cs
+  return (rules,fileType)
+
+convert :: ConfigFile a -> ConfigFile Common
+getType :: [ConfigFile a] -> a
+learnOn :: [ConfigFile Common] -> RuleSet
+
+usertime :: (RuleSet,a) -> ConfigFile a -> Maybe Error
+usertime r c =
+  d = convert c
+  e = verifyOn r d
+  return e
+\end{lstlisting}
+
+
+
+
+\section{Preprocessor}
+The first step is to use a \texttt{CONVERTER} to translate any config file type (httpd,MySQL,etc.) to a common format. 
+Our \texttt{LEARNER} for learning constaints will depend on all files having a common format. 
+The types of constraints, and the proposed solution to learn such constraints are outlined here.
+
+\subsection{Format - Lexical}
+This problem is exemplified in box (a) of the image.
+
+\subsection{Format - Syntax}
+This problem is exemplified in box (b) and (c) of the image.
+
+\subsection{Value - Value Inconsistency}
+This problem is exemplified in box (f) (g) and (h) of the image.
+
+\section{Usertime Checking}
+
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
+
