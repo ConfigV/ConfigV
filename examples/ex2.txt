@@ -1,0 +1,50 @@
+# the next sample we learn from
+
+[mysqld]
+socket          = /db/data2/mysql.sock
+port            = 3307
+[client]
+socket          = /db/data2/mysql.sock
+port            = 3307
+
+# we will generate constraints as in ex1, then merge the two sets of constraints
+
+# remove conflicting clauses from ordering of keywords
+
+o("bof","[client]") /\   -- from ex1
+o("bof","[mysqld]")      -- from ex2
+
+=> True
+
+# remove conflicting clauses from value ordering, keeping the clauses that are the same
+
+
+o("socket_0 = /db/data/mysql.sock", "socket_1 = /db/database/mysql.sock") /\
+o("socket_1 = /db/data/mysql.sock", "socket_0 = /db/database/mysql.sock") 
+
+=> True
+
+o("socket_0 = /db/data/mysql.sock", "port_0 = 3306") /\
+o("socket_0 = /db/data/mysql.sock", "port_0 = 3306") 
+
+=> o("socket_0 = /db/data/mysql.sock", "port_0 = 3306")
+
+# remove confliscting value relations (none in this case)
+v(socket_0) == v(socket_1) /\
+v(port_0) == v(port_1 = 3306)
+
+# merge contraints on value to keywords
+# using striSynt partition approach
+
+port_0 == 3306 /\
+port_0 == 3307 
+
+=>
+
+port_0 >= 3306
+
+# at the end of processing these two files, we now know
+
+port and socket come after [mysqld] and [client]
+socket comes before port
+socket_0 and port_0 have to equal socket_1 and port_1
