@@ -86,6 +86,8 @@ usertime r c =
   d = convert c
   e = verifyOn r d
   return e
+
+data RuleSet = {Lexical = [Clause], Syntax = [Clause], Value = [Clause]}
 \end{lstlisting}
 
 
@@ -99,10 +101,22 @@ The types of constraints, and the proposed solution to learn such constraints ar
 \begin{lstlisting}
 learnOn :: [ConfigFile Common] -> RuleSet
 learnOn cs = 
-  r1 = learnLexicalConstraints cs
-  r2 = learnSyntaxConstraints cs
-  r3 = learnValueConstraints cs
-  return r1 + r2 + r3
+  rs = map genConstraints cs
+  foldl1 mergeRules rs
+
+genConstraints :: ConfigFile Common -> RuleSet
+genConstraints c =
+  r1 = learnLexicalConstraints c
+  r2 = learnSyntaxConstraints c
+  r3 = learnValueConstraints c
+  return RuleSet {r1, r2, r3}
+
+mergeRules :: RuleSet -> RuleSet -> RuleSet
+mergeRules rs rs' =
+  return RuleSet
+    { mergeLex (Lexical rs) (Lexical rs')
+    , mergeSyn (Syntax rs)  (Syntax rs')
+    , mergeVal (Value rs)   (Value rs')}
 \end{lstlisting}
 
 
@@ -111,11 +125,34 @@ learnOn cs =
 This problem is exemplified in box (a) of the image - a certain parameter cannot contain lowercase values.
 To build these rules, we collect every instance of setting that parameter over $[D]$, then infer a partition (like strisynth) on those examples.
 
+\begin{lstlisting}
+learnLexicalConstraints :: ConfigFile Common -> [Clause]
+learnLexicalConstraints =
+  
+
+mergeLex =
+  strisynth?
+\end{lstlisting}
+
 \subsection{Format - Syntax}
 This problem is exemplified in box (b) and (c) of the image.
 These are ordering/dependency errors and require analysis over multiple lines.
-Looking for substrings over lines can solve (b).
-Not sure about (c)
+
+\begin{lstlisting}
+learnSyntaxConstraints :: ConfigFile Common -> [Clause]
+learnSyntaxConstraints c =
+  ls = lines c
+  concatMap (makeOrderPairs ls) ls
+  
+makeOrderPairs :: [Text] -> Text -> [(Text,Text)]
+makeOrderPairs ls l = 
+  map (,l) ls
+
+mergeSyn :: [Clause] -> [Clause] -> [Clause]
+mergeSyn curr new =
+  combined = intersect curr new
+  return combined
+\end{lstlisting}
 
 \subsection{Value - Value Inconsistency}
 This problem is exemplified in box (f) (g) and (h) of the image.
@@ -126,9 +163,27 @@ Maybe we can build constraints between all integers in a file, then remove const
 Is this counter-example guided synthesis?
 
 \begin{lstlisting}
-learnValueConstraints :: [Config a] -> RuleSet
-learnValueConstraints cs  =
-  
+learnValueConstraints :: Config Common -> RuleSet
+learnValueConstraints c =
+  ls = lines cs
+  tys = seperateValsOnType ls :: [(Type,Text)]
+  concatMap (makeRelations tys) tys
+
+makeRelations :: [(Type,Text)] -> (Type,Text)
+makeRelations ts (ty,tx) =
+  map (f (ty,tx)) ts
+  f (ty,tx) (ty',tx') = if ty==ty' then synthesizeComparison ty tx tx' else []
+
+synthesizeComparison :: Type -> Text -> Text -> Clause
+synthesizeComparison Int t t' =
+  if t<t' then "t<t'"
+  if t==t' then "t==t'"
+  ...
+synthesizeComparison String t t' =
+synthesizeComparison IP t t' =
+...
+
+mergeVal rs rs' = 
 \end{lstlisting}
 
 
