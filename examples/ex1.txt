@@ -1,0 +1,34 @@
+# the sample we learn from
+
+[client]
+socket          = /db/data/mysql.sock
+port            = 3306
+[mysqld]
+socket          = /db/data/mysql.sock
+port            = 3306
+
+
+# constraints we generate
+#   We assume that anything to the left of the '=' (or lacking '=') is a keyword
+#   and everything to the right is a value.
+#   We also only handle single line grammars.
+
+# 1) constraints on ordering of keywords
+o("bof","[client]") /\
+o("[client]","socket_0") /\
+o("[client]","port_0") /\
+o("[client]","[mysqld]") /\
+o("[client]","socket_1") /\
+o("[client]","port_1") /\
+
+o("socket_0","port_0") /\
+o("socket_0","[mysqld]") /\
+o("socket_0","socket_1") /\
+o("socket_0","port_1") /\
+
+...
+
+# 2) constraints on ordering of values (lines that contains '=')
+
+o("socket_0 = /db/data/mysql.sock
+# 3) constraints of values 

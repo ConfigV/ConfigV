@@ -96,6 +96,17 @@ The first step is to use a \texttt{CONVERTER} to translate any config file type 
 Our \texttt{LEARNER} for learning constaints will depend on all files having a common format. 
 The types of constraints, and the proposed solution to learn such constraints are outlined here.
 
+\begin{lstlisting}
+learnOn :: [ConfigFile Common] -> RuleSet
+learnOn cs = 
+  r1 = learnLexicalConstraints cs
+  r2 = learnSyntaxConstraints cs
+  r3 = learnValueConstraints cs
+  return r1 + r2 + r3
+\end{lstlisting}
+
+
+
 \subsection{Format - Lexical}
 This problem is exemplified in box (a) of the image - a certain parameter cannot contain lowercase values.
 To build these rules, we collect every instance of setting that parameter over $[D]$, then infer a partition (like strisynth) on those examples.
@@ -113,6 +124,15 @@ I don't understand (f), how can we know if query.log is a file or a table.
 Interger constraints are hard to find since we dont know which ones are supposed to be coorelated.
 Maybe we can build constraints between all integers in a file, then remove constraints as we see counter examples.
 Is this counter-example guided synthesis?
+
+\begin{lstlisting}
+learnValueConstraints :: [Config a] -> RuleSet
+learnValueConstraints cs  =
+  
+\end{lstlisting}
+
+
+
 
 \section{Usertime Checking}
 
