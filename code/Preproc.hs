@@ -9,7 +9,7 @@ preproc cs =
 
 learnOn :: [ConfigFile Common] -> RuleSet
 learnOn cs = 
-  rs = map genConstraints cs
+  rs = map genConstraints cs :: [RuleSet]
   foldl1 mergeRules rs
 
 genConstraints :: ConfigFile Common -> RuleSet
@@ -26,26 +26,3 @@ mergeRules rs rs' =
     , mergeSyn (Syntax rs)  (Syntax rs')
     , mergeVal (Value rs)   (Value rs')}
 
-learnLexicalConstraints :: ConfigFile Common -> [Clause]
-learnLexicalConstraints =
-  
-
-mergeLex =
-  strisynth?
-
-learnSyntaxConstraints :: ConfigFile Common -> [Clause]
-learnSyntaxConstraints c =
-  ls = lines c
-  concatMap (makeOrderPairs ls) ls
-  
-makeOrderPairs :: [Text] -> Text -> [(Text,Text)]
-makeOrderPairs ls l = 
-  map (,l) ls
-
-mergeSyn :: [Clause] -> [Clause] -> [Clause]
-mergeSyn curr new =
-  combined = intersect curr new
-  return combined
-
-learnValueConstraints :: Config Common -> RuleSet
-learnValueConstraints c =
