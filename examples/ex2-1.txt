@@ -1,0 +1,108 @@
+
+#############################################
+#
+# My own version of two config files (learning set)
+# that have all the (corrected) errors we are interested in
+#
+#############################################
+
+A01  # InitiatorName = iqn:DEV_domain
+A02  InitiatorName = iqn:dev_domain
+A03  
+A04  # overlay ppolicy (missing include)
+A05  include schema/ppolicy.schema
+A06  overlay ppolicy
+A07
+A08  # extension = recode.so
+A09  # extension = mysql.so
+A10  extension = mysql.so
+A11  extension = recode.so
+A12
+A13  # NameVirtualHost *:80
+A14  # <VirtualHost *>
+A15  # </VirtualHost>
+A16  NameVirtualHost *:80
+A17  <VirtualHost *:80>
+A18  </VirtualHost>
+A19
+A20  # max_connection = 300
+A21  # mysql.max_persistent = 400
+A22  max_connection = 300
+A23  mysql.max_persistent = 300
+----------------------------------------
+
+B01  include schema/ppolicy.schema
+B02  extension = mysql.so
+B03  extension = recode.so
+B04  InitiatorName = iqn:dev_domain
+B05  overlay ppolicy
+B06  NameVirtualHost *:70
+B07  <VirtualHost *:70>
+B08  </VirtualHost>
+B09  max_connection = 400
+B10  mysql.max_persistent = 300
+
+#############################################
+
+  data ConfigFile a = 
+    if a == Common 
+      then [(Variable,Value)]
+      else [Text]
+  
+  translate :: ConfigFile a -> ConfigFile Common
+  translate ls = 
+    map seperateVal ls
+
+  seperateValues :: Text -> (Variables,Values)
+  seperateValues t = 
+    if (containsTypableValue t) |
+      -> (getVariable t, getValue t)
+       (contains "=" t) |
+      -> breakOn "=" t
+
+
+#############################################
+ 
+ How to learn value ordering constraints
+ a var, val pair order
+1) collect ordering on every line for every file in learning set (LS)
+2) intersect orders that are preserved over LS
+
+intersect(
+  (A02,A05) /\ (A02,A06) /\ ...
+  (A05,A06) /\ (A05,A10)
+
+  (B01,B02) /\ (B01,B03) /\ ..
+)
+=>
+  (B01,B05) /\
+  (B02,B03) /\
+  (B07,B08) /\
+  (B08,B09) /\
+  (B09,B10)
+
+----------------------------------------
+
+  to learn block structures like ite, add variable ordering constraints
+
+----------------------------------------
+ 
+ How to learn value relation constaints 
+1) seperate values by type
+  1a) types are user supplied (or predefined) regexs (made with PBE?) 
+      (e.g. Type IP = \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}, Type File = *.*)
+  1b) anything to the right of a '=' (or ' ' maybe) is also a value
+  1c) every type has comparison operators
+      instance IP Ord where 
+        ip1 <= ip2 = 
+
+      class TightCompare a where
+        tightest :: a -> a -> Clause a
+      instance IP TightCompare where
+        tightest ip1 ip2 = 
+
+      data Clause a = 
+2) v(A22)
+
+
+ 
