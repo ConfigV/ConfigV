@@ -6,30 +6,25 @@
 #
 #############################################
 
-A01  # InitiatorName = iqn:DEV_domain
+LEARNING SET FILE #1
+
 A02  InitiatorName = iqn:dev_domain
 A03  
-A04  # overlay ppolicy (missing include)
 A05  include schema/ppolicy.schema
 A06  overlay ppolicy
 A07
-A08  # extension = recode.so
-A09  # extension = mysql.so
 A10  extension = mysql.so
 A11  extension = recode.so
 A12
-A13  # NameVirtualHost *:80
-A14  # <VirtualHost *>
-A15  # </VirtualHost>
 A16  NameVirtualHost *:80
 A17  <VirtualHost *:80>
 A18  </VirtualHost>
 A19
-A20  # max_connection = 300
-A21  # mysql.max_persistent = 400
 A22  max_connection = 300
 A23  mysql.max_persistent = 300
 ----------------------------------------
+
+LEARNING SET FILE #2
 
 B01  include schema/ppolicy.schema
 B02  extension = mysql.so
@@ -42,25 +37,19 @@ B08  </VirtualHost>
 B09  max_connection = 400
 B10  mysql.max_persistent = 300
 
-#############################################
+----------------------------------------
 
-  data ConfigFile a = 
-    if a == Common 
-      then [(Variable,Value)]
-      else [Text]
-  
-  translate :: ConfigFile a -> ConfigFile Common
-  translate ls = 
-    map seperateVal ls
+USER INPUT FILE (with errors that need to be identified)
 
-  seperateValues :: Text -> (Variables,Values)
-  seperateValues t = 
-    if (containsTypableValue t) |
-      -> (getVariable t, getValue t)
-       (contains "=" t) |
-      -> breakOn "=" t
-
-
+C01  InitiatorName = iqn:DEV_domain (only lower case allowed)
+C02  # overlay ppolicy (missing include)
+C03  # extension = recode.so
+C04  # extension = mysql.so
+C05  # NameVirtualHost *:80
+C06  # <VirtualHost *>
+C07  # </VirtualHost>
+C08  # max_connection = 300
+C09  # mysql.max_persistent = 400
 #############################################
  
  How to learn value ordering constraints

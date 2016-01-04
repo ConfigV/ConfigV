@@ -1,7 +1,8 @@
 module Lexical where
 
 learnLexicalConstraints :: ConfigFile Common -> [Clause]
-learnLexicalConstraints =
+learnLexicalConstraints = undefined
 
 mergeLex =
-  strisynth?
+  undefined
+--  strisynth
