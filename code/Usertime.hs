@@ -2,9 +2,13 @@ module Usertime where
 
 import Types
 
-usertime :: (RuleSet,a) -> ConfigFile a -> Maybe Error
-usertime r c =
+usertime :: RuleSet -> ConfigFile Language -> Maybe Error
+usertime r c = 
+ let
   d = convert c
   e = verifyOn r d
-  return e
+ in
+  e
 
+verifyOn :: RuleSet -> ConfigFile Common -> Maybe Error
+verifyOn r f = Nothing

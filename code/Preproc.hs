@@ -1,28 +1,42 @@
 module Preproc where
 
-preproc :: [ConfigFile a] -> (RuleSet,a)
-preproc cs =
+import Lexical
+import Values
+import Syntax
+import Types
+
+import qualified Data.Text.IO as T
+import System.IO.Unsafe
+
+-- | learn rules based on a set of files
+preproc :: [ConfigFile Language] -> RuleSet
+preproc cs = let
   ds = map convert cs 
   rules = learnOn ds
-  fileType = getType cs
-  return (rules,fileType)
+ in
+  rules
 
+-- | collect contraints from each file indepentantly
+-- this should be parmap
 learnOn :: [ConfigFile Common] -> RuleSet
-learnOn cs = 
+learnOn cs = let
   rs = map genConstraints cs :: [RuleSet]
+ in
   foldl1 mergeRules rs
 
+-- | call each of the learning modules
 genConstraints :: ConfigFile Common -> RuleSet
-genConstraints c =
-  r1 = learnLexicalConstraints c
-  r2 = learnSyntaxConstraints c
-  r3 = learnValueConstraints c
-  return RuleSet {r1, r2, r3}
+genConstraints (p,c) = RuleSet
+  { lexical = learnLexicalConstraints (p,c)
+  , syntax  = learnSyntaxConstraints (p)
+  , value   = learnValueConstraints (p,c)}
 
+-- | reconcile all the information we have learned
+-- later, think about merging this step with genConstraints
+-- no more parallel, but might be faster
 mergeRules :: RuleSet -> RuleSet -> RuleSet
-mergeRules rs rs' =
-  return RuleSet
-    { mergeLex (Lexical rs) (Lexical rs')
-    , mergeSyn (Syntax rs)  (Syntax rs')
-    , mergeVal (Value rs)   (Value rs')}
+mergeRules rs rs' = RuleSet
+  { lexical = mergeLex (lexical rs) (lexical rs')
+  , syntax  = mergeSyn (syntax rs) (syntax rs')
+  , value   = mergeVal (value rs)  (value rs')}
 
