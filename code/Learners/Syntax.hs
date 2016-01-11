@@ -24,11 +24,16 @@ learnSyntaxConstraints t =
 -- but by pure luck seems to be exactly correct
 checkSyn :: [SynRule] -> ConfigFile Common -> Bool
 checkSyn rs f = let
-  f' = makeOrderPairs $ T.lines (fst f)
-  new =  rs L.\\ f' --the difference between the two rule sets
-  x = if new == f' then True else trace (show new) False
+  fileAsLines = T.lines (fst f)
+  f' = makeOrderPairs fileAsLines
+  diff = (filter (hasRuleFor fileAsLines) rs)  L.\\ f' --the difference between the two rule sets
+  x = if diff == f' then True else trace (show diff) False
   in x
   
+hasRuleFor :: [T.Text] -> SynRule -> Bool
+hasRuleFor ts r = 
+  elem (snd r) ts && elem (fst r) ts
+
 makeOrderPairs :: [T.Text]  -> [SynRule]
 makeOrderPairs [] = []
 makeOrderPairs (l:ls) = map (l,) ls ++ makeOrderPairs ls
