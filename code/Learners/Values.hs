@@ -11,6 +11,8 @@ learnValueConstraints c = []
 
 --(FilePath,Common) -> [(Variable,Value)]
 
+checkVal :: [Clause] -> ConfigFile Common -> Bool
+checkVal cs f = True
 
 -- | combine two sets of rules
 mergeVal :: [Clause] -> [Clause] -> [Clause]

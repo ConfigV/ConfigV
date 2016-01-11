@@ -5,7 +5,9 @@ module Main where
 import Preproc
 import Usertime
 import Types
-import Data.Text
+import qualified Data.Text as T
+
+import System.IO.Unsafe
 
 main = 
  let
@@ -14,9 +16,10 @@ main =
  in return e
 
 
-learningSet = 
-  [ ("learn/file1.txt",MySQL)
-  , ("learn/file2.txt",MySQL)
+learningSet = map (\x -> (T.pack . unsafePerformIO $ readFile x, MySQL))
+  [ ("learn/file1.txt")
+  , ("learn/file2.txt")
   ]
 
-userFile = ("user/file1.txt",MySQL)
+userFile =
+  (T.pack $ unsafePerformIO $ readFile "user/syntax1.txt",MySQL)

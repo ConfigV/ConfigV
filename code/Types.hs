@@ -7,11 +7,14 @@ import Data.Text as T
 
 
 data RuleSet = RuleSet {
-  lexical :: [Clause], 
-  syntax :: [Clause], 
+  lexical :: [LexRule], 
+  syntax :: [SynRule], 
   value :: [Clause]}
 
 type Clause = T.Text
+
+type SynRule = (T.Text,T.Text)
+type LexRule = (T.Text,T.Text)
 
 type ConfigFile a = (T.Text, a)
 data Language = MySQL | HTTPD

@@ -6,7 +6,6 @@ import Syntax
 import Types
 
 import qualified Data.Text.IO as T
-import System.IO.Unsafe
 
 -- | learn rules based on a set of files
 preproc :: [ConfigFile Language] -> RuleSet
@@ -16,13 +15,6 @@ preproc cs = let
  in
   rules
 
--- | collect contraints from each file indepentantly
--- this should be parmap
-learnOn :: [ConfigFile Common] -> RuleSet
-learnOn cs = let
-  rs = map genConstraints cs :: [RuleSet]
- in
-  foldl1 mergeRules rs
 
 -- | call each of the learning modules
 genConstraints :: ConfigFile Common -> RuleSet
@@ -30,6 +22,14 @@ genConstraints (p,c) = RuleSet
   { lexical = learnLexicalConstraints (p,c)
   , syntax  = learnSyntaxConstraints (p)
   , value   = learnValueConstraints (p,c)}
+
+-- | collect contraints from each file indepentantly
+-- this should be parmap
+learnOn :: [ConfigFile Common] -> RuleSet
+learnOn cs = let
+  rs = map genConstraints cs 
+ in
+  foldl1 mergeRules rs
 
 -- | reconcile all the information we have learned
 -- later, think about merging this step with genConstraints
