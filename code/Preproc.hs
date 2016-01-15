@@ -2,7 +2,7 @@ module Preproc where
 
 import Lexical
 import Values
-import Syntax
+import Order
 import Types
 
 import qualified Data.Text.IO as T
@@ -18,10 +18,10 @@ preproc cs = let
 
 -- | call each of the learning modules
 genConstraints :: ConfigFile Common -> RuleSet
-genConstraints (p,c) = RuleSet
-  { lexical = learnLexicalConstraints (p,c)
-  , syntax  = learnSyntaxConstraints (p)
-  , value   = learnValueConstraints (p,c)}
+genConstraints f = RuleSet
+  { lexical = learn f
+  , order   = learn f
+  , value   = learn f}
 
 -- | collect contraints from each file indepentantly
 -- this should be parmap
@@ -36,7 +36,7 @@ learnOn cs = let
 -- no more parallel, but might be faster
 mergeRules :: RuleSet -> RuleSet -> RuleSet
 mergeRules rs rs' = RuleSet
-  { lexical = mergeLex (lexical rs) (lexical rs')
-  , syntax  = mergeSyn (syntax rs) (syntax rs')
-  , value   = mergeVal (value rs)  (value rs')}
+  { lexical = merge (lexical rs) (lexical rs')
+  , order  = merge (order rs) (order rs')
+  , value   = merge (value rs)  (value rs')}
 

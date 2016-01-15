@@ -22,4 +22,4 @@ learningSet = map (\x -> (T.pack . unsafePerformIO $ readFile x, MySQL))
   ]
 
 userFile =
-  (T.pack $ unsafePerformIO $ readFile "user/syntax1.txt",MySQL)
+  (T.pack $ unsafePerformIO $ readFile "user/order1.txt",MySQL)

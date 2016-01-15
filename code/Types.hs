@@ -8,13 +8,23 @@ import Data.Text as T
 
 data RuleSet = RuleSet {
   lexical :: [LexRule], 
-  syntax :: [SynRule], 
-  value :: [Clause]}
+  order :: [SynRule], 
+  value :: [Clause],
+  intRels :: [IntRelRule]}
 
-type Clause = T.Text
+class Attribute a where
+  learn :: ConfigFile Common -> [a]
+  merge :: [a] -> [a] -> [a]
+  check :: [a] -> ConfigFile Common -> Bool
 
 type SynRule = (T.Text,T.Text)
-type LexRule = (T.Text,T.Text)
+type LexRule = (T.Text,T.Text,Int)
+type IntRelRule = Int -> Int -> Int
+type Clause = T.Text
+-- the types of these rules restricts the search space for learning modules
+
+
+
 
 type ConfigFile a = (T.Text, a)
 data Language = MySQL | HTTPD
