@@ -3,44 +3,27 @@ module Types where
 
 import Data.Text as T
 
--- | for now just id
---
--- I think we actually need learning here
--- the type of ConfigFile Common will be something like [(VariableName, Variable Value)]
-convert :: ConfigFile Language -> ConfigFile Common
-convert (t, MySQL) = (t,Common)
-convert (t, HTTPD) = (t,Common)
 
-
-
-data RuleSet = RuleSet {
-  lexical :: [LexRule], 
-  order :: [SynRule], 
-  value :: [Clause],
-  intRels :: [IntRelRule]}
-
-
-
--- | collect contraints from each file indepentantly
-
+data RuleSet = RuleSet 
+  { order :: [OrdRule]
+  , intRel :: [IntRelRule]
+  }
 
 class Attribute a where
-  learn :: ConfigFile Common -> [a]
+  learn :: IRConfigFile -> [a]
   merge :: [a] -> [a] -> [a]
-  check :: [a] -> ConfigFile Common -> Bool
+  check :: [a] -> IRConfigFile -> Bool
 
-type SynRule = (T.Text,T.Text)
-type LexRule = (T.Text,T.Text,Int)
+type OrdRule = (T.Text,T.Text)
 type IntRelRule = Int -> Int -> Int
-type Clause = T.Text
 -- the types of these rules restricts the search space for learning modules
-
-
-
 
 type ConfigFile a = (T.Text, a)
 data Language = MySQL | HTTPD
-data Common = Common
+
+type IRConfigFile = (Keyword, Value)
+type Keyword = T.Text
+type Value = T.Text
 
 type Error = String
 

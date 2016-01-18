@@ -1,9 +1,9 @@
 module Usertime where
 
-import Lexical
-import Values
-import Order
 import Types
+
+import Learners
+import Convert
 
 usertime :: RuleSet -> ConfigFile Language -> Bool --Maybe Error
 usertime r c = 
@@ -13,12 +13,11 @@ usertime r c =
  in
   e
 
-verifyOn :: RuleSet -> ConfigFile Common -> Bool -- -> Maybe Error
+verifyOn :: RuleSet -> IRConfigFile -> Bool -- -> Maybe Error
 verifyOn r f = 
   let
-    l = check (lexical r) f
-    s = check (order r ) f
-    v = check (value r) f
-    all = l && s && v
+    l = check (order r) f
+    i = check (intRel r) f
+    all = l && i
   in
     all 

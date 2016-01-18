@@ -13,7 +13,7 @@ import Debug.Trace
 
 -- this all needs to be somehow translated from set operations on lists of pairs to SMT formulas
 -- I haven't found a nice package for SMTLIB format in haskell yet, might need to build it from scratch
-instance Attribute SynRule where
+instance Attribute OrdRule where
   learn (t,c) = allLinePairs $ T.lines t
 
   check rs f = 
@@ -27,10 +27,10 @@ instance Attribute SynRule where
   merge curr new = L.intersect curr new
 
 
-hasRuleFor :: [T.Text] -> SynRule -> Bool
+hasRuleFor :: [T.Text] -> OrdRule -> Bool
 hasRuleFor ts r = 
   elem (snd r) ts && elem (fst r) ts
 
-allLinePairs :: [T.Text]  -> [SynRule]
+allLinePairs :: [T.Text]  -> [OrdRule]
 allLinePairs [] = []
 allLinePairs (l:ls) = map (l,) ls ++ allLinePairs ls

@@ -1,9 +1,9 @@
 module Preproc where
 
-import Lexical
-import Values
-import Order
 import Types
+
+import Learners
+import Convert
 
 import qualified Data.Text.IO as T
 
@@ -16,15 +16,14 @@ preproc cs = let
   rules
 
 -- | call each of the learning modules
-findAllRules :: ConfigFile Common -> RuleSet
+findAllRules :: IRConfigFile -> RuleSet
 findAllRules f = RuleSet
-  { lexical = learn f
-  , order   = learn f
-  , value   = learn f}
+  { order   = learn f
+  , intRel = learn f}
 
 -- | collect contraints from each file indepentantly
 -- this should be parmap
-learnRules :: [ConfigFile Common] -> RuleSet
+learnRules :: [IRConfigFile] -> RuleSet
 learnRules cs = let
   rs = map findAllRules cs 
  in
@@ -35,7 +34,6 @@ learnRules cs = let
 -- no more parallel, but might be faster
 mergeRules :: RuleSet -> RuleSet -> RuleSet
 mergeRules rs rs' = RuleSet
-  { lexical = merge (lexical rs) (lexical rs')
-  , order  = merge (order rs) (order rs')
-  , value   = merge (value rs)  (value rs')}
+  { order  = merge (order rs) (order rs')
+  , intRel = merge (intRel rs) (intRel rs')}
 
