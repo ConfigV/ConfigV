@@ -7,27 +7,20 @@ import Convert
 
 import qualified Data.Text.IO as T
 
--- | learn rules based on a set of files
-preproc :: [ConfigFile Language] -> RuleSet
-preproc cs = let
-  ds = map convert cs 
-  rules = learnRules ds
+-- | collect contraints from each file indepentantly
+-- this should be parmap
+learnRules :: TypeMap -> [ConfigFile Language] -> RuleSet
+learnRules tyMap fs = let
+  fs' = map (convert tyMap) fs
+  rs = map findAllRules fs'
  in
-  rules
+  foldl1 mergeRules rs
 
 -- | call each of the learning modules
 findAllRules :: IRConfigFile -> RuleSet
 findAllRules f = RuleSet
   { order   = learn f
   , intRel = learn f}
-
--- | collect contraints from each file indepentantly
--- this should be parmap
-learnRules :: [IRConfigFile] -> RuleSet
-learnRules cs = let
-  rs = map findAllRules cs 
- in
-  foldl1 mergeRules rs
 
 -- | reconcile all the information we have learned
 -- later, think about merging this step with findAllRules

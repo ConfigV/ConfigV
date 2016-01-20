@@ -1,7 +1,8 @@
 module Types where
 
 
-import Data.Text as T
+import qualified Data.Text as T
+import qualified Data.Map as M
 
 
 data RuleSet = RuleSet 
@@ -12,18 +13,29 @@ data RuleSet = RuleSet
 class Attribute a where
   learn :: IRConfigFile -> [a]
   merge :: [a] -> [a] -> [a]
-  check :: [a] -> IRConfigFile -> Bool
+  check :: [a] -> IRConfigFile -> Error
 
-type OrdRule = (T.Text,T.Text)
-type IntRelRule = Int -> Int -> Int
 -- the types of these rules restricts the search space for learning modules
+type OrdRule = (IRLine,IRLine)
+type IntRelRule = Int -> Int -> Int
 
 type ConfigFile a = (T.Text, a)
 data Language = MySQL | HTTPD
 
-type IRConfigFile = (Keyword, Value)
+type IRConfigFile = [IRLine]
+data IRLine = IRLine {
+  keyword :: Keyword,
+  configType :: ConfigType,
+  value :: Value } deriving (Show, Eq)
 type Keyword = T.Text
 type Value = T.Text
+data ConfigType = 
+  ConfigInt | 
+  ConfigString | 
+  ConfigUnknown deriving (Show, Eq)
 
-type Error = String
+type Error = Maybe String
+
+
+type TypeMap = M.Map Keyword ConfigType
 

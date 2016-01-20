@@ -7,30 +7,33 @@ import Types
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.List as L
+import qualified Data.Map as M
 
 import Debug.Trace
 
 
--- this all needs to be somehow translated from set operations on lists of pairs to SMT formulas
--- I haven't found a nice package for SMTLIB format in haskell yet, might need to build it from scratch
 instance Attribute OrdRule where
-  learn (t,c) = allLinePairs $ T.lines t
+  learn f = allLinePairs f
 
   check rs f = 
    let
-     fileAsLines = T.lines (fst f)
-     diff = (filter (hasRuleFor fileAsLines) rs)  L.\\ learn f --the difference between the two rule sets
-     x = if diff == (learn f) then True else trace (show diff) False
+     relevantRules = filter (hasRuleFor f) rs
+     fRules = learn f
+     diff = relevantRules L.\\ fRules --the difference between the two rule sets
+     x = if null diff then Nothing else Just $ "Error in ordering on "++(show diff)
    in 
     x
   
   merge curr new = L.intersect curr new
 
-
-hasRuleFor :: [T.Text] -> OrdRule -> Bool
+-- | is the rule relevant to the file
+--   ie have we seen the (keyword, value) pairing before
+hasRuleFor :: [IRLine] -> OrdRule -> Bool
 hasRuleFor ts r = 
-  elem (snd r) ts && elem (fst r) ts
+  elem (fst r) ts && elem (snd r) ts
 
-allLinePairs :: [T.Text]  -> [OrdRule]
+allLinePairs :: [IRLine]  -> [OrdRule]
 allLinePairs [] = []
 allLinePairs (l:ls) = map (l,) ls ++ allLinePairs ls
+
+traceMe x = traceShow x x

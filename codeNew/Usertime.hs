@@ -5,19 +5,15 @@ import Types
 import Learners
 import Convert
 
-usertime :: RuleSet -> ConfigFile Language -> Bool --Maybe Error
-usertime r c = 
- let
-  d = convert c
-  e = verifyOn r d
- in
-  e
+import Control.Monad
 
-verifyOn :: RuleSet -> IRConfigFile -> Bool -- -> Maybe Error
-verifyOn r f = 
+
+verifyOn :: RuleSet -> TypeMap -> ConfigFile Language -> Error
+verifyOn r tyMap f = 
   let
-    l = check (order r) f
-    i = check (intRel r) f
-    all = l && i
+    f' = convert tyMap f 
+    orderingError = check (order r) f'
+    intRelError   = check (intRel r) f'
+    all = mplus orderingError intRelError
   in
     all 
