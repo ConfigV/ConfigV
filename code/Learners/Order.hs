@@ -1,56 +1,45 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE FlexibleInstances #-}
 
--- {-# LANGUAGE LambdaCase #-}
--- {-# LANGUAGE TypeSynonymInstances #-}
-
 module Order where
 
 import Types
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.List as L
+import qualified Data.Map as M
 
 import Debug.Trace
 
--- essential we reduce the problem to finding ordering pairs that are always true
--- pairs that hold over the whole learning set become rules at usertime
--- [[A,B,C],[A,C,B]] -> [(A,B),(A,C)]
 
-instance Attribute SynRule where
-  learn = learnOrderConstraints
-  check = checkSyn
-  merge = mergeSyn
+instance Attribute OrdRule where
+  learn f = pairs f
 
-learnOrderConstraints :: ConfigFile Common -> [SynRule]
-learnOrderConstraints (t,c) = 
-  makeOrderPairs $ T.lines t
-
-
--- | honestly, i thought this would be approximately correct
--- but by pure luck seems to be exactly correct
-checkSyn :: [SynRule] -> ConfigFile Common -> Bool
-checkSyn rs f = let
-  fileAsLines = T.lines (fst f)
-  f' = makeOrderPairs fileAsLines
-  diff = (filter (hasRuleFor fileAsLines) rs)  L.\\ f' --the difference between the two rule sets
-  x = if diff == f' then True else trace (show diff) False
-  in x
+  check rs f = 
+   let
+     relevantRules = filter (hasRuleFor f) (rs)
+     fRules = learn f
+     diff = traceMe relevantRules L.\\ fRules --the difference between the two rule sets
+     x = if null diff then Nothing else Just $ "Error in ordering on "++(show diff)
+   in 
+    x
   
-hasRuleFor :: [T.Text] -> SynRule -> Bool
+  merge curr new = L.intersect curr new
+
+-- | is the rule relevant to the file
+--   ie have we seen the (keyword, value) pairing before
+hasRuleFor :: [IRLine] -> OrdRule -> Bool
 hasRuleFor ts r = 
-  elem (snd r) ts && elem (fst r) ts
+  --this has problems if the (keyword, value) is repeated
+  elem (fst r) ts && elem (snd r) ts
 
-makeOrderPairs :: [T.Text]  -> [SynRule]
-makeOrderPairs [] = []
-makeOrderPairs (l:ls) = map (l,) ls ++ makeOrderPairs ls
- {- makeOrderPairs  = \case 
-  [] -> []
-  (l:ls) -> map (l,) ls ++ makeOrderPairs ls-}
+allLinePairs :: [IRLine]  -> [OrdRule]
+allLinePairs [] = []
+allLinePairs (l:ls) = map (l,) ls ++ allLinePairs ls
 
-mergeSyn :: [SynRule] -> [SynRule] -> [SynRule]
-mergeSyn curr new = let
-  combined = L.intersect curr new
- in
-  combined
+pairs :: [IRLine]  -> [(IRLine, IRLine)]
+pairs [] = []
+pairs (l:ls) = filter (\(l1,l2) -> (keyword l1/=keyword l2)) $ map (l,) ls ++ pairs ls
 
+--traceMe x = traceShow x x
+traceMe x = x

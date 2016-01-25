@@ -1,0 +1,91 @@
+; Engine
+engine = On ; Activates PHP
+short_open_tag = On ; allows to use <? to simplify <?php
+asp_tags = Off ; We did not allow to labels style ASP: <% %>
+
+; Colors for the way of colored syntax. highlight.string = #DD0000
+highlight.comment = #FF8000
+highlight.keyword = #007700
+highlight.bg = #FFFFFF
+highlight.default = #0000BB
+highlight.html = #000000
+; Misc
+expose_php = On ; It indicates in the message of the Web server if it is installed or no.
+
+; Resource Limits ;
+max_execution_time = 30 ; Maximum time of execution of script.
+memory_limit = 16M ; Maximun memory allowed that can consume the script.
+; Error handling and logging ;
+error_reporting = E_ALL; We indicated that shows all the errors and warnings.
+display_errors = Off ; Does not print in screen.
+display_startup_errors = Off ; That does not show the errors of PHP starting.
+log_errors = On ; That sends the errors to a file.
+track_errors = On ; That $php_errormsg keeps the last Error / Warning (boolean)
+error_log = /var/log/php/php4.log ; File that will keep the errors
+
+; Upload files to the server;
+file_uploads = On ; Allow upload files to the server.
+upload_max_filesize = 2M ; Maximum size of the files we are going to upload.
+; Dynamic Extensions ;
+extension=gd.so ; Graphics
+extension=recode.so ; Recode
+extension=ldap.so ; Ldap
+extension=mhash.so ; Mhash
+extension=imap.so ; Imap
+extension=kadm5.so ; Kerberos
+extension=cups.so ; Cupsys
+extension=mysql.so ; Mysql
+
+; System Log
+
+[Syslog]
+define_syslog_variables = Off ; We disabled the definition of syslog variables.
+; mail functions
+
+[mail function]
+;sendmail_path = ;In unix system, where is located sendmail (is 'sendmail -t -i' by default)
+; debug
+
+[Session]
+session.save_handler = files ; We saved the session information in files.
+session.save_path = /var/lib/php4 ; Directory where is going to be saved the session files.
+session.use_cookies = 1 ; We will use cookies for the session tracking.
+session.name = PHPSESSID ; Name of the session that will be used in the name of the cookie.
+session.auto_start = 0 ; We did not initiate session automatically.
+session.cookie_lifetime = 0 ; Time of life of a session cookie or 0 if we wait him to closes the navigator.
+session.cookie_path = / ; The path for which the cookie is valid.
+session.cookie_domain = ; The domain for which the cookie is valid.
+session.serialize_handler = php ; Used manipulator to serialize the data.
+session.gc_probability = 1 ; Probability in percentage that the garbage collector activates in each session.
+session.gc_maxlifetime = 1440 ; After this time in seconds, the saved information
+; will be look like garbage for the garbage collector.
+session.referer_check = ; Verifies HTTP Referer to invalidate externals URLs containing ids
+session.entropy_length = 0 ; Number of bytes to be readed of the entropy file.
+session.entropy_file = ; The file that will generate the entropy.
+session.cache_limiter = nocache ; Without session cache.
+session.cache_expire = 180 ; document expiration time.
+session.use_trans_sid = 0 ; To use translate sid if is enabled in compilation time.
+
+[Debugger]
+debugger.host = localhost ; Where is the debugger.
+debugger.port = 7869 ; The port it is listening.
+debugger.enabled = False ; We suppose there is not a debugger.
+; SQL Options
+
+[SQL]
+sql.safe_mode = Off ; SQL safe mode, we will disabled it.
+; Mysql Options
+
+[MySQL]
+mysql.allow_persistent = Off ; We will disable the persistent links for security reasons.
+mysql.max_persistent = -1 ; Number of persistent connections, is not used when is disabled.
+mysql.max_links = -1 ; Maximum number of connections, -1 is without limits.
+mysql.default_port = 3306; Default port of mysql.
+mysql.default_socket = ; Socket name that will be used for local mysql connections.
+;If is void, will be use the default compilation configuration of PHP.
+mysql.default_host = ; No default host configured.
+mysql.default_user = ; No default user configured.
+mysql.default_password = ; No default password configured.
+; session control
+
+

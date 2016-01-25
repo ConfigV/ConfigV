@@ -5,7 +5,7 @@
       then [(Variable,Value)]
       else [Text]
   
-  translate :: ConfigFile a -> ConfigFile Common
+  translate :: ConfigFile a -> IRConfigFile
   translate ls = 
     map seperateVal ls
 
