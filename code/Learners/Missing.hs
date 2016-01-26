@@ -19,7 +19,7 @@ instance Attribute MissingKVRule where
    let
      fRules = learn f
      diff = rs L.\\ fRules --the difference between the two rule sets
-     x = if null diff then Nothing else Just $ "Error in Missing Keyword-value Entry on "++(show diff)
+     x = if null diff then Nothing else Just $ "Error in Missing Keyword-value Entry on \n "++(show diff)
    in 
     x
   
@@ -35,7 +35,7 @@ instance Attribute MissingKRule where
      fRules = learn f
      rs' = L.nub rs
      diff = rs' L.\\ fRules --the difference between the two rule sets
-     x = if null diff then Nothing else Just $ "Error in Missing Keyword Entry on "++(show diff)
+     x = if null diff then Nothing else Just $ "Error in Missing Keyword Entry on \n"++(show diff)
    in 
      x
   

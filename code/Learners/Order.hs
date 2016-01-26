@@ -20,7 +20,7 @@ instance Attribute OrdRule where
      relevantRules = filter (hasRuleFor f) (rs)
      fRules = learn f
      diff = traceMe relevantRules L.\\ fRules --the difference between the two rule sets
-     x = if null diff then Nothing else Just $ "Error in ordering on "++(show diff)
+     x = if null diff then Nothing else Just $ "Error in ordering on \n"++(show diff)
    in 
     x
   

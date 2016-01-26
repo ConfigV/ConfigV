@@ -1,6 +1,7 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE OverloadedStrings#-}
 
 module IntRel where
 
@@ -16,6 +17,8 @@ import Debug.Trace
 -- I haven't found a nice package for SMTLIB format in haskell yet, its out there tho, im sure
 
 instance Attribute IntRelRule where
+  -- | this has the problem that order is important
+  --   (foo,bar,==) is different than (bar,foo,==)
   learn ts =
     let
       ts' = pairs $ filter couldBeInt ts
@@ -29,9 +32,9 @@ instance Attribute IntRelRule where
      fRules = learn f 
      diff = relevantRules L.\\ fRules
     in
-     if null diff then Nothing else Just ("ERROR on Int relations"++ (show diff))
+     if null diff then Nothing else Just ("ERROR on Int relations\n"++ (show diff))
   
-  merge curr new =  foldl removeConflicts [] $ L.union curr new
+  merge curr new = L.nub $ foldl removeConflicts [] $ L.union curr new
 
 
 hasRuleFor :: [IRLine] -> IntRelRule -> Bool
@@ -83,4 +86,4 @@ pairs :: [IRLine]  -> [(IRLine, IRLine)]
 pairs [] = []
 pairs (l:ls) = filter (\(l1,l2) -> (keyword l1/=keyword l2)) $ map (l,) ls ++ pairs ls
 
-
+traceMe s x = trace (s ++ (show $ filter (\r -> "innodb_flush_log_at_trx_commit" == (l2 r) && "port" == (l1 r)) x)) x

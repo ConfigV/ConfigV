@@ -27,10 +27,10 @@ main =
  in do
    mapM  putStrLn errors
 
-lsDir = "dataset/correctMySQL/"
+--lsDir = "dataset/correctMySQL/"
 --lsDir = "dataset/group2-entry-missing/correct/"
 --lsDir = "dataset/group5-value-correlation/correct/"
---lsDir = "dataset/group4-ordering/correct/"
+lsDir = "dataset/group4-ordering/correct/"
 learningSet = map (\x -> (u $ T.readFile (lsDir++x), MySQL))
   (u $ listDirectory lsDir)
 
@@ -39,9 +39,9 @@ learningSet = map (\x -> (u $ T.readFile (lsDir++x), MySQL))
   ]-}
 
 userFile =
-  (unsafePerformIO $ T.readFile "dataset/group5-value-correlation/error",MySQL)
+--  (unsafePerformIO $ T.readFile "dataset/group5-value-correlation/error",MySQL)
 --  (unsafePerformIO $ T.readFile "dataset/group2-entry-missing/error",MySQL)
---  (unsafePerformIO $ T.readFile "dataset/group4-ordering/error",HTTPD)
+  (unsafePerformIO $ T.readFile "dataset/group4-ordering/error",HTTPD)
 
 u = unsafePerformIO
 
