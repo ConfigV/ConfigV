@@ -9,6 +9,7 @@ import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.List as L
 import qualified Data.Map as M
+import Data.Maybe
 
 import Debug.Trace
 
@@ -24,18 +25,32 @@ instance Attribute IntRelRule where
 
   check rs f = 
     let
+     relevantRules = filter (hasRuleFor f) (rs)
      fRules = learn f 
-     diff = trace ("RS"++(show rs)) rs L.\\ traceShow fRules fRules
+     diff = relevantRules L.\\ fRules
     in
      if null diff then Nothing else Just ("ERROR on Int relations"++ (show diff))
   
-  merge curr new = L.unionBy (sameKeyRel) curr new
+  merge curr new =  foldl removeConflicts [] $ L.union curr new
 
+
+hasRuleFor :: [IRLine] -> IntRelRule -> Bool
+hasRuleFor ls r = 
+  let
+    x = elem (l1 r) (map keyword ls) && elem (l2 r) (map keyword ls)
+  in
+    --trace (show x ++ "  "++ (show r)) x
+    x
+
+removeConflicts :: [IntRelRule] -> IntRelRule -> [IntRelRule]
+removeConflicts rs r = 
+  if isJust $ L.find (sameKeyRel r) rs then L.delete r rs else r:rs
 -- | remove rules with mathcing keys, but diff formulas
 sameKeyRel :: IntRelRule -> IntRelRule -> Bool
 sameKeyRel r1 r2 = 
-   not $
-    (l1 r1) == (l1 r2) && (l2 r2) == (l2 r2) && (formula r1) /= (formula r2) 
+   id (
+    (l1 r1) == (l1 r2) && (l2 r1) == (l2 r2) && (formula r1) /= (formula r2) 
+   )
 
 findeqRules :: (IRLine,IRLine) -> [IntRelRule]
 findeqRules (l1,l2) = 
