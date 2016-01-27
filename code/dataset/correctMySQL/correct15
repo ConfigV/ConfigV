@@ -1,15 +1,8 @@
-#
-# FromDual configuration file template for MySQL, Galera Cluster, MariaDB and Percona Server
-# Location: /etc/my.cnf or /etc/mysql/my.cnf
-# This template is intended to work with MySQL/MariaDB 5.5 and newer
-# Get most recent updated from here:
-# http://www.fromdual.com/mysql-configuration-file-sample
-#
 
 [client]
 
 port                           = 3306
-socket                         = /tmp/mysql.sock
+socket                         = /var/run/mysqld/mysql.sock
 
 
 [mysql]
@@ -21,23 +14,16 @@ default_character_set          = utf8                                # Possibly 
 
 
 [mysqldump]
-
 max_allowed_packet             = 16M
-
-
-[mysqld_safe]
-
-open_files_limit               = 8192                                # You possibly have to adapt your O/S settings as well
-user                           = mysql
-log-error                      = hostname_error.log
-
 
 [mysqld]
 
-# Connection and Thread variables
-
 port                           = 3306
-socket                         = /tmp/mysql.sock
+socket                         = /var/run/mysqld/mysql.sock
+
+
+
+# Connection and Thread variables
 
 max_allowed_packet             = 16M
 default_storage_engine         = InnoDB                              # Defaults since 5.5
@@ -53,7 +39,7 @@ thread_cache_size              = 505                                 # Up to max
 
 # Query Cache
 
-query_cache_type               = 1                                   # Set to 0 to avoid global QC Mutex
+query_cache_type               = 0
 query_cache_size               = 32M                                 # Avoid too big (> 128M) QC because of QC clean-up lock!
 
 
