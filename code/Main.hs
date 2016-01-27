@@ -4,13 +4,13 @@ module Main where
 
 import Preproc
 import Usertime
-import TypeMapper
 import Convert
  
 import Types
 
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
+import qualified Data.List as L
 import System.IO.Unsafe
 import System.Directory
 
@@ -18,27 +18,23 @@ import Control.Applicative
 
 import Debug.Trace
 
-main = 
- let
-  rules = learnRules learningSet
-
-  errors = verifyOn rules userFile
- in do
-   mapM  putStrLn errors
+main = do
+ bs <- mapM T.readFile benchmarks :: IO [T.Text]
+ let bs' = zip bs (replicate (length bs) MySQL)
+ let rules = learnRules learningSet
+ let errors =  map (verifyOn rules) bs'
+ mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
 
 lsDir = "dataset/correctMySQL/"
 learningSet = map (\x -> (u $ T.readFile (lsDir++x), MySQL))
   (u $ listDirectory lsDir)
 
-{-  [ ("learn/file1.txt")
-  , ("learn/file2.txt")
-  ]-}
-
-userFile =
---  (unsafePerformIO $ T.readFile "dataset/group2-entry-missing/error",MySQL)
-  (unsafePerformIO $ T.readFile "dataset/group3-path-type/error",MySQL)
---  (unsafePerformIO $ T.readFile "dataset/group4-ordering/error_mysql",MySQL)
---  (unsafePerformIO $ T.readFile "dataset/group5-value-correlation/error",MySQL)
+benchmarks = [
+    "dataset/group2-entry-missing/error"
+  , "dataset/group3-path-type/error"
+  , "dataset/group4-ordering/error_mysql"
+  , "dataset/group5-value-correlation/error"
+  ]
 
 u = unsafePerformIO
 

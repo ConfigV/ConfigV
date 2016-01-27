@@ -18,10 +18,10 @@ verifyOn r f =
     missingError   = s$ check (missing r) f'
     typeError = s$ check (typeErr r) f'
     all = [
-        orderingError
+        typeError
+      , orderingError
       , intRelError
       , missingError
-      , typeError
       ]
   in
     all 
