@@ -14,12 +14,13 @@ data RuleSet = RuleSet
   { order :: [OrdRule]
   , intRel :: [IntRelRule]
   , missing :: [MissingKRule]
+  , typeErr :: TypeMap
   }
 
 class Attribute a where
-  learn :: IRConfigFile -> [a]
-  merge :: [a] -> [a] -> [a]
-  check :: [a] -> IRConfigFile -> Error
+  learn :: IRConfigFile -> a
+  merge :: a -> a -> a
+  check :: a -> IRConfigFile -> Error
 
 type Error = Maybe String
 
@@ -40,6 +41,7 @@ data IntRelRule = IntRelRule {
   l1 :: Keyword,
   l2 :: Keyword,
   formula :: (Int -> Int -> Bool)} deriving (Show)
+type TypeMap = M.Map Keyword ConfigQType
 
 instance Show (Int-> Int -> Bool) where
   show f1 = 
@@ -52,7 +54,6 @@ instance Show (Int-> Int -> Bool) where
 type IRConfigFile = [IRLine]
 data IRLine = IRLine {
   keyword :: Keyword,
-  configType :: ConfigQType,
   value :: Value } deriving (Eq)
 instance Show IRLine where
   show IRLine{..} = (show keyword) ++ (show value)
@@ -79,6 +80,4 @@ emptyConfigQType = ConfigQType {
   cfilepath = zeroProb,
   cdirpath = zeroProb}   
 
-
-type TypeMap = M.Map Keyword ConfigQType
 

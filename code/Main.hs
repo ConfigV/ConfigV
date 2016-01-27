@@ -20,17 +20,13 @@ import Debug.Trace
 
 main = 
  let
-  tyMap = learnTypes learningSet
-  rules = learnRules tyMap learningSet
+  rules = learnRules learningSet
 
-  errors = verifyOn rules tyMap userFile
+  errors = verifyOn rules userFile
  in do
    mapM  putStrLn errors
 
---lsDir = "dataset/correctMySQL/"
---lsDir = "dataset/group2-entry-missing/correct/"
---lsDir = "dataset/group5-value-correlation/correct/"
-lsDir = "dataset/group4-ordering/correct/"
+lsDir = "dataset/correctMySQL/"
 learningSet = map (\x -> (u $ T.readFile (lsDir++x), MySQL))
   (u $ listDirectory lsDir)
 
@@ -39,9 +35,10 @@ learningSet = map (\x -> (u $ T.readFile (lsDir++x), MySQL))
   ]-}
 
 userFile =
---  (unsafePerformIO $ T.readFile "dataset/group5-value-correlation/error",MySQL)
 --  (unsafePerformIO $ T.readFile "dataset/group2-entry-missing/error",MySQL)
-  (unsafePerformIO $ T.readFile "dataset/group4-ordering/error",HTTPD)
+  (unsafePerformIO $ T.readFile "dataset/group3-path-type/error",MySQL)
+--  (unsafePerformIO $ T.readFile "dataset/group4-ordering/error_mysql",MySQL)
+--  (unsafePerformIO $ T.readFile "dataset/group5-value-correlation/error",MySQL)
 
 u = unsafePerformIO
 

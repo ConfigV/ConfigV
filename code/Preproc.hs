@@ -10,9 +10,9 @@ import qualified Data.Text.IO as T
 
 -- | collect contraints from each file indepentantly
 -- this should be parmap
-learnRules :: TypeMap -> [ConfigFile Language] -> RuleSet
-learnRules tyMap fs = let
-  fs' = map (convert tyMap) fs
+learnRules :: [ConfigFile Language] -> RuleSet
+learnRules fs = let
+  fs' = map convert fs
   rs = map findAllRules fs'
  in
   foldl1 mergeRules rs
@@ -22,7 +22,8 @@ findAllRules :: IRConfigFile -> RuleSet
 findAllRules f = RuleSet
   { order   = learn f
   , intRel = learn f
-  , missing = learn f}
+  , missing = learn f
+  , typeErr = learn f}
 
 -- | reconcile all the information we have learned
 -- later, think about merging this step with findAllRules
@@ -32,5 +33,6 @@ mergeRules rs rs' = RuleSet
   { order  = merge (order rs) (order rs')
   , intRel = merge (intRel rs) (intRel rs')
   , missing = merge (missing rs) (missing rs')
+  , typeErr= merge (typeErr rs) (typeErr rs')
   }
 

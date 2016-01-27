@@ -12,7 +12,7 @@ import qualified Data.Map as M
 import Debug.Trace
 
 
-instance Attribute OrdRule where
+instance Attribute [OrdRule] where
   learn f = pairs f
 
   check rs f = 

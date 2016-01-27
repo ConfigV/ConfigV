@@ -11,12 +11,13 @@ import qualified Data.Text.IO as T
 import qualified Data.List as L
 import qualified Data.Map as M
 import Data.Maybe
+import Data.Char
 
 import Debug.Trace
 
 -- I haven't found a nice package for SMTLIB format in haskell yet, its out there tho, im sure
 
-instance Attribute IntRelRule where
+instance Attribute [IntRelRule] where
   -- | this has the problem that order is important
   --   (foo,bar,==) is different than (bar,foo,==)
   learn ts =
@@ -80,7 +81,7 @@ instance Eq IntRelRule where
  
 couldBeInt :: IRLine -> Bool
 couldBeInt IRLine{..} =
-  (p $ cint configType ) == 1
+  T.all isDigit value
 
 pairs :: [IRLine]  -> [(IRLine, IRLine)]
 pairs [] = []

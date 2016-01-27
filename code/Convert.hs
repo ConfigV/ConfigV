@@ -13,18 +13,19 @@ import Data.List.Unique as L
 
 import Debug.Trace
 
-convert ::  TypeMap -> ConfigFile Language -> IRConfigFile
-convert tyMap f =
-  map (addConfigType tyMap) (parse f)
+convert ::  ConfigFile Language -> IRConfigFile
+convert f =
+  parse f
 
-addConfigType :: TypeMap -> (Keyword,Value) -> IRLine
+-- | why would i want to do this?
+{-addConfigType :: TypeMap -> (Keyword,Value) -> IRLine
 addConfigType tyMap (keyword,value) = 
   case M.lookup keyword tyMap of
     Just configType -> IRLine{..}
-    Nothing -> IRLine{configType = emptyConfigQType,..}
+    Nothing -> IRLine{configType = emptyConfigQType,..}-}
 
 -- | If the user wants to give hints to how to parse a config file based on filetype they go here
-parse :: ConfigFile Language -> [(Keyword,Value)]
+parse :: ConfigFile Language -> [IRLine] --[(Keyword,Value)]
 parse (t, l) = 
   let
     noComments = (map (stripComment l) $ T.lines t)
@@ -32,7 +33,7 @@ parse (t, l) =
     noEmptyAsKV = map seperateVals noEmpty
     noDups = foldl (\rs r -> makeUniq rs r) [] noEmptyAsKV
   in
-    noEmptyAsKV
+    map (\(k,v)-> IRLine{keyword=k,value=v}) noEmptyAsKV
     --noDups
 
 makeUniq :: [(Keyword,Value)] -> (Keyword,Value) -> [(Keyword,Value)]
