@@ -21,8 +21,8 @@ instance Attribute TypeMap where
       
   check rs f =
     let
-      fRules = learn (traceShow f f)
-      mismatches = M.differenceWith typeConflict (traceMe fRules) rs
+      fRules = learn f
+      mismatches = M.differenceWith typeConflict fRules rs
     in
       if M.null mismatches then Nothing else Just ("ERROR IN TYPES \n" ++ (show mismatches))
 
