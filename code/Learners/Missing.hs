@@ -20,13 +20,14 @@ instance Attribute [MissingKVRule] where
    let
      fRules = learn f
      diff = rs L.\\ fRules --the difference between the two rule sets
-     x = if null diff then Nothing else Just $ "Error in Missing Keyword-value Entry on \n "++(show diff)
+     x = if null diff then Nothing else Just diff
    in 
     x
   
   merge curr new = L.intersect curr new
 
-  
+  empty = []
+ 
 instance Attribute [MissingKRule] where
   learn [] = []
   learn (l:ls) = concatMap (\l' -> if (keyword l == keyword l') then [] else [MissingKRule (keyword l) (keyword l')]) ls ++ learn ls
@@ -36,9 +37,10 @@ instance Attribute [MissingKRule] where
      fRules = learn f
      rs' = L.nub rs
      diff = rs' L.\\ fRules --the difference between the two rule sets
-     x = if null diff then Nothing else Just $ "Error in Missing Keyword Entry on \n"++(show diff)
+     x = if null diff then Nothing else Just diff
    in 
      x
   
   merge curr new = L.intersect curr new
+  empty = []
 

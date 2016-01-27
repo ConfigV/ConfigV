@@ -24,9 +24,10 @@ instance Attribute TypeMap where
       fRules = learn f
       mismatches = M.differenceWith typeConflict fRules rs
     in
-      if M.null mismatches then Nothing else Just ("ERROR IN TYPES \n" ++ (show mismatches))
+      if M.null mismatches then Nothing else Just mismatches
 
   merge oldMap newMap = M.unionWithKey (updateProbs) oldMap newMap
+  empty = M.empty
 
 traceMe x = trace (concatMap (\x-> show x++"\n")(M.toList x)) x
 

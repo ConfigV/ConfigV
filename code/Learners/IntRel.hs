@@ -29,13 +29,20 @@ instance Attribute [IntRelRule] where
 
   check rs f = 
     let
-     relevantRules = filter (hasRuleFor f) (rs)
+     relevantRules = filter (hasRuleFor f) (filter (isJust.formula) rs)
      fRules = learn f 
-     diff = relevantRules L.\\ fRules
+     diff = relevantRules L.\\ fRules --diff is the rules we should have met, but didnt
     in
-     if null diff then Nothing else Just ("ERROR on Int relations\n"++ (show diff))
+     if null diff then Nothing else Just diff
   
   merge curr new = L.nub $ foldl removeConflicts [] $ L.union curr new
+
+  empty = []
+
+traceMe x = let
+  ls = (filter (\r -> "innodb_flush_log_at_trx_commit" == (l1 r)) x)
+ in
+  trace ((show x)++ "\n"++(show $unlines $map show ls)++"\n\n-----------\n") x
 
 
 hasRuleFor :: [IRLine] -> IntRelRule -> Bool
@@ -48,7 +55,8 @@ hasRuleFor ls r =
 
 removeConflicts :: [IntRelRule] -> IntRelRule -> [IntRelRule]
 removeConflicts rs r = 
-  if isJust $ L.find (sameKeyRel r) rs then L.delete r rs else r:rs
+  if isJust $ L.find (sameKeyRel r) rs then (r{formula=Nothing}):(L.delete r rs) else r:rs
+
 -- | remove rules with mathcing keys, but diff formulas
 sameKeyRel :: IntRelRule -> IntRelRule -> Bool
 sameKeyRel r1 r2 = 
@@ -59,13 +67,15 @@ sameKeyRel r1 r2 =
 findeqRules :: (IRLine,IRLine) -> [IntRelRule]
 findeqRules (l1,l2) = 
   let
-    getI = read . T.unpack . value 
+    getI = read. T.unpack . value 
     i1 = getI l1 :: Int  
     i2 = getI l2 :: Int  
-    makeR f = if f i1 i2 then [IntRelRule {formula = (f),l1=keyword l1, l2=keyword l2}] else []
+    --i1 = getI (traceShow l1 l1) :: Int  
+    --i2 = getI (traceShow l2 l2) :: Int  
+    makeR f = if f i1 i2 then [IntRelRule {formula = Just f,l1=keyword l1, l2=keyword l2}] else []
+    all = makeR (==) ++ makeR (<=) ++ makeR (>=)
   in
-    makeR (==) ++ makeR (<=) ++ makeR (>=)
-
+    if length all == 1 then all else makeR (==)
 -- only for comparators! careful!
 instance Eq (Int -> Int -> Bool) where
   (==) f1 f2 = 
@@ -81,10 +91,14 @@ instance Eq IntRelRule where
  
 couldBeInt :: IRLine -> Bool
 couldBeInt IRLine{..} =
-  T.all isDigit value
+  T.all isDigit value && (T.length value >0)
 
 pairs :: [IRLine]  -> [(IRLine, IRLine)]
 pairs [] = []
-pairs (l:ls) = filter (\(l1,l2) -> (keyword l1/=keyword l2)) $ map (l,) ls ++ pairs ls
+pairs (l:ls) = L.nubBy modOrder $ filter (\(l1,l2) -> (keyword l1/=keyword l2)) $ map (l,) ls ++ pairs ls
 
-traceMe s x = trace (s ++ (show $ filter (\r -> "innodb_flush_log_at_trx_commit" == (l2 r) && "port" == (l1 r)) x)) x
+-- we dont need foo,bar,<= and bar,foo,>=
+modOrder (r11,r12) (r21,r22) = 
+  (keyword r11 == keyword r22) && 
+  (keyword r12 == keyword r21)
+

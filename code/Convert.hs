@@ -56,6 +56,6 @@ seperateVals t =
     ts = T.split isDelimeter (T.strip t)
     isDelimeter c = (c=='=') || (c==' ')
   in
-    (head ts, last ts)
+    (T.strip $ head ts, T.strip $ last ts)
 
 

@@ -20,9 +20,8 @@ data RuleSet = RuleSet
 class Attribute a where
   learn :: IRConfigFile -> a
   merge :: a -> a -> a
-  check :: a -> IRConfigFile -> Error
-
-type Error = Maybe String
+  check :: a -> IRConfigFile -> Maybe a
+  empty :: a
 
 type ConfigFile a = (T.Text, a)
 data Language = MySQL | HTTPD
@@ -40,7 +39,7 @@ data MissingKRule = MissingKRule {
 data IntRelRule = IntRelRule {
   l1 :: Keyword,
   l2 :: Keyword,
-  formula :: (Int -> Int -> Bool)} deriving (Show)
+  formula :: Maybe (Int -> Int -> Bool)} deriving (Show)
 type TypeMap = M.Map Keyword ConfigQType
 
 instance Show (Int-> Int -> Bool) where
