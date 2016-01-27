@@ -1,0 +1,75 @@
+# Example MySQL config file for medium systems.
+#
+# This is for a system with little memory (32M - 64M) where MySQL plays
+# an important part, or systems up to 128M where MySQL is used together with
+# other programs (such as a web server)
+#
+# You can copy this file to
+# /etc/my.cnf to set global options,
+# mysql-data-dir/my.cnf to set server-specific options (in this
+# installation this directory is C:\mysql\data) or
+# ~/.my.cnf to set user-specific options.
+#
+# In this file, you can use all long options that a program supports.
+# If you want to know which options a program supports, run the program
+# with the "--help" option.
+
+# The following options will be passed to all MySQL clients
+[client]
+#password   = your_password
+port        = 3306
+socket      = /tmp/mysql.sock
+
+# Here follows entries for some specific programs
+
+# The MySQL server
+[wampmysqld]
+port        = 3306
+socket      = /tmp/mysql.sock
+skip-locking
+key_buffer = 16M
+max_allowed_packet = 16M
+table_cache = 64
+sort_buffer_size = 512K
+net_buffer_length = 8K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 8M
+basedir=c:/wamp/bin/mysql/mysql5.1.30
+log-error=c:/wamp/logs/mysql.log
+datadir=c:/wamp/bin/mysql/mysql5.1.30/data
+
+# Don't listen on a TCP/IP port at all. This can be a security enhancement,
+# if all processes that need to connect to mysqld run on the same host.
+# All interaction with mysqld must be made via Unix sockets or named pipes.
+# Note that using this option without enabling named pipes on Windows
+# (via the "enable-named-pipe" option) will render mysqld useless!
+# 
+#skip-networking
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer = 2M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld]
+port= 3306
