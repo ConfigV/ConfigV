@@ -2,6 +2,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE OverloadedStrings#-}
+{-# LANGUAGE MultiParamTypeClasses#-}
 
 module IntRel where
 
@@ -17,7 +18,7 @@ import Debug.Trace
 
 -- I haven't found a nice package for SMTLIB format in haskell yet, its out there tho, im sure
 
-instance Attribute [IntRelRule] where
+instance Attribute [] IntRelRule where
   -- | this has the problem that order is important
   --   (foo,bar,==) is different than (bar,foo,==)
   learn ts =
@@ -37,7 +38,6 @@ instance Attribute [IntRelRule] where
   
   merge curr new = L.nub $ foldl removeConflicts [] $ L.union curr new
 
-  empty = []
 
 traceMe x = let
   ls = (filter (\r -> "innodb_flush_log_at_trx_commit" == (l1 r)) x)

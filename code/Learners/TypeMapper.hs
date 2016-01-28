@@ -3,6 +3,7 @@
 {-# LANGUAGE RecordWildCards#-}
 {-# LANGUAGE TypeSynonymInstances#-}
 {-# LANGUAGE FlexibleInstances#-}
+{-# LANGUAGE MultiParamTypeClasses#-}
 
 module TypeMapper where
 
@@ -15,7 +16,7 @@ import qualified Data.Map as M
 
 import Debug.Trace
 
-instance Attribute TypeMap where
+instance Attribute (M.Map Keyword) ConfigQType where 
   learn f = 
     foldl addTypeToMap M.empty f
       
@@ -27,7 +28,6 @@ instance Attribute TypeMap where
       if M.null mismatches then Nothing else Just mismatches
 
   merge oldMap newMap = M.unionWithKey (updateProbs) oldMap newMap
-  empty = M.empty
 
 traceMe x = trace (concatMap (\x-> show x++"\n")(M.toList x)) x
 
@@ -38,7 +38,7 @@ typeConflict t1 t2 =
   
 
 -- | can use all sorts of nice Data.map fxns (see docs)
-addTypeToMap :: TypeMap -> IRLine -> TypeMap
+addTypeToMap :: TypeMap ConfigQType -> IRLine -> TypeMap ConfigQType 
 addTypeToMap m IRLine{..} =
   let
     newCType = assignProbs value
@@ -59,13 +59,12 @@ assignProbs t =
      buildConfTy (T.all isAlpha t) (T.unpack t :: String)
    cfilepath =
      buildConfTy 
-       ((T.length $ last $ T.splitOn "." t) <= 4 && 
-        (length $ T.splitOn "." t) == 2) --this might not be true
+       ((T.isInfixOf "/" t) || (T.isInfixOf "." t) || (T.isInfixOf "\\" t))
        (T.unpack t :: FilePath)
-   cdirpath = 
+   {-cdirpath = 
      buildConfTy 
        ((T.isInfixOf "/" t))
-       (T.unpack t :: DirPath)
+       (T.unpack t :: DirPath)-}
   in 
    ConfigQType{..}
 

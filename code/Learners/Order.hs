@@ -1,5 +1,6 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses#-}
 
 module Order where
 
@@ -12,7 +13,7 @@ import qualified Data.Map as M
 import Debug.Trace
 
 
-instance Attribute [OrdRule] where
+instance Attribute [] OrdRule where
   learn f = pairs f
 
   check rs f = 
@@ -20,12 +21,14 @@ instance Attribute [OrdRule] where
      relevantRules = filter (hasRuleFor f) (rs)
      fRules = learn f
      diff = traceMe relevantRules L.\\ fRules --the difference between the two rule sets
-     x = if null diff then Nothing else Just (L.nub diff)
+     x = if null diff then Nothing else Just diff
    in 
     x
-  
-  merge curr new = L.intersect curr new
-  empty = []
+ 
+  -- | delete rules when (foo,bar) && (bar,foo)
+  -- NB : wihtout unique names, this is actualyl wrong and makes our tool incomplete over ordering
+  -- this is "ok" becuase odering merge does not satisfy the algorithm spec (see paper)
+  merge curr new = L.nub $ L.intersect curr new
 
 -- | is the rule relevant to the file
 --   ie have we seen the (keyword, value) pairing before

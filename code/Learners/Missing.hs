@@ -1,5 +1,6 @@
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses#-}
 
 module Missing where
 
@@ -12,7 +13,7 @@ import qualified Data.Map as M
 import Debug.Trace
 
 
-instance Attribute [MissingKVRule] where
+instance Attribute [] MissingKVRule where
   learn [] = []
   learn (l:ls) = concatMap (\l' -> if (keyword l == keyword l') then [] else [MissingKVRule l l']) ls ++ learn ls
 
@@ -26,9 +27,8 @@ instance Attribute [MissingKVRule] where
   
   merge curr new = L.intersect curr new
 
-  empty = []
  
-instance Attribute [MissingKRule] where
+instance Attribute [] MissingKRule where
   learn [] = []
   learn (l:ls) = concatMap (\l' -> if (keyword l == keyword l') then [] else [MissingKRule (keyword l) (keyword l')]) ls ++ learn ls
 
@@ -42,5 +42,4 @@ instance Attribute [MissingKRule] where
      x
   
   merge curr new = L.intersect curr new
-  empty = []
 

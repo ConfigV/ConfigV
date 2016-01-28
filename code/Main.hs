@@ -31,9 +31,23 @@ learningSet = map (\x -> (u $ T.readFile (lsDir++x), MySQL))
 
 benchmarks = [
     "dataset/group2-entry-missing/error"
+  , "dataset/group2-entry-missing/error2"
+  , "dataset/group2-entry-missing/error3"
+  , "dataset/group2-entry-missing/error4"
+  , "dataset/group2-entry-missing/error5"
   , "dataset/group3-path-type/error"
+  , "dataset/group3-path-type/error2"
+  , "dataset/group3-path-type/error3"
+  , "dataset/group3-path-type/error4"
   , "dataset/group4-ordering/error_mysql"
+  , "dataset/group4-ordering/error2"
+  , "dataset/group4-ordering/error3"
+  , "dataset/group4-ordering/error4"
   , "dataset/group5-value-correlation/error"
+  , "dataset/group5-value-correlation/error2"
+  , "dataset/group5-value-correlation/error3"
+  , "dataset/group5-value-correlation/error4"
+  , "dataset/group5-value-correlation/error5"
   ]
 
 u = unsafePerformIO
