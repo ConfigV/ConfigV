@@ -116,3 +116,16 @@ However an SMT solver approach would be particularly useful for relations on str
 
 \subsection{Ordering and Missing Entry Rules}
 These are the simpiliest of all rules, just making a lot of pairs and seeing which pairs continue to appear over the learning set.
+
+There is actually a bit of a catch in ordering though - we are not complete over ordering rules.
+This is because only our implementation does not satisfy the specification for the merge function listed above.
+The problem arises from the fact the configuration files may have non-unique keywords.
+Therefor, in the follwoing file we will derive the valid, but conflicting rules ([client],port) and (port,[client]).
+\begin{verbatim}
+[client]
+port = 3306
+[mysqld]
+port = 3306
+\end{verbatim}
+Our implementation of merge removes and conflicting rules for the running set.
+By introducing a renaming pass in the initial parsing we may be able to solve this, but have not found a satisfactory solution yet.
