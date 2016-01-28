@@ -13,53 +13,106 @@
   \end{itemize}
 }
 
+\section{Learning strategy}
 
-We are not quite machine learning because we use more formal reasoning.
-This let's us have a nice garuntee that while we have false positives, but not false negatives.
+A primary concern in any machine learning type task is to minimize false negatives and false positives.
+In the context of configuration file verification,
+  a false positive is when \app reports an error on a valid confiuration file and
+  a false negative is when \app fails to reports an error on an invalid confiuration file.
+Too many false positives will cause users to ignore the reported error\cite{}.
+However, since the cost of system failure is so high from a misconfiguration, \app propritzes the minimization of false negatives.
 
-\forall errors, error \in report
-not \forall report r \in error
+While a traditional classififcation learning machine learning approach can reduce both of these situations, there is can generally be no garuntee that all false negatives will be eliminated.
+Instead of building classification models over the learning set (such as an SVM), we learn the largest set of rules that all correct configuration files satisfy.
+In this way, \app can garuntee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set.
+The only case of a false negative can be when there was no evidece of such a rule in the learning set - we cannot generate rules from nothing.
+Framed as the question "Is this file valid", \app is complete but not sound \xxx{maybe? Im not sure}
 
+That is, taking the following definitions:
+\begin{multline*}\\
+\text{\{Considered Rules\}} = \forall files \in \text{\{Learning Set\}}, \{ r | r(files) = True \land r \text{ is non-trivial}\}\\
+\text{\{Reported Rules\}} = {r | r(userfile)=False } \\
+\text{\{True Rules\}} = \{r | \text{ if } r(userfile)=False \text{ then system crash } \land \\
+   \exists file \in \text{\{Learning Set\}}, r(file) \text{ is non-trivial}\}
+\end{multline*}
 
-Another benefit is that, unlike machine learning algorithms, such as nueral nets, we can actually see the source of errors and the systems reasoning about why a line should be considered an error.
-In nueral nets, we just get a boolean value, and the mechanics of the system are entirly lost. 
-The language model is then recoverable and editable.
+We have the following specification of \app.
+\begin{multline*}\\
+\text{\{True Rules\}} \subseteq \text{\{Considered Rules\}} \\
+\forall r \in \text{\{True Rules\}}, if r(userfile)=False then \exists r \in \text{\{Reported Rules\}} \\
+\neg \forall r \in \text{\{Reported Rules\}}, r \in \text{\{True Rules\}} \\
+\end{multline*}
 
-The system is also flexible so that changes to the algorithm can be made at a high level.
+Another benefit to a rule based approach is that, unlike many classificaton models, \app can actually report the reason for failure, similar to a comiler for a programming language.
+This is in contrast to neural nets for example, where we would just get a boolean value, and the mechanics of the system are entirly lost.
+Reporting useful errors that specify a point of failure is important to help users fix their misconfigurations.
 
+\section{Intermediate Representation}
 
-A rule R is added to the set of all rules,
-  if $\exists$ learning file f s.t. R(f) is non vacuously true
-That rule R is then removed from the set of all rules,
-  if $\exists$ learning file f st R(f) is false.
+Since we don't want to rewrite checkers for every config file type, we made an intermediate representation.
+The intermediate reprentation is simply a list of keyword value pairs.
+A keyword is the setting being adjust in the configuration file, and the value is the new value for that setting.
+The user only needs to specify the delimiters of the file (characters for assignment and comments usually).
 
-This is accomplished in two passes.
-First we collect all possible rules for every file.
+\section{Rules}
+
+In order to flexibly consider many different types of rules, we introduce a inferface (or typeclass in Haskell) that each rule type must support.
+The typeclass is presented here with simplified type signatures for those unfamiliar with Haskell.
+
+\begin{lstlisting}
+class Attribute r where
+  learn :: IRConfigFile -> Set r
+  merge :: Set r -> Set r -> Set r
+  check :: Set r -> IRConfigFile -> Error
+\end{lstlisting} 
+
+To build the set Considered Rules, we first collect all possible rules for every file.
 Then we merge the all the rules to create our final set.
-This conviently gives rise to an embarresingly parallel situation, which Haskell allows us to easily take advantage of by
-  using the parallel mapping library parmap.
+
+\subsection{learn}
+  For a single given file in the intermediate representation format, learn a set of rules.
+  In fact, we need to learn every possible rule that this file can satisfy.
+  By overfitting to each file, we can eventually garuntee the completness of \app
+
+\subsection{merge}
+  Merging the sets of rules from two files to build a new set that is true over both files
+  This is generally an intersection like operation, but depending on the particular rule, there may be different stratgeies for merging.
+  The formal specification of this method is that:
+  \begin{multline*}
+  \text{Output Set} = \{r \mid \\
+    r \in \text{\{Input Set1\}} \cup \text{\{Input Set2\}} \land \\
+    \exists file \forall r' \in \text{\{Input Set1\}} \cup \text{\{Input Set2\}}, r(file) = True \land r'(file) = True \} \\
+  \end{multline*}
+
+\subsection{check}
+  To check a file by using a rule set, we simply take all the rules that are releveant to the user's file.
+  Rules that are relavent are the ones where both parts of the ordering are present.
+  We learn the rule set for the user file, and every rule in the learned set must be present in the user file.
+
+\section{Implementation}
+
+\subsection{System}
+Since we learn a set of rules on each file in isolation from the other, we have an embarresingly parallel situation.
+Haskell allows us to easily take advantage of by using the parallel mapping library, parmap.
 
 \begin{lstlisting}
   potentialRules = parmap findAllRules learningSet.
   finalRules = foldl1 mergeRules potenialRules
 \end{lstlisting}
 
+\subsection{Type Error Rules}
+This builds a map between keywords and types, using the values as evidence.
+see quantum.tex for more
+i will write more on this tomorrow.
 
-Each rule is of the Attribute typeclass, which means a rule must support the following operations:
-\begin{lstlisting}
-class Attribute r where
-  learn :: ConfigFile Common -> [r]
-  merge :: [r] -> [r] -> [r] 
-  check :: [r] -> ConfigFile Common -> Error
-\end{lstlisting} 
+\subsection{Integer Relation Rules}
+we only consider the relations , (==), (<=), (>=) because they are easy to pass aroud (as actual functions) in haskell.
+We also committed cardinal since and create an instance for equality over these functions.
+instance Eq (Int->Int->Bool) where
 
+With more engineering effort, this could be extened with the use of a SMT solver to create more fine grained relational rules.
+From our experience, more specific rule are not really needed for integer relations in configuration files.
+However an SMT solver approach would be particularly useful for relations on strings, especially when considering substring relations between filepaths.
 
-\subsection{learn}
-  For a single given file, we take very line ordering to be a rule.
-\subsection{merge}
-  Then when merging these sets of rules, we take the intersection of the rules infered on the individual files.
-  Maybe we could also do something like only taking rules that show up multiple times.
-\subsection{check}
-  To check a file by using a rule set, we simply take all the rules that are releveant to the user's file.
-  Rules that are relavent are the ones where both parts of the ordering are present.
-  We learn the rule set for the user file, and every rule in the learned set must be present in the user file.
+\subsection{Ordering and Missing Entry Rules}
+These are the simpiliest of all rules, just making a lot of pairs and seeing which pairs continue to appear over the learning set.
