@@ -26,7 +26,7 @@ While a traditional classififcation learning machine learning approach can reduc
 Instead of building classification models over the learning set (such as an SVM), we learn the largest set of rules that all correct configuration files satisfy.
 In this way, \app can garuntee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set.
 The only case of a false negative can be when there was no evidece of such a rule in the learning set - we cannot generate rules from nothing.
-Framed as the question "Is this file valid", \app is complete but not sound \xxx{maybe? Im not sure}
+Framed as the question "Is this file valid", \app is complete but not sound. 
 
 That is, taking the following definitions:
 \begin{multline*}\\
@@ -49,45 +49,59 @@ Reporting useful errors that specify a point of failure is important to help use
 
 \section{Intermediate Representation}
 
-Since we don't want to rewrite checkers for every config file type, we made an intermediate representation.
-The intermediate reprentation is simply a list of keyword value pairs.
-A keyword is the setting being adjust in the configuration file, and the value is the new value for that setting.
-The user only needs to specify the delimiters of the file (characters for assignment and comments usually).
+Part of the reason configuration file errors are so common is because of the large number of different systems being used on the market.
+Rather than proposing a new, unifying, configuration language (so that there would then be n+1 configuration languages), we use in intermediate representation language.
+This allows us to reuse all our algorithms over any configuration file that can be convereted to the intermediate representation.
+The portability of \app means that with very little intervtion, it can be widely used and adopted.
+
+More grammatically complex languages tend to be harder to translation to an intermediate representation.
+While there can be some context senestive structures in configuration files, we found it is easier to design the rule modules (Section \ref{}) to handle learning such structure, rather than encoding it in the intermediate representation.
+Additionally, configuration files are generally grammatically simple, consisting mostly of a list of keyword-value pairs.
+The keyword is the variable to be used in the system, and the value is the new value for that variable.
+
+To specialize the converter for a particular language, a user must define a new language type, which simply acts as a flag for translation.
+If a langauge requires specialized parsing, the user can write such code in the convert function based on pattern matching over the language type.
+For example, the user must specify the delimiters of the language (characters for assignment and comments) for their new language. 
 
 \section{Rules}
 
-Different classes of rules that we consider are represented as types.
-These types tend to be pairs of values with a relation.
-For instance, an integer relation rule is a pair of keywords with a formula that the pairs must satisfy.
-It is important that the relation has some empty value, to state that there is no relation between the values.
-This will prevent \app from trying to relearn rules when they have been eliminated from the set.
+A core design principle in \app is modularity, so that a user can easily exentend it to their verification needs.
+Rather than try to support every type of verification over configuration files, we provide a framework for defining new verfication properties.
+We call each verification property a rule, for example the correct ordering of keywords or integer relationships between values.
+These rules tend to be pairs of values with a relation.
+For instance, an integer relation rule might be that the value of "foo" must be greater than the value of "bar".
+It is also important that the rule has some empty value, to state that it is known there is no relation between the values.
+This will prevent \app from trying to relearn rules when they have already been refuted.
 
-In order to flexibly consider many different types of rules, we introduce a inferface (or typeclass in Haskell) that each rule type must support.
-The typeclass is presented here with simplified type signatures for those unfamiliar with Haskell.
+These rules are represented as a type, where the type must support a particular interface (called a typeclass in Haskell) to be compatible with our system.
+The typeclass can support anything that is Foldable, which roughly the user can use any datastructure.
+In fact, in our implementation, two rules are implemented with lists, and two others use hashmaps.
 
 \begin{lstlisting}
-class Attribute r where
-  learn :: IRConfigFile -> Set r
-  merge :: Set r -> Set r -> Set r
-  check :: Set r -> IRConfigFile -> Error
+class Foldable t => Attribute t a where
+  learn :: IRConfigFile -> t a
+  merge :: t a -> t a -> t a
+  check :: t a -> IRConfigFile -> Error
 \end{lstlisting} 
 
-To build the set Considered Rules, we first collect all possible rules for every file.
-Then we merge the all the rules to create our final set.
+The functions of this typeclass will be used, invisibly to the user, to make the overall system run.
+As long as the specifications for each function are met, \app can garuntee completness.
 
 \subsection{learn}
-  For a single given file in the intermediate representation format, learn a set of rules.
-  In fact, we need to learn every possible rule that this file can satisfy.
-  By overfitting to each file, we can eventually garuntee the completness of \app
+  For a single given file in the intermediate representation format, learn the full set of rules on that file.
+  By overfitting to each file, we can eventually garuntee the completness of \app.
+  The specification of this function is the obvious reduction of the Considered Set definition.
+
+  $\text{learn } file =  \{ r | r(file) = True \land r \text{ is non-trivial}\}$
 
 \subsection{merge}
-  Merging the sets of rules from two files to build a new set that is true over both files
-  This is generally an intersection like operation, but depending on the particular rule, there may be different stratgeies for merging.
+  Merging the sets of rules from two files to build a new set that is true over both files is the most difficult and important function a rule must implement.
+  This is generally implemented as a filter over the union of the two set, but may vary slightly.
   The formal specification of this method is that:
   \begin{multline*}
-  \text{Output Set} = \{r \mid \\
-    r \in \text{\{Input Set1\}} \cup \text{\{Input Set2\}} \land \\
-    \exists file \forall r' \in \text{\{Input Set1\}} \cup \text{\{Input Set2\}}, r(file) = True \land r'(file) = True \} \\
+  \text{merge } Set1 \: Set2= \{r \mid \\
+    r \in \text{Set1} \cup \text{Set2} \land \\
+    \exists file \forall r' \in \text{Set1} \cup \text{Set2}, r(file) = True \land r'(file) = True \} \\
   \end{multline*}
 
 \subsection{check}
@@ -98,12 +112,17 @@ Then we merge the all the rules to create our final set.
 \section{Implementation}
 
 \subsection{System}
-Since we learn a set of rules on each file in isolation from the other, we have an embarresingly parallel situation.
-Haskell allows us to easily take advantage of by using the parallel mapping library, parmap.
+Since we learn a set of rules on each file in isolation from the other, we have an embarrassing parallel situation.
+Haskell allows us to easily take advantage of by using the parallel mapping library, parmap, both for translation to the intermediate representation, and for learning the rules on each file.
+\xxx{merge can also be parallelized, but i haven't done it yet and might not get a chance}
 
 \begin{lstlisting}
-  potentialRules = parmap findAllRules learningSet.
-  finalRules = foldl1 mergeRules potenialRules
+learnRules :: [ConfigFile Language] -> RuleSet
+learnRules fs = let
+  fs' = parMap rseq convert fs
+  rs = parMap rdeepseq findAllRules fs'
+ in
+  foldl1 mergeRules rs
 \end{lstlisting}
 
 \subsection{Type Error Rules}
