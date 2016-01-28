@@ -28,7 +28,7 @@ verifyOn r f =
     sizeErr = maybe 0 length
     count = 
       (maybe 0 M.size typeError) +
-      (sizeErr orderingError) +
+      (maybe 0 M.size orderingError) +
       (sizeErr missingError) +
       (sizeErr intRelError) 
   in

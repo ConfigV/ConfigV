@@ -8,20 +8,22 @@ module Types where
 import qualified Data.Text as T
 import qualified Data.Map as M
 import Data.Foldable
+import Control.DeepSeq
 
 -- | can i replace this with an exstientially quantified type?
 -- oh that would be beautiful
 -- forall a . Attribute a => [a]
 data RuleSet = RuleSet 
-  { order :: [OrdRule]
+  { order :: OrdMap Bool
   , intRel :: [IntRelRule]
   , missing :: [MissingKRule]
   , typeErr :: TypeMap ConfigQType
   }
 
+instance NFData RuleSet
 class Foldable t => Attribute t a where
   learn :: IRConfigFile -> t a
-  merge :: t a -> t a -> t a
+  merge :: t a -> t a -> t a --given the spec, this could be reduced to (a -> a -> Bool)
   check :: t a -> IRConfigFile -> Maybe (t a)
     
 
@@ -32,7 +34,10 @@ data Language = MySQL | HTTPD
 --data Error a = (Maybe a, 
 --
 -- the types of these rules restricts the search space for learning modules
-type OrdRule = (IRLine,IRLine)
+data OrdRule = OrdRule {
+  ord_l1 :: IRLine,
+  ord_l2 :: IRLine,
+  ord_rel :: Bool} deriving (Show,Eq)
 --you are missing a key-value pair correlation
 data MissingKVRule = MissingKVRule {
   l11 ::IRLine,
@@ -46,6 +51,7 @@ data IntRelRule = IntRelRule {
   l2 :: Keyword,
   formula :: Maybe (Int -> Int -> Bool)} deriving (Show)
 type TypeMap a = M.Map Keyword a
+type OrdMap a = M.Map (IRLine,IRLine) a
 
 instance Show (Int-> Int -> Bool) where
   show f1 = 
@@ -58,7 +64,7 @@ instance Show (Int-> Int -> Bool) where
 type IRConfigFile = [IRLine]
 data IRLine = IRLine {
   keyword :: Keyword,
-  value :: Value } deriving (Eq)
+  value :: Value } deriving (Eq,Ord)
 instance Show IRLine where
   show IRLine{..} = (show keyword) ++ (show value)
 type Keyword = T.Text

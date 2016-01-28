@@ -6,14 +6,16 @@ import Types
 import Learners
 import Convert
 
+import Control.Parallel.Strategies
+
 import qualified Data.Text.IO as T
 
 -- | collect contraints from each file indepentantly
 -- this should be parmap
 learnRules :: [ConfigFile Language] -> RuleSet
 learnRules fs = let
-  fs' = map convert fs
-  rs = map findAllRules fs'
+  fs' = parMap rseq convert fs
+  rs = parMap rdeepseq findAllRules fs'
  in
   foldl1 mergeRules rs
 
