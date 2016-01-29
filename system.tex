@@ -1,17 +1,18 @@
 \section{Learning the Rules}
 \label{sec:system}
 
-Before describing how our system for learning rules works, we first outline a translator which converts configuration files into an intermediary representation. Typing is based on an
-already given set of basic types. However, typing is also a system module than can be easily extended to support
-more types. In that case the user will need to provide rules for type inference and probability distributions for values where type inference is ambiguous.
+To learn rules, we first translate to the intermediate representation where each line of a configuration file is reduced to a keyword-value pair $(k,v)$.
+Of course, parsing is language dependant and users may provide extra help to the translator for their specific language, such as specifying a comment character.
+We must assign types to the keywords to guide the learning modules.
+With typed keyword-value pairs, we can run each learning module independent of each other.
+We learn a set of rules over a every file, then merge the rules of all files based on some user definied measure of consistency.
 
 \subsection{From Untyped Expressions to Probabilistic Types}
 
-Each line of a configuration files can be reduced to a keyword value pair
-In the parsing step we collect all lines in the file into a set of such pairs $(k, v)$, where $k$ denotes 
-variable name and $v$ denotes variable value. 
 However, based only on a single example value of $v$ we cannot fully determine the type of $k$.
 We instead assign a distribution of type to a value, an idea is closely related to existentially quantified types \cite{Launchbury93lazyfunctional}.
+However, typing is also a system module than can be easily extended to support more types. 
+In that case the user will need to provide rules for type inference and probability distributions for values where type inference is ambiguous.
 
 Consider for instance the following example:\\
 \texttt{\hspace*{2em}foo = 300\\
