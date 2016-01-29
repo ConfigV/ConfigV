@@ -29,7 +29,7 @@ lsDir = "dataset/correctMySQL/"
 learningSet = 
   (map (\x -> (u $ T.readFile (lsDir++x), MySQL))
     (u (listDirectory lsDir)))
-    -- ++ [ (u $ T.readFile ("dataset/group5-value-correlation/error5"), MySQL)]
+     -- ++ [ (u $ T.readFile ("dataset/group2-entry-missing/error"), MySQL)]
 
 benchmarks = [
     "dataset/group2-entry-missing/error"

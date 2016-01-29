@@ -15,7 +15,7 @@ import Control.DeepSeq
 -- forall a . Attribute a => [a]
 data RuleSet = RuleSet 
   { order :: OrdMap Bool
-  , intRel :: [IntRelRule]
+  , intRel :: IntRelMap 
   , missing :: [MissingKRule]
   , typeErr :: TypeMap ConfigQType
   }
@@ -50,9 +50,11 @@ data IntRelRule = IntRelRule {
   l1 :: Keyword,
   l2 :: Keyword,
   formula :: Maybe (Int -> Int -> Bool)} deriving (Show)
+
 type TypeMap a = M.Map Keyword a
 type OrdMap a = M.Map (IRLine,IRLine) a
-
+type IntRelMap = M.Map (Keyword,Keyword) (Maybe (Int->Int->Bool))
+type Formula = Maybe (Int->Int->Bool)
 instance Show (Int-> Int -> Bool) where
   show f1 = 
     if | (f1 0 1)  -> "<="
@@ -81,7 +83,17 @@ data ConfigQType = ConfigQType {
   , cfilepath :: Config FilePath 
   --, cdirpath :: Config DirPath 
   }
-  deriving (Show, Eq)
+  deriving (Eq)
+
+instance Show ConfigQType where
+ show ConfigQType{..} = 
+  let
+    i = if p cint >0 then "Int with P="++(show (p cint))++" " else ""
+    s = if p cstring >0 then "String with P="++(show (p cstring))++" " else ""
+    f = if p cfilepath >0 then "Filepath with P="++(show (p cfilepath))++" " else ""
+    u = if (i++s++f)=="" then "Unknown Type" else ""
+  in
+    i++s++f++u
 
 zeroProb:: Config a
 zeroProb= Config 0  
