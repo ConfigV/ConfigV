@@ -54,36 +54,18 @@ From a  practical perspective there is no additional burden
 to the users: they can simply use \app to check for errors in their configuration files. However, they can also easily extend the framework themselves. The system is designed to be highly modular. If there is a class of rules that \app is not currently learning, the user can develop their own templates and learners for that class. The new learner can be added to \app and this way it can check additionally a new set of errors.
 
 Finally, from a system perspective this is the first approach that checks 
-
-
-\xxx{I think we should explicitly 
-mention our approach aims to solve 
-misconfiguration from different way with the
-previous work. Previous work tries to find out the problem after the
-failures occur, but our approach is a proactive method, which can
-find out error before the system failure occurs. Such an effort (i.e., 
-preventing misconfiguration before installation) is
-important, because the majority of errors can be 
-detected before running your system. 
-Thus, 1) users will not complain too much because they are using
-``very healthy'' configuration files, 
-and 2) this is a great complementary to existing reactive misconfiguration 
-detectors. -- Ennan}
-
-Second, because many misconfiguration errors have been eliminated 
-by \app, the workloads of post-failure forensics in runtime
-are significantly reduced, thus making these tools truly practical.
-Finally, since there have been many correct but not specific 
-example configuration files in practice, 
-increasingly more samples can be freely added to \app,
-thus giving \app evolutionary capability.
+proactively the correctness of configuration files. All previous work
+~\cite{xu15systems,zhang14encore,yuan11context, wang04automatic,attariyan10automating,
+su07autobash,whitaker04configuration} tries to identify the problem after the
+failure occurs. Our approach isolates potential errors before the system failure occurs, e.g. before the installation. We can also see \app as a tool that can run in conjunction with existing tool. Pre-analyzed configuration files are already free from language-based errors, and this way the workloads of post-failure forensics at the runtime
+is significantly reduced, thus making these tools truly practical.
 
 Using these ideas, we make the following contributions:
 
 \begin{enumerate}
 
-  \item Our tool, \app can learn a language model from a set of examples of correct configuration files, and use the model to verify new files.
-  \item We present a probabilistic type that can be used to assign a confidence distribution over a set of types to a value.
+  \item We designed and implemented a tool, \app, that can learn a language model from a set of examples of correct configuration files, and use the model to verify new files.
+  \item We use a probabilistic type that can be used to assign a confidence distribution over a set of types to a value.
   \item In \app, we define a minimal interface for describing a verification attribute in a learning context, making it easy to add new rules to the system.
 
 \end{enumerate}
