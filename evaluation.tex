@@ -1,31 +1,36 @@
+\section{Implementation}
+
 \section{Evaluation}
 
 To evaluate our tool, take a subset of the canonical benchmarks for configuration errors\cite{dataset}.
 We take the subset of benchmarks for which our tool has implemented modules.
 Although our tool is general and extensible, we have only implemented four types of rules over the MySQL configuration language.
 
-We report error that was unrelated to the value of interest as a false positive.
+We call false positives any error that was unrelated to the value of interest.
 It is worth noting that this is in fact a conservative estimate.
 Since these benchmarks are taken from online forums, there is no garuntee the files contain only a single error.
 Indeed, while running these benchmarks, \app found errors in the file that were similar to other benchmarks. 
 
 We fail one benchmark in Value Relations because we do not yet support relations between file sizes of different units (Mb to Kb)
+In one Keyword Ordering benchmark, \app reports a type error on the value of interest instead of a ordering error.
+This is a result of our context embedding in the translation to the intermediate represetnation - reordering the value puts it in a new context where the type is now also incorrect.
 
 \begin{table}[]
 \centering
-\caption{My caption}
+\caption{}
 \label{my-label}
-\begin{tabular}{lll}
-Error Type       & Passing Tests & False Positives  \\
-Missing Entry    & 5/5           & 1,0,0,0,1        \\
-Type Error       & 4/4           & 0,0,0,0          \\
-Keyword Ordering & 4/4*          & 0,10,1,0         \\
-Value Relations  & 4/5           & 0,0,0,0,0        \\
-*One passing test gives a type error on the misconfigured value rather than an ordering error, as it should.
+\begin{tabular}{l|l|l}
+Error Type       & Passing Tests & False Positives  \\ \hhline{|=|=|=|}
+Missing Entry    & 5/5           & 1, 0, 0, 0, 1        \\ \hline
+Type Error       & 4/4           & 0, 0, 0, 0          \\ \hline
+Keyword Ordering & 4/4          & 0, 10, 1, 0         \\ \hline
+Value Relations  & 4/5           & 0, 1, 0, 0, 0        \\ 
 \end{tabular}
 \end{table}
 
 All false positives were integer relations.
-Recall from Section \sec{} that false positives are the result of overfitting on rules.
+Recall from Section \ref{} that false positives are the result of overfitting on rules.
 \app can learn overfit rules when the learning set does not show the full spectrum of possible values.
 Since integer relations have a larger space of relation than say, ordering relations, \app needs a larger learning set in order to eliminate false positives.
+
+The false positive for value relation is a result of the fact that we cannot learn rules that are disjunctions.
