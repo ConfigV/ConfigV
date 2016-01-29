@@ -83,7 +83,17 @@ data ConfigQType = ConfigQType {
   , cfilepath :: Config FilePath 
   --, cdirpath :: Config DirPath 
   }
-  deriving (Show, Eq)
+  deriving (Eq)
+
+instance Show ConfigQType where
+ show ConfigQType{..} = 
+  let
+    i = if p cint >0 then "Int with P="++(show (p cint))++" " else ""
+    s = if p cstring >0 then "String with P="++(show (p cstring))++" " else ""
+    f = if p cfilepath >0 then "Filepath with P="++(show (p cfilepath))++" " else ""
+    u = if (i++s++f)=="" then "Unknown Type" else ""
+  in
+    i++s++f++u
 
 zeroProb:: Config a
 zeroProb= Config 0  

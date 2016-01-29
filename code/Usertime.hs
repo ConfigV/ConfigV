@@ -9,7 +9,7 @@ import Control.Monad
 import Data.Maybe
 import qualified Data.Map as M
 
-import Data.Foldable
+--import Data.Foldable
 
 verifyOn :: RuleSet -> ConfigFile Language -> [String]
 verifyOn r f = 
@@ -19,12 +19,39 @@ verifyOn r f =
     intRelError   =  check (intRel r) f'
     missingError  =  check (missing r) f'
     typeError     =  check (typeErr r) f'
-    typeShow = maybe "" (\x->"TYPE ERR "++(unlines.(map show).M.toList) x) typeError
+   
+    --the dreaded monomorphism restriction. i tihnk there is way to turn it off tho
+    typeShow = 
+      let 
+        es = maybe [] M.toList typeError
+        f = (\x->"TYPE ERROR: Expected a "++(show$snd x)++" for "++(show$fst x)++"\n")
+      in
+        concatMap f es
+
+    orderingShow =
+      let 
+        es = maybe [] M.toList orderingError
+        f = (\x->"ORDERING ERROR: Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++"\n")
+      in
+        concatMap f es
+   
+    intRelShow = 
+      let  
+        es = maybe [] M.toList intRelError
+        f = (\x->"INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)++"\n")
+      in
+        concatMap f es
+    missingShow = 
+      let  
+        es = fromMaybe [] missingError
+        f = (\x->"MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++"\n")
+      in
+        concatMap f es
     all = [
         typeShow
-      , maybe "" (\x->"ORDER ERR "++(unlines.(map show).M.toList) x) orderingError
-      , maybe "" (\x->"INT REL ERR "++(unlines.(map show).M.toList) x) intRelError
-      , maybe "" (\x-> "MISSING ERR "++(unlines.(map show)) x) missingError
+      , orderingShow
+      , intRelShow
+      , missingShow
       ]
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError) 
