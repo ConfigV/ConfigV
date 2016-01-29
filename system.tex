@@ -1,24 +1,37 @@
-\section{From Untyped to Typed Expressions}
-\label{sec:translation}
+\section{Learning the Rules}
+\label{sec:system}
 
+Before describing how our system for learning rules works, we first outline a translator which converts configuration files into an intermediary representation. Typing is based on an
+already given set of basic types. However, typing is also a system module than can be easily extended to support
+more types. In that case the user will need to provide rules for type inference and probability distributions for values where type inference is ambiguous.
 
-\subsection{Quantum Types}
+\subsection{From Untyped Expressions to Quantum Types}
 
-Because our type inference is based on machine learning, we cannot be sure that a keyword unambigously has a single type.
-This is an issue when we try to learn relational rules between keywords. 
-Take the following file in the learning
+Configuration files usually consist of variable assignments, or some simple instructions about including files or libraries. We initially
+collect all assignments into a set of pairs $(n, v)$, where $n$ denotes 
+variable name and $v$ denotes variable value. However, based only on the 
+value $v$ we cannot determine the type of $n$.
 
-foo = 300
-bar = 300.txt
+Consider for instance the following example:\\
+\texttt{\hspace*{2em}foo = 300\\
+\hspace*{2em}bar = 300.txt}\\
+Most likely \texttt{foo} is an integer, but it could also be a string.
+In the latter case we want to learn the rule $ \texttt{foo} \in \textsf{substrings}(\texttt{bar})$. We introduce {\emph{quantum types}} to 
+address this issue.
 
+Let $\mathcal{T}$ be a set of basic types. In \app set $\mathcal{T}$ contains strings, integers, file paths, sizes and IP addresses. 
+A quantum type built from $\mathcal{T}$ is a list of pairs $[(\tau_1, p_1),\ldots,(\tau_n, p_n)]$ such that $\tau_i \in \mathcal{T}$, 
+$0 \le p_i \le 1$ 
+and $\Sigma p_i = 1$. These probabilities are learned from the training 
+corpus.
 
-We want to learn the rule that $foo \in {substring(bar)}$, however using unambigous type inference, we would assign foo type int, and never try to generate a string relation rule for these two keywords.
-By assigning foo a quantum type (e.g. ${Int <90\%>, String <10\%>}$), we can now generate rules for both types.
+When a value has a quantum type, we generate rules for all its types. This means that by assigning {\texttt{foo}} a quantum type 
+(e.g. $(\texttt{foo}, 300, [(\textsl{Int},90\%),(\textsl{String},10\%)])$
+we now generate rules for strings and integers.
 
-At runtime, when the user wants to check a file we update the probabilities one last time then 'collapse' the quantum type to a concrete type.
-If the concrete type collapses to a Int, we consider the rules for ints, and vice versa.
+For a given value, its quantum type is updated over time. When the type inference uniquely determines the type, the probability of all other types is set to zero, and  the associated rules are withdrawn.
 
-This idea is closely related to exstentially quantified types.
+This idea is closely related to existentially quantified types \cite{Launchbury93lazyfunctional}.
 
 
 \section{Learning strategy}
