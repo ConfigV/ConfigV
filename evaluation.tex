@@ -1,12 +1,12 @@
 \section{Implementation}
 
-\app is implemented in Haskell takes full advantage of its polymorphism to make the system more modular.
+\app is implemented in Haskell and takes full advantage of its polymorphism to make the system more modular.
 In particular, rules are represented as a type, where the type must support a particular interface (called a typeclass in Haskell) to be compatible with our system.
 By using language extensions (FlexibleInstances and MultiParamTypeClasses), this typeclass can be made polymorphic over the data structure as denoted by \lstinline{Foldable t =>}.
 The user can then choose a data structure that is most natural to the rule they are implementing.
 For example, in our implementation, Missing Entries were easier to manipulate in lists, while Type Errors fit more naturally into a hashmap.
 This typeclass defines the three functions that each set of rules must implement to work with our system.
-Typeclasses and other features of Haskell means that our system is only 267 lines of code, with anoth 233 for the rule modules.
+Typeclasses and other features of Haskell means that our system consists of only 267 lines of code, with another 233 for the rule modules.
 With an average size of 58 lines of code for each rule module, this is evidence of how simple it is to extend \app with new rules.
 
 \begin{lstlisting}
