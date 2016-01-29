@@ -1,0 +1,66 @@
+\section{Introduction}
+
+Configuration errors are one of the most important root-causes of 
+modern software system failures~\cite{xu15systems,yin11anempirical}. 
+In practice, misconfiguration problems may result in 
+security vulnerabilities,
+application crashes, severe disruptions in software functionality,
+and incorrect program executions%
+~\cite{xu15systems,zhang14encore,yuan11context}.
+Although several tools have been proposed to automate configuration
+error diagnosis after failures occur%
+~\cite{wang04automatic,attariyan10automating,%
+su07autobash,whitaker04configuration}, 
+these tools rely on manual ways to understand and detect the failure 
+symptoms. The main reasons are:
+1) entries in configuration files are untyped assignments, 
+2) there is no explicit structure policy for the entries in 
+configuration files, and 3) there is surprisingly little rules 
+specifying the entries' constraints.
+
+Such solutions typically incur high administration cost (\eg, 
+requiring users to write pattern-matching scripts) 
+and are unreliable (\eg, some errors may show no user-visible symptoms).
+These shortcomings often lead to prolonged delays between
+the occurrence and the detection of errors, thus causing unrecoverable
+damage to system states.
+
+We expect to explore a fundamentally different means to tackle 
+the misconfiguration problem. Rather than using retroactive approaches
+to deal with configuration errors after the software failures occur, 
+we would like to {\em proactively} prevent misconfiguration problems 
+{\em before} users first deploy the configuration files to 
+their system settings. In other words, we aim to offer users 
+a configuration error filter in order to significantly minimize 
+the probability of misconfigurations in the system runtime.
+
+Based on the above intuition, this paper presents \app, 
+a proactive misconfiguration checker which takes users' 
+configuration files as input and then reports potential configuration 
+errors to the users before they deploy their systems 
+according to these configurations.
+At the heart of \app lies a machine learning mechanism, 
+which learns rules and constraints from pluggable 
+correct sampling configuration files (\ie, for the training purposes), 
+and then detects errors violating the learned constraints.
+
+\app mainly offers users three significant benefits.
+First, there is no any extra burden added to users who only need to 
+simply use \app as a ``seamless'' pre-checker for their configurations.
+Second, because many misconfiguration errors have been eliminated 
+by \app, the workloads of post-failure forensics in runtime
+are significantly reduced, thus making these tools truly practical.
+Finally, since there have been many correct but not specific 
+example configuration files in practice, 
+increasingly more samples can be freely added to \app,
+thus giving \app evolutionary capability.
+
+Using these ideas, we make the following contriubtions:
+
+\begin{enumerate}
+
+  \item Our tool, \app can learn a language model from a set of examples of correct configuration files, and use the model to verify new files.
+  \item We present a probabalistic type that can be used to assign a confidence distribution over a set of types to a valule.
+  \item In \app, we define a minimal interface for describing a verification attribute in a learning context, making it easy to add new rules to the system.
+
+\end{enumerate}
