@@ -1,4 +1,4 @@
-\section{Introduction}
+\section{Introduction and System Overview}
 \label{sec:Intro}
 
 Configuration errors are one of the most important root-causes of 
@@ -19,35 +19,27 @@ symptoms. The main reasons are:
 configuration files, and 3) there is surprisingly little rules 
 specifying the entries' constraints.
 
-Such solutions typically incur high administration cost (\eg, 
-requiring users to write pattern-matching scripts) 
-and are unreliable (\eg, some errors may show no user-visible symptoms).
-These shortcomings often lead to prolonged delays between
-the occurrence and the detection of errors, thus causing unrecoverable
-damage to system states.
+We propose an approach to the verification of  
+configuration files which is based on learning rules about the language 
+model for configuration files. 
 
-We expect to explore a fundamentally different means to tackle 
-the misconfiguration problem. Rather than using retroactive approaches
-to deal with configuration errors after the software failures occur, 
-we would like to {\em proactively} prevent misconfiguration problems 
-{\em before} users first deploy the configuration files to 
-their system settings. In other words, we aim to offer users 
-a configuration error filter in order to significantly minimize 
-the probability of misconfigurations in the system runtime.
+\begin{figure}[t] \centering
+\includegraphics[width=0.8\textwidth]{figs/overview}
+\caption{An overview of the \app's workflow.}
+\label{fig-overview}
+\end{figure}
 
-Based on the above intuition, this paper presents \app, 
-a proactive misconfiguration checker which takes users' 
-configuration files as input and then reports potential configuration 
-errors to the users before they deploy their systems 
-according to these configurations.
-At the heart of \app lies a machine learning mechanism, 
-which learns rules and constraints from pluggable 
-correct sampling configuration files (\ie, for the training purposes), 
-and then detects errors violating the learned constraints.
+Fig.~\ref{fig-overview} describes an overview of our system. We start with
+an assumption that we are given a number of correct configuration files belonging to the same category (for instance, MySQL or Apache). Such files
+follow the same naming conventions and we use that fact in a learning 
+algorithm which will result with the rules describing the language model used in the files. Since the ``language'' of configuration types is untyped and unstructured, we first parse the files and translate them 
+into a more structured, typed, intermediary representation. Having more structured files, we use them as a training set to learn the rules about the 
+language model. These rules are used for detecting errors violating the learned constraints in the files given by the user.
 
-\app mainly offers users three significant benefits.
-First, there is no any extra burden added to users who only need to 
-simply use \app as a ``seamless'' pre-checker for their configurations.
+From a  practical perspective there is no additional burden 
+to the users: they can use \app to verify their configuration files.
+
+
 Second, because many misconfiguration errors have been eliminated 
 by \app, the workloads of post-failure forensics in runtime
 are significantly reduced, thus making these tools truly practical.
@@ -56,12 +48,12 @@ example configuration files in practice,
 increasingly more samples can be freely added to \app,
 thus giving \app evolutionary capability.
 
-Using these ideas, we make the following contriubtions:
+Using these ideas, we make the following contributions:
 
 \begin{enumerate}
 
   \item Our tool, \app can learn a language model from a set of examples of correct configuration files, and use the model to verify new files.
-  \item We present a probabalistic type that can be used to assign a confidence distribution over a set of types to a valule.
+  \item We present a probabilistic type that can be used to assign a confidence distribution over a set of types to a value.
   \item In \app, we define a minimal interface for describing a verification attribute in a learning context, making it easy to add new rules to the system.
 
 \end{enumerate}
