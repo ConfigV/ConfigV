@@ -28,6 +28,5 @@ Once the type inference can uniquely determine the type, the probability of all 
 Note that typing is also a system module than can be easily extended to support more types. 
 In that case the user will need to provide rules for type inference and probability distributions for values where type inference is ambiguous.
 
-{\bf {Rules Learning.}}
-
-While a traditional classification learning machine learning approach can reduce both of these situations, there is can generally be no guarantee that all false negatives will be eliminated. Instead of building classification models over the learning set (such as an SVM), we learn the largest set of rules that all correct configuration files satisfy. In this way, \app can guarantee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set. The only case of a false negative can be when there was no evidence of such a rule in the learning set - we cannot generate rules from nothing. Framed as the question "Is this file valid", \app is complete but not sound
+{\bf {Rule Learning.}} With every type we associate a set of templates, specific to this type. Once the input files are fully type-annotated, we generate rules that are instances of these templates. We always learn the largest set of rules that all correct configuration files satisfy. This way \app can guarantee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set. The only case of a false negative can be when there was no evidence of such a rule in the learning set - we cannot generate rules from nothing. 
+%Framed as the question "Is this file valid", \app is complete but not sound
