@@ -1,4 +1,8 @@
-\section{evaluation}
+\section{Evaluation}
+
+To evaluate our tool, take a subset of the canonical benchmarks for configuration errors\cite{dataset}.
+We take the subset of benchmarks for which our tool has implemented modules.
+Although our tool is general and extensible, we have only implemented four types of rules over the MySQL configuration language.
 
 We report error that was unrelated to the value of interest as a false positive.
 It is worth noting that this is in fact a conservative estimate.
@@ -20,3 +24,8 @@ Value Relations  & 4/5           & 0,0,0,0,0        \\
 *One passing test gives a type error on the misconfigured value rather than an ordering error, as it should.
 \end{tabular}
 \end{table}
+
+All false positives were integer relations.
+Recall from Section \sec{} that false positives are the result of overfitting on rules.
+\app can learn overfit rules when the learning set does not show the full spectrum of possible values.
+Since integer relations have a larger space of relation than say, ordering relations, \app needs a larger learning set in order to eliminate false positives.
