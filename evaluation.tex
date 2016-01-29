@@ -1,12 +1,37 @@
 \section{Implementation}
 
+\app is implemented in Haskell and takes full advantage of its polymorphism to make the system more modular.
+In particular, rules are represented as a type, where the type must support a particular interface (called a typeclass in Haskell) to be compatible with our system.
+By using various language extensions, this typeclass can be made polymorphic over the data structure (Foldable t =>).
+The user can then choose data structure that is most natural to the rule they are implementing.
+For example, in our implementation, missing keywords were easier to manipulate in lists, while types fit more naturally into a hashmap.
+
+\begin{lstlisting}
+class Foldable t => Attribute t a where
+  learn :: IRConfigFile -> t a
+  merge :: t a -> t a -> t a
+  check :: t a -> IRConfigFile -> Error
+\end{lstlisting}
+
+Since we learn a set of rules on each file in isolation from the other, we have an embarrassing parallel situation.
+Haskell allows us to easily take advantage of by using the parallel mapping library, parmap, both for translation to the intermediate representation, and for learning the rules on each file.
+The merge stage could also be parallelized, using a divide and conquer approach, but \app runs fast enough over our learning set (28 files) and resultsing rules (~4500 for integer relations) that this as not necessary.
+
+The integer relation rule has an unusual implementation that makes use of function as first-class objects in haskell.
+Rather than associated keywords with SMT formula, we directly associate them with a function of type (Int->Int->Bool).
+Since we need to compare rules over equality, we must then have a way to compare functions.
+This limits the types of functions we use to (==), (>=), and (<=).
+Although this is sufficent for most use cases, more fine-grained relations could be encoded with SMT formulas then passed to a solver.
+
+
 \section{Evaluation}
 
 To evaluate our tool, take a subset of the canonical benchmarks for configuration errors\cite{dataset}.
 We take the subset of benchmarks for which our tool has implemented modules.
 Although our tool is general and extensible, we have only implemented four types of rules over the MySQL configuration language.
 
-We call false positives any error that was unrelated to the value of interest.
+A benchmark passes a test if it reports an error on the source of the misconfiguration.
+We call false positives any reported error that was unrelated to the value of interest.
 It is worth noting that this is in fact a conservative estimate.
 Since these benchmarks are taken from online forums, there is no garuntee the files contain only a single error.
 Indeed, while running these benchmarks, \app found errors in the file that were similar to other benchmarks. 
@@ -22,15 +47,20 @@ This is a result of our context embedding in the translation to the intermediate
 \begin{tabular}{l|l|l}
 Error Type       & Passing Tests & False Positives  \\ \hhline{|=|=|=|}
 Missing Entry    & 5/5           & 1, 0, 0, 0, 1        \\ \hline
-Type Error       & 4/4           & 0, 0, 0, 0          \\ \hline
-Keyword Ordering & 4/4          & 0, 10, 1, 0         \\ \hline
+Type Error       & 5/5           & 0, 0, 0, 0, 0          \\ \hline
+Keyword Ordering & 5/5           & 0, 1, 1, 0, 10       \\ \hline
 Value Relations  & 4/5           & 0, 1, 0, 0, 0        \\ 
 \end{tabular}
 \end{table}
 
-All false positives were integer relations.
+All but one false positives were integer relations.
 Recall from Section \ref{} that false positives are the result of overfitting on rules.
 \app can learn overfit rules when the learning set does not show the full spectrum of possible values.
 Since integer relations have a larger space of relation than say, ordering relations, \app needs a larger learning set in order to eliminate false positives.
 
-The false positive for value relation is a result of the fact that we cannot learn rules that are disjunctions.
+The false positive for value relation (missing entry) is a result of the fact that we cannot learn rules that are disjunctions.
+In this case, no socket is provided to [mysqld], failing a rule we had learned over the dataset.
+In fact, this is not a misconfiguration because a socket only needs to be provided to one (or both) [mysqld] or [wampsqld].
+We reported an error since none of the files in the learning set had no socket associated with [mysqld].
+In fact, since we do not support disjunctive rules, we could not have even learned such a rule - though in practice these seem to be uncommon.
+
