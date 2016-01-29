@@ -13,9 +13,10 @@ When configuring PHP to run with the Apache HTTP Server the user writes, among o
  \hspace*{3em}...\\
  \hspace*{3em}extension = recode.so}\\
 This file caused that the Apache server could not start due to 
-the segmentation fault error. Running \app on this file returns\\
+the segmentation fault error. Running \app on this file would return\\
  \texttt{
-  one line output from our tool that indicates that things should be reordered}\\
+ORDERING ERROR: Expected "extension"recode.so" BEFORE "extension""mysql.so"
+  }\\
 Indeed, this was the source of the error. When using PHP in Apache, the
 extension ``mysql.so'' depends on ``recode.so'' and the relative ordering 
 of two of them is crucial. The user is informed that ``recode.so'' should appear before ``mysql.so''.
@@ -28,8 +29,8 @@ done through the following entries in the OpenLDAP configuration file:\\
 \texttt{
  \hspace*{3em}overlay ppolicy\\}
 However, this configuration file will make LDAP server fail to work.
-Running \app on this configuration file returns:
-\xxx{Mark, put results here}\\
+Running \app on this configuration file would return:
+MISSING KEYWORD ERROR: Expected "overlay""ppolicy" in the same file as: "include""schema/ppolicy.schema"\\
 This was the source of the error. When using the password policy overlay
 in OpenLDAP, we have to first include the related schema. The correct configuration should be:\\
 \texttt{
@@ -37,7 +38,7 @@ in OpenLDAP, we have to first include the related schema. The correct configurat
  \hspace*{3em}overlay ppolicy\\
 }
 
-\subsection{Value Type Errors}
+\subsection{Type Errors}
 
 If the user tries to install MySQL, she first needs to 
 initiate the path for the
@@ -47,7 +48,7 @@ her MySQL configuration file:\\
  \hspace*{3em}general\_log = /var/log/mysql/mysql.log\\}
 After \app analyzed this configuration file, it correctly identifies the error:
 \begin{verbatim}
-TYPE ERR ("general_log[mysqld]",ConfigQType {cint = Config {p = 1.0}, cstring = Config {p = 0.0}, cfilepath = Config {p = 0.0}})
+TYPE ERROR: Expected a Int with P=1.0  for "general_log[mysqld]"
 \end{verbatim}
 The entry ``general\_log'' should be an integer, 
 and not a string. In MySQL, there is another entry named
@@ -66,27 +67,13 @@ of entries in her both PHP and MySQL configuration files:\\
 This will cause MySQL to abort with the error information:
 ``too many connections''.
 Running \app on this combined configuration file returns:
-\xxx{Mark, put results here}\\
+INTEGER RELATION ERROR: Expected "max\_connections">="mysql.max\_persistent"
+\\
 We are successfully able to derive arithmetic relations between integer values.
 In particular, the ``mysql.max\_persistent'' in PHP should be no
 larger than the ``max\_connections'' in MySQL configuration file.
 
-\subsection{Format Errors}
-\xxx{I am not sure if we still need the format error, so I 
-put it the last one.}
 
-When configuring NetApp commercial storage system, 
-the user writes the following entry:\\
-\texttt{
- \hspace*{3em}InitiatorName: iqn:DEV\_DOMAIN\\
-} 
-The NetApp storage share cannot be recognized. 
-Thus, we run \app on this configuration file and get the results:
-\xxx{Mark, put results here}\\
-This is the root-cause of the problem,
-since the iscsi device's initiator name, \ie, InitiatorName,
-only allows lowercase letters. However, the user sets the name with
-capital letters ``DEV\_DOMAIN''.
 
 \com{
 \begin{figure}[t] \centering
@@ -103,8 +90,8 @@ misconfiguration issues reported in real-world efforts%
 ~\cite{yin11anempirical, configdataset}.
 We classify our target configuration errors
 into five groups: 1) format error; 2) entry missing error; 3) value type
-error; 4) ordering error; and 5) value correlation error.
-The five examples in Fig.~\ref{fig-example} correspond to the above five
+error; and 4) ordering error
+The examples in Fig.~\ref{fig-example} correspond to the above four
 groups, respectively.
 
 } 
