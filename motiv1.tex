@@ -47,7 +47,9 @@ her MySQL configuration file:\\
  \hspace*{3em}general\_log = /var/log/mysql/mysql.log\\}
 Unfortunately, the log information cannot be correctly written.
 Running \app on this configuration file returns:
-\xxx{Mark, put results here}\\
+\begin{verbatim}
+TYPE ERR ("general_log[mysqld]",ConfigQType {cint = Config {p = 1.0}, cstring = Config {p = 0.0}, cfilepath = Config {p = 0.0}})
+\end{verbatim}
 This is the root-cause of this misconfiguration problem. 
 The entry ``general\_log'' should be an integer, 
 rather than string. In MySQL, there is another entry named
