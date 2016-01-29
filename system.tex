@@ -5,7 +5,7 @@ Before describing how our system for learning rules works, we first outline a tr
 already given set of basic types. However, typing is also a system module than can be easily extended to support
 more types. In that case the user will need to provide rules for type inference and probability distributions for values where type inference is ambiguous.
 
-\subsection{From Untyped Expressions to Quantum Types}
+\subsection{From Untyped Expressions to Probabilistic Types}
 
 Configuration files usually consist of variable assignments, or some simple instructions about including files or libraries. We initially
 collect all assignments into a set of pairs $(n, v)$, where $n$ denotes 
@@ -16,20 +16,20 @@ Consider for instance the following example:\\
 \texttt{\hspace*{2em}foo = 300\\
 \hspace*{2em}bar = 300.txt}\\
 Most likely \texttt{foo} is an integer, but it could also be a string.
-In the latter case we want to learn the rule $ \texttt{foo} \in \textsf{substrings}(\texttt{bar})$. We introduce {\emph{quantum types}} to 
+In the latter case we want to learn the rule $ \texttt{foo} \in \textsf{substrings}(\texttt{bar})$. We introduce {\emph{probabilistic types}} to 
 address this issue.
 
 Let $\mathcal{T}$ be a set of basic types. In \app set $\mathcal{T}$ contains strings, integers, file paths, sizes and IP addresses. 
-A quantum type built from $\mathcal{T}$ is a list of pairs $[(\tau_1, p_1),\ldots,(\tau_n, p_n)]$ such that $\tau_i \in \mathcal{T}$, 
+A probabilistic type built from $\mathcal{T}$ is a list of pairs $[(\tau_1, p_1),\ldots,(\tau_n, p_n)]$ such that $\tau_i \in \mathcal{T}$, 
 $0 \le p_i \le 1$ 
 and $\Sigma p_i = 1$. These probabilities are learned from the training 
 corpus.
 
-When a value has a quantum type, we generate rules for all its types. This means that by assigning {\texttt{foo}} a quantum type 
+When a value has a probabilistic type, we generate rules for all its types. This means that by assigning {\texttt{foo}} a probabilistic type 
 (e.g. $(\texttt{foo}, 300, [(\textsl{Int},90\%),(\textsl{String},10\%)])$
 we now generate rules for strings and integers.
 
-For a given value, its quantum type is updated over time. When the type inference uniquely determines the type, the probability of all other types is set to zero, and  the associated rules are withdrawn.
+For a given value, its probabilistic type is updated over time. When the type inference uniquely determines the type, the probability of all other types is set to zero, and  the associated rules are withdrawn.
 
 This idea is closely related to existentially quantified types \cite{Launchbury93lazyfunctional}.
 
