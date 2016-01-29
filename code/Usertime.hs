@@ -19,18 +19,19 @@ verifyOn r f =
     intRelError   =  check (intRel r) f'
     missingError  =  check (missing r) f'
     typeError     =  check (typeErr r) f'
+    typeShow = maybe "" (\x->"TYPE ERR "++(unlines.(map show).M.toList) x) typeError
     all = [
-        show typeError
-      , show orderingError
-      , show intRelError
-      , show missingError
+        typeShow
+      , maybe "" (\x->"ORDER ERR "++(unlines.(map show).M.toList) x) orderingError
+      , maybe "" (\x->"INT REL ERR "++(unlines.(map show).M.toList) x) intRelError
+      , maybe "" (\x-> "MISSING ERR "++(unlines.(map show)) x) missingError
       ]
     sizeErr = maybe 0 length
-    count = 
-      (maybe 0 M.size typeError) +
+    typeSize = (maybe 0 M.size typeError) 
+    count = typeSize +
       (maybe 0 M.size orderingError) +
       (sizeErr missingError) +
-      (sizeErr intRelError) 
+      (maybe 0 M.size intRelError) 
   in
-    ["\n"]++all ++ [show count]
+    if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count]
     

@@ -3,6 +3,7 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE OverloadedStrings#-}
 {-# LANGUAGE MultiParamTypeClasses#-}
+{-# LANGUAGE MultiWayIf #-}
 
 module IntRel where
 
@@ -13,90 +14,117 @@ import qualified Data.List as L
 import qualified Data.Map as M
 import Data.Maybe
 import Data.Char
+import Data.Tuple
 
 import Debug.Trace
 
 -- I haven't found a nice package for SMTLIB format in haskell yet, its out there tho, im sure
 
-instance Attribute [] IntRelRule where
+instance Attribute (M.Map (Keyword,Keyword)) Formula where
   -- | this has the problem that order is important
   --   (foo,bar,==) is different than (bar,foo,==)
   learn ts =
     let
       ts' = pairs $ filter couldBeInt ts
-      rules = foldl (\rs p -> rs ++ findeqRules p) [] ts'
+      rules = foldr (\p rs -> findeqRules p ++ rs) [] ts'
     in
-      rules
+      M.fromList rules
 
   check rs f = 
     let
-     relevantRules = filter (hasRuleFor f) (filter (isJust.formula) rs)
-     fRules = learn f 
-     diff = relevantRules L.\\ fRules --diff is the rules we should have met, but didnt
+     relevantRules' = M.filterWithKey (\k v->isJust v && hasRuleFor f k) (rs)
+     relevantRules = M.foldrWithKey makeFlips relevantRules' relevantRules'
+     fRules' = learn f :: IntRelMap
+     fRules = M.foldrWithKey makeFlips fRules' fRules'
+     diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
-     if null diff then Nothing else Just diff
+     if M.null diff then Nothing else Just diff
   
-  merge curr new = L.nub $ foldl removeConflicts [] $ L.union curr new
 
+  -- merge curr new = foldl removeConflicts [] $ L.union curr (traceShow (length curr) new)
+  merge curr new = 
+    let
+      u = M.unionWith removeConflicts curr new
+    in u
 
-traceMe x = let
-  ls = (filter (\r -> "innodb_flush_log_at_trx_commit" == (l1 r)) x)
- in
-  trace ((show x)++ "\n"++(show $unlines $map show ls)++"\n\n-----------\n") x
-
-
-hasRuleFor :: [IRLine] -> IntRelRule -> Bool
-hasRuleFor ls r = 
-  let
-    x = elem (l1 r) (map keyword ls) && elem (l2 r) (map keyword ls)
+compRules :: Formula -> Formula -> Maybe Formula
+compRules f1 f2 = 
+  if | (f1==f2) -> Nothing
+     | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Nothing
+     | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Nothing
+     | True -> Just f1
+ 
+foo s m = trace (s++(show (M.lookup (("port[client]","port[mysqld]")) m))) m
+--foo m = traceShow (M.lookup (swap ("max_allowed_packet[wampmysqld]","key_buffer[wampmysqld]")) m) m
+--if ((snd r1) == "max_allowed_packet[wampmysqld]") && ((fst r1) == "key_buffer[wampmysqld]") then (trace ((show r1)++(show f)) f) else f
+--traceMe x = (
+makeFlips :: (Keyword,Keyword) -> Formula -> IntRelMap -> IntRelMap
+makeFlips (k1,k2) f old = let
+    f' = if | f==Just(==) -> Just(==)
+            | f==Just(<=) -> Just(>=) 
+            | f==Just(>=) -> Just(<=) 
+            | f==Nothing  -> Nothing
   in
-    --trace (show x ++ "  "++ (show r)) x
-    x
+    M.insert (k2,k1) f' old
 
-removeConflicts :: [IntRelRule] -> IntRelRule -> [IntRelRule]
-removeConflicts rs r = 
-  if isJust $ L.find (sameKeyRel r) rs then (r{formula=Nothing}):(L.delete r rs) else r:rs
+hasRuleFor :: [IRLine] -> (Keyword,Keyword) ->  Bool
+hasRuleFor ls (l1,l2) = 
+  elem l1 (map keyword ls) && elem l2 (map keyword ls)
 
--- | remove rules with mathcing keys, but diff formulas
-sameKeyRel :: IntRelRule -> IntRelRule -> Bool
-sameKeyRel r1 r2 = 
+removeConflicts :: Formula -> Formula -> Formula
+removeConflicts f1 f2 = 
+  if | (f1==f2) -> f1
+     | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Just (<=)
+     | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Just (>=)
+     | True -> Nothing
+-- | true for rules with mathcing keys, but diff formulas
+{-sameKeyRel :: ((Keyword,Keyword), Formula) -> (Keyword,Keyword) -> Formula -> Bool
+sameKeyRel (r1, f) r2 f' = 
    id (
-    (l1 r1) == (l1 r2) && (l2 r1) == (l2 r2) && (formula r1) /= (formula r2) 
+    (fst r1) == (fst r2) && (snd r1) == (snd r2) && ((foo r1 f) /= (foo r2 f'))
    )
+-}
 
-findeqRules :: (IRLine,IRLine) -> [IntRelRule]
+findeqRules :: (IRLine,IRLine) -> [((Keyword,Keyword),Formula)]
 findeqRules (l1,l2) = 
   let
-    getI = read. T.unpack . value 
-    i1 = getI l1 :: Int  
-    i2 = getI l2 :: Int  
-    --i1 = getI (traceShow l1 l1) :: Int  
-    --i2 = getI (traceShow l2 l2) :: Int  
-    makeR f = if f i1 i2 then [IntRelRule {formula = Just f,l1=keyword l1, l2=keyword l2}] else []
+    getI l = 
+      if (T.last$value l) == 'M' then (read. T.unpack. T.init. value) l else (read. T.unpack. value) l
+    i1 = getI l1 :: Int
+    i2 = getI l2 :: Int
+    bothSame = (isSize (value l1) && isSize (value l2)) || ((isInt (value l1)) && (isInt (value l2)))
+    makeR f = if bothSame && f i1 i2 then [((keyword l1, keyword l2),Just f)] else []
     all = makeR (==) ++ makeR (<=) ++ makeR (>=)
   in
-    if length all == 1 then all else makeR (==)
+    if | length all == 1 -> all
+       | not bothSame -> []
+       | length all /= 1 && bothSame -> makeR (==)
+
 -- only for comparators! careful!
 instance Eq (Int -> Int -> Bool) where
   (==) f1 f2 = 
     (f1 1 1) == (f2 1 1) &&
     (f1 0 1) == (f2 0 1) &&
     (f1 1 0) == (f2 1 0)
-
-instance Eq IntRelRule where
-  (==) r1 r2 = 
-    (formula r1) == (formula r2) && 
-    (l1 r1) == (l1 r2) &&
-    (l2 r1) == (l2 r2)
  
 couldBeInt :: IRLine -> Bool
 couldBeInt IRLine{..} =
-  T.all isDigit value && (T.length value >0)
+  isInt value || isSize value
+--  (T.all isDigit value && (T.length value >0)) ||
+--  ((T.length value >1) && T.all isDigit (T.init value)  && T.last value == 'M')
 
-pairs :: [IRLine]  -> [(IRLine, IRLine)]
+isInt v =
+  (T.all isDigit v && (T.length v >0)) 
+isSize v = 
+  ((T.length  v >1) && T.all isDigit (T.init v)  && (T.last v) == 'M')
+
+pairs :: [IRLine]  -> [(IRLine,IRLine)]
 pairs [] = []
-pairs (l:ls) = L.nubBy modOrder $ filter (\(l1,l2) -> (keyword l1/=keyword l2)) $ map (l,) ls ++ pairs ls
+pairs (l:ls) = 
+  filter (\(l1,l2) -> ((isSize $value l1)&&(isSize $value l2)) || ((isInt $value l1)&&(isInt $ value l2)) && (keyword l1/=keyword l2)) $ map (l,) ls ++ pairs ls
 
+
+--L.nubBy modOrder $ filter (\(l1,l2) -> (keyword l1/=keyword l2)) $ map (l,) ls ++ pairs ls
 -- we dont need foo,bar,<= and bar,foo,>=
 modOrder (r11,r12) (r21,r22) = 
   (keyword r11 == keyword r22) && 

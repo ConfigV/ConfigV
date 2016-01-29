@@ -31,19 +31,21 @@ parse (t, l) =
     noComments = (map (stripComment l) $ T.lines t)
     noEmpty = filter (not. T.null) noComments
     noEmptyAsKV = map seperateVals noEmpty
-    noDups = foldl (\rs r -> makeUniq rs r) [] noEmptyAsKV
+    noDups = makeUniq l noEmptyAsKV
   in
-    map (\(k,v)-> IRLine{keyword=k,value=v}) noEmptyAsKV
+    map (\(k,v)-> IRLine{keyword=k,value=v}) noDups -- noEmptyAsKV
     --noDups
 
-makeUniq :: [(Keyword,Value)] -> (Keyword,Value) -> [(Keyword,Value)]
-makeUniq rs (k,v) = 
-  let
-   c = L.countElem k (map fst rs)
-   k' = if c >= 2 then T.append k (T.pack $show c) else k
-  in
-   rs ++ [(k',v)]
- 
+makeUniq :: Language -> [(Keyword,Value)] -> [(Keyword,Value)]
+makeUniq lang ls = case lang of
+  MySQL ->
+    let
+      f _ [] = []
+      f header (x:xs) =
+        if (fst x==snd x) && T.isInfixOf "[" (fst x) then f x xs else (T.append (fst x) (fst header),snd x) : f header xs
+    in
+      f (head ls) ls
+     
 stripComment :: Language -> T.Text -> T.Text
 stripComment l t = case l of
   MySQL -> T.takeWhile (/='#') t

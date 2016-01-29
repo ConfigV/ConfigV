@@ -39,7 +39,7 @@ instance Attribute (M.Map (IRLine,IRLine)) Bool where
     let
       u = M.union curr new
       x = M.foldrWithKey removeConflicts u u
-    in traceShow (M.size x) x
+    in x
     --L.intersect curr new
 
 removeConflicts :: (IRLine,IRLine) -> Bool -> OrdMap Bool -> OrdMap Bool
