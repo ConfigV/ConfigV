@@ -1,21 +1,22 @@
-It is worth noting that our false positive rate is a conservative guess.
-Since these benchmarks are taken from online forums, there is no garuntee they are correct, even after fixing the error the user posted a question about.
-Indeed, while running these benchmarks, \app detected some files that had errors from other benchmark files, in addition the error we expected.
-We fail benchmark 18 because we do not yet support relations between file sizes of different units (Mb to Kb)
+We report error that was unrelated to the value of interest as a false positive.
+It is worth noting that this is in fact a conservative estimate.
+Since these benchmarks are taken from online forums, there is no garuntee the files contain only a single error.
+Indeed, while running these benchmarks, \app found errors in the file that were similar to other benchmarks. 
 
-entry missing
-5/5
-1,0,0,0,1
+We fail one benchmark in Value Relations because we do not yet support relations between file sizes of different units (Mb to Kb)
 
-type error
-4/4
-0,0,0,0
 
-ordering
-4/4
-0,10,1,0
-*one gives a type error on the misordered value rather than ordering error
 
-Value relations
-4/5
-0,0,0,0,0
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{lllll}
+Error Type       & Passing Tests & False Positives  \\
+Missing Entry    & 5/5           & 1,0,0,0,1        \\
+Type Error       & 4/4           & 0,0,0,0          \\
+Keyword Ordering & 4/4*          & 0,10,1,0         \\
+Value Relations  & 4/5           & 0,0,0,0,0        \\
+*One passing test gives a type error on the misconfigured value rather than an ordering error, as it should.
+\end{tabular}
+\end{table}
