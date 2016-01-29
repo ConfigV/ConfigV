@@ -7,29 +7,27 @@ more types. In that case the user will need to provide rules for type inference 
 
 \subsection{From Untyped Expressions to Probabilistic Types}
 
-Configuration files usually consist of variable assignments, or some simple instructions about including files or libraries. We initially
-collect all assignments into a set of pairs $(n, v)$, where $n$ denotes 
-variable name and $v$ denotes variable value. However, based only on the 
-value $v$ we cannot determine the type of $n$.
+Each line of a configuration files can be reduced to a keyword value pair
+In the parsing step we collect all lines in the file into a set of such pairs $(k, v)$, where $k$ denotes 
+variable name and $v$ denotes variable value. 
+However, based only on a single example value of $v$ we cannot fully determine the type of $k$.
+We instead assign a distribution of type to a value, an idea is closely related to existentially quantified types \cite{Launchbury93lazyfunctional}.
 
 Consider for instance the following example:\\
 \texttt{\hspace*{2em}foo = 300\\
 \hspace*{2em}bar = 300.txt}\\
-Most likely \texttt{foo} is an integer, but it could also be a string.
-In the latter case we want to learn the rule $ \texttt{foo} \in \textsf{substrings}(\texttt{bar})$. We introduce {\emph{probabilistic types}} to 
-address this issue.
+Most likely \texttt{foo} is an integer and we learn an equality rule, but it could also be a string.
+In this case we want to learn the rule $ \texttt{foo} \in \textsf{substrings}(\texttt{bar})$. 
+For more advanced rules, we may need to even compose these types to learn complex rules.
+We introduce {\emph{probabilistic types}} to address this issue.
 
 Let $\mathcal{T}$ be a set of basic types. In \app set $\mathcal{T}$ contains strings, integers, file paths, sizes and IP addresses. 
 A probabilistic type built from $\mathcal{T}$ is a list of pairs $[(\tau_1, p_1),\ldots,(\tau_n, p_n)]$ such that $\tau_i \in \mathcal{T}$, 
 $0 \le p_i \le 1$ 
-and $\Sigma p_i = 1$. These probabilities are learned from the training 
-corpus.
-
+and $\Sigma p_i = 1$. These probabilities are updated each time a new example value for a keyword is encountered.
 When a value has a probabilistic type, we generate rules for all its types. This means that by assigning {\texttt{foo}} a probabilistic type 
 (e.g. $(\texttt{foo}, 300, [(\textsl{Int},90\%),(\textsl{String},10\%)])$
-we now generate rules for strings and integers.
+we now generate rules for both strings and integers.
+Once the type inference can uniquely determine the type, the probability of all other types is set to zero, and the associated rules are withdrawn.
 
-For a given value, its probabilistic type is updated over time. When the type inference uniquely determines the type, the probability of all other types is set to zero, and  the associated rules are withdrawn.
-
-This idea is closely related to existentially quantified types \cite{Launchbury93lazyfunctional}.
 
