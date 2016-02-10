@@ -1,6 +1,6 @@
 module Learners where
 
-import Order
-import IntRel
-import Missing
-import TypeMapper
+import Learners.Order
+import Learners.IntRel
+import Learners.Missing
+import Learners.TypeMapper

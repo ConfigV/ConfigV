@@ -2,7 +2,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses#-}
 
-module Missing where
+module Learners.Missing where
 
 import Types
 import qualified Data.Text as T
@@ -17,29 +17,28 @@ instance Attribute [] MissingKVRule where
   learn [] = []
   learn (l:ls) = concatMap (\l' -> if (keyword l == keyword l') then [] else [MissingKVRule l l']) ls ++ learn ls
 
-  check rs f = 
+  check rs f =
    let
      fRules = learn f
      diff = rs L.\\ fRules --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
-   in 
+   in
     x
-  
+
   merge curr new = L.intersect curr new
 
- 
+
 instance Attribute [] MissingKRule where
   learn [] = []
   learn (l:ls) = concatMap (\l' -> if (keyword l == keyword l') then [] else [MissingKRule (keyword l) (keyword l')]) ls ++ learn ls
 
-  check rs f = 
+  check rs f =
    let
      fRules = learn f
      rs' = L.nub rs
      diff = rs' L.\\ fRules --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
-   in 
+   in
      x
-  
-  merge curr new = L.intersect curr new
 
+  merge curr new = L.intersect curr new

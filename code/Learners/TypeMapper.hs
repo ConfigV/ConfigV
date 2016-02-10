@@ -5,7 +5,7 @@
 {-# LANGUAGE FlexibleInstances#-}
 {-# LANGUAGE MultiParamTypeClasses#-}
 
-module TypeMapper where
+module Learners.TypeMapper where
 
 import Types
 import Convert
@@ -16,10 +16,10 @@ import qualified Data.Map as M
 
 import Debug.Trace
 
-instance Attribute (M.Map Keyword) ConfigQType where 
-  learn f = 
+instance Attribute (M.Map Keyword) ConfigQType where
+  learn f =
     foldl addTypeToMap M.empty f
-      
+
   check rs f =
     let
       fRules = learn f
@@ -33,12 +33,12 @@ traceMe x = trace (concatMap (\x-> show x++"\n")(M.toList x)) x
 
 -- | if types conflict, return Just _, so we can report the error
 typeConflict :: ConfigQType -> ConfigQType -> Maybe ConfigQType
-typeConflict t1 t2 = 
+typeConflict t1 t2 =
     if t1 == t2 then Nothing else Just t2
-  
+
 
 -- | can use all sorts of nice Data.map fxns (see docs)
-addTypeToMap :: TypeMap ConfigQType -> IRLine -> TypeMap ConfigQType 
+addTypeToMap :: TypeMap ConfigQType -> IRLine -> TypeMap ConfigQType
 addTypeToMap m IRLine{..} =
   let
     newCType = assignProbs value
@@ -51,25 +51,25 @@ updateProbs k old new =
   new
 
 assignProbs :: Value -> ConfigQType
-assignProbs t = 
-  let 
+assignProbs t =
+  let
    cint =
      buildConfTy (T.all isDigit t) (read $ T.unpack t :: Int)
-   cstring = 
+   cstring =
      buildConfTy (T.all isAlpha t) (T.unpack t :: String)
    cfilepath =
-     buildConfTy 
+     buildConfTy
        ((T.isInfixOf "/" t) || (T.isInfixOf "." t) || (T.isInfixOf "\\" t))
        (T.unpack t :: FilePath)
-   {-cdirpath = 
-     buildConfTy 
+   {-cdirpath =
+     buildConfTy
        ((T.isInfixOf "/" t))
        (T.unpack t :: DirPath)-}
-  in 
+  in
    ConfigQType{..}
 
 buildConfTy :: Bool -> a -> Config a
-buildConfTy b v = 
+buildConfTy b v =
   if b then (Config 1.0::Config a) else zeroProb
 
 -- | should be dual of attemptCoerce, but not sure how to write that cleanly
@@ -77,4 +77,3 @@ buildConfTy b v =
 {-checkType :: Value -> ConfigType -> Bool
 checkType v t =
   attemptCoerce v == t-}
-

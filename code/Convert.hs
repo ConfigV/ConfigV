@@ -7,9 +7,9 @@ import Types
 
 import qualified Data.Text as T
 import qualified Data.Map as M
-import Control.Monad 
+import Control.Monad
 
-import Data.List.Unique as L
+--import Data.List.Unique as L
 
 import Debug.Trace
 
@@ -19,14 +19,14 @@ convert f =
 
 -- | why would i want to do this?
 {-addConfigType :: TypeMap -> (Keyword,Value) -> IRLine
-addConfigType tyMap (keyword,value) = 
+addConfigType tyMap (keyword,value) =
   case M.lookup keyword tyMap of
     Just configType -> IRLine{..}
     Nothing -> IRLine{configType = emptyConfigQType,..}-}
 
 -- | If the user wants to give hints to how to parse a config file based on filetype they go here
 parse :: ConfigFile Language -> [IRLine] --[(Keyword,Value)]
-parse (t, l) = 
+parse (t, l) =
   let
     noComments = (map (stripComment l) $ T.lines t)
     noEmpty = filter (not. T.null) noComments
@@ -45,7 +45,7 @@ makeUniq lang ls = case lang of
         if (fst x==snd x) && T.isInfixOf "[" (fst x) then f x xs else (T.append (fst x) (fst header),snd x) : f header xs
     in
       f (head ls) ls
-     
+
 stripComment :: Language -> T.Text -> T.Text
 stripComment l t = case l of
   MySQL -> T.takeWhile (/='#') t
@@ -53,11 +53,9 @@ stripComment l t = case l of
 
 -- | for now we are just using spaces and = to seperate keywords and values
 seperateVals :: T.Text -> (Keyword,Value)
-seperateVals t = 
+seperateVals t =
   let
     ts = T.split isDelimeter (T.strip t)
     isDelimeter c = (c=='=') || (c==' ')
   in
     (T.strip $ head ts, T.strip $ last ts)
-
-
