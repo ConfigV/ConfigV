@@ -18,10 +18,13 @@ $\mathcal{C}$ = Correct Configuration File Learning Set\\
 $\mathcal{R}$ = Reported Rules\\
 $\mathcal{T}$ = True Rules\\
 
+For probablistic learing
+$\mathcal{C'}$ = Incorrect Configuration File Learning Set\\
+
 That is, taking the following definitions:
 \begin{flalign*}
 \mathcal{T}& =\ \{ r\ \mid \\
-  & \forall file \in \mathcal{C},\ r(file)\  \land\\
+  & \forall file \in \mathcal{C},\ r(file)\ *  \land\\
   & \exists file \in \mathcal{C},\ r(file) \text{ is non-trivial}\ \land \\
   & \text{ if } \neg r(userfile) \text{ then system crash} \} \\
 \mathcal{L}& =\ \{ r\ \mid \\
@@ -69,7 +72,7 @@ class Foldable t => Attribute t a where
   This is generally implemented as a filter over the union of the two set, but may vary slightly.
   The second predicate of formal specification states that the rule cannot conflict with other existing rules.
   \begin{align*}
-  \text{merge }& Set1 \: Set2= \{r \mid \\
+  \text{merge* }& Set1 \: Set2= \{r \mid \\
     & r \in \text{Set1} \cup \text{Set2}\ \land \\
     & \exists file\ \forall r' \in \text{Set1} \cup \text{Set2}, r(file) \land r'(file) \} \\
   \end{align*}
