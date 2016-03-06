@@ -25,7 +25,8 @@ findAllRules f = RuleSet
   { order   = learn f
   , intRel = learn f
   , missing = learn f
-  , typeErr = learn f}
+  , typeErr = learn f
+  , missingP = learn f}
 
 -- | reconcile all the information we have learned
 -- later, think about merging this step with findAllRules
@@ -36,5 +37,6 @@ mergeRules rs rs' = RuleSet
   , intRel = merge (intRel rs) (intRel rs')
   , missing = merge (missing rs) (missing rs')
   , typeErr= merge (typeErr rs) (typeErr rs')
+  , missingP = merge (missingP rs) (missingP rs')
   }
 
