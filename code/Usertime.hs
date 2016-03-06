@@ -51,7 +51,8 @@ verifyOn r f =
     missingShowP =
       let  
         es = fromMaybe [] missingErrorP
-        f = (\(x, y, n)->"MISSING KEYWORD ERROR (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++" with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++"\n")
+        f = (\(x, y, n)->"MISSING KEYWORD ERROR (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++
+          " with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++" "++(show y)++", "++(show n)++" \n")
       in
         concatMap f es
     all = [

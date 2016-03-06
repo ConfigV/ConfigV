@@ -22,7 +22,7 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     diff = rs L.\\ fRules --the difference between the two rule sets
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
     x
@@ -43,8 +43,8 @@ instance Attribute [] (MissingKRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     rs' = L.nub rs
-     diff = rs' L.\\ fRules --the difference between the two rule sets
+     rs' = L.nubBy (\(x1, y1, n1) (x2, y2, n2) -> x1 == x2) rs
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs' fRules --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
      x
