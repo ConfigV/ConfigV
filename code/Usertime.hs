@@ -49,6 +49,8 @@ verifyOn r f =
         f = (\x->"MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++"\n")
       in
         concatMap f es
+    ---------- probabilistic missing keywords debug ----------
+    -- (why are there so many of them?! Why aren't they getting filtered out?!)
     missingShowP =
       let  
         es = fromMaybe [] missingErrorP
@@ -61,10 +63,14 @@ verifyOn r f =
     median x = (L.sort x) !! ((length x) `div` 2)
     meanV = mean missingErrorProbs
     medianV = median missingErrorProbs
-    missingErrorPDebug = ["\nmean: " ++ (show meanV),
+    missingErrorPDebug = ["\n----------PROBABILISTIC MISSING KEYWORDS DEBUG----------",
+                          "\nmean: " ++ (show meanV),
                           "\nmedian: " ++ (show medianV),
-                          "\nnumber of 0%: " ++ (show $ length $ filter (== 0) missingErrorProbs)
-                          "\nnumber of probabilistic keyword errors: " ++ (show $ maybe 0 length missingErrorP)]
+                          "\nnumber of 0%: " ++ (show $ length $ filter (== 0) missingErrorProbs),
+                          "\nnumber of 100%: " ++ (show $ length $ filter (== 1) missingErrorProbs),
+                          "\nnumber of probabilistic keyword errors: " ++ (show $ maybe 0 length missingErrorP),
+                          "\n--------------------------------------------------------"]
+    ---------- probabilistic missing keywords debug end ----------
     all = [
         typeShow
       , orderingShow
@@ -80,5 +86,5 @@ verifyOn r f =
       (maybe 0 M.size intRelError) +
       (sizeErr missingErrorP)
   in
-    if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count] ++ 
+    if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count] ++ missingErrorPDebug
     
