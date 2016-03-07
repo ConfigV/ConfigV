@@ -8,6 +8,7 @@ import Convert
 import Control.Monad
 import Data.Maybe
 import qualified Data.Map as M
+import qualified Data.List as L
 
 --import Data.Foldable
 
@@ -55,12 +56,21 @@ verifyOn r f =
           " with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++" "++(show y)++", "++(show n)++" \n")
       in
         concatMap f es
+    missingErrorProbs = map (\(x, y, n) -> (fromIntegral y) / (fromIntegral (y + n))) $ fromMaybe [] missingErrorP
+    mean x = (sum x) / (fromIntegral $ length x)
+    median x = (L.sort x) !! ((length x) `div` 2)
+    meanV = mean missingErrorProbs
+    medianV = median missingErrorProbs
+    missingErrorPDebug = ["\nmean: " ++ (show meanV),
+                          "\nmedian: " ++ (show medianV),
+                          "\nnumber of 0%: " ++ (show $ length $ filter (== 0) missingErrorProbs)
+                          "\nnumber of probabilistic keyword errors: " ++ (show $ maybe 0 length missingErrorP)]
     all = [
         typeShow
       , orderingShow
       , intRelShow
       , missingShow
-      , missingShowP
+      --, missingShowP
       ]
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError) 
@@ -70,5 +80,5 @@ verifyOn r f =
       (maybe 0 M.size intRelError) +
       (sizeErr missingErrorP)
   in
-    if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count]
+    if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count] ++ 
     
