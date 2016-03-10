@@ -19,6 +19,7 @@ data RuleSet = RuleSet
   , missing :: [MissingKRule]
   , typeErr :: TypeMap ConfigQType
   , missingP :: [(MissingKRule, Int, Int)]
+  , orderP :: OrdMap (Int, Int)
   }
 
 instance NFData RuleSet where rnf x = seq x ()

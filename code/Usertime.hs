@@ -21,6 +21,7 @@ verifyOn r f =
     missingError  =  check (missing r) f'
     typeError     =  check (typeErr r) f'
     missingErrorP =  check (missingP r) f'
+    orderingErrorP = check (orderP r) f'
    
     --the dreaded monomorphism restriction. i tihnk there is way to turn it off tho
     typeShow = 
@@ -71,12 +72,16 @@ verifyOn r f =
                           "\nnumber of probabilistic keyword errors: " ++ (show $ maybe 0 length missingErrorP),
                           "\n--------------------------------------------------------"]
     ---------- probabilistic missing keywords debug end ----------
+    orderingShowP = "Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingErrorP)
+    orderingShowNP = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
     all = [
         typeShow
       , orderingShow
       , intRelShow
       , missingShow
       --, missingShowP
+      , orderingShowP
+      , orderingShowNP
       ]
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError) 
