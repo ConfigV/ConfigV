@@ -15,6 +15,9 @@ import Data.Tuple
 
 import Debug.Trace
 
+-- for tuning which probabilistic rules to throw out
+--  (for some reason we are seeing a lot of rules at 66% and 33% split)
+cutoffProb = 0.7
 
 instance Attribute (M.Map (IRLine,IRLine)) (Int, Int) where
   learn f = let
@@ -27,7 +30,7 @@ instance Attribute (M.Map (IRLine,IRLine)) (Int, Int) where
      relevantRules = M.filterWithKey (hasRuleFor f) (rs)
      fRules = learn f :: OrdMap (Int, Int)
      fRules' = M.foldrWithKey removeConflicts fRules fRules  :: OrdMap (Int, Int)
-     diff = traceMe $ M.filterWithKey (\k v -> filterProbs 0.7 v) $ relevantRules M.\\ fRules' --the difference between the two rule sets
+     diff = traceMe $ M.filterWithKey (\k v -> filterProbs cutoffProb v) $ relevantRules M.\\ fRules' --the difference between the two rule sets
      x = if M.null diff then Nothing else Just diff
    in
     x
