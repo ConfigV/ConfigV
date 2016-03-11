@@ -32,10 +32,11 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
 
   check rs f =
     let
-     relevantRules' = M.filterWithKey (\k v->isJust v && hasRuleFor f k) (rs)
-     relevantRules = M.foldrWithKey makeFlips relevantRules' relevantRules'
+     emptyFC (FormulaC g l e) = g == 0 && l == 0 && e == 0
+     relevantRules' = M.filterWithKey (\k v-> (not $ emptyFC v) && hasRuleFor f k) (rs)
+     relevantRules = M.foldrWithKey makeFlips relevantRules' relevantRules' -- why are we doing "makeFlips" here?
      fRules' = learn f :: IntRelMap
-     fRules = M.foldrWithKey makeFlips fRules' fRules'
+     fRules = M.foldrWithKey makeFlips fRules' fRules' -- why do we do "makeFlips" here?
      diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
      if M.null diff then Nothing else Just diff
@@ -59,11 +60,12 @@ foo s m = trace (s++(show (M.lookup (("port[client]","port[mysqld]")) m))) m
 --if ((snd r1) == "max_allowed_packet[wampmysqld]") && ((fst r1) == "key_buffer[wampmysqld]") then (trace ((show r1)++(show f)) f) else f
 --traceMe x = (
 makeFlips :: (Keyword,Keyword) -> FormulaC -> IntRelMap -> IntRelMap
-makeFlips (k1,k2) f old = let
-    f' = if | f==Just(==) -> Just(==)
-            | f==Just(<=) -> Just(>=)
-            | f==Just(>=) -> Just(<=)
-            | f==Nothing  -> Nothing
+makeFlips (k1,k2) (FormulaC l g e) old = let
+    f' = FormulaC {
+      lt = g,
+      gt = l,
+      eq = e
+    }
   in
     M.insert (k2,k1) f' old
 
@@ -102,7 +104,7 @@ findeqRules (l1,l2) =
           (<=) -> [((keyword l1, keyword l2), FormulaC { lt = 1, gt = 0, eq = 0})]
           (>=) -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 1, eq = 0})]
           (<=) -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 1})]
-          _ -> []
+          _    -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 0})]
       else []
     all = makeR (==) ++ makeR (<=) ++ makeR (>=)
   in
