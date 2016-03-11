@@ -62,6 +62,13 @@ instance Show (Int-> Int -> Bool) where
     if | (f1 0 1)  -> "<="
        | (f1 1 0) -> ">="
        | (f1 1 1) -> "=="
+-- a formula count, basically a triple of integers for instances of the pair
+--  with ordering <=, >=, or ==
+data FormulaC = FormulaC {
+  lt :: Int,
+  gt :: Int,
+  eq :: Int
+} deriving (Show, Eq)
 
 
 -- | Intermediate Representation stuff
