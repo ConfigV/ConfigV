@@ -37,6 +37,13 @@ verifyOn r f =
         f = (\x->"ORDERING ERROR: Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++"\n")
       in
         concatMap f es
+
+    orderingShowP =
+      let 
+        es = maybe [] M.toList orderingErrorP
+        f = (\x->"ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)++"\n")
+      in
+        concatMap f es
    
     intRelShow = 
       let  
@@ -72,16 +79,17 @@ verifyOn r f =
                           "\nnumber of probabilistic keyword errors: " ++ (show $ maybe 0 length missingErrorP),
                           "\n--------------------------------------------------------"]
     ---------- probabilistic missing keywords debug end ----------
-    orderingShowP = "Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingErrorP)
-    orderingShowNP = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
+    orderingShowPC = "Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingErrorP)
+    orderingShowNPC = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
     all = [
         typeShow
       , orderingShow
+      , orderingShowP
       , intRelShow
       , missingShow
       --, missingShowP
-      , orderingShowP
-      , orderingShowNP
+      , orderingShowPC
+      , orderingShowNPC
       ]
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError) 
@@ -93,3 +101,11 @@ verifyOn r f =
   in
     if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count] ++ missingErrorPDebug
     
+-- utility printing method for our probability tuples
+showP (y, n) =
+  let 
+    y' = fromIntegral y
+    n' = fromIntegral n
+    p = y' / (y' + n')
+  in
+    (show p) ++ " WITH COUNTS " ++ (show (y, n))

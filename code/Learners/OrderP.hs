@@ -27,7 +27,7 @@ instance Attribute (M.Map (IRLine,IRLine)) (Int, Int) where
      relevantRules = M.filterWithKey (hasRuleFor f) (rs)
      fRules = learn f :: OrdMap (Int, Int)
      fRules' = M.foldrWithKey removeConflicts fRules fRules  :: OrdMap (Int, Int)
-     diff = traceMe relevantRules M.\\ fRules' --the difference between the two rule sets
+     diff = traceMe $ M.filterWithKey (\k v -> filterProbs 0.7 v) $ relevantRules M.\\ fRules' --the difference between the two rule sets
      x = if M.null diff then Nothing else Just diff
    in
     x
@@ -64,7 +64,7 @@ hasRuleFor ts (r1,r2) (y,n) =
     nd = fromIntegral n
     prob = yd / (yd + nd)
   in
-    elem r1 ts && elem r2 ts && prob > 0.9 -- we should tune this
+    elem r1 ts && elem r2 ts
 
 -- generate pairs of every possible elements in the list where (x,y) is a pair iff the element x appeared before y in the list
 pairs :: [IRLine]  -> [((IRLine,IRLine),(Int, Int))]
@@ -86,3 +86,11 @@ antiPairs =
 --traceMe x = traceShow x x
 -- what is this for?!
 traceMe x = x
+
+filterProbs p (y, n) =
+  let
+    y' = fromIntegral y
+    n' = fromIntegral n
+    prob = y' / (y' + n')
+  in
+    prob >= p
