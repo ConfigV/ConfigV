@@ -91,16 +91,20 @@ verifyOn r f =
     ---------- probabilistic missing keywords debug end ----------
     orderingShowPC = "Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingErrorP)
     orderingShowNPC = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
+    intRelShowPC = "Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelErrorP)
+    intRelShowNPC = "Non-Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelError)
     all = [
         typeShow
       , orderingShow
       , orderingShowP
       , intRelShow
-      , intRelShowP
+      --, intRelShowP
       , missingShow
       --, missingShowP
       , orderingShowPC
       , orderingShowNPC
+      , intRelShowPC
+      , intRelShowNPC
       ]
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError) 
