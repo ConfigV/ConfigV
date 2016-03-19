@@ -35,8 +35,8 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
      emptyFC (FormulaC g l e) = g == 0 && l == 0 && e == 0
      relevantRules' = M.filterWithKey (\k v-> (not $ emptyFC v) && hasRuleFor f k) (rs)
      relevantRules = M.foldrWithKey makeFlips relevantRules' relevantRules' -- why are we doing "makeFlips" here?
-     fRules = learn f :: IntRelMapC
-     --fRules = M.foldrWithKey makeFlips fRules' fRules' -- why do we do "makeFlips" here?
+     fRules' = learn f :: IntRelMapC
+     fRules = M.foldrWithKey makeFlips fRules' fRules' -- why do we do "makeFlips" here?
      diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
      if M.null diff then Nothing else Just diff
@@ -75,6 +75,9 @@ compRules f1 f2 =
       (Just "==", Just "<=") -> Nothing
       (Just ">=", Just "==") -> Nothing
       (Just "==", Just ">=") -> Nothing
+      (Just "==", Just "==") -> Nothing
+      (Just ">=", Just ">=") -> Nothing
+      (Just "<=", Just "<=") -> Nothing
       _ -> Just f1
   --if | (f1==f2) -> Nothing
   --   | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Nothing

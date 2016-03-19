@@ -9,6 +9,7 @@ import Control.Monad
 import Data.Maybe
 import qualified Data.Map as M
 import qualified Data.List as L
+import Learners.IntRelP
 
 --import Data.Foldable
 
@@ -57,8 +58,9 @@ verifyOn r f =
         es = maybe [] M.toList intRelErrorP
         k1 x = show $ fst $ fst x
         fc x = show $ snd x
+        fc' x = show $ mostLikely 0.9 $ snd x
         k2 x = show $ snd $ fst x
-        f x = "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)++"\n"
+        f x = "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(fc' x)++(k2 x)++"\n"
       in
         concatMap f es
     missingShow = 
@@ -98,7 +100,7 @@ verifyOn r f =
       , orderingShow
       , orderingShowP
       , intRelShow
-      --, intRelShowP
+      , intRelShowP
       , missingShow
       --, missingShowP
       , orderingShowPC
