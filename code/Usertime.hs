@@ -22,6 +22,7 @@ verifyOn r f =
     typeError     =  check (typeErr r) f'
     missingErrorP =  check (missingP r) f'
     orderingErrorP = check (orderP r) f'
+    intRelErrorP   =  check (intRelP r) f'
    
     --the dreaded monomorphism restriction. i tihnk there is way to turn it off tho
     typeShow = 
@@ -49,6 +50,15 @@ verifyOn r f =
       let  
         es = maybe [] M.toList intRelError
         f = (\x->"INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)++"\n")
+      in
+        concatMap f es
+    intRelShowP = 
+      let  
+        es = maybe [] M.toList intRelErrorP
+        k1 x = show $ fst $ fst x
+        fc x = show $ snd x
+        k2 x = show $ snd $ fst x
+        f x = "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)++"\n"
       in
         concatMap f es
     missingShow = 
@@ -86,6 +96,7 @@ verifyOn r f =
       , orderingShow
       , orderingShowP
       , intRelShow
+      , intRelShowP
       , missingShow
       --, missingShowP
       , orderingShowPC
