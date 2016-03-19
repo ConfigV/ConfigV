@@ -42,10 +42,10 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
      if M.null diff then Nothing else Just diff
 
 
-  -- merge curr new = foldl removeConflicts [] $ L.union curr (traceShow (length curr) new)
+  -- merge curr new = foldl combineCounts [] $ L.union curr (traceShow (length curr) new)
   merge curr new =
     let
-      u = M.unionWith removeConflicts curr new
+      u = M.unionWith combineCounts curr new
     in u
 
 -- THIS IS SUPER IMPORTANT FOR MAKING DIFFERENCES OF RULES
@@ -79,8 +79,8 @@ hasRuleFor :: [IRLine] -> (Keyword,Keyword) ->  Bool
 hasRuleFor ls (l1,l2) =
   elem l1 (map keyword ls) && elem l2 (map keyword ls)
 
-removeConflicts :: FormulaC -> FormulaC -> FormulaC
-removeConflicts f1 f2 =
+combineCounts :: FormulaC -> FormulaC -> FormulaC
+combineCounts f1 f2 =
   FormulaC {
     lt = lt f1 + lt f2,
     gt = gt f1 + gt f2,
@@ -104,7 +104,7 @@ findeqRules (l1,l2) =
     i2 = getI l2 :: Int
     -- determine whether a number marks data size or just an int
     bothSame = (isSize (value l1) && isSize (value l2)) || ((isInt (value l1)) && (isInt (value l2)))
-    strToOp "==" = (==)
+    strToOp "==" = (==) -- hack to make pattern-matching on operators work
     strToOp "<=" = (<=)
     strToOp ">=" = (>=)
     makeR f =
