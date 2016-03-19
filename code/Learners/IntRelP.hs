@@ -65,8 +65,8 @@ mostLikely cutoff fc =
 compRules :: FormulaC -> FormulaC -> Maybe FormulaC
 compRules f1 f2 =
   let
-    f1' = mostLikely 0.9 f1 -- set these cutoffs here or somewhere?
-    f2' = mostLikely 0.9 f2
+    f1' = mostLikely 0.75 f1 -- set these cutoffs here or somewhere?
+    f2' = mostLikely 0.5 f2
   in
     case (f1', f2') of
       (Nothing, _) -> Nothing -- these are too inconclusive to mark as errors

@@ -58,9 +58,8 @@ verifyOn r f =
         es = maybe [] M.toList intRelErrorP
         k1 x = show $ fst $ fst x
         fc x = show $ snd x
-        fc' x = show $ mostLikely 0.9 $ snd x
         k2 x = show $ snd $ fst x
-        f x = "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(fc' x)++(k2 x)++"\n"
+        f x = "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)++"\n"
       in
         concatMap f es
     missingShow = 
@@ -116,7 +115,7 @@ verifyOn r f =
       (maybe 0 M.size intRelError) +
       (sizeErr missingErrorP)
   in
-    if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count] ++ missingErrorPDebug
+    if typeSize >0 then ["\n"] ++ [typeShow]++ [show typeSize] else ["\n"]++all ++ [show count] ++ [replicate 78 '-']
     
 -- utility printing method for our probability tuples
 showP (y, n) =
