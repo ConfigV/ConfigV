@@ -69,6 +69,7 @@ data FormulaC = FormulaC {
   gt :: Int,
   eq :: Int
 } deriving (Show, Eq)
+type IntRelMapC = M.Map (Keyword,Keyword) FormulaC
 
 
 -- | Intermediate Representation stuff

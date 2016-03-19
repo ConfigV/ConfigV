@@ -35,7 +35,7 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
      emptyFC (FormulaC g l e) = g == 0 && l == 0 && e == 0
      relevantRules' = M.filterWithKey (\k v-> (not $ emptyFC v) && hasRuleFor f k) (rs)
      relevantRules = M.foldrWithKey makeFlips relevantRules' relevantRules' -- why are we doing "makeFlips" here?
-     fRules' = learn f :: IntRelMap
+     fRules' = learn f :: IntRelMapC
      fRules = M.foldrWithKey makeFlips fRules' fRules' -- why do we do "makeFlips" here?
      diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
@@ -48,18 +48,24 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
       u = M.unionWith removeConflicts curr new
     in u
 
+-- THIS IS SUPER IMPORTANT FOR MAKING DIFFERENCES OF RULES
 compRules :: FormulaC -> FormulaC -> Maybe FormulaC
 compRules f1 f2 =
-  if | (f1==f2) -> Nothing
-     | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Nothing
-     | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Nothing
-     | True -> Just f1
+  Just FormulaC {
+    lt = lt f1 + lt f2,
+    gt = gt f1 + gt f2,
+    eq = eq f1 + eq f2
+  }
+  --if | (f1==f2) -> Nothing
+  --   | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Nothing
+  --   | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Nothing
+  --   | True -> Just f1
 
 foo s m = trace (s++(show (M.lookup (("port[client]","port[mysqld]")) m))) m
 --foo m = traceShow (M.lookup (swap ("max_allowed_packet[wampmysqld]","key_buffer[wampmysqld]")) m) m
 --if ((snd r1) == "max_allowed_packet[wampmysqld]") && ((fst r1) == "key_buffer[wampmysqld]") then (trace ((show r1)++(show f)) f) else f
 --traceMe x = (
-makeFlips :: (Keyword,Keyword) -> FormulaC -> IntRelMap -> IntRelMap
+makeFlips :: (Keyword,Keyword) -> FormulaC -> IntRelMapC -> IntRelMapC
 makeFlips (k1,k2) (FormulaC l g e) old = let
     f' = FormulaC {
       lt = g,
@@ -75,10 +81,11 @@ hasRuleFor ls (l1,l2) =
 
 removeConflicts :: FormulaC -> FormulaC -> FormulaC
 removeConflicts f1 f2 =
-  if | (f1==f2) -> f1
-     | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Just (<=)
-     | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Just (>=)
-     | True -> Nothing
+  FormulaC {
+    lt = lt f1 + lt f2,
+    gt = gt f1 + gt f2,
+    eq = eq f1 + eq f2
+  }
 -- | true for rules with mathcing keys, but diff formulas
 {-sameKeyRel :: ((Keyword,Keyword), Formula) -> (Keyword,Keyword) -> Formula -> Bool
 sameKeyRel (r1, f) r2 f' =
@@ -101,9 +108,9 @@ findeqRules (l1,l2) =
       if bothSame && f i1 i2
       then
         case f of
+          (==) -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 1})]
           (<=) -> [((keyword l1, keyword l2), FormulaC { lt = 1, gt = 0, eq = 0})]
           (>=) -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 1, eq = 0})]
-          (<=) -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 1})]
           _    -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 0})]
       else []
     all = makeR (==) ++ makeR (<=) ++ makeR (>=)
@@ -113,11 +120,11 @@ findeqRules (l1,l2) =
        | length all /= 1 && bothSame -> makeR (==)
 
 -- only for comparators! careful!
-instance Eq (Int -> Int -> Bool) where
-  (==) f1 f2 =
-    (f1 1 1) == (f2 1 1) &&
-    (f1 0 1) == (f2 0 1) &&
-    (f1 1 0) == (f2 1 0)
+--instance Eq (Int -> Int -> Bool) where
+--  (==) f1 f2 =
+--    (f1 1 1) == (f2 1 1) &&
+--    (f1 0 1) == (f2 0 1) &&
+--    (f1 1 0) == (f2 1 0)
 
 couldBeInt :: IRLine -> Bool
 couldBeInt IRLine{..} =
