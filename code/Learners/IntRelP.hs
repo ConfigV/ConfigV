@@ -35,8 +35,8 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
      emptyFC (FormulaC g l e) = g == 0 && l == 0 && e == 0
      relevantRules' = M.filterWithKey (\k v-> (not $ emptyFC v) && hasRuleFor f k) (rs)
      relevantRules = M.foldrWithKey makeFlips relevantRules' relevantRules' -- why are we doing "makeFlips" here?
-     fRules' = learn f :: IntRelMapC
-     fRules = M.foldrWithKey makeFlips fRules' fRules' -- why do we do "makeFlips" here?
+     fRules = learn f :: IntRelMapC
+     --fRules = M.foldrWithKey makeFlips fRules' fRules' -- why do we do "makeFlips" here?
      diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
      if M.null diff then Nothing else Just diff
@@ -49,13 +49,33 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
     in u
 
 -- THIS IS SUPER IMPORTANT FOR MAKING DIFFERENCES OF RULES
+mostLikely :: Double -> FormulaC -> Maybe String -- better comparator than (Ord a => a -> a -> Bool)
+mostLikely cutoff fc =
+  let
+    l = fromIntegral $ lt fc
+    g = fromIntegral $ gt fc
+    e = fromIntegral $ eq fc
+    total = l + g + e
+  in
+    if | l / total >= cutoff -> Just "<="
+       | g / total >= cutoff -> Just ">="
+       | e / total >= cutoff -> Just "=="
+       | otherwise -> Nothing
+
 compRules :: FormulaC -> FormulaC -> Maybe FormulaC
 compRules f1 f2 =
-  Just FormulaC {
-    lt = lt f1 + lt f2,
-    gt = gt f1 + gt f2,
-    eq = eq f1 + eq f2
-  }
+  let
+    f1' = mostLikely 0.9 f1 -- set these cutoffs here or somewhere?
+    f2' = mostLikely 0.9 f2
+  in
+    case (f1', f2') of
+      (Nothing, _) -> Nothing -- these are too inconclusive to mark as errors
+      (_, Nothing) -> Nothing
+      (Just "<=", Just "==") -> Nothing -- these are "equality" conditions
+      (Just "==", Just "<=") -> Nothing
+      (Just ">=", Just "==") -> Nothing
+      (Just "==", Just ">=") -> Nothing
+      _ -> Just f1
   --if | (f1==f2) -> Nothing
   --   | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Nothing
   --   | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Nothing
