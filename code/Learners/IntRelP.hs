@@ -104,20 +104,23 @@ findeqRules (l1,l2) =
     i2 = getI l2 :: Int
     -- determine whether a number marks data size or just an int
     bothSame = (isSize (value l1) && isSize (value l2)) || ((isInt (value l1)) && (isInt (value l2)))
+    strToOp "==" = (==)
+    strToOp "<=" = (<=)
+    strToOp ">=" = (>=)
     makeR f =
-      if bothSame && f i1 i2
+      if bothSame && (strToOp f) i1 i2
       then
         case f of
-          (==) -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 1})]
-          (<=) -> [((keyword l1, keyword l2), FormulaC { lt = 1, gt = 0, eq = 0})]
-          (>=) -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 1, eq = 0})]
+          "==" -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 1})]
+          "<=" -> [((keyword l1, keyword l2), FormulaC { lt = 1, gt = 0, eq = 0})]
+          ">=" -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 1, eq = 0})]
           _    -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 0})]
       else []
-    all = makeR (==) ++ makeR (<=) ++ makeR (>=)
+    all = makeR "==" ++ makeR "<=" ++ makeR ">="
   in
     if | length all == 1 -> all
        | not bothSame -> []
-       | length all /= 1 && bothSame -> makeR (==)
+       | length all /= 1 && bothSame -> makeR "=="
 
 -- only for comparators! careful!
 --instance Eq (Int -> Int -> Bool) where
