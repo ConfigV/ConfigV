@@ -31,9 +31,11 @@ instance Attribute [] (MissingKVRule, Int, Int) where
     let
       sameRule (r1, y1, n1) (r2, y2, n2) = r1 == r2
       sortKey (r, y, n) = show r -- super hacky solution, sorry
-      addRuleInstances (ri:rest) = foldl (\(r1, y1, n1) (r2, y2, n2) -> (r1, y1 + y2, n1 + n2)) ri rest
+      mergeTwo = (\(r1, y1, n1) (r2, y2, n2) -> (r1, y1 + y2, n1 + n2))
+      combineCounts (r:rs) = foldl mergeTwo r rs
+      sortedRules = L.groupBy sameRule $ (L.sortBy . O.comparing) sortKey (curr ++ new) --is this just an optimization?
     in
-      L.map addRuleInstances $ L.groupBy sameRule $ (L.sortBy . O.comparing) sortKey (curr ++ new)
+      L.map combineCounts sortedRules
 
 
 instance Attribute [] (MissingKRule, Int, Int) where
