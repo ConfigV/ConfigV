@@ -23,7 +23,8 @@ main = do
  let bs' = zip bs (replicate (length bs) MySQL)
  let rules = learnRules learningSet
  let errors =  map (verifyOn rules) bs'
- mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
+ mapM putStrLn $ showProbRules rules
+ --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
 
 lsDir = "dataset/correctMySQL/"
 learningSet = 

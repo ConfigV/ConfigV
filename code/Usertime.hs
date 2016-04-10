@@ -13,6 +13,18 @@ import Learners.IntRelP
 
 --import Data.Foldable
 
+showProbRules :: RuleSet -> [String]
+showProbRules r =
+  let
+    m = missingP r
+    o = orderP r
+    i = intRelP r
+  in
+    ["Probabilistic rules", "----------Missing-----------"]
+       ++ (map show m) 
+       ++ ["----------Ordering----------"] ++ (map show $ M.toList o) 
+       ++ ["----------Integer Relations----------"] ++ (map show $ M.toList i)
+
 verifyOn :: RuleSet -> ConfigFile Language -> [String]
 verifyOn r f = 
   let
