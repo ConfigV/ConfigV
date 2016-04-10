@@ -24,8 +24,19 @@ showProbRules r =
       "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r) 
         ++ delimiter ++ (show y) 
         ++ delimiter ++ (show n)
+    showOrderingP (r, (y, n)) =
+      "Expected " ++ (show $ fst r) ++ " before " ++ (show $ snd r)
+        ++ delimiter ++ (show y)
+        ++ delimiter ++ (show n)
+    showIntRelP (r, f) =
+      (show $ fst r) ++ " <=> " ++ (show $ snd r)
+        ++ delimiter ++ (show $ lt f)
+        ++ delimiter ++ (show $ eq f)
+        ++ delimiter ++ (show $ gt f)
   in
-    ["rule|yes|no"] ++ (map showMissingP m) 
+    --["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no"] ++ (map showMissingP m)
+    ["rule|yes|no|"] ++ (map showOrderingP $ M.toList o)
+    --["ordering|less_than|equals|greater_than"] ++ (map showIntRelP $ M.toList i)
 
 verifyOn :: RuleSet -> ConfigFile Language -> [String]
 verifyOn r f = 
