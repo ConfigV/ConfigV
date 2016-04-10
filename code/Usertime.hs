@@ -16,14 +16,16 @@ import Learners.IntRelP
 showProbRules :: RuleSet -> [String]
 showProbRules r =
   let
+    delimiter = "|"
     m = missingP r
     o = orderP r
     i = intRelP r
+    showMissingP (r, y, n) = 
+      "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r) 
+        ++ delimiter ++ (show y) 
+        ++ delimiter ++ (show n)
   in
-    ["Probabilistic rules", "----------Missing-----------"]
-       ++ (map show m) 
-       ++ ["----------Ordering----------"] ++ (map show $ M.toList o) 
-       ++ ["----------Integer Relations----------"] ++ (map show $ M.toList i)
+    ["rule|yes|no"] ++ (map showMissingP m) 
 
 verifyOn :: RuleSet -> ConfigFile Language -> [String]
 verifyOn r f = 
