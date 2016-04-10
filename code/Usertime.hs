@@ -35,8 +35,8 @@ showProbRules r =
         ++ delimiter ++ (show $ gt f)
   in
     --["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no"] ++ (map showMissingP m)
-    ["rule|yes|no|"] ++ (map showOrderingP $ M.toList o)
-    --["ordering|less_than|equals|greater_than"] ++ (map showIntRelP $ M.toList i)
+    --["rule|yes|no|"] ++ (map showOrderingP $ M.toList o)
+    ["ordering|less_than|equals|greater_than"] ++ (map showIntRelP $ M.toList i)
 
 verifyOn :: RuleSet -> ConfigFile Language -> [String]
 verifyOn r f = 
