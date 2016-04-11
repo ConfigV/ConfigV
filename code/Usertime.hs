@@ -10,6 +10,7 @@ import Data.Maybe
 import qualified Data.Map as M
 import qualified Data.List as L
 import Learners.IntRelP
+import Control.Applicative
 
 --import Data.Foldable
 
@@ -20,23 +21,41 @@ showProbRules r =
     m = missingP r
     o = orderP r
     i = intRelP r
+    m' = missing r
+    o' = order r
+    i' = intRel r
     showMissingP (r, y, n) = 
       "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r) 
         ++ delimiter ++ (show y) 
         ++ delimiter ++ (show n)
-    showOrderingP (r, (y, n)) =
+        ++ delimiter ++ (show $ elem r m')
+    showOrderP (r, (y, n)) =
       "Expected " ++ (show $ fst r) ++ " before " ++ (show $ snd r)
         ++ delimiter ++ (show y)
         ++ delimiter ++ (show n)
+        ++ delimiter ++ (show $ M.findWithDefault False r o')
     showIntRelP (r, f) =
       (show $ fst r) ++ " <=> " ++ (show $ snd r)
         ++ delimiter ++ (show $ lt f)
         ++ delimiter ++ (show $ eq f)
         ++ delimiter ++ (show $ gt f)
+        ++ delimiter ++ (show $ findOrFindInverse r)
+      where
+        inverseIntRel x =
+          case (show x) of -- hack to make case matching on operators work, sorry...
+            "Just <=" -> Just (>=)
+            "Just >=" -> Just (<=)
+            "Just ==" -> Just (==)
+            _         -> Nothing
+        findOrFindInverse (x,y) =
+          M.findWithDefault Nothing (x,y) i' <|> inverseIntRel (M.findWithDefault Nothing (y,x) i')
   in
-    --["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no"] ++ (map showMissingP m)
-    --["rule|yes|no|"] ++ (map showOrderingP $ M.toList o)
-    ["ordering|less_than|equals|greater_than"] ++ (map showIntRelP $ M.toList i)
+    --["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no" ++ delimiter ++ "valid"] ++ (map showMissingP m)
+    --["rule|yes|no|valid"] ++ (map showOrderP $ M.toList o)
+    ["ordering|less_than|equals|greater_than|answer"] ++ (map showIntRelP $ M.toList i)
+    --map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m'
+    --map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o'
+    --map show $ M.toList i'
 
 verifyOn :: RuleSet -> ConfigFile Language -> [String]
 verifyOn r f = 
