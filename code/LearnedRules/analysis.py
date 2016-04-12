@@ -73,3 +73,23 @@ print("Distribution for invalid rules")
 print(df[~np.array(df['valid'])]['yes'])
 show_yes_and_no_dist(df[~np.array(df['valid'])])
 '''
+
+'''
+For IntRelP, we should start looking through how many are marked as undecided
+by the non-probabilistic learner.
+'''
+
+df = pd.read_csv('IntRelP.psv', delimiter='|')
+df['observations'] = df['less_than'] + df['equals'] + df['greater_than']
+print("Number of probabilistic rules: " + str(df.size))
+print("Number of inconclusive probabilistic rules: "
+ + str(df[df['answer'] == 'Nothing'].size))
+# distribution of observations
+plt.hist(np.array(df['observations']), bins=100)
+plt.show()
+# distribution of observations for inconclusive rules
+plt.hist(np.array(df[df['answer'] == 'Nothing']['observations']), bins=100)
+plt.show() # seems to have a higher mean (around 8) and more centered?
+# distribution of observations with conclusive results
+plt.hist(np.array(df[df['answer'] != 'Nothing']['observations']), bins=100)
+plt.show() # definitely left-skewed, mean is around 5
