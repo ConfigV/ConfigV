@@ -22,14 +22,14 @@ This benchmark too the top three with the highest number of observations, but
 it still remains to be seen how accurate the other high-observation rules are.
 '''
 
-'''
-df = pd.read_csv('MissingP.psv', delimiter='|')
+
+df = pd.read_csv('bigMissingP.psv', delimiter='|')
 show_yes_and_no_dist(df)
 # Looking at the distribution of yes counts past the 'peak' in the middle
 print("Distribution of rules with more than 5 observations")
 df = df[df['yes'] > 5]
 show_yes_and_no_dist(df)
-'''
+
 
 '''
 For the ordering, we have that most rules will, again be at a 100% accuracy,
@@ -45,11 +45,12 @@ matter of fact, rules that have more than 1 observation are most likely not
 learned through the non-probabilistic system.
 '''
 
-'''
-df = pd.read_csv('OrderP.psv', delimiter='|')
+
+df = pd.read_csv('bigOrderP.psv', delimiter='|')
 
 # See where the probabilities and the non-100% probabilities are
 df['prob'] = df['yes'] / (df['yes'] + df['no'])
+print(df.sort_values('prob')) # see some top and low probabilities
 plt.hist(df['prob'], bins=100)
 plt.show()
 plt.hist(np.array((df[df['prob'] < 1.0])['prob']), bins=100)
@@ -72,18 +73,20 @@ show_yes_and_no_dist(df[df['valid']])
 print("Distribution for invalid rules")
 print(df[~np.array(df['valid'])]['yes'])
 show_yes_and_no_dist(df[~np.array(df['valid'])])
-'''
+
 
 '''
 For IntRelP, we should start looking through how many are marked as undecided
 by the non-probabilistic learner.
 '''
 
-df = pd.read_csv('IntRelP.psv', delimiter='|')
+df = pd.read_csv('bigIntRelP.psv', delimiter='|')
 df['observations'] = df['less_than'] + df['equals'] + df['greater_than']
 print("Number of probabilistic rules: " + str(df.size))
 print("Number of inconclusive probabilistic rules: "
  + str(df[df['answer'] == 'Nothing'].size))
+# see how the observations and probabilities of inconclusive rules line up
+print(df[df['answer'] == 'Nothing'].sort_values('observations', ascending=False))
 # distribution of observations
 plt.hist(np.array(df['observations']), bins=100)
 plt.show()
