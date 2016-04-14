@@ -22,8 +22,10 @@ main = do
  bs <- mapM T.readFile benchmarks :: IO [T.Text]
  let bs' = zip bs (replicate (length bs) MySQL)
  let rules = learnRules learningSet
+ let bigRules = learnRules bigLearningSet
  let errors =  map (verifyOn rules) bs'
- mapM putStrLn $ showProbRules rules
+ --mapM putStrLn $ showProbRules rules
+ mapM putStrLn $ showProbRules bigRules
  --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
 
 lsDir = "dataset/correctMySQL/"
@@ -31,6 +33,11 @@ learningSet =
   (map (\x -> (u $ T.readFile (lsDir++x), MySQL))
     (u (listDirectory lsDir)))
      -- ++ [ (u $ T.readFile ("dataset/group2-entry-missing/error"), MySQL)]
+
+bigLsDir = "dump/MySQL/"
+bigLearningSet = 
+  (map (\x -> (u $ T.readFile (bigLsDir++x), MySQL))
+    (u (listDirectory bigLsDir)))
 
 benchmarks = [
     "dataset/group2-entry-missing/error"
