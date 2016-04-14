@@ -19,7 +19,7 @@ import Debug.Trace
 --  (for some reason we are seeing a lot of rules at 66% and 33% split)
 cutoffProb = 0.7
 
-instance Attribute (M.Map (IRLine,IRLine)) (Int, Int) where
+instance Attribute (M.Map (IRLine,IRLine)) (Integer, Integer) where
   learn f = let
      x = M.fromList $ pairs f
    in
@@ -28,8 +28,8 @@ instance Attribute (M.Map (IRLine,IRLine)) (Int, Int) where
   check rs f =
    let
      relevantRules = M.filterWithKey (hasRuleFor f) (rs)
-     fRules = learn f :: OrdMap (Int, Int)
-     fRules' = M.foldrWithKey removeConflicts fRules fRules  :: OrdMap (Int, Int)
+     fRules = learn f :: OrdMap (Integer, Integer)
+     fRules' = M.foldrWithKey removeConflicts fRules fRules  :: OrdMap (Integer, Integer)
      diff = traceMe $ M.filterWithKey (\k v -> filterProbs cutoffProb v) $ relevantRules M.\\ fRules' --the difference between the two rule sets
      x = if M.null diff then Nothing else Just diff
    in
@@ -45,7 +45,7 @@ instance Attribute (M.Map (IRLine,IRLine)) (Int, Int) where
     in x
     --L.intersect curr new
 
-removeConflicts :: (IRLine,IRLine) -> (Int, Int) -> OrdMap (Int,Int) -> OrdMap (Int,Int)
+removeConflicts :: (IRLine,IRLine) -> (Integer, Integer) -> OrdMap (Integer,Integer) -> OrdMap (Integer,Integer)
 removeConflicts k (vy, vn) old =
   let
     flippedRule = swap k
@@ -60,7 +60,7 @@ removeConflicts k (vy, vn) old =
 
 -- | is the rule relevant to the file
 --   ie have we seen the (keyword, value) pairing before
-hasRuleFor :: [IRLine] -> (IRLine,IRLine) -> (Int, Int)  -> Bool
+hasRuleFor :: [IRLine] -> (IRLine,IRLine) -> (Integer, Integer)  -> Bool
 hasRuleFor ts (r1,r2) (y,n) =
   let
     yd = fromIntegral y
@@ -70,7 +70,7 @@ hasRuleFor ts (r1,r2) (y,n) =
     elem r1 ts && elem r2 ts
 
 -- generate pairs of every possible elements in the list where (x,y) is a pair iff the element x appeared before y in the list
-pairs :: [IRLine]  -> [((IRLine,IRLine),(Int, Int))]
+pairs :: [IRLine]  -> [((IRLine,IRLine),(Integer, Integer))]
 pairs [] = []
 pairs (l:ls) =
   let
@@ -81,7 +81,7 @@ pairs (l:ls) =
     noSelf
 
 -- basically like pairs but the reverse relations to keep accurate count
-antiPairs :: [IRLine] -> [((IRLine,IRLine),(Int,Int))]
+antiPairs :: [IRLine] -> [((IRLine,IRLine),(Integer,Integer))]
 antiPairs = 
   let reverseCounts (rp, (y, n)) = (rp, (n, y))
   in (map reverseCounts) . pairs . reverse
