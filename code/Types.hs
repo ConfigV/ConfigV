@@ -9,6 +9,7 @@ import qualified Data.Text as T
 import qualified Data.Map as M
 import Data.Foldable
 import Control.DeepSeq
+import System.Directory
 
 -- | can i replace this with an exstientially quantified type?
 -- oh that would be beautiful
@@ -114,3 +115,7 @@ emptyConfigQType = ConfigQType {
   cfilepath = zeroProb
  -- cdirpath = zeroProb
   }
+
+
+--printing  stuff
+type ErrorReport = (FilePath, [String], Int)

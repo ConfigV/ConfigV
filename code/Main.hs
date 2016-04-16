@@ -25,8 +25,17 @@ main = do
  let bigRules = learnRules bigLearningSet
  let errors =  map (verifyOn rules) bs'
  --mapM putStrLn $ showProbRules rules
- mapM putStrLn $ showProbRules bigRules
+-- mapM putStrLn $ showProbRules bigRules
  --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
+ mapM print $ generateReports errors
+ return ()
+
+generateReports :: [[String]] -> [ErrorReport]
+generateReports errors = 
+  let
+    mkReport file msgs = (file,msgs,length msgs)
+  in
+   zipWith mkReport benchmarks errors
 
 lsDir = "dataset/correctMySQL/"
 learningSet = 
