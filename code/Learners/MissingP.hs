@@ -13,11 +13,21 @@ import qualified Data.Ord as O
 
 import Debug.Trace
 
+-- optimization so that we don't keep duplicates
+simplify :: [(MissingKVRule, Int, Int)] -> [(MissingKVRule, Int, Int)]
+simplify xs = L.map combineCounts $ sortedRules xs
+  where
+    sameRule (r1, y1, n1) (r2, y2, n2) = r1 == r2
+    sortKey (r, y, n) = show r -- super hacky solution, sorry
+    mergeTwo = (\(r1, y1, n1) (r2, y2, n2) -> (r1, y1 + y2, n1 + n2))
+    combineCounts (r:rs) = foldl mergeTwo r rs
+    sortedRules xs = L.groupBy sameRule $ (L.sortBy . O.comparing) sortKey xs
+
 -- instead of just a KVRule, keep track of the rule plus counts for + counts against
 instance Attribute [] (MissingKVRule, Int, Int) where
   learn [] = []
   -- for each line in our file, see if any of the following lines have the same 'keyword' and if not, then that's a rule
-  learn (l:ls) = concatMap (\l' -> if (keyword l == keyword l') then [(MissingKVRule l l', 0, 1)] else [(MissingKVRule l l', 1, 0)]) ls ++ learn ls
+  learn (l:ls) = simplify $ concatMap (\l' -> if (keyword l == keyword l') then [] else [(MissingKVRule l l', 1, 0)]) ls ++ learn ls
 
   check rs f =
    let
@@ -27,15 +37,7 @@ instance Attribute [] (MissingKVRule, Int, Int) where
    in
     x
 
-  merge curr new =
-    let
-      sameRule (r1, y1, n1) (r2, y2, n2) = r1 == r2
-      sortKey (r, y, n) = show r -- super hacky solution, sorry
-      mergeTwo = (\(r1, y1, n1) (r2, y2, n2) -> (r1, y1 + y2, n1 + n2))
-      combineCounts (r:rs) = foldl mergeTwo r rs
-      sortedRules = L.groupBy sameRule $ (L.sortBy . O.comparing) sortKey (curr ++ new) --is this just an optimization?
-    in
-      L.map combineCounts sortedRules
+  merge curr new = simplify $ curr ++ new
 
 
 instance Attribute [] (MissingKRule, Int, Int) where
