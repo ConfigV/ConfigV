@@ -42,9 +42,9 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   --  where n is the number of observations we have seen so far that is missing this rule
   merge curr new = simplify $ curr ++ new
    -- rules that are in curr but not new must have normalized "no" votes from new
-   ++ (makeNegations 1 $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
+   ++ (makeNegations (maxObs new) $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
    -- (and vice versa)
-   ++ (makeNegations 1 $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
+   ++ (makeNegations (maxObs curr) $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
     where
       -- this guards against putting in negative counts where it is not relevant because neither of the keys appear in the ruleset to be merged
       hasCounterexample xs (MissingKVRule l l', _, _) = L.or $ map (\(MissingKVRule k k', _, _) -> k == l || k == l' || k' == l || k' == l') xs
@@ -67,8 +67,8 @@ instance Attribute [] (MissingKRule, Int, Int) where
 
   -- same as before
   merge curr new = simplify $ curr ++ new
-   ++ (makeNegations 1 $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
-   ++ (makeNegations 1 $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
+   ++ (makeNegations (maxObs new) $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
+   ++ (makeNegations (maxObs curr) $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
     where
       hasCounterexample xs (MissingKRule l l', _, _) = L.or $ map (\(MissingKRule k k', _, _) -> k == l || k == l' || k' == l || k' == l') xs
       makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
