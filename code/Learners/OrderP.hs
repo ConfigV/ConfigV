@@ -19,17 +19,22 @@ import Debug.Trace
 --  (for some reason we are seeing a lot of rules at 66% and 33% split)
 cutoffProb = 0.7
 
+-- should we consider a version of this with (Keyword, Keyword) instead of the whole line?
 instance Attribute (M.Map (IRLine,IRLine)) (Integer, Integer) where
   learn f = let
+    -- fromList automatically does duplicate removal [(a,b), (a,c)] -> [(a,b)]
+    --  (is this the behavior we want?)
      x = M.fromList $ pairs f
    in
+     -- keeps counts straight for (a,b) and (b,a) and deletes redundant copy
      M.foldrWithKey removeConflicts x x
 
+  -- MAKE SURE WE TAKE RULESET AND EXPAND OUT ANTIPAIRS BEFORE CHECKING (Ideally both (a,b) and (b,a) should be available for checking)
   check rs f =
    let
      relevantRules = M.filterWithKey (hasRuleFor f) (rs)
      fRules = learn f :: OrdMap (Integer, Integer)
-     -- ok, we really need to figure out why we have this second removeConflicts here...
+     -- is this removeConflicts in here for safety?
      fRules' = M.foldrWithKey removeConflicts fRules fRules  :: OrdMap (Integer, Integer)
      diff = traceMe $ M.filterWithKey (\k v -> filterProbs cutoffProb v) $ relevantRules M.\\ fRules' --the difference between the two rule sets
      x = if M.null diff then Nothing else Just diff
@@ -41,32 +46,23 @@ instance Attribute (M.Map (IRLine,IRLine)) (Integer, Integer) where
   -- this is "ok" becuase odering merge does not satisfy the algorithm spec (see paper)
   merge curr new =
     let
-      u = M.union curr new -- also I'm pretty sure this doesn't add counts for ones that do stack up
+      u = M.unionWith (\(a, b) (c, d) -> (a + c, b + d)) curr new
       x = M.foldrWithKey removeConflicts u u
     in
-      mergeWhileRemovingConflicts curr new M.empty
+      x
     --L.intersect curr new
 
--- while this works for the non-counting version, running this more than once is iffy on the counting version
---  (as well as across two merged sets) because every time it runs, we exponentially increase (double-ish) the
---  counts on both the rule and its negation, and then do it again on the negation and its rule
--- Ideally, let's restrict this to run exactly once during the learn step!
+-- counting version chucks out mirrored antipairs!
 removeConflicts :: (IRLine,IRLine) -> (Integer, Integer) -> OrdMap (Integer,Integer) -> OrdMap (Integer,Integer)
 removeConflicts k (vy, vn) old =
   let
     flippedRule = swap k
     conflict =  M.lookup flippedRule old
   in
-    case conflict of -- can't delete because it'll screw up \\
-    -- we can only do this when one is from one set and the other is from the other set
-    --  (otherwise, if we keep running this on itself, we exponentially blow up counts)
-      Just (y, n) -> M.insert k (vy + n, vn + y) $ M.insert flippedRule (y + vn, n + vy) old
+    case conflict of
+    -- Betweeen (a, b) and (b, a), only keeping one copy since it's redundant info
+      Just (y, n) -> M.insert k (vy + n, vn + y) $ M.delete flippedRule old
       Nothing -> old -- no need for redundant insert?
-
--- better version that looks across the merging maps and does not exponentially blow up
---mergeWhileRemovingConflicts :: OrdMap (Integer,Integer) -> OrdMap (Integer,Integer) -> OrdMap (Integer, Integer) -> OrdMap (Integer, Integer)
---mergeWhileRemovingConflicts (c:cs) ns seed =
-  -- is this even the right approach? Or should we not keep track of duplicates (a,b) and (b,a) and elect to keep just one copy that is perfectly invertible?
 
 
 
