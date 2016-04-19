@@ -13,6 +13,19 @@ import qualified Data.Ord as O
 
 import Debug.Trace
 
+-- programmed in cutoff for testing?
+cutoffProb :: Double
+cutoffProb = 0.8
+cutoffObsPercentile :: Double
+cutoffObsPercentile = 0.1
+-- and to make dealing with probs easier
+prob :: Eq a => Show a => (a, Int, Int) -> Double
+prob (_, y, n) = 
+  let
+    y' = fromIntegral y
+    n' = fromIntegral n
+  in y' / (y' + n')
+
 -- optimization so that we don't keep duplicates
 simplify :: Eq a => Show a => [(a, Int, Int)] -> [(a, Int, Int)]
 simplify xs = L.map combineCounts $ sortedRules xs
@@ -32,7 +45,11 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules --the difference between the two rule sets
+     fRules' = filter (\x -> prob x > cutoffProb) fRules
+     rulesObs = reverse $ L.sort $ map (\(_, y, n) -> y + n) fRules'
+     topObsCutoff = rulesObs !! (round $ cutoffObsPercentile * (fromIntegral.length) rulesObs)
+     fRules'' = filter (\(_, y, n) -> y + n >= topObsCutoff) fRules'
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules'' --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
     x
@@ -59,8 +76,11 @@ instance Attribute [] (MissingKRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     --rs' = L.nubBy (\(x1, y1, n1) (x2, y2, n2) -> x1 == x2) rs
-     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules --the difference between the two rule sets
+     fRules' = filter (\x -> prob x > cutoffProb) fRules
+     rulesObs = reverse $ L.sort $ map (\(_, y, n) -> y + n) fRules'
+     topObsCutoff = rulesObs !! (round $ cutoffObsPercentile * (fromIntegral.length) rulesObs)
+     fRules'' = filter (\(_, y, n) -> y + n >= topObsCutoff) fRules'
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules'' --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
      x
