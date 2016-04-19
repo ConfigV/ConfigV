@@ -40,14 +40,17 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   -- actually, what we should be doing is treating these lists like a map MissingKVRule -> (Int, Int)
   --  and during the merge step, if one of the maps is missing this key, then we "normalize" it by adding (rule, 0, n)
   --  where n is the number of observations we have seen so far that is missing this rule
-  merge curr new = simplify $ curr
-   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule curr new) -- rules that are in curr but not new must have normalized "no" votes from new
-   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule new curr) -- (and vice versa)
+  merge curr new = simplify $ curr ++ new
+   -- rules that are in curr but not new must have normalized "no" votes from new
+   ++ (makeNegations 1 $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
+   -- (and vice versa)
+   ++ (makeNegations 1 $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
     where
+      -- this guards against putting in negative counts where it is not relevant because neither of the keys appear in the ruleset to be merged
+      hasCounterexample xs (MissingKVRule l l', _, _) = L.or $ map (\(MissingKVRule k k', _, _) -> k == l || k == l' || k' == l || k' == l') xs
       makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
       sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2)
       maxObs = L.maximum . (map (\(r, y, n) -> y + n))
-
 
 instance Attribute [] (MissingKRule, Int, Int) where
   learn [] = []
@@ -63,10 +66,11 @@ instance Attribute [] (MissingKRule, Int, Int) where
      x
 
   -- same as before
-  merge curr new = simplify $ curr
-   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule curr new)
-   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule new curr)
+  merge curr new = simplify $ curr ++ new
+   ++ (makeNegations 1 $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
+   ++ (makeNegations 1 $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
     where
+      hasCounterexample xs (MissingKRule l l', _, _) = L.or $ map (\(MissingKRule k k', _, _) -> k == l || k == l' || k' == l || k' == l') xs
       makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
       sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2)
       maxObs = L.maximum . (map (\(r, y, n) -> y + n))
