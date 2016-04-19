@@ -25,11 +25,19 @@ it still remains to be seen how accurate the other high-observation rules are.
 
 df = pd.read_csv('bigMissingP.psv', delimiter='|')
 show_yes_and_no_dist(df)
-# Looking at the distribution of yes counts past the 'peak' in the middle
-print("Distribution of rules with more than 5 observations")
-df = df[df['yes'] > 5]
-show_yes_and_no_dist(df)
-
+# Probability distributions?
+df['prob'] = df['yes'] / (df['yes'] + df['no'])
+plt.hist(np.array(df['prob']), bins=100)
+plt.show()
+# This seems like a likely cutoff for the data?
+plt.hist(np.array(df[df['prob'] > 0.8]['prob']))
+plt.show()
+print(df[df['prob'] > 0.8].sort_values('prob'))
+show_yes_and_no_dist(df[df['prob'] > 0.8])
+# Should we do this culling?
+culled = df[df['prob'] > 0.8][df['yes'] > 10]
+print(culled.sort_values('prob'))
+print(culled.size)
 
 '''
 For the ordering, we have that most rules will, again be at a 100% accuracy,
