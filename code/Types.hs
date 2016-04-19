@@ -118,4 +118,21 @@ emptyConfigQType = ConfigQType {
 
 
 --printing  stuff
-type ErrorReport = (FilePath, [String], Int)
+type ErrorType = String
+data Error = Error{
+    errLoc1 :: (FilePath, Keyword)
+  , errLoc2 :: (FilePath, Keyword)
+  , errIdent :: ErrorType
+} deriving (Show)
+
+-- | as long as we have the correct type of error
+--   and have identified one similar fail point the errors are similar enough
+--   both will point the user to the item that needs to be fixed
+
+instance Eq Error where
+  (==) x y =
+    ((errLoc1 x == errLoc1 y) || (errLoc1 x == errLoc2 y) ||
+    (errLoc2 x == errLoc1 y) || (errLoc2 x == errLoc2 y))
+    -- && (errIdent x == errIdent y) IS THIS NEEDED?
+
+type ErrorReport = [Error]

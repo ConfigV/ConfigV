@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 
 module Usertime where
 
@@ -10,6 +11,7 @@ import Control.Monad
 import Data.Maybe
 import qualified Data.Map as M
 import qualified Data.List as L
+import qualified Data.Text as T
 import Learners.IntRelP
 import Control.Applicative
 import Data.Foldable (Foldable)
@@ -26,9 +28,9 @@ showProbRules r =
     m' = missing r
     o' = order r
     i' = intRel r
-    showMissingP (r, y, n) = 
-      "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r) 
-        ++ delimiter ++ (show y) 
+    showMissingP (r, y, n) =
+      "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r)
+        ++ delimiter ++ (show y)
         ++ delimiter ++ (show n)
         ++ delimiter ++ (show $ elem r m')
     showOrderP (r, (y, n)) =
@@ -59,10 +61,12 @@ showProbRules r =
     --map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o'
     --map show $ M.toList i'
 
-verifyOn :: RuleSet -> ConfigFile Language -> [String]
-verifyOn r f = 
+
+
+verifyOn :: RuleSet -> ConfigFile Language -> FilePath -> ErrorReport
+verifyOn r f fname =
   let
-    f' = convert f 
+    f' = convert f
     orderingError =  check (order r) f'
     intRelError   =  check (intRel r) f'
     missingError  =  check (missing r) f'
@@ -70,58 +74,76 @@ verifyOn r f =
     missingErrorP =  check (missingP r) f'
     orderingErrorP = check (orderP r) f'
     intRelErrorP   =  check (intRelP r) f'
-   
-    --the dreaded monomorphism restriction. i tihnk there is way to turn it off tho
 
-    showErr :: (Show k, Show v) => Maybe (M.Map k v) -> ((k,v) -> String) -> [String]   
-    showErr rawEs printFxn = 
-      let 
+    showErr :: (Show k, Show v) => Maybe (M.Map k v) -> ((k,v) -> Error) -> [Error]
+    showErr rawEs printFxn =
+      let
         es = maybe [] M.toList rawEs
       in
         map printFxn es
 
-      
-    typeErrMsg x = 
-      "TYPE ERROR: Expected a "++(show$snd x)++" for "++(show$fst x)
-    typeShow = 
-        showErr typeError typeErrMsg
+
+    typeErrMsg x =
+      --"TYPE ERROR: Expected a "++(show$snd x)++" for "++(show$fst x)
+      Error {errLoc1 = (fname,fst x)
+            ,errLoc2 = (fname,fst x)
+            ,errIdent = "TYPE" }
+    typeShow =
+      showErr typeError typeErrMsg
 
     orderingErrMsg x =
-      "ORDERING ERROR: Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)
+      --"ORDERING ERROR: Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)
+      Error {errLoc1 = (fname,keyword$snd$ fst x)
+            ,errLoc2 = (fname,keyword$fst$ fst x)
+            ,errIdent = "ORDERING"}
     orderingShow =
       showErr orderingError orderingErrMsg
 
-    orderingPErrMsg x = 
-      "ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)
+    orderingPErrMsg x =
+      --"ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)
+      Error {errLoc1 = (fname,keyword$snd$ fst x)
+            ,errLoc2 = (fname,keyword$fst $fst x)
+            ,errIdent = "ORDERING(PROB)"}
     orderingShowP =
       showErr orderingErrorP orderingPErrMsg
 
     intRelErrMsg x =
-      "INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)
-    intRelShow = 
+      --"INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)
+      Error {errLoc1 = (fname,snd$fst x)
+            ,errLoc2 = (fname,fst $fst x)
+            ,errIdent = "INTREL"}
+    intRelShow =
       showErr intRelError intRelErrMsg
-    
-    intRelPErrMsg x = 
-      let  
+
+    intRelPErrMsg x =
+      let
         es = maybe [] M.toList intRelErrorP
         k1 x = show $ fst $ fst x
         fc x = show $ snd x
         k2 x = show $ snd $ fst x
-      in 
-        "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)
-    intRelShowP = 
+      in
+        --"INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)
+        Error {errLoc1 = (fname,T.pack$k1 x)
+              ,errLoc2 = (fname,T.pack$k2 x)
+              ,errIdent = "INTREL(PROB)"}
+    intRelShowP =
       showErr intRelErrorP intRelPErrMsg
 
-    missingShow = 
-      let  
+    missingShow =
+      let
         es = fromMaybe [] missingError
-        f = (\x->"MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x))
+        --f = (\x->"MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x))
+        f x =  Error {errLoc1 = (fname,k1 x)
+                     ,errLoc2 = (fname,k2 x)
+                     ,errIdent = "MISSING"}
       in
         map f es
+
+
     ---------- probabilistic missing keywords debug ----------
     -- (why are there so many of them?! Why aren't they getting filtered out?!)
     missingShowP =
-      let  
+      let
         es = fromMaybe [] missingErrorP
         f = (\(x, y, n)->"MISSING KEYWORD ERROR (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++
           " with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++" "++(show y)++", "++(show n))
@@ -148,9 +170,9 @@ verifyOn r f =
     all = [
         typeShow
       , orderingShow
-      , orderingShowP
+      --, orderingShowP
       , intRelShow
-      , intRelShowP
+      --, intRelShowP
       , missingShow
       --, missingShowP
       --, orderingShowPC
@@ -159,18 +181,19 @@ verifyOn r f =
       --, intRelShowNPC
       ]
     sizeErr = maybe 0 length
-    typeSize = (maybe 0 M.size typeError) 
+    typeSize = (maybe 0 M.size typeError)
     count = typeSize +
       (maybe 0 M.size orderingError) +
       (sizeErr missingError) +
       (maybe 0 M.size intRelError) +
       (sizeErr missingErrorP)
   in
-    if typeSize >0 then typeShow else filter (/="") $ concat all
-    
+    --if typeSize >0 then typeShow else filter (/="") $ concat all
+    if typeSize >0 then typeShow else concat all
+
 -- utility printing method for our probability tuples
 showP (y, n) =
-  let 
+  let
     y' = fromIntegral y
     n' = fromIntegral n
     p = y' / (y' + n')
