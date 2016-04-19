@@ -41,8 +41,8 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   --  and during the merge step, if one of the maps is missing this key, then we "normalize" it by adding (rule, 0, n)
   --  where n is the number of observations we have seen so far that is missing this rule
   merge curr new = simplify $ curr
-   ++ (makeNegations (maxObs new) $ L.deleteFirstsBy sameRule curr new) -- rules that are in curr but not new must have normalized "no" votes from new
-   ++ (makeNegations (maxObs curr) $ L.deleteFirstsBy sameRule new curr) -- (and vice versa)
+   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule curr new) -- rules that are in curr but not new must have normalized "no" votes from new
+   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule new curr) -- (and vice versa)
     where
       makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
       sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2)
@@ -64,8 +64,8 @@ instance Attribute [] (MissingKRule, Int, Int) where
 
   -- same as before
   merge curr new = simplify $ curr
-   ++ (makeNegations (maxObs new) $ L.deleteFirstsBy sameRule curr new)
-   ++ (makeNegations (maxObs curr) $ L.deleteFirstsBy sameRule new curr)
+   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule curr new)
+   ++ (makeNegations 1 $ L.deleteFirstsBy sameRule new curr)
     where
       makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
       sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2)
