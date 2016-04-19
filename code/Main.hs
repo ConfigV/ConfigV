@@ -24,7 +24,7 @@ import Control.Applicative
 
 import Debug.Trace
 
-vERBOSE = True
+vERBOSE = False
 
 main = do
  bs <- mapM T.readFile benchmarkFiles :: IO [T.Text]
