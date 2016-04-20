@@ -24,16 +24,15 @@ import Control.Applicative
 
 import Debug.Trace
 
-vERBOSE = False
+import qualified Settings
 
 main = do
  bs <- mapM T.readFile benchmarkFiles :: IO [T.Text]
  let bs' = zip bs (replicate (length bs) MySQL)
- let rules = learnRules learningSet
- let bigRules = learnRules bigLearningSet
- let errors =  zipWith (verifyOn bigRules) bs' benchmarkFiles
- --mapM putStrLn $ showProbRules rules
--- mapM putStrLn $ showProbRules bigRules
+ let rules = learnRules (if Settings.pROBRULES then bigLearningSet else learningSet)
+ let errors =  zipWith (verifyOn rules) bs' benchmarkFiles
+ when Settings.vERBOSE $ mapM_ putStrLn $ showProbRules rules
+
  --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
  zipWithM_ reportBenchmarkPerformance benchmarks errors
  return ()
@@ -48,9 +47,9 @@ reportBenchmarkPerformance spec foundErrs =
     putStrLn (getFileName $ head spec)
     putStrLn $ "    Passing: " ++ show truePos
     putStrLn $ "    False Positives: "++ show (length falsePos)
-    when vERBOSE $ putStrLn $ "Specification :   \n" ++ show spec
-    when vERBOSE $ putStrLn $ "Found Errors :    \n" ++ unlines (map show foundErrs)
-    when vERBOSE $ putStrLn $ "False Positives : \n" ++ unlines (map show falsePos)
+    when Settings.vERBOSE $ putStrLn $ "Specification :   \n" ++ show spec
+    when Settings.vERBOSE $ putStrLn $ "Found Errors :    \n" ++ unlines (map show foundErrs)
+    when Settings.vERBOSE $ putStrLn $ "False Positives : \n" ++ unlines (map show falsePos)
 
     putStrLn ""
 

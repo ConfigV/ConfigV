@@ -2,10 +2,11 @@
 
 module Usertime where
 
-import Types
+import qualified Settings
 
 import Learners
 import Convert
+import Types
 
 import Control.Monad
 import Data.Maybe
@@ -145,10 +146,13 @@ verifyOn r f fname =
     missingShowP =
       let
         es = fromMaybe [] missingErrorP
-        f = (\(x, y, n)->"MISSING KEYWORD ERROR (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++
-          " with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++" "++(show y)++", "++(show n))
+        -- f = (\(x, y, n)->"MISSING KEYWORD ERROR (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++
+        --  " with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++" "++(show y)++", "++(show n))
+        f' (x, y, n) = Error {errLoc1 = (fname,k1 x)
+                     ,errLoc2 = (fname,k2 x)
+                     ,errIdent = "MISSING(PROB)"}
       in
-        map f es
+        map f' es
 
     missingErrorProbs = map (\(x, y, n) -> (fromIntegral y) / (fromIntegral (y + n))) $ fromMaybe [] missingErrorP
     mean x = (sum x) / (fromIntegral $ length x)
@@ -167,19 +171,13 @@ verifyOn r f fname =
     orderingShowNPC = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
     intRelShowPC = "Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelErrorP)
     intRelShowNPC = "Non-Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelError)
-    all = [
-        typeShow
-      --, orderingShow
-      , orderingShowP
-      --, intRelShow
-      , intRelShowP
-      , missingShow
-      --, missingShowP
-      --, orderingShowPC
-      --, orderingShowNPC
-      --, intRelShowPC
-      --, intRelShowNPC
-      ]
+
+
+    all =
+      if Settings.pROBRULES
+        then [typeShow, orderingShowP, intRelShowP, missingShowP]
+        else [typeShow, orderingShow, intRelShow, missingShow]
+
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError)
     count = typeSize +

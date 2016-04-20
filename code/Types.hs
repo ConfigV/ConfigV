@@ -22,7 +22,7 @@ data RuleSet = RuleSet
   , missingP :: [(MissingKRule, Int, Int)]
   , orderP :: OrdMap (Integer, Integer)
   , intRelP :: IntRelMapC
-  }
+  } deriving (Show)
 
 instance NFData RuleSet where rnf x = seq x ()
 class Foldable t => Attribute t a where
