@@ -46,7 +46,21 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
   merge curr new =
     let
       u = M.unionWith combineCounts curr new
-    in u
+      cu = M.foldrWithKey removeConflicts u u -- combine/chuck out antipairs
+    in
+      cu
+
+-- counting version chucks out mirrored antipairs!
+removeConflicts :: (Keyword, Keyword) -> FormulaC -> M.Map (Keyword, Keyword) FormulaC -> M.Map (Keyword, Keyword) FormulaC
+removeConflicts k (FormulaC vl vg ve) old =
+  let
+    flippedRule = swap k
+    conflict =  M.lookup flippedRule old
+  in
+    case conflict of
+    -- Betweeen (a, b) and (b, a), only keeping one copy since it's redundant info
+      Just (FormulaC l g e) -> M.insert k (FormulaC (vl + g) (vg + l) (ve + e)) $ M.delete flippedRule old
+      Nothing -> old -- no need for redundant insert?
 
 -- THIS IS SUPER IMPORTANT FOR MAKING DIFFERENCES OF RULES
 mostLikely :: Double -> FormulaC -> Maybe String -- better comparator than (Ord a => a -> a -> Bool)
@@ -134,7 +148,11 @@ findeqRules (l1,l2) =
       if bothSame && (strToOp f) i1 i2
       then
         case f of
-          "==" -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 1})]
+          -- we should think of lt and gt as really "less than or equals to" and "greater than or equals to"
+          -- (I think this means we don't want the count-tuples to be completely independent but measure the
+          --  events we want, even if they overlap. We will need to provide a way to extract a total count of
+          --  observations, though.)
+          "==" -> [((keyword l1, keyword l2), FormulaC { lt = 1, gt = 1, eq = 1})]
           "<=" -> [((keyword l1, keyword l2), FormulaC { lt = 1, gt = 0, eq = 0})]
           ">=" -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 1, eq = 0})]
           _    -> []
