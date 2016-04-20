@@ -31,7 +31,7 @@ main = do
  let bs' = zip bs (replicate (length bs) MySQL)
  let rules = learnRules learningSet
  let bigRules = learnRules bigLearningSet
- let errors =  zipWith (verifyOn rules) bs' benchmarkFiles
+ let errors =  zipWith (verifyOn bigRules) bs' benchmarkFiles
  --mapM putStrLn $ showProbRules rules
 -- mapM putStrLn $ showProbRules bigRules
  --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))

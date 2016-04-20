@@ -169,10 +169,10 @@ verifyOn r f fname =
     intRelShowNPC = "Non-Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelError)
     all = [
         typeShow
-      , orderingShow
-      --, orderingShowP
-      , intRelShow
-      --, intRelShowP
+      --, orderingShow
+      , orderingShowP
+      --, intRelShow
+      , intRelShowP
       , missingShow
       --, missingShowP
       --, orderingShowPC

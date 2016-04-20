@@ -14,9 +14,9 @@ benchmarkFiles :: [FilePath]
 benchmarkFiles = map getFileName $ concat benchmarks
 benchmarks :: [ErrorReport]
 benchmarks =
-     group2
-  ++ group3
-  ++ group4
+  --   group2
+  -- ++ group3
+   group4
   ++ group5
 
 group2 :: [ErrorReport]
