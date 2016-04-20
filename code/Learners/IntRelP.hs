@@ -137,7 +137,7 @@ findeqRules (l1,l2) =
           "==" -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 1})]
           "<=" -> [((keyword l1, keyword l2), FormulaC { lt = 1, gt = 0, eq = 0})]
           ">=" -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 1, eq = 0})]
-          _    -> [((keyword l1, keyword l2), FormulaC { lt = 0, gt = 0, eq = 0})]
+          _    -> []
       else []
     all = makeR "==" ++ makeR "<=" ++ makeR ">="
   in
