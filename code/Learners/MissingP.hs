@@ -25,6 +25,16 @@ prob (_, y, n) =
     y' = fromIntegral y
     n' = fromIntegral n
   in y' / (y' + n')
+-- and to actually filter the rules
+filterRuleSet :: Eq a => Show a => Double -> Double -> [(a, Int, Int)] -> [(a, Int, Int)]
+filterRuleSet probCutoff percObsCutoff rs =
+  let
+    rs' = filter (\x -> prob x > probCutoff) rs
+    rulesObs = reverse $ L.sort $ map (\(_, y, n) -> y + n) rs'
+    topObsCutoff = rulesObs !! (round $ percObsCutoff * (fromIntegral.length) rulesObs)
+    rs'' = filter (\(_, y, n) -> y + n >= topObsCutoff) rs'
+  in
+    rs''
 
 -- optimization so that we don't keep duplicates
 simplify :: Eq a => Show a => [(a, Int, Int)] -> [(a, Int, Int)]
@@ -45,11 +55,8 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     fRules' = filter (\x -> prob x > cutoffProb) fRules
-     rulesObs = reverse $ L.sort $ map (\(_, y, n) -> y + n) fRules'
-     topObsCutoff = rulesObs !! (round $ cutoffObsPercentile * (fromIntegral.length) rulesObs)
-     fRules'' = filter (\(_, y, n) -> y + n >= topObsCutoff) fRules'
-     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules'' --the difference between the two rule sets
+     fRules' = (filterRuleSet cutoffProb cutoffObsPercentile) fRules
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules' --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
     x
@@ -76,11 +83,8 @@ instance Attribute [] (MissingKRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     fRules' = filter (\x -> prob x > cutoffProb) fRules
-     rulesObs = reverse $ L.sort $ map (\(_, y, n) -> y + n) fRules'
-     topObsCutoff = rulesObs !! (round $ cutoffObsPercentile * (fromIntegral.length) rulesObs)
-     fRules'' = filter (\(_, y, n) -> y + n >= topObsCutoff) fRules'
-     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules'' --the difference between the two rule sets
+     fRules' = (filterRuleSet cutoffProb cutoffObsPercentile) fRules
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules' --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
      x
