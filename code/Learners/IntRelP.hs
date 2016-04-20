@@ -20,6 +20,10 @@ import Debug.Trace
 
 -- I haven't found a nice package for SMTLIB format in haskell yet, its out there tho, im sure
 
+-- for tuning which probabilistic rules to throw out
+cutoffProb = 0.7
+cutoffPerc = 0.1
+
 instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
   -- | this has the problem that order is important
   --   (foo,bar,==) is different than (bar,foo,==)
@@ -27,20 +31,22 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
     let
       ts' = pairs $ filter couldBeInt ts
       rules = foldr (\p rs -> findeqRules p ++ rs) [] ts'
+      rs' = M.fromList rules
+      rs = M.foldrWithKey removeConflicts rs' rs' -- just to be safe about no duplicates
     in
-      M.fromList rules
+      rs
 
+  -- we should rewrite this so that we don't have to expand out antipairs (makeFlips), but check them in compRules
   check rs f =
     let
-     emptyFC (FormulaC g l e) = g == 0 && l == 0 && e == 0
-     relevantRules' = M.filterWithKey (\k v-> (not $ emptyFC v) && hasRuleFor f k) (rs)
-     relevantRules = M.foldrWithKey makeFlips relevantRules' relevantRules' -- why are we doing "makeFlips" here?
-     fRules' = learn f :: IntRelMapC
-     fRules = M.foldrWithKey makeFlips fRules' fRules' -- why do we do "makeFlips" here?
-     diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
+      emptyFC (FormulaC l g e) = g == 0 && l == 0 && e == 0
+      relevantRules' = M.filterWithKey (\k v-> (not $ emptyFC v) && hasRuleFor f k) (rs)
+      fRules' = learn f :: IntRelMapC
+      relevantRules = (filterRuleSet cutoffProb cutoffPerc) relevantRules'
+      fRules = forcePairOrientation relevantRules fRules'
+      diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
-     if M.null diff then Nothing else Just diff
-
+      if M.null diff then Nothing else Just diff
 
   -- merge curr new = foldl combineCounts [] $ L.union curr (traceShow (length curr) new)
   merge curr new =
@@ -50,8 +56,26 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
     in
       cu
 
+-- as in the other rules, institute a filter over a top percentile of observations and probability cutoff
+filterRuleSet :: Double -> Double -> IntRelMapC -> IntRelMapC
+filterRuleSet probCutoff percObsCutoff m =
+  let
+    totalObs (FormulaC l g e) = l + g - e -- remember that <= and >= intersect on the event ==
+    obs = (reverse . L.sort) $ map totalObs $ M.elems m
+    obsCutoff = obs !! (round $ percObsCutoff * fromIntegral (length obs))
+    prob (FormulaC l g e) =
+      let
+        total = fromIntegral $ totalObs (FormulaC l g e)
+        l' = fromIntegral l
+        g' = fromIntegral g
+        e' = fromIntegral e
+      in
+        maximum [l' / total, g' / total, e' / total]
+  in
+    M.filter (\x -> totalObs x >= obsCutoff) $ M.filter (\x -> prob x >= probCutoff) m
+
 -- counting version chucks out mirrored antipairs!
-removeConflicts :: (Keyword, Keyword) -> FormulaC -> M.Map (Keyword, Keyword) FormulaC -> M.Map (Keyword, Keyword) FormulaC
+removeConflicts :: (Keyword, Keyword) -> FormulaC -> IntRelMapC -> M.Map (Keyword, Keyword) FormulaC
 removeConflicts k (FormulaC vl vg ve) old =
   let
     flippedRule = swap k
@@ -62,29 +86,39 @@ removeConflicts k (FormulaC vl vg ve) old =
       Just (FormulaC l g e) -> M.insert k (FormulaC (vl + g) (vg + l) (ve + e)) $ M.delete flippedRule old
       Nothing -> old -- no need for redundant insert?
 
--- THIS IS SUPER IMPORTANT FOR MAKING DIFFERENCES OF RULES
-mostLikely :: Double -> FormulaC -> Maybe String -- better comparator than (Ord a => a -> a -> Bool)
-mostLikely cutoff fc =
+-- we assume that each of the IntRelMapC have only one copy of the pair, because we should have removed conflicts at each step
+--  then, we want any pairs from the map "new" that have its antipair in the map "standard" to reorient
+forcePairOrientation :: IntRelMapC -> IntRelMapC -> IntRelMapC
+forcePairOrientation standard new =
   let
-    l = fromIntegral $ lt fc
-    g = fromIntegral $ gt fc
-    e = fromIntegral $ eq fc
-    total = l + g + e
+    reorient k (FormulaC l g e) old =
+      let
+        flippedRule = swap k
+        standardOrientation =  M.lookup flippedRule standard
+      in
+        case standardOrientation of
+          Just _ -> M.insert flippedRule (FormulaC g l e) $ M.delete k old
+          Nothing -> old
   in
-    if | l / total >= cutoff -> Just "<="
-       | g / total >= cutoff -> Just ">="
-       | e / total >= cutoff -> Just "=="
-       | otherwise -> Nothing
+    M.foldrWithKey reorient new new
+
+-- THIS IS SUPER IMPORTANT FOR MAKING DIFFERENCES OF RULES
+--  (find the maximum operator in the tuple)
+mostLikely :: FormulaC -> Maybe String -- better comparator than (Ord a => a -> a -> Bool)
+mostLikely (FormulaC l g e) =
+  if | l > g && l > e -> Just "<="
+     | g > l && g > e -> Just ">="
+     | e > l && e > g -> Just "=="
+     | otherwise -> Nothing
 
 compRules :: FormulaC -> FormulaC -> Maybe FormulaC
 compRules f1 f2 =
   let
-    f1' = mostLikely 0.75 f1 -- set these cutoffs here or somewhere?
-    f2' = mostLikely 0.5 f2
+    f1' = mostLikely f1 -- set these cutoffs here or somewhere?
+    f2' = mostLikely f2
   in
     case (f1', f2') of
       (Nothing, _) -> Nothing -- these are too inconclusive to mark as errors
-      (_, Nothing) -> Nothing
       (Just "<=", Just "==") -> Nothing -- these are "equality" conditions
       (Just "==", Just "<=") -> Nothing
       (Just ">=", Just "==") -> Nothing
@@ -92,25 +126,12 @@ compRules f1 f2 =
       (Just "==", Just "==") -> Nothing
       (Just ">=", Just ">=") -> Nothing
       (Just "<=", Just "<=") -> Nothing
-      _ -> Just f1
-  --if | (f1==f2) -> Nothing
-  --   | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Nothing
-  --   | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Nothing
-  --   | True -> Just f1
+      _ -> Just f1 -- will match if the fRules is too inconclusive, which should be an error
 
 foo s m = trace (s++(show (M.lookup (("port[client]","port[mysqld]")) m))) m
 --foo m = traceShow (M.lookup (swap ("max_allowed_packet[wampmysqld]","key_buffer[wampmysqld]")) m) m
 --if ((snd r1) == "max_allowed_packet[wampmysqld]") && ((fst r1) == "key_buffer[wampmysqld]") then (trace ((show r1)++(show f)) f) else f
 --traceMe x = (
-makeFlips :: (Keyword,Keyword) -> FormulaC -> IntRelMapC -> IntRelMapC
-makeFlips (k1,k2) (FormulaC l g e) old = let
-    f' = FormulaC {
-      lt = g,
-      gt = l,
-      eq = e
-    }
-  in
-    M.insert (k2,k1) f' old
 
 hasRuleFor :: [IRLine] -> (Keyword,Keyword) ->  Bool
 hasRuleFor ls (l1,l2) =
