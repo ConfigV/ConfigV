@@ -2,14 +2,20 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def show_yes_and_no_dist(df):
+def show_yes_and_no_dist(df, title_add=''):
     print("number of observations: " + str(df.size))
     print("mean number of yes " + str(np.mean(df['yes'])))
     print("median number of yes " + str(np.median(df['yes'])))
     print("mean number of no " + str(np.mean(df['no'])))
     print("median number of no " + str(np.median(df['no'])))
+    plt.title('Distribution of Yes' + ' ' + title_add)
+    plt.ylabel('Frequency')
+    plt.xlabel('Number of Observed Yes\'s')
     plt.hist(np.array(df['yes']), bins=100)
     plt.show()
+    plt.title('Distribution of No' + ' ' + title_add)
+    plt.ylabel('Frequency')
+    plt.xlabel('Number of Observed No\'s')
     plt.hist(np.array(df['no']), bins=100)
     plt.show()
 
@@ -24,16 +30,22 @@ it still remains to be seen how accurate the other high-observation rules are.
 
 
 df = pd.read_csv('bigMissingP.psv', delimiter='|')
-show_yes_and_no_dist(df)
+show_yes_and_no_dist(df, 'for MissingP Rules')
 # Probability distributions?
 df['prob'] = df['yes'] / (df['yes'] + df['no'])
+plt.title('Distribution of Observed Probabilities for the MissingP Rule')
+plt.ylabel('Frequency')
+plt.xlabel('Probability')
 plt.hist(np.array(df['prob']), bins=100)
 plt.show()
 # This seems like a likely cutoff for the data?
+plt.title('Distribution of Observed Probabilities for the MissingP Rule (P > 0.8)')
+plt.ylabel('Frequency')
+plt.xlabel('Probability')
 plt.hist(np.array(df[df['prob'] > 0.8]['prob']))
 plt.show()
 print(df[df['prob'] > 0.8].sort_values('prob'))
-show_yes_and_no_dist(df[df['prob'] > 0.8])
+show_yes_and_no_dist(df[df['prob'] > 0.8], 'for MissingP Rules (P > 0.8)')
 # Should we do this culling?
 culled = df[df['prob'] > 0.8][df['yes'] > 10]
 print(culled.sort_values('prob'))
@@ -54,33 +66,48 @@ learned through the non-probabilistic system.
 '''
 
 
-df = pd.read_csv('bigOrderP.psv', delimiter='|')
+df = pd.read_csv('OrderP.psv', delimiter='|')
 
 # See where the probabilities and the non-100% probabilities are
 df['prob'] = df['yes'] / (df['yes'] + df['no'])
 print(df.sort_values('prob')) # see some top and low probabilities
+plt.title('Distribution of Observed Probabilities for the OrderP Rule')
+plt.ylabel('Frequency')
+plt.xlabel('Probability')
 plt.hist(df['prob'], bins=100)
 plt.show()
+plt.title('Distribution of Observed Probabilities for the OrderP Rule (P < 1.0)')
+plt.ylabel('Frequency')
+plt.xlabel('Probability')
 plt.hist(np.array((df[df['prob'] < 1.0])['prob']), bins=100)
 plt.show()
 
 # See where the total number of observations are for rules marked valid or not
 df['observations'] = df['yes'] + df['no']
+plt.title('Distribution of Number of Observations for OrderP Rules Found by Non-Probabilistic System')
+plt.ylabel('Frequency')
+plt.xlabel('Observations')
 plt.hist(np.array(df[df['valid']]['observations']), bins=100)
 plt.show()
+plt.title('Distribution of Number of Observations for OrderP Rules NOT Found by Non-Probabilistic System')
+plt.ylabel('Frequency')
+plt.xlabel('Observations')
 plt.hist(np.array(df[~df['valid']]['observations']), bins=100)
 plt.show()
 # and maybe the validity of rules with more than 1 observation?
+plt.title('Distribution of Number of Observations for OrderP Rules Found by Non-Probabilistic System (with more than one observation)')
+plt.ylabel('Frequency')
+plt.xlabel('Observations')
 plt.hist(np.array(df[df['observations'] > 1]['valid']), bins=100)
 plt.show() # so it is entirely false... if we have more than 1 observation...
 
 # what are the distributions of no's and yes's
-show_yes_and_no_dist(df)
+show_yes_and_no_dist(df, 'for OrderP Rules')
 print("Distribution for valid rules")
-show_yes_and_no_dist(df[df['valid']])
+show_yes_and_no_dist(df[df['valid']], 'for OrderP Rules from Non-Probabilistic System')
 print("Distribution for invalid rules")
 print(df[~np.array(df['valid'])]['yes'])
-show_yes_and_no_dist(df[~np.array(df['valid'])])
+show_yes_and_no_dist(df[~np.array(df['valid'])], 'for OrderP Rules NOT from Non-Probabilistic System')
 
 
 '''
@@ -96,11 +123,20 @@ print("Number of inconclusive probabilistic rules: "
 # see how the observations and probabilities of inconclusive rules line up
 print(df[df['answer'] == 'Nothing'].sort_values('observations', ascending=False))
 # distribution of observations
+plt.title('Distribution of Number of Observations for IntRelP Rules')
+plt.xlabel('Observations')
+plt.ylabel('Frequency')
 plt.hist(np.array(df['observations']), bins=100)
 plt.show()
 # distribution of observations for inconclusive rules
+plt.title('Distribution of Number of Observations for Inconclusive IntRelP Rules')
+plt.xlabel('Observations')
+plt.ylabel('Frequency')
 plt.hist(np.array(df[df['answer'] == 'Nothing']['observations']), bins=100)
 plt.show() # seems to have a higher mean (around 8) and more centered?
 # distribution of observations with conclusive results
+plt.title('Distribution of Number of Observations for Conclusive IntRelP Rules')
+plt.xlabel('Observations')
+plt.ylabel('Frequency')
 plt.hist(np.array(df[df['answer'] != 'Nothing']['observations']), bins=100)
 plt.show() # definitely left-skewed, mean is around 5
