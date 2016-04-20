@@ -130,13 +130,17 @@ plt.hist(np.array(df['observations']), bins=100)
 plt.show()
 # distribution of observations for inconclusive rules
 plt.title('Distribution of Number of Observations for Inconclusive IntRelP Rules')
-plt.xlabel('Observations')
-plt.ylabel('Frequency')
+plt.xlabel('Observations (log)')
+plt.ylabel('Frequency (log)')
+plt.xscale('log')
+plt.yscale('log')
 plt.hist(np.array(df[df['answer'] == 'Nothing']['observations']), bins=100)
 plt.show() # seems to have a higher mean (around 8) and more centered?
 # distribution of observations with conclusive results
 plt.title('Distribution of Number of Observations for Conclusive IntRelP Rules')
-plt.xlabel('Observations')
-plt.ylabel('Frequency')
+plt.xlabel('Observations (log)')
+plt.ylabel('Frequency (log)')
+plt.xscale('log')
+plt.yscale('log')
 plt.hist(np.array(df[df['answer'] != 'Nothing']['observations']), bins=100)
 plt.show() # definitely left-skewed, mean is around 5
