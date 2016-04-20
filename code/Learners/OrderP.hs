@@ -18,6 +18,25 @@ import Debug.Trace
 -- for tuning which probabilistic rules to throw out
 --  (for some reason we are seeing a lot of rules at 66% and 33% split)
 cutoffProb = 0.7
+cutoffPerc = 0.1
+-- our "strategy" for which rules to believe
+filterRuleSet :: OrdMap (Integer, Integer) -> OrdMap (Integer, Integer)
+filterRuleSet rs =
+  let
+    -- make sure rule is above a threshold probability
+    filterProbs p (y, n) =
+      let
+        y' = fromIntegral y
+        n' = fromIntegral n
+        prob = y' / (y' + n')
+      in
+        prob >= p
+    -- make sure rule has been verified by enough files
+    obs = reverse $ L.sort $ map (\(y, n) -> y + n) $ M.elems rs
+    cutoffObs = obs !! (round $ cutoffPerc * (fromIntegral.length) obs)
+    filterObs (y, n) = y + n >= cutoffObs
+  in
+    M.filter filterObs $ M.filter (filterProbs cutoffProb) rs
 
 -- should we consider a version of this with (Keyword, Keyword) instead of the whole line?
 instance Attribute (M.Map (IRLine,IRLine)) (Integer, Integer) where
@@ -32,11 +51,12 @@ instance Attribute (M.Map (IRLine,IRLine)) (Integer, Integer) where
   -- MAKE SURE WE TAKE RULESET AND EXPAND OUT ANTIPAIRS BEFORE CHECKING (Ideally both (a,b) and (b,a) should be available for checking)
   check rs f =
    let
-     relevantRules = M.filterWithKey (hasRuleFor f) (rs)
+     invPairs m = M.fromList $ map (\((l1, l2), (y, n)) -> ((l2, l1), (n, y))) $ M.toList m
+     relevantRules = M.filterWithKey (hasRuleFor f) (M.union rs (invPairs rs))
      fRules = learn f :: OrdMap (Integer, Integer)
      -- is this removeConflicts in here for safety?
      fRules' = M.foldrWithKey removeConflicts fRules fRules  :: OrdMap (Integer, Integer)
-     diff = traceMe $ M.filterWithKey (\k v -> filterProbs cutoffProb v) $ relevantRules M.\\ fRules' --the difference between the two rule sets
+     diff = traceMe $ filterRuleSet $ relevantRules M.\\ fRules' --the difference between the two rule sets
      x = if M.null diff then Nothing else Just diff
    in
     x
@@ -97,11 +117,3 @@ antiPairs =
 --traceMe x = traceShow x x
 -- what is this for?!
 traceMe x = x
-
-filterProbs p (y, n) =
-  let
-    y' = fromIntegral y
-    n' = fromIntegral n
-    prob = y' / (y' + n')
-  in
-    prob >= p
