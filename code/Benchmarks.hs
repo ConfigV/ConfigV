@@ -5,6 +5,8 @@ module Benchmarks where
 
 import Types
 
+import Settings
+
 
 makeError (errLoc1,errLoc2,errIdent) =
   Error {..}
@@ -14,10 +16,9 @@ benchmarkFiles :: [FilePath]
 benchmarkFiles = map getFileName $ concat benchmarks
 benchmarks :: [ErrorReport]
 benchmarks =
-  --   group2
-  -- ++ group3
-   group4
-  ++ group5
+  if Settings.pROBRULES
+    then group2 ++ group4 ++ group5
+    else group2 ++ group3 ++ group4 ++ group5
 
 group2 :: [ErrorReport]
 group2 = map (map makeError) [

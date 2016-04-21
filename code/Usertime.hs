@@ -17,6 +17,7 @@ import Learners.IntRelP
 import Control.Applicative
 import Data.Foldable (Foldable)
 
+import Debug.Trace
 --import Data.Foldable
 
 showProbRules :: RuleSet -> [String]
@@ -172,9 +173,9 @@ verifyOn r f fname =
     intRelShowPC = "Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelErrorP)
     intRelShowNPC = "Non-Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelError)
 
-
     all =
       if Settings.pROBRULES
+        --then trace (concatMap (show.length) [typeShow, orderingShowP, intRelShowP, missingShowP])  [typeShow, orderingShowP, intRelShowP, missingShowP]
         then [typeShow, orderingShowP, intRelShowP, missingShowP]
         else [typeShow, orderingShow, intRelShow, missingShow]
 

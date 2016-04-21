@@ -1,4 +1,4 @@
 module Settings where
 
-  vERBOSE = True
+  vERBOSE = False
   pROBRULES = True
