@@ -26,6 +26,7 @@ prob (_, y, n) =
     n' = fromIntegral n
   in y' / (y' + n')
 -- and to actually filter the rules
+-- have settings in the settings file to set cutoff percentage/percentile/hard number of observations
 filterRuleSet :: Eq a => Show a => Double -> Double -> [(a, Int, Int)] -> [(a, Int, Int)]
 filterRuleSet probCutoff percObsCutoff rs =
   let
@@ -36,6 +37,7 @@ filterRuleSet probCutoff percObsCutoff rs =
   in
     rs''
 
+-- figure out (a,b) and (b,a) problem
 -- optimization so that we don't keep duplicates
 simplify :: Eq a => Show a => [(a, Int, Int)] -> [(a, Int, Int)]
 simplify xs = L.map combineCounts $ sortedRules xs
@@ -52,6 +54,7 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   -- for each line in our file, see if any of the following lines have the same 'keyword' and if not, then that's a rule
   learn (l:ls) = simplify $ concatMap (\l' -> if (keyword l == keyword l') then [] else [(MissingKVRule l l', 1, 0)]) ls ++ learn ls
 
+  -- where do we cull for relevant rules for what lines appear in our file?
   check rs f =
    let
      fRules = learn f
@@ -68,13 +71,13 @@ instance Attribute [] (MissingKVRule, Int, Int) where
    -- rules that are in curr but not new must have normalized "no" votes from new
    ++ (makeNegations (maxObs new) $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
    -- (and vice versa)
-   ++ (makeNegations (maxObs curr) $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
+   ++ (makeNegations (maxObs curr) $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr) -- extract to function
     where
       -- this guards against putting in negative counts where it is not relevant because neither of the keys appear in the ruleset to be merged
       hasCounterexample xs (MissingKVRule l l', _, _) = L.or $ map (\(MissingKVRule k k', _, _) -> k == l || k == l' || k' == l || k' == l') xs
       makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
       sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2)
-      maxObs = L.maximum . (map (\(r, y, n) -> y + n))
+      maxObs = L.maximum . (map (\(r, y, n) -> y + n)) -- figure out whether this is accurate or whether I need to only count examples where one or two is shown
 
 instance Attribute [] (MissingKRule, Int, Int) where
   learn [] = []
