@@ -48,6 +48,14 @@ simplify xs = L.map combineCounts $ sortedRules xs
     combineCounts (r:rs) = foldl mergeTwo r rs
     sortedRules xs = L.groupBy sameRule $ (L.sortBy . O.comparing) sortKey xs
 
+-- given a rule set and a rule, see if the rule has any significance to what is covered in the ruleset
+hasRuleFor :: [(MissingKRule, Int, Int)] -> (MissingKRule, Int, Int) -> Bool
+hasRuleFor rs (r, _, _) =
+  let
+    extractedKeywords = foldr (\((MissingKRule k1 k2), _, _) rest -> k1:(k2:rest)) [] rs
+  in
+    elem (k1 r) extractedKeywords || elem (k2 r) extractedKeywords
+
 -- instead of just a KVRule, keep track of the rule plus counts for + counts against
 instance Attribute [] (MissingKVRule, Int, Int) where
   learn [] = []
@@ -58,11 +66,12 @@ instance Attribute [] (MissingKVRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     fRules' = (filterRuleSet cutoffProb cutoffObsPercentile) fRules
-     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules' --the difference between the two rule sets
+     rs' = (filterRuleSet cutoffProb cutoffObsPercentile) rs
+     --rs'' = L.filter (hasRuleFor fRules) rs' -- well, we don't use (MissingKVRule, Int, Int) anyway...
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs' fRules --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
-    x
+     x
 
   -- actually, what we should be doing is treating these lists like a map MissingKVRule -> (Int, Int)
   --  and during the merge step, if one of the maps is missing this key, then we "normalize" it by adding (rule, 0, n)
@@ -86,8 +95,9 @@ instance Attribute [] (MissingKRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     fRules' = (filterRuleSet cutoffProb cutoffObsPercentile) fRules
-     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs fRules' --the difference between the two rule sets
+     rs' = (filterRuleSet cutoffProb cutoffObsPercentile) rs
+     rs'' = L.filter (hasRuleFor fRules) rs'
+     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs'' fRules --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in
      x
