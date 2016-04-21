@@ -20,6 +20,8 @@ import Data.Foldable (Foldable)
 import Debug.Trace
 --import Data.Foldable
 
+import qualified Settings
+
 showProbRules :: RuleSet -> [String]
 showProbRules r =
   let
@@ -56,14 +58,15 @@ showProbRules r =
         findOrFindInverse (x,y) =
           M.findWithDefault Nothing (x,y) i' <|> inverseIntRel (M.findWithDefault Nothing (y,x) i')
   in
-    --["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no" ++ delimiter ++ "valid"] ++ (map showMissingP m)
-    ["rule|yes|no|valid"] ++ (map showOrderP $ M.toList o)
-    --["ordering|less_than|equals|greater_than|answer"] ++ (map showIntRelP $ M.toList i)
-    --map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m'
-    --map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o'
-    --map show $ M.toList i'
-
-
+    if Settings.pROBRULES
+      then
+        (["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no" ++ delimiter ++ "valid"] ++ (map showMissingP m)) ++
+        (["rule|yes|no|valid"] ++ (map showOrderP $ M.toList o)) ++
+        (["ordering|less_than|equals|greater_than|answer"] ++ (map showIntRelP $ M.toList i))
+      else
+        (map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m') ++
+        (map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o') ++
+        (map show $ M.toList i')
 
 verifyOn :: RuleSet -> ConfigFile Language -> FilePath -> ErrorReport
 verifyOn r f fname =
