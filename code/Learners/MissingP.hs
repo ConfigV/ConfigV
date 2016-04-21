@@ -37,56 +37,38 @@ filterRuleSet probCutoff percObsCutoff rs =
   in
     rs''
 
--- figure out (a,b) and (b,a) problem
 -- optimization so that we don't keep duplicates
-simplify :: Eq a => Show a => [(a, Int, Int)] -> [(a, Int, Int)]
-simplify xs = L.map combineCounts $ sortedRules xs
+simplify :: [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)]
+simplify rs = foldr removeInverse [] noDuplicates
   where
-    sameRule (r1, y1, n1) (r2, y2, n2) = r1 == r2
     sortKey (r, y, n) = show r -- super hacky solution, sorry
     mergeTwo = (\(r1, y1, n1) (r2, y2, n2) -> (r1, y1 + y2, n1 + n2))
     combineCounts (r:rs) = foldl mergeTwo r rs
     sortedRules xs = L.groupBy sameRule $ (L.sortBy . O.comparing) sortKey xs
+    -- fold to combine the counts of (a,b) and (b,a) since they're measuring the same thing (togetherness)
+    removeInverse (r, y, n) rest =
+      let
+        invPair = L.find (\(r', _, _) -> sameRule (r, 0, 0) (r', 0, 0)) rest -- hack type matching
+      in
+        case invPair of
+          Just (r', y', n') -> (r, y + y', n + n'):(L.delete (r', y', n') rest)
+          Nothing -> (r, y, n):rest
+    -- first round to combine (a,b) and (a,b) counts
+    noDuplicates = L.map combineCounts $ sortedRules rs
 
--- given a rule set and a rule, see if the rule has any significance to what is covered in the ruleset
+-- do two given rules share at least one keyword?
+relevantTo :: (MissingKRule, Int, Int) -> (MissingKRule, Int, Int) -> Bool
+relevantTo (r, _, _) (r', _, _) = k1 r == k1 r' || k1 r == k2 r' || k2 r == k1 r' || k2 r == k2 r'
+
+-- does the given rule set have at least one keyword in common with the given rule
 hasRuleFor :: [(MissingKRule, Int, Int)] -> (MissingKRule, Int, Int) -> Bool
-hasRuleFor rs (r, _, _) =
-  let
-    extractedKeywords = foldr (\((MissingKRule k1 k2), _, _) rest -> k1:(k2:rest)) [] rs
-  in
-    elem (k1 r) extractedKeywords || elem (k2 r) extractedKeywords
+hasRuleFor rs r = L.or $ map (relevantTo r) rs
 
--- instead of just a KVRule, keep track of the rule plus counts for + counts against
-instance Attribute [] (MissingKVRule, Int, Int) where
-  learn [] = []
-  -- for each line in our file, see if any of the following lines have the same 'keyword' and if not, then that's a rule
-  learn (l:ls) = simplify $ concatMap (\l' -> if (keyword l == keyword l') then [] else [(MissingKVRule l l', 1, 0)]) ls ++ learn ls
-
-  -- where do we cull for relevant rules for what lines appear in our file?
-  check rs f =
-   let
-     fRules = learn f
-     rs' = (filterRuleSet cutoffProb cutoffObsPercentile) rs
-     --rs'' = L.filter (hasRuleFor fRules) rs' -- well, we don't use (MissingKVRule, Int, Int) anyway...
-     diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs' fRules --the difference between the two rule sets
-     x = if null diff then Nothing else Just diff
-   in
-     x
-
-  -- actually, what we should be doing is treating these lists like a map MissingKVRule -> (Int, Int)
-  --  and during the merge step, if one of the maps is missing this key, then we "normalize" it by adding (rule, 0, n)
-  --  where n is the number of observations we have seen so far that is missing this rule
-  merge curr new = simplify $ curr ++ new
-   -- rules that are in curr but not new must have normalized "no" votes from new
-   ++ (makeNegations (maxObs new) $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
-   -- (and vice versa)
-   ++ (makeNegations (maxObs curr) $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr) -- extract to function
-    where
-      -- this guards against putting in negative counts where it is not relevant because neither of the keys appear in the ruleset to be merged
-      hasCounterexample xs (MissingKVRule l l', _, _) = L.or $ map (\(MissingKVRule k k', _, _) -> k == l || k == l' || k' == l || k' == l') xs
-      makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
-      sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2)
-      maxObs = L.maximum . (map (\(r, y, n) -> y + n)) -- figure out whether this is accurate or whether I need to only count examples where one or two is shown
+-- we only keep one copy of the tuple, so if (a,b) is in the rule set, that means (b,a) is not
+sameRule :: (MissingKRule, Int, Int) -> (MissingKRule, Int, Int) -> Bool
+sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2 || r1 == rflip r2)
+  where
+    rflip (MissingKRule k1 k2) = MissingKRule k2 k1
 
 instance Attribute [] (MissingKRule, Int, Int) where
   learn [] = []
@@ -103,11 +85,15 @@ instance Attribute [] (MissingKRule, Int, Int) where
      x
 
   -- same as before
-  merge curr new = simplify $ curr ++ new
-   ++ (makeNegations (maxObs new) $ L.filter (hasCounterexample new) $ L.deleteFirstsBy sameRule curr new) 
-   ++ (makeNegations (maxObs curr) $ L.filter (hasCounterexample curr) $ L.deleteFirstsBy sameRule new curr)
+  merge curr new = simplify $ curr ++ new ++ (counterexamplesFromOtherSet curr new) ++ (counterexamplesFromOtherSet new curr)
     where
-      hasCounterexample xs (MissingKRule l l', _, _) = L.or $ map (\(MissingKRule k k', _, _) -> k == l || k == l' || k' == l || k' == l') xs
-      makeNegations neg = map (\(r, y, n) -> (r, 0, neg))
-      sameRule = (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2)
-      maxObs = L.maximum . (map (\(r, y, n) -> y + n))
+      -- given a rule set, make a copy of the rule with a normalized number of negative votes
+      --  (for combinations across sets during merge)
+      makeNegations :: [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)]
+      makeNegations rs = map (\(r, y, n) -> (r, 0, maxObs r rs))
+      -- max obs does not depend on just the max obs of the entire list, but of the ones where at least one of the keywords was seen
+      maxObs :: MissingKRule -> [(MissingKRule, Int, Int)] -> Int
+      maxObs r' = L.maximum . (map (\(r, y, n) -> y + n)) . (filter (relevantTo (r', 0, 0))) -- wrap up r' to get data types in line
+      -- rules that are in rs1 but not rs2 must have normalized "no" votes from rs2
+      counterexamplesFromOtherSet :: [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)]
+      counterexamplesFromOtherSet rs1 rs2 = makeNegations rs2 $ L.filter (hasRuleFor rs2) $ L.deleteFirstsBy sameRule rs1 rs2
