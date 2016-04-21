@@ -22,7 +22,7 @@ import Debug.Trace
 
 -- for tuning which probabilistic rules to throw out
 cutoffProb = 0.7
-cutoffPerc = 0.1
+cutoffPerc = 0.2
 
 instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
   -- | this has the problem that order is important
