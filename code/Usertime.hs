@@ -178,8 +178,10 @@ verifyOn r f fname =
 
     all =
       if Settings.pROBRULES
-        --then trace (concatMap (show.length) [typeShow, orderingShowP, intRelShowP, missingShowP])  [typeShow, orderingShowP, intRelShowP, missingShowP]
-        then [typeShow, orderingShowP, intRelShowP, missingShowP]
+        then
+          if Settings.vERBOSE
+            then trace ((concat . (L.intersperse " ") . map (show.length)) [typeShow, orderingShowP, intRelShowP, missingShowP])  [typeShow, orderingShowP, intRelShowP, missingShowP]
+            else [typeShow, orderingShowP, intRelShowP, missingShowP]
         else [typeShow, orderingShow, intRelShow, missingShow]
 
     sizeErr = maybe 0 length
