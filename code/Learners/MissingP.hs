@@ -37,6 +37,10 @@ filterRuleSet probCutoff percObsCutoff rs =
   in
     rs''
 
+-- when we need to go from MissingKRule to [(MissingKRule, Int, Int)]
+--  (hack type matching)
+toTuple :: MissingKRule -> (MissingKRule, Int, Int)
+toTuple r = (r, 0, 0)
 -- optimization so that we don't keep duplicates
 simplify :: [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)]
 simplify rs = foldr removeInverse [] noDuplicates
@@ -48,7 +52,7 @@ simplify rs = foldr removeInverse [] noDuplicates
     -- fold to combine the counts of (a,b) and (b,a) since they're measuring the same thing (togetherness)
     removeInverse (r, y, n) rest =
       let
-        invPair = L.find (\(r', _, _) -> sameRule (r, 0, 0) (r', 0, 0)) rest -- hack type matching
+        invPair = L.find (\(r', _, _) -> sameRule (toTuple r) (toTuple r')) rest
       in
         case invPair of
           Just (r', y', n') -> (r, y + y', n + n'):(L.delete (r', y', n') rest)
@@ -93,7 +97,7 @@ instance Attribute [] (MissingKRule, Int, Int) where
       makeNegations rs = map (\(r, y, n) -> (r, 0, maxObs r rs))
       -- max obs does not depend on just the max obs of the entire list, but of the ones where at least one of the keywords was seen
       maxObs :: MissingKRule -> [(MissingKRule, Int, Int)] -> Int
-      maxObs r' = L.maximum . (map (\(r, y, n) -> y + n)) . (filter (relevantTo (r', 0, 0))) -- wrap up r' to get data types in line
+      maxObs r' = L.maximum . (map (\(r, y, n) -> y + n)) . (filter (relevantTo (toTuple r')))
       -- rules that are in rs1 but not rs2 must have normalized "no" votes from rs2
       counterexamplesFromOtherSet :: [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)] -> [(MissingKRule, Int, Int)]
       counterexamplesFromOtherSet rs1 rs2 = makeNegations rs2 $ L.filter (hasRuleFor rs2) $ L.deleteFirstsBy sameRule rs1 rs2
