@@ -3,28 +3,25 @@
 
 A primary concern in any machine learning type task is to minimize both false negatives and false positives.
 In the context of configuration file verification,
-  a false positive is when \app reports an error on a valid confiuration file and
-  a false negative is when \app fails to reports an error on an invalid confiuration file.
+  a false positive is when \app reports an error on a valid configuration file and
+  a false negative is when \app fails to reports an error on an invalid configuration file.
 Too many false positives will cause users to ignore the reported error\cite{}.
-However, since the cost of system failure is so high from a misconfiguration, \app propritzes the minimization of false negatives.
+However, since the cost of system failure is so high from a misconfiguration, \app prioritizes the minimization of false negatives.
 
-While a traditional classififcation learning machine learning approach can reduce both of these situations, generally, there is can be no garuntee that all false negatives will be eliminated.
+While a traditional classification learning machine learning approach can reduce both of these situations, generally, there is can be no guarantee that all false negatives will be eliminated.
 Instead of building classification models over the learning set (such as an SVM), we learn the largest set of rules that all correct configuration files satisfy.
-In this way, \app can garuntee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set.
-The only case of a false negative can be when there was no evidece of such a rule in the learning set - we cannot generate rules from nothing.
+In this way, \app can guarantee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set.
+The only case of a false negative can be when there was no evidence of such a rule in the learning set - we cannot generate rules from nothing.
 
-$\mathcal{L}$ = Learned Rules\\
 $\mathcal{C}$ = Correct Configuration File Learning Set\\
+$\mathcal{L}$ = Learned Rules\\
 $\mathcal{R}$ = Reported Rules\\
 $\mathcal{T}$ = True Rules\\
-
-For probablistic learing
-$\mathcal{C'}$ = Incorrect Configuration File Learning Set\\
 
 That is, taking the following definitions:
 \begin{flalign*}
 \mathcal{T}& =\ \{ r\ \mid \\
-  & \forall file \in \mathcal{C},\ r(file)\ *  \land\\
+  & \forall file \in \mathcal{C},\ r(file)\  \land\\
   & \exists file \in \mathcal{C},\ r(file) \text{ is non-trivial}\ \land \\
   & \text{ if } \neg r(userfile) \text{ then system crash} \} \\
 \mathcal{L}& =\ \{ r\ \mid \\
@@ -43,10 +40,42 @@ In order to do this, we must closely examine our implementation.
 & \exists r \in \mathcal{R}, r \notin \mathcal{T} \qquad \text{[Unsound]}
 \end{flalign}
 
+
+\section{Incorrect Learning Set}
+We have a database of incorrect configuration files.
+Rather than manually correct each file, we observe that the files are usually incorrect in only one or two lines.
+We then extend the previous formalism to handle probabilistic learning, when we have a collection of such files.
+
+$\mathcal{CP}$ = Incorrect Configuration File Learning Set\\
+$\mathcal{LP}$ = Probabilistically Learned Rules\\
+$\mathcal{RP}$ = Probabilistically Reported Rules\\
+
+
+\begin{flalign*}
+\mathcal{LP}& =\ \{ r\ \mid \\
+  & \Pi file \in \mathcal{CP},\ r(file)\  \land\\
+  & \exists file \in \mathcal{CP},\ r(file) \text{ is non-trivial} \} \\
+\mathcal{RP}& =\ \{ r\ \mid \\
+  & r \in \mathcal{LP}\ \land\\
+  & \neg r(userfile) \}&\\
+\end{flalign*}
+
+Where $\Pi$ indicates some percentage of the files in CP.
+In this case, we can no longer conclude that \app is complete.
+
+\begin{flalign}
+& \forall r \in \mathcal{T}, r \in \mathcal{RP} \qquad \text{[Incomplete]} \\
+& \exists r \in \mathcal{RP}, r \notin \mathcal{T} \qquad \text{[Unsound]}
+\end{flalign}
+
+Note that although we lose the completness, we can learn over a larger dataset and should expect to get fewer false positives (we are less unsound).
+
+\section{Implementation}
+
 The learned rule set, $\mathcal{L}$, is represented as a type, where the type must support a particular interface (called a typeclass in Haskell) to be compatible with our system.
 The three methods of this typeclass and the associated specification will help to show completeness of our system.
 The functions of this typeclass will be used, invisibly to the user, to make the overall system run.
-As long as the specifications for each function are met, \app can garuntee completness.
+As long as the specifications for each function are met, \app can guarantee completeness.
 
 The typeclass can support anything that is Foldable, which roughly means the user can use any datastructure they prefer.
 In fact, in our implementation, two rules are implemented with lists, and two others use hashmaps.
@@ -62,7 +91,7 @@ class Foldable t => Attribute t a where
 
 \subsection{learn}
   For a single given file in the intermediate representation format, learn the full set of rules on that file.
-  By overfitting to each file, we can eventually garuntee the completness of \app.
+  By overfitting to each file, we can eventually guarantee the completeness of \app.
   The specification of this function is the obvious reduction of the Considered Set definition.
 
   $\text{learn } file =  \{ r | r(file) \land r \text{ is non-trivial}\}$
@@ -78,8 +107,8 @@ class Foldable t => Attribute t a where
   \end{align*}
 
 \subsection{check}
-  To check a file by using a rule set, we simply take all the rules that are releveant to the user's file.
-  Rules that are relavent are the ones where both parts of the ordering are present.
+  To check a file by using a rule set, we simply take all the rules that are relevant to the user's file.
+  Rules that are relevant are the ones where both parts of the ordering are present.
   We learn the rule set for the user file, and every rule in the learned set must be present in the user file.
 
 % \section{Implementation}
