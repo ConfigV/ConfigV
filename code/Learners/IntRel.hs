@@ -52,7 +52,7 @@ compRules f1 f2 =
   if | (f1==f2) -> Nothing
      | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Nothing
      | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Nothing
-     | True -> Just f1
+     | otherwise -> Just f1
 
 foo s m = trace (s++(show (M.lookup (("port[client]","port[mysqld]")) m))) m
 --foo m = traceShow (M.lookup (swap ("max_allowed_packet[wampmysqld]","key_buffer[wampmysqld]")) m) m
@@ -76,7 +76,7 @@ removeConflicts f1 f2 =
   if | (f1==f2) -> f1
      | ((f1==Just (==)) && (f2==Just(<=))) || ((f1==Just(<=)) && (f2==Just(==))) -> Just (<=)
      | ((f1==Just (==)) && (f2==Just(>=))) || ((f1==Just(>=)) && (f2==Just(==))) -> Just (>=)
-     | True -> Nothing
+     | otherwise -> Nothing
 -- | true for rules with mathcing keys, but diff formulas
 {-sameKeyRel :: ((Keyword,Keyword), Formula) -> (Keyword,Keyword) -> Formula -> Bool
 sameKeyRel (r1, f) r2 f' =

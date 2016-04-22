@@ -9,6 +9,7 @@ import qualified Data.Text as T
 import qualified Data.Map as M
 import Data.Foldable
 import Control.DeepSeq
+import System.Directory
 
 -- | can i replace this with an exstientially quantified type?
 -- oh that would be beautiful
@@ -18,7 +19,10 @@ data RuleSet = RuleSet
   , intRel :: IntRelMap
   , missing :: [MissingKRule]
   , typeErr :: TypeMap ConfigQType
-  }
+  , missingP :: [(MissingKRule, Int, Int)]
+  , orderP :: OrdMap (Integer, Integer)
+  , intRelP :: IntRelMapC
+  } deriving (Show)
 
 instance NFData RuleSet where rnf x = seq x ()
 class Foldable t => Attribute t a where
@@ -60,6 +64,14 @@ instance Show (Int-> Int -> Bool) where
     if | (f1 0 1)  -> "<="
        | (f1 1 0) -> ">="
        | (f1 1 1) -> "=="
+-- a formula count, basically a triple of integers for instances of the pair
+--  with ordering <=, >=, or ==
+data FormulaC = FormulaC {
+  lt :: Int,
+  gt :: Int,
+  eq :: Int
+} deriving (Show, Eq)
+type IntRelMapC = M.Map (Keyword,Keyword) FormulaC
 
 
 -- | Intermediate Representation stuff
@@ -103,3 +115,24 @@ emptyConfigQType = ConfigQType {
   cfilepath = zeroProb
  -- cdirpath = zeroProb
   }
+
+
+--printing  stuff
+type ErrorType = String
+data Error = Error{
+    errLoc1 :: (FilePath, Keyword)
+  , errLoc2 :: (FilePath, Keyword)
+  , errIdent :: ErrorType
+} deriving (Show)
+
+-- | as long as we have the correct type of error
+--   and have identified one similar fail point the errors are similar enough
+--   both will point the user to the item that needs to be fixed
+
+instance Eq Error where
+  (==) x y =
+    ((errLoc1 x == errLoc1 y) || (errLoc1 x == errLoc2 y) ||
+    (errLoc2 x == errLoc1 y) || (errLoc2 x == errLoc2 y))
+    -- && (errIdent x == errIdent y) IS THIS NEEDED?
+
+type ErrorReport = [Error]

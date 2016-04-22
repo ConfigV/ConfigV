@@ -3,7 +3,7 @@ This is a value correlation misconfiguration problem.
 All the variables underlying [wampmysqld] are responsible for MySQL server
 setting initialization.
 
-In the error file, key_buffer is assigned to be 16M; however, 
+In the error file, key_buffer is assigned to be 16M; however,
 max_allowed_packet is assigned 100M. This is why the file is incorrect.
 You cannot put max_allowed_packet larger than key_buffer.
 In the runtime, this would make your MySQL server get crashed.
@@ -16,7 +16,7 @@ Please see the two correct files, max_allowed_packet is lower than
 the key_buffer.
 
 * This is a real misconfiguration problem in practice. The evidence is
-http://stackoverflow.com/questions/1980004/2006-mysql-server-has-gone-away-error-in-wamp 
+http://stackoverflow.com/questions/1980004/2006-mysql-server-has-gone-away-error-in-wamp
 
 * error: max_allowed_packet should be smaller than key_buffer
 
@@ -26,4 +26,4 @@ http://stackoverflow.com/questions/1980004/2006-mysql-server-has-gone-away-error
 
 * error4: max_allowed_packet = 100M higher than key_buffer
 
-* error5: key_buffer (line 60) is smaller than sort_buffer_size  --DONT SUPPORT COMPARISON OVER MB and KB (yet)
+* error5: key_buffer (line 60) is smaller than sort_buffer_size  --DONT SUPPORT COMPARISON OVER int like type (MB, KB) (yet)
