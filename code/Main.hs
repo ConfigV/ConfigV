@@ -29,7 +29,7 @@ import qualified Settings
 main = do
  bs <- mapM T.readFile benchmarkFiles :: IO [T.Text]
  let bs' = zip bs (replicate (length bs) MySQL)
- let rules = learnRules (if Settings.pROBRULES then (learningSet ++ bigLearningSet) else learningSet)
+ let rules = learnRules (if Settings.pROBRULES then (learningSet) else learningSet)
  let errors =  zipWith (verifyOn rules) bs' benchmarkFiles
  when Settings.vERBOSE $ mapM_ putStrLn $ showProbRules rules
 

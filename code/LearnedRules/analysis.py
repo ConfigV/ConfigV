@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+#plt.xkcd()
 
 def show_yes_and_no_dist(df, title_add=''):
     print("number of observations: " + str(df.size))
@@ -18,6 +20,50 @@ def show_yes_and_no_dist(df, title_add=''):
     plt.xlabel('Number of Observed No\'s')
     plt.hist(np.array(df['no']), bins=100)
     plt.show()
+
+'''
+For x-y plot of probability vs. number of observations
+'''
+
+df1 = pd.read_csv('bigMissingP.psv', delimiter='|')
+df2 = pd.read_csv('bigOrderP.psv', delimiter='|')
+
+print(df1['yes'] / (df1['yes'] + df1['no']))
+
+df1['prob'] = df1['yes'] / (df1['yes'] + df1['no'])
+#df2['prob'] = df2['yes'] / (df2['yes'] + df2['no'])
+
+df1['obs'] = df1['yes'] + df1['no']
+#df2['obs'] = df2['yes'] + df2['no']
+
+plt.title('Number of Observations and Probability of Each Rule')
+plt.ylabel('Probability')
+plt.xlabel('Observations')
+plt.scatter(np.array(df1['obs']), np.array(df1['prob']))
+plt.xlim([0, 1.1*max(np.array(df1['obs']))])
+plt.ylim([0, 1.25])
+plt.show()
+
+# now a two-series plot
+dft = df1[df1['valid']]
+dff = df1[~df1['valid']]
+plt.title('Number of Observations and Probability of Each Rule')
+plt.ylabel('Probability')
+plt.xlabel('Observations')
+false_rules = plt.scatter(np.array(dff['obs']), np.array(dff['prob']), color='blue')
+true_rules = plt.scatter(np.array(dft['obs']), np.array(dft['prob']), color='red')
+plt.xlim([0, 1.1*max(np.array(df1['obs']))])
+plt.ylim([0, 1.25])
+plt.legend([true_rules, false_rules], ['Rules found by complete system', 'Rules NOT found by complete system'])
+plt.show()
+
+# what about a histogram of yes - no counts?
+df1['diff'] = df1['yes'] - df1['no']
+plt.title('Distribution of Difference Between Yes and No Observations')
+plt.ylabel('Frequency')
+plt.xlabel('Difference')
+plt.hist(np.array(df1['diff']), bins=100)
+plt.show()
 
 '''
 It looks like for Missing value rules, since most of them carry perfect

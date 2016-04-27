@@ -15,9 +15,9 @@ import Debug.Trace
 
 -- programmed in cutoff for testing?
 cutoffProb :: Double
-cutoffProb = 0.8
+cutoffProb = 0.9
 cutoffObsPercentile :: Double
-cutoffObsPercentile = 0.1
+cutoffObsPercentile = 0.03
 -- and to make dealing with probs easier
 prob :: Eq a => Show a => (a, Int, Int) -> Double
 prob (_, y, n) = 

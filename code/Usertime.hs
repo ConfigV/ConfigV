@@ -154,7 +154,7 @@ verifyOn r f fname =
         --  " with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++" "++(show y)++", "++(show n))
         f' (x, y, n) = Error {errLoc1 = (fname,k1 x)
                      ,errLoc2 = (fname,k2 x)
-                     ,errIdent = "MISSING(PROB)"}
+                     ,errIdent = "MISSING(PROB) y:" ++ (show y) ++ " n:" ++ (show n)}
       in
         map f' es
 
