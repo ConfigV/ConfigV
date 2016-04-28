@@ -1,4 +1,4 @@
 module Settings where
 
   vERBOSE = False
-  pROBRULES = True
+  bENCHMARKS = False

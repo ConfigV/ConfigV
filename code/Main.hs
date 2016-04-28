@@ -29,13 +29,18 @@ import qualified Settings
 main = do
  bs <- mapM T.readFile benchmarkFiles :: IO [T.Text]
  let bs' = zip bs (replicate (length bs) MySQL)
- let rules = learnRules (if Settings.pROBRULES then (learningSet ++ bigLearningSet) else learningSet)
- let errors =  zipWith (verifyOn rules) bs' benchmarkFiles
- when Settings.vERBOSE $ mapM_ putStrLn $ showProbRules rules
+ let rules = learnRules (learningSet)
+ let errors = zipWith (verifyOn rules) bs' $
+       if Settings.bENCHMARKS
+       then benchmarkFiles
+       else userFiles
 
  --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
- zipWithM_ reportBenchmarkPerformance benchmarks errors
+ when Settings.bENCHMARKS $ zipWithM_ reportBenchmarkPerformance benchmarks errors
+ when (not Settings.bENCHMARKS) $ mapM_ putStrLn $ concat $ zipWith (\x y -> [show x,show y]) userFiles errors
  return ()
+
+userFiles = u$ listDirectory "user"
 
  -- | compare the original benchark spec to the generated one
 reportBenchmarkPerformance :: ErrorReport -> ErrorReport -> IO()
@@ -58,11 +63,6 @@ learningSet =
   map (\x -> (u $ T.readFile (lsDir++x), MySQL))
     (u (listDirectory lsDir))
      -- ++ [ (u $ T.readFile ("dataset/group2-entry-missing/error"), MySQL)]
-
-bigLsDir = "dump/MySQL/"
-bigLearningSet =
-  map (\x -> (u $ T.readFile (bigLsDir++x), MySQL))
-    (u (listDirectory bigLsDir))
 
 u = unsafePerformIO
 

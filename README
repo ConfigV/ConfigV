@@ -1,1 +1,32 @@
-# config
+
+# Running the tool
+
+to build fresh and run
+
+$ cd code
+$ cabal install
+$ /home/cav/.cabal/bin/ConfigC
+
+
+to turn on detailed reports
+
+1) open Settings.hs
+2) set 'vERBOSE = True'
+3) run 'cabal install ; /home/cav/.cabal/bin/ConfigC'
+
+# Guide to Source code
+
+The Learners directory has a module for each type of error that is learned/checked.
+This is the main workhorse, the rest of the code is scaffolding for these modules.
+Each module here will implement three core methods for an Attribute (a class of possible errors).
+
+
+class Foldable t => Attribute t a where
+  learn :: IRConfigFile -> t a
+    Given one configFile, generate a set of rules
+
+  merge :: t a -> t a -> t a 
+    Given two sets of rules, create a single consistent set
+
+  check :: t a -> IRConfigFile -> Maybe (t a)
+    Given a set of rules and a file, check for errors

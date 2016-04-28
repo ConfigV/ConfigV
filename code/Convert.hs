@@ -13,16 +13,11 @@ import Control.Monad
 
 import Debug.Trace
 
+
+-- | Main function of this file - translate configFile to intermediate rep
 convert ::  ConfigFile Language -> IRConfigFile
 convert f =
   parse f
-
--- | why would i want to do this?
-{-addConfigType :: TypeMap -> (Keyword,Value) -> IRLine
-addConfigType tyMap (keyword,value) =
-  case M.lookup keyword tyMap of
-    Just configType -> IRLine{..}
-    Nothing -> IRLine{configType = emptyConfigQType,..}-}
 
 -- | If the user wants to give hints to how to parse a config file based on filetype they go here
 parse :: ConfigFile Language -> [IRLine] --[(Keyword,Value)]

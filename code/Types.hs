@@ -19,15 +19,12 @@ data RuleSet = RuleSet
   , intRel :: IntRelMap
   , missing :: [MissingKRule]
   , typeErr :: TypeMap ConfigQType
-  , missingP :: [(MissingKRule, Int, Int)]
-  , orderP :: OrdMap (Integer, Integer)
-  , intRelP :: IntRelMapC
   } deriving (Show)
 
 instance NFData RuleSet where rnf x = seq x ()
 class Foldable t => Attribute t a where
   learn :: IRConfigFile -> t a
-  merge :: t a -> t a -> t a --given the spec, this could be reduced to (a -> a -> Bool)
+  merge :: t a -> t a -> t a 
   check :: t a -> IRConfigFile -> Maybe (t a)
 
 
@@ -123,7 +120,7 @@ data Error = Error{
     errLoc1 :: (FilePath, Keyword)
   , errLoc2 :: (FilePath, Keyword)
   , errIdent :: ErrorType
-} deriving (Show)
+} 
 
 -- | as long as we have the correct type of error
 --   and have identified one similar fail point the errors are similar enough

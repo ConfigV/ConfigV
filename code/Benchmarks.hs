@@ -16,9 +16,7 @@ benchmarkFiles :: [FilePath]
 benchmarkFiles = map getFileName $ concat benchmarks
 benchmarks :: [ErrorReport]
 benchmarks =
-  if Settings.pROBRULES
-    then group2 ++ group4 ++ group5
-    else group2 ++ group3 ++ group4 ++ group5
+    group2 ++ group3 ++ group4 ++ group5
 
 group2 :: [ErrorReport]
 group2 = map (map makeError) [
