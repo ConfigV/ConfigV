@@ -27,20 +27,21 @@ import Debug.Trace
 import qualified Settings
 
 main = do
- bs <- mapM T.readFile benchmarkFiles :: IO [T.Text]
- let bs' = zip bs (replicate (length bs) MySQL)
- let rules = learnRules (learningSet)
- let errors = zipWith (verifyOn rules) bs' $
+ let verificationTarget = 
        if Settings.bENCHMARKS
        then benchmarkFiles
        else userFiles
+ bs <- mapM T.readFile verificationTarget :: IO [T.Text]
+ let bs' = zip bs (replicate (length bs) MySQL)
+ let rules = learnRules (learningSet)
+ let errors = zipWith (verifyOn rules) bs' verificationTarget
 
  --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
  when Settings.bENCHMARKS $ zipWithM_ reportBenchmarkPerformance benchmarks errors
  when (not Settings.bENCHMARKS) $ mapM_ putStrLn $ concat $ zipWith (\x y -> [show x,show y]) userFiles errors
  return ()
 
-userFiles = u$ listDirectory "user"
+userFiles = map ("user/"++) $ u$ listDirectory "user"
 
  -- | compare the original benchark spec to the generated one
 reportBenchmarkPerformance :: ErrorReport -> ErrorReport -> IO()

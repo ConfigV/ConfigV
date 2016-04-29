@@ -21,7 +21,10 @@ to run with your own configuration file
 3) set 'bENCHMARKS = False'
 4) run 'cabal install ; /home/cav/.cabal/bin/ConfigC'
 
-note that in user mode, we are always verbose
+NB: in user mode, we are always verbose
+Because we only have a set of correct mysql config files, we can only verify mysql (see user/error for example)
+To verify a different languge you will need a sufficently large and diverse set of config files of that langauge.
+You will also need to provide a basic parser by editing Convert.hs
 
 # Guide to Source code
 
@@ -39,3 +42,13 @@ class Foldable t => Attribute t a where
 
   check :: t a -> IRConfigFile -> Maybe (t a)
     Given a set of rules and a file, check for errors
+
+# definitions for evaluation
+
+A benchmark passes if the specification error is in the error report, up to a useful equality measure.
+The equality measure requires two error to have fail points in common - thereby leading the user to the part of the config file that must be repaired.
+A false positive is any error in the report that does not match the specification.
+See Main.hs, reportBenchmarkPerformance function for more 
+    truePos = head spec `elem` foundErrs
+    falsePos = filter ((/=) $ head spec) foundErrs
+
