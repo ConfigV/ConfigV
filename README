@@ -16,6 +16,24 @@ $ /home/cav/.cabal/bin/ConfigC
 * For each error files in different groups, you can see whether the error 
 is detected: 'Passing: True' means the error is successfully detected.
 
+* The results reported here are slightly different than in the submitted paper (camera ready has been updated).
+This is due to a more formal definition of a false positive.
+The new results are more consistent (and therefor better) than the old.
+
+OLD
+Error Type       & Passing Tests & False Positives 
+Missing Entry    & 5/5           & 1, 0, 0, 0, 1
+Type Error       & 5/5           & 0, 0, 0, 0, 0 
+Keyword Ordering & 5/5           & 0, 1, 1, 0, 10 
+Value Relations  & 4/5           & 0, 1, 0, 0, 0 
+
+NEW
+Error Type       & Passing Tests & False Positives 
+Missing Entry    & 5/5           & 1, 0, 0, 0, 4  
+Type Error       & 5/5           & 0, 0, 0, 0, 0 
+Keyword Ordering & 5/5           & 0, 2, 1, 0, 6 
+Value Relations  & 4/5           & 0, 0, 0, 1, 0  
+
 --------
 
 # More tests
@@ -37,10 +55,19 @@ to run with your own configuration file
 3) set 'bENCHMARKS = False'
 4) run 'cabal install ; /home/cav/.cabal/bin/ConfigC'
 
-* NB: in user mode, we are always verbose
-Because we only have a set of correct mysql config files, we can only verify mysql (see user/error for example)
+* NB: in user mode, we are always verbose.
+Because we only have a set of correct mysql config files, we can only verify mysql (see user/error for example).
 To verify a different languge you will need a sufficently large and diverse set of config files of that langauge.
 You will also need to provide a basic parser by editing Convert.hs
+
+# definitions for evaluation
+
+A benchmark passes if the specification error is in the error report, up to a useful equality measure.
+The equality measure requires two error to have fail points in common - thereby leading the user to the part of the config file that must be repaired.
+A false positive is any error in the report that does not match the specification.
+See Main.hs, reportBenchmarkPerformance function for more 
+    truePos = head spec `elem` foundErrs
+    falsePos = filter ((/=) $ head spec) foundErrs
 
 # Guide to Source code
 
@@ -58,13 +85,4 @@ class Foldable t => Attribute t a where
 
   check :: t a -> IRConfigFile -> Maybe (t a)
     Given a set of rules and a file, check for errors
-
-# definitions for evaluation
-
-A benchmark passes if the specification error is in the error report, up to a useful equality measure.
-The equality measure requires two error to have fail points in common - thereby leading the user to the part of the config file that must be repaired.
-A false positive is any error in the report that does not match the specification.
-See Main.hs, reportBenchmarkPerformance function for more 
-    truePos = head spec `elem` foundErrs
-    falsePos = filter ((/=) $ head spec) foundErrs
 
