@@ -4,37 +4,34 @@
 System failures resulting from configuration errors 
 have become the major causes affecting the availability and
 reliability of today's software systems.
-While many misconfiguration handling techniques,
+Although many misconfiguration handling techniques,
 \eg, misconfiguration checking, troubleshooting and repair, 
 have been proposed, 
 offering automatic verification for configuration files -- like
 what we did to regular programs -- is still an open problem.
-This is because 1) software configurations are typically written in
-poorly structured and untyped representations, and 2) 
-writing specifications or constraints for configuration 
-verification is non-trivial.
+This is because software configurations are typically written in
+poorly structured and untyped ``languages'', and 
+specifying constraints and rules for configuration 
+verification is non-trivial in practice.
+
 This paper presents, \app, the first automatic verification framework for
-software configurations.
-For a given configuration file,
-\app first analyzes a dataset sample of configuration files,
-thus generating a well-structured and probabilistically-typed 
+general software configurations.
+Given a target configuration file,
+\app first analyzes a dataset containing sample configuration files,
+thus generating well-structured and probabilistically-typed 
 intermediate representations.
 Then, \app derives rules and constraints by analyzing
-the intermediate representations.
-The above two steps have formulated a language model.
-Finally, the resulting language model can be used
-to verify the given configuration file and capable of 
-detecting various tricky errors,
-including orderings, value correlation, type errors, and entry missing.
-%At the heart of \app lies a novel learning engine, 
-%which employs a probabilistic type inference strategy and
-%defines an intermediate representation for the rule type.
-%With this engine, \app learns various type rules (\eg, orderings,
-%value relations, type errors, and user defined rules)
-%to verify configuration files of interest.
-Our \app framework is highly modular, 
-does not rely on the system source code, and
-can be applied to any new configuration file type with minimal user input.  
+the intermediate representations, thus building a language model.
+Finally, \app uses the resulting language model
+to verify the given configuration file.
+\app framework is highly modular, 
+does not rely on the system source code or templates and
+can be applied to any new configuration file type with minimal user input. 
+
+\app is capable of detecting various tricky errors,
+previous methods cannot detect,
+including ordering errors, fine-grained value correlation errors, 
+entry missing errors, and environment related errors. 
 %Our tool, named \app, relies on an abstract representation of language 
 %rules to allow for this modularity. 
 \ennan{One or two sentences here describe the most important

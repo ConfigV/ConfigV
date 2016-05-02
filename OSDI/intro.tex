@@ -7,27 +7,74 @@ In practice, misconfiguration problems may lead to security
 vulnerabilities, application crashes, severe disruptions in software
 functionality, and incorrect program executions%
 ~\cite{zhang14encore, yuan11context, xu13do, xu15hey}.  
-Although many efforts tackling misconfigurations have been proposed 
+For example, Yin {\em et al.}~\cite{yin11anempirical} reveal
+that about 31\% system failures are caused by misconfiguration problem. 
+
+Although many efforts have been proposed 
 to check, troubleshoot, diagnose and repair configuration errors%
 ~\cite{wang04automatic, attariyan10automating,
-su07autobash, whitaker04configuration}, these efforts rely on a manual 
-approach to understand and detect the failure symptoms. 
+su07autobash, whitaker04configuration}, 
+offering automatic verification to configuration files -- like what we
+did for verifying regular programs -- is still an open problem.
 The main reasons for this are:
 1) entries in configuration files are untyped assignments, 2) there
 is no explicit structure policy for the entries in configuration
 files, and 3) there are surprisingly few rules specifying the
 entries' constraints.
 
-Verifying configuration files have been advocated as a reasonable means
-to check the correctness of configuration files of interest.
+%Offering automatic verification to configuration files -- like
+%what we did to programs -- has been advocated as a reasonable means
+%to check the correctness of configuration files of interest.
+%Nevertheless, it is still an open problem, because 
+%1) software configurations are typically written in poorly structured 
+%and untyped languages, and 2) writing specifications or constraints
+%for configuration verification is non-trivial in practice.
 
-We propose an approach to the verification of  
-configuration files which is based on learning rules about the language 
-model for configuration files. 
+This paper presents \app, the first automatic verification framework
+for general software configurations.
+The insight of \app design is that we first analyze and learn 
+a dataset sample of configuration files, thus building 
+a structured and typed language model. Using this ``learned'' language
+model, we can verify the target configuration files.
+Such a design insight overcomes the above obstacles:
+1) learned language model itself is well-structured and typed, so
+that we can parse target configuration files to it and verify these
+files; 2) because we learn and derive rules and constraints 
+from an existing sample dataset, 
+we do not need users to write explicit constraints or specifications.
 
-Building a practical framework for checking the type-safety of
-configuration files, nevertheless, requires addressing several
-challenges. First, given the fact that 
+In general, \app's workflow to verifying a given configuration file
+could be looked as a three-step methodology.
+First, \app analyzes a dataset containing sample configuration files,
+thus generating a well-structured and probabilistically-typed 
+intermediate representation.
+Second, \app derives rules and constraints by analyzing
+the intermediate representations, thus building a language model.
+Finally, \app uses the resulting language model
+to verify the given configuration file and detect potential errors.
+
+Building such an automatic verification framework for
+configuration files, nevertheless, still requires addressing several
+challenges. 
+First, when inferencing each entry's type in a given configuration file, 
+the type of a variable cannot always be fully determined from a single 
+value. For example, an entry {\tt foo = MAX\_SIZE} is most likely
+an integer rather than string. We address this problem by introducing 
+so called {\emph{probabilistic types}}.
+Rather than assigning only one variable to a single type,
+like previous work did~\cite{zhang14encore}, 
+we assign several types with their probability distributions. 
+The entry in the above example should be assigned 
+a probabilistic type like 
+{\tt \{foo, MAX\_SIZE, [(Int, 90\%), (String, 10\%)]\}}.
+\ennan{I am not quite sure probabilistic types are obviously
+better than deterministic types.}
+
+Second, \ennan{Here, we need to add a challenge description about
+why using learning algorithm is interesting.}
+
+
+\com{First, given the fact that 
 different systems' configuration files use various representations, 
 the cost of introducing a completely new configuration
 language (or representation) to instead of all these existing format looks 
@@ -40,20 +87,7 @@ much more structured than existing configuration format,
 but use it as an intermediate layer. We, at the same time,
 develop many pluggable parsers
 that can transform different systems' configuration representations
-into our proposed intermediate representation for the post process.
-
-Second, when running type inference on any given configuration file, 
-the type of a variable cannot always be fully determined from a single 
-value. For example, an entry {\tt foo = MAX\_SIZE} is most likely
-an integer rather than string. We address this problem by introducing 
-so called {\emph{probabilistic types}}.
-Rather than assigning only one variable to a single type, 
-we assign several types with their probability distributions. 
-The entry in the above example should be assigned 
-a probabilistic type like 
-{\tt \{foo, MAX\_SIZE, [(Int, 90\%), (String, 10\%)]\}}.
-\ennan{I am not quite sure probabilistic types are obviously
-better than deterministic types.}
+into our proposed intermediate representation for the post process.}
 
 We can then use these more structured files
 as a training set to learn the rules. The learning algorithm
@@ -75,12 +109,14 @@ Our language-based approach can only learn on sets of text files, not the system
 From a practical perspective \app introduces no additional burden 
 to the users: they can simply use \app to check for errors in their configuration files. However, they can also easily extend the framework themselves. The system is designed to be highly modular. If there is a class of rules that \app is not currently learning, the user can develop their own templates and learners for that class. The new learner can be added to \app and this way it can check additionally a new set of errors.
 
+\com{
 Finally, from a systems perspective this is the first approach that {\emph{proactively}} checks 
  the correctness of configuration files. All previous work
 ~\cite{xu15systems,zhang14encore,yuan11context, wang04automatic,attariyan10automating,
 su07autobash,whitaker04configuration} tries to identify the problem after the
 failure occured. Our approach isolates potential errors before the system failure occurs, e.g. before the installation. We can also see \app as a tool that can run in conjunction with existing tools. Pre-analyzed configuration files are already free from language-based errors, and this way the workloads of post-failure forensics at the runtime
 is significantly reduced, thus making these tools truly practical.
+}
 
 To summarize, this tool paper makes the following contributions:
 
