@@ -20,18 +20,36 @@ We propose an approach to the verification of
 configuration files which is based on learning rules about the language 
 model for configuration files. 
 
-Figure~\ref{fig-overview} describes an overview of our system. We start
-with the assumption that we are given a number of correct configuration
-files belonging to the same category (for instance, MySQL or
-Apache). Such files follow similar patterns, which we exploit
-in a learning algorithm to build rules that
-describe a language model for the files. Since the
-``language'' of configuration types is untyped and unstructured, we
-first parse the files and translate them into a more structured,
-intermediary representation.
-When running type inference on a configuration file, the type of a variable cannot always be fully determined from a single value.
-We address this problem by introducing so called {\emph{probabalistic types}}.
-Rather than giving a variable a single type, we assign several types with their probability distributions. 
+Building a practical framework for checking the type-safety of
+configuration files, nevertheless, requires addressing several
+challenges. First, given the fact that 
+different systems' configuration files use various representations, 
+the cost of introducing a completely new configuration
+language (or representation) to instead of all these existing format looks 
+like an impractical goal. This is not only because administrators need 
+to learn this new language, but also changes existing system
+infrastructure to support such a new language. 
+In order to avoid the above issues, we propose a representation,
+which is a type-based representation and 
+much more structured than existing configuration format, 
+but use it as an intermediate layer. We, at the same time,
+develop many pluggable parsers
+that can transform different systems' configuration representations
+into our proposed intermediate representation for the post process.
+
+Second, when running type inference on any given configuration file, 
+the type of a variable cannot always be fully determined from a single 
+value. For example, an entry {\tt foo = MAX\_SIZE} is most likely
+an integer rather than string. We address this problem by introducing 
+so called {\emph{probabilistic types}}.
+Rather than assigning only one variable to a single type, 
+we assign several types with their probability distributions. 
+The entry in the above example should be assigned 
+a probabilistic type like 
+{\tt \{foo, MAX\_SIZE, [(Int, 90\%), (String, 10\%)]\}}.
+\ennan{I am not quite sure probabilistic types are obviously
+better than deterministic types.}
+
 We can then use these more structured files
 as a training set to learn the rules. The learning algorithm
 is template-based to be easily extensible. We provide an initial set of templates and the
