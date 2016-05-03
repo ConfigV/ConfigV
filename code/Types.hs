@@ -123,7 +123,8 @@ data Error = Error{
     errLoc1 :: (FilePath, Keyword)
   , errLoc2 :: (FilePath, Keyword)
   , errIdent :: ErrorType
-} deriving (Show)
+  , errMsg :: String
+}
 
 -- | as long as we have the correct type of error
 --   and have identified one similar fail point the errors are similar enough
