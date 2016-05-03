@@ -1,88 +1,104 @@
 \section{Motivating Examples}
 \label{sec-motiv}
 
-When writing configuration files, users usually take already existing
-files and modify the files, with little knowledge of the system. 
-The non-expert user can then easily introduce in errors.
-Even worse, the original file may already corrupted and the errors are propagated further. 
-Below we show some real worlds examples of the errors commonly found in configuration files.
-All these examples are extracted from real-world reports % ~\cite{yin11anempirical, configdataset}.
-The deep, domain specific knowledge needed to identify these error manually is strong motivation for a tool such as \app.
+In this section, we present several tricky configuration errors
+extracted from real-world examples. 
+Existing efforts, \eg, learning-based checking
+efforts~\cite{zhang14encore, wang04automatic}, cannot detect
+these sophisticated misconfiguration problems.
 
 \para{Example~1: Ordering errors.} 
-When configuring PHP to run with the
-Apache HTTP Server, the user writes, among others, the following lines:\\
- \texttt{
- \hspace*{3em}extension = mysql.so\\
- \hspace*{3em}...\\
- \hspace*{3em}extension = recode.so}\\
-This file caused the Apache server to fail to start due to a segmentation fault error.
-When using PHP in Apache, the extension ``mysql.so'' depends on ``recode.so'' and the relative ordering of two of them is crucial. 
-\app would inform the user that ``recode.so'' should appear before ``mysql.so'', and return the error:\\
- \texttt{
-ORDERING ERROR: Expected "extension"recode.so"\\
-   BEFORE "extension""mysql.so"
-  }
+The first example configuration error is extracted from 
+Yin {\em et al.}~\cite{yin11anempirical}.
+When a user configure PHP to run with the
+Apache HTTP Server, this user writes, among others, the following lines
+in the configuration file.
 
-\para{Example~2: Entry missing errors.} 
-If the user wants to use OpenLDAP to enable her directory access
+\begin{lstlisting}[language=C]
+extension = mysql.so
+...
+extension = recode.so
+\end{lstlisting} 
+
+Such a configuration file will cause the Apache server to 
+fail to start due to a segmentation fault error~\cite{yin11anempirical}. 
+This is because when using PHP in Apache, the extension {\tt mysql.so} 
+depends on {\tt recode.so}, and the relative ordering of two of them 
+is crucial. \app is able to inform the user that {\tt recode.so} 
+should appear before {\tt mysql.so}, and reports the error.
+
+\begin{lstlisting}[language=C]
+ORDERING ERROR: Expected "extension" "recode.so"
+BEFORE "extension" "mysql.so"
+\end{lstlisting} 
+
+\para{Example~2: Fine-grained value correlation errors.} 
+In a real-world misconfiguration example~\cite{correlation}, 
+a user configures his MySQL as the following:
+
+\begin{lstlisting}[language=C]
+key_buffer_size = 384M
+max_heap_table_size = 128M
+max_connections = 64
+thread_cache_size = 8
+...
+sort_buffer_size = 32M
+join_buffer_size = 32M
+read_buffer_size = 32M
+read_rnd_buffer_size = 8M
+...
+\end{lstlisting} 
+
+This user complained his MySQL's load is very high and the website's
+respond speed is very slow.
+In this case, {\tt key\_buffer\_size} is used by all the threads
+cooperatively while {\tt join\_buffer} and {\tt sort\_buffer} are 
+created by each thread for private use; thus, the maximum amount
+of used key buffer, \ie, {\tt key\_buffer\_size} should be larger than 
+{\tt join|sort\_buffer\_size} * {\tt max\_connections}. 
+Clearly, in the above example, it is not, so that this misconfiguration
+causes MySQL loads very slow.
+
+\app is able to check such fine-grained value correlation problem.
+If we run \app on this configuration file, \app  would return:
+
+\begin{lstlisting}[language=C]
+INTEGER RELATION ERROR:
+Expected "key_buffer_size">="max_connections"*"sort_buffer_size"
+\end{lstlisting} 
+
+Note that existing effort, EnCore, aims to detect value correlation 
+errors. However, different from \app, EnCore can only detect simple
+correlation, \eg, {\tt mysql.max\_persistent} < {\tt max\_connections},
+rather than the fine-grained computation-based value correlation
+done by \app.
+
+\para{Example~3: Entry missing errors.} 
+If a user wants to use OpenLDAP to enable her directory access
 protocol, she needs to use the password policy overlay. This is usually
-done through the following entries in the OpenLDAP configuration file:\\
-\texttt{
- \hspace*{3em}include schema/ppolicy.schema\\
- \hspace*{3em}overlay ppolicy\\}
-When using the password policy overlay in OpenLDAP, we have to first include the related schema.
+done through the following entries in the OpenLDAP configuration file:
+
+\begin{lstlisting}[language=C]
+include schema/ppolicy.schema
+overlay ppolicy
+\end{lstlisting} 
+
+When using the password policy overlay in OpenLDAP, 
+we have to first include the related schema.
 Leaving out the ``include'' statement will cause the failure of 
-this LDAP. Running \app on such a misconfiguration file would return:\\
-\texttt{
-MISSING KEYWORD ERROR: Expected "overlay""ppolicy"\\ 
-in the same file as: "include""schema/ppolicy.schema"}
+this LDAP. Running \app on such a misconfiguration file would return:
 
-\para{Example~3: Type errors.} 
-If the user tries to install MySQL, she first needs to initiate the path for the log information generated by MySQL. 
-A user may put the following code in the MySQL configuration file:\\
-\texttt{
- \hspace*{3em}general\_log = /var/log/mysql/mysql.log\\}
-However, the entry ``general\_log'' should be an integer, not a string.
- In MySQL, there is another entry named ``general\_log\_file'' which is used to specify the log path.  
-After \app analyzes this configuration file, it correctly identifies the error:\\
-\texttt{
-TYPE ERROR: Expected a Int with P=1.0 for "general\_log[mysqld]"
-}
+\begin{lstlisting}[language=C]
+MISSING KEYWORD ERROR: Expected "overlay" "ppolicy"
+in the same file: "include" "schema/ppolicy.schema"
+\end{lstlisting} 
 
-\para{Example~4: Value correlation errors.} 
-When configuring PHP on MySQL, the user may write the following lines of entries in both the PHP and MySQL configuration files:\\
-\texttt{
- \hspace*{3em}mysql's config\\
- \hspace*{3em}max\_connections = 300\\
- \hspace*{3em}...\\
- \hspace*{3em}php's config\\
- \hspace*{3em}mysql.max\_persistent = 400\\}
-This could cause MySQL to abort with the error information: ``too many connections''.
-In this case, the ``mysql.max\_persistent'' in PHP should be no larger than the ``max\_connections'' in MySQL configuration file.
-Another rule we have implemented is learning inequality relations between integers.
-Running \app on this combined configuration file would return:
-\texttt{
-INTEGER RELATION ERROR: \\
-Expected "max\_connections">="mysql.max\_persistent"}
+\ennan{Example~4: This should be the singular value error.}
 
-\com{
-\begin{figure}[t] \centering
-\includegraphics[width=0.98\textwidth]{figs/example}
-\caption{Motivating examples. Our target configuration errors are
-  classified into five groups. The five examples here correspond to
-  these groups, respectively.}
-\label{fig-example}
-\end{figure}
-
-Fig.~\ref{fig-example} presents misconfiguration examples in real-world
-that we aim to address. All the examples are extracted from
-misconfiguration issues reported in real-world efforts%
-~\cite{yin11anempirical, configdataset}.
-We classify our target configuration errors
-into five groups: 1) format error; 2) entry missing error; 3) value type
-error; and 4) ordering error
-The examples in Fig.~\ref{fig-example} correspond to the above four
-groups, respectively.
-
-} 
+\para{Other errors.}
+\app can also deal with the configuration errors that can be detected by
+existing work, such as EnCore~\cite{zhang14encore}.
+For example, both \app and EnCore can handle system execution related
+misconfiguration problems.
+Furthermore, \app is also able to detect type errors and syntax errors
+in configuration files.
