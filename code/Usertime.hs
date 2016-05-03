@@ -14,7 +14,6 @@ import qualified Data.Map as M
 import qualified Data.List as L
 import qualified Data.Text as T
 import Learners.IntRelP
-import Learners.TypeMapper (assignProbs,findVal)
 import Control.Applicative
 import Data.Foldable (Foldable)
 
@@ -22,10 +21,6 @@ import Debug.Trace
 --import Data.Foldable
 
 import qualified Settings
-
-instance Show Error where
-	  --show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n"
-    show e = errMsg e
 
 showProbRules :: RuleSet -> [String]
 showProbRules r =
@@ -94,34 +89,34 @@ verifyOn r f fname =
 
 
     typeErrMsg x =
+      --"TYPE ERROR: Expected a "++(show$snd x)++" for "++(show$fst x)
       Error {errLoc1 = (fname,fst x)
             ,errLoc2 = (fname,fst x)
-            ,errIdent = "TYPE"
-            ,errMsg = "TYPE ERROR: Expected a "++(show$snd x)++" for "++(show$fst x)++ ". Found value " ++(show $ findVal f' $ fst x) ++ " of type " ++ (show $ assignProbs $ findVal f' $ fst x) }
+            ,errIdent = "TYPE" }
     typeShow =
       showErr typeError typeErrMsg
 
     orderingErrMsg x =
+      --"ORDERING ERROR: Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)
       Error {errLoc1 = (fname,keyword$snd$ fst x)
             ,errLoc2 = (fname,keyword$fst$ fst x)
-            ,errIdent = "ORDERING"
-            ,errMsg = "ORDERING ERROR: Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)}
+            ,errIdent = "ORDERING"}
     orderingShow =
       showErr orderingError orderingErrMsg
 
     orderingPErrMsg x =
+      --"ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)
       Error {errLoc1 = (fname,keyword$snd$ fst x)
             ,errLoc2 = (fname,keyword$fst $fst x)
-            ,errIdent = "ORDERING(PROB)"
-            ,errMsg = "ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)}
+            ,errIdent = "ORDERING(PROB)"}
     orderingShowP =
       showErr orderingErrorP orderingPErrMsg
 
     intRelErrMsg x =
+      --"INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)
       Error {errLoc1 = (fname,snd$fst x)
             ,errLoc2 = (fname,fst $fst x)
-            ,errIdent = "INTREL"
-            ,errMsg = "INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)}
+            ,errIdent = "INTREL"}
     intRelShow =
       showErr intRelError intRelErrMsg
 
@@ -132,20 +127,20 @@ verifyOn r f fname =
         fc x = show $ snd x
         k2 x = show $ snd $ fst x
       in
+        --"INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)
         Error {errLoc1 = (fname,T.pack$k1 x)
               ,errLoc2 = (fname,T.pack$k2 x)
-              ,errIdent = "INTREL(PROB)"
-              ,errMsg = "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)}
+              ,errIdent = "INTREL(PROB)"}
     intRelShowP =
       showErr intRelErrorP intRelPErrMsg
 
     missingShow =
       let
         es = fromMaybe [] missingError
+        --f = (\x->"MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x))
         f x =  Error {errLoc1 = (fname,k1 x)
                      ,errLoc2 = (fname,k2 x)
-                     ,errIdent = "MISSING"
-                     ,errMsg = "MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)}
+                     ,errIdent = "MISSING"}
       in
         map f es
 
@@ -157,11 +152,9 @@ verifyOn r f fname =
         es = fromMaybe [] missingErrorP
         -- f = (\(x, y, n)->"MISSING KEYWORD ERROR (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)++
         --  " with probability "++(show $ (fromIntegral y) / (fromIntegral (y + n)))++" "++(show y)++", "++(show n))
-        f' (x, y, n) =
-           Error {errLoc1 = (fname,k1 x)
-                  ,errLoc2 = (fname,k2 x)
-                  ,errIdent = "MISSING(PROB) y:" ++ (show y) ++ " n:" ++ (show n)
-                  ,errMsg = "MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)}
+        f' (x, y, n) = Error {errLoc1 = (fname,k1 x)
+                     ,errLoc2 = (fname,k2 x)
+                     ,errIdent = "MISSING(PROB) y:" ++ (show y) ++ " n:" ++ (show n)}
       in
         map f' es
 

@@ -9,7 +9,7 @@ import Settings
 
 
 makeError (errLoc1,errLoc2,errIdent) =
-  Error {errMsg="Spec",..}
+  Error {..}
 getFileName = fst . errLoc1
 
 benchmarkFiles :: [FilePath]
@@ -17,7 +17,7 @@ benchmarkFiles = map getFileName $ concat benchmarks
 benchmarks :: [ErrorReport]
 benchmarks =
   if Settings.pROBRULES
-    then group2 ++ group4 ++ group5 ++ group6
+    then group2 ++ group4 ++ group5
     else group2 ++ group3 ++ group4 ++ group5
 
 group2 :: [ErrorReport]
@@ -54,13 +54,4 @@ group5 = map (map makeError) [
   , [(("dataset/group5-value-correlation/error3","max_connections[mysqld]"),("dataset/group5-value-correlation/error3","connection_buffer[mysqld]"),"INTREL")]
   , [(("dataset/group5-value-correlation/error4","max_allowed_packet[mysqldump]"),("dataset/group5-value-correlation/error4","key_buffer[mysqldump]"),"INTREL")]
   , [(("dataset/group5-value-correlation/error5","key_buffer[isamchk]"),("dataset/group5-value-correlation/error5","sort_buffer_size[isamchk]"),"INTREL")]
-  ]
-
-group6 :: [ErrorReport]
-group6 = map (map makeError) [
-    [(("dataset/realWorld/error1.cnf","max_allowed_packet[wampmysqld]"),("dataset/realWorld/error1.cnf","key_buffer[wampmysqld]"),"INTREL")]
-  , [(("dataset/realWorld/error2.cnf","max_allowed_packet[wampmysqld]"),("dataset/realWorld/error2.cnf","key_buffer[wampmysqld]"),"INTREL")]
-  , [(("dataset/realWorld/error3.cnf","max_connections[mysqld]"),("dataset/realWorld/error3.cnf","connection_buffer[mysqld]"),"INTREL")]
-  , [(("dataset/realWorld/error4.cnf","max_allowed_packet[mysqldump]"),("dataset/realWorld/error4.cnf","key_buffer[mysqldump]"),"INTREL")]
-  , [(("dataset/realWorld/error5.cnf","key_buffer[isamchk]"),("dataset/realWorld/error5.cnf","sort_buffer_size[isamchk]"),"INTREL")]
   ]
