@@ -3,24 +3,50 @@
 
 Configuration errors are one of the most important root causes of
 today's software system failures~\cite{xu15systems, yin11anempirical}.
-In practice, misconfiguration problems may lead to security
-vulnerabilities, application crashes, severe disruptions in software
+For example, Yin {\em et al.}~\cite{yin11anempirical} reveal
+that about 31\% system failures were caused by misconfiguration problems. 
+Misconfigurations, in practice, may result in various
+system-wide problems, such as security vulnerabilities, 
+application crashes, severe disruptions in software
 functionality, and incorrect program executions%
 ~\cite{zhang14encore, yuan11context, xu13do, xu15hey}.  
-For example, Yin {\em et al.}~\cite{yin11anempirical} reveal
-that about 31\% system failures are caused by misconfiguration problem. 
 
-Although many efforts have been proposed 
+While many efforts have been proposed 
 to check, troubleshoot, diagnose and repair configuration errors%
-~\cite{wang04automatic, attariyan10automating,
+~\cite{attariyan10automating,
 su07autobash, whitaker04configuration}, 
 offering automatic verification to configuration files -- like what we
-did for verifying regular programs -- is still an open problem.
-The main reasons for this are:
-1) entries in configuration files are untyped assignments, 2) there
+did for verifying regular programs -- is still highly
+desirable~\cite{wang04automatic, zhang14encore}.
+Nevertheless, the main obstacles are:
+1) entries in configuration files are untyped entries, 2) there
 is no explicit structure policy for the entries in configuration
 files, and 3) there are surprisingly few rules specifying the
 entries' constraints.
+
+In order to avoid these obstacles,
+researchers propose statistical analysis and learning based approaches%
+~\cite{wang04automatic, zhang14encore, yuan11context}. 
+These efforts build checking policies by learning a sample 
+data set, rather than explicitly specifying entries' types or rules.
+In particular, for each entry in a certain configuration file, 
+if it deviates from the common values used in a large collection
+of configurations (\ie, the training set), it is typically
+suspected as a potential configuration error.
+However, because these learning 
+efforts {\em either} are limited to simplistic 
+configuration errors (\eg, type errors and syntax errors), 
+{\em or} heavily rely on template-based inference~\cite{zhang14encore}, 
+many sophisticated configuration errors, 
+\eg, hard to be templated in practice, cannot be detected.
+For example, if {\tt extension = mysql.so} appears 
+before {\tt extension = recode.so} in PHP configuration file,  
+it would lead to a crash error, since the correct ordering 
+should be {\tt extension = recode.so} before 
+{\tt extension = mysql.so}~\cite{yin11anempirical};
+however, such an error cannot be detected by existing
+learning efforts, since it is hard to build a template for this
+error~\cite{xu15systems}.
 
 %Offering automatic verification to configuration files -- like
 %what we did to programs -- has been advocated as a reasonable means
@@ -30,20 +56,17 @@ entries' constraints.
 %and untyped languages, and 2) writing specifications or constraints
 %for configuration verification is non-trivial in practice.
 
-This paper presents \app, the first automatic verification framework
-for general software configurations.
-The insight of \app design is that we first analyze and learn 
-a dataset sample of configuration files, thus building 
-a structured and typed language model. Using this ``learned'' language
-model, we can verify the target configuration files.
-Such a design insight overcomes the above obstacles:
-1) learned language model itself is well-structured and typed, so
-that we can parse target configuration files to it and verify these
-files; 2) because we learn and derive rules and constraints 
-from an existing sample dataset, 
-we do not need users to write explicit constraints or specifications.
+In order to truly achieve automatic configuration verification,
+we argue that we need to leverage a collection of more powerful learning 
+algorithms (not necessarily depending on templates) to derive 
+a more sophisticated language model (with abundant rules covering
+tricky configuration errors), and then check the configuration files
+of interest through the learned language model.
 
-In general, \app's workflow to verifying a given configuration file
+Based on the above insight, 
+this paper presents \app, the first automatic verification framework
+for general software configurations.
+In particular, \app's workflow to verifying a given configuration file
 could be looked as a three-step methodology.
 First, \app analyzes a dataset containing sample configuration files,
 thus generating a well-structured and probabilistically-typed 
@@ -52,13 +75,18 @@ Second, \app derives rules and constraints by analyzing
 the intermediate representations, thus building a language model.
 Finally, \app uses the resulting language model
 to verify the given configuration file and detect potential errors.
+Compared with previous efforts,
+\app does not necessarily rely on users' templates, 
+and is capable of detecting more tricky configuration errors that
+cannot be identified by existing work (details in $\S$\ref{sec-motiv}). 
 
 Building such an automatic verification framework for
-configuration files, nevertheless, still requires addressing several
-challenges. 
-First, when inferencing each entry's type in a given configuration file, 
-the type of a variable cannot always be fully determined from a single 
-value. For example, an entry {\tt foo = MAX\_SIZE} is most likely
+configuration files, nevertheless, requires addressing several challenges. 
+First, before formulating the language model, 
+we need to infer each entry's type in a given configuration file;
+however, the type of a variable cannot always be fully determined 
+from a single value. 
+For example, an entry {\tt foo = MAX\_SIZE} is most likely
 an integer rather than string. We address this problem by introducing 
 so called {\emph{probabilistic types}}.
 Rather than assigning only one variable to a single type,
@@ -70,9 +98,9 @@ a probabilistic type like
 \ennan{I am not quite sure probabilistic types are obviously
 better than deterministic types.}
 
-Second, \ennan{Here, we need to add a challenge description about
-why using learning algorithm is interesting.}
-
+Second, without template, how to learn rules and constraints present
+a difficult. \ennan{Here, we need to add a describe to illustrate
+how we learn rules without templates.}
 
 \com{First, given the fact that 
 different systems' configuration files use various representations, 
@@ -89,32 +117,27 @@ develop many pluggable parsers
 that can transform different systems' configuration representations
 into our proposed intermediate representation for the post process.}
 
-We can then use these more structured files
-as a training set to learn the rules. The learning algorithm
-is template-based to be easily extensible. We provide an initial set of templates and the
-learner learns some concrete instances from the training set. These
-rules are used for detecting errors violating the learned constraints
-in the files given by the user.
+From a practical perspective, 
+\app introduces no additional burden 
+to the users: they can simply use \app to check for errors in their
+configuration files. However, they can also easily extend the framework
+themselves. The system is designed to be highly modular. If there is a
+class of rules that \app is not currently learning, the user can develop
+their own templates and learners for that class. The new learner can be
+added to \app and this way it can check additionally a new set of
+errors.
 
-As an 
-illustration of a simple rule that we can learn, consider a template
- $X_1 \le X_2$, where $X_1$ and $X_2$ are
-integer variables. The learner might derive the rule stating that
-$\texttt{mysql.max\_persistent} \le \texttt{max\_connections}$. There is a classification and taxonomy of configuration errors in the 
-existing work on automated configuration troubleshooting~\cite{yin11anempirical, configdataset}. We provide templates for every class that \app can handle: we consider integer constraints, ordering
-constraints, typing constraints, and constraints about correlated entries (such as ``if $X$ is present, $Y$ has to appear as well''). 
-Unfortunately, we cannot handle the class of errors that rely on the analysis of the whole operating system.
-Our language-based approach can only learn on sets of text files, not the system environment.
-
-From a practical perspective \app introduces no additional burden 
-to the users: they can simply use \app to check for errors in their configuration files. However, they can also easily extend the framework themselves. The system is designed to be highly modular. If there is a class of rules that \app is not currently learning, the user can develop their own templates and learners for that class. The new learner can be added to \app and this way it can check additionally a new set of errors.
+Our \app prototype still has a few limitations,
+\eg, cannot handle errors occurred in execution time.
+Nevertheless, we believe \app may suggest a practical path
+toward automatic and language-based configuration verification.
 
 \com{
 Finally, from a systems perspective this is the first approach that {\emph{proactively}} checks 
  the correctness of configuration files. All previous work
 ~\cite{xu15systems,zhang14encore,yuan11context, wang04automatic,attariyan10automating,
 su07autobash,whitaker04configuration} tries to identify the problem after the
-failure occured. Our approach isolates potential errors before the system failure occurs, e.g. before the installation. We can also see \app as a tool that can run in conjunction with existing tools. Pre-analyzed configuration files are already free from language-based errors, and this way the workloads of post-failure forensics at the runtime
+failure occurred. Our approach isolates potential errors before the system failure occurs, e.g. before the installation. We can also see \app as a tool that can run in conjunction with existing tools. Pre-analyzed configuration files are already free from language-based errors, and this way the workloads of post-failure forensics at the runtime
 is significantly reduced, thus making these tools truly practical.
 }
 
@@ -122,10 +145,25 @@ To summarize, this tool paper makes the following contributions:
 
 \begin{enumerate}
 
-  \item We designed and implemented a tool, \app, that can learn a
-language model from an example set of correct configuration files, and
-we use the model to verify new configuration files.
-  \item We use probabilistic types to assign a confidence distribution over a set of types to a value.
-  \item In \app we define a interface for describing a verification attribute in a learning context, making it easy to add new rules to the system.
+\item We propose the first automatic configuration verification
+framework, \app, that can learn a language model from an example set of 
+correct configuration files, and we use the model to verify 
+new configuration files.
+ 
+\item \app uses probabilistic types to assign a confidence 
+distribution over a set of types to each entry, 
+while generating the intermediate representation. 
+
+\item \app applies existing machine learning algorithms to 
+enable powerful rule and constraint inference without the assistance 
+from any pre-defined templates.
+
+\item \app is capable of detecting various tricky errors that cannot
+be detected by previous efforts,
+including ordering errors, fine-grained value correlation errors, 
+entry missing errors, and environment related errors. 
+
+\item We implement a \app prototype and evaluate it by
+conducting comprehensive experiments.
 
 \end{enumerate}

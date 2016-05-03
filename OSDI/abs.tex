@@ -16,20 +16,22 @@ verification is non-trivial in practice.
 
 This paper presents, \app, the first automatic verification framework for
 general software configurations.
-Given a target configuration file,
-\app first analyzes a dataset containing sample configuration files,
-thus generating well-structured and probabilistically-typed 
-intermediate representations.
-Then, \app derives rules and constraints by analyzing
-the intermediate representations, thus building a language model.
-Finally, \app uses the resulting language model
-to verify the given configuration file.
+\app verifies a target configuration file $F$ through three steps.
+First, \app analyzes a dataset containing many sample configuration 
+files belonging to the same system as $F$,
+and translates these sample files to a
+well-structured and probabilistically-typed 
+intermediate representation.
+Second, \app derives rules and constraints by analyzing
+this intermediate representation, thus building a
+language model.
+Finally, \app uses the resulting language model to verify $F$.
 \app framework is highly modular, 
 does not rely on the system source code or templates and
 can be applied to any new configuration file type with minimal user input. 
 
-\app is capable of detecting various tricky errors,
-previous methods cannot detect,
+\app is capable of detecting various tricky errors that cannot
+be detected by previous efforts,
 including ordering errors, fine-grained value correlation errors, 
 entry missing errors, and environment related errors. 
 %Our tool, named \app, relies on an abstract representation of language 
