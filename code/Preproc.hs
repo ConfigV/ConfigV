@@ -14,8 +14,10 @@ import qualified Data.Text.IO as T
 -- this should be parmap
 learnRules :: [ConfigFile Language] -> RuleSet
 learnRules fs = let
-  fs' = parMap rseq convert fs
-  rs = parMap rdeepseq findAllRules fs'
+  --fs' = parMap rseq convert fs
+  --rs = parMap rdeepseq findAllRules fs'
+  fs' = map convert fs
+  rs = map findAllRules fs'
  in
   foldl1 mergeRules rs
 
@@ -23,7 +25,6 @@ learnRules fs = let
 findAllRules :: IRConfigFile -> RuleSet
 findAllRules f = RuleSet
   { order   = learn f
-  , intRel = learn f
   , missing = learn f
   , typeErr = learn f
   , missingP = learn f
@@ -37,11 +38,9 @@ findAllRules f = RuleSet
 mergeRules :: RuleSet -> RuleSet -> RuleSet
 mergeRules rs rs' = RuleSet
   { order  = merge (order rs) (order rs')
-  , intRel = merge (intRel rs) (intRel rs')
   , missing = merge (missing rs) (missing rs')
   , typeErr= merge (typeErr rs) (typeErr rs')
   , missingP = merge (missingP rs) (missingP rs')
   , orderP = merge (orderP rs) (orderP rs')
   , intRelP = merge (intRelP rs) (intRelP rs')
   }
-

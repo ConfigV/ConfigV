@@ -16,6 +16,8 @@ import qualified Data.Map as M
 
 import Debug.Trace
 
+
+-- when checking also need to report the found type
 instance Attribute (M.Map Keyword) ConfigQType where
   learn f =
     foldl addTypeToMap M.empty f
@@ -24,17 +26,27 @@ instance Attribute (M.Map Keyword) ConfigQType where
     let
       fRules = learn f
       mismatches = M.differenceWith typeConflict fRules rs
+
     in
       if M.null mismatches then Nothing else Just mismatches
 
   merge oldMap newMap = M.unionWithKey (updateProbs) oldMap newMap
 
-traceMe x = trace (concatMap (\x-> show x++"\n")(M.toList x)) x
+traceMe f x = trace (concatMap (\x-> show x ++ (show $ assignProbs x)++"\n!!!!")(map (findVal f) $map fst $M.toList x)) x
+
+findVal :: [IRLine] -> Keyword -> Value
+findVal [] k = ""
+findVal (i:is) k =
+  if k == keyword i
+    then value i
+    else findVal is k
 
 -- | if types conflict, return Just _, so we can report the error
+--   TODO this doesnt work with interesting probablilties
 typeConflict :: ConfigQType -> ConfigQType -> Maybe ConfigQType
 typeConflict t1 t2 =
     if t1 == t2 then Nothing else Just t2
+    --if t1 == t2 then Nothing else trace (show t1 ++ " vs " ++ show t2) Just t2
 
 
 -- | can use all sorts of nice Data.map fxns (see docs)
@@ -46,10 +58,12 @@ addTypeToMap m IRLine{..} =
     -- will only lookup if a file has duplicate keywords
     snd $ M.insertLookupWithKey updateProbs keyword newCType m
 
+-- TODO avg?
 updateProbs :: Keyword -> ConfigQType -> ConfigQType -> ConfigQType
 updateProbs k old new =
   new
 
+-- | TODO assign useful probablilties
 assignProbs :: Value -> ConfigQType
 assignProbs t =
   let
