@@ -1,18 +1,22 @@
 \section{Motivating Examples}
 \label{sec-motiv}
 
-In this section, we present several tricky configuration errors
+In this section, we present several {\em tricky} configuration errors
 extracted from real-world examples. 
-Existing efforts, \eg, learning-based checking
+The reason we call them tricky is
+most of existing efforts, \eg, learning-based checking
 efforts~\cite{zhang14encore, wang04automatic}, cannot detect
-these sophisticated misconfiguration problems.
+these configuration errors.
+On the other hand, we also investigated 
+many misconfiguration problems in practice were caused by 
+these tricky configuration errors, \eg, reported by Stack Overflow.
 
 \para{Example~1: Ordering errors.} 
-The first example configuration error is extracted from 
+The first example configuration error is first reported by 
 Yin {\em et al.}~\cite{yin11anempirical}.
-When a user configure PHP to run with the
-Apache HTTP Server, this user writes, among others, the following lines
-in the configuration file.
+For instance, when a user configures PHP to run with the
+Apache HTTP Server, this user may write, among others, 
+the following lines in the configuration file.
 
 \begin{lstlisting}[language=C]
 extension = mysql.so
@@ -24,8 +28,19 @@ Such a configuration file will cause the Apache server to
 fail to start due to a segmentation fault error~\cite{yin11anempirical}. 
 This is because when using PHP in Apache, the extension {\tt mysql.so} 
 depends on {\tt recode.so}, and the relative ordering of two of them 
-is crucial. \app is able to inform the user that {\tt recode.so} 
-should appear before {\tt mysql.so}, and reports the error.
+is crucial. 
+We call the above example misconfiguration situation 
+as {\em ordering errors}.
+Yin {\em et al.} find that ordering errors widely exist in
+many system configurations, \eg, PHP and MySQL,
+and typically lead to multiple system crash events;
+however, there is no existing effort that can effectively solve 
+or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
+
+If this user is using \app, she can avoid such a configuration error.
+In particular, \app is able to inform the user that {\tt recode.so} 
+should appear before {\tt mysql.so}, and reports the error (as shown
+below).
 
 \begin{lstlisting}[language=C]
 ORDERING ERROR: Expected "extension" "recode.so"
@@ -93,7 +108,9 @@ MISSING KEYWORD ERROR: Expected "overlay" "ppolicy"
 in the same file: "include" "schema/ppolicy.schema"
 \end{lstlisting} 
 
-\ennan{Example~4: This should be the singular value error.}
+\ennan{Example~4: This should be the singular value error.
+We need an example from Stack Overflow to illustrate the 
+real-world problem. I guess the buffer size example is fine.}
 
 \para{Other errors.}
 \app can also deal with the configuration errors that can be detected by
@@ -102,3 +119,4 @@ For example, both \app and EnCore can handle system execution related
 misconfiguration problems.
 Furthermore, \app is also able to detect type errors and syntax errors
 in configuration files.
+\ennan{We may need one example here.}
