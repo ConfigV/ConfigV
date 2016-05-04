@@ -18,6 +18,7 @@ import Control.Monad
 import System.IO.Unsafe
 
 import System.Directory
+import Data.Aeson
 
 
 import Control.Applicative
@@ -29,7 +30,8 @@ import qualified Settings
 main = do
  bs <- mapM T.readFile benchmarkFiles :: IO [T.Text]
  let bs' = zip bs (replicate (length bs) MySQL)
- let rules = learnRules (if Settings.pROBRULES then (learningSet) else learningSet)
+ let rules = learnRules (if Settings.pROBRULES then (bigLearningSet ++ learningSet) else learningSet)
+ writeFile "cachedRules.json" $ toJSON rules
  let errors =  zipWith (verifyOn rules) bs' benchmarkFiles
  when Settings.vERBOSE $ mapM_ putStrLn $ showProbRules rules
 
