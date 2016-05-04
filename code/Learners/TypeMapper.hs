@@ -45,7 +45,8 @@ findVal (i:is) k =
 --   TODO this doesnt work with interesting probablilties
 typeConflict :: ConfigQType -> ConfigQType -> Maybe ConfigQType
 typeConflict t1 t2 =
-    if t1 == t2 then Nothing else trace (show t1 ++ " vs " ++ show t2) Just t2
+    if t1 == t2 then Nothing else Just t2
+    --if t1 == t2 then Nothing else trace (show t1 ++ " vs " ++ show t2) Just t2
 
 
 -- | can use all sorts of nice Data.map fxns (see docs)

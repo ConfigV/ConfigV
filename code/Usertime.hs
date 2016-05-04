@@ -36,7 +36,6 @@ showProbRules r =
     i = intRelP r
     m' = missing r
     o' = order r
-    i' = intRel r
     showMissingP (r, y, n) =
       "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r)
         ++ delimiter ++ (show y)
@@ -52,8 +51,8 @@ showProbRules r =
         ++ delimiter ++ (show $ lt f)
         ++ delimiter ++ (show $ eq f)
         ++ delimiter ++ (show $ gt f)
-        ++ delimiter ++ (show $ findOrFindInverse r)
-      where
+      --  ++ delimiter ++ (show $ findOrFindInverse r)
+      {-where
         inverseIntRel x =
           case (show x) of -- hack to make case matching on operators work, sorry...
             "Just <=" -> Just (>=)
@@ -61,7 +60,7 @@ showProbRules r =
             "Just ==" -> Just (==)
             _         -> Nothing
         findOrFindInverse (x,y) =
-          M.findWithDefault Nothing (x,y) i' <|> inverseIntRel (M.findWithDefault Nothing (y,x) i')
+          M.findWithDefault Nothing (x,y) i <|> inverseIntRel (M.findWithDefault Nothing (y,x) i)-}
   in
     if Settings.pROBRULES
       then
@@ -70,15 +69,13 @@ showProbRules r =
         (["ordering|less_than|equals|greater_than|answer"] ++ (map showIntRelP $ M.toList i))
       else
         (map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m') ++
-        (map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o') ++
-        (map show $ M.toList i')
+        (map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o')
 
 verifyOn :: RuleSet -> ConfigFile Language -> FilePath -> ErrorReport
 verifyOn r f fname =
   let
     f' = convert f
     orderingError =  check (order r) f'
-    intRelError   =  check (intRel r) f'
     missingError  =  check (missing r) f'
     typeError     =  check (typeErr r) f'
     missingErrorP =  check (missingP r) f'
@@ -116,14 +113,6 @@ verifyOn r f fname =
             ,errMsg = "ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)}
     orderingShowP =
       showErr orderingErrorP orderingPErrMsg
-
-    intRelErrMsg x =
-      Error {errLoc1 = (fname,snd$fst x)
-            ,errLoc2 = (fname,fst $fst x)
-            ,errIdent = "INTREL"
-            ,errMsg = "INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)}
-    intRelShow =
-      showErr intRelError intRelErrMsg
 
     intRelPErrMsg x =
       let
@@ -181,7 +170,6 @@ verifyOn r f fname =
     orderingShowPC = "Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingErrorP)
     orderingShowNPC = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
     intRelShowPC = "Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelErrorP)
-    intRelShowNPC = "Non-Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelError)
 
     all =
       if Settings.pROBRULES
@@ -189,14 +177,13 @@ verifyOn r f fname =
           if Settings.vERBOSE
             then trace ((concat . (L.intersperse " ") . map (show.length)) [typeShow, orderingShowP, intRelShowP, missingShowP])  [typeShow, orderingShowP, intRelShowP, missingShowP]
             else [typeShow, orderingShowP, intRelShowP, missingShowP]
-        else [typeShow, orderingShow, intRelShow, missingShow]
+        else [typeShow, orderingShow, missingShow]
 
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError)
     count = typeSize +
       (maybe 0 M.size orderingError) +
       (sizeErr missingError) +
-      (maybe 0 M.size intRelError) +
       (sizeErr missingErrorP)
   in
     --if typeSize >0 then typeShow else filter (/="") $ concat all
