@@ -16,6 +16,7 @@ import qualified Data.Map as M
 
 import Debug.Trace
 
+-- type mapper does not have a probablistic version, because it already is the probablistic version
 
 -- when checking also need to report the found type
 instance Attribute (M.Map Keyword) ConfigQType where

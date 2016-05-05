@@ -24,7 +24,7 @@ import Debug.Trace
 import qualified Settings
 
 instance Show Error where
-	  --show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n"
+    --show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n"
     show e = errMsg e
 
 showProbRules :: RuleSet -> [String]
