@@ -1,0 +1,218 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,listings}
+
+\begin{document}
+\section{The Probabilistic Learning Algorithm}
+
+\subsection{Intuition and Formalism}
+Our probabilistic approaches for learning the Missing Values, Keyword Ordering, and Integer Relations rules stem from our previous work with building the non-probabilistic versions of these rule-learning algorithms. We start with the idea that for each of these rules, we are going to consider all possible pairs of keywords that appear in every file, and for our learning process, calculate the likelihood that each of these pairs constitute a rule. In essence, this is a mechanism that will consider many different possible pairs of lines in the file, and attempt to compile a set of these pairs that are expressed more often than others as a basis for finding patterns within the example set that can be used to evaluate new files.
+
+More formally, this approach can be defined as follows. The output of our learning algorithm, for any of these three rules, can be though of as a mapping
+\[
+\{ (a_j, a_k) | j \neq k \} \rightarrow \{ (N_1, N_2, ... , N_n) \}
+\]
+where $a_j$ and $a_k$ are either two different keywords or two different lines from our intermediate representation, or more formally, $a_j \neq a_k \wedge (a_j, a_k \in \{ K \} \vee a_j, a_k \in \{ L \})$ where $\{ K \}$ is the set of keywords found in the intermediate representation of the learning set, and $\{ L \}$ is the set of lines (keyword and value pairs) found in the intermediate representation of our learning set. We can think of each of these $(a_j, a_k)$ possibly having a different relationship, defined by the set of probability events/outcomes $\{ A_i \}$, where the set of these possible outcomes cover the entire outcome space of possible relationships between the two values $(a_j, a_k)$, or more formally $\cup_{i = 1}^n A_i = \Omega$. (For example, in the missing keywords rules case, we can define $A_1$ the event that $a_j$ and $a_k$ always appear together, and $A_2$ to be the event that $a_j$ appears without $a_k$ or $a_k$ appears without $a_j$. In the keyword ordering, we have $A_1$ be the event that $a_j$ appears before $a_k$ and $A_2$ be the event that $a_k$ appears before $a_j$. In the integer relations case, we have that $A_1$ is the case that $a_j \leq a_k$, $A_2$ the case that $a_j = a_k$, and $A_3$ the case that $a_j \geq a_k$. Notice that the $A_i$ do not have to be disjoint, but only have to union to the entire probability space.)
+
+The way we derive the tuple of integers $(N_1, N_2, ..., N_n)$ from the set of possible outcomes is that $N_i$ must keep track of how may times we have seen the outcome $A_i$ in the example set. Ideally, in order to pass the results of the learner into the checker, we have to have the mapping
+\[
+\{ (a_j, a_k) | j \neq k \} \rightarrow \{ A_i \}
+\]
+so that for each pair of keywords or lines will correspond to a single outcome that can be evaluted to either being upheld or refuted. Hence, since the algorithm works in two parts: the first to generate $\{ (N_1, ..., N_n) \}$ from the intermediate representation, and then to interpret these observed counts of each of the events to pick the most likely event from the $A_i$ to use for the checker evaluation. The rest of this section will talk in more detail about these two pieces of the algorithm for each of the three probabilistic rules.
+
+\subsection{Missing Values (MisingP.hs)}
+As with the non-probabilistic approaches, the accumulation of the counts in the tuples happens in the $learn$ and $merge$ functions. Given each file, this algorithm starts out by assembling all the possible (unordered, so $(a_j,a_k)$ is equal to $(a_k,a_j)$) pairs of keywords (where the two keywords in the pair are not equal) found in the intermediate representation, with the default tuple value of $(1,0)$, since we saw one case of each $(a_j, a_k)$ appearing together. During the merge step, where we merge the set of rules $A$ and $B$, we must consider three different sets of $(a_j, a_k)$. The first set is the set of pairs that appear in both $A$ (with the mapped value $(N_1^A, N_2^A$) and $B$ (with the mapped value $(N_1^B, N_2^B)$, which can be merged with the value in the merged mapping equaling $(N_1^A + N_1^B, N_2^A + N_2^B)$. Now, for the second (appears in $A$ but not $B$) and third (appears in $B$ but not $A$) sets, without the loss of generality, we consider a pair $(a_j, a_k)$ that appears in $A$ but does not appear in $B$, which means that on all of the example files that were considered to learn $B$, no example of $a_j$ and $a_k$ appearing together was found. We must count this phenomena as there being multiple observations in $B$ where either $a_j$ was seen without $a_k$ and vice versa. Here, to count how many of these observations we have seen, we must find a pair in $B$ that has the maximum number of total observations and at least one of either $a_k$ or $a_j$ in the pair. Using this maximum observation value $M$ for the pair $(a_j, a_k)$ not found in $B$, the mapped value of $(a_j, a_k)$ will be $(N_1^A, N_2^A + M)$. With these two functions defined, we construct the set of learned rules over the example set by learning the rules for each file in the set and then merging them all together.
+
+\subsubsection{Example}
+Let us consider three configuration files
+\begin{lstlisting}
+file1
+a = 1
+b = 1
+c = 1
+
+file2
+a = 1
+c = 1
+d = 1
+
+file3
+b = 1
+a = 1
+d = 1
+\end{lstlisting}
+After the $learn$ function is called on each of these files, we will have the following learned rule sets for each of the files
+\begin{lstlisting}
+file1
+(a,b) -> (1, 0)
+(a,c) -> (1, 0)
+(b,c) -> (1, 0)
+
+file2
+(a,c) -> (1, 0)
+(a,d) -> (1, 0)
+(c,d) -> (1, 0)
+
+file3
+(b,a) -> (1, 0)
+(b,d) -> (1, 0)
+(a,d) -> (1, 0)
+\end{lstlisting}
+Let us merge the rules from file1 and file2 first. Since $(a,c)$ is in both of these files, we can combine their counts to get $(2, 0)$. For each of $(a,b)$, $(b,c)$, $(a,d)$, and $(c,d)$ we must now find a pair in the other set that 1) has at least one of the keywords in common with the pair in question and 2) has the maximum number of observations amongst such a set of pairs. (If no pairs in the other set share even one of the keywords with the pair in question, we default to a value of $0$, since we haven't seen any examples of one of the keywords appearing without the other.) Since all the counts are $(1,0)$, the maximum number of observations are each $1$ for each of these four pairs, and we have the merged count $(1,1)$ for each of them. Hence, the rule sets now are
+\begin{lstlisting}
+file1 + file2
+(a,b) -> (1, 1)
+(a,c) -> (2, 0)
+(b,c) -> (1, 1)
+(a,d) -> (1, 1)
+(c,d) -> (1, 1)
+
+file3
+(b,a) -> (1, 0)
+(b,d) -> (1, 0)
+(a,d) -> (1, 0)
+\end{lstlisting}
+And when we merge in file3, the important notes are to remember that $(a_j, a_k)$ and $(a_k, a_j)$ are equivalent in the mapping. (If we think of the mapping as a function $f$, then $f(a_j, a_k) = f(a_k, a_j)$, and hence, there is a symmetry akin to that of even functions in the missing values rule.) We can combine $(b,a)$ and $(a,d)$ since they appear in both sets, and for $(b,d)$, the pair that has either one of those symbols and the largest number of observations is still $(a,b)$ at $2$ observations, so we get
+\begin{lstlisting}
+file1 + file2 + file3
+(a,b) -> (2, 1)
+(a,c) -> (2, 0)
+(b,c) -> (1, 1)
+(a,d) -> (2, 1)
+(c,d) -> (1, 1)
+(b,d) -> (1, 2)
+\end{lstlisting}
+which is very much in line with what we wanted to measure. For example, $(b,d)$ has a count of $(1,2)$ because it has one file where it is satisfied (file3) but two files (file1 and file2) where either b or d appear without the other. $(a,b)$ has a count of $(2,1)$ because they appear together in files file1 and file3 but not file2, and so on. Form these counts, after learning from a sufficiently large set, we should be able to say that pairs that have a high number of positive observations, along with a high proportion of positive to negative observations, are likely to be rules because they were seen together in most of the learning set.
+
+\subsection{Keyword Ordering (OrderPK.hs)}
+Very much like the Missing Values algorithm, our approach will be to generate all pairs where one keyword appears before another, with a base observation of $(1, 0)$, and then merge the counts across each of the files in the learning set. One important distinction here is that although the mapping for Missing Values resembled an even function, the symmetry for keyword ordering resembles an odd function, since $f(a_j, a_k) = inv(f(a_k, a_j))$ because if $(a_j, a_k) -> (N_1, N_2)$ has $N_1$ instances of $a_j$ before $a_k$ and $N_2$ instances of $a_k$ before $a_j$, then $(a_k, a_j) -> (N_2, N_1)$ by the definition of $N_i$ as the result of $(a_j, a_k)$. Hence, the difference here is that during the merge, we only have to make sure we add up the corresponding counts for $(a_j, a_k)$ and $(a_k, a_j)$ cases properly. Here, if a certain pair does not appear in one of the learned rule sets to be merged, then it takes on a default value of $(0, 0)$ because if we do not see either $a_j$ come before $a_k$ or vice versa, we should not be commenting on whether that particular file is an instance of support for $a_j$ before $a_k$ or vice versa.
+
+\subsubsection{Example}
+Let our three files be
+
+\begin{lstlisting}
+file1
+a = 1
+b = 1
+c = 1
+
+file2
+a = 1
+c = 1
+d = 1
+
+file3
+b = 1
+a = 1
+d = 1
+\end{lstlisting}
+which leads to the exact same initial learned tuples
+\begin{lstlisting}
+file1
+(a,b) -> (1, 0)
+(a,c) -> (1, 0)
+(b,c) -> (1, 0)
+
+file2
+(a,c) -> (1, 0)
+(a,d) -> (1, 0)
+(c,d) -> (1, 0)
+
+file3
+(b,a) -> (1, 0)
+(b,d) -> (1, 0)
+(a,d) -> (1, 0)
+\end{lstlisting}
+Here, when we merge the contents of file1 and file2, since $(a,c)$ appears in both, we will simply add their mapped values together. For $(a,b)$, $(b,c)$, $(a,d)$, and $(c,d)$, we should set their values to be $(0,0)$ in the learned rule set for the files in which they don't appear because we should not be making a call for either ordering. We merge these with addition to get
+\begin{lstlisting}
+file1 + file2
+(a,b) -> (1, 0)
+(a,c) -> (2, 0)
+(b,c) -> (1, 0)
+(a,d) -> (1, 0)
+(c,d) -> (1, 0)
+
+file3
+(b,a) -> (1, 0)
+(b,d) -> (1, 0)
+(a,d) -> (1, 0)
+\end{lstlisting}
+Now, we see that the keyword pair $(b,a)$ is the inverse of $(a,b)$ so $(b,a) -> (1, 0)$ is equivalent to $(a,b) -> (0, 1)$. Since $(a,d)$ is present in both sets, and $(b,d)$ is only present in the second set, we do not have to worry about inverting their values. Adding these through, we get the final merged learned rule set
+\begin{lstlisting}
+file1 + file2 + file3
+(a,b) -> (1, 1)
+(a,c) -> (2, 0)
+(b,c) -> (1, 0)
+(a,d) -> (2, 0)
+(c,d) -> (1, 0)
+(b,d) -> (1, 0)
+\end{lstlisting}
+and we see that $(a,c)$ and $(a,d)$ are most likely to be rules, and $(a,b)$ is probably not a rule.
+
+\subsection{Integer Relations (IntRelP.hs)}
+The algorithm for this rule is quite similar to the Keyword Ordering rule, since there is also a symmetry that resembles odd functions in integer relations, because, without loss of generality, $a_j \leq a_k \Leftrightarrow a_k \geq a_j$, so the mapping of (less than, equals, greater than) becomes (greater than, equals, less than). Like the Keyword Ordering, a pair that does not appear in one of the learned rule sets to be merged gets a default value of $(0, 0, 0)$, since the fact that the pair doesn't appear in the learned rule set means that $a_j$ and $a_k$ in the pair never appeared together in the same file, and hence, if we did not make an observation with both keywords in the same file, then we should not add any observations one way or the other. One observation, however is that the probabilithy of a certain $A_i$ is not simply $\frac{A_i}{A_1 + A_2}$ as in the other two rules, but actually
+\[
+\frac{A_i}{A_{1} + A_{3} - A_{2}} =
+\frac{A_i}{A_{\leq} + A_{\geq} - A_{=}}
+\]
+since the cases of equality are already counted in the less-than-and-equals-to as well as the greater-than-or-equals-to, so in order to compute the total number of observations, we should use the Inclusion-Exclusion principle and not double count the equality cases.
+
+\subsubsection{Example}
+Let us start with the files
+\begin{lstlisting}
+file1
+a = 1
+b = 2
+c = 2
+
+file2
+b = 1
+a = 2
+c = 3
+d = 0
+\end{lstlisting}
+which translates to the following learned tuples
+\begin{lstlisting}
+file1
+(a,b) -> (1, 0, 0)
+(a,c) -> (1, 0, 0)
+(b,c) -> (1, 1, 1)
+
+file2
+(b,a) -> (1, 0, 0)
+(b,c) -> (1, 0, 0)
+(b,d) -> (0, 0, 1)
+(a,c) -> (1, 0, 0)
+(a,d) -> (0, 0, 1)
+(c,d) -> (0, 0, 1)
+\end{lstlisting}
+because the tuple counts the cases of $(a_j \leq a_k, a_j = a_k, a_j \geq a_k)$, since although it would be easier to make the three cases mutually exclusive, many of the rules we want to find are in the format $\leq$ or $\geq$, and thus, we have corresponding templates as such. Hence, we end up with the tuple $(1, 1, 1)$ for $(b,c)$, since $b = c$ satisfies all three cases. Let us merge these next:
+\begin{lstlisting}
+file1 + file2
+(a,b) -> (1, 0, 1)
+(a,c) -> (2, 0, 0)
+(b,c) -> (2, 1, 1)
+(b,d) -> (0, 0, 1)
+(a,d) -> (0, 0, 1)
+(c,d) -> (0, 0, 1)
+\end{lstlisting}
+Since $(b,a)$ is the inverse of $(a,b)$, we also had to invert the tuple from $(1, 0, 0)$ to $(0, 0, 1)$ in order to merge it with the value for $(a,b)$ in the learned rule set from file1. For the pairs containing $d$, since they do not appear in file1, we merge them with the default value $(0, 0, 0)$. The rest of the pairs are in both of the learned rule sets, so we merge them through addition.
+
+\subsection{Going from $(N_1, ... , N_n)$ to $A_i$}
+The reason why we did not cover this section during the computation of the rules for each of the previous three probabilistic templates is because there should not be a conversion from the tuple of observed integers to a specific rule until we have gained the most accurate count possible by merging through all of the files in the example set. Since some heuristics of converting these integer tuples to a single rule also take into account the counts in each of the integers in respect to the rest of the tuples observed, we should endeavor to keep the learned rules in their integer tuple format for as long as possible and not do the conversion until we are absolutely sure that we have a learned rule set as complete as it can get. Furthermore, we should store the learned rule set in its integer tuple form because it makes learning new rules from additional examples easier. If we convert them, then there is too much loss of information to extract the counts in the tuples we need in order to adjust the converted rules in the context of the newly seen example files.
+
+A good heuristic is that the $A_i$ we pick will correspond to the $N_i$ that is the maximum of the $N_1$ through the $N_n$. The challenge, however, is providing a certainty value along with this conversion, which corresponds to how certain we are that this is a rule. Many of our techniques deal with separating out the rules that are more certainly rules from ones that are less certain, and the heuristics that solve that problem use a cutoff for a certain proportion of observations yes versus no, along with a cutoff for the minimum number of total observations needed for certainty.
+
+There are some fancier heuristics that we employ, such as the one-tailed null-hypothesis testing on proportions. For this heuristic, we count each integer tuple as an experiment. Our null hypothesis is that the true probabilty (the proportion) of cases of a certain rule held versus not is less than or equal to some user-specified value, for example, 70\% of files out there support this rule. Hence, our alternate hypothesis (the one we want to show true) will be that the true probability (proportion) will be higher than the user-specified value. Then, based on the tuple we observed, we can say with what probability we would see results like this if the null-hypothesis held true, and if this calculated probability (called the p-score) is less than some significance level, say 5\%, we can say with 95\% certaintiy that the rule is held in more than 70\% of the files.
+
+Although this approach is mathematically more sound, often in practice, this is produces a very similar final set of converted rules as a user-set probability and number of observations cutoff. Hence,. we can conclude that the cutoff heuristics are a very good approximator of the hypothesis test, at least in our use case.
+
+\subsubsection{Example}
+Suppose we had the user-specified bounds of $65\%$ in proportions/probability and a mininum number of observations at $120$, as defined in the Settings.hs file. If we have the following pairs with the following tuples, for the Keyword Ordering rule
+\begin{lstlisting}
+(a,b) -> (77,43)
+(c,d) -> (5,0)
+(e,f) -> (20,180)
+\end{lstlisting}
+We say that $f$ comes before $e$ is the only valid rule we have learned from this set, as $(a,b)$ does not meet the probability bounds (although it meets the number of observation bounds) and $(c,d)$ does not meet the number of observation bounds, although it meets probability bounds. Although $(e,f)$ has a low probability in itself, its inverse $(f,e)$ has a fairly high probability, and is the rule to be extracted from the following counts. Hence, our checker will only check for the $(f,e)$ rule, as it is the only one that meets the user-specified certainty bounds.
+\end{document}
