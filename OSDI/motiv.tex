@@ -18,7 +18,7 @@ For instance, when a user configures PHP to run with the
 Apache HTTP Server, this user may write, among others, 
 the following lines in the configuration file.
 
-\begin{lstlisting}[language=C]
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 extension = mysql.so
 ...
 extension = recode.so
@@ -42,7 +42,7 @@ In particular, \app is able to inform the user that {\tt recode.so}
 should appear before {\tt mysql.so}, and reports the error (as shown
 below).
 
-\begin{lstlisting}[language=C]
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 ORDERING ERROR: Expected "extension" "recode.so"
 BEFORE "extension" "mysql.so"
 \end{lstlisting} 
@@ -51,7 +51,7 @@ BEFORE "extension" "mysql.so"
 In a real-world misconfiguration example~\cite{correlation}, 
 a user configures his MySQL as the following:
 
-\begin{lstlisting}[language=C]
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 key_buffer_size = 384M
 max_heap_table_size = 128M
 max_connections = 64
@@ -71,39 +71,67 @@ cooperatively while {\tt join\_buffer} and {\tt sort\_buffer} are
 created by each thread for private use; thus, the maximum amount
 of used key buffer, \ie, {\tt key\_buffer\_size} should be larger than 
 {\tt join|sort\_buffer\_size} * {\tt max\_connections}. 
-Clearly, in the above example, it is not, so that this misconfiguration
-causes MySQL loads very slow.
+Clearly, in the above example, it does not hold, 
+so that this misconfiguration causes MySQL loads very slow.
 
-\app is able to check such fine-grained value correlation problem.
+We call the above situation as a {\em fine-grained value correlation
+error}, which is a more challenging case than 
+{\em value correlation error} reported
+by some existing investigations~\cite{yin11anempirical, zhang14encore}.
+A typical value correlation error
+means one entry's value should have a certain correlation with
+another entry's value. For example, in MySQL,
+the value of {\tt max\_connections} should be higher than
+{\tt mysql.max\_persistent}. Although some work, \eg,
+EnCore~\cite{zhang14encore}, can detect the normal value
+correlation case, 
+none of existing efforts can detect the fine-grained value correlation
+errors, which ``hides'' an equation-aware correlation, as shown in
+the above example.
+As mentioned by Xu {\em et al.}~\cite{xu15hey},
+detecting the fine-grained value correlation errors 
+present a much more challenging
+task than normal value correlation problems.
+
+To the best of our knowledge, \app is the first effort that
+is able to check such fine-grained value correlation problem.
 If we run \app on this configuration file, \app  would return:
 
-\begin{lstlisting}[language=C]
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 INTEGER RELATION ERROR:
-Expected "key_buffer_size">="max_connections"*"sort_buffer_size"
+Expected "key_buffer_size" >= "max_connections" * "sort_buffer_size"
 \end{lstlisting} 
 
 Note that existing effort, EnCore, aims to detect value correlation 
 errors. However, different from \app, EnCore can only detect simple
 correlation, \eg, {\tt mysql.max\_persistent} < {\tt max\_connections},
-rather than the fine-grained computation-based value correlation
-done by \app.
+rather than the fine-grained computation-based value correlation,
+like {\tt key\_buffer\_size >= max\_connections * sort\_buffer\_size}
+identified by \app.
 
 \para{Example~3: Entry missing errors.} 
-If a user wants to use OpenLDAP to enable her directory access
+Many critical system outages result from the fact that important
+entry was missing in the configuration file. 
+We call such a problem as {\em entry missing error}.
+Below is a real-world entry missing error example,
+when a user wants to use OpenLDAP to enable her directory access
 protocol, she needs to use the password policy overlay. This is usually
 done through the following entries in the OpenLDAP configuration file:
 
-\begin{lstlisting}[language=C]
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 include schema/ppolicy.schema
 overlay ppolicy
 \end{lstlisting} 
 
 When using the password policy overlay in OpenLDAP, 
-we have to first include the related schema.
-Leaving out the ``include'' statement will cause the failure of 
-this LDAP. Running \app on such a misconfiguration file would return:
+users have to first include the related schema.
+Leaving out the ``include'' entry, 
+which have been left by many users~\cite{yin11anempirical}, 
+will cause the failure of this LDAP. 
+If this user has \app, she can run \app on such a misconfiguration file,
+and \app would return:
 
-\begin{lstlisting}[language=C]
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 MISSING KEYWORD ERROR: Expected "overlay" "ppolicy"
 in the same file: "include" "schema/ppolicy.schema"
 \end{lstlisting} 
