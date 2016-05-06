@@ -1,4 +1,7 @@
 module Settings where
 
   vERBOSE = False
-  pROBRULES = True
+  uSE_CACHE = True
+  pROBRULES = Prob
+
+  data ModeSetting = NonProb | Prob | Test

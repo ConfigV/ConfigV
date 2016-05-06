@@ -4,9 +4,32 @@
 module Benchmarks where
 
 import Types
-
 import Settings
 
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
+import System.Directory
+import System.IO.Unsafe
+
+import Debug.Trace
+
+testLearnSet = genSet "testLearn/"
+learningSet = genSet "dataset/correctMySQL/"
+bigLearningSet = genSet  "dump/MySQL/"
+
+genSet s =
+  map (\x -> (u $ T.readFile (s++x), MySQL))
+    (u (listDirectory s))
+
+u = unsafePerformIO
+
+-- | from the newest version of the package, which i cant get for some reason
+listDirectory :: FilePath -> IO [FilePath]
+listDirectory path =
+  filter f <$> getDirectoryContents path
+  where
+    isDir = not . u . doesDirectoryExist
+    f filename = filename /= "." && filename /= ".." && isDir (path++filename)
 
 makeError (errLoc1,errLoc2,errIdent) =
   Error {errMsg="Spec",..}
@@ -15,10 +38,10 @@ getFileName = fst . errLoc1
 benchmarkFiles :: [FilePath]
 benchmarkFiles = map getFileName $ concat benchmarks
 benchmarks :: [ErrorReport]
-benchmarks =
-  if Settings.pROBRULES
-    then group2 ++ group4 ++ group5 ++ group6
-    else group2 ++ group3 ++ group4 ++ group5
+benchmarks = case Settings.pROBRULES of
+  Test -> testBenchSet
+  NonProb -> group2 ++ group3 ++ group4 ++ group5
+  Prob -> group2 ++ group4 ++ group5 -- ++ group6
 
 group2 :: [ErrorReport]
 group2 = map (map makeError) [
@@ -49,7 +72,7 @@ group4 = map (map makeError) [
 
 group5 :: [ErrorReport]
 group5 = map (map makeError) [
-    [(("dataset/group5-value-correlation/error","max_allowed_packet[wampmysqld]"),("dataset/group5-value-correlation/error","key_buffer[wampmysqld]"),"INTREL")]
+    [(("dataset/group5-value-correlation/error","max_allowed_packet[wampmysqld"),("dataset/group5-value-correlation/error","key_buffer[wampmysqld]"),"INTREL")]
   , [(("dataset/group5-value-correlation/error2","max_allowed_packet[wampmysqld]"),("dataset/group5-value-correlation/error2","key_buffer[wampmysqld]"),"INTREL")]
   , [(("dataset/group5-value-correlation/error3","max_connections[mysqld]"),("dataset/group5-value-correlation/error3","connection_buffer[mysqld]"),"INTREL")]
   , [(("dataset/group5-value-correlation/error4","max_allowed_packet[mysqldump]"),("dataset/group5-value-correlation/error4","key_buffer[mysqldump]"),"INTREL")]
@@ -63,4 +86,9 @@ group6 = map (map makeError) [
   , [(("dataset/realWorld/error3.cnf","max_connections[mysqld]"),("dataset/realWorld/error3.cnf","connection_buffer[mysqld]"),"INTREL")]
   , [(("dataset/realWorld/error4.cnf","max_allowed_packet[mysqldump]"),("dataset/realWorld/error4.cnf","key_buffer[mysqldump]"),"INTREL")]
   , [(("dataset/realWorld/error5.cnf","key_buffer[isamchk]"),("dataset/realWorld/error5.cnf","sort_buffer_size[isamchk]"),"INTREL")]
+  ]
+
+testBenchSet :: [ErrorReport]
+testBenchSet = map (map makeError) [
+    [(("dataset/group5-value-correlation/test","a[mysqld]"),("dataset/group5-value-correlation/test","b[mysqld]"),"INTREL")]
   ]

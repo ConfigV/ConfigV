@@ -36,7 +36,7 @@ data RuleSet = RuleSet
   , missingP :: [(MissingKRule, Int, Int)]
   , orderP :: OrdMap (Integer, Integer)
   , intRelP :: IntRelMapC
-  } deriving (Show, Generic, Data,Typeable)
+  } deriving (Eq, Show, Generic, Data,Typeable)
 
 data RuleSetLists = RuleSetLists
   { orderl :: [((IRLine,IRLine),Bool)]
@@ -182,6 +182,10 @@ data Error = Error{
   , errIdent :: ErrorType
   , errMsg :: String
 }
+
+instance Show Error where
+    show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n   -->"
+    -- ++(show $errMsg e)++"\n"
 
 -- | as long as we have the correct type of error
 --   and have identified one similar fail point the errors are similar enough

@@ -21,8 +21,9 @@ import Debug.Trace
 -- I haven't found a nice package for SMTLIB format in haskell yet, its out there tho, im sure
 
 -- for tuning which probabilistic rules to throw out
-cutoffProb = 0.7
-cutoffPerc = 0.2
+-- between 0-1?
+cutoffProb = 1
+cutoffPerc = 0.9
 
 instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
   -- | this has the problem that order is important
@@ -40,13 +41,13 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
   check rs f =
     let
       emptyFC (FormulaC l g e) = g == 0 && l == 0 && e == 0
-      relevantRules' = M.filterWithKey (\k v-> (not $ emptyFC v) && hasRuleFor f k) (rs)
+      relevantRules' = M.filterWithKey (\k v-> not (emptyFC v) && hasRuleFor f k) rs
       fRules' = learn f :: IntRelMapC
-      relevantRules = (filterRuleSet cutoffProb cutoffPerc) relevantRules'
+      relevantRules = filterRuleSet cutoffProb cutoffPerc relevantRules'
       fRules = forcePairOrientation relevantRules fRules'
       diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
-      if M.null diff then Nothing else Just diff
+      if M.null diff then Nothing else ((trace (show $ diff) Just diff))
 
   -- merge curr new = foldl combineCounts [] $ L.union curr (traceShow (length curr) new)
   merge curr new =
@@ -184,6 +185,7 @@ findeqRules (l1,l2) =
        | not bothSame -> []
        | length all /= 1 && bothSame -> makeR "=="
 
+traceMe x = trace (show x) x
 -- only for comparators! careful!
 --instance Eq (Int -> Int -> Bool) where
 --  (==) f1 f2 =
