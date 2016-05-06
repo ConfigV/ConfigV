@@ -59,4 +59,16 @@ $\texttt{mysql.max\_persistent} \le \texttt{max\_connections}$. There is a class
 existing work on automated configuration troubleshooting~\cite{yin11anempirical, configdataset}. We provide templates for every class that \app can handle: we consider integer constraints, ordering
 constraints, typing constraints, and constraints about correlated entries (such as ``if $X$ is present, $Y$ has to appear as well''). 
 
-
+\para{Checking.}
+The checker is used to detect the rule violations in the configuration
+files of interest. The inputs of checker are the learned rules 
+and the target configuration file to verify.
+Its outputs a report (as shown in $\S$\ref{sec-motiv}) about 
+whether it finds any error, \eg, rule violations, or a suspicious value.
+As shown in Figure~\ref{fig-overview},
+there are two sub-modules in the checker. They are responsible for
+checking rule violations and suspicious values, respectively.
+\ennan{I really wanted to say we are using MaxSMT to check and rank
+these errors ...}
+In our experience, we find learned rules can be significantly reused
+to check different configuration files, thus improving our usability.  
