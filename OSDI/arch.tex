@@ -46,18 +46,43 @@ We can later use these more structured files
 as a training set to learn the rules. 
 
 \para{Learning.}
-The learning algorithm is template-based to be easily extensible. 
-We provide an initial set of templates and the
-learner learns some concrete instances from the training set. These
-rules are used for detecting errors violating the learned constraints
-in the files given by the user.
+The input of learner is a set of files that have been translated
+into well-structured and typed representations.
+The learner module employs a collection of learning algorithms
+to generate various rule and constraints,
+potentially used to handle different types of configuration errors.
+These rules are the output of the learner, and will be 
+used by the checker to detect errors.
+By combining the translated representations and the learned
+rules together, we already build a language model for
+configuration verifications.
+Because the translator outputs probabilistic typed entries,
+the learner is responsible for determining a type for each entry.
 
-As an illustration of a simple rule that we can learn, consider a template
- $X_1 \le X_2$, where $X_1$ and $X_2$ are
-integer variables. The learner might derive the rule stating that
-$\texttt{mysql.max\_persistent} \le \texttt{max\_connections}$. There is a classification and taxonomy of configuration errors in the 
-existing work on automated configuration troubleshooting~\cite{yin11anempirical, configdataset}. We provide templates for every class that \app can handle: we consider integer constraints, ordering
-constraints, typing constraints, and constraints about correlated entries (such as ``if $X$ is present, $Y$ has to appear as well''). 
+Different from previous efforts, \eg, EnCore~\cite{zhang14encore},
+which needs users or developers to provide explicit templates,
+\app's learner encodes some predefined error-patterns 
+to generate rules. 
+As an illustration of a simple rule that we can learn,
+consider an encoded pattern $X_1 \le X_2$, where $X_1$ and $X_2$ are
+integer variables. The learner may derive the rule stating that
+$\texttt{mysql.max\_persistent} \le \texttt{max\_connections}$. 
+There is a classification and taxonomy of configuration errors in the 
+existing work on automated configuration troubleshooting%
+~\cite{yin11anempirical, configdataset}. 
+Each class is looked as an error-pattern 
+that \app should handle: we consider integer constraints, 
+ordering errors, typing errors, correlation errors, etc.
+
+Although the learner does necessarily rely on templates,
+\app still offers a template DB, which will be used to offer
+execution environment related information.
+It is widely known that any existing learning algorithm cannot
+derive rules checking environment violation, \eg,
+whether current account is the owner of a certain path.
+In order to deal with comprehensive misconfiguration problems,
+the learner needs a template DB to provide environment information,
+thus detecting system environment related configuration errors.
 
 \para{Checking.}
 The checker is used to detect the rule violations in the configuration
