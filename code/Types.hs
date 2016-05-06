@@ -7,6 +7,8 @@
 {-# LANGUAGE StandaloneDeriving#-}
 {-# LANGUAGE OverlappingInstances#-}
 {-# LANGUAGE OverloadedStrings#-}
+{-# LANGUAGE DeriveDataTypeable#-}
+
 
 module Types where
 
@@ -21,6 +23,8 @@ import Data.Aeson
 import GHC.Generics (Generic)
 import Control.Monad
 
+import Data.Data
+import Data.Typeable
 -- | can i replace this with an exstientially quantified type?
 -- oh that would be beautiful
 -- forall a . Attribute a => [a]
@@ -32,10 +36,39 @@ data RuleSet = RuleSet
   , missingP :: [(MissingKRule, Int, Int)]
   , orderP :: OrdMap (Integer, Integer)
   , intRelP :: IntRelMapC
-  } deriving (Show, Generic, ToJSON)
+  } deriving (Eq, Show, Generic, Data,Typeable)
 
-instance (ToJSON a, ToJSON b) => ToJSON (M.Map a b) where
-  toJSON x = toJSON $ M.toList x
+data RuleSetLists = RuleSetLists
+  { orderl :: [((IRLine,IRLine),Bool)]
+  --, intRel :: IntRelMap
+  , missingl :: [MissingKRule]
+  , typeErrl :: [(Keyword, ConfigQType)]
+  , missingPl :: [(MissingKRule, Int, Int)]
+  , orderPl :: [((IRLine,IRLine), (Integer, Integer))]
+  , intRelPl :: [((Keyword,Keyword),FormulaC)]
+  } deriving (Show, Generic, ToJSON, FromJSON)
+
+toLists :: RuleSet -> RuleSetLists
+toLists RuleSet{..}=
+  RuleSetLists
+    { orderl = M.toList order
+    , missingl = missing
+    , typeErrl = M.toList typeErr
+    , missingPl = missingP
+    , orderPl = M.toList orderP
+    , intRelPl = M.toList intRelP
+    }
+
+fromLists :: RuleSetLists -> RuleSet
+fromLists RuleSetLists{..}=
+  RuleSet
+    { order = M.fromList orderl
+    , missing = missingl
+    , typeErr = M.fromList typeErrl
+    , missingP = missingPl
+    , orderP = M.fromList orderPl
+    , intRelP = M.fromList intRelPl
+    }
 
 instance NFData RuleSet where rnf x = seq x ()
 class Foldable t => Attribute t a where
@@ -58,11 +91,11 @@ data OrdRule = OrdRule {
 --you are missing a key-value pair correlation
 data MissingKVRule = MissingKVRule {
   l11 ::IRLine,
-  l22 :: IRLine} deriving (Show,Eq, Generic, ToJSON, FromJSON)
+  l22 :: IRLine} deriving (Show,Eq, Generic,Data,Typeable, ToJSON, FromJSON)
 --you are missing a key correlation
 data MissingKRule = MissingKRule {
   k1 :: Keyword,
-  k2 :: Keyword} deriving (Show,Eq, Generic, ToJSON, FromJSON)
+  k2 :: Keyword} deriving (Show,Eq, Generic, Data,Typeable,ToJSON, FromJSON)
 data IntRelRule = IntRelRule {
   l1 :: Keyword,
   l2 :: Keyword,
@@ -90,18 +123,19 @@ data FormulaC = FormulaC {
   lt :: Int,
   gt :: Int,
   eq :: Int
-} deriving (Show, Eq, Generic, ToJSON, FromJSON)
+} deriving (Show, Eq, Generic, Data,Typeable,ToJSON, FromJSON)
 type Formula = Maybe (Int -> Int -> Bool)
 type IntRelMapC = M.Map (Keyword,Keyword) FormulaC
 type TypeMap a = M.Map Keyword a
 type OrdMap a = M.Map (IRLine,IRLine) a
 type IntRelMap = M.Map (Keyword,Keyword) (Maybe (Int->Int->Bool))
 
+
 -- | Intermediate Representation stuff
 type IRConfigFile = [IRLine]
 data IRLine = IRLine {
   keyword :: Keyword,
-  value :: Types.Value } deriving (Eq,Ord, Generic, ToJSON, FromJSON)
+  value :: Types.Value } deriving (Eq,Ord, Generic,Data,Typeable, ToJSON, FromJSON)
 instance Show IRLine where
   show IRLine{..} = (show keyword) ++ (show value)
 type Keyword = T.Text
@@ -110,7 +144,7 @@ type Value = T.Text
 --type Config a = (Maybe a, Probability)
 type DirPath = String
 type Probability = Double --st 0<=x<=1
-data Config a = Config {p :: Probability} deriving (Show,Eq, Generic, ToJSON, FromJSON)
+data Config a = Config {p :: Probability} deriving (Show,Eq, Generic,Data,Typeable, ToJSON, FromJSON)
 
 data ConfigQType = ConfigQType {
     cint :: Config Int
@@ -118,7 +152,7 @@ data ConfigQType = ConfigQType {
   , cfilepath :: Config FilePath
   --, cdirpath :: Config DirPath
   }
-  deriving (Eq, Generic, ToJSON, FromJSON)
+  deriving (Eq, Generic, Data,Typeable,ToJSON, FromJSON)
 
 instance Show ConfigQType where
  show ConfigQType{..} =
@@ -149,14 +183,25 @@ data Error = Error{
   , errMsg :: String
 }
 
+instance Show Error where
+    show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n   -->"
+     ++(show $errMsg e)++"\n"
+
 -- | as long as we have the correct type of error
 --   and have identified one similar fail point the errors are similar enough
 --   both will point the user to the item that needs to be fixed
 
 instance Eq Error where
   (==) x y =
-    (errLoc1 x == errLoc1 y) || (errLoc1 x == errLoc2 y) ||
-    (errLoc2 x == errLoc1 y) || (errLoc2 x == errLoc2 y)
-    -- && (errIdent x == errIdent y) IS THIS NEEDED?
+    let
+      exactLocMatch = (errLoc1 x == errLoc1 y) && (errLoc2 x == errLoc2 y)
+      transitiveLocMatch =  (errLoc2 x == errLoc1 y) && (errLoc1 x == errLoc2 y)
+      anyMatch =  (errLoc1 x == errLoc1 y) || (errLoc2 x == errLoc2 y) || (errLoc2 x == errLoc1 y) || (errLoc1 x == errLoc2 y)
+      identMatch = (errIdent x == errIdent y)
+    in
+      case errIdent x of
+        "MISSING" -> anyMatch
+        "ORDERING" -> exactLocMatch && identMatch
+        "INTREL" -> anyMatch && identMatch
 
 type ErrorReport = [Error]

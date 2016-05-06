@@ -23,9 +23,7 @@ import Debug.Trace
 
 import qualified Settings
 
-instance Show Error where
-	  --show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n"
-    show e = errMsg e
+
 
 showProbRules :: RuleSet -> [String]
 showProbRules r =
@@ -62,12 +60,12 @@ showProbRules r =
         findOrFindInverse (x,y) =
           M.findWithDefault Nothing (x,y) i <|> inverseIntRel (M.findWithDefault Nothing (y,x) i)-}
   in
-    if Settings.pROBRULES
-      then
+    case Settings.pROBRULES of
+      Settings.Prob ->
         (["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no" ++ delimiter ++ "valid"] ++ (map showMissingP m)) ++
         (["rule|yes|no|valid"] ++ (map showOrderP $ M.toList o)) ++
         (["ordering|less_than|equals|greater_than|answer"] ++ (map showIntRelP $ M.toList i))
-      else
+      _ ->
         (map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m') ++
         (map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o')
 
@@ -109,22 +107,21 @@ verifyOn r f fname =
     orderingPErrMsg x =
       Error {errLoc1 = (fname,keyword$snd$ fst x)
             ,errLoc2 = (fname,keyword$fst $fst x)
-            ,errIdent = "ORDERING(PROB)"
+            ,errIdent = "ORDERING"
             ,errMsg = "ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)}
     orderingShowP =
       showErr orderingErrorP orderingPErrMsg
 
+    intRelPErrMsg :: ((Keyword,Keyword),FormulaC) -> Error
     intRelPErrMsg x =
       let
         es = maybe [] M.toList intRelErrorP
-        k1 x = show $ fst $ fst x
         fc x = show $ snd x
-        k2 x = show $ snd $ fst x
       in
-        Error {errLoc1 = (fname,T.pack$k1 x)
-              ,errLoc2 = (fname,T.pack$k2 x)
-              ,errIdent = "INTREL(PROB)"
-              ,errMsg = "INTEGER RELATION ERROR (PROB): Expected "++(k1 x)++(fc x)++(k2 x)}
+        Error {errLoc1 = (fname,fst$fst x)
+              ,errLoc2 = (fname,snd$fst x)
+              ,errIdent = "INTREL"
+              ,errMsg = "INTEGER RELATION ERROR (PROB): Expected "++(show$fst$fst x)++(fc x)++(show$snd$fst x)}
     intRelShowP =
       showErr intRelErrorP intRelPErrMsg
 
@@ -149,8 +146,8 @@ verifyOn r f fname =
         f' (x, y, n) =
            Error {errLoc1 = (fname,k1 x)
                   ,errLoc2 = (fname,k2 x)
-                  ,errIdent = "MISSING(PROB) y:" ++ (show y) ++ " n:" ++ (show n)
-                  ,errMsg = "MISSING KEYWORD ERROR: Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)}
+                  ,errIdent = "MISSING" --(PROB)" y:" ++ (show y) ++ " n:" ++ (show n)"
+                  ,errMsg = "MISSING (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)}
       in
         map f' es
 
@@ -172,12 +169,10 @@ verifyOn r f fname =
     intRelShowPC = "Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelErrorP)
 
     all =
-      if Settings.pROBRULES
-        then
-          if Settings.vERBOSE
-            then trace ((concat . (L.intersperse " ") . map (show.length)) [typeShow, orderingShowP, intRelShowP, missingShowP])  [typeShow, orderingShowP, intRelShowP, missingShowP]
-            else [typeShow, orderingShowP, intRelShowP, missingShowP]
-        else [typeShow, orderingShow, missingShow]
+      case Settings.pROBRULES of
+        Settings.Prob -> printRules [typeShow, orderingShowP, intRelShowP, missingShowP]
+        Settings.NonProb -> [typeShow, orderingShow, missingShow]
+        Settings.Test -> printRules [typeShow, orderingShow, missingShow, orderingShowP, intRelShowP, missingShowP]
 
     sizeErr = maybe 0 length
     typeSize = (maybe 0 M.size typeError)
@@ -188,6 +183,11 @@ verifyOn r f fname =
   in
     --if typeSize >0 then typeShow else filter (/="") $ concat all
     if typeSize >0 then typeShow else concat all
+
+printRules x =
+  if Settings.vERBOSE
+    then trace ((concat . (L.intersperse " ") . map (show.length)) x) x
+    else id x
 
 -- utility printing method for our probability tuples
 showP (y, n) =

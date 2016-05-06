@@ -15,12 +15,12 @@ import Debug.Trace
 
 -- programmed in cutoff for testing?
 cutoffProb :: Double
-cutoffProb = 0.9
+cutoffProb = 0.5
 cutoffObsPercentile :: Double
-cutoffObsPercentile = 0.03
+cutoffObsPercentile = 0.1
 -- and to make dealing with probs easier
 prob :: Eq a => Show a => (a, Int, Int) -> Double
-prob (_, y, n) = 
+prob (_, y, n) =
   let
     y' = fromIntegral y
     n' = fromIntegral n
@@ -31,8 +31,8 @@ filterRuleSet :: Eq a => Show a => Double -> Double -> [(a, Int, Int)] -> [(a, I
 filterRuleSet probCutoff percObsCutoff rs =
   let
     rs' = filter (\x -> prob x > probCutoff) rs
-    rulesObs = reverse $ L.sort $ map (\(_, y, n) -> y + n) rs'
-    topObsCutoff = rulesObs !! (round $ percObsCutoff * (fromIntegral.length) rulesObs)
+    obs = reverse $ L.sort $ map (\(_, y, n) -> y + n) rs'
+    topObsCutoff = obs !! min (round $ percObsCutoff * (fromIntegral.length) obs) (length obs -1)
     rs'' = filter (\(_, y, n) -> y + n >= topObsCutoff) rs'
   in
     rs''
