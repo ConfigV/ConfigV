@@ -6,18 +6,25 @@ and possible solutions.
 
 \para{Legal misconfigurations.}
 While \app can check diverse configuration errors without
-human participations, all the misconfiguration detection techniques,
-including \app, cannot handle some types of configuration errors
-resulting from events occurred during system runtime.
+human participations, most of the existing proactive 
+misconfiguration detection techniques,
+including \app, cannot handle configuration errors
+resulting from events occurred during the system runtime.
 Such configuration errors are referred to as {\em legal misconfigurations}%
-~\cite{yin11anempirical}. As shown in Yin {\em et al.}%
-~\cite{yin11anempirical}, many parameter misconfigurations have 
-perfectly legal parameters but do not deliver the functionality intended
-by users. These cases are more difficult to detect by
+~\cite{yin11anempirical}. In particular, 
+many parameter misconfigurations have 
+perfectly legal types and values, 
+but do not deliver the functionality intended by users. 
+For example, after a website's traffic significantly increases,
+the parameter {\tt Max\_key\_buffer} in MySQL may not 
+be able to handle increasingly more data traffic,
+thus leading to the outage of the whole system.
+These cases are more difficult to detect by
 automatic checkers and may require more user training or
 better configuration design.
 A potential solution is to combine existing misconfiguration diagnosis
-tools, \eg, X-ray~\cite{attariyan12x-ray}, 
+tools, \eg, X-ray~\cite{attariyan12x-ray} 
+and ConfAid~\cite{attariyan10automating},
 with \app in order to enhance the 
 misconfiguration checking capability.
 
