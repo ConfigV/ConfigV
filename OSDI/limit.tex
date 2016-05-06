@@ -1,27 +1,65 @@
 
 \section{Discussion and Limitations}
 
-\ennan{Of course, our tool has many limitations. For example, we cannot
-detect the misconfiguration correlation across multiple individual
-systems unwilling to share configuration information with each other.}
-
 This section discusses a few \app's limitations
 and possible solutions.
 
 \para{Legal misconfigurations.}
 While \app can check diverse configuration errors without
-human participations, all the misconfiguration detection techniques,
-including \app, cannot handle some types of configuration errors
-resulting from events occurred during system runtime.
+human participations, most of the existing proactive 
+misconfiguration detection techniques,
+including \app, cannot handle configuration errors
+resulting from events occurred during the system runtime.
 Such configuration errors are referred to as {\em legal misconfigurations}%
-~\cite{yin11anempirical}. As shown in Yin {\em et al.}%
-~\cite{yin11anempirical}, many parameter misconfigurations have 
-perfectly legal parameters but do not deliver the functionality intended
-by users. These cases are more difficult to detect by
+~\cite{yin11anempirical}. In particular, 
+many parameter misconfigurations have 
+perfectly legal types and values, 
+but do not deliver the functionality intended by users. 
+For example, after a website's traffic significantly increases,
+the parameter {\tt Max\_key\_buffer} in MySQL may not 
+be able to handle increasingly more data traffic,
+thus leading to the outage of the whole system.
+These cases are more difficult to detect by
 automatic checkers and may require more user training or
 better configuration design.
 A potential solution is to combine existing misconfiguration diagnosis
-tools, \eg, X-ray~\cite{}, with \app in order to enhance the 
+tools, \eg, X-ray~\cite{attariyan12x-ray} 
+and ConfAid~\cite{attariyan10automating},
+with \app in order to enhance the 
 misconfiguration checking capability.
 
-\para{} 
+\para{Misconfiguration across software components.}
+As exposed by Yin {\em et al.}~\cite{yin11anempirical},
+cross-software configuration correlation problems also account
+for a considerable number of misconfiguration cases.
+For example, in a LAMP-based Web server, one entry in 
+PHP configuration file, {\tt mysql.max\_persistent = 400}
+may make users encounter a ``too many connections'' error,
+because a correlated entry in the underlying MySQL's configuration
+file assigns {\tt max\_connection} to 300, which is less
+than the MySQL connection numbers in PHP's configuration file (\ie, 400).
+It is quite difficult to detect such a type of tricky error
+through leaning approaches, because not only users or engineers 
+are not aware of the hidden interactions~\cite{xu15systems},
+but also it is hard to obtain a global knowledge to the entire
+configurations.
+One possible solution to this problem might be to introduce
+some cryptographic protocol, \eg, private set
+intersection~\cite{kissner05privacy}, to privately extract the
+overlapping entries, \eg, {\tt mysql.max\_connection} in the 
+above MySQL and PHP case, for double-checking.
+
+\para{Network configuration verification.}
+\app mainly focuses on software configurations, \eg, MySQL and Apache,
+so that our approach is limited to support network configuration
+verification. This is because network configurations have quite
+different representations, format and rules from software configurations,
+since network configurations are typically written in 
+more domain-specific policy languages.
+In fact, many network verification tools, 
+\eg, NoD~\cite{lopes15checking} and 
+Dobrescu {\em et al.}~\cite{dobrescu14software},
+have been proposed to check whether network configurations
+meet their specifications.
+
+\ennan{One more limitation description here.} 

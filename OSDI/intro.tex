@@ -17,21 +17,23 @@ to check, troubleshoot, diagnose and repair configuration errors%
 su07autobash, whitaker04configuration}, 
 offering automatic verification to configuration files -- like what we
 did for verifying regular programs -- is still highly
-desirable~\cite{wang04automatic, zhang14encore}.
-Nevertheless, the main obstacles are:
+desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
+Nevertheless, the main obstacles to the automatic 
+configuration verification are:
 1) entries in configuration files are untyped entries, 2) there
 is no explicit structure policy for the entries in configuration
 files, and 3) there are surprisingly few rules specifying the
 entries' constraints.
 
-In order to avoid these obstacles,
-researchers propose statistical analysis and learning based approaches%
+In order to overcome these obstacles,
+researchers have proposed 
+statistical analysis and learning based approaches%
 ~\cite{wang04automatic, zhang14encore, yuan11context}. 
 These efforts build checking policies by learning a sample 
 data set, rather than explicitly specifying entries' types or rules.
 In particular, for each entry in a certain configuration file, 
 if it deviates from the common values used in a large collection
-of configurations (\ie, the training set), it is typically
+of configurations (\ie, the data set for training), it is typically
 suspected as a potential configuration error.
 However, because these learning 
 efforts {\em either} are limited to simplistic 
@@ -63,7 +65,7 @@ a more sophisticated language model (with abundant rules covering
 tricky configuration errors), and then check the configuration files
 of interest through the learned language model.
 
-Based on the above insight, 
+Based on the above argument, 
 this paper presents \app, the first automatic verification framework
 for general software configurations.
 In particular, \app's workflow to verifying a given configuration file
@@ -82,25 +84,29 @@ cannot be identified by existing work (details in $\S$\ref{sec-motiv}).
 
 Building such an automatic verification framework for
 configuration files, nevertheless, requires addressing several challenges. 
-First, before formulating the language model, 
+First, in order to formulate a correct language model, 
 we need to infer each entry's type in a given configuration file;
 however, the type of a variable cannot always be fully determined 
 from a single value. 
 For example, an entry {\tt foo = MAX\_SIZE} is most likely
-an integer rather than string. We address this problem by introducing 
+an integer rather than string; however, existing type inference 
+work would report this is an error, because foo should be assigned
+an integer~\cite{zhang14encore}. We address this problem by introducing 
 so called {\emph{probabilistic types}}.
-Rather than assigning only one variable to a single type,
-like previous work did~\cite{zhang14encore}, 
+Rather than assigning only one variable to a single type, 
 we assign several types with their probability distributions. 
-The entry in the above example should be assigned 
+The entry in the above example might be assigned 
 a probabilistic type like 
-{\tt \{foo, MAX\_SIZE, [(Int, 90\%), (String, 10\%)]\}}.
-\ennan{I am not quite sure probabilistic types are obviously
-better than deterministic types.}
+{\tt \{foo, MAX\_SIZE, [(Int, 60\%), (String, 40\%)]\}}.
+With such probabilistic types in hand,
+we can generate a more accurate language model,
+thus significantly improving our checking capability.
 
 Second, without template, how to learn rules and constraints present
-a difficult. \ennan{Here, we need to add a describe to illustrate
-how we learn rules without templates.}
+a difficult. \ennan{Here, we need to add one-paragraph description 
+to illustrate how we learn rules without templates, 
+or why we say our learning results are better than existing
+learning approach, \eg, EnCore.}
 
 \com{First, given the fact that 
 different systems' configuration files use various representations, 
@@ -127,10 +133,12 @@ their own templates and learners for that class. The new learner can be
 added to \app and this way it can check additionally a new set of
 errors.
 
-Our \app prototype still has a few limitations,
-\eg, cannot handle errors occurred in execution time.
+Our \app prototype still has a few limitations:
+for example, we cannot handle configuration errors that can be only
+triggered in system execution time.
 Nevertheless, we believe \app may suggest a practical path
-toward automatic and language-based configuration verification.
+toward automatic and modular language-based configuration verification.
+To summarize, this tool paper makes the following contributions:
 
 \com{
 Finally, from a systems perspective this is the first approach that {\emph{proactively}} checks 
@@ -141,20 +149,19 @@ failure occurred. Our approach isolates potential errors before the system failu
 is significantly reduced, thus making these tools truly practical.
 }
 
-To summarize, this tool paper makes the following contributions:
 
 \begin{enumerate}
 
 \item We propose the first automatic configuration verification
 framework, \app, that can learn a language model from an example set of 
-correct configuration files, and we use the model to verify 
-new configuration files.
+correct configuration files, and then uses this language model to verify 
+interested configuration files.
  
-\item \app uses probabilistic types to assign a confidence 
+\item \app proposes probabilistic types to assign a confidence 
 distribution over a set of types to each entry, 
 while generating the intermediate representation. 
 
-\item \app applies existing machine learning algorithms to 
+\item \app employs a collection of machine learning algorithms to 
 enable powerful rule and constraint inference without the assistance 
 from any pre-defined templates.
 

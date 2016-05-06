@@ -1,5 +1,46 @@
 
 \section{Checker}
+\label{sec-checker}
 
-\ennan{Here, we need to describe how we check whether 
-the target configuration file meets learned rules using SMT solver.}
+With the learned rules and constraints in hand,
+\app checks whether any entry in a target configuration file
+violates the learned rules.
+For a given configuration file, \app parses it using the same
+way employed in the translator, thus obtaining a structured
+and typed representation for the target configuration file.
+Then, the checker uses two sub-modules to check the
+following aspects of the target configuration file.
+
+\ennan{I am still working on the following stuff ...}
+\para{Ordering violation.}
+\app can check whether two or more entries have the ordering 
+problem, which means whether the order of some entries in the 
+target configuration follows the rules output by the learner.
+
+\para{Correlation violation.}
+\app checks if the target configuration file follows the 
+correlation rules (including fine-grained value correlation rules)
+learned from the training set. The rule would be ignored 
+if the involved entries are absent in the target configuration file.
+
+\para{Data type violation.}
+For each entry to be checked in the target configuration file,
+the checker reads its type information inferred from the training set,
+and uses the generated language model to verify whether the types
+are matched. A type violation is reported if the verification
+fails.
+
+\para{Suspicious warning.}
+This checking occurs in the second sub-module of the checker.
+Different from the previous checking tasks,
+suspicious warning is just to detect whether some value
+is too different (or distinguished) from the same entries in the
+training dataset. Even if some values are statistically different
+from the ones in the training dataset, 
+it does not mean such a value is incorrect;
+thus \app, in this case, throw out a warning to the user who
+enters the target configuration file, and a report containing 
+normal values in the training dataset.
+\app allows users to choose whether they want to change 
+the values according to the ones in the training configuration
+files or not.
