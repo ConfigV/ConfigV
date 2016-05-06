@@ -1,0 +1,40 @@
+* Below is a problem reported on Stack Overflow:
+(http://stackoverflow.com/questions/10191349/mysql-on-ec2-instance-slow-results-after-the-first-query)
+
+--------------------------------------
+* The impact of problem is MySQL on EC2 instance becomes very slow after
+  the first query
+
+------------------------------------
+* Here is the configuration file
+
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+innodb_buffer_pool_size = 128M
+query_cache_size = 128M
+query_cache_limit = 8M
+key_buffer_size = 128M
+thread_size = 8
+
+table_open_cache = 2048
+table_definition_cache = 2048
+read_buffer_size = 64M
+join_buffer_size = 64M
+sort_buffer_size = 64M
+myisam_sort_buffer_size = 64M
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+--------------------------------
+* Error description:
+(("correlation/case1","key_buffer_size >= thread_size * sort_buffer_size"),"CORRELATION") 
+
+Ennan's explanation: key_buffer should be larger than
+thread_size * sort_buffer_size, but it is not the case above.
