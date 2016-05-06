@@ -41,7 +41,7 @@ benchmarks :: [ErrorReport]
 benchmarks = case Settings.pROBRULES of
   Test -> testBenchSet
   NonProb -> group2 ++ group3 ++ group4 ++ group5
-  Prob -> group2 ++ group4 ++ group5 -- ++ group6
+  Prob -> group2 -- ++ group4 ++ group5 -- ++ group6
 
 group2 :: [ErrorReport]
 group2 = map (map makeError) [

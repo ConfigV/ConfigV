@@ -67,7 +67,7 @@ reportBenchmarkPerformance spec foundErrs =
     putStrLn $ "    Passing: " ++ show truePos
     putStrLn $ "    False Positives: "++ show (length falsePos)
     when Settings.vERBOSE $ putStrLn $ "Specification :   \n" ++ show spec
-    when Settings.vERBOSE $ putStrLn $ "Found Errors :    \n" ++ unlines (map show foundErrs)
-    when Settings.vERBOSE $ putStrLn $ "False Positives : \n" ++ unlines (map show falsePos)
+    when Settings.vERBOSE $ putStrLn $ "True Errors :    \n" ++ unlines (map show $ filter ((==) $ head spec) foundErrs)
+    --when Settings.vERBOSE $ putStrLn $ "False Positives : \n" ++ unlines (map show falsePos)
     putStrLn ""
     return fitness

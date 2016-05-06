@@ -107,7 +107,7 @@ verifyOn r f fname =
     orderingPErrMsg x =
       Error {errLoc1 = (fname,keyword$snd$ fst x)
             ,errLoc2 = (fname,keyword$fst $fst x)
-            ,errIdent = "ORDERING(PROB)"
+            ,errIdent = "ORDERING"
             ,errMsg = "ORDERING ERROR (PROB): Expected "++(show$fst $fst x)++" BEFORE "++(show$snd$fst  x)++" WITH PROB "++(showP $ snd x)}
     orderingShowP =
       showErr orderingErrorP orderingPErrMsg
@@ -120,7 +120,7 @@ verifyOn r f fname =
       in
         Error {errLoc1 = (fname,fst$fst x)
               ,errLoc2 = (fname,snd$fst x)
-              ,errIdent = "INTREL(PROB)"
+              ,errIdent = "INTREL"
               ,errMsg = "INTEGER RELATION ERROR (PROB): Expected "++(show$fst$fst x)++(fc x)++(show$snd$fst x)}
     intRelShowP =
       showErr intRelErrorP intRelPErrMsg
@@ -146,7 +146,7 @@ verifyOn r f fname =
         f' (x, y, n) =
            Error {errLoc1 = (fname,k1 x)
                   ,errLoc2 = (fname,k2 x)
-                  ,errIdent = "MISSING(PROB) y:" ++ (show y) ++ " n:" ++ (show n)
+                  ,errIdent = "MISSING" --(PROB)" y:" ++ (show y) ++ " n:" ++ (show n)"
                   ,errMsg = "MISSING (PROB): Expected "++(show$k1 x)++" in the same file as: "++(show$k2 x)}
       in
         map f' es

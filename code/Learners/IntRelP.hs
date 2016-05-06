@@ -22,8 +22,8 @@ import Debug.Trace
 
 -- for tuning which probabilistic rules to throw out
 -- between 0-1?
-cutoffProb = 1
-cutoffPerc = 0.9
+cutoffProb = 0 -- probability this rule is correct (# positive evidence / # total evidence)
+cutoffPerc = 1 -- take the top x percent of observation counts. this removes low count rules, like (1+,0-)
 
 instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
   -- | this has the problem that order is important
@@ -47,7 +47,8 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
       fRules = forcePairOrientation relevantRules fRules'
       diff = M.differenceWith compRules relevantRules fRules --diff is the rules we should have met, but didnt
     in
-      if M.null diff then Nothing else ((trace (show $ diff) Just diff))
+      --if M.null diff then Nothing else ((trace (show $ diff) Just diff))
+      if M.null diff then Nothing else Just diff
 
   -- merge curr new = foldl combineCounts [] $ L.union curr (traceShow (length curr) new)
   merge curr new =
@@ -62,8 +63,8 @@ filterRuleSet :: Double -> Double -> IntRelMapC -> IntRelMapC
 filterRuleSet probCutoff percObsCutoff m =
   let
     totalObs (FormulaC l g e) = l + g - e -- remember that <= and >= intersect on the event ==
-    obs = (reverse . L.sort) $ map totalObs $ M.elems m
-    obsCutoff = obs !! (round $ percObsCutoff * fromIntegral (length obs))
+    obs = reverse $ L.sort $ map totalObs $ M.elems m
+    obsCutoff = obs !! min (round $ percObsCutoff * (fromIntegral.length) obs) (length obs -1)
     prob (FormulaC l g e) =
       let
         total = fromIntegral $ totalObs (FormulaC l g e)

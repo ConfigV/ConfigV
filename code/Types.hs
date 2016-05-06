@@ -185,7 +185,7 @@ data Error = Error{
 
 instance Show Error where
     show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n   -->"
-    -- ++(show $errMsg e)++"\n"
+     ++(show $errMsg e)++"\n"
 
 -- | as long as we have the correct type of error
 --   and have identified one similar fail point the errors are similar enough
@@ -193,8 +193,15 @@ instance Show Error where
 
 instance Eq Error where
   (==) x y =
-    (errLoc1 x == errLoc1 y) || (errLoc1 x == errLoc2 y) ||
-    (errLoc2 x == errLoc1 y) || (errLoc2 x == errLoc2 y)
-    -- && (errIdent x == errIdent y) IS THIS NEEDED?
+    let
+      exactLocMatch = (errLoc1 x == errLoc1 y) && (errLoc2 x == errLoc2 y)
+      transitiveLocMatch =  (errLoc2 x == errLoc1 y) && (errLoc1 x == errLoc2 y)
+      anyMatch =  (errLoc1 x == errLoc1 y) || (errLoc2 x == errLoc2 y) || (errLoc2 x == errLoc1 y) || (errLoc1 x == errLoc2 y)
+      identMatch = (errIdent x == errIdent y)
+    in
+      case errIdent x of
+        "MISSING" -> anyMatch
+        "ORDERING" -> exactLocMatch && identMatch
+        "INTREL" -> anyMatch && identMatch
 
 type ErrorReport = [Error]
