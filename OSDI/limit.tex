@@ -42,7 +42,8 @@ It is quite difficult to detect such a type of tricky error
 through leaning approaches, because not only users or engineers 
 are not aware of the hidden interactions~\cite{xu15systems},
 but also it is hard to obtain a global knowledge to the entire
-configurations.
+configurations due to the business privacy concerns of
+each software provider.
 One possible solution to this problem might be to introduce
 some cryptographic protocol, \eg, private set
 intersection~\cite{kissner05privacy}, to privately extract the
@@ -62,4 +63,19 @@ Dobrescu {\em et al.}~\cite{dobrescu14software},
 have been proposed to check whether network configurations
 meet their specifications.
 
-\ennan{One more limitation description here.} 
+\para{More complex configuration structure.}
+The current \app mainly targets key-value configuration files,
+but in practice many systems, \eg, OpenStack~\cite{OpenStack},
+employ very complex configuration format and structure,
+which \app cannot handle.
+Verifying such structurally complex configurations typically needs
+\app to learn a much more sophisticated language model,
+which is challenging in practice.
+Recent efforts~\cite{raychev15predicting, raychev16learning} 
+may present a possible solution on this limitation.
+These techniques can learn a call-graph from a training program set,
+and check a new program based on properties extracted from this
+generated call-graph. If we look a structurally complex configuration 
+file as a program in these tools, we may be able to use a similar way
+to verify whether the configuration file violates any 
+property of our interest. 
