@@ -59,7 +59,7 @@ addTypeToMap m IRLine{..} =
     -- will only lookup if a file has duplicate keywords
     snd $ M.insertLookupWithKey updateProbs keyword newCType m
 
--- TODO avg?
+-- TODO merge two QTypes intelligently
 updateProbs :: Keyword -> ConfigQType -> ConfigQType -> ConfigQType
 updateProbs k old new =
   new
@@ -70,6 +70,7 @@ assignProbs t =
   let
    cint =
      buildConfTy (T.all isDigit t) (read $ T.unpack t :: Int)
+   --TODO strings should be able to have numbers?
    cstring =
      buildConfTy (T.all isAlpha t) (T.unpack t :: String)
    cfilepath =

@@ -190,6 +190,7 @@ instance Show Error where
 -- | as long as we have the correct type of error
 --   and have identified one similar fail point the errors are similar enough
 --   both will point the user to the item that needs to be fixed
+--   NB DEF OF FALSE POSITIVE - THIS IS REALLY IMPORTANT!!!
 
 instance Eq Error where
   (==) x y =
@@ -203,6 +204,6 @@ instance Eq Error where
         MISSING -> (exactLocMatch || transitiveLocMatch) && identMatch
         ORDERING -> exactLocMatch && identMatch
         INTREL -> anyMatch && identMatch
-        TYPE -> anyMatch
+        TYPE -> (exactLocMatch || transitiveLocMatch) && identMatch
 
 type ErrorReport = [Error]

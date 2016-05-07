@@ -22,7 +22,7 @@ import Debug.Trace
 
 -- for tuning which probabilistic rules to throw out
 -- between 0-1?
-cutoffProb = 0 -- probability this rule is correct (# positive evidence / # total evidence)
+cutoffProb = 1 -- probability this rule is correct (# positive evidence / # total evidence)
 cutoffPerc = 1 -- take the top x percent of observation counts. this removes low count rules, like (1+,0-)
 
 instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
@@ -58,23 +58,30 @@ instance Attribute (M.Map (Keyword,Keyword)) FormulaC where
     in
       cu
 
+prob (FormulaC l g e) =
+  let
+    total = fromIntegral $ l + g - e
+    l' = fromIntegral l
+    g' = fromIntegral g
+    e' = fromIntegral e
+  in
+    maximum [l' / total, g' / total, e' / total]
+
 -- as in the other rules, institute a filter over a top percentile of observations and probability cutoff
 filterRuleSet :: Double -> Double -> IntRelMapC -> IntRelMapC
-filterRuleSet probCutoff percObsCutoff m =
+filterRuleSet probCutoff percObsCutoff rs =
   let
+    keep = M.filter
+    highestProbRs = keep (\r -> prob r >= probCutoff) rs
+    compareTotalObs (_,f1) (_,f2) =
+      if totalObs f1 > totalObs f2 then LT else GT
+    sortedByObs = L.sortBy compareTotalObs $ M.toList highestProbRs
+    rs' = take (round $ percObsCutoff * fromIntegral (length highestProbRs - 1)) sortedByObs
+
     totalObs (FormulaC l g e) = l + g - e -- remember that <= and >= intersect on the event ==
-    obs = reverse $ L.sort $ map totalObs $ M.elems m
-    obsCutoff = obs !! min (round $ percObsCutoff * (fromIntegral.length) obs) (length obs -1)
-    prob (FormulaC l g e) =
-      let
-        total = fromIntegral $ totalObs (FormulaC l g e)
-        l' = fromIntegral l
-        g' = fromIntegral g
-        e' = fromIntegral e
-      in
-        maximum [l' / total, g' / total, e' / total]
   in
-    M.filter (\x -> totalObs x >= obsCutoff) $ M.filter (\x -> prob x >= probCutoff) m
+    --trace (unlines $ map show  rs' ) M.fromList rs'
+    M.fromList rs'
 
 -- counting version chucks out mirrored antipairs!
 removeConflicts :: (Keyword, Keyword) -> FormulaC -> IntRelMapC -> M.Map (Keyword, Keyword) FormulaC

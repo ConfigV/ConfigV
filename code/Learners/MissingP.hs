@@ -11,15 +11,17 @@ import qualified Data.List as L
 import qualified Data.Map as M
 import qualified Data.Ord as O
 
+import Data.Maybe
+
 import Debug.Trace
 
 -- programmed in cutoff for testing?
-cutoffProb :: Double
-cutoffProb = 0.5
-cutoffObsPercentile :: Double
-cutoffObsPercentile = 0.1
+probCutoff :: Double
+probCutoff = 1
+percObsCutoff :: Double
+percObsCutoff = 1
 -- and to make dealing with probs easier
-prob :: Eq a => Show a => (a, Int, Int) -> Double
+prob :: (a, Int, Int) -> Double
 prob (_, y, n) =
   let
     y' = fromIntegral y
@@ -27,15 +29,19 @@ prob (_, y, n) =
   in y' / (y' + n')
 -- and to actually filter the rules
 -- have settings in the settings file to set cutoff percentage/percentile/hard number of observations
-filterRuleSet :: Eq a => Show a => Double -> Double -> [(a, Int, Int)] -> [(a, Int, Int)]
+filterRuleSet ::  Double -> Double -> [(a, Int, Int)] -> [(a, Int, Int)]
 filterRuleSet probCutoff percObsCutoff rs =
   let
-    rs' = filter (\x -> prob x > probCutoff) rs
-    obs = reverse $ L.sort $ map (\(_, y, n) -> y + n) rs'
-    topObsCutoff = obs !! min (round $ percObsCutoff * (fromIntegral.length) obs) (length obs -1)
-    rs'' = filter (\(_, y, n) -> y + n >= topObsCutoff) rs'
+    keep = filter
+    highestProbRs = keep (\r -> prob r >= probCutoff) rs
+    compareTotalObs (_, y, n) (_, y', n') =
+      if y + n > y' + n' then LT else GT
+    sortedByObs = L.sortBy compareTotalObs highestProbRs
+    rs' = take (round $ percObsCutoff * fromIntegral (length highestProbRs - 1)) sortedByObs
   in
-    rs''
+    --trace (unlines $ map (\x -> show x++" "++(show $ prob x)) highestProbRs ) rs''
+    rs'
+
 
 -- when we need to go from MissingKRule to [(MissingKRule, Int, Int)]
 --  (hack type matching)
@@ -81,8 +87,8 @@ instance Attribute [] (MissingKRule, Int, Int) where
   check rs f =
    let
      fRules = learn f
-     rs' = (filterRuleSet cutoffProb cutoffObsPercentile) rs
-     rs'' = L.filter (hasRuleFor fRules) rs'
+     trueRules = (filterRuleSet probCutoff percObsCutoff) rs
+     rs'' = L.filter (hasRuleFor fRules) trueRules
      diff = L.deleteFirstsBy (\(r1, y1, n1) (r2, y2, n2) -> r1 == r2) rs'' fRules --the difference between the two rule sets
      x = if null diff then Nothing else Just diff
    in

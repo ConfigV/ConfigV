@@ -16,7 +16,7 @@ datadir=C:/mysql/data
 #tmpdir#=c:/mysql/temp
 #port=3306
 set-variable=key_buffer=16M
-innodb_data_file_path = ibdata1:500M
+innodb_data_file_path = 500
 innodb_data_home_dir = c:/ibdata
 set-variable = innodb_mirrored_log_groups=1
 innodb_log_group_home_dir = c:/iblogs
@@ -41,3 +41,10 @@ password=mypassword
 # (("typeError/case2","innodb_data_file_path=ibdata1:500M"),"TypeError")
 
 # Ennan's explanation: This path is wrong, because this is not a path type
+
+# NO THIS IS NOT THE ERROR! (as correctly not identified by our tool!)
+# see http://lists.mysql.com/mysql/116218 for correct error id & solution
+# the real error was that the system could not see the path value for 'Server[WinMySQLadmin]'
+# TODO - to support this error, we need to be able to look at the environment.
+
+# we can support a modified version of the error, as listed in this file where it has been set to an int

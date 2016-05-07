@@ -1,0 +1,125 @@
+
+
+rule|yes|no|valid
+Expected "read_buffer[isamchk]" with "write_buffer[isamchk]"|28|0|False
+Expected "read_buffer[myisamchk]" with "write_buffer[myisamchk]"|46|0|False
+
+
+rule|yes|no|valid
+Expected "basedir[mysqld]""/usr" before "datadir[mysqld]""/var/lib/mysql"|55|0|True
+Expected "basedir[mysqld]""/usr" before "quick[mysqldump]""quick"|60|0|True
+Expected "basedir[mysqld]""/usr" before "quote-names[mysqldump]""quote-names"|57|0|True
+Expected "basedir[mysqld]""/usr" before "skip-external-locking[mysqld]""skip-external-locking"|60|0|True
+Expected "basedir[mysqld]""/usr" before "tmpdir[mysqld]""/tmp"|67|0|True
+Expected "datadir[mysqld]""/var/lib/mysql" before "quick[mysqldump]""quick"|58|0|True
+Expected "log-error[mysqld_safe]""/var/log/mysqld.log" before "pid-file[mysqld_safe]""/var/run/mysqld/mysqld.pid"|59|0|True
+Expected "nice[mysqld_safe]""0" before "basedir[mysqld]""/usr"|59|0|True
+Expected "nice[mysqld_safe]""0" before "port[mysqld]""3306"|59|0|True
+Expected "nice[mysqld_safe]""0" before "quick[mysqldump]""quick"|54|0|True
+Expected "nice[mysqld_safe]""0" before "quote-names[mysqldump]""quote-names"|53|0|True
+Expected "nice[mysqld_safe]""0" before "skip-external-locking[mysqld]""skip-external-locking"|52|0|True
+Expected "nice[mysqld_safe]""0" before "socket[mysqld]""/var/run/mysqld/mysqld.sock"|59|0|True
+Expected "nice[mysqld_safe]""0" before "tmpdir[mysqld]""/tmp"|58|0|True
+Expected "nice[mysqld_safe]""0" before "user[mysqld]""mysql"|60|0|True
+Expected "pid-file[mysqld]""/var/run/mysqld/mysqld.pid" before "basedir[mysqld]""/usr"|52|0|True
+Expected "pid-file[mysqld]""/var/run/mysqld/mysqld.pid" before "tmpdir[mysqld]""/tmp"|51|0|True
+Expected "port[client]""3306" before "socket[client]""/var/run/mysqld/mysqld.sock"|63|0|True
+Expected "port[client]""3306" before "thread_cache_size[mysqld]""8"|68|0|True
+Expected "port[mysqld]""3306" before "basedir[mysqld]""/usr"|69|0|True
+Expected "port[mysqld]""3306" before "key_buffer[isamchk]""16M"|51|0|True
+Expected "port[mysqld]""3306" before "max_allowed_packet[mysqld]""16M"|56|0|True
+Expected "port[mysqld]""3306" before "quote-names[mysqldump]""quote-names"|60|0|True
+Expected "port[mysqld]""3306" before "tmpdir[mysqld]""/tmp"|72|0|True
+Expected "quick[mysqldump]""quick" before "key_buffer[isamchk]""16M"|51|0|True
+Expected "quick[mysqldump]""quick" before "max_allowed_packet[mysqldump]""16M"|87|0|True
+Expected "quick[mysqldump]""quick" before "quote-names[mysqldump]""quote-names"|61|0|True
+Expected "quote-names[mysqldump]""quote-names" before "key_buffer[isamchk]""16M"|51|0|True
+Expected "skip-external-locking[mysqld]""skip-external-locking" before "max_allowed_packet[mysqldump]""16M"|51|0|True
+Expected "skip-external-locking[mysqld]""skip-external-locking" before "quick[mysqldump]""quick"|64|0|True
+Expected "skip-external-locking[mysqld]""skip-external-locking" before "quote-names[mysqldump]""quote-names"|51|0|True
+Expected "socket[mysqld]""/var/run/mysqld/mysqld.sock" before "basedir[mysqld]""/usr"|68|0|True
+Expected "socket[mysqld]""/var/run/mysqld/mysqld.sock" before "max_allowed_packet[mysqldump]""16M"|55|0|True
+Expected "socket[mysqld]""/var/run/mysqld/mysqld.sock" before "quick[mysqldump]""quick"|64|0|True
+Expected "socket[mysqld]""/var/run/mysqld/mysqld.sock" before "quote-names[mysqldump]""quote-names"|57|0|True
+Expected "socket[mysqld]""/var/run/mysqld/mysqld.sock" before "skip-external-locking[mysqld]""skip-external-locking"|63|0|True
+Expected "socket[mysqld]""/var/run/mysqld/mysqld.sock" before "tmpdir[mysqld]""/tmp"|71|0|True
+Expected "socket[mysqld_safe]""/var/run/mysqld/mysqld.sock" before "quick[mysqldump]""quick"|56|0|True
+Expected "socket[mysqld_safe]""/var/run/mysqld/mysqld.sock" before "quote-names[mysqldump]""quote-names"|55|0|True
+Expected "tmpdir[mysqld]""/tmp" before "max_allowed_packet[mysqldump]""16M"|51|0|True
+Expected "tmpdir[mysqld]""/tmp" before "quick[mysqldump]""quick"|61|0|True
+Expected "tmpdir[mysqld]""/tmp" before "quote-names[mysqldump]""quote-names"|57|0|True
+Expected "user[mysqld]""mysql" before "basedir[mysqld]""/usr"|71|0|True
+Expected "user[mysqld]""mysql" before "max_allowed_packet[mysqldump]""16M"|60|0|True
+Expected "user[mysqld]""mysql" before "pid-file[mysqld]""/var/run/mysqld/mysqld.pid"|56|0|True
+Expected "user[mysqld]""mysql" before "quick[mysqldump]""quick"|72|0|True
+Expected "user[mysqld]""mysql" before "quote-names[mysqldump]""quote-names"|58|0|True
+
+
+ordering|less_than|equals|greater_than|answer
+"back_log[mysqld]" <=> "innodb_file_per_table[mysqld]"|0|0|39
+"back_log[mysqld]" <=> "innodb_flush_log_at_trx_commit[mysqld]"|0|0|297
+"back_log[mysqld]" <=> "innodb_thread_concurrency[mysqld]"|0|0|163
+"back_log[mysqld]" <=> "slow-query-log[mysqld]"|0|0|47
+"connect_timeout[mysqld]" <=> "innodb_flush_log_at_trx_commit[mysqld]"|0|0|79
+"connect_timeout[mysqld]" <=> "local-infile[mysqld]"|0|0|47
+"connect_timeout[mysqld]" <=> "query_cache_type[mysqld]"|0|0|242
+"connect_timeout[mysqld]" <=> "server-id[mysqld]"|0|0|73
+"expire_logs_days[mysqld]" <=> "innodb_file_per_table[mysqld]"|0|0|76
+"expire_logs_days[mysqld]" <=> "log_queries_not_using_indexes[mysqld]"|0|0|224
+"expire_logs_days[mysqld]" <=> "log_warnings[mysqld]"|0|0|95
+"expire_logs_days[mysqld]" <=> "sync_binlog[mysqld]"|0|0|704
+"innodb_buffer_pool_instances[mysqld]" <=> "query_cache_type[mysqld]"|0|0|191
+"innodb_buffer_pool_size[mysqld]" <=> "read_buffer_size[mysqld]"|0|0|919840
+"innodb_buffer_pool_size[mysqld]" <=> "read_rnd_buffer_size[mysqld]"|0|0|43175
+"innodb_buffer_pool_size[mysqld]" <=> "sort_buffer_size[mysqld]"|0|0|16851968
+"innodb_concurrency_tickets[mysqld]" <=> "innodb_flush_log_at_trx_commit[mysqld]"|0|0|39
+"innodb_concurrency_tickets[mysqld]" <=> "slow-query-log[mysqld]"|0|0|39
+"innodb_lock_wait_timeout[mysqld]" <=> "innodb_log_files_in_group[mysqld]"|0|0|5119
+"innodb_lock_wait_timeout[mysqld]" <=> "innodb_thread_concurrency[mysqld]"|0|0|2976
+"innodb_lock_wait_timeout[mysqld]" <=> "myisam_repair_threads[mysqld]"|0|0|127
+"innodb_lock_wait_timeout[mysqld]" <=> "query_cache_type[mysqld]"|0|0|149
+"innodb_lock_wait_timeout[mysqld]" <=> "thread_concurrency[mysqld]"|0|0|525311
+"innodb_log_files_in_group[mysqld]" <=> "sync_binlog[mysqld]"|0|0|151
+"innodb_max_dirty_pages_pct[mysqld]" <=> "long_query_time[mysqld]"|0|0|259
+"innodb_open_files[mysqld]" <=> "innodb_thread_concurrency[mysqld]"|0|0|67
+"innodb_open_files[mysqld]" <=> "max_connections[mysqld]"|0|0|1023
+"innodb_open_files[mysqld]" <=> "thread_cache_size[mysqld]"|0|0|323
+"innodb_thread_concurrency[mysqld]" <=> "myisam_repair_threads[mysqld]"|0|0|127
+"interactive_timeout[mysqld]" <=> "long_query_time[mysqld]"|0|0|2375
+"interactive_timeout[mysqld]" <=> "query_cache_type[mysqld]"|0|0|200
+"interactive_timeout[mysqld]" <=> "server-id[mysqld]"|0|0|71
+"key_buffer_size[myisamchk]" <=> "max_allowed_packet[mysqldump]"|0|0|575
+"long_query_time[mysqld]" <=> "symbolic-links[mysqld]"|0|0|136
+"max_binlog_size[mysqld]" <=> "read_buffer_size[mysqld]"|0|0|1431
+"max_connect_errors[mysqld]" <=> "query_cache_type[mysqld]"|0|0|466
+"max_connect_errors[mysqld]" <=> "server-id[mysqld]"|0|0|49
+"max_connections[mysqld]" <=> "old_passwords[mysqld]"|0|0|655
+"max_connections[mysqld]" <=> "query_cache_type[mysqld]"|0|0|4786269
+"max_connections[mysqld]" <=> "slow-query-log[mysqld]"|0|0|328
+"max_connections[mysqld]" <=> "slow_query_log[mysqld]"|0|0|74
+"max_connections[mysqld]" <=> "symbolic-links[mysqld]"|0|0|978
+"max_connections[mysqld]" <=> "sync_binlog[mysqld]"|0|0|417
+"max_connections[mysqld]" <=> "thread_concurrency[mysqld]"|0|0|4252
+"max_user_connections[mysqld]" <=> "query_cache_type[mysqld]"|0|0|61
+"open-files-limit[mysqld]" <=> "port[mysqld]"|0|0|1023
+"open-files-limit[mysqld]" <=> "table_cache[mysqld]"|0|0|352
+"open_files_limit[mysqld]" <=> "port[client]"|0|0|113
+"open_files_limit[mysqld]" <=> "port[mysqld]"|0|0|193
+"open_files_limit[mysqld]" <=> "query_cache_type[mysqld]"|0|0|1897
+"open_files_limit[mysqld]" <=> "server-id[mysqld]"|0|0|41
+"open_files_limit[mysqld]" <=> "sync_binlog[mysqld]"|0|0|151
+"open_files_limit[mysqld]" <=> "table_open_cache[mysqld]"|0|0|129
+"open_files_limit[mysqld]" <=> "thread_cache_size[mysqld]"|0|0|296515
+"port[client]" <=> "expire_logs_days[mysqld]"|0|0|54
+"port[client]" <=> "innodb_flush_log_at_trx_commit[mysqld]"|0|0|64
+"port[client]" <=> "query_cache_type[mysqld]"|0|0|278
+"port[client]" <=> "server-id[mysqld]"|0|0|54
+"port[client]" <=> "thread_concurrency[mysqld]"|0|0|38
+"port[mysqld]" <=> "server-id[mysqld]"|0|0|1276
+"port[mysqld]" <=> "symbolic-links[mysqld]"|0|0|39
+"port[mysqld]" <=> "thread_concurrency[mysqld]"|0|0|55
+"query_cache_type[mysqld]" <=> "symbolic-links[mysqld]"|0|0|279
+"server-id[mysqld]" <=> "symbolic-links[mysqld]"|0|0|37
+"table_cache[mysqld]" <=> "thread_cache_size[mysqld]"|0|0|1431472842387
+"table_cache[mysqld]" <=> "thread_concurrency[mysqld]"|0|0|106
+"table_open_cache[mysqld]" <=> "wait_timeout[mysqld]"|0|0|47

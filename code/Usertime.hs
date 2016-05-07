@@ -29,7 +29,7 @@ showProbRules :: RuleSet -> [String]
 showProbRules r =
   let
     delimiter = "|"
-    m = missingP r
+    m = filter (\(_,y,n) -> y+n>20 && n==0) $ missingP r
     o = orderP r
     i = intRelP r
     m' = missing r
@@ -40,10 +40,10 @@ showProbRules r =
         ++ delimiter ++ (show n)
         ++ delimiter ++ (show $ elem r m')
     showOrderP (r, (y, n)) =
-      "Expected " ++ (show $ fst r) ++ " before " ++ (show $ snd r)
-        ++ delimiter ++ (show y)
-        ++ delimiter ++ (show n)
-        ++ delimiter ++ (show $ M.findWithDefault False r o')
+          "Expected " ++ (show $ fst r) ++ " before " ++ (show $ snd r)
+          ++ delimiter ++ (show y)
+          ++ delimiter ++ (show n)
+          ++ delimiter ++ (show $ M.findWithDefault False r o')
     showIntRelP (r, f) =
       (show $ fst r) ++ " <=> " ++ (show $ snd r)
         ++ delimiter ++ (show $ lt f)
@@ -62,9 +62,9 @@ showProbRules r =
   in
     case Settings.pROBRULES of
       Settings.Prob ->
-        (["rule" ++ delimiter ++ "yes" ++ delimiter ++ "no" ++ delimiter ++ "valid"] ++ (map showMissingP m)) ++
-        (["rule|yes|no|valid"] ++ (map showOrderP $ M.toList o)) ++
-        (["ordering|less_than|equals|greater_than|answer"] ++ (map showIntRelP $ M.toList i))
+        (["\n\nrule" ++ delimiter ++ "yes" ++ delimiter ++ "no" ++ delimiter ++ "valid"] ++ (map showMissingP m)) ++
+        (["\n\nrule|yes|no|valid"] ++ (map showOrderP $ filter (\(r, (y, n)) -> y+n>50 && n==0) $ M.toList o)) ++
+        (["\n\nordering|less_than|equals|greater_than|answer"] ++ (map showIntRelP $ filter (\(r, f) ->lt f==0 && eq f==0 && gt f > 35) $ M.toList i))
       _ ->
         (map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m') ++
         (map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o')
