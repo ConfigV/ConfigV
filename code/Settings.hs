@@ -1,6 +1,6 @@
 module Settings where
 
-  vERBOSE = True
+  vERBOSE = False
   uSE_CACHE = True
   pROBRULES = Prob
 

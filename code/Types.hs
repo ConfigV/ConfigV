@@ -175,7 +175,7 @@ emptyConfigQType = ConfigQType {
 
 
 --printing  stuff
-type ErrorType = String
+data ErrorType = INTREL | ORDERING | MISSING | TYPE deriving (Show, Eq)
 data Error = Error{
     errLoc1 :: (FilePath, Keyword)
   , errLoc2 :: (FilePath, Keyword)
@@ -200,8 +200,9 @@ instance Eq Error where
       identMatch = (errIdent x == errIdent y)
     in
       case errIdent x of
-        "MISSING" -> anyMatch
-        "ORDERING" -> exactLocMatch && identMatch
-        "INTREL" -> anyMatch && identMatch
+        MISSING -> (exactLocMatch || transitiveLocMatch) && identMatch
+        ORDERING -> exactLocMatch && identMatch
+        INTREL -> anyMatch && identMatch
+        TYPE -> anyMatch
 
 type ErrorReport = [Error]
