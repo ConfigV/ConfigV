@@ -14,24 +14,27 @@
 \label{fig-overview}
 \end{figure*}
 
-We propose \app, an automatic verification framework,
-which can solve configuration errors, \eg, ordering errors
-and fine-grained value correlation, that previous work cannot tackle.
-As depicted in Figure~\ref{fig-overview}, \app has three main steps:
+We propose \app, an automatic verification framework for 
+software configuration files.
+In particular, \app can solve many sophisticated 
+configuration errors (\eg, ordering errors, missing entry errors 
+and fine-grained value correlation) that previous efforts cannot 
+detect. As depicted in Figure~\ref{fig-overview}, 
+a typical \app verification workflow has three steps:
 translation, learning and checking. In this section, we briefly
 describe how does each step work.
 
-\para{Initial state.}
-We start
-with the assumption that we are given a number of (not necessarily) 
-correct configuration files belonging to the same system, 
+\para{Initial phase.}
+We start with the assumption 
+that we are given a number of (not necessarily correct) 
+configuration files belonging to the same system, 
 such as MySQL or Apache. 
-Such files follow similar patterns, which we exploit
+These given files follow similar patterns, which we exploit
 in a learning algorithm to build rules that
 describe a language model for the files.
 
 \para{Translator.}
-The translator component first parses the input sample 
+The translator module first parses the input sample 
 dataset (containing both configuration files and system environment
 information), and then transforms them to a more structured
 and typed intermediate representation.
@@ -79,8 +82,10 @@ using an implicit ``templates''; otherwise, too similar
 to what EnCore did.}
 
 Although the learner does necessarily rely on templates,
-\app still offers a template DB, which will be used to offer
-execution environment related information.
+\app still offers a database to contain many templates,
+as shown in Figure~\ref{fig-overview}.
+Some of these templates are responsible for offering
+specific system executional environment information.
 It is widely known that any existing learning algorithm cannot
 derive rules checking environment violation, \eg,
 whether current account is the owner of a certain path.

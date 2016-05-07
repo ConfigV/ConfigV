@@ -113,7 +113,10 @@ identified by \app.
 Many critical system outages result from the fact that important
 entry was missing in the configuration file. 
 We call such a problem as {\em entry missing error}.
-Below is a real-world entry missing error example,
+In a public misconfiguration dataset~\cite{configdataset},
+the major problems of MySQL failure reports were caused by
+entry missing errors.
+Below is a real-world entry missing error example~\cite{yin11anempirical},
 when a user wants to use OpenLDAP to enable her directory access
 protocol, she needs to use the password policy overlay. This is usually
 done through the following entries in the OpenLDAP configuration file:
@@ -144,7 +147,16 @@ real-world problem. I guess the buffer size example is fine.}
 \app can also deal with the configuration errors that can be detected by
 existing work, such as EnCore~\cite{zhang14encore} and
 CODE~\cite{yuan11context}.
-For example, both \app and EnCore can handle system execution related
+For a configuration error reported recently made MySQL
+daemon failed to start~\cite{syserror}.
+One entry in a MySQL configuration file is written as 
+{\tt datadir=/root/appfinder/mysql}, and the type as well as 
+format seem to be correct.
+However, the problem is this directory should not be
+initiated as a root directory, and the correct entry
+should be {\tt datadir=/appfinder/mysql}.
+Such an error is called system environment related configuration error.
+Both \app and EnCore can handle system execution related
 misconfiguration problems.
 Furthermore, \app is also able to detect type errors and syntax errors
 in configuration files.
