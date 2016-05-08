@@ -3,7 +3,7 @@
 
 Configuration errors are one of the most important root causes of
 today's software system failures~\cite{xu15systems, yin11anempirical}.
-For example, Yin {\em et al.}~\cite{yin11anempirical} report
+In their empirical study Yin {\em et al.}~\cite{yin11anempirical} report
 that about 31\% system failures were caused by misconfiguration problems and only 20\% were caused by bugs in program code. 
 Misconfigurations, in practice, may result in various
 system-wide problems, such as security vulnerabilities, 
@@ -12,23 +12,24 @@ functionality, and incorrect program executions%
 ~\cite{zhang14encore, yuan11context, xu13do, xu15hey}.  
 
 While many efforts have been proposed 
-to check, troubleshoot, diagnose, and repair configuration errors%
+to check, troubleshoot, diagnose and repair configuration errors%
 ~\cite{attariyan10automating,
 su07autobash, whitaker04configuration},
 those tools mainly try to understand {\emph{what}} caused the error ---
-they are still not on the level of
+they are still not on a level of
 automatic verification tools used for regular program 
-verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15}.
-Nevertheless, automated verification of configuration 
-files would be highly
-desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
-We cannot simply apply existing automatic 
-tools and techniques to verification of configuration files for two main reasons: 1) a lack
-of a specification for describing properties of configuration files and 2) a lack of a program structure for configuration files -- they
-are mainly sequences of entries assigning some values to system variables. The language in which configuration files are written does 
-not adhere to a specific grammar or syntax. In particular,  the
+verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
+detect errors without executing the code.
+Two main obstacles why we cannot simply apply the existing automatic 
+tools and techniques to verification of configuration files are: 1) a lack
+of a specification which would describe properties of configuration files, and 2) a program structure of configuration files -- they
+are mainly a sequence of entries assigning some value to system variables. The language in which configuration files are written does 
+not adhere to a specific grammar or syntax. In particular, the
 entries in configuration files are untyped. Moreover, there are surprisingly few rules specifying constraints on entries and there
 is no explicit structure policy for the entries.
+Nevertheless, automated verification of configuration 
+files, that could detect would be highly
+desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
 
 In order to overcome these obstacles,
 researchers have proposed 
