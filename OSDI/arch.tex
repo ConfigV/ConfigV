@@ -17,11 +17,11 @@
 We propose \app, an automatic verification framework for 
 software configuration files.
 In particular, \app can solve many sophisticated 
-configuration errors (\eg, ordering errors, missing entry errors 
+configuration errors (\eg, ordering errors, missing entry errors,
 and fine-grained value correlation) that previous efforts cannot 
 detect. As depicted in Figure~\ref{fig-overview}, 
 a typical \app verification workflow has three steps:
-translation, learning and checking. In this section, we briefly
+translation, learning, and checking. In this section, we briefly
 describe how does each step work.
 
 \para{Initial phase.}
@@ -42,14 +42,14 @@ When we run type inference on a configuration file,
 the type of a variable cannot always be fully determined from 
 a single value.
 We address this problem 
-by introducing so called {\em probabilistic types}.
+by introducing {\em probabilistic types}.
 Rather than giving a variable a single type, 
-we assign several types with their probability distributions. 
+we assign several types over a probability distribution. 
 We can later use these more structured files
 as a training set to learn the rules. 
 
 \para{Learning.}
-The input of learner is a set of files that have been translated
+The input of the learner is a set of files that have been translated
 into well-structured and typed representations.
 The learner module employs a collection of learning algorithms
 to generate various rule and constraints,
@@ -57,7 +57,7 @@ potentially used to handle different types of configuration errors.
 These rules are the output of the learner, and will be 
 used by the checker to detect errors.
 By combining the translated representations and the learned
-rules together, we already build a language model for
+rules together, we build a language model for
 configuration verifications.
 Because the translator outputs probabilistic typed entries,
 the learner is responsible for determining a type for each entry.
@@ -73,7 +73,7 @@ $\texttt{mysql.max\_persistent} \le \texttt{max\_connections}$.
 There is a classification and taxonomy of configuration errors in the 
 existing work on automated configuration troubleshooting%
 ~\cite{yin11anempirical, configdataset}. 
-Each class is looked as an error-pattern 
+Each class can be viewed as an error-pattern 
 that \app should handle: we consider integer constraints, 
 ordering errors, typing errors, correlation errors, etc.
 \ennan{I do know we are using in some sense templates, but
@@ -82,23 +82,22 @@ using an implicit ``templates''; otherwise, too similar
 to what EnCore did.}
 
 Although the learner does necessarily rely on templates,
-\app still offers a database to contain many templates,
+\app still offers a database containing many templates,
 as shown in Figure~\ref{fig-overview}.
 Some of these templates are responsible for offering
 specific system executional environment information.
-It is widely known that any existing learning algorithm cannot
-derive rules checking environment violation, \eg,
-whether current account is the owner of a certain path.
-In order to deal with comprehensive misconfiguration problems,
+A learning algorithm cannot derive rules related to environment violations, \eg,
+whether the current account is the owner of a certain path, without information 
+about the environment. In order to deal with comprehensive misconfiguration problems,
 the learner needs a template DB to provide environment information,
 thus detecting system environment-related configuration errors.
 
 \para{Checking.}
-The checker is used to detect the rule violations in the configuration
-files of interest. The inputs of checker are the learned rules 
+The checker is used to detect rule violations in the configuration
+files of interest. The inputs of the checker are the learned rules 
 and the target configuration file to verify.
-Its outputs a report (as shown in $\S$\ref{sec-motiv}) about 
-whether it finds any error, \eg, rule violations, or a suspicious value.
+It outputs a report (as shown in $\S$\ref{sec-motiv}) about 
+whether it finds any error, \eg, rule violations or a suspicious value.
 As shown in Figure~\ref{fig-overview},
 there are two sub-modules in the checker. They are responsible for
 checking rule violations and suspicious values, respectively.
