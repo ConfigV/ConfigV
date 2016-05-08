@@ -67,35 +67,35 @@ we argue that we need to leverage a collection of more powerful learning
 algorithms (not necessarily depending on templates) to derive 
 a more sophisticated language model (with abundant rules covering
 tricky configuration errors), and then check the configuration files
-of interest through the learned language model.
+of interest through the learned language model. \jon{Too many parentheses in setence. Cut down}
 
 Based on the above argument, 
 this paper presents \app, the first automatic verification framework
 for general software configurations.
-In particular, \app's workflow to verifying a given configuration file
-could be looked as a three-step methodology.
-First, \app analyzes a dataset containing sample configuration files,
+In particular, \app's workflow for verifying a given configuration file
+can be viewed as a three-step methodology.
+Firstly, \app analyzes a dataset containing sample configuration files,
 thus generating a well-structured and probabilistically-typed 
 intermediate representation.
-Second, \app derives rules and constraints by analyzing
+Secondly, \app derives rules and constraints by analyzing
 the intermediate representations, thus building a language model.
 Finally, \app uses the resulting language model
 to verify the given configuration file and detect potential errors.
 Compared with previous efforts,
-\app does not necessarily rely on users' templates, 
-and is capable of detecting more tricky configuration errors that
+\app does not necessarily rely on users' templates 
+and is capable of detecting tricky configuration errors that
 cannot be identified by existing work (details in $\S$\ref{sec-motiv}). 
 
 Building such an automatic verification framework for
 configuration files, nevertheless, requires addressing several challenges. 
-First, in order to formulate a correct language model, 
-we need to infer each entry's type in a given configuration file;
-however, the type of a variable cannot always be fully determined 
+Firstly, in order to formulate a correct language model, 
+we need to infer each entry's type in a given configuration file, but 
+the type of a variable cannot always be fully determined 
 from a single value. 
 For example, an entry {\tt foo = MAX\_SIZE} is most likely
 an integer rather than string; however, existing type inference 
-work would report this is an error, because foo should be assigned
-an integer~\cite{zhang14encore}. We address this problem by introducing 
+work would report this is an error, because {\tt foo} should be assigned
+an integer~\cite{zhang14encore}. \jon{Unclear what the error is. Be more precise} We address this problem by introducing 
 so called {\emph{probabilistic types}}.
 Rather than assigning only one variable to a single type, 
 we assign several types with their probability distributions. 
