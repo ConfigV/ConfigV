@@ -86,15 +86,15 @@ the value of {\tt max\_connections} should be higher than
 EnCore~\cite{zhang14encore}, can detect the normal value
 correlation case, 
 no existing effort can detect fine-grained value correlation
-errors, which ``hides'' an equation-aware correlation, as shown in
+errors, which ``hide'' equation-aware correlations, as shown in
 the above example.
 As mentioned by Xu {\em et al.}~\cite{xu15hey},
 detecting fine-grained value correlation errors 
 is a much more challenging
-task than the normal value correlation problems.
+task than the normal value correlation problem.
 
 To the best of our knowledge, \app is the first effort that
-is able to check such fine-grained value correlation problem.
+is able to check such fine-grained value correlation problems.
 If we run \app on this configuration file, \app  would return:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
@@ -102,19 +102,20 @@ INTEGER RELATION ERROR:
 Expected "key_buffer_size" >= "max_connections" * "sort_buffer_size"
 \end{lstlisting} 
 
-Note that existing effort, EnCore, aims to detect value correlation 
+\jon{The following paragraph is repetitive, same as the one two above -- just remove it?}
+Note that an existing effort, EnCore, aims to detect value correlation 
 errors. However, different from \app, EnCore can only detect simple
-correlation, \eg, {\tt mysql.max\_persistent} < {\tt max\_connections},
+correlations, \eg, {\tt mysql.max\_persistent} < {\tt max\_connections},
 rather than the fine-grained computation-based value correlation,
 like {\tt key\_buffer\_size >= max\_connections * sort\_buffer\_size}
 identified by \app.
 
 \para{Example~3: Entry missing errors.} 
-Many critical system outages result from the fact that important
+Many critical system outages result from the fact that an important
 entry was missing in the configuration file. 
 We call such a problem as {\em entry missing error}.
 In a public misconfiguration dataset~\cite{configdataset},
-the major problems of MySQL failure reports were caused by
+many MySQL failure reports were caused by
 entry missing errors.
 Below is a real-world entry missing error example~\cite{yin11anempirical},
 when a user wants to use OpenLDAP to enable her directory access
