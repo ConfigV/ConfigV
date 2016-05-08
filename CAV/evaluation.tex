@@ -1,5 +1,6 @@
 \section{Implementation and Evaluation}
 
+\para{Implementation.}
 \app is implemented in Haskell and takes full advantage of its polymorphism to make the system more modular.
 In particular, rules are represented as a type, where the type must support a particular interface (called a typeclass in Haskell) to be compatible with our system.
 By using language extensions (FlexibleInstances and MultiParamTypeClasses), this typeclass can be made polymorphic over the data structure as denoted by \lstinline{Foldable t =>}.
@@ -22,17 +23,16 @@ Haskell allows us to easily take advantage of this by using the parallel
 mapping library \cite{parallel}, both for translation to the intermediate representation, and for learning the rules on each file.
 The merge stage could also easily be parallelized, using a divide and conquer approach, but \app runs fast enough over our learning set (28 files, 961 lines of code) that this has not been necessary.
 
-The integer relation rule has an unusual implementation that makes use of function as first-class objects in Haskell.
+The integer relation rule has an unusual implementation that uses function as first-class objects in Haskell.
 Rather than associated keywords with SMT formula, we directly associate them with a function of type (\lstinline{Int->Int->Bool}).
-Since we need to compare rules over equality, we must then have a way to compare functions.
+Since we need to compare rules over equality, we must have a way to compare functions.
 This limits the types of functions we use to \lstinline{(==),(>=),(<=)}.
-Although this is sufficient for most use cases, more fine-grained relations could be encoded with SMT formulas then passed to a solver.
+Although this is sufficient for most cases, more fine-grained relations could be encoded with SMT formulas then passed to a solver.
 
 The tool is available for download at \url{marksantolucito.com/cavae.html}.
 
 
-\subsection{Evaluation}
-
+\para{Evaluation.}
 To evaluate our tool, we take a subset of 20 benchmarks from an
 existing dataset of configuration errors~\cite{yin11anempirical,xu15hey,configdataset} which are supported by our tool. Table~\ref{table:res} contains an evaluation summary.
 We do not report the running times, since they are negligible: even when
@@ -65,15 +65,18 @@ This is a result of our context embedding in the translation to the intermediate
 \centering
 \caption{Benchmarks for misconfiguration detection}
 \label{table:res}
-\begin{tabular}{l|l|l}
-Error Type       & Passing Tests & False Positives  \\ \hhline{=|=|=}
+\begin{tabular}{|l|l|l|}
+\hline
+Error Type       & Passing Tests & False Positives  \\ 
+\hline
+\hline
 Missing Entry    & 5/5           & 1, 0, 0, 0, 4        \\ \hline
 Type Error       & 5/5           & 0, 0, 0, 0, 0          \\ \hline
 Keyword Ordering & 5/5           & 0, 2, 1, 0, 6       \\ \hline
 Value Relations  & 4/5           & 0, 0, 0, 1, 0        \\ 
+\hline
 \end{tabular}
 \end{table}
-%\vspace{-5em}
 
 All but one false positive reports were integer relations. They are the
 result of overfitting on rules.

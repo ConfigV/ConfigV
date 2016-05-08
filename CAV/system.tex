@@ -5,9 +5,10 @@ To learn rules, we first translate to the intermediate representation where each
 Parsing is language dependent and users may provide extra help to the translator for their specific language, such as specifying a comment character.
 We must assign types to the keywords to guide the learning modules. 
 With typed keyword-value pairs, we can run each learning module independent of each other.
-We learn a set of rules over a every file, then merge the rules of all files.
+We learn a set of rules over every file, then merge them.
 
-{\bf {Introducing the types.}} Based only on a single example value of $v$ we cannot fully determine the type of $k$.
+\para{Introducing the types.} 
+Based only on a single example value of $v$ we cannot fully determine the type of $k$.
 Consider for instance the following example:\\
 \texttt{\hspace*{2em}foo = 300\\
 \hspace*{2em}bar = 300.txt}\\
@@ -28,5 +29,6 @@ Once the type inference can uniquely determine the type, the probability of all 
 Note that typing is also a system module than can be easily extended to support more types. 
 In that case the user will need to provide rules for type inference and probability distributions for values where type inference is ambiguous.
 
-{\bf {Rule Learning.}} With every type we associate a set of templates, specific to this type. Once the input files are fully type-annotated, we generate rules that are instances of these templates. We always learn the largest set of rules that all correct configuration files satisfy. This way \app can guarantee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set. The only case of a false negative can be when there was no evidence of such a rule in the learning set - we cannot generate rules from nothing. 
+\para{Rule Learning.} 
+With every type we associate a set of templates, specific to this type. Once the input files are fully type-annotated, we generate rules that are instances of these templates. We always learn the largest set of rules that all correct configuration files satisfy. This way \app can guarantee that, over the set of rules we consider, there will be no false negatives that could have been caught with the given learning set. The only case of a false negative can be when there was no evidence of such a rule in the learning set - we cannot generate rules from nothing. 
 %Framed as the question "Is this file valid", \app is complete but not sound
