@@ -29,8 +29,8 @@ fail to start due to a segmentation fault error~\cite{yin11anempirical}.
 This is because when using PHP in Apache, the extension {\tt mysql.so} 
 depends on {\tt recode.so}, and the relative ordering of two of them 
 is crucial. 
-We call the above example misconfiguration situation 
-as {\em ordering errors}.
+We call the above example misconfiguration 
+an {\em ordering error}.
 Yin {\em et al.} find that ordering errors widely exist in
 many system configurations, \eg, PHP and MySQL,
 and typically lead to multiple system crash events;
@@ -39,7 +39,7 @@ or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
 
 If this user is using \app, she can avoid such a configuration error.
 In particular, \app is able to inform the user that {\tt recode.so} 
-should appear before {\tt mysql.so}, and reports the error (as shown
+should appear before {\tt mysql.so} and reports the error (as shown
 below).
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
@@ -67,14 +67,14 @@ read_rnd_buffer_size = 8M
 This user complained that his MySQL's load was very high and the website's
 respond speed was very slow.
 In this case, {\tt key\_buffer\_size} is used by all the threads
-cooperatively while {\tt join\_buffer} and {\tt sort\_buffer} are 
+cooperatively, while {\tt join\_buffer} and {\tt sort\_buffer} are 
 created by each thread for private use; thus, the maximum amount
 of used key buffer, \ie, {\tt key\_buffer\_size} should be larger than 
 {\tt join|sort\_buffer\_size} * {\tt max\_connections}. 
 Clearly, in the above example, it does not hold, 
 so that this misconfiguration causes MySQL loads very slow.
 
-We call the above situation as a {\em fine-grained value correlation
+We call the above situation a {\em fine-grained value correlation
 error}, which is a more challenging case than 
 {\em value correlation error} reported
 by some existing investigations~\cite{yin11anempirical, zhang14encore}.
@@ -85,13 +85,13 @@ the value of {\tt max\_connections} should be higher than
 {\tt mysql.max\_persistent}. Although some work, \eg,
 EnCore~\cite{zhang14encore}, can detect the normal value
 correlation case, 
-none of existing efforts can detect the fine-grained value correlation
+no existing effort can detect fine-grained value correlation
 errors, which ``hides'' an equation-aware correlation, as shown in
 the above example.
 As mentioned by Xu {\em et al.}~\cite{xu15hey},
-detecting the fine-grained value correlation errors 
-present a much more challenging
-task than normal value correlation problems.
+detecting fine-grained value correlation errors 
+is a much more challenging
+task than the normal value correlation problems.
 
 To the best of our knowledge, \app is the first effort that
 is able to check such fine-grained value correlation problem.
