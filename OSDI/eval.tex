@@ -31,6 +31,29 @@ and perform \app on them. \ennan{Here, we first need a table to
 list each configuration error with error type, description,
 and whether \app correctly reports the issues.}
 
+\begin{table*}[t]
+\centering
+\caption{Sampled benchmarks for misconfiguration detection}
+\label{table-casestudy}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf ID} & {\bf Problem Description} & {\bf Error Type} & 
+{\bf \app Report}  \\ 
+\hline
+\hline
+1 & How to configure MySql master slave to  
+& Type Error 
+& Expected a Filepath with P=1.0 \\ & backup master to slave & 
+& for log-bin[mysqld] \\ \hline
+
+2 & data import from MySql dies when MySQL  
+& Correlation 
+& Expected thread\_cache\_size[mysqld] > \\ & query limit is removed 
+& & innodb\_buffer\_pool\_size \\ \hline
+
+\end{tabular}
+\end{table*}
+
 Next, we inject some errors to correct configuration files,
 and run \app to check whether our framework can correctly detect
 these injected errors. \ennan{We also need a table here, 
