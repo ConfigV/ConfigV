@@ -34,26 +34,25 @@ In order to overcome these obstacles,
 researchers have proposed 
 statistical analysis and learning-based approaches%
 ~\cite{wang04automatic, zhang14encore, yuan11context}. 
-These efforts build checking policies by learning a sample 
+These efforts build checking policies by learning from a sample 
 data set, rather than explicitly specifying entries' types or rules.
 In particular, for each entry in a certain configuration file, 
-if it deviates from the common values used in a large collection
-of configurations (\ie, the data set for training), it is typically
-suspected as a potential configuration error.
+if it deviates from common values used in a large collection
+of configuration files (\ie, the data set for training), it is typically
+suspected to contain a potential configuration error.
 However, because these learning 
 efforts {\em either} are limited to simplistic 
-configuration errors (\eg, type errors and syntax errors), 
+configuration errors (\eg, type errors and syntax errors)
 {\em or} heavily rely on template-based inference~\cite{zhang14encore}, 
 many sophisticated configuration errors, 
-\eg, hard to be templated in practice, cannot be detected.
+which are difficult to template in practice, cannot be detected.
 For example, if {\tt extension = mysql.so} appears 
-before {\tt extension = recode.so} in PHP configuration file,  
+before {\tt extension = recode.so} in a PHP configuration file,  
 it would lead to a crash error, since the correct ordering 
 should be {\tt extension = recode.so} before 
 {\tt extension = mysql.so}~\cite{yin11anempirical};
 however, such an error cannot be detected by existing
-learning efforts, since it is hard to build a template for this
-error~\cite{xu15systems}.
+learning efforts, since it is hard to build a corresponding template ~\cite{xu15systems}.
 
 %Offering automatic verification to configuration files -- like
 %what we did to programs -- has been advocated as a reasonable means
