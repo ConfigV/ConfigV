@@ -15,8 +15,8 @@ While many efforts have been proposed
 to check, troubleshoot, diagnose and repair configuration errors%
 ~\cite{attariyan10automating,
 su07autobash, whitaker04configuration},
-those tools mainly try to understand {\emph{what}} caused the error ---
-they are still not on a level of
+those tools mainly try to understand {\emph{what}} caused the 
+error -- they are still not on a level of
 automatic verification tools used for regular program 
 verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
 detect errors without executing the code.
@@ -27,32 +27,51 @@ are mainly a sequence of entries assigning some value to system variables. The l
 not adhere to a specific grammar or syntax. In particular, the
 entries in configuration files are untyped. Moreover, there are surprisingly few rules specifying constraints on entries and there
 is no explicit structure policy for the entries.
-Nevertheless, automated verification of configuration 
-files, that could detect would be highly
+Thus, automated verification of configuration 
+files would be highly
 desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
 
 To overcome these obstacles, researchers have proposed approaches based on
-a statistical analysis and learning~\cite{wang04automatic, zhang14encore, yuan11context}
-that try to infer the rules and policies how configuration files are constructed.
-Rather than explicitly specifying entries' types or rules, these research directions are focused
-on learning policies from a sample data set.
-The learned rules are usually constructed along the following pattern: for every entry in a configuration file, 
-we check if it deviates from a ``typical'' value, \ie a value computed from a large training set consisting of configuration files.
-If the entry is significantly different that the typical value, we suspect that it could be a potential configuration error.
-The downside of this approach is that these learning efforts are limited to simplistic 
-configuration errors, such as type errors and syntax errors, or they 
-heavily rely on template-based inference~\cite{zhang14encore}. As we pointed out earlier, since configuration files are not written in a typed language with a fixed syntax,
-type errors and syntax errors are relatively rare and easy to detect. However, many sophisticated configuration errors, 
-which are difficult to template in practice, cannot be detected this way. As an illustration of such an error consider the ordering errors, which
-happen when some entries are inserted in a wrong order. 
-For example, if in a PHP configuration file an entry {\tt extension = mysql.so} appears 
+a statistical analysis and learning%
+~\cite{wang04automatic, zhang14encore, yuan11context}
+that try to infer the rules and policies 
+how configuration files are constructed.
+Rather than explicitly specifying entries' types or rules, 
+these efforts are focused on learning policies from a sample dataset.
+The learned rules are usually constructed along the following way: 
+for every entry in a configuration file, 
+they check if it deviates from a ``typical'' value, \ie, 
+a value computed from a large training set 
+consisting of configuration files.
+If the entry is significantly different that the typical value, 
+they suspect that it could be a potential configuration error.
+The downside of these approaches is that these learning approaches 
+are limited to simplistic configuration errors, 
+such as type errors and syntax errors, or they 
+heavily rely on template-based inference~\cite{zhang14encore}. 
+As we pointed out earlier, 
+since configuration files are not written in a typed language 
+with a fixed syntax,
+type errors and syntax errors are relatively rare and easy to detect. 
+However, many sophisticated configuration errors, 
+which are difficult to template in practice, 
+cannot be detected by this way. 
+As an illustration of such an error consider the ordering errors, 
+which happens when some entries are inserted in a wrong order. 
+For example, if in a PHP configuration file 
+an entry {\tt extension = mysql.so} appears 
 before {\tt extension = recode.so},  
-it would lead to a crash error, where the Apache server cannot start due to the segmentation fault error. The correct ordering 
+it would lead to a crash error, where the Apache server cannot start 
+due to the segmentation fault error. The correct ordering 
 should be {\tt extension = recode.so} before 
 {\tt extension = mysql.so}~\cite{yin11anempirical}.
 These types of errors cannot be detected by existing
-learning efforts, since it is hard to build a corresponding template ~\cite{xu15systems}: we would need to capture ordering relations of all the entries. Some of 
-them can appear in an arbitrary ordering and the resulting templates would be too large and not efficient for a practical use.
+learning efforts, 
+since it is hard to build a corresponding template~\cite{xu15systems}: 
+we would need to capture ordering relations of all the entries. 
+Some of them can appear in an arbitrary ordering, 
+and the resulting templates would be too large 
+and not efficient for a practical use.
 
 %Offering automatic verification to configuration files -- like
 %what we did to programs -- has been advocated as a reasonable means
@@ -63,17 +82,21 @@ them can appear in an arbitrary ordering and the resulting templates would be to
 %for configuration verification is non-trivial in practice.
 
 
-In this paper we present \app, the first automatic verification framework
+In this paper, we present \app, the first automatic verification framework
 for general software configurations. \app is based on a collection of powerful learning 
 algorithms, that do not necessarily depend on templates. The learning process takes as input a
  large sample of configuration files. The process is language-agnostic and it works for any type of configuration files, 
-but all of the files in the sample need to be of the same type (such as  MySQL or httpd configuration files). From that sample
+but all of the files in the sample need to be of the same type (such as
+MySQL or httpd configuration files). From that sample,
 \app learns an abundant set of rules specifying various properties that hold on the given sample. The files in the sample might contain
 errors -- we are, therefore, using probabilistic learning to derive a set of accurate rules. One can see this learning process as a
 way of deriving  
-a specification for configuration files. The learning process works in two phases. In the first phase \app analyzes the given dataset and generates a 
-well-structured and probabilisticly-typed 
-intermediate representation. In the second phase \app derives rules and constraints by analyzing
+a specification for configuration files. 
+The learning process works in two phases. In the first phase, 
+\app analyzes the sample dataset and generates a 
+well-structured and probabilistically-typed 
+intermediate representation. 
+In the second phase, \app derives rules and constraints by analyzing
 the intermediate representations.  The set of learned rules is accurate and we are able to efficiently check 
 the correctness of the configuration files
 of interest and detect potential errors.
@@ -84,7 +107,10 @@ cannot be identified by existing work (details in $\S$\ref{sec-motiv}).
 
 Building such an automatic verification framework for
 configuration files, nevertheless, requires addressing several challenges. 
-First, for variables of one types we learn different rules than for variables of different type. For example for integer variables $x$ and $Y$ we can learn that $X \leq Y$, while 
+First, for variables of one type 
+we learn different rules than for variables of different types. 
+For example, for integer variables $X$ and $Y$, 
+we can learn that $X \leq Y$, while 
 for strings we might want to learn a substring relation. We, therefore, first need to assign a type to every variable in a configuration file during the transformation phase.
 However,
 the type of a variable cannot always be fully determined 
