@@ -5,6 +5,124 @@
 have three paragraphs: one is for translator, one is for learner 
 and one is for checker.}
 
+\begin{table*}[t]
+\centering
+\caption{Sampled benchmarks for misconfiguration detection}
+\label{table-casestudy}
+\begin{small}
+\begin{tabular}{|l|l|l|l|}
+\hline
+{\bf ID} & {\bf Problem Description} & {\bf Error Type} & 
+{\bf \app Report}  \\ 
+\hline
+\hline
+1 & MySQL cannot create test file  
+& Entry Missing 
+& Expected innodb\_force\_recovery=1 in the \\ & & 
+&  same file as: innodb\_strict\_mode=1\\ \hline
+
+2 & How can my wait\_timeout/interactive\_timeout  
+& Entry Missing
+& Expected set\_time=1 in the same\\ & be ignored 
+& & file as wait\_timeout \\ \hline
+
+3 & MySQL on EC2 instance becomes very slow
+& Correlation
+& Expected key\_buffer\_size $>=$ \\ & after the first query
+&& thread\_size * sort\_buffer\_size \\ \hline
+
+4 & MySQL cannot successfully make  
+& Type Error
+& Expected master-host[mysqld] should 
+ \\ & replication &&  be a valid IP address\\ \hline
+
+5 & MySQL running on production servers has
+& Type Error
+& Expected set-variable[myisamchk] \\ &  gone away error in memory
+&&  should be a memory size like 20M \\ \hline
+
+6 & Cannot start MySQL 5.5 as normal 
+& Ordering
+& Expected socket[mysqld]=/var/lib/ \\ & user Fedora 15 
+&&  mysql/mysql.sock BEFORE  \\ & && user[mysqld]=mysql
+
+\\ \hline
+
+7 & Fail to login MySQL
+& Type Error
+& Expected old\_passwords[mysqld] 
+ \\ &&&  should be a valid value \\ \hline
+
+8 & MySQL running at CentOS cannot know 
+& Ordering
+& Expected localhost before bind-
+ \\ & enable named pipe
+&&  address[mysqld] \\ \hline
+
+9 & Troubles installing MySQL5 via  Darwin 
+& Ordering
+& Expected port[mysqld]=3306 BEFORE \\ & Ports
+&&  socket[mysqld]=/tmp/mysql.sock \\ \hline
+
+10 & Fail to install Percona xtraDB 
+& Entry Missing
+& Expected wsrep\_node\_address[mysqld] \\ & cluster on ubuntu 13.04
+&&  in the same file as: wsrep\_sst\_method \\ &&& [mysqld] \\ \hline
+
+11 & MySQL access denied for user rootlocalhost 
+& Ordering
+& Expected port[mysqld]=3306  \\ & &&   BEFORE socket[mysqld]= \\ &&& /tmp/mysql.sock
+\\ \hline
+
+12 & MySQL Partition Problem
+& Correlation
+& Expected innodb\_flush\_max  \\ & &&  \_commit[mysqld] $>=$ innodb \\ &&&  \_support[mysqld] \\ \hline
+
+13 & mysql\_upgrade script problems on 
+& Type Error
+& Expected log-slow-queries[mysqld]  \\ & MySQL 5.0.24 
+&&  should be a path type\\ \hline
+
+
+14 & MySQL: bug report!!
+& Ordering
+& Expected innodb\_file\_io\_threads[mysqld]  \\ & 
+&& BEFORE innodb\_log\_files\_in\_group[mysqld]\\ \hline
+
+15 & MySQL max connections changed 
+& Correlation
+& Expected innodb\_file\_per\_table \\ & without notice
+&&  [mysqld] $<=$ max\_connections[mysqld]  \\ \hline
+
+16 & Enabling log in MySQL 5 6 
+& Type Error
+& Expected sql\_mode[mysqld] should  \\ & prevents server from starting
+&&  be a string \\ \hline
+
+17 & MySQL needs help for rapidly growing 
+& Correlation
+& Expected innodb\_buffer\_pool\_size \\ & table and decreasing speed
+&&  [mysqld] $>$ sort\_buffer\_size[mysqld] \\ \hline
+
+18 & MySQL filled all RAM on the system
+& Correlation
+& Expected join\_buffer\_szie * \\ & && max\_connections $<=$ key\_buffer\_size \\ \hline
+
+
+19 & MySQL hit a max limit
+& Correlation
+& Expected join\_buffer\_size * \\ &&& max\_connections $<=$ key\_buffer\_size \\ \hline
+
+20 & Cannot create a new thread
+& Correlation
+& Expected join\_buffer\_size * \\ &&& max\_connections $<=$ key\_buffer\_size \\ \hline
+
+\end{tabular}
+\end{small}
+\end{table*}
+
+
+
 \section{Evaluations}
 
 We mainly conduct three parts of experiments to evaluate our \app
@@ -31,29 +149,6 @@ and perform \app on them. \ennan{Here, we first need a table to
 list each configuration error with error type, description,
 and whether \app correctly reports the issues.}
 
-\begin{table*}[t]
-\centering
-\caption{Sampled benchmarks for misconfiguration detection}
-\label{table-casestudy}
-\begin{tabular}{|l|l|l|l|}
-\hline
-{\bf ID} & {\bf Problem Description} & {\bf Error Type} & 
-{\bf \app Report}  \\ 
-\hline
-\hline
-1 & How to configure MySql master slave to  
-& Type Error 
-& Expected a Filepath with P=1.0 \\ & backup master to slave & 
-& for log-bin[mysqld] \\ \hline
-
-2 & data import from MySql dies when MySQL  
-& Correlation 
-& Expected thread\_cache\_size[mysqld] > \\ & query limit is removed 
-& & innodb\_buffer\_pool\_size \\ \hline
-
-\end{tabular}
-\end{table*}
-
 Next, we inject some errors to correct configuration files,
 and run \app to check whether our framework can correctly detect
 these injected errors. \ennan{We also need a table here, 
@@ -65,7 +160,7 @@ Finally, we check suspicious values.
 \centering
 \caption{Sampled benchmarks for anomaly detection}
 \label{table-anomaly}
-\begin{footnotesize}
+\begin{small}
 \begin{tabular}{|l|l|l|l|}
 \hline
 {\bf ID} & {\bf Problem Description} & {\bf URL} & 
@@ -95,7 +190,7 @@ Finally, we check suspicious values.
 & {\tt query\_cache\_limit} with value 134217728 \\ \hline
 
 \end{tabular}
-\end{footnotesize}
+\end{small}
 \end{table*}
 
 \subsection{Training Set Impact}
