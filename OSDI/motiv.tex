@@ -155,9 +155,10 @@ It turns out the following line in her configuration file was problematic:
 max_allowed_packet = 100M
 \end{lstlisting} 
 
-The user resolved the issue by replacing the above line with {\tt max\_allowed\_packet=2M}. 
-It turns out that the original value, 100 MB, is extremely large, a  
-statistically anomalous value for the {\tt max\_allowed\_packet} attribute. ConfigV can detect these
+The user eventually resolved the issue by replacing the above line with {\tt max\_allowed\_packet=2M}.
+One possible way to reach this conclusion more quickly is to determine that the original value for 
+{\tt max\_allowed\_packet}, 100 MB, was statistically deviant and extremely large. 
+ConfigV can detect these
 outliers. Run on the user's original configuration file, ConfigV would output:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
@@ -166,7 +167,8 @@ WARNING: Violated Upper Hampel Rule for max_allowed_packet with value 104857600
 
 In the above, 104857600 represents the integer value of 100 megabytes. The idea is to output
 a warning to the user that her value falls outside of a range considered normal, so that she
-can make the appropriate adjustment to the value herself.
+can make the appropriate adjustment to the value herself. In the above situation, it is 
+prudent to set the value lower. 
 
 \para{Other errors.}
 \app can also deal with the configuration errors that can be detected by
