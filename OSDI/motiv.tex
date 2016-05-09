@@ -142,10 +142,26 @@ in the same file: "include" "schema/ppolicy.schema"
 
 \para{Example~4: Singular Value Errors} 
 A common error is that a value is set too high or too low.
-For example, consider the following:
-This should be the singular value error.
-We need an example from Stack Overflow to illustrate the 
-real-world problem. I guess the buffer size example is fine.
+For example, a parameter relating to memory might be too large,
+exhausting the RAM and causing extreme slowness. 
+Consider the following real-world misconfiguration file \cite{singleValue}: the
+user was experiencing the ``My SQL Server has gone away" error.  
+She had the following line in her configuration file.
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+max_allowed_packet = 100M
+\end{lstlisting} 
+
+The user resolved the issue by replacing the above line with {\tt max\_allowed\_packet=20M}. 
+It turns out that the original value, 100 MB, is extremely large, a  
+statistically anomalous value for the {\tt max\_allowed\_packet} attribute. ConfigV can detect these
+outliers. Run on the user's original configuration file, ConfigV would output:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+WARNING: Violated Upper Hampel Rule for max_allowed_packet with value 104857600 
+\end{lstlisting} 
+
+In the above, 104857600 represents the integer value of 100 megabytes.  
 
 \para{Other errors.}
 \app can also deal with the configuration errors that can be detected by
