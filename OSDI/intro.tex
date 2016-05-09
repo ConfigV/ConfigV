@@ -31,29 +31,28 @@ Nevertheless, automated verification of configuration
 files, that could detect would be highly
 desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
 
-In order to overcome these obstacles,
-researchers have proposed 
-statistical analysis and learning-based approaches%
-~\cite{wang04automatic, zhang14encore, yuan11context}. 
-These efforts build checking policies by learning from a sample 
-data set, rather than explicitly specifying entries' types or rules.
-In particular, for each entry in a certain configuration file, 
-if it deviates from common values used in a large collection
-of configuration files (\ie, the data set for training), it is typically
-suspected to contain a potential configuration error.
-However, because these learning 
-efforts {\em either} are limited to simplistic 
-configuration errors (\eg, type errors and syntax errors)
-{\em or} heavily rely on template-based inference~\cite{zhang14encore}, 
-many sophisticated configuration errors, 
-which are difficult to template in practice, cannot be detected.
-For example, if {\tt extension = mysql.so} appears 
-before {\tt extension = recode.so} in a PHP configuration file,  
-it would lead to a crash error, since the correct ordering 
+To overcome these obstacles, researchers have proposed approaches based on
+a statistical analysis and learning~\cite{wang04automatic, zhang14encore, yuan11context}
+that try to infer the rules and policies how configuration files are constructed.
+Rather than explicitly specifying entries' types or rules, these research directions are focused
+on learning policies from a sample data set.
+The learned rules are usually constructed along the following pattern: for every entry in a configuration file, 
+we check if it deviates from a ``typical'' value, \ie a value computed from a large training set consisting of configuration files.
+If the entry is significantly different that the typical value, we suspect that it could be a potential configuration error.
+The downside of this approach is that these learning efforts are limited to simplistic 
+configuration errors, such as type errors and syntax errors, or they 
+heavily rely on template-based inference~\cite{zhang14encore}. As we pointed out earlier, since configuration files are not written in a typed language with a fixed syntax,
+type errors and syntax errors are relatively rare and easy to detect. However, many sophisticated configuration errors, 
+which are difficult to template in practice, cannot be detected this way. As an illustration of such an error consider the ordering errors, which
+happen when some entries are inserted in a wrong order. 
+For example, if in a PHP configuration file an entry {\tt extension = mysql.so} appears 
+before {\tt extension = recode.so},  
+it would lead to a crash error, where the Apache server cannot start due to the segmentation fault error. The correct ordering 
 should be {\tt extension = recode.so} before 
-{\tt extension = mysql.so}~\cite{yin11anempirical};
-however, such an error cannot be detected by existing
-learning efforts, since it is hard to build a corresponding template ~\cite{xu15systems}.
+{\tt extension = mysql.so}~\cite{yin11anempirical}.
+These types of errors cannot be detected by existing
+learning efforts, since it is hard to build a corresponding template ~\cite{xu15systems}: we would need to capture ordering relations of all the entries. Some of 
+them can appear in an arbitrary ordering and the resulting templates would be too large and not efficient for a practical use.
 
 %Offering automatic verification to configuration files -- like
 %what we did to programs -- has been advocated as a reasonable means
@@ -63,12 +62,25 @@ learning efforts, since it is hard to build a corresponding template ~\cite{xu15
 %and untyped languages, and 2) writing specifications or constraints
 %for configuration verification is non-trivial in practice.
 
-In order to truly achieve automatic configuration verification,
-we argue that we need to leverage a collection of more powerful learning 
-algorithms (not necessarily depending on templates) to derive 
-a more sophisticated language model (with abundant rules covering
-tricky configuration errors), and then check the configuration files
-of interest through the learned language model. \jon{Too many parentheses in sentence. Cut down}
+
+In this paper we present \app, the first automatic verification framework
+for general software configurations. \app is based a collection of more powerful learning 
+algorithms, that do not necessarily depend on templates. The learning process can be seen as a process of deriving  
+a specification of configuration files, from a dataset containing a large sample of configuration files. In order to do that
+we utilize a more sophisticated language model. Thus, in the first step \app analyzes the given dataset and generates a 
+well-structured and probabilisticly-typed 
+intermediate representation.
+
+
+
+
+which aims to truly  achieve automatic configuration verification. we need to leverage a collection of more powerful learning 
+algorithms, that do not necessarily depend on templates. In order to do that
+there should be a more sophisticated language model, to which we would translate configuration files' entries.
+Based on  the learned language model we would develop an abundant set of rules covering 
+complex configuration errors. The set of learned rules should be accurate and we should be able to efficiently check 
+the configuration files
+of interest.
 
 Based on the above argument, 
 this paper presents \app, the first automatic verification framework
