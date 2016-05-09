@@ -50,14 +50,14 @@ The downside of these approaches is that their learning approaches
 are limited to simplistic configuration errors, 
 such as type errors and syntax errors, or they 
 heavily rely on template-based inference~\cite{zhang14encore}. 
-As we mentioned earlier, 
-because configuration files are not written in a typed language 
-with a fixed syntax,
-type errors and syntax errors are relatively rare and easy to detect. 
-However, many sophisticated configuration errors, 
+%As we mentioned earlier, 
+%because configuration files are not written in a typed language 
+%with a fixed syntax,
+%type errors and syntax errors are relatively rare and easy to detect. 
+Many sophisticated configuration errors, 
 which are difficult to template in practice, 
 cannot be detected by this way. 
-As an illustration of such an error consider the ordering errors, 
+As an illustration of such an error, consider the ordering errors, 
 which happens when some entries are inserted in a wrong order. 
 For example, if in a PHP configuration file 
 an entry {\tt extension = mysql.so} appears 
@@ -68,11 +68,11 @@ should be {\tt extension = recode.so} before
 {\tt extension = mysql.so}~\cite{yin11anempirical}.
 These types of errors cannot be detected by existing
 learning efforts, 
-since it is hard to build a corresponding template~\cite{xu15systems}: 
-we would need to capture ordering relations of all the entries. 
-Some of them can appear in an arbitrary ordering, 
-and the resulting templates would be too large 
-and not efficient for a practical use.
+since it is hard to build a corresponding template~\cite{xu15systems}. 
+%we would need to capture ordering relations of all the entries. 
+%Some of them can appear in an arbitrary ordering, 
+%and the resulting templates would be too large 
+%and not efficient for a practical use.
 
 %Offering automatic verification to configuration files -- like
 %what we did to programs -- has been advocated as a reasonable means
@@ -108,11 +108,12 @@ cannot be identified by existing work (details in $\S$\ref{sec-motiv}).
 
 Building such an automatic verification framework for
 configuration files, nevertheless, requires addressing several challenges. 
-First, for variables of one type 
-we learn different rules than for variables of different types. 
-For example, for integer variables $X$ and $Y$, 
-we can learn that $X \leq Y$, while 
-for strings we might want to learn a substring relation. We, therefore, first need to assign a type to every variable in a configuration file during the transformation phase.
+%First, for variables of one type 
+%we learn different rules than for variables of different types. 
+%For example, for integer variables $X$ and $Y$, 
+%we can learn that $X \leq Y$, while 
+%for strings we might want to learn a substring relation. 
+First, we need to assign a type to every variable in a configuration file during the transformation phase.
 However,
 the type of a variable cannot always be fully determined 
 from a single value. 
