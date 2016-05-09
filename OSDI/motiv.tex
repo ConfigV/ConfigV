@@ -48,7 +48,7 @@ BEFORE "extension" "mysql.so"
 
 \para{Example~2: Fine-grained value correlation errors.} 
 In a real-world misconfiguration example~\cite{correlation}, 
-a user configures his MySQL as the following:
+a user configures his MySQL as the following.
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 key_buffer_size = 384M
@@ -63,8 +63,8 @@ read_rnd_buffer_size = 8M
 ...
 \end{lstlisting} 
 
-This user complained that his MySQL's load was very high and the website's
-respond speed was very slow.
+This user complained that her MySQL load was very high, causing the website's
+respond speed to be very slow.
 In this case, {\tt key\_buffer\_size} is used by all the threads
 cooperatively, while {\tt join\_buffer} and {\tt sort\_buffer} are 
 created by each thread for private use; thus, the maximum amount
@@ -101,7 +101,8 @@ INTEGER RELATION ERROR:
 Expected "key_buffer_size" >= "max_connections" * "sort_buffer_size"
 \end{lstlisting} 
 
-\jon{The following paragraph is repetitive, same as the one two above -- just remove it?}
+\jon{The following paragraph is repetitive, same as the above -- already mentioned
+this exact error for EnCore -- just remove it?}
 Note that an existing effort, EnCore, aims to detect value correlation 
 errors. However, different from \app, EnCore can only detect simple
 correlations, \eg, {\tt mysql.max\_persistent} < {\tt max\_connections},
@@ -119,7 +120,7 @@ missing entry errors.
 Below is a real-world entry missing error example~\cite{yin11anempirical}:
 when a user wants to use OpenLDAP to enable her directory access
 protocol, she needs to use the password policy overlay. This is usually
-done through the following entries in the OpenLDAP configuration file:
+achieved via the following entries in the OpenLDAP configuration file:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 include schema/ppolicy.schema
@@ -129,7 +130,7 @@ overlay ppolicy
 When using the password policy overlay in OpenLDAP, 
 users have to first include the related schema.
 Leaving out the {\tt include} entry, 
-which has been left out by many users~\cite{yin11anempirical}, 
+as done by many users~\cite{yin11anempirical}, 
 will cause failure of this LDAP. 
 The user can run \app on such a misconfiguration file,
 and \app would return:
