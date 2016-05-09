@@ -27,35 +27,38 @@ describe how each step works.
 \para{Initial phase.}
 We start with the assumption 
 that we are given a number of (not necessarily correct) 
-configuration files belonging to the same system, 
-such as MySQL or Apache. 
-These given files follow similar patterns, which we exploit
-in a learning algorithm to build rules that
-describe a language model for the files.
+configuration files, called {\em sample dataset}, 
+belonging to the same system, such as MySQL or Apache. 
+These files, therefore, follow similar patterns.
+%In the following steps,
+%we will exploit in a collection of learning algorithms 
+%to build rules that describe a language model for the files.
 
 \para{Translator.}
 The translator module first parses the input sample 
 dataset (containing both configuration files and system environment
-information), and then transforms them to a more structured
+information), and then transforms them into a more structured
 and typed intermediate representation.
-When we run type inference on a configuration file, 
-the type of a variable cannot always be fully determined from 
-a single value.
+When we infer the types of entries in a configuration file, 
+the type of an entry cannot always be fully determined from 
+a single value, since it is very hard to understand
+the purposes of key-value entries in modern
+software configuration files~\cite{xu15hey}.
 We address this problem 
 by introducing {\em probabilistic types}.
-Rather than giving a variable a single type, 
+In particular, rather than giving a variable a single type, 
 we assign several types over a probability distribution. 
 We can later use these more structured files
 as a training set to learn the rules. 
 
 \para{Learning.}
 The input of the learner is a set of files that have been translated
-into well-structured and typed representations.
-The learner module employs a collection of learning algorithms
-to generate various rule and constraints,
+into well-structured and typed representations (\ie, the translator's
+outputs). The learner module employs a collection of learning algorithms
+to generate various rules and constraints,
 potentially used to handle different types of configuration errors.
-These rules are the output of the learner, and will be 
-used by the checker to detect errors.
+These rules and constraints are the outputs of the learner, 
+and will be used by the checker to detect errors later.
 By combining the translated representations and the learned
 rules together, we build a language model for
 configuration verifications.
@@ -76,19 +79,18 @@ existing work on automated configuration troubleshooting%
 Each class can be viewed as an error-pattern 
 that \app should handle: we consider integer constraints, 
 ordering errors, typing errors, correlation errors, etc.
-\ennan{I do know we are using in some sense templates, but
-we should use pattern or some words to persuade we are 
-using an implicit ``templates''; otherwise, too similar 
-to what EnCore did.}
 
 Although the learner does necessarily rely on templates,
 \app still offers a database containing many templates,
 as shown in Figure~\ref{fig-overview}.
 Some of these templates are responsible for offering
 specific system executional environment information.
-A learning algorithm cannot derive rules related to environment violations, \eg,
-whether the current account is the owner of a certain path, without information 
-about the environment. In order to deal with comprehensive misconfiguration problems,
+A learning algorithm cannot derive rules 
+related to environment violations, \eg,
+whether the current account is 
+the owner of a certain path, without information 
+about the environment. 
+In order to deal with comprehensive misconfiguration problems,
 the learner needs a template DB to provide environment information,
 thus detecting system environment-related configuration errors.
 
@@ -96,12 +98,11 @@ thus detecting system environment-related configuration errors.
 The checker is used to detect rule violations in the configuration
 files of interest. The inputs of the checker are the learned rules 
 and the target configuration file to verify.
-It outputs a report (as shown in $\S$\ref{sec-motiv}) about 
-whether it finds any error, \eg, rule violations or a suspicious value.
+It generates a report (as shown in $\S$\ref{sec-motiv}) about 
+whether it finds any error, \eg, rule violations 
+or some suspicious values.
 As shown in Figure~\ref{fig-overview},
 there are two sub-modules in the checker. They are responsible for
 checking rule violations and suspicious values, respectively.
-\ennan{I really wanted to say we are using MaxSMT to check and rank
-these errors ...}
-In our experience, we find learned rules can be significantly reused
+In our experience, we find learned rules could be significantly reused
 to check different configuration files, thus improving our usability.  
