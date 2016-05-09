@@ -10,3 +10,42 @@ In addition, we may need to add one more subsection about
 learning system environment information related rules,
 \eg, for paths and users.}
 
+In general, the learner module has two parts of learning tasks.
+One is to learn rules in order to check configuration errors like
+entry missing, ordering errors, and correlation errors.
+Another one is to learn constraints to check suspicious (or called
+anomalous) singular values that may violate standard values.
+
+\subsection{Learning Rules}
+\label{subsec-rules}
+
+\subsection{Learning Suspicious Constraints}
+\label{subsec-constraints}
+
+We now describe the technique we use to detect anomalous values for 
+numerical attributes. Let $A$ be the set of attributes contained in the 
+configuration files in the sample dataset. 
+Let $A_n$ be the subset of attributes of $A$ which are numerical types. 
+Then, for each attribute $a \in A_n$, we construct a vector $v_a$ of the 
+values corresponding to attribute $a$, seen over the entire sample dataset.
+For each $v_a$, we compute 
+an interval  $$[\hat{v_a} - 3*MAD(v_a), \hat{v_a} + 3*MAD(v_a)],$$ 
+where $\hat{v_a}$ represents the median over the values 
+in $v_a$ and $MAD(v_a$) refers to the 
+median absolute deviation. 
+This is a standard outlier detection test, namely the Hampel identifier. 
+\footnote{Mathematically, $MAD(v_a) = 1.4826* median(|v_a - \hat{v_a}|)$, estimating standard deviation 
+for a normal distribution.} 
+In the checking phase, as long as the checker finds a value for a numerical 
+attribute in the checked file outside of this interval, 
+a warning would be printed to the user indicating the violating value, 
+the attribute, and the upper or lower Hampel threshold. 
+
+The intuition behind this is that if the user has input a value 
+that falls outside of an interval containing values that are considered 
+``normal'' over the entire sample dataset, 
+that value will probably cause an error, in particular for performance. 
+We cannot know for sure if this value will cause an issue. 
+For instance, a user might have a machine with 
+particularly high-end hardware, 
+in which case a value beyond the upper Hampel threshold may be appropriate. 
