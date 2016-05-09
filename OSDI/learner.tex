@@ -1,4 +1,3 @@
-
 \section{Learner}
 \label{sec-learn}
 
@@ -26,7 +25,7 @@ The first component learns rules
 that must hold over multiple parts of a configuration file.
 
 \para{A strawman solution.}
-We now first present a strawman solution (employed by
+We first present a strawman solution (employed by
 previous work~\cite{santolucitoCAV, zhang14encore}) that uses 
 a set of correct configuration files as a learning set, 
 from which it is possible to derive rules 
@@ -40,20 +39,24 @@ which is prone to error.
 As a result of this restriction, 
 these efforts only consider a rule if it holds over exactly every file in 
 the learning set. This behavior can be formally described as follows:
-
-
 \begin{small}
-\begin{flalign*}
-C =&\ \text{Correct Learning Set}\\
-\text{::}\ & \text{\{Configuration Files in Intermediate Representation\}}\\
-LR =&\ \text{Learned Rules :: \{Rule\}}\\
-RR =&\ \text{Reported Rules :: \{Rule\}}\\ 
+\begin{align*}
+C :=&\ \text{Correct Learning Set}\\
+LR :=&\ \text{Learned Rules} :: \{\textrm{Rule}\}\\
+RR :=&\ \text{Reported Rules} :: \{\textrm{Rule}\}\\ 
+C =&\ \text{\{Configuration Files in Intermediate Representation\}}\\
 LR =&\ \{ r\ \mid \forall file \in C,\ holds(r,file)\} \\
-RR =&\ \{ r\ \mid r \in L\ \land \neg\ holds(r,userfile) \}
-\end{flalign*}
+RR =&\ \{ r\ \mid r \in LR \ \land \neg\ holds(r,\textrm{user file}) \}\\
+\end{align*}
 \end{small}
+In the above, the ":: \{Rule\}" notation indicates that the $LR$ learned rules 
+and $RR$ reported rules are sets of rules.
+A rule is only committed to the $LR$ learned rule set if 
+the rule holds on all files in the training set $C$, as denoted by the $\forall$ quantifier. 
+A broken rule is reported to the user in the $RR$ rule set if the rule is in $LR$, 
+but does not hold on the input user file.
 
-Each rule can be thought of as a mapping from 
+Each rule can be viewed as a mapping from 
 lines $j$ and $k$ in a configuration file to a relation, $R$.
 
 \[
