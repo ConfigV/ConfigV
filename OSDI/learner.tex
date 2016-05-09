@@ -89,12 +89,11 @@ Let $A_n$ be the subset of attributes of $A$ which are numerically typed.
 Then, for each attribute $a \in A_n$, we construct a vector $v_a$ of the 
 values corresponding to attribute $a$, seen over the entire sample dataset.
 For each $v_a$, we compute 
-an interval  $$[\hat{v_a} - 3*MAD(v_a), \hat{v_a} + 3*MAD(v_a)],$$ 
+an interval  $$[\hat{v_a} - 50*MAD(v_a), \hat{v_a} + 50*MAD(v_a)],$$ 
 where $\hat{v_a}$ represents the median over the values 
 in $v_a$ and $MAD(v_a$) refers to the 
 median absolute deviation. 
-This is a standard outlier detection test, namely the Hampel identifier. 
-\footnote{Mathematically, $MAD(v_a) = 1.4826* median(|v_a - \hat{v_a}|)$, estimating standard deviation 
+This is a variant of a standard outlier detection test, namely the Hampel identifier.\footnote{Mathematically, $MAD(v_a) = 1.4826* median(|v_a - \hat{v_a}|)$, estimating standard deviation 
 for a normal distribution.} 
 In the checking phase, as long as the checker finds a value for a numerical 
 attribute in the checked file outside of this interval, 
