@@ -64,60 +64,44 @@ them can appear in an arbitrary ordering and the resulting templates would be to
 
 
 In this paper we present \app, the first automatic verification framework
-for general software configurations. \app is based a collection of more powerful learning 
-algorithms, that do not necessarily depend on templates. The learning process can be seen as a process of deriving  
-a specification of configuration files, from a dataset containing a large sample of configuration files. In order to do that
-we utilize a more sophisticated language model. Thus, in the first step \app analyzes the given dataset and generates a 
+for general software configurations. \app is based on a collection of powerful learning 
+algorithms, that do not necessarily depend on templates. The learning process takes as input a
+ large sample of configuration files. The process is language-agnostic and it works for any type of configuration files, 
+but all of the files in the sample need to be of the same type (such as  MySQL or httpd configuration files). From that sample
+\app learns an abundant set of rules specifying various properties that hold on the given sample. The files in the sample might contain
+errors -- we are, therefore, using probabilistic learning to derive a set of accurate rules. One can see this learning process as a
+way of deriving  
+a specification for configuration files. The learning process works in two phases. In the first phase \app analyzes the given dataset and generates a 
 well-structured and probabilisticly-typed 
-intermediate representation.
-
-
-
-
-which aims to truly  achieve automatic configuration verification. we need to leverage a collection of more powerful learning 
-algorithms, that do not necessarily depend on templates. In order to do that
-there should be a more sophisticated language model, to which we would translate configuration files' entries.
-Based on  the learned language model we would develop an abundant set of rules covering 
-complex configuration errors. The set of learned rules should be accurate and we should be able to efficiently check 
-the configuration files
-of interest.
-
-Based on the above argument, 
-this paper presents \app, the first automatic verification framework
-for general software configurations.
-In particular, \app's workflow for verifying a given configuration file
-can be viewed as a three-step methodology.
-Firstly, \app analyzes a dataset containing sample configuration files,
-thus generating a well-structured and probabilistically-typed 
-intermediate representation.
-Secondly, \app derives rules and constraints by analyzing
-the intermediate representations, thus building a language model.
-Finally, \app uses the resulting language model
-to verify the given configuration file and detect potential errors.
+intermediate representation. In the second phase \app derives rules and constraints by analyzing
+the intermediate representations.  The set of learned rules is accurate and we are able to efficiently check 
+the correctness of the configuration files
+of interest and detect potential errors.
 Compared with previous efforts,
 \app does not necessarily rely on users' templates 
-and is capable of detecting tricky configuration errors that
+and is capable of detecting intricate configuration errors that
 cannot be identified by existing work (details in $\S$\ref{sec-motiv}). 
 
 Building such an automatic verification framework for
 configuration files, nevertheless, requires addressing several challenges. 
-Firstly, in order to formulate a correct language model, 
-we need to infer each entry's type in a given configuration file, but 
+First, for variables of one types we learn different rules than for variables of different type. For example for integer variables $x$ and $Y$ we can learn that $X \leq Y$, while 
+for strings we might want to learn a substring relation. We, therefore, first need to assign a type to every variable in a configuration file during the transformation phase.
+However,
 the type of a variable cannot always be fully determined 
 from a single value. 
-For example, an entry {\tt foo = MAX\_SIZE} is most likely
-an integer rather than string; however, existing type inference 
-work would report this is an error, because {\tt foo} should be assigned
-an integer~\cite{zhang14encore}. \jon{Unclear what the error is. Be more precise} We address this problem by introducing 
+For example, an entry {\tt temp\_dir = 300} assigns to variable {\tt temp\_dir} either a directory named ``300'' or sets the size of that directory to 300 (an integer).
+Some of existing type inference 
+work would report this is an error, because {\tt temp\_dir} should be assigned
+an integer~\cite{zhang14encore}. We address this problem by introducing the concept of
 {\emph{probabilistic types}}.
 Rather than assigning only one variable to a single type, 
 we assign several types with their probability distributions. 
 The entry in the above example might be assigned 
-a probabilistic type like 
-{\tt \{foo, MAX\_SIZE, [(Int, 60\%), (String, 40\%)]\}}.
-With such probabilistic types in hand,
+the following probabilistic type
+{\tt \{temp\_dir, 300, [(File, 60\%), (Int, 40\%)]\}}.
+Using the probabilistic types model,
 we can generate a more accurate language model,
-thus significantly improving our checking capability.
+thus significantly improving our verification capabilities.
 
 Secondly, without templates, learning rules and constraints is a challenge. 
 \ennan{Here, we need to add one-paragraph description 
