@@ -152,7 +152,7 @@ She had the following line in her configuration file.
 max_allowed_packet = 100M
 \end{lstlisting} 
 
-The user resolved the issue by replacing the above line with {\tt max\_allowed\_packet=20M}. 
+The user resolved the issue by replacing the above line with {\tt max\_allowed\_packet=2M}. 
 It turns out that the original value, 100 MB, is extremely large, a  
 statistically anomalous value for the {\tt max\_allowed\_packet} attribute. ConfigV can detect these
 outliers. Run on the user's original configuration file, ConfigV would output:
@@ -161,7 +161,9 @@ outliers. Run on the user's original configuration file, ConfigV would output:
 WARNING: Violated Upper Hampel Rule for max_allowed_packet with value 104857600 
 \end{lstlisting} 
 
-In the above, 104857600 represents the integer value of 100 megabytes.  
+In the above, 104857600 represents the integer value of 100 megabytes. The idea is to give the user
+a warning that their value falls outside of a range considered normal and to prompt the  
+appropriate adjustments.
 
 \para{Other errors.}
 \app can also deal with the configuration errors that can be detected by
