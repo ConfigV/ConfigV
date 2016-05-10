@@ -164,9 +164,9 @@ prudent to set the value of {\tt max\_allowed\_packet} lower. We call such a val
 \emph{singular value anomaly}.
 
 \para{Other errors.}
-\app can also deal with the configuration errors that can be detected by
+In addition to the given motivating examples \app can also detect and report configuration errors that can be exposed by
 existing work, such as EnCore~\cite{zhang14encore} and
-CODE~\cite{yuan11context}.
+CODE~\cite{yuan11context} (a full scope of \app's capabilities is given in $\S$\ref{sec-eval}).
 A recently reported configuration error made the MySQL
 daemon fail to start~\cite{syserror}.
 One entry was written as 
@@ -178,4 +178,8 @@ should be {\tt datadir=/appfinder/mysql}.
 Such an error is called a system environment-related configuration error.
 Both \app and EnCore can handle misconfigurations concerning system execution.
 Furthermore, \app is also able to detect type errors and syntax errors
-in configuration files.
+in configuration files. An example of a type error is assigning to a variable {\tt {general\_log}} 
+a file path {\tt {/var/log/mysql/mysql.log}}. \app successfully reports this typing error: 
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+TYPE ERROR: Expected a Int with P=1.0 for "general_log[mysqld]"
+\end{lstlisting}
