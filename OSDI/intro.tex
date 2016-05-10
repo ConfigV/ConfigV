@@ -109,6 +109,12 @@ the intermediate representations.  Every learned rule is annotated with a probab
 which percentage of the files the rule was seen as correct. As learned rules we only select those rules whose 
 correctness probability is above the set threshold. 
 
+Finally, we checks whether a
+given variable
+
+
+
+
 Building such an automatic verification framework for
 configuration files, nevertheless, requires addressing several challenges. 
 %First, for variables of one type 
@@ -134,23 +140,11 @@ Using the probabilistic types model,
 we can generate a more accurate language model,
 thus significantly improving our verification capabilities.
 
-Second, without templates, learning rules and constraints is 
-another challenge.
-Rather than relying on pre-defined templates or 
-manually correcting training set,
-we introduce and perform probabilistic learning approaches 
-on probabilistically typed representations
-generated in the transformation phase.
-The learning process first analyzes the occurrences of each pair
-of entries in the training set, 
-then computes the likelihood that each pair can constitute a rule, 
-and finally derive many rules.
+Second, when learning rules we use very general templates to 
+infer them. The user does not need to provide any templates -- they are internally associated to the types.
+Nevertheless, in addition to those general templates, we still need specific algorithms to learn
+rules that cannot be easily templated. 
 
-
-Compared with previous efforts,
-\app does not only rely on users' templates, it learns the rules about  
-and is capable of detecting intricate configuration errors that
-cannot be identified by existing work (details in $\S$\ref{sec-motiv}). 
 
 
 
