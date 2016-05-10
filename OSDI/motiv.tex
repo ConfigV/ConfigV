@@ -5,40 +5,41 @@ In this section we illustrate functionality of \app on several non-trivial confi
 extracted from real-world examples. Although the errors are relatively simple, we call them 
 non-trivial, because the majority of existing tools, \eg, learning-based checking
 tools~\cite{zhang14encore, wang04automatic}, cannot detect
-these configuration errors. We investigated 
-many misconfiguration problems in practice which were caused by 
-these tricky configuration errors, such as those reported on StackOverflow.
+these configuration errors. Most of the presented examples were found on StackOverflow,
+a popular question and answer website for programmers. To better understand problems that users have with 
+configuration files, we explored and analyzed a large number of user forums and on-line discussion sites, focused on misconfigurations.
+
 
 \para{Example~1: Ordering error.} 
-The first class of configuration errors we handle was first reported by 
-Yin {\em et al.}~\cite{yin11anempirical}.
-For instance, when a user configures PHP to run with the
-Apache HTTP Server, this user might write, amongst others, 
-the following lines in the configuration file.
-
+Ordering errors were reported by Yin {\em et al.}~\cite{yin11anempirical} and our first
+example illustrates how ordering errors can cause a system to crash. When a user configures PHP 
+to run with the
+Apache HTTP Server, most likely the user will take some already existing configuration files and adapt them
+to suite her needs. The configuration file might contain, among others, 
+the following lines:
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 extension = mysql.so
 ...
 extension = recode.so
 \end{lstlisting} 
 
-Such a configuration file will cause the Apache server to 
-fail to start due to a segmentation fault error~\cite{yin11anempirical}. 
-This is because when using PHP in Apache, the extension {\tt mysql.so} 
-depends on {\tt recode.so}, and the relative ordering of two of them 
+This configuration file will cause that the Apache server will
+fail to start due to a segmentation fault error. 
+This is because, when using PHP in Apache, the extension {\tt mysql.so} 
+depends on {\tt recode.so}, and their relative ordering
 is crucial. 
-We call the above example misconfiguration 
+We call the above example of a misconfiguration file
 an {\em ordering error}.
-Yin {\em et al.} find that ordering errors widely exist in
+Yin {\em et al.} report that ordering errors widely exist in
 many system configurations, \eg, PHP and MySQL,
-and typically lead to multiple system crash events;
-however, there is no existing effort that can effectively solve 
+and typically lead to multiple system crash events.
+However, none of existing tools can effectively solve 
 or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
 
-By using \app, the user can avoid such a configuration error.
-In particular, \app is able to inform the user that {\tt recode.so} 
+By invoking \app, the user can detect such a configuration error.
+In particular, \app reports that {\tt recode.so} 
 should appear before {\tt mysql.so}, as shown
-below.
+below:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 ORDERING ERROR: Expected "extension" "recode.so"
@@ -46,8 +47,8 @@ BEFORE "extension" "mysql.so"
 \end{lstlisting} 
 
 \para{Example~2: Fine-grained value correlation error.} 
-In a real-world misconfiguration example~\cite{correlation}, 
-a user configures his MySQL as the following.
+Our next real-world misconfiguration example~\cite{correlation} comes from a discussion on StackOverflow.
+The user has configured his MySQL as the following:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 key_buffer_size = 384M
@@ -62,7 +63,7 @@ read_rnd_buffer_size = 8M
 ...
 \end{lstlisting} 
 
-This user complained that her MySQL load was very high, causing the website's
+The user the complains that her MySQL load was very high, causing the website's
 respond speed to be very slow.
 In this case, {\tt key\_buffer\_size} is used by all the threads
 cooperatively, while {\tt join\_buffer} and {\tt sort\_buffer} are 
@@ -72,27 +73,6 @@ of used key buffer, \ie, {\tt key\_buffer\_size} should be larger than
 Clearly, in the above example, it does not hold, 
 so this misconfiguration causes MySQL to load very slowly.
 
-We call the above situation a {\em fine-grained value correlation
-error}, which is a more challenging case than 
-{\em value correlation error} reported
-by some existing investigations~\cite{yin11anempirical, zhang14encore}.
-A typical value correlation error
-means one entry's value should have a certain correlation with
-another entry's value. For example, in MySQL,
-the value of {\tt max\_connections} should be higher than
-{\tt mysql.max\_persistent}. Although some work, \eg,
-EnCore~\cite{zhang14encore}, can detect the normal value
-correlation case, 
-no existing effort can detect fine-grained value correlation
-errors, which ``hide'' equation-aware correlations, as shown in
-the above example.
-As mentioned by Xu {\em et al.}~\cite{xu15hey},
-detecting fine-grained value correlation errors 
-is a much more challenging
-task than the normal value correlation problem.
-
-To the best of our knowledge, \app is the first effort that
-is able to check such fine-grained value correlation problems.
 If we run \app on this configuration file, \app  would return:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
@@ -100,13 +80,32 @@ INTEGER RELATION ERROR:
 Expected "key_buffer_size" >= "max_connections" * "sort_buffer_size"
 \end{lstlisting} 
 
-Compared with \app, existing efforts, \eg, EnCore, cannot 
-detect fine-grained value correlation errors.
+We can see that during the learning process we do not learn only simple statements, that compare two values, 
+but we also learn more complex correlations. We call them {\em fine-grained value correlations}, and the error
+a fine-grained value correlation
+error. This types of errors are more sophisticated than simple value correlations that some tools can detect~\cite{yin11anempirical, zhang14encore}.
+A typical value correlation error
+states that one entry's value should have a certain correlation with
+another entry's value. For example, in MySQL,
+the value of {\tt max\_connections} should be higher than
+{\tt mysql.max\_persistent}. 
 
-\para{Example~3: Entry missing error.} 
+Our tool can learn this simple correlations as well, but learning more complex properties requires a different 
+approach to the learning 
+process. We need to track several variables. It is not enough just to compare them, but we need to learn, as in this particular case, which
+invariant do they have to preserve. It was pointed out by Xu {\em et al.}~\cite{xu15hey} that
+detecting fine-grained value correlation errors 
+is a much more challenging
+task than the normal value correlation problem.
+
+To the best of our knowledge, \app is the first tool that
+is able to check such fine-grained value correlation problems.
+
+
+\para{Example~3: Missing entry error.} 
 Many critical system outages result from the fact that an important
 entry was missing in the configuration file. 
-We call such a problem an {\em entry missing error}.
+We call such a problem an {\em missing entry error}.
 In a public misconfiguration dataset~\cite{configdataset},
 many MySQL failure reports were caused by
 missing entry errors.
@@ -121,12 +120,12 @@ overlay ppolicy
 \end{lstlisting} 
 
 When using the password policy overlay in OpenLDAP, 
-users have to first include the related schema.
-Leaving out the {\tt include} entry, 
+users must first include the related schema.
+Leaving out the {\tt include schema/ppolicy.schema} entry, 
 as done by many users~\cite{yin11anempirical}, 
-will cause failure of this LDAP. 
-The user can run \app on such a misconfiguration file,
-and \app would return:
+causes the failure of LDAP. 
+If the user runs \app on such a misconfiguration file,
+\app would return:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 MISSING KEYWORD ERROR: Expected "overlay" "ppolicy"
