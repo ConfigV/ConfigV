@@ -2,19 +2,18 @@
 \section{Evaluations}
 \label{sec-eval}
 
-We conduct three parts of experiments to evaluate our \app
-prototype. We want to answer several questions:
+We conduct three experiments to evaluate our \app
+prototype. Our experiments aim to answer the following
+questions.
 
 \begin{itemize}
 
-\item Whether \app can detect real-world configuration errors?
+\item Whether \app can successfully 
+  detect real-world configuration errors?
 
-\item How does the size of training dataset impact on the correctness
-  of \app?
+\item Whether \app can correctly detect anomalous values?
 
-\item What is the rule inference accuracy?
-
-\item How long can we run the verification?
+\item How long do training and verification last?
 
 \end{itemize}
 
@@ -102,13 +101,26 @@ presents \app detects the fine-grained correlation,
 \end{small}
 \end{table*}
 
-\subsection{Training Set Impact}
+\subsection{Detecting Anomalous Values}
 
-In this experiment, we vary the number of training configuration files,
-and observe whether the correctness of \app would increase 
-accordingly. \ennan{We may need a table whose x-axis is the number
-of entries in the training configuration files, and y-axis is the 
-accuracy or something close.}
+The purpose of checking anomalous values in configuration files 
+is to avoid potential performance or workload problems. 
+Checking anomalous values is mainly the responsibility of
+the second sub-module checker of \app (see $\S$\ref{sec-checker}).
+
+We run \app to check 30 real-world benchmarks from Stack Overflow 
+website, and found \app is able to report anomalous values in
+these configurations. We also manually check whether these
+anomalous values are correct by comparing our results with
+the answers on Stack Overflow.
+
+Table~\ref{table-anomaly} shows three examples.
+We present the problem description, the link and the output results
+of \app. We found these anomalous values are very hard for
+administrators or users to detect, because they look correct.
+However, as shown in the links posted in Table~\ref{table-anomaly},
+such anomalous values typically lead to critical performance
+problems in practice.
 
 \subsection{The Run-Time of Verification}
 
