@@ -3,7 +3,7 @@
 \label{sec-eval}
 
 We conduct three experiments to evaluate our \app
-prototype. Our experiments aim to answer the following
+prototype. We answer the following
 questions.
 
 \begin{itemize}
@@ -25,7 +25,7 @@ questions.
 
 We now apply \app to check against real-world misconfiguration problems.
 We use a real misconfiguration dataset~\cite{configdataset}
-that are collected from several online forums, \eg, 
+that were collected from several online forums, \eg, 
 Stack Overflow and MySQL forum.
 Each configuration file in this dataset was posted by 
 programmers or system administrators, 
@@ -33,15 +33,18 @@ when they confront the misconfiguration issues in practice.
 This dataset contains 261 incorrect MySQL configuration files.
 
 We apply \app to learn and check the configuration files in this
-dataset. Then, we observe how many errors \app can detect,
-and manually check whether these detected errors are indeed
+dataset. Then, we observe how many errors \app can detect.
+We next manually check whether these detected errors are indeed
 configuration errors.
 For all the 261 configuration files, we found \app is
 able to report all the errors correctly.
 For 217 of the 261 configuration files, we found \app's 
 error detection results are correct and accurate,
-\ie, correctly report the real misconfiguration problem.
-However, for 44 of them, \app outputs relatively high false positives,
+\ie, correctly report the real misconfiguration problems
+and with few false positives.
+For the rest of 44 cases, 
+although \app can detect the errors,
+\app outputs relatively high false positives,
 \eg, higher than 50 false positives,
 which is not very helpful to users in practice.
 The reason is our training set contains too many incorrect configuration
@@ -50,9 +53,12 @@ thus resulting in so many false positives.
   
 In order to clearly evaluate the effectiveness of \app,
 we extract 20 incorrect configuration files from the dataset.
-As a case study, we present the problem descriptions of these files, 
-the types of their errors, and the outputs produced by \app.
-Table~\ref{table-casestudy} details this information.
+\app is able to correctly report these configuration errors,
+and these errors cannot be handled by any existing efforts.
+Table~\ref{table-casestudy} details this information,
+including the problem descriptions of these files, 
+error types, and the outputs produced by \app.
+
 
 As shown in Table~\ref{table-casestudy},
 we found \app is capable of detecting many configuration errors previous
