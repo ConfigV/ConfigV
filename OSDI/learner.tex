@@ -177,7 +177,7 @@ demonstrated via the filtration step, which filters rules in a file that are pos
 Adding support for mixed types would be handled in a branching statement in Algorithm 1.
 Note that in Algorithm~\ref{alg:crules}, constructRule refers to the creation of a rule from a tuple of entries, $u = (e_1, e_2, \ldots, e_i, \ldots, e_{n-1})$.
 Then the rule creation is formally represented as $t(k(e_1), k(e_2), \ldots, k(e_i), \ldots, k(e_{n-1}))$; in order to 
-determine if the rule satisfied, the relation associated with $t(v(e_1), v(e_2), \ldots, v(e_i), \ldots, v(e_{n-1}))$ is evaluated.
+determine if the rule satisfied, the relation associated with $t(v(e_1), v(e_2), \ldots, v(e_i), \ldots, v(e_{n-1}))$ is evaluated for truth.
 
 %probability set associated with the rules, $\Pi$, contains values
 %ranging from 0 to 1, which are then compared against an acceptance threshold for the final output.
@@ -199,7 +199,6 @@ determine if the rule satisfied, the relation associated with $t(v(e_1), v(e_2),
 
 %By examining the learning set, we will derive a distribution of the set $\{R_i\}$ based on how many times we observe an occurrence of each relation. This distribution will then be used at checking time to determine if a user's configuration has broken a likely rule. 
 
-
 A rule $r$ will be reported as broken if the probability the rule is
 correct, $\Pi(r)$, is greater than some user defined constant, $p$. This
 constant can be adjust to the user's preference. A small $p$ will
@@ -215,8 +214,8 @@ our claimed language model look like?}
 \label{subsec-constraints}
 
 With a configuration file that has been verified against catastrophic
-failures (\eg, entry missing, type and ordering errors), 
-the user may also want to find out more subtle issues.
+failures (\eg, entry missing, type, and ordering errors), 
+the user may also want to examine more subtle issues.
 Anomalous values can cause tricky, but impactful, performance and memory
 issues that are hard to debug, as discussed in Example 4 of 
 $\S$\ref{sec-motiv}. 
