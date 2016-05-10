@@ -75,19 +75,20 @@ the most important types and templates.
 \end{table}
 
 
+In general, the templates work as follows: if there are two entries ${\tt {k1 = v1}}$ and 
+${\tt {k2 = v2}}$, let $t(X, Y)$ be a template that can be applied to those values (wrt. their types).
+If $t(v1, v2)$ holds, \ie the template states is valid for those concrete values, then we will add a rule
+$t(k1, k2)$ to a list of potentially correct specifications. Note that the rule expresses a correlation between variables.
 
+With the help of probabilistic types we addressed ambiguities during the parsing phase. A next problem that we need to solve
+is that configuration files sometimes contain a simple version of the {\tt {if-then}}, that 
+sets under which conditions some actions should be applied. Therefore, we also add this guard during the parsing phase. The meaning 
+of the guard is that, before deriving a rule, we first check if the guard is true.
 
+To summarize, the translator translates every entry ${\tt {k = v}}$ in a configuration file into a quadruple 
+$$(g,k,v,\textsf{List}[p_1:\tau_1, \ldots, p_n:\tau_n])$$
 
-
-
-\para{Formal Intermediate Representation.}
-
-An additional problem is that configuration files sometimes contain a simple version of the {\tt {if-then}} which 
-sets under which conditions some actions should be applied. 
-
-
-
-
+\iffalse
 The formal grammar we use for our intermediate representation presented in the following. 
 Firstly, we make a list of the possible types for a configuration file. This is present in 
 Secondly, we 
@@ -111,3 +112,5 @@ can be easily extended to support more types.
 In that case the user will need to provide rules for type inference 
 and probability distributions for values where type inference is ambiguous.
 }
+\fi
+
