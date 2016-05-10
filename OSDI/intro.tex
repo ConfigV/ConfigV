@@ -95,9 +95,10 @@ errors -- we are, therefore, using probabilistic learning to derive a set of acc
 
 For practical purposes we use the dataset given at~\cite{configdataset}. Every file in our dataset contains an error, but it is 
 always a different error and it only appears in a small percentage of files. Using that insight we were able, with the help of the probabilistic cutoff, to learn an
-accurate set of rules. The rules in general specify what properties do variables need to satisfy. One can see this learning process as a
+accurate set of rules. The rules, in general, specify which properties do variables need to satisfy. One can see this learning process as a
 way of deriving  
-a specification for configuration files.  Once there is a specification, we can start with formal verification. With these rules we can efficiently check the correctness of the configuration files
+a specification for configuration files.  Once there is a specification, we can do a formal verification. With these 
+rules we can efficiently check the correctness of the configuration files
 of interest and detect potential errors.
 
 The learning process works in two phases. In the first phase, 
@@ -106,14 +107,12 @@ well-structured and probabilistically-typed
 intermediate representation. 
 In the second phase, \app derives rules and constraints by analyzing
 the intermediate representations.  Every learned rule is annotated with a probability depicting in
-which percentage of the files the rule was seen as correct. As learned rules we only select those rules whose 
-correctness probability is above the set threshold. 
+which percentage of the files the rule was seen as correct. We only accept those rules whose 
+correctness probability is above the given threshold. 
 
-Finally, we checks whether a
-given variable
-
-
-
+Finally, while the learned rules establish correlations between two or more variables, using \app one can also detect whether a
+single variable has an appropriate value assigned to it. We do that by measuring the values, that are typically assigned to that variable 
+and reporting if the current value deviates too much from the recorded values.
 
 Building such an automatic verification framework for
 configuration files, nevertheless, requires addressing several challenges. 
