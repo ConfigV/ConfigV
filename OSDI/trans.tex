@@ -2,8 +2,7 @@
 \section{Translator}
 \label{sec-trans}
 
-The translator takes as input a sample dataset of configuration files and transforms a given sample
-dataset of configuration files into another set of files written in
+The translator takes as input a sample dataset of configuration files and transforms it into another set of files written in
 typed and well-structured representations.
 The translator can be seen a parser, and it is only
 used to generate an intermediate representation for the post
@@ -14,37 +13,29 @@ of our interest.
 
 Translating or parsing is system dependent. In other words, for MySQL
 and HDFS, we need to develop different parsers to handle each of them,
-respectively. \app also allows users to 
-provide extra help to the translator
+respectively. \app allows users to 
+provide an extra help to the translator
 for their specific system configurations,
-but not necessarily. 
-Each of the entries in the intermediate representations
-have been assigned types, and these types guide the learning
-modules later.
+but it is not required.
 
+The majority of entries in a configuration files are assignments.Our first attempt was to simply
+translate every key-value entry {\tt {k = v}} into a triple $(k, v, \tau)$, where $\tau$ is a type of 
+$v$. However, sometimes we could not fully determine the type of key 
+based on a single example value. For this reason, we introduced {\emph {probabilistic types}}.
 
-\para{Probabilistic types.}
-For any key-value entry in the sample configuration files,
-the translator cannot fully determine the type of key 
-based on a single example value.
 Consider the following example.
 
-\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-foo = 300
-bar = 300.txt
-\end{lstlisting} 
+\noindent{\tt {foo = 300}}\\
+{\tt {bar = 300.txt}}
 
 Most likely {\tt foo} should be an integer, but it could also be a string.
-In this case, we want to learn the rule like 
+In the second case, we can learn the rule stating 
 $ \texttt{foo} \in \textsf{substrings}(\texttt{bar})$. 
-The translator, therefore, assigns a distribution of types 
+Instead of assigning one type to a value, the translator assigns a distribution of types 
 to a value, an idea closely related to existentially quantified 
 types~\cite{Launchbury93lazyfunctional}. 
-We introduce {\em probabilistic types} to address this issue.
 
-Let $\mathcal{T}$ be a set of basic types. 
-In \app set $\mathcal{T}$ contains strings, integers, file paths, 
-sizes and IP addresses. 
+Formally, we define probabilistic types as follows: let $\mathcal{T}$ be a set of basic types (cf. Table~\ref{table:kysymys}).
 A probabilistic type built from $\mathcal{T}$ is a list of pairs 
 $[(\tau_1, p_1),\ldots,(\tau_n, p_n)]$,
 such that $\tau_i \in \mathcal{T}$, $0 \le p_i \le 1$ 
@@ -61,23 +52,46 @@ Once the type inference can uniquely determine the type,
 the probability of all other types is set to zero, 
 and the associated rules are withdrawn.
 
+In \app set $\mathcal{T}$ contains strings, integers, file paths, 
+sizes and IP addresses. With every type we associate a list of templates 
+that are use to learn the rules about that files. Table~\ref{table:kysymys} contains
+the most important types and templates.
+
+\begin{table}
+  \begin{tabular}{| l |  l |}
+    \hline
+    Type & Operation  \\ \hline
+    Integer & $X = Y, X\neq Y, X \leq Y, X < Y, X * Y < Z, \ldots $\\ \hline
+    String & $U = V, U \neq V, \textsf{prefix}(U,V), \textsf{sufix}(U,V), \ldots$   \\ \hline
+    File & $\textsf{file}(F), \textsf{dir}(D),\ldots$   \\ \hline
+    Size & similar as for integers   \\ \hline
+    Port &    \\ \hline
+    IP Addr.  &   \\
+    
+    \hline
+  \end{tabular}
+\caption{Table of types used in \app together with templates associated to every type}
+\label{table:kysymys}
+\end{table}
+
+
+
+
+
+
+
 \para{Formal Intermediate Representation.}
+
+An additional problem is that configuration files sometimes contain a simple version of the {\tt {if-then}} which 
+sets under which conditions some actions should be applied. 
+
+
+
 
 The formal grammar we use for our intermediate representation presented in the following. 
 Firstly, we make a list of the possible types for a configuration file. This is present in 
 Secondly, we 
 
-\begin{table}
-  \begin{tabular}{| l | c | r |}
-    \hline
-    Type & Operation & 3 \\ \hline
-    4 & 5 & 6 \\ \hline
-    7 & 8 & 9 \\
-    \hline
-  \end{tabular}
-\caption{Table of Types Along with Operation Pools}
-\label{table:kysymys}
-\end{table}
 
 We come up with the following types:
 
