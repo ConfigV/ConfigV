@@ -27,7 +27,7 @@ The \lstinline{merge} function will unify two sets of rules, from two separate c
 The \lstinline{merge} function
 
 The \lstinline{check} function will start will all the rules we have learned, and filter until we only have the rules that have been broken by the file of interest.
-We first eliminate the rules that pass the probability check defined in ($\S$\ref{subsec-rules}).
+We first eliminate the rules that do not pass the probability check defined in ($\S$\ref{subsec-rules}).
 Second, we only consider the rules which are relevant to the file - we do not need to check rules about keywords which do not appear in the file.
 Lastly, we take the errors as any rule that does not hold over the given file.
 
@@ -49,8 +49,7 @@ The core learning algorithm is simply a fold using \lstinline{merge} over the de
 
 
 Since we learn a set of rules on each file in isolation from the other, we have a pleasingly parallel situation.
-Haskell allows us to easily take advantage of this by using the parallel
-mapping library \cite{parallel}, both for translation to the intermediate representation, and for learning the rules on each file.
-The merge stage could also easily be parallelized, using a divide and conquer approach, but \app runs fast enough over our learning set (28 files, 961 lines of code) that this has not been necessary.
+Haskell allows us to easily take advantage of this by using the parallel mapping library \cite{parallel}, both for translation to the intermediate representation, and for learning the rules on each file.
+The merge stage could also be parallelized, using a divide and conquer approach, but this is not a priority since the learning stage only needs to be run once per learning set, and can then be cached (in our case, as a .json file) for fast reading when doing verification.
 
 The tool is freely available for download at \url{--redacted--}.
