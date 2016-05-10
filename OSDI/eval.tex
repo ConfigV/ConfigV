@@ -2,7 +2,7 @@
 \section{Evaluations}
 \label{sec-eval}
 
-We mainly conduct three parts of experiments to evaluate our \app
+We conduct three parts of experiments to evaluate our \app
 prototype. We want to answer several questions:
 
 \begin{itemize}
@@ -20,20 +20,50 @@ prototype. We want to answer several questions:
 
 \input{table}
 
-\subsection{\app's effectiveness}
+\subsection{\app's Effectiveness}
 
-In order to evaluate the effectiveness of \app, we extract
-20 misconfiguration files from a MySQL dataset~\cite{xu15hey},
-and perform \app on them. \ennan{Here, we first need a table to 
-list each configuration error with error type, description,
-and whether \app correctly reports the issues.}
+We now apply \app to check against real-world misconfiguration problems.
+We use a real misconfiguration dataset~\cite{xu15hey}
+that are collected from several online forums, \eg, 
+Stack Overflow and MySQL forum.
+Each configuration file in this dataset was posted by 
+programmers or system administrators, 
+when they confront the misconfiguration issues in practice.
+This dataset contains 261 incorrect MySQL configuration files.
 
-Next, we inject some errors to correct configuration files,
-and run \app to check whether our framework can correctly detect
-these injected errors. \ennan{We also need a table here, 
-and list each injected problem.}
+We apply \app to learn and check the configuration files in this
+dataset. Then, we observe how many errors \app can detect,
+and manually check whether these detected errors are indeed
+configuration errors.
+For all the 261 configuration files, we found \app is
+able to report all the errors correctly.
+For 217 of the 261 configuration files, we found \app's 
+error detection results are correct and accurate,
+\ie, correctly report the real misconfiguration problem.
+However, for 44 of them, \app outputs relatively high false positives,
+\eg, higher than 50 false positives,
+which is not very helpful to users in practice.
+The reason is our training set contains too many incorrect configuration
+files, which produce a lot of noises to our learning process,
+thus resulting in so many false positives.
+  
+In order to clearly evaluate the effectiveness of \app,
+we extract 20 incorrect configuration files from the dataset.
+As a case study, we present the problem descriptions of these files, 
+the types of their errors, and the outputs produced by \app.
+Table~\ref{table-casestudy} details this information.
 
-Finally, we check suspicious values.
+As shown in Table~\ref{table-casestudy},
+we found \app is capable of detecting many configuration errors previous
+efforts, \eg, EnCore~\cite{zhang14encore}, cannot deal with.
+To the best of our knowledge, no existing effort
+is able to detect fine-grained value correlation errors in the 
+MySQL configuration files.
+For example, the third case in Table~\ref{table-casestudy}
+presents \app detects the fine-grained correlation,
+{\tt key\_buffer\_size} should be larger than 
+{\tt sort\_buffer\_size} * {\tt max\_connections}.
+
 
 \begin{table*}[t]
 \centering
