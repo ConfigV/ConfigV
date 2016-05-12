@@ -186,7 +186,7 @@ verifyOn r f fname =
     concat all
 
 printRules x =
-  if Settings.vERBOSE
+  if False
     then trace ((concat . (L.intersperse " ") . map (show.length)) x) x
     else id x
 

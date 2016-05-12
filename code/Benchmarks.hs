@@ -15,7 +15,7 @@ import Debug.Trace
 
 testLearnSet = genSet "testLearn/"
 learningSet = genSet "dataset/correctMySQL/"
-bigLearningSet = genSet  "dump/MySQL/"
+bigLearningSet = genSet "dump/MySQL/"
 
 genSet s =
   map (\x -> (u $ T.readFile (s++x), MySQL))
@@ -41,10 +41,34 @@ benchmarks :: [ErrorReport]
 benchmarks = case Settings.pROBRULES of
   Test -> testBenchSet
   NonProb -> group2 ++ group3 ++ group4 ++ group5
-  Prob -> newSet--group2 -- ++ group4 ++ group5 -- ++ group6
+  Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
+
+xx = u $ listDirectory "dump/MySQL/"
+ff :: String -> [((FilePath, Keyword),(FilePath, Keyword),ErrorType)]
+ff x = [(("dump/MySQL/"++x,""),("dump/MySQL/"++x,""),INTREL)]
+
+zzz = map ff xx
+
+learnSetBench :: [ErrorReport]
+learnSetBench =  map (map makeError) zzz
 
 newSet :: [ErrorReport]
 newSet = map (map makeError) [
+    [(("../OSDI/inject/correlation/error1.cnf","long_query_time[mysqld]"),("../OSDI/inject/correlation/error1.cnf","interactive_timeout[mysqld]"),INTREL)]
+  , [(("../OSDI/inject/correlation/error2.cnf","max_allowed_packet[mysqldump]"),("../OSDI/inject/correlation/error2.cnf","key_buffer_size[myisamchk]"),INTREL)]
+  , [(("../OSDI/inject/correlation/error3.cnf","thread_cache_size[mysqld]"),("../OSDI/inject/correlation/error3.cnf","table_cache[mysqld]"),INTREL)]
+
+  , [(("../OSDI/inject/missing/error1.cnf","read_buffer[isamchk]"),("../OSDI/inject/missing/error1.cnf","write_buffer[isamchk]"),MISSING)]
+  , [(("../OSDI/inject/missing/error2.cnf","read_buffer[myisamchk]"),("../OSDI/inject/missing/error2.cnf","write_buffer[myisamchk]"),MISSING)]
+
+  , [(("../OSDI/inject/ordering/error1.cnf","datadir[mysqld]"),("../OSDI/inject/ordering/error1.cnf","basedir[mysqld]"),ORDERING)]
+  , [(("../OSDI/inject/ordering/error2.cnf","tmpdir[mysqld]"),("../OSDI/inject/ordering/error2.cnf","basedir[mysqld]"),ORDERING)]
+  , [(("../OSDI/inject/ordering/error3.cnf","basedir[mysqld]"),("../OSDI/inject/ordering/error3.cnf","pid-file[mysqld]"),ORDERING)]
+
+  ]
+
+newSet2 :: [ErrorReport]
+newSet2 = map (map makeError) [
     [(("../OSDI/data/missing/case1","set_timeout[mysqld]"),("../OSDI/data/missing/case1","wait_timeout[mysqld]"),MISSING)]
   , [(("../OSDI/data/missing/case2","innodb_force_recovery[mysqld]"),("../OSDI/data/missing/case2","innodb_strict_mode[mysqld]"),MISSING)]
 
@@ -53,8 +77,8 @@ newSet = map (map makeError) [
 
   , [(("../OSDI/data/correlation/case1","key_buffer_size[mysqld]"),("../OSDI/data/correlation/case1","sort_buffer_size[mysqld]"),INTREL)]
   , [(("../OSDI/data/correlation/case2","key_buffer_size[mysqld]"),("../OSDI/data/correlation/case2","join_buffer_size[mysqld]"),INTREL)]
-
   ]
+
 group2 :: [ErrorReport]
 group2 = map (map makeError) [
     [(("dataset/group2-entry-missing/error","port[client]"),("dataset/group2-entry-missing/error","socket[client]"),MISSING)]

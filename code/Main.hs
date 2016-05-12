@@ -23,24 +23,47 @@ import Data.Maybe
 import Control.Applicative
 
 import Debug.Trace
+import Data.Time.Clock.POSIX
 
 import qualified Settings
+
+import System.IO
 
 main = do
  bs <- mapM T.readFile benchmarkFiles :: IO [T.Text]
  let bs' = zip bs (replicate (length bs) MySQL)
- --unless Settings.uSE_CACHE $ B.writeFile "cachedRules.json" $ encode (toLists rules:: RuleSetLists)
+ unless Settings.uSE_CACHE $ B.writeFile "cachedRules.json" $ encode (toLists rules:: RuleSetLists)
  cached <- B.readFile "cachedRules.json"
- --(putStrLn . show) ((fromJust $ decode cached) :: RuleSetLists)
+ (putStrLn . show . listsLength) ((fromJust $ decode cached) :: RuleSetLists)
+
  fitness <- runVerify bs' (if Settings.uSE_CACHE then (fromLists. fromJust $ decode cached) else rules)
- putStrLn ("FITNESS : "++show fitness)
+ --putStrLn ("FITNESS : "++show fitness)
  return ()
+
+listsLength :: RuleSetLists -> Int
+listsLength RuleSetLists{..} =
+  sum [
+    length orderl
+    ,length missingl
+    ,length typeErrl
+    ,length missingPl
+    ,length orderPl
+    ,length intRelPl
+    ]
+
+--mapM_ printTiming [150, 200]
+printTiming x = do
+  startT <- getPOSIXTime
+  print $ length $ show $ learnRules $ take x $ cycle bigLearningSet
+  endT <- liftM2 (-) getPOSIXTime (return startT)
+  print endT
+  hFlush stdout
 
 rules =
   learnRules $ case Settings.pROBRULES of
   Settings.Test -> testLearnSet
   Settings.NonProb -> learningSet
-  Settings.Prob -> probLearnSet
+  Settings.Prob -> bigLearningSet
 
 verifyCache c = when (rules /= (fromLists. fromJust $ decode c)) (fail  "error in json cache")
 
@@ -48,7 +71,6 @@ runVerify :: [ConfigFile Language] -> RuleSet -> IO Int
 runVerify bs' rules = do
  let errors =  zipWith (verifyOn rules) bs' benchmarkFiles
  --when Settings.vERBOSE $ mapM_ putStrLn $ showProbRules rules
- when True $ mapM_ putStrLn $ showProbRules rules
  --mapM putStrLn (zipWith (++) benchmarks (map unlines errors))
  fitnesses <- zipWithM reportBenchmarkPerformance benchmarks errors
  return $ sum fitnesses
@@ -64,11 +86,15 @@ reportBenchmarkPerformance spec foundErrs =
       100 * (fromEnum $ not truePos) --large penalty for not passing
       + length falsePos
   in do
+    --startT <- getPOSIXTime --this is the right place to put it because of lazy eval
     putStrLn (getFileName $ head spec)
     putStrLn $ "    Passing: " ++ show truePos
     putStrLn $ "    False Positives: "++ show (length falsePos)
     when Settings.vERBOSE $ putStrLn $ "Specification :   \n" ++ show spec
     when Settings.vERBOSE $ putStrLn $ "True Errors :    \n" ++ unlines (map show $ filter ((==) $ head spec) foundErrs)
-    when Settings.vERBOSE $ putStrLn $ "False Positives : \n" ++ unlines (map show falsePos)
+    when (Settings.vERBOSE && (length falsePos < 10)) $ putStrLn $ "False Positives : \n" ++ unlines (map show falsePos)
     putStrLn ""
+    --endT <- liftM2 (-) getPOSIXTime (return startT)
+    --print endT
+    --hFlush stdout
     return fitness
