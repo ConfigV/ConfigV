@@ -59,7 +59,8 @@ reportBenchmarkPerformance spec foundErrs =
 
     putStrLn ""
 
-lsDir = "dataset/correctMySQL/"
+--lsDir = "dataset/correctMySQL/"
+lsDir = "dataset/correctMySQL2/"
 learningSet =
   map (\x -> (u $ T.readFile (lsDir++x), MySQL))
     (u (listDirectory lsDir))
