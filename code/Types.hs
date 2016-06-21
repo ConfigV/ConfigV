@@ -40,7 +40,7 @@ data RuleSet = RuleSet
 
 data RuleSetLists = RuleSetLists
   { orderl :: [((IRLine,IRLine),Bool)]
-  --, intRel :: IntRelMap
+  --, intRel :: IntRelMap --WHHHYYY did i comment this out???
   , missingl :: [MissingKRule]
   , typeErrl :: [(Keyword, ConfigQType)]
   , missingPl :: [(MissingKRule, Int, Int)]
@@ -69,6 +69,7 @@ fromLists RuleSetLists{..}=
     , orderP = M.fromList orderPl
     , intRelP = M.fromList intRelPl
     }
+
 
 instance NFData RuleSet where rnf x = seq x ()
 class Foldable t => Attribute t a where
@@ -186,6 +187,7 @@ data Error = Error{
 instance Show Error where
     show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n   -->"
      ++(show $errMsg e)++"\n"
+
 
 -- | as long as we have the correct type of error
 --   and have identified one similar fail point the errors are similar enough

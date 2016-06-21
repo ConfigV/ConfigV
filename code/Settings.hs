@@ -5,3 +5,5 @@ module Settings where
   pROBRULES = Prob
 
   data ModeSetting = NonProb | Prob | Test
+  
+  bENCHMARKS = False

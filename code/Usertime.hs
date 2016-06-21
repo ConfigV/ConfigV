@@ -13,8 +13,10 @@ import Data.Maybe
 import qualified Data.Map as M
 import qualified Data.List as L
 import qualified Data.Text as T
+
 import Learners.IntRelP
 import Learners.TypeMapper (assignProbs,findVal)
+
 import Control.Applicative
 import Data.Foldable (Foldable)
 
@@ -68,6 +70,7 @@ showProbRules r =
       _ ->
         (map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m') ++
         (map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o')
+
 
 verifyOn :: RuleSet -> ConfigFile Language -> FilePath -> ErrorReport
 verifyOn r f fname =
@@ -125,6 +128,16 @@ verifyOn r f fname =
     intRelShowP =
       showErr intRelErrorP intRelPErrMsg
 
+
+    {-intRelErrMsg x =
+      --"INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)
+      Error {errLoc1 = (fname,snd$fst x)
+            ,errLoc2 = (fname,fst $fst x)
+            ,errIdent = "INTREL"}
+    intRelShow =
+      showErr intRelError intRelErrMsg-}
+
+
     missingShow =
       let
         es = fromMaybe [] missingError
@@ -167,14 +180,15 @@ verifyOn r f fname =
     orderingShowPC = "Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingErrorP)
     orderingShowNPC = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
     intRelShowPC = "Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelErrorP)
-
+    sizeErr = maybe 0 length
     all =
       case Settings.pROBRULES of
         Settings.Prob -> printRules [typeShow, orderingShowP, intRelShowP, missingShowP]
         Settings.NonProb -> [typeShow, orderingShow, missingShow]
         Settings.Test -> printRules [typeShow, orderingShow, missingShow, orderingShowP, intRelShowP, missingShowP]
 
-    sizeErr = maybe 0 length
+
+
     typeSize = (maybe 0 M.size typeError)
     count = typeSize +
       (maybe 0 M.size orderingError) +
@@ -198,3 +212,6 @@ showP (y, n) =
     p = y' / (y' + n')
   in
     (show p) ++ " WITH COUNTS " ++ (show (y, n))
+--  in
+    --if typeSize >0 then typeShow else filter (/="") $ concat all
+  --  if typeSize >0 then typeShow else concat all

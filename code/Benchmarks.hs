@@ -35,6 +35,10 @@ makeError (errLoc1,errLoc2,errIdent) =
   Error {errMsg="Spec",..}
 getFileName = fst . errLoc1
 
+
+userFiles :: [FilePath]
+userFiles = map ("user/"++) $ u$ listDirectory "user"
+
 benchmarkFiles :: [FilePath]
 benchmarkFiles = map getFileName $ concat benchmarks
 benchmarks :: [ErrorReport]
@@ -78,6 +82,10 @@ newSet2 = map (map makeError) [
   , [(("../OSDI/data/correlation/case1","key_buffer_size[mysqld]"),("../OSDI/data/correlation/case1","sort_buffer_size[mysqld]"),INTREL)]
   , [(("../OSDI/data/correlation/case2","key_buffer_size[mysqld]"),("../OSDI/data/correlation/case2","join_buffer_size[mysqld]"),INTREL)]
   ]
+
+
+cavAE_benchmarks =
+    group2 ++ group3 ++ group4 ++ group5
 
 group2 :: [ErrorReport]
 group2 = map (map makeError) [

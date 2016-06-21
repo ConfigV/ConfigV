@@ -13,6 +13,7 @@ import Control.Monad
 
 import Debug.Trace
 
+-- | Main function of this file - translate configFile to intermediate rep
 convert ::  ConfigFile Language -> IRConfigFile
 convert f =
   parse f
