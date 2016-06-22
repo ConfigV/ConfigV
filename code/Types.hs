@@ -1,51 +1,53 @@
-{-# LANGUAGE RecordWildCards#-}
-{-# LANGUAGE MultiWayIf#-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MultiParamTypeClasses#-}
-{-# LANGUAGE DeriveAnyClass#-}
-{-# LANGUAGE DeriveGeneric#-}
-{-# LANGUAGE StandaloneDeriving#-}
-{-# LANGUAGE OverlappingInstances#-}
-{-# LANGUAGE OverloadedStrings#-}
-{-# LANGUAGE DeriveDataTypeable#-}
+{-# LANGUAGE DeriveAnyClass        #-}
+{-# LANGUAGE DeriveDataTypeable    #-}
+{-# LANGUAGE DeriveGeneric         #-}
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE MultiWayIf            #-}
+{-# LANGUAGE OverlappingInstances  #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE RecordWildCards       #-}
+{-# LANGUAGE StandaloneDeriving    #-}
 
 
 module Types where
 
-import qualified Data.Text as T
-import qualified Data.Map as M
-import Data.Foldable
-import Control.DeepSeq
-import System.Directory
+import           Control.DeepSeq
+import           Data.Foldable
+import qualified Data.Map         as M
+import qualified Data.Text        as T
+import           System.Directory
 
 --import qualified Data.Aeson (ToJSON, FromJSON) as D
-import Data.Aeson
-import GHC.Generics (Generic)
-import Control.Monad
+import           Control.Monad
+import           Data.Aeson
+import           GHC.Generics     (Generic)
 
-import Data.Data
-import Data.Typeable
+import           Data.Data
+import           Data.Typeable
 -- | can i replace this with an exstientially quantified type?
 -- oh that would be beautiful
 -- forall a . Attribute a => [a]
 data RuleSet = RuleSet
-  { order :: OrdMap Bool
+  { order    :: OrdMap Bool
   --, intRel :: IntRelMap
-  , missing :: [MissingKRule]
-  , typeErr :: TypeMap ConfigQType
+  , missing  :: [MissingKRule]
+  , typeErr  :: TypeMap ConfigQType
   , missingP :: [(MissingKRule, Int, Int)]
-  , orderP :: OrdMap (Integer, Integer)
-  , intRelP :: IntRelMapC
+  , orderP   :: OrdMap (Integer, Integer)
+  , intRelP  :: IntRelMapC
   } deriving (Eq, Show, Generic, Data,Typeable)
 
+
+
 data RuleSetLists = RuleSetLists
-  { orderl :: [((IRLine,IRLine),Bool)]
+  { orderl    :: [((IRLine,IRLine),Bool)]
   --, intRel :: IntRelMap --WHHHYYY did i comment this out???
-  , missingl :: [MissingKRule]
-  , typeErrl :: [(Keyword, ConfigQType)]
+  , missingl  :: [MissingKRule]
+  , typeErrl  :: [(Keyword, ConfigQType)]
   , missingPl :: [(MissingKRule, Int, Int)]
-  , orderPl :: [((IRLine,IRLine), (Integer, Integer))]
-  , intRelPl :: [((Keyword,Keyword),FormulaC)]
+  , orderPl   :: [((IRLine,IRLine), (Integer, Integer))]
+  , intRelPl  :: [((Keyword,Keyword),FormulaC)]
   } deriving (Show, Generic, ToJSON, FromJSON)
 
 toLists :: RuleSet -> RuleSetLists
@@ -86,8 +88,8 @@ data Language = MySQL | HTTPD
 --
 -- the types of these rules restricts the search space for learning modules
 data OrdRule = OrdRule {
-  ord_l1 :: IRLine,
-  ord_l2 :: IRLine,
+  ord_l1  :: IRLine,
+  ord_l2  :: IRLine,
   ord_rel :: Bool} deriving (Show,Eq)
 --you are missing a key-value pair correlation
 data MissingKVRule = MissingKVRule {
@@ -98,8 +100,8 @@ data MissingKRule = MissingKRule {
   k1 :: Keyword,
   k2 :: Keyword} deriving (Show,Eq, Generic, Data,Typeable,ToJSON, FromJSON)
 data IntRelRule = IntRelRule {
-  l1 :: Keyword,
-  l2 :: Keyword,
+  l1      :: Keyword,
+  l2      :: Keyword,
   formula :: Maybe (Int->Int->Bool)} deriving (Show)
 
 {-
@@ -125,6 +127,7 @@ data FormulaC = FormulaC {
   gt :: Int,
   eq :: Int
 } deriving (Show, Eq, Generic, Data,Typeable,ToJSON, FromJSON)
+
 type Formula = Maybe (Int -> Int -> Bool)
 type IntRelMapC = M.Map (Keyword,Keyword) FormulaC
 type TypeMap a = M.Map Keyword a
@@ -136,7 +139,7 @@ type IntRelMap = M.Map (Keyword,Keyword) (Maybe (Int->Int->Bool))
 type IRConfigFile = [IRLine]
 data IRLine = IRLine {
   keyword :: Keyword,
-  value :: Types.Value } deriving (Eq,Ord, Generic,Data,Typeable, ToJSON, FromJSON)
+  value   :: Types.Value } deriving (Eq,Ord, Generic,Data,Typeable, ToJSON, FromJSON)
 instance Show IRLine where
   show IRLine{..} = (show keyword) ++ (show value)
 type Keyword = T.Text
@@ -148,8 +151,8 @@ type Probability = Double --st 0<=x<=1
 data Config a = Config {p :: Probability} deriving (Show,Eq, Generic,Data,Typeable, ToJSON, FromJSON)
 
 data ConfigQType = ConfigQType {
-    cint :: Config Int
-  , cstring :: Config String
+    cint      :: Config Int
+  , cstring   :: Config String
   , cfilepath :: Config FilePath
   --, cdirpath :: Config DirPath
   }
@@ -178,10 +181,10 @@ emptyConfigQType = ConfigQType {
 --printing  stuff
 data ErrorType = INTREL | ORDERING | MISSING | TYPE deriving (Show, Eq)
 data Error = Error{
-    errLoc1 :: (FilePath, Keyword)
-  , errLoc2 :: (FilePath, Keyword)
+    errLoc1  :: (FilePath, Keyword)
+  , errLoc2  :: (FilePath, Keyword)
   , errIdent :: ErrorType
-  , errMsg :: String
+  , errMsg   :: String
 }
 
 instance Show Error where

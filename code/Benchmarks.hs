@@ -1,27 +1,43 @@
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE RecordWildCards   #-}
 
 module Benchmarks where
 
-import Types
-import Settings
+import           Settings
+import           Types
 
-import qualified Data.Text as T
-import qualified Data.Text.IO as T
-import System.Directory
-import System.IO.Unsafe
+import qualified Data.Text        as T
+import qualified Data.Text.IO     as T
+import           System.Directory
+import           System.IO.Unsafe
 
-import Debug.Trace
 
-testLearnSet = genSet "testLearn/"
-learningSet = genSet "dataset/correctMySQL/"
-bigLearningSet = genSet "dump/MySQL/"
+learnTarget = case Settings.pROBRULES of
+    Settings.Test -> genSet "testLearn/"
+    Settings.NonProb -> genSet "dataset/correctMySQL/"
+    Settings.Prob -> genSet "dump/MySQL/"
+  where
+    genSet s =
+      map (\x -> (u $ T.readFile (s++x), MySQL))
+      (u (listDirectory s))
 
-genSet s =
-  map (\x -> (u $ T.readFile (s++x), MySQL))
-    (u (listDirectory s))
+verificationTarget = case Settings.bENCHMARKS of
+    True -> benchmarkFiles
+    False -> userFiles
+  where
+    userFiles :: [FilePath]
+    userFiles = map ("user/"++) $ u $ listDirectory "user"
 
-u = unsafePerformIO
+    benchmarkFiles :: [FilePath]
+    benchmarkFiles = map getFileName $ concat benchmarks
+
+getFileName = fst . errLoc1
+benchmarks :: [ErrorReport]
+benchmarks = case Settings.pROBRULES of
+  Test -> testBenchSet
+  NonProb -> group2 ++ group3 ++ group4 ++ group5
+  Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
 
 -- | from the newest version of the package, which i cant get for some reason
 listDirectory :: FilePath -> IO [FilePath]
@@ -31,30 +47,10 @@ listDirectory path =
     isDir = not . u . doesDirectoryExist
     f filename = filename /= "." && filename /= ".." && isDir (path++filename)
 
+u = unsafePerformIO
+
 makeError (errLoc1,errLoc2,errIdent) =
   Error {errMsg="Spec",..}
-getFileName = fst . errLoc1
-
-
-userFiles :: [FilePath]
-userFiles = map ("user/"++) $ u$ listDirectory "user"
-
-benchmarkFiles :: [FilePath]
-benchmarkFiles = map getFileName $ concat benchmarks
-benchmarks :: [ErrorReport]
-benchmarks = case Settings.pROBRULES of
-  Test -> testBenchSet
-  NonProb -> group2 ++ group3 ++ group4 ++ group5
-  Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
-
-xx = u $ listDirectory "dump/MySQL/"
-ff :: String -> [((FilePath, Keyword),(FilePath, Keyword),ErrorType)]
-ff x = [(("dump/MySQL/"++x,""),("dump/MySQL/"++x,""),INTREL)]
-
-zzz = map ff xx
-
-learnSetBench :: [ErrorReport]
-learnSetBench =  map (map makeError) zzz
 
 newSet :: [ErrorReport]
 newSet = map (map makeError) [
