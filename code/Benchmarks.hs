@@ -22,7 +22,7 @@ learnTarget = case Settings.pROBRULES of
       map (\x -> (u $ T.readFile (s++x), MySQL))
       (u (listDirectory s))
 
-verificationTarget = case Settings.bENCHMARKS of
+verificationTargets = case Settings.bENCHMARKS of
     True -> benchmarkFiles
     False -> userFiles
   where

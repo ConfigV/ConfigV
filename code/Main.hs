@@ -28,22 +28,22 @@ import           Usertime
 rules = learnRules learnTarget
 
 main = do
-  bs <- mapM T.readFile verificationTarget :: IO [T.Text]
+  bs <- mapM T.readFile verificationTargets :: IO [T.Text]
   let vTargets = zip bs (replicate (length bs) MySQL)
 
   unless Settings.uSE_CACHE $ B.writeFile "cachedRules.json" $ encode ((toLists $ learnRules learnTarget):: RuleSetLists)
-  cached <- B.readFile "cachedRules.json"
+  cached <- (fromLists. fromJust. decode) <$> B.readFile "cachedRules.json"
 
   --to check integrity of cache
   --when (rules /= (fromLists. fromJust $ decode c)) (fail  "error in json cache")
 
-  fitness <- runVerify vTargets (fromLists. fromJust $ decode cached)
+  fitness <- runVerify cached vTargets
   return ()
 
 
-runVerify :: [ConfigFile Language] -> RuleSet -> IO Int
-runVerify vTargets rules = do
-  let errors =  zipWith (verifyOn rules) vTargets verificationTarget
+runVerify ::  RuleSet -> [ConfigFile Language] -> IO Int
+runVerify rules vTargets  = do
+  let errors =  zipWith (verifyOn rules) vTargets verificationTargets
   --when Settings.bENCHMARKS
   fitnesses <- zipWithM reportBenchmarkPerformance benchmarks errors
   --when not Settings.bENCHMARKS

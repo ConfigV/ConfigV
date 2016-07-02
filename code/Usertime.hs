@@ -1,27 +1,28 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleContexts, ConstraintKinds, MultiParamTypeClasses #-}
+
 
 module Usertime where
 
-import qualified Settings
+import           Convert
+import           Learners
+import           Types
 
-import Learners
-import Convert
-import Types
+import           Control.Monad
+import qualified Data.List           as L
+import qualified Data.Map            as M
+import           Data.Maybe
+import qualified Data.Text           as T
 
-import Control.Monad
-import Data.Maybe
-import qualified Data.Map as M
-import qualified Data.List as L
-import qualified Data.Text as T
+import           Learners.IntRelP
+import           Learners.TypeMapper (assignProbs, findVal)
 
-import Learners.IntRelP
-import Learners.TypeMapper (assignProbs,findVal)
+import           Control.Applicative
+import           Data.Foldable       (Foldable)
 
-import Control.Applicative
-import Data.Foldable (Foldable)
-
-import Debug.Trace
+import           Debug.Trace
 --import Data.Foldable
+
 
 import qualified Settings
 
@@ -76,12 +77,14 @@ verifyOn :: RuleSet -> ConfigFile Language -> FilePath -> ErrorReport
 verifyOn r f fname =
   let
     f' = convert f
-    orderingError =  check (order r) f'
-    missingError  =  check (missing r) f'
-    typeError     =  check (typeErr r) f'
-    missingErrorP =  check (missingP r) f'
-    orderingErrorP = check (orderP r) f'
-    intRelErrorP   =  check (intRelP r) f'
+    getErrors :: (Attribute t a, Foldable t) => (RuleSet -> t a) -> Maybe (t a)
+    getErrors ruleSelect = check (ruleSelect r) $ convert f
+    orderingError  = getErrors order
+    missingError   = getErrors missing
+    typeError      = getErrors typeErr
+    missingErrorP  = getErrors missingP
+    orderingErrorP = getErrors orderP
+    intRelErrorP   = getErrors intRelP
 
     showErr :: (Show k, Show v) => Maybe (M.Map k v) -> ((k,v) -> Error) -> [Error]
     showErr rawEs printFxn =
@@ -90,7 +93,7 @@ verifyOn r f fname =
       in
         map printFxn es
 
-
+    -- this should be a ConvertToError typeclass
     typeErrMsg x =
       Error {errLoc1 = (fname,fst x)
             ,errLoc2 = (fname,fst x)
@@ -164,9 +167,9 @@ verifyOn r f fname =
       in
         map f' es
 
-    missingErrorProbs = map (\(x, y, n) -> (fromIntegral y) / (fromIntegral (y + n))) $ fromMaybe [] missingErrorP
-    mean x = (sum x) / (fromIntegral $ length x)
-    median x = (L.sort x) !! ((length x) `div` 2)
+    missingErrorProbs = map (\(x, y, n) -> fromIntegral y / fromIntegral (y + n)) $ fromMaybe [] missingErrorP
+    mean x = sum x / (fromIntegral $ length x)
+    median x = (L.sort x) !! (length x `div` 2)
     meanV = mean missingErrorProbs
     medianV = median missingErrorProbs
     missingErrorPDebug = ["\n----------PROBABILISTIC MISSING KEYWORDS DEBUG----------",
@@ -183,26 +186,23 @@ verifyOn r f fname =
     sizeErr = maybe 0 length
     all =
       case Settings.pROBRULES of
-        Settings.Prob -> printRules [typeShow, orderingShowP, intRelShowP, missingShowP]
+        Settings.Prob -> [typeShow, orderingShowP, intRelShowP, missingShowP]
         Settings.NonProb -> [typeShow, orderingShow, missingShow]
-        Settings.Test -> printRules [typeShow, orderingShow, missingShow, orderingShowP, intRelShowP, missingShowP]
+        Settings.Test -> [typeShow, orderingShow, missingShow, orderingShowP, intRelShowP, missingShowP]
 
 
 
     typeSize = (maybe 0 M.size typeError)
     count = typeSize +
-      (maybe 0 M.size orderingError) +
-      (sizeErr missingError) +
-      (sizeErr missingErrorP)
+      maybe 0 M.size orderingError +
+      sizeErr missingError +
+      sizeErr missingErrorP
   in
     --if typeSize >0 then typeShow else filter (/="") $ concat all
     --if typeSize >0 then typeShow else concat all
     concat all
 
-printRules x =
-  if False
-    then trace ((concat . (L.intersperse " ") . map (show.length)) x) x
-    else id x
+
 
 -- utility printing method for our probability tuples
 showP (y, n) =
@@ -211,7 +211,7 @@ showP (y, n) =
     n' = fromIntegral n
     p = y' / (y' + n')
   in
-    (show p) ++ " WITH COUNTS " ++ (show (y, n))
+    show p ++ " WITH COUNTS " ++ show (y, n)
 --  in
     --if typeSize >0 then typeShow else filter (/="") $ concat all
   --  if typeSize >0 then typeShow else concat all

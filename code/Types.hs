@@ -72,8 +72,9 @@ fromLists RuleSetLists{..}=
     , intRelP = M.fromList intRelPl
     }
 
-
 instance NFData RuleSet where rnf x = seq x ()
+
+-- TODO; i think i should be able to remove multiparamtypeclass here
 class Foldable t => Attribute t a where
   learn :: IRConfigFile -> t a
   merge :: t a -> t a -> t a --given the spec, this could be reduced to (a -> a -> Bool)
