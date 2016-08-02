@@ -5,7 +5,9 @@
 module Benchmarks where
 
 import           Settings
-import           Types
+import           Types.Types
+import           Types.Errors
+import           Types.IR
 
 import qualified Data.Text        as T
 import qualified Data.Text.IO     as T
@@ -22,17 +24,14 @@ learnTarget = case Settings.pROBRULES of
       map (\x -> (u $ T.readFile (s++x), MySQL))
       (u (listDirectory s))
 
-verificationTargets = case Settings.bENCHMARKS of
-    True -> benchmarkFiles
-    False -> userFiles
+verificationTargets :: [FilePath]
+verificationTargets = if Settings.bENCHMARKS
+    then benchmarkFiles
+    else userFiles
   where
-    userFiles :: [FilePath]
     userFiles = map ("user/"++) $ u $ listDirectory "user"
-
-    benchmarkFiles :: [FilePath]
     benchmarkFiles = map getFileName $ concat benchmarks
 
-getFileName = fst . errLoc1
 benchmarks :: [ErrorReport]
 benchmarks = case Settings.pROBRULES of
   Test -> testBenchSet
@@ -48,6 +47,7 @@ listDirectory path =
     f filename = filename /= "." && filename /= ".." && isDir (path++filename)
 
 u = unsafePerformIO
+getFileName = fst . errLoc1
 
 makeError (errLoc1,errLoc2,errIdent) =
   Error {errMsg="Spec",..}
@@ -106,8 +106,8 @@ group4 = map (map makeError) [
     [(("dataset/group4-ordering/error_mysql","portport"),("dataset/group4-ordering/error_mysql","[client]"),ORDERING)]
   , [(("dataset/group4-ordering/error2","datadir[wampmysqld]"),("dataset/group4-ordering/error2","log-error[wampmysqld]"),ORDERING)]
   , [(("dataset/group4-ordering/error3","innodb_file_format_check[mysqld]"),("dataset/group4-ordering/error3","innodb_strict_mode[mysqld]"),ORDERING)]
-  , [(("dataset/group4-ordering/error4","innodb_data_home_dir[wampmysqld]"),("dataset/group4-ordering/error4","innodb_flush_log_at_trx_commit[wampmysqld]"),ORDERING)]
-  , [(("dataset/group4-ordering/error5","innodb_data_home_dir[mysqld]"),("dataset/group4-ordering/error5","innodb_file_format_check[mysqld]"),ORDERING)]
+  , [(("dataset/group4-ordering/error4","innodb_flush_log_at_trx_commit[wampmysqld]"),("dataset/group4-ordering/error4","innodb_data_home_dir[wampmysqld]"),ORDERING)]
+  , [(("dataset/group4-ordering/error5","innodb_file_format_check[mysqld]"),("dataset/group4-ordering/error5","innodb_data_home_dir[mysqld]"),ORDERING)]
   ]
 
 group5 :: [ErrorReport]

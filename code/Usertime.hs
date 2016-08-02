@@ -6,7 +6,11 @@ module Usertime where
 
 import           Convert
 import           Learners
-import           Types
+import           Types.Types
+
+import Types.IR
+import Types.Errors
+
 
 import           Control.Monad
 import qualified Data.List           as L

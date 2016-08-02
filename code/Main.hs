@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards   #-}
 
 module Main where
 
@@ -21,7 +20,10 @@ import           Benchmarks
 import           Convert
 import           Preproc
 import qualified Settings
-import           Types
+import           Types.Errors
+import           Types.IR
+import           Types.JSON
+import           Types.Types
 import           Usertime
 
 
@@ -74,25 +76,3 @@ reportBenchmarkPerformance spec foundErrs =
     --print endT
     --hFlush stdout
     return fitness
-
-
-listsLength :: RuleSetLists -> Int
-listsLength RuleSetLists{..} =
-  sum [
-    length orderl
-    ,length missingl
-    ,length typeErrl
-    ,length missingPl
-    ,length orderPl
-    ,length intRelPl
-    ]
-
-{-listsLength :: RuleSetLists -> Int
-listsLength RuleSetLists{..} =
-  sum $ map length
-    ([ orderl
-    , missingl
-    , typeErrl
-    , missingPl
-    , orderPl
-    , intRelPl] :: [forall a Traversable a])-}

@@ -1,7 +1,9 @@
 
 module Preproc where
 
-import Types
+import Types.Types
+import Types.IR
+
 
 import Learners
 import Convert

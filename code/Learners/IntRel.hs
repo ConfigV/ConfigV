@@ -7,7 +7,9 @@
 
 module Learners.IntRel where
 
-import Types
+import Types.Types
+import Types.IR
+
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.List as L
@@ -100,12 +102,7 @@ findeqRules (l1,l2) =
        | not bothSame -> []
        | length all /= 1 && bothSame -> makeR (==)
 
--- only for comparators! careful!
-instance Eq (Int -> Int -> Bool) where
-  (==) f1 f2 =
-    (f1 1 1) == (f2 1 1) &&
-    (f1 0 1) == (f2 0 1) &&
-    (f1 1 0) == (f2 1 0)
+
 
 couldBeInt :: IRLine -> Bool
 couldBeInt IRLine{..} =

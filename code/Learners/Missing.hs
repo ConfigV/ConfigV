@@ -4,7 +4,9 @@
 
 module Learners.Missing where
 
-import Types
+import Types.Types
+import Types.IR
+
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.List as L

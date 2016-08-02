@@ -2,7 +2,9 @@
 
 module Convert where
 
-import Types
+import Types.Types
+import Types.IR
+
 
 import qualified Data.Text as T
 import qualified Data.Map as M
