@@ -6,7 +6,9 @@
 {-# LANGUAGE MultiWayIf            #-}
 {-# LANGUAGE OverlappingInstances  #-}
 {-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE TypeFamilies     #-}
 
+{-# LANGUAGE ExistentialQuantification     #-}
 
 module Types.Types where
 
@@ -33,9 +35,18 @@ class Foldable t => Attribute t a where
   merge :: t a -> t a -> t a --given the spec, this could be reduced to (a -> a -> Merge a)
   check :: t a -> IRConfigFile -> Maybe (t a)
 
--- | can i replace this with an exstientially quantified type?
--- oh that would be beautiful
--- forall a . Attribute a => [a]
+{-
+class Foldable t => Attribute t a where
+  learn :: IRConfigFile -> t (a,Confidence)
+  buildRule :: [(a,Confidence)] -> Maybe a
+  check :: t a -> IRConfigFile -> Maybe (t a)
+
+When building a rule, we take all the collected evidnce (w/ confidence) and possible produce a rule
+
+This apporach also requires a merge in the system based on context equality
+:: a -> a -> Maybe a
+-}
+
 data RuleSet = RuleSet
   { order    :: OrdMap Bool
   , missing  :: [MissingKRule]
@@ -44,6 +55,23 @@ data RuleSet = RuleSet
   , orderP   :: OrdMap (Integer, Integer)
   , intRelP  :: IntRelMapC
   } deriving (Eq, Show, Generic, Typeable)
+
+-- | can i replace this with an exstientially quantified type?
+-- forall a . Attribute a => [a]
+-- also possible (and probably better) to use type families
+type RuleSet2 = [RuleContainer]
+data family RuleContainer
+data instance RuleContainer = OrdMap Bool
+
+
+data family XList a
+-- Declare a list-like instance for Char
+data instance XList Char = XCons !Char !(XList Char) | XNil
+-- Declare a number-like instance for ()
+data instance XList () = XListUnit !Int
+
+x :: [forall x. XList x ]
+x = [XListUnit 7,XNil]
 
 instance NFData RuleSet where rnf x = seq x ()
 
