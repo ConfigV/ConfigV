@@ -1,0 +1,126 @@
+
+%-----------------------------------------------------------------------------
+%
+%               Template for sigplanconf LaTeX Class
+%
+% Name:         sigplanconf-template.tex
+%
+% Purpose:      A template for sigplanconf.cls, which is a LaTeX 2e class
+%               file for SIGPLAN conference proceedings.
+
+%
+% Guide:        Refer to "Author's Guide to the ACM SIGPLAN Class,"
+%               sigplanconf-guide.pdf
+%
+% Author:       Paul C. Anagnostopoulos
+%               Windfall Software
+%               978 371-2316
+%               paul@windfall.com
+%
+% Created:      15 February 2005
+%
+%-----------------------------------------------------------------------------
+
+\documentclass{sigplanconf}
+
+% The following \documentclass options may be useful:
+
+% preprint      Remove this option only once the paper is in final form.
+
+% 10pt          To set in 10-point type instead of 9-point.
+
+% 11pt          To set in 11-point type instead of 9-point.
+
+% authoryear    To obtain author/year citation style instead of numeric.
+
+\usepackage{amsmath}
+\usepackage{todonotes}
+\usepackage{graphicx}\usepackage{color}
+\usepackage{csquotes}
+
+
+\begin{document}
+
+\special{papersize=8.5in,11in}\setlength{\pdfpageheight}{\paperheight}\setlength{\pdfpagewidth}{\paperwidth}
+\conferenceinfo{CONF 'yy}{Month d--d, 20yy, City, ST, Country} \copyrightyear{20yy} \copyrightdata{978-1-nnnn-nnnn-n/yy/mm} \doi{nnnnnnn.nnnnnnn}
+
+% Uncomment one of the following two, if you are not going for the 
+% traditional copyright transfer agreement.
+
+%\exclusivelicense                
+% ACM gets exclusive license to publish,                                   
+% you retain copyright
+
+%\permissiontopublish           <  
+% ACM gets nonexclusive license to publish                                  
+% (paid open-access papers,                                   
+% short abstracts)
+\titlebanner{banner above paper title}        
+% These are ignored unless\preprintfooter{short description of paper}   
+% 'preprint' option specified.
+
+\title{Detecting TravisCI Misconfiguration}
+\subtitle{Plan of Attack}
+
+\authorinfo{Name1}           {Affiliation1}           {Email1}
+\authorinfo{Name2\and Name3}           {Affiliation2/3}           {Email2/3}
+
+\maketitle
+
+\begin{abstract}
+We can detect TravisCI misconfigurations using ConfigC.
+\end{abstract}
+
+%\category{CR-number}{subcategory}{third-level}
+
+% general terms are not compulsory anymore, 
+% you may leave them out\termsterm1, term2
+%\keywords keyword1, keyword2
+
+\section{Availability of Data}
+
+TravisCI has recently released a metadata api to study their tool\cite{API}.
+
+The first use of this API was analyzing the metadata of builds. It was found that \textasciitilde 15-20\% of failed TravisCI builds are due to "errors". My understanding of the API is that this corresponds to a misconfiguration. This is a large enough number that not only will reducing this be more convenient for users, but it could also significantly reduce server costs for Travis. By using the \verb|tr_duration| field from the API, we can also figure out how much server time we can save\cite{API}.
+
+
+\section{Feasability Anaysis}
+\label{sec:feas}
+
+The language of TravisCI configuration files can likely be handled by ConfigC.
+ConfigC works on languages with shallow parse trees, and most of the .travis.yml files is shallow.
+However, because .travis.yml allows for bash scripts, some error may be out of scope.
+We want to identify the frequency of the types of errors - if too many are related to poorly formed bash scripts, a naive application of ConfigC will not suffice.
+
+To confirm that the types of most misconfigurations are in the scope of ConfigC, we should compile a collection of common misconfigurations. 
+Usually such a task requires a domain expert.
+However, in this case we may be able to learn the common errors by using the API and the temporal data from the commits.
+
+We might code an error as the diff between a sequential pair of an erroring commit and a passing commit. 
+As a new direction, we may also explore how useful this data is for learning/verification directly.
+My guess is that is data will be too noisy, but either way, it should give us a sense of the problem.
+
+To build such a database, scrape the .travis.yml files from each commit for a set of repos.
+This can be achieved with the \verb|tr_status, git_commit and gh_project_name| fields from the API.
+
+\section{Implementation}
+
+To build the learning set, we will use the API to build tuples of .travis.yml and repo info. 
+In addition to the .travis.yml file (collected as above), we will need at a minimum \verb|gh_lang and tr_status|. 
+With this \verb|(File,gh_lang,tr_status,...)| tuple, we can then (almost) directly apply ConfigC to detect errors in the shallow part of the tree.
+
+The first (and simplest) requirement is a .travis.yml parser, which is an extension of normal yml parsing to handle travis' ability to include bash scripts.
+Second, depending on the results from Sec \ref{sec:feas}, we may also require some extra domain knowledge of the types of errors to be encoded as possible rules.
+This is a slightly more involved task that requires writing some non-trivial Haskell code - but it really isn't that bad.
+
+
+% We recommend abbrvnat bibliography style.
+
+\bibliographystyle{abbrvnat}
+
+% The bibliography should be embedded for final submission.
+\bibliography{biblio}
+
+
+
+\end{document}
