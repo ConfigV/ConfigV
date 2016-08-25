@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE FlexibleContexts, ConstraintKinds, MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleContexts, ConstraintKinds, MultiParamTypeClasses, RecordWildCards #-}
 
 
 module Usertime where
@@ -35,12 +35,13 @@ import qualified Settings
 showProbRules :: RuleSet -> [String]
 showProbRules r =
   let
+    RuleSet{..} = r
     delimiter = "|"
-    m = filter (\(_,y,n) -> y+n>20 && n==0) $ missingP r
-    o = orderP r
-    i = intRelP r
-    m' = missing r
-    o' = order r
+    m = filter (\(_,y,n) -> y+n>20 && n==0) $ missingP
+    o = orderP
+    i = intRelP
+    m' = missing
+    o' = order
     showMissingP (r, y, n) =
       "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r)
         ++ delimiter ++ (show y)
@@ -83,6 +84,7 @@ verifyOn r f fname =
     f' = convert f
     getErrors :: (Attribute t a, Foldable t) => (RuleSet -> t a) -> Maybe (t a)
     getErrors ruleSelect = check (ruleSelect r) $ convert f
+    --errs = map getErrors r
     orderingError  = getErrors order
     missingError   = getErrors missing
     typeError      = getErrors typeErr

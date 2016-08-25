@@ -57,13 +57,19 @@ data RuleSet = RuleSet
   } deriving (Eq, Show, Generic, Typeable)
 
 -- | can i replace this with an exstientially quantified type?
--- forall a . Attribute a => [a]
+
+data SomeAttr = forall t x. Attribute t x => SomeAttr (t x)
+
+x :: [SomeAttr]
+x = []
+
 -- also possible (and probably better) to use type families
+{-}
 type RuleSet2 = [RuleContainer]
 data family RuleContainer
-data instance RuleContainer = OrdMap Bool
+data instance RuleContainer = OrdMap Bool-}
 
-
+{-}
 data family XList a
 -- Declare a list-like instance for Char
 data instance XList Char = XCons !Char !(XList Char) | XNil
@@ -72,6 +78,7 @@ data instance XList () = XListUnit !Int
 
 x :: [forall x. XList x ]
 x = [XListUnit 7,XNil]
+-}
 
 instance NFData RuleSet where rnf x = seq x ()
 
