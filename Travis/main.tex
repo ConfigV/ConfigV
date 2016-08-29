@@ -59,16 +59,20 @@
 % These are ignored unless\preprintfooter{short description of paper}
 % 'preprint' option specified.
 
-\title{Detecting TravisCI Misconfiguration}
+\title{Rule learning from classified temporal data}
 \subtitle{Plan of Attack}
 
-\authorinfo{Name1}           {Affiliation1}           {Email1}
+\authorinfo{Mark Santolucito}           {Yale University}           {mark.santolucito@yale.edu}
 \authorinfo{Name2\and Name3}           {Affiliation2/3}           {Email2/3}
 
 \maketitle
 
 \begin{abstract}
-We can detect TravisCI misconfigurations using ConfigC.
+Rule based classification is an effective machine learning technique that yields low misclassification rates.
+However, building a rule based system requires manual creation of large databases of logical constraints.
+We present a method to generate rule based systems from temporally structured data.
+As an demonstration of this algorithm, we implement a learner to automatically generate constraints for the TravisCI testing framework.
+The algorithm runs over Github commit histories to generate logical constraints that allow us to detect potential build errors without actually building, saving valuable programmer and server time.
 \end{abstract}
 
 %\category{CR-number}{subcategory}{third-level}
@@ -76,6 +80,9 @@ We can detect TravisCI misconfigurations using ConfigC.
 % general terms are not compulsory anymore,
 % you may leave them out\termsterm1, term2
 %\keywords keyword1, keyword2
+
+\section{Introduction}
+
 
 \section{Availability of Data}
 
@@ -90,7 +97,7 @@ The first use of this API was analyzing the metadata of builds. It was found tha
 The language of TravisCI configuration files can likely be handled by ConfigC.
 ConfigC works on languages with shallow parse trees, and most of the .travis.yml files is shallow.
 However, because .travis.yml allows for bash scripts, some error may be out of scope.
-We want to identify the frequency of the types of errors - if too many are related to poorly formed bash scripts, a naive application of ConfigC will not suffice.
+We want to identify the frequency of the types of errors - if too many are related to poorly formed bash scripts, a naïve application of ConfigC will not suffice.
 
 To confirm that the types of most misconfigurations are in the scope of ConfigC, we should compile a collection of common misconfigurations.
 Usually such a task requires a domain expert.
@@ -105,14 +112,14 @@ This can be achieved with the \verb|tr_status, git_commit and gh_project_name| f
 
 \subsection{Learning from Temporal properties}
 
-An intersting extension to ConfigC on a theortical side is to look at the temporal relations between commits.
+An interesting extension to ConfigC on a theoretical side is to look at the temporal relations between commits.
 The key observation is that with each commit that changes the build status, we can learn highly localized information about our model.
 
 The first step is to build an intermediate representation of the data we will learn.
 For the sake of efficiency, this data must be structured as a shallow tree.
 While the travis.yml file can be taken verbatim, we must use a simplification of the program code.
-Since we are only intrested in the parts of the program effecting build status, we should extract the imported libraries as a list.
-We will call this summary $S_t$, a simplified representation of the program which contains only the information relevant to the learning process.
+Since we are only interested in the parts of the program effecting build status, we should extract the imported libraries as a list.
+We will call this program summary $P_t$, a simplified representation of the program which contains only the information relevant to the learning process.
 The subscript is a tag based on the ordered commit history.
 To handle branches, add a superscript to indicate the branch, and restart the counter on a branch - merging should be handled easily (not exactly sure how yet).
 
@@ -120,18 +127,18 @@ From this summary we can then build a model $M(P_t)$, which is the full set of p
 These possible rules must be given by the user.
 In \cite{CAV}, these were called Attributes, and express constraints such as, ordering of lines, or substring relations on values.
 
-We will denote the build status of $S_t$ with $B(S_t)$.
-In this application, we consider only the passing and erroring build status, denoted $P$, and $E$ respectivly.
+We will denote the build status of $P_t$ with $B(P_t)$.
+In this application, we consider only the passing and erroring build status, denoted $Pass$, and $Err$ respectively.
 All status that are not \verb|error|, as defined by the Travis API, will be included as passing.
 For brevity, we denote sequences of build statuses with the following notation:
 
-$S(P_t)=P \land S(P_{t+1})=E \implies S(P_{t,t+1}) = PE$
+$S(P_t)=Pass \land S(P_{t+1})=Err \implies S(P_{t,t+1}) = PE$
 
 We know that if a build is passing, then there must not exist any errors.
 That is, the model must not contain any rules which are breaking.
 Note we are not, however, garunteed that any rules from a passing commit are necessary.
 
-$S(P_t)=P \implies \forall r \in M(P_t), r \notin Br$
+$S(P_t)=Pass \implies \forall r \in M(P_t), r \notin Br$
 
 The key insight is that when we commit a break, we can localize the error to one of the lines that changed.
 Either we removed something that was necessary, or added something that was breaking.
@@ -146,9 +153,9 @@ Expressed formally, where ($\setminus$ is the set difference), that is:
 
 
 We then can combine all these formulas with conjunctions and send it to an SMT solver and magically get an answer.
-While exstential set operations can be expensive in general for an SMT solver, in our application this is not the case.
-Because these sets will be small thanks to the practice of making incremental commits when using source control, these operations will be fairly cheap.
-In fact, the above implication generalizes to $P_{t,t+n}$, but for efficency we must require that $M(P_{t})\ \setminus M(P_{t+n})$ is managably small.
+While existential set operations can be expensive in general for an SMT solver, in our application this is not the case.
+Thanks to the practice of making incremental commits when using source control, these sets will be small and the SMT will be fairly cheap.
+In fact, the above implication generalizes to $P_{t,t+n}$, but for efficiency we must require that $M(P_{t})\ \setminus M(P_{t+n})$ is manageably small.
 The definition of small here remains to be experimentally determined.
 
 In fact, I think this approach should work generally for any ML problem where we have an oracle (e.g. neural nets, SVMs), but would like justifications for the classification.
