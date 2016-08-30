@@ -59,11 +59,11 @@
 % These are ignored unless\preprintfooter{short description of paper}
 % 'preprint' option specified.
 
-\title{Rule learning from classified temporal data}
+\title{Rule learning for verification from temporal data}
 \subtitle{Plan of Attack}
 
 \authorinfo{Mark Santolucito}           {Yale University}           {mark.santolucito@yale.edu}
-\authorinfo{Name2\and Name3}           {Affiliation2/3}           {Email2/3}
+%\authorinfo{Name2\and Name3}           {Affiliation2/3}           {Email2/3}
 
 \maketitle
 
@@ -71,8 +71,8 @@
 Rule based classification is an effective machine learning technique that yields low misclassification rates.
 However, building a rule based system requires manual creation of large databases of logical constraints.
 We present a method to generate rule based systems from temporally structured data.
-As an demonstration of this algorithm, we implement a learner to automatically generate constraints for the TravisCI testing framework.
-The algorithm runs over Github commit histories to generate logical constraints that allow us to detect potential build errors without actually building, saving valuable programmer and server time.
+As an demonstration of this algorithm, we plan to implement a learner that automatically generates constraints for the TravisCI testing framework.
+The algorithm will utilize Github commit histories to generate logical constraints that allow us to detect potential build errors without actually building, saving valuable programmer and server time.
 \end{abstract}
 
 %\category{CR-number}{subcategory}{third-level}
@@ -82,6 +82,14 @@ The algorithm runs over Github commit histories to generate logical constraints 
 %\keywords keyword1, keyword2
 
 \section{Introduction}
+
+Machine learning is a new direction in verification\cite{Santolucito2016,ETH_Guy}.
+However, algorithms such as neural nets and n-gram models lead to probabilistic models of correctness.
+While often effective in practice, these do not provide the true guarantees of a traditional verification approach.
+In addition, these tools often cannot provide a justification for the output.
+Neural nets behave surprisingly similarly to human brains, and providing proofs to conclusions is equally challenging.
+
+Version space learning \cite{lau2000version}.
 
 
 \section{Availability of Data}
@@ -125,7 +133,7 @@ To handle branches, add a superscript to indicate the branch, and restart the co
 
 From this summary we can then build a model $M(P_t)$, which is the full set of possible rules derivable from the model.
 These possible rules must be given by the user.
-In \cite{CAV}, these were called Attributes, and express constraints such as, ordering of lines, or substring relations on values.
+In \cite{Santolucito2016}, these were called Attributes, and express constraints such as, ordering of lines, or substring relations on values.
 
 We will denote the build status of $P_t$ with $B(P_t)$.
 In this application, we consider only the passing and erroring build status, denoted $Pass$, and $Err$ respectively.
