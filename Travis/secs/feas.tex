@@ -1,0 +1,14 @@
+
+\section{Feasability Anaysis}
+\label{sec:feas}
+
+The language of TravisCI configuration files can likely be handled by ConfigC.
+ConfigC works on languages with shallow parse trees, and most of the .travis.yml files is shallow.
+However, in this case we may be able to learn the common errors by using the API and the temporal data from the commits.
+
+We might code an error as the diff between a sequential pair of an erroring commit and a passing commit.
+As a new direction, we may also explore how useful this data is for learning/verification directly.
+My guess is that is data will be too noisy, but either way, it should give us a sense of the problem.
+
+To build such a database, scrape the .travis.yml files from each commit for a set of repos.
+This can be achieved with the \verb|tr_status, git_commit and gh_project_name| fields from the API.
