@@ -1,0 +1,22 @@
+\section{Version Space for Verification}
+
+Version space learning builds a logical constraint model for binary classification, or membership in a set.
+ConfigC uses this approach to identify errors in configuration files for MySQL~\cite{Santolucito2016} .
+ConfigC learns a model over a set of configuration files that have been labeled as correct, then reports misconfigurations.
+
+Traditional version space learning will use a series disjunctions of a set of predefined hypotheses.
+By instead restricting the model to a series of conjunctions, ConfigC can not only flag misconfigurations, but also give the points of failure for non-membership.
+
+To build the model, ConfigC take a single file and derives all possible relations from each file, such as A comes before B, B before C, and A before C.
+The user must provide templates for possible relations.
+It is assumed if a file is correct, all relations in that file are necessary for another file to be correct ($Correct(C) \implies \forall r \in M(C), r \in Nec$).
+In this way, the initial model is built by creating the strongest conditions for a correct file, called the \textit{specific boundary}.
+This model is then iteratively relaxed as more examples are seen, a process called \textit{candidate elimination}.
+To relax the model, two sets of relations from two files are merged into a single consistent set.
+
+\begin{lstlisting}
+n = {}
+for (c in files):
+  n1 = M(c)
+  n = merge(n, n1)
+\end{lstlisting}

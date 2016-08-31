@@ -1,19 +1,18 @@
 \section{Introduction}
 
-Machine learning is a new direction in verification\cite{Santolucito2016,ETH_Guy}.
-Amoung the popular algorithms are neural nets and n-gram models, which produce to probabilistic models of correctness.
+Machine learning is a powerful tool for software analysis and verification \cite{Santolucito2016,gehrpsi,garg2014ice}.
+Among the popular algorithms are neural nets and n-gram models, which produce to probabilistic models of correctness.
 While often effective in practice, these do not provide the guarantees of a traditional verification approach.
 In addition, these tools are not designed to provide simple justifications for their classification outputs.
 
-Version space learning is a machine learning strategy for logical constraint classification\cite{mitchell82}. 
-In addition to classification, version spaces have been used for programming-by-example \cite{lau2000version} and error detection \cite{Santolucito2016}.
-This approach learns over a set of examples that have been classified into positive and negative examples.
-We extend this approach to make use of classified examples with temporal structure, specifically by looking at the differences between sequential examples.
+In contrast, version space learning is a machine learning strategy for logical constraint classification \cite{mitchell82}, appropriate when the learning set does not contain noise.
+Extensions to version space learning have been used various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
+We first give a formal definition of the algorithm in \cite{Santolucito2016} in terms of version space learning.
+We then extend that work to leverage temporal structure in a learning set, specifically by looking at the differences between sequential examples.
 
 As a concrete use case, we plan to implement our algorithm to check for TravisCI configuration errors.
-TravisCI is a continous integration tool that allows programmers to automatically run their test suite on every code update.
+TravisCI is a continuous integration tool that allows programmers to automatically run their test suite on every code update.
 A recent usage study of TravisCI found that 15-20\% of failed TravisCI builds are due to "errors" - which means the configuration file was malformed and the software could not even be built \cite{API}.
 Using the data from \cite{API}, we can also learn that since the start of 2014, approximately 88,000 hours of server time was used on TravisCI projects that resulted in an error status.
 This number not only represents lost server time, but also lost developer time, as programmers must wait to verify that their work does not break the build.
 If these malformed projects could be quickly statically checked on the client side, both TravisCI and its users could benefit.
-
