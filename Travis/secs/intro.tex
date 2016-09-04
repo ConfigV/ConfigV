@@ -1,17 +1,33 @@
 \section{Introduction}
 
-Machine learning is a powerful tool for software analysis and verification \cite{Santolucito2016,gehrpsi,garg2014ice}.
-Among the popular algorithms are neural nets and n-gram models, which produce to probabilistic models of correctness.
-While often effective in practice, these do not provide the guarantees of a traditional verification approach.
-In addition, these tools are not designed to provide simple justifications for their classification outputs.
+Machine learning can be a powerful tool for for software analysis and verification \cite{lau2000version,Santolucito2016,gehrpsi,garg2014ice}.
+However, many popular machine learning algorithms, such as neural nets and n-gram models, are not designed to provide simple justifications for their classification results.
+While effective in practice, the lack of justification for the results limits the applicability.
+In the case of error detection, the system should not only report which files have errors, but also identify the errors.
+Version space learning is a learning strategy for logical constraint classification~\cite{mitchell82}, which can be used to easily provide clear error messages.
 
-In contrast, version space learning is a machine learning strategy for logical constraint classification \cite{mitchell82}, appropriate when the learning set does not contain noise.
-Extensions to version space learning have been used various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
-We first give a formal definition of the algorithm in \cite{Santolucito2016} in terms of version space learning.
-We then extend that work to leverage temporal structure in a learning set, specifically by looking at the differences between sequential examples.
+%However, many popular machine learning algorithms, such as neural nets and n-gram models, produce probabilistic models of correctness.
+%While effective in practice, these approachs cannot be garunteed to be complete, that is they will always find the error.
+%We use version space learning to address the need for a formal completness garuntee in automated model generation for verification.
 
-As a concrete use case, we plan to implement our algorithm to check for TravisCI configuration errors.
-TravisCI is a continuous integration tool that allows programmers to automatically run their test suite on every code update.
+Extensions to version space learning have been used in various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
+In previous work we used machine learning to verify configuration files by automatically learning a language model from a set of correct examples~\cite{Santolucito2016}.
+We give a formal definition of the algorithm in terms of version space learning to show how clear error messages can be produced with this technique.
+%and show that the results are garunteed to be complete.
+
+%Although the results are complete, the approach used previously produces a high false positive rate.
+Although the error messages are clear, the approach used previously produces a high false positive rate (marks correct files as incorrect).
+To decrease this, we propose an extention to the algorithm to handle sets of both incorrect and correct examples, which have a partial order.
+A partial order is common in learning sets for machine learning program analysis, as code does not exist in isolation, but changes over time with development.
+Any analysis that makes use of code from a version control system like Github will have this property.
+We predict this algorithm has the potential to significantly reduce the false positive rate.
+%A learning algorithm that uses the temporal structure of code to create sound classification with a low false positive rate can be used in at least the above listed software analysis techniques.
+
+To test this approach in practice, we plan to implement our algorithm to check for TravisCI configuration errors.
+TravisCI is a continuous integration tool connected to Github that allows programmers to automatically run their test suite on every code update (commit).
+A user adds a configuration file to the repository that enables TravisCI and specifies build conditions, such as which compiler to use, which dependencies are required, and a set of benchmarks to test.
+This ensures the tool can always be automatically built correctly on a fresh machine.
+
 A recent usage study of TravisCI found that 15-20\% of failed TravisCI builds are due to "errors" - which means the configuration file was malformed and the software could not even be built \cite{API}.
 Using the data from \cite{API}, we can also learn that since the start of 2014, approximately 88,000 hours of server time was used on TravisCI projects that resulted in an error status.
 This number not only represents lost server time, but also lost developer time, as programmers must wait to verify that their work does not break the build.

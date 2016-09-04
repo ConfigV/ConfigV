@@ -1,22 +1,48 @@
 \section{Version Space for Verification}
 
-Version space learning builds a logical constraint model for binary classification, or membership in a set.
-ConfigC uses this approach to identify errors in configuration files for MySQL~\cite{Santolucito2016} .
-ConfigC learns a model over a set of configuration files that have been labeled as correct, then reports misconfigurations.
-
-Traditional version space learning will use a series disjunctions of a set of predefined hypotheses.
+ConfigC~\cite{Santolucito2016} learns a classification model from a set of correct configuration files, then reports misconfigurations.
+Specifically, ConfigC uses version space learing to identify errors in configuration files for MySQL.
+Version space learning builds a logical constraint model for binary classification, or membership in a set~\cite{mitchell82}.
+Traditional version space learning builds a model using a series of disjunctions from a set of predefined hypotheses.
 By instead restricting the model to a series of conjunctions, ConfigC can not only flag misconfigurations, but also give the points of failure for non-membership.
 
-To build the model, ConfigC take a single file and derives all possible relations from each file, such as A comes before B, B before C, and A before C.
-The user must provide templates for possible relations.
-It is assumed if a file is correct, all relations in that file are necessary for another file to be correct ($Correct(C) \implies \forall r \in M(C), r \in Nec$).
-In this way, the initial model is built by creating the strongest conditions for a correct file, called the \textit{specific boundary}.
-This model is then iteratively relaxed as more examples are seen, a process called \textit{candidate elimination}.
-To relax the model, two sets of relations from two files are merged into a single consistent set.
+Our definition of a configuration file is a file that can be transformed to an ordered list of $(keyword, value)$ pairs, called $Line$s.
+To build the model, ConfigC take a single configuration file, $C$, and derives the set of all possible relations from each file, $M(C)$.
+The classes of relations must be provided by the user as templates.
+A template is a function taking some number of lines and determining a relation on the keywords of the lines ($Line^{n} \rightarrow Rel_{k1,..,kn}$).
+In the case of ordering rules, this function will take two lines and indicate whether the first keyword should come before, after, or have no relation to the second. 
+ConfigC features the following default rules.
 
-\begin{lstlisting}
-n = {}
-for (c in files):
-  n1 = M(c)
-  n = merge(n, n1)
-\end{lstlisting}
+\begin{center}
+\begin{tabular} {|c |c |c |}
+ \hline
+ Template & Input  & Relation \\
+\hline
+ ordering & (Line,Line) & Before $\vert$ After $\vert$ None \\
+ \hline
+ integer relation & (Line,Line)  & $< | == | >$  \\
+\hline
+ type & (Line,Line)  & String $\vert$ Int $\vert$ Filepath $\vert$ IP  \\
+\hline
+ missing entry & (Line,Line) & Required $\vert$ Not \\
+\hline
+\end{tabular}
+\end{center}
+
+It is assumed if a file is correct, all relations in that file are in the set of necessary relations for any other file to be correct ($Correct(C) \implies \forall r \in M(C), r \in Nec$).
+In this way, the initial model is built by creating the strongest conditions for a correct file, called the \textit{specific boundary} in version space learning.
+This model is then iteratively relaxed as more examples are seen, a process called \textit{candidate elimination}.
+Since we maintain the strongest condition for correctness, this approach will identify many correct files as incorrect, called a high false positive rate.
+This is a problem when a user is then asked to manual review many files for errors, when the errors are not truly a problem.
+
+When the system is run on a new file, one of the relations from the templates will not be satisfied.
+To provide an error message,the system only needs to report which relation is not satisfied.
+For example, ConfigC might output \texttt{Ordering Error: Expected "extension mysql.so" before "extension recode.so"}.
+
+%To relax the model, two sets of relations from two files are merged into a single consistent set.
+%\begin{lstlisting}
+%n = {}
+%for (c in files):
+%  n1 = M(c)
+%  n = merge(n, n1)
+%\end{lstlisting}
