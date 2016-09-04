@@ -1,6 +1,6 @@
 \section{Introduction}
 
-Machine learing has been used in various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
+Machine learning has been used in various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
 However, many popular machine learning algorithms, such as neural nets and n-gram models, are not designed to provide simple justifications for their classification results.
 While effective in practice, the lack of justification for the results limits the applicability to software analysis, where justification is often critical.
 For example, in the case of error detection, the system should not only report which files have errors, but also locate the errors.
@@ -11,29 +11,29 @@ As a logical constraint system, version space learning can provide the justifica
 %While effective in practice, these approachs cannot be garunteed to be complete, that is they will always find the error.
 %We use version space learning to address the need for a formal completness garuntee in automated model generation for verification.
 
-In our previous work we built a prototype to verify configuration files from a set of correct examples~\cite{Santolucito2016}.
+In our previous work~\cite{Santolucito2016} we built a prototype to verify configuration files from a set of correct examples.
 The tool, ConfigC, takes as a training set a set of correct configuration files and builds a set of rules describing a language model.
-This model is then used to check if new a configuration file adhears to those rules.
-If a file is incorrect, the tool will identify the location of error, and report what is incorrect.
+This model is then used to check if a new configuration file adhears to those rules.
+If a file is incorrect, the tool identifies the location of error, and reports what is incorrect.
 For example, ConfigC might output \texttt{Ordering Error: Expected "extension mysql.so" before "extension recode.so"}.
 While this prototype's results are promising, the main weakness are that the learning can only use correct configuration files.
 Additionally, there is a relatively high false positive rate (marking correct files as incorrect).
 
 In order to extend the prototype, in this paper we provide a new description of ConfigC in terms of version space learning.
 This description will allow us to understand how the justifications are produced in ConfigC.
-We can then extend ConfigC with a new algorithm to decrease the false positive rate, while maintaning the ability to provide justification.
+We can then extend ConfigC with a new algorithm to decrease the false positive rate, while maintaining the ability to provide justification.
 %and show that the results are garunteed to be complete.
 
 %Although the results are complete, the approach used previously produces a high false positive rate.
 We propose an extension to ConfigC that allows it to handle both correct and incorrect files in the training set.
-Additionally, we extend ConfigC with the ability to use structue within the training set.
-While the training set from ConfigC was a random sampling of configuration files, many other training sets have a structure based on version history.
+Additionally, we extend ConfigC with the ability to use structure within the training set.
+While the previous training set from ConfigC was a random sampling of configuration files, many other training sets have a structure based on version history.
 %The algorithm we propose takes advantage of this commonly availible, but underutilized structure of training sets for software analysis.
 %Because most code does not exist in isolation, but changes over time with development, any training set of code from a verison control system, like Github, has a rich temporal structure. 
 This structure is simply a partial order, and can be used by our proposed algorithm for more effective learning.
 %A learning algorithm that uses the temporal structure of code to create sound classification with a low false positive rate can be used in at least the above listed software analysis techniques.
 
-To test this approach in practice, we plan to implement our algorithm to check for TravisCI configuration errors.
+To test this approach in practice, we plan to implement our algorithm to check for TravisCI\footnote{http://www.travis-ci.com} configuration errors.
 TravisCI is a continuous integration tool connected to Github that allows programmers to automatically run their test suite on every code update (commit).
 A user adds a configuration file to the repository that enables TravisCI and specifies build conditions, such as which compiler to use, which dependencies are required, and a set of benchmarks to test.
 This ensures the tool can always be automatically built correctly on a fresh machine.

@@ -7,13 +7,13 @@
 ConfigC produces clean error messages, but has a high false positive rate.
 However, ConfigC only analyzes correct configuration files, and does not consider any ordering between these correct files.
 We present an extension to ConfigC to decrease the false positive rate in ConfigC by learning on both correct and incorrect examples, as well as temporal structure of these examples.
-This extension will buid a logical formula representing the entire history of examples, and use a SMT solver to find a classification model.
+This extension will build a logical formula representing the entire history of examples, and use a SMT solver to find a classification model.
 
 Since a TravisCI configuration file is dependent on the code it is trying to build, we must consider a more general sense of configuration file.
 We will call this a program summary $P_t$, which is a representation of the repository which contains the information relevant to the learning process.
 The subscript on $P_t$ is a timestamp tag based on the ordered git commit history.
 In the case of TravisCI, this include the \verb|.travis.yml| file, as well as code features that may effect build status, such as programming language and a list of imported libraries.
-The summary must be \textit{sufficently detailed}, that is it must contain every piece of information that might lead to a build error.
+The summary must be \textit{sufficiently detailed}, that is it must contain every piece of information that might lead to a build error.
 
 %IMPORTANT, but no space
 %However, a git history is not a limited to a single linear timeline.
@@ -25,8 +25,9 @@ The summary must be \textit{sufficently detailed}, that is it must contain every
 From this summary we can then build a model $M(P_t)$, as in ConfigC, which is the full set of possible relations derivable from the program summary.
 Again, the user must provide templates for the learning process.
 
-Since we now consider both incorrect and correct data, we will denote the build status of $P_t$ with $S(P_t)$.
-In this application, we consider all non-erroring build status to be passing, denoted $Pass$ and otherwise $Err$.
+We will denote the build status returned from TravisCI when run on $P_t$ with $S(P_t)$.
+Any files with a $Pass$ build status are correct, and any files with an $Err$ build status are incorrect.
+%In this application, we consider all non-erroring build status to be passing, denoted $Pass$ and otherwise $Err$.
 For brevity, we denote sequences of build statuses with the following notation:
 \begin{align*}
   S(P_t)=Pass \land S(P_{t+1})=Err \implies S(P_{t,t+1}) = PE
@@ -35,7 +36,7 @@ For brevity, we denote sequences of build statuses with the following notation:
 In contrast with ConfigC, we now consider both incorrect and correct and so must introduce the \textit{general boundary}.
 The general boundary is the dual of the specific boundary, and is the most relaxed requirement for a positive classification.
 We denoted specific boundary as the set of necessary relations $Nec$, and now denote the general boundary as the set of breaking relations $Br$.
-With this notation, we can formally express the requirement that the program summary is sufficently detailed.
+With this notation, we can formally express the requirement that the program summary is sufficiently detailed.
 \begin{align}
   \forall S(P_t)=Err, \exists r \in M(P_t), r \in Br \label{eq:E1}
 \end{align}
@@ -60,7 +61,7 @@ Expressed formally, where $\setminus$ is the set difference, that is:
   \lor \ \exists& r \in (M(P_{t+1}) \setminus M(P_{t})), r \in Br \label{eq:PE}
 \end{align}
 
-We then can combine all these formulas with conjunctions and ask a SMT solver for a model satifsying the formula.
+We then can combine Eq \ref{eq:E}, \ref{eq:P}, and \ref{eq:PE} with conjunctions and ask a SMT solver for a model satifying the formula.
 While existential set operations can be expensive on large sets for an SMT solver, in our application this is not the case.
 Thanks to the practice of making incremental commits when using source control, these sets will be small and the SMT will be fairly cheap.
 In fact, the above implication generalizes to $P_{t,t+n}$, but for efficiency we must require that $M(P_{t})\ \setminus M(P_{t+n})$ is manageably small.
