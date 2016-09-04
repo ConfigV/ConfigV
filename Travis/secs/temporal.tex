@@ -4,9 +4,9 @@
 %This data must be structured as a shallow tree for generalizable learning.
 %This restriction is why this approach is not appropriate for language learning on large grammars (such as a programming language).
 
-ConfigC produces clean error messages, but has a high false positive rate.
+ConfigC can provide justifications, but has a high false positive rate.
 However, ConfigC only analyzes correct configuration files, and does not consider any ordering between these correct files.
-We present an extension to ConfigC to decrease the false positive rate in ConfigC by learning on both correct and incorrect examples, as well as temporal structure of these examples.
+We present a new algorithm to decrease the false positive rate in ConfigC by learning on both correct and incorrect examples, as well as temporal structure of these examples.
 This extension will build a logical formula representing the entire history of examples, and use a SMT solver to find a classification model.
 
 Since a TravisCI configuration file is dependent on the code it is trying to build, we must consider a more general sense of configuration file.
@@ -62,7 +62,10 @@ Expressed formally, where $\setminus$ is the set difference, that is:
 \end{align}
 
 We then can combine Eq \ref{eq:E}, \ref{eq:P}, and \ref{eq:PE} with conjunctions and ask a SMT solver for a model satifying the formula.
-While existential set operations can be expensive on large sets for an SMT solver, in our application this is not the case.
-Thanks to the practice of making incremental commits when using source control, these sets will be small and the SMT will be fairly cheap.
-In fact, the above implication generalizes to $P_{t,t+n}$, but for efficiency we must require that $M(P_{t})\ \setminus M(P_{t+n})$ is manageably small.
-The definition of small here remains to be experimentally determined.
+The resulting model will be the sets $Nec$, and $Br$, which can be used to check new configuration files.
+Since we used a similar model to ConfigC, we will still be able to provide justifications for the classification results.
+
+%While existential set operations can be expensive on large sets for an SMT solver, in our application this is not the case.
+%Thanks to the practice of making incremental commits when using source control, these sets will be small and the SMT will be fairly cheap.
+%In fact, the above implication generalizes to $P_{t,t+n}$, but for efficiency we must require that $M(P_{t})\ \setminus M(P_{t+n})$ is manageably small.
+%The definition of small here remains to be experimentally determined.
