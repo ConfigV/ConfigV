@@ -5,28 +5,30 @@ However, many popular machine learning algorithms, such as neural nets and n-gra
 While effective in practice, the lack of justification for the results limits the applicability to software analysis, where justification is often critical.
 For example, in the case of error detection, the system should not only report which files have errors, but also locate the errors.
 Version space learning is a technique for logical constraint classification~\cite{mitchell82}.
-As a logical constraint system, version space learning can provide the justification that is difficult to obtain from other methods, but suffer from a weakness that it cannot handle noise.
+As a logical constraint system, version space learning can provide the justification that is difficult to obtain from other methods, but its main weakness is that it cannot handle noisy data.
 
 %However, many popular machine learning algorithms, such as neural nets and n-gram models, produce probabilistic models of correctness.
 %While effective in practice, these approachs cannot be garunteed to be complete, that is they will always find the error.
 %We use version space learning to address the need for a formal completness garuntee in automated model generation for verification.
 
-In our previous work we used version space learning to verify configuration files from a set of correct examples~\cite{Santolucito2016}.
-The tool, ConfigC, takes examples of correct files, builds a language model, which is then used to check if new a configuration file adhears to those rules.
+In our previous work we built a prototype to verify configuration files from a set of correct examples~\cite{Santolucito2016}.
+The tool, ConfigC, takes as a training set, a set correct files and builds a language model.
+This model is then used to check if new a configuration file adhears to those rules.
 If a file is incorrect, the tool will identify the location of error, and report what is incorrect.
 For example, ConfigC might output \texttt{Ordering Error: Expected "extension mysql.so" before "extension recode.so"}.
+While this prototype works well, it can only learn from correct examples and has a high false positive rate (marking correct files as incorrect).
 
-In order to better understand how to provide justification as well as classification, in this paper we provide a new description of ConfigC.
-We describe the algorithm in terms of version space learning, and show how these error messages are produced with this technique.
-This description also explains the high false positive (marking correct files as incorrect) in ConfigC.
-With this understanding, we then propose an extension to ConfigC that we predict will decrease this high false positive rate.
+In order to extend the prototype, in this paper we provide a new description of ConfigC in terms of version space learning.
+This description will allow us understand how the justifications are produced in ConfigC.
+We can the extend ConfigC with a new algorithm to decrease the false positive rate, while maintaning the ability to provide justification.
 %and show that the results are garunteed to be complete.
 
 %Although the results are complete, the approach used previously produces a high false positive rate.
-While ConfigC only used correct files in the training set, we propose an algorithm to handle both correct and incorrect files in the training set.
-Additionally, the training set from ConfigC was a random sampling of configuration files, but many training sets have a structure based on version history.
-The algorithm we propose takes advantage of this commonly availible, but underutilized structure of training sets for software analysis.
-Because most code does not exist in isolation, but changes over time with development, any training set of code from a verison control system, like Github, has a rich temporal structure. 
+We propose an extension to ConfigC that allows it to handle both correct and incorrect files in the training set.
+Additionally, we extend ConfigC with the ability to use sstructue within the training set.
+While the training set from ConfigC was a random sampling of configuration files, many other training sets have a structure based on version history.
+%The algorithm we propose takes advantage of this commonly availible, but underutilized structure of training sets for software analysis.
+%Because most code does not exist in isolation, but changes over time with development, any training set of code from a verison control system, like Github, has a rich temporal structure. 
 This structure is simply a partial order, and can be used by our proposed algorithm for more effective learning.
 %A learning algorithm that uses the temporal structure of code to create sound classification with a low false positive rate can be used in at least the above listed software analysis techniques.
 
