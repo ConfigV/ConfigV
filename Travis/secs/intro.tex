@@ -1,25 +1,28 @@
 \section{Introduction}
 
-Machine learning can be a powerful tool for for software analysis and verification \cite{lau2000version,Santolucito2016,gehrpsi,garg2014ice}.
+Machine learing has been used in various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
 However, many popular machine learning algorithms, such as neural nets and n-gram models, are not designed to provide simple justifications for their classification results.
-While effective in practice, the lack of justification for the results limits the applicability.
-In the case of error detection, the system should not only report which files have errors, but also identify the errors.
+While effective in practice, the lack of justification for the results limits the applicability to software analysis, where justification is critical.
+In the case of error detection, the system should not only report which files have errors, but also locate the errors.
 Version space learning is a learning strategy for logical constraint classification~\cite{mitchell82}, which can be used to easily provide clear error messages.
 
 %However, many popular machine learning algorithms, such as neural nets and n-gram models, produce probabilistic models of correctness.
 %While effective in practice, these approachs cannot be garunteed to be complete, that is they will always find the error.
 %We use version space learning to address the need for a formal completness garuntee in automated model generation for verification.
 
-Extensions to version space learning have been used in various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
-In previous work we used machine learning to verify configuration files by automatically learning a language model from a set of correct examples~\cite{Santolucito2016}.
-We give a formal definition of the algorithm in terms of version space learning to show how clear error messages can be produced with this technique.
+In our previous work we used version space learning to verify configuration files from a set of correct examples~\cite{Santolucito2016}.
+The tool, ConfigC, takes examples of correct files, builds a language model, which is then used to check is new configuration files adhear to those rules.
+If a file is incorrect, the tool will identify the location of error, what is incorrect.
+For example, ConfigC might output \texttt{Ordering Error: Expected "extension mysql.so" before "extension recode.so"}.
+We describe here this algorithm in terms of version space learning to show how clear error messages are produced with this technique.
 %and show that the results are garunteed to be complete.
 
 %Although the results are complete, the approach used previously produces a high false positive rate.
 Although the error messages are clear, the approach used previously produces a high false positive rate (marks correct files as incorrect).
-To decrease this, we propose an extention to the algorithm to handle sets of both incorrect and correct examples, which have a partial order.
-A partial order is common in learning sets for machine learning program analysis, as code does not exist in isolation, but changes over time with development.
-Any analysis that makes use of code from a version control system like Github will have this property.
+To decrease this, in this paper we propose an extention to the algorithm to handle sets of both incorrect and correct examples.
+We also use a commonly avaible, but underutilized structure of learning sets for machine learning for software analysis.
+Because most code does not exist in isolation, but changes over time with development, examples for a learning set can also leverage this temporal structure. 
+This structure is simply a partial order, and any analysis that makes use of code from a version control system like Github will have this property.
 We predict this algorithm has the potential to significantly reduce the false positive rate.
 %A learning algorithm that uses the temporal structure of code to create sound classification with a low false positive rate can be used in at least the above listed software analysis techniques.
 
