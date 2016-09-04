@@ -4,7 +4,8 @@ Machine learing has been used in various software analysis techniques, such as p
 However, many popular machine learning algorithms, such as neural nets and n-gram models, are not designed to provide simple justifications for their classification results.
 While effective in practice, the lack of justification for the results limits the applicability to software analysis, where justification is often critical.
 In the case of error detection, the system should not only report which files have errors, but also locate the errors.
-Version space learning is a technique for logical constraint classification~\cite{mitchell82}, that provides justification, but cannot handle noise.
+Version space learning is a technique for logical constraint classification~\cite{mitchell82}.
+As a logical constraint system, version space learning can provide the justification that is difficult to obtain from other methods, but suffer from a weakness that it cannot handle noise.
 
 %However, many popular machine learning algorithms, such as neural nets and n-gram models, produce probabilistic models of correctness.
 %While effective in practice, these approachs cannot be garunteed to be complete, that is they will always find the error.
@@ -15,17 +16,18 @@ The tool, ConfigC, takes examples of correct files, builds a language model, whi
 If a file is incorrect, the tool will identify the location of error, and report what is incorrect.
 For example, ConfigC might output \texttt{Ordering Error: Expected "extension mysql.so" before "extension recode.so"}.
 
-In order to better understand how to provide justification as well as classification, we will provide a new description of ConfigC.
-We will describe the algorithm in terms of version space learning, and show how these error messages are produced with this technique.
-This description will also explain the high false positive (marking correct files as incorrect) in ConfigC.
+In order to better understand how to provide justification as well as classification, in this paper we provide a new description of ConfigC.
+We describe the algorithm in terms of version space learning, and show how these error messages are produced with this technique.
+This description also explains the high false positive (marking correct files as incorrect) in ConfigC.
 With this understanding, we then propose an extension to ConfigC that we predict will decrease this high false positive rate.
 %and show that the results are garunteed to be complete.
 
 %Although the results are complete, the approach used previously produces a high false positive rate.
-We propose an algorithm to handle incorrect, as well as correct files in ConfigC.
-We also use a commonly avaible, but underutilized structure of learning sets for machine learning for software analysis.
-Because most code does not exist in isolation, but changes over time with development, examples for a learning set can also leverage this temporal structure. 
-This structure is simply a partial order, and any analysis that makes use of code from a version control system like Github will have this property.
+While ConfigC only used correct files in the training set, we propose an algorithm to handle both correct and incorrect files in the training set.
+Additionally, the training set from ConfigC was a random sampling of configuration files, but many training sets have a structure based on version history.
+The algorithm we propose takes advantage of this commonly availible, but underutilized structure of training sets for software analysis.
+Because most code does not exist in isolation, but changes over time with development, any training set of code from a verison control system, like Github, has a rich temporal structure. 
+This structure is simply a partial order, and can be used by our proposed algorithm for more effective learning.
 %A learning algorithm that uses the temporal structure of code to create sound classification with a low false positive rate can be used in at least the above listed software analysis techniques.
 
 To test this approach in practice, we plan to implement our algorithm to check for TravisCI configuration errors.
