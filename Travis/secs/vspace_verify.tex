@@ -1,10 +1,10 @@
 \section{Version Space for Verification}
 
-ConfigC~\cite{Santolucito2016} learns a classification model from a set of correct configuration files, then reports misconfigurations.
-Specifically, ConfigC uses version space learing to identify errors in configuration files for MySQL.
 Version space learning builds a logical constraint model for binary classification, or membership in a set~\cite{mitchell82}.
 Traditional version space learning builds a model using a series of disjunctions from a set of predefined hypotheses.
-By instead restricting the model to a series of conjunctions, ConfigC can not only flag misconfigurations, but also give the points of failure for non-membership.
+In ConfigC, we instead restrict the model to a series of conjunctions.
+This way, ConfigC can not only flag misconfigurations, but also give the points of failure for non-membership.
+We now show in detail how this process works.
 
 Our definition of a configuration file is a file that can be transformed to an ordered list of $(keyword, value)$ pairs, called $Line$s.
 To build the model, ConfigC take a single configuration file, $C$, and derives the set of all possible relations from each file, $M(C)$.
@@ -32,11 +32,11 @@ ConfigC features the following default rules.
 It is assumed if a file is correct, all relations in that file are in the set of necessary relations for any other file to be correct ($Correct(C) \implies \forall r \in M(C), r \in Nec$).
 In this way, the initial model is built by creating the strongest conditions for a correct file, called the \textit{specific boundary} in version space learning.
 This model is then iteratively relaxed as more examples are seen, a process called \textit{candidate elimination}.
-Since we maintain the strongest condition for correctness, this approach will identify many correct files as incorrect, called a high false positive rate.
-This is a problem when a user is then asked to manual review many files for errors, when the errors are not truly a problem.
+Since we maintain the strongest condition for correctness, this approach will identify many correct files as incorrect, which we call a high false positive rate.
+This is a problem when a user is then asked to manually review many files for errors, when the files are in fact correct.
 
 When the system is run on a new file, one of the relations from the templates will not be satisfied.
-To provide an error message,the system only needs to report which relation is not satisfied.
+To provide an error message, the system only needs to report which relation is not satisfied.
 
 %To relax the model, two sets of relations from two files are merged into a single consistent set.
 %\begin{lstlisting}

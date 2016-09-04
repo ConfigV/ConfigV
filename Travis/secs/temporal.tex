@@ -7,7 +7,7 @@
 ConfigC produces clean error messages, but has a high false positive rate.
 However, ConfigC only analyzes correct configuration files, and does not consider any ordering between these correct files.
 We present an extension to ConfigC to decrease the false positive rate in ConfigC by learning on both correct and incorrect examples, as well as temporal structure of these examples.
-Our solution is to buid a logical formula representing the entire history of examples, and use a SMT solver to find a classification model.
+This extension will buid a logical formula representing the entire history of examples, and use a SMT solver to find a classification model.
 
 Since a TravisCI configuration file is dependent on the code it is trying to build, we must consider a more general sense of configuration file.
 We will call this a program summary $P_t$, which is a representation of the repository which contains the information relevant to the learning process.
@@ -25,14 +25,14 @@ The summary must be \textit{sufficently detailed}, that is it must contain every
 From this summary we can then build a model $M(P_t)$, as in ConfigC, which is the full set of possible relations derivable from the program summary.
 Again, the user must provide templates for the learning process.
 
-Since we now consider both positive and negative examples, we will denote the build status of $P_t$ with $S(P_t)$.
+Since we now consider both incorrect and correct data, we will denote the build status of $P_t$ with $S(P_t)$.
 In this application, we consider all non-erroring build status to be passing, denoted $Pass$ and otherwise $Err$.
 For brevity, we denote sequences of build statuses with the following notation:
 \begin{align*}
   S(P_t)=Pass \land S(P_{t+1})=Err \implies S(P_{t,t+1}) = PE
 \end{align*}
 
-In contrast with ConfigC, we now consider both positive and negative examples and so must introduce the \textit{general boundary}.
+In contrast with ConfigC, we now consider both incorrect and correct and so must introduce the \textit{general boundary}.
 The general boundary is the dual of the specific boundary, and is the most relaxed requirement for a positive classification.
 We denoted specific boundary as the set of necessary relations $Nec$, and now denote the general boundary as the set of breaking relations $Br$.
 With this notation, we can formally express the requirement that the program summary is sufficently detailed.
