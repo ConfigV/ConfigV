@@ -33,12 +33,12 @@ While the previous training set from ConfigC was a random sampling of configurat
 This structure is simply a partial order, and can be used by our proposed algorithm for more effective learning.
 %A learning algorithm that uses the temporal structure of code to create sound classification with a low false positive rate can be used in at least the above listed software analysis techniques.
 
-To test this approach in practice, we plan to implement our algorithm to check for TravisCI\footnote{http://www.travis-ci.com} configuration errors.
+To test this approach in practice, we plan to implement our algorithm to check for TravisCI\footnote{\url{http://www.travis-ci.com}} configuration errors.
 TravisCI is a continuous integration tool connected to Github that allows programmers to automatically run their test suite on every code update (commit).
 A user adds a configuration file to the repository that enables TravisCI and specifies build conditions, such as which compiler to use, which dependencies are required, and a set of benchmarks to test.
 This ensures the tool can always be automatically built correctly on a fresh machine.
 
-A recent usage study~\cite{API} of TravisCI found that 15-20\% of failed TravisCI builds are due to "errors" - which is the TravisCI code used to mean the configuration file was malformed and the software could not even be built.
+A recent usage study~\cite{API} of TravisCI found that 15-20\% of failed TravisCI builds are due to "errors" - which is the TravisCI name used to mean the configuration file was malformed and the software could not even be built.
 Using the data from \cite{API}, we can also learn that since the start of 2014, approximately 88,000 hours of server time was used on TravisCI projects that resulted in an error status.
 This number not only represents lost server time, but also lost developer time, as programmers must wait to verify that their work does not break the build.
 If these malformed projects could be quickly statically checked on the client side, both TravisCI and its users could benefit.

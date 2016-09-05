@@ -42,7 +42,8 @@ With this notation, we can formally express the requirement that the program sum
 \end{align}
 
 From the above we know that if a build is erroring, then there must exist at least one error.
-By pushing the negation into the formula, we can also know that if a build is passing, then there must not exist any errors.
+%By pushing the negation into the formula,
+We can also know that if a build is passing, then there must not exist any errors.
 That is, the model of a passing commit must not contain any rules which are breaking.
 Note we are not, however, guaranteed that any rules from a passing commit are necessary.
 \begin{align}
@@ -50,8 +51,9 @@ Note we are not, however, guaranteed that any rules from a passing commit are ne
   S(P_t) = Pass \implies \forall r \in  M (P_t), r \notin Br \label{eq:P}
 \end{align}
 
-While Eq. \ref{eq:E} and \ref{eq:P} might build a basic model, they will do not capture all of the available knowledge.
-The key insight is that when we commit a break ($PE$), we can localize the error to one of the lines that changed.
+%While Eq. \ref{eq:E} and \ref{eq:P} might build a basic model, they will do not capture all of the available knowledge.
+%The key insight is that 
+Additionally, when we commit a break ($PE$), we can localize the error to one of the relations that changed.
 Either we removed something that was necessary, or added something that was breaking.
 Note that this is an inclusive disjunction, since a erroring commit can break multiple things at once.
 Expressed formally, where $\setminus$ is the set difference, that is:
