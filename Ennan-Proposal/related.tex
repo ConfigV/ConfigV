@@ -1,0 +1,101 @@
+
+\section{Related Work}
+
+Language support has been considered a promising way  
+to tackle configuration problems~\cite{xu15systems}.
+Nevertheless, a practical language-based misconfiguration
+detection approach still remains an open problem.
+
+\paragraph{Configuration languages.}
+There have been several language support efforts proposed for preventing
+configuration errors introduced by fundamental deficiencies in
+either untyped or low-level languages. For example, in the network
+configuration management area, it is easy for administrators to
+produce configuration errors in their routing configuration files.
+PRESTO~\cite{enck07configuration} 
+automates the generation of device-native configurations
+with configlets in a template language. 
+Loo {\em et al.}~\cite{loo05declarative} adopt Datalog to reason about 
+routing protocols in a declarative fashion. 
+COOLAID~\cite{chen10declarative} constructs
+a language to describe domain knowledge about devices and
+services for convenient network reasoning and management.
+
+Compared with these existing efforts, 
+our work mainly focused on software systems, \eg, MySQL and Apache,
+rather than network configurations. In addition, we do not need 
+the user of \app to manually write a configuration file with the proposed
+language, since \app can automatically parse a target configuration
+file into our proposed representation.
+
+Huang {\em et al.} proposed a specification for configuration validation%
+~\cite{huang15confvalley}. We will 
+discuss this work in the misconfiguration
+detection part.
+
+\paragraph{Misconfiguration detection.}
+Misconfiguration detection techniques aim at checking configuration
+efforts before system outages occur.
+Most existing detection approaches check 
+the configuration files against a set of predefined correctness 
+rules, named constraints, and then report errors if 
+the checked configuration files do not satisfy these rules.
+
+Huang {\em et al.}~\cite{huang15confvalley} proposed a 
+language, ConfValley, to validate 
+whether given configuration files meet administrators' specifications. 
+Different from \app, ConfValley does not
+have inherent misconfiguration checking capability, since it only offers
+a language representation and requires administrators to
+manually write specifications, which is an error-prone
+process. On the contrary, \app does not need users to manually
+write anything.
+
+Several machine learning-based misconfiguration detection efforts 
+also have been proposed~\cite{yuan11context, zhang14encore}.
+EnCore~\cite{zhang14encore} is the work closest to \app.
+It introduces a template-based
+learning approach to improve the accuracy of their learning results.
+The learning process is guided by a set of predefined rule templates
+that enforce learning to focus on patterns of interest.
+In this way, EnCore filters out irrelevant information and reduces
+false positives; moreover, the templates are able to express
+system environment information that other machine learning
+techniques cannot handle.
+Compared to EnCore, \app has the following advantages.
+Firstly, \app does not rely on 100\% correctness in the files of the given configuration set. 
+Secondly, \app not only covers many more types of 
+misconfigurations, but also introduces probabilistic types.
+Finally, \app is a language framework, which can 
+even be used to write configuration files, but EnCore is only a 
+misconfiguration detection tool.
+
+\paragraph{Misconfiguration diagnosis.}
+Many misconfiguration diagnosis approaches have been proposed%
+~\cite{attariyan10automating, attariyan12x-ray}.
+For example, ConfAid~\cite{attariyan10automating} 
+and X-ray~\cite{attariyan12x-ray} use dynamic information
+flow tracking to find possible configuration errors that may result in
+failures or performance problems. AutoBash~\cite{su07autobash} 
+tracks causality and automatically fixes 
+misconfigurations. Unlike \app, most misconfiguration
+diagnosis efforts aim at finding errors after system
+failures occur, which leads to prolonged recovery time.
+
+\paragraph{Misconfiguration tolerance.}
+There have been several efforts proposed to test whether systems are 
+tolerant to misconfigurations~\cite{xu13do}. 
+%ConfErr~\cite{} uses a human error hodel from psychology and
+%linguistics to inject misconfigurations into systems.
+SPEX~\cite{xu13do} takes a white-box testing approach to automatically
+extract configuration parameter constraints from source code and generates 
+misconfigurations to test whether systems can tolerate potential
+configuration errors.
+
+Making systems gracefully handle misconfigurations and eliminating
+configuration errors are two orthogonal directions.
+The former helps improve the robustness of systems and make 
+diagnosis easier. This is especially important for 
+software that will be widely distributed to end users.
+Our work belongs to the latter case, which is used to 
+prevent configuration errors before system outages.
