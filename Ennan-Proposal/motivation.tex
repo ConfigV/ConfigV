@@ -115,11 +115,11 @@ The goal of this proposal is to develop a fully {\bf {automated
 verification  framework for general software configurations}}. We plan to
 overcome the above obstacles by first automatically inferring a
 specification for configuration files. It is unrealistic to expect the 
-users to write a specifications for configuration files on their own. 
+users to write an entire specifications for configuration files on their own. 
 This process can easily lead to incomplete or even contradictory 
-specifications.  Instead, we will learn specification from 
+specifications. Instead, we will learn specification from 
 a large sample of 
-configuration files. We start a learning process that takes as input this 
+configuration files. A learning process will take as input this 
 sample. The process will be language-agnostic and should work for any kind 
 of configuration files,  but all of the files in the sample need to be of 
 the same kind (such as MySQL or 
@@ -145,9 +145,13 @@ Thus, we need to develop a suitable language model. We do that by
 describe relationships between these variables. However, the
 type of a variable cannot always be fully determined 
 from a single value. 
-For example, an entry {\tt something = 1} assigns 
-\ruzica{here, something is 1 which is int, but it is actually a Boolean}
-\ruzica{more story here}
+An entry {\tt general\_log = 1} assigns an integer to the 
+variable {\tt general\_log}. However, 1 here is a Boolean variable,
+which denotes that there will be a general log file.
+Another example, which shows how this can easily lead to an error, is 
+that sometimes a configuration files 
+contain the following entry {\tt general\_log = /var/log/mysql/mysql.log}. This will cause    
+\ruzica{what will actually happen in this case}
 Some existing type inference 
 work would report this is an error, because {\tt temp\_dir} should be assigned
 an integer~\cite{zhang14encore}. We address this problem by introducing the concept of
