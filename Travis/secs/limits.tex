@@ -1,0 +1,13 @@
+\section{Limitations}
+
+%\subsection{Unsatisfiability}
+Note we have made two assumptions in Eq. \ref{eq:E1}; first that the summary $P_t$ sufficently detailed, i.e. contains every piece of information that might lead to a build error, and second that the model $M(P_t)$ will learn all relations that might lead to a build error, i.e. has a templete for all types of errors.
+While these are the strong assumptions - our algorithm is able to detect cases where these assumptions are not met.
+If we cannot find a solution for Eq. \ref{eq:PE}, it means either $P_t$ or $M(P_t)$ has been underspecified.
+It is then the user's responsibility to expand the definitions accordingly.
+
+\subsection{Trusted Base}
+In addition to the completeness of $P_t$ and $M(P_t)$, we must pick a trusted base.
+Since it is possible for TravisCI to have bugs, it is possible that between versions of TravisCI, two identical program summaries may have different build statuses.
+Since version space learning is (generally) intolerant of noise, we require that
+$P_t = P_{t'} \implies S(P_t) = S(P_{t'})$.

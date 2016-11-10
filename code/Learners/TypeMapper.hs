@@ -7,7 +7,10 @@
 
 module Learners.TypeMapper where
 
-import Types
+import Types.Types
+import Types.IR
+import Types.QTypes
+
 import Convert
 
 import Data.Char

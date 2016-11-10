@@ -1,25 +1,32 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleContexts, ConstraintKinds, MultiParamTypeClasses, RecordWildCards #-}
+
 
 module Usertime where
 
-import qualified Settings
+import           Convert
+import           Learners
+import           Types.Types
 
-import Learners
-import Convert
-import Types
+import Types.IR
+import Types.Errors
 
-import Control.Monad
-import Data.Maybe
-import qualified Data.Map as M
-import qualified Data.List as L
-import qualified Data.Text as T
-import Learners.IntRelP
-import Learners.TypeMapper (assignProbs,findVal)
-import Control.Applicative
-import Data.Foldable (Foldable)
 
-import Debug.Trace
+import           Control.Monad
+import qualified Data.List           as L
+import qualified Data.Map            as M
+import           Data.Maybe
+import qualified Data.Text           as T
+
+import           Learners.IntRelP
+import           Learners.TypeMapper (assignProbs, findVal)
+
+import           Control.Applicative
+import           Data.Foldable       (Foldable)
+
+import           Debug.Trace
 --import Data.Foldable
+
 
 import qualified Settings
 
@@ -28,12 +35,13 @@ import qualified Settings
 showProbRules :: RuleSet -> [String]
 showProbRules r =
   let
+    RuleSet{..} = r
     delimiter = "|"
-    m = filter (\(_,y,n) -> y+n>20 && n==0) $ missingP r
-    o = orderP r
-    i = intRelP r
-    m' = missing r
-    o' = order r
+    m = filter (\(_,y,n) -> y+n>20 && n==0) $ missingP
+    o = orderP
+    i = intRelP
+    m' = missing
+    o' = order
     showMissingP (r, y, n) =
       "Expected " ++ (show $ k1 r) ++ " with " ++ (show $ k2 r)
         ++ delimiter ++ (show y)
@@ -69,16 +77,20 @@ showProbRules r =
         (map (\x -> "Expected " ++ (show $ k1 x) ++ " with " ++ (show $ k2 x)) m') ++
         (map (\(x,y) -> "Expected " ++ (show $ fst x) ++ " before " ++ (show $ snd x)) $ filter snd $ M.toList o')
 
+
 verifyOn :: RuleSet -> ConfigFile Language -> FilePath -> ErrorReport
 verifyOn r f fname =
   let
     f' = convert f
-    orderingError =  check (order r) f'
-    missingError  =  check (missing r) f'
-    typeError     =  check (typeErr r) f'
-    missingErrorP =  check (missingP r) f'
-    orderingErrorP = check (orderP r) f'
-    intRelErrorP   =  check (intRelP r) f'
+    getErrors :: (Attribute t a, Foldable t) => (RuleSet -> t a) -> Maybe (t a)
+    getErrors ruleSelect = check (ruleSelect r) $ convert f
+    --errs = map getErrors r
+    orderingError  = getErrors order
+    missingError   = getErrors missing
+    typeError      = getErrors typeErr
+    missingErrorP  = getErrors missingP
+    orderingErrorP = getErrors orderP
+    intRelErrorP   = getErrors intRelP
 
     showErr :: (Show k, Show v) => Maybe (M.Map k v) -> ((k,v) -> Error) -> [Error]
     showErr rawEs printFxn =
@@ -87,7 +99,7 @@ verifyOn r f fname =
       in
         map printFxn es
 
-
+    -- this should be a ConvertToError typeclass
     typeErrMsg x =
       Error {errLoc1 = (fname,fst x)
             ,errLoc2 = (fname,fst x)
@@ -125,6 +137,16 @@ verifyOn r f fname =
     intRelShowP =
       showErr intRelErrorP intRelPErrMsg
 
+
+    {-intRelErrMsg x =
+      --"INTEGER RELATION ERROR: Expected "++(show$fst $fst x)++(show$fromJust$snd x)++(show$snd$fst x)
+      Error {errLoc1 = (fname,snd$fst x)
+            ,errLoc2 = (fname,fst $fst x)
+            ,errIdent = "INTREL"}
+    intRelShow =
+      showErr intRelError intRelErrMsg-}
+
+
     missingShow =
       let
         es = fromMaybe [] missingError
@@ -151,9 +173,9 @@ verifyOn r f fname =
       in
         map f' es
 
-    missingErrorProbs = map (\(x, y, n) -> (fromIntegral y) / (fromIntegral (y + n))) $ fromMaybe [] missingErrorP
-    mean x = (sum x) / (fromIntegral $ length x)
-    median x = (L.sort x) !! ((length x) `div` 2)
+    missingErrorProbs = map (\(x, y, n) -> fromIntegral y / fromIntegral (y + n)) $ fromMaybe [] missingErrorP
+    mean x = sum x / (fromIntegral $ length x)
+    median x = (L.sort x) !! (length x `div` 2)
     meanV = mean missingErrorProbs
     medianV = median missingErrorProbs
     missingErrorPDebug = ["\n----------PROBABILISTIC MISSING KEYWORDS DEBUG----------",
@@ -167,28 +189,26 @@ verifyOn r f fname =
     orderingShowPC = "Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingErrorP)
     orderingShowNPC = "Non-Probabilistic ordering errors: " ++ (show $ length $ maybe [] M.toList orderingError)
     intRelShowPC = "Probabilistic integer relation errors: " ++ (show $ length $ maybe [] M.toList intRelErrorP)
-
+    sizeErr = maybe 0 length
     all =
       case Settings.pROBRULES of
-        Settings.Prob -> printRules [typeShow, orderingShowP, intRelShowP, missingShowP]
+        Settings.Prob -> [typeShow, orderingShowP, intRelShowP, missingShowP]
         Settings.NonProb -> [typeShow, orderingShow, missingShow]
-        Settings.Test -> printRules [typeShow, orderingShow, missingShow, orderingShowP, intRelShowP, missingShowP]
+        Settings.Test -> [typeShow, orderingShow, missingShow, orderingShowP, intRelShowP, missingShowP]
 
-    sizeErr = maybe 0 length
+
+
     typeSize = (maybe 0 M.size typeError)
     count = typeSize +
-      (maybe 0 M.size orderingError) +
-      (sizeErr missingError) +
-      (sizeErr missingErrorP)
+      maybe 0 M.size orderingError +
+      sizeErr missingError +
+      sizeErr missingErrorP
   in
     --if typeSize >0 then typeShow else filter (/="") $ concat all
     --if typeSize >0 then typeShow else concat all
     concat all
 
-printRules x =
-  if Settings.vERBOSE
-    then trace ((concat . (L.intersperse " ") . map (show.length)) x) x
-    else id x
+
 
 -- utility printing method for our probability tuples
 showP (y, n) =
@@ -197,4 +217,7 @@ showP (y, n) =
     n' = fromIntegral n
     p = y' / (y' + n')
   in
-    (show p) ++ " WITH COUNTS " ++ (show (y, n))
+    show p ++ " WITH COUNTS " ++ show (y, n)
+--  in
+    --if typeSize >0 then typeShow else filter (/="") $ concat all
+  --  if typeSize >0 then typeShow else concat all

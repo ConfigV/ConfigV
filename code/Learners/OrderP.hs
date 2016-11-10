@@ -5,7 +5,9 @@
 
 module Learners.OrderP where
 
-import Types
+import Types.Types
+import Types.IR
+
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.List as L
@@ -110,7 +112,7 @@ pairs (l:ls) =
 
 -- basically like pairs but the reverse relations to keep accurate count
 antiPairs :: [IRLine] -> [((IRLine,IRLine),(Integer,Integer))]
-antiPairs = 
+antiPairs =
   let reverseCounts (rp, (y, n)) = (rp, (n, y))
   in (map reverseCounts) . pairs . reverse
 

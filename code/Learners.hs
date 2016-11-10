@@ -1,9 +1,11 @@
 module Learners where
 
 import Learners.Order
-import Learners.IntRel
-import Learners.Missing
-import Learners.TypeMapper
-import Learners.MissingP
 import Learners.OrderP
+
+import Learners.Missing
+import Learners.MissingP
+
 import Learners.IntRelP
+
+import Learners.TypeMapper

@@ -1,0 +1,114 @@
+\section{Our Previous Work: ConfigC}
+\label{sec:prelim}
+
+We have proposed and developed a preliminary system, named
+ConfigC~\cite{santolucitoCAV}, which is (to the best of
+our knowledge) the first systematic effort capable of automatically
+verifying configuration files before the configuration files
+are deployed and installed.
+In particular, ConfigC is a framework that first automatically
+analyzes datasets of correct configuration files, 
+and then derives rules for building a language model 
+from the give datasets.
+Finally, the resulting language model could be used to verify 
+new configuration files (called target configuration files) and 
+detect errors in these target configuration files.
+The configuration errors ConfigC can deal with cover:
+entry missing errors, ordering errors, type errors and
+value correlation.
+To our knowledge, there is no existing effort that is able to detect
+the above errors, because they are very tricky to identify in
+practice.
+
+ConfigC can detect the above errors by overcoming 
+main technical challenges against automatic configuration verification.
+First, because writing specifications for configuration verification
+is difficult -- especially for specifying the above
+tricky configuration errors, \eg, missing entry and ordering errors,
+ConfigC employs a set of machine learning algorithms to
+automate the specification writing. Machine learning based approach
+employed by ConfigC enables the process of specification writing to become
+automatic. As long as a set of configuration files are provided,
+ConfigC can automatically generate a set of rules that could be used
+as specifications.
+Second, because existing configuration files do not have any language
+structures and grammar, it is difficult to verify configuration files.
+ConfigC proposes a new language model and transforms target configuration
+files into the proposed language model. In other words, ConfigC uses
+the language model as a uniform representation and parses the 
+configuration files to verify into such a representation.
+With the uniform representation and specifications in hand,
+ConfigC is able to verify whether the given configuration files
+meet the specification.
+
+\paragraph{Evaluations on ConfigC.}
+We implemented a prototype system by following 
+our ConfigC design~\cite{santolucitoCAV}.
+In order to demonstrate the capability of ConfigC,
+we evaluated the ConfigC prototype based on real-world
+MySQL configuration files~\cite{configdataset} 
+containing tricky misconfiguration errors,
+such as entry missing errors, ordering errors, and
+value correlation errors.
+We extracted 20 MySQL configuration files to detect, 
+and grouped them into four categories according to their
+error types: missing entry, type error, ordering error
+and value correlation.
+Table~\ref{table:res} shows the evaluation results we use
+ConfigC to detect configuration errors in these 20 real-world
+configuration files.
+As shown in Table~\ref{table:res},
+ConfigC is able to successfully report the misconfiguration problems.
+
+\begin{table}[h]
+\centering
+\caption{Evaluation results on misconfiguration detection of ConfigC}
+\label{table:res}
+\begin{tabular}{|l|l|l|}
+\hline
+Error Type       & Passing Tests & False Positives  \\ 
+\hline
+\hline
+Missing Entry      & 5/5           & 1, 0, 0, 0, 4        \\ \hline
+Type Error         & 5/5           & 0, 0, 0, 0, 0          \\ \hline
+Ordering Error     & 5/5           & 0, 2, 1, 0, 6       \\ \hline
+Value Correlation  & 4/5           & 0, 0, 0, 1, 0        \\ 
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{Limitations.}
+ConfigC still has the following limitations.
+
+\begin{enumerate}
+
+\item ConfigC requires the datasets of configuration files for training 
+  have to be correct, which is hard to achieve in practice, since 
+  it is difficult for administrators or users to offer a
+  set of 100\% correct configuration files for training.
+
+\item The language model of ConfigC is still a starting point. It
+  is hard to formulate a uniform representation for diverse
+  configuration files.\ennan{we still need to put one more sentence
+  here to distinguish why our current language model is better
+  than ConfigC's language model}
+
+\item ConfigC can only offer coarse-grained value correlation errors,
+  \eg, $\texttt{max\_connections} > \texttt{mysql.max\_persistent}$.
+  In practice, many software outages were caused by more tricky, called
+  fine-grained value correlation~\cite{correlation}. For example, 
+  in a MySQL configuration file, $\texttt{key\_buffer\_size}$ should be 
+  higher than $\texttt{max\_connections} \times 
+  \texttt{sort\_buffer\_size}$~\cite{correlation};
+  otherwise, the MySQL load will be very high.
+
+\item ConfigC cannot check singular value anomalies. For example,
+  a parameter relating to memory in MySQL configuration files is
+  setted too large, exhausting the RAM and causing extreme slowness
+  or even a crash. Such an anomalous value does not violate any
+  constraints (\eg, type error and value ordering error), but 
+  it makes system behave wrongly.
+
+\end{enumerate}
+
+This proposal aims to address the above limitations. 

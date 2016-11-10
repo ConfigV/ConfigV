@@ -1,0 +1,160 @@
+
+\section{Extending \app Via Version Space Learning}
+\label{sec:travis}
+
+The current design of \app does not have any assumptions on whether the
+configuration files in the training sets are correct or 
+incorrect, thus making \app more general and practical.
+Nevertheless, some cases in practice 
+may allow us to assume some of configuration 
+files in the training sets are guaranteed to be correct.
+For example, TravisCI is a famous system connected 
+to Github, and it allows programmers to automatically run 
+their test suites on every code commit. 
+Thus, a TravisCI user needs to add a configuration file 
+to the repository that 
+enables TravisCI and specifies build conditions, 
+such as which dependencies are required, 
+and a set of benchmarks to test. This ensures 
+the tool to be automatically built correctly on a fresh machine.
+Such a configuration file management scheme, in fact, guarantees 
+the configuration file versions in the commit history to be 
+correct -- otherwise, TravisCI should not work correctly in the past.
+\ennan{Need one or two sentences to describe TravisCI misconfiguration
+problem is important.}
+
+Driven by the above motivating example, 
+we propose an extension to \app that
+learns a given training set with pre-knowledge that 
+this training set contains some configuration files 
+guaranteed to be correct.
+Such an extension employs an existsing technique from the machine learning community, named version space learning,
+to significantly decrease the false positive rate while maintaining 
+the detection capability of \app.
+
+\subsection{Version Space For Verification}
+
+Version space learning builds a logical constraint model for binary
+classification, which we use to test a configuration file for membership
+in the set of all correct files~\cite{mitchell82}.
+Traditional version space learning builds a model that tests membership
+using a series of disjunctions from a set of predefined hypotheses.
+In the extended \app, rather than describing a correct file by allowable 
+traits, we describe the required traits. 
+This way, our system can not only flag misconfigurations, 
+but also give the points of failure for non-membership.
+We now show in detail how this process works.
+
+Our definition of a configuration file, $C$, is a file that can be
+transformed to an ordered list of $(keyword, value)$ pairs, called
+$Line$s. \app builds a model for a single file, $M(C)$, 
+that is the set of all possible relations between the lines in the file.
+A relation is described by user provided templates.
+A template is a function taking some number of lines and determining 
+a relation on the keywords of 
+the lines ($Line^{n} \rightarrow Rel_{k1,..,kn}$).
+For example, we may derive the relation \texttt{extension mysql.so} comes before \texttt{extension recode.so} by using the ordering template.
+ConfigC features the following default templates.
+
+\begin{center}
+\begin{tabular} {|c|c|c|}
+ \hline
+ Template & Input  & Relation \\
+\hline
+\hline
+ ordering & (Line,Line) & Before $\vert$ After $\vert$ None \\
+ \hline
+ integer relation & (Line,Line)  & $< | == | >$  \\
+\hline
+ type & (Line,Line)  & String $\vert$ Int $\vert$ Filepath $\vert$ IP  \\
+\hline
+ missing entry & (Line,Line) & Required $\vert$ Not \\
+\hline
+\end{tabular}
+\end{center}
+
+It is assumed if a file is correct, all relations in that file are in the set of necessary relations for any other file to be correct ($Correct(C) \implies \forall r \in M(C), r \in Nec$).
+In this way, the initial model is built by creating the strongest conditions for a correct file, called the \textit{specific boundary} in version space learning.
+This model is then iteratively relaxed as more examples are seen, a process called \textit{candidate elimination}.
+Since we maintain the strongest condition for correctness, this approach will identify many correct files as incorrect, which we call a high false positive rate.
+This is a problem when a user is then asked to manually review many files for errors, when the files are in fact correct.
+
+\subsection{Learning From Temporal Properties} 
+
+%ConfigC can provide justifications, but has a high false positive rate.
+%However, ConfigC only analyzes correct configuration files, and does not consider any ordering between these correct files.
+We now present a new algorithm to decrease the false positive rate 
+by learning on both correct and incorrect examples, 
+as well as temporal structure of these examples.
+This extension will build a logical formula representing the entire 
+history of examples, and use an SMT solver to find a classification model.
+
+Since a configuration file (\eg, TravisCI configuration file) is dependent
+on the code it is trying to build, 
+we must consider a more general sense of configuration file.
+We will call this a program summary $P_t$, which is a representation 
+of the repository which contains the information 
+relevant to the learning process.
+The subscript on $P_t$ is a timestamp tag based on 
+the ordered git commit history.
+In the case of TravisCI, this include the \verb|.travis.yml| file, 
+as well as code features that may effect build status, 
+such as programming language and a list of imported libraries.
+The summary must be \textit{sufficiently detailed}, that is it must contain every piece of information that might lead to a build error.
+
+%IMPORTANT, but no space
+%However, a git history is not a limited to a single linear timeline.
+%Git features the ability to \textit{branch}, which allows to simultaneous commit chains.
+%To handle the start of a branch, add a superscript to indicate the branch, and restart the counter on a branch.
+%To handle the merge of two branches $P_{t}^{x}$ and $P_{t'}^{y}$, step to $P_{t+1}^{x}$, where $x$ is the mainline branch.
+%We then say that $P_{t'}^{y}$ has no successor commit $P_{t'+1}^{y}$.
+
+From this summary we can then build a model $M(P_t)$, as in \app, 
+which is the full set of possible relations derivable 
+from the program summary.
+Again, the user must provide templates for the learning process.
+
+We will denote the build status returned from TravisCI when run on $P_t$ with $S(P_t)$.
+Any files with a $Pass$ build status are correct, and any files with an $Err$ build status are incorrect.
+%In this application, we consider all non-erroring build status to be passing, denoted $Pass$ and otherwise $Err$.
+For brevity, we denote sequences of build statuses with the following notation:
+\begin{align*}
+  S(P_t)=Pass \land S(P_{t+1})=Err \implies S(P_{t,t+1}) = PE
+\end{align*}
+
+We now consider both incorrect and correct 
+and so must introduce the \textit{general boundary}.
+The general boundary is the dual of the specific boundary, and is the most relaxed requirement for a positive classification.
+We denoted specific boundary as the set of necessary relations $Nec$, and now denote the general boundary as the set of breaking relations $Br$.
+With this notation, we can formally express the requirement that the program summary is sufficiently detailed.
+\begin{align}
+  \forall S(P_t)=Err, \exists r \in M(P_t), r \in Br \label{eq:E1}
+\end{align}
+
+From the above we know that if a build is erroring, then there must exist at least one error.
+%By pushing the negation into the formula,
+We can also know that if a build is passing, then there must not exist any errors.
+That is, the model of a passing commit must not contain any rules which are breaking.
+Note we are not, however, guaranteed that any rules from a passing commit are necessary.
+\begin{align}
+  S(P_t) = Err \implies \exists r \in  M (P_t), r \in Br \label{eq:E}\\
+  S(P_t) = Pass \implies \forall r \in  M (P_t), r \notin Br \label{eq:P}
+\end{align}
+
+%While Eq. \ref{eq:E} and \ref{eq:P} might build a basic model, they will do not capture all of the available knowledge.
+%The key insight is that 
+Additionally, when we commit a break ($PE$), we can localize the error to one of the relations that changed.
+Either we removed something that was necessary, or added something that was breaking.
+Note that this is an inclusive disjunction, since a erroring commit can break multiple things at once.
+Expressed formally, where $\setminus$ is the set difference, that is:
+\begin{align}
+  S(P_{t,t+1}) &= PE \implies \nonumber \\
+  \exists& r \in (M(P_{t})\ \setminus M(P_{t+1})), r \in Nec\ \nonumber \\
+  \lor \ \exists& r \in (M(P_{t+1}) \setminus M(P_{t})), r \in Br \label{eq:PE}
+\end{align}
+
+We then can combine Eq \ref{eq:E}, \ref{eq:P}, and \ref{eq:PE} with
+conjunctions and ask a SMT solver for a model satisfying the formula.
+The resulting model will be the sets $Nec$, and $Br$, which can be used to check new configuration files.
+Since we used a similar model to \app, we will still be able to provide justifications for the classification results.
+

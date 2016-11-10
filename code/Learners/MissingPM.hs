@@ -4,7 +4,9 @@
 
 module Learners.MissingP where
 
-import Types
+import Types.Types
+import Types.IR
+
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.List as L
@@ -20,7 +22,7 @@ cutoffObsPercentile :: Double
 cutoffObsPercentile = 0.1
 -- and to make dealing with probs easier
 prob :: Eq a => Show a => (a, Int, Int) -> Double
-prob (_, y, n) = 
+prob (_, y, n) =
   let
     y' = fromIntegral y
     n' = fromIntegral n

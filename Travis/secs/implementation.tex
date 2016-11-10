@@ -1,0 +1,9 @@
+\section{Implementation}
+
+To build the learning set, we will use the API to build tuples of .travis.yml and repo info.
+In addition to the .travis.yml file (collected as above), we will need at a minimum \verb|gh_lang and tr_status|.
+With this \verb|(File,gh_lang,tr_status,...)| tuple, we can then (almost) directly apply ConfigC to detect errors in the shallow part of the tree.
+
+The first (and simplest) requirement is a .travis.yml parser, which is an extension of normal yml parsing to handle travis' ability to include bash scripts.
+Second, depending on the results from Sec \ref{sec:feas}, we may also require some extra domain knowledge of the types of errors to be encoded as possible rules.
+This is a slightly more involved task that requires writing some non-trivial Haskell code - but it really isn't that bad.

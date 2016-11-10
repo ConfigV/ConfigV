@@ -1,9 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards#-}
 
 module Convert where
 
-import Types
+import Types.Types
+import Types.IR
+
 
 import qualified Data.Text as T
 import qualified Data.Map as M
@@ -13,20 +14,18 @@ import Control.Monad
 
 import Debug.Trace
 
-convert ::  ConfigFile Language -> IRConfigFile
-convert f =
-  parse f
-
 -- | why would i want to do this?
 {-addConfigType :: TypeMap -> (Keyword,Value) -> IRLine
 addConfigType tyMap (keyword,value) =
-  case M.lookup keyword tyMap of
-    Just configType -> IRLine{..}
-    Nothing -> IRLine{configType = emptyConfigQType,..}-}
+case M.lookup keyword tyMap of
+Just configType -> IRLine{..}
+Nothing -> IRLine{configType = emptyConfigQType,..}-}
 
+
+    -- | Main function of this file - translate configFile to intermediate rep
 -- | If the user wants to give hints to how to parse a config file based on filetype they go here
-parse :: ConfigFile Language -> [IRLine] --[(Keyword,Value)]
-parse (t, l) =
+convert :: ConfigFile Language -> [IRLine] --[(Keyword,Value)]
+convert (t, l) =
   let
     noComments = (map (stripComment l) $ T.lines t)
     noEmpty = filter (not. T.null) noComments
