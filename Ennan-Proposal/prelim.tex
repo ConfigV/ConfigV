@@ -9,17 +9,18 @@ results, which we obtained with ConfigC, we believe that automated
 verification of configuration files is possible and that it should be further studied.
 
 From ConfigC we drew the main inspiration for this proposal. We now briefly
-outline how does ConfigC work on two configuration files given in 
-Fig.~\ref{fig:twoFiles}. ConfigC first automatically
+outline how does ConfigC work. It first automatically
 analyzes a dataset of correct configuration files to derive
  rules for describing a specification. Before that process even starts,
 we identified several basic types, 
-such Boolean, Integer, File. With each of these files we associated a list 
-of templates. We then analyze {\emph {correct}} configuration files. When analyzing
-a file, we first do type-checking, \ie we assign a type to every variable. 
-We next instantiate each template with the typed variables and we save the learned set 
-of rules. For instance, with integers we associate comparison templates, so after 
-analyzing File$_1$, the set of learned rules will contain:
+such Boolean, Integer, File. With each of these types we associated a 
+list of templates. We then analyze the given training data set of 
+correct configuration files and derive rules describing variable 
+relations. We illustrate how it is done on two fragments of configuration 
+files given in Fig.~\ref{fig:twoFiles}.  When analyzing
+a file, we first do type-checking, \ie we assign a type to every variable. After that we instantiate each template with the typed variables and we save the learned set 
+of rules. For instance, with the integer type we only associated comparison templates ($X < Y, X = Y, \ldots$). After 
+analyzing File\_1, the set of learned rules will contain the following rules:
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 max_connections=300
 mysql.max_persistent=200
