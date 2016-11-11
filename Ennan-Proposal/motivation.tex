@@ -145,64 +145,17 @@ Thus, we need to develop a suitable language model. We do that by
 describe relationships between these variables. However, the
 type of a variable cannot always be fully determined 
 from a single value. 
-An entry {\tt general\_log = 1} assigns an integer to the 
+An entry {\tt general\_log = 1} in a MySQL configuration file assigns an integer to the 
 variable {\tt general\_log}. However, 1 here is a Boolean variable,
 which denotes that there will be a general log file.
-Another example, which shows how this can easily lead to an error, is 
-that sometimes a configuration files 
-contain the following entry {\tt general\_log = /var/log/mysql/mysql.log}. This will cause    
-\ruzica{what will actually happen in this case}
-Some existing type inference 
-work would report this is an error, because {\tt temp\_dir} should be assigned
-an integer~\cite{zhang14encore}. We address this problem by introducing the concept of
-{\emph{probabilistic types}}.
-Rather than assigning only one variable to a single type, 
-we assign several types over a probability distribution. 
-Using probabilistic types,
-we aim to generate a more accurate language model,
-thus significantly improving our verification capabilities.
+Another example, which often appears in practice, shows how variable names and 
+their ``types'' can easily lead to an error. Consider the
+following entry {\tt general\_log = /var/log/mysql/mysql.log}. Although this statement 
+alone might look correct, this is actually a typing error and as a result MySQL log cannot be correctly written.
 
 Second, we will learn patterns describing variables and their relations. We will associate with each type a set of very general templates. The user does not need to provide any templates -- they are internally associated to the types.
 Nevertheless, in addition to those general templates, we still need specific algorithms to learn
-rules that cannot be easily templated. 
+rules that cannot be easily templated (such as ordering rules). 
 
-From a practical perspective, we do not want to introduces any additional burden 
-to the user: they can simply use \app to check for errors in their
-configuration files. However, they can also easily extend the framework
-themselves. The system is designed to be highly modular. If there is a
-class of rules that \app is not currently learning, the user can develop
-her own templates and learners for that class. The new learner can be
-added to \app and this way it can check an additional new set of
-errors.
-
-Our \app prototype still has many limitations:
-for example, we cannot handle configuration errors that can be 
-triggered during system execution time.
-Nevertheless, we believe \app may suggest a practical path
-toward automatic and modular language-based configuration verification.
-To summarize, this tool paper makes the following contributions:
-
-
-\begin{enumerate}
-
-\item We propose the first automatic configuration verification
-framework, \app, that can learn a language model from a sample
-dataset, and then use this language model to verify 
-configuration files of interest.
- 
-\item \app proposes probabilistic types to assign a confidence 
-distribution over a set of types to each entry, 
-while generating the intermediate representation. 
-
-\item \app employs a collection of machine learning algorithms to 
-enable powerful rule and constraint inference.
-
-\item \app is capable of detecting various tricky errors that cannot
-be detected by previous efforts,
-including entry ordering errors, fine-grained value correlation errors, 
-missing entry errors, and environment-related errors. 
-
-\item We implement a \app prototype and evaluate it by
-conducting comprehensive experiments on real-world dataset.
-
-\end{enumerate}
+We will implement this verification framework and call it \app (for continuity reasons
+-- our preliminary tool was called ConfigC, cf. next section).
