@@ -19,8 +19,8 @@ correct configuration files and derive rules describing variable
 relations. We illustrate how is this done on two fragments of 
 configuration files given in Fig.~\ref{fig:twoFiles}.  When analyzing
 a file, we first assign a type to every 
-keyword. After that we instantiate each type-associated template with 
-the concrete keywords and we save the learned set 
+keyword. After that we instantiate each type-annotated template with 
+concrete keywords and we save the learned set 
 of rules. For instance, with the integer type we only associated comparison templates ($X < Y, X = Y, \ldots$). After 
 analyzing File\_1, the set of learned rules will contain the following rules:
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
@@ -29,10 +29,9 @@ mysql.max_persistent=200
 max_connections > mysql.max_persistent
 \end{lstlisting}
 The set of learned rules is changing with every file that we analyze: contradicting 
-files are removed and new rules are added. In practice, this process is done 
+files are removed and new rules are added. After analyzing File\_2 the rule \texttt{max\_connections = 300} is removed. In practice, this process is done 
 in parallel. 
 
-After analyzing File$_2$ the rule \texttt{max\_connections = 300} is removed. 
 
 \begin{figure}
 	\centering
@@ -62,15 +61,16 @@ mysql.max_persistent=200
 \end{figure}
 
 
-Once this preprocessing of training data is done, the resulting language model, 
+Additionally to the described process, we also developed algorithms for 
+the misconfigurations that cannot easily be templated. All together, 
+ConfigC can detect the following errors:
+missing entries, ordering errors, type errors and
+simple value correlations. Once this preprocessing of training data is 
+done, the resulting language model, 
 together with accompanying rules, 
 is used to detect errors in new configuration files given by the user.
 
-Additional to the described process we also developed algorithms for the 
-misconfigurations that cannot easily be templated. All together, ConfigC 
-can detect the following errors:
-missing entries, ordering errors, type errors and
-simple value correlations. Running ConfigC on Example~1 from 
+Running ConfigC on Example~1 from 
 Sec.~\ref{sec:intro-examples} returns the following output:
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 ORDERING ERROR: Expected extension "recode.so" BEFORE 
@@ -79,10 +79,7 @@ extension "mysql.so"
 ConfigC could not detect an error present in Example~2 since it can detect 
 only simple comparison-based relations.
 
-
-To our knowledge, there is no existing effort that is able to detect
-the above errors, because they are very tricky to identify in
-practice.
+\iffalse
 
 ConfigC can detect the above errors by overcoming 
 main technical challenges against automatic configuration verification.
@@ -105,24 +102,8 @@ With the uniform representation and specifications in hand,
 ConfigC is able to verify whether the given configuration files
 meet the specification.
 
-\paragraph{Evaluations on ConfigC.}
-We implemented a prototype system by following 
-our ConfigC design~\cite{santolucitoCAV}.
-In order to demonstrate the capability of ConfigC,
-we evaluated the ConfigC prototype based on real-world
-MySQL configuration files~\cite{configdataset} 
-containing tricky misconfiguration errors,
-such as entry missing errors, ordering errors, and
-value correlation errors.
-We extracted 20 MySQL configuration files to detect, 
-and grouped them into four categories according to their
-error types: missing entry, type error, ordering error
-and value correlation.
-Table~\ref{table:res} shows the evaluation results we use
-ConfigC to detect configuration errors in these 20 real-world
-configuration files.
-As shown in Table~\ref{table:res},
-ConfigC is able to successfully report the misconfiguration problems.
+\fi 
+
 
 \begin{table}[h]
 \centering
@@ -141,13 +122,25 @@ Value Correlation  & 4/5           & 0, 0, 0, 1, 0        \\
 \end{tabular}
 \end{table}
 
-\paragraph{Limitations.}
-ConfigC still has the following limitations.
+We implemented a prototype and evaluated it on 
+real-world MySQL configuration files~\cite{configdataset}.
+We manually extracted 20 files that contained errors which our tool 
+can detect and grouped them into four categories according to their
+error types: missing entry, type error, ordering error
+and value correlation. The evaluation results are shown in 
+Table~\ref{table:res}. We can see that the our tool can detect most of 
+the errors, with a low number of false positives. We believe that further
+studies in this direction will bring us better results
+
+\subsection{Limitations of ConfigC}
+Despite promising early results, ConfigC was a first experimental attempt 
+into formal verification of configuration files, and as such it still has several limitations.
 
 \begin{enumerate}
 
-\item ConfigC requires the datasets of configuration files for training 
-  have to be correct, which is hard to achieve in practice, since 
+\item ConfigC works on the premise that training dataset consists only 
+of correct files, which is hard to achieve in practice. In the 
+prototype we manually checked every file in the prototype. Clearly, this approach will not scale and  since 
   it is difficult for administrators or users to offer a
   set of 100\% correct configuration files for training.
 
