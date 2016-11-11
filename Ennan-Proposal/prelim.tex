@@ -6,20 +6,61 @@ we have proposed and developed a simple tool for verification of
 configuration files, named
 ConfigC~\cite{santolucitoCAV}. Motivated by promising preliminary
 results, which we obtained with ConfigC, we believe that automated 
-verification of configuration files, before they
-are deployed and installed, is possible and that it should be further studied.
+verification of configuration files is possible and that it should be further studied.
 
-From ConfigC we drew the main inspiration for this proposal. In particular, 
-ConfigC is a framework that first automatically
+From ConfigC we drew the main inspiration for this proposal. We now briefly
+outline how does ConfigC work. It first automatically
 analyzes datasets of correct configuration files, 
 and then derives rules for building a language model 
 from the given datasets.
-Finally, the resulting language model could be used to verify 
-new configuration files (called target configuration files) and 
-detect errors in these target configuration files.
-The configuration errors ConfigC can deal with cover:
+
+The algorithm can be summarized as follows: we identified several basic types, 
+such Boolean, Integer, File. With each of these files we associated a list 
+of templates. We then analyze {\emph {correct}} configuration files. When we 
+detect that a certain variable (or a pair of variable
+
+
+\begin{figure}
+	\centering
+\begin{minipage}{0.9\textwidth}
+\begin{parcolumns}{2}
+\colchunk{\begin{lstlisting}[language=C, frame=tb, xleftmargin=.01\textwidth]
+File 1:
+max_connections=300
+general_log=1
+...
+mysql.max_persistent=200
+\end{lstlisting}}
+
+\colchunk{\begin{lstlisting}[language=C, frame=tb, xleftmargin=.01\textwidth]
+File 2:
+max_connections=400
+general_log=0
+...
+mysql.max_persistent=200
+\end{lstlisting}}
+
+\colplacechunks
+\end{parcolumns}
+\end{minipage}
+	\caption{Fragments of two configuration files for configuring PHP on MySQL}
+\end{figure}
+
+
+The resulting language model, together with accompanying rules, 
+is then used to detect errors in new configuration files.
+ConfigC can detect the following errors in configuration files:
 entry missing errors, ordering errors, type errors and
-value correlation.
+simple value correlation. Running ConfigC on Example~1 from 
+Sec.~\ref{sec:intro-examples} returns the following output:
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+ORDERING ERROR: Expected extension "recode.so" BEFORE 
+extension "mysql.so"
+\end{lstlisting} 
+ConfigC could not detect an error present in Example~2 since it can detect 
+only simple comparison-based relations.
+
+
 To our knowledge, there is no existing effort that is able to detect
 the above errors, because they are very tricky to identify in
 practice.
