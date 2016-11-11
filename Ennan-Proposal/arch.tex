@@ -1,29 +1,33 @@
 
 \section{The \app Framework Overview}
+\label{sec:overview}
 
-We propose \app, an automatic verification framework for 
+We propose to build \app, an automatic verification framework for 
 software configuration files.
-In particular, \app can solve many sophisticated 
+In particular, \app is built upon ConfigC and aims at addressing
+all the limitations of ConfigC (mentioned in Sec.~\ref{sec:prelim}).
+\app is capable of detecting many sophisticated 
 configuration errors (\eg, ordering errors, missing entry errors,
-and fine-grained value correlation errors) that previous efforts cannot 
-detect. As depicted in Figure~\ref{fig-overview}, 
-a typical \app verification workflow has three steps:
+and fine-grained value correlation errors) that the
+state-of-art efforts cannot detect. 
+Figure~\ref{fig-overview} presents
+a typical \app verification workflow which contains three steps:
 translation, learning, and checking. In this section, we briefly
 describe how each step works.
 
 \paragraph{Initial phase.}
 We start with the assumption 
 that we are given a number of (not necessarily correct) 
-configuration files, called {\em sample dataset}, 
+configuration files, called {\em training set} (or sample dataset), 
 belonging to the same system, such as MySQL or Apache. 
 These files, therefore, follow similar patterns.
 %In the following steps,
 %we will exploit in a collection of learning algorithms 
 %to build rules that describe a language model for the files.
 
-\paragraph{Translator.}
-The translator module first parses the input sample 
-dataset (containing both configuration files and system environment
+\paragraph{Translator (Sec.~\ref{sec:lang}).}
+The translator module first parses the input training 
+set (containing both configuration files and system environment
 information), and then transforms them into a more structured
 and typed intermediate representation.
 When we infer the types of entries in a configuration file, 
@@ -51,9 +55,7 @@ as a training set to learn the rules.
 \label{fig-overview}
 \end{figure*}
 
-
-
-\paragraph{Learning.}
+\paragraph{Learning (Sec.~\ref{sec-learn}).}
 The input of the learner is a set of files that have been translated
 into well-structured representations (\ie, the translator's
 outputs). The learner module employs a collection of learning algorithms
