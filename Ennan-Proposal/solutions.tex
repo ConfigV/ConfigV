@@ -45,7 +45,7 @@ the learning set. This behavior can be formally described in Fig~\ref{fig:config
 C ::&\ \text{Correct Learning Set}\\
 C =&\ \text{\{Configuration Files in Intermediate Representation\}}\\
 LR ::&\ \text{Learned Rules} :: \{\textrm{Rule}\}\\
-LR =&\ \{ r\ \mid \forall file \in C,\ holds(r,file) \\
+LR =&\ \{ r\ \mid \forall file \in C,\ holds(r,file) \land \\
 &\qquad \ \exists file \in C,\ nontriviallyHolds(r,file)\} 
 \end{align*}
 \end{small}
@@ -60,6 +60,45 @@ The predicate $holds$ indicates that the rule should always be true -
 The predicate $nontriviallyHolds$ indicates that the rule should be true in a meaningful way.
 For instance, a file may only contain the keyword {\tt max\_connections} - the previous rule then holds vacuously,
  because we say {\tt max\_connections} is always greater than {\tt max\_persistent} if no value is provided for {\tt max\_persistent} in that file.
+
+\begin{figure}[!h]
+%\begin{subfigure}{.3\textwidth}
+%\begin{lstlisting}[mathescape=true]
+%n = {}
+%for (c in $C$):
+%  n1 = M(c)
+%  n = merge(n, n1)
+%\end{lstlisting}
+%\end{subfigure}%
+\begin{subfigure}{.07\textwidth}
+\underline{File 1}
+\begin{lstlisting}[mathescape=true]
+A
+B
+C
+\end{lstlisting}
+\end{subfigure}%
+\begin{subfigure}{.07 \textwidth}
+\phantom{R}
+\begin{lstlisting}[mathescape=true]
+AB
+AC
+BC
+\end{lstlisting}
+\end{subfigure}%
+\begin{subfigure}{.1\textwidth}
+\underline{File 2}
+\begin{lstlisting}[mathescape=true]
+A
+C
+B
+\end{lstlisting}
+\end{subfigure}%
+\end{figure}
+As an example of this process consider the situation where the training set contains two files, and the only rule we consider is ordering.
+File 1 contains keywords in the order $[A,B,C]$, and file 2 contains the ordred keywords $[A,C,B]$.
+File 1 will produce the set of possible rules $AB, BC, AC$ - and file 2 will produce $AC, CB, BC$.
+The only rule that holds for all the files in the training set is then $AC$, so only that rule will be included.
 
 We chose to employ this approach in our earlier work~\cite{santolucitoCAV} because any rule produced is guaranteed to be a correct rule.
 As opposed to a traditional machine learning approach, we have here a formal guarantee of rule coverage.
