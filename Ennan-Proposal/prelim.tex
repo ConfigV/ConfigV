@@ -9,23 +9,34 @@ results, which we obtained with ConfigC, we believe that automated
 verification of configuration files is possible and that it should be further studied.
 
 From ConfigC we drew the main inspiration for this proposal. We now briefly
-outline how does ConfigC work. It first automatically
-analyzes datasets of correct configuration files, 
-and then derives rules for building a language model 
-from the given datasets.
-
-The algorithm can be summarized as follows: we identified several basic types, 
+outline how does ConfigC work on two configuration files given in 
+Fig.~\ref{fig:twoFiles}. ConfigC first automatically
+analyzes a dataset of correct configuration files to derive
+ rules for describing a specification. Before that process even starts,
+we identified several basic types, 
 such Boolean, Integer, File. With each of these files we associated a list 
-of templates. We then analyze {\emph {correct}} configuration files. When we 
-detect that a certain variable (or a pair of variable
+of templates. We then analyze {\emph {correct}} configuration files. When analyzing
+a file, we first do type-checking, \ie we assign a type to every variable. 
+We next instantiate each template with the typed variables and we save the learned set 
+of rules. For instance, with integers we associate comparison templates, so after 
+analyzing File$_1$, the set of learned rules will contain:
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+max_connections=300
+mysql.max_persistent=200
+max_connections > mysql.max_persistent
+\end{lstlisting}
+The set of learned rules is changing with every file that we analyze: contradicting 
+files are removed and new rules are added. In practice, this process is done 
+in parallel. 
 
+After analyzing File$_2$ the rule \texttt{max\_connections = 300} is removed. 
 
 \begin{figure}
 	\centering
 \begin{minipage}{0.9\textwidth}
 \begin{parcolumns}{2}
 \colchunk{\begin{lstlisting}[language=C, frame=tb, xleftmargin=.01\textwidth]
-File 1:
+File_1:
 max_connections=300
 general_log=1
 ...
@@ -33,7 +44,7 @@ mysql.max_persistent=200
 \end{lstlisting}}
 
 \colchunk{\begin{lstlisting}[language=C, frame=tb, xleftmargin=.01\textwidth]
-File 2:
+File_2:
 max_connections=400
 general_log=0
 ...
@@ -44,14 +55,19 @@ mysql.max_persistent=200
 \end{parcolumns}
 \end{minipage}
 	\caption{Fragments of two configuration files for configuring PHP on MySQL}
+	\label{fig:twoFiles}
 \end{figure}
 
 
-The resulting language model, together with accompanying rules, 
-is then used to detect errors in new configuration files.
-ConfigC can detect the following errors in configuration files:
-entry missing errors, ordering errors, type errors and
-simple value correlation. Running ConfigC on Example~1 from 
+Once this preprocessing of training data is done, the resulting language model, 
+together with accompanying rules, 
+is used to detect errors in new configuration files given by the user.
+
+Additional to the described process we also developed algorithms for the 
+misconfigurations that cannot easily be templated. All together, ConfigC 
+can detect the following errors:
+missing entries, ordering errors, type errors and
+simple value correlations. Running ConfigC on Example~1 from 
 Sec.~\ref{sec:intro-examples} returns the following output:
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 ORDERING ERROR: Expected extension "recode.so" BEFORE 
