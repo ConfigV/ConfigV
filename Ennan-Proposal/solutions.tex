@@ -61,6 +61,7 @@ The predicate $nontriviallyHolds$ indicates that the rule should be true in a me
 For instance, a file may only contain the keyword {\tt max\_connections} - the previous rule then holds vacuously,
  because we say {\tt max\_connections} is always greater than {\tt max\_persistent} if no value is provided for {\tt max\_persistent} in that file.
 
+\com{
 \begin{figure}[!h]
 %\begin{subfigure}{.3\textwidth}
 %\begin{lstlisting}[mathescape=true]
@@ -95,10 +96,17 @@ B
 \end{lstlisting}
 \end{subfigure}%
 \end{figure}
-As an example of this process consider the situation where the training set contains two files, and the only rule we consider is ordering.
-File 1 contains keywords in the order $[A,B,C]$, and file 2 contains the ordred keywords $[A,C,B]$.
-File 1 will produce the set of possible rules $AB, BC, AC$ - and file 2 will produce $AC, CB, BC$.
-The only rule that holds for all the files in the training set is then $AC$, so only that rule will be included.
+}
+
+As an example of this process, consider the situation 
+where the training set contains two files F1 and F2, 
+and the only rule we consider is ordering.
+F1 contains keywords in the order $[A,B,C]$, 
+and F2 contains the ordered keywords $[A,C,B]$.
+F1 will produce the set of possible rules $AB, BC, AC$, 
+and F2 will produce $AC, CB, BC$.
+The only rule that holds for all the files in the training set is 
+then $AC$, so only that rule will be included.
 
 We chose to employ this approach in our earlier work~\cite{santolucitoCAV} because any rule produced is guaranteed to be a correct rule.
 As opposed to a traditional machine learning approach, we have here a formal guarantee of rule coverage.
@@ -207,11 +215,10 @@ number of false positives that are reported.
 \label{subsec-constraints}
 
 With a configuration file that has been verified against catastrophic
-failures (\eg, missing entry, type, and ordering errors), 
-the user may also want to examine more subtle issues.
-Anomalous values can cause tricky, but impactful, performance and memory
-issues that are hard to debug, as discussed in Example 4 of 
-$\S$\ref{sec-motiv}. 
+configuration errors (\eg, missing entry, type, and ordering errors), 
+the user may also want to examine some anomalous values,
+which may also cause tricky and critical performance
+issues that are hard to debug.
 Consequently, anomalous values should be flagged and a warning returned
 to the user indicating the violation.
 
