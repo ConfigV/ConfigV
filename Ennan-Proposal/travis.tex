@@ -23,10 +23,10 @@ TravisCI misconfigurations are important to fix because of the developer time co
 In addition to being time consuming to fix, a misconfiguration can cause a test suite to run up to 20 mins, only to report a misconfiguration~\cite{API}.
 The developer will need to wait to get such a report back to begin even identifying the error.
 
-Driven by the above motivating example, we propose an extension to \app that
-learns over a training set with both correct and incorrect examples, as well as a temporal structure.
-Such an extension employs an existing technique from the machine learning community, called version space learning,
-to significantly decrease the false positive rate while maintaining the detection capability of \app.
+%Driven by the above motivating example, we propose an extension to \app that
+%learns over a training set with both correct and incorrect examples, as well as a temporal structure.
+%Such an extension employs an existing technique from the machine learning community, called version space learning,
+%to significantly decrease the false positive rate while maintaining the detection capability of \app.
 
 \subsection{Version Space Learning with Temporal Properties} 
 
@@ -35,7 +35,7 @@ classification~\cite{mitchell77}, which we use to test a configuration file for 
 in the set of all correct files~.
 Traditional version space learning builds a model that tests membership
 using a series of disjunctions from a set of predefined hypotheses.
-Here we will instead use a conjuctions to convey that a configuration file must meet the learned criteria.
+Here we will instead use a conjunctions to convey that a configuration file must meet the learned criteria.
 This extension will build a logical formula representing the entire 
 history of examples, and use an SMT solver to find a classification model.
 
@@ -47,10 +47,10 @@ of the repository which contains the information
 relevant to the learning process.
 The subscript on $P_t$ is a timestamp tag based on 
 the ordered git commit history.
-In the case of TravisCI, this include the \verb|.travis.yml| file, 
-as well as code features that may effect build status, 
-such as programming language and a list of imported libraries.
-The summary must be \textit{sufficiently detailed}, that is it must contain every piece of information that might lead to a build error.
+%In the case of TravisCI, this include the \verb|.travis.yml| file, 
+%as well as code features that may effect build status, 
+%such as programming language and a list of imported libraries.
+%The summary must be \textit{sufficiently detailed}, that is it must contain every piece of information that might lead to a build error.
 
 %IMPORTANT, but no space
 %However, a git history is not a limited to a single linear timeline.
@@ -72,7 +72,7 @@ For brevity, we denote sequences of build statuses with the following notation:
   S(P_t)=Pass \land S(P_{t+1})=Err \implies S(P_{t,t+1}) = PE
 \end{align*}
 
-We now consider both incorrect and correct 
+We now consider both incorrect and correct files in the training set 
 and so must introduce the \textit{general boundary}.
 The general boundary is the dual of the specific boundary, and is the most relaxed requirement for a positive classification.
 We denoted specific boundary as the set of necessary relations $Nec$, and now denote the general boundary as the set of breaking relations $Br$.
@@ -82,7 +82,6 @@ With this notation, we can formally express the requirement that the program sum
 \end{align}
 
 From the above we know that if a build is erroring, then there must exist at least one error.
-%By pushing the negation into the formula,
 We can also know that if a build is passing, then there must not exist any errors.
 That is, the model of a passing commit must not contain any rules which are breaking.
 Note we are not, however, guaranteed that any rules from a passing commit are necessary.
