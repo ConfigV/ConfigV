@@ -1,0 +1,47 @@
+
+\section{Research Agenda}
+
+The primary work involved in this project
+falls into three broad categories:
+(i) defining a more comprehensive language model,
+(ii) developing new learning algorithms, and
+(iii) developing and evaluating \app
+  in real-world configuration files.
+
+\subsection{Defining A More Comprehensive Language Model}
+
+While we feel our proposed language model to be relatively comprehensive
+to capture many tricky misconfiguration cases,
+we will need to define a better language model to represent more types of
+configuration files. The configuration files of some of software systems, 
+\eg, squid, are not limited to the key-value parameters; thus,
+we need to extend the current language model in order to represent
+the configuration files of these systems.
+In addition, some other types of latent configuration errors 
+have been exposed by recent work~\cite{xu16early}.
+For example, the path parameter in a MySQL configuration file
+has an unknown user account. Such an error cannot be represented in
+our proposed language model. Thus, we need to improve it to capture
+more error types.
+
+\subsection{Proposing New Learning Algorithms}
+
+We are planning to develop new learning algorithm capable of extracting
+rules more accurately and efficiently. We plan to first investigate 
+some existing learning algorithms for learning program rules, \eg,
+Raychev {\em et al.}~\cite{raychev15predicting, raychev16learning},
+and then adapt these algorithms to our scenario, \ie, learning 
+the configuration file rules.
+
+\subsection{Deploying and Evaluating \app In Real-World Services}
+
+The project's third main task is to prototype \app and make \app
+practical to real-world misconfiguration verification,
+thus making \app become a useful tool in practice.
+We plan to evaluate the \app prototype's efficiency, usability, and
+accuracy using a variety of micro- and macrobenchmarks.
+For example, we can evaluate the efficiency and accuracy of 
+each module of \app, thus understanding \app's practicality.
+More importantly, we will use \app to detect real-world configuration
+files~\cite{configdataset}, and then manually check whether \app is able
+to successfully detect potential configuration files.
