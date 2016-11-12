@@ -3,11 +3,21 @@
 
 Configuration errors are one of the most important root causes of
 today's software system failures~\cite{xu15systems, yin11anempirical}.
-We read in the news that recently there was a problem in accessing  Facebook and Instagram \cite{mashableNews} and a Facebook spokeswoman that this was due to a change to the site's configuration systems.
-While program verification is mostly focused on detecting errors 
-in code, in their empirical study Yin {\em et al.}~\cite{yin11anempirical} report
-that about 31\% of system failures were caused by configuration errors problems and only 20\% were caused by bugs in program code. Configuration 
-errors are commonly known in literature under the name misconfigurations. 
+We read in the news that recently there was a problem in accessing  
+Facebook and Instagram~\cite{mashableNews}, 
+and a Facebook spokeswoman reported that 
+this was caused by a change to the site's configuration systems.
+In a recent software system failures study~\cite{yin11anempirical},
+researchers revealed that about 31\% of system failures were caused by 
+configuration errors, which is higher than the percentage of
+failures resulting from program bugs (20\%). 
+%(which and only 20\% were caused by bugs in program code 
+%While program verification is mostly focused on detecting errors 
+%in code, in their empirical study 
+%Yin {\em et al.}~\cite{yin11anempirical} report
+%that about 31\% of system failures were caused by configuration errors problems and only 20\% were caused by bugs in program code. 
+Configuration errors are commonly known in literature 
+under the name misconfigurations. 
 
 Misconfigurations, in practice, may result in various
 system-wide problems, such as security vulnerabilities, 
@@ -31,11 +41,14 @@ detect errors without executing the code.
 \label{sec:intro-examples}
 
 We start by presenting two non-trivial configuration errors
-extracted from real-world examples. Although the errors are relatively simple, we call them 
-non-trivial, because the majority of existing tools, \eg, learning-based checking
-tools~\cite{zhang14encore, wang04automatic}, cannot detect
-these configuration errors. Most of the presented examples were found on StackOverflow,
-a popular question and answer website for programmers.
+extracted from real-world examples. 
+Although the errors are relatively simple, we call them 
+non-trivial, because the majority of existing misconfiguration
+checking tools~\cite{zhang14encore, wang04automatic} cannot detect
+these configuration errors. 
+Most of the presented examples were found on
+StackOverflow~\cite{stackoverflow},
+a popular Q\&A website for programmers.
 
 \para{Example~1: Ordering errors.} 
 When a user configures PHP  to run with the Apache HTTP Server, most 
@@ -95,9 +108,10 @@ why we cannot simply apply the existing automatic
 tools and techniques to verification of configuration files are:
 \begin{itemize}
 \item a lack
-of a specification which would describe properties of configuration files
+of a specification describing properties of configuration files
 \item a program structure of configuration files -- they
-are mainly a sequence of entries assigning some value to system variables (we call them {\emph {keywords}}. 
+are mainly a sequence of entries assigning some value to system
+variables (called {\emph {keywords}}). 
 \end{itemize}
 The language in which configuration files are written does 
 not adhere to a specific grammar or syntax. In particular, the
