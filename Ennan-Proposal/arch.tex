@@ -4,56 +4,12 @@
 
 We propose to build \app, an automatic verification framework for 
 software configuration files, by exploring further the insights we 
-obtained when building ConfigC. 
-
-
-In particular, \app is built upon ConfigC and aims at addressing
-all the limitations of ConfigC (mentioned in Sec.~\ref{sec:prelim}).
-\app is capable of detecting many sophisticated 
-configuration errors (\eg, ordering errors, missing entry errors,
-and fine-grained value correlation errors) that existing
-efforts cannot detect. 
-Figure~\ref{fig-overview} presents
+obtained when building ConfigC. Figure~\ref{fig-overview} presents
 a typical \app verification workflow which contains three steps:
-translation, learning, and checking. In this section, we briefly
-describe how each step works.
+translation into an intermediary representation, a specification 
+learning, and checking the correctness of a given configuration file. 
 
-\paragraph{Initial phase.}
-We start with the assumption 
-that we are given a number of (not necessarily correct) 
-configuration files, called {\em sample dataset}, 
-belonging to the same system (\eg, MySQL or Apache)
-as the configuration file we want to verify (called as target
-configuration file). Thus, these files (including sample set
-and the target configure file) follow similar configuration patterns.
-%In the following steps,
-%we will exploit in a collection of learning algorithms 
-%to build rules that describe a language model for the files.
-
-\paragraph{Translator (Sec.~\ref{sec:lang}).}
-The translator module first parses the input sample dataset 
-(containing both configuration files and system environment
-information), and then transforms them into a more structured
-and typed intermediate representation, which follows
-our defined language model (see Sec.~\ref{sec:lang} 
-for more language model definition details).
-When we infer the types of entries in a configuration file, 
-the type of an entry cannot always be fully determined from 
-a single value, because: 1) it is very hard to understand
-the purposes of key-value entries in modern
-software configuration files~\cite{xu15hey},
-and 2) configuration files in the given sample dataset may contain 
-many incorrect entries.
-We, therefore, address this problem 
-by introducing {\em probabilistic types}.
-In particular, rather than giving a variable a single type, 
-we assign several types over a probability distribution. 
-We can later (in the learner module) use these more structured files
-(represented in our defined language model) 
-as a training set to determine those probabilistic types, 
-thus finally learning the rules. 
-
-\begin{figure*}[tbp] \centering
+\begin{figure*}[htbp] \centering
 \includegraphics[width=0.9\textwidth]{figs/overview}
 \caption{\app's workflow. The green components represent configuration 
   files, including both sample configuration datasets and users' input
@@ -66,11 +22,29 @@ thus finally learning the rules.
 \label{fig-overview}
 \end{figure*}
 
-\paragraph{Learning (Sec.~\ref{sec-learn}).}
-The input of the learner is a set of files that have been translated
-into well-structured representations (\ie, the translator's
-outputs). The learner module employs a collection of learning algorithms
-to generate various rules and constraints,
+\paragraph{Learning Specifications.}
+Similarly as before, we start with an assumption 
+that we are given a number of 
+configuration files belonging to the same system (\eg, MySQL or Apache).
+Additionally, we assume that files in this data set are 
+not necessarily correct, but if there are errors they appear only in some
+file. We then translate that dataset into a more structured
+and typed intermediate representation, which follows
+our defined language model (cf. Sec.~\ref{sec:lang}).
+Since the type of an entry cannot be fully determined from 
+the entry value, we introduce {\em probabilistic types}, which is
+a more flexible type notion: to a indefinite keyword it 
+assigns a list of possible types together with their probability 
+distribution. The learner module employs a collection of learning
+ algorithms to generate various rules and constraints.
+It uses type-annotated templates to infer the rules. In addition, 
+there are algorithms for detecting ordering errors and missing entry
+errors, which do not depend on templates. However, this time, 
+since the input set is not necessarily correct, the learned rules are
+also annotated with the probability indicating the likelihood of being 
+correct. 
+ 
+ 
 potentially used to handle different types of configuration errors.
 These rules and constraints are the outputs of the learner, 
 and will be used by the checker to detect errors later.
