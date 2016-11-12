@@ -44,16 +44,14 @@ since the input set is not necessarily correct, the learned rules are
 also annotated with the probability indicating the likelihood of being 
 correct. 
  
- 
-potentially used to handle different types of configuration errors.
-These rules and constraints are the outputs of the learner, 
-and will be used by the checker to detect errors later.
-Because the translator outputs probabilistically typed entries,
-the learner is responsible for determining a type for each entry.
+\iffalse
+There were some previous efforts to use templates for configuration files, \eg, EnCore~\cite{zhang14encore},
+which requires users or developers to provide explicit templates. The
+\app user does not need to provide any t 
+addition they could not detect errors
+Our approach is to use 
 
-\com{Different from previous efforts, \eg, EnCore~\cite{zhang14encore},
-which requires users or developers to provide explicit templates,
-\app's learner encodes some predefined error-patterns 
+ \app's learner encodes some predefined error-patterns 
 to generate rules. 
 As an illustration of a simple rule that we can learn,
 consider an encoded pattern $X_1 \le X_2$, where $X_1$ and $X_2$ are
@@ -64,9 +62,8 @@ existing work on automated configuration troubleshooting%
 ~\cite{yin11anempirical, configdataset}. 
 Each class can be viewed as an error-pattern 
 that \app should handle: we consider integer constraints, 
-ordering errors, typing errors, correlation errors, etc.}
+ordering errors, typing errors, correlation errors, etc.
 
-\com{
 Although the learner has been capable of generating ruldoes not necessarily rely on templates,
 \app still offers a database containing many templates,
 as shown in Figure~\ref{fig-overview}.
@@ -79,20 +76,13 @@ the owner of a certain path, without information
 about the environment. 
 In order to deal with comprehensive misconfiguration problems,
 the learner needs a template DB to provide environment information,
-thus detecting system environment-related configuration errors.}
+thus detecting system environment-related configuration errors.
 
-\paragraph{Checking.}
-The checker is used to detect rule violations in the configuration
-files of interest. The inputs of the checker are the learned rules,
-and the target configuration file to verify.
-First, the checker translates the target configuration file into
-the representation in our language model, and
-then reports whether it has errors by checking it with the
-learned rules. 
+\fi
+
+\paragraph{Correctness Checking.}
+The checker takes as input a configuration files and reports 
+it the file adheres to the learned specification. In addition, it 
+will also check if the keyword values fall into a certain range and they are not significantly different than the value usually used.
 The checker generates a report (as shown in Sec.~\ref{sec:prelim}) about 
-what errors the target configuration file has.
-As shown in Figure~\ref{fig-overview},
-there are two sub-modules in the checker. They are responsible for
-checking rule violations and suspicious values, respectively.
-In our experience, we found learned rules could be significantly reused
-to check different configuration files, thus improving our usability.  
+found errors.
