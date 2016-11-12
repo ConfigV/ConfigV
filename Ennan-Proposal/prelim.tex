@@ -9,7 +9,7 @@ results, which we obtained with ConfigC, we believe that automated
 verification of configuration files is possible and that it should be further studied.
 
 From ConfigC we drew the main inspiration for this proposal. We now briefly
-outline how does ConfigC work. It first automatically
+outline how ConfigC works. It first automatically
 analyzes a dataset of correct configuration files to derive
  rules for describing a specification. Before that process even starts,
 we identified several basic types, 
@@ -28,8 +28,8 @@ max_connections=300
 mysql.max_persistent=200
 max_connections > mysql.max_persistent
 \end{lstlisting}
-The set of learned rules is changing with every file that we analyze: contradicting 
-files are removed and new rules are added. After analyzing File\_2 the rule \texttt{max\_connections = 300} is removed. In practice, this process is done 
+The set of learned rules changes with every analyzed file: contradicting 
+rules are removed and new rules are added. After analyzing File\_2 the rule \texttt{max\_connections = 300} is removed. In practice, this process is done 
 in parallel. 
 
 
@@ -61,8 +61,8 @@ mysql.max_persistent=200
 \end{figure}
 
 
-Additionally to the described process, we also developed algorithms for 
-the misconfigurations that cannot easily be templated. All together, 
+Additionally, we also developed algorithms for 
+misconfigurations that cannot easily be templated. All together, 
 ConfigC can detect the following errors:
 missing entries, ordering errors, type errors and
 simple value correlations. Once this preprocessing of training data is 
@@ -76,7 +76,7 @@ Sec.~\ref{sec:intro-examples} returns the following output:
 ORDERING ERROR: Expected extension "recode.so" BEFORE 
 extension "mysql.so"
 \end{lstlisting} 
-ConfigC could not detect an error present in Example~2 since it can detect 
+ConfigC could not detect the error present in Example~2 since it can detect 
 only simple comparison-based relations.
 
 \iffalse
@@ -141,23 +141,23 @@ into formal verification of configuration files, and as such it still has severa
 \item ConfigC works on the premise that the training dataset consists 
 only of correct files, which is hard to achieve in practice. In the 
 prototype we manually checked every file in the prototype. Clearly, this 
-approach will not scale in practice. There exist a large set of 
+approach will not scale. There exist a large set of 
 real-world misconfigurations~\cite{configdataset}. Nevertheless, the 
 errors are distributed through the files and do not all appear at the 
 same spot. We believe that it should be possible to construct a correct
 specification from the rules that hold in a significant majority of the 
 files.
 
-\item A language model used in ConfigC cannot handle a simple version of 
-the {\tt {if-then}} command that sometimes appears in some configuration
+\item The language model used in ConfigC cannot handle a simple version of 
+the {\tt {if-then}} command that appears in some configuration
 files (such as Apache HTTPD). We already pointed out some issues with 
-parsing and possible wrong typing. We need to develop a more 
+parsing and possible incorrect typing. We need to develop a more 
 accurate model which will be a uniform representation for diverse
   configuration files.
 
 \item ConfigC offers only a limited number of templates to to detect 
 correlation errors on keywords. It can detect, for example, 
-keyword comparisons, but in practice many software outages were 
+keyword comparisons, but in practice many software outages are 
 caused by more complex correlations (also called
   fine-grained correlations~\cite{correlation}). As an illustration,
   ConfigC cannot find an error in Example~2 in 
@@ -166,10 +166,10 @@ Sec.~\ref{sec:intro-examples}. However, to detect more complex rules, we will ne
 
 \item ConfigC cannot check for anomalies in a value set for one particular keyword. For example,
   setting a parameter, which relates memory in MySQL configuration 
-  files, too large can cause exhausting the RAM and causing extreme 
+  files, too large can exhaust the RAM, leading to extreme 
   slowness or even a crash. Such an anomalous value does not violate any
-  previously mentioned constraints (such as type errors or ordering errors), but yet 
-  it makes system behave wrongly.
+  previously mentioned constraints (such as type errors or ordering errors), but 
+  it makes system behave incorrectly.
 
 \end{enumerate}
 

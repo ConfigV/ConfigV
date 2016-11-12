@@ -3,7 +3,7 @@
 
 Configuration errors are one of the most important root causes of
 today's software system failures~\cite{xu15systems, yin11anempirical}.
-We read in the news that recently there was a problem in accessing  
+Recently, there was a problem in accessing  
 Facebook and Instagram~\cite{mashableNews}, 
 and a Facebook spokeswoman reported that 
 this was caused by a change to the site's configuration systems.
@@ -63,22 +63,22 @@ extension = mysql.so
 ...
 extension = recode.so
 \end{lstlisting} 
-In that case the configuration file will cause the Apache server to 
+In this case, the configuration file will cause the Apache server to 
 fail to start due to a segmentation fault error. 
 This is because, when using PHP in Apache, the extension {\tt mysql.so} 
 depends on {\tt recode.so}, and their relative ordering
-is crucial. This is an example of so-called {\em ordering error}.
+is crucial. This is an example of an {\em ordering error}.
 Yin {\em et al.} report that ordering errors widely exist in
 many system configurations, \eg, PHP and MySQL,
 and typically lead to multiple system crash events.
-However, no existing tool in the systems research can effectively solve 
+However, no existing tool in the systems research area can effectively solve 
 or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
 
 
 \para{Example~2: Fine-grained value correlation error.} 
-Next example also comes from a discussion on 
+Our next example also comes from a discussion on 
 StackOverflow~\cite{correlation}.
-The user has configured her MySQL as in the following:
+The user has configured her MySQL as follows:
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 key_buffer_size = 384M
 max_heap_table_size = 128M
@@ -91,14 +91,14 @@ read_buffer_size = 32M
 read_rnd_buffer_size = 8M
 ...
 \end{lstlisting} 
-The user then complained that her MySQL load was very high, causing the website's
+The user complained that her MySQL load was very high, causing the website's
 response speed to be very slow.
 In this case, {\tt key\_buffer\_size} is used by all the threads
 cooperatively, while {\tt join\_buffer} and {\tt sort\_buffer} are 
 created by each thread for private use; thus, the maximum amount
 of used key buffer, \ie, {\tt key\_buffer\_size}, should be larger than 
 {\tt join|sort\_buffer\_size} * {\tt max\_connections}. 
-Clearly, in the above example, it does not hold, 
+Clearly, in the above example, this does not hold, 
 so this misconfiguration causes MySQL to load very slowly.
 This type of error is more sophisticated than the simple value correlation that some tools can detect~\cite{yin11anempirical, zhang14encore}.
 
@@ -107,22 +107,23 @@ This type of error is more sophisticated than the simple value correlation that 
 \label{sec:intro-chal}
 
 We believe there are two main obstacles 
-why we cannot simply apply the existing automatic 
-tools and techniques to verification of configuration files are:
+to simply applying the existing automatic 
+tools and techniques to verification of configuration files:
 \begin{itemize}
-\item a lack
+\item the lack
 of a specification describing properties of configuration files
-\item a program structure of configuration files -- they
+\item the structure of configuration files -- they
 are mainly a sequence of entries assigning some value to system
 variables (called {\emph {keywords}}). 
 \end{itemize}
 The language in which configuration files are written does 
 not adhere to a specific grammar or syntax. In particular, the
-entries in configuration files are untyped. Moreover, there are surprisingly few rules specifying constraints on entries and there
+entries in configuration files are untyped. Moreover, there are surprisingly few rules specifying constraints on entries, and there
 is no explicit structure policy for the entries.
-We believe that those are the reasons why there is no automated verification of configuration 
-files although the system community expressed that that would be highly
-desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
+We believe these to be the reason for the %that those are the reasons why there is no
+lack of automated verification of configuration 
+files,% although the system community expressed that that would be highly desirable
+despite the systems community desires for such verification~\cite{wang04automatic, zhang14encore, xu15systems}.
 
 
 \subsection{Automated Verification of Configuration Files}
@@ -136,19 +137,20 @@ users to write an entire specifications for configuration files on their own.
 This process can easily lead to incomplete or even contradictory 
 specifications. Instead, we will learn specification from 
 a large sample of 
-configuration files. A learning process will take as input this 
-sample. The process will be language-agnostic and should work for any kind 
+configuration files,%A learning process will take as input this sample.
+which will be taken by the learning process as input.
+The process will be language-agnostic and should work for any kind 
 of configuration files,  but all of the files in the sample need to be of 
 the same kind (such as MySQL or 
 HTTPD configuration files). From that sample, we will learn an abundant set of rules 
 specifying various properties that hold on the given sample. The rules, in general, 
 specify which properties keywords in configuration files need to satisfy. One can see this learning process as 
 a way of deriving  a specification for configuration files. 
-It is also hard to talk here about a complete specification, but 
+It is hard to talk here about a complete specification, but 
 still having some specification is better than none, and we plan to 
 increase the preciseness of a specification as we gain a better 
 understanding of the formalism needed for its description.
-Having a specification, we can efficiently check 
+With a specification, we can efficiently check 
 the correctness of the configuration files of interest and detect 
 potential errors. Errors are reported if the configuration file does not 
 adhere to the derived specification.
@@ -172,11 +174,11 @@ keyword {\tt general\_log}. However, 1 here is a Boolean variable,
 which denotes that there will be a general log file.
 Another example, which often appears in practice, shows how keyword names and 
 their ``types'' can easily lead to an error. Consider the
-following entry {\tt general\_log = /var/log/mysql/mysql.log}. Although this statement 
-alone might look correct, this is actually a typing error and as a result MySQL log cannot be correctly written.
+entry {\tt general\_log = /var/log/mysql/mysql.log}. Although this statement 
+alone might look correct, this is actually a typing error which will prevent the MySQL log from being correctly written.
 
 Second, we will learn patterns describing keywords and their relations. We will associate with each type a set of very general templates. The user does not need to provide any templates -- they are internally associated to the types.
-Nevertheless, in addition to those general templates, we still need specific algorithms to learn
+In addition to those general templates, we still need specific algorithms to learn
 rules that cannot be easily templated (such as ordering rules). 
 
 We will implement this verification framework and call it \app (for continuity reasons

@@ -2,10 +2,10 @@
 \label{sec:lang}
 
 There are several types of configuration 
-files and each has different representation. Our goal is to find a good 
+files, and each has a different representation. Our goal is to find a good 
 intermediary representation that will be language-agnostic. In general,
-one can complain that a design of configuration files is pretty low 
-level and that we need a new programming language for them. We agree with 
+one could argue that the design of configuration files is pretty low 
+level, and that we need a new programming language for them. We agree with 
 that assertion, and actually our intermediary representation can be seen
 as a new programming paradigm for writing configuration files, but this
 is not the focus of this proposal. Previously, Huang {\em et al.}~\cite{huang15confvalley} proposed a 
@@ -23,8 +23,8 @@ The translator can be seen a parser, and it is
 used to translate files into an intermediate representation.
 
 Translating or parsing is system dependent. In other words, for MySQL
-and HDFS, we need to develop different parsers to handle each of them,
-respectively. Configuration files mainly consists of assignments of the form {\tt {keyword = value}}. Our first attempt was to simply
+and HDFS, we need to develop different parsers.
+Configuration files mainly consists of assignments of the form {\tt {keyword = value}}. Our first attempt was to simply
 translate every key-value entry {\tt {k = v}} into a triple $(k, v, \tau)$, where $\tau$ is a type of 
 $v$. However, sometimes we could not fully determine the type of key 
 based on a single example value. For this reason, we introduced {\emph {probabilistic types}}.
@@ -58,7 +58,7 @@ Once the type inference can uniquely determine the type,
 the probability of all other types is set to zero, 
 and the associated rules are withdrawn. With the help of probabilistic types, we addressed ambiguities during the parsing phase. 
 
-In \app, the set $\mathcal{T}$ should contains strings, integers, file paths, 
+In \app, the set $\mathcal{T}$ should contain strings, integers, file paths, 
 sizes, and IP addresses. With every type, we associate a list of templates 
 that are used to learn the rules about those files. Table~\ref{table:kysymys} contains
 the most important types and templates.
@@ -82,7 +82,7 @@ the most important types and templates.
 \end{table}
 
 In general, the templates works as follows: if there are two entries ${\tt {k1 = v1}}$ and 
-${\tt {k2 = v2}}$, and let $t(X, Y)$ be a template that can be applied to those values (w.r.t. their types).
+${\tt {k2 = v2}}$, such that $t(X, Y)$ is a template that can be applied to those values (w.r.t. their types).
 If $t(v1, v2)$ holds, \ie, the template condition is valid for those concrete values, then we will add a rule
 $t(k1, k2)$ to a list of potentially correct specifications. Note that the rule expresses a relation between keywords, and not values.
 

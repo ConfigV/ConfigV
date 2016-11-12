@@ -6,8 +6,8 @@ We propose to build \app, an automatic verification framework for
 software configuration files, by exploring further the insights we 
 obtained when building ConfigC. Figure~\ref{fig-overview} presents
 a typical \app verification workflow which contains three steps:
-translation into an intermediary representation, a specification 
-learning, and checking the correctness of a given configuration file. 
+translation into an intermediary representation, learning of a specification,
+and checking the correctness of a given configuration file. 
 
 \begin{figure*}[htbp] \centering
 \includegraphics[width=0.9\textwidth]{figs/overview}
@@ -23,18 +23,18 @@ learning, and checking the correctness of a given configuration file.
 \end{figure*}
 
 \paragraph{Learning Specifications.}
-Similarly as before, we start with an assumption 
+As with ConfigC, we start with an assumption 
 that we are given a number of 
 configuration files belonging to the same system (\eg, MySQL or Apache).
-Additionally, we assume that files in this data set are 
+Additionally, we assume that files in this dataset are 
 not necessarily correct, but if there are errors they appear only in some
-file. We then translate that dataset into a more structured
+files. We then translate the dataset into a more structured
 and typed intermediate representation, which follows
 our defined language model (cf. Sec.~\ref{sec:lang}).
 Since the type of an entry cannot be fully determined from 
-the entry value, we introduce {\em probabilistic types}, which is
-a more flexible type notion: to a indefinite keyword it 
-assigns a list of possible types together with their probability 
+the entry value, we introduce {\em probabilistic types}, which are
+a more flexible type notion: to an indefinite keyword it 
+assigns a list of possible types, along with their probability 
 distribution. The learner module employs a collection of learning
  algorithms to generate various rules and constraints.
 It uses type-annotated templates to infer the rules. In addition, 
@@ -81,8 +81,8 @@ thus detecting system environment-related configuration errors.
 \fi
 
 \paragraph{Correctness Checking.}
-The checker takes as input a configuration files and reports 
-it the file adheres to the learned specification. In addition, it 
-will also check if the keyword values fall into a certain range and they are not significantly different than the value usually used.
+The checker takes as input a configuration file and reports 
+if the file adheres to the learned specification. In addition, it 
+will also check that the keyword values fall into a certain range and they are not significantly different than the value usually used.
 The checker generates a report (as shown in Sec.~\ref{sec:prelim}) about 
 found errors.
