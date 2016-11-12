@@ -28,14 +28,17 @@ functionality, and incorrect program executions%
 The systems research community has recognized this as an important
 problem. In fact, at this year's OSDI conference (Operating Systems
 Design and Implementation, a top-tier system conference) a paper on
-detecting configuration errors~\cite{xu16early} received the best paper 
+detecting configuration errors by emulating the late execution
+ ~\cite{xu16early} received the best paper 
 award. While many efforts have been proposed to check, troubleshoot, diagnose, and repair configuration errors~\cite{attariyan10automating,
 su07autobash, whitaker04configuration},
 those tools mainly try to understand {\emph{what}} caused the 
 error -- they are still not on a level of
 automatic verification tools used for regular program 
 verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
-detect errors without executing the code.
+detect errors without executing the code. Our proposal offers 
+automated verification of configuration files: we are analyzing 
+files and proactively reporting potential errors, without waiting for them to happen.
 
 \subsection{Examples}
 \label{sec:intro-examples}
@@ -140,10 +143,15 @@ the same kind (such as MySQL or
 HTTPD configuration files). From that sample, we will learn an abundant set of rules 
 specifying various properties that hold on the given sample. The rules, in general, 
 specify which properties keywords in configuration files need to satisfy. One can see this learning process as 
-a way of deriving  a specification for configuration files. With these  rules we can efficiently check 
+a way of deriving  a specification for configuration files. 
+It is also hard to talk here about a complete specification, but 
+still having some specification is better than none, and we plan to 
+increase the preciseness of a specification as we gain a better 
+understanding of the formalism needed for its description.
+Having a specification, we can efficiently check 
 the correctness of the configuration files of interest and detect 
 potential errors. Errors are reported if the configuration file does not 
-adhere to a specification.
+adhere to the derived specification.
 
 For practical purposes we plan to use a real-world dataset~\cite{configdataset}. The 
 files in the sample might contain
