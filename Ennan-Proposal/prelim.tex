@@ -138,34 +138,39 @@ into formal verification of configuration files, and as such it still has severa
 
 \begin{enumerate}
 
-\item ConfigC works on the premise that training dataset consists only 
-of correct files, which is hard to achieve in practice. In the 
-prototype we manually checked every file in the prototype. Clearly, this approach will not scale and  since 
-  it is difficult for administrators or users to offer a
-  set of 100\% correct configuration files for training.
+\item ConfigC works on the premise that the training dataset consists 
+only of correct files, which is hard to achieve in practice. In the 
+prototype we manually checked every file in the prototype. Clearly, this 
+approach will not scale in practice. There exist a large set of 
+real-world misconfigurations~\cite{configdataset}. Nevertheless, the 
+errors are distributed through the files and do not all appear at the 
+same spot. We believe that it should be possible to construct a correct
+specification from the rules that hold in a significant majority of the 
+files.
 
-\item The language model of ConfigC is still a starting point. It
-  is hard to formulate a uniform representation for diverse
-  configuration files.\ennan{we still need to put one more sentence
-  here to distinguish why our current language model is better
-  than ConfigC's language model}
+\item A language model used in ConfigC cannot handle a simple version of 
+the {\tt {if-then}} command that sometimes appears in some configuration
+files (such as Apache HTTPD). We already pointed out some issues with 
+parsing and possible wrong typing. We need to develop a more 
+accurate model which will be a uniform representation for diverse
+  configuration files.
 
-\item ConfigC can only offer coarse-grained value correlation errors,
-  \eg, $\texttt{max\_connections} > \texttt{mysql.max\_persistent}$.
-  In practice, many software outages were caused by more tricky, called
-  fine-grained value correlation~\cite{correlation}. For example, 
-  in a MySQL configuration file, $\texttt{key\_buffer\_size}$ should be 
-  higher than $\texttt{max\_connections} \times 
-  \texttt{sort\_buffer\_size}$~\cite{correlation};
-  otherwise, the MySQL load will be very high.
+\item ConfigC offers only a limited number of templates to to detect 
+correlation errors on keywords. It can detect, for example, 
+keyword comparisons, but in practice many software outages were 
+caused by more complex correlations (also called
+  fine-grained correlations~\cite{correlation}). As an illustration,
+  ConfigC cannot find an error in Example~2 in 
+Sec.~\ref{sec:intro-examples}. However, to detect more complex rules, we will need to use tools like SMT solvers \cite{z3, cvc4}.
 
-\item ConfigC cannot check singular value anomalies. For example,
-  a parameter relating to memory in MySQL configuration files is
-  setted too large, exhausting the RAM and causing extreme slowness
-  or even a crash. Such an anomalous value does not violate any
-  constraints (\eg, type error and value ordering error), but 
+
+\item ConfigC cannot check for anomalies in a value set for one particular keyword. For example,
+  setting a parameter, which relates memory in MySQL configuration 
+  files, too large can cause exhausting the RAM and causing extreme 
+  slowness or even a crash. Such an anomalous value does not violate any
+  previously mentioned constraints (such as type errors or ordering errors), but yet 
   it makes system behave wrongly.
 
 \end{enumerate}
 
-This proposal aims to address the above limitations. 
+This proposal aims to address all the above limitations. 
