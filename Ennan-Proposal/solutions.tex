@@ -121,8 +121,8 @@ This approach is most closely related to version space learning~\cite{mitchell77
 \subsection{Derivation of ConfigV Rules}
 \label{subsec-rules}
 
-In \app's learner module, we release the assumption in the above
-solution, which means the rule learning mechanism is tolerant 
+In \app's learner module we need to develop a learning mechanism
+that is tolerant 
 enough to accept a dataset of possibly incorrect configuration files.
 Rather than manually correcting each file, 
 we extend the ConfigC formalism to run probabilistic learning
@@ -147,32 +147,28 @@ If a template is instantiated and we obtain rule $r$, with  the predicate
 $\mathit{holds}(r,f)$ we state that either $\mathit{appears}(r,f)$ holds, or $r$ could not be instantiated with keywords from $f$. With every 
 rule $r$ we define two sets:
 \begin{align*}
-S_A(r)& =\{ \ f\ | \ \mathit{appears}(r,f)\  \} \\
-S_H(r)& =\{ \ f\  | \ \mathit{holds}(r,f) \ \}
+S_A(r)& =\{ \ f \in \mathcal{U}\ | \ \mathit{appears}(r,f)\  \} \\
+S_H(r)& =\{ \ f \in \mathcal{U}\  | \ \mathit{holds}(r,f) \ \}
 \end{align*}
 We define then set $\mathcal{PR}$ as
 $$\mathcal{PR} = \{\ r \ \mid \ |S_A(r)| > T_1 \land |S_H(r)| > T_2 \ \} $$
 where $T_1$ is a threshold value for considering rules which are true in 
 majority of cases, and $T_2$ is a threshold value for considering rules 
 for which we have at least some examples that that rule is will 
-appear in the files.
-
-\ruzica{Read this and weep, Santolucito!}
-We use $\Pi$ and $\Psi$ in Fig~\ref{fig:configV} to indicate that the rule holds for some critical portion of the files.
-The intuition behind these quantifiers are that we want to consider rules which are true in majority of cases ($\Pi$), 
-and for which we have at least some examples for which that rule is nontrivially true ($\Psi$).
-The exact definition and implementation of $\Pi$ and $\Psi$ is a research question still to be solved.
+appear in the files. Finding the exact values of $T_1$ and $T_2$ is 
+and their connection to $|\mathcal{U}|$
+is a question still to be solved.
 Even taking a simple majority voting approach, we must find the cutoff value that will yield the best results in learning.
 We plan to try multiple strategies to find these values.
 One approach may be to use machine learning for program autotuning, with a tool like OpenTuner~\cite{ansel:pact:2014}.
 This requires creating some cost function for which the autotuning can optimize.
-Additionally, it is possible that $\Pi$ and $\Psi$ differ depending on the quality of the learning set and/or the particular type of rule being learned.
+Additionally, it is possible that $T_1$ and $T_2$ differ depending on the quality of the learning set and/or the particular type of rule being learned.
 Building a clear formalization and a modular tool to explore these questions is major task.
 
-Note that this approach differs from a unsupervised learning setting~\cite{hastie2009unsupervised} where the training set is completely unlabelled and seeks to discover some hidden underlying strucutre.
-Although still unlabelled, we make the assumption that some majority of the training set must be correct.
+Note that this approach differs from a unsupervised learning setting~\cite{hastie2009unsupervised} where the training set is completely unlabeled and seeks to discover some hidden underlying structure.
+Although our set is also unlabeled, we make the assumption that some majority of the training set must be correct for their biggest part.
 We are again learning a model which will provide clear justification (error locations) for the classification.
-However, now we do not have the formal guarantees of the ConfigC approach.
+However, with this approach we will not have the formal guarantees of the ConfigC approach.
 From previous work, we believe this is a worthwhile trade-off in order to decrease the fasle positive rate.
 
 \iffalse
@@ -224,15 +220,14 @@ number of false positives that are reported.
 \subsection{Learning Suspicious Constraints}
 \label{subsec-constraints}
 
-With a configuration file that has been verified against catastrophic
-configuration errors (\eg, missing entry, type, and ordering errors), 
-the user may also want to examine some anomalous values,
-which may also cause tricky and critical performance
-issues that are hard to debug.
+In addition to checking for correlation, type- or ordering errors, 
+the user may also want to examine if there are anomalous values that 
+a keyword is assigned to. Such errors may also cause tricky and critical performance issues that are hard to debug.
 Consequently, anomalous values should be flagged and a warning returned
 to the user indicating the violation.
 
-We now describe the technique we use to detect anomalous values for 
+We now describe a technique that we plan to 
+explore to detect anomalous values for 
 numerical attributes. Let $A$ be the set of attributes contained in the 
 configuration files in the sample dataset. 
 Let $A_n$ be the subset of attributes of $A$ which are numerically typed. 
@@ -243,8 +238,8 @@ an interval  $$[\hat{v_a} - 50*MAD(v_a), \hat{v_a} + 50*MAD(v_a)],$$
 where $\hat{v_a}$ represents the median over the values 
 in $v_a$ and $MAD(v_a$) refers to the 
 median absolute deviation. 
-This is a variant of a standard outlier detection test, namely the Hampel identifier.\footnote{Mathematically, $MAD(v_a) = 1.4826* median(|v_a - \hat{v_a}|)$, estimating standard deviation 
-for a normal distribution.} 
+This is a variant of a standard outlier detection test, namely the Hampel identifier. (Mathematically, $MAD(v_a) = 1.4826* median(|v_a - \hat{v_a}|)$, estimating standard deviation 
+for a normal distribution.) 
 In the checking phase, as long as the checker finds a value for a numerical 
 attribute in the checked file outside of this interval, 
 a warning would be printed to the user indicating the violating value, 
