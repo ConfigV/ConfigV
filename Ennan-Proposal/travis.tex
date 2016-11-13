@@ -1,27 +1,27 @@
 
-\section{Extending \app Via Version Space Learning}
+\section{Extending \app and Applying it to Real-World Configurations}
 \label{sec:travis}
 
-The current design of \app does not have any assumptions on whether the
-configuration files in the training sets are correct or 
-incorrect, thus making \app more general and practical.
-%We show in Sec~\ref{sec:correctExten} how adding set of known correct files to 
-%the learning process can improve the false positive rate.
-In fact, we occasionally have a training set labeled as both correct and incorrect files.
-Furthermore, such a training set may have more embedded information that can be leveraged, such as temporal structure.
-Temporal structure in training sets is available when code has a change history, such as in version control.
-
-One such example of such a training set of configuration files is TravisCI~\cite{API}.
-TravisCI, a popular integration and build testing service connected to Github.
+TravisCI~\cite{API} is a popular integration and build testing service 
+connected to Github. It has been used on more than 17 
+millions of projects. 
 TravisCI allows programmers to automatically run their test suite on a fresh virtual machine every time they commit their code.
 A TravisCI user must add a configuration file to the repository that specifies build conditions, 
 such as which dependencies are required, and a set of benchmarks to test. 
 The results of these tests (indicating either passing, failing, or misconfiguration) 
 are saved by TravisCI on a publicly available database~\cite{API}.
 
-TravisCI misconfigurations are important to fix because of the developer time cost. 
-In addition to being time consuming to fix, a misconfiguration can cause a test suite to run up to 20 mins, only to report a misconfiguration~\cite{API}.
+TravisCI misconfigurations are important to detect and correct 
+because of any failed compilation can costs developer significant amount 
+of time. A misconfiguration can cause a test suite to run up to 20 
+minutes, only to report a misconfiguration~\cite{API}.
 The developer will need to wait to get such a report back to begin even identifying the error.
+
+A new challenge here is that we need to reason about a 
+temporal component too. Having an entire TravisCI log for a given
+project we can examine the sequence of changes of a configuration file
+and we can detect what has changed so that we switched from a failing 
+compilation to successful compilation. 
 
 %Driven by the above motivating example, we propose an extension to \app that
 %learns over a training set with both correct and incorrect examples, as well as a temporal structure.
@@ -32,10 +32,20 @@ The developer will need to wait to get such a report back to begin even identify
 
 Version space learning builds a logical constraint model for binary
 classification~\cite{mitchell77}, which we use to test a configuration file for membership
-in the set of all correct files~.
-Traditional version space learning builds a model that tests membership
-using a series of disjunctions from a set of predefined hypotheses.
-Here we will instead use a conjunctions to convey that a configuration file must meet the learned criteria.
+in the set of all correct files.
+Traditionally, version space learning builds a model that defines membership using a series of disjunctions from a set of predefined hypotheses. However, we need  to use conjunctions to convey that a configuration file is only correct if it satisfies all the learned relations, as
+
+
+\begin{figure}[!tbh]
+  \centering
+  \begin{tikzpicture}
+    \draw (2,0) rectangle (6,2); \draw (2.5,0.5) rectangle (5.5,1.5);
+  \end{tikzpicture}
+  \caption{System architecture of }
+  \label{fig:screenshot1}
+\end{figure}
+
+ Adding this temporal component, 
 This extension will build a logical formula representing the entire 
 history of examples, and use an SMT solver to find a classification model.
 
