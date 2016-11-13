@@ -138,7 +138,7 @@ these permutations constitute a rule.
 Broadly speaking, we accept rule patterns that appear frequently enough.
 
 We now describe a formalism how to compute the set of learned
-probabilistic rules, denoted with $\mathcal{PR}$.
+probabilistic rules, denoted by $\mathcal{PR}$.
 With $\mathcal{U}$ we denote a set of configuration files in the 
 intermediate representation. If a template can be instantiated with
 keywords from file $f$ and the obtained rule $r$ holds, we state that with the predicate 
@@ -166,10 +166,10 @@ Additionally, it is possible that $T_1$ and $T_2$ differ depending on the qualit
 Building a clear formalization and a modular tool to explore these questions is major task.
 
 Note that this approach differs from a unsupervised learning setting~\cite{hastie2009unsupervised} where the training set is completely unlabeled and seeks to discover some hidden underlying structure.
-Although our set is also unlabeled, we make the assumption that some majority of the training set must be correct for their biggest part.
+Although our set is also unlabeled, we make the assumption that some majority of the training set must be correct.% for their biggest part.
 We are again learning a model which will provide clear justification (error locations) for the classification.
 However, with this approach we will not have the formal guarantees of the ConfigC approach.
-From previous work, we believe this is a worthwhile trade-off in order to decrease the fasle positive rate.
+From previous work, we believe this is a worthwhile trade-off in order to decrease the false positive rate.
 
 \iffalse
 Note that the formalism relies on Algorithm~\ref{alg:plearn}. The algorithm considers both typed templates and
@@ -220,7 +220,7 @@ number of false positives that are reported.
 \subsection{Learning Suspicious Constraints}
 \label{subsec-constraints}
 
-In addition to checking for correlation, type- or ordering errors, 
+In addition to checking for correlation, type, or ordering errors, 
 the user may also want to examine if there are anomalous values that 
 a keyword is assigned to. Such errors may also cause tricky and critical performance issues that are hard to debug.
 Consequently, anomalous values should be flagged and a warning returned
@@ -240,7 +240,7 @@ in $v_a$ and $MAD(v_a$) refers to the
 median absolute deviation. 
 This is a variant of a standard outlier detection test, namely the Hampel identifier. (Mathematically, $MAD(v_a) = 1.4826* median(|v_a - \hat{v_a}|)$, estimating standard deviation 
 for a normal distribution.) 
-In the checking phase, as long as the checker finds a value for a numerical 
+In the checking phase, if the checker finds a value for a numerical 
 attribute in the checked file outside of this interval, 
 a warning would be printed to the user indicating the violating value, 
 the attribute, and the upper or lower Hampel threshold. 
