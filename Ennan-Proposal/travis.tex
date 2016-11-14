@@ -11,11 +11,12 @@ such as which dependencies are required, and a set of benchmarks to test.
 The results of these tests (indicating either passing, failing, or misconfiguration) 
 are saved by TravisCI on a publicly available database~\cite{API}.
 
-TravisCI misconfigurations are important to detect and correct 
-because of any failed compilation can costs developer significant amount 
+TravisCI misconfigurations are important to detect and correct before execution,
+because any failed compilation can costs developer significant amount 
 of time. A misconfiguration can cause a test suite to run up to 20 
-minutes, only to report a misconfiguration~\cite{API}.
-The developer will need to wait to get such a report back to begin even identifying the error.
+minutes, only to report that the whole computation failed~\cite{API}.
+If developer would have this information prior to the compilation attempt, they could
+ identifying and correct potential misconfigurations.
 
 A new challenge here is that we need to reason about a 
 temporal component too. Having an entire TravisCI log for a given
@@ -30,14 +31,15 @@ compilation to successful compilation.
 
 \subsection{Version Space Learning with Temporal Properties} 
 
-Version space learning builds a logical constraint model for binary
-classification~\cite{mitchell77}, which we use to test a configuration file for membership
-in the set of all correct files.
+We plan to use version space learning and SMT solvers to detect errors in 
+TravisCI configurations files. Version space learning 
+builds a logical constraint model for binary
+classification~\cite{mitchell77}, which we use to test a configuration file for 
+membership in the set of all correct files.
 
-We extend the \app's functionality to first learn the rules that have 
+Figure~\ref{fig:versionSL} outlines our proposed approach. We first apply the standard \app's approach to learn the rules that have 
 to hold for correct TravisCI configuration files. Traditionally, 
-version space 
-learning builds a model that defines membership using a series of 
+version space learning builds a model that defines membership using a series of 
 disjunctions from a set of predefined hypotheses.  However, we need  to 
 use conjunctions to convey that a configuration file is only correct if 
 it satisfies all the learned relations. Those rules can be seen as
@@ -50,11 +52,22 @@ using disjunctions.
 \begin{figure}[!tbh]
   \centering
   \begin{tikzpicture}
+   \draw[help lines]
     \draw (2,0) rectangle (6,2); \draw (2.5,0.5) rectangle (5.5,1.5);
   \end{tikzpicture}
   \caption{System architecture of }
-  \label{fig:screenshot1}
+  \label{fig:versionSL}
 \end{figure}
+
+
+Necessary = 
+ { Keyword, value pair "language:node_js" requires Keyword "node_js"}
+
+where keyword "node_js" sets a version value (e.g. "node_js: 0.8")
+
+Breaking =
+  { Keyword "node_js" cannot have value <= 0 }
+
 
  Adding this temporal component, 
 This extension will build a logical formula representing the entire 
