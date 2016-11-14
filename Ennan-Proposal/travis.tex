@@ -33,12 +33,18 @@ compilation to successful compilation.
 Version space learning builds a logical constraint model for binary
 classification~\cite{mitchell77}, which we use to test a configuration file for membership
 in the set of all correct files.
-Traditionally, version space learning builds a model that defines membership using a series of disjunctions from a set of predefined hypotheses. 
 
-We extend the \app's functionality 
-
-However, we need  to use conjunctions to convey that a configuration file is only correct if it satisfies all the learned relations, and disjunctions are used to state that it one compile if 
-it satisfies one (or more 
+We extend the \app's functionality to first learn the rules that have 
+to hold for correct TravisCI configuration files. Traditionally, 
+version space 
+learning builds a model that defines membership using a series of 
+disjunctions from a set of predefined hypotheses.  However, we need  to 
+use conjunctions to convey that a configuration file is only correct if 
+it satisfies all the learned relations. Those rules can be seen as
+positive examples in classifying correct files. In addition, we will have
+so-called {\emph {breaking rules}} which are derived from the files 
+that do not compile, \ie negative examples. Breaking rules are specified 
+using disjunctions.
 
 
 \begin{figure}[!tbh]
