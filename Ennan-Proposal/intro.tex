@@ -3,16 +3,26 @@
 Configuration errors (also known as misconfigurations) have become one of the major causes of system failures, resulting in security vulnerabilities, application outages, and incorrect program executions. 
 Configuration errors were reported to be the largest fraction of failures in storage systems in a 2014 industry survey. 
 Although many techniques have been proposed for configuration error detection, these approaches mainly can only be applied after an error has occurred.
-We cannot simply apply techniques that exist for software verification: configuration files mainly consists of sequences of assigning some values to system variables.
-Additionally, there is no formal specification describing properties of configuration files.
 
-We propose a framework for automated verification of configuration files. We first automatically derive a specification, and the we check if a given configuration 
+We propose a framework for automated verification of configuration files. 
+Verifying configuration files is different than verifying standard programs: configuration
+files are missing a program structure, but also a specification. They are written in a
+very low level programming paradigm: they mainly consists of sequences of assignments 
+of some 
+values to system variables. In such framework, writing a specification is complex task, 
+since it is not clear how should the specification look like and which properties should 
+it address. Our framework works as follows: in the pre-processing stage, 
+we first automatically derive a specification. Once we have a specification, 
+we check if a given configuration 
 file adheres to that specification.
-The main idea is to analyze a large number of configuration files from publicly available datasets and derive a corresponding specification. To do that we first develop a language model for configuration files. One question we 
-need to address is what if there is an error in the given training set. Our proposed framework 
+The idea about deriving a specification is to analyze a large number of configuration files from publicly available 
+datasets and recognize patterns and keyword correlations. We derive from those findings 
+a corresponding specification. To do that we first develop a language model for configuration files. One question we 
+need to address is: what if there is an error in the given training set? Our proposed framework 
 is general enough that it can still derive a correct specification, under 
 the assumption that the same error does not appear in a significant amount of files.
-
+We plan to evaluate our framework on real-world configuration files 
+used in the TravisIC tool.
 
 \paragraph{Intellectual Merits:} This work's key intellectual contributions are:
 \begin{itemize}
@@ -23,8 +33,9 @@ the assumption that the same error does not appear in a significant amount of fi
 \end{itemize}
 
 \paragraph{Broader Impact:} 
-Because configuration files are untyped, unstructured, and mostly undocumented, we are not directly leverage existing techniques for verification as used in programming languages.
-Making progress towards verification in such environments, will open the door for work in other domain which have previously been to noisy to handle with existing techniques.
-It would complement existing post-failure error diagnosis efforts, and could benefit other verification domains, such as network traffic verification. 
-This could significantly reduce large scale system failures without adding any additional burden to users and system developers. 
+Our main goal is to help to reduce large scale system failures without adding any additional burden to users and system developers. 
+Making progress towards verification of configuration files, will enable a static analysis of configuration files. This way potentially disastrous errors can be 
+detected before they appear.
+We envision \app to complement already existing post-failure error diagnosis efforts.
+In addition, this work will also benefit other verification domains, such as network traffic verification. 
 
