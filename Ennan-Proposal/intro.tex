@@ -1,33 +1,31 @@
 Configuration errors (i.e., misconfigurations) have become one of the major causes of software failures, resulting in security vulnerabilities, application outages, and incorrect program executions. 
 Configuration errors accounted for the largest portion of failures in storage systems in a 2014 industry survey, and misconfigurations were also independently reported as the main cause of Hadoop cluster failures. 
-Although many techniques have been proposed to automate configuration error diagnosis and analysis, these approaches rely heavily on manual effort to understand the failure symptoms. 
-However, since the structures and logics in configuration files are often subtle and implicit, this is a time consuming and error prone task.
-On the other hand, current configuration correctness checkers and validation schemes require the users to explicitly define rules and constraints to check.
-Unfortunately, this approach is also impractical because entries in configuration files can be hard cryptic and under documented for end users.
+Although many techniques have been proposed to automate configuration error detection, these approaches rely heavily on manual efforts. 
+Since the dependencies and constraints in configuration files are often subtle and implicit, this is a time consuming and error prone task to do by hand.
+Current configuration verification tools require the users to explicitly define constraints, and equally onerous task.
 
-Based on the above insight, we argue that the fundamental reasons causing configuration files error-prone and making misconfiguration troubleshooting difficult are: 
-  1) entries in configuration files are untyped assignments, 
+We identify the following fundamental reasons that configuration files are error-prone and troubleshooting is difficult. 
+  1) entries in configuration files are untyped, 
   2) there is no explicit structure policy for the entries in configuration files, and 
-  3) there are surprisingly few rules specifying any constraints on configuration entries.
-Because of these unique difficulties, configuration files cannot leverage existing techniques for writing, debugging and verifying files as used in programming languages. 
-Therefore, the language support is a necessary means of tackling misconfiguration problems in practice.
+  3) there are little to no existing constraints, or even documentation on configuration entries.
+Because of these unique characteristics of configuration files, we cannot directly leverage existing techniques for verification as used in programming languages. 
+In this proposal, we address each of these issues individually through a new verification framework.
+The core idea is to analyze many examples of configuration files from widely available datasets and derive a language model (a set of constraints) that can be used to verify new configuration files.
 
-In this proposal, we propose a language-based framework to verify configuration files. 
-The core idea of this framework is to analyze many (most-likely correct) datasets of configuration files and derive rules for building a language model, and then to use the resulting language model to verify new configuration files.
+In our previous work we learned constraints for configuration files based on a dataset correct files.
+This dataset was difficult to curate, as it required manual verification by a domain expert on every file.
+Instead, in this work, we propose to learn over a dataset of configuration files where we only know that most are correct.
+To make curation of these datasets as easy as possible, we do not even require that the files are labelled as correct or incorrect.
 
-Achieving the above goal, however, requires addressing two challenges. 
-First, because the configuration files are untyped and unstructured, it is difficult to automatically learn a language model to be used in verification of a user's file.
-We address this challenge by splitting the language model generation process into two phases. 
-In the first phase, we parse the given dataset containing many configuration files, and transform them into more structured, intermediary representations. 
-However, because the type of a variable may not always be fully determined based on a single value, and these given configuration files may not be correct, we introduce probabilistic types for the intermediary representation transformation. 
-Namely, rather than giving a variable a single type, we assign each variable a list of types with their probability distributions. 
-In the second phase, we use these more structured representations as a training set to learn the rules for building our language model. 
-Our approach does not rely on whether the given configuration files are correct or not, since every learned rule has been assigned probability. 
-Only when we need to check new files, we only consider rules that have a probability above some threshold.
+To handle the unstructured nature of configuration files we split the language model generation process into two phases. 
+In the first phase, we parse the given training dataset of many (possibly incorrect) configuration files and transform the files into a more structured, intermediary representation. 
+Because configuration files are untyped, we introduce probabilistic types for the intermediary representation transformation. 
+Namely, rather than giving a variable a single type, we assign each variable a list of types with their probability distributions based on evidence from the dataset. 
+In the second phase, we use the more structured, intermediate representation to learn the rules for our verification model. 
 
-The second key challenge is the learned rules from correct configuration files may not be enough to check tricky configuration errors related to system context and environments [12]. 
+The second key challenge is the learned rules from correct configuration files may not be enough to check tricky configuration errors related to system context and environments. 
 We address this challenge by introducing a template-based mechanism, which specifies the possible system context and environment rules, (e.g., system path correlation and file ownership).
-Existing efforts in other domains [4] have demonstrated templates for such system context constraints can be automatically generated and can significantly identify context-based errors.
+Existing efforts in other domains have demonstrated templates for such system context constraints can be automatically generated and can significantly identify context-based errors.
 Thus, we can detect more comprehensive configuration errors violating the learned constraints and template-based constraints in the files given by the user.
 
 A preliminary evaluation based upon our current prototype shows our approach can successfully detect configuration errors in 20 real-world configuration files covering four types of representative misconfiguration problems, within an acceptable learning time (≤ 30 seconds) and verification time ($\le$ 5 seconds).
