@@ -1,10 +1,14 @@
 Configuration errors (i.e., misconfigurations) have become one of the major causes of software failures, resulting in security vulnerabilities, application outages, and incorrect program executions [9, 10]. 
-For example, Yin et al. [10] reported that configuration errors were the dominant failure cause in storage systems, while Rabkin and Katz [3] revealed misconfigurations were the main cause of Hadoop cluster failures. 
-Although many techniques have been proposed to automate configuration error diagnosis and analysis [6, 1, 5, 7], these approaches heavily rely on manual efforts to understand the failure symptoms, which is hard, since the structures and logics in configuration files are very tricky and implicit [10, 11]. 
-On the other hand, current configuration correctness checkers [11, 12] and validation schemes [2] require the users to explicitly define rules and constraints to check, which is also impractical, because entries in configuration files are hard to understand for users [8].
+For example, Yin et al. [10] reported that configuration errors were the dominant failure cause in storage systems, while Rabkin and Katz [3] reported  misconfigurations were the main cause of Hadoop cluster failures. 
+Although many techniques have been proposed to automate configuration error diagnosis and analysis [6, 1, 5, 7], these approaches rely heavily on manual efforts to understand the failure symptoms, 
+However, since the structures and logics in configuration files are often subtle and implicit, this is a time consuming and error prone task.
+On the other hand, current configuration correctness checkers and validation schemes require the users to explicitly define rules and constraints to check, which is also impractical, because entries in configuration files can be hard to understand for users.
 
-Based on the above insight, we argue that the fundamental reasons causing configuration files error-prone and making misconfiguration troubleshooting difficult are: 1) entries in configuration files are untyped assignments, 2) there is no explicit structure policy for the entries in configuration files, and 3) there are surprisingly few rules specifying the entries’ constraints. 
-In other words, we do not have capabilities of writing, debugging and verifying configuration files like using programming languages. 
+Based on the above insight, we argue that the fundamental reasons causing configuration files error-prone and making misconfiguration troubleshooting difficult are: 
+  1) entries in configuration files are untyped assignments, 
+  2) there is no explicit structure policy for the entries in configuration files, and 
+  3) there are surprisingly few rules specifying any constraints on configuration entries. 
+Because of these characteristics, configuration files cannot leverage existing research for writing, debugging and verifying configuration files like using programming languages. 
 Therefore, the language support should be a necessary means of tackling misconfiguration problems in practice.
 
 In this proposal, we propose a language-based framework to verify configuration files. 
