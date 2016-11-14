@@ -1,18 +1,8 @@
 Configuration errors (also known as misconfigurations) have become one of the major causes of system failures, resulting in security vulnerabilities, application outages, and incorrect program executions. 
-Configuration errors were reported to be the largest fraction of failures in storage systems in a 2014 industry survey. Although many techniques have been proposed to automate configuration error detection, these approaches mainly /aaosksadjklsal
-
-rely heavily on manual efforts. 
-Since the dependencies and constraints in configuration files are often subtle and implicit, this is a time consuming and error prone task to do by hand.
-Current configuration verification tools require the users to explicitly define constraints, and equally onerous task.
-
-
-
-We identify the following fundamental reasons that configuration files are error-prone and troubleshooting is difficult. 
-  1) entries in configuration files are untyped, 
-  2) there is no explicit structure policy for the entries in configuration files, and 
-  3) there are little to no existing constraints, or even documentation on configuration entries.
-Because of these unique characteristics of configuration files, we cannot directly leverage existing techniques for verification as used in programming languages. 
-In this proposal, we address each of these issues individually through a new verification framework.
+Configuration errors were reported to be the largest fraction of failures in storage systems in a 2014 industry survey. 
+Although many techniques have been proposed to for configuration error detection, these approaches mainly can only be applied after an error has occurred.
+Tools which detect misconfigurations at compile time often require the user to explicitly define constraints, a time consuming and error prone task.
+We propose a framework to statically verify configuration files based on automatically generated constraints.
 The core idea is to analyze many examples of configuration files from widely available datasets and derive a language model (a set of constraints) that can be used to verify new configuration files.
 
 In our previous work we learned constraints for configuration files based on a dataset correct files.
@@ -20,24 +10,19 @@ This dataset was difficult to curate, as it required manual verification by a do
 Instead, in this work, we propose to learn over a dataset of configuration files where we only know that most are correct.
 To make curation of these datasets as easy as possible, we do not even require that the files are labelled as correct or incorrect.
 
-To handle the unstructured nature of configuration files we split the language model generation process into two phases. 
-In the first phase, we parse the given training dataset of many (possibly incorrect) configuration files and transform the files into a more structured, intermediary representation. 
-Because configuration files are untyped, we introduce probabilistic types for the intermediary representation transformation. 
-Namely, rather than giving a variable a single type, we assign each variable a list of types with their probability distributions based on evidence from the dataset. 
-In the second phase, we use the more structured, intermediate representation to learn the rules for our verification model. 
 
-The second key challenge is the learned rules from correct configuration files may not be enough to check tricky configuration errors related to system context and environments. 
-We address this challenge by introducing a template-based mechanism, which specifies the possible system context and environment rules, (e.g., system path correlation and file ownership).
-Existing efforts in other domains have demonstrated templates for such system context constraints can be automatically generated and can significantly identify context-based errors.
-Thus, we can detect more comprehensive configuration errors violating the learned constraints and template-based constraints in the files given by the user.
+\paragraph{Intellectual Merits:} There are several open-ended problems that will be explored as a part of this research. In particular, we will need to:
 
-A preliminary evaluation based upon our current prototype shows our approach can successfully detect configuration errors in 20 real-world configuration files covering four types of representative misconfiguration problems, within an acceptable learning time (≤ 30 seconds) and verification time ($\le$ 5 seconds).
+\begin{itemize}
+\item Design a new framework that can learn a language model from a only partially correct set of configuration files
+\item Investigate methods to handle the untyped and unstructured nature of configuration files
+\item Find techniques to optimize learning parameters to handle the probabilistic nature of the training set
+\item Develop a modular tool for further work in configuration verification using Haskell
+\end{itemize}
 
-\paragraph{Intellectual Merit:} This work’s key intellectual contributions are: 
-   (1) to design and develop a new framework that can learn a language model from an example set of correct configuration files, and the model is used to verify new configuration files;
-   (2) to propose probabilistic types to assign a confidence distribution over a set of types to a value; 
-   (3) to define an interface for describing a verification attribute in a learning context, making it easy to add new rules.
-   (4) to introduce a template-based mechanism for checking system environment-aware misconfigurations.
-
-\paragraph{Broader Impact:} This work will open the door for language-based configuration verification, which could significantly prevent configuration errors without adding any additional burden to users and system developers. It would complement existing post-failure error diagnosis efforts, and could benefit other verification domains, such as network traffic verification. 
+\paragraph{Broader Impact:} 
+Because configuration files are untyped, unstructured, and mostly undocumented, we are not directly leverage existing techniques for verification as used in programming languages.
+Making progress towards verification in such environments, will open the door for work in other domain which have previously been to noisy to handle with existing techniques.
+It would complement existing post-failure error diagnosis efforts, and could benefit other verification domains, such as network traffic verification. 
+This could significantly reduce large scale system failures without adding any additional burden to users and system developers. 
 
