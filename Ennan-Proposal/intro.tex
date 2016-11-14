@@ -1,17 +1,16 @@
 Configuration errors (also known as misconfigurations) have become one of the major causes of system failures, resulting in security vulnerabilities, application outages, and incorrect program executions. 
 Configuration errors were reported to be the largest fraction of failures in storage systems in a 2014 industry survey. 
-Although many techniques have been proposed to for configuration error detection, these approaches mainly can only be applied after an error has occurred.
+Although many techniques have been proposed for configuration error detection, these approaches mainly can only be applied after an error has occurred.
 Tools which detect misconfigurations at compile time often require the user to explicitly define constraints, a time consuming and error prone task.
-We propose a framework to statically verify configuration files based on automatically generated constraints.
+We propose a framework to statically verify configuration files based on automatically generated constraints that define a correct file.
 The core idea is to analyze many examples of configuration files from widely available datasets and derive a language model (a set of constraints) that can be used to verify new configuration files.
 
-In our previous work we learned constraints for configuration files based on a dataset correct files.
-This dataset was difficult to curate, as it required manual verification by a domain expert on every file.
-Instead, in this work, we propose to learn over a dataset of configuration files where we only know that most are correct.
-To make curation of these datasets as easy as possible, we do not even require that the files are labelled as correct or incorrect.
+There are many datasets of configuration files online, but we only know that most are correct - some may be incorrect.
+These files will be unlabelled so we do not know if a particular file is correct or incorrect.
+Furthermore, both the syntax and semantics of configuration files are notoriously underspecified
+Since we are building a general tool to work with any configuration language, \app must be able to handle probabilistic learning in many dimensions.
 
-
-\paragraph{Intellectual Merits:} There are several open-ended problems that will be explored as a part of this research. In particular, we will need to:
+\paragraph{Intellectual Merits:} In order to advance the state of the art in configuration verification, we will need to:
 
 \begin{itemize}
 \item Design a new framework that can learn a language model from a only partially correct set of configuration files
