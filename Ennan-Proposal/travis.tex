@@ -43,7 +43,7 @@ membership in the set of all correct files.
   \label{fig:versionSL}
 \end{wrapfigure}
 
-Figure~\ref{fig:versionSL} outlines our proposed approach. We first apply the standard \app's approach to learn the rules that have 
+Figure~\ref{fig:versionSL} outlines our proposed approach. We first apply the standard ConfigC approach to learn the rules that have 
 to hold for correct TravisCI configuration files. Traditionally, 
 version space learning builds a model that defines membership using a series of 
 disjunctions from a set of predefined hypotheses.  However, we need  to 
@@ -54,21 +54,18 @@ so-called {\emph {breaking rules}} which are derived from the files
 that do not compile, \ie~negative examples. Breaking rules are specified 
 using disjunctions.
 
-Figure~\ref{fig:versionSL} shows an example set of necessary and breaking rules that would be learn if the training set contains a failing file with {\small node\_js: 0}, and a passing file with {\small node\_js: 0.4.}
-The breaking rules will describe the conditions for an incorrect file based on examples we have seen of incorrect files (red circles).
-Likewise, the necessary rules will describe the conditions for a correct file based on examples we have seen of correct files (green pluses).
+Figure~\ref{fig:versionSL} shows an example set of necessary and breaking rules that would be learned if the training set contains a failing file indicating that 
+{\small node\_js} version is 0.2, and a passing file has its version set to 0.4.
+With red dots we depict incorrect files that do not compile, and the green crosses show correct files.
+From both types of files, we extract breaking and necessary rules, which define borders between those two sets of files.
 This results in a space (green stripes) where a file may contain relations that cannot be classified as either breaking or necessary.
-Part of the research task will be to find an optimal treatment for such cases.
+For example, if a user provides a file which specifies version 0.3 of {\small node\_js}, this file will fall in the green striped space.
+Part of the research task will be to find an optimal classification for such cases.
 
- Adding this temporal component, 
-This extension will build a logical formula representing the entire 
-history of examples, and use an SMT solver to find a classification model.
-
-Since a TravisCI configuration file is dependent
-on the code and system it is trying to build, 
-we must consider a more general sense of configuration file.
-We will call this a program summary $P_t$, which is a representation 
-of the repository which contains the information 
+The success or failure of a TravisCI configuration file is dependent
+not only on the configuration file itself (namely, a .travis.yml file) but it also depends on system information such as programming languages and a list of imported libraries.
+For this reason, we call this extended configuration files a program summary, denoted with $P_t$. This is a representation 
+of the repository which contains any information 
 relevant to the learning process.
 The subscript on $P_t$ is a timestamp tag based on 
 the ordered git commit history.
