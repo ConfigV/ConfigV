@@ -81,17 +81,18 @@ the ordered git commit history.
 %To handle the merge of two branches $P_{t}^{x}$ and $P_{t'}^{y}$, step to $P_{t+1}^{x}$, where $x$ is the mainline branch.
 %We then say that $P_{t'}^{y}$ has no successor commit $P_{t'+1}^{y}$.
 
-From this summary we can then build a model $M(P_t)$, as in \app,
-which is the full set of possible relations derivable 
-from the program summary.
-Again, the user must provide templates for the learning process.
+From these summaries we will build a model $M(P_t)$, using the same techniques as in 
+\app. $M(P_t)$ actually is a set of all possible relations derivable 
+from the program summary. As previously, we need to construct templates for the 
+learning process, since the level of specification details depends on them.
 
-We will denote the build status returned from TravisCI when run on $P_t$ with $S(P_t)$.
-Any files with a $Pass$ build status are correct, and any files with an $Err$ build status are incorrect.
-%In this application, we consider all non-erroring build status to be passing, denoted $Pass$ and otherwise $Err$.
-For brevity, we denote sequences of build statuses with the following notation:
+We now outline how we plan to use SMT solvers to find the sets of necessary rules ($Nec$), and the set of breaking rules ($Br$).
+
+Let $S(P_t)$ be the build status returned from TravisCI when run on $P_t$.
+It can be either $Pass$ or $Err$. We define shorthand $S(P_{t,t+1}) = PE$ to 
+state that the program was compiling before and now it does not:
 \begin{align*}
-  S(P_t)=Pass \land S(P_{t+1})=Err \implies S(P_{t,t+1}) = PE
+  S(P_{t,t+1}) = PE :\Leftrightarrow S(P_t)=Pass \land S(P_{t+1})=Err 
 \end{align*}
 
 We now consider both incorrect and correct files in the training set 
@@ -124,7 +125,7 @@ Expressed formally, where $\setminus$ is the set difference, that is:
   \lor \ \exists& r \in (M(P_{t+1}) \setminus M(P_{t})), r \in Br \label{eq:PE}
 \end{align}
 
-We then can combine Eq \ref{eq:E}, \ref{eq:P}, and \ref{eq:PE} with
+We then can combine \eqref{eq:E}, \eqref{eq:P}, and  \eqref{eq:PE} with
 conjunctions and ask a SMT solver for a model satisfying the formula.
 The resulting model will be the sets of necessary rules ($Nec$), and the set of breaking rules ($Br$), which can be used to check new configuration files.
 Since we used a similar model to \app, we will still be able to provide justifications for the classification results.
