@@ -1,8 +1,13 @@
-module Rules where
+{-# LANGUAGE MultiParamTypeClasses #-}
+
+module Types.Rules where
+
+import Types.Common
+import Types.IR
 
 -- | every instance of Learnable is a template of rules we can learn
 --   instance provided in the Learners dir
-class Foldable t => Learnable t a where
+class (Checkable a, Foldable t) => Learnable t a where
   -- | build a set of rules from a IR
   -- these are not probabalistic
   buildRelations :: IRConfigFile -> t a
@@ -11,11 +16,13 @@ class Foldable t => Learnable t a where
   -- e.g. (x>y,2) and (x>=y,3) can become (x>=y,5)
   merge :: a -> a -> t a 
   -- | how to check if a rule holds on a file
+  --
+class Checkable a where
   check :: a -> IRConfigFile -> Bool
 
 -- | A rule is the structure for tracking and merging evidence relations
 --   We need to track how much evidence we have for the rule, against the rule, and how often we have seen the rule
-data Rule (a, NumEvidenceTrue, NumEvidenceFalse, TotalTimes)
+type Rule a = (a, NumEvidenceTrue, NumEvidenceFalse, TotalTimes)
 
 ------------
 -- The specific types of relations we want to learn
@@ -23,12 +30,17 @@ data Rule (a, NumEvidenceTrue, NumEvidenceFalse, TotalTimes)
 -----------
 
 -- | these keywords should appear in the same file
-data keywordCoor = Rule (Keyword,Keyword)
+type KeywordCoor = Rule (Keyword,Keyword)
 
-data ordering = Rule (Keyword,Keyword)
+type Ordering = Rule (Keyword,Keyword)
 
-data intRel = Rule (IRLine,IRLine,Fomula)
+type IntRel = Rule (IRLine,IRLine,Formula)
 
+-- TODO
+type Formula = Int
 
-newtype AppearsThereshold = Int
-newtype FrequencyThreshold = Double --between 0 and 1
+type NumEvidenceTrue = Int
+type NumEvidenceFalse= Int
+type TotalTimes = Int
+type AppearsThereshold = Int
+type FrequencyThreshold = Double --between 0 and 1

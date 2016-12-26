@@ -18,7 +18,7 @@ import           Debug.Trace
 
 import           Benchmarks
 import           Convert
-import           Preproc
+import           LearningEngine
 import qualified Settings
 import           Usertime
 

@@ -14,7 +14,7 @@ import qualified Data.Text       as T
 import           Data.Typeable
 import           GHC.Generics    (Generic)
 
-import Types.Util
+import Types.Common
 
 type ConfigFile a = (T.Text, a)
 data Language = MySQL | HTTPD
@@ -25,7 +25,7 @@ data Language = MySQL | HTTPD
 type IRConfigFile = [IRLine]
 data IRLine = IRLine {
     keyword :: Keyword
-  , value   :: Value } 
+  , value   :: Val } 
  deriving (Eq,Ord, Generic,Data,Typeable, ToJSON, FromJSON)
 
 instance Show IRLine where

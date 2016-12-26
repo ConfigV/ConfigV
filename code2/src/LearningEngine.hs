@@ -1,9 +1,10 @@
 
--- | Manage the learning modules 
-module Preproc where
+module LearningEngine where
 
-import Types.Types
 import Types.IR
+import Types.Common
+
+
 import Learners
 import Convert
 
@@ -32,13 +33,6 @@ findAllRules f = RuleSet
   , orderP = learn f
   , intRelP = learn f
   }
-
-merge :: Learnable t a => a -> a -> t a
-merge f = 
-
-
-
-
 
 -- | reconcile all the information we have learned
 -- later, think about merging this step with findAllRules
