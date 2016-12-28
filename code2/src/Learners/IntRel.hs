@@ -1,12 +1,10 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
+{-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
 
 module Learners.IntRel where
 
 import Types.Rules
 
-instance Learnable [] ordering where
+instance Learnable IntRel where
   buildRelations = undefined
-  merge = undefined
-
-instance Checkable ordering where
+--  merge = undefined
   check = undefined

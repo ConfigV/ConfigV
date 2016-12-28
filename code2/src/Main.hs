@@ -20,8 +20,9 @@ import           Benchmarks
 import           Convert
 import           LearningEngine
 import qualified Settings
-import           Usertime
-
+import Types.Rules
+import Types.IR
+import Types.JSON
 
 rules = learnRules learnTarget
 

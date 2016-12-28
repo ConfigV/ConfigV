@@ -5,8 +5,8 @@
 module Benchmarks where
 
 import           Settings
-import           Types.Types
 import           Types.Errors
+import           Types.Rules
 import           Types.IR
 
 import qualified Data.Text        as T
@@ -37,14 +37,6 @@ benchmarks = case Settings.pROBRULES of
   Test -> testBenchSet
   NonProb -> group2 ++ group3 ++ group4 ++ group5
   Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
-
--- | from the newest version of the package, which i cant get for some reason
-listDirectory :: FilePath -> IO [FilePath]
-listDirectory path =
-  filter f <$> getDirectoryContents path
-  where
-    isDir = not . u . doesDirectoryExist
-    f filename = filename /= "." && filename /= ".." && isDir (path++filename)
 
 u = unsafePerformIO
 getFileName = fst . errLoc1

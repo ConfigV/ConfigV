@@ -2,6 +2,7 @@
 module LearningEngine where
 
 import Types.IR
+import Types.Rules
 import Types.Common
 
 
@@ -11,6 +12,7 @@ import Convert
 import Control.Parallel.Strategies
 
 import qualified Data.Text.IO as T
+import qualified Data.Map.Strict as M
 
 -- | collect contraints from each file indepentantly
 -- this should be parmap
@@ -21,28 +23,30 @@ learnRules fs = let
   fs' = map convert fs
   rs = map findAllRules fs'
  in
-  foldl1 mergeRules rs
+  mergeRules rs
 
 -- | call each of the learning modules
 findAllRules :: IRConfigFile -> RuleSet
 findAllRules f = RuleSet
-  { order   = learn f
-  , missing = learn f
-  , typeErr = learn f
-  , missingP = learn f
-  , orderP = learn f
-  , intRelP = learn f
+  { order   = buildRelations f
+  , missing = buildRelations f 
+  , intRel = buildRelations f
+  --, typeErr = learn f
   }
 
 -- | reconcile all the information we have learned
 -- later, think about merging this step with findAllRules
 -- no more parallel, but might be faster
-mergeRules :: RuleSet -> RuleSet -> RuleSet
-mergeRules rs rs' = RuleSet
-  { order  = merge (order rs) (order rs')
-  , missing = merge (missing rs) (missing rs')
-  , typeErr= merge (typeErr rs) (typeErr rs')
-  , missingP = merge (missingP rs) (missingP rs')
-  , orderP = merge (orderP rs) (orderP rs')
-  , intRelP = merge (intRelP rs) (intRelP rs')
-  }
+mergeRules :: [RuleSet] -> RuleSet
+mergeRules rs =
+  RuleSet
+    { order  = f order 
+    , missing = f missing
+    , intRel = f intRel 
+    --, typeErr= merge (typeErr rs) (typeErr rs')
+    }
+ where
+  f x = M.unionsWith combineRuleData (map x rs)
+  combineRuleData :: RuleData -> RuleData -> RuleData
+  combineRuleData (x,y,z) (x',y',z') = (x+x',y+y',z+z') 
+

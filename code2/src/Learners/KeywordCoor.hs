@@ -1,12 +1,10 @@
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
+{-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
 
 module Learners.KeywordCoor where
 
 import Types.Rules
 
-instance Learnable [] KeywordCoor where
+instance Learnable KeywordCoor where
   buildRelations = undefined
-  merge = undefined
-
-instance Checkable KeywordCoor where
+--  merge = undefined
   check = undefined

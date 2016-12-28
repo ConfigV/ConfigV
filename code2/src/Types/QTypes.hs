@@ -6,7 +6,7 @@ import qualified Data.Map        as M
 
 -- | A single QType is the collection of possible types and the probs
 data QType =
-  Set (ConfigType, Probabality)  
+  Set (ConfigType, Probability)  
 
 -- | type inference will construct a map 
 --   which is updated as we see more examples of values/use
