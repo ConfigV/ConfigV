@@ -19,6 +19,9 @@ import           Debug.Trace
 import           Benchmarks
 import           Convert
 import           LearningEngine
+
+import           Checker
+
 import qualified Settings
 import Types.Rules
 import Types.IR
@@ -49,6 +52,7 @@ runVerify rules vTargets  = do
   --fitnesses <- zipWithM print errors
   return $ sum fitnesses
 
+reportBenchmarkPerformance = undefined
 {-
  -- | compare the original benchark spec to the generated one
 reportBenchmarkPerformance :: ErrorReport -> ErrorReport -> IO Int

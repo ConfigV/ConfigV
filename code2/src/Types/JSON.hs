@@ -15,13 +15,14 @@ import           GHC.Generics    (Generic)
 import           Types.IR
 import           Types.QTypes
 import           Types.Rules
+import qualified Types.Rules as R
 import           Types.Common
 
 data RuleSetLists = RuleSetLists
-  { orderl    :: [((IRLine,IRLine),Bool)]
-  , missingl  :: [(Keyword,Keyword)]
+  { orderl    :: [(R.Ordering,RuleData)]
+  , missingl  :: [(KeywordCoor,RuleData)]
   --, typeErrl  :: [(Keyword, ConfigQType)]
-  , intRell  :: [((Keyword,Keyword),Formula)]
+  , intRell  :: [(IntRel,RuleData)]
   } deriving (Show, Generic, ToJSON, FromJSON)
 
 toLists :: RuleSet -> RuleSetLists
