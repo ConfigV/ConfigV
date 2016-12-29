@@ -19,26 +19,34 @@ import qualified Data.Map.Strict as M
 learnRules :: [ConfigFile Language] -> RuleSet
 learnRules fs = let
   --fs' = parMap rseq convert fs
-  --rs = parMap rdeepseq findAllRules fs'
+  --rs = parMap rdeepseq buildAllRelations fs'
   fs' = map convert fs
-  rs = map findAllRules fs'
+  rs = map buildAllRelations fs'
+  collected = combineAllRuleData rs
  in
-  mergeRules rs
+  resolveRules collected
 
--- | call each of the learning modules
-findAllRules :: IRConfigFile -> RuleSet
-findAllRules f = RuleSet
-  { order   = buildRelations f
-  , missing = buildRelations f 
-  , intRel = buildRelations f
+-- | use the learning module instances to decide probabiliity cutoff and the sort
+resolveRules :: RuleSet -> RuleSet
+resolveRules rs = RuleSet
+  { order   = resolve $ order rs
+  , missing = resolve $ missing rs
+  , intRel  = resolve $ intRel rs
   --, typeErr = learn f
   }
 
--- | reconcile all the information we have learned
--- later, think about merging this step with findAllRules
--- no more parallel, but might be faster
-mergeRules :: [RuleSet] -> RuleSet
-mergeRules rs =
+-- | call each of the learning modules
+buildAllRelations :: IRConfigFile -> RuleSet
+buildAllRelations f = RuleSet
+  { order   = buildRelations f
+  , missing = buildRelations f 
+  , intRel  = buildRelations f
+  --, typeErr = learn f
+  }
+
+-- | combine all the information we have learned into a single massive set
+combineAllRuleData :: [RuleSet] -> RuleSet
+combineAllRuleData rs =
   RuleSet
     { order  = f order 
     , missing = f missing
@@ -47,6 +55,9 @@ mergeRules rs =
     }
  where
   f x = M.unionsWith combineRuleData (map x rs)
+  -- | I wish there was a shorter way to write this
+  --   both rules must be enabled to keep a rule enabled
   combineRuleData :: RuleData -> RuleData -> RuleData
-  combineRuleData (x,y,z) (x',y',z') = (x+x',y+y',z+z') 
+  combineRuleData (RuleData a b c d) (RuleData a' b' c' d') = 
+    RuleData (a+a) (b+b') (c+c') (d && d') 
 

@@ -45,7 +45,7 @@ main = do
 
 runVerify ::  RuleSet -> [ConfigFile Language] -> IO Int
 runVerify rules vTargets  = do
-  let errors =  zipWith (verifyOn rules) vTargets verificationTargets
+  let errors =  map (verifyOn rules) vTargets
   --when Settings.bENCHMARKS
   fitnesses <- zipWithM reportBenchmarkPerformance benchmarks errors
   --when not Settings.bENCHMARKS

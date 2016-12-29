@@ -6,5 +6,4 @@ import Types.Rules
 
 instance Learnable IntRel where
   buildRelations = undefined
---  merge = undefined
-  check = undefined
+  resolve = undefined

@@ -4,6 +4,7 @@ import           Types.IR
 import           Types.Common
 
 --printing  stuff
+type ErrorReport = [Error]
 data ErrorType = INTREL | ORDERING | MISSING | TYPE deriving (Show, Eq)
 data Error = Error{
     errLoc1  :: (FilePath, Keyword)
@@ -37,4 +38,3 @@ instance Eq Error where
         INTREL   -> anyMatch && identMatch
         TYPE     -> (exactLocMatch || transitiveLocMatch) && identMatch
 
-type ErrorReport = [Error]
