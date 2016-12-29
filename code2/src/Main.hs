@@ -26,6 +26,7 @@ import qualified Settings
 import Types.Rules
 import Types.IR
 import Types.JSON
+import Types.Errors
 
 rules = learnRules learnTarget
 
@@ -46,21 +47,19 @@ main = do
 runVerify ::  RuleSet -> [ConfigFile Language] -> IO Int
 runVerify rules vTargets  = do
   let errors =  map (verifyOn rules) vTargets
-  --when Settings.bENCHMARKS
-  fitnesses <- zipWithM reportBenchmarkPerformance benchmarks errors
-  --when not Settings.bENCHMARKS
-  --fitnesses <- zipWithM print errors
+  fitnesses <- 
+    if Settings.bENCHMARKS 
+    then zipWithM reportBenchmarkPerformance benchmarks errors 
+    else mapM print errors >> return [0]
   return $ sum fitnesses
 
-reportBenchmarkPerformance = undefined
-{-
  -- | compare the original benchark spec to the generated one
 reportBenchmarkPerformance :: ErrorReport -> ErrorReport -> IO Int
 reportBenchmarkPerformance spec foundErrs =
   let
     truePos = head spec `elem` foundErrs
     falsePos = filter ((/=) $ head spec) foundErrs
-    -- try to min fitness
+    -- larger fitness is worse performance over benchmarks
     fitness =
       100 * fromEnum (not truePos) --large penalty for not passing
       + length falsePos
@@ -76,4 +75,4 @@ reportBenchmarkPerformance spec foundErrs =
     --endT <- liftM2 (-) getPOSIXTime (return startT)
     --print endT
     --hFlush stdout
-    return fitness-}
+    return fitness

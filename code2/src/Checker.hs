@@ -30,17 +30,19 @@ ruleDiff rs1 rs2 = RuleSet {
   ,missing = (missing rs1) M.\\ (missing rs2)
   ,intRel = (intRel rs1) M.\\ (intRel rs2)
  }
+
 -- TODO, again the RuleSet structure is pain 
 getRelevant :: RuleSet -> IRConfigFile -> RuleSet
 getRelevant rs f = RuleSet {
-    order = M.filterWithKey (\k _ -> isRelevant f k) (order rs)
+    order   = M.filterWithKey (\k _ -> isRelevant f k) (order rs)
   , missing = M.filterWithKey (\k _ -> isRelevant f k) (missing rs)
   , intRel  = M.filterWithKey (\k _ -> isRelevant f k) (intRel rs)
   }
 
 -- | basically, the show instance for rules
+-- this was the biggest mess last time, can this somehow be simpiler
 genErrReport :: RuleSet -> ErrorReport
 genErrReport rs = 
---  if M.null rs then Nothing else Just rs
+  -- if M.null rs then [] else (M.toList rs)
   --map show rs
   undefined
