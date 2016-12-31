@@ -6,11 +6,13 @@ import Types.Errors
 
 import LearningEngine
 import Convert (convert)
+
 import qualified Data.Map.Strict as M
+import           System.Directory
 
 verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
-verifyOn rs configFile =
-  genErrReport $ check rs configFile
+verifyOn rs configFile@(fp,_,_)  =
+  genErrReport fp $ check rs configFile
 
 -- | fitler out the rules that won't be in the error report
 check :: RuleSet -> ConfigFile Language -> RuleSet
@@ -41,8 +43,12 @@ getRelevant rs f = RuleSet {
 
 -- | basically, the show instance for rules
 -- this was the biggest mess last time, can this somehow be simpiler
-genErrReport :: RuleSet -> ErrorReport
-genErrReport rs = 
-  -- if M.null rs then [] else (M.toList rs)
-  --map show rs
-  undefined
+genErrReport :: FilePath -> RuleSet -> ErrorReport
+genErrReport fname rs = 
+  let  
+    f :: Learnable a => (RuleSet -> M.Map a RuleData) -> [Error]
+    f classOfErr= map (toError fname) (M.toList $ classOfErr rs)
+  in 
+    f order ++ f missing ++ f intRel
+
+

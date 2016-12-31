@@ -25,7 +25,7 @@ Nothing -> IRLine{configType = emptyConfigQType,..}-}
     -- | Main function of this file - translate configFile to intermediate rep
 -- | If the user wants to give hints to how to parse a config file based on filetype they go here
 convert :: ConfigFile Language -> [IRLine] --[(Keyword,Val)]
-convert (t, l) =
+convert (f, t, l) =
   let
     noComments = (map (stripComment l) $ T.lines t)
     noEmpty = filter (not. T.null) noComments

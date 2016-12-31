@@ -31,9 +31,8 @@ import Types.Errors
 rules = learnRules learnTarget
 
 main = do
-  bs <- mapM T.readFile verificationTargets :: IO [T.Text]
-  let vTargets = zip bs (replicate (length bs) MySQL)
-
+  vFiles <- mapM T.readFile vFilePaths :: IO [T.Text]
+  let vTargets = map (\(f,v) -> (f,v,MySQL)) (zip vFilePaths vFiles) :: [ConfigFile Language]
   unless Settings.uSE_CACHE $ B.writeFile "cachedRules.json" $ encode ((toLists $ learnRules learnTarget):: RuleSetLists)
   cached <- (fromLists. fromJust. decode) <$> B.readFile "cachedRules.json"
 

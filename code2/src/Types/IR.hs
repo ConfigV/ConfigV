@@ -13,10 +13,11 @@ import           Data.Data
 import qualified Data.Text       as T
 import           Data.Typeable
 import           GHC.Generics    (Generic)
+import           System.Directory
 
 import Types.Common
 
-type ConfigFile a = (T.Text, a)
+type ConfigFile a = (FilePath,T.Text, a)
 data Language = MySQL | HTTPD
 
 

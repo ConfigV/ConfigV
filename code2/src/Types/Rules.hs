@@ -6,10 +6,12 @@ module Types.Rules where
 
 import Types.Common
 import Types.IR
+import Types.Errors
 
 import Prelude hiding (Ordering)
 import           Data.Aeson
 import           GHC.Generics     (Generic)
+import           System.Directory
 
 --TODO Strict or Lazy maps?
 import qualified Data.Map.Strict as M
@@ -29,6 +31,8 @@ class (Eq a, Show a) => Learnable a where
   -- | is a rule relevant to the file we want to verify
   --   this used to be check
   isRelevant :: IRConfigFile -> a -> Bool
+  -- | How to convert a rule to an error message
+  toError :: FilePath -> (a,RuleData) -> Error
 
 -- | A rule is the structure for tracking and merging evidence relations
 --   We need to track how much evidence we have for the rule, against the rule, and how often we have seen the rule
@@ -42,6 +46,11 @@ data RuleSet = RuleSet
   , intRel :: RuleDataMap IntRel
 --  , typeErr  :: TypeMap ConfigQType
   } --deriving (Eq, Show, Generic)--, Typeable)
+
+emptyRuleSet = RuleSet
+  { missing = M.empty
+  , order   = M.empty
+  , intRel  = M.empty}
 
 ------------
 -- The specific types of relations we want to learn
