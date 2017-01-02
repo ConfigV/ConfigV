@@ -59,5 +59,5 @@ combineAllRuleData rs =
   --   both rules must be enabled to keep a rule enabled
   combineRuleData :: RuleData -> RuleData -> RuleData
   combineRuleData (RuleData a b c d) (RuleData a' b' c' d') = 
-    RuleData (a+a) (b+b') (c+c') (d && d') 
+    RuleData (a+a') (b+b') (c+c') (d && d') 
 
