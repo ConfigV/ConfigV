@@ -19,14 +19,14 @@ import qualified Data.Set        as S
 
 -- | every instance of Learnable is a template of rules we can learn
 --   instance provided in the Learners dir
-class (Eq a, Show a) => Learnable a where
+class (Eq a, Show a, Ord a) => Learnable a where
   -- | build a set of rules from a single IR
   -- these rules will have TotalTimes=1
   -- this used to be learn
   buildRelations :: IRConfigFile -> RuleDataMap a
   -- | once you have all the evidence, decide which rules are valid
   --   i.e. set the enabled flag on some
-  --   this used to be merge
+  --   this used to be merge - kind of
   resolve :: RuleDataMap a -> RuleDataMap a
   -- | is a rule relevant to the file we want to verify
   --   this used to be check
