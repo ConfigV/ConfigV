@@ -14,8 +14,9 @@ data Error = Error{
 }
 
 instance Show Error where
-    show e = "Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n   -->"
-     ++(show $errMsg e)++"\n"
+  show e = 
+    --"Error between "++(show$ errLoc1 e)++" and "++(show$ errLoc2 e)++" of type: "++(show $errIdent e)++"\n   -->" ++(show $errMsg e)++"\n"
+    (show $ errMsg e)++"\n"
 
 
 -- | as long as we have the correct type of error

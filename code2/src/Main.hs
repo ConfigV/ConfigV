@@ -56,20 +56,22 @@ runVerify rules vTargets  = do
 reportBenchmarkPerformance :: ErrorReport -> ErrorReport -> IO Int
 reportBenchmarkPerformance spec foundErrs =
   let
-    truePos = head spec `elem` foundErrs
+    truePos = filter ((==) $ head spec) foundErrs
+    passing = (length truePos) > 0
     falsePos = filter ((/=) $ head spec) foundErrs
     -- larger fitness is worse performance over benchmarks
     fitness =
-      100 * fromEnum (not truePos) --large penalty for not passing
+      100 * fromEnum (not passing) --large penalty for not passing
       + length falsePos
   in do
     --startT <- getPOSIXTime --this is the right place to put it because of lazy eval
     putStrLn (getFileName $ head spec)
-    putStrLn $ "    Passing: " ++ show truePos
+    putStrLn $ "    Passing: " ++ show passing
+    putStrLn $ "    True Positives: "++ show (length truePos)
     putStrLn $ "    False Positives: "++ show (length falsePos)
     when Settings.vERBOSE $ putStrLn $ "Specification :   \n" ++ show spec
-    when Settings.vERBOSE $ putStrLn $ "True Errors :    \n" ++ unlines (map show $ filter ((==) $ head spec) foundErrs)
-    when (Settings.vERBOSE && (length falsePos < 10)) $ putStrLn $ "False Positives : \n" ++ unlines (map show falsePos)
+    when Settings.vERBOSE $ putStrLn $ "True Errors :    \n" ++ unlines (map show $ take 10 truePos)
+    when Settings.vERBOSE $ putStrLn $ "False Positives : \n" ++ unlines (map show $ take 10 falsePos)
     putStrLn ""
     --endT <- liftM2 (-) getPOSIXTime (return startT)
     --print endT
