@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs #-}
+{-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs, OverloadedStrings #-}
 
 module Learners.Ordering where
 
@@ -9,6 +9,8 @@ import Types.Rules
 import Prelude hiding (Ordering)
 import qualified Data.Map as M
 import           System.Directory
+import qualified Data.Text as T
+import qualified Data.Bits as B
 
 import Learners.Common
 -- | We assume that all IRConfigFiles have a set of unique keywords
@@ -19,13 +21,22 @@ instance Learnable Ordering where
   buildRelations :: IRConfigFile -> RuleDataMap Ordering
   buildRelations f = let
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
+    sameConfigModule (ir1,ir2) = not (
+      (substr "socket" (keyword ir1) ||
+       substr "port"   (keyword ir1)) `B.xor`
+      (substr "socket" (keyword ir2) ||
+       substr "port"   (keyword ir2)))
+    substr = T.isInfixOf
+    irPairs = filter sameConfigModule $ pairs f
    in
-     M.fromList $ embedOnce $ (map toOrdering $ pairs f)
+     M.fromList $ embedOnce $ map toOrdering irPairs 
     --M.foldrWithKey removeConflicts x x
 
   resolve :: RuleDataMap Ordering -> RuleDataMap Ordering
   resolve = let
-    condition r = True 
+    condition r@(RuleData tru fls t e) = 
+      tru>0 && fls==0 -- ConfigC 
+      --tru>=2 && fls<=2  -- ConfigV
    in
     M.map (\r@(RuleData tru fls t e) -> if condition r then RuleData tru fls t True else r)
 

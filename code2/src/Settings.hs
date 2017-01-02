@@ -1,7 +1,7 @@
 module Settings where
 
   -- enable debugging logs
-  vERBOSE = False
+  vERBOSE = True
 
   --use the prebuilt cache, if false, will overwrite cache using this run
   uSE_CACHE = False
