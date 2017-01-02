@@ -23,6 +23,8 @@ instance Show Error where
 --   and have identified one similar fail point the errors are similar enough
 --   both will point the user to the item that needs to be fixed
 --   NB DEF OF FALSE POSITIVE - THIS IS REALLY IMPORTANT!!!
+--   in configC, if we ounda type error, we would not report anything else
+--   this reduces false positives and makes sense since type errors tend to be strongest rules and will break other things
 
 instance Eq Error where
   (==) x y =

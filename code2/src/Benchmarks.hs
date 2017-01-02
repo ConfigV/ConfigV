@@ -98,10 +98,10 @@ group3 = map (map makeError) [
 group4 :: [ErrorReport]
 group4 = map (map makeError) [
     [(("benchmarkSet/group4-ordering/error_mysql","portport"),("benchmarkSet/group4-ordering/error_mysql","[client]"),ORDERING)]
-  , [(("benchmarkSet/group4-ordering/error2","datadir[wampmysqld]"),("benchmarkSet/group4-ordering/error2","log-error[wampmysqld]"),ORDERING)]
+  , [(("benchmarkSet/group4-ordering/error2","log-error[wampmysqld]"),("benchmarkSet/group4-ordering/error2","datadir[wampmysqld]"),ORDERING)]
   , [(("benchmarkSet/group4-ordering/error3","innodb_file_format_check[mysqld]"),("benchmarkSet/group4-ordering/error3","innodb_strict_mode[mysqld]"),ORDERING)]
-  , [(("benchmarkSet/group4-ordering/error4","innodb_flush_log_at_trx_commit[wampmysqld]"),("benchmarkSet/group4-ordering/error4","innodb_data_home_dir[wampmysqld]"),ORDERING)]
-  , [(("benchmarkSet/group4-ordering/error5","innodb_file_format_check[mysqld]"),("benchmarkSet/group4-ordering/error5","innodb_data_home_dir[mysqld]"),ORDERING)]
+  , [(("benchmarkSet/group4-ordering/error4","innodb_data_home_dir[wampmysqld]"),("benchmarkSet/group4-ordering/error4","innodb_flush_log_at_trx_commit[wampmysqld]"),ORDERING)]
+  , [(("benchmarkSet/group4-ordering/error5","innodb_data_home_dir[mysqld]"),("benchmarkSet/group4-ordering/error5","innodb_file_format_check[mysqld]"),ORDERING)]
   ]
 
 group5 :: [ErrorReport]
