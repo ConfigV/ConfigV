@@ -36,9 +36,9 @@ ruleDiff rs1 rs2 = RuleSet {
 -- TODO, again the RuleSet structure is pain 
 getRelevant :: RuleSet -> IRConfigFile -> RuleSet
 getRelevant rs f = RuleSet {
-    order   = M.filterWithKey (\k _ -> isRelevant f k) (order rs)
-  , missing = M.filterWithKey (\k _ -> isRelevant f k) (missing rs)
-  , intRel  = M.filterWithKey (\k _ -> isRelevant f k) (intRel rs)
+    order   = M.filterWithKey (\k v -> isRelevant f k && enabled v) (order rs)
+  , missing = M.filterWithKey (\k v -> isRelevant f k) (missing rs)
+  , intRel  = M.filterWithKey (\k v -> isRelevant f k && enabled v) (intRel rs)
   }
 
 -- | basically, the show instance for rules

@@ -21,6 +21,7 @@ instance Learnable Ordering where
   buildRelations :: IRConfigFile -> RuleDataMap Ordering
   buildRelations f = let
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
+    --according to Ennan socket and port do not interact with anything except themselves
     sameConfigModule (ir1,ir2) = not (
       (substr "socket" (keyword ir1) ||
        substr "port"   (keyword ir1)) `B.xor`
@@ -33,12 +34,13 @@ instance Learnable Ordering where
     --M.foldrWithKey removeConflicts x x
 
   resolve :: RuleDataMap Ordering -> RuleDataMap Ordering
-  resolve = let
+  resolve rs = let
+    rs' = genFalseEvidence rs
     condition r@(RuleData tru fls t e) = 
       tru>0 && fls==0 -- ConfigC 
       --tru>=2 && fls<=2  -- ConfigV
    in
-    M.map (\r@(RuleData tru fls t e) -> if condition r then RuleData tru fls t True else r)
+    M.map (\r@(RuleData tru fls t e) -> if condition r then RuleData tru fls t True else r) rs'
 
   -- | NB it seems this was over IRLines in ConfigC
   --   looked like an error, but double check this spot if strange results
@@ -55,6 +57,15 @@ instance Learnable Ordering where
     ,errIdent = ORDERING
     ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)}
 
+genFalseEvidence :: RuleDataMap Ordering -> RuleDataMap Ordering
+genFalseEvidence rs = let
+   findOp :: Ordering -> RuleData
+   findOp (Ordering (k1,k2)) = M.findWithDefault (RuleData 0 0 0 True) (Ordering (k2,k1)) rs
+   adjWithOp r@(RuleData tru fls t e) rOpData@(RuleData truOp flsOp tOp eOp) = 
+     RuleData tru truOp (t+tOp) (e&&eOp)
+   updateWithOp k v = adjWithOp v $ findOp k
+  in
+   M.mapWithKey updateWithOp rs
 
 pairs :: [IRLine]  -> [(IRLine,IRLine)]
 pairs [] = []

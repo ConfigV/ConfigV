@@ -36,7 +36,12 @@ class (Eq a, Show a, Ord a) => Learnable a where
 
 -- | A rule is the structure for tracking and merging evidence relations
 --   We need to track how much evidence we have for the rule, against the rule, and how often we have seen the rule
-data RuleData = RuleData NumEvidenceTrue NumEvidenceFalse TotalTimes Enabled 
+data RuleData = RuleData 
+  {tru :: Int --NumEvidenceTrue
+  ,fls :: Int --NumEvidenceFalse,
+  ,tot :: Int --TotalTimes
+  ,enabled :: Bool
+  }
   deriving (Eq,Show,Generic,ToJSON,FromJSON)
 type RuleDataMap a = M.Map a RuleData
 
