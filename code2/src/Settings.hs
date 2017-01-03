@@ -10,5 +10,5 @@ module Settings where
   bENCHMARKS = True
 
   --what kind of rules should we learn (from correct or incorrect dataset)
-  pROBRULES = NonProb
+  pROBRULES = Prob
   data ModeSetting = NonProb | Prob | Test

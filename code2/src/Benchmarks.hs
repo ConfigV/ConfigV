@@ -38,7 +38,8 @@ benchmarks :: [ErrorReport]
 benchmarks = case Settings.pROBRULES of
   Test -> testBenchSet
   NonProb -> group2 ++ group3 ++ group4 ++ group5
-  Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
+  Prob -> cavAE_benchmarks
+  --Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
 
 u = unsafePerformIO
 getFileName = fst . errLoc1

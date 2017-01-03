@@ -37,8 +37,8 @@ instance Learnable Ordering where
   resolve rs = let
     rs' = genFalseEvidence rs
     condition r@(RuleData tru fls t e) = 
-      tru>0 && fls==0 -- ConfigC 
-      --tru>=2 && fls<=2  -- ConfigV
+      --tru>0 && fls==0 -- ConfigC 
+      tru>=3 && fls<=1  -- ConfigV
    in
     M.map (\r@(RuleData tru fls t e) -> if condition r then RuleData tru fls t True else r) rs'
 
@@ -55,7 +55,7 @@ instance Learnable Ordering where
      errLoc1 = (fname,k1)
     ,errLoc2 = (fname,k2)
     ,errIdent = ORDERING
-    ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)}
+    ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" \n   w/ confidence "++(show rd)}
 
 genFalseEvidence :: RuleDataMap Ordering -> RuleDataMap Ordering
 genFalseEvidence rs = let

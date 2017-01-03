@@ -13,13 +13,14 @@ import           Data.Time.Clock.POSIX
 import           Control.Applicative
 import           Control.Monad
 import           System.IO
+import           System.Environment
+import qualified GHC.IO.Encoding       as G
 
 import           Debug.Trace
 
 import           Benchmarks
 import           Convert
 import           LearningEngine
-
 import           Checker
 
 import qualified Settings
@@ -31,6 +32,9 @@ import Types.Errors
 rules = learnRules learnTarget
 
 main = do
+  G.setLocaleEncoding utf8
+  G.setFileSystemEncoding utf8
+  G.setForeignEncoding utf8  
   vFiles <- mapM T.readFile vFilePaths :: IO [T.Text]
   let vTargets = map (\(f,v) -> (f,v,MySQL)) (zip vFilePaths vFiles) :: [ConfigFile Language]
   unless Settings.uSE_CACHE $ B.writeFile "cachedRules.json" $ encode ((toLists $ learnRules learnTarget):: RuleSetLists)
