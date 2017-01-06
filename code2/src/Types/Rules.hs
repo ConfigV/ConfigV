@@ -48,14 +48,15 @@ type RuleDataMap a = M.Map a RuleData
 data RuleSet = RuleSet
   { missing  :: RuleDataMap KeywordCoor
   , order    :: RuleDataMap Ordering
-  , intRel :: RuleDataMap IntRel
---  , typeErr  :: TypeMap ConfigQType
+  , intRel   :: RuleDataMap IntRel
+  , typeErr  :: RuleDataMap ConfigQType
   } --deriving (Eq, Show, Generic)--, Typeable)
 
 emptyRuleSet = RuleSet
-  { missing = M.empty
-  , order   = M.empty
-  , intRel  = M.empty}
+  { missing  = M.empty
+  , order    = M.empty
+  , intRel   = M.empty
+  , typeErr  = M.empty}
 
 ------------
 -- The specific types of relations we want to learn
@@ -73,8 +74,17 @@ data Ordering = Ordering (Keyword,Keyword)
 data IntRel = IntRel (IRLine,IRLine,Formula)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
 
+data ConfigQType = ConfigQType (Keyword,QType)
+  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+
 -- TODO actual formula here
 type Formula = Int
+
+data QType = QType {
+  string :: Int
+ ,int :: Int  
+ ,size :: Int --mb/kb
+}
 
 type NumEvidenceTrue = Int
 type NumEvidenceFalse= Int
