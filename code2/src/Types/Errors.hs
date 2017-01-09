@@ -7,8 +7,7 @@ import           Types.Common
 type ErrorReport = [Error]
 data ErrorType = INTREL | ORDERING | MISSING | TYPE deriving (Show, Eq)
 data Error = Error{
-    errLoc1  :: (FilePath, Keyword)
-  , errLoc2  :: (FilePath, Keyword)
+    errLocs  :: [(FilePath, Keyword)]
   , errIdent :: ErrorType
   , errMsg   :: String
 }
@@ -27,15 +26,15 @@ instance Show Error where
 --   this reduces false positives and makes sense since type errors tend to be strongest rules and will break other things
 
 instance Eq Error where
-  (==) x y =
+  (==) e1 e2 =
     let
-      exactLocMatch = (errLoc1 x == errLoc1 y) && (errLoc2 x == errLoc2 y)
-      justOneMatch = (errLoc1 x == errLoc1 y) || (errLoc2 x == errLoc2 y)
-      transitiveLocMatch = (errLoc2 x == errLoc1 y) && (errLoc1 x == errLoc2 y)
-      anyMatch =  (errLoc1 x == errLoc1 y) || (errLoc2 x == errLoc2 y) || (errLoc2 x == errLoc1 y) || (errLoc1 x == errLoc2 y)
-      identMatch = (errIdent x == errIdent y)
+      exactLocMatch = and $ zipWith (==) (errLocs e1) (errLocs e2)
+      justOneMatch = or $ zipWith (==) (errLocs e1) (errLocs e2)
+      transitiveLocMatch = and $ zipWith (==) (errLocs e1) (reverse $ errLocs e2)
+      anyMatch =  justOneMatch || transitiveLocMatch
+      identMatch = (errIdent e1 == errIdent e2)
     in
-      case errIdent x of
+      case errIdent e1 of
         MISSING  -> justOneMatch && identMatch
         ORDERING -> justOneMatch && identMatch
         INTREL   -> anyMatch && identMatch

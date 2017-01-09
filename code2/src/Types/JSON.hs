@@ -13,16 +13,16 @@ import qualified Data.Map        as M
 import           GHC.Generics    (Generic)
 
 import           Types.IR
-import           Types.QTypes
+import           Types.Countable
 import           Types.Rules
 import qualified Types.Rules as R
 import           Types.Common
 
 data RuleSetLists = RuleSetLists
-  { orderl    :: [(R.Ordering,RuleData)]
-  , missingl  :: [(KeywordCoor,RuleData)]
-  --, typeErrl  :: [(Keyword, ConfigQType)]
-  , intRell  :: [(IntRel,RuleData)]
+  { orderl    :: [(R.Ordering,AntiRule)]
+  , missingl  :: [(KeywordCoor,AntiRule)]
+  , typeErrl  :: [(TypeErr,QType)]
+  , intRell  :: [(IntRel,Formula)]
   } deriving (Show, Generic, ToJSON, FromJSON)
 
 toLists :: RuleSet -> RuleSetLists
@@ -30,7 +30,7 @@ toLists RuleSet{..}=
   RuleSetLists
     { orderl = M.toList order
     , missingl = M.toList missing
-    --, typeErrl = M.toList typeErr
+    , typeErrl = M.toList typeErr
     , intRell = M.toList intRel
     }
 
@@ -39,7 +39,7 @@ fromLists RuleSetLists{..}=
   RuleSet
     { order = M.fromList orderl
     , missing = M.fromList missingl
-    --, typeErr = M.fromList typeErrl
+    , typeErr = M.fromList typeErrl
     , intRel = M.fromList intRell
     }
 

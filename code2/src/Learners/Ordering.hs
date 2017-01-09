@@ -1,10 +1,13 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs, OverloadedStrings #-}
+{-# LANGUAGE MultiParamTypeClasses #-} 
+{-# LANGUAGE TupleSections #-} 
 
 module Learners.Ordering where
 
 import Types.IR
 import Types.Errors
 import Types.Rules 
+import Types.Countable
 
 import Prelude hiding (Ordering)
 import qualified Data.Map as M
@@ -16,9 +19,8 @@ import Learners.Common
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
-instance Learnable Ordering where
+instance Learnable Ordering AntiRule where
 
-  buildRelations :: IRConfigFile -> RuleDataMap Ordering
   buildRelations f = let
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
     --according to Ennan socket and port do not interact with anything except themselves
@@ -33,39 +35,36 @@ instance Learnable Ordering where
      M.fromList $ embedOnce $ map toOrdering irPairs 
     --M.foldrWithKey removeConflicts x x
 
-  resolve :: RuleDataMap Ordering -> RuleDataMap Ordering
-  resolve rs = let
-    rs' = genFalseEvidence rs
-    condition r@(RuleData tru fls t e) = 
-      --tru>0 && fls==0 -- ConfigC 
-      tru>=3 && fls<=1  -- ConfigV
-   in
-    M.map (\r@(RuleData tru fls t e) -> if condition r then RuleData tru fls t True else r) rs'
+  --since AntiRules are built with different keyword pais
+  --we need to generate the counts of false evidence
+  --ths is nice since we will maintain both (k1,k2) and (k2,k1) rules
+  merge rs = let 
+      findOp (Ordering (k1,k2)) = M.findWithDefault (AntiRule 0 0 0) (Ordering (k2,k1)) rs
+      adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
+        AntiRule tru truOp (t+tOp) 
+      updateWithOp k v = combine v $ findOp k
+      --TODO cant filter here since this is also used when learning over one file
+      validRule r = (tru r)>=6 && (fls r)<=1
+    in
+      M.filter validRule $ M.mapWithKey updateWithOp rs
 
-  -- | NB it seems this was over IRLines in ConfigC
-  --   looked like an error, but double check this spot if strange results
-  isRelevant :: IRConfigFile -> Ordering -> Bool
-  isRelevant cf (Ordering (k1,k2)) = let
-     ks = map keyword cf
+  -- | does the r2 we found in the target file
+  --   agree with the learned r1
+  check _ rd1 rd2 = let
+     agrees r1 r2 = 
+       if tru r2 ==1
+       then tru r1 > fls r1
+       else fls r1 > tru r1
    in
-     elem k1 ks && elem k2 ks
+     if agrees rd1 rd2
+     then Nothing 
+     else Just rd1
 
-  toError :: FilePath -> (Ordering,RuleData) -> Error
   toError fname ((Ordering (k1,k2)),rd) = Error{
-     errLoc1 = (fname,k1)
-    ,errLoc2 = (fname,k2)
+     errLocs = map (fname,) [k1,k2]
     ,errIdent = ORDERING
     ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" \n   w/ confidence "++(show rd)}
 
-genFalseEvidence :: RuleDataMap Ordering -> RuleDataMap Ordering
-genFalseEvidence rs = let
-   findOp :: Ordering -> RuleData
-   findOp (Ordering (k1,k2)) = M.findWithDefault (RuleData 0 0 0 True) (Ordering (k2,k1)) rs
-   adjWithOp r@(RuleData tru fls t e) rOpData@(RuleData truOp flsOp tOp eOp) = 
-     RuleData tru truOp (t+tOp) (e&&eOp)
-   updateWithOp k v = adjWithOp v $ findOp k
-  in
-   M.mapWithKey updateWithOp rs
 
 pairs :: [IRLine]  -> [(IRLine,IRLine)]
 pairs [] = []
@@ -76,3 +75,4 @@ pairs (l:ls) =
     noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
   in
     noSelf
+

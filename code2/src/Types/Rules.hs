@@ -1,12 +1,15 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass#-}
+{-# LANGUAGE MultiParamTypeClasses #-} 
+{-# LANGUAGE AllowAmbiguousTypes #-} 
 
 module Types.Rules where
 
 import Types.Common
 import Types.IR
 import Types.Errors
+import Types.Countable
 
 import Prelude hiding (Ordering)
 import           Data.Aeson
@@ -19,37 +22,32 @@ import qualified Data.Set        as S
 
 -- | every instance of Learnable is a template of rules we can learn
 --   instance provided in the Learners dir
-class (Eq a, Show a, Ord a) => Learnable a where
+class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
   -- | build a set of rules from a single IR
   -- these rules will have TotalTimes=1
   -- this used to be learn
-  buildRelations :: IRConfigFile -> RuleDataMap a
-  -- | once you have all the evidence, decide which rules are valid
-  --   i.e. set the enabled flag on some
-  --   this used to be merge - kind of
-  resolve :: RuleDataMap a -> RuleDataMap a
-  -- | is a rule relevant to the file we want to verify
-  --   this used to be check
-  isRelevant :: IRConfigFile -> a -> Bool
+  buildRelations :: IRConfigFile -> RuleDataMap a b
+  -- | once you have all the evidence from indiviual files, merge into one rule
+  --   sometimes this can be 'id' if the countable data is isolated (See typeErr)
+  merge :: RuleDataMap a b -> RuleDataMap a b
+  --given a rule on keywords a, 
+  --check if the first (learned) rule is violated by the second rule from the target verification file
+  check :: a -> b -> b -> Maybe b
   -- | How to convert a rule to an error message
-  toError :: FilePath -> (a,RuleData) -> Error
+  toError :: FilePath -> (a, b) -> Error
+
+class Locatable a where
+  keys :: a -> [Keyword]
 
 -- | A rule is the structure for tracking and merging evidence relations
 --   We need to track how much evidence we have for the rule, against the rule, and how often we have seen the rule
-data RuleData = RuleData 
-  {tru :: Int --NumEvidenceTrue
-  ,fls :: Int --NumEvidenceFalse,
-  ,tot :: Int --TotalTimes
-  ,enabled :: Bool
-  }
-  deriving (Eq,Show,Generic,ToJSON,FromJSON)
-type RuleDataMap a = M.Map a RuleData
+type RuleDataMap a b = M.Map a b
 
 data RuleSet = RuleSet
-  { missing  :: RuleDataMap KeywordCoor
-  , order    :: RuleDataMap Ordering
-  , intRel   :: RuleDataMap IntRel
-  , typeErr  :: RuleDataMap ConfigQType
+  { missing  :: RuleDataMap KeywordCoor AntiRule
+  , order    :: RuleDataMap Ordering AntiRule
+  , intRel   :: RuleDataMap IntRel Formula
+  , typeErr  :: RuleDataMap TypeErr QType
   } --deriving (Eq, Show, Generic)--, Typeable)
 
 emptyRuleSet = RuleSet
@@ -67,28 +65,23 @@ emptyRuleSet = RuleSet
 -- TODO give explicit Eq instances to be used in merging
 data KeywordCoor = KeywordCoor (Keyword,Keyword) 
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+instance Locatable KeywordCoor where
+  keys (KeywordCoor (k1,k2)) = [k1,k2]
 
 data Ordering = Ordering (Keyword,Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+instance Locatable Ordering where
+  keys (Ordering  (k1,k2)) = [k1,k2]
 
-data IntRel = IntRel (IRLine,IRLine,Formula)
+data IntRel = IntRel (IRLine,IRLine)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+instance Locatable IntRel where
+  keys (IntRel (k1,k2)) = [keyword k1,keyword k2]
 
-data ConfigQType = ConfigQType (Keyword,QType)
+data TypeErr = TypeErr (Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+instance Locatable TypeErr where
+  keys (TypeErr (k1)) = [k1]
 
--- TODO actual formula here
-type Formula = Int
 
-data QType = QType {
-  string :: Int
- ,int :: Int  
- ,size :: Int --mb/kb
-}
 
-type NumEvidenceTrue = Int
-type NumEvidenceFalse= Int
-type TotalTimes = Int
-type Enabled = Bool
-type AppearsThereshold = Int
-type FrequencyThreshold = Double --between 0 and 1

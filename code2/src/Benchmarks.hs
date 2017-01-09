@@ -38,14 +38,14 @@ benchmarks :: [ErrorReport]
 benchmarks = case Settings.pROBRULES of
   Test -> testBenchSet
   NonProb -> group2 ++ group3 ++ group4 ++ group5
-  Prob -> group6 -- ++ cavAE_benchmarks
+  Prob ->  cavAE_benchmarks
   --Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
 
 u = unsafePerformIO
-getFileName = fst . errLoc1
+getFileName = fst . head . errLocs
 
 makeError (errLoc1,errLoc2,errIdent) =
-  Error {errMsg=(show errIdent)++" SPEC - "++(show$snd errLoc1)++" AND "++(show$snd errLoc2),..}
+  Error {errMsg=(show errIdent)++" SPEC - "++(show$snd errLoc1)++" AND "++(show$snd errLoc2),errLocs=[errLoc1,errLoc2],..}
 
 newSet :: [ErrorReport]
 newSet = map (map makeError) [

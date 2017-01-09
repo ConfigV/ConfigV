@@ -3,6 +3,7 @@ module Checker where
 import Types.IR
 import Types.Rules
 import Types.Errors
+import Types.Common
 
 import LearningEngine
 import Convert (convert)
@@ -10,44 +11,57 @@ import Convert (convert)
 import qualified Data.Map.Strict as M
 import           System.Directory
 
+import Debug.Trace
+
 verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
 verifyOn rs configFile@(fp,_,_)  =
-  genErrReport fp $ check rs configFile
+  genErrReport fp $ checkFile rs configFile
 
+traceMe x = trace (show (take 10 $ M.toList $ typeErr x)) x
 -- | fitler out the rules that won't be in the error report
-check :: RuleSet -> ConfigFile Language -> RuleSet
-check rs f =
+checkFile :: RuleSet -> ConfigFile Language -> RuleSet
+checkFile rs f =
    let
-     fRules = learnRules [f]
-     relevantRules = getRelevant rs (convert f)
-     diff = ruleDiff relevantRules fRules --the difference between the two rule sets
+     fRules = traceMe $ buildAllRelations $ convert f
+     fKs = map keyword $ convert f
+     rs' = filterRules fKs rs
+     diff = ruleDiff rs' fRules --the difference between the two rule sets
    in
      diff
 
+filterRules :: [Keyword] -> RuleSet -> RuleSet
+filterRules fKs rs = RuleSet {
+       order   = f order
+      ,missing = f missing 
+      ,intRel  = f intRel 
+      ,typeErr = f typeErr 
+     }
+   where
+     f classOfErr =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
+     keysMatch ks =
+       and $ map (\k->elem k fKs) ks
+
 --TODO apply to each rule type in a rule set individually
---TODO make Ruleset an instance of functor or something? fmap M.//
+--TODO make Ruleset an instance of functor or something? 
 ruleDiff :: RuleSet -> RuleSet -> RuleSet
 ruleDiff rs1 rs2 = RuleSet {
-  order = (order rs1) M.\\ (order rs2)
-  ,missing = (missing rs1) M.\\ (missing rs2)
-  ,intRel = (intRel rs1) M.\\ (intRel rs2)
- }
+       order   = f order 
+      ,missing = f missing
+      ,intRel  = f intRel
+      ,typeErr = f typeErr
+     }
+   where
+     --only use the key to resolve type ambiguity
+     f classOfErr = M.differenceWithKey check (classOfErr rs1) (classOfErr rs2)
 
--- TODO, again the RuleSet structure is pain 
-getRelevant :: RuleSet -> IRConfigFile -> RuleSet
-getRelevant rs f = RuleSet {
-    order   = M.filterWithKey (\k v -> isRelevant f k && enabled v) (order rs)
-  , missing = M.filterWithKey (\k v -> isRelevant f k) (missing rs)
-  , intRel  = M.filterWithKey (\k v -> isRelevant f k && enabled v) (intRel rs)
-  }
 
 -- | basically, the show instance for rules
 -- this was the biggest mess last time, can this somehow be simpiler
 genErrReport :: FilePath -> RuleSet -> ErrorReport
 genErrReport fname rs = 
   let  
-    f :: Learnable a => (RuleSet -> M.Map a RuleData) -> [Error]
-    f classOfErr= map (toError fname) (M.toList $ classOfErr rs)
+    f :: Learnable a b => (RuleSet -> RuleDataMap a b) -> [Error]
+    f classOfErr= map (\rd -> toError fname rd) $ M.toList $ classOfErr rs
   in 
     f order ++ f missing ++ f intRel
 
