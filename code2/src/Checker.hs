@@ -22,9 +22,9 @@ traceMe x = trace (show (take 10 $ M.toList $ typeErr x)) x
 checkFile :: RuleSet -> ConfigFile Language -> RuleSet
 checkFile rs f =
    let
-     fRules = traceMe $ buildAllRelations $ convert f
+     fRules = buildAllRelations $ convert f
      fKs = map keyword $ convert f
-     rs' = filterRules fKs rs
+     rs' = traceMe $ filterRules fKs rs
      diff = ruleDiff rs' fRules --the difference between the two rule sets
    in
      diff
@@ -63,6 +63,9 @@ genErrReport fname rs =
     f :: Learnable a b => (RuleSet -> RuleDataMap a b) -> [Error]
     f classOfErr= map (\rd -> toError fname rd) $ M.toList $ classOfErr rs
   in 
-    f order ++ f missing ++ f intRel
+    f order ++ 
+    f missing ++ 
+    f intRel ++
+    f typeErr
 
 

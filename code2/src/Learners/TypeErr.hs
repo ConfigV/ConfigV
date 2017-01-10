@@ -27,10 +27,11 @@ instance Learnable TypeErr QType where
     getQType :: T.Text -> QType
     getQType v =
       QType {
-         string = fromEnum (all C.isAlphaNum $T.unpack v)
-      --,path = fromEnum (not $ all C.isAlphaNum $T.unpack v)
+         string = fromEnum (all C.isAlpha $T.unpack v)
+        ,path = fromEnum ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
         ,int = fromEnum (all C.isNumber $T.unpack v)
-        ,size = fromEnum (T.isSuffixOf "M" v) 
+        ,bool = fromEnum (v == "")--flag keywords have no values
+        ,size = fromEnum ((T.isSuffixOf "M" v) || (T.isSuffixOf "K" v))
       }
       --undefined --regex, which types are possible
     toTypeErr :: IRLine -> (TypeErr,QType)
@@ -42,15 +43,20 @@ instance Learnable TypeErr QType where
   merge :: RuleDataMap TypeErr QType -> RuleDataMap TypeErr QType
   merge = id 
 
+  -- 
   check _ rd1 rd2 = let
      tot = fromIntegral $ sum [string rd1, int rd1, size rd1] 
-     strProb  = (fromIntegral .string)rd1 / tot 
-     intProb  = (fromIntegral .int) rd1 / tot 
-     sizeProb = (fromIntegral .size) rd1 / tot 
+     toProb x = (fromIntegral .x)rd1 / tot 
    in
-     if True -- string rd2 == 1 && strProb > 0.5
-     then Just rd1
-     else Nothing
+     if 
+       string rd2 == 1 && toProb string >0.9  ||
+       path   rd2 == 1 && toProb path> 0.5 ||
+       bool   rd2 == 1 && toProb bool > 0.5 ||
+       int    rd2 == 1 && toProb int> 0.5 ||
+       size   rd2 == 1 && toProb size > 0.9 ||
+       tot == 0
+     then Nothing
+     else Just rd1
 
   toError fname (TypeErr k,rd) = Error{
      errLocs = [(fname,k)]
