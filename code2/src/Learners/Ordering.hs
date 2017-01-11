@@ -23,14 +23,7 @@ instance Learnable Ordering AntiRule where
 
   buildRelations f = let
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
-    --according to Ennan socket and port do not interact with anything except themselves
-    sameConfigModule (ir1,ir2) = not (
-      (substr "socket" (keyword ir1) ||
-       substr "port"   (keyword ir1)) `B.xor`
-      (substr "socket" (keyword ir2) ||
-       substr "port"   (keyword ir2)))
-    substr = T.isInfixOf
-    irPairs = filter sameConfigModule $ pairs f
+    irPairs = filter (not. sameConfigModule) $ pairs f
    in
      M.fromList $ embedOnce $ map toOrdering irPairs 
     --M.foldrWithKey removeConflicts x x
@@ -65,6 +58,19 @@ instance Learnable Ordering AntiRule where
     ,errIdent = ORDERING
     ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" \n   w/ confidence "++(show rd)}
 
+--according to Ennan modules do not interact with anything except themselves
+--so take the string before the first '_' as the module and only compare those
+sameConfigModule (ir1,ir2) = let
+  getMod = fst. T.breakOn "_". keyword
+  --special case for socket and port
+  sockport = 
+   (T.isInfixOf "socket" (getMod ir1) ||
+    T.isInfixOf "port"   (getMod ir1)) `B.xor`
+   (T.isInfixOf "socket" (getMod ir2) ||
+    T.isInfixOf "port"   (getMod ir2))
+  sameMod = not (getMod ir1 == getMod ir2)
+ in
+  sockport || sameMod
 
 pairs :: [IRLine]  -> [(IRLine,IRLine)]
 pairs [] = []

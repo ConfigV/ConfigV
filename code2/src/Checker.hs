@@ -17,7 +17,8 @@ verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
 verifyOn rs configFile@(fp,_,_)  =
   genErrReport fp $ checkFile rs configFile
 
-traceMe x = trace (show (take 10 $ M.toList $ typeErr x)) x
+--traceMe x = trace (show (take 10 $ M.toList $ typeErr x)) x
+traceMe = id
 -- | fitler out the rules that won't be in the error report
 checkFile :: RuleSet -> ConfigFile Language -> RuleSet
 checkFile rs f =
