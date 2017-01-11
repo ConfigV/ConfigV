@@ -59,6 +59,7 @@ instance Learnable Ordering AntiRule where
 
 --according to Ennan modules do not interact with anything except themselves
 --so take the string before the first '_' as the module and only compare those
+--TODO log and datadir should be "same" module
 sameConfigModule (ir1,ir2) = let
   getMod = fst. T.breakOn "_". keyword
   --special case for socket and port

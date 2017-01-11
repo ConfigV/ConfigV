@@ -17,11 +17,13 @@ import Learners.Common
 
 instance Learnable R.KeywordCoor AntiRule where
 
-  buildRelations f = let
+  buildRelations f = 
+    M.empty
+ {-let
     toKC (ir1,ir2) = KeywordCoor (keyword ir1, keyword ir2) 
     irPairs = pairs f
    in
-     M.fromList $ embedOnce $ map toKC irPairs 
+     M.fromList $ embedOnce $ map toKC irPairs -}
   
   merge= id
 
