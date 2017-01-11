@@ -36,7 +36,6 @@ instance Learnable Ordering AntiRule where
       adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
         AntiRule tru truOp (t+tOp) 
       updateWithOp k v = combine v $ findOp k
-      --TODO cant filter here since this is also used when learning over one file
       validRule r = (tru r)>=6 && (fls r)<=1
     in
       M.filter validRule $ M.mapWithKey updateWithOp rs
@@ -49,9 +48,9 @@ instance Learnable Ordering AntiRule where
        then tru r1 > fls r1
        else fls r1 > tru r1
    in
-     if agrees rd1 rd2
-     then Nothing 
-     else Just rd1
+     if (not $agrees rd1 rd2)
+     then Just rd1
+     else Nothing
 
   toError fname ((Ordering (k1,k2)),rd) = Error{
      errLocs = map (fname,) [k1,k2]
