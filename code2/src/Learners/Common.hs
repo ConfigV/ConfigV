@@ -8,6 +8,8 @@ import Types.IR
 import Types.Rules
 import Types.Countable
 
+import Debug.Trace
+
 {-
 showErr :: (Show k, Show v) => Maybe (M.Map k v) -> ((k,v) -> Error) -> [Error]
 showErr rawEs printFxn =
@@ -25,3 +27,4 @@ combine :: AntiRule -> AntiRule -> AntiRule
 combine (AntiRule tru fls tot) (AntiRule truOp flsOp totOp)
   = AntiRule tru truOp (tot+totOp) 
 
+traceMe x = trace (show x) x

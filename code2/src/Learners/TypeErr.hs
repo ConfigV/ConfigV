@@ -31,7 +31,7 @@ instance Learnable TypeErr QType where
         ,path = fromEnum ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
         ,int = fromEnum (all C.isNumber $T.unpack v)
         ,bool = fromEnum (v == "")--flag keywords have no values
-        ,size = fromEnum ((or $ map (\x-> T.isSuffixOf x v) ["M","m","K","k"]) && (C.isNumber $ T.head v) ) --TODO are lower case allowed?
+        ,size = fromEnum ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) && (C.isNumber $ T.head v) ) --TODO are lower case allowed?
       }
       --undefined --regex, which types are possible
     toTypeErr :: IRLine -> (TypeErr,QType)

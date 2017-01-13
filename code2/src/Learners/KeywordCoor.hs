@@ -33,18 +33,20 @@ instance Learnable R.KeywordCoor AntiRule where
           | otherwise -> rd
       updateExisting newRs sumRs = M.mapWithKey (\k rd -> addEvi k rd newRs) sumRs
 
-      addNewR rs k rd  = 
-        if not $ hasKey k rs
+      -- if the rule does not have an entry already
+      -- add it
+      addNewR oldRs rs k rd  = 
+        if not $ hasKey k oldRs
         then M.insert k rd rs
         else rs
-      addNewRs newRs sumRs = M.foldlWithKey addNewR sumRs newRs
+      addNewRs newRs sumRs = M.foldlWithKey (addNewR sumRs) sumRs newRs
 
-      rsUpdated = foldl (\sumRs newRs -> addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
+      rsUpdated = foldl (\sumRs newRs -> traceMe $ addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
       
-      validRule r = (tru r)>=6 && (fls r)<=1
+      validRule r = (tru r)>=1 && (fls r)<=1
     in
-      --M.filter validRule rsUpdated
-      rsUpdated
+      M.filter validRule rsUpdated
+      --rsUpdated
 
 
   --   should we report the relation r2 found in the target file
@@ -53,7 +55,7 @@ instance Learnable R.KeywordCoor AntiRule where
      agrees r1 r2 = 
        if tru r2 ==1
        then tru r1 > fls r1
-       else fls r1 > tru r1
+       else True--fls r1 > tru r1
    in
      if (not $agrees rd1 rd2)
      then Just rd1

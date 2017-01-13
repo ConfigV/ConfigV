@@ -25,7 +25,7 @@ instance Learnable Ordering AntiRule where
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
     irPairs = filter (not. sameConfigModule) $ pairs f
    in
-     M.fromList $ embedOnce $ map toOrdering irPairs 
+     M.fromList $ embedOnce $ map toOrdering $ irPairs 
     --M.foldrWithKey removeConflicts x x
 
   --since AntiRules are built with different keyword pais
@@ -37,7 +37,7 @@ instance Learnable Ordering AntiRule where
       adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
         AntiRule tru truOp (t+tOp) 
       updateWithOp k v = combine v $ findOp k
-      validRule r = (tru r)>=6 && (fls r)<=1
+      validRule r = (tru r)>=1 && (fls r)<=1
     in
       M.filter validRule $ M.mapWithKey updateWithOp rs
 
@@ -60,16 +60,16 @@ instance Learnable Ordering AntiRule where
 
 --according to Ennan modules do not interact with anything except themselves
 --so take the string before the first '_' as the module and only compare those
---TODO log and datadir should be "same" module
 sameConfigModule (ir1,ir2) = let
   getMod = fst. T.breakOn "_". keyword
+  emptyMod x = (==) "" $ (snd$ T.breakOn "_"$ keyword x)
   --special case for socket and port
   sockport = 
    (T.isInfixOf "socket" (getMod ir1) ||
     T.isInfixOf "port"   (getMod ir1)) `B.xor`
    (T.isInfixOf "socket" (getMod ir2) ||
     T.isInfixOf "port"   (getMod ir2))
-  sameMod = not (getMod ir1 == getMod ir2)
+  sameMod = (not (emptyMod ir1 && emptyMod ir2)) && (getMod ir1 == getMod ir2)
  in
   sockport || sameMod
 
