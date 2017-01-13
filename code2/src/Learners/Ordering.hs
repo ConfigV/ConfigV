@@ -23,7 +23,7 @@ instance Learnable Ordering AntiRule where
 
   buildRelations f = let
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
-    irPairs = filter (not. sameConfigModule) $ pairs f
+    irPairs = filter (sameConfigModule) $ pairs f
    in
      M.fromList $ embedOnce $ map toOrdering $ irPairs 
     --M.foldrWithKey removeConflicts x x
@@ -59,17 +59,20 @@ instance Learnable Ordering AntiRule where
     ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" \n   w/ confidence "++(show rd)}
 
 --according to Ennan modules do not interact with anything except themselves
---so take the string before the first '_' as the module and only compare those
+--so take the string before the first '_' as the module and only compare those that have equal modules
+--if no modules, the keys are in the same module
+--Are these lines in the same moudle
+sameConfigModule :: (IRLine,IRLine) -> Bool
 sameConfigModule (ir1,ir2) = let
   getMod = fst. T.breakOn "_". keyword
   emptyMod x = (==) "" $ (snd$ T.breakOn "_"$ keyword x)
   --special case for socket and port
   sockport = 
    (T.isInfixOf "socket" (getMod ir1) ||
-    T.isInfixOf "port"   (getMod ir1)) `B.xor`
+    T.isInfixOf "port"   (getMod ir1)) &&
    (T.isInfixOf "socket" (getMod ir2) ||
     T.isInfixOf "port"   (getMod ir2))
-  sameMod = (not (emptyMod ir1 && emptyMod ir2)) && (getMod ir1 == getMod ir2)
+  sameMod = (emptyMod ir1 && emptyMod ir2) || (getMod ir1 == getMod ir2)
  in
   sockport || sameMod
 

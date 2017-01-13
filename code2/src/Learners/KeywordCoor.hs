@@ -41,7 +41,7 @@ instance Learnable R.KeywordCoor AntiRule where
         else rs
       addNewRs newRs sumRs = M.foldlWithKey (addNewR sumRs) sumRs newRs
 
-      rsUpdated = foldl (\sumRs newRs -> traceMe $ addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
+      rsUpdated = foldl (\sumRs newRs -> addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
       
       validRule r = (tru r)>=1 && (fls r)<=1
     in
