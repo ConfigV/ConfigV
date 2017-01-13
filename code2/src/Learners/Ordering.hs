@@ -31,7 +31,8 @@ instance Learnable Ordering AntiRule where
   --since AntiRules are built with different keyword pais
   --we need to generate the counts of false evidence
   --ths is nice since we will maintain both (k1,k2) and (k2,k1) rules
-  merge rs = let 
+  merge rs' = let 
+      rs = M.unionsWith add rs'
       findOp (Ordering (k1,k2)) = M.findWithDefault (AntiRule 0 0 0) (Ordering (k2,k1)) rs
       adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
         AntiRule tru truOp (t+tOp) 

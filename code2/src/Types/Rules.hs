@@ -29,7 +29,7 @@ class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
   buildRelations :: IRConfigFile -> RuleDataMap a b
   -- | once you have all the evidence from indiviual files, merge into one rule
   --   sometimes this can be 'id' if the countable data is isolated (See typeErr)
-  merge :: RuleDataMap a b -> RuleDataMap a b
+  merge :: Countable b => [RuleDataMap a b] -> RuleDataMap a b
   --given a rule on keywords a, 
   --check if the first (learned) rule is violated by the second rule from the target verification file
   check :: a -> b -> b -> Maybe b

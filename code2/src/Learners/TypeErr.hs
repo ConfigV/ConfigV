@@ -39,9 +39,8 @@ instance Learnable TypeErr QType where
    in
      M.fromList $ map toTypeErr  f
 
-  -- not needed since we keywords are always the same
-  merge :: RuleDataMap TypeErr QType -> RuleDataMap TypeErr QType
-  merge = id 
+  merge rs = 
+     M.unionsWith add rs
 
   -- 
   check _ rd1 rd2 = let

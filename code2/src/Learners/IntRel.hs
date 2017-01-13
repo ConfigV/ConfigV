@@ -21,7 +21,8 @@ instance Learnable R.IntRel Formula where
   -- | is a rule relevant to the file we want to verify
   --   this used to be check
   
-  merge = id
+  merge rs = 
+     M.unionsWith add rs
   
   check _ r1 r2 = Nothing
     

@@ -17,18 +17,35 @@ import Learners.Common
 
 instance Learnable R.KeywordCoor AntiRule where
 
-  buildRelations f = 
-    M.empty
- {-let
+  buildRelations f = let
     toKC (ir1,ir2) = KeywordCoor (keyword ir1, keyword ir2) 
     irPairs = pairs f
    in
-     M.fromList $ embedOnce $ map toKC irPairs -}
+     M.fromList $ embedOnce $ map toKC irPairs 
   
-  merge= id
+  merge rs = let 
+      addEvi k rd rs = 
+        if hasKey k rs
+        then addT rd
+        else addF rd
+      updateWith  newRs sumRs = M.mapWithKey (\k rd -> addEvi k rd newRs) sumRs
+      validRule r = (tru r)>=6 && (fls r)<=1
+    in
+      M.filter validRule $ foldl updateWith M.empty rs
 
-  check _ r1 r2 = Nothing
-  
+
+  --   should we report the relation r2 found in the target file
+  --   as in conflict with the learned rule r1
+  check _ rd1 rd2 = let
+     agrees r1 r2 = 
+       if tru r2 ==1
+       then tru r1 > fls r1
+       else fls r1 > tru r1
+   in
+     if (not $agrees rd1 rd2)
+     then Just rd1
+     else Nothing
+
   toError fname ((KeywordCoor (k1,k2)),rd) = Error{
      errLocs= [(fname,k1),(fname,k2)]
     ,errIdent = MISSING
@@ -43,3 +60,17 @@ pairs (l:ls) =
     noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
   in
     noSelf
+
+addT :: AntiRule -> AntiRule
+addT (AntiRule t f tot) =
+  AntiRule (t+1) f (tot+1)
+addF :: AntiRule -> AntiRule
+addF (AntiRule t f tot) =
+  AntiRule t (f+1) (tot+1)
+
+
+hasKey k rs = let
+  ks1 = map (fst.fst) $M.toList rs
+  ks2 = map (snd.fst) $M.toList rs
+ in
+  elem k ks1 || elem k ks2

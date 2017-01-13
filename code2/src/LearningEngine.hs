@@ -22,12 +22,11 @@ learnRules fs = let
   --rs = parMap rdeepseq buildAllRelations fs'
   fs' = map convert fs
   rs = map buildAllRelations fs'
-  collected = combineAllRuleData rs
  in
-  resolveRules collected
+  resolveRules rs
 
 -- | use the learning module instances to decide probabiliity cutoff and the sort
-resolveRules :: RuleSet -> RuleSet
+resolveRules :: [RuleSet] -> RuleSet
 resolveRules rs = RuleSet
   { order   = f order
   , missing = f missing
@@ -35,7 +34,7 @@ resolveRules rs = RuleSet
   , typeErr = f typeErr
   }
  where
-  f classOfErr = merge $ classOfErr rs 
+  f classOfErr = merge $ map classOfErr rs 
 
 -- | call each of the learning modules
 buildAllRelations :: IRConfigFile -> RuleSet
@@ -45,21 +44,4 @@ buildAllRelations f = RuleSet
   , intRel  = buildRelations f
   , typeErr = buildRelations f
   }
-
--- | combine all the information we have learned into a single massive set
-combineAllRuleData :: [RuleSet] -> RuleSet
-combineAllRuleData rs =
-  RuleSet
-    { order  = f order 
-    , missing = f missing
-    , intRel = f intRel 
-    , typeErr= f typeErr
-    }
- where
-  f x = M.unionsWith combineRuleData (map x rs)
-  -- | I wish there was a shorter way to write this
-  --   both rules must be enabled to keep a rule enabled
-  combineRuleData :: Countable a => a -> a -> a
-  combineRuleData  c c' =
-    (add c c')
 
