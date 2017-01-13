@@ -1,5 +1,6 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs #-}
 {-# LANGUAGE MultiParamTypeClasses #-} 
+{-# LANGUAGE MultiWayIf #-} 
 
 module Learners.KeywordCoor where
 
@@ -15,6 +16,8 @@ import           System.Directory
 
 import Learners.Common
 
+import Debug.Trace
+
 instance Learnable R.KeywordCoor AntiRule where
 
   buildRelations f = let
@@ -24,14 +27,24 @@ instance Learnable R.KeywordCoor AntiRule where
      M.fromList $ embedOnce $ map toKC irPairs 
   
   merge rs = let 
-      addEvi k rd rs = 
-        if hasKey k rs
-        then addT rd
-        else addF rd
-      updateWith  newRs sumRs = M.mapWithKey (\k rd -> addEvi k rd newRs) sumRs
+      addEvi k rd rs = if 
+          | M.member k rs || M.member (flipped k) rs -> addT rd
+          | hasKey k rs -> addF rd
+          | otherwise -> rd
+      updateExisting newRs sumRs = M.mapWithKey (\k rd -> addEvi k rd newRs) sumRs
+
+      addNewR rs k rd  = 
+        if not $ hasKey k rs
+        then M.insert k rd rs
+        else rs
+      addNewRs newRs sumRs = M.foldlWithKey addNewR sumRs newRs
+
+      rsUpdated = foldl (\sumRs newRs -> addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
+      
       validRule r = (tru r)>=6 && (fls r)<=1
     in
-      M.filter validRule $ foldl updateWith M.empty rs
+      --M.filter validRule rsUpdated
+      rsUpdated
 
 
   --   should we report the relation r2 found in the target file
@@ -49,7 +62,7 @@ instance Learnable R.KeywordCoor AntiRule where
   toError fname ((KeywordCoor (k1,k2)),rd) = Error{
      errLocs= [(fname,k1),(fname,k2)]
     ,errIdent = MISSING
-    ,errMsg = "KEYWORD ERROR: Expected "++(show k1)++" WITH "++(show k2)}
+    ,errMsg = "KEYWORD ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)}
 
 pairs :: [IRLine]  -> [(IRLine,IRLine)]
 pairs [] = []
@@ -68,9 +81,15 @@ addF :: AntiRule -> AntiRule
 addF (AntiRule t f tot) =
   AntiRule t (f+1) (tot+1)
 
-
-hasKey k rs = let
-  ks1 = map (fst.fst) $M.toList rs
-  ks2 = map (snd.fst) $M.toList rs
+hasKey :: KeywordCoor -> RuleDataMap KeywordCoor AntiRule -> Bool
+hasKey (KeywordCoor (k1,k2)) rs = let
+  ks1 = map (\(KeywordCoor (k1,k2)) -> k1) $ map fst $M.toList rs
+  ks2 = map (\(KeywordCoor (k1,k2)) -> k2) $ map fst $M.toList rs
  in
-  elem k ks1 || elem k ks2
+  elem k1 ks1 || elem k1 ks2 ||
+  elem k2 ks1 || elem k2 ks2
+
+--TODO this should just be part of a custom Eq instance
+flipped :: KeywordCoor -> KeywordCoor
+flipped (KeywordCoor (k1,k2)) =
+  KeywordCoor (k2,k1)
