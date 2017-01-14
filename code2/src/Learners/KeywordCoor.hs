@@ -87,7 +87,7 @@ hasKey :: KeywordCoor -> RuleDataMap KeywordCoor AntiRule -> Bool
 hasKey (KeywordCoor (k1,k2)) rs = let
   matches = map (\((KeywordCoor (k1',k2')), _) -> k1==k1' || k1==k2' || k2==k1' || k2==k2') $M.toList rs
  in
-  or matches 
+  or matches  --i think the lazy eval is being super helpful here!
 
 --TODO this should just be part of a custom Eq instance
 flipped :: KeywordCoor -> KeywordCoor
