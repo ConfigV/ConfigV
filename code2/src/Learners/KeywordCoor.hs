@@ -85,9 +85,9 @@ addF (AntiRule t f tot) =
 
 hasKey :: KeywordCoor -> RuleDataMap KeywordCoor AntiRule -> Bool
 hasKey (KeywordCoor (k1,k2)) rs = let
-  ks1 = concatMap (\((KeywordCoor (k1,k2)), _) -> [k1,k2]) $M.toList rs
+  matches = map (\((KeywordCoor (k1',k2')), _) -> k1==k1' || k1==k2' || k2==k1' || k2==k2') $M.toList rs
  in
-  elem k1 ks1 || elem k2 ks1
+  or matches 
 
 --TODO this should just be part of a custom Eq instance
 flipped :: KeywordCoor -> KeywordCoor
