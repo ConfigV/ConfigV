@@ -43,7 +43,7 @@ instance Learnable R.KeywordCoor AntiRule where
 
       rsUpdated = foldl (\sumRs newRs -> addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
       
-      validRule r = (tru r)>=1 && (fls r)<=1
+      validRule r = (tru r)>=6 && (fls r)<=1
     in
       M.filter validRule rsUpdated
       --rsUpdated
@@ -85,11 +85,9 @@ addF (AntiRule t f tot) =
 
 hasKey :: KeywordCoor -> RuleDataMap KeywordCoor AntiRule -> Bool
 hasKey (KeywordCoor (k1,k2)) rs = let
-  ks1 = map (\(KeywordCoor (k1,k2)) -> k1) $ map fst $M.toList rs
-  ks2 = map (\(KeywordCoor (k1,k2)) -> k2) $ map fst $M.toList rs
+  ks1 = concatMap (\((KeywordCoor (k1,k2)), _) -> [k1,k2]) $M.toList rs
  in
-  elem k1 ks1 || elem k1 ks2 ||
-  elem k2 ks1 || elem k2 ks2
+  elem k1 ks1 || elem k2 ks1
 
 --TODO this should just be part of a custom Eq instance
 flipped :: KeywordCoor -> KeywordCoor

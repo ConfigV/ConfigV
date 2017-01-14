@@ -9,6 +9,7 @@ import qualified Data.Map        as M
 import           Data.Aeson
 import           GHC.Generics     (Generic)
 
+import Control.DeepSeq
 -- | type inference will construct a map 
 --   which is updated as we see more examples of values/use
 --   might even be useful in real langauge, to learn more specific "subtypes" (or refinement types?)
@@ -22,7 +23,7 @@ data QType = QType {
  ,int :: Int  
  ,bool :: Int  
  ,size :: Int --mb/kb
-} deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+} deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
 -- TODO actual formula here
 type Formula = Int
@@ -30,7 +31,7 @@ data AntiRule = AntiRule {
    tru :: Int
   ,fls :: Int
   ,tot :: Int
-  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
 class Countable a where 
   add :: a -> a -> a

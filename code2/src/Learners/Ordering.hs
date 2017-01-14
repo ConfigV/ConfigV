@@ -37,7 +37,7 @@ instance Learnable Ordering AntiRule where
       adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
         AntiRule tru truOp (t+tOp) 
       updateWithOp k v = combine v $ findOp k
-      validRule r = (tru r)>=1 && (fls r)<=1
+      validRule r = (tru r)>=6 && (fls r)<=1
     in
       M.filter validRule $ M.mapWithKey updateWithOp rs
 
@@ -67,14 +67,15 @@ sameConfigModule (ir1,ir2) = let
   getMod = fst. T.breakOn "_". keyword
   emptyMod x = (==) "" $ (snd$ T.breakOn "_"$ keyword x)
   --special case for socket and port
-  sockport = 
+  --cant be the same module if only one is socket or port
+  sockport = not $
    (T.isInfixOf "socket" (getMod ir1) ||
-    T.isInfixOf "port"   (getMod ir1)) &&
+    T.isInfixOf "port"   (getMod ir1)) `B.xor`
    (T.isInfixOf "socket" (getMod ir2) ||
     T.isInfixOf "port"   (getMod ir2))
   sameMod = (emptyMod ir1 && emptyMod ir2) || (getMod ir1 == getMod ir2)
  in
-  sockport || sameMod
+  sockport &&  sameMod
 
 pairs :: [IRLine]  -> [(IRLine,IRLine)]
 pairs [] = []

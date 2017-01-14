@@ -20,6 +20,7 @@ import           System.Directory
 import qualified Data.Map.Strict as M
 import qualified Data.Set        as S
 
+import Control.DeepSeq
 -- | every instance of Learnable is a template of rules we can learn
 --   instance provided in the Learners dir
 class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
@@ -48,7 +49,7 @@ data RuleSet = RuleSet
   , order    :: RuleDataMap Ordering AntiRule
   , intRel   :: RuleDataMap IntRel Formula
   , typeErr  :: RuleDataMap TypeErr QType
-  } --deriving (Eq, Show, Generic)--, Typeable)
+  } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
 emptyRuleSet = RuleSet
   { missing  = M.empty
@@ -64,22 +65,22 @@ emptyRuleSet = RuleSet
 -- | these keywords should appear in the same file
 -- TODO give explicit Eq instances to be used in merging
 data KeywordCoor = KeywordCoor (Keyword,Keyword) 
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable KeywordCoor where
   keys (KeywordCoor (k1,k2)) = [k1,k2]
 
 data Ordering = Ordering (Keyword,Keyword)
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable Ordering where
   keys (Ordering  (k1,k2)) = [k1,k2]
 
 data IntRel = IntRel (IRLine,IRLine)
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable IntRel where
   keys (IntRel (k1,k2)) = [keyword k1,keyword k2]
 
 data TypeErr = TypeErr (Keyword)
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON)
+  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable TypeErr where
   keys (TypeErr (k1)) = [k1]
 
