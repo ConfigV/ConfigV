@@ -45,9 +45,9 @@ instance Learnable R.IntRel Formula where
  
   check _ r1 r2 = if
     | gt r1 > 3 && lt r1 > 3 -> Nothing --ignore rules if they dont have a clear tendancy
-    | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) -> Just r1
-    | lt r2 == 1 && gt r1 > 3 -> Just r1
-    | gt r2 == 1 && lt r1 > 3 -> Just r1
+    | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) -> Just r2
+    | lt r2 == 1 && gt r1 > 3 -> Just r2
+    | gt r2 == 1 && lt r1 > 3 -> Just r2
     | otherwise -> Nothing
     
     
