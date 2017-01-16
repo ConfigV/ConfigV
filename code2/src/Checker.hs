@@ -17,15 +17,15 @@ verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
 verifyOn rs configFile@(fp,_,_)  =
   genErrReport fp $ checkFile rs configFile
 
---traceMe x = trace (show (take 10 $ M.toList $ typeErr x)) x
-traceMe = id
+traceMe x = trace (show x) x
+--traceMe = id
 -- | fitler out the rules that won't be in the error report
 checkFile :: RuleSet -> ConfigFile Language -> RuleSet
 checkFile rs f =
    let
      fRules = buildAllRelations $ convert f
      fKs = map keyword $ convert f
-     rs' = traceMe $ filterRules fKs rs
+     rs' = filterRules fKs rs
      diff = ruleDiff rs' fRules --the difference between the two rule sets
    in
      diff
@@ -33,14 +33,15 @@ checkFile rs f =
 filterRules :: [Keyword] -> RuleSet -> RuleSet
 filterRules fKs rs = RuleSet {
        order   = f order
-      ,missing = f missing 
+      ,missing = f' missing 
       ,intRel  = f intRel 
       ,typeErr = f typeErr 
      }
    where
-     f classOfErr =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
-     keysMatch ks =
-       and $ map (\k->elem k fKs) ks
+     f classOfErr  =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
+     f' classOfErr =  M.filterWithKey (\e _ -> oneKeyMatch (keys e)) (classOfErr rs)
+     keysMatch ks   = and $ map (\k->elem k fKs) ks
+     oneKeyMatch ks = or $ map (\k->elem k fKs) ks
 
 --TODO apply to each rule type in a rule set individually
 --TODO make Ruleset an instance of functor or something? 
