@@ -49,13 +49,14 @@ ruleDiff :: RuleSet -> RuleSet -> RuleSet
 ruleDiff rs1 rs2 = RuleSet {
        order   = f order 
       ,missing = f missing
-      ,intRel  = f intRel
+      ,intRel  = f' intRel
       ,typeErr = f typeErr
      }
    where
      --only use the key to resolve type ambiguity
      f classOfErr = M.differenceWithKey check (classOfErr rs1) (classOfErr rs2)
-
+     f' classOfErr = M.differenceWithKey check (classOfErr rs1) (classOfErr rs2)
+     
 
 -- | basically, the show instance for rules
 -- this was the biggest mess last time, can this somehow be simpiler

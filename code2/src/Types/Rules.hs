@@ -3,6 +3,7 @@
 {-# LANGUAGE DeriveAnyClass#-}
 {-# LANGUAGE MultiParamTypeClasses #-} 
 {-# LANGUAGE AllowAmbiguousTypes #-} 
+{-# LANGUAGE MultiWayIf #-} 
 
 module Types.Rules where
 
@@ -19,6 +20,8 @@ import           System.Directory
 --TODO Strict or Lazy maps?
 import qualified Data.Map.Strict as M
 import qualified Data.Set        as S
+import qualified Data.Text       as T
+import           Data.Tuple      
 
 import Control.DeepSeq
 -- | every instance of Learnable is a template of rules we can learn
@@ -74,10 +77,19 @@ data Ordering = Ordering (Keyword,Keyword)
 instance Locatable Ordering where
   keys (Ordering  (k1,k2)) = [k1,k2]
 
-data IntRel = IntRel (IRLine,IRLine)
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
+data IntRel = IntRel Keyword Keyword
+  deriving (Show,Ord,Generic,ToJSON,FromJSON,NFData)
+instance Eq IntRel where
+  (==) (IntRel k1 k2) (IntRel k1' k2') = 
+     (k1==k1' && k2==k2') || 
+     (k1==k2' && k2==k1')
+{-instance Ord IntRel where
+  compare (IntRel k1 k2) (IntRel k1' k2') = if
+    | compare (T.append k1 k2) (T.append k2' k1') == EQ -> EQ
+    | otherwise -> compare (T.append k1 k2) (T.append k1' k2')-}
+
 instance Locatable IntRel where
-  keys (IntRel (k1,k2)) = [keyword k1,keyword k2]
+  keys (IntRel k1 k2) = [k1,k2]
 
 data TypeErr = TypeErr (Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)

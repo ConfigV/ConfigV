@@ -25,8 +25,14 @@ data QType = QType {
  ,size :: Int --mb/kb
 } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
--- TODO actual formula here
-type Formula = Int
+data Formula = Formula {
+  gt :: Int
+ ,lt :: Int
+ ,eq :: Int
+ }
+  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
+
+
 data AntiRule = AntiRule {
    tru :: Int
   ,fls :: Int
@@ -36,12 +42,14 @@ data AntiRule = AntiRule {
 class Countable a where 
   add :: a -> a -> a
 
+--TODO, use generics to derive Countable
 instance Countable AntiRule where
   add (AntiRule tru fls tot) (AntiRule tru' fls' tot') =
     AntiRule (tru+tru') (fls+fls') (tot+tot')
 
 instance Countable Formula where
-  add f1 f2 = f1
+  add (Formula gt lt eq) (Formula gt' lt' eq') = 
+    Formula (gt+gt') (lt+lt') (eq+eq')
 
 instance Countable QType where
   add (QType f1 f2 f3 f4 f5) (QType f1' f2' f3' f4' f5') =

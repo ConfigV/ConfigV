@@ -13,12 +13,15 @@ import Prelude hiding (Ordering)
 import qualified Data.Map as M
 import           System.Directory
 import qualified Data.Text as T
-import qualified Data.Bits as B
 
 import Learners.Common
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
+
+minTrue = 6
+maxFalse = 1
+
 instance Learnable Ordering AntiRule where
 
   buildRelations f = let
@@ -37,7 +40,7 @@ instance Learnable Ordering AntiRule where
       adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
         AntiRule tru truOp (t+tOp) 
       updateWithOp k v = combine v $ findOp k
-      validRule r = (tru r)>=6 && (fls r)<=1
+      validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
     in
       M.filter validRule $ M.mapWithKey updateWithOp rs
 
@@ -57,33 +60,4 @@ instance Learnable Ordering AntiRule where
      errLocs = map (fname,) [k1,k2]
     ,errIdent = ORDERING
     ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" \n   w/ confidence "++(show rd)}
-
---according to Ennan modules do not interact with anything except themselves
---so take the string before the first '_' as the module and only compare those that have equal modules
---if no modules, the keys are in the same module
---Are these lines in the same moudle
-sameConfigModule :: (IRLine,IRLine) -> Bool
-sameConfigModule (ir1,ir2) = let
-  getMod = fst. T.breakOn "_". keyword
-  emptyMod x = (==) "" $ (snd$ T.breakOn "_"$ keyword x)
-  --special case for socket and port
-  --cant be the same module if only one is socket or port
-  sockport = not $
-   (T.isInfixOf "socket" (getMod ir1) ||
-    T.isInfixOf "port"   (getMod ir1)) `B.xor`
-   (T.isInfixOf "socket" (getMod ir2) ||
-    T.isInfixOf "port"   (getMod ir2))
-  sameMod = (emptyMod ir1 && emptyMod ir2) || (getMod ir1 == getMod ir2)
- in
-  sockport &&  sameMod
-
-pairs :: [IRLine]  -> [(IRLine,IRLine)]
-pairs [] = []
-pairs (l:ls) =
-  let
-    thisP = map (\x->(l,x)) ls
-    theRest = pairs ls
-    noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
-  in
-    noSelf
 

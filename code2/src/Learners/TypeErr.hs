@@ -15,6 +15,7 @@ import qualified Data.Text as T
 import qualified Data.Bits as B
 import qualified Data.Char as C
 
+import Debug.Trace
 import Learners.Common
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
@@ -27,15 +28,17 @@ instance Learnable TypeErr QType where
     getQType :: T.Text -> QType
     getQType v =
       QType {
-         string = fromEnum (all C.isAlpha $T.unpack v)
+         string = fromEnum ((T.length $ T.takeWhile C.isAlpha v) > 1)
         ,path = fromEnum ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
         ,int = fromEnum (all C.isNumber $T.unpack v)
         ,bool = fromEnum (v == "")--flag keywords have no values
         ,size = fromEnum ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) && (C.isNumber $ T.head v) ) --TODO are lower case allowed?
       }
-      --undefined --regex, which types are possible
+    --NB on takeWhile, types of keywords do not depend on context
+    -- this creates a problem with the Chekcer tho...
     toTypeErr :: IRLine -> (TypeErr,QType)
     toTypeErr ir = (TypeErr (keyword ir),getQType $ value ir)
+    --toTypeErr ir = (TypeErr (T.takeWhile (/= '[') $ keyword ir),getQType $ value ir)
    in
      M.fromList $ map toTypeErr  f
 
@@ -48,7 +51,7 @@ instance Learnable TypeErr QType where
      toProb x = (fromIntegral .x)rd1 / tot 
    in
      if 
-       string rd2 == 1 && toProb string >0.7  ||
+       string rd2 == 1 && toProb string > 0.7 ||
        path   rd2 == 1 && toProb path> 0.5 ||
        bool   rd2 == 1 && toProb bool > 0.5 ||
        int    rd2 == 1 && (toProb int> 0.5 || toProb size>0.5) ||

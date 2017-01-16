@@ -18,11 +18,19 @@ import Learners.Common
 
 import Debug.Trace
 
+
+minTrue = 6
+maxFalse = 1
+
 instance Learnable R.KeywordCoor AntiRule where
 
   buildRelations f = let
-    toKC (ir1,ir2) = KeywordCoor (keyword ir1, keyword ir2) 
-    irPairs = pairs f
+    --order pairs consistently
+    toKC (ir1,ir2) = 
+      if keyword ir1 > keyword ir2
+      then KeywordCoor (keyword ir1, keyword ir2) 
+      else KeywordCoor (keyword ir2, keyword ir1) 
+    irPairs = pairs' f
    in
      M.fromList $ embedOnce $ map toKC irPairs 
   
@@ -43,7 +51,7 @@ instance Learnable R.KeywordCoor AntiRule where
 
       rsUpdated = foldl (\sumRs newRs -> addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
       
-      validRule r = (tru r)>=6 && (fls r)<=1
+      validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
     in
       M.filter validRule rsUpdated
       --rsUpdated
@@ -66,9 +74,9 @@ instance Learnable R.KeywordCoor AntiRule where
     ,errIdent = MISSING
     ,errMsg = "KEYWORD ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)}
 
-pairs :: [IRLine]  -> [(IRLine,IRLine)]
-pairs [] = []
-pairs (l:ls) =
+pairs' :: [IRLine]  -> [(IRLine,IRLine)]
+pairs' [] = []
+pairs' (l:ls) =
   let
     thisP = map (\x->(l,x)) ls
     theRest = pairs ls
