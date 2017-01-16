@@ -45,9 +45,9 @@ instance Learnable R.IntRel Formula where
  
   check _ r1 r2 = if
     | gt r1 > 3 && lt r1 > 3 -> Nothing --ignore rules if they dont have a clear tendancy
-    | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) -> Just r2
-    | lt r2 == 1 && gt r1 > 3 -> Just r2
-    | gt r2 == 1 && lt r1 > 3 -> Just r2
+    | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1
+    | lt r2 == 1 && gt r1 > 3 && lt r1 < 2-> Just r1
+    | gt r2 == 1 && lt r1 > 3 && gt r1 < 2-> Just r1
     | otherwise -> Nothing
     
     
@@ -74,17 +74,26 @@ flipped f = Formula {
 --TODO only consider raw ints or size ints
 intLike :: IRLine -> Maybe IRLine
 intLike (IRLine k v) = let
-  hasInt v = intPart v /= ""
-  intPart  = fst. T.partition C.isNumber
+  hasInt v = (all C.isNumber$ T.unpack v) || ((isJust $ units v) && (any C.isNumber (T.unpack v)))
  in
-  if hasInt $ v
-  then Just $ IRLine k (intPart v)
+  if hasInt v && (v/="")
+  then Just $ IRLine k v
   else Nothing
+
+units v = if
+  | T.length v == 0 -> Nothing
+  | all C.isNumber (T.unpack $ T.init v) -> Just $ scale $ T.last v
+  | otherwise -> Nothing
+scale c = if
+  | C.toUpper c == 'M' -> 1
+  | C.toUpper c == 'K' -> 1000
+  | C.toUpper c == 'G' -> 1000000
+  | otherwise -> 1 
 
 --all IRLines must have only ints as values
 toIntRel :: (IRLine,IRLine) -> (IntRel,Formula)
 toIntRel (IRLine k1 v1,IRLine k2 v2) = let
- asInt = read. T.unpack  :: T.Text -> Int
+ asInt v = (read $ T.unpack (fst $ T.partition C.isNumber v)) * (fromMaybe 1 $ units v)
  formula v1 v2 = if
    | v1 < v2  -> Formula {gt=0,eq=0,lt=1}
    | v1 == v2 -> Formula {gt=0,eq=1,lt=0}

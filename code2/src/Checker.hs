@@ -1,13 +1,17 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 module Checker where
 
 import Types.IR
 import Types.Rules
 import Types.Errors
 import Types.Common
+import Types.Countable
 
 import LearningEngine
 import Convert (convert)
 
+import Data.Maybe
+import qualified Data.Map.Merge.Strict as M
 import qualified Data.Map.Strict as M
 import           System.Directory
 
@@ -55,7 +59,8 @@ ruleDiff rs1 rs2 = RuleSet {
    where
      --only use the key to resolve type ambiguity
      f classOfErr = M.differenceWithKey check (classOfErr rs1) (classOfErr rs2)
-     f' classOfErr = M.differenceWithKey check (classOfErr rs1) (classOfErr rs2)
+     --intersect, and return formula tht will never match when Nothing
+     f' classOfErr = M.merge M.dropMissing M.dropMissing (M.zipWithMaybeMatched check) (classOfErr rs1) (classOfErr rs2)
      
 
 -- | basically, the show instance for rules
