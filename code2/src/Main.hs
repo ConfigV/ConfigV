@@ -53,7 +53,7 @@ runVerify rules vTargets  = do
   fitnesses <- 
     if Settings.bENCHMARKS 
     then zipWithM reportBenchmarkPerformance benchmarks errors 
-    else mapM print errors >> return [0]
+    else mapM print (zip (map (\(x,y,z)->x)  vTargets) errors) >> return [0]
   return $ sum fitnesses
 
  -- | compare the original benchark spec to the generated one

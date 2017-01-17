@@ -19,7 +19,7 @@ import Learners.Common
 import Debug.Trace
 
 
-minTrue = 8
+minTrue = 7
 maxFalse = 1
 
 instance Learnable R.KeywordCoor AntiRule where

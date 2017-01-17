@@ -7,7 +7,7 @@ module Settings where
   uSE_CACHE = False
 
   --verify benchmarks and report # passing or verify files in 'user' dir
-  bENCHMARKS = True
+  bENCHMARKS = False
 
   --what kind of rules should we learn (from correct or incorrect dataset)
   pROBRULES = Prob
