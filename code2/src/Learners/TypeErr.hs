@@ -30,9 +30,10 @@ instance Learnable TypeErr QType where
       QType {
          string = fromEnum ((T.length $ T.takeWhile C.isAlpha v) > 1)
         ,path = fromEnum ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
-        ,int = fromEnum (all C.isNumber $T.unpack v)
         ,bool = fromEnum (v == "")--flag keywords have no values
-        ,size = fromEnum ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) && (C.isNumber $ T.head v) ) --TODO are lower case allowed?
+        ,int = fromEnum (all C.isNumber $T.unpack v)
+        ,size = fromEnum ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) && 
+                          (T.length $ T.takeWhile C.isNumber v) == (T.length v -1) ) 
       }
     --NB on takeWhile, types of keywords do not depend on context
     -- this creates a problem with the Chekcer tho...

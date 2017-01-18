@@ -5,6 +5,7 @@
 module Learners.KeywordCoor where
 
 import Types.IR
+import Types.Common
 import Types.Errors
 import Types.Rules 
 import Types.Countable
@@ -12,6 +13,7 @@ import Types.Countable
 import qualified Types.Rules as R
 
 import qualified Data.Map as M
+import qualified Data.Bits as B
 import           System.Directory
 
 import Learners.Common
@@ -25,35 +27,26 @@ maxFalse = 1
 instance Learnable R.KeywordCoor AntiRule where
 
   buildRelations f = let
+    keyCounts :: M.Map Keyword Int 
+    keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty f
     --order pairs consistently
     toKC (ir1,ir2) = 
       if keyword ir1 > keyword ir2
       then KeywordCoor (keyword ir1, keyword ir2) 
       else KeywordCoor (keyword ir2, keyword ir1) 
     irPairs = pairs' f
+    -- tot = # times x + # times y
+    totalTimes = embedWith keyCounts $ M.fromList $ embedOnce $ map toKC irPairs 
    in
-     M.fromList $ embedOnce $ map toKC irPairs 
-  
+    totalTimes
+
   merge rs = let 
-      addEvi k rd rs = if 
-          | M.member k rs || M.member (flipped k) rs -> addT rd
-          | hasKey k rs -> addF rd
-          | otherwise -> rd
-      updateExisting newRs sumRs = M.mapWithKey (\k rd -> addEvi k rd newRs) sumRs
-
-      -- if the rule does not have an entry already
-      -- add it
-      addNewR oldRs rs k rd  = 
-        if not $ hasKey k oldRs
-        then M.insert k rd rs
-        else rs
-      addNewRs newRs sumRs = M.foldlWithKey (addNewR sumRs) sumRs newRs
-
-      rsUpdated = foldl (\sumRs newRs -> addNewRs newRs $ updateExisting newRs sumRs) M.empty rs
-      
+      rsAdded = M.unionsWith add rs
+      -- false = total - (true *2) b/c total counted both ks
+      rsWithFalse = M.map (\r -> r{fls=(tot r)-((tru r)*2)}) rsAdded
       validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
     in
-      M.filter validRule rsUpdated
+      M.filter validRule rsWithFalse
       --rsUpdated
 
 
@@ -84,20 +77,15 @@ pairs' (l:ls) =
   in
     noSelf
 
-addT :: AntiRule -> AntiRule
-addT (AntiRule t f tot) =
-  AntiRule (t+1) f (tot+1)
-addF :: AntiRule -> AntiRule
-addF (AntiRule t f tot) =
-  AntiRule t (f+1) (tot+1)
+embedWith :: M.Map Keyword Int -> M.Map KeywordCoor AntiRule -> M.Map KeywordCoor AntiRule
+embedWith counts rules =
+  M.mapWithKey (addCount counts) rules
 
-hasKey :: KeywordCoor -> RuleDataMap KeywordCoor AntiRule -> Bool
-hasKey (KeywordCoor (k1,k2)) rs = let
-  matches = map (\((KeywordCoor (k1',k2')), _) -> k1==k1' || k1==k2' || k2==k1' || k2==k2') $M.toList rs
+addCount :: M.Map Keyword Int -> KeywordCoor -> AntiRule -> AntiRule
+addCount counts (KeywordCoor (k1,k2)) rd = let
+  kcount k = M.findWithDefault 0 k counts
+  addTotal :: Int -> AntiRule -> AntiRule
+  addTotal i r = r{tot=i}
  in
-  or matches  --i think the lazy eval is being super helpful here!
-
---TODO this should just be part of a custom Eq instance
-flipped :: KeywordCoor -> KeywordCoor
-flipped (KeywordCoor (k1,k2)) =
-  KeywordCoor (k2,k1)
+  addTotal (kcount k1 + kcount k2) rd
+  

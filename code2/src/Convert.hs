@@ -21,8 +21,8 @@ case M.lookup keyword tyMap of
 Just configType -> IRLine{..}
 Nothing -> IRLine{configType = emptyConfigQType,..}-}
 
+-- | Main function of this file - translate configFile to intermediate rep
 
-    -- | Main function of this file - translate configFile to intermediate rep
 -- | If the user wants to give hints to how to parse a config file based on filetype they go here
 convert :: ConfigFile Language -> [IRLine] --[(Keyword,Val)]
 convert (f, t, l) =
@@ -32,8 +32,9 @@ convert (f, t, l) =
     noEmptyAsKV = map seperateVals noEmpty
     noDups = makeUniq l noEmptyAsKV
   in
-    map (\(k,v)-> IRLine{keyword=k,value=v}) noDups -- noEmptyAsKV
-    --noDups
+    --NB replace _ with - in keywords
+    map (\(k,v)-> IRLine{keyword=(T.replace "_" "-" k),value=v}) noDups 
+    
 
 makeUniq :: Language -> [(Keyword,Val)] -> [(Keyword,Val)]
 makeUniq lang ls = case lang of
