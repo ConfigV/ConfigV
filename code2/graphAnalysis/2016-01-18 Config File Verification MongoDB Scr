@@ -1,0 +1,76 @@
+// 2016-01-18 Config File Verification MongoDB Scripts
+
+// sample query to get out_degree
+db.edges.aggregate([
+    {$group: {
+        _id: "$PARTICIPANT_A", 
+        out_degree: {
+            $sum: "$EDGE_VALUE"
+        } 
+    } }
+    ,{$sort: {"out_degree" : -1}}
+]).pretty()
+
+// sample query to get in_degree
+db.edges.aggregate([
+    {$group: {
+        _id: "$PARTICIPANT_B", 
+        in_degree: {
+            $sum: "$EDGE_VALUE"
+        } 
+    } }
+    ,{$sort: {"in_degree" : -1}}
+]).pretty()
+
+// small js program to get total degree
+var c_out = db.edges.aggregate([
+    {$group: {
+        _id: "$PARTICIPANT_A", 
+        out_degree: {
+            $sum: "$EDGE_VALUE"
+        } 
+    } }
+    ,{$sort: {"out_degree" : -1}}
+]);
+
+var c_in = db.edges.aggregate([
+    {$group: {
+        _id: "$PARTICIPANT_B", 
+        in_degree: {
+            $sum: "$EDGE_VALUE"
+        } 
+    } }
+    ,{$sort: {"in_degree" : -1}}
+]);
+
+var stuff = {};
+
+while (c_out.hasNext()) {
+    doc = c_out.next();
+    if (doc._id in stuff) {
+        stuff[doc._id] += doc.out_degree
+    } else { 
+        stuff[doc._id] = doc.out_degree
+    }
+}
+
+while (c_in.hasNext()) {
+    doc = c_in.next();
+    if (doc._id in stuff) {
+        stuff[doc._id] += doc.in_degree
+    } else { 
+        stuff[doc._id] = doc.in_degree
+    }
+}
+
+// now sort them
+var sortable = [];
+for (var node in stuff) {
+    sortable.push([node, stuff[node]]);
+}
+
+var sorted_degree = sortable.sort(function(a, b) {
+    return a[1] - b[1]
+})
+
+
