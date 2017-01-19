@@ -55,6 +55,7 @@ runVerify rules vTargets  = do
     then zipWithM reportBenchmarkPerformance benchmarks errors 
     else mapM reportUserPerformance $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
   print $ fitnesses
+  print $ length $ filter (>0) fitnesses
   return $ sum fitnesses
 
 

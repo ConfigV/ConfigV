@@ -125,5 +125,5 @@ group6 = map (map makeError) [
 
 testBenchSet :: [ErrorReport]
 testBenchSet = map (map makeError) [
-    [(("benchmarkSet/group5-value-correlation/test","a[mysqld]"),("benchmarkSet/group5-value-correlation/test","b[mysqld]"),INTREL)]
+    [(("benchmarkSet/test/test1.cnf","a[mysqld]"),("benchmarkSet/test/test1.cnf","b[mysqld]"),INTREL)]
   ]
