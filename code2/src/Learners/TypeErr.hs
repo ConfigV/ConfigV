@@ -31,7 +31,7 @@ instance Learnable TypeErr QType where
          string = fromEnum ((T.length $ T.takeWhile C.isAlpha v) > 1)
         ,path = fromEnum ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
         ,bool = fromEnum (v == "")--flag keywords have no values
-        ,int = fromEnum (all C.isNumber $T.unpack v)
+        ,int = fromEnum ((all C.isNumber $T.unpack v) && (T.length v>0))
         ,size = fromEnum ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) && 
                           (T.length $ T.takeWhile C.isNumber v) == (T.length v -1) ) 
       }

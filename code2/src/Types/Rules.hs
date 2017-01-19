@@ -51,6 +51,7 @@ data RuleSet = RuleSet
   { missing  :: RuleDataMap KeywordCoor AntiRule
   , order    :: RuleDataMap Ordering AntiRule
   , intRel   :: RuleDataMap IntRel Formula
+ -- , fineInt  :: RuleDataMap FineGrained MultiFormula
   , typeErr  :: RuleDataMap TypeErr QType
   } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
@@ -58,6 +59,7 @@ emptyRuleSet = RuleSet
   { missing  = M.empty
   , order    = M.empty
   , intRel   = M.empty
+ -- , fineInt  = M.empty
   , typeErr  = M.empty}
 
 ------------
@@ -90,6 +92,15 @@ instance Eq IntRel where
 
 instance Locatable IntRel where
   keys (IntRel k1 k2) = [k1,k2]
+
+data FineGrained = FineGrained Keyword Keyword Keyword
+  deriving (Show,Ord,Generic,ToJSON,FromJSON,NFData)
+instance Eq FineGrained where
+  (==) (FineGrained k1 k2 k3) (FineGrained k1' k2' k3')= 
+     (k1==k1' && k2==k2') || 
+     (k1==k2' && k2==k1')
+instance Locatable FineGrained where
+  keys (FineGrained k1 k2 k3) = [k1,k2,k3]
 
 data TypeErr = TypeErr (Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)

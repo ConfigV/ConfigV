@@ -7,6 +7,7 @@ import Types.Common
 import Types.Countable
 
 import Learners
+import Learners.KeywordCoor
 import Convert
 
 import Control.Parallel.Strategies
@@ -23,7 +24,9 @@ learnRules fs = let
   --rs = parMap rdeepseq buildAllRelations fs'
   fs' = map convert fs
   --rs = parMap rseq buildAllRelations fs'
-  rs = map buildAllRelations fs'
+  keyCounts :: M.Map Keyword Int 
+  keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty (concat fs')
+  rs = map (buildAllRelations keyCounts) fs'
  in
   resolveRules rs --`using` parRuleSet
 
@@ -39,14 +42,16 @@ resolveRules rs = RuleSet
   f classOfErr =  merge (map classOfErr rs)
 
 -- | call each of the learning modules
-buildAllRelations :: IRConfigFile -> RuleSet
-buildAllRelations f = RuleSet
+buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet
+buildAllRelations ks f = RuleSet
   { order   = buildRelations f
-  , missing = buildRelations f 
+  , missing = buildRelations' ks f 
   , intRel  = buildRelations f
   , typeErr = buildRelations f
   }
 
+
+ 
 parRuleSet :: Strategy RuleSet
 parRuleSet rs = do
   o' <- rpar $ force $order rs

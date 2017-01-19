@@ -14,6 +14,7 @@ import Control.Monad
 
 import Debug.Trace
 
+import Learners.Common
 -- | why would i want to do this?
 {-addConfigType :: TypeMap -> (Keyword,Val) -> IRLine
 addConfigType tyMap (keyword,value) =
@@ -42,20 +43,25 @@ makeUniq lang ls = case lang of
     let
       f _ [] = []
       f header (x:xs) =
-        if (fst x==snd x) && T.isInfixOf "[" (fst x) then f x xs else (T.append (fst x) (fst header),snd x) : f header xs
+        --if (fst x==snd x) && T.isInfixOf "[" (fst x) then f x xs else (T.append (fst x) (fst header),snd x) : f header xs
+        if T.isInfixOf "[" (fst x) then x:f x xs else (T.append (fst x) (fst header),snd x) : f header xs
     in
       f (head ls) ls
 
 stripComment :: Language -> T.Text -> T.Text
 stripComment l t = case l of
-  MySQL -> T.takeWhile (/='#') t
+  MySQL -> T.filter (/=';') $ T.takeWhile (/='#') t
   HTTPD -> T.takeWhile  (/=';') t
 
 -- | for now we are just using spaces and = to seperate keywords and values
+--   if no delim, then leave value as ""
 seperateVals :: T.Text -> (Keyword,Val)
 seperateVals t =
   let
+    hasDelim = any isDelimeter $ T.unpack t
     ts = T.split isDelimeter (T.strip t)
     isDelimeter c = (c=='=') || (c==' ')
   in
-    (T.strip $ head ts, T.strip $ last ts)
+    if hasDelim
+    then (T.strip $ head ts, T.strip $ last ts)
+    else (t,"")

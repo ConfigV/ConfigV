@@ -24,11 +24,16 @@ import Debug.Trace
 minTrue = 7
 maxFalse = 1
 
+buildRelations' keyCounts f = let
+  rs = buildRelations f
+ in
+  embedWith keyCounts rs
+
+-- | TODO these are undirected coorelation
+--   really should have seperate rules for "X" require "Y" and "Y" requires "X"
 instance Learnable R.KeywordCoor AntiRule where
 
   buildRelations f = let
-    keyCounts :: M.Map Keyword Int 
-    keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty f
     --order pairs consistently
     toKC (ir1,ir2) = 
       if keyword ir1 > keyword ir2
@@ -36,7 +41,7 @@ instance Learnable R.KeywordCoor AntiRule where
       else KeywordCoor (keyword ir2, keyword ir1) 
     irPairs = pairs' f
     -- tot = # times x + # times y
-    totalTimes = embedWith keyCounts $ M.fromList $ embedOnce $ map toKC irPairs 
+    totalTimes = M.fromList $ embedOnce $ map toKC irPairs 
    in
     totalTimes
 
@@ -59,7 +64,7 @@ instance Learnable R.KeywordCoor AntiRule where
        else True--fls r1 > tru r1
    in
      if (not $agrees rd1 rd2)
-     then Just rd1
+     then Nothing --Just rd1
      else Nothing
 
   toError fname ((KeywordCoor (k1,k2)),rd) = Error{

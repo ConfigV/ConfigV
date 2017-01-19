@@ -27,7 +27,9 @@ traceMe x = trace (show x) x
 checkFile :: RuleSet -> ConfigFile Language -> RuleSet
 checkFile rs f =
    let
-     fRules = buildAllRelations $ convert f
+     keyCounts :: M.Map Keyword Int 
+     keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty (convert f)
+     fRules = buildAllRelations keyCounts $ convert f
      fKs = map keyword $ convert f
      rs' = filterRules fKs rs
      diff = ruleDiff rs' fRules --the difference between the two rule sets

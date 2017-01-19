@@ -45,7 +45,7 @@ class Countable a where
 --TODO, use generics to derive Countable
 instance Countable AntiRule where
   add (AntiRule tru fls tot) (AntiRule tru' fls' tot') =
-    AntiRule (tru+tru') (fls+fls') (tot+tot')
+    AntiRule (tru+tru') (fls+fls') (tot)
 
 instance Countable Formula where
   add (Formula gt lt eq) (Formula gt' lt' eq') = 
