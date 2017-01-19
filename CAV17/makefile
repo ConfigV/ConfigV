@@ -1,19 +1,17 @@
-latex:	
-	pdflatex main.tex
+OUT = main
+GRAY = gray
 
-full:
-	pdflatex main.tex
-	pdflatex main.tex
-	bibtex main
-	pdflatex main.tex
-	bibtex main
-	pdflatex main.tex
+all: $(OUT).pdf	# $(GRAY).pdf
+
+$(OUT).pdf: $(wildcard *.tex *.bib *.bbl *.cls figs/*.eps)
+	pdflatex $(OUT)
+	bibtex $(OUT)
+	pdflatex $(OUT)
+	pdflatex $(OUT)
+
+bib:
+	bibtex $(OUT)
+	pdflatex $(OUT)
 
 clean:
-	rm -Rf main.aux
-	rm -Rf main.log
-	rm -Rf main.nav
-	rm -Rf main.out
-	rm -Rf main.pdf
-	rm -Rf main.snm
-	rm -Rf main.toc
+	rm -f *~ *.aux *.dvi *.bbl *.blg *.log *.pdf
