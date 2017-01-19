@@ -19,7 +19,7 @@ import Learners.Common
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
 
-minTrue = 6
+minTrue = 30
 maxFalse = 1
 
 instance Learnable Ordering AntiRule where
@@ -59,5 +59,5 @@ instance Learnable Ordering AntiRule where
   toError fname ((Ordering (k1,k2)),rd) = Error{
      errLocs = map (fname,) [k1,k2]
     ,errIdent = ORDERING
-    ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" \n   w/ confidence "++(show rd)}
+    ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" w/ confidence "++(show rd)}
 

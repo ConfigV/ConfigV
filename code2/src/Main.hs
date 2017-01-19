@@ -53,8 +53,17 @@ runVerify rules vTargets  = do
   fitnesses <- 
     if Settings.bENCHMARKS 
     then zipWithM reportBenchmarkPerformance benchmarks errors 
-    else mapM print (zip (map (\(x,y,z)->x)  vTargets) errors) >> return [0]
+    else mapM reportUserPerformance $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
+  print $ fitnesses
   return $ sum fitnesses
+
+
+-- print and how many errs
+reportUserPerformance :: (FilePath,ErrorReport) -> IO Int
+reportUserPerformance (f,es) = do
+  print f
+  print es
+  return $ length es
 
  -- | compare the original benchark spec to the generated one
 reportBenchmarkPerformance :: ErrorReport -> ErrorReport -> IO Int

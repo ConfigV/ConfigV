@@ -27,7 +27,7 @@ instance Learnable TypeErr QType where
     getQType :: T.Text -> QType
     getQType v =
       QType {
-         string = fromEnum ((T.length $ T.takeWhile C.isAlpha v) > 1)
+         string = fromEnum (((T.length $ T.takeWhile C.isAlpha v) > 1) || (T.length v>=3 && T.head v == '"' && T.last v == '"'))
         ,path = fromEnum ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
         ,bool = fromEnum (v == "")--flag keywords have no values
         ,int = fromEnum ((all C.isNumber $T.unpack v) && (T.length v>0))
@@ -39,8 +39,10 @@ instance Learnable TypeErr QType where
     toTypeErr :: IRLine -> (TypeErr,QType)
     toTypeErr ir = (TypeErr (keyword ir),getQType $ value ir)
     --toTypeErr ir = (TypeErr (T.takeWhile (/= '[') $ keyword ir),getQType $ value ir)
+    xs = ["set-variable"]
+    f' = filter (\ir -> not $ any (\k -> T.isInfixOf k (keyword ir)) xs) f
    in
-     M.fromList $ map toTypeErr  f
+     M.fromList $ map toTypeErr f'
 
   merge rs = 
      M.unionsWith add rs
@@ -48,7 +50,9 @@ instance Learnable TypeErr QType where
   -- 
   check _ rd1 rd2 = let
      tot = fromIntegral $ sum [string rd1, int rd1, size rd1] 
-     toProb x = (fromIntegral .x)rd1 / tot 
+     toProb x = if tot > 4
+       then (fromIntegral .x)rd1 / tot 
+       else 1
    in
      if --TODO allow 1/0 in place of bool 
        string rd2 == 1 && toProb string > 0.7 ||

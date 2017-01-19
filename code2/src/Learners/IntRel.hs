@@ -44,7 +44,7 @@ instance Learnable R.IntRel Formula where
     M.foldlWithKey combineFlips M.empty rs'
  
   check _ r1 r2 = if
-    | gt r1 > 3 && lt r1 > 3 -> Nothing --ignore rules if they dont have a clear tendancy
+    | gt r1 >= 3 && lt r1 >= 3 || (gt r1 + lt r1 + eq r1)<20 -> Nothing --ignore rules if they dont have a clear tendancy
     | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1
     | lt r2 == 1 && gt r1 > 3 && lt r1 < 2-> Just r1
     | gt r2 == 1 && lt r1 > 3 && gt r1 < 2-> Just r1
