@@ -24,7 +24,6 @@ instance Learnable TypeErr QType where
 
   buildRelations :: IRConfigFile -> RuleDataMap TypeErr QType
   buildRelations f = let
-    --TODO fill out
     getQType :: T.Text -> QType
     getQType v =
       QType {
@@ -51,7 +50,7 @@ instance Learnable TypeErr QType where
      tot = fromIntegral $ sum [string rd1, int rd1, size rd1] 
      toProb x = (fromIntegral .x)rd1 / tot 
    in
-     if 
+     if --TODO allow 1/0 in place of bool 
        string rd2 == 1 && toProb string > 0.7 ||
        path   rd2 == 1 && toProb path> 0.5 ||
        bool   rd2 == 1 && toProb bool > 0.5 ||

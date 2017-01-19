@@ -70,8 +70,6 @@ flipped f = Formula {
   ,eq = eq f
   ,lt = gt f}
 
---TODO include converstion between M, K, G
---TODO only consider raw ints or size ints
 intLike :: IRLine -> Maybe IRLine
 intLike (IRLine k v) = let
   hasInt v = (all C.isNumber$ T.unpack v) || ((isJust $ units v) && (any C.isNumber (T.unpack v)))
