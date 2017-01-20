@@ -8,13 +8,6 @@ In general, the learner module has two components.
 The first component ($\S$\ref{subsec-rules}) 
 learns rules for checking configuration errors like
 missing entry errors, ordering errors, and fine-grained value correlation errors. 
-These errors tend to cause total system failures.
-%Once the configuration file has been validated against such rules, 
-%the user may choose to invoke a more sensitive constraint checker. 
-The second component ($\S$\ref{subsec-constraints}) 
-aims to derive 
-constraints on entries to check for suspicious (or anomalous) values 
-that may violate standard practice. These anomalies can cause partial 
-degradation of the system, 
-such as significant reduction in performance, or even 
-total failure as in Example~4 of $\S$\ref{sec-motiv}.
+These errors tend to cause total system failures, but can also be more insidious and slow down the system only when the load increase beyond a certain threshold.
+
+Note that in \app, probabilistic typing is implemented as a learning module than can be easily extended to support more types. 

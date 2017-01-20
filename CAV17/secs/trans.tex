@@ -24,7 +24,7 @@ They keys for the sample configuration \ref{lst:mysql.cnf} would then be [``{\tt
 
 An additional challenge is that it is not always possible to fully determine the type of key based on a single example value. 
 For this reason, we introduce {\emph {probabilistic types}}.
-Taking the configuration \ref{lst:mysql.cnf}, we can assume \tt{bar} is a boolean type by the grammar of MySQL,
+Taking the configuration \ref{lst:mysql.cnf}, we can assume {\tt bar} is a boolean type by the grammar of MySQL,
   but the keyword {\tt bar} could either be a integer type or a Boolean type.
 Now considering the rule that the keywords should have the same values ($\texttt{foo}==\texttt{bar}$), we have two potential situations.
 If {\tt bar::int}, we do not learn the above rule, but in the second case where {\tt bar::bool}, the rule is valid.
@@ -33,7 +33,8 @@ To resolve this ambiguity, instead of immediately assigning one type to a value,
 
 Formally, we define probabilistic types as follows: let $\mathcal{T}$ be a set of basic types.
 In \app, the set $\mathcal{T}$ contains strings, file paths, integers, sizes, and booleans. 
-A probabilistic type is a set of pairs $\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
+A probabilistic type, $\tilde{\tau} \in \tilde{\mathcal{T}}$, is a set of pairs $\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
+A keyword may have a probabilistic type , expressed $k::\tau$, where 
 The count for $\tau_i$ is incremented each time a new example value that might be type $\tau_i$ is encountered for a particular key.
 
 For example, if the training set contained [(``bar",1),(``bar",ON)], the resulting type would be bar::[bool=2,int=1] (considering that the literal 1 may act as either an int or a boolean).
@@ -41,7 +42,11 @@ This probabilistic type can then be collapsed in the final type inference stage 
 For instance, we might choose to treat bar as a boolean, and only learn rules on that rule type.
 We could also choose to leave the type unresolved for lack of evidence, and learn rules on both types.
 
-Note that in \app, typing is implemented as a learning module than can be easily extended to support more types. 
-
-
-
+\begin{mathpar}
+\inferrule* [Right=Bar,width=8em]
+{(k,v) \in C \\ v="1"}
+{k::[int}
+\and
+\inferrule* [lab=XX]
+{uu \\ vv}{ww}
+\end{mathpar}
