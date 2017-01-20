@@ -1,6 +1,28 @@
 \section{Introduction}
 \label{sec-intro}
 
+Our main contributions are as follows:
+
+\begin{enumerate}
+
+% Encore also used association rule learning, but did not describe why it is useful for verification in particular,
+%   or how it contrasts with other ML techniques that are less appropriate for verification (NN).
+\item Describing the logical foundation of using association rule learning to build a probabilistic specification for configuration files. 
+      We contrast this with the application of other machine learning techniques, such as neural networks, in verification.
+
+% We can analyze the rules we have learned as a graph to sort the errors, not just by weight, but also importance
+% need one more thing we can do with this graph
+% This is only possible when we have learned association rules, not possible with NN
+\item Analyzing the learned model to further refine the generated specification. 
+      We highlight why these analysis techniques are uniquely possible in an association rule learning approach.
+
+% The problem is intractable for off-the-shelf data mining solutions (see Encore).
+% In addition to the optimizations Encore used, we add new ones that make our tool even better.  
+\item An open-source implementation, \app, of this approach, which uses various domain specific optimizations to make the solution efficient. 
+      We also evaluate \app on a set of 256 real world benchmarks, and identify XX new misconfigurations errors on YY of these files.
+\end{enumerate}
+
+
 Configuration errors are one of the most important root causes of today's software system failures~\cite{xu15systems, yin11anempirical}.
 In their empirical study, Yin {\em et al.}~\cite{yin11anempirical} report that about 31\% of system failures were caused by misconfiguration problems and only 20\% were caused by bugs in program code. 
 Misconfigurations, result in various system-wide problems, such as security vulnerabilities, application crashes, severe disruptions in software functionality, and incorrect program executions~\cite{zhang14encore, yuan11context, xu13do, xu15hey}.  
@@ -192,13 +214,3 @@ conducting comprehensive experiments on real-world dataset.
 
 \end{enumerate}
 
-Our main contributions are as follows:
-
-\begin{enumerate}
-
-\item Using a probabilistic logical inference approach to the learning task, which builds a more informative structure than state of the art machine learning algorithms
- 
-\item A basic application of graph analysis on the learned model to improve results in a way not available to traditional machine learning approaches 
-
-\item An open-source implementation, \app, of this approach applied to a set of 256 real world benchmarks. \app identify XX new misconfigurations errors on YY of these files.
-\end{enumerate}
