@@ -1,0 +1,162 @@
+\section{Motivating Examples}
+\label{sec-motiv}
+
+In this section we present the capability of \app through 
+detecting errors in several real-world misconfiguration examples. 
+These examples were non-trivial configuration errors
+that were reported on StackOverflow~\cite{stackoverflow},
+a popular question and answer website for programmers and administrators. 
+%To better understand these problems, 
+%we explored and analyzed misconfigurations 
+%on a large number of user forums and on-line discussion sites.
+
+\para{Example~1: Ordering error.} 
+Ordering errors were reported by Yin {\em et al.}~\cite{yin11anempirical} and our first
+example illustrates how ordering errors can cause a system to crash. When a user configures PHP 
+to run with the
+Apache HTTP Server, most likely the user will take some already existing configuration files and adapt them
+to suit her needs. The configuration file might contain, among others, 
+the following lines:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    extension = mysql.so
+        ...
+    extension = recode.so
+\end{lstlisting}
+
+This configuration file will cause the Apache server to 
+fail to start due to a segmentation fault error. 
+This is because, when using PHP in Apache, the extension {\tt mysql.so} 
+depends on {\tt recode.so}, and their relative ordering
+is crucial. 
+We call the above example of a misconfiguration file
+an {\em ordering error}.
+Yin {\em et al.} report that ordering errors widely exist in
+many system configurations, \eg, PHP and MySQL,
+and typically lead to multiple system crash events.
+However, no existing tool can effectively solve 
+or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
+
+By invoking \app, the user can detect such a configuration error.
+In particular, \app reports that {\tt recode.so} 
+should appear before {\tt mysql.so}, as shown
+below: \ennan{Mark, please update all the motivating examples'
+output results according
+to our newest version implementation.}
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    ORDERING ERROR: Expected "extension" "recode.so"
+    BEFORE "extension" "mysql.so"
+\end{lstlisting} 
+
+\para{Example~2: Fine-grained value correlation error.} 
+Our second misconfiguration example~\cite{correlation} 
+comes from a discussion on StackOverflow.
+The user has configured her MySQL as in the following:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    key_buffer_size = 384M
+    max_heap_table_size = 128M
+    max_connections = 64
+    thread_cache_size = 8
+        ...
+    sort_buffer_size = 32M
+    join_buffer_size = 32M
+    read_buffer_size = 32M
+    read_rnd_buffer_size = 8M
+        ...
+\end{lstlisting} 
+
+The user complains that her MySQL load was very high, 
+causing the website's
+response speed to be very slow.
+In this case, {\tt key\_buffer\_size} is used by all the threads
+cooperatively, while {\tt join\_buffer} and {\tt sort\_buffer} are 
+created by each thread for private use; thus, the maximum amount
+of used key buffer, \ie, {\tt key\_buffer\_size}, should be larger than 
+{\tt join|sort\_buffer\_size} * {\tt max\_connections}. 
+Clearly, in the above example, it does not hold, 
+so this misconfiguration causes MySQL to load very slowly.
+
+If we run \app on this configuration file, \app  would return:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    INTEGER RELATION ERROR:
+    Expected "key_buffer_size" >= "max_connections" * "sort_buffer_size"
+\end{lstlisting} 
+
+We can see that during the learning process not only do we learn simple statements that compare two values, 
+but also we learn more complex correlations. We call these more complex relations fine-grained value correlations, and the errors
+\emph{fine-grained value correlation errors}. 
+This type of error is more sophisticated than the simple value correlation that some tools can detect~\cite{yin11anempirical, zhang14encore}.
+A typical value correlation error
+states that one entry's value should have a certain correlation with
+another entry's value. For example, in MySQL,
+the value of {\tt max\_connections} should be higher than
+{\tt mysql.max\_persistent}. 
+
+Our tool can learn this simple correlation as well, but learning more complex properties requires a different 
+approach to the learning 
+process. We need to track several variables. It is not enough just to compare them, but we need to learn, as in this particular case, which
+invariant must be preserved. It was pointed out by Xu {\em et al.}~\cite{xu15hey} that
+detecting fine-grained value correlation errors 
+is a much more challenging
+task than the normal value correlation problem.
+To the best of our knowledge, \app is the first tool that
+is able to check such fine-grained value correlation problems.
+
+\para{Example~3: Missing entry error.} 
+Many critical system outages result from the fact that an important
+entry was missing from the configuration file. 
+We call such a problem a {\em missing entry error}.
+In a public misconfiguration dataset~\cite{configdataset},
+many MySQL failure reports were caused by
+missing entry errors.
+Below is a real-world missing entry error example~\cite{yin11anempirical}:
+when a user wants to use OpenLDAP to enable her directory access
+protocol, she needs to use the password policy overlay. This is usually
+achieved via the following entries in the OpenLDAP configuration file:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    include schema/ppolicy.schema
+    overlay ppolicy
+\end{lstlisting} 
+
+When using the password policy overlay in OpenLDAP, 
+users must first include the related schema.
+Leaving out the {\tt include schema/ppolicy.schema} entry, 
+as done by many users~\cite{yin11anempirical}, 
+causes the failure of LDAP. 
+If the user runs \app on such a misconfiguration file,
+\app would return:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    MISSING KEYWORD ERROR: Expected "overlay" "ppolicy"
+    in the same file: "include" "schema/ppolicy.schema"
+\end{lstlisting} 
+
+\para{Example~4: Type errors.} 
+Many system performance problems are caused by 
+assigning incorrect type of values to some key in configuration
+files. Consider the following real-world misconfiguration file: 
+a user tries to install MySQL and she needs to initiate the path
+of the log information generated by MySQL.
+This user puts the following assignment in her MySQL
+configuration file: 
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    general_log = /var/log/mysql/mysql.log
+\end{lstlisting} 
+
+Unbeknowest to this user, the entry ``general\_log'' should be an 
+integer, not a string. In MySQL, there is another entry named
+``general\_log\_file'' used to specify the log path.
+With \app, this user can get the following result:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    TYPE ERROR: Expected a Int with P=1.0 for
+    "general_log [mysql]"
+\end{lstlisting} 
+
+%The above result means that we need to assign an integer value to
+%the entry ``general\_log''. 
