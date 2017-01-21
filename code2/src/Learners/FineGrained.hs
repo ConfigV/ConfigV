@@ -56,7 +56,7 @@ instance Learnable R.FineGrained Formula where
     -- TODO should use learning result from TypeErr module
     rs' = filter (\(ir1,ir2,ir3)-> ((validAsSize $ value ir1) `B.xor` (validAsSize $ value ir2) && (validAsSize $ value ir3)) ||
                                     all (validAsInt.value) [ir1,ir2,ir3]) tris
-    eqs = map toFineGrained rs'
+    eqs = map toFineGrained tris
    in
     M.fromList $ eqs
 

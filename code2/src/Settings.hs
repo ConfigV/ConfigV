@@ -25,7 +25,7 @@ module Settings where
   fineGrainSupport = 55 :: Int
   fineGrainConfidence = 1 :: Int
 
-  --minTrue and maxFalse
+  --minTrue (actually minTrue is Support, well kind of) and maxFalse
   keywordCoorSupport =  7 :: Int 
   keywordCoorConfidence = 1 :: Int
 
