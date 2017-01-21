@@ -7,57 +7,102 @@ The translator can be seen a parser used to generate an intermediate representat
 Translating or parsing is system dependent since each configuration language (MySQL, Apache, PHP) uses a different grammar.
 \app allows users to provide extra help to the translator for their specific system configurations.
 
-The translator will convert each key-value assignment {\tt k=v} in the configuration file to a triple, $(k, v, \tau)$, where $\tau$ is a type of $v$. 
+The translator will convert each key-value assignment $k=v$ in the configuration file to a triple, $(k, v, \tau)$, where $\tau$ is the type of $v$. 
 There are two major challenges in this step.
 First is that configuration files' keywords are not necessarily unique and may have some additional context (modules or conditionals).
 To solve this, we rely on the fact that keywords in a configuration file must be unique within their context, and rename all keywords with their context.
-They keys for the sample configuration \ref{lst:mysql.cnf} would then be [``{\tt foo[server]}'',``{\tt bar[client]}''] internally to the intermediate representation.
+The keys for the sample configuration \ref{lst:1.cnf} would then be [``{\tt foo[server]}'',``{\tt bar[client]}''] internally to the intermediate representation.
 
 
-\begin{lstlisting} [caption={A sample MySQL configuration file},label={lst:mysql.cnf},language=C]
-  #mysql.cnf
-  [server]
-  foo = False
-  [client]
-  bar = 1
-\end{lstlisting}
+\begin{figure}[!htb]
+    \caption{A learning set of configuration files}
+    \centering
+    \begin{minipage}{.25\textwidth}
+	\begin{lstlisting} [label={lst:1.cnf},language=C,caption={1.cnf}]
+[server]
+foo = ON
+[client]
+bar = 1
+	\end{lstlisting}
+    \end{minipage}%
+    \hspace{1cm}
+    \begin{minipage}{0.25\textwidth}
+	\begin{lstlisting} [label={lst:2.cnf},language=C,caption={2.cnf}]
+[server]
+foo = ON
+[client]
+bar = ON
+	\end{lstlisting}
+    \end{minipage}
+    \hspace{1cm}
+    \begin{minipage}{0.25\textwidth}
+	\begin{lstlisting} [label={lst:2.cnf},language=C,caption={3.cnf}]
+[server]
+foo = OFF
+[client]
+bar = OFF
+	\end{lstlisting}
+    \end{minipage}
+\end{figure}
+
 
 An additional challenge is that it is not always possible to fully determine the type of key based on a single example value. 
 For this reason, we introduce {\emph {probabilistic types}}.
-Taking the configuration \ref{lst:mysql.cnf}, we can assume {\tt bar} is a boolean type by the grammar of MySQL,
+Taking the configuration \ref{lst:1.cnf}, we can assume {\tt foo} is a boolean type by the grammar of MySQL,
   but the keyword {\tt bar} could either be a integer type or a Boolean type.
-Now considering the rule that the keywords should have the same values ($\texttt{foo}==\texttt{bar}$), we have two potential situations.
-If {\tt bar::int}, we do not learn the above rule, but in the second case where {\tt bar::bool}, the rule is valid.
+Consider that we would like to learn a rule that the boolean keywords should have the same values ($eq(\texttt{foo},\texttt{bar})$).
+We then have two potential situations; in the first case where {\tt bar:int}, we do not learn the above rule, but in the second case where {\tt bar:bool}, the rule is valid.
 To resolve this ambiguity, instead of immediately assigning one type to a value, the translator assigns a distribution of types to a value based on examples from the learning set.
 % an idea closely related to existentially quantified types~\cite{Launchbury93lazyfunctional}. 
 
 Formally, we define probabilistic types as follows: let $\mathcal{T}$ be a set of basic types.
 In \app, the set $\mathcal{T}$ contains strings, file paths, integers, sizes, and booleans. 
 A probabilistic type, $\tilde{\tau} \in \tilde{\mathcal{T}}$, is a set of pairs $\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
-A keyword may have a probabilistic type , expressed $k::\tau$, where 
+A keyword may have a probabilistic type, expressed $k:\tilde{\tau}$.
 The count for $\tau_i$ is incremented each time a new example value that might be type $\tau_i$ is encountered for a particular key.
 
 \begin{mathpar}
-\inferrule* [Right=Bool\_Int]
+\hspace{-0.4cm} %no idea why, but this is better than \centering here
+\inferrule* [Right=bool\_int]
 {(k,v) \in C \\ v \in \{0,1\}}
-{k::[int\pluseq 1,bool\pluseq 1]}
+{k:[int\pluseq 1,bool\pluseq 1]}
 \and
-\inferrule* [Right=Bool\_Resolve]
-{k::[bool \geq 2, \ast < 1]}
-{k \resolveto bool}
-\and
-\inferrule* [Right=Bool]
-{(k,v) \in C \\ v \in \{ON,OFF\}}
-{k::[bool\pluseq 1,string\pluseq 1]}
-\and
-\inferrule* [Right=Eq\_Rule]
-{k1 \resolveto a \\ k2 \resolveto a}
+\inferrule* [Right=eq\_rule]
+{k1 : \tau \\ k2 : \tau \\ \tau \in \mathcal{T}}
 {eq(k1,k2) : Rule}
+\and
+\inferrule* [Right=bool\_resolve]
+{k:\tilde{\tau} \\ \tilde{\tau} \vdash bool \geq 2 \land \ast \leq 1}
+{k : bool}
+\and
+\\
+\inferrule* [Right=bool]
+{(k,v) \in C \\ v \in \{ON,OFF\}}
+{k:[bool\pluseq 1,string\pluseq 1]}
 \end{mathpar}
+
+In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $\in \tilde{\mathcal{T}}$ can be resolved to a basic type $\in \mathcal{T}$ with enough evidence.
+The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
+In this case, we allow a probabilistic type to resolve to a boolean if we have two counts for boolean, and no more than one count for any other type.
+While a user may implement overlapping inference rules, this are resolved by assigning the keyword a list of types.
+This is then effectively a subtyping relation.
+
+\begin{mathpar}
+%\centering 
+\inferrule* [Right=int\_resolve]
+{k:[int \geq 1]}
+{k : int}
+\and
+\\
+\inferrule* [Right=int\_bool\_resolve]
+{k:[bool \geq 2, \ast \leq 1] \\ k:[int \geq 1]}
+{k : [bool,int]}
+\end{mathpar}
+
+Note that we do not have an application rule over probabilistic types - types must be resolved to learn a rule over a keyword.
+In the case that there is not enough evidence to resolve a type, no type-dependent rules may be learned over that keyword.
+
 
 Taking the example type inference rules above, we can run an example inference.
 For example, if the training set contained [(``bar",1),(``bar",ON)], the resulting type would be bar::[bool=2,int=1] (considering that the literal 1 may act as either an int or a boolean).
-This probabilistic type can then be collapsed in the final type inference stage based on domain knowledge of the types and the training set.
-For instance, we might choose to treat bar as a boolean, and only learn rules on that rule type.
-We could also choose to leave the type unresolved for lack of evidence, and learn rules on both types.
 
