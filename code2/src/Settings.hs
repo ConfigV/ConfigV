@@ -27,7 +27,7 @@ module Settings where
 
   --minTrue (actually minTrue is Support, well kind of) and maxFalse
   keywordCoorSupport =  7 :: Int 
-  keywordCoorConfidence = 1 :: Int
+  keywordCoorConfidence = 2 :: Int
 
 {-  
   typeSupport =
