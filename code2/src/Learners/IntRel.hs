@@ -70,24 +70,6 @@ flipped f = Formula {
   ,eq = eq f
   ,lt = gt f}
 
-intLike :: IRLine -> Maybe IRLine
-intLike (IRLine k v) = let
-  hasInt v = (all C.isNumber$ T.unpack v) || ((isJust $ units v) && (any C.isNumber (T.unpack v)))
- in
-  if hasInt v && (v/="")
-  then Just $ IRLine k v
-  else Nothing
-
-units v = if
-  | T.length v == 0 -> Nothing
-  | all C.isNumber (T.unpack $ T.init v) -> Just $ scale $ T.last v
-  | otherwise -> Nothing
-scale c = if
-  | C.toUpper c == 'M' -> 1
-  | C.toUpper c == 'K' -> 1000
-  | C.toUpper c == 'G' -> 1000000
-  | otherwise -> 1 
-
 --all IRLines must have only ints as values
 toIntRel :: (IRLine,IRLine) -> (IntRel,Formula)
 toIntRel (IRLine k1 v1,IRLine k2 v2) = let

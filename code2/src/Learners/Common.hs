@@ -1,18 +1,21 @@
+{-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
 module Learners.Common where
 
 -- I expect that the resolve stage of all the learners will have a lot of repitition
 -- that can all go here
 
+import Debug.Trace
+
+import qualified Data.Bits as B
+import qualified Data.Char as C
 import qualified Data.Map as M
+import qualified Data.Text as T
+import           Data.Maybe
+
 import Types.IR
 import Types.Rules
 import Types.Countable
-
-import Debug.Trace
-
-import qualified Data.Text as T
-import qualified Data.Bits as B
 
 {-
 showErr :: (Show k, Show v) => Maybe (M.Map k v) -> ((k,v) -> Error) -> [Error]
@@ -23,7 +26,6 @@ showErr rawEs printFxn =
     map printFxn es
 -}
 
-
 --embedOnce :: Learnable a => [a] -> [(a,RuleData AntiRule)]
 embedOnce = map (\r -> (r, (AntiRule 1 0 1)))
 
@@ -32,8 +34,6 @@ combine (AntiRule tru fls tot) (AntiRule truOp flsOp totOp)
   = AntiRule tru truOp (tot+totOp) 
 
 traceMe x = trace (show x) x
-
-
 
 pairs :: [IRLine]  -> [(IRLine,IRLine)]
 pairs [] = []
@@ -45,6 +45,25 @@ pairs (l:ls) =
   in
     noSelf
 
+-- For weeding out IRLine with values that do not resemble integer formats (IntRel and FineGrained)
+intLike :: IRLine -> Maybe IRLine
+intLike (IRLine k v) = let
+  hasInt v = (all C.isNumber$ T.unpack v) || ((isJust $ units v) && (any C.isNumber (T.unpack v)))
+ in
+  if hasInt v && (v/="")
+  then Just $ IRLine k v
+  else Nothing
+
+-- For converting values in the form 100M to an actual Int with proper scaling (IntRel and FineGrained)
+units v = if
+  | T.length v == 0 -> Nothing
+  | all C.isNumber (T.unpack $ T.init v) -> Just $ scale $ T.last v
+  | otherwise -> Nothing
+scale c = if
+  | C.toUpper c == 'M' -> 1
+  | C.toUpper c == 'K' -> 1000
+  | C.toUpper c == 'G' -> 1000000
+  | otherwise -> 1 
 
 getMod = fst. T.breakOn "_". keyword
 
