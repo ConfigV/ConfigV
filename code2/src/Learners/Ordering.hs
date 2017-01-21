@@ -9,6 +9,8 @@ import Types.Errors
 import Types.Rules 
 import Types.Countable
 
+import Settings 
+
 import Prelude hiding (Ordering)
 import qualified Data.Map as M
 import           System.Directory
@@ -19,8 +21,8 @@ import Learners.Common
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
 
-minTrue = 30
-maxFalse = 1
+minTrue = Settings.orderSupport
+maxFalse = Settings.orderConfidence
 
 instance Learnable Ordering AntiRule where
 

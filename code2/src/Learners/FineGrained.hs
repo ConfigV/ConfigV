@@ -12,6 +12,8 @@ import Types.Countable
 import qualified Types.Rules as R
 import Learners.Common
 
+import Settings
+
 import qualified Data.Map as M
 import qualified Data.Text as T
 import qualified Data.Char as C
@@ -64,7 +66,7 @@ instance Learnable R.FineGrained Formula where
   merge rs = let
     rs' = M.unionsWith add rs
     merged = M.foldlWithKey combineFlips M.empty rs'
-    validRule r = (gt r + lt r + eq r)>55 &&  (gt r <= 1 || lt r <= 1)
+    validRule r = (gt r + lt r + eq r)>Settings.fineGrainSupport &&  (gt r <= Settings.fineGrainConfidence || lt r <= Settings.fineGrainConfidence)
    in
     M.filter validRule merged
  

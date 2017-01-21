@@ -10,6 +10,8 @@ import Types.Errors
 import Types.Rules 
 import Types.Countable
 
+import Settings
+
 import qualified Types.Rules as R
 
 import qualified Data.Map as M
@@ -21,8 +23,8 @@ import Learners.Common
 import Debug.Trace
 
 
-minTrue = 7
-maxFalse = 1
+minTrue = Settings.keywordCoorSupport
+maxFalse = Settings.keywordCoorConfidence
 
 buildRelations' keyCounts f = let
   rs = buildRelations f

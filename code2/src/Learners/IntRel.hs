@@ -12,6 +12,7 @@ import Types.Countable
 import qualified Types.Rules as R
 import Learners.Common
 
+import Settings
 
 import qualified Data.Map as M
 import qualified Data.Text as T
@@ -42,7 +43,7 @@ instance Learnable R.IntRel Formula where
     rs' = M.unionsWith add rs
     merged = M.foldlWithKey combineFlips M.empty rs'
  --   validRule r = gt r >= 3 && lt r >= 3 || (gt r + lt r + eq r)<20  --ignore rules if they dont have a clear tendancy
-    validRule r = (gt r + lt r + eq r)>30 &&  (gt r < 2 || lt r <= 2)
+    validRule r = (gt r + lt r + eq r)>Settings.intRelSupport &&  (gt r < Settings.intRelConfidence|| lt r <= Settings.intRelConfidence)
    in
     M.filter validRule merged
  
