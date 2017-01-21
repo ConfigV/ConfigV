@@ -37,16 +37,27 @@ A probabilistic type, $\tilde{\tau} \in \tilde{\mathcal{T}}$, is a set of pairs 
 A keyword may have a probabilistic type , expressed $k::\tau$, where 
 The count for $\tau_i$ is incremented each time a new example value that might be type $\tau_i$ is encountered for a particular key.
 
+\begin{mathpar}
+\inferrule* [Right=Bool\_Int]
+{(k,v) \in C \\ v \in \{0,1\}}
+{k::[int\pluseq 1,bool\pluseq 1]}
+\and
+\inferrule* [Right=Bool\_Resolve]
+{k::[bool \geq 2, \ast < 1]}
+{k \resolveto bool}
+\and
+\inferrule* [Right=Bool]
+{(k,v) \in C \\ v \in \{ON,OFF\}}
+{k::[bool\pluseq 1,string\pluseq 1]}
+\and
+\inferrule* [Right=Eq\_Rule]
+{k1 \resolveto a \\ k2 \resolveto a}
+{eq(k1,k2) : Rule}
+\end{mathpar}
+
+Taking the example type inference rules above, we can run an example inference.
 For example, if the training set contained [(``bar",1),(``bar",ON)], the resulting type would be bar::[bool=2,int=1] (considering that the literal 1 may act as either an int or a boolean).
 This probabilistic type can then be collapsed in the final type inference stage based on domain knowledge of the types and the training set.
 For instance, we might choose to treat bar as a boolean, and only learn rules on that rule type.
 We could also choose to leave the type unresolved for lack of evidence, and learn rules on both types.
 
-\begin{mathpar}
-\inferrule* [Right=Bar,width=8em]
-{(k,v) \in C \\ v="1"}
-{k::[int}
-\and
-\inferrule* [lab=XX]
-{uu \\ vv}{ww}
-\end{mathpar}
