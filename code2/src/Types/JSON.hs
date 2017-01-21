@@ -23,6 +23,7 @@ data RuleSetLists = RuleSetLists
   , missingl  :: [(KeywordCoor,AntiRule)]
   , typeErrl  :: [(TypeErr,QType)]
   , intRell  :: [(IntRel,Formula)]
+  , finel  :: [(FineGrained,Formula)]
   } deriving (Show, Generic, ToJSON, FromJSON)
 
 toLists :: RuleSet -> RuleSetLists
@@ -32,6 +33,7 @@ toLists RuleSet{..}=
     , missingl = M.toList missing
     , typeErrl = M.toList typeErr
     , intRell = M.toList intRel
+    , finel = M.toList fineInt
     }
 
 fromLists :: RuleSetLists -> RuleSet
@@ -41,6 +43,7 @@ fromLists RuleSetLists{..}=
     , missing = M.fromList missingl
     , typeErr = M.fromList typeErrl
     , intRel = M.fromList intRell
+    , fineInt = M.fromList finel
     }
 
 

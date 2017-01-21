@@ -37,6 +37,7 @@ resolveRules rs = RuleSet
   , missing = f missing
   , intRel  = f intRel
   , typeErr = f typeErr
+  , fineInt = f fineInt
   }
  where
   f classOfErr =  merge (map classOfErr rs)
@@ -48,6 +49,7 @@ buildAllRelations ks f = RuleSet
   , missing = buildRelations' ks f 
   , intRel  = buildRelations f
   , typeErr = buildRelations f
+  , fineInt = buildRelations f
   }
 
 
@@ -58,5 +60,6 @@ parRuleSet rs = do
   m' <- rpar $ force $missing rs
   i' <- rpar $ force $intRel rs
   t' <- rpar $ force $typeErr rs
-  let newRs = RuleSet { order = o', missing = m', intRel = i', typeErr = t'}
+  f' <- rpar $ force $fineInt rs
+  let newRs = RuleSet { order = o', missing = m', intRel = i', typeErr = t', fineInt = f'}
   return newRs

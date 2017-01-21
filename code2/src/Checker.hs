@@ -42,6 +42,7 @@ filterRules fKs rs = RuleSet {
       ,missing = f' missing 
       ,intRel  = f intRel 
       ,typeErr = f typeErr 
+      ,fineInt = f fineInt
      }
    where
      f classOfErr  =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
@@ -57,6 +58,7 @@ ruleDiff rs1 rs2 = RuleSet {
       ,missing = f missing
       ,intRel  = f' intRel
       ,typeErr = f typeErr
+      ,fineInt = f' fineInt
      }
    where
      --only use the key to resolve type ambiguity
@@ -76,6 +78,7 @@ genErrReport fname rs =
     f order ++ 
     f missing ++ 
     f intRel ++
-    f typeErr
+    f typeErr ++
+    f fineInt
 
 

@@ -46,6 +46,7 @@ pairs (l:ls) =
     noSelf
 
 -- For weeding out IRLine with values that do not resemble integer formats (IntRel and FineGrained)
+-- TODO use validAsInt and validAsSize
 intLike :: IRLine -> Maybe IRLine
 intLike (IRLine k v) = let
   hasInt v = (all C.isNumber$ T.unpack v) || ((isJust $ units v) && (any C.isNumber (T.unpack v)))
@@ -86,4 +87,13 @@ sameConfigModule (ir1,ir2) = let
   --cant be the same module if only one is socket or port
  in
   (sockport (ir1,ir2)) && sameMod
+
+
+--TYPES
+validAsString v = (((T.length $ T.takeWhile C.isAlpha v) > 1) || (T.length v>=3 && T.head v == '"' && T.last v == '"'))
+validAsPath v  = ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
+validAsBool v = (v == "")--flag keywords have no values
+validAsInt v = ((all C.isNumber $T.unpack v) && (T.length v>0))
+validAsSize v = ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) &&
+                 (T.length $ T.takeWhile C.isNumber v) == (T.length v -1) )
 

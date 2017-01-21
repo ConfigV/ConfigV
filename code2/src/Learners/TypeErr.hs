@@ -27,12 +27,11 @@ instance Learnable TypeErr QType where
     getQType :: T.Text -> QType
     getQType v =
       QType {
-         string = fromEnum (((T.length $ T.takeWhile C.isAlpha v) > 1) || (T.length v>=3 && T.head v == '"' && T.last v == '"'))
-        ,path = fromEnum ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
-        ,bool = fromEnum (v == "")--flag keywords have no values
-        ,int = fromEnum ((all C.isNumber $T.unpack v) && (T.length v>0))
-        ,size = fromEnum ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) && 
-                          (T.length $ T.takeWhile C.isNumber v) == (T.length v -1) ) 
+         string = fromEnum $ validAsString v 
+        ,path = fromEnum $ validAsPath v 
+        ,bool = fromEnum $ validAsBool v 
+        ,int = fromEnum $ validAsInt v 
+        ,size = fromEnum $ validAsSize v
       }
     --NB on takeWhile, types of keywords do not depend on context
     -- this creates a problem with the Chekcer tho...

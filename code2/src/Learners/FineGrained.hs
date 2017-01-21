@@ -16,6 +16,7 @@ import qualified Data.Map as M
 import qualified Data.Text as T
 import qualified Data.Char as C
 import qualified Data.List as L
+import qualified Data.Bits as B
 import           Data.Maybe 
 import           System.Directory
 
@@ -49,7 +50,10 @@ instance Learnable R.FineGrained Formula where
     rs = mapMaybe intLike f 
     --dont want anything with these
     xs = ["dir","socket","port"]
-    rs' = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (keyword ir)) xs) rs
+    tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (keyword ir)) xs) rs
+    -- TODO should use learning result from TypeErr module
+    rs' = filter (\(ir1,ir2,ir3)-> ((validAsSize $ value ir1) `B.xor` (validAsSize $ value ir2) && (validAsSize $ value ir3)) ||
+                                    all (validAsInt.value) [ir1,ir2,ir3]) tris
     eqs = map toFineGrained rs'
    in
     M.fromList $ eqs
@@ -59,8 +63,11 @@ instance Learnable R.FineGrained Formula where
   -- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
   merge rs = let
     rs' = M.unionsWith add rs
+    tot r = gt r + lt r + eq r
+    validRule r = tot r > 55 && (lt r <=1 || gt r <=1)
+    filtered = M.filter validRule rs'
    in
-    M.foldlWithKey combineFlips M.empty rs'
+    M.foldlWithKey combineFlips M.empty filtered
  
   check _ r1 r2 = if
     | gt r1 > 3 && lt r1 > 3 -> Nothing --ignore rules if they dont have a clear tendancy

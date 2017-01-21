@@ -51,7 +51,7 @@ data RuleSet = RuleSet
   { missing  :: RuleDataMap KeywordCoor AntiRule
   , order    :: RuleDataMap Ordering AntiRule
   , intRel   :: RuleDataMap IntRel Formula
- -- , fineInt  :: RuleDataMap FineGrained MultiFormula
+  , fineInt  :: RuleDataMap FineGrained Formula
   , typeErr  :: RuleDataMap TypeErr QType
   } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
@@ -59,7 +59,7 @@ emptyRuleSet = RuleSet
   { missing  = M.empty
   , order    = M.empty
   , intRel   = M.empty
- -- , fineInt  = M.empty
+  , fineInt  = M.empty
   , typeErr  = M.empty}
 
 ------------
