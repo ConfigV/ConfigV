@@ -5,7 +5,7 @@ import           Types.Common
 
 --printing  stuff
 type ErrorReport = [Error]
-data ErrorType = INTREL | ORDERING | MISSING | TYPE | FINEGRAINED deriving (Show, Eq)
+data ErrorType = INTREL | ORDERING | MISSING | TYPE | FINEGRAINED deriving (Show, Eq, Enum, Bounded)
 data Error = Error{
     errLocs  :: [(FilePath, Keyword)]
   , errIdent :: ErrorType

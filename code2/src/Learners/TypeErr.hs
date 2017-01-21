@@ -49,16 +49,16 @@ instance Learnable TypeErr QType where
   -- 
   check _ rd1 rd2 = let
      tot = fromIntegral $ sum [string rd1, int rd1, size rd1] 
-     toProb x = if tot > 4
+     toProb x = if tot > 10
        then (fromIntegral .x)rd1 / tot 
        else 1
    in
      if --TODO allow 1/0 in place of bool 
        string rd2 == 1 && toProb string > 0.7 ||
-       path   rd2 == 1 && toProb path> 0.5 ||
-       bool   rd2 == 1 && toProb bool > 0.5 ||
-       int    rd2 == 1 && (toProb int> 0.5 || toProb size>0.5) ||
-       size   rd2 == 1 && toProb size> 0.6 ||
+       path   rd2 == 1 && toProb path> 0.7 ||
+       bool   rd2 == 1 && toProb bool> 0.7 ||
+       int    rd2 == 1 && (toProb int + toProb size > 0.7) ||
+       size   rd2 == 1 && toProb size> 0.7 ||
        tot == 0
      then Nothing
      else Just rd1

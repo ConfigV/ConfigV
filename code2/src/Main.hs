@@ -54,9 +54,24 @@ runVerify rules vTargets  = do
     if Settings.bENCHMARKS 
     then zipWithM reportBenchmarkPerformance benchmarks errors 
     else mapM reportUserPerformance $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
-  print $ fitnesses
-  print $ "Found "++(show $sum fitnesses)++" errors in "++(show $ length $ filter (>0) fitnesses)++" files."
+  printSummary errors fitnesses
   return $ sum fitnesses
+
+
+printSummary :: [ErrorReport] -> [Int] -> IO ()
+printSummary ers fitnesses = do
+  putStrLn "------------"
+  putStrLn $ "Found "++(show $sum fitnesses)++" errors in "++(show $ length $ filter (>0) fitnesses)++"/"++(show $ length fitnesses)++" files."
+  let numOfClass x = (show x)++", "++(show $ length $ filter (\e-> errIdent e == x) (concat ers))
+  putStrLn "------------"
+  putStrLn "Table of results"
+  putStrLn "Error Class, Number, Threshold"
+  mapM  (\x->putStrLn $ numOfClass x++", _") [(minBound :: ErrorType) ..]
+  putStrLn $ "Total, "++(show $sum fitnesses)++", -"
+  putStrLn "------------"
+  putStrLn "Histogram of Errors"
+  print fitnesses
+  
 
 
 -- print and how many errs

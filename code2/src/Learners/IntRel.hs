@@ -40,11 +40,13 @@ instance Learnable R.IntRel Formula where
   -- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
   merge rs = let
     rs' = M.unionsWith add rs
+    merged = M.foldlWithKey combineFlips M.empty rs'
+ --   validRule r = gt r >= 3 && lt r >= 3 || (gt r + lt r + eq r)<20  --ignore rules if they dont have a clear tendancy
+    validRule r = (gt r + lt r + eq r)>30 &&  (gt r < 2 || lt r <= 2)
    in
-    M.foldlWithKey combineFlips M.empty rs'
+    M.filter validRule merged
  
   check _ r1 r2 = if
-    | gt r1 >= 3 && lt r1 >= 3 || (gt r1 + lt r1 + eq r1)<20 -> Nothing --ignore rules if they dont have a clear tendancy
     | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1
     | lt r2 == 1 && gt r1 > 3 && lt r1 < 2-> Just r1
     | gt r2 == 1 && lt r1 > 3 && gt r1 < 2-> Just r1

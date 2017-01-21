@@ -63,11 +63,10 @@ instance Learnable R.FineGrained Formula where
   -- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
   merge rs = let
     rs' = M.unionsWith add rs
-    tot r = gt r + lt r + eq r
-    validRule r = tot r > 55 && (lt r <=1 || gt r <=1)
-    filtered = M.filter validRule rs'
+    merged = M.foldlWithKey combineFlips M.empty rs'
+    validRule r = (gt r + lt r + eq r)>55 &&  (gt r <= 1 || lt r <= 1)
    in
-    M.foldlWithKey combineFlips M.empty filtered
+    M.filter validRule merged
  
   check _ r1 r2 = if
     | gt r1 > 3 && lt r1 > 3 -> Nothing --ignore rules if they dont have a clear tendancy
