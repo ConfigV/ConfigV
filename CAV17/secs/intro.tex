@@ -100,16 +100,6 @@ since it is hard to build a corresponding template~\cite{xu15systems}.
 %for configuration verification is non-trivial in practice.
 
 
-In this paper, we present \app, the first automatic verification framework
-for general software configurations. \app is based on a collection of powerful learning 
-algorithms that do not necessarily depend on templates. The learning process takes as input a
- large sample of configuration files. The process is language-agnostic and works for any kind of configuration file, 
-but all of the files in the sample need to be of the same kind (such as
-MySQL or HTTPD configuration files).
-From that sample,
-\app learns an abundant set of rules specifying various properties that hold on the given sample. The files in the sample might contain
-errors -- we are, therefore, using probabilistic learning to derive a set of accurate rules. 
-
 For practical purposes we use a real-world dataset~\cite{configdataset}. 
 Every file in our dataset contains several errors, 
 but they are typically different errors and only appear 
@@ -120,50 +110,6 @@ a specification for configuration files.  Once there is a specification, we can 
 rules we can efficiently check the correctness of the configuration files
 of interest and detect potential errors.
 
-The learning process has two phases. In the first phase, 
-\app analyzes the sample dataset and generates a 
-well-structured and probabilistically-typed 
-intermediate representation. 
-In the second phase, \app derives rules and constraints by analyzing
-the intermediate representations.  Every learned rule is annotated with a probability 
-depicting which percentage of the files the rule was seen as correct. We only accept those rules whose 
-correctness probability is above the given threshold. 
-
-Finally, while the learned rules establish correlations between two or more variables, using \app, one can also detect whether a
-single variable has an appropriate value assigned to it. We do that by measuring the values that are typically assigned to that variable 
-and reporting if the current value deviates too much from the recorded values.
-
-Building such an automatic verification framework for
-configuration files, nevertheless, requires addressing several challenges. 
-%First, for variables of one type 
-%we learn different rules than for variables of different types. 
-%For example, for integer variables $X$ and $Y$, 
-%we can learn that $X \leq Y$, while 
-%for strings we might want to learn a substring relation. 
-First, we need to assign a type to every variable in a configuration file during the transformation phase.
-However,
-the type of a variable cannot always be fully determined 
-from a single value. 
-For example, an entry {\tt temp\_dir = 300} assigns to variable {\tt temp\_dir} either a directory named ``300'' or sets the size of that directory to 300 (an integer).
-Some existing type inference 
-work would report this is an error, because {\tt temp\_dir} should be assigned
-an integer~\cite{zhang14encore}. We address this problem by introducing the concept of
-{\emph{probabilistic types}}.
-Rather than assigning only one variable to a single type, 
-we assign several types over a probability distribution. 
-The entry in the above example might be assigned 
-the following probabilistic type
-{\tt \{temp\_dir, 300, [(File, 60\%), (Int, 40\%)]\}}.
-Using probabilistic types,
-we can generate a more accurate language model,
-thus significantly improving our verification capabilities.
-
-Second, when learning rules we use very general templates to 
-infer them. The user does not need to provide any templates -- they are internally associated to the types.
-Nevertheless, in addition to those general templates, we still need specific algorithms to learn
-rules that cannot be easily templated. 
-
-
 From a practical perspective, 
 \app introduces no additional burden 
 to the user: they can simply use \app to check for errors in their
@@ -173,23 +119,6 @@ class of rules that \app is not currently learning, the user can develop
 her own templates and learners for that class. The new learner can be
 added to \app and this way it can check an additional new set of
 errors.
-
-Our \app prototype still has many limitations:
-for example, we cannot handle configuration errors that can be 
-triggered during system execution time.
-Nevertheless, we believe \app may suggest a practical path
-toward automatic and modular language-based configuration verification.
-To summarize, this tool paper makes the following contributions:
-
-\com{
-Finally, from a systems perspective this is the first approach that {\emph{proactively}} checks 
- the correctness of configuration files. All previous work
-~\cite{xu15systems,zhang14encore,yuan11context, wang04automatic,attariyan10automating,
-su07autobash,whitaker04configuration} tries to identify the problem after the
-failure occurred. Our approach isolates potential errors before the system failure occurs, e.g. before the installation. We can also see \app as a tool that can run in conjunction with existing tools. Pre-analyzed configuration files are already free from language-based errors, and this way the workloads of post-failure forensics at the runtime
-is significantly reduced, thus making these tools truly practical.
-}
-
 
 \begin{enumerate}
 
