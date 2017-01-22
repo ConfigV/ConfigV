@@ -11,7 +11,8 @@ The translator will convert each key-value assignment $k=v$ in the configuration
 There are two major challenges in this step.
 First is that configuration files' keywords are not necessarily unique and may have some additional context (modules or conditionals).
 To solve this, we rely on the fact that keywords in a configuration file must be unique within their context, and rename all keywords with their context.
-The keys for the sample configuration \ref{lst:1.cnf} would then be [``{\tt foo[server]}'',``{\tt bar[client]}''] internally to the intermediate representation.
+The set of unique keys, $\keys$, for the sample training set in Figure ~\ref{fig:tset} would then be [``{\tt foo[server]}'',``{\tt bar[client]}''] internally to the intermediate representation.
+We will call the set of key-value pairs $C$.
 
 
 \begin{figure}[!htb]
@@ -47,6 +48,8 @@ bar = OFF
 \end{figure}
 
 
+\subsection{Probabilistic Types}
+\label{sec:ptypes}
 An additional challenge is that it is not always possible to fully determine the type of key based on a single example value. 
 For this reason, we introduce \textit{probabilistic types}, as contrasted with \textit{basic types}.
 In \app, the set of basic types contains strings, file paths, integers, sizes, and booleans. 
@@ -59,7 +62,7 @@ To resolve this ambiguity, instead of immediately assigning one type to a value,
 
 A probabilistic type is a set of counts over a set $\mathcal{T}$ of basic types.
 Formally, we define a space of probabilistic types $\tilde{\mathcal{T}}$, where $\ptype=\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$ is a set of pairs, such that $\ptype \in \tilde{\mathcal{T}}, \tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
-Every keyword has a probabilistic type, expressed $k:\ptype$, which, without any evidence, remains {\scriptsize EMPTY}.
+Every keyword $k\in\keys$ has a probabilistic type, expressed $k:\ptype$, which, without any evidence, remains {\scriptsize EMPTY}.
 The count for $(\tau_i,c_i) \in \ptype$ is incremented each time a new example value that matches to type $\tau_i$ is encountered for a particular key, using the update notation $\update$.
 
 \begin{mathpar}

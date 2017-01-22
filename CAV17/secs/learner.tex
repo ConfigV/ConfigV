@@ -6,26 +6,40 @@ We describe an interface to define the different classes of rules that should be
 Each instance of the interface corresponds to a different class of of configuration errors, such as missing entry errors, ordering errors, and integer correlation errors. 
 These errors can cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
 
-%TODO define rule
+A rule is an implication relationship, $X \implies p(X,Y)$, between two possibly empty sets of keywords $X,Y \subset \keys$, where $\keys$ is the set of unique keys from the training set and the predicate $p$ is the one of the classes of configuration errors (order, missing, etc).
+Implicitly we interpret this to means that if the keywords $X\cup Y$ appear in a configuration file, we expect the predicate $p$ to hold.
+The task of the learning algorithm is to transform a training set to a set of rules, weighted with \textit{support} and \textit{confidence}.
+These two key metrics are taken from \textit{association rule learning}~\cite{agrawal1993mining}, a technique that can be summarized as inductive machine learning.
+In the configuration verification domain, standard association rule learning is best suited to learn integer correlation and missing keyword rules.
+In fact, a more specialized technique for learning ordering rules would be sequence mining~\cite{}, and again another approach may be a better fit for rules over a single keyword, as is needed for probabilistic types.
+Since the full algorithm details are out-of-scope of this paper, here we only describe in detail the metrics which are most relevant to verification.
 
-We use an approach similar to \textit{association rule learning}~\cite{agrawal1993mining}, a technique that can be summarized as inductive machine learning.
-Association rule learning is best suited to learn rules over sets of keys, which in the configuration domain are integer correlation and missing keyword rules.
-Sequence mining~\cite{} is a more appropriate technique for learning ordering rules, and again another approach may be a better fit for rules over a single keyword, as is needed for probabilistic types.
-We highlight here only two key metrics from these approaches that are most relevant to verification tasks; \textit{support} and \textit{confidence}.
-
-Support is the number of times the set of keywords in the proposed rule will be 
-Confidence is 
+%TODO math def of support and confidence
+Each power set of keywords, $\{X,Y\}$, is assigned a support and confidence measure during the learning process.
+Support is the number of times the set of keywords in the proposed rule have been seen the in the training set.
+Confidence is the number of times the rule predicate has held true over the given keywords.
+In the learning process, these are given threshold, below which a rule will be reject for lack of evidence.
 
 \para{Order}
+Ordering errors take the form $X \implies order(X,Y)$, where $|X|,|Y|=1$ and the keyword $X$ must come before the keyword $Y$ in any configuration file.
 
 \para{Missing}
+$X \implies missing(X,Y)$, where $|X|,|Y|=1$ and the keyword $X$ must appear in the same file as the keyword $Y$ in any configuration file.
 
 \para{Type}
-In \app, probabilistic typing is implemented as an instance of the learning interface than can be easily extended to support more types. 
+The type rule is a set of rules over multiple predicates, which take the form $X \implies isType\ast(X)$, where $|X|=1, |Y|=0$ and $\ast$ matches all the basic types (string, int, etc).
+In \app, probabilistic typing is implemented as an instance of the learning interface.
+This module will specify the counting and resolution type judgments from Sec.~\ref{sec:ptypes}.
 It 
 
 \para{Integer Correlation}
-Fine grained errors (Aaron)
+\app supports two types of integer correlation rules, coarse-grained and fine-grained.
+Coarse-grained rules follow $X \implies compare(X,Y)$, where $|X|,|Y|=1$ and $compare \in \{<,=,>\}$, such that $X$ must hold $compare$ to $Y$.
+Fine-grained rules follow $X \implies compare(X,Y)$, where $|X|=2,|Y|=1$ and $compare \in \{<,=,>\}$, such that for $k_1,\ k_2 \in X,\ k1*k2$ must hold $compare$ to $Y$.
+These rules also implement a typing judgment over the keywords probabilistic type.
+To avoid learning too many false positives, we restrict this rule to either $size*int=size$, $int*size=size$, or $int*int = int$.
+Without probabilistic typing, we would also learn, for example, $int*int=size$.
+%TODO Aaron
 
 \subsection{Checker}
 \label{sec-checker}

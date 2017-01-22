@@ -4,17 +4,18 @@
 This section discusses a few of \app's limitations
 and possible solutions.
 
-\para{Legal misconfigurations.}
+%TODO move this - it is not a limitation
+\para{Legal misconfigurations}
 Most of the existing proactive misconfiguration detection techniques, cannot handle configuration errors resulting from events that occurred during system runtime.
 Such configuration errors are referred to as {\em legal misconfigurations}~\cite{yin11anempirical}. 
 In particular, many parameter misconfigurations have perfectly legal types and values, but do not deliver the functionality intended by users. 
 For example, after a website's traffic significantly increases, the parameter {\tt key\_buffer\_size} in MySQL may not  be able to handle increasingly more data traffic,
    thus leading to outage of the whole system.
-While \app does not explicitly use any runtime information, we are still able to detect such errors, for example Sec.~\ref{sec:motiv4}.
+While \app does not explicitly use any runtime information, we are still able to detect such errors, for example Sec.~\ref{ex:fine}.
 Since \app relies on the collective knowledge of the training set, as long as the training set is mostly correct with respect to legal misconfigurations, these can still be detected.
 
-\para{Misconfiguration across software components.}
-As exposed by Yin {\em et al.}~\cite{yin11anempirical},
+\para{Misconfiguration across software components}
+As reported by Yin {\em et al.}~\cite{yin11anempirical},
 cross-software configuration correlation problems also account
 for a considerable number of misconfiguration cases.
 For example, in a LAMP-based Web server, one entry in the
@@ -35,7 +36,7 @@ intersection~\cite{kissner05privacy}, to privately extract the
 overlapping entries, \eg, {\tt mysql.max\_connection} in the 
 above MySQL and PHP case, for double-checking.
 
-\para{Network configuration verification.}
+\para{Network configuration verification}
 \app mainly focuses on software configurations, \eg, MySQL and Apache,
 so that our approach is limited to support network configuration
 verification. This is because network configurations have quite
@@ -48,7 +49,7 @@ Dobrescu {\em et al.}~\cite{dobrescu14software},
 have been proposed to check whether network configurations
 meet their specifications.
 
-\para{More complex configuration structure.}
+\para{More complex configuration structure}
 Currently, \app mainly targets key-value configuration files,
 but in practice many systems, \eg, OpenStack~\cite{OpenStack},
 employ very complex configuration format and structure,
