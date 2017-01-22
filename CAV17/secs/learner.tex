@@ -6,6 +6,10 @@ We describe an interface to define the different classes of rules that should be
 Each instance of the interface corresponds to a different class of of configuration errors, such as missing entry errors, ordering errors, and integer correlation errors. 
 These errors can cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
 
+\rahul{and we may even be able to say that these insidiuous issues are much
+harder to pin down by the standard delta-debugging technique of starting a
+system multiple times with different configuration settings}
+
 A rule is an implication relationship, $X \implies p(X,Y)$, between two possibly empty sets of keywords $X,Y \subset \keys$, where $\keys$ is the set of unique keys from the training set and the predicate $p$ is the one of the classes of configuration errors (order, missing, etc).
 Implicitly we interpret this to means that if the keywords $X\cup Y$ appear in a configuration file, we expect the predicate $p$ to hold.
 The task of the learning algorithm is to transform a training set to a set of rules, weighted with \textit{support} and \textit{confidence}.

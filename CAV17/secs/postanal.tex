@@ -14,28 +14,40 @@ The simple structure of rules with weights from an association rule learning-lik
 \label{sec:ruleorder}
 
 Define a graph with labeled, weighted edges $G = (V,E)$ such that:
-\iffalse
-    V \def { keywords }
 
-Where 
+    $$V = \{ keywords \}$$
 
-    E \def { (v_1, v_2, l, w) }
-\fi
+and 
 
-Where the label $l$ defines the relationship, and the weight $w$ is
-defined as $w = \frac{true - false}{total}$ for that relationship.
+    $$E = \{ (v_1, v_2, l, w) \}$$
+
+Where the label $l \in L$ indicates the predicate $p$ extracted by the learner,
+$L$ is the set of all predicates learned,
+and the weight $w$ is defined as 
+
+    $$w = \frac{true - false}{total}$$
+
+for that relationship. For notational convenience later in this section
+we will refer to $w_{v_1, v_2, l}$ as referring to the weight of the
+edge $(v_1, v_2, l, w)$. We will refer to this graph as the {\bf Rule Graph}
+in further analysis.
+
 Note that due to support / confidence assertions in the learner, we
 may be assured that all weights in the graph are positive.
 
 \para {Definition}
-Degree (in-degree + out-degree) for each node 
+We define a measure of degree for each node as the sum of in-degree
+and out-degree defined in the usual way. Explicitly, for a vertex $x \in V$:
 
-Define in-degree and out-degree in the usual way:
+    $$DEGREE(x) = OUT\_DEGREE(x) + IN\_DEGREE(x)$$
 
-\iffalse    IN_DEGREE(k) = ||
+    $$DEGREE(x) = \sum_{l \in L} \sum_{v \in V} w_{x, v, l} + \sum_{l \in L} \sum_{v \in V} w_{v, x, l}$$
 
-    $\forall keyword k \in rules, in\_degree()$
-\fi
+The more rules of high confidence extracted for a keyword by the learner, 
+the higher the $DEGREE$ of the corresponding vertex in the Rule Graph.
+We may use this measurement to examine which keywords in the configuration
+space examined by the learner are most important - which keyword configurations
+are the most constrained / most constraining.
 
 Note that we will be summing in-degree and out-degree over all
 relationships $l$ to determine the total importance of
