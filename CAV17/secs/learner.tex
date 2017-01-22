@@ -44,16 +44,15 @@ Without probabilistic typing, we would also learn, for example, $int*int=size$.
 \subsection{Checker}
 \label{sec-checker}
 
-With the learned rules and constraints in hand (generated
-by the learner module),
-\app checks whether any entry in a target configuration file
-violates the learned rules and constraints.
-For a given configuration file, \app parses it the same
-way employed in the translator, thus obtaining a structured
-and typed representation for the target configuration file.
-Then, the checker uses two sub-modules (shown in 
-Figure~\ref{fig-overview}) to check the target
-configuration file based on rules and constraints.
+With the learned rules generates by the learner module,
+  \app checks whether any entry in a target configuration file violates the learned rules and constraints.
+\app parses a verification target configuration file the same way employed in the translator for learning,
+  obtaining a structured and typed representation.
+Then, the checker applies the learner to build the set of relations observed in the file.
+For any relation that violates a known rule, the checker will output the predicate and keyword sets associated with that rule, as well as the learned support and confidence values.
+Since the tool is probabilistic, we provide the user with these values to determine if they rule must be satisfied in their application on a case-by-case basis.
+For instance, the \texttt{key\_buffer} misconfiguration from Sec. \ref{ex:fine} will only be noticeable if the application experiences a heavy traffic load, so the user may choose to ignore this error if they are confident this will not be an issue.
+
 
 \subsection{Implementation}
 

@@ -3,11 +3,15 @@
 
 \section{Post Analysis}
 
-VeriConf can output the series of learned rules extracted from its training
-set as described in $\S$\ref{sec-learn}.
+VeriConf can output the set of learned rules from the training set as described in $\S$\ref{sec-learn}.
+Note that the ability to inspect the learned rule set is a special property of this technique.
+The core task, building a model from unlabeled examples to classify files as either correct or incorrect, is also a classic problem for other machine learning techniques such as neural networks~\cite{nn1,nn2,nn3}.
+When applying machine learning to verification of configuration files, this is not, however, an ideal approach.
+The resulting model from a neural network is easily not amenable to analysis~\cite{nnAnalysis1,nnAnalysis2}.
+The simple structure of rules with weights from an association rule learning-like approach, will instead allows us to do further inference on the resulting model.
 
 \subsection{Rule Ordering}
-
+\label{sec:ruleorder}
 
 Define a graph with labeled, weighted edges $G = (V,E)$ such that:
 \iffalse

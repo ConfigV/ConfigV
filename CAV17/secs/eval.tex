@@ -1,31 +1,78 @@
 
 \section{Evaluation}
 
+We evaluate this approach using our implementation, \app.
+We use two training sets, a preexisting set of MySQL configuration from~\cite{xu15systems} of 256 files,
+ and our own set of collected MySQL configuration from Github of 1120 files.
+In our evaluation we focus on MySQL for consistency, but any configuration language (that can be parsed to the intermediate representation from Sec.~\ref{sec:trans}) can be used.
+
+
+We run \app on 80\% as our collected configuration files, selected at random, as a training set to generate rules.
+The remaining 20\% is used as a testing set to be verified by the learned rules.
+We report the number of rules learned and number of errors detected in Table~\ref{table:learning}.
+Note that in contrast to program verification, we do not have an oracle for determining if a reported error is a true error, or a false positive.
+When learning a specification for a program, that specification can be checked by violating said specification and testing the program.
+Because misconfigurations are dependent on the rest of the system, the available hardware, and the usage patterns, we cannot simulate the all conditions to determine if a reported error will cause system failure.
+Indeed, as evidenced by Example~\ref{ex:fine}, some misconfigurations will only cause greater than expected performance degradation.
+In this case, the very definition of a true error is necessarily imprecise.
+
 \begin{table}[h]
 \centering
 \caption{Results of Learning}
-\label{table-training}
-\begin{tabular}{|c|c|c|c|}
+\label{table:learning}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-{\bf Class of Error } & {\bf Total Rules Learned from Training Set} & {\bf Rules Detected on Benchmark set} & {\bf Thresholds}\\ 
+{\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Rules Detected} & {\bf Support} & {\bf Confidence}\\ 
 \hline
 \hline
-10   & 2.997     & &  \\ \hline
-50   & 46.4208   & &  \\ \hline
-100  & 206.7798  & &  \\ \hline
-150  & 431.7772  & &  \\ \hline
-200  & 856.6383  & &  \\ 
+Order        & 2.997     & &  & \\ 
+Missing      & 46.4208   & &  & \\ 
+Type         & 206.7798  & &  & \\ 
+Fine-Grain   & 431.7772  & &  & \\ 
+Coarse-Grain & 856.6383  & &  & \\ 
 \hline
 \end{tabular}
 \end{table}
 
+The errors reported may have a varying impact on the system, ranging from failing to start, runtime crash, or performance degradation.
+Since this is a probablistic system, it is also that some errors are false positives, a violation of the rule has no effect on the system.
+It it therefore desirable to sort the reported errors in order of severity. 
+To achieve this we use the post analysis metric described in Sec.~\ref{sec:ruleorder}.
+To estimate the impact of this metric, we track the rank of known true positives with, and without, the augmented rule ordering in Table~\ref{table:order}.
+
+\begin{table}[h]
+\centering
+\caption{Effect of Post Analysis Rule Ordering for known true positives}
+\label{table:order}
+\begin{tabular}{|c|c|c|c|}
+\hline
+{\bf Class of Error} & {\bf Reference} & {\bf Rank w/o} & {\bf Rank w/} \\
+\hline
+\hline
+Order        & Ex.~\ref{ex:order}   & & \\ 
+Missing      & Ex.~\ref{ex:miss}    & & \\ 
+Type         & Ex.~\ref{ex:type}    & & \\ 
+Fine-Grain   & Ex.~\ref{ex:fine}    & & \\ 
+Coarse-Grain & Ex.~\ref{ex:coarse}  & & \\ 
+\hline
+\end{tabular}
+\end{table}
+
+The checker stage of \app is the only one facing an end user that wants to verify a new configuration file.
+However, the user may also want to interface with the previous stages as well. 
+We have only build rules for MySQL, a relatively well documented language, but any configuration language can be analyzed with \app given a training set.
+In this case, the user will need to rebuild the rule set.
+A user also may want to update the support of confidence threshold to report more or fewer error, as is needed for their application.
+It is then important that the learning process is reasonably fast.
+The times reported in Table~\ref{table:training} were run on a single thread of a Intel i5-3450 CPU @ 3.10GHz with 16GB of RAM.
+
 \begin{table}[h]
 \centering
 \caption{Training time for different datasets}
-\label{table-training}
+\label{table:training}
 \begin{tabular}{|c|c|c|}
 \hline
-{\bf The \# of Files for Training} & {\bf Training Time ConfigC (sec.)} & {\bf Training Time \app (sec.)}\\ 
+{\bf The \# of Files for Training} & {\bf ConfigC Training Time (s)} & {\bf \app Training Time (s)}\\ 
 \hline
 \hline
 10   & 2.997     &   \\ \hline
@@ -36,5 +83,4 @@
 \hline
 \end{tabular}
 \end{table}
-
 
