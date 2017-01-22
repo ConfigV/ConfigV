@@ -1,0 +1,99 @@
+[client]
+port   = 3306
+socket = /var/run/mysqld/mysqld.sock
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 32M
+
+[mysql]
+prompt          ='\\u@\\h [\\d]> '
+show_warnings
+connect_timeout = 10
+
+[mysqld_safe]
+socket = /var/run/mysqld/mysqld.sock
+nice   = 0
+
+[mysqld]
+user           = mysql
+pid-file       = /var/run/mysqld/mysqld.pid
+socket         = /var/run/mysqld/mysqld.sock
+log-error      = /var/log/mysqld.log
+port           = 3306
+datadir        = /var/lib/mysql
+tmpdir         = /tmp
+#old_passwords = 1
+
+## slow log ##
+slow_query_log_file           = /var/log/mysql/mysql-slow.log
+long_query_time               = 0.5
+log-queries-not-using-indexes = 1
+log_slow_admin_statements     = 1
+
+## replication ##
+server-id        = 100
+log-bin          = /var/lib/mysql/mysqld-bin
+relay-log        = /var/lib/mysql/mysqld-relay-bin
+log-slave-updates
+max_binlog_size  = 256M
+binlog_format    = mixed
+expire_logs_days = 7
+# 5.6
+# gtid_mode      = ON
+# enforce_gtid_consistency
+
+## connection ##
+max_connections    = 10000
+max_connect_errors = 100000000
+max_allowed_packet = 32M
+wait_timeout       = 30
+
+## charset/timezone ##
+character-set-server = utf8mb4
+#default-time-zone   = +0:00
+
+## buffer/cache ##
+# global
+key_buffer          = 16M
+join_buffer_size    = 64k
+read_buffer_size    = 256k
+table_open_cache    = 2000
+thread_cache_size   = 100
+
+# per thread
+sort_buffer_size    = 1M
+tmp_table_size      = 32MB
+max_heap_table_size = 32M
+thread_stack        = 192K
+
+# query cache
+query_cache_type    = 0
+query_cache_size    = 0
+query_cache_limit   = 0
+
+## SQL ##
+skip_external_locking
+#read_only
+
+## InnoDB ##
+# skip-innodb
+default-storage-engine          = innodb
+innodb_file_per_table           = 1
+innodb_data_file_path           = ibdata1:1G;ibdata2:1G:autoextend
+innodb_buffer_pool_size         = 1024M
+innodb_additional_mem_pool_size = 20M
+innodb_log_file_size            = 500M
+innodb_log_buffer_size          = 20M
+innodb_flush_log_at_trx_commit  = 1
+innodb_flush_method             = O_DIRECT
+innodb_doublewrite              = false
+# 5.5: ~5.5.27
+#innodb_change_buffering        = inserts
+
+# I/O
+innodb_read_io_threads          = 16
+innodb_write_io_threads         = 16
+#innodb_io_capacity             = 5000
+

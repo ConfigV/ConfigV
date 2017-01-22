@@ -1,0 +1,39 @@
+# This file contains a bunch of settings that will increase the performance of URD using MySQL.
+# Merge these in your my.cnf and restart mysql and URDD.
+
+# These settings are for a machine with 2GB memory. If you have less you should limit the amount a bit. I doubt increasing these values will help much.
+
+# Also valuable is mysqltuner. Run:
+#   wget mysqltuner.pl
+# to get it then run it.
+
+#
+# The MySQL database server configuration file.
+#
+[mysqld]
+#
+# * Fine Tuning
+#
+key_buffer		= 330M
+max_allowed_packet	= 16M
+thread_stack		= 128K
+thread_cache_size	= 8
+max_connections         = 40
+table_cache             = 1024 
+#thread_concurrency     = 10
+key_buffer_size		= 230M
+join_buffer_size 	= 32M 
+sort_buffer_size	= 32M
+#log-slow-queries = /var/log/mysql/mysql-slow.log
+long_query_time = 1
+read_buffer_size	= 2MB
+tmp_table_size		= 256M
+max_heap_table_size	= 256M
+read_rnd_buffer_size	= 2MB
+#
+# * Query Cache Configuration
+#
+query_cache_limit       = 96M
+query_cache_size        = 96M
+#
+

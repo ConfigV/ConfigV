@@ -1,0 +1,141 @@
+# /etc/mysql/my.cnf: The global mysql configuration file.
+
+[mysqld_safe]
+err-log                        = <%= node[:mysql][:server][:logdir] %>/mysql.err
+
+[mysqld]
+character-set-server           = utf8
+default-character-set          = utf8
+
+user                           = mysql
+port                           = 3306
+
+basedir                        = /usr
+tmpdir                         = <%= node[:mysql][:server][:tmpdir] %>
+datadir                        = <%= node[:mysql][:server][:datadir] %>
+socket                         = <%= node[:mysql][:server][:rundir] %>/mysqld.sock
+pid-file                       = <%= node[:mysql][:server][:rundir] %>/mysqld.pid
+log-error                      = <%= node[:mysql][:server][:logdir] %>/mysqld.err
+language                       = <%= node[:mysql][:server][:sharedstatedir] %>/english
+
+# general security & performance tuning
+<%- if node[:mysql][:server][:skip_networking] -%>
+skip-networking
+<%- end -%>
+<%- if node[:mysql][:server][:bind_address] -%>
+bind-address                   = <%= node[:mysql][:server][:bind_address] %>
+<%- end -%>
+<%- if node[:mysql][:server][:skip_innodb] -%>
+skip-innodb
+<%- end -%>
+skip-locking
+
+# replication and binary log
+server-id                      = <%= node[:mysql][:server][:server_id] %>
+<%- if node[:mysql][:server][:log_bin] -%>
+log-bin                        = mysql-bin
+sync-binlog                    = <%= node[:mysql][:server][:sync_binlog] %>
+<%- end -%>
+<%- if node[:mysql][:server][:relay_log] -%>
+relay-log                      = mysqld-relay-bin
+<%- end -%>
+expire_logs_days               = <%= node[:mysql][:server][:expire_logs_days] %>
+<%- if node[:mysql][:server][:log_slave_updates] -%>
+log_slave_updates
+<%- end -%>
+<%- if node[:mysql][:server][:replicate_do_db] -%>
+<%- node[:mysql][:server][:replicate_do_db].each do |db| -%>
+replicate_do_db                = <%= db %>
+<%- end -%>
+<%- end -%>
+<%- if node[:mysql][:server][:replicate_do_table] -%>
+<%- node[:mysql][:server][:replicate_do_table].each do |db| -%>
+replicate_do_table                = <%= db %>
+<%- end -%>
+<%- end -%>
+
+<%- if node[:mysql][:server][:long_query_time].to_i > 0 -%>
+# slow query log
+log-slow-queries               = <%= node[:mysql][:server][:logdir] %>/slow-queries.log
+long_query_time                = <%= node[:mysql][:server][:long_query_time] %>
+<%- end -%>
+
+# client connection optimization
+max_connections                = <%= node[:mysql][:server][:max_connections] %>
+max_allowed_packet             = <%= node[:mysql][:server][:max_allowed_packet] %>
+net_buffer_length              = <%= node[:mysql][:server][:net_buffer_length] %>
+wait_timeout                   = <%= node[:mysql][:server][:wait_timeout] %>
+connect_timeout                = <%= node[:mysql][:server][:connect_timeout] %>
+
+# key buffer optimization
+key_buffer_size                = <%= node[:mysql][:server][:key_buffer_size] %>
+
+# query cache optimization
+query_cache_size               = <%= node[:mysql][:server][:query_cache_size] %>
+query_cache_type               = <%= node[:mysql][:server][:query_cache_type] %>
+query_cache_limit              = <%= node[:mysql][:server][:query_cache_limit] %>
+
+# sort optimization
+sort_buffer_size               = <%= node[:mysql][:server][:sort_buffer_size] %>
+read_buffer_size               = <%= node[:mysql][:server][:read_buffer_size] %>
+read_rnd_buffer_size           = <%= node[:mysql][:server][:read_rnd_buffer_size] %>
+myisam_sort_buffer_size        = <%= node[:mysql][:server][:myisam_sort_buffer_size] %>
+
+# join optimization
+join_buffer_size               = <%= node[:mysql][:server][:join_buffer_size] %>
+
+# misc
+group_concat_max_len           = <%= node[:mysql][:server][:group_concat_max_len] %>
+
+# open files & table cache
+open_files_limit               = <%= node[:mysql][:server][:open_files_limit] %>
+table_cache                    = <%= node[:mysql][:server][:table_cache] %>
+
+# temporary tables
+tmp_table_size                 = <%= node[:mysql][:server][:tmp_table_size] %>
+max_heap_table_size            = <%= node[:mysql][:server][:max_heap_table_size] %>
+
+# thread cache
+thread_cache_size              = <%= node[:mysql][:server][:thread_cache_size] %>
+
+# storage engine
+default_storage_engine         = <%= node[:mysql][:server][:default_storage_engine] %>
+
+# innodb
+<% if node[:mysql][:server][:innodb_file_per_table] %>
+innodb_file_per_table
+<% end %>
+innodb_data_home_dir           = <%= node[:mysql][:server][:innodb_data_home_dir] %>
+innodb_data_file_path          = ibdata1:10M:autoextend
+innodb_buffer_pool_size        = <%= node[:mysql][:server][:innodb_buffer_pool_size] %>
+innodb_log_file_size           = <%= node[:mysql][:server][:innodb_log_file_size] %>
+innodb_flush_log_at_trx_commit = <%= node[:mysql][:server][:innodb_flush_log_at_trx_commit] %>
+innodb_flush_method            = O_DIRECT
+innodb_thread_concurrency      = 8
+innodb_lock_wait_timeout       = <%= node[:mysql][:server][:innodb_lock_wait_timeout] %>
+
+# client settings
+[client]
+port                           = 3306
+socket                         = <%= node[:mysql][:server][:rundir] %>/mysqld.sock
+
+[mysqldump]
+quick
+max_allowed_packet             = <%= node[:mysql][:server][:max_allowed_packet] %>
+
+[isamchk]
+key_buffer                     = 20M
+sort_buffer_size               = 20M
+read_buffer                    = 2M
+write_buffer                   = 2M
+
+[myisamchk]
+key_buffer                     = 20M
+sort_buffer_size               = 20M
+read_buffer                    = 2M
+write_buffer                   = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+!includedir /etc/mysql/conf.d

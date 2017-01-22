@@ -1,0 +1,53 @@
+
+[client]
+port      = 3306
+socket		= /var/vcap/sys/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+socket		= /var/vcap/sys/run/mysqld/mysqld.sock
+nice      = 0
+log-error = /var/vcap/sys/log/mysql/mysqld.err.log
+
+[mysqld]
+collation_server        = utf8_unicode_ci
+character_set_server    = utf8
+user		= vcap
+socket		= /var/vcap/sys/run/mysqld/mysqld.sock
+port     	= 3306
+basedir		= /var/vcap/packages/mysql
+datadir		= /var/vcap/store/mysql
+tmpdir		= /var/vcap/data/mysql_tmp
+language	= /var/vcap/packages/mysql/share/mysql/english
+skip-name-resolve
+skip-external-locking
+fast_index_creation = false
+
+
+init-file = /var/vcap/store/mysql_common/config/warden_mysql_init
+
+
+key_buffer              = 51M
+innodb_buffer_pool_size = 154M
+max_allowed_packet      = 32M
+thread_stack            = 256K
+thread_cache_size       = 8
+max_connections         = 40
+table_open_cache        = 140
+myisam-recover          = BACKUP
+query_cache_limit       = 1M
+query_cache_size        = 13M
+expire_logs_days        = 10
+innodb_file_per_table   = 1
+
+innodb_open_files       = 100
+
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet	= 16M
+
+[mysql]
+
+[isamchk]
+key_buffer		= 16M

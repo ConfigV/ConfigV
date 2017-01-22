@@ -1,0 +1,13 @@
+[mysqld]
+datadir=<%=node['mysql-server']['db']['path']%>
+socket=/var/lib/mysql/mysql.sock
+user=root
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# Port
+port=<%=node['mysql-server']['listening']['port']%>
+
+
+[mysqld_safe]
+log-error=<%=node['mysql-server']['logs']['path']%>/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

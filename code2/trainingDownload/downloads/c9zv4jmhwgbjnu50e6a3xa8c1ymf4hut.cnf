@@ -1,0 +1,65 @@
+ # For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
+
+[mysqld]
+#
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+#
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin
+#
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+# Recommended in standard MySQL setup
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+# All columns has lowercase names
+lower_case_table_names = 1
+
+# Encoding stuff
+collation_server=utf8_unicode_ci
+character_set_server=utf8
+
+# All tablespaces are saved per file
+innodb_file_per_table=on
+
+# Optimizing usage of cached data by
+# SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'; for getting number of tables and 
+# show global status like '%Threads_connected%'; for getting threads. 
+# Then optimal amount of cache is: (threads) * (number of tables) / 2 
+table_open_cache=19922
+
+# Next, we need to optimize the number of files opened
+# it is table_open_cache * 2
+open_files_limit=39844
+
+
+# Optimizing 
+# read_buffer_size = 128K
+thread_cache_size = 50
+query_cache_size= 50M
+query_cache_type=1
+innodb_buffer_pool_size = 1G
+innodb_additional_mem_pool_size = 20M
+# Set .._log_file_size to 25 % of buffer pool size
+innodb_log_file_size = 256M
+
+# Making database accessible from the outside
+bind-address            = 0.0.0.0
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

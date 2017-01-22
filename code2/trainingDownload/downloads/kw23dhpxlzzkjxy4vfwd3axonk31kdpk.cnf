@@ -1,0 +1,63 @@
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /var/lib/mysql/mysql.sock
+
+[mysqld_safe]
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = InnoDB
+socket                         = /var/lib/mysql/mysql.sock
+pid-file                       = /var/lib/mysql/mysql.pid
+
+# MyISAM #
+key-buffer-size                = 128M
+myisam-recover                 = FORCE,BACKUP
+
+# SAFETY #
+max-allowed-packet             = 2G
+max-connect-errors             = 1000000
+
+# DATA STORAGE #
+datadir                        = /var/lib/mysql
+
+# NNNNOOOOPPE #
+performance-schema             = 0
+
+## REPLICATION RELATED LOCKING CHANGES #
+transaction-isolation          = READ-COMMITTED
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 300M
+max-heap-table-size            = 300M
+query-cache-type               = 0
+query-cache-size               = 0
+max-connections                = 500
+thread-cache-size              = 75
+open-files-limit               = 65535
+table-definition-cache         = 4096
+table-open-cache               = 10240
+
+# INNODB #
+innodb-flush-method            = O_DIRECT
+innodb-flush-log-at-trx-commit = 0
+innodb-file-per-table          = 1
+innodb-buffer-pool-size        = 2G
+innodb-buffer-pool-instances   = 1
+innodb-read-io-threads         = 4
+innodb-write-io-threads        = 2
+# http://mysqlha.blogspot.com/2013/02/mysql-56-io-bound-update-only-workloads.html
+innodb-io-capacity             = 1000
+innodb-lru-scan-depth          = 2000
+innodb-io-capacity-max         = 5000
+innodb-autoinc-lock-mode       = 2
+
+innodb_log_files_in_group   =  1
+innodb_log_file_size            = 100M
+
+# LOGGING #
+log-error                      = /var/lib/mysql/mysql-error.log

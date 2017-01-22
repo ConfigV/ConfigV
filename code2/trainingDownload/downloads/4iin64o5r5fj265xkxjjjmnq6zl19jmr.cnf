@@ -1,0 +1,75 @@
+[client]
+default-character-set = utf8
+port    = $port
+socket  = /tmp/mysql.sock.$port
+
+[mysql]
+prompt="(\u:`hostname`:)[\d]> "
+no-auto-rehash
+
+[mysqld]
+default-character-set = utf8
+user    = mysql
+port    = $port
+socket  = /tmp/mysql.sock.$port
+basedir = $mysql_base_path
+datadir = $topdir/data
+open_files_limit    = 10240
+back_log = 600
+max_connections = 3000
+max_connect_errors = 6000
+table_cache = 614
+external-locking = FALSE
+max_allowed_packet = 32M
+sort_buffer_size = 2M
+join_buffer_size = 2M
+thread_cache_size = 300
+thread_concurrency = 8
+query_cache_size = 32M
+query_cache_limit = 2M
+query_cache_min_res_unit = 2k
+default-storage-engine = MyISAM
+default_table_type = MyISAM
+thread_stack = 192K
+transaction_isolation = READ-COMMITTED
+tmp_table_size = 246M
+max_heap_table_size = 246M
+long_query_time = 1
+log_long_format
+log-bin = $topdir/binlog
+binlog_cache_size = 4M
+binlog_format = MIXED
+max_binlog_cache_size = 8M
+max_binlog_size = 512M
+expire_logs_days = 7
+key_buffer_size = 256M
+read_buffer_size = 1M
+read_rnd_buffer_size = 16M
+bulk_insert_buffer_size = 64M
+myisam_sort_buffer_size = 128M
+myisam_max_sort_file_size = 10G
+myisam_max_extra_sort_file_size = 10G
+myisam_repair_threads = 1
+myisam_recover
+
+skip-name-resolve
+master-connect-retry = 10
+slave-skip-errors = 1032,1062,126,1114,1146,1048,1396
+
+server-id = 1
+
+innodb_additional_mem_pool_size = 16M
+innodb_buffer_pool_size = 2048M
+innodb_data_file_path = ibdata1:1024M:autoextend
+innodb_file_io_threads = 4
+innodb_thread_concurrency = 8
+innodb_flush_log_at_trx_commit = 2
+innodb_log_buffer_size = 16M
+innodb_log_file_size = 128M
+innodb_log_files_in_group = 3
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+innodb_file_per_table = 0
+[mysqldump]
+quick
+max_allowed_packet = 32M

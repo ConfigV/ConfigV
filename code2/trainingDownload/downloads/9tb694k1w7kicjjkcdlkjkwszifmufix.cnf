@@ -1,0 +1,34 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+character-set-server = utf8
+collation-server = utf8_general_ci
+
+skip-name-resolve
+
+thread_cache_size = 100
+max_heap_table_size = 33554432
+query_cache_size = 128MB
+query_cache_limit = 2097152
+
+key_buffer_size = 128MB
+innodb_buffer_pool_size = 16G
+
+innodb_rollback_on_timeout = 1
+innodb_lock_wait_timeout = 600
+max_connections = 350
+log-bin = mysql-bin
+binlog-format = 'ROW'
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+[mysql]
+default-character-set = utf8
+

@@ -1,0 +1,16 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+bind-address=<%= @ipaddress_eth1 %>
+log_bin=mysql-bin
+server_id=2
+relay_log=mysql-relay-bin
+log_slave_updates=1
+read_only=1
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

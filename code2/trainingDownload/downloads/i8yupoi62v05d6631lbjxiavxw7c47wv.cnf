@@ -1,0 +1,277 @@
+#
+# The my.cnf template used in the System Console project.
+#
+# The conf is optimized for INNODB and master-master configuration.
+#
+# Variables, that need to be replaced before setting this file in production.
+# - ${server-id}
+# - ${innodb_buffer_pool_size}
+#
+# Memory note, the following should not exceed total ram.
+# innodb_buffer_pool_size
+# + key_buffer_size
+# + max_connections*(sort_buffer_size+read_buffer_size+binlog_cache_size)
+# + max_connections*2MB
+# 8MB+(150*(256K+1M+32k*2MB)=512M+innodb-buffer-pool-size
+
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+
+# Run the mysqld server as the user having this name.
+user=mysql
+
+#Adding max packet for blob default 1m
+max_allowed_packet=4M
+
+#
+# Security
+#
+
+# The IP address to bind to. Only one address can be selected.
+bind-address=0.0.0.0
+
+# On Unix, enabling symbolic links means that you can link a MyISAM index file
+# or data file to another directory with the INDEX DIRECTORY or DATA DIRECTORY
+# options of the CREATE TABLE statement. If you delete or rename the table,
+# the files that its symbolic links point to also are deleted or renamed.
+skip-symbolic-links
+
+# With this option, the SHOW DATABASES statement is permitted only to users
+# who have the SHOW DATABASES privilege, and the statement displays all database names.
+skip-show-database
+
+# If you start the server with --local-infile=0, clients cannot use LOCAL in LOAD DATA statements.
+local-infile=0
+
+# This option limits the effect of the LOAD_FILE() function and the
+# LOAD DATA and SELECT ... INTO OUTFILE statements to work only with files
+# in the specified directory.
+secure-file-priv=/tmp
+
+# Disallow authentication by clients that attempt to use accounts that have old (pre-4.1) passwords.
+secure-auth
+
+# If the value is greater than 1, aborted connections are written to the error log
+log-warnings=3
+
+# Log all queries that have taken more than long_query_time seconds to execute to this file.
+slow_query_log
+slow_query_log_file=/var/log/mysqld-slow.log
+
+# When the slow query log is enabled, this option enables logging for queries
+# that have taken more than long_query_time seconds to execute on the slave.
+log-slow-slave-statements
+
+# TODO: We might like to turn this off.
+#
+# If you are using this option with the slow query log enabled, queries that
+# are expected to retrieve all rows are logged.
+# This option does not necessarily mean that no index is
+# used. For example, a query that uses a full index scan uses an index but
+# would be logged because the index would not limit the number of rows.
+log-queries-not-using-indexes
+
+# If the plugin directory is writable by the server, it may be possible for
+# a user to write executable code to a file in the directory using
+# SELECT ... INTO DUMPFILE. This can be prevented by making plugin_dir read
+# only to the server or by setting --secure-file-priv to a directory where
+# SELECT writes can be made safely.
+# (We are doing both)
+plugin_dir=/usr/share/mysql/plugins
+
+# Do not resolve host names when checking client connections. Use only IP addresses
+skip-name-resolve
+
+#
+# Collation and character set.
+# http://dev.mysql.com/doc/refman/5.0/en/charset-connection.html
+#
+
+# The default character set for the client and connection
+character-set-server = utf8
+
+# The default server collation
+collation-server = utf8_general_ci
+
+# The collation of the connection character set
+# TODO: Probably not needed?
+# init_connect='SET collation_connection = utf8_general_ci'
+
+# SET NAMES indicates what character set the client will use to send SQL statements to the server.
+# TODO: Probably not needed?
+# init_connect='SET NAMES utf8'
+
+#
+# Memmory and connection optimizations.
+#
+
+# The maximum permitted number of simultaneous client connections. By default, this is 100
+max_connections=300
+
+# Each thread that does a sequential scan allocates a buffer of this size (in bytes) for each table it scans
+read_buffer_size=1M
+
+# When reading rows in sorted order following a key-sorting operation, the rows
+# are read through this buffer to avoid disk seeks. Setting the variable to a
+# large value can improve ORDER BY performance by a lot. However, this is a
+# buffer allocated for each client, so you should not set the global variable
+# to a large value. Instead, change the session variable only from within those
+# clients that need to run large queries.
+read_rnd_buffer_size=500K
+
+# Each session that needs to do a sort allocates a buffer of this size.
+# If you see many Sort_merge_passes per second in SHOW GLOBAL STATUS output, you
+#  can consider increasing the sort_buffer_size value to speed up ORDER BY or
+# GROUP BY operations that cannot be improved with query optimization or
+# improved indexing. The entire buffer is allocated even if it is not all
+# needed, so setting it larger than required globally will slow down most
+# queries that sort. It is best to increase it as a session setting, and only
+# for the sessions that need a larger size.
+sort_buffer_size=256K
+
+#
+# MYISAM
+#
+
+# Index blocks for MyISAM tables are buffered and are shared by all threads.
+# key_buffer_size is the size of the buffer used for index blocks. The key
+# buffer is also known as the key cache.
+# ... on a system whose primary function is to run MySQL using the MyISAM
+# storage engine, 25% of the machine's total memory is an acceptable value
+# for this variable
+# Set key_buffer to 5 - 50% of your RAM depending on how much
+# you use MyISAM tables, but keep key_buffer_size + InnoDB
+# buffer pool size < 80% of your RAM
+# We are only using INNODB, so this uses the default 8mb
+key_buffer_size=8M
+
+#
+# INNODB
+#
+# http://dev.mysql.com/doc/refman/5.0/en/innodb-parameters.html#option_mysqld_innodb
+# http://dev.mysql.com/doc/refman/5.0/en/innodb-tuning.html
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-configuration.html
+# http://dev.mysql.com/doc/refman/5.1/en/multiple-tablespaces.html
+
+
+# Set the default storage engine (table type) for tables
+default-storage-engine=INNODB
+
+# The size in bytes of the memory buffer InnoDB uses to cache data and indexes
+# of its tables. The larger you set this value, the less disk I/O is needed to
+# access data in tables. On a dedicated database server, you may set this to
+# up to 80% of the machine physical memory size.
+# http://dev.mysql.com/doc/refman/5.0/en/innodb-buffer-pool.html
+innodb_buffer_pool_size=${innodb_buffer_pool_size}
+
+# The size in bytes of a memory pool InnoDB uses to store data dictionary
+# information and other internal data structures. If InnoDB runs out of memory
+# in this pool, it starts to allocate memory from the operating system and
+# writes warning messages to the MySQL error log.
+innodb_additional_mem_pool_size=1M
+
+# Once the number of threads reaches this limit, additional threads are placed
+# into a wait state within a FIFO queue for execution. Threads waiting for locks
+# are not counted in the number of concurrently executing threads.  A
+# recommended value is 2 times the number of CPUs plus the number of disks.
+innodb_thread_concurrency=8
+
+# Make your log files big, even as big as the buffer pool. When InnoDB has
+# written the log files full, it must write the modified contents of the
+# buffer pool to disk in a checkpoint. Small log files cause many unnecessary
+# disk writes. The disadvantage of big log files is that the recovery time is
+# longer. Make the log buffer quite large as well (on the order of 8MB)
+# Set the log file size to about 25% of the buffer pool size
+# TODO: Is this to large, slow recovery?
+innodb_log_file_size=100M
+
+# The size in bytes of the buffer that InnoDB uses to write to the log files on disk.
+# If you have big transactions, making the log buffer larger saves disk I/O.
+innodb_log_buffer_size=1M
+
+# If innodb_file_per_table is enabled, InnoDB creates each new table using its
+# own .ibd file for storing data and indexes, rather than in the shared tablespace
+# http://dev.mysql.com/doc/refman/5.0/en/innodb-multiple-tablespaces.html
+innodb_file_per_table
+
+# The paths to individual data files and their sizes
+innodb_data_file_path=ibdata1:100M:autoextend
+
+# When the value is 1 (the default), the log buffer is written out to the log
+# file at each transaction commit and the flush to disk operation is performed
+# on the log file. For the greatest possible durability and consistency in a
+# replication setup using InnoDB with transactions, you should use
+# innodb_flush_log_at_trx_commit=1, sync_binlog=1
+innodb_flush_log_at_trx_commit=1
+
+# If the value of this variable is greater than 0, the MySQL server synchronizes
+# its binary log to disk (using fdatasync()) after every sync_binlog writes to
+# the binary log. There is one write to the binary log per statement if
+# autocommit is enabled, and one write per transaction otherwise. A value of 1
+# is the safest choice, because in the event of a crash you lose at most one
+# statement or transaction from the binary log. However, it is also the slowest choice
+sync_binlog=1
+
+# Placing transaction logs on another partion?
+# innodb_log_group_home_dir=/var/xxxxx
+
+#
+# Replication Master-Master
+#
+# http://dev.mysql.com/doc/refman/5.5/en/replication-configuration.html
+# http://dev.mysql.com/doc/refman/5.0/en/replication-options-master.html#sysvar_auto_increment_increment
+# http://dev.mysql.com/doc/refman/5.0/en/replication-options-slave.html
+# http://www.learn-mysql-tutorial.com/Replication.cfm
+# http://www.howtoforge.com/mysql_master_master_replication
+
+# The number of days for automatic binary log file removal. The default is 0,
+# which means “no automatic removal.” Possible removals happen at startup and
+# when the binary log is flushed.
+expire_logs_days=1
+
+# If this option is set to 1, use compression for the slave/master protocol
+# if both the slave and the master support it.
+slave_compressed_protocol=1
+
+# This option is common to both master and slave replication servers, and is
+# used in replication to enable master and slave servers to identify themselves uniquely.
+server-id=${server-id}
+
+# Configure databases, so autoincrement columns don't collision.
+auto_increment_increment=10
+auto_increment_offset=${server-id}
+
+# Enable binary logging. The server logs all statements that change data to the binary log.
+log-bin=mysqld-bin
+log-bin-index=mysqld-bin.index
+
+# Enables relay logging.
+relay-log=mysqld-relay-bin
+relay-log-index=mysqld-relay-bin.index
+relay-log-info-file=mysqld-relay-log.info
+
+# The host name or IP address of the slave to be reported to the master during
+# slave registration. This value appears in the output of SHOW SLAVE HOSTS on
+# the master server.
+# TODO: Maybe not needed
+# report-host=syco-db1
+
+#
+# Query Cache
+#
+# Only enabled in production env
+#
+# http://dev.mysql.com/doc/refman/5.0/en/server-system-variables.html#sysvar_query_cache_type
+query_cache_type=1
+query_cache_size=10M
+
+[mysqld_safe]
+syslog
+pid-file=/var/run/mysqld/mysqld.pid
+
+[mysql]
+default-character-set=utf8
+
+[client]
+default-character-set=utf8

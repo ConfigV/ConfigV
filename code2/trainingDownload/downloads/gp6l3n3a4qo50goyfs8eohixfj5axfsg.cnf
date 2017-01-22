@@ -1,0 +1,49 @@
+[client]
+port                    = 3306
+socket                  = /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+socket                  = /var/run/mysqld/mysqld.sock
+nice                    = 0
+
+[mysqld]
+skip-external-locking
+user                    = mysql
+pid-file                = /var/run/mysqld/mysqld.pid
+socket                  = /var/run/mysqld/mysqld.sock
+port                    = 3306
+basedir                 = /usr
+datadir                 = /var/lib/mysql
+tmpdir                  = /tmp
+language                = /usr/share/mysql/english
+
+# SSL stuff
+ssl
+ssl-ca                  = /etc/mysql/ssl/server.crt
+ssl-cert                = /etc/mysql/ssl/server.crt
+ssl-key                 = /etc/mysql/ssl/server.key
+
+# May need to be bumped based on the number of nodes talking to this MySQL instance
+max_connections         = 1000
+
+# Bumping up some of these variables due to the number of connections
+thread_stack            = 256K
+thread_cache_size       = 16
+
+# Emergency stuff
+myisam-recover          = BACKUP
+
+# Binary log settings
+expire_logs_days        = 14
+max_binlog_size         = 100M
+log-bin                 = binarylog
+
+# Optimizations
+max_allowed_packet      = 16M
+key_buffer              = 128M
+query_cache_limit       = 1M
+query_cache_size        = 64M
+innodb_buffer_pool_size = 256M
+innodb_file_per_table
+
+!includedir /etc/mysql/conf.d/

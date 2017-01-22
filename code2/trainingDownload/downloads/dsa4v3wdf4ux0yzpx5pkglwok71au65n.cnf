@@ -1,0 +1,106 @@
+# mysql settings
+
+# The following options will be passed to all MySQL clients
+[client]
+port   = 3306
+socket = /var/run/mysqld/mysqld.sock
+
+# This was formally known as [safe_mysqld]. Both versions are currently parsed.
+[mysqld_safe]
+socket = /var/run/mysqld/mysqld.sock
+nice   = 0
+
+# Here follows entries for some specific programs
+
+# The MySQL server
+[mysqld]
+server-id            = 1
+user                 = mysql
+port                 = 3306
+pid-file             = /var/run/mysqld/mysqld.pid
+socket               = /var/run/mysqld/mysqld.sock
+basedir              = /usr
+datadir              = /var/lib/mysql
+tmpdir               = /tmp
+lc-messages-dir      = /usr/share/mysql
+character-set-server = utf8
+collation-server     = utf8_general_ci
+# * connect settings
+skip-character-set-client-handshake
+skip-name-resolve
+
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+log-bin          = mysql-bin
+binlog_format    = mixed
+max-binlog-size  = 1G
+expire_logs_days = 3
+
+#
+# * Log settings
+#
+log-output = FILE
+
+# error log
+log-warnings = 1
+log-error    = /var/log/mysql/error.log
+
+# query log
+general-log      = 0
+general-log-file = /var/log/mysql/query.log
+
+# slow query log
+long_query_time     = 2
+slow-query-log      = 1
+slow-query-log-file = /var/log/mysql/slow.log
+log-queries-not-using-indexes
+log-slow-admin-statements
+
+#
+# * Fine Tuning
+#
+key_buffer_size         = 256M
+max_allowed_packet      = 1M
+table_open_cache        = 256
+sort_buffer_size        = 2M
+read_buffer_size        = 2M
+read_rnd_buffer_size    = 4M
+myisam_sort_buffer_size = 64M
+thread_cache_size       = 8
+thread_concurrency      = 8
+
+#
+# * Query Cache Configuration
+#
+query_cache_limit  = 1M
+query_cache_size   = 16M
+
+# * InnoDB
+#innodb_data_home_dir      = /usr/local/mysql/data
+#innodb_data_file_path     = ibdata1:10M:autoextend
+#innodb_log_group_home_dir = /usr/local/mysql/data
+innodb_buffer_pool_size         = 512M
+innodb_additional_mem_pool_size = 20M
+innodb_log_file_size            = 128M
+innodb_log_buffer_size          = 8M
+innodb_flush_log_at_trx_commit  = 2
+innodb_lock_wait_timeout        = 50
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 16M
+
+[mysql]
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[myisamchk]
+key_buffer_size  = 128M
+sort_buffer_size = 128M
+read_buffer      = 2M
+write_buffer     = 2M
+
+[mysqlhotcopy]
+interactive-timeout

@@ -1,0 +1,48 @@
+[mysqld]
+bind-address=0.0.0.0
+tmp_table_size=256M
+max_heap_table_size=256M
+sort_buffer_size=256K
+read_buffer_size=128K
+read_rnd_buffer_size=256K
+table_cache=1024
+key_buffer_size=512M
+thread_cache_size=50
+query_cache_type=1
+query_cache_size=128M
+query_cache_limit=24M
+#query_alloc_block_size=128
+#query_cache_min_res_unit=128
+innodb_log_buffer_size=16M
+innodb_flush_log_at_trx_commit=2
+innodb_file_per_table
+innodb_log_files_in_group=2
+innodb_buffer_pool_size=512M
+innodb_log_file_size=512M
+innodb_additional_mem_pool_size=20M
+join_buffer_size=6M
+
+#max_connections=110
+wait_timeout=120
+interactive_timeout=30
+
+# modify isolation method for faster inserting.
+# Do not uncomment the line below unless you understand what this does.
+# transaction-isolation = READ-COMMITTED
+# do not reverse lookup clients
+skip-name-resolve
+
+#long_query_time=6
+#log_slow_queries=/var/log/mysqld-slow.log
+#log_queries_not_using_indexes=On
+#log_slow_admin_statements=On
+
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+[mysqld_safe]
+log-error=/vagrant/htdocs/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

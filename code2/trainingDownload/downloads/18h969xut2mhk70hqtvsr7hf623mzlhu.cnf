@@ -1,0 +1,54 @@
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /var/run/mysqld/mysqld.sock
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = InnoDB
+character_set_server           = utf8
+collation_server               = utf8_unicode_ci
+sql-mode                       =
+socket                         = /var/run/mysqld/mysqld.sock
+pid-file                       = /var/run/mysqld/mysqld.pid
+
+# MyISAM #
+key-buffer-size                = 256M
+myisam-recover                 = FORCE,BACKUP
+
+# SAFETY #
+max-allowed-packet             = 32M
+max-connect-errors             = 1000000
+
+# DATA STORAGE #
+datadir                        = /var/lib/mysql
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 128M
+max-heap-table-size            = 128M
+query-cache-type               = 1
+query-cache-size               = 32M
+max-connections                = 500
+thread-cache-size              = 50
+open-files-limit               = 65535
+table-definition-cache         = 4096
+table-open-cache               = 4096
+sort_buffer_size               = 256M
+
+# INNODB #
+innodb-flush-method            = O_DIRECT
+innodb-log-files-in-group      = 2
+innodb-log-file-size           = 512M
+innodb-flush-log-at-trx-commit = 1
+innodb-file-per-table          = 1
+innodb-buffer-pool-size        = 3G
+
+# LOGGING #
+log-error                      = /var/log/mysql/mysql-error.log
+log-queries-not-using-indexes  = 1
+slow-query-log                 = 1
+slow-query-log-file            = /var/log/mysql/mysql-slow.log
+

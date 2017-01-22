@@ -1,0 +1,40 @@
+[mysqld]
+skip-grant-tables
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+symbolic-links=0
+
+max_allowed_packet=300M
+
+#general-log=TRUE
+#general-log-file=/tmp/mysql-query.log
+#
+#slow_query_log=ON
+#slow_query_log_file=/tmp/mysql-slow.log
+#long_query_time=0.05
+
+## cache size
+table_open_cache = 2000
+thread_cache_size = 100
+query_cache_type = 0
+query_cache_size = 0
+binlog_cache_size = 16M
+max_heap_table_size = 64M
+tmp_table_size = 64M
+
+## innodb
+innodb_buffer_pool_size = 1G
+innodb_log_buffer_size = 16M
+innodb_log_file_size = 512M
+innodb_doublewrite = 0
+innodb_read_io_threads = 8
+innodb_write_io_threads = 8
+innodb_lock_wait_timeout = 5
+innodb_flush_log_at_trx_commit = 0
+innodb_flush_method = O_DIRECT
+innodb_file_format = Barracuda
+innodb_large_prefix
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

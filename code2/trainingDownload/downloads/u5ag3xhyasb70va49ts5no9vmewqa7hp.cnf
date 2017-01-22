@@ -1,0 +1,60 @@
+[mysqld]
+gdb
+#for SSD
+
+innodb_flush_neighbor_pages = 0
+innodb_adaptive_flushing_method = keep_average
+innodb_buffer_pool_restore_at_startup=300
+
+#####fixed innodb options
+innodb_file_per_table = true
+innodb_data_file_path = ibdata1:100M:autoextend
+innodb_flush_method = O_DIRECT
+innodb_log_buffer_size = 256M
+
+#innodb_blocking_buffer_pool_restore=1
+innodb_flush_log_at_trx_commit = 1
+innodb_buffer_pool_size = 300G
+#innodb_buffer_pool_instances=16
+
+innodb_log_file_size = 4G
+innodb_log_files_in_group = 2
+#####plugin options
+innodb_read_io_threads = 16
+innodb_write_io_threads = 16
+innodb_io_capacity = 5000
+#not innodb options (fixed)
+port = 3306
+#back_log = 50
+max_connections = 2000
+max_prepared_stmt_count=500000
+max_connect_errors = 10
+table_cache = 2048
+max_allowed_packet = 16M
+binlog_cache_size = 16M
+max_heap_table_size = 64M
+sort_buffer_size = 4M
+join_buffer_size = 4M
+thread_cache_size = 1000
+query_cache_size = 0
+query_cache_type = 0
+ft_min_word_len = 4
+#default_table_type = InnoDB
+thread_stack = 192K
+tmp_table_size = 64M
+
+server-id = 10
+#*** MyISAM Specific options
+key_buffer_size = 8M
+read_buffer_size = 1M
+read_rnd_buffer_size = 4M
+bulk_insert_buffer_size = 8M
+myisam_sort_buffer_size = 8M
+myisam_max_sort_file_size = 10G
+#myisam_max_extra_sort_file_size = 10G
+myisam_repair_threads = 1
+myisam_recover
+#socket=/var/lib/mysql/mysql.sock
+user=root
+skip-grant-tables
+

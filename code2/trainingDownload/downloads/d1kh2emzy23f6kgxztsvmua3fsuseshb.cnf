@@ -1,0 +1,69 @@
+[client]
+port		= 3306
+socket		= /tmp/mysql.sock
+# character set to unicode UTF-8
+collation-server=utf8_unicode_ci
+character-set-server=utf8
+
+[mysqld]
+port		= 3306
+socket		= /tmp/mysql.sock
+
+# character set to unicode UTF-8
+collation-server=utf8_unicode_ci
+character-set-server=utf8
+
+# TIMEZONE!
+default-time-zone='UTC'
+
+# I like tx_isolation read-committed
+transaction_isolation = READ-COMMITTED
+
+# MYISAM
+key_buffer_size = 32M
+# INNODB
+innodb_buffer_pool_size = 128M
+innodb_file_per_table
+innodb_flush_log_at_trx_commit = 1
+innodb_log_file_size = 256M
+innodb_data_file_path = ibdata1:256M:autoextend
+innodb_log_files_in_group = 3
+innodb_flush_method=O_DIRECT
+
+
+# general tuning
+max_heap_table_size = 64M
+tmp_table_size = 64M
+sort_buffer_size = 8M
+join_buffer_size = 8M
+
+# DISABLE Q cache.
+query_cache_size = 0
+
+#replication
+binlog_cache_size = 1M
+log-bin=mysql-bin
+binlog_format=mixed
+server-id = 1
+
+slow_query_log
+long_query_time = 2
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+key_buffer_size = 512M
+sort_buffer_size = 512M
+read_buffer = 8M
+write_buffer = 8M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld_safe]
+open-files-limit = 8192

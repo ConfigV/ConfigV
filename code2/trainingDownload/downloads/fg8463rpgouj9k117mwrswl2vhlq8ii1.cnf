@@ -1,0 +1,76 @@
+[client]
+port							= 3306
+socket							= /tmp/mysql.sock
+
+[mysqld_safe]
+socket							= /tmp/mysql.sock
+nice							= 0
+
+[mysqld]
+bind-address					= 127.0.0.1
+datadir							= /var/lib/mysql
+max_allowed_packet=268435456
+myisam-recover					= BACKUP
+pid-file						= /var/run/mysqld/mysqld.pid
+port							= 3306
+skip-external-locking
+socket							= /tmp/mysql.sock
+thread_stack					= 192K
+tmpdir							= /tmp
+user							= mysql
+
+default_storage_engine			= InnoDB
+innodb_buffer_pool_size			= 1G # Use up to 70-80% of RAM & optionally check if /proc/sys/vm/swappiness is set to 0
+innodb_file_per_table			= 1
+innodb_flush_log_at_trx_commit	= 0
+innodb_flush_method				= O_DIRECT
+innodb_log_buffer_size			= 8M
+innodb_log_file_size			= 128M
+
+query_cache_limit				= 3M
+query_cache_size				= 64M
+query_cache_type				= 1
+
+max_connections					= 80
+max_user_connections			= 60
+
+key_buffer_size					= 64M
+
+wait_timeout					= 300
+
+join_buffer_size				= 3M
+sort_buffer_size				= 3M
+read_buffer_size				= 3M
+read_rnd_buffer_size			= 3M
+
+max_heap_table_size				= 128M
+tmp_table_size					= 128M
+
+table_definition_cache			= 15000
+table_open_cache				= 15000
+open_files_limit				= 30000
+
+low_priority_updates			= 1
+concurrent_insert				= 2
+thread_cache_size				= 60
+thread_concurrency				= 8 # Set to twice the number of cores
+
+ft_min_word_len					= 3 # Minimum length of words to be indexed for search results
+
+log-error						= /var/lib/mysql/mysql_error.log
+log-queries-not-using-indexes	= 1
+slow-query-log					= 1
+slow-query-log-file				= /var/lib/mysql/mysql_slow.log
+long_query_time					= 5
+expire_logs_days				= 7
+max_binlog_size					= 100M
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet				= 16M
+
+[mysql]
+
+[isamchk]
+key_buffer						= 16M

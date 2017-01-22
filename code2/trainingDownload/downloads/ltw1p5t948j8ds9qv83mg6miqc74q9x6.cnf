@@ -1,0 +1,31 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+old_passwords=1
+
+# Disabling symbolic-links is recommended to prevent assorted security risks;
+# to do so, uncomment this line:
+# symbolic-links=0
+
+#
+# Jonas C.
+# Enable UTF-8
+#
+collation_server=utf8_unicode_ci
+character_set_server=utf8
+default-character-set=utf8
+init_connect='SET collation_connection = utf8_general_ci'
+init_connect='SET NAMES utf8'
+
+[mysql]
+default-character-set=utf8
+
+
+
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

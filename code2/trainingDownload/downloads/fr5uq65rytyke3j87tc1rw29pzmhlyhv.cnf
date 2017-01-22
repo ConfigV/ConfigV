@@ -1,0 +1,43 @@
+[mysqld_safe]
+log-error=/data/mysql/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+[client]
+port = 3306
+socket = /data/mysql/log/mysql.sock
+
+[mysqld]
+datadir=/data/mysql/data
+socket=/data/mysql/log/mysql.sock
+user=mysql
+
+port = 3306
+
+back_log = 1024
+expire_logs_days = 3
+max_connections = 1024
+max_connect_errors = 1024
+secure_auth
+thread_cache = 8
+max_allowed_packet = 16M
+
+key_buffer      = 16M
+thread_stack        = 192K
+
+log-slow-queries=/data/mysql/log/slow.log
+long_query_time = 2
+
+[mysqldump]
+max_allowed_packet = 16M
+
+[isamchk]
+key_buffer = 1G
+sort_buffer_size = 512M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 1G
+sort_buffer_size = 512M
+read_buffer = 2M
+write_buffer = 2M

@@ -1,0 +1,108 @@
+[client]
+port        = 3306
+socket      = /var/run/mysql/mysql.sock
+
+[mysqld_safe]
+port        = 3306
+log-error   = /var/log/mysql/mysqld.log
+
+[mysqld]
+socket      = /var/run/mysql/mysql.sock
+pid-file    = /var/run/mysql/mysqld.pid
+
+datadir = <censored>
+
+# General
+skip-external-locking
+skip-host-cache
+skip-name-resolve
+#skip-innodb-doublewrite
+#skip-networking
+character-set-server = utf8
+default-storage-engine = InnoDB
+
+# Connections
+max_connections = 300
+interactive_timeout = 7200
+wait_timeout = 7200
+
+# Threads
+thread_cache_size = 150
+thread_concurrency = 8
+
+# Max
+max_allowed_packet = 10M
+max_join_size = 10G
+
+# General Query Log
+general_log_file = /var/log/mysql/general_query.log
+
+# Slow Query Log
+#slow_query_log
+#slow_query_log_file = /var/log/mysql/slow_query.log
+long_query_time = 0.1
+min_examined_row_limit = 10000
+
+# Binary Log
+log-bin = binlog
+binlog_format = mixed
+expire_logs_days = 7
+
+# Enable InnoDB Plugin
+#ignore-builtin-innodb
+#plugin-load=innodb=ha_innodb_plugin.so;innodb_trx=ha_innodb_plugin.so;innodb_locks=ha_innodb_plugin.so;innodb_lock_waits=ha_innodb_plugin.so;innodb_cmp=ha_innodb_plugin.so;innodb_cmp_reset=ha_innodb_plugin.so;innodb_cmpmem=ha_innodb_plugin.so;innodb_cmpmem_reset=ha_innodb_plugin.so
+innodb_file_format = Barracuda
+
+# InnoDB Variables
+innodb_data_file_path = ibdata1:32M:autoextend
+innodb_autoextend_increment = 32
+innodb_additional_mem_pool_size = 16M
+innodb_log_file_size = 256M
+innodb_log_files_in_group = 3
+innodb_flush_log_at_trx_commit = 1
+innodb_flush_method = O_DIRECT
+innodb_lock_wait_timeout = 50
+innodb_file_per_table
+#innodb_thread_concurrency = 0
+innodb_fast_shutdown = 0
+
+# Binlog cache
+binlog_cache_size = 512K
+
+# Table cache
+table_open_cache = 500
+table_definition_cache = 2500
+
+# Query cache
+query_cache_type = 0
+query_cache_size = 32M
+
+# per thread buffer
+sort_buffer_size = 512K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+join_buffer_size = 128K
+
+# MyISAM buffer
+key_buffer_size = 1M
+myisam_sort_buffer_size = 256K
+
+# InnoDB buffer
+innodb_buffer_pool_size = 768M
+innodb_log_buffer_size = 32M
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

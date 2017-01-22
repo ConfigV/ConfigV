@@ -1,0 +1,31 @@
+[mysqld_multi]
+mysqld = /opt/mysql/server-5.6/bin/mysqld_safe
+mysqladmin = /opt/mysql/server-5.6/bin/mysqladmin
+log = /var/log/mysql/multi.log
+
+[mysqld1]
+server-id = 1
+log-bin=mysql-bin
+port = 3306
+datadir = /var/opt/lib/mysql1
+basedir = /opt/mysql/server-5.6
+pid-file = /var/opt/lib/mysql1/mysql.pid
+socket = /var/opt/lib/mysql1/mysql.sock
+#general_log_file = /var/log/mysql/query1.log
+#character-set-server=utf8
+#ledir = /opt/mysql/server-5.6/bin
+#skip-syslog
+log-error = /var/log/mysql/error1.log
+
+[mysqld2]
+server-id = 2
+port = 13306
+datadir = /var/opt/lib/mysql2
+basedir = /opt/mysql/server-5.6
+pid-file = /var/opt/lib/mysql2/mysql.pid
+socket = /var/opt/lib/mysql2/mysql.sock
+#general_log_file = /var/log/mysql/query2.log
+#character-set-server=utf8
+#ledir = /opt/mysql/server-5.6/bin
+#skip-syslog
+log-error = /var/log/mysql/error2.log

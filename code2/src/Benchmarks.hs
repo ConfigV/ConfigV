@@ -19,7 +19,8 @@ learnTarget :: [ConfigFile Language]
 learnTarget = case Settings.pROBRULES of
     Settings.Test -> genSet "testLearn/"
     Settings.NonProb -> genSet "benchmarkSet/correctMySQL/"
-    Settings.Prob -> genSet "learningSet/MySQL/"
+    --Settings.Prob -> genSet "learningSet/MySQL/"
+    Settings.Prob -> take 500 $ genSet "trainingDownload/downloads/"
   where
     genSet s =
       map (\x -> (s++x,u $ T.readFile (s++x), MySQL))
@@ -125,5 +126,5 @@ group6 = map (map makeError) [
 
 testBenchSet :: [ErrorReport]
 testBenchSet = map (map makeError) [
-    [(("benchmarkSet/test/test1.cnf","a[mysqld]"),("benchmarkSet/test/test1.cnf","b[mysqld]"),INTREL)]
+    [(("benchmarkSet/test","a[mysqld]"),("benchmarkSet/test/test1.cnf","b[mysqld]"),INTREL)]
   ]

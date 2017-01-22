@@ -1,0 +1,78 @@
+[client]
+port		= 60000
+
+[mysqld]
+user		= mysql
+port		= 60000
+socket		= /tmp/mysql.sock
+datadir		= /usr/local/mysql/data
+tmpdir		= /tmp
+#Retirer le commentaire si on decide de passer uniquement par des socket
+#skip-networking
+
+innodb_file_per_table = 1
+default-storage-engine=INNODB
+sql-mode="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+#Changer pour limiter le nombre de co simultane
+max_connections=50
+
+# Query cache is used to cache SELECT results and later return them
+# without actual executing the same query once again. Having the query
+# cache enabled may result in significant speed improvements, if your
+# have a lot of identical queries and rarely changing tables. See the
+# "Qcache_lowmem_prunes" status variable to check if the current value
+# is high enough for your load.
+# Note: In case your tables change very often or if your queries are
+# textually different every time, the query cache may result in a
+# slowdown instead of a performance improvement.
+query_cache_size=40M
+
+#Specifique a MyISAM
+skip-external-locking
+key_buffer_size = 100M
+max_allowed_packet = 16M
+table_open_cache = 64
+sort_buffer_size = 1M
+net_buffer_length = 8K
+read_buffer_size = 1M
+read_rnd_buffer_size = 4M
+myisam_sort_buffer_size = 8M
+
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omitted
+server-id	= 1
+
+
+# Uncomment the following if you are using InnoDB tables
+innodb_data_home_dir = /usr/local/mysql/data/InnoDB
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /usr/local/mysql/data/InnoDB
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size = 16M
+innodb_additional_mem_pool_size = 2M
+# Set .._log_file_size to 25 % of buffer pool size
+innodb_log_file_size = 5M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+innodb_fast_shutdown = 0
+
+[mysqldump]
+quick
+max_allowed_packet = 48M
+
+[mysql]
+default-character-set-server=utf8
+
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+

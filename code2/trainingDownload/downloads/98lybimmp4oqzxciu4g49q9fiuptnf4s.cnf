@@ -1,0 +1,49 @@
+[client]
+port                              = 3306
+socket                            = /tmp/mysql.sock
+default_character_set             = utf8
+
+[safe_mysqld]
+err_log                           = /Volumes/Databases/mysql/bigboy.err
+
+[mysqld]
+skip-external-locking
+port                              = 3306
+socket                            = /tmp/mysql.sock
+max_connections                   = 200
+back_log = 128
+max_connect_errors                = 1000
+connect_timeout                   = 2
+wait_timeout                      = 60
+max_allowed_packet                = 16M
+net_buffer_length                 = 8K
+basedir                           = /usr/local/Cellar/mysql/5.5.15
+datadir                           = /Volumes/Databases/mysql
+tmpdir                            = /tmp
+language                          = /usr/local/Cellar/mysql/5.5.15/share/mysql/english
+log-error                         = /Volumes/Databases/mysql/logs/bigboy.err
+pid-file                          = /Volumes/Databases/mysql/bigboy.pid
+
+join_buffer_size                  = 8M
+tmp_table_size                    = 64M
+sort_buffer_size                  = 8M
+thread_cache_size                 = 64
+thread_concurrency                = 8
+thread_stack                      = 192K
+query_cache_size                  = 0
+query_cache_type                  = 1
+query_cache_limit                 = 2M
+
+default_storage_engine            = InnoDB
+transaction_isolation             = REPEATABLE-READ
+
+# Data directory, and data file
+innodb_data_home_dir              = /Volumes/Databases/mysql
+innodb_data_file_path             = ibdata1:10M:autoextend
+
+innodb_buffer_pool_size			  = 2G
+innodb_additional_mem_pool_size	  = 20M
+innodb_log_file_size			  = 500M
+innodb_log_buffer_size			  = 8M
+innodb_flush_log_at_trx_commit	  = 1
+innodb_lock_wait_timeout		  = 50

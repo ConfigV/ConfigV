@@ -1,0 +1,66 @@
+[client]
+port = 3306
+socket = /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+socket = /var/run/mysqld/mysqld.sock
+nice = 0
+
+[mysqld]
+user = mysql
+pid-file = /var/run/mysqld/mysqld.pid
+socket = /var/run/mysqld/mysqld.sock
+port = 3306
+bind-address = 0.0.0.0
+basedir = /usr
+datadir = /var/lib/mysql
+tmpdir = /tmp
+lc-messages-dir = /usr/share/mysql
+skip-external-locking
+key_buffer = 16M
+max_allowed_packet = 16M
+thread_stack = 192K
+thread_cache_size = 8
+myisam-recover = BACKUP
+query_cache_limit = 1M
+query_cache_size = 16M
+log_error = /var/log/mysql/error.log
+expire_logs_days = 10
+max_binlog_size = 100M
+#
+# http://docs.openstack.org/icehouse/install-guide/install/apt/content/basics-database-controller.html
+default-storage-engine = innodb
+collation-server = utf8_general_ci
+init-connect = 'SET NAMES utf8'
+character-set-server = utf8
+#
+# https://tools.percona.com
+# tmp-table-size                 = 32M
+# max-heap-table-size            = 32M
+# query-cache-type               = 0
+# query-cache-size               = 16M
+max-connections                = 250
+# thread-cache-size              = 50
+open-files-limit               = 65535
+# table-definition-cache         = 4096
+# table-open-cache               = 4096
+# innodb-flush-method            = O_DIRECT
+# innodb-log-files-in-group      = 2
+# innodb-log-file-size           = 256M
+# innodb-flush-log-at-trx-commit = 1
+# innodb-file-per-table          = 1
+# innodb-buffer-pool-size        = 4G
+#
+# http://dev.mysql.com/doc/refman/5.6/en/performance-schema-startup-configuration.html
+performance_schema=on
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 16M
+
+[mysql]
+
+[isamchk]
+key_buffer = 16M
+!includedir /etc/mysql/conf.d/

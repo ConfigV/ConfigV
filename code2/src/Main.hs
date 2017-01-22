@@ -67,17 +67,17 @@ printSummary ers fitnesses = do
   putStrLn "Table of results"
   putStrLn "Error Class, Number, Support Threshold, Confidence Threshold"
   putStrLn $ (numOfClass TYPE)++", - , - "
-  putStrLn $ numOfClass INTREL++", "++(show (Settings.intRelSupport `percent` length fitnesses))++"%, "++(show ((Settings.intRelSupport -Settings.intRelConfidence) `percent` Settings.intRelSupport))++"%"
-  putStrLn $ numOfClass FINEGRAINED++", "++(show (Settings.fineGrainSupport `percent` length fitnesses))++"%, "++(show ((Settings.fineGrainSupport -Settings.fineGrainConfidence) `percent` Settings.fineGrainSupport))++"%"
-  putStrLn $ numOfClass MISSING++", "++(show (Settings.keywordCoorSupport `percent` length fitnesses))++"%, "++(show ((Settings.keywordCoorSupport -Settings.keywordCoorConfidence) `percent` Settings.keywordCoorSupport))++"%"
-  putStrLn $ numOfClass ORDERING++", "++(show (Settings.orderSupport `percent` length fitnesses))++"%, "++(show ((Settings.orderSupport -Settings.orderConfidence) `percent` Settings.orderSupport))++"%"
+  putStrLn $ numOfClass INTREL++", "++(show (Settings.intRelSupport `percent` 256))++"%, "++(show ((Settings.intRelSupport -Settings.intRelConfidence) `percent` Settings.intRelSupport))++"%"
+  putStrLn $ numOfClass FINEGRAINED++", "++(show (Settings.fineGrainSupport `percent` 256))++"%, "++(show ((Settings.fineGrainSupport -Settings.fineGrainConfidence) `percent` Settings.fineGrainSupport))++"%"
+  putStrLn $ numOfClass MISSING++", "++(show (Settings.keywordCoorSupport `percent` 256))++"%, "++(show ((Settings.keywordCoorSupport -Settings.keywordCoorConfidence) `percent` Settings.keywordCoorSupport))++"%"
+  putStrLn $ numOfClass ORDERING++", "++(show (Settings.orderSupport `percent` 256))++"%, "++(show ((Settings.orderSupport -Settings.orderConfidence) `percent` Settings.orderSupport))++"%"
   putStrLn $ "Total, "++(show $sum fitnesses)++", -, -"
   putStrLn "------------"
   putStrLn "Histogram of Errors"
   print fitnesses
   
 percent :: Int -> Int -> Int
-percent x y = floor $ 100 * (fromIntegral x / fromIntegral y)
+x `percent` y = floor $ 100 * (fromIntegral x / fromIntegral y)
 
 -- print and how many errs
 reportUserPerformance :: (FilePath,ErrorReport) -> IO Int

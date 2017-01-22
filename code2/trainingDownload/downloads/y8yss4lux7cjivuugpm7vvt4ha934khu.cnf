@@ -1,0 +1,85 @@
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /var/lib/mysql/mysql.sock
+
+[mysqld_safe]
+
+# NUMA ENHANCEMENTS #
+#flush_caches
+#numa_interleave
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = InnoDB
+socket                         = /var/lib/mysql/mysql.sock
+pid-file                       = /var/lib/mysql/mysql.pid
+
+# MyISAM #
+key-buffer-size                = 1G
+myisam-recover                 = FORCE,BACKUP
+
+# SAFETY #
+max-allowed-packet             = 2G
+max-connect-errors             = 1000000
+
+# DATA STORAGE #
+datadir                        = /var/lib/mysql
+
+# BINARY LOGGING #
+#log-bin                        = /var/lib/mysql/mysql-bin
+expire-logs-days               = 1
+
+# NNNNOOOOPPE #
+performance-schema             = 0
+
+## REPLICATION #
+#relay-log                      = /var/lib/mysql/relay-bin
+#slave-net-timeout              = 60
+#binlog-format                  = row
+#server-id                      = 4
+#report-host                    = db4-new.drupal.org
+#replicate-same-server-id       = 0
+#log-bin                        = drupal-db4-binlog
+#relay-log-purge                = TRUE
+#log-slave-updates              = FALSE
+#auto-increment-increment       = 2
+#auto-increment-offset          = 2
+#
+## REPLICATION RELATED LOCKING CHANGES #
+transaction-isolation          = READ-COMMITTED
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 300M
+max-heap-table-size            = 300M
+query-cache-type               = 0
+query-cache-size               = 0
+max-connections                = 500
+thread-cache-size              = 75
+open-files-limit               = 65535
+table-definition-cache         = 4096
+table-open-cache               = 10240
+
+# INNODB #
+innodb-flush-method            = O_DIRECT
+innodb-log-files-in-group      = 3
+innodb-log-file-size           = 1G
+innodb-flush-log-at-trx-commit = 0
+innodb-file-per-table          = 1
+innodb-buffer-pool-size        = 5G
+innodb-buffer-pool-instances   = 4
+innodb-read-io-threads         = 8
+innodb-write-io-threads        = 4
+# http://mysqlha.blogspot.com/2013/02/mysql-56-io-bound-update-only-workloads.html
+innodb-io-capacity             = 1000
+innodb-lru-scan-depth          = 2000
+innodb-io-capacity-max         = 5000
+innodb-autoinc-lock-mode       = 2
+
+# LOGGING #
+log-error                      = /var/lib/mysql/mysql-error.log
+#slow-query-log                 = 1
+#slow-query-log-file            = /var/log/mysql/mysql-slow.log

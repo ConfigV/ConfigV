@@ -1,0 +1,41 @@
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
+
+[mysqld]
+
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+innodb_buffer_pool_size = 128M
+innodb_log_group_home_dir = /data/home/lex/local/mysql/log/
+
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+log_bin = bin.log
+log-bin-index = bin.index
+max_binlog_size = 1G
+log-warnings = 1
+log-error = /data/home/lex/local/mysql/log/error.log
+general_log = 1
+general_log_file = /data/home/lex/local/mysql/log/mysql.log
+
+# These are commonly set, remove the # and set as required.
+basedir = /data/home/lex/local/mysql
+datadir = /data/home/lex/local/mysql/data
+tmpdir = /data/home/lex/local/mysql/tmp
+port = 15933
+socket = /data/home/lex/local/mysql/tmp/mysql.sock
+pid-file = /data/home/lex/local/mysql/tmp/mysql.pid
+# server_id = .....
+
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+join_buffer_size = 128M
+sort_buffer_size = 10M
+read_rnd_buffer_size = 2M 
+
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
+
+[client]
+port = 15933
+socket = /data/home/lex/local/mysql/tmp/mysql.sock

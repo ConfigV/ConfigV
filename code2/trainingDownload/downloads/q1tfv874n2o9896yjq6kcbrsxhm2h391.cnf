@@ -1,0 +1,36 @@
+[mysqld]
+datadir = /var/lib/mysql
+socket  = /var/lib/mysql/mysql.sock
+user    = root
+
+character-set-server  = utf8
+transaction_isolation = READ-COMMITTED
+
+read_buffer_size     = 1M
+read_rnd_buffer_size = 1M
+sort_buffer_size     = 1M
+join_buffer_size     = 256K
+tmp_table_size       = 1G
+open-files-limit     = 4096
+
+binlog_format    = MIXED
+max_binlog_size  = 128M
+expire_logs_days = 7
+
+innodb_file_per_table
+innodb_data_file_path           = ibdata1:1G:autoextend
+innodb_buffer_pool_size         = 512M
+innodb_additional_mem_pool_size = 16M
+innodb_commit_concurrency       = 10
+innodb_log_file_size            = 32M
+innodb_log_files_in_group       = 2
+
+
+[mysqld_safe]
+log-error = /var/log/mysqld.log
+pid-file  = /var/run/mysqld/mysqld.pid
+
+
+[mysql]
+socket                = /var/lib/mysql/mysql.sock
+default-character-set = utf8

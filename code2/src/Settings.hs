@@ -17,17 +17,39 @@ module Settings where
   -- an abusive of notation here, we use slightly different interprtation of the words - same idea in the end
   --TODO unify numerical comutations to be consistent with true interpretation of support and confidence
 
-  --support and maxFalse
-  intRelSupport = 30 :: Int 
-  intRelConfidence = 2 :: Int
+  --TODO this should really be read from training set dir
+  totalFiles = 1120
+
+  --TODO use confidence instead of maxFalse everytwhere
+  thresholds  :: (Double,Double) -> (Int,Int)
+  thresholds (s,c) = (support,conf)
+   where
+    support = floor $ s * (fromIntegral totalFiles)
+    conf =  support - (floor $ c*fromIntegral support)
 
   --support and maxFalse
-  fineGrainSupport = 55 :: Int
-  fineGrainConfidence = 1 :: Int
+  intRelSupport = 
+    --fst $ thresholds(0.1,0.9) 
+    30 :: Int 
+  intRelConfidence = 
+    --snd $ thresholds(0.1,0.9) 
+    2 :: Int
+
+  --support and maxFalse
+  fineGrainSupport = 
+    -- fst $ thresholds(0.1,0.9)  
+    45 :: Int
+  fineGrainConfidence = 
+    --snd $ thresholds(0.1,0.9)  
+    3 :: Int
 
   --minTrue (actually minTrue is Support, well kind of) and maxFalse
-  keywordCoorSupport =  7 :: Int 
-  keywordCoorConfidence = 2 :: Int
+  keywordCoorSupport = 
+    --fst $ thresholds(0.1,0.9)  
+    7 :: Int 
+  keywordCoorConfidence = 
+    --snd $ thresholds(0.1,0.9) 
+    2 :: Int
 
 {-  
   typeSupport =
@@ -35,6 +57,10 @@ module Settings where
 -}
 
   --minTrue and maxFalse
-  orderSupport = 30  :: Int
-  orderConfidence = 1 :: Int
+  orderSupport = 
+    --fst $ thresholds(0.1,0.9) 
+    30  :: Int
+  orderConfidence = 
+    --snd $ thresholds(0.1,0.9)  
+    1 :: Int
 

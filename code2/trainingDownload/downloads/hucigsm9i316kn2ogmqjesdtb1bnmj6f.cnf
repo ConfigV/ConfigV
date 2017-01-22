@@ -1,0 +1,85 @@
+[client]
+default-character-set   = utf8
+port                    = 3306
+socket                  = /tmp/mysql.sock
+
+
+[mysqld]
+port = 3306
+
+server-id 				= 1
+log-bin					= mysql-bin			#启用二进制日志
+binlog_format			= mixed  			#确认binlog日志格式为mixd混合类型
+#binlog-do-db         	= test   			
+#binlog-ignore-db    	= mysql
+expire_logs_days		= 10
+max_binlog_size			= 100M
+
+init_connect            = 'SET collation_connection = utf8_unicode_ci'
+init_connect            = 'SET NAMES utf8'
+character-set-server    = utf8
+collation-server        = utf8_unicode_ci
+skip-character-set-client-handshake     # 忽略 MySQL 內部的字符编码设置
+
+default-storage-engine  = INNODB
+socket                  = /tmp/mysql.sock
+skip-external-locking
+
+key_buffer_size         = 16M
+query_cache_limit       = 16M
+query_cache_size        = 16M
+max_allowed_packet      = 16M
+table_open_cache        = 256          # 表缓存的数目，一般是 max_connections 的倍数
+
+max_connections         = 128
+thread_concurrency      = 2
+
+sort_buffer_size        = 64K
+read_buffer_size        = 256K
+read_rnd_buffer_size    = 256K
+net_buffer_length       = 2K
+#thread_stack            = 64K
+
+#skip-bdb
+
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+bind-address		    = 0.0.0.0
+
+# MySQL 5.1.12 后打开查询日志的方法
+#general_log             = ON
+#general_log_file        = /tmp/mysql_query.log
+# 开启慢查询，执行超过多久的 SQL 会被记录下来
+long_query_time         = 2
+slow_query_log          = ON
+slow_query_log_file     = /tmp/slow_query.log 
+
+
+
+[mysqldump]
+quick
+max_allowed_packet      = 16M
+
+
+
+[mysql]
+no-auto-rehash                      #客户端不自动补全命令
+default-character-set   = utf8
+
+
+
+[isamchk]
+key_buffer_size         = 8M
+sort_buffer_size        = 8M
+
+
+
+[myisamchk]
+key_buffer_size         = 8M
+sort_buffer_size        = 8M
+
+
+
+[mysqlhotcopy]
+interactive-timeout
+

@@ -1,0 +1,52 @@
+[mysqld]
+#
+# * Fine Tuning
+#
+key_buffer              = 128M 
+max_allowed_packet      = 128M 
+thread_stack            = 512K
+thread_cache_size       = 16 
+#
+# * Query Cache Configuration
+#
+query_cache_limit       = 4M
+query_cache_size        = 32M
+
+
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+#server-id              = 1
+#log_bin                        = /var/log/mysql/mysql-bin.log
+expire_logs_days        = 5
+max_binlog_size         = 100M
+#binlog_do_db           = include_database_name
+#binlog_ignore_db       = include_database_name
+
+
+#
+# PERSONAL CONFIG POUR INNODB
+#
+
+# Set buffer pool size to 50-80% of your computer's memory
+innodb_buffer_pool_size = 2048M
+innodb_additional_mem_pool_size	= 128M
+
+# Set key_buffer to 5 - 50% of your RAM depending on how much
+# you use MyISAM tables, but keep key_buffer_size + InnoDB
+# buffer pool size < 80% of your RAM
+key_buffer_size         = 512M
+
+
+# Set the log file size to about 25% of the buffer pool size
+innodb_log_file_size    = 256M
+innodb_log_buffer_size  = 8M
+
+# the log buffer is written out to the file at each commit, but the flush to disk operation is not performed on it (value = 2)
+innodb_flush_log_at_trx_commit = 2
+
+innodb_flush_method     = O_DIRECT
+
+
+# only used for sta*isti*s migration v1 => v2 which contains BIG transactions, so we increase the timeout
+innodb_lock_wait_timeout = 100000001

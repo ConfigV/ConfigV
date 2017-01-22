@@ -1,0 +1,44 @@
+[client]
+socket		= /run/mysqld/mysqld.sock
+
+[mysqld]
+socket		= /run/mysqld/mysqld.sock
+skip-external-locking
+key_buffer_size = 16M
+max_allowed_packet = 1M
+table_open_cache = 64
+sort_buffer_size = 512K
+net_buffer_length = 8K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 8M
+skip-networking
+log-bin=mysql-bin
+binlog_format=mixed
+server-id	= 1
+innodb_data_home_dir = /var/lib/mysql
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /var/lib/mysql
+innodb_buffer_pool_size = 64M
+innodb_additional_mem_pool_size = 8M
+innodb_log_file_size = 16M
+innodb_log_buffer_size = 24M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+safe-updates
+
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

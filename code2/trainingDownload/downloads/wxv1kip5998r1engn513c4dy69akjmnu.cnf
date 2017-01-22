@@ -1,0 +1,24 @@
+[mysqld]
+
+user=mysql
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+max_connections=80
+
+event_scheduler=1
+tmp_table_size=64M
+max_heap_table_size=64M
+#innodb_lock_wait_timeout=30
+#innodb_buffer_pool_size=256M
+#innodb_log_file_size=64M
+
+long_query_time=1
+slow_query_log=1
+slow_query_log_file="/var/log/mysql-slow-queries.log"
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

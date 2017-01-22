@@ -1,0 +1,108 @@
+# This is default example of MySQL/MariaDB configuration provided with openSUSE package
+# It is based on upstream defaults with some additional examples.
+
+
+# The following options will be passed to all MariaDB clients
+[client]
+# password  = your_password
+# port       = 3306
+# socket     = /var/run/mysql/mysql.sock
+
+[mysqld_safe]
+nice=-10
+
+[mysqld]
+
+# Remove leading # if you don't want to listen on network (only socket - safer)
+# skip-networking
+
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+
+# Using newer file format that supports dynamic and compressed row formats.
+# If you are using replication you have to make sure, that these options are
+# set everywhere the same way (probably comment them out is the easiest way)
+#innodb_file_format=Barracuda
+#innodb_file_per_table=ON
+
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin=mysql-bin
+# binlog_format=mixed
+
+# Remove leading # if you want to store your database elsewhere
+# datadir	= /var/lib/mysql
+
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omitted
+server-id=8574722772
+#master-host=smalls.rocks
+#master-user=cms
+#master-password=cms
+#master-connect-retry=60
+
+# These are commonly set, remove the # and set as required.
+# port = 3306
+# socket = /var/run/mysql/mysql.sock
+
+# Don't listen on a TCP/IP port at all. This can be a security enhancement,
+# if all processes that need to connect to mysqld run on the same host.
+# All interaction with mysqld must be made via Unix sockets or named pipes.
+# Note that using this option without enabling named pipes on Windows
+# (via the "enable-named-pipe" option) will render mysqld useless!
+#
+# skip-networking
+
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M
+
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+[mysqld_multi]
+mysqld     = /usr/bin/mysqld_safe
+mysqladmin = /usr/bin/mysqladmin
+log        = /var/log/mysqld_multi.log
+
+# If you want to use mysqld_multi uncomment 1 or more mysqld sections
+# below or add your own ones.
+
+# WARNING
+# --------
+# If you uncomment mysqld1 than make absolutely sure, that database mysql,
+# configured above, is not started.  This may result in corrupted data!
+#
+# [mysqld1]
+# port       = 3306
+# datadir    = /var/lib/mysql
+# pid-file   = /var/lib/mysql/mysqld.pid
+# socket     = /var/lib/mysql/mysql.sock
+# user       = mysql
+
+# [mysqld2]
+# port       = 3307
+# datadir    = /var/lib/mysql-databases/mysqld2
+# pid-file   = /var/lib/mysql-databases/mysqld2/mysql.pid
+# socket     = /var/lib/mysql-databases/mysqld2/mysql.sock
+# user       = mysql
+
+# [mysqld3]
+# port       = 3308
+# datadir    = /var/lib/mysql-databases/mysqld3
+# pid-file   = /var/lib/mysql-databases/mysqld3/mysql.pid
+# socket     = /var/lib/mysql-databases/mysqld3/mysql.sock
+# user       = mysql
+
+# [mysqld6]
+# port       = 3309
+# datadir    = /var/lib/mysql-databases/mysqld6
+# pid-file   = /var/lib/mysql-databases/mysqld6/mysql.pid
+# socket     = /var/lib/mysql-databases/mysqld6/mysql.sock
+# user       = mysql
+
+!includedir /etc/my.cnf.d

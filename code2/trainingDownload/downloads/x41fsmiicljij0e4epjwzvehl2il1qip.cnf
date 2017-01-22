@@ -1,0 +1,94 @@
+## general config file for new mysql server,some variables such as data_dir,port would be changed after it works .
+## liuxc 2012-12-12 
+
+[client]
+port		= 3306
+socket		= /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+socket		= /var/run/mysqld/mysqld.sock
+nice		= 0
+
+[mysqld]
+#basic config
+character_set_server=utf8
+user		= mysql
+socket		= /var/run/mysqld/mysqld.sock
+port		= 3306
+basedir		= /usr
+datadir		= /var/lib/mysql
+tmpdir		= /var/lib/mysql
+skip-external-locking
+#bind-address		= 127.0.0.1
+
+#  Fine Tuning
+key_buffer			= 16M
+max_allowed_packet	= 32M
+thread_stack		= 192K
+thread_cache_size      	= 8
+myisam-recover         	= BACKUP
+max_connections        	= 200
+max_connect_errors		= 20
+table_cache            	= 256
+thread_concurrency     	= 10
+tmp_table_size			=512M
+max_heap_table_size		=512M
+query_cache_limit		= 2M
+query_cache_size        = 16M
+sort_buffer_size		= 4M
+join_buffer_size		= 4M
+
+## Logging and Replication
+#general_log_file        = /var/log/mysql/mysql.log
+#general_log             = 1
+
+log_error                = /var/log/mysql/error.log
+#log_slow_queries		 = /data/mysqllog/mysql-slow.log
+long_query_time			 = 1
+#log-queries-not-using-indexes
+server-id			= 1
+#log_slave_updates
+#log_bin				= /data/mysqllog/mysql-bin.log
+log_bin					=/var/log/mysql/mysql-bin.log
+expire_logs_days	= 7
+max_binlog_size     = 500M
+#binlog_do_db		= include_database_name
+binlog_ignore_db	= mysql
+binlog_format		= mixed
+#relay-log			=/data/mysqllog/relay.log
+#  InnoDB
+#innodb_data_home_dir 		= /data/mysql
+innodb_data_file_path 		= ibdata1:1G:autoextend
+#innodb_log_group_home_dir 	= /data/mysql
+innodb_buffer_pool_size 	= 16M
+innodb_additional_mem_pool_size = 60M
+innodb-file-per-table
+innodb_log_files_in_group	= 3
+innodb_log_file_size 		= 256M
+innodb_log_buffer_size 		= 64M
+innodb_flush_log_at_trx_commit = 1
+innodb_max_dirty_pages_pct	=90
+innodb_lock_wait_timeout 	= 500
+innodb_thread_concurrency	=0
+#skip-federated
+#skip-bdb
+# * Security Features
+#
+# Read the manual, too, if you want chroot!
+# chroot = /var/lib/mysql/
+# ssl-ca=/etc/mysql/cacert.pem
+# ssl-cert=/etc/mysql/server-cert.pem
+# ssl-key=/etc/mysql/server-key.pem
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet	= 64M
+
+[mysql]
+#no-auto-rehash	# faster start of mysql but no tab completition
+prompt=<\R:\m:\s>_\u@\h_[\d] >
+[isamchk]
+key_buffer		= 16M
+
+!includedir /etc/mysql/conf.d/

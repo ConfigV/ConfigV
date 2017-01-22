@@ -1,0 +1,44 @@
+[mysqld]
+character-set-server = utf8
+collation-server     = utf8_general_ci
+default-storage-engine  = innodb
+skip-character-set-client-handshake
+
+max_connect_errors 	= 10000
+thread_cache_size 	= 128
+max_allowed_packet 	= 128M
+table_cache 		= 2048
+#sort_buffer_size	= 32K
+net_buffer_length	= 32K
+read_rnd_buffer_size 	= 1M
+
+#read_buffer_size 	= 128K
+#myisam_sort_buffer_size = 64M
+#key_buffer 		= 256M
+
+query_cache_size	= 256M
+query_cache_limit 	= 4MB
+tmp_table_size		= 64MB
+
+max_connections		= 100
+
+skip-networking
+bind-address		= 127.0.0.1
+
+log-bin			= server-bin
+server-id 		= 1
+expire_logs_days	= 7
+
+#skip-innodb
+innodb_file_per_table
+innodb_buffer_pool_size = 2000M
+innodb_additional_mem_pool_size = 128M
+
+innodb_data_file_path 	= ibdata1:10M:autoextend:max:5G
+innodb_log_file_size 	= 5M
+innodb_log_buffer_size 	= 16M
+innodb_log_files_in_group = 2
+innodb_flush_log_at_trx_commit = 1
+#sync_binlog = 1
+innodb_lock_wait_timeout = 50
+innodb_thread_concurrency = 8

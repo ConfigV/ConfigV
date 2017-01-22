@@ -1,0 +1,14 @@
+[mysqld]
+# The buffer pool size is a very disputed variable
+# and essential for performance. For a dedicated box,
+# it should basically eat most of the available memory.
+# If it's not dedicated, well...
+# If you have a small database, set this to the size of the db + a bit more.
+# If you have a huge database, try to allocate 10% of the size.
+innodb_buffer_pool_size = 128M
+innodb_log_file_size = 128M
+innodb_log_buffer_size=4M
+# Set this to the number of cores you have.
+innodb_thread_concurrency=4
+innodb_flush_method=O_DIRECT
+

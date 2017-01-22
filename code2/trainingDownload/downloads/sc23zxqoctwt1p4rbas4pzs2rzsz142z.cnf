@@ -1,0 +1,87 @@
+[mysqld]
+
+# General
+port                           = {{ mysql_options['port'] }}
+user                           = {{ mysql_options['user'] }}
+default_storage_engine         = {{ mysql_options['default_storage_engine'] }}
+socket                         = {{ mysql_options['socket'] }}
+pid-file                       = {{ mysql_options['pid_file'] }}
+server-id                      = {{ mysql_options['server_id'] }}
+
+{% if mysql_options['skip_host_cache']: %}
+skip-host-cache
+{% endif %}
+
+{% if mysql_options['skip_name_resolve']: %}
+skip-name-resolve
+{% endif %}
+
+innodb                         = {{ mysql_options['innodb'] }}
+
+# Myisam
+key_buffer_size                = {{ mysql_options['key_buffer_size'] }}
+
+# Safeguards
+max_allowed_packet             = {{ mysql_options['max_allowed_packet'] }}
+max_connect_errors             = {{ mysql_options['max_connect_errors'] }}
+sql_mode                       = {{ mysql_options['sql_mode'] }}
+
+# Data
+datadir                        = {{ mysql_options['datadir'] }}
+
+# Bin logs
+log_bin                        = {{ mysql_options['log_bin'] }}
+expire_logs_days               = {{ mysql_options['expire_logs_days'] }}
+sync_binlog                    = {{ mysql_options['sync_binlog'] }}
+
+# Replication
+relay_log                      = {{ mysql_options['relay_log'] }}
+slave_net_timeout              = {{ mysql_options['slave_net_timeout'] }}
+replicate-same-server-id       = {{ mysql_options['replicate_same_server_id'] }}
+auto-increment-increment       = {{ mysql_options['auto_increment_increment'] }}
+auto-increment-offset          = {{ mysql_options['auto_increment_offset'] }}
+
+{% if mysql_options['log_slave_updates']: %}
+log-slave-updates
+{% endif %}
+
+{% if mysql_options['skip_slave_start']: %}
+skip-slave-start
+{% endif %}
+
+slave_parallel_workers         = {{ mysql_options['slave_parallel_workers'] }}
+
+{% if mysql_options['replicate_wild_do_table']: %}
+replicate-wild-do-table        = {{ mysql_options['replicate_wild_do_table'] }}
+{% endif %}
+
+# Caching
+query_cache_type               = {{ mysql_options['query_cache_type'] }}
+query_cache_size               = {{ mysql_options['query_cache_size'] }}
+max_connections                = {{ mysql_options['max_connections'] }}
+thread_cache_size              = {{ mysql_options['thread_cache_size'] }}
+table_definition_cache         = {{ mysql_options['table_definition_cache'] }}
+table_open_cache               = {{ mysql_options['table_open_cache'] }}
+
+# InnoDB
+#innodb_flush_method            = {{ mysql_options['innodb_flush_method'] }}
+innodb_log_files_in_group      = {{ mysql_options['innodb_log_files_in_group'] }}
+innodb_log_file_size           = {{ mysql_options['innodb_log_file_size'] }}
+innodb_log_buffer_size         = {{ mysql_options['innodb_log_buffer_size'] }}
+innodb_flush_log_at_trx_commit = {{ mysql_options['innodb_flush_log_at_trx_commit'] }}
+innodb_file_per_table          = {{ mysql_options['innodb_file_per_table'] }}
+#innodb_buffer_pool_size        = {{ mysql_options['innodb_buffer_pool_size'] }}
+innodb_io_capacity             = {{ mysql_options['innodb_io_capacity'] }}
+innodb_buffer_pool_instances   = {{ mysql_options['innodb_buffer_pool_instances'] }}
+
+# Logs
+log_error                      = {{ mysql_options['log_error'] }}
+log_queries_not_using_indexes  = {{ mysql_options['log_queries_not_using_indexes'] }}
+slow_query_log                 = {{ mysql_options['slow_query_log'] }}
+long_query_time                = {{ mysql_options['long_query_time'] }}
+slow_query_log_file            = {{ mysql_options['slow_query_log_file'] }}
+
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

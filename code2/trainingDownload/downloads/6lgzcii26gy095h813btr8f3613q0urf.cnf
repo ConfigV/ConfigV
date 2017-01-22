@@ -1,0 +1,37 @@
+#
+# Hoanoho
+# MySQL configuration for low-memory consumption
+#
+
+[mysqld_safe]
+nice = -10
+
+[mysql]
+no-auto-rehash
+
+
+[myisamchk]
+key_buffer_size = 8M
+sort_buffer_size = 8M
+
+
+[mysqld]
+wait_timeout = 86400
+skip-external-locking
+character-set-server=utf8
+collation-server=utf8_unicode_ci
+init-connect='SET NAMES utf8'
+
+# Cache queries
+query_cache_limit = 4M
+query_cache_size = 32M
+
+# we don't use MyISAM so the default setting can be very low
+key_buffer_size = 3M
+
+# InnoDB tuning
+innodb_buffer_pool_size = 16M
+innodb_file_per_table
+
+[client]
+default-character-set=utf8

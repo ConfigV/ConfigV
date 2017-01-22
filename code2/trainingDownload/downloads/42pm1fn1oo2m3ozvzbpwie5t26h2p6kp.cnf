@@ -1,0 +1,36 @@
+[client]
+port        = 3306
+socket      = /tmp/mysql.sock
+
+[mysqld]
+port                    = 3306
+socket                  = /tmp/mysql.sock
+skip-external-locking
+key_buffer_size         = 16K
+max_allowed_packet      = 1M
+table_open_cache        = 4
+sort_buffer_size        = 64K
+read_buffer_size        = 256K
+read_rnd_buffer_size    = 256K
+net_buffer_length       = 2K
+thread_stack            = 128K
+log_slow_queries        = /tmp/slow.log
+slow_query_log          = 1
+long_query_time         = 0
+slow_query_log_file     = /tmp/slow.log
+server-id               = 1
+
+[mysqldump]
+quick
+max_allowed_packet  = 16M
+
+[mysql]
+no-auto-rehash
+default_character_set   = utf8
+
+[myisamchk]
+key_buffer_size     = 8M
+sort_buffer_size    = 8M
+
+[mysqlhotcopy]
+interactive-timeout

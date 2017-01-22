@@ -1,0 +1,75 @@
+[mysqld]
+#innodb_additional_mem_pool_size = 32M
+#innodb_buffer_pool_size = 1048M
+#innodb_log_buffer_size  = 128M
+#innodb_log_file_size    = 128M
+#innodb_flush_log_at_trx_commit=2
+#innodb_flush_method     = O_DIRECT
+#sort_buffer_size        = 196M
+#read_rnd_buffer_size    = 16M
+#read_buffer_size        = 16M
+#join_buffer_size        = 196M
+#key_buffer_size         = 256M
+#myisam_sort_buffer_size = 32M
+#query_cache_type    = 1
+#query_cache_size    = 512M
+#query_cache_limit   = 4M
+#thread_cache_size   = 64
+#max_connections     = 64
+#tmp_table_size      = 768M
+#max_heap_table_size = 768M
+#table_definition_cache = 1024
+#table_open_cache       = 1024
+
+
+skip-external-locking
+
+tmp_table_size      = 64M
+max_heap_table_size = 64M
+
+# max connections
+max_connections = 128
+# table_open_cache = max_connections * tables used in one transaction + 5
+table_open_cache = 1024
+# table_definition_cache = all tables(50) + max_connections + 5
+table_definition_cache = 1024
+# open_files_limit = table_open_cache * 1.4
+open_files_limit = 400
+ 
+# global buffer
+key_buffer_size = 64M
+query_cache_size = 0
+query_cache_type = 0
+# innodb_buffer_pool_size = available memory for Mysql * 0.7
+innodb_buffer_pool_size = 300M
+innodb_additional_mem_pool_size = 16M
+ 
+# thread buffer
+read_buffer_size = 8M
+read_rnd_buffer_size = 16M
+join_buffer_size = 8M
+sort_buffer_size = 16M
+ 
+# InnoDB
+innodb_file_per_table
+innodb_autoextend_increment = 64
+# innodb_log_files_in_group = 2
+# innodb_log_file_size = 128M
+# innodb_log_buffer_size = 16M
+# innodb_flush_log_at_trx_commit = 1
+# innodb_flush_method = O_DIRECT
+innodb_thread_concurrency = 8
+innodb_commit_concurrency = 8
+
+
+# # binlog
+# log-bin=mysql-bin
+# binlog_format = MIXED
+# max_binlog_size = 128M
+# expire_logs_days = 1
+# server-id = 1
+#  
+# # log
+# #log_output = /tmp
+# general_log = 0
+# slow_query_log = 0

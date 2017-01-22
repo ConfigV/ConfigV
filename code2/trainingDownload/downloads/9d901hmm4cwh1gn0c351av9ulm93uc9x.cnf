@@ -1,0 +1,67 @@
+[mysqld]
+port=3306
+datadir = /mnt/raid5/mysql5.3306
+socket = /var/lib/mysql/mysql.sock
+#socket = /mnt/raid5/mysql5.3306/mysql5.sock
+#err-log= /mnt/raid5/mysql5.3306/mysqld5.log
+pid-file= /mnt/raid5/mysql5.3306/mysqld5.pid
+wait_timeout=86400
+character-set-server=utf8
+innodb_file_per_table
+innodb_buffer_pool_size = 4G
+innodb_additional_mem_pool_size = 16M
+innodb_thread_concurrency = 16
+innodb_log_buffer_size = 8M
+#innodb_data_file_path = ibdata1:1G:autoextend
+#innodb_autoextend_increment=128M
+ft_min_word_len = 3
+max_allowed_packet=16M
+key_buffer_size = 256M
+table_cache = 2048
+sort_buffer_size = 1M
+read_buffer_size = 1M
+read_rnd_buffer_size = 8M
+#myisam_sort_buffer_size = 64M
+thread_cache_size = 16
+thread_concurrency = 8
+query_cache_size = 384M
+query_cache_limit = 2M
+tmp_table_size=64M
+back_log = 100
+max_connect_errors = 10000
+join_buffer_size=8M
+open-files = 20000  
+long_query_time=1
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+old_passwords=1
+big-tables
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+# Additional storage engines and plugins
+plugin-load=archive=ha_archive.so;blackhole=ha_blackhole.so
+
+# Add to the above plugin-load option, if needed 
+# http://dev.mysql.com/doc/refman/5.5/en/federated-storage-engine.html
+;federated=ha_federated.so
+# http://dev.mysql.com/doc/refman/5.5/en/replication-semisync.html
+;rpl_semi_sync_master=semisync_master.so
+;rpl_semi_sync_slave=semisync_slave.so
+
+# Others options for Semisynchronous Replication
+;rpl_semi_sync_master_enabled=1
+;rpl_semi_sync_master_timeout=10
+;rpl_semi_sync_slave_enabled=1
+
+# http://dev.mysql.com/doc/refman/5.5/en/performance-schema.html
+;performance_schema
+     
+#[mysql.server]
+#user=mysql
+#basedir=/usr/local/mysql
+
+[mysqld_safe]
+#err-log=/mnt/raid5/mysql5/mysqld5.log
+pid-file=/mnt/raid5/mysql5.3306/mysql5.pid

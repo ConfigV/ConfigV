@@ -1,0 +1,22 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+symbolic-links=0
+
+max_allowed_packet=300M
+
+innodb_file_format=Barracuda
+
+# do not use query cache
+query_cache_type = 0
+
+slow_query_log
+slow_query_log-file = /var/log/mysql/mysql-slow.sql
+long_query_time=0.5
+
+log_error="/var/log/mysql/mysqld.log"
+log_warning=1
+
+[mysqld_safe]
+log-error=/var/log/mysql/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

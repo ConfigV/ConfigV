@@ -1,0 +1,55 @@
+[client]
+port   = 3306
+socket = /var/lib/mysql/mysql.sock
+
+
+[mysqld]
+datadir                 = /var/lib/mysql
+socket                  = /var/lib/mysql/mysql.sock
+character-set-server    = utf8
+skip-character-set-client-handshake
+
+log-error               = /var/lib/mysql/mysqld-error.log
+#general_log            = 1
+#general_log_file       = /var/lib/mysql/mysql.log
+slow_query_log          = 1
+slow_query_log_file     = /var/lib/mysql/slow.log
+long_query_time = 5
+
+log-bin                 = mysql-bin
+binlog_format           = mixed
+expire_logs_days        = 1
+server-id               = 101
+max_allowed_packet      = 16M
+table_open_cache        = 256
+max_connections         = 1024
+innodb_file_per_table
+innodb_flush_log_at_trx_commit = 0
+innodb_flush_method     = O_DIRECT
+innodb_buffer_pool_size = 1G
+innodb_log_file_size    = 128M
+innodb_log_buffer_size  = 8M
+query_cache_type        = 1
+query_cache_size        = 64M
+key_buffer_size         = 32M
+sort_buffer_size        = 1M
+read_buffer_size        = 1M
+read_rnd_buffer_size    = 4M
+plugin-load=handlersocket.so
+
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+handlersocket_port =    9998 # handlersocketが接続を受け付けるポート(参照系リクエスト用)
+handlersocket_port_wr = 9999 # handlersocketが接続を受け付けるポート(更新系リクエスト用)
+handlersocket_address =      # handlersocketがバインドするアドレス(空のままでOK)
+handlersocket_verbose = 0    # デバッグ用
+handlersocket_timeout = 300  # 通信タイムアウト(秒)
+handlersocket_threads = 16   # handlersocketのワーカースレッド数
+thread_concurrency = 128     # handlersocketが幾つかのスレッドを占有するため、大きめの値を指定してください
+open_files_limit = 65535
+
+
+[mysqldump]
+quick
+max_allowed_packet = 128M
+

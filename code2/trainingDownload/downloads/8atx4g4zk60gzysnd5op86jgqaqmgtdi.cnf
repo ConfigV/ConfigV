@@ -1,0 +1,112 @@
+[mysqld]
+user		= mysql
+datadir		= /var/lib/mysql
+socket		= /var/lib/mysql/mysql.sock
+#####################################################################
+## Misc                                                            ##
+#####################################################################
+
+slow_query_log = 1
+log-queries-not-using-indexes
+long_query_time=3
+slow_query_log_file	= /var/log/mysql/log/slowqueries.log
+relay-log-index		= /var/log/mysql/log/uat00-mysql-01a-relay-bin.index
+relay-log-info-file	= /var/log/mysql/log/relay-log.info
+relay-log		= /var/log/mysql/log/uat00-mysql-01a-relay-bin.log
+
+log-warnings
+#skip-locking
+#larry had this
+skip-external-locking
+skip_name_resolve
+thread_concurrency = 16
+max_user_connections = 500
+max_connections = 5000
+max_allowed_packet = 250M
+connect_timeout=60
+open-files-limit        = 8096
+tmp_table_size = 2G
+max_heap_table_size = 2G
+
+
+#####################################################################
+## Buffers / Caches                                                ##
+#####################################################################
+
+#key_buffer = 50M
+# larry had this
+key_buffer              = 1G
+bulk_insert_buffer_size = 8M
+table_cache = 4000
+sort_buffer_size = 32M
+read_buffer_size = 4M
+read_rnd_buffer_size = 10M
+myisam_sort_buffer_size = 256M
+join_buffer_size = 10M
+thread_cache = 40
+query_cache_size = 1G
+query_cache_type=1
+query_cache_limit=20M
+
+#####################################################################
+## InnoDB                                                          ##
+#####################################################################
+default-storage-engine=innodb
+innodb_file_per_table
+innodb_buffer_pool_size=20G
+innodb_additional_mem_pool_size=20M
+innodb_log_file_size=1999M
+innodb_flush_log_at_trx_commit=2
+innodb_flush_method=O_DIRECT
+innodb_lock_wait_timeout=120
+innodb_log_buffer_size=13M
+innodb_open_files=1024
+innodb_thread_concurrency=16
+sync_binlog=1
+tmpdir = /tmp/mysql/db/tmp
+innodb_lock_wait_timeout = 600
+table_lock_wait_timeout = 600
+
+
+#####################################################################
+## InnoDB                                                          ##
+#####################################################################
+
+#read-only
+#log-bin=uat00-mysql-01a-bin
+#replicate-ignore-db=mysql
+#slave_compressed_protocol = 1
+#log_slave_updates = 1
+
+# required unique id between 1 and 2^32 - 1. Defaults to 1 if
+# master-host is not set but will not function as a master if omitted
+server-id	= 8561342431
+
+
+#####################################################################
+## Other                                                           ##
+#####################################################################
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer = 32M
+sort_buffer_size = 32M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 32M
+sort_buffer_size = 32M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

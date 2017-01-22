@@ -1,0 +1,50 @@
+[client]
+port            = 3306
+socket          = /tmp/mysql.sock
+
+[mysqld]
+port            = 3306
+socket          = /tmp/mysql.sock
+key_buffer = 256M
+max_allowed_packet = 1M
+table_cache = 256
+sort_buffer_size = 1M
+read_buffer_size = 1M
+read_rnd_buffer_size = 4M
+myisam_sort_buffer_size = 64M
+thread_cache_size = 8
+query_cache_size= 16M
+thread_concurrency = 8
+max_connections=500
+log-bin=mysql-bin
+server-id       = 1 
+log-slow-queries = slow-queries.log
+long_query_time = 5
+
+# Point the following paths to different dedicated disks
+tmpdir          = /data/set/<<correct path>>/mysql/55_tmp
+
+innodb_data_home_dir = /data/set/<<corect path>>/mysql/55
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /data/set/<<corect path>>/mysql/55
+innodb_buffer_pool_size = 256M
+innodb_additional_mem_pool_size = 20M
+innodb_log_file_size = 64M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 128M
+sort_buffer_size = 128M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]

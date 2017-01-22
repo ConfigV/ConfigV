@@ -1,0 +1,100 @@
+############Create DIR start#################
+# mkdir -p /home/{mysql_data,mysql_logs}
+# chown mysql.mysql /home/{mysql_data,mysql_logs} -R
+# mkdir -p /var/lib/mysql/performance_schema/
+# chown mysql.mysql /var/lib/mysql/performance_schema/ -R
+# mysql_install_db
+# chown mysql.mysql /home/{mysql_data,mysql_logs} -R
+############Create DIR end###################
+
+#BEGIN CONFIG INFO
+#DESCR: 32GB RAM, InnoDB only, ACID, few connections, heavy queries
+#TYPE: SYSTEM
+#END CONFIG INFO
+
+[client]
+port            = 3306
+socket          = /var/lib/mysql/mysql.sock
+
+# *** Application-specific options follow here ***
+
+#
+# The MySQL server
+#
+[mysqld]
+
+# generic configuration options
+bind-address    = 127.0.0.1
+port            = 3306
+socket          = /var/lib/mysql/mysql.sock
+
+############Database Engine###############
+default-storage-engine = innodb
+############Data dir######################
+#datadir=/home/mysql
+############Replication###################
+#server-id = 1
+#log-bin = /home/mysql_logs/mysql-bin
+#expire_logs_days=30
+#sync_binlog=1
+#binlog_cache_size=8M
+#binlog_format = MIXED
+#max_binlog_cache_size = 64M
+#max_binlog_size = 256M
+#log-slave-updates                       
+
+
+
+#############OS############################
+
+back_log = 600
+external-locking = FALSE
+skip-name-resolve
+
+############Connections####################
+max_allowed_packet=32M
+max_connections = 1500
+max_connect_errors = 50000
+
+############MyISAM Table###################
+query_cache_size = 1M 
+
+max_heap_table_size = 64M
+read_buffer_size = 8M
+read_rnd_buffer_size = 16M
+sort_buffer_size = 8M
+join_buffer_size = 8M
+
+thread_cache_size = 8
+thread_concurrency = 8
+
+############InnoDB Table###################
+innodb_file_per_table =1
+innodb_data_home_dir = /home/mysql_data/
+innodb_data_file_path = ibdata1:2048M:autoextend
+innodb_log_group_home_dir = /home/mysql_logs/
+innodb_buffer_pool_size = 2G
+innodb_additional_mem_pool_size = 512M       
+innodb_log_file_size = 5M
+#12M                  
+innodb_log_buffer_size = 100M
+innodb_flush_log_at_trx_commit = 0
+innodb_flush_method = O_DIRECT
+innodb_lock_wait_timeout = 50
+
+############Character Set##################
+character-set-server = utf8
+
+############Slow Query#####################
+slow_query_log
+long_query_time = 1
+slow-query-log-file = /home/mysql_logs/log-slow.log
+
+[mysqldump]
+quick
+
+[mysql]
+no-auto-rehash
+
+[mysqlhotcopy]
+interactive-timeout

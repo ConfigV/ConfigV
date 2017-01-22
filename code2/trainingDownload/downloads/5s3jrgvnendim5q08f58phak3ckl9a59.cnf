@@ -1,0 +1,88 @@
+[client]
+port	= 3306
+socket	= /var/lib/mysql/mysql.sock
+max_allowed_packet = 32M
+
+[mysqld]
+######### engine and access interfaces
+skip-locking 
+skip-bdb
+
+bind-address = 192.168.1.103
+port	= 3306
+socket	= /var/lib/mysql/mysql.sock
+default-storage-engine = innodb
+datadir=/var/lib/mysql
+
+######### character sets
+character_set_server = utf8
+collation_server = utf8_general_ci
+
+######### innodb
+innodb_buffer_pool_size = 256M
+innodb_additional_mem_pool_size = 16M
+
+######### myisam
+# innodb still requires the myisam engine for mysql's internal metadata table
+key_buffer_size = 16M
+myisam_sort_buffer_size = 8M
+
+######### general
+connect_timeout = 10
+back_log = 50
+max_connections = 100
+max_connect_errors = 10
+table_cache = 256
+max_allowed_packet = 32M
+net_buffer_length = 32k
+
+
+open_files_limit = 1024
+# this is the in-memory tmp table max size
+max_heap_table_size = 64M
+# below are per-connection and per-sub-query
+join_buffer_size = 4M
+read_buffer_size = 4M
+read_rnd_buffer_size = 4M
+sort_buffer_size = 8M
+read_rnd_buffer_size = 8M
+
+thread_cache_size = 8
+thread_concurrency = 8
+
+# query_cache_size is a global setting
+query_cache_size = 128M
+query_cache_limit = 2M
+thread_stack = 192K
+transaction_isolation = READ-COMMITTED
+# this is the on-disk max size
+tmp_table_size = 128M
+tmpdir = /tmp
+
+
+# You can log slow queries to the mysql log directory to help isolate performance problems
+log_slow_queries
+long_query_time = 1
+#log_long_format
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+# not used except when repairing the database at startup
+key_buffer = 64M
+sort_buffer_size = 64M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld_safe]
+open-files-limit = 8192
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

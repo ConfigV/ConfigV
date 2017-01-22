@@ -1,0 +1,48 @@
+[client]
+port            = 3306
+socket          = /var/run/mysql/mysql.sock
+
+[mysqld]
+port            = 3306
+pid-file	= /var/run/mysql/mysql.pid
+datadir=/var/lib/mysql
+socket=/var/run/mysql/mysql.sock
+user=mysql
+plugin_dir=/httpd/platform/mysql/plugins
+tmpdir=/local/mysql/tmp/
+symbolic-links=1		## we *MUST* have these
+key_buffer = 84M
+max_allowed_packet = 8M
+max_user_connections = 256
+sort_buffer_size = 2M
+read_buffer_size = 2M
+myisam_sort_buffer_size = 64M
+## Changed 01/11/05 -JEG Suggestion From MySQL Mailing List
+thread_cache_size = 2
+query_cache_size = 8M
+
+# Try number of CPU's*2 for thread_concurrency
+# thread_concurrency = 4        # 12/30/11 - increasing to hopefully keep processes down
+# thread_concurrency = 16               # 12/30/11 - had no effect, setting to default
+# thread_concurrency=10		## SOLARIS ONLY!!
+innodb_file_per_table=1
+innodb_log_group_home_dir=/local/mysql/logs		## note: we might want to make this a high ios disk for better performance
+myisam_repair_threads=10
+innodb_use_native_aio=0 
+
+user=mysql
+max_connections=500
+max_user_connections=500
+max_connect_errors=3000
+net_read_timeout=60
+interactive_timeout=2400
+wait_timeout=60
+back_log=100
+connect-timeout=60
+sql_mode=NO_ENGINE_SUBSTITUTION
+## zfs will crash without this:
+innodb_use_native_aio=0
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld-safe.pid

@@ -1,0 +1,35 @@
+[client]
+port = 3306
+socket = /tmp/mysql.sock
+
+[mysqld]
+port = 3306
+socket = /tmp/mysql.sock
+bind-address = localhost
+
+skip-external-locking
+skip-name-resolve
+symbolic-links=0
+
+key_buffer_size = 8M
+sort_buffer_size = 8M
+table_open_cache = 64
+read_buffer_size = 256K
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack = 128K
+
+innodb_buffer_pool_size = 16M
+innodb_additional_mem_pool_size = 2M
+innodb_log_file_size = 5M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+max_allowed_packet = 50M
+
+log_warnings = 2
+log_error=/var/log/mysql_err.log
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql_slow.log
+long_query_time = 5

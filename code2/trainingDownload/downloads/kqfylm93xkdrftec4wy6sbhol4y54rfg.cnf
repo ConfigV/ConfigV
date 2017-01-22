@@ -1,0 +1,24 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+character-set-server=utf8
+
+#       主从同步之从服务器，注意主从配置必须写在mysqld_safe配置的前面
+relay-log=slave-relay-bin
+relay-log-index=slave-relay-bin.index
+server-id=2
+
+[mysql]
+default-character-set=utf8
+socket=/var/lib/mysql/mysql.sock	#	加入此行后，用	mysql	命令无须再指定	-S	参数
+
+[client]
+default-character-set=utf8
+socket=/var/lib/mysql/mysql.sock
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

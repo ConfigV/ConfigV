@@ -1,0 +1,61 @@
+[client]
+port = 3306
+socket = /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+nice = 0
+socket = /var/run/mysqld/mysqld.sock
+
+[mysqld]
+basedir = /usr
+binlog_format = ROW
+character_set_server = utf8
+collation_server = utf8_general_ci
+datadir = /var/lib/mysql
+default-storage-engine = InnoDB
+expire_logs_days = 10
+innodb_autoinc_lock_mode = 2
+innodb_buffer_pool_size = 256M
+innodb_doublewrite = 1
+innodb_file_per_table = 1
+innodb_flush_log_at_trx_commit = 2
+innodb_locks_unsafe_for_binlog = 1
+key_buffer = 256M
+lc-messages-dir = /usr/share/mysql
+max_allowed_packet = 128M
+max_binlog_size = 128M
+max_connections = 64
+myisam-recover = BACKUP
+myisam_sort_buffer_size = 64M
+net_buffer_length = 8K
+open-files-limit = 65535
+pid-file = /var/run/mysqld/mysqld.pid
+port = 3306
+query_cache_limit = 8M
+query_cache_size = 16M
+read_buffer_size = 8M
+read_rnd_buffer_size = 8M
+skip-external-locking
+socket = /var/run/mysqld/mysqld.sock
+sort_buffer_size = 16M
+table_cache = 2M
+table_definition_cache = 65535
+table_open_cache = 65535
+thread_cache_size = 8
+thread_concurrency = 8
+tmpdir = /tmp
+user = mysql
+
+[mysqldump]
+max_allowed_packet = 16M
+quick
+quote-names
+
+[mysql]
+
+[isamchk]
+!includedir /etc/mysql/conf.d/
+key_buffer = 256M
+read_buffer = 16M
+sort_buffer_size = 256M
+write_buffer = 16M

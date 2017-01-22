@@ -1,0 +1,82 @@
+[client]
+port            = 8610
+socket          = /mnt/ddb/1/liweizhao/mysql-install/tmp/mysql.sock
+
+[mysqld_safe]
+nice            = 0
+socket         = /mnt/ddb/1/liweizhao/mysql-install/tmp/mysql.sock
+
+[mysqld]
+port                    = 8610
+pid-file                = /mnt/ddb/1/liweizhao/mysql-install/tmp/mysqld.pid
+socket                  = /mnt/ddb/1/liweizhao/mysql-install/tmp/mysql.sock
+basedir                 = /mnt/ddb/1/liweizhao/mysql-install/
+datadir                 = /mnt/ddb/1/liweizhao/mysql-install/var
+innodb_data_home_dir    = /mnt/ddb/1/liweizhao/mysql-install/var
+innodb_log_group_home_dir       = /mnt/ddb/1/liweizhao/mysql-install/var/
+tmpdir                  = /mnt/ddb/1/liweizhao/mysql-install/tmp
+log-error               = /mnt/ddb/1/liweizhao/mysql-install/var/mysqld.log
+log_slow_queries        = /mnt/ddb/1/liweizhao/mysql-install/var/mysql-slow.log
+
+log_bin = /home/liweizhao/mysql//var//mysql-bin.log
+binlog_format = MIXED
+
+core-file
+
+language	= /mnt/ddb/1/liweizhao/mysql-install/share/mysql/english
+
+table_cache             = 512
+long_query_time         = 4
+max_connections         = 800
+query_cache_type        = 0
+default-character-set   = utf8
+default-storage-engine  = innodb
+skip-external-locking
+
+expire_logs_days        = 7
+max_binlog_size         = 512M
+sync_binlog                = 0
+max_allowed_packet      = 16M
+innodb_data_file_path   = ibdata1:16M:autoextend
+
+#test the below variable
+#innodb_autoextend_increment     = 8
+innodb_autoextend_increment     = 64
+
+innodb_log_files_in_group       = 2
+innodb_log_file_size    = 512M
+innodb_lock_wait_timeout        = 5
+innodb_flush_method     = O_DIRECT
+innodb_flush_log_at_trx_commit    = 2
+skip-innodb_doublewrite = OFF
+innodb_thread_concurrency = 0
+innodb_max_dirty_pages_pct = 90
+
+max_allowed_packet    = 30000000
+key_buffer_size        = 20000000
+
+###################################
+
+ntse_log_buf_size       = 1048576
+ntse_log_file_size      = 268435456
+ntse_max_sessions       = 1024
+ntse_incr_size		= 4096
+ntse_checkpoint_interval = 1800
+
+###################################
+
+innodb_buffer_pool_size = 40M
+
+ntse_page_buf_size = 1260
+
+ntse_rec_buf_size = 260
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet      = 16M
+default-character-set   = utf8 
+
+[mysql]
+default-character-set = utf8
+

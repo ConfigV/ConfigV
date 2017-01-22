@@ -1,0 +1,104 @@
+# mysql設定サンプル(5.1)
+# railsでInnoDBのみ使用するのを想定
+# ディレクトリをデフォルトから変更した場合はapparmorの設定も一緒に修正しないとはまるので注意
+
+[client]
+port = 3306
+socket = /path/to/mysql/mysqld.sock
+default-character-set = utf8
+
+[mysqld_safe]
+socket = /path/to/mysql/mysqld.sock
+nice = 0
+
+[mysqld]
+
+#
+# Basic Settings
+#
+
+log-bin = mysql-bin
+character-set-server = utf8
+
+user  = mysql
+pid-file = /path/to/mysql/mysqld.pid
+socket = /path/to/mysql/mysqld.sock
+port = 3306
+basedir = /usr
+datadir = /path/to/mysql
+tmpdir = /tmp
+language = /usr/share/mysql/english
+skip-external-locking
+bind-address  = 127.0.0.1
+
+#
+# memory for instance
+#
+
+max_connections         = 100
+query_cache_size        = 16M
+query_cache_limit       = 1M
+max_allowed_packet      = 16M
+thread_cache_size       = 30
+# MySQL5.0 だと table_cache
+table_open_cache        = 64
+thread_concurrency      = 8
+
+# innodb
+innodb_buffer_pool_size         = 512M
+innodb_additional_mem_pool_size = 10M
+innodb_log_buffer_size          = 8M
+
+# innodb(file)
+innodb_log_file_size            = 128M
+
+# MyISAM
+key_buffer              = 16M
+
+#
+# memory for thread
+#
+
+thread_stack            = 128K
+join_buffer_size        = 256K
+sort_buffer_size        = 2M
+read_rnd_buffer_size    = 1M
+
+
+#
+# log
+#
+
+# slow query log
+
+# 5.0
+# log_slow_queries   = /path/to/log/mysql-slow.log
+
+# 5.1
+slow_query_log = ON
+slow_query_log_file = /path/to/log/mysql-slow.log
+
+# 共通
+long_query_time    = 2
+
+# binary log
+expire_logs_days        = 10
+max_binlog_size         = 100M
+
+# barkeley db
+skip-bdb
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet = 16M
+
+[mysql]
+default-character-set = utf8
+
+[isamchk]
+key_buffer = 16M
+
+# 別ファイルに分けたい場合にコメントアウトする
+# !includedir /path/to/mysql/conf.d/
+

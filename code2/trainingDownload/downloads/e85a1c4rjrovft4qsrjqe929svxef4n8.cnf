@@ -1,0 +1,68 @@
+# The following options will be passed to all MySQL clients
+[client]
+user            = root
+#password       = your_password
+port            = 3306
+socket          = /tmp/mysql.sock
+
+default-character-set=utf8
+
+# Here follows entries for some specific programs
+
+# The MySQL server
+[mysqld]
+port            = 3306
+socket          = /tmp/mysql.sock
+skip-locking
+key_buffer = 16K
+max_allowed_packet = 1M
+table_cache = 4
+sort_buffer_size = 512K
+read_buffer_size = 512K
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack = 128K
+lower_case_table_names = 1
+
+query_cache_size  = 64M
+query_cache_limit = 2M
+query_cache_type  = 1
+
+default_table_type = innodb
+
+default-character-set=utf8
+
+# Replication
+server_id       = 1
+
+innodb_data_home_dir = /usr/local/mysql/data/
+innodb_data_file_path = ibdata1:50M:autoextend
+innodb_log_group_home_dir = /usr/local/mysql/data/
+innodb_buffer_pool_size = 256M
+innodb_additional_mem_pool_size = 24M
+innodb_log_file_size = 64M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 0
+innodb_lock_wait_timeout = 50
+
+concurrent_insert = 2
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[mysqlhotcopy]
+interactive-timeout

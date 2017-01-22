@@ -1,0 +1,75 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+log-error = /var/log/mysql/mysqld-error.log
+pid-file = /var/run/mysqld/mysqld.pid
+user=mysql
+
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+old_passwords = 0
+key_buffer = 16k
+sort_buffer_size = 32K
+read_buffer_size = 32K
+read_rnd_buffer_size = 32K
+join_buffer_size = 32K
+max_connections = 75
+max_user_connections = 75
+net_buffer_length = 16K
+max_allowed_packet = 1M
+table_cache = 1024
+max_connect_errors = 1024
+max_tmp_tables = 32
+tmp_table_size = 16M
+query_cache_size = 32M
+query_cache_type = 1
+thread_cache = 2
+thread_concurrency = 2
+thread_stack = 512K
+
+# Encondings
+init_connect = 'SET collation_connection = utf8_general_ci'
+init-connect = 'SET NAMES utf8'
+character-set-server = utf8
+collation-server = utf8_general_ci
+skip-character-set-client-handshake
+
+# Set .._log_file_size to 25 % of buffer pool size
+innodb_buffer_pool_size = 16M
+innodb_additional_mem_pool_size = 2M
+innodb_log_file_size = 4M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+
+# Disabling symbolic-links is recommended to prevent assorted security risks;
+# to do so, uncomment this line:
+symbolic-links = 0
+
+[mysqld_safe]
+log-error = /var/log/mysql/mysqld.log
+pid-file = /var/run/mysqld/mysqld.pid
+syslog
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+default-character-set = utf8
+
+[mysql]
+auto-rehash
+
+[client]
+default-character-set = utf8
+
+[isamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[mysqlhotcopy]
+interactive-timeout

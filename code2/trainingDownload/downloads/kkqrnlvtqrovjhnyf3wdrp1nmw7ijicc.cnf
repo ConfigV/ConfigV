@@ -1,0 +1,152 @@
+###################################################
+#       WRITER MYSQL PAP                          #
+####################################################
+
+[client]
+
+port		= 3306
+socket		= /tmp/mysqld.sock
+
+[mysqld_safe]
+
+socket		= /tmp/mysqld.sock
+nice		= 0
+
+####################################################
+
+[mysqld]
+
+#  directives standarts pour lancer le service mysql
+
+user		= mysql
+pid-file	= /var/run/mysqld/mysqld.pid
+socket		= /tmp/mysqld.sock
+port		= 3306
+basedir		= /usr/local/mysql
+datadir		= /var/lib/mysql
+tmpdir		= /var/tmp
+language	= /usr/local/mysql/share/mysql/english
+skip-external-locking
+skip-name-resolve
+
+# On purge les log binaires au bout de x jours (par defaut 10)
+
+expire_logs_days = 4
+
+# directives de customisation
+
+# a chaque ecriture, on synchronise le binlog
+# si on crash les dernieres ecritures ne seront pas perdues
+
+sync_binlog = 1
+
+# on arrete la replication au demarrage du service mysql
+skip-slave-start
+
+# le charset est defini
+
+character-set-server    = utf8
+collation-server        = utf8_general_ci
+
+#  Directives modifiees
+
+key_buffer              = 64M
+#max_allowed_packet	= 16M
+max_allowed_packet	= 64M # xavier le 10/07/2012 suite pb sapporo
+thread_stack		= 256K
+thread_cache_size	= 256
+table_cache             = 2064
+query_cache_limit       = 4M
+query_cache_size        = 256M # Ajusté par Xavier le 12 Mai 2011 (à partir de 64M)
+max_tmp_table           = 512
+tmp_table_size          = 1024M # taille maximum d'une table temporaire en mémoire (128M)
+max_heap_table_size     = 1024M # va de pair avec tmp_table_size
+
+# le moteur de stockage par default
+
+default-storage-engine  = innodb
+innodb_file_per_table
+innodb_additional_mem_pool_size = 20M
+innodb_buffer_pool_size=20000M # selon la memoire de ta machine
+innodb_log_file_size = 256M
+innodb_log_files_in_group = 3
+innodb_log_buffer_size = 8M
+innodb_log_group_home_dir = /var/log/mysql/mysql-innodb
+innodb_flush_method = O_DIRECT
+innodb_thread_concurrency = 16 # ( 8 proc * 2 ) # en fonction du nbr de proc de la machine
+innodb_concurrency_tickets = 5000
+innodb_read_io_threads  = 8
+innodb_write_io_threads = 8
+
+# event : on active le scheduleur (apres avoir passer mysql_upgrade)
+
+event_scheduler = on
+
+# mysqld bloque le serveur après 10 connexions erronées
+
+max_connect_errors      = 10000
+
+# nombre des connections simultanées
+
+max_connections         = 2000
+
+# directives de replication et des logs
+
+server-id		        = 1
+report-host                     = nom machine
+log_slave_updates	        = 1
+slave_compressed_protocol	= 1
+log_bin		                = /var/log/mysql/mysql-binlog/mysql-bin.log
+# relay-log                     = /var/log/mysql/mysql-replication/relay.log
+# relay-log-info-file           = /var/log/mysql/mysql-replication/relay-log.info
+# relay-log-index               = /var/log/mysql/mysql-replication/relay-log.index
+# master-info-file              = /var/log/mysql/mysql-replication/master.info
+# log                           = /var/log/mysql/mysql.log
+log-error                       = /var/log/mysql/mysql-error.log
+# slave-skip-errors    		= 1452
+ log_slow_queries	        = /var/log/mysql/mysql-slow.log
+# log_queries_not_using_indexes = 1 # on active le log des requetes sans index
+ long_query_time		        = 1
+
+# ATTENTION DANGER
+# master-host                     = ip master de replication
+# master-user                     = replication
+# master-password                 = mot de pass du user replication
+# master-port                     = 3306
+
+# directives off
+
+# bind-address		         = 127.0.0.1
+# expire_logs_days	         = 10
+# max_binlog_size                = 100M
+# binlog_do_db		         = include_database_name
+# binlog_ignore_db	         = include_database_name
+# long_query_time                = 2
+# thread_concurrency             = 10
+# log-queries-not-using-indexes
+# skip-networking 		 # on saute le reseau
+
+#############################################################
+
+[mysqldump]
+
+quick
+quote-names
+max_allowed_packet	= 16M
+
+###############################################################
+
+[mysql]
+
+# directive de customisation du prompt du client mysql
+
+prompt="\R:\m \\u@\\h [\\d]> "
+no-beep
+
+[isamchk]
+
+key_buffer		= 16M
+
+# un include necessaire pour un user debian mysql crée par defaut
+
+#!includedir /etc/mysql/conf.d/

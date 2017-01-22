@@ -1,0 +1,30 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+# Make mysql server listen to more than localhost so that we can connect from outside of our container
+bind-address = 0.0.0.0
+
+# https://dev.mysql.com/doc/refman/5.5/en/packet-too-large.html
+max_allowed_packet=32M
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+socket=/var/lib/mysql/mysql.sock
+
+[mysql]
+socket=/var/lib/mysql/mysql.sock
+# http://dev.mysql.com/doc/refman/5.7/en/program-variables.html
+max_allowed_packet=32M
+
+#When reading the configuration file, the mysql command line client only reads
+#configuration directives found in the [client] and [mysql] sections,
+#while mysqldump only uses configuration #directives found in the [client] and
+#[mysqldump] sections.
+#http://dba.stackexchange.com/questions/46296/mysql-works-mysqldump-doesnt
+[mysqldump]
+socket=/var/lib/mysql/mysql.sock

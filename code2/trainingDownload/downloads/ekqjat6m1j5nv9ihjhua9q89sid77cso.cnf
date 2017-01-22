@@ -1,0 +1,96 @@
+[client]
+port            = ${PORT}
+socket          = /tmp/mysql${N}.sock
+
+[mysqld]
+#### Attention! Check here ####
+datadir=/db/data${N}
+log-error=${HOST}_${N}db.err
+log_bin=/db/log${N}/${HOST}_${N}db-bin
+slow_query_log_file=/db/log${N}/${HOST}_${N}db-slow.log
+innodb_log_group_home_dir=/db/log${N}
+pid-file=${HOST}_${N}db.pid
+port            = ${PORT}
+socket          = /tmp/mysql${N}.sock
+server-id       = ${N}
+tmpdir=/db/tmp${N}
+#relay_log=/db/log${N}/${HOST}_${N}db-relay-bin
+
+#### About log ####
+binlog_format=mixed
+log-queries-not-using-indexes=1
+log-slow-admin-statements=1
+log-output=file
+long-query-time=1
+slow-query-log=1
+max_binlog_size=524288000
+max_relay_log_size=524288000
+sync_binlog=1
+expire_logs_days=30
+
+#### General option  ####
+#ssl-ca=/db/ssl/ca-cert.pem
+#ssl-cert=/db/ssl/server-cert.pem
+#ssl-key=/db/ssl/server-key.pem
+federated
+secure-auth=1
+keep_files_on_create=1
+basedir=/usr/local/mysql
+character-set-server=utf8
+collation-server=utf8_bin
+default-storage-engine=innodb
+sql-mode="ANSI_QUOTES,IGNORE_SPACE,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ONLY_FULL_GROUP_BY,PIPES_AS_CONCAT,STRICT_TRANS_TABLES"
+lower_case_table_names=1
+skip-name-resolve
+max_connections=200
+table_open_cache=400
+max_allowed_packet=16M
+tmp_table_size=500M
+max_heap_table_size=500M
+thread_cache_size=50
+join_buffer_size=2097152
+max_connect_errors=10
+#query cache
+query_cache_limit=1048576
+query_cache_size=209715200
+query_cache_type=1
+#Just MyISAM
+key_buffer_size=104857600
+skip-external-locking
+
+#### Each connection ####
+net_buffer_length = 8K
+sort_buffer_size=2M
+#Just MyISAM
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+
+#### InnoDB ####
+innodb_file_per_table=1
+innodb_buffer_pool_size=2147483648
+innodb_log_buffer_size=8388608
+innodb_flush_log_at_trx_commit=1
+innodb_additional_mem_pool_size=10485760
+innodb_lock_wait_timeout=5
+innodb_rollback_on_timeout=on
+innodb_support_xa=1
+innodb_log_file_size=536870912
+innodb_thread_concurrency=20
+innodb_flush_method=O_DIRECT
+
+##### Emergency:force recover
+#for the situation that innodb can't recover automaticly.After which we should dump all the data of the table
+#innodb_force_recovery=4
+#for safe recover
+#skip-networking
+
+#### About Replication
+skip_slave_start
+#read_only=1
+log_slave_updates
+#replicate_ignore_table=mysql.columns_priv
+#replicate_ignore_table=mysql.db
+#replicate_ignore_table=mysql.host
+#replicate_ignore_table=mysql.procs_priv
+#replicate_ignore_table=mysql.tables_priv
+#replicate_ignore_table=mysql.user

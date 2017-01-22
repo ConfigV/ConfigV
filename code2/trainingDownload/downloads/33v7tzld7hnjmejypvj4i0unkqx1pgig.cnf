@@ -1,0 +1,181 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#
+# The MySQL database server configuration file.
+#
+# You can copy this to one of:
+# - "/etc/mysql/my.cnf" to set global options,
+# - "~/.my.cnf" to set user-specific options.
+# 
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+# This will be passed to all mysql clients
+# It has been reported that passwords should be enclosed with ticks/quotes
+# escpecially if they contain "#" chars...
+# Remember to edit /etc/mysql/debian.cnf when changing the socket location.
+[client]
+port		= 3306
+socket		= /tmp/mysql.sock
+
+# Here is entries for some specific programs
+# The following values assume you have at least 32M ram
+
+# This was formally known as [safe_mysqld]. Both versions are currently parsed.
+[mysqld_safe]
+socket		= /tmp/mysql.sock
+nice		= 0
+
+[mysqld]
+#
+# * Basic Settings
+#
+
+#
+# * IMPORTANT
+#   If you make changes to these settings and your system uses apparmor, you may
+#   also need to also adjust /etc/apparmor.d/usr.sbin.mysqld.
+#
+
+user		= mysql
+socket		= /tmp/mysql.sock
+port		= 3306
+basedir		= /usr/local/mysql
+datadir		= /usr/local/mysql/data
+plugin_dir	= /usr/local/mysql/lib/plugin
+tmpdir		= /tmp
+back_log	= 1000
+# Tune max_connections based on expected load
+max_connections	= 1000
+skip-external-locking
+
+# Other tunables for performance
+table_open_cache=64
+tmp_table_size=16777216
+max_heap_table_size=16777216
+thread_cache=40
+join_buffer_size = 131072
+
+default-storage-engine=innodb
+
+#
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+#bind-address		= 127.0.0.1
+#
+# * Fine Tuning
+#
+key_buffer		= 16M
+max_allowed_packet	= 1048576
+thread_stack		= 196608
+thread_cache_size       = 0
+read_buffer_size=262144
+read_rnd_buffer_size=524288
+
+# This replaces the startup script and checks MyISAM tables if needed
+# the first time they are touched
+myisam-recover         = BACKUP
+#max_connections        = 100
+#table_cache            = 64
+#thread_concurrency     = 10
+#
+# * Query Cache Configuration
+#
+query_cache_limit	= 1M
+query_cache_size        = 0
+#
+# * Logging and Replication
+#
+# Both location gets rotated by the cronjob.
+# Be aware that this log type is a performance killer.
+# As of 5.1 you can enable the log at runtime!
+#general_log_file        = /var/log/mysql/mysql.log
+#general_log             = 1
+
+#log_error                = /var/log/mysql/error.log
+
+# Here you can see queries with especially long duration
+slow_query_log
+slow_query_log_file	= /usr/local/mysql/data/mysql-slow.log
+long_query_time = 0
+log-slow-slave-statements
+#log-queries-not-using-indexes
+#
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+server-id = #MYSQL_SERVER_ID#
+log_bin				= mysql-bin.log
+expire_logs_days	= 10
+max_binlog_size         = 100M
+binlog-format=mixed
+sync_binlog=1
+#binlog_do_db		= include_database_name
+#binlog_ignore_db	= include_database_name
+#
+# * InnoDB
+#
+# InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
+# Read the manual for more InnoDB related options. There are many!
+#
+#
+# innodb parameters 
+# change innodb_data_home_dir and innodb_log_group_home_dir depending on
+# where you're locating the database
+
+innodb_additional_mem_pool_size=2097152
+innodb_buffer_pool_size		= 1336934400
+innodb_data_file_path		= ibdata1:100M:autoextend
+innodb_log_buffer_size		= 8388608
+innodb_log_file_size		= 100M
+innodb_max_dirty_pages_pct	= 75
+innodb_log_files_in_group	= 3
+innodb_autoextend_increment	= 8
+innodb_doublewrite			= 0
+innodb_flush_log_at_trx_commit = 2
+
+# * Security Features
+#
+# Read the manual, too, if you want chroot!
+# chroot = /var/lib/mysql/
+#
+# For generating SSL certificates I recommend the OpenSSL GUI "tinyca".
+#
+# ssl-ca=/etc/mysql/cacert.pem
+# ssl-cert=/etc/mysql/server-cert.pem
+# ssl-key=/etc/mysql/server-key.pem
+
+
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet	= 1048576
+
+[mysql]
+#no-auto-rehash	# faster start of mysql but no tab completition
+
+[isamchk]
+key_buffer		= 16M
+
+#
+# * IMPORTANT: Additional settings that can override those from this file!
+#   The files must end with '.cnf', otherwise they'll be ignored.
+#
+#!includedir /etc/mysql/conf.d/

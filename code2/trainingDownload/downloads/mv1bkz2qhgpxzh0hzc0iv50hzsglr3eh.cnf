@@ -1,0 +1,43 @@
+[mysqld]
+#
+# * Basic Settings
+#
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address		= 0.0.0.0
+
+#
+# * Fine Tuning
+#
+key_buffer		= 64M
+max_allowed_packet	= 64M
+thread_stack		= 192K
+thread_cache_size       = 8
+sort_buffer_size = 2M
+join_buffer_size = 2M
+net_buffer_length = 8K
+read_buffer_size = 1M
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 8M
+
+tmp_table_size = 64M
+max_heap_table_size = 64M
+
+# * Query Cache Configuration
+#
+query_cache_limit	= 8M
+query_cache_size        = 64M
+
+innodb_buffer_pool_size = 256M
+innodb_file_per_table
+innodb_file_format = "Barracuda"
+innodb_flush_method=O_DIRECT
+
+innodb_log_file_size=134217728
+
+table_open_cache = 256
+
+slow_query_log = 'ON'
+log_queries_not_using_indexes = 'ON'
+slow_query_log_file = '/var/log/mysql/slow-query.log'
+long_query_time = '0.5'

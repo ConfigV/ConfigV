@@ -1,0 +1,45 @@
+[mysqld]
+max-connections		= 100
+max-user-connections	= 100
+low_priority_updates	= 1
+tmpdir					= /tmp
+skip-external-locking
+skip-name-resolve
+
+delay-key-write		= ALL
+join_buffer_size		= 128k
+max_join_size			= 200M
+
+sort_buffer_size		= 128K
+read_buffer_size		= 128k
+read_rnd_buffer_size	= 128k
+thread_stack			= 256k
+
+query_cache_limit		= 8M
+query_cache_size		= 32M
+
+table_cache				= 10000
+max_heap_table_size	= 256M
+tmp_table_size			= 256M
+thread_cache_size		= 1024
+
+key_buffer_size				= 32M
+max_allowed_packet	= 16M
+
+
+innodb_buffer_pool_size	= 12G
+innodb_log_file_size=512M
+innodb_flush_log_at_trx_commit	= 1
+innodb_file_per_table
+innodb_data_file_path = ibdata1:1G:autoextend
+innodb_autoextend_increment = 128
+innodb_thread_concurrency=16
+
+event_scheduler=1
+skip-name-resolve
+
+plugin-load=handlersocket.so
+loose_handlersocket_port = 9998
+loose_handlersocket_port_wr = 9999
+loose_handlersocket_threads = 16
+loose_handlersocket_threads_wr = 1

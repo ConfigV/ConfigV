@@ -1,0 +1,31 @@
+[mysqld]
+datadir=/alidata1/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+collation-server = utf8_unicode_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
+
+innodb_buffer_pool_size = 2G
+query_cache_type=1
+# disable slow_query_log because mysql prior to 5.1 doesn't know it.
+slow_query_log=ON
+query_cache_size=256M
+innodb_log_buffer_size=8M
+innodb_log_file_size=64M
+# master settings
+log_bin=/var/log/mysql/mysql-bin.log
+server-id=1
+binlog_do_db=tourguide
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8

@@ -1,0 +1,83 @@
+# The following options will be passed to all MySQL clients
+[client]
+
+# Here follows entries for some specific programs
+
+# The MySQL server
+[mysqld]
+tmpdir = mysql
+net_read_timeout = 300
+net_write_timeout = 600
+
+key_buffer_size = 1G
+
+skip-external-locking
+key_buffer = 16M
+max_allowed_packet = 16M
+table_open_cache = 1024
+thread_cache = 512
+sort_buffer_size = 512K
+net_buffer_length = 8K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 256M
+max_connections = 256
+query_cache_size = 0
+query_cache_type = 0
+sql-mode = NO_ENGINE_SUBSTITUTION
+myisam_max_sort_file_size = 24G
+myisam_max_extra_sort_file_size = 24G
+
+join_buffer_size = 512M
+tmp_table_size = 32M
+max_heap_table_size = 32M
+
+# Don't listen on a TCP/IP port at all. This can be a security enhancement,
+# if all processes that need to connect to mysqld run on the same host.
+# All interaction with mysqld must be made via Unix sockets or named pipes.
+# Note that using this option without enabling named pipes on Windows
+# (via the "enable-named-pipe" option) will render mysqld useless!
+# 
+#skip-networking
+
+# Disable other storage engines
+skip-federated
+skip-pbxt
+skip-innodb
+
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omitted
+server-id	= 1
+
+default-storage-engine=MyISAM
+
+# The safe_mysqld script
+[safe_mysqld]
+log-error = mysql/mysqld.err
+nice      = 0
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+#no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+prompt=[\R:\m] \u@\d>
+
+[isamchk]
+key_buffer = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

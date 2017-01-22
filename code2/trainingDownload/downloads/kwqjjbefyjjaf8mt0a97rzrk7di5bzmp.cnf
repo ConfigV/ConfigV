@@ -1,0 +1,33 @@
+[client]
+port            = 3306
+socket          = /tmp/mysql.sock
+
+[mysql]
+no-auto-rehash
+#safe-updates
+prompt          = '\\u@\\h [\\d] > '
+
+[mysqld]
+datadir         = /var/lib/mysql
+port            = 3306
+socket          = /tmp/mysql.sock
+thread_cache = 256
+query_cache_size = 10M
+query_cache_type = 0
+server-id       = 1
+log=/var/log/mysql/mysql_query.log
+#slow_query_log = 1
+#slow_query_log_file = /var/log/mysql/slow.log
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+read_buffer = 1M
+write_buffer = 0M
+
+[mysqld_safe]
+open-files-limit = 8192

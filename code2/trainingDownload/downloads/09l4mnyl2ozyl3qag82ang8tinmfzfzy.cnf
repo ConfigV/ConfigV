@@ -1,0 +1,54 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+character-set-server=utf8
+skip-character-set-client-handshake
+
+innodb_additional_mem_pool_size=20M
+innodb_buffer_pool_size=3880M
+innodb_log_buffer_size = 8M
+innodb_lock_wait_timeout = 240
+
+innodb_thread_concurrency = 16
+innodb_flush_log_at_trx_commit=0
+innodb_log_files_in_group=2
+innodb_max_dirty_pages_pct = 90
+innodb_flush_method=O_DIRECT
+innodb_lock_wait_timeout = 240
+innodb_file_per_table
+
+max_allowed_packet=16M
+max_connections=360
+max_connect_errors=999999999
+max_heap_table_size=64M
+
+thread_cache_size=1080
+thread_concurrency=200
+
+sort_buffer_size=16M
+join_buffer_size=16M
+#read_buffer_size=32M
+read_rnd_buffer_size=32M
+key_buffer_size=32M
+table_open_cache=1600
+query_cache_type=0
+
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+
+[mysqlhotcopy]
+interactive-timeout
+
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+open-files-limit = 8192
+

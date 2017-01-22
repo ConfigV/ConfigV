@@ -1,0 +1,123 @@
+##  _______________________________________________________________________ 
+## / Spigit MySQL 5.1 Terse Configuration File v1.1                        \
+## |                                                                       |
+## | This is a base configuration file containing the most frequently used |
+## | settings with reasonably defined default values for configuring and   |
+## | tuning MySQL. Note that these settings can likely be further tuned in |
+## | order to get optimum performance from MySQL based upon the database   |
+## | configuration and hardware platform.                                  |
+## |                                                                       |
+## | While the settings provided are likely sufficient for most            |
+## | situations, an exhaustive list of settings (with descriptions) can be |
+## | found at:                                                             |
+## | http://dev.mysql.com/doc/refman/5.1/en/server-system-variables.html   |
+## |                                                                       |
+## | Take care to only add/remove/change a setting if you are comfortable  |
+## | doing so!                                                             |
+## \                                                                       /
+##  ----------------------------------------------------------------------- 
+##         \   ^__^
+##          \  (oo)\_______
+##             (__)\       )\/\
+##                 ||----w |
+##                 ||     ||
+
+[mysqld]
+default-storage-engine          = InnoDB
+
+## General
+datadir                         = /opt/mysql/data
+tmpdir                          = /opt/mysql/tmp
+socket                          = /opt/mysql/mysql.sock
+skip-external-locking           = 1
+skip-name-resolve
+open-files-limit                = 20000
+#sql-mode                       = TRADITIONAL
+event-scheduler                 = 1
+
+## Cache
+thread-cache-size               = 16
+table-open-cache                = 2048
+table-definition-cache          = 512
+query-cache-size                = 0 
+query-cache-limit               = 1M
+table_cache			= 256
+thread_cache_size		= 16
+
+## Per-thread Buffers
+sort-buffer-size                = 1M
+read-buffer-size                = 1M
+read-rnd-buffer-size            = 8M
+join-buffer-size                = 1M
+
+## Temp Tables
+tmp-table-size                  = 64M 
+max-heap-table-size             = 64M 
+
+## Networking
+back-log                        = 100
+max-connections                 = 1200
+max-connect-errors              = 10000
+max-allowed-packet              = 256M
+interactive-timeout             = 1209600
+wait-timeout                    = 1209600
+
+### Storage Engines
+innodb                          = FORCE
+
+## MyISAM
+key-buffer-size                 = 64M 
+myisam-sort-buffer-size         = 128M
+
+## InnoDB
+#innodb-log-group-home-dir      = /opt/mysql
+#innodb-data-home-dir           = /opt/mysql
+#innodb-data-file-path          = ibdata1:2000M;ibdata2:10M:autoextend
+innodb-buffer-pool-size         = 256M
+innodb-additional-mem-pool-size = 20M
+innodb-log-file-size            = 100M
+innodb_log_files_in_group       = 2
+innodb-log-buffer-size          = 4M
+#innodb-flush-method            = O_DIRECT
+#innodb-file-per-table          = 1
+#innodb-open-files              = 300
+#innodb-thread-concurrency      = 16
+#innodb-support-xa              = 0
+innodb_stats_on_metadata        = 0
+#ignore-builtin-innodb
+#plugin-load=innodb=ha_innodb_plugin.so;innodb_trx=ha_innodb_plugin.so;innodb_locks=ha_innodb_plugin.so;innodb_lock_waits=ha_innodb_plugin.so
+
+## Replication
+server-id                       = 1
+log-bin                         = /opt/mysql/logs/bin-log
+#relay-log                      = /opt/mysql/logs/relay-log
+#relay-log-space-limit          = 4G
+expire-logs-days                = 3
+#read-only                      = 1
+#sync-binlog                    = 1
+#log-slave-updates              = 1
+binlog-format                   = ROW
+#auto-increment-offset          = 1
+#auto-increment-increment       = 2
+skip-name-resolve
+
+## Logging
+#log-output                     = FILE
+#log                            = /opt/mysql/logs/general.log
+slow-query-log                  = 1
+slow-query-log-file             = /opt/mysql/logs/slow.log
+#long-query-time                = 2
+#log-queries-not-using-indexes  = 1
+
+[client]
+socket                          = /opt/mysql/mysql.sock
+
+[mysqld_safe]
+log-error                       = /opt/mysql/logs/error.log
+
+[mysql]
+default-character-set=utf8
+
+[mysqldump]
+max_allowed_packet = 256M
+quick

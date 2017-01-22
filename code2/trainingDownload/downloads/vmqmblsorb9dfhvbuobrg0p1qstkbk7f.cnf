@@ -1,0 +1,45 @@
+#
+# shared
+#
+[server]
+
+bind-address = 0.0.0.0
+
+user		=	mysql
+
+max_binlog_size		=	100M
+expire_logs_days	=	20
+
+auto_increment_increment = 2
+
+#
+# member 01
+#
+[server01]
+
+server-id	=	01
+port		=	13301
+datadir		=	/var/lib/mysql/01/
+socket		=	/var/lib/mysql/01/server.socket
+pid-file	=	/var/lib/mysql/01/server.pid
+
+log_error	=	/var/lib/mysql/01/log_error
+log_bin		=	/var/lib/mysql/01/log_bin
+
+auto_increment_offset = 01
+
+#
+# member 02
+#
+[server02]
+
+server-id	=	02
+port		=	13302
+datadir		=	/var/lib/mysql/02/
+socket		=	/var/lib/mysql/02/server.socket
+pid-file	=	/var/lib/mysql/02/server.pid
+
+log_error	=	/var/lib/mysql/02/log_error
+log_bin		=	/var/lib/mysql/02/log_bin
+
+auto_increment_offset = 02
