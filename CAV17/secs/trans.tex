@@ -69,12 +69,12 @@ The count for $\tau_i$ is incremented each time a new example value that might b
 {k:[int\pluseq 1,bool\pluseq 1]}
 \and
 \inferrule* [Right=eq\_rule]
-{k1 : \tau \\ k2 : \tau \\ \tau \in \mathcal{T}}
-{eq(k1,k2) : Rule}
+{k1 :: \tau \\ k2 :: \tau \\ \tau \in \mathcal{T}}
+{eq(k1,k2) :: Rule}
 \and
 \inferrule* [Right=bool\_resolve]
 {k:\tilde{\tau} \\ \tilde{\tau} \vdash bool \geq 2 \land \ast \leq 1}
-{k : bool}
+{k :: bool}
 \and
 \\
 \inferrule* [Right=bool]
@@ -82,22 +82,20 @@ The count for $\tau_i$ is incremented each time a new example value that might b
 {k:[bool\pluseq 1,string\pluseq 1]}
 \end{mathpar}
 
-In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $\in \tilde{\mathcal{T}}$ can be resolved to a basic type $\in \mathcal{T}$ with enough evidence.
+In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \tilde{\tau} \in \tilde{\mathcal{T}}$ can be resolved to a basic type (expressed with the double colon $ k :: \tau \in \mathcal{T}$) with enough evidence.
 The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
 In this case, we allow a probabilistic type to resolve to a boolean if we have two counts for boolean, and no more than one count for any other type.
-While a user may implement overlapping inference rules, this are resolved by assigning the keyword a list of types.
-This is then effectively a subtyping relation.
+ 
+A user may implement overlapping inference rules, for example in {\scriptsize INT\_RESOLVE}.
+This not a subtyping relation, as the predicates over the counts may not be strictly overlapping.
+We simply allow the double colon (::) to type a single keyword in multiple ways.
+Because the only typing judgments on a basic type are terminal, {\scriptsize EQ\_RULE}, there is no problem with ambiguity as we would have in a traditional lambda calculus that included function application.
 
 \begin{mathpar}
 %\centering 
 \inferrule* [Right=int\_resolve]
-{k:[int \geq 1]}
-{k : int}
-\and
-\\
-\inferrule* [Right=int\_bool\_resolve]
-{k:[bool \geq 2, \ast \leq 1] \\ k:[int \geq 1]}
-{k : [bool,int]}
+{k:\tilde{\tau} \\ \tilde{\tau} \vdash int \geq 1}
+{k :: int}
 \end{mathpar}
 
 Note that we do not have an application rule over probabilistic types - types must be resolved to learn a rule over a keyword.
