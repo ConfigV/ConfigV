@@ -20,6 +20,7 @@ In this case, the very definition of a true error is necessarily imprecise.
 \centering
 \caption{Results of Learning}
 \label{table:learning}
+\setlength{\tabcolsep}{0.5em}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 {\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Rules Detected} & {\bf Support} & {\bf Confidence}\\ 
@@ -44,6 +45,7 @@ To estimate the impact of this metric, we track the rank of known true positives
 \centering
 \caption{Effect of Post Analysis Rule Ordering for known true positives}
 \label{table:order}
+\setlength{\tabcolsep}{1em}
 \begin{tabular}{|c|c|c|c|}
 \hline
 {\bf Class of Error} & {\bf Reference} & {\bf Rank w/o} & {\bf Rank w/} \\
@@ -65,14 +67,18 @@ In this case, the user will need to rebuild the rule set.
 A user also may want to update the support of confidence threshold to report more or fewer error, as is needed for their application.
 It is then important that the learning process is reasonably fast.
 The times reported in Table~\ref{table:training} were run on a single thread of a Intel i5-3450 CPU @ 3.10GHz with 16GB of RAM.
+We see the drastic difference in times here because ConfigC assumes a correct training set, and learns every relation derivable.
+With \app, we instead only process rule that meet the required support and confidence, reducing the cost of resolve to a consistent set of rules.
+
 
 \begin{table}[h]
 \centering
 \caption{Training time for different datasets}
 \label{table:training}
+\setlength{\tabcolsep}{1em}
 \begin{tabular}{|c|c|c|}
 \hline
-{\bf The \# of Files for Training} & {\bf ConfigC Training Time (s)} & {\bf \app Training Time (s)}\\ 
+{\bf The \# of Files for Training} & {\bf ConfigC (s)} & {\bf \app (s)}\\ 
 \hline
 \hline
 10   & 2.997     &   \\ \hline

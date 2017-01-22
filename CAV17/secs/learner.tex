@@ -39,7 +39,22 @@ Fine-grained rules follow $X \implies compare(X,Y)$, where $|X|=2,|Y|=1$ and $co
 These rules also implement a typing judgment over the keywords probabilistic type.
 To avoid learning too many false positives, we restrict this rule to either $size*int=size$, $int*size=size$, or $int*int = int$.
 Without probabilistic typing, we would also learn, for example, $int*int=size$.
-%TODO Aaron
+%TODO include exactly how many false positive we prune with types over our training set? Here or in eval?
+
+%TODO Aaron - add to learinign module section describe implemetnation?
+
+\app is primarily implemented in Haskell.
+The source code for our implementation is available at {\em (URL omitted for blind review)}.
+ 
+The learning and checking modules are developed to allow
+for customized extensibility. In order to verify a configuration file
+against a new type of error, a user only needs to provide a new type
+that is an instance of the \textit{Attribute} typeclass (\ie, define some
+functions over that type). 
+In particular, for each type of error the users
+wish to detect, they must implement three functions;
+\lstinline{learn}, \lstinline{merge}, and \lstinline{check}.
+
 
 \subsection{Checker}
 \label{sec-checker}
@@ -56,17 +71,4 @@ For instance, the \texttt{key\_buffer} misconfiguration from Sec. \ref{ex:fine} 
 
 \subsection{Implementation}
 
-\app is primarily implemented in Haskell, with a bit of mongo.
-The translator is developed as a parser for the grammar described in $\S$\ref{sec-trans}. 
-The learner and checker module fully implemented the design in $\S$\ref{sec-learn} and $\S$\ref{sec-checker}, respectively. 
- 
-The learning and checking modules are developed to allow
-for customized extensibility. In order to verify a configuration file
-against a new type of error, a user only needs to provide a new type
-that is an instance of the \textit{Attribute} typeclass (\ie, define some
-functions over that type). 
-In particular, for each type of error the users
-wish to detect, they must implement three functions;
-\lstinline{learn}, \lstinline{merge}, and \lstinline{check}.
 
-The source code for our implementation is available at {\em (URL omitted for blind review)}.
