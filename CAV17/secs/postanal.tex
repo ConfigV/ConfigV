@@ -8,75 +8,70 @@ set as described in $\S$\ref{sec-learn}.
 
 \subsection{Rule Ordering}
 
-\iffalse
 
 Define a graph with labeled, weighted edges $G = (V,E)$ such that:
-
+\iffalse
     V \def { keywords }
 
 Where 
 
     E \def { (v_1, v_2, l, w) }
+\fi
 
 Where the label $l$ defines the relationship, and the weight $w$ is
 defined as $w = \frac{true - false}{total}$ for that relationship.
 Note that due to support / confidence assertions in the learner, we
 may be assured that all weights in the graph are positive.
 
-Structure:
-    - Definition
-        > Degree (in-degree + out-degree) for each node 
+\para {Definition}
+Degree (in-degree + out-degree) for each node 
 
-        Define in-degree and out-degree in the usual way:
+Define in-degree and out-degree in the usual way:
 
-            IN_DEGREE(k) = ||
+\iffalse    IN_DEGREE(k) = ||
 
-            \forall keyword k \in rules, in_degree()
+    $\forall keyword k \in rules, in\_degree()$
+\fi
 
-        Note that we will be summing in-degree and out-degree over all
-        relationships $l$ to determine the total importance of
-        a keyword $k$ in the configuration space. We are restricted
-        by the total set of learning modules from which to derive
-        relationships $l$. If a keyword were highly constrained by some
-        relationship to other keywords in a way that might not be
-        measurable by current techniques, the learner (and therefore
-        consequently the graph) will show these keywords as being
-        unrelated.
+Note that we will be summing in-degree and out-degree over all
+relationships $l$ to determine the total importance of
+a keyword $k$ in the configuration space. We are restricted
+by the total set of learning modules from which to derive
+relationships $l$. If a keyword were highly constrained by some
+relationship to other keywords in a way that might not be
+measurable by current techniques, the learner (and therefore
+consequently the graph) will show these keywords as being
+unrelated.
 
-    - Semantics
-        > Intuitively, keywords that are seen together more often
-          with defined relationships
-          are more likely to generate rules within the learner.
-          (it would be nice to show this with a quick derivation)
+\para {Semantics}
+Intuitively, keywords that are seen together more often with defined relationships are more likely to generate rules within the learner.
+ (it would be nice to show this with a quick derivation)
 
-          for a rule to be considered *true*, two conditions must hold:
+for a rule to be considered *true*, two conditions must hold:
 
-            - adequate support
-                we have seen the keywords together x number of times
+1) adequate support -we have seen the keywords together x number of times
 
-            - adequate confidence
-                how many times out of the x number of times 
-                was the relationship true?
+2) adequate confidence - how many times out of the x number of times was the relationship true?
 
-    - Open Questions
-        > What is the difference between {\it important} rules and
-          {\it rules we are more sure about}?
+\iffalse
+- Open Questions
+> What is the difference between {\it important} rules and
+  {\it rules we are more sure about}?
 
-        > Why doesn't everything just sum to zero?
+> Why doesn't everything just sum to zero?
 
+\fi
 \subsection{Complexity Measure}
 
 INCLUDE SHORT BACKGROUND ON CODE COMPLEXITY. We define a measurement
 of complexity based on the calculated correlation. The presented
 metric is a heuristic that intends to approximate the quetion, 
-{\it how much redundancy exists in a configuration file, when considering
-probabilistic constraints imposed by the problem domain}?
+ how much redundancy exists in a configuration file, when considering
+probabilistic constraints imposed by the problem domain?
 
 it may be possible in the future to have interpreted predicates,
 such that these heuristics may more accurately reflect the informational
 content of a constrained configuration file.
-
-\fi
 
 
 

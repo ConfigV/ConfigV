@@ -57,10 +57,10 @@ We then have two potential situations; in the first case where {\tt bar}$::int$,
 To resolve this ambiguity, instead of immediately assigning one type to a value, the translator assigns a distribution of types to a value based on examples from the learning set.
 % an idea closely related to existentially quantified types~\cite{Launchbury93lazyfunctional}. 
 
-Formally, a probabilistic types is a set of counts over a set $\mathcal{T}$ of basic types.
-A probabilistic type, $\tilde{\tau} \in \tilde{\mathcal{T}}$, is a set of pairs $\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
-A keyword has a probabilistic type, expressed $k:\tilde{\tau}$, which without any evidence remains as {\scriptsize EMPTY}.
-The count for $(\tau_i,c_i) \in \tilde{\tau}$ is incremented each time a new example value that matches to type $\tau_i$ is encountered for a particular key, as shown in the {\scriptsize BOOL\_INT} and {\scriptsize BOOL} rules.
+A probabilistic type is a set of counts over a set $\mathcal{T}$ of basic types.
+Formally, we define a space of probabilistic types $\tilde{\mathcal{T}}$, where $\ptype=\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$ is a set of pairs, such that $\ptype \in \tilde{\mathcal{T}}, \tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
+Every keyword has a probabilistic type, expressed $k:\ptype$, which, without any evidence, remains {\scriptsize EMPTY}.
+The count for $(\tau_i,c_i) \in \ptype$ is incremented each time a new example value that matches to type $\tau_i$ is encountered for a particular key, using the update notation $\update$.
 
 \begin{mathpar}
 \hspace{-0.4cm} %no idea why, but this is better than \centering here
@@ -69,28 +69,28 @@ The count for $(\tau_i,c_i) \in \tilde{\tau}$ is incremented each time a new exa
 {k:[\ast = 0]}
 \and
 \inferrule* [Right=bool\_int]
-{(k,v) \in C \\ v \in \{0,1\}}
-{k:[int\pluseq 1,bool\pluseq 1]}
+{(k,v) \in C \\ v \in \{0,1\} \\ k:\ptype}
+{k:\ptype\update[int\pluseq 1,bool\pluseq 1]}
+\and
+\inferrule* [Right=bool]
+{(k,v) \in C \\ v \in \{ON,OFF\} \\ k:\ptype}
+{k:\ptype\update[bool\pluseq 1]}
 \\
 \and
 \inferrule* [Right=bool\_resolve]
-{k:\tilde{\tau} \\ \tilde{\tau} \models bool \geq 2 \land \ast \leq 1}
+{k:\ptype \\ \ptype \models bool \geq 2 \land \ast \leq 1}
 {k :: bool}
 \\
-\and
-\inferrule* [Right=bool]
-{(k,v) \in C \\ v \in \{ON,OFF\}}
-{k:[bool\pluseq 1]}
 \and
 \inferrule* [Right=eq\_rule]
 {k1 :: \tau \\ k2 :: \tau \\ \tau \in \mathcal{T}}
 {eq(k1,k2) :: Rule}
 \end{mathpar}
 
-In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \tilde{\tau} \in \tilde{\mathcal{T}}$ can be resolved to a basic type with enough evidence.
+In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to a basic type with enough evidence.
 The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
 In this case, we allow a probabilistic type to resolve to a boolean if we have two counts for boolean, and no more than one count for any other basic type ($\ast$).
-We use the notation, $\tilde{\tau} \models p$, to denote a probabilistic type whose counts hold on the predicate $p$.
+We use the notation, $\ptype \models p$, to denote a probabilistic type whose counts hold on the predicate $p$.
 Taking the type inference rules above, we can run an example inference on the sample training set in Figure~\ref{fig:tset}.
 We would derive the probabilistic type \texttt{bar}$:[bool=3,int=1]$, which then resolves to \texttt{bar}$::bool$.
  
@@ -103,7 +103,7 @@ Because the only typing judgments on a basic type are terminal, {\scriptsize EQ\
 \begin{mathpar}
 \hspace{-0.8cm} %no idea why, but this is better than \centering here
 \inferrule* [Right=int\_resolve]
-{k:\tilde{\tau} \\ \tilde{\tau} \models int \geq 1}
+{k:\ptype \\ \ptype \models int \geq 1}
 {k :: int}
 \and
 \inferrule* [Right=order\_rule]
