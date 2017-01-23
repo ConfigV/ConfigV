@@ -7,7 +7,7 @@ VeriConf can output the set of learned rules from the training set as described 
 Note that the ability to inspect the learned rule set is a special property of this technique.
 The core task, building a model from unlabeled examples to classify files as either correct or incorrect, is also a classic problem for other machine learning techniques such as neural networks~\cite{nn1,nn2,nn3}.
 When applying machine learning to verification of configuration files, this is not, however, an ideal approach.
-The resulting model from a neural network is easily not amenable to analysis~\cite{nnAnalysis1,nnAnalysis2}.
+The resulting model from a neural network is not easily amenable to analysis~\cite{nnAnalysis1,nnAnalysis2}.
 The simple structure of rules with weights from an association rule learning-like approach, will instead allows us to do further inference on the resulting model.
 
 \subsection{Rule Ordering}
@@ -25,7 +25,7 @@ Where the label $l \in L$ indicates the predicate $p$ extracted by the learner,
 $L$ is the set of all predicates learned,
 and the weight $w$ is defined as 
 
-    $$w = \frac{true - false}{total}$$
+    $$w = \frac{true}{total}$$
 
 for that relationship. For notational convenience later in this section
 we will refer to $w_{v_1, v_2, l}$ as referring to the weight of the
@@ -43,11 +43,7 @@ and out-degree defined in the usual way. Explicitly, for a vertex $x \in V$:
 
     $$DEGREE(x) = \sum_{l \in L} \sum_{v \in V} w_{x, v, l} + \sum_{l \in L} \sum_{v \in V} w_{v, x, l}$$
 
-The more rules of high confidence extracted for a keyword by the learner, 
-the higher the $DEGREE$ of the corresponding vertex in the Rule Graph.
-We may use this measurement to examine which keywords in the configuration
-space examined by the learner are most important - which keyword configurations
-are the most constrained / most constraining.
+\iffalse
 
 Note that we will be summing in-degree and out-degree over all
 relationships $l$ to determine the total importance of
@@ -59,7 +55,38 @@ measurable by current techniques, the learner (and therefore
 consequently the graph) will show these keywords as being
 unrelated.
 
+\fi
+
 \para {Semantics}
+
+The more rules of high confidence extracted for a keyword by the learner, 
+the higher the $DEGREE$ of the corresponding vertex in the Rule Graph.
+We may use this measurement to examine which keywords in the configuration
+space examined by the learner are most important - which keyword configurations
+are the most constrained / most constraining.
+
+Note that since the Rule Graph, as it is formulated in this paper, weights edges
+by a {\it ratio} of predicate hits to total keyword observations, the weight
+of an edge is {\bf dependent only on the confidence of the corresponding rule
+and independent of the support}. We address this issue by pruning nodes of
+inadequate support in the learner, but an alternative formulation of the rule
+graph (in particular the  of edges in the graph) may provide additional
+power for graph analysis techniques to take support into account
+as well as confidence.
+
+\rahul{Not sure how important this last point about alternative Rule Graph
+formulation is - we certainly want to make sure the reader understands that
+this is an area that can be easily expanded on, but don't want to distract
+from the fundamental semantics here.}
+
+It is also worth noting that how good of a heuristic the $DEGREE$ metric is for
+\"importance of a configuration parameter\" is dependent on the coverage
+of the learnable predicate set encompassed by $L$. The more this predicate
+set covers the true configuration parameter relationships in the system,
+the better the heuristic.
+
+\iffalse
+
 Intuitively, keywords that are seen together more often with defined relationships are more likely to generate rules within the learner.
  (it would be nice to show this with a quick derivation)
 
@@ -68,6 +95,8 @@ for a rule to be considered *true*, two conditions must hold:
 1) adequate support -we have seen the keywords together x number of times
 
 2) adequate confidence - how many times out of the x number of times was the relationship true?
+
+\fi
 
 \iffalse
 - Open Questions
@@ -79,16 +108,31 @@ for a rule to be considered *true*, two conditions must hold:
 \fi
 \subsection{Complexity Measure}
 
+A common goal for software projects is managing complexity. As
+constraints accumulate over the lifecycle of a project additional
+configuration file complexity often grows, with the danger of
+making code brittle and unwieldy. For code, Kolomogrov complexity
+can be a good indicator of whether a solution is bloated and 
+needs to be refactored.
+
+The intermediate representation produced VeriConf's learner stage
+may be used to analyze the complexity of a configuration file.
+
 INCLUDE SHORT BACKGROUND ON CODE COMPLEXITY. We define a measurement
 of complexity based on the calculated correlation. The presented
 metric is a heuristic that intends to approximate the quetion, 
- how much redundancy exists in a configuration file, when considering
+how much redundancy exists in a configuration file, when considering
 probabilistic constraints imposed by the problem domain?
 
 it may be possible in the future to have interpreted predicates,
 such that these heuristics may more accurately reflect the informational
 content of a constrained configuration file.
 
+\iffalse
 
+Use the listing in figure 2 to put together an example of why the
+naive implementation of complexity doesn't give as much of an idea
+of what is going on as our heuristic.
 
+\fi
 
