@@ -86,14 +86,15 @@ instance Learnable R.FineGrained Formula where
     ,errMsg = "FINE GRAINED ERROR: Expected "++(show k1)++" * "++(show k2)++(show rd)++(show k3)
     }
 
-{- 
+{-
+TODO this doesnt help at all, whyyyy 
 paralleize the merge?a-}
 pfold full  = let
   ms' = M.splitRoot full
   ms = map pfold ms'
   mappend m1 m2 = M.foldlWithKey combineFlips m1 m2
  in
-  if M.size full < 25 
+  if M.size full < 50 
   then M.empty `mappend` full
   else (head ms `par` last ms) `pseq` (foldl1 mappend ms) 
 
