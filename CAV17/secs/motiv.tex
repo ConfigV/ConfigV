@@ -40,17 +40,15 @@ or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
 By invoking \app, the user can detect such a configuration error.
 In particular, \app reports that {\tt recode.so} 
 should appear before {\tt mysql.so}, as shown
-below: \ennan{Mark, please update all the motivating examples'
-output results according
-to our newest version implementation.}
-
+below:
+ 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    ORDERING ERROR: Expected "extension" "recode.so"
-    BEFORE "extension" "mysql.so"
+    ORDERING ERROR: Expected "extension=recode.so"
+    BEFORE "extension=mysql.so"
 \end{lstlisting} 
 
 %TODO would be nice to have these as subsection or somehow be able to ref specific examples
-\para{Example~2: Fine-grained value correlation error}
+\para{Example~2: Fine-grained integer correlation error}
 \label{ex:fine}
 Our second misconfiguration example~\cite{correlation} 
 comes from a discussion on StackOverflow.
@@ -74,38 +72,33 @@ causing the website's
 response speed to be very slow.
 In this case, {\tt key\_buffer\_size} is used by all the threads
 cooperatively, while {\tt join\_buffer} and {\tt sort\_buffer} are 
-created by each thread for private use; thus, the maximum amount
-of used key buffer, \ie, {\tt key\_buffer\_size}, should be larger than 
+created by each thread for private use; thus, {\tt key\_buffer\_size},
+\ie, the maximum amount of used key buffer, should be larger than 
 {\tt join|sort\_buffer\_size} * {\tt max\_connections}. 
-Clearly, in the above example, it does not hold, 
-so this misconfiguration causes MySQL to load very slowly.
+In the above example, however, it does not hold. 
 
 If we run \app on this configuration file, \app  would return:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    INTEGER RELATION ERROR:
-    Expected "key_buffer_size" >= "max_connections" * "sort_buffer_size"
+  FINE GRAINED INTEGER RELATION ERROR:
+  Expected "max_connections" * "sort_buffer_size"
+               =< "key_buffer_size"
 \end{lstlisting} 
 
-We can see that during the learning process not only do we learn simple statements that compare two values, 
-but also we learn more complex correlations. We call these more complex relations fine-grained value correlations, and the errors
-\emph{fine-grained value correlation errors}. 
-This type of error is more sophisticated than the simple value correlation that some tools can detect~\cite{yin11anempirical, zhang14encore}.
-A typical value correlation error
-states that one entry's value should have a certain correlation with
-another entry's value. For example, in MySQL,
-the value of {\tt max\_connections} should be higher than
-{\tt mysql.max\_persistent}. 
-
-Our tool can learn this simple correlation as well, but learning more complex properties requires a different 
-approach to the learning 
-process. We need to track several variables. It is not enough just to compare them, but we need to learn, as in this particular case, which
-invariant must be preserved. It was pointed out by Xu {\em et al.}~\cite{xu15hey} that
-detecting fine-grained value correlation errors 
-is a much more challenging
-task than the normal value correlation problem.
-To the best of our knowledge, \app is the first tool that
-is able to check such fine-grained value correlation problems.
+The above example is a complex integer correlation, which implicitly
+includes a computational correlation among different entries
+in the configuration file.
+We call these complex integer correlations as 
+{\em fine-grained integer correlations}. 
+Our tool can detect simple integer correlation---one entry's
+value should have a certain correlation with another entry's 
+value---as well.
+For example, in MySQL, the value of {\tt max\_connections} 
+should be higher than {\tt mysql.max\_persistent}.
+While few existing tools~\cite{yin11anempirical, zhang14encore}
+can detect the simple integer correlation errors,
+to the best of our knowledge, \app is the first effort capable of
+detecting fine-grained integer correlation problems.
 
 \para{Example~3: Missing entry error} 
 Many critical system outages result from the fact that an important
@@ -133,31 +126,33 @@ If the user runs \app on such a misconfiguration file,
 \app would return:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    MISSING KEYWORD ERROR: Expected "overlay" "ppolicy"
+    MISSING ENTRY ERROR: Expected "overlay" "ppolicy"
     in the same file: "include" "schema/ppolicy.schema"
 \end{lstlisting} 
 
 \para{Example~4: Type errors} 
-Many system performance problems are caused by 
+Many system availability problems are caused by 
 assigning incorrect type of values to some key in configuration
-files. Consider the following real-world misconfiguration file: 
+files. Consider the following real-world misconfiguration
+file~\cite{typeerror}: 
 a user tries to install MySQL and she needs to initiate the path
 of the log information generated by MySQL.
-This user puts the following assignment in her MySQL
+This user puts the following entry assignment in her MySQL
 configuration file: 
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    general_log = /var/log/mysql/mysql.log
+    slow-query-log = /var/log/mysql/slow.log
 \end{lstlisting} 
 
-Unbeknowest to this user, the entry ``general\_log'' should be an 
-integer, not a string. In MySQL, there is another entry named
-``general\_log\_file'' used to specify the log path.
+Unbeknowest to this user, the entry ``slow-query-log'' should be an 
+integer, not a string. This misconfiguration will lead to 
+MySQL fails to start~\cite{querylog}. In MySQL, there is another entry 
+named ``slow-query-log-file'' used to specify the log path.
 With \app, this user can get the following result:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
     TYPE ERROR: Expected a Int with P=1.0 for
-    "general_log [mysql]"
+    "slow-query-log"
 \end{lstlisting} 
 
 %The above result means that we need to assign an integer value to
