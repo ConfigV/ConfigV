@@ -1,15 +1,19 @@
-# Loading MongoDB Data
+# Prettify JSON Data
   
-    mongorestore --dir dump
+    python -m json.tool [JSON INPUT FILE]
 
-This will restore the data from our session to a running MongoDB
-listening on port 27017 without authentication enabled.
+will read a JSON file and pretty print the results to STDOUT. While this
+does not make any changes to the underlying representation, it can make
+manual debugging and introspection significantly easier.
 
-# Reload Data
+# Building the Rule Graph
 
-    pip install -r requirements.txt
-    python load_data.py
+    build_graph.py cachedRules.pretty.json rule_graph_edges.json
 
-read through the script for the specifics (some stuff is hard-coded)
-but you will be able to load a JSON file to a MongoDB instance
-running and listening with the correct configuration for MongoClient()
+# Running the Degree Measure
+
+    ./calc_degree.py rule_graph_edges.json sorted_degrees.json
+
+# Running the Complexity Measure on a Stripped Config File
+
+    calc_complexity.py test_config_file_opts.txt rule_graph_edges.json
