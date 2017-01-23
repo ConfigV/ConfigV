@@ -16,6 +16,8 @@ import Control.DeepSeq
 import qualified Data.Text.IO as T
 import qualified Data.Map.Strict as M
 
+import Debug.Trace
+
 -- | collect contraints from each file indepentantly
 -- this should be parmap
 learnRules :: [ConfigFile Language] -> RuleSet
@@ -33,14 +35,14 @@ learnRules fs = let
 -- | use the learning module instances to decide probabiliity cutoff and the sort
 resolveRules :: [RuleSet] -> RuleSet
 resolveRules rs = RuleSet
-  { order   = f order
-  , missing = f missing
-  , intRel  = f intRel
-  , typeErr = f typeErr
-  , fineInt = f fineInt
+  { order   = f "o" order
+  , missing = f "m" missing
+  , intRel  = f "i" intRel
+  , typeErr = f "t" typeErr
+  , fineInt = f "f"fineInt
   }
  where
-  f classOfErr =  merge (map classOfErr rs)
+  f s classOfErr =  trace s $ merge (map classOfErr rs)
 
 -- | call each of the learning modules
 buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet

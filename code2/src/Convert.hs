@@ -48,9 +48,12 @@ makeUniq lang ls = case lang of
     in
       f (head ls) ls
 
+-- TODO strip "set-variable ="
 stripComment :: Language -> T.Text -> T.Text
 stripComment l t = case l of
-  MySQL -> T.filter (/=';') $ T.takeWhile (/='#') t
+  MySQL ->  if any ((flip T.isInfixOf) t) ["<%","%>i","{%","%}"] 
+            then ""
+            else T.takeWhile (\x-> x/='#' && x/=';') t
   HTTPD -> T.takeWhile  (/=';') t
 
 -- | for now we are just using spaces and = to seperate keywords and values
@@ -61,7 +64,9 @@ seperateVals t =
     hasDelim = any isDelimeter $ T.unpack t
     ts = T.split isDelimeter (T.strip t)
     isDelimeter c = (c=='=') || (c==' ')
+    rmSetVar = (T.dropWhile (=='=')). T.strip. fst. T.breakOn "set-variable"
+    clean = rmSetVar. T.toLower. T.strip
   in
     if hasDelim
-    then (T.strip $ head ts, T.strip $ last ts)
-    else (t,"")
+    then (clean $ head ts, clean$ last ts)
+    else (clean t,"")

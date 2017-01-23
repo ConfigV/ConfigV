@@ -16,11 +16,14 @@ import Settings
 
 import qualified Data.Map as M
 import qualified Data.Text as T
+import qualified Data.Text.Read as T
 import qualified Data.Char as C
 import qualified Data.List as L
 import qualified Data.Bits as B
 import           Data.Maybe 
 import           System.Directory
+
+import Control.Parallel
 
 import Debug.Trace
 
@@ -83,10 +86,21 @@ instance Learnable R.FineGrained Formula where
     ,errMsg = "FINE GRAINED ERROR: Expected "++(show k1)++" * "++(show k2)++(show rd)++(show k3)
     }
 
+{- 
+paralleize the merge?a-}
+pfold full  = let
+  ms' = M.splitRoot full
+  ms = map pfold ms'
+  mappend m1 m2 = M.foldlWithKey combineFlips m1 m2
+ in
+  if M.size full < 25 
+  then M.empty `mappend` full
+  else (head ms `par` last ms) `pseq` (foldl1 mappend ms) 
+
 --all IRLines must have only ints as values (filtered out by this point)
 toFineGrained :: (IRLine,IRLine,IRLine) -> (FineGrained,Formula)
 toFineGrained (IRLine k1 v1, IRLine k2 v2, IRLine k3 v3) = let
-    asInt v = (read $ T.unpack (fst $ T.partition C.isNumber v)) * (fromMaybe 1 $ units v)
+    asInt v = ((either (\x->0) fst $T.decimal v) * (fromMaybe 1 $ units v)) ::Int
     formula v1 v2 v3 = if
      | v1*v2 < v3  -> Formula {gt=0,eq=0,lt=1}
      | v1*v2 == v3 -> Formula {gt=0,eq=1,lt=0}
@@ -102,6 +116,8 @@ toFineGrained (IRLine k1 v1, IRLine k2 v2, IRLine k3 v3) = let
 combineFlips :: RuleDataMap FineGrained Formula -> FineGrained -> Formula -> RuleDataMap FineGrained Formula
 combineFlips old (FineGrained k1 k2 k3) v = if 
   | M.member (FineGrained k1 k2 k3) old -> M.adjust (add v) (FineGrained k1 k2 k3) old
+  --since we have a custom Eq instance, which already accounts for order, we shouldnt hit the second check, 
+  -- but we do (checked wiht trace), so I leave it in
   | M.member (FineGrained k2 k1 k3) old -> M.adjust (add v) (FineGrained k2 k1 k3) old
   | otherwise -> M.insert (FineGrained k1 k2 k3) v old
 
