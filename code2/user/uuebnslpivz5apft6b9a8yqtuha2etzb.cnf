@@ -1,0 +1,63 @@
+[mysqld]
+
+bind-address            = 0.0.0.0
+server-id       	= 1
+#expire_logs_days        = 10
+
+default_storage_engine = InnoDB
+innodb_file_per_table
+max_binlog_size  = 1000M
+datadir          = /mnt/lib/mysql
+log_bin          = /mnt/log/mysql/mysql-bin.log
+
+innodb_log_file_size = 64M
+innodb_log_buffer_size = 32M
+innodb_flush_log_at_trx_commit = 0
+
+#Slow query low
+
+long_query_time  = 5
+
+# Thread cache size, concurrency and stack
+
+thread_cache_size                 = 64
+thread_concurrency                = 8
+thread_stack                      = 192K
+
+max_connections  = 8
+connect_timeout = 2
+wait_timeout = 60
+tmp_table_size = 128M           
+max_heap_table_size = 128M
+
+sort_buffer_size = 64M
+join_buffer_size = 64M
+
+# Buffer pool size
+
+innodb_buffer_pool_size = 1000M
+innodb_additional_mem_pool_size   = 32M
+
+# Percentage of unwritten dirty pages not to exceed
+innodb_max_dirty_pages_pct        = 80
+
+# Flush method
+innodb_flush_method               = O_DIRECT
+
+# Number of concurrent threads to run
+innodb_thread_concurrency         = 16
+
+# Autoinc lock mode ('consecutive' lock mode), see:
+# http://dev.mysql.com/doc/refman/5.1/en/innodb-auto-increment-handling.html
+#innodb_autoinc_lock_mode = 1
+
+# Enable fast innodb shutdown (skip full purge and insert buffer merge)
+#innodb_fast_shutdown              = 1
+
+[mysqldump]
+
+# Enable quick dumping
+quick
+
+# Set the max allowed packet size
+max_allowed_packet                = 16M

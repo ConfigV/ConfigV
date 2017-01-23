@@ -1,0 +1,33 @@
+[client]
+port            = 3306
+socket=/var/lib/mysql/mysql.sock
+
+[mysqld_safe]
+socket=/var/lib/mysql/mysql.sock
+nice            = 0
+
+
+[mysqld]
+key_buffer = 384M
+max_allowed_packet = 501M
+table_cache = 4096
+sort_buffer_size = 2M
+read_buffer_size = 2M
+read_rnd_buffer_size = 64M
+myisam_sort_buffer_size = 64M
+thread_cache_size = 64
+query_cache_size = 32M
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+old_passwords=1
+
+# Disabling symbolic-links is recommended to prevent assorted security risks;
+# to do so, uncomment this line:
+# symbolic-links=0
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

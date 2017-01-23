@@ -1,0 +1,26 @@
+[mysqld]
+user             = root
+bind-address     = 0.0.0.0
+sql_mode         = TRADITIONAL
+datadir          = /var/lib/mysql
+basedir          = /usr
+log_bin          = /var/log/mysql/mysql-bin.log
+log_error        = /var/log/mysql/error.log
+expire_logs_days = 10
+max_binlog_size  = 100M
+lower_case_table_names = 2
+character-set-server   = utf8mb4
+innodb_large_prefix    = true
+innodb_file_format     = Barracuda
+innodb_file_per_table
+innodb_file_format_max = Barracuda
+innodb_strict_mode     = on
+character_set_server  = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
+
+[client]
+default-character-set = utf8mb4
+
+!includedir /etc/mysql/conf.d/

@@ -1,0 +1,44 @@
+[client]
+#password	= your_password
+port		= 3306
+socket		= /ffp/var/run/mysql/mysql.sock
+
+# The MySQL server
+[mysqld]
+port		= 3306
+socket		= /ffp/var/run/mysql/mysql.sock
+
+skip-networking
+skip-locking
+skip-innodb
+skip-federated
+skip-bdb
+
+key_buffer = 16K
+max_allowed_packet = 1M
+table_cache = 4
+sort_buffer_size = 64K
+read_buffer_size = 256K
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack = 64K
+max_connections = 8
+datadir = /ffp/var/mysql
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[mysqlhotcopy]
+interactive-timeout

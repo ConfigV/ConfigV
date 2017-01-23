@@ -1,0 +1,84 @@
+# This file is managed by salt {{ grains['saltversion'] }}
+#
+# The following options will be passed to all MariaDB clients
+[client]
+port    = {{ pillar['mariadb_port'] }}
+socket  = {{ pillar['mariadb_tmpdir'] }}/{{ pillar['mariadb_socket'] }}
+
+# Here follows entries for some specific programs
+
+# The MariaDB server
+[mysqld]
+port    = {{ pillar['mariadb_port'] }}
+socket  = {{ pillar['mariadb_tmpdir'] }}/{{ pillar['mariadb_socket'] }}
+
+datadir = {{ pillar['mariadb_datadir'] }}
+
+skip-external-locking
+key_buffer_size         = 64M
+max_allowed_packet      = 4M
+table_open_cache        = 256
+sort_buffer_size        = 2M
+net_buffer_length       = 32K
+read_buffer_size        = 1M
+read_rnd_buffer_size    = 2M
+myisam_sort_buffer_size = 32M
+
+innodb_data_home_dir = {{ pillar['mariadb_datadir'] }}
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = {{ pillar['mariadb_datadir'] }}
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+#innodb_buffer_pool_size = 64M
+#innodb_additional_mem_pool_size = 8M
+# Set *_log_file_size to 25 % of buffer pool size
+#innodb_log_file_size = 16M
+#innodb_log_buffer_size = 32M
+#innodb_flush_log_at_trx_commit = 1
+#innodb_lock_wait_timeout = 50
+
+# Point the following paths to different dedicated disks
+tmpdir  = /tmp/
+
+{% if pillar['mariadb_skip_networking'] %}
+skip-networking
+{% else %}
+#skip-networking
+{% endif %}
+
+# Replication Master Server (default)
+# binary logging is required for replication
+log-bin={{ grains['host'] }}-mysql-bin
+
+# binary logging format - mixed recommended
+binlog_format=mixed
+
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omitted
+server-id = {{ pillar['mariadb_server_id'] }}
+
+## Either use these parameters to configure the replication master, or use
+## `CHANGE MASTER TO ...`
+#master-host     = <hostname>
+#master-user     = <username>
+#master-password = <password>
+#master-port     = <port>
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

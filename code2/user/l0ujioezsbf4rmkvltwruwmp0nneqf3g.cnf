@@ -1,0 +1,104 @@
+##  _______________________________________________________________________
+## / Rackspace MySQL 5.6 Terse Configuration File                          \
+## |                                                                       |
+## | This is a base configuration file containing the most frequently used |
+## | settings with reasonably defined default values for configuring and   |
+## | tuning MySQL. Note that these settings can likely be further tuned in |
+## | order to get optimum performance from MySQL based upon the database   |
+## | configuration and hardware platform.                                  |
+## |                                                                       |
+## | For many deployments, the only variables which need to be modified    |
+## | below are max-connections and innodb-buffer-pool-size.                |
+## |                                                                       |
+## \ http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html   /
+##  -----------------------------------------------------------------------
+##         \   ^__^
+##          \  (oo)\_______
+##             (__)\       )\/\
+##                 ||----w |
+##                 ||     ||
+
+[mysqld]
+
+## General
+ignore-db-dir                        = lost+found
+datadir                              = /var/lib/mysql
+socket                               = /var/lib/mysql/mysql.sock
+tmpdir                               = /var/lib/mysqltmp
+
+
+## tap
+skip-external-locking
+character-set-server                 = utf8mb4
+skip-character-set-client-handshake
+default-storage-engine               = InnoDB
+# timestamp型カラム生成時にデフォルトでon update current timestampをつけるかどうか。
+explicit_defaults_for_timestamp      = OFF
+
+
+## Cache
+table-definition-cache               = 4096
+table-open-cache                     = 4096
+#table-open-cache-instances          = 1
+#thread-cache-size                   = 16
+#query-cache-size                    = 32M
+#query-cache-type                    = 1
+
+## Per-thread Buffers
+#join-buffer-size                    = 512K
+#read-buffer-size                    = 512K
+#read-rnd-buffer-size                = 512K
+#sort-buffer-size                    = 512K
+
+## Temp Tables
+#max-heap-table-size                 = 64M
+#tmp-table-size                      = 32M
+
+## Networking
+#interactive-timeout                 = 3600
+max-connections                      = 400
+max-connect-errors                   = 1000000
+max-allowed-packet                   = 16M
+skip-name-resolve
+wait-timeout                         = 600
+
+## MyISAM
+key-buffer-size                      = 32M
+#myisam-recover                      = FORCE,BACKUP
+myisam-sort-buffer-size              = 128M
+
+## InnoDB
+#innodb-buffer-pool-size             = 256M
+innodb-file-format                   = Barracuda
+#innodb-file-per-table               = 1
+#innodb-flush-method                 = O_DIRECT
+#innodb-log-file-size                = 128M
+
+## Replication and PITR
+#binlog-format                       = ROW
+expire-logs-days                     = 7
+#log-bin                             = /var/log/mysql/bin-log
+#log-slave-updates                   = 1
+#max-binlog-size                     = 128M
+#read-only                           = 1
+#relay-log                           = /var/log/mysql/relay-log
+relay-log-space-limit                = 16G
+server-id                            = 1
+
+## Logging
+#log-output                          = FILE
+#log-slow-admin-statements
+#log-slow-slave-statements
+#log-warnings                        = 0
+#long-query-time                     = 2
+#slow-query-log                      = 1
+#slow-query-log-file                 = /var/log/mysql/slow-log
+
+[mysqld_safe]
+log-error                            = /var/log/mysqld.log
+#malloc-lib                          = /usr/lib64/libjemalloc.so.1
+open-files-limit                     = 65535
+
+[mysql]
+no-auto-rehash
+

@@ -1,0 +1,142 @@
+# sferic-dev:/etc/my.cnf
+[mysqld_safe] 
+socket=/opt/local/var/run/mysql5/mysqld.sock
+
+[client]
+socket=/opt/local/var/run/mysql5/mysqld.sock
+
+[mysqld]
+user=mysql
+port = 3306
+socket=/opt/local/var/run/mysql5/mysqld.sock
+basedir=/opt/local
+datadir=/opt/local/var/db/mysql5
+#innodb_force_recovery = 6
+
+##
+# networking
+#
+
+# Java requires networking, so don't "skip-networking"
+
+# required to open to everything for both loopback and LAN
+bind-address = 0.0.0.0
+
+##
+
+
+## # Disabling symbolic-links is recommended to prevent assorted security risks
+# but symbolic-links are required to find disk space -jja
+symbolic-links=1
+
+## logging
+
+# logs : ON=1, OFF=0
+general_log=1
+slow_query_log=1
+
+# log locations
+general_log_file=/opt/local/var/log/mysql5/mysql.log
+slow_query_log_file=/opt/local/var/log/mysql5/mysql_slow.log
+log-error=/opt/local/var/log/mysql5/mysqld_safe.log-error
+pid-file=/opt/local/var/db/mysql5/mysqld.pid
+
+##
+# DO NOT USE old password format
+old_passwords=0
+
+# get a reasonable modern character set
+skip-character-set-client-handshake
+collation_server=utf8_general_ci
+character_set_server=utf8
+
+# safest MySQL way to specify UTC is '+00:00'
+default_time_zone='+00:00'
+
+
+#
+# MyISAM & InnoDB tuning
+#
+# http://bugs.mysql.com/bug.php?id=59384
+#
+#sort_buffer_size = 1M
+#read_buffer_size = 1M
+sort_buffer_size = 64M
+read_buffer_size = 64M
+read_rnd_buffer_size = 2M
+
+key_buffer_size = 256M
+key_buffer = 64M
+
+#thread_cache_size = 8
+thread_cache_size = 286
+#query_cache_size = 0
+query_cache_size = 512M
+#query_cache_limit = 0
+query_cache_limit = 1M
+max_allowed_packet = 1M
+#max_allowed_packet = 1M
+#table_open_cache = 2000
+#net_buffer_length = 100K
+#myisam_sort_buffer_size = 200M
+myisam_sort_buffer_size = 64M
+#event_scheduler = 1
+
+#
+# http://dev.mysql.com/doc/refman/5.0/en/table-cache.html
+#
+#max_connections=100
+max_connections = 150
+table_open_cache=400
+
+# max seconds for a connection to be idle,
+#  make as long as needed but as short as possible to reduce %cpu idling
+#wait_timeout=60000
+wait_timeout = 1800
+
+#
+# InnoDB
+# http://dev.mysql.com/doc/refman/5.0/en/innodb-configuration.html
+# Data files must be able to hold your data and indexes.
+# Make sure that you have enough free disk space.
+#
+
+# required:
+innodb_file_per_table
+innodb_buffer_pool_size=2G
+innodb_flush_method=O_DIRECT
+innodb_log_file_size=256M
+innodb_log_files_in_group = 2
+#innodb_log_buffer_size = 500M
+innodb_log_buffer_size=8M
+innodb_lock_wait_timeout = 300
+innodb_thread_concurrency=17
+innodb_data_file_path=ibdata1:10M:autoextend:max:10G
+innodb_additional_mem_pool_size=20M
+default-storage-engine=innodb
+default-table-type=innodb
+
+# slower but safer:
+innodb_flush_log_at_trx_commit=1
+sync_binlog=1
+
+# faster maybe:
+#innodb_flush_log_at_trx_commit=2
+#sync_binlog=0
+
+
+# tuning
+# http://www.mysqlperformanceblog.com/2007/11/03/choosing-innodb_buffer_pool_size/
+
+#innodb_buffer_pool_size=1G
+
+# http://bugs.mysql.com/bug.php?id=59384
+#innodb_log_file_size = 1G
+max_user_connections = 150
+join_buffer_size = 64M
+table_cache = 1024
+interactive_timeout = 25
+connect_timeout = 10
+max_connect_errors = 1000
+query_cache_type = 1
+tmp_table_size = 16M

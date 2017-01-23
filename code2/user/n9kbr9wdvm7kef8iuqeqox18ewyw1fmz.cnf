@@ -1,0 +1,94 @@
+[client]
+port = 3306
+socket = @@TMPSRV@@/mysql.sock
+
+[mysqld]
+server-id = 1
+port = 3306
+bind-address = 127.0.0.1
+default-storage-engine = InnoDB
+socket = @@TMPSRV@@/mysql.sock
+tmpdir = @@TMPSRV@@
+datadir = @@MYDB@@/mysql
+log_error = @@MYLOG@@/log/mysql/mysql.log
+pid_file = @@MYLOG@@/log/mysql/mysql.pid
+max_connections = 10
+character-set-server = utf8
+collation-server = utf8_general_ci
+skip-external-locking
+open_files_limit = 2048
+join_buffer_size = 8M
+key_buffer_size = 32M
+ft_min_word_len = 4
+bulk_insert_buffer_size = 16M
+myisam_sort_buffer_size = 64M
+myisam_max_sort_file_size = 1G
+myisam_repair_threads = 1
+myisam-recover-options
+query_cache_type = 1
+query_cache_size = 16M
+query_cache_limit = 2M
+query_cache_strip_comments = 1
+thread_cache_size = 4
+thread_stack = 240k
+table_cache = 1024
+table_open_cache = 2048
+table_definition_cache = 1024
+max_allowed_packet = 1M
+tmp_table_size = 64M
+max_heap_table_size = 64M
+sort_buffer_size = 4M
+read_buffer_size = 128k
+read_rnd_buffer_size = 8M
+concurrent_insert = 2
+sync_binlog = 1
+expire_logs_days = 2
+log-bin = mysql-bin
+binlog_cache_size = 1M
+binlog_format = mixed
+binlog_direct_non_transactional_updates = true
+long_query_time = 2
+low_priority_updates = 1
+slow_query_log = 1
+slow_query_log_file = @@MYLOG@@/log/mysql/mysql-slow.log
+wait_timeout = 60
+interactive_timeout = 60
+symbolic-links = 0
+transaction_isolation = REPEATABLE-READ
+sql_mode = NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER
+
+# InnoDB settings
+innodb = on
+innodb_data_home_dir = @@MYDB@@/mysql
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = @@MYDB@@/mysql
+innodb_buffer_pool_size = 64M
+innodb_buffer_pool_instances = 1
+innodb_log_file_size = 32M
+innodb_log_buffer_size = 4M
+innodb_flush_log_at_trx_commit = 2
+innodb_flush_method = O_DIRECT
+innodb_thread_concurrency = 2
+innodb_lock_wait_timeout = 60
+innodb_file_per_table = 1
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+key_buffer_size = 128M
+sort_buffer_size = 128M
+read_buffer = 8M
+write_buffer = 8M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld_safe]
+open_files_limit = 2048
+log_error = @@MYLOG@@/log/mysql/mysql.log
+pid_file = @@MYLOG@@/log/mysql/mysql.pid

@@ -1,0 +1,60 @@
+#    The MySQL Sandbox
+#    Copyright (C) 2006-2012 Giuseppe Maxia
+#    Contacts: http://datacharmer.org
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; version 2 of the License
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+[mysql]
+prompt='mysql [\h] {\u} (\d) > '
+#
+
+[client]
+user            = msandbox
+password        = msandbox
+port            = 5521
+socket          = /tmp/mysql_sandbox5521.sock
+
+[mysqld]
+user                            = root
+port                            = 5521
+socket                          = /tmp/mysql_sandbox5521.sock
+basedir                         = /mnt/data/mysql_binaries/5.5.21
+datadir                         = /mnt/data/benchmarks/db_data
+tmpdir                          = /mnt/data/sandboxes/msb_5_5_21/tmp
+pid-file                        = /mnt/data/sandboxes/msb_5_5_21/data/mysql_sandbox5521.pid
+#log-slow-queries               = /mnt/data/sandboxes/msb_5_5_21/data/msandbox-slow.log
+#log                            = /mnt/data/sandboxes/msb_5_5_21/data/msandbox.log
+#
+# additional options passed through 'my_clause' 
+#
+log-error			= /mnt/data/sandboxes/msb_5_5_21/data/msandbox.err
+
+#
+# innodb
+#
+innodb_file_per_table=1
+innodb_file_format=barracuda
+
+innodb_buffer_pool_size=6G
+innodb_log_file_size=512M
+innodb_log_files_in_group=2
+innodb_flush_log_at_trx_commit=2
+innodb_flush_method=O_DIRECT
+
+##
+###
+query_cache_size=0
+query_cache_type=0
+
+

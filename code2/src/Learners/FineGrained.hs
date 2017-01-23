@@ -68,6 +68,7 @@ instance Learnable R.FineGrained Formula where
   -- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
   merge rs = let
     rs' = M.unionsWith add rs
+    --merged = M.mapKeysWith add (\fg@(FineGrained k1 k2 k3)-> if k2 > k1 then (FineGrained k2 k1 k3) else fg) rs'
     merged = M.foldlWithKey combineFlips M.empty rs'
     validRule r = (gt r + lt r + eq r)>Settings.fineGrainSupport &&  (gt r <= Settings.fineGrainConfidence || lt r <= Settings.fineGrainConfidence)
    in

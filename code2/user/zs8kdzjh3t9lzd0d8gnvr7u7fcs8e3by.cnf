@@ -1,0 +1,77 @@
+[client]
+default-character-set = utf8
+port    = 3306
+socket  = /tmp/mysql.sock
+
+[mysql]
+prompt="(\u:blog.s135.com:)[\d]> "
+no-auto-rehash
+
+[mysqld]
+#default-character-set = utf8
+user    = mysql
+port    = 3306
+socket  = /tmp/mysql.sock
+basedir = /usr/local/webserver/mysql
+datadir = /data0/mysql/3306/data
+open_files_limit    = 10240
+back_log = 20
+max_connections = 100
+max_connect_errors = 200
+table_cache = 60
+external-locking = FALSE
+max_allowed_packet = 16M
+sort_buffer_size = 128K
+join_buffer_size = 128K
+thread_cache_size = 10
+thread_concurrency = 8
+query_cache_size = 0M
+query_cache_limit = 2M
+query_cache_min_res_unit = 2k
+default-storage-engine = MyISAM
+default_table_type = MyISAM
+thread_stack = 192K
+transaction_isolation = READ-COMMITTED
+tmp_table_size = 512K
+max_heap_table_size = 32M
+#/usr/local/webserver/mysql/data/slow.log
+#/usr/local/webserver/mysql/data/error.log
+long_query_time = 1
+log_long_format
+log-bin = /data0/mysql/3306/binlog
+binlog_cache_size = 2M
+binlog_format = MIXED
+max_binlog_cache_size = 4M
+max_binlog_size = 512M
+expire_logs_days = 7
+key_buffer_size = 4M
+read_buffer_size = 1M
+read_rnd_buffer_size = 2M
+bulk_insert_buffer_size = 2M
+myisam_sort_buffer_size = 4M
+myisam_max_sort_file_size = 10G
+myisam_max_extra_sort_file_size = 10G
+myisam_repair_threads = 1
+myisam_recover
+
+skip-name-resolve
+master-connect-retry = 10
+slave-skip-errors = 1032,1062,126,1114,1146,1048,1396
+
+server-id = 1
+
+#innodb_additional_mem_pool_size = 16M
+#innodb_buffer_pool_size = 2048M
+#innodb_data_file_path = ibdata1:1024M:autoextend
+#innodb_file_io_threads = 4
+#innodb_thread_concurrency = 8
+#innodb_flush_log_at_trx_commit = 2
+#innodb_log_buffer_size = 16M
+#innodb_log_file_size = 128M
+#innodb_log_files_in_group = 3
+#innodb_max_dirty_pages_pct = 90
+#innodb_lock_wait_timeout = 120
+#innodb_file_per_table = 0
+[mysqldump]
+quick
+max_allowed_packet = 32M

@@ -1,0 +1,82 @@
+#---------------------------------------------------------------------------
+# Zenoss DataStore Configuration
+#
+# Created by ZenDS Installer.
+#---------------------------------------------------------------------------
+[mysqld]
+socket = /var/lib/zends/zends.sock
+pid-file = /var/run/zends/zends.pid
+basedir = /opt/zends
+datadir = /opt/zends/data
+port = 13306
+user = zenoss
+innodb_file_per_table
+skip_external_locking
+#
+# Per the current Zenoss Resource Manager Install Guide,
+# please size innodb_buffer_pool_size according to the following
+# guidelines:
+#
+# Deployment Size       Value of innodb_buffer_pool_size
+# --------------------  --------------------------------
+#    1 to  250 devices   512M
+#  250 to  500 devices   768M
+#  500 to 1000 devices  1024M
+# 1000 to 2000 devices  2048M
+#
+# If ZenDS is installed on a dedicated system, this can (and should) be set
+# to as much as 75% of available memory on the system.
+#
+innodb_buffer_pool_size = 2048M
+# log file size should be 25% of of buffer pool size
+innodb_log_file_size = 512M
+innodb_additional_mem_pool_size = 32M
+innodb_log_buffer_size = 8M
+innodb_flush_method = O_DIRECT
+innodb_flush_log_at_trx_commit = 2
+# In previous releases of MySQL, this was recommended to be set to 2 times the
+# number of CPUs, however the default and recommended option in 5.5 is to not
+# set a bound on the thread pool size.
+innodb_thread_concurrency = 0
+
+# Setting this setting to 0 is recommended in virtualized environments. If
+# running virtualized, it is recommended to uncomment the setting below when
+# seeing database performance issues.
+#innodb_spin_wait_delay = 0
+
+# In large installs, there were a significant number of mutex waits on the 
+# adaptive hash index, and this needed to be disabled.
+#innodb_adaptive_hash_index = OFF
+
+# Use the Barracuda file format which enables support for dynamic and 
+# compressed row formats.
+innodb_file_format = Barracuda
+
+# Enable the thread pool plug-in - recommended on 5.5.16 and later.
+plugin-load = thread_pool.so
+thread_pool_size = 32
+
+# Disable the query cache - it provides negligible performance improvements
+# and leads to significant thread contention under load.
+query_cache_size = 0
+query_cache_type = OFF
+
+max_allowed_packet = 64M
+wait_timeout = 86400
+
+# Enable dedicated purge thread. (default is 0)
+innodb_purge_threads = 1
+
+# Introduce operation lag to allow purge operations. (default is 0)
+innodb_max_purge_lag = 100000
+
+[client]
+socket = /var/lib/zends/zends.sock
+user = zenoss
+
+[mysql]
+max_allowed_packet = 64M
+prompt = "zends> "
+
+[mysqldump]
+max_allowed_packet = 64M

@@ -1,0 +1,70 @@
+[client]
+default-character-set=utf8
+port    = 3306
+socket  = /tmp/mysql.sock
+
+[mysqld]
+#---------base------------#
+character-set-server = utf8
+user    = mysql
+port    = 3306
+socket  = /tmp/mysql.sock
+basedir = /usr/local/webserver/mysql
+datadir = /data0/mysql/3306/data
+pid-file = /data0/mysql/3306/mysql.pid
+#----------log-----------#
+log-output=file
+#expire_logs_days = 30
+log-error = /data0/mysql/3306/mysql_error.log
+#general_log = 1
+#general_log_file=/data0/mysql/3306/mysql.log
+#log-slow-queries = /data0/mysql/3306/slow.log
+#long_query_time = 10
+binlog_cache_size = 4M
+binlog_format = MIXED
+max_binlog_cache_size = 8M
+max_binlog_size = 1G
+log-bin = /data0/mysql/3306/binlog/binlog
+log-bin-index=/data0/mysql/3306/binlog/binlog
+relay-log = /data0/mysql/3306/relaylog/relaylog
+relay-log-index = /data0/mysql/3306/relaylog/relaylog
+relay-log-info-file = /data0/mysql/3306/relaylog/relaylog
+#----------网络传输-----------#
+back_log = 600
+max_connections = 5000
+max_connect_errors = 6000
+max_allowed_packet = 32M
+interactive_timeout = 120
+wait_timeout = 120
+skip-name-resolve
+#----------查询优化-----------#
+open_files_limit = 10240
+table_cache = 614
+external-locking = FALSE
+sort_buffer_size = 1M
+join_buffer_size = 1M
+thread_cache_size = 300
+#thread_concurrency = 8
+query_cache_size = 512M
+query_cache_limit = 2M
+query_cache_min_res_unit = 2k
+thread_stack = 192K
+transaction_isolation = READ-COMMITTED
+tmp_table_size = 246M
+max_heap_table_size = 246M
+#-----------storage-engine---------#
+default-storage-engine = MyISAM
+#-----------myisam-engine---------#
+key_buffer_size = 512M
+read_buffer_size = 1M
+read_rnd_buffer_size = 16M
+bulk_insert_buffer_size = 64M
+myisam_sort_buffer_size = 128M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads = 1
+myisam_recover
+#-----------innodb-engine---------#
+innodb_data_file_path = ibdata1:256M:autoextend
+innodb_additional_mem_pool_size = 16M
+innodb_file_io_threads = 4
+innodb_thread_concurrency = 8

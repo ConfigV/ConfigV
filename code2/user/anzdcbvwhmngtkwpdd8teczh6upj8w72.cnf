@@ -1,0 +1,46 @@
+[mysqld]
+port = 3306
+bind-address = 0.0.0.0
+skip_name_resolve
+skip_external_locking
+default_storage_engine = InnoDB
+transaction_isolation = READ-COMMITTED
+
+## network
+max_allowed_packet = 16M
+max_connections = 1000
+max_connect_errors = 10000
+
+## cache size
+table_open_cache = 2000
+thread_cache_size = 100
+query_cache_type = 0
+query_cache_size = 0
+binlog_cache_size = 16M
+max_heap_table_size = 64M
+tmp_table_size = 64M
+
+## log
+log_error = mysql-error.log
+
+## slow query log
+slow_query_log
+slow_query_log_file = mysql-slow.log
+#long_query_time = 0.0
+
+## innodb
+innodb_buffer_pool_size = 500M
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_buffer_size = 16M
+innodb_log_file_size = 512M
+innodb_doublewrite = 0
+innodb_lock_wait_timeout = 5
+innodb_support_xa = 1
+innodb_flush_log_at_trx_commit = 0
+innodb_flush_method = O_DIRECT
+innodb_file_per_table
+
+[mysqld-5.6]
+performance_schema = OFF
+metadata_locks_hash_instances = 256
+table_open_cache_instances = 8

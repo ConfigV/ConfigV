@@ -30,7 +30,7 @@ learnRules fs = let
   keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty (concat fs')
   rs = map (buildAllRelations keyCounts) fs'
  in
-  resolveRules rs `using` parRuleSet
+  resolveRules rs --`using` parRuleSet
 
 -- | use the learning module instances to decide probabiliity cutoff and the sort
 resolveRules :: [RuleSet] -> RuleSet

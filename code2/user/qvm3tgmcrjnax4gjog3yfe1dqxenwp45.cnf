@@ -1,0 +1,52 @@
+[client]
+#password			= your_password
+port				= 3306
+socket				= /tmp/mysql.sock
+
+[mysqld]
+character-set-server            = utf8
+character-sets-dir		= /usr/share/tokudb/charsets
+lc-messages-dir			= /usr/share/tokudb
+plugin-dir			= /usr/lib/mysql/plugin
+basedir				= /usr
+datadir				= /var/lib/mysql
+pid-file			= /var/run/mysqld/mysqld.pid
+general-log			= 1
+general-log-file		= /var/log/mysqld.log
+
+log-bin				= 0
+performance-schema		= 1
+
+port				= 3306
+socket				= /tmp/mysql.sock
+skip-external-locking
+key_buffer_size 		= 384M
+max_allowed_packet 		= 1M
+table_open_cache 		= 512
+sort_buffer_size 		= 2M
+read_buffer_size 		= 2M
+read_rnd_buffer_size 		= 8M
+myisam_sort_buffer_size 	= 64M
+thread_cache_size 		= 8
+query_cache_size 		= 32M
+thread_concurrency 		= 8
+tmpdir				= /tmp/
+server-id			= 1
+
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+key_buffer_size = 256M
+sort_buffer_size = 256M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+

@@ -1,0 +1,26 @@
+[mysqld]
+datadir                 = /var/lib/mysql
+socket                  = /var/lib/mysql/mysql.sock
+user                    = mysql
+symbolic-links          = 0
+bind-address            = 127.0.0.1
+
+# Connection management
+max_connections         = 50
+wait_timeout            = 60
+
+# InnoDB Settings
+default-storage-engine  = InnoDB
+default-table-type      = InnoDB
+
+# Query Cache
+query_cache_limit       = 1M
+query_cache_size        = 16M
+
+# Logging
+log_slow_queries       = /var/log/mysql/mysql-slow-queries.log
+long_query_time        = 3
+
+[mysqld_safe]
+log-error               = /var/log/mysqld.log
+pid-file                = /var/run/mysqld/mysqld.pid

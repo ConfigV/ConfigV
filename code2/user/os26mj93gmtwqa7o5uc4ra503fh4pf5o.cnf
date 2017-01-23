@@ -1,0 +1,23 @@
+[mysqld]
+#datadir = /opt/mclub/data/mysql
+innodb_data_home_dir = /opt/mclub/data/mysql/
+innodb_data_file_path = mclub_main_db:64M:autoextend
+init_connect='SET collation_connection = utf8_unicode_ci'
+init_connect='SET NAMES utf8'
+character-set-server=utf8
+collation-server=utf8_unicode_ci
+skip-character-set-client-handshake
+
+
+innodb_buffer_pool_size = 256M
+innodb_additional_mem_pool_size = 20M
+#innodb_log_file_size = 64M
+#innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+
+#log_slow_queries
+log_queries_not_using_indexes =1
+long_query_time = 1
+slow_query_log = 1
+slow_query_log_file = "/var/log/mysql/slow-query.log"
+

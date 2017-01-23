@@ -1,0 +1,112 @@
+[client]
+#password	= your_password
+port		= 3306
+socket		= /var/run/mysqld/mysqld.sock
+
+[mysqld]
+relay-log-index=/mnt/mysql/domU-12-31-38-01-79-B1-relay-log.index
+relay-log=/mnt/mysql/domU-12-31-38-01-79-B1-relay-bin
+user = mysql
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+port=3306
+#skip-networking
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+old_passwords=1
+skip-locking
+key_buffer = 128M
+max_allowed_packet = 16M
+table_cache = 256
+sort_buffer_size = 1M
+net_buffer_length = 8K
+read_buffer_size = 1M
+read_rnd_buffer_size = 4M
+myisam_sort_buffer_size = 64M
+query_cache_size= 24M
+long_query_time = 5
+max_connections = 500
+log-slow-queries = /var/log/mysql/mysqlslow.log
+long_query_time = 5
+log_queries_not_using_indexes
+#log=/var/log/mysql.log
+log-error=/var/log/mysql.err
+thread_cache_size=0
+expire_logs_days=15
+
+##Inno DB
+ignore-builtin-innodb
+plugin-load=innodb=ha_innodb_plugin.so
+innodb_data_home_dir = /var/lib/mysql/
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /var/lib/mysql
+innodb_file_per_table
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size = 1G
+innodb_additional_mem_pool_size = 24M
+# Set .._log_file_size to 25 % of buffer pool size
+innodb_log_file_size = 64M
+innodb_log_buffer_size = 8M
+# Write to log but don't flush on commit (it will be flushed every "second")
+innodb_flush_log_at_trx_commit = 2
+innodb_lock_wait_timeout = 50
+innodb_support_xa = 1
+# innodb_doublewrite
+innodb_flush_method=O_DIRECT
+innodb_fast_shutdown = 1
+
+# Replication Master Server (default)
+# binary logging is required for replication
+log-bin=/mnt/mysql-binlogs/mysql-bin
+
+# required unique id between 1 and 2^32 - 1
+# defaults to 1 if master-host is not set
+# but will not function as a master if omitted
+server-id=1317330256
+
+# Replication Slave (comment out master section to use this)
+#master-host=<hostname>
+#master-user=<username>
+#master-password=<password>
+#master-port=<port>
+
+# Point the following paths to different dedicated disks
+tmpdir=/mnt/mysqltmp
+#log-update 	= /path-to-dedicated-directory/hostname
+
+# Uncomment the following if you are using BDB tables
+#bdb_cache_size = 64M
+#bdb_max_lock = 100000
+    
+[mysql.server]
+user=mysql
+basedir=/usr
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer = 128M
+sort_buffer_size = 128M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 128M
+sort_buffer_size = 128M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

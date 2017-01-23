@@ -1,0 +1,115 @@
+[client]
+port		= 3308
+#socket		= /data/mysql/mysql.sock
+socket          = /dev/shm/mysql.sock
+host            = 127.0.0.1
+[mysqld]
+port		= 3308
+#socket		= /data/mysql/mysql.sock
+socket          = /dev/shm/mysql.sock
+datadir         = /data/mysql/var
+
+server-id	 = 1
+#master-host    = 10.10.10.1
+#master-port    = 3306
+#master-user    = dbslave
+#master-password = 
+#master-connect-retry = 30
+#replicate-ignore-db = mysql
+
+expire_logs_days = 2
+log-bin		 = /data/mysqllog/binlog/mysql-bin
+
+
+#relay-log             = /data/mysqllog/relaylog/relay
+#max-relay-log-size    = 255M
+#relay-log-space-limit = 10240M
+#relay-log-index       = /data/mysqllog/relaylog/relay
+#relay-log-info-file   = /data/mysqllog/relaylog/relay-log.info
+#master-info-file      = /data/mysqllog/relaylog/master.info
+
+wait_timeout            = 64800
+interactive_timeout     = 64800
+skip-name-resolve
+character-set-server 	= utf8
+lower_case_table_names  = 1
+
+back_log 		= 1024
+max_connections 	= 1024
+max_connect_errors 	= 128
+max_allowed_packet 	= 16M
+
+table_cache 		= 8192
+binlog_cache_size 	= 8M
+max_heap_table_size 	= 64M
+tmp_table_size 		= 64M
+
+key_buffer_size 	= 32M
+read_buffer_size 	= 2M
+read_rnd_buffer_size 	= 16M
+bulk_insert_buffer_size = 64M
+sort_buffer_size 	= 4M
+join_buffer_size 	= 2M
+
+thread_cache_size 	= 1024
+thread_concurrency 	= 8
+thread_stack 		= 192K
+
+query_cache_type        = 1
+query_cache_size 	= 64M
+query_cache_limit 	= 2M
+tmp_table_size 		= 64M
+
+ft_min_word_len 	= 2
+default_storage_engine  = INNODB
+transaction_isolation 	= REPEATABLE-READ
+
+#log_slow_queries
+slow_query_log
+long_query_time	= 2
+
+myisam_sort_buffer_size 	= 32M
+myisam_max_sort_file_size 	= 10G
+myisam_repair_threads 		= 1
+myisam_recover
+
+#skip-bdb
+innodb_file_per_table=1
+innodb_additional_mem_pool_size = 16M
+innodb_buffer_pool_size         = 4G
+innodb_data_file_path 		= ibdata1:128M:autoextend
+innodb_write_io_threads         = 8
+innodb_read_io_threads          = 8
+innodb_thread_concurrency 	= 0
+innodb_flush_log_at_trx_commit 	= 2
+innodb_log_buffer_size 		= 8M
+innodb_log_file_size 		= 256M
+innodb_log_files_in_group 	= 3
+innodb_flush_method             = O_DIRECT
+innodb_max_dirty_pages_pct 	= 90
+innodb_lock_wait_timeout 	= 30
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk] 
+key_buffer 	 = 512M
+sort_buffer_size = 512M
+read_buffer 	 = 8M
+write_buffer 	 = 8M
+
+[myisamchk]
+key_buffer 	 = 512M
+sort_buffer_size = 512M
+read_buffer 	 = 8M
+write_buffer 	 = 8M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld_safe]
+open-files-limit = 8192

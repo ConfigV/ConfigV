@@ -1,0 +1,23 @@
+[mysqld]
+port                  = 3306
+character-set-server  = utf8
+basedir		      = /db/mysql
+datadir               = /db/mysql/data
+tmpdir                = /db/tmp
+socket                = mysql.sock
+log-error             = mysql.err
+log-bin               =mysql-bin
+back_log              = 512
+skip-character-set-client-handshake
+lock_wait_timeout     = 1000
+skip-networking
+
+[client]
+port   = 3306
+socket = /db/mysql/data/mysql.sock
+
+[mysql]
+no-auto-rehash
+safe-updates
+default-character-set = utf8
+#connect_timeout = 60

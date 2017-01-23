@@ -27,7 +27,7 @@ showErr rawEs printFxn =
 -}
 
 --embedOnce :: Learnable a => [a] -> [(a,RuleData AntiRule)]
-embedOnce = map (\r -> (r, (AntiRule 1 0 1)))
+embedOnce = map (\r -> (r, (AntiRule {tru=1, fls=0, tot=1})))
 
 combine :: AntiRule -> AntiRule -> AntiRule
 combine (AntiRule tru fls tot) (AntiRule truOp flsOp totOp)
@@ -66,7 +66,13 @@ scale c = if
   | C.toUpper c == 'G' -> 1000000
   | otherwise -> 1 
 
-getMod = fst. T.breakOn "_". keyword
+emptyMod ir= (==) "" $ (snd$ T.breakOn c$ keyword ir)
+  where
+    c = if T.isInfixOf "_" $ keyword ir then "_" else "-"
+getMod ir = fst$ T.breakOn c $ keyword ir
+  where
+    c = if T.isInfixOf "_" $ keyword ir then "_" else "-"
+getContext = snd. T.breakOn "[". keyword
 
 -- does the pair contain just no socket/port, or both
 sockport (ir1,ir2) = not $
@@ -78,11 +84,11 @@ sockport (ir1,ir2) = not $
 --according to Ennan modules do not interact with anything except themselves for Ordering
 --so take the string before the first '_' as the module and only compare those that have equal modules
 --if no modules, the keys are in the same module
+--Additoianlly restict the context, eg [mysql], to be the same
 --Are these lines in the same moudle
 sameConfigModule :: (IRLine,IRLine) -> Bool
 sameConfigModule (ir1,ir2) = let
-  emptyMod x = (==) "" $ (snd$ T.breakOn "_"$ keyword x)
-  sameMod = (emptyMod ir1 && emptyMod ir2) || (getMod ir1 == getMod ir2)
+  sameMod = ((emptyMod ir1 && emptyMod ir2) || (getMod ir1 == getMod ir2)) && (getContext ir1 == getContext ir2)
   --special case for socket and port
   --cant be the same module if only one is socket or port
  in
@@ -90,10 +96,11 @@ sameConfigModule (ir1,ir2) = let
 
 
 --TYPES
-validAsString v = (((T.length $ T.takeWhile C.isAlpha v) > 1) || (T.length v>=3 && T.head v == '"' && T.last v == '"'))
-validAsPath v  = ((T.isInfixOf "/" v) || (T.isInfixOf "." v))
-validAsBool v = (v == "")--flag keywords have no values
-validAsInt v = ((all C.isNumber $T.unpack v) && (T.length v>0))
+validAsString v = (((T.length $ T.takeWhile C.isAlpha v) > 1) || (T.length v>=3 && T.head v == '"' && T.last v == '"')) || mysqlvar v
+validAsPath v  = ((T.isInfixOf "/" v) || (T.isInfixOf "." v)) || mysqlvar v
+validAsBool v = (v == "") || mysqlvar v--flag keywords have no values 
+validAsInt v = ((all C.isNumber $T.unpack v) && (T.length v>0)) || mysqlvar v
 validAsSize v = ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) &&
-                 (T.length $ T.takeWhile C.isNumber v) == (T.length v -1) )
-
+                 (T.length $ T.takeWhile C.isNumber v) == (T.length v -1) ) || mysqlvar v
+--a var can have any type
+mysqlvar v = T.isInfixOf "{{" v

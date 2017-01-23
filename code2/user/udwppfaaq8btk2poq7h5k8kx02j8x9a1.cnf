@@ -1,0 +1,54 @@
+[client]
+default-character-set = utf8 
+
+
+[mysqld]
+server-id=100
+lower_case_table_names=1
+datadir		= /opt/jetendo-server/mysql/data
+tmpdir		= /tmp
+slow_query_log_file	= /opt/jetendo-server/mysql/data/mariadb-slow.log
+character-set-server  = utf8 
+collation-server      = utf8_general_ci 
+character_set_server   = utf8 
+collation_server       = utf8_general_ci 
+skip-name-resolve
+sql-mode="NO_ENGINE_SUBSTITUTION"
+innodb_file_per_table
+default-storage-engine=innodb
+
+# disable binary log unless using replication
+log_bin			= OFF
+log_bin_index		= OFF
+
+# on virtualbox shared folder, make sure to use O_DSYNC so server can start.  Otherwise use O_DIRECT
+innodb_flush_method= O_DSYNC
+
+max_connections=100
+query_cache_size=32M
+query_cache_type=1
+open_files_limit=8000
+tmp_table_size=35M
+thread_cache_size=8
+myisam_max_sort_file_size=100G
+myisam_sort_buffer_size=128K
+read_buffer_size=128K
+read_rnd_buffer_size=128K
+sort_buffer_size=128K
+innodb_additional_mem_pool_size=3M
+innodb_flush_log_at_trx_commit=1
+innodb_log_buffer_size=4M
+innodb_buffer_pool_size=256M
+innodb_blocking_buffer_pool_restore=1
+innodb_buffer_pool_restore_at_startup=1
+innodb_log_file_size=100M
+innodb_thread_concurrency=16
+innodb_read_io_threads=8
+innodb_write_io_threads=8
+max_heap_table_size=692M
+innodb_stats_on_metadata=0
+key_buffer_size=64000000
+join_buffer_size = 128K
+group_concat_max_len = 4000000
+max_allowed_packet=20000000
+

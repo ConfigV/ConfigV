@@ -15,6 +15,7 @@ import qualified Data.Map.Merge.Strict as M
 import qualified Data.Map.Strict as M
 import           System.Directory
 
+import qualified Data.Text as T
 import Debug.Trace
 
 verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
@@ -41,14 +42,17 @@ filterRules fKs rs = RuleSet {
        order   = f order
       ,missing = f' missing 
       ,intRel  = f intRel 
-      ,typeErr = f typeErr 
+      ,typeErr = f'' typeErr 
       ,fineInt = f fineInt
      }
    where
      f classOfErr  =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
      f' classOfErr =  M.filterWithKey (\e _ -> oneKeyMatch (keys e)) (classOfErr rs)
+     f'' classOfErr=  M.filterWithKey (\(e::TypeErr) _ -> keyPartMatch (keys e)) (classOfErr rs)
      keysMatch ks   = and $ map (\k->elem k fKs) ks
      oneKeyMatch ks = or $ map (\k->elem k fKs) ks
+     keyPartMatch ks = elem (T.takeWhile (/='[') $head ks) (map (T.takeWhile (/='[')) fKs) 
+
 
 --TODO apply to each rule type in a rule set individually
 --TODO make Ruleset an instance of functor or something? 

@@ -1,0 +1,32 @@
+#
+# This file is managed by salt {{ grains['saltversion'] }}
+#
+# These groups are read by MariaDB command-line tools
+# Use it for options that affect only one utility
+#
+[client]
+user = {{ pillar['mysql_config']['dbuser'] }}
+{% if ['mysql_config']['dbpass'] in pillar %}
+password = {{ pillar['mysql_config']['dbpass'] }}
+{% endif %}
+port = {{ pillar['mysql_config']['port'] }}
+socket = {{ pillar['mysql_config']['socket'] }}
+
+[mysql]
+
+[mysql_upgrade]
+
+[mysqladmin]
+
+[mysqlbinlog]
+
+[mysqlcheck]
+
+[mysqldump]
+
+[mysqlimport]
+
+[mysqlshow]
+
+[mysqlslap]
+

@@ -1,0 +1,78 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+# The following options will be passed to all MySQL clients
+[client]
+port		= 3306
+socket		=/var/lib/mysql/mysql.sock
+
+[mysqldump]
+quick
+max_allowed_packet	= 16M
+
+# This has been tuned for a server with 8gigs of ram, however it is very likely
+# that whatever data goes in the database is going to require different settings
+# It was *assumed* that the server will have 8gigs of ram.
+[mysqld]
+max_allowed_packet 			= 16M
+datadir			= /var/lib/mysql
+socket			= /var/lib/mysql/mysql.sock
+pid-file		= /var/run/mysqld/mysqld.pid
+log-error 		= /var/log/mysql/mysqld.err
+basedir 		= /usr
+datadir 		= /var/lib/mysql
+skip-locking
+# if you aren't using myisam tables lower this.
+key_buffer 		= 100M
+max_allowed_packet 	= 1M
+
+# this assumes you have a couple hundred tables.
+table_cache 		= 1024
+
+thread_concurrency	= 8
+thread_cache		= 40
+
+
+sort_buffer_size 	= 512K
+net_buffer_length 	= 8K
+read_buffer_size 	= 256K
+read_rnd_buffer_size 	= 512K
+myisam_sort_buffer_size	= 8M
+language 		= /usr/share/mysql/english
+
+# for mysql-masters
+#log-bin
+
+# this needs to be set to somethign unique for replication
+# it is a 32bit value, and so is the IP of eth0....
+#server-id 		= 1
+
+# if you aren't doing mostly reads lower this.
+#query_cache_size	= 512M
+
+tmpdir			= /tmp/
+
+innodb_file_per_table
+# If you arne't using innodb lower this.
+innodb_buffer_pool_size		= 300M
+innodb_additional_mem_pool_size	= 20M
+innodb_data_file_path		= ibdata1:10M:autoextend
+innodb_log_file_size		= 384M
+innodb_log_buffer_size		= 12M
+# if you are worried about an OS crash causing data loss, set this to 1
+set-variable			= innodb_log_files_in_group=2
+innodb_flush_log_at_trx_commit	= 1
+innodb_lock_wait_timeout	= 50
+
+[mysqldump]
+quick
+max_allowed_packet 			= 16M
+
+[mysql.server]
+user	= mysql
+basedir	= /var/lib
+
+[mysqld_safe]
+log-error	= /var/log/mysqld.log
+pid-file	= /var/run/mysqld/mysqld.pid
+

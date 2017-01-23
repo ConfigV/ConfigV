@@ -30,18 +30,18 @@ module Settings where
   --support and maxFalse
   intRelSupport = 
     --fst $ thresholds(0.1,0.9) 
-    30 :: Int 
+    27 :: Int 
   intRelConfidence = 
     --snd $ thresholds(0.1,0.9) 
-    2 :: Int
+    1 :: Int
 
   --support and maxFalse
   fineGrainSupport = 
     -- fst $ thresholds(0.1,0.9)  
-    45 :: Int
+    65 :: Int
   fineGrainConfidence = 
     --snd $ thresholds(0.1,0.9)  
-    3 :: Int
+    1 :: Int
 
   --minTrue (actually minTrue is Support, well kind of) and maxFalse
   keywordCoorSupport = 
@@ -59,7 +59,7 @@ module Settings where
   --minTrue and maxFalse
   orderSupport = 
     --fst $ thresholds(0.1,0.9) 
-    30  :: Int
+    17  :: Int
   orderConfidence = 
     --snd $ thresholds(0.1,0.9)  
     1 :: Int

@@ -1,0 +1,55 @@
+[mysqld]
+user = mysql
+port            = 3306
+socket          = /var/run/mysqld/mysqld.sock
+key_buffer = 16K
+max_allowed_packet = 1M
+table_cache = 4
+sort_buffer_size = 64K
+read_buffer_size = 256K
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack = 256K
+log_error = /var/log/mysql.err
+
+# For low memory, Berkeley DB should not be used so keep skip-bdb uncommented unless required
+# skip-bdb
+
+# For low memory, InnoDB should not be used so keep skip-innodb uncommented unless required
+# skip-innodb
+
+# Uncomment the following if you are using InnoDB tables
+innodb_data_home_dir = /var/lib/mysql/
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /var/lib/mysql/
+#innodb_log_arch_dir = /var/lib/mysql/
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size = 4M
+innodb_additional_mem_pool_size = 1M
+# Set .._log_file_size to 25 % of buffer pool size
+innodb_log_file_size = 1M
+innodb_log_buffer_size = 1M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+innodb_use_native_aio = 0
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[mysqlhotcopy]
+interactive-timeout

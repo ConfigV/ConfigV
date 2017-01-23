@@ -1,0 +1,82 @@
+[client]
+default-character-set = utf8
+port    = 3306
+#socket  = /tmp/mysql.sock
+
+[mysqld]
+character-set-server = utf8
+collation-server = utf8_general_ci
+#replicate-ignore-db = mysql
+#replicate-ignore-db = test
+#replicate-ignore-db = information_schema
+#user    = mysql
+#socket  = /tmp/mysql.sock
+#basedir = /usr/local/mysql
+#datadir = /usr/local/mysql/var
+#自动
+#log-error = /data0/mysql/3306/mysql_error.log
+#自动
+#pid-file = /data0/mysql/3306/mysql.pid
+open_files_limit    = 10240
+back_log = 600
+max_connections = 5000
+max_connect_errors = 6000
+table_cache = 614
+external-locking = FALSE
+max_allowed_packet = 32M
+sort_buffer_size = 1M
+join_buffer_size = 1M
+thread_cache_size = 300
+#thread_concurrency = 8
+query_cache_size = 512M
+query_cache_limit = 2M
+query_cache_min_res_unit = 2k
+default-storage-engine = MyISAM
+thread_stack = 192K
+transaction_isolation = READ-COMMITTED
+tmp_table_size = 246M
+max_heap_table_size = 246M
+
+#log-slave-updates
+#log-bin = /website/slowlog/slowlog
+binlog_cache_size = 4M
+binlog_format = MIXED
+max_binlog_cache_size = 8M
+max_binlog_size = 1G
+#relay-log-index = /data0/mysql/3306/relaylog/relaylog
+#relay-log-info-file = /data0/mysql/3306/relaylog/relaylog
+#relay-log = /data0/mysql/3306/relaylog/relaylog
+expire_logs_days = 30
+key_buffer_size = 256M
+read_buffer_size = 1M
+read_rnd_buffer_size = 16M
+bulk_insert_buffer_size = 64M
+myisam_sort_buffer_size = 128M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads = 1
+myisam_recover
+
+interactive_timeout = 120
+wait_timeout = 120
+
+#禁止MySQL对外部连接进行DNS解析
+#skip-name-resolve
+
+#master-connect-retry = 10
+slave-skip-errors = 1032,1062,126,1114,1146,1048,1396
+
+#master-host     =   192.168.1.2
+#master-user     =   username
+#master-password =   password
+#master-port     =  3306
+
+server-id = 1
+
+#慢日志查询
+#long_query_time = 10
+#log-slow-queries = /website/slowlog/slow.log
+
+
+[mysqldump]
+quick
+max_allowed_packet = 32M

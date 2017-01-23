@@ -1,0 +1,125 @@
+[mysqld_multi]
+mysqld     = /data/mysql_bin/bin/mysqld_safe
+mysqladmin = /data/mysql_bin/bin/mysqladmin
+user       = root
+password   = xu9aTWDrufqD
+
+
+[mysqld1]
+port=3306
+datadir=/data/mysql_data/mysql1
+basedir=/data/mysql_bin
+socket=/tmp/mysql.sock1 
+user=mysql
+symbolic-links=0
+general-log=0
+log=/data/mysql_logs/logs1/mysqld.log
+pid-file=/data/mysql_data/mysql1/db-app1.pid 
+log-slow-queries=/data/mysql_logs/logs1/slowquery.log
+log-bin=/data/mysql_data/mysql1/app-net1_1-bin 
+server-id= 1 
+
+replicate-ignore-db = mysql
+replicate-ignore-db = test
+replicate-ignore-db = information_schema
+expire_logs_days = 1
+
+skip-external-locking
+character_set_server = utf8
+
+max_heap_table_size = 256M
+key_buffer_size = 6114M
+innodb_buffer_pool_size = 8G
+innodb_buffer_pool_instances = 8
+
+
+#key_buffer_size = 1024M
+max_allowed_packet = 134217728
+table_open_cache = 4096
+sort_buffer_size = 8M
+read_buffer_size = 8M
+read_rnd_buffer_size = 128M
+myisam_sort_buffer_size = 512M
+table_cache = 2048
+thread_cache_size = 300
+query_cache_size= 1024M
+thread_concurrency = 32
+max_connections = 500
+wait_timeout = 36000
+interactive_timeout = 1200
+max_connect_errors = 10000000
+long_query_time = 1
+tmp_table_size = 256M
+bulk_insert_buffer_size=8388608
+join_buffer_size=1048576
+binlog_format=MIXED
+max_binlog_size = 1G
+max_binlog_cache_size=64M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads =1 
+myisam_recover
+event_scheduler=ON
+
+
+[mysqld2]
+port=3307
+datadir=/data/mysql_data/mysql2
+basedir=/data/mysql_bin
+socket=/tmp/mysql.sock2
+user=mysql
+symbolic-links=0
+general-log=0
+log=/data/mysql_logs/logs2/mysqld.log
+pid-file=/data/mysql_data/mysql2/db-app2.pid 
+log-slow-queries=/data/mysql_logs/logs2/slowquery.log
+log-bin=/data/mysql_data/mysql2/app-net1_2-bin 
+server-id= 2
+replicate-ignore-db = mysql
+replicate-ignore-db = test
+replicate-ignore-db = information_schema
+expire_logs_days = 1
+
+skip-external-locking
+character_set_server = utf8
+
+key_buffer_size = 1024M
+max_allowed_packet = 134217728
+table_open_cache = 4096
+sort_buffer_size = 24M
+read_buffer_size = 32M
+read_rnd_buffer_size = 128M
+myisam_sort_buffer_size = 512M
+table_cache = 2048
+thread_cache_size = 300
+query_cache_size= 1024M
+thread_concurrency = 32
+max_connections = 2400
+wait_timeout = 36000
+interactive_timeout = 1200
+max_connect_errors = 10000000
+long_query_time = 1
+tmp_table_size = 256M
+bulk_insert_buffer_size=8388608
+join_buffer_size= 24M
+binlog_format=MIXED
+max_binlog_size = 1G
+max_binlog_cache_size = 64M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads =1 
+myisam_recover
+read-only=1
+relay-log-purge=1
+
+
+[mysqldump]
+quick
+max_allowed_packet = 32M
+[mysql]
+no-auto-rehash
+[myisamchk]
+key_buffer_size = 256M
+sort_buffer_size = 256M
+read_buffer = 2M
+write_buffer = 2M
+[mysqlhotcopy]
+interactive-timeout

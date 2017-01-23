@@ -1,0 +1,143 @@
+[client]
+default-character-set           = utf8
+port                            = 18036 
+socket                          = /home/system/runtime/apps/mysql/mysql.sock
+
+[safe_mysqld]
+log-error                       = /home/system/runtime/logs/mysql/mysqld.log
+pid-file                        = /home/system/runtime/apps/mysql/mysqld.pid
+
+[mysqld]
+default-character-set           = utf8
+lower_case_table_names          = 1
+user                            = system
+port                            = 18036
+socket                          = /home/system/runtime/apps/mysql/mysql.sock
+basedir                         = /home/system/runtime/apps/mysql
+datadir                         = /home/system/runtime/data/mysql
+#log-error                       = /home/system/runtime/logs/mysql/mysql_error.log
+#pid-file                        = /home/system/runtime/apps/mysql/mysql.pid
+open_files_limit                = 10240
+table_cache                     = 512
+back_log                        = 128 
+#MySQL允许最大连接数
+max_connections                 = 5000
+#可以允许多少个错误连接
+max_connect_errors              = 6000
+#使用–skip-external-locking MySQL选项以避免外部锁定。该选项默认开启
+external-locking                = FALSE
+max_allowed_packet              = 32M
+#Sort_Buffer_Size 并不是越大越好，由于是connection级的参数，过大的设置+高并发可能会耗尽系统内存资源。例如：500个连接将会消耗 500*sort_buffer_size(8M)=4G内存
+#属重点优化参数
+sort_buffer_size                = 8M
+#用于表间关联缓存的大小
+join_buffer_size                = 1M
+thread_cache_size               = 300
+#设置thread_concurrency应设为CPU核数的2倍. 比如有一个双核的CPU, 那么thread_concurrency的应该为4; 2个双核的cpu, thread_concurrency的值应为8
+thread_concurrency              = 8
+#重点优化参数（主库 增删改-MyISAM）
+query_cache_size                = 512M
+#指定单个查询能够使用的缓冲区大小，缺省为1M
+query_cache_limit               = 2M
+#默认是4KB，设置值大对大数据查询有好处，但如果你的查询都是小数据查询，就容易造成内存碎片和浪费
+#查询缓存利用率 = (query_cache_size – Qcache_free_memory) / query_cache_size * 100%
+#查询缓存命中率 = (Qcache_hits – Qcache_inserts) / Qcache_hits * 100%
+query_cache_min_res_unit        = 2k
+default-storage-engine          = MyISAM
+#限定用于每个数据库线程的栈大小。默认设置足以满足大多数应用
+thread_stack                    = 192K
+# 设定默认的事务隔离级别.可用的级别如下:
+# READ-UNCOMMITTED, READ-COMMITTED, REPEATABLE-READ, SERIALIZABLE
+# 1.READ UNCOMMITTED-读未提交2.READ COMMITTE-读已提交3.REPEATABLE READ -可重复读4.SERIALIZABLE -串行
+transaction_isolation           = READ-COMMITTED
+# tmp_table_size 的默认大小是 32M。如果一张临时表超出该大小，MySQL产生一个Thetable tbl_name is full 形式的错误，如果你做很多高级 GROUP BY 查询，增加 tmp_table_size 值。
+tmp_table_size                  = 246M
+max_heap_table_size             = 246M
+#索引缓存大小: 它决定了数据库索引处理的速度，尤其是索引读的速度
+key_buffer_size                 = 512M
+#read_buffer_size变量控制这一缓冲区的大小。如果对表的顺序扫描请求非常频繁，并且你认为频繁扫描进行得太慢，可以通过增加该变量值以及内存缓冲区大小提高其性能。
+read_buffer_size                = 4M
+# MySql会为每个客户连接发放该缓冲空间，所以应尽量适当设置该值，以避免内存开销过大。
+read_rnd_buffer_size            = 16M
+#批量插入数据缓存大小，可以有效提高插入效率，默认为8M
+bulk_insert_buffer_size         = 64M
+# MyISAM表发生变化时重新排序所需的缓冲
+myisam_sort_buffer_size         = 128M
+# MySQL重建索引时所允许的最大临时文件的大小 (当 REPAIR, ALTER TABLE 或者 LOAD DATA INFILE).
+# 如果文件大小比此值更大,索引会通过键值缓冲创建(更慢)
+myisam_max_sort_file_size       = 10G
+# 如果一个表拥有超过一个索引, MyISAM 可以通过并行排序使用超过一个线程去修复他们.
+# 这对于拥有多个CPU以及大量内存情况的用户,是一个很好的选择.
+myisam_repair_threads           = 1
+#自动检查和修复没有适当关闭的 MyISAM 表
+myisam_recover
+interactive_timeout             = 120
+wait_timeout                    = 120
+innodb_data_home_dir            = /home/system/runtime/data/mysql
+#表空间文件 重要数据
+innodb_data_file_path           = ibdata1:2000M;ibdata2:10M:autoextend
+#这个参数用来设置 InnoDB 存储的数据目录信息和其它内部数据结构的内存池大小，类似于Oracle的library cache。这不是一个强制参数，可以被突破。
+innodb_additional_mem_pool_size = 16M
+#由于Innodb把数据和索引都缓存起来,无需留给操作系统太多的内存,因此如果只需要用Innodb的话则可以设置它高达 70-80% 的可用内存.
+innodb_buffer_pool_size         = 512M
+#文件IO的线程数,一般为 4,但是在Windows下,可以设置得较大。
+innodb_file_io_threads          = 4
+# 在InnoDb核心内的允许线程数量.
+# 最优值依赖于应用程序,硬件以及操作系统的调度方式.
+# 过高的值可能导致线程的互斥颠簸.
+innodb_thread_concurrency       = 8
+#设置为2表示事务日志将在提交时写入日志,但日志文件每次刷新到磁盘一次.
+innodb_flush_log_at_trx_commit  = 2
+#此参数确定些日志文件所用的内存大小,以M为单位.缓冲区更大能提高性能,但意外的故障将会丢失数据.MySQL开发人员建议设置为1-8M之间
+innodb_log_buffer_size          = 16M
+#此参数确定数据日志文件的大小,以M为单位,更大的设置可以提高性能,但也会增加恢复故障数据库所需的时间
+innodb_log_file_size            = 128M
+#为提高性能，MySQL可以以循环方式将日志文件写到多个文件。推荐设置为3M
+innodb_log_files_in_group = 3
+#Buffer_Pool中Dirty_Page所占的数量,直接影响InnoDB的关闭时间.
+#参数innodb_max_dirty_pages_pct可以直接控制了Dirty_Page在Buffer_Pool中所占的比率,而且幸运的是innodb_max_dirty_pages_pct是可以动态改变的.
+#所以,在关闭InnoDB之前先将innodb_max_dirty_pages_pct调小,强制数据块Flush一段时间,则能够大大缩短MySQL关闭的时间.
+innodb_max_dirty_pages_pct = 90
+#InnoDB 有其内置的死锁检测机制,能导致未完成的事务回滚.但是,如果结合InnoDB使用MyISAM的lock tables 语句或第三方事务引擎,则InnoDB无法识别死锁.
+#为消除这种可能性,可以将innodb_lock_wait_timeout设置为一个整数值,指示MySQL在允许其他事务修改那些最终受事务回滚的数据之前要等待多长时间(秒数)
+innodb_lock_wait_timeout = 120
+#独享表空间(关闭)
+innodb_file_per_table    = 0
+#start mysqld with –slow-query-log-file=/data/mysql/3306/slow.log
+slow_query_log
+long_query_time          = 1
+#replicate-ignore-db      = mysql
+replicate-ignore-db      = test
+replicate-ignore-db      = information_schema
+
+#配置从库上的更新操作是否写二进制文件,如果这台从库,还要做其他从库的主库,那么就需要打这个参数,以便从库的从库能够进行日志同步这个参数要和—logs-bin一起使用
+#log-slave-updates
+log-bin                  = /home/system/runtime/logs/mysql/binlog
+binlog_cache_size        = 4M
+
+#STATEMENT,ROW,MIXED
+#binlog的格式也有三种:STATEMENT,ROW,MIXED。
+binlog_format = MIXED
+max_binlog_cache_size    = 64M
+max_binlog_size          = 1G
+relay-log-index          = /home/system/runtime/logs/mysql/relaylog
+relay-log-info-file      = /home/system/runtime/logs/mysql/relaylog
+relay-log                = /home/system/runtime/logs/mysql/relaylog
+expire_logs_days         = 30
+skip-name-resolve
+#master-connect-retry     = 10
+slave-skip-errors        = 1032,1062,126,1114,1146,1048,1396
+server-id                = 1
+
+[mysqldump]
+quick
+max_allowed_packet       = 32M
+
+[myisamchk]
+key_buffer_size          = 256M
+sort_buffer_size         = 256M
+read_buffer              = 2M
+write_buffer             = 2M
+
+[mysqlhotcopy]
+interactive-timeout

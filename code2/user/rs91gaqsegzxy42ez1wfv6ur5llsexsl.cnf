@@ -1,0 +1,36 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+skip-innodb
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+#old_passwords=1
+
+max_connections = 500
+max_user_connections = 500
+max_connect_errors=999999
+
+long_query_time = 2
+log-slow-queries=/var/log/mysql/mysql-slow.log
+
+#performance tuning options myisam
+key_buffer=256M
+key_buffer_size=64M
+wait_timeout=600
+connect_timeout=1200
+interactive_timeout=1200
+join_buffer_size=1M
+query_cache_size=512M
+query_cache_limit=4M
+max_allowed_packet=16M
+table_cache=1024
+sort_buffer_size=2M
+read_buffer_size=2M
+read_rnd_buffer_size=4M
+
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+

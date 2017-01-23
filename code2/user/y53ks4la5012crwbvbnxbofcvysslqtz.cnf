@@ -1,0 +1,66 @@
+[mysqld] 
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+#old_passwords=1
+skip-locking
+key_buffer = 64M
+max_allowed_packet = 16M
+table_cache = 2048
+sort_buffer_size = 1M
+read_buffer_size = 1M
+read_rnd_buffer_size = 8M
+myisam_sort_buffer_size = 64M
+thread_cache_size = 16
+thread_concurrency = 8
+query_cache_size = 32M
+tmp_table_size=64M
+back_log = 100
+max_connect_errors = 10000
+join_buffer_size=1M
+open-files = 20000
+
+interactive_timeout = 600
+wait_timeout = 600
+
+
+#max_connections=200
+
+
+# The following directives should be commented out
+# but included as they are things that get added
+# very frequently on tickets. These are more in a
+# need-this-feature basis.
+
+# The below 2 cannot be set on the fly. If the customer already has
+# InnoDB tables and wants to change the size of the InnoDB tablespace
+# and InnoDB logs, then:
+# 1. Run a full backup with mysqldump
+# 2. Stop MySQL
+# 3. Move current ibdata and ib_logfiles out of /var/lib/mysql
+# 4. Uncomment the below innodb_data_file_path and innodb_log_file_size
+# 5. Start MySQL (it will recreate new InnoDB files)
+# 6. Restore data from backup
+#innodb_data_file_path = ibdata1:2000M;ibdata2:10M:autoextend
+#innodb_log_file_size = 100M
+
+innodb_buffer_pool_size = 64M
+innodb_additional_mem_pool_size = 8M
+
+
+#log-slow-queries=/var/lib/mysqllogs/slow-log
+#long_query_time=2
+#log-queries-not-using-indexes
+
+#log-bin=/var/lib/mysqllogs/bin-log
+#log-slave-updates
+#expire_logs_days = 14
+server-id       = 1
+
+[mysql.server]
+user=mysql
+#basedir=/var/lib
+
+[mysqld_safe]
+err-log=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+open_files_limit=65536

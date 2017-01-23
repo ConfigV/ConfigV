@@ -1,0 +1,69 @@
+# largeシステムを元にした my.cnf
+
+[client]
+socket		= /tmp/mysql.sock
+
+# ローカル用 MySQLサーバー
+[mysqld]
+socket		= /tmp/mysql.sock
+skip-external-locking
+key_buffer_size = 16M
+max_allowed_packet = 1M
+table_open_cache = 256
+sort_buffer_size = 1M
+read_buffer_size = 1M
+read_rnd_buffer_size = 4M
+thread_cache_size = 8
+
+# クエリキャッシュは0に
+query_cache_size= 0
+
+# ソケットでだけ接続
+skip-networking
+
+
+
+# Replication Master Server (default)
+# binary logging is required for replication
+log-bin=mysql-bin
+
+# binary logging format - mixed recommended
+binlog_format=mixed
+
+## InnoDB関連
+
+#innodb_data_home_dir = /usr/local/mysql/data
+#innodb_data_file_path = ibdata1:256M:autoextend
+#innodb_log_group_home_dir = /usr/local/mysql/data
+
+# バッファサイズ、本番ではメモリの50% ~ 80%
+innodb_buffer_pool_size = 256M
+
+#innodb_additional_mem_pool_size = 20M
+# Set .._log_file_size to 25 % of buffer pool size
+#innodb_log_file_size = 128M
+
+#innodb_log_buffer_size = 8M
+#innodb_flush_log_at_trx_commit = 1
+#innodb_lock_wait_timeout = 50
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[myisamchk]
+key_buffer_size = 128M
+sort_buffer_size = 128M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqladmin]
+socket = /tmp/mysql.sock

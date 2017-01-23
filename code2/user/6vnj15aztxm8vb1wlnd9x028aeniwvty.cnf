@@ -1,0 +1,110 @@
+##  _______________________________________________________________________ 
+## / Rackspace MySQL 5.1 Terse Configuration File v2.12                    \
+## |                                                                       |
+## | This is a base configuration file containing the most frequently used |
+## | settings with reasonably defined default values for configuring and   |
+## | tuning MySQL. Note that these settings can likely be further tuned in |
+## | order to get optimum performance from MySQL based upon the database   |
+## | configuration and hardware platform.                                  |
+## |                                                                       |
+## | While the settings provided are likely sufficient for most            |
+## | situations, an exhaustive list of settings (with descriptions) can be |
+## | found at:                                                             |
+## | http://dev.mysql.com/doc/refman/5.1/en/server-system-variables.html   |
+## |                                                                       |
+## | Further configuration file examples (with and without comments) can   |
+## | be found in @@@mysql_server_docdir@@@.                                |
+## |                                                                       |
+## | Take care to only add/remove/change a setting if you are comfortable  |
+## | doing so! For Rackspace customers, if you have any questions or       |
+## | concerns, please contact the MySQL Database Services Team. Be aware   |
+## | that some work performed by this team can involve additional billable |
+## \ fees.                                                                 /
+##  ----------------------------------------------------------------------- 
+##         \   ^__^
+##          \  (oo)\_______
+##             (__)\       )\/\
+##                 ||----w |
+##                 ||     ||
+
+[mysqld]
+
+## General
+datadir                         = /var/lib/mysql
+tmpdir                          = /var/lib/mysqltmp
+socket                          = /var/lib/mysql/mysql.sock
+skip-external-locking           = 1
+skip-name-resolve
+open-files-limit                = 20000
+#sql-mode                       = TRADITIONAL
+#event-scheduler                = 1
+
+## Cache
+thread-cache-size               = 16
+table-open-cache                = 2048
+table-definition-cache          = 512
+query-cache-size                = 32M 
+query-cache-limit               = 1M
+
+## Per-thread Buffers
+sort-buffer-size                = 1M
+read-buffer-size                = 1M
+read-rnd-buffer-size            = 8M
+join-buffer-size                = 1M
+
+## Temp Tables
+tmp-table-size                  = 64M 
+max-heap-table-size             = 64M 
+
+## Networking
+back-log                        = 100
+#max-connections                = 200
+max-connect-errors              = 10000
+max-allowed-packet              = 16M
+interactive-timeout             = 600
+wait-timeout                    = 600
+
+### Storage Engines
+#default-storage-engine         = InnoDB
+innodb                          = FORCE
+
+## MyISAM
+key-buffer-size                 = 64M 
+myisam-sort-buffer-size         = 128M
+
+## InnoDB
+#innodb-log-group-home-dir      = /var/lib/mysql
+#innodb-data-home-dir           = /var/lib/mysql
+#innodb-data-file-path          = ibdata1:2000M;ibdata2:10M:autoextend
+innodb-buffer-pool-size         = 16M
+#innodb-additional-mem-pool-size= 20M
+#innodb-log-file-size           = 100M
+innodb_log_files_in_group       = 2
+innodb-log-buffer-size          = 4M
+#innodb-flush-method            = O_DIRECT
+#innodb-file-per-table          = 1
+#innodb-open-files              = 300
+#innodb-thread-concurrency      = 16
+#innodb-support-xa              = 0
+
+## Replication
+server-id                       = 1
+#log-bin                        = /var/lib/mysqllogs/bin-log
+#relay-log                      = /var/lib/mysqllogs/relay-log
+#expire-logs-days               = 14
+#read-only                      = 1
+#sync-binlog                    = 1
+#log-slave-updates              = 1
+#binlog-format                  = STATEMENT
+#auto-increment-offset          = 1
+#auto-increment-increment       = 2
+
+## Logging
+#log-output                     = FILE
+#slow-query-log                 = 1
+#slow-query-log-file            = /var/lib/mysqllogs/slow-log
+#long-query-time                = 2
+#log-queries-not-using-indexes  = 1
+
+[mysqld_safe]
+log-error                       = /var/log/mysqld.log

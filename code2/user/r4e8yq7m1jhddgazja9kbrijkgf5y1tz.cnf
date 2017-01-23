@@ -1,0 +1,52 @@
+# Small memory machine
+[client]
+port        = 3306
+socket      = /var/run/mysqld/mysqld.sock
+
+
+[mysqld_safe]
+socket      = /var/run/mysqld/mysqld.sock
+nice        = 0
+
+[mysqld]
+user        = mysql
+pid-file    = /var/run/mysqld/mysqld.pid
+socket      = /var/run/mysqld/mysqld.sock
+port        = 3306
+basedir     = /usr
+datadir     = /var/lib/mysql
+tmpdir      = /tmp
+lc-messages-dir = /usr/share/mysql
+skip-external-locking
+bind-address        = 127.0.0.1
+key_buffer      = 16k
+max_allowed_packet  = 1M
+thread_stack        = 64K
+thread_cache_size       = 8
+myisam-recover         = BACKUP
+query_cache_limit   = 1M
+query_cache_size        = 16M
+expire_logs_days    = 10
+max_binlog_size         = 100M
+ignore_builtin_innodb
+default_storage_engine=MyISAM
+
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet  = 16M
+
+[mysql]
+
+[isamchk]
+key_buffer      = 8M
+sort_buffer_size = 8M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+
+!includedir /etc/mysql/conf.d/
+

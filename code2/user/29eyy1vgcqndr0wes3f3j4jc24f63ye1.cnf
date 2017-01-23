@@ -1,0 +1,58 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+tmpdir=/zabbixtmp
+
+#network
+connect_timeout			=60
+wait_timeout			=5000
+max_connections			=200
+max_allowed_packet		=18M
+max_connect_errors		=50
+
+#limits
+tmp_table_size			=512M
+max_heap_table_size		=64M
+table_cache			=1024
+
+#logs
+slow_query_log_file		=/var/log/slowquery.log
+log_error			=/var/log/mysql-error.log
+long_query_time			=10
+slow_query_log			=1
+
+#innodb
+#innodb_data_file_path		=ibdata1:128M;ibdata2:128M:autoextend:max:4096M
+innodb_file_per_table		=1
+innodb_status_file		=1
+innodb_additional_mem_pool_size	=54M
+innodb_buffer_pool_size		=2500M
+innodb_flush_method		=O_DIRECT
+#innodb_io_capacity		=1000
+innodb_support_xa		=0
+innodb_log_file_size		=128M
+innodb_log_buffer_size		=64M
+symbolic-links=0
+
+
+
+#log-queries-not-using-indexes
+
+thread_cache_size=120
+
+query_cache_size=512M
+#join_buffer_size=512K
+
+join_buffer_size=32M
+read_buffer_size=32M
+read_rnd_buffer_size=54M
+
+key_buffer_size=512M
+
+innodb_flush_log_at_trx_commit=2
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

@@ -1,0 +1,17 @@
+#
+# * Replication
+#
+
+[mysqld]
+
+server-id = {{ mysql_replication_server_id }}
+replicate-same-server-id = 0
+auto-increment-increment = 2
+auto-increment-offset = {{ mysql_replication_offset }}
+
+log_bin = /var/log/mysql/mysql-bin.log
+log_bin_index = /var/log/mysql/bin-log.index
+sync_binlog = 1 #increases reliability, but decreases performance
+expire_logs_days = 7
+max_binlog_size = 100M
+binlog_ignore_db = mysql

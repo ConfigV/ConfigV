@@ -1,0 +1,48 @@
+[client]
+port		= 3306
+socket		= /tmp/mysql.socket
+
+
+[mysqld]
+port        = 3306
+socket	    = /tmp/mysql.socket
+pid-file    = /var/run/mysql.pid
+
+key_buffer_size 		= 384M
+max_allowed_packet 		= 1M
+table_open_cache 		= 512
+sort_buffer_size 		= 2M
+read_buffer_size 		= 2M
+myisam_sort_buffer_size = 64M
+read_rnd_buffer_size 	= 8M
+thread_cache_size 		= 8
+query_cache_size 		= 32M
+thread_concurrency 		= 8
+binlog_format           = mixed
+server-id	        	= 1
+bind-address            = 127.0.0.1
+skip-external-locking
+
+#log        = /var/log/mysql/mysql.log
+#log        = /tmp/mysql.log
+log-err     = /var/log/mysql/error.log
+#log-bin    = mysql-bin
+
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+
+[mysql]
+no-auto-rehash
+
+
+[myisamchk]
+key_buffer_size 	= 256M
+sort_buffer_size 	= 256M
+read_buffer 		= 2M
+write_buffer 		= 2M
+
+[mysqlhotcopy]
+interactive-timeout

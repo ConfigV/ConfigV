@@ -1,0 +1,56 @@
+[client]
+port = 3306
+socket = /tmp/mysql.sock
+default-character-set = utf8
+
+# Here follows entries for some specific programs
+[mysqld]
+key_buffer = 16K
+max_allowed_packet = 10M
+table_cache = 4
+sort_buffer_size = 64K
+read_buffer_size = 256K
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack = 64K
+character-set-server = utf8
+
+[mysqld_multi]
+mysqld=/usr/local/bin/mysqld_safe
+mysqladmin=/usr/local/bin/mysqladmin
+user=root
+
+[mysqld1]
+server-id = 1
+datadir=/usr/local/var/db/mysql5_multi/data1
+port = 3306
+socket = /tmp/mysql.sock
+pid-file = /tmp/mysql.pid
+user=mysql
+
+[mysqld2]
+server-id = 2
+datadir=/usr/local/var/db/mysql5_multi/data2
+port = 3307
+socket = /tmp/mysql2.sock
+pid-file = /tmp/mysql2.pid
+user=mysql
+
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[mysqlhotcopy]
+interactive-timeout

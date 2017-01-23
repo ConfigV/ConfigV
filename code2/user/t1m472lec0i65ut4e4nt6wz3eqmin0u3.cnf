@@ -1,0 +1,35 @@
+# etc/my.cnf
+#
+# mysqld(1) option file
+
+[client]
+port = 3306
+socket = /usr/local/var/run/mysqld
+
+[mysqld]
+basedir = /usr/local
+datadir = /usr/local/var/db/mysql
+pid-file = /usr/local/var/run/mysqld.pid
+port = 3306
+socket = /usr/local/var/run/mysqld
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+explicit_defaults_for_timestamp
+lower_case_table_names = 2
+
+general_log_file = /usr/local/var/log/mysqld.log
+log-error = /usr/local/var/log/mysqld.log
+slow-query-log
+slow_query_log_file = /usr/local/var/log/mysqld-slow.log
+
+server-id = 1
+log-bin = mysql-bin
+expire_logs_days = 7
+
+innodb_buffer_pool_size = 128M
+innodb_data_file_path = ibdata1:64M:autoextend:max:2048M
+innodb_log_buffer_size = 8M
+innodb_log_file_size = 32M
+innodb_log_files_in_group = 3

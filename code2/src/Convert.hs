@@ -63,7 +63,7 @@ seperateVals t =
   let
     hasDelim = any isDelimeter $ T.unpack t
     ts = T.split isDelimeter (T.strip t)
-    isDelimeter c = (c=='=') || (c==' ')
+    isDelimeter c = (c=='=') -- || (c==' ')
     rmSetVar = (T.dropWhile (=='=')). T.strip. fst. T.breakOn "set-variable"
     clean = rmSetVar. T.toLower. T.strip
   in

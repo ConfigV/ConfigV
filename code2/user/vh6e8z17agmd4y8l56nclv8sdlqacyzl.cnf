@@ -1,0 +1,45 @@
+[mysqld]
+datadir = /home/data/mysql
+socket = /home/data/mysql/mysql.sock
+pid-file = /home/data/mysql/mysql.pid
+user = mysql
+port = 3306
+default_storage_engine = InnoDB
+symbolic-links=0
+
+# adjust based on project
+max_allowed_packet= 4M
+
+# InnoDB
+# innodb_buffer_pool_size = 128M
+# innodb_log_file_size = 48M
+innodb_file_per_table = 1
+innodb_flush_method = O_DIRECT
+
+# MyISAM
+#key_buffer_size = 48M
+
+# character-set
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+# name-resolve
+# skip-host-cache
+# skip-name-resolve
+
+# LOG
+#long_query_time = 1
+
+#slow-query-log
+slow_query_log_file = /home/data/mysql/mysql-slow.log
+log_error = /home/data/mysql/mysql-error.log
+
+# Others
+# explicit_defaults_for_timestamp=true
+# max_connections = 100
+# open_files_limit = 65535
+# sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+#
+[client]
+socket = /home/data/mysql/mysql.sock
+port = 3306

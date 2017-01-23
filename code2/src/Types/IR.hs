@@ -19,7 +19,7 @@ import Types.Common
 import Control.DeepSeq
 
 type ConfigFile a = (FilePath,T.Text, a)
-data Language = MySQL | HTTPD
+data Language = MySQL | HTTPD deriving (Show)
 
 
 

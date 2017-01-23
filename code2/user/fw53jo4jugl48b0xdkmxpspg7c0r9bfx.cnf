@@ -1,0 +1,169 @@
+[sst]
+streamfmt = xbstream
+
+[xtrabackup]
+compress
+compact
+parallel = 2
+compress_threads = 2
+rebuild_threads = 2
+
+[MYSQL]
+socket = /var/run/mysqld/mysqld.sock
+
+[client]
+socket = /var/run/mysqld/mysqld.sock
+
+[MYSQLD_SAFE]
+pid_file = mysqld.pid
+log_error = mysql-error.log
+basedir = /usr
+datadir = /var/lib/mysql
+
+[MYSQLD]
+user = mysql
+default_storage_engine = InnoDB
+basedir = /usr
+datadir = /var/lib/mysql
+socket = /var/run/mysqld/mysqld.sock
+pid_file = mysqld.pid
+port = 3306
+
+log_error = /var/lib/mysql-error.log
+log_queries_not_using_indexes = 1
+#slow_query_log = 1
+#slow_query_log_file = /var/lib/mysql/mysql-slow.log
+
+sql_mode = STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ONLY_FULL_GROUP_BY
+innodb_strict_mode = 1
+sysdate_is_now = 1
+skip_name_resolve
+max_allowed_packet = 128M
+
+#server-id must be unique across all mysql servers participating in replication.
+#server-id=1
+binlog_format = ROW
+#log_bin = mysql-binlog
+#log_slave_updates = 1
+expire_logs_days = 3
+max_binlog_size = 500M
+
+open_files_limit = 65535
+max_connections = 200
+thread_cache_size = 100
+tmp_table_size = 64M
+max_heap_table_size = 64M
+query_cache_type = 0
+query_cache_size = 0
+table_definition_cache = 1024
+table_open_cache = 1024
+
+# myisam
+key_buffer_size = 24M
+
+# innodb
+innodb_buffer_pool_size = 256M
+#innodb_buffer_pool_instances = 4
+innodb_flush_log_at_trx_commit = 2
+innodb_file_format = barracuda
+innodb_flush_method = O_DIRECT
+innodb_file_per_table = 1
+innodb_data_file_path = ibdata1:100M:autoextend
+innodb_log_files_in_group = 2
+innodb_log_file_size = 256M
+innodb_log_buffer_size = 8M
+innodb_read_io_threads = 4
+innodb_write_io_threads = 4
+innodb_thread_concurrency = 0
+# galera requirement
+innodb_autoinc_lock_mode = 2
+## avoid statistics update when doing e.g show tables
+innodb_stats_on_metadata = 0
+
+# wsrep options
+
+# Full path to wsrep provider library or 'none'
+wsrep_provider = /usr/lib64/libgalera_smm.so
+
+wsrep_node_address =
+# Provider specific configuration options
+wsrep_provider_options = "gcache.size=128M"
+
+# Logical cluster name. Should be the same for all nodes.
+wsrep_cluster_name=mysql_cluster
+
+# Group communication system handle
+wsrep_cluster_address = gcomm://
+
+# Human-readable node name (non-unique). Hostname by default.
+#wsrep_node_name =
+
+# Address for incoming client connections. Autodetect by default.
+# wsrep_node_incoming_address =
+
+# How many threads will process writesets from other nodes
+wsrep_slave_threads = 4
+
+# DBUG options for wsrep provider
+#wsrep_dbug_option
+
+# Generate fake primary keys for non-PK tables (required for multi-master
+# and parallel applying operation)
+wsrep_certify_nonPK = 1
+
+# Location of the directory with data files. Needed for non-mysqldump
+# state snapshot transfers. Defaults to mysql_real_data_home.
+# wsrep_data_home_dir=
+
+# Maximum number of rows in write set
+wsrep_max_ws_rows = 131072
+
+# Maximum size of write set
+wsrep_max_ws_size = 1073741824
+
+# to enable debug level logging, set this to 1
+wsrep_debug = 0
+
+# convert locking sessions into transactions
+wsrep_convert_LOCK_to_trx = 0
+
+# how many times to retry deadlocked autocommits
+wsrep_retry_autocommit = 3
+
+# change auto_increment_increment and auto_increment_offset automatically
+wsrep_auto_increment_control = 1
+
+# replicate myisam
+wsrep_replicate_myisam = 1
+# retry autoinc insert, which failed for duplicate key error
+wsrep_drupal_282555_workaround = 0
+
+# enable "strictly synchronous" semantics for read operations
+wsrep_causal_reads = 0
+
+# Command to call when node status or cluster membership changes.
+# Will be passed all or some of the following options:
+# --status  - new status of this node
+# --uuid    - UUID of the cluster
+# --primary - whether the component is primary or not ("yes"/"no")
+# --members - comma-separated list of members
+# --index   - index of this node in the list
+#wsrep_notify_cmd=
+
+# State Snapshot Transfer method
+wsrep_sst_method = xtrabackup-v2
+
+# Address on THIS node to receive SST at. DON'T SET IT TO DONOR ADDRESS!!!
+# (SST method dependent. Defaults to the first IP of the first interface)
+#wsrep_sst_receive_address =
+
+# SST authentication string. This will be used to send SST to joining nodes.
+# Depends on SST method. For mysqldump method it is root:<root password>
+wsrep_sst_auth = root:1pWd0
+
+# Desired SST donor name.
+#wsrep_sst_donori =
+
+# Protocol version to use
+# wsrep_protocol_version=
+

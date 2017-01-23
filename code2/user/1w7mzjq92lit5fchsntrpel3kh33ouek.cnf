@@ -1,0 +1,29 @@
+[mysqld]
+
+skip_name_resolve
+
+default-storage-engine = innodb
+
+query_cache_type = 1
+query_cache_size = 64M
+query_cache_limit = 4M
+
+sort_buffer_size = 256K
+read_buffer_size = 256K
+read_rnd_buffer_size = 256K
+join_buffer_size = 256K
+
+# If threads_created / Connection is over 0.01, increase this value.
+# Always set this to a higher value than the max_used_connections variable.
+thread_cache_size = 16
+
+# Make sure cache size is large enough,
+# if it can't be large enough, set it to a low value.
+table_cache = 256
+tmp_table_size = 64M
+max_heap_table_size = 64M
+
+max_connections = 64
+max_connect_errors = 50
+
+

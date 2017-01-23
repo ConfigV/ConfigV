@@ -1,0 +1,71 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+old_passwords=1
+
+# Disabling symbolic-links is recommended to prevent assorted security risks;
+# to do so, uncomment this line:
+# symbolic-links=0
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+[client]
+default-character-set=gbk
+port            = 3306
+socket          = /var/lib/mysql/mysql.sock
+[mysqld]
+skip-name-resolve
+max_connections = 10000
+port            = 3306
+#socket          = /tmp/mysql.sock
+socket          = /var/lib/mysql/mysql.sock
+default-character-set=gbk
+init_connect='SET NAMES gbk'
+skip-locking 
+key_buffer = 256M 
+max_allowed_packet = 128M
+table_cache = 256
+sort_buffer_size = 16M
+read_buffer_size = 16M
+read_rnd_buffer_size = 4M
+myisam_sort_buffer_size = 64M
+thread_cache_size = 8
+query_cache_size= 64M
+# Try number of CPU's*2 for thread_concurrency
+thread_concurrency = 8
+tmp_table_size = 512M
+long_query_time = 1
+log-slow-queries                                                                                                                                                     
+server-id=1
+log-bin=mysql-bin
+binlog-ignore-db=information_schema
+expire_logs_days=7
+                                                                                                                      
+innodb_additional_mem_pool_size = 100M
+[mysqldump]
+quick
+max_allowed_packet = 16M
+[mysql]
+no-auto-rehash
+default-character-set=gbk 
+[isamchk]
+key_buffer = 128M
+sort_buffer_size = 128M
+read_buffer = 2M
+write_buffer = 2M
+[myisamchk]
+key_buffer = 128M
+sort_buffer_size = 128M
+read_buffer = 2M
+write_buffer = 2M
+[mysqlhotcopy]
+interactive-timeout
+
+
+
+innodb_buffer_pool_size = 4096M

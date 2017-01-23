@@ -1,0 +1,89 @@
+[client]
+port = 3306
+socket = /tmp/mysql.sock
+
+[mysqld]
+port = 3306
+socket = /tmp/mysql.sock
+pid-file = /data/app/run/mysqld.pid
+basedir = /data/app/mysql
+datadir = /data/app/mysql-data
+
+
+skip-name-resolve
+skip-external-locking
+back_log = 500
+
+max_connections = 2000
+max_connect_errors = 9999999
+
+wait_timeout = 12
+interactive_timeout = 12
+
+default-storage-engine = innodb
+
+table_open_cache = 512
+max_allowed_packet = 16M
+binlog_cache_size = 1M
+max_heap_table_size = 64M
+sort_buffer_size = 8M
+join_buffer_size = 8M
+thread_cache_size = 4
+thread_concurrency = 4
+query_cache_size = 128M
+query_cache_limit = 2M
+thread_stack = 192K
+transaction_isolation = REPEATABLE-READ
+tmp_table_size = 64M
+log-bin = mysql-bin
+binlog_format = mixed
+slow_query_log = 1
+slow_query_log_file = /data/log/mysql/slow.log
+long_query_time = 2
+
+
+# myisam options
+
+key_buffer_size = 256M
+read_buffer_size = 2M
+read_rnd_buffer_size = 16M
+bulk_insert_buffer_size = 64M
+myisam_sort_buffer_size = 128M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads = 1
+myisam_recover
+
+# innodb options
+innodb_data_home_dir = /data/app/mysql-data
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /data/app/mysql-data
+innodb_buffer_pool_size = 256M
+innodb_additional_mem_pool_size = 20M
+innodb_log_file_size = 64M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+# Only allow UPDATEs and DELETEs that use keys.
+#safe-updates
+
+[myisamchk]
+key_buffer_size = 512M
+sort_buffer_size = 512M
+read_buffer = 8M
+write_buffer = 8M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld_safe]
+open-files-limit = 32768
+

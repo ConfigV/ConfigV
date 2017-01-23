@@ -1,0 +1,126 @@
+#
+# The MySQL database server configuration file.
+#
+
+[client]
+port		= 3306
+socket		= /var/run/mysqld/mysqld.sock
+
+[mysqld_safe]
+socket		= /var/mysqltmp/mysqld.sock
+nice		= 0
+
+[mysqld]
+user		= mysql
+pid-file	= /var/run/mysqld/mysqld.pid
+socket		= /var/mysqltmp/mysqld.sock
+port		= 3306
+
+basedir		= /usr
+datadir		= /var/lib/mysql
+tmpdir		= /var/mysqltmp
+
+
+# Use storage engine InnoDB, zabbix devs recommendation
+default_storage_engine = InnoDB
+innodb_data_home_dir            = /var/lib/mysql
+innodb_log_group_home_dir       = /var/lib/mysql
+
+
+innodb_buffer_pool_size = 256M
+innodb_flush_method = O_DIRECT
+
+innodb_file_per_table		= 1
+innodb_table_locks              = true
+innodb_lock_wait_timeout        = 60
+innodb_thread_concurrency       = 16
+innodb_commit_concurrency       = 16
+innodb_support_xa               = true
+
+innodb_log_file_size    = 5M
+innodb_additional_mem_pool_size = 8M
+innodb_data_file_path   = ibdata1:10M:autoextend
+innodb_flush_log_at_trx_commit = 1
+innodb_log_buffer_size  = 8M
+
+
+
+lc-messages-dir	= /usr/share/mysql
+skip-external-locking
+
+
+#
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address = 0.0.0.0
+#
+# * Fine Tuning
+#
+key_buffer_size         = 256M
+max_allowed_packet      = 16M
+thread_stack            = 256K
+thread_cache_size       = 8
+sort_buffer_size        = 2M
+read_buffer_size        = 128k
+read_rnd_buffer_size    = 256k
+join_buffer_size        = 128k
+
+
+myisam-recover         = BACKUP
+max_connections         = 800
+max_connect_errors      = 10
+concurrent_insert       = 2
+connect_timeout         = 10
+wait_timeout            = 180
+net_read_timeout        = 30
+net_write_timeout       = 30
+back_log                = 128
+table_cache             = 128
+table_open_cache        = 128
+tmp_table_size          = 32M
+max_heap_table_size     = 32M
+bulk_insert_buffer_size = 32M
+open-files-limit        = 1024
+
+#LOGS
+log_error = /var/log/mysql-error.log
+log_slow_queries	= /var/log/mysql-slow.log
+long_query_time = 2
+#log-queries-not-using-indexes
+#
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+#server-id		= 1
+#log_bin			= /var/log/mysql/mysql-bin.log
+
+
+expire_logs_days	= 10
+max_binlog_size         = 100M
+binlog_cache_size       = 32K
+sync_binlog             = 0
+
+#binlog_do_db		= include_database_name
+#binlog_ignore_db	= include_database_name
+
+
+slave_compressed_protocol = 0
+skip-federated
+skip-external-locking
+
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet	= 16M
+
+[mysql]
+
+[isamchk]
+key_buffer		= 16M
+
+#
+# * IMPORTANT: Additional settings that can override those from this file!
+#   The files must end with '.cnf', otherwise they'll be ignored.
+#
+#!includedir /etc/mysql/conf.d/

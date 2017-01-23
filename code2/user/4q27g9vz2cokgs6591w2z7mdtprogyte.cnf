@@ -1,0 +1,27 @@
+#
+# Config from https://github.com/bonk-se/server-setup
+# @author miken@bonk.se
+#
+
+#
+# Local modifications by miken @ 2010-04-06
+# - Force MySQL to use UTF-8
+# - Tuned query cache
+# - Added logging
+#
+
+[client]
+
+[mysqld]
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+query_cache_type = 1
+query_cache_limit = 1M
+query_cache_size = 100M
+
+log_error = /var/log/mysql/mysql_error.log
+
+log_slow_queries = /var/log/mysql/mysql_slow.log
+long_query_time = 1
+log-queries-not-using-indexes

@@ -1,0 +1,423 @@
+# This file should be renamed to server.cnf and placed in /etc/my.cnf.d
+#
+# These groups are read by MariaDB server.
+# Use it for options that only the server (but not clients) should see
+#
+# See the examples of server my.cnf files in /usr/share/mysql/
+#
+
+# this is read by the standalone daemon and embedded servers
+[server]
+
+# this is only for embedded server
+[embedded]
+
+# this is only for the mysqld standalone daemon
+[mysqld]
+datadir=/opt/mysql
+socket=/opt/mysql/mysql.sock
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+user=mysql
+
+
+# Use old password encryption method (needed for 4.0 and older clients).
+# Still needed for perl-DBD-MySQL?
+old_passwords=1
+
+# Don't resolve hostnames. All hostnames are IP's or 'localhost'.
+skip-name-resolve
+
+# If this is not 0, then mysqld will use this value to reserve file
+# descriptors to use with setrlimit(). If this value is 0 then mysqld
+# will reserve max_connections*5 or max_connections + table_cache*2
+# (whichever is larger) number of files.
+open_files_limit=65535
+
+# 0 = OFF = Don't cache or retrieve results. 1 = ON = Cache all results
+# except SELECT SQL_NO_CACHE ... queries. 2 = DEMAND = Cache only
+# SELECT SQL_CACHE ... queries.
+query_cache_type = 0
+
+# The memory allocated to store results from old queries.
+query_cache_size = 0
+
+# Don't cache results that are bigger than this.
+#query_cache_limit = 4192000
+
+# Minimal size of unit in which space for results is allocated (last
+# unit will be trimmed after writing all result data).
+#query_cache_min_res_unit = 4096
+
+# Allocation block size for extra blocks (after query_prealloc_size
+# is exhausted) during query parsing and execution.
+#query_alloc_block_size = 0
+
+# Invalidate queries in query cache on LOCK for write.
+#query_cache_wlock_invalidate = 0
+
+# Persistent buffer for query parsing and execution. This is allocated
+# at connection start and freed on disconnect.
+#query_prealloc_size = 8192
+
+
+# back_log is the number of connections the operating system can keep in
+# the listen queue, before the MariaDB connection manager thread has
+# processed them. If you have a very high connection rate and experience
+# "connection refused" errors, you might need to increase this value.
+# Check your OS documentation for the maximum value of this parameter.
+# Attempting to set back_log higher than your operating system limit
+# will have no effect.
+back_log = 2048
+
+# The maximum amount of concurrent sessions the MariaDB server will
+# allow. One of these connections will be reserved for a user with
+# SUPER privileges to allow the administrator to login even if the
+# connection limit has been reached.
+max_connections = 400
+
+# Maximum amount of errors allowed per host. If this limit is reached,
+# the host will be blocked from connecting to the MariaDB server until
+# "FLUSH HOSTS" has been run or the server was restarted. Invalid
+# passwords and other errors during the connect phase result in
+# increasing this value. See the "Aborted_connects" status variable for
+# global counter.
+max_connect_errors = 1000000
+
+# The number of open tables for all threads. Increasing this value
+# increases the number of file descriptors that mysqld requires.
+# Therefore you have to make sure to set the amount of open files
+# allowed to at least 4096 in the variable "open-files-limit" in
+# section [mysqld_safe]
+table_open_cache = 4096
+
+# The maximum size of a query packet the server can handle as well as
+# maximum query size server can process (Important when working with
+# large BLOBs).  enlarged dynamically, for each connection.
+max_allowed_packet = 16M
+
+# Maximum allowed size for a single HEAP (in memory) table. This option
+# is a protection against the accidential creation of a very large HEAP
+# table which could otherwise use up all memory resources.
+max_heap_table_size = 64M
+
+# Maximum size for internal (in-memory) temporary tables. If a table
+# grows larger than this value, it is automatically converted to disk
+# based table This limitation is for a single table. There can be many
+# of them.
+tmp_table_size = 64M
+
+# Size of the buffer used for doing full table scans.
+# Allocated per thread, if a full scan is needed.
+read_buffer_size = 2M
+# When reading rows in sorted order after a sort, the rows are read
+# through this buffer to avoid disk seeks. You can improve ORDER BY
+# performance a lot, if set this to a high value.
+# Allocated per thread, when needed.
+read_rnd_buffer_size = 16M
+
+# Sort buffer is used to perform sorts for some ORDER BY and GROUP BY
+# queries. If sorted data does not fit into the sort buffer, a disk
+# based merge sort is used instead - See the "Sort_merge_passes"
+# status variable. Allocated per thread if sort is needed.
+sort_buffer_size = 4M
+
+# This buffer is used for the optimization of full JOINs (JOINs without
+# indexes). Such JOINs are very bad for performance in most cases
+# anyway, but setting this variable to a large value reduces the
+# performance impact. See the "Select_full_join" status variable for a
+# count of full JOINs. Allocated per thread if full join is found
+join_buffer_size = 8M
+
+# How many threads we should keep in a cache for reuse. When a client
+# disconnects, the client's threads are put in the cache if there aren't
+# more than thread_cache_size threads from before.  This greatly reduces
+# the amount of thread creations needed if you have a lot of new
+# connections. (Normally this doesn't give a notable performance
+# improvement if you have a good thread implementation.)
+thread_cache_size = 50
+
+# Thread stack size to use. This amount of memory is always reserved at
+# connection time. MariaDB itself usually needs no more than 64K of
+# memory, while if you use your own stack hungry UDF functions or your
+# OS requires more stack for some operations, you might need to set this
+# to a higher value.
+thread_stack = 196K
+
+# Table type which is used by default when creating new tables, if not
+# specified differently during the CREATE TABLE statement.
+default-storage-engine = InnoDB
+
+# Enable the full query log. Every query (even ones with incorrect
+# syntax) that the server receives will be logged. This is useful for
+# debugging, it is usually disabled in production use.
+#log
+
+# Print warnings to the error log file.  If you have any problem with
+# MariaDB you should enable logging of warnings and examine the error log
+# for possible explanations. 
+#log_warnings
+
+# Log slow queries. Slow queries are queries which take more than the
+# amount of time defined in "long_query_time" or which do not use
+# indexes well, if log_short_format is not enabled. It is normally good idea
+# to have this turned on if you frequently add new queries to the
+# system.
+slow_query_log
+
+# All queries taking more than this amount of time (in seconds) will be
+# trated as slow. Do not use "1" as a value here, as this will result in
+# even very fast queries being logged from time to time (as MariaDB
+# currently measures time with second accuracy only).
+long_query_time = 5
+
+# Choose how verbose the messages to your slow log will be. Multiple
+# flags allowed in a comma-separated string. [query_plan, innodb]
+#log_slow_verbosity = full
+
+# The directory used by MySQL for storing temporary files. For example,
+# it is used to perform disk based large sorts, as well as for internal
+# and explicit temporary tables. It might be good to put it on a
+# swapfs/tmpfs filesystem, if you do not create very large temporary
+# files. Alternatively you can put it on dedicated disk. You can
+# specify multiple paths here by separating them by ";" - they will then
+# be used in a round-robin fashion.
+tmpdir = /dev/shm
+
+
+#*** MyISAM Specific options
+
+# Size of the Key Buffer, used to cache index blocks for MyISAM tables.
+# Do not set it larger than 30% of your available memory, as some memory
+# is also required by the OS to cache rows. Even if you're not using
+# MyISAM tables, you should still set it to 8-64M as it will also be
+# used for internal temporary disk tables.
+key_buffer_size = 32M
+
+# MyISAM uses special tree-like cache to make bulk inserts (that is,
+# INSERT ... SELECT, INSERT ... VALUES (...), (...), ..., and LOAD DATA
+# INFILE) faster. This variable limits the size of the cache tree in
+# bytes per thread. Setting it to 0 will disable this optimisation.  Do
+# not set it larger than "key_buffer_size" for optimal performance.
+# This buffer is allocated when a bulk insert is detected.
+bulk_insert_buffer_size = 4M
+
+# This buffer is allocated when MariaDB needs to rebuild the index in
+# REPAIR, OPTIMIZE, ALTER table statements as well as in LOAD DATA INFILE
+# into an empty table. It is allocated per thread so be careful with
+# large settings.
+myisam_sort_buffer_size = 64M
+
+# The maximum size of the temporary file MariaDB is allowed to use while
+# recreating the index (during REPAIR, ALTER TABLE or LOAD DATA INFILE.
+# If the file-size would be bigger than this, the index will be created
+# through the key cache (which is slower).
+myisam_max_sort_file_size = 1G
+
+# If a table has more than one index, MyISAM can use more than one
+# thread to repair them by sorting in parallel. This makes sense if you
+# have multiple CPUs and plenty of memory.
+myisam_repair_threads = 1
+
+# Automatically check and repair not properly closed MyISAM tables.
+# Options: DEFAULT, BACKUP, BACKUP_ALL, FORCE or QUICK
+myisam_recover = BACKUP,FORCE
+
+
+# *** INNODB Specific options ***
+
+# Default transaction isolation level.
+transaction-isolation=READ-COMMITTED
+
+# Additional memory pool that is used by InnoDB to store metadata
+# information.  If InnoDB requires more memory for this purpose it will
+# start to allocate it from the OS.  As this is fast enough on most
+# recent operating systems, you normally do not need to change this
+# value. SHOW INNODB STATUS will display the current amount used.
+innodb_additional_mem_pool_size = 10M
+
+# InnoDB, unlike MyISAM, uses a buffer pool to cache both indexes and
+# row data. The bigger you set this the less disk I/O is needed to
+# access data in tables. On a dedicated database server you may set this
+# parameter up to 80% of the machine physical memory size. Do not set it
+# too large, though, because competition of the physical memory may
+# cause paging in the operating system.  Note that on 32bit systems you
+# might be limited to 2-3.5G of user level memory per process, so do not
+# set it too high.
+innodb_buffer_pool_size = 512M
+
+# Threadpool is a great way to increase performance in situations where
+# queries are relatively short and the load is CPU bound (e.g. OLTP
+# workloads). To enable it, add the above to your my.cnf file. See
+# Threadpool in 5.5 for more information.
+innodb_buffer_pool_instances = 2
+
+# InnoDB stores data in one or more data files forming the tablespace.
+# If you have a single logical drive for your data, a single
+# autoextending file would be good enough. In other cases, a single file
+# per device is often a good choice. You can configure InnoDB to use raw
+# disk partitions as well - please refer to the manual for more info
+# about this.
+innodb_data_file_path = ibdata1:10M:autoextend
+
+# Set this option if you would like the InnoDB tablespace files to be
+# stored in another location. By default this is the MariaDB datadir.
+innodb_data_home_dir = /var/lib/mysql/
+
+
+# Number of IO threads to use for async IO operations. This value is
+# hardcoded to 8 on Unix, but on Windows disk I/O may benefit from a
+# larger number.
+# Can be set up to 64 if innodb_thread_concurrency=0.
+innodb_write_io_threads = 8
+innodb_read_io_threads = 8
+
+# Number of threads allowed inside the InnoDB kernel. The optimal value
+# depends highly on the application, hardware as well as the OS
+# scheduler properties. A too high value may lead to thread thrashing.
+innodb_thread_concurrency = 0
+
+# The number of threads that can enter InnoDB concurrently is determined
+# by the innodb_thread_concurrency variable. A thread is placed in a queue
+# when it tries to enter InnoDB if the number of threads has already reached
+# the concurrency limit. When a thread is permitted to enter InnoDB, it is
+# given a number of “free tickets” equal to the value of
+# innodb_concurrency_tickets, and the thread can enter and leave InnoDB freely
+# until it has used up its tickets. After that point, the thread again becomes
+# subject to the concurrency check (and possible queuing) the next time it
+# tries to enter InnoDB. The default value is 500.
+innodb_concurrency_tickets = 500
+
+# If set to 1, InnoDB will flush (fsync) the transaction logs to the
+# disk at each commit, which offers full ACID behavior. If you are
+# willing to compromise this safety, and you are running small
+# transactions, you may set this to 0 or 2 to reduce disk I/O to the
+# logs. Value 0 means that the log is only written to the log file and
+# the log file flushed to disk approximately once per second. Value 2
+# means the log is written to the log file at each commit, but the log
+# file is only flushed to disk approximately once per second.
+innodb_flush_log_at_trx_commit = 2
+
+# Speed up InnoDB shutdown. This will disable InnoDB to do a full purge
+# and insert buffer merge on shutdown. It may increase shutdown time a
+# lot, but InnoDB will have to do it on the next startup instead.
+innodb_fast_shutdown
+
+# The size of the buffer InnoDB uses for buffering log data. As soon as
+# it is full, InnoDB will have to flush it to disk. As it is flushed
+# once per second anyway, it does not make sense to have it very large
+# (even with long transactions). 
+innodb_log_buffer_size = 16M
+
+# Size of each log file in a log group. You should set the combined size
+# of log files to about 25%-100% of your buffer pool size to avoid
+# unneeded buffer pool flush activity on log file overwrite. However,
+# note that a larger logfile size will increase the time needed for the
+# recovery process.
+innodb_log_file_size = 128M
+
+# Total number of files in the log group. A value of 2-3 is usually good
+# enough.
+innodb_log_files_in_group = 2
+
+# Location of the InnoDB log files. Default is the MariaDB datadir. You
+# may wish to point it to a dedicated hard drive or a RAID1 volume for
+# improved performance
+innodb_log_group_home_dir = /var/lib/mysql/
+
+# Maximum allowed percentage of dirty pages in the InnoDB buffer pool.
+# If it is reached, InnoDB will start flushing them out agressively to
+# not run out of clean pages at all. This is a soft limit, not
+# guaranteed to be held.
+innodb_max_dirty_pages_pct = 75
+
+# The flush method InnoDB will use for Log. The tablespace always uses
+# doublewrite flush logic. The default value is "fdatasync", another
+# option is "O_DSYNC".
+innodb_flush_method = O_DIRECT
+
+# How long an InnoDB transaction should wait for a lock to be granted
+# before being rolled back. InnoDB automatically detects transaction
+# deadlocks in its own lock table and rolls back the transaction. If you
+# use the LOCK TABLES command, or other transaction-safe storage engines
+# than InnoDB in the same transaction, then a deadlock may arise which
+# InnoDB cannot notice. In cases like this the timeout is useful to
+# resolve the situation.
+innodb_lock_wait_timeout = 90
+
+# Sets the lock mode to use when generating auto-increment values. Possible
+# values are 0 (traditional), 1 (consecutive), or 2 (interleaved).
+innodb_autoinc_lock_mode=2
+
+# Set the number of threads which can commit at the same time. '0' permits
+# any number of transactions to commit at the same time.
+innodb_commit_concurrency=0
+
+# The file format to use for new InnoDB tables. Possible values are
+# 'Antelope' or 'Barracuda'.
+innodb_file_format = barracuda
+
+# If disabled, InnoDB will create tables in the system tablespace. If enabled,
+# InnoDB will create each new table with its own .ibd file.
+innodb_file_per_table = 1
+
+# Controls whether or not to return errors instead of warnings for certain
+# conditions. This option is analogous to strict SQL mode.
+innodb_strict_mode = 1
+
+# Used to enable or disable InnoDB adaptive hash indexes.
+innodb_adaptive_hash_index = 1
+
+# If TRUE, InnoDB will use the operating system's memory allocator.
+# If 'FALSE', InnoDB will use its own.
+innodb_use_sys_malloc = 1
+
+# The max number of .ibd files InnoDB can keep open simultaneously. Allowed
+# values range from '10' to '4294967295'. Only applies if you use multiple
+# tablespaces.
+innodb_open_files = 65535
+
+# On 32-bit systems, possible values range from 100 to 232-1 (2**32-1). On
+# 64-bit systems, possible values range from 100 to 264-1 (2**64-1). Set
+# this value to the approximate number if I/O operations your system can
+# perform per second.
+innodb_io_capacity=5000
+
+# How long (in milliseconds) an inserted block must stay in the old
+# sublist after its first access before it can be moved to the new
+# sublist. '0' means "no delay". Possible values range from '0' to
+# '232-1' (2**32-1).
+innodb_old_blocks_time = 1000
+
+# Controls whether or not to update statistics during metadata statements
+# (e.g. SHOW TABLE STATUS or SHOW INDEX) or when accessing the
+# INFORMATION_SCHEMA.TABLES or INFORMATION_SCHEMA.STATISTICS tables.
+innodb_stats_on_metadata = 0
+
+
+innodb_locks_unsafe_for_binlog = 1
+innodb_table_locks = 0
+
+
+# These two groups are only read by MariaDB servers, not by MySQL.
+# If you use the same .cnf file for MySQL and MariaDB,
+# you can put MariaDB-only options here
+[mariadb]
+# Define threads usage for handling queries: one-thread-per-connection,
+# pool-of-threads, or no-threads.
+thread-handling=one-thread-per-connection
+
+aria-pagecache-buffer-size=256M
+innodb_ibuf_max_size = 256M
+performance_schema = 1
+userstat=1
+
+
+
+# This group is only read by MariaDB-5.5 servers.
+# If you use the same .cnf file for MariaDB of different versions,
+# use this group for options that older servers don't understand
+[mysqld-5.5]
+
+
+[mariadb-5.5]

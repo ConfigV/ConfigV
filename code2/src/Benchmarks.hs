@@ -14,17 +14,20 @@ import qualified Data.Text.IO     as T
 import           System.Directory
 import           System.IO.Unsafe
 
+import Debug.Trace
 
 learnTarget :: [ConfigFile Language]
 learnTarget = case Settings.pROBRULES of
     Settings.Test -> genSet "testLearn/"
     Settings.NonProb -> genSet "benchmarkSet/correctMySQL/"
-    --Settings.Prob -> genSet "learningSet/MySQL/"
-    Settings.Prob -> take 250 $ genSet "trainingDownload/downloads/"
+    Settings.Prob -> genSet "learningSet/MySQL/"
+    --Settings.Prob -> genSet "trainingDownload/downloads/"
   where
     genSet s =
       map (\x -> (s++x,u $ T.readFile (s++x), MySQL))
       (u (listDirectory s))
+
+traceMe cs = trace (concatMap (\(f,t,l) -> (show f++"\n")) cs) cs
 
 -- verification file paths
 vFilePaths :: [FilePath]
@@ -32,7 +35,7 @@ vFilePaths = if Settings.bENCHMARKS
     then benchmarkFiles
     else userFiles
   where
-    userFiles = map ("user/"++) $ u $ listDirectory "user"
+    userFiles = map ("user2/"++) $ u $ listDirectory "user2"
     benchmarkFiles = map getFileName $ concat benchmarks
 
 benchmarks :: [ErrorReport]

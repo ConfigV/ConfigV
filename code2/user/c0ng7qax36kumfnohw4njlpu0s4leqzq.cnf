@@ -1,0 +1,44 @@
+#
+# Copyright (C) 2010-2012 Andrei Pozolotin <Andrei.Pozolotin@gmail.com>
+#
+# All rights reserved. Licensed under the OSI BSD License.
+#
+# http://www.opensource.org/licenses/bsd-license.php
+#
+
+#
+# ${carrotTimeISO}
+#
+
+[client]
+
+socket		=	/var/lib/mysql/02/server.socket
+
+[server]
+
+user			=	mysql
+bind-address	=	0.0.0.0
+
+server-id	=	02
+port		=	13302
+datadir		=	/var/lib/mysql/02/
+socket		=	/var/lib/mysql/02/server.socket
+pid-file	=	/var/lib/mysql/02/server.pid
+
+log_error	=	/var/lib/mysql/02/log-error
+
+relay-log		=	/var/lib/mysql/02/log-relay-event
+relay-log-index	=	/var/lib/mysql/02/log-relay-index
+	
+log_bin			=	/var/lib/mysql/02/log-local-event
+log_bin_index	=	/var/lib/mysql/02/log-local-index
+
+log_slave_updates	=	true
+
+max_binlog_size		=	100M
+expire_logs_days	=	20
+
+auto_increment_offset = 02
+auto_increment_increment = 2
+
+master-retry-count	=	0

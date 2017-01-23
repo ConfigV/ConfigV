@@ -1,0 +1,67 @@
+[client]
+port		= 3306
+socket		= /tmp/mysql.sock
+
+
+[mysqld]
+symbolic-links = 0
+port		= 3306
+socket		= /tmp/mysql.sock
+datadir     = /mtimer/server/mysql/data
+user        = mysql
+
+long_query_time = 8
+slow_query_log = 1
+slow_query_log_file = /mtimer/log/mysql/mysql_slow.log
+#log-queries-not-using-indexes
+
+skip-external-locking
+log-error = /mtimer/log/mysql/mysql_error.log
+pid-file = /tmp/mysql.pid
+back_log = 500
+key_buffer_size = 16M
+max_allowed_packet = 1M
+table_open_cache = 64
+sort_buffer_size = 512K
+net_buffer_length = 8K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 8M
+thread_cache_size = 8
+query_cache_size= 16M
+
+#skip-networking
+#log-bin=mysql-bin
+#binlog_format=mixed
+
+server-id	= 1
+
+innodb_data_home_dir = /mtimer/server/mysql/data
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = /mtimer/server/mysql/data
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size = 16M
+innodb_additional_mem_pool_size = 2M
+# Set .._log_file_size to 25 % of buffer pool size
+innodb_log_file_size = 5M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+innodb_file_per_table = 1
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

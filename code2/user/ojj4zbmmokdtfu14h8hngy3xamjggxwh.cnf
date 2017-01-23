@@ -1,0 +1,36 @@
+[mysqld]
+performance_schema=off
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+symbolic-links=0
+max_connections=50
+max_user_connections=30
+wait_timeout=10
+interactive_timeout=50
+long_query_time=5
+#log-queries-not-using-indexes
+#log-slow-queries=/var/log/mysql/log-slow-queries.log
+
+key_buffer = 8M
+myisam_sort_buffer_size = 16M
+join_buffer_size=512K
+read_buffer_size=512K
+sort_buffer_size=1M
+table_cache=1024
+thread_cache_size=286
+interactive_timeout=25
+connect_timeout=5
+max_allowed_packet=1M
+max_connect_errors=1000
+query_cache_limit=1M
+query_cache_size=2M
+query_cache_type=1
+tmp_table_size=8M
+
+#innodb_use_native_aio = 0
+innodb_file_per_table
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid

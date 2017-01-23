@@ -1,0 +1,90 @@
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
+
+[client]
+port = 3306
+socket = /tmp/mysql.sock
+
+[mysql]
+show-warnings
+safe-updates
+
+[mysqld]
+datadir = /usr/local/mysql/data
+port = 3306
+socket = /tmp/mysql.sock
+pid-file = /usr/local/mysql/data/mysql.pid
+
+character-set-server = utf8
+explicit_defaults_for_timestamp
+sql_mode = "STRICT_ALL_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE"
+
+# basic
+max_connections = 8
+max_connect_errors = 100
+# max_connections * tables used in one transaction + 5
+table_open_cache = 85
+# all tables + max_connections + 5
+table_definition_cache = 23
+# table_open_cache * 1.4
+open_files_limit = 120
+
+# buffer
+key_buffer_size = 16M
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+join_buffer_size = 256K
+sort_buffer_size = 512K
+query_cache_size = 0
+query_cache_type = 0
+tmp_table_size = 8M
+max_heap_table_size = 8M
+thread_cache = 32
+
+# binlog
+log-bin = mysql-bin
+binlog_format = MIXED
+max_binlog_size = 64M
+expire_logs_days = 1
+server-id = 1
+
+# log
+log-error = /usr/local/mysql/data/error.log
+general_log = 1
+general_log_file = /usr/local/mysql/data/mysql.log
+slow_query_log
+long_query_time = 1
+# for dev
+log_queries_not_using_indexes
+slow_query_log_file = /usr/local/mysql/data/slow-query.log
+
+# InnoDB
+default-storage-engine = InnoDB
+#innodb_strict_mode
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_data_home_dir = /usr/local/mysql/data
+# available memory for Mysql * 0.7
+innodb_buffer_pool_size = 256M
+innodb_buffer_pool_instances = 1 # 1 for small
+innodb_write_io_threads = 1
+innodb_read_io_threads = 1
+innodb_thread_concurrency = 0
+innodb_file_format = Barracuda
+innodb_file_per_table
+innodb_log_file_size = 16M
+innodb_log_buffer_size = 8M
+innodb_log_files_in_group = 2
+innodb_flush_log_at_trx_commit = 2
+innodb_flush_method = O_DIRECT
+innodb_thread_concurrency = 4
+innodb_commit_concurrency = 4
+innodb_buffer_pool_load_at_startup = 1
+innodb_buffer_pool_dump_at_shutdown = 1
+innodb_io_capacity = 100 # 2000 for ssd
+innodb_large_prefix = 1
+innodb_print_all_deadlocks = 1
+
+[mysqldump]
+quick
+set-charset
+max_allowed_packet = 8M

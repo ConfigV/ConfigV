@@ -1,0 +1,56 @@
+[mysqld]
+#Replication
+server-id = 1
+
+#Crash Recovery
+default_storage_engine = innodb
+myisam-recover = BACKUP
+
+#Network settings
+max_connections = 16000
+max_user_connections = 16000
+max_connect_errors = 2000
+max_allowed_packet = 16M
+skip_name_resolve
+
+#Buffers
+join_buffer_size = 8M
+sort_buffer_size = 8M
+key_buffer_size = 64M
+innodb_buffer_pool_size = 2G 
+innodb_log_buffer_size = 8M
+tmp_table_size = 64M
+max_heap_table_size = 64M
+read_buffer_size = 2M
+read_rnd_buffer_size = 16M
+
+#Caches
+thread_cache_size = 16
+table_cache = 4200
+query_cache_limit = 2M
+query_cache_size = 64M
+query_cache_type = 1
+
+#Filesystem
+innodb_thread_concurrency = 8
+innodb_data_file_path = ibdata1:3G;ibdata2:1G:autoextend
+innodb_autoextend_increment = 512 
+interactive_timeout = 1800
+wait_timeout = 120
+skip-external-locking
+skip-symbolic-links
+local-infile = 1
+open_files_limit = 49152
+tmpdir = /var/tmp
+innodb_log_file_size = 500M
+innodb_file_per_table = 1
+datadir = /var/lib/mysql
+socket = /var/lib/mysql/mysql.sock
+log-error = /var/log/mysql/mysqld.log
+log-bin = /var/log/mysql/mysql-bin
+#sync_binlog = 1
+expire_logs_days = 10
+max_binlog_size = 100M
+slow_query_log_file = /var/log/mysql/mysql-slow.log
+slow_query_log = Off
+#log_queries_not_using_indexes = On

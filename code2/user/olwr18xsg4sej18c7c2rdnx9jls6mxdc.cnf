@@ -1,0 +1,80 @@
+# The following options will be passed to all MySQL clients
+[client]
+#password       = your_password
+port            = 3306
+socket          = /tmp/mysql.sock
+default-character-set = utf8
+
+[mysqld]
+user = mysql
+port = 3306
+basedir = /opt/local
+datadir = /var/mysql
+socket = /tmp/mysql.sock
+bind-address = 127.0.0.1
+#bind-address = ##PRIVATE_IP##
+log_warnings
+
+server-id = 1
+
+# MyISAM settings
+key_buffer_size = ##MY_KBF##
+sort_buffer_size = 1M
+read_buffer_size = 1M
+read_rnd_buffer_size = 2M
+myisam_sort_buffer_size = ##MY_MSB##
+
+# InnoDB settings
+innodb_data_file_path = ibdata1:100M:autoextend
+innodb_buffer_pool_size = ##MY_IBS##
+innodb_log_file_size = ##MY_ILS##
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 2
+innodb_lock_wait_timeout = 50
+
+# All other settings
+table_open_cache = ##MY_TBC##
+thread_cache_size = ##MY_THC##
+query_cache_size = ##MY_QRC##
+thread_concurrency = 16
+tmpdir = /tmp
+max_connections = ##MY_MXC##
+max_allowed_packet = 24M
+net_buffer_length = 2K
+thread_stack = 128K
+max_join_size = 4294967295
+long_query_time = 1
+#log-queries-not-using-indexes
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slowquery.log
+
+# Replication settings (master to slave)
+# This is not enabled by default.  There are more
+# steps to this besides uncommenting the lines below.
+# See: http://wiki.joyent.com/display/jpc2/Replication
+#
+#log-bin = /var/log/mysql/bin.log
+#log-bin-index = /var/log/mysql/log-bin.index
+#report-host = master
+#relay_log_purge = 1
+#expire_logs_days = 5
+#slave-skip-errors = 1062
+#binlog-ignore-db = mysql
+
+[mysqldump]
+quick
+max_allowed_packet = 24M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+
+[mysqlhotcopy]
+interactive-timeout

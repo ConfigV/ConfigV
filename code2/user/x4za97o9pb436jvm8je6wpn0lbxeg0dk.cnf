@@ -1,0 +1,83 @@
+# MySQL ABILLS config
+# DATE: %DATE% %TIME%
+
+[client]
+port		= 3306
+socket		= /tmp/mysql.sock
+
+# The MySQL server
+[mysqld]
+port		= 3306
+socket		= /tmp/mysql.sock
+skip-external-locking
+query_cache_size=128M
+query-cache-type=1
+join_buffer_size=256K
+key_buffer=640M
+query_cache_limit=2M
+max_allowed_packet=1M
+table_cache=512
+sort_buffer=12M
+read_buffer_size=12M
+net_buffer_length=16K
+myisam_sort_buffer_size=64M
+thread_cache_size=4
+server-id       = 1
+max_connections = 1500
+slave-compressed = 1
+#log-bin=abills-bin.log
+#log-bin
+long_query_time = 5
+slow_query_log
+slow_query_log_file = /var/db/mysql/mysqld-slow-query.log
+#log=mysql_query.log
+#------------------
+#_REPLICATION_
+#------------------
+
+# innodb
+default-storage-engine = innodb
+innodb_file_per_table
+innodb_additional_mem_pool_size = 16M
+#x8
+innodb_buffer_pool_size = 2G # or 9G on x64
+innodb_thread_concurrency = 4
+innodb_flush_log_at_trx_commit = 2
+innodb_log_buffer_size = 8M
+innodb_log_file_size = 128M
+innodb_log_files_in_group = 2
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+##Khadimulin
+innodb_flush_method = O_DIRECT
+##
+# misc
+#default-character-set=cp1251
+#default-collation=cp1251_general_ci
+
+
+
+[mysqldump]
+quick
+max_allowed_packet=32M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer=40M
+sort_buffer=40M
+read_buffer=10M
+write_buffer=10M
+
+[myisamchk]
+key_buffer=40M
+sort_buffer=40M
+read_buffer=10M
+write_buffer=10M
+
+[mysqlhotcopy]
+interactive-timeout
+

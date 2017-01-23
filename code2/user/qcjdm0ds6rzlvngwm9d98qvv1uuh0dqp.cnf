@@ -1,0 +1,20 @@
+[mysqld]
+server_id = <%= @server_id %>
+
+datadir = /var/lib/mysql
+user    = mysql
+skip-name-resolve
+
+log_error = error.log
+
+log-bin
+binlog_format    = ROW
+relay_log_purge  = 0
+replicate-wild-ignore-table = mysql.%
+
+innodb_locks_unsafe_for_binlog = 1
+innodb_autoinc_lock_mode       = 2
+innodb_log_file_size           = 64M
+
+[mysql]
+prompt="<%= @hostname %> mysql> "

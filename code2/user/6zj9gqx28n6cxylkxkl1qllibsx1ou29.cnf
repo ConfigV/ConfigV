@@ -1,0 +1,83 @@
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /var/run/mysql/mysql.sock
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default_storage_engine         = InnoDB
+socket                         = /var/run/mysql/mysql.sock
+performance_schema             = ON
+explicit_defaults_for_timestamp = 1
+
+# MyISAM #
+key_buffer_size                = 32M
+myisam_recover                 = FORCE,BACKUP
+
+# SAFETY #
+pid-file                       = /var/run/mysql/mysql.pid
+skip_name_resolve
+max_allowed_packet             = 16M
+wait_timeout                   = 1800
+connect_timeout                = 360
+max_connect_errors             = 1000000
+sysdate_is_now                 = 1
+innodb                         = FORCE
+bind-address                   = 127.0.0.1
+
+# DATA STORAGE #
+datadir                        = /var/lib/mysql/data
+
+# BINARY LOGGING #
+log_bin                        = /var/lib/mysql/data/mysql-bin
+expire_logs_days               = 14
+sync_binlog                    = 0
+binlog_format                  = MIXED
+
+# CACHES AND LIMITS #
+max_connections                = 120
+tmp_table_size                 = 128M
+max_heap_table_size            = 128M
+query_cache_type               = 1
+query_cache_size               = 128M
+query_cache_limit              = 128M
+thread_cache_size              = 16K                   # Maximum allowed = 16K
+open_files_limit               = 64K
+table_definition_cache         = 6K
+table_open_cache               = 12K
+sort_buffer_size               = 1M
+join_buffer_size               = 8M
+read_buffer_size               = 2M
+read_rnd_buffer_size           = 16M
+bulk_insert_buffer_size        = 64M
+
+# INNODB #
+innodb_file_per_table          = 1
+innodb_flush_method            = O_DIRECT
+innodb_flush_log_at_trx_commit = 2
+innodb_log_files_in_group      = 2
+innodb_log_file_size           = 256M
+innodb_log_buffer_size         = 512M
+innodb_additional_mem_pool_size= 256M
+innodb_buffer_pool_size        = 6G
+innodb_buffer_pool_instances   = 1
+innodb_file_format             = Barracuda
+innodb_stats_on_metadata       = 0
+innodb_thread_concurrency      = 0
+innodb_lock_wait_timeout       = 1200
+innodb_buffer_pool_dump_at_shutdown    = 1
+innodb_buffer_pool_load_at_startup             = 1
+
+
+# LOGGING #
+general_log_file               = /var/log/mysql/mysql.general.log
+log-error                      = /var/log/mysql/mysql.error.log
+slow_query_log_file            = /var/log/mysql/mysql-slow.log
+slow_query_log                 = 1
+max_slowlog_size               = 256M
+max_slowlog_files              = 3
+long_query_time                = 2
+log_queries_not_using_indexes  = 1

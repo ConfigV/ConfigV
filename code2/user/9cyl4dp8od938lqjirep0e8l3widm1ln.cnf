@@ -1,0 +1,53 @@
+!include include/default_my.cnf
+
+[mysqld]
+scaledb-config-file=@ENV.MYSQLTEST_VARDIR/scaledb.conf
+transaction-isolation=READ-COMMITTED
+max-allowed-packet=160M
+query_cache_size=0
+
+[scaledb_cas]
+scaledb_data_directory = @ENV.MYSQLTEST_VARDIR/scaledb_data
+scaledb_log_directory = @ENV.MYSQLTEST_VARDIR/scaledb_logs
+
+scaledb_io_threads = 8
+scaledb_slm_threads = 8
+scaledb_max_file_handles = 5
+
+scaledb_cas_server_ips = 127.0.0.1
+scaledb_cas_server_ports = 13306
+scaledb_cas_server_service_ports=33316
+scaledb_service_port=33306
+
+scaledb_buffer_size_index= 50M
+scaledb_buffer_size_data = 500M
+scaledb_buffer_size_blob = 200M
+
+scaledb_global_hash_area_size = 10M
+scaledb_max_analytics_area_size = 50M
+scaledb_dead_lock_milliseconds = 3000
+
+scaledb_data_io_flags = 0
+scaledb_log_io_flags = 0
+
+scaledb_debug_file = @ENV.MYSQLTEST_VARDIR/scaledb_cas.err
+
+scaledb_autocommit = 1000000
+
+[scaledb_slm]
+slm_ip=127.0.0.1
+slm_port=43306
+scaledb_cas_config_ips=127.0.0.1
+scaledb_cas_config_ports=13306
+scaledb_debug_file = @ENV.MYSQLTEST_VARDIR/scaledb_slm.err
+
+[scaledb]
+scaledb_cas_config_ips=127.0.0.1
+scaledb_cas_config_ports=13306
+
+scaledb_debug_file = @ENV.MYSQLTEST_VARDIR/node.err
+
+scaledb_buffer_size_index= 50M
+scaledb_buffer_size_data = 500M
+scaledb_buffer_size_blob = 50M
+

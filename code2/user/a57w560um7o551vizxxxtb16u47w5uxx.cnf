@@ -1,0 +1,26 @@
+[mysqld]
+sql_mode        = NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION # This is strict mode: NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+socket          = /home/stephane/programs/mysql/install/tmp/mysql.sock
+user            = stephane
+basedir         = /home/stephane/programs/mysql/install
+datadir         = /home/stephane/programs/mysql/install/data
+log-bin         = /home/stephane/programs/mysql/install/mysql.bin.log
+log-error       = /home/stephane/programs/mysql/install/mysql.error.log
+general-log-file     = /home/stephane/programs/mysql/install/mysql.log
+slow-query-log-file  = /home/stephane/programs/mysql/install/mysql.slow.queries.log
+innodb_file_per_table = 1
+innodb_flush_log_at_trx_commit = 1
+sync_binlog = 1
+innodb_flush_method = O_DIRECT
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+init-connect = 'SET NAMES utf8mb4'
+interactive_timeout     = 28800
+wait_timeout            = 28800
+
+[client]
+socket          = /home/stephane/programs/mysql/install/tmp/mysql.sock
+default-character-set = utf8mb4
+[mysql]
+default-character-set = utf8mb4

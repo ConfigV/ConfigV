@@ -1,0 +1,97 @@
+[client]
+port            = 3306
+socket=/var/lib/mysql/mysql.sock
+
+[mysqld]
+user            = mysql
+datadir         = /srv/mysql/mysql
+tmpdir = /var/tmp
+skip-external-locking
+
+back_log = 500
+max_connections = 8000
+max_connect_errors = 10
+table_cache = 2048
+max_allowed_packet = 16M
+binlog_cache_size = 1M
+max_heap_table_size = 128M
+thread_cache_size = 8
+thread_concurrency = 8
+query_cache_limit = 20M
+ft_min_word_len = 4
+default_table_type = InnoDB
+thread_stack = 192K
+bulk_insert_buffer_size = 64M
+tmp_table_size = 10G
+
+# max used ram:
+# SELECT ( @@key_buffer_size + @@query_cache_size + @@tmp_table_size + @@innodb_buffer_pool_size + @@innodb_additional_mem_pool_size + @@innodb_log_buffer_size + @@max_connections * ( @@read_buffer_size + @@read_rnd_buffer_size + @@sort_buffer_size + @@join_buffer_size + @@binlog_cache_size + @@thread_stack ) ) / 1073741824 AS MAX_MEMORY_GB;
+
+query_cache_size = 64M
+join_buffer_size = 16M
+
+# buffer to use for quicksort on results. read_buffer and read_rnd_buffer are related
+# per request
+sort_buffer_size = 64M
+
+# read buffer for sequencial table scan
+# per request
+read_buffer_size = 32M
+
+# ORDER BY performance tweak -- ORDER BY queries read sorted queries from this buffer to avoid disk seeks
+# per request
+read_rnd_buffer_size = 32M
+
+
+# READ-COMMITED decreases amount of rows locked during a transaction, a scan for rows to act upon will not be locked, only the rows which are actually changing
+# http://harrison-fisk.blogspot.com/2009/02/my-favorite-new-feature-of-mysql-51.html
+#transaction_isolation = REPEATABLE-READ
+transaction-isolation=READ-COMMITTED
+
+### INNODB
+# this would matter for etl processing database
+# following 2 remove need for table-level lock when doing an insert with unknown amount of data, ie INSERT ... SELECT
+# http://harrison-fisk.blogspot.com/2009/02/my-favorite-new-feature-of-mysql-51.html
+# FOR REFERENCE ONLY -- will break current replication if enabled, needs to be matched on slaves
+#innodb_autoinc_lock_mode=2
+#binlog_format=row
+
+# innodb will lock full table if autocommit=0 on an INSERT with LOCK TABLES
+# NEEDS STABILITY TESTING UNDER HIGH LOAD!
+innodb_table_locks = false
+
+# this is windows only
+#innodb_file_io_threads = 4
+
+# 2 * (num_cpu + num_dsk) -- optimal, slightly smaller is better
+innodb_thread_concurrency = 16
+
+# If you’re not concern about ACID and can loose transactions for last second or two in case of full OS crash than set this value. It can dramatic effect especially on a lot of short write transactions
+# http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/
+#innodb_flush_log_at_trx_commit = 1
+innodb_flush_log_at_trx_commit = 2
+
+# Avoid double buffering and reduce swap pressure, in most cases this setting improves performance. Though be careful if you do not have battery backed up RAID cache as when write IO may suffer
+# sometimes makes writes slower
+# http://www.mysqlperformanceblog.com/2007/11/01/innodb-performance-optimization-basics/
+# breaks existing replication!
+innodb_flush_method=O_DIRECT
+
+# affects write performance, the bigger the better
+# mysqlperformanceblog -- COMBINED size could be up to 4gb
+# MOVE AWAY OLD LOG FILES ib_log* AFTER SHUTTING DOWN MYSQL AND THEN START MYSQL TO CHANGE THIS
+#innodb_log_file_size = 1000000000
+
+# 75% - 80% of RAM
+# be careful - watch for key_buffer_size sort_buffer_size read_buffer_size and read_rnd_buffer_size
+innodb_buffer_pool_size = 12G
+
+# auto-manageed, used for dictionary
+innodb_additional_mem_pool_size = 16M
+
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_files_in_group = 3
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+innodb_log_buffer_size = 8M
+

@@ -1,0 +1,87 @@
+# MySQL Master/Standalone Template
+# V1.3 2013-10-08
+
+[mysqld]
+bind-address={IP}
+port={PORT}
+
+basedir={basedir}
+datadir={datadir}
+tmpdir={tmpdir}
+socket={datadir}/mysql.sock
+
+# general settings
+max_connections=1000                   # default: 151
+interactive_timeout=3600               # default: 28800 (seconds server waits for activity on an interactive conn)
+wait_timeout=3600                      # default: 28800 (seconds server waits for activity on an non-interactive conn)
+character-set-server=utf8
+collation-server=utf8_general_ci
+skip_name_resolve                      # skip dns reverse lookup
+max_allowed_packet=64M                 # default: 1M (should match with client side buffer size)
+large_pages                            # enable large pages if available (cat /proc/meminfo | grep -i huge)
+max_connect_errors=4294967295
+
+# replication settings
+log-bin={bindir}/bin_log
+binlog_format=MIXED                    # mix of statement and row based format
+server-id=1                            # must be unique in a pool of master+slave instances
+expire_logs_days=2                     # default: 0 (delete binlogs after x days)
+
+# query cache settings
+query_cache_size=128M
+query_cache_limit=1M                   # default: 1M (max size of cacheable result sets)
+#query_cache_type=0                    # disable=0 query cache, if you have a constant write load
+                                       # use on_demand=2 query cache if you have rarely situations, where a query cache would be useful
+
+# global cache/memory settings
+thread_cache_size=10000                # default: 0 (how many threads the server should cache for reuse, useful for very high connection frequency)
+table_open_cache=10000                 # default: 400
+max_heap_table_size=64M                # default: 16M (max size of MEMORY type table, also used for tmp-tables)
+tmp_table_size=64M                     # default: system dependent (max size of in-mem temp tables)
+
+# per connection cache/memory settings
+sort_buffer_size=2M                    # default: 2M (>2MB may significantly slow down memory allocation)
+join_buffer_size=1M                    # default: 128k (one buffer for each join)
+read_buffer_size=256K                  # default: 128k (used by sequential scans on tables)
+read_rnd_buffer_size=512K              # default: 256k (used when reading rows in sorted order following a key-sorting)
+binlog_cache_size=1M                   # default: 32k (holds changes for binlog for each client)
+
+# MyISAM settings
+key_buffer_size=128M                   # default: 8M
+
+# innoDB settings
+innodb_file_per_table=1                # default: 0 (own .ibd storage for each table)
+innodb_buffer_pool_size=1G             # default: 128M (for caching data und indexes)
+innodb_buffer_pool_instances=16        # default: 1, divides the buffer pool into a user-specified number of separate regions
+innodb_log_buffer_size=16M             # default: 8M (buffer for writing innodb log files on disk)
+innodb_log_file_size=256M              # default: 5M (size of each log file in a log group)
+innodb_log_files_in_group=2            # default: 2 (number of log files in a log group)
+innodb_flush_log_at_trx_commit=2       # default: 1 (0:write+flush every second, 1:ACID - write+flush every transaction)
+innodb_support_xa=1                    # default: 1 (enables two-phase commit in XA transactions; required for binlog)
+innodb_doublewrite=1                   # default: 1 (store data in buffer first, than on disk)
+innodb_flush_method=O_DIRECT           # O_DIRECT can have positive or negative effect
+innodb_max_dirty_pages_pct=75          # default: 75
+innodb_open_files=10000                # default: 300 (maximum number of open .ibd files at one time)
+innodb_thread_concurrency=32           # default: 0 (2 times number of CPUs plus number of disks)
+#innodb_write_io_threads=16
+#innodb_read_io_threads=16
+innodb_purge_threads=1                 # dedicated threads for deletions
+
+
+# logging settings
+slow_query_log=0                       # default: 0 (enables writing of slow log)
+slow_query_log_file=slow.log
+log_queries_not_using_indexes=0        # default: 0 (enables logging of all statements which doesnt use indexes)
+long_query_time=2                      # default: 10
+
+# mysql version specific settings
+[mysqld-5.1]
+innodb_additional_mem_pool_size=16M    # default: 8M (stores data dictionary and other internal data structures)
+
+[mysqld-5.5]
+innodb_additional_mem_pool_size=16M    # default: 8M (stores data dictionary and other internal data structures)
+innodb_io_capacity=400                 # default: 200 (lower for slow disks, higher for high-performance systems)
+
+[mysqld-5.6]
+innodb_io_capacity=400                 # default: 200 (lower for slow disks, higher for high-performance systems)
+

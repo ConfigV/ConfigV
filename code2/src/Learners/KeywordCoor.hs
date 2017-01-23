@@ -66,7 +66,7 @@ instance Learnable R.KeywordCoor AntiRule where
        else True--fls r1 > tru r1
    in
      if (not $agrees rd1 rd2)
-     then Nothing --Just rd1
+     then Just rd1
      else Nothing
 
   toError fname ((KeywordCoor (k1,k2)),rd) = Error{
@@ -91,8 +91,6 @@ embedWith counts rules =
 addCount :: M.Map Keyword Int -> KeywordCoor -> AntiRule -> AntiRule
 addCount counts (KeywordCoor (k1,k2)) rd = let
   kcount k = M.findWithDefault 0 k counts
-  addTotal :: Int -> AntiRule -> AntiRule
-  addTotal i r = r{tot=i}
  in
-  addTotal (kcount k1 + kcount k2) rd
+  rd{tot=(kcount k1 + kcount k2)}
   

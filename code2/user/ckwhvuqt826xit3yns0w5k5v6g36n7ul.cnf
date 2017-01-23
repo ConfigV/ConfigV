@@ -1,0 +1,171 @@
+# MariaDB database server configuration file.
+#
+# You can copy this file to one of:
+# - "/etc/mysql/my.cnf" to set global options,
+# - "~/.my.cnf" to set user-specific options.
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+# This will be passed to all mysql clients
+# It has been reported that passwords should be enclosed with ticks/quotes
+# escpecially if they contain "#" chars...
+# Remember to edit /etc/mysql/debian.cnf when changing the socket location.
+[client]
+port            = {{ mysql.server.port }} 
+socket          = /var/run/mysqld/mysqld.sock
+
+# Here is entries for some specific programs
+# The following values assume you have at least 32M ram
+
+# This was formally known as [safe_mysqld]. Both versions are currently parsed.
+[mysqld_safe]
+socket          = /var/run/mysqld/mysqld.sock
+nice            = 0
+open_files_limit	= 1024
+
+[mysqld]
+#
+# * Basic Settings
+#
+user            = mysql
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+port            = {{ mysql.server.port }}
+basedir         = /usr
+datadir         = /var/lib/mysql
+tmpdir          = /tmp
+lc_messages_dir = /usr/share/mysql
+lc_messages     = en_US
+skip-external-locking
+#
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address            = {{ mysql.server.bind_address }}
+
+#
+# * Fine Tuning
+#
+max_connections         = {{ mysql.server.max_connections }} 
+max_connect_errors	= {{ mysql.server.max_connect_errors }}
+back_log		= {{ mysql.server.back_log }}
+connect_timeout         = 5
+wait_timeout		= {{ mysql.server.wait_timeout }}
+max_allowed_packet      = 32M
+table_cache		= {{ mysql.server.table_cache }}
+thread_cache_size       = {{ mysql.server.thread_cache_size }}
+sort_buffer_size        = {{ mysql.server.sort_buffer_size }} 
+bulk_insert_buffer_size = 16M
+tmp_table_size          = {{ mysql.server.tmp_table_size }} 
+max_heap_table_size     = {{ mysql.server.max_heap_table_size }} 
+join_buffer_size	= {{ mysql.server.join_buffer_size }}
+
+#
+# * Query Cache Configuration
+#
+# Cache only tiny result sets, so we can fit more in the query cache.
+query_cache_limit               = {{ mysql.server.query_cache_limit }} 
+query_cache_size                = {{ mysql.server.query_cache_size }} 
+# for more write intensive setups, set to DEMAND or OFF
+#query_cache_type               = DEMAND
+
+
+#
+# * Logging and Replication
+#
+# Both location gets rotated by the cronjob.
+# Be aware that this log type is a performance killer.
+# As of 5.1 you can enable the log at runtime!
+#general_log_file        = /var/log/mysql/mysql.log
+#general_log             = 1
+#
+# Error logging goes to syslog due to /etc/mysql/conf.d/mysqld_safe_syslog.cnf.
+#
+# we do want to know about network errors and such
+log_warnings            = 2
+#
+# Enable the slow query log to see queries with especially long duration
+#slow_query_log[={0|1}]
+slow_query_log = {{ mysql.server.slow_query_log }}
+slow_query_log_file     = /var/log/mysql/mariadb-slow.log
+long_query_time = {{ mysql.server.long_query_time }} 
+#log_slow_rate_limit    = 1000
+log_slow_verbosity      = query_plan
+
+#log-queries-not-using-indexes
+#log_slow_admin_statements
+#
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+#server-id              = 1
+#report_host            = master1
+#auto_increment_increment = 2
+#auto_increment_offset  = 1
+log_bin                 = /var/log/mysql/mariadb-bin
+log_bin_index           = /var/log/mysql/mariadb-bin.index
+# not fab for performance, but safer
+#sync_binlog            = 1
+expire_logs_days        = 10
+max_binlog_size         = {{ mysql.server.max_binlog_size }} 
+binlog_cache_size	= {{ mysql.server.binlog_cache_size }}
+# slaves
+#relay_log              = /var/log/mysql/relay-bin
+#relay_log_index        = /var/log/mysql/relay-bin.index
+#relay_log_info_file    = /var/log/mysql/relay-bin.info
+#log_slave_updates
+#read_only
+#
+
+# If applications support it, this stricter sql_mode prevents some
+# mistakes like inserting invalid dates etc.
+#sql_mode               = NO_ENGINE_SUBSTITUTION,TRADITIONAL
+#
+# * InnoDB
+#
+# InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
+# Read the manual for more InnoDB related options. There are many!
+default_storage_engine  = InnoDB
+# you can't just change log file size, requires special procedure
+#innodb_log_file_size   = 50M
+
+innodb_buffer_pool_size = {{ mysql.server.innodb.innodb_buffer_pool_size }} 
+innodb_log_buffer_size  = {{ mysql.server.innodb.innodb_log_file_size }} 
+innodb_file_per_table   = 1
+innodb_open_files       = {{ mysql.server.innodb.innodb_open_files }}
+innodb_io_capacity      = 400
+innodb_flush_method     = O_DIRECT
+innodb_additional_mem_pool_size	= {{ mysql.server.innodb.innodb_additional_mem_pool_size }}
+innodb_flush_log_at_trx_commit = {{ mysql.server.innodb.innodb_flush_log_at_trx_commit }}
+#
+# * Security Features
+#
+# Read the manual, too, if you want chroot!
+# chroot = /var/lib/mysql/
+#
+# For generating SSL certificates I recommend the OpenSSL GUI "tinyca".
+#
+# ssl-ca=/etc/mysql/cacert.pem
+# ssl-cert=/etc/mysql/server-cert.pem
+# ssl-key=/etc/mysql/server-key.pem
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet      = 16M
+
+[mysql]
+#no-auto-rehash # faster start of mysql but no tab completition
+
+[isamchk]
+key_buffer              = 16M
+
+#
+# * IMPORTANT: Additional settings that can override those from this file!
+#   The files must end with '.cnf', otherwise they'll be ignored.
+#
+!includedir /etc/mysql/conf.d/

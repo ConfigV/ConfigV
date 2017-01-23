@@ -1,0 +1,81 @@
+#######################################################################
+# File name: my-small.cnf
+# Created By: The Uniform Server Development Team
+# Edited Last By: Mike Gleaves (ric) 
+# V 1.1 3-6-2009
+######################################################################## 
+
+# The following options will be passed to all MySQL clients
+[client]
+#password=my_password
+port=3306
+#socket=MySQL
+
+# Here follows entries for some specific programs
+
+# The MySQL server
+[mysqld]
+port=3306
+#socket=MySQL
+skip-locking
+key_buffer = 16K
+max_allowed_packet = 1M
+table_cache = 4
+sort_buffer = 64K
+read_buffer_size = 128K
+read_rnd_buffer_size = 256K
+net_buffer_length = 2K
+thread_stack = 192K
+server-id	= 1
+
+# Uncomment the following if you want to log updates
+#log-bin=mysql-bin
+
+# Uncomment the following rows if you move the MySQL distribution to another
+# location
+basedir = "C:/Users/Pancha/Desktop/sahana-vesuvius/PortableApps/SahanaPortable2/usr/local/mysql/"
+datadir = "C:/Users/Pancha/Desktop/sahana-vesuvius/PortableApps/SahanaPortable2/usr/local/mysql/data/"
+tmpdir = "C:/Users/Pancha/Desktop/sahana-vesuvius/PortableApps/SahanaPortable2/tmp"
+# character-sets-dir=C:/Users/Pancha/Desktop/sahana-vesuvius/PortableApps/SahanaPortable2/usr/local/mysql/share/charsets/
+# default-character-set=win1251";
+pid-file=mysql.pid
+#log
+
+# Note: The innodb block is enabled/disabled using a single line
+# Uncomment the next line to disable innodb tables. Comment line to enable innodb tables
+
+skip-innodb
+
+innodb_data_home_dir = "C:/Users/Pancha/Desktop/sahana-vesuvius/PortableApps/SahanaPortable2/usr/local/mysql/data/"
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_log_group_home_dir = "C:/Users/Pancha/Desktop/sahana-vesuvius/PortableApps/SahanaPortable2/usr/local/mysql/data/"
+innodb_log_group_home_dir = "C:/Users/Pancha/Desktop/sahana-vesuvius/PortableApps/SahanaPortable2/usr/local/mysql/data/"
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size = 16M
+innodb_additional_mem_pool_size = 2M
+innodb_log_file_size = 5M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+
+[mysqldump]
+quick
+max_allowed_packet=16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer=8M
+sort_buffer=8M
+
+[myisamchk]
+key_buffer=8M
+sort_buffer=8M
+
+[mysqlhotcopy]
+interactive-timeout

@@ -1,0 +1,79 @@
+[mysql]
+
+# CLIENT #
+port                           = 3306
+socket                         = /data/db/mysql/var/mysql.sock
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = MyISAM
+socket                         = /data/db/mysql/var/mysql.sock
+pid-file                       = /data/db/mysql/var/mysql.pid
+#bind-address			= 192.168.11.21 
+# MyISAM #
+key-buffer-size                = 64M
+myisam-recover-options		= FORCE,BACKUP
+explicit_defaults_for_timestamp	= 1
+
+# SAFETY #
+max-allowed-packet             = 16M
+max-connect-errors             = 1000000
+skip-name-resolve
+sql-mode                       = STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION,ONLY_FULL_GROUP_BY
+sysdate-is-now                 = 1
+innodb                         = FORCE
+innodb-strict-mode             = 1
+
+# DATA STORAGE #
+datadir                        = /data/db/mysql/var/
+
+# BINARY LOGGING #
+log-bin                        = /data/db/mysql_binlog/mysql-bin
+expire-logs-days               = 14
+sync-binlog                    = 1
+
+
+# replication #
+#server_id			= 1
+#binlog-format			= ROW
+#log-slave-updates		= 1
+#master-info-repository		= TABLE
+#relay-log-info-repository	= TABLE
+#gtid-mode			= on
+#enforce-gtid-consistency	= true
+#sync-master-info		= 1
+#binlog-checksum			= CRC32
+#master-verify-checksum		= 1
+##slave-sql-verify-checksum	= 1
+#binlog-rows-query-log-events	= 1
+
+# CACHES AND LIMITS #
+tmp-table-size                 = 32M
+max-heap-table-size            = 32M
+query-cache-type               = 0
+query-cache-size               = 0
+max-connections                = 500
+thread-cache-size              = 50
+open-files-limit               = 65535
+table-definition-cache         = 4096
+table-open-cache               = 10240
+
+# INNODB #
+innodb-flush-method            = O_DIRECT
+innodb-log-files-in-group      = 2
+innodb-log-file-size           = 32M
+innodb-flush-log-at-trx-commit = 1
+innodb-file-per-table          = 1
+innodb-buffer-pool-size        = 8M
+
+# LOGGING #
+log-error                      = /data/db/mysql/logs/mysql-error.log
+log-queries-not-using-indexes  = 0
+slow-query-log                 = 1
+slow-query-log-file            = /data/db/mysql/logs/mysql-slow.log
+long-query-time			= 1
+
+[mysqld_safe]
+malloc-lib=/usr/lib64/libjemalloc.so.1

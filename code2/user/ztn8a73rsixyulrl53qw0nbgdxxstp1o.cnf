@@ -1,0 +1,73 @@
+# Percona Server template configuration
+
+[mysql]
+port=3306
+socket=/var/lib/mysql/mysql.sock
+default-character-set=utf8
+
+[mysqld]
+#
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+#
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin
+#
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M
+user=mysql
+default-storage-engine=InnoDB
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+character_set_server=utf8
+collation_server=utf8_general_ci
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+# Recommended in standard MySQL setup
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+key-buffer-size=32M
+myisam-recover=FORCE,BACKUP
+
+max-allowed-packet=16M
+max-connect-errors=1000000
+sysdate-is-now=1
+
+log-bin=/var/lib/mysql/mysql-bin
+expire-logs-days=14
+sync-binlog=1
+binlog_format=ROW
+
+tmp-table-size=32M
+max-heap-table-size=32M
+query-cache-type=0
+query-cache-size=0
+max-connections=500
+thread-cache-size=50
+open-files-limit=65535
+table-definition-cache=1024
+table-open-cache=2048
+
+innodb-flush-method=O_DIRECT
+innodb-log-files-in-group=2
+innodb-log-file-size=64M
+innodb-flush-log-at-trx-commit=1
+innodb-file-per-table=1
+innodb-buffer-pool-size=592M
+
+lower_case_table_names=1
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+log-queries-not-using-indexes=1
+slow-query-log=1
+slow-query-log-file=/var/lib/mysql/mysql-slow.log
+pid-file=/var/run/mysqld/mysqld.pid       

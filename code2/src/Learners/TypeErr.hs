@@ -36,8 +36,8 @@ instance Learnable TypeErr QType where
     --NB on takeWhile, types of keywords do not depend on context
     -- this creates a problem with the Chekcer tho...
     toTypeErr :: IRLine -> (TypeErr,QType)
-    toTypeErr ir = (TypeErr (keyword ir),getQType $ value ir)
-    --toTypeErr ir = (TypeErr (T.takeWhile (/= '[') $ keyword ir),getQType $ value ir)
+    --toTypeErr ir = (TypeErr (keyword ir),getQType $ value ir)
+    toTypeErr ir = (TypeErr (T.takeWhile (/= '[') $ keyword ir),getQType $ value ir)
     xs = ["set-variable"]
     f' = filter (\ir -> not $ any (\k -> T.isInfixOf k (keyword ir)) xs) f
    in
@@ -48,17 +48,17 @@ instance Learnable TypeErr QType where
 
   -- 
   check _ rd1 rd2 = let
-     tot = fromIntegral $ sum [string rd1, int rd1, size rd1] 
+     tot = fromIntegral $ sum [string rd1, int rd1, size rd1, bool rd1, path rd1] 
      toProb x = if tot > 10
        then (fromIntegral .x)rd1 / tot 
        else 1
    in
      if --TODO allow 1/0 in place of bool 
-       string rd2 == 1 && toProb string > 0.7 ||
-       path   rd2 == 1 && toProb path> 0.7 ||
-       bool   rd2 == 1 && toProb bool> 0.7 ||
-       int    rd2 == 1 && (toProb int + toProb size > 0.7) ||
-       size   rd2 == 1 && toProb size> 0.7 ||
+       (string rd2 == 1 && toProb string > 0.7) ||
+       (path   rd2 == 1 && (toProb string+ toProb path) > 0.7) ||
+       (bool   rd2 == 1 && (toProb bool + toProb int) > 0.7) ||
+       (int    rd2 == 1 && ((toProb int + toProb size > 0.7) || (toProb int + toProb bool > 0.7))) ||
+       (size   rd2 == 1 && toProb size> 0.7) ||
        tot == 0
      then Nothing
      else Just rd1
@@ -68,4 +68,22 @@ instance Learnable TypeErr QType where
     ,errIdent = TYPE
     ,errMsg = "TYPE ERROR: Expected a "++(show rd)++" for "++(show k)}
     --".Found value " ++(show $ findVal f' $ fst x) ++ " of type " ++ (show $ assignProbs $ findVal f' $ fst x) }
-    
+
+p = QType {
+  string =1
+ ,path =1
+ ,int =1
+ ,bool =1
+ ,size =1
+}
+
+
+i = QType {
+  string =2
+ ,path =0
+ ,int =37
+ ,bool =7
+ ,size =0
+}
+
+test = check (TypeErr "F") i p

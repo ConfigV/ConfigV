@@ -1,0 +1,31 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+default-storage-engine = innodb
+# Default to using old password format for compatibility with mysql 3.x
+# clients (those using the mysqlclient10 compatibility package).
+old_passwords=1
+
+# Disabling symbolic-links is recommended to prevent assorted security risks;
+# to do so, uncomment this line:
+# symbolic-links=0
+
+# To allow mysqld to connect to a MySQL Cluster management daemon, uncomment
+# these lines and adjust the connectstring as needed.
+#ndbcluster
+#ndb-connectstring="nodeid=4;host=localhost:1186"
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+[ndbd]
+# If you are running a MySQL Cluster storage daemon (ndbd) on this machine,
+# adjust its connection to the management daemon here.
+# Note: ndbd init script requires this to include nodeid!
+connect-string="nodeid=2;host=localhost:1186"
+
+[ndb_mgm]
+# connection string for MySQL Cluster management tool
+connect-string="host=localhost:1186"

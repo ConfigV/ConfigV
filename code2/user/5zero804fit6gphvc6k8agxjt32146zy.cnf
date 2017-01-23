@@ -1,0 +1,97 @@
+[client]
+socket                         = /var/run/mysqld/mysqld.sock
+port                           = 3306
+default-character-set          = utf8
+
+
+
+[mysqld_safe]
+socket                         = /var/run/mysqld/mysqld.sock
+nice                           = 0
+
+
+
+[mysqld]
+slow_query_log                 = ON
+slow_query_log_file            = /var/log/mysql/slow.log
+
+log_slow_queries               = /var/log/mysql/slow.log
+log-queries-not-using-indexes
+
+user                           = mysql
+socket                         = /var/run/mysqld/mysqld.sock
+port                           = 3306
+basedir                        = /usr
+datadir                        = /var/lib/mysql
+tmpdir                         = /tmp
+
+skip-external-locking
+open-files-limit               = 8192
+low_priority_updates           = 1
+concurrent_insert              = 2
+
+max_connections                = 256
+connect_timeout                = 10
+wait_timeout                   = 60
+max_allowed_packet             = 16M
+
+thread_stack                   = 512K
+thread_cache                   = 1024
+thread_cache_size              = 8
+table_open_cache               = 256
+
+key_buffer                     = 128M
+key_buffer_size                = 128M
+sort_buffer_size               = 3M
+read_buffer_size               = 1M
+join_buffer_size               = 1M
+myisam_sort_buffer_size        = 1M
+read_rnd_buffer_size           = 1M
+
+myisam_recover                 = BACKUP
+
+table_cache                    = 1028
+query_cache_type               = 1
+query_cache_limit              = 64M
+query_cache_size               = 128M
+delay_key_write                = OFF
+max_heap_table_size            = 16M
+tmp_table_size                 = 64M
+
+log_error                      = /var/log/mysql/error.log
+expire_logs_days               = 7
+max_binlog_size                = 100M
+
+event_scheduler                = on
+init_connect                   = 'SET collation_connection = utf8_unicode_ci; SET NAMES utf8;'
+character_set_server           = utf8
+collation_server               = utf8_general_ci
+skip-character-set-client-handshake
+
+innodb_flush_method            = O_DIRECT
+
+server-id                      = 1
+innodb_flush_log_at_trx_commit = 1
+log-bin                        = mysql-bin
+sync_binlog                    = 0
+binlog_cache_size              = 2M
+binlog_format                  = MIXED
+
+
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet             = 16M
+
+
+
+[mysql]
+default-character-set          = utf8
+
+
+
+[isamchk]
+key_buffer                     = 16M
+
+

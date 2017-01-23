@@ -1,0 +1,60 @@
+[mysqld]
+port = 3306
+server_id = 1
+socket = /var/run/mysqld/mysqld.sock
+
+max_allowed_packet = 512M
+
+# fully support utf8
+# http://mathiasbynens.be/notes/mysql-utf8mb4
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+max_connections = 50
+wait_timeout = 30
+
+key_buffer_size = 4M
+
+sort_buffer_size = 1M
+read_buffer_size = 1M
+join_buffer_size = 1M
+
+max_heap_table_size = 32M
+
+thread_stack = 64K
+
+innodb_buffer_pool_size = 256M
+innodb_additional_mem_pool_size = 8M
+innodb_log_file_size = 32M
+innodb_log_buffer_size = 4M
+innodb_flush_method = O_DIRECT
+innodb_ft_min_token_size = 2
+
+innodb_thread_concurrency = 0
+
+performance_schema = 0
+
+# table_cache change in 5.6
+table_open_cache = 64
+
+thread_cache = 8
+
+query_cache_limit = 256K
+query_cache_size = 4M
+query_cache_type = 1
+
+sql_mode = "NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES"
+
+general_log = 1
+general_log_file = "/var/log/mysql/mysql.log"
+log_queries_not_using_indexes = 1
+
+slow_query_log = 1
+slow_query_log_file = "/var/log/mysql/mysql-slow.log"
+long_query_time = 1
+
+log-bin = "/var/log/mysql/mysql-bin.log"
+expire_logs_days = 10
+max_binlog_size = 128M
+sync_binlog = 8

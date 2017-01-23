@@ -1,0 +1,27 @@
+[mysqld]
+
+user=mysql
+skip-grant-tables=1
+
+# Mandatory Settings
+binlog_format=ROW
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+
+# Optional mysqld Settings
+datadir=/var/lib/mysql
+innodb_buffer_pool_size=128M
+innodb_log_file_size=128M
+innodb_file_per_table=1
+innodb_flush_log_at_trx_commit=0
+
+# Basic wsrep Provider Settings
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+wsrep_provider_options="gcache.size=128M;gcache.page_size=128M;"
+wsrep_cluster_address=gcomm://
+wsrep_cluster_name='example_cluster'
+wsrep_sst_method=rsync
+
+
+performance_schema=off
+

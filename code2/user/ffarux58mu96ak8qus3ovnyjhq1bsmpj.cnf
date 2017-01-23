@@ -1,0 +1,73 @@
+#
+# This group is read both both by the client and the server
+# use it for options that affect everything
+#
+[client-server]
+
+#
+# include all files from the config directory
+#
+#!includedir /etc/my.cnf.d
+
+[mysqld]
+local-infile=0
+innodb_file_per_table=1
+
+datadir=/opt/db/mysql
+tmp_table_size=256M
+max_heap_table_size=256M
+query_cache_limit=256M
+query_cache_size=256M
+query_cache_type=1
+max_user_connections=45
+max_connections=300
+innodb_buffer_pool_size = 256M
+
+collation_server=utf8_unicode_ci
+character_set_server=utf8
+
+delayed_insert_timeout=40
+
+interactive_timeout=10
+wait_timeout=60
+connect_timeout=20
+thread_cache_size=128
+key_buffer=64M
+join_buffer_size=64M
+max_connect_errors=20
+max_allowed_packet=64M
+table_cache=4096
+sort_buffer_size=8M
+read_buffer_size=8M
+read_rnd_buffer_size=8M
+myisam_sort_buffer_size=64M
+server-id=2
+
+log_bin=/opt/db/mysql/mysql-bin.log
+log_bin_index=/opt/db/mysql/mysql-bin.log.index
+relay-log=/opt/db/mysql/mysql-relay-bin
+
+max_binlog_size=100M
+expire_logs_days=7
+
+# this is optional, but I find it useful to specify where the relay logs go to control.  
+# Don't forget to create the /var/log/mysql directory and give mysql rights to it.  
+# chown mysql:mysql -R /var/log/mysql
+# disk space
+relay_log           = /var/log/mysql/mysql-relay-bin
+relay_log_index     = /var/log/mysql/mysql-relay-bin.index
+relay_log_space_limit = 2000M
+
+[mysql.server]
+user=mysql
+
+[safe_mysqld]
+err-log=/var/log/mysql/mysqld.log
+pid-file=/var/lib/mysql/mysql.pid
+
+[mysqldump]
+quick
+max_allowed_packet=32M
+
+[mysql]
+no-auto-rehash
