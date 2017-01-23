@@ -72,7 +72,7 @@ instance Learnable R.KeywordCoor AntiRule where
   toError fname ((KeywordCoor (k1,k2)),rd) = Error{
      errLocs= [(fname,k1),(fname,k2)]
     ,errIdent = MISSING
-    ,errMsg = "KEYWORD ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)}
+    ,errMsg = "MISSING ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)}
 
 pairs' :: [IRLine]  -> [(IRLine,IRLine)]
 pairs' [] = []

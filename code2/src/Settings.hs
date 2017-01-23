@@ -4,7 +4,7 @@ module Settings where
   vERBOSE = True
 
   --use the prebuilt cache, if false, will overwrite cache using this run
-  uSE_CACHE = False
+  uSE_CACHE = True
 
   --verify benchmarks and report # passing or verify files in 'user' dir
   bENCHMARKS = False
