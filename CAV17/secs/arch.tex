@@ -2,7 +2,7 @@
 \section{The \app Framework Overview}
 
 \begin{figure*}[tbp] \centering
-\includegraphics[width=0.88\textwidth]{figs/overview}
+\includegraphics[width=0.84\textwidth]{figs/overview}
 \caption{\app's workflow. The green components represent configuration 
   files, including both training set of configuration files and users' input
   configuration files to verify.
@@ -15,13 +15,13 @@
 
 We propose \app, an automatic verification framework for 
 software configuration files.
-In particular, \app can detect many sophisticated configuration errors, 
-including ordering errors, missing entry errors,
+As shown in Sec.~\ref{sec-motiv}, \app can detect many sophisticated 
+configuration errors, including ordering errors, missing entry errors,
 type errors and integer correlation errors. 
-As depicted in Figure~\ref{fig-overview}, 
-a typical \app verification workflow has three steps:
-translation, learning, and rule refinement. In this section, we briefly
-describe how each step works.
+Figure~\ref{fig-overview} shows
+a typical \app verification workflow with three steps:
+translation, learning, and rule refinement. This section briefly
+describes how each step works.
 
 \para{Initial phase}
 We start with the assumption 
@@ -39,28 +39,28 @@ set of configuration files, and then transforms them into
 a more structured and typed intermediate representation.
 When we infer the types of entries in a configuration file, 
 the type of an entry cannot always be fully determined from 
-a single value, since it is very hard to understand
+a single value, since it is difficult to understand
 the purposes of key-value entries in modern
 software configuration files~\cite{xu15hey}.
 We address this problem 
 by introducing {\em probabilistic types}.
 Rather than giving a variable a single type, 
 we assign several types over a probability distribution. 
-We can later use these more structured files
-as a training set to learn the rules. 
+We can later use these well-structured files
+as a ``true'' training set to learn the rules. 
 
 \para{Learning}
-The input of the learner is a set of files that have been translated
-into well-structured intermediate representations. 
-The learner employs a learning algorithm named {\em rule association 
-algorithm} to generate various rules,
+The learner reads a set of configuration  files that have been translated
+into well-structured representations. 
+The learner employs a learning algorithm, {\em rule association 
+algorithm}, to generate various rules,
 potentially used to handle different types of configuration errors,
 including ordering errors, missing entry errors,
 type errors and integer correlation errors.
 These rules are the outputs of the learner, 
 and will be used to detect errors later.
 Because the translator gives the learner probabilistically typed entries,
-the learner is also responsible for determining a type for each entry.
+the learner is also responsible for determining types for these entries.
 
 \para{Post Analysis}
 Finally, the logically structured representation of learned rules allows for a further post analysis stage.

@@ -10,41 +10,36 @@ a popular question and answer website for programmers and administrators.
 %we explored and analyzed misconfigurations 
 %on a large number of user forums and on-line discussion sites.
 
-\para{Example~1: Ordering error} 
-Ordering errors were reported by Yin {\em et al.}~\cite{yin11anempirical} and our first
-example illustrates how ordering errors can cause a system to crash. When a user configures PHP 
-to run with the
-Apache HTTP Server, most likely the user will take some already existing configuration files and adapt them
-to suit her needs. The configuration file might contain, among others, 
-the following lines:
+\para{Example~1: Missing entry error} 
+Many critical system outages result from the fact that an important
+entry was missing from the configuration file. 
+We call such a problem a {\em missing entry error}.
+In a public misconfiguration dataset~\cite{configdataset},
+many misconfiguration issues were caused by
+missing entry errors.
+Below is a real-world missing entry error example~\cite{missingentry}:
+when a user wants to configure her PHP and PostgreSQL,
+she needs to use both {\tt pgsql.so} and {\tt curl.so}
+in her {\tt /ctc/php5/conf.d/curl.ini} file.
+Specifically, this is usually
+achieved by the following entries in 
+the curl configuration file:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    extension = mysql.so
-        ...
-    extension = recode.so
-\end{lstlisting}
+    extension=pgsql.so
+    extension=curl.so
+\end{lstlisting} 
 
-This configuration file will cause the Apache server to 
-fail to start due to a segmentation fault error. 
-This is because, when using PHP in Apache, the extension {\tt mysql.so} 
-depends on {\tt recode.so}, and their relative ordering
-is crucial. 
-We call the above example of a misconfiguration file
-an {\em ordering error}.
-Yin {\em et al.} report that ordering errors widely exist in
-many system configurations, \eg, PHP and MySQL,
-and typically lead to multiple system crash events.
-However, no existing tool can effectively solve 
-or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
+Nevertheless, in this example, the user 
+left out the {\tt extension=pgsql.so} entry, 
+as done by many users~\cite{yin11anempirical, missingentry}, 
+causing a segmentation fault. 
+If the user runs \app on such a misconfiguration file,
+\app would return:
 
-By invoking \app, the user can detect such a configuration error.
-In particular, \app reports that {\tt recode.so} 
-should appear before {\tt mysql.so}, as shown
-below:
- 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    ORDERING ERROR: Expected "extension=recode.so"
-    BEFORE "extension=mysql.so"
+    MISSING ENTRY ERROR: Expected "extension=pgsal.so"
+    in the same file: "extension=curl.so"
 \end{lstlisting} 
 
 %TODO would be nice to have these as subsection or somehow be able to ref specific examples
@@ -100,37 +95,7 @@ can detect the simple integer correlation errors,
 to the best of our knowledge, \app is the first effort capable of
 detecting fine-grained integer correlation problems.
 
-\para{Example~3: Missing entry error} 
-Many critical system outages result from the fact that an important
-entry was missing from the configuration file. 
-We call such a problem a {\em missing entry error}.
-In a public misconfiguration dataset~\cite{configdataset},
-many MySQL failure reports were caused by
-missing entry errors.
-Below is a real-world missing entry error example~\cite{yin11anempirical}:
-when a user wants to use OpenLDAP to enable her directory access
-protocol, she needs to use the password policy overlay. This is usually
-achieved via the following entries in the OpenLDAP configuration file:
-
-\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    include schema/ppolicy.schema
-    overlay ppolicy
-\end{lstlisting} 
-
-When using the password policy overlay in OpenLDAP, 
-users must first include the related schema.
-Leaving out the {\tt include schema/ppolicy.schema} entry, 
-as done by many users~\cite{yin11anempirical}, 
-causes the failure of LDAP. 
-If the user runs \app on such a misconfiguration file,
-\app would return:
-
-\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-    MISSING ENTRY ERROR: Expected "overlay" "ppolicy"
-    in the same file: "include" "schema/ppolicy.schema"
-\end{lstlisting} 
-
-\para{Example~4: Type errors} 
+\para{Example~3: Type errors} 
 Many system availability problems are caused by 
 assigning incorrect type of values to some key in configuration
 files. Consider the following real-world misconfiguration
@@ -154,6 +119,45 @@ With \app, this user can get the following result:
     TYPE ERROR: Expected a Int with P=1.0 for
     "slow-query-log"
 \end{lstlisting} 
+
+\para{Example~4: Ordering error} 
+Ordering errors were reported by Yin {\em et al.}~\cite{yin11anempirical} and our first
+example illustrates how ordering errors can cause a system to crash. When a user configures PHP 
+to run with the
+Apache HTTP Server, most likely the user will take some already existing configuration files and adapt them
+to suit her needs. The configuration file might contain, among others, 
+the following lines:
+
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    extension = mysql.so
+        ...
+    extension = recode.so
+\end{lstlisting}
+
+This configuration file will cause the Apache server to 
+fail to start due to a segmentation fault error. 
+This is because, when using PHP in Apache, the extension {\tt mysql.so} 
+depends on {\tt recode.so}, and their relative ordering
+is crucial. 
+We call the above example of a misconfiguration file
+an {\em ordering error}.
+Yin {\em et al.} report that ordering errors widely exist in
+many system configurations, \eg, PHP and MySQL,
+and typically lead to multiple system crash events.
+However, no existing tool can effectively solve 
+or detect this problem~\cite{zhang14encore, xu15systems, xu13do}.
+
+By invoking \app, the user can detect such a configuration error.
+In particular, \app reports that {\tt recode.so} 
+should appear before {\tt mysql.so}, as shown
+below:
+ 
+\begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
+    ORDERING ERROR: Expected "extension=recode.so"
+    BEFORE "extension=mysql.so"
+\end{lstlisting} 
+
+
 
 %The above result means that we need to assign an integer value to
 %the entry ``general\_log''. 
