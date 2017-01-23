@@ -45,20 +45,24 @@ To avoid learning too many false positives, we restrict this rule to either $siz
 Without probabilistic typing, we would also learn, for example, $int*int=size$.
 %TODO include exactly how many false positive we prune with types over our training set? Here or in eval?
 
-%TODO Aaron - add to learinign module section describe implemetnation?
-
 \app is primarily implemented in Haskell.
 The source code for our implementation is available at {\em (URL omitted for blind review)}.
- 
-The learning and checking modules are developed to allow
-for customized extensibility. In order to verify a configuration file
-against a new type of error, a user only needs to provide a new type
-that is an instance of the \textit{Attribute} typeclass (\ie, define some
-functions over that type). 
-In particular, for each type of error the users
-wish to detect, they must implement three functions;
-\lstinline{learn}, \lstinline{merge}, and \lstinline{check}.
 
+We have developed \app to be easily extendable and customizable. Each of the rules are implemented as an instance of the \textit{Learnable} typeclass:
+
+\begin{lstlisting}[language=Haskell, xleftmargin=.01\textwidth]
+class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
+  buildRelations :: IRConfigFile -> RuleDataMap a b
+  merge :: Countable b => [RuleDataMap a b] -> RuleDataMap a b
+  check :: a -> b -> b -> Maybe b
+  toError :: FilePath -> (a, b) -> Error
+\end{lstlisting} 
+
+Each of the rules that check for a particular type of error are implemented in three functions, \textit{buildRelations} for constructing a map of possible observations to a count of how often they are observed, a \textit{merge} function for taking multiple sets of built relations from different files and combining them into one set of relations (weighted accordingly), and finally, a \textit{check} that takes an individual relation mapping from our built set of relations, the observation in the file we are verifying, and whether there is a violation of that particular observation of the relation. (There is a fourth \textit{toError} function that serves as a helper function to pretty-print the output of \app.) Hence, if we can define how to build the relations to verify against a new type of error, a system for combining these relations with weights across multiple files that are seen, along with a mechanism for checking whether each individual relation was violated or not, we can extend \app to check for new types of errors. Furthermore, the approach of defining a method to build relations from a single file as well as a method to combine these relations facilitates the parallelization of our implementation, since each of the \textit{buildRelations} calls can work parlellely on each file before the results are combined with the \textit{merge} step.
+
+Each of the outputs of the \textit{buildRelations} is in the form \textit{RuleDataMap a b}, where \textit{a} is a group of entities between which we want to define a relation (for example, a pair of keywords for Missing, Order, and Integer Correlation) and \textit{Countable b} is a tally of likelihoods of each possible outcome of the relation that can be weighted and combined over multiple files (for example, a count of files that exhibit the relation versus not for Missing or a count of files that exhibit less than, equals, or greater than between a pair of keywords for Ordering or a set of probabilities for Type rules).
+
+Once the program has finished merging together a set of built relations over every example file in the learning set, we have implemented a \textit{check} function for each of the rules, where we input the group of entities under which a relation is defined, the expected observation on that relation, and the actually observed observation in the file we are checking. If the observed instance is inconsistent with the relations built from our training set files, then we would see it reported. In the probablistic setting of our tool, we would implement cutoffs to tune our \textit{check} to ignore observed relations under a certain significance level.
 
 \subsection{Checker}
 \label{sec-checker}
