@@ -14,7 +14,8 @@ To solve this, we rely on the fact that keywords in a configuration file must be
 The set of unique keys, $\keys$, for the sample training set in Figure ~\ref{fig:tset} would then be [``{\tt foo[server]}'',``{\tt bar[client]}''] internally to the intermediate representation.
 We will call the set of key-value pairs $C$.
 
-
+{
+\setlength{\belowcaptionskip}{-15pt}
 \begin{figure}[!htb]
     \centering
     \begin{minipage}{.25\textwidth}
@@ -46,14 +47,15 @@ bar = OFF
     \caption{A learning set of configuration files}
     \label{fig:tset}
 \end{figure}
+}
 
-
-\subsection{Probabilistic Types}
-\label{sec:ptypes}
+\para{Probabilistic types}
+%\label{sec:ptypes}
 An additional challenge is that it is not always possible to fully determine the type of key based on a single example value. 
 For this reason, we introduce \textit{probabilistic types}, as contrasted with \textit{basic types}.
 In \app, the set of basic types contains strings, file paths, integers, sizes, and booleans. 
-Taking the configuration \ref{lst:1.cnf}, we can assume {\tt foo} is a boolean type by the grammar of MySQL,
+Taking the configuration \ref{lst:1.cnf} \ennan{configuration 1.4 is too
+far away from this place}, we can assume {\tt foo} is a boolean type by the grammar of MySQL,
   but the keyword {\tt bar} could either be a integer type or a boolean type.
 Consider that we would like to learn a rule that the boolean keywords should have the same values ($eq(\texttt{foo},\texttt{bar})$).
 We then have two potential situations; in the first case where {\tt bar}$::int$, we do not learn the above rule, but in the second case where {\tt bar}$::bool$, the rule is valid.
@@ -66,6 +68,9 @@ Every keyword $k\in\keys$ has a probabilistic type, expressed $k:\ptype$, which,
 The count for $(\tau_i,c_i) \in \ptype$ is incremented each time a new example value that matches to type $\tau_i$ is encountered for a particular key, using the update notation $\update$.
 We also denote a keyword value pair that exists in some configuration file as $(k,v) \in C$.
 
+{
+\setlength{\abovecaptionskip}{-.05pt}
+\setlength{\belowcaptionskip}{-15pt}
 \begin{figure}
 \begin{mathpar}
 \hspace{-1cm} %no idea why, but this is better than \centering here
@@ -94,6 +99,7 @@ We also denote a keyword value pair that exists in some configuration file as $(
 \caption{Type judgments for boolean equality rules with probabilistic types}
 \label{fig:ptypes}
 \end{figure}
+}
 
 In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to a basic type with enough evidence.
 The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
