@@ -53,10 +53,10 @@
 
 \section{Post Analysis}
 
-VeriConf can output the set of learned rules from the training set as
+\app can output the set of learned rules from the training set as
 described in $\S$\ref{sec-learn}, recalling that a rule is 
 an implication relationship of the form $r = X \implies p(X,Y)$.
-This data is sufficient for VeriConf to perform its core task of
+This data is sufficient for \app to perform its core task of
 configuration file validation, but can be used for more than 
 simple rule checking. By re-interpreting
 rules as being the edges of a {\bf Rule Graph}, we use tools from network
@@ -66,7 +66,7 @@ to triage reported errors by those most likely to be valid,
 and even to estimate the complexity of configuration settings.
 
 Accessibility of the Rule Graph is a hallmark of the association rule
-learning technique applied by VeriConf \cite{someOtherGraphStuff}.
+learning technique applied by \app \cite{someOtherGraphStuff}.
 In contrast, the model output from a neural network is not as easily 
 amenable to analysis \cite{nnAnalysis1, nnAnalysis2}, making it harder
 to build on the work of previously developed methods and tools.
@@ -78,26 +78,16 @@ and complexity analysis.
 \subsection{Rule Ordering}
 \label{sec:ruleorder}
 
-We formally define the {\bf Rule Graph} as a directed hypergraph 
-$H = (V,E)$ with labeled, weighted edges such that:
+We define the \textit{Rule Graph} as a directed hypergraph $H = (V,E)$,
+   with vertices $V = \{ keywords \}$ and labeled, weighted edges $E = \{ (V_s, V_t, l, w) \}$.
+The set of edges is constructed from the learned rules, using the keyword sets as source and targets, the predicates as labels, and the confidence as weights:
 
-    $$V = \{ keywords \}$$
+\begin{align*}
+\forall r \in & Learn(\trainingSet).\ \exists e\ \in E.\\
+              & V_s = X_r \land V_t=Y_r \land l=p_r \land w = confidence(r)
+\end{align*}
 
-and 
-
-    $$E = \{ (V_s, V_t, l, w) \}$$
-
-Where $V_s$ and $V_t$ are sets of vertices. Intuitively, we may think
-of each ``hyperedge'' as being directed from $V_s$ to $V_t$. 
-The label $l \in L$ indicates the predicate $p$ extracted by the learner,
-where $L$ is the set of all predicates learned. 
-The weight $w$ is defined as:
-
-    $$w = \frac{true}{total}$$
-
-as measured by the learner for that relationship. 
-
-We will also denote $E_{V_1, V_2} \subset E$ as the ``slice set'' of $E$ over $V_1, V_2$: 
+We will also denote $E_{V_1, V_2} \subset E$ as the \textit{slice set} of $E$ over $V_1, V_2$: 
 
     $$E_{V_1, V_2} = \{ \left( V_s, V_t, l, w \right) \in E \ \mid \ \exists v_1 \in V_1, V_s \land \exists v_2 \in V_2, V_t \}$$
 
@@ -108,23 +98,21 @@ The size of an edge set is the sum of all weights in that set, so:
 
     $$|E_{v_1, v_2}| = \sum_{(X, Y, l, w) \in E_{v_1, v_2}} w$$
 
-We note that support and confidence assertions in the learner ensure
+The use of the support and confidence thresholds $t_s$ and $t_c$ in the learner ensure 
 that all weights in the Rule Graph are positive.
 
 \para {Definition}
-We define a measure of degree for each node as the sum of in-degree
+We define a measure of degree $\mathcal{D}(v)$ for each vertex $v$ as the sum of in-degree
 and out-degree defined in the usual way. Explicitly, for a vertex $x \in V$:
 
-    $$DEGREE(x) = OUT\_DEGREE(x) + IN\_DEGREE(x)$$
-
-    $$DEGREE(x) = \sum_{v \in V} |E_{x, v}| + \sum_{v \in V} |E_{v, x}|$$
+    $$\mathcal{D}(x) = \sum_{v \in V} |E_{x, v}| + \sum_{v \in V} |E_{v, x}|$$
 
 \para {Discussion}
 
 The more rules of high confidence are extracted for a keyword by the learner, 
 the higher the $DEGREE$ of the corresponding vertex in the Rule Graph.
 By classifying keywords in this way, we may extract a simple way to
-order the {\it errors} reported by VeriConf by estimated importance.
+order the {\it errors} reported by \app by estimated importance.
 
 We hypothesize that keywords (specifically their corresponding vertices)
 of low $DEGREE$ will be rarer configuration
@@ -132,9 +120,9 @@ parameters where rules learned are more likely to be governed by
 tehchnical necessity, rather than industry convention. As such, errors
 reported involving low-degree keywords are more likely to be errors
 of high significance and should be presented with high importance
-to users of VeriConf.
+to users of \app.
 
-Specifically, for an error reported by VeriConf on a rule $r$ involving
+Specifically, for an error reported by \app on a rule $r$ involving
 keywords $K$, we may rank the errors simply by:
 
     $$RANK(r) = avg( DEGREE(K) )$$
@@ -150,7 +138,7 @@ verification system. As an example, we briefly present a heuristic
 for configuration file complexity based on the topology of the
 Rule Graph. This measure of complexity could be used by software
 organizations to manage configuration files in much the same way
-as Kolomogrov complexity is used to manage code - identifying
+as Kolomogrov complexity~\cite{kolomogrov} is used to manage code - identifying
 potentially brittle configurations for targeted refactoring.
 
 \para {Definition}
@@ -159,7 +147,7 @@ For a configuration file with a set of keywords $K$ for a system
 and a Rule Graph $H = (V, E)$, we define our complexity measure:
 
 \begin{equation}
-    COMPLEXITY(K, H) = \sum_{k \in K} \
+    \mathcal{C}(K, H) = \sum_{k \in K} \
         \begin{cases}
             1 * (1 - \frac{|E_{k, K}|}{|E_{k, V}|}) & \text{if}\ \ |E_{k, V}| > 0 \\
             1 & \text{otherwise}
@@ -168,7 +156,7 @@ and a Rule Graph $H = (V, E)$, we define our complexity measure:
 
 \para {Discussion}
 
-The $COMPLEXITY$ measure can be thought of as an
+The complexity measure, $\mathcal{C}$, can be thought of as an
 extension of the na\"ive line-counting measure of complexity.
 When a keyword in the configuration file is present in the Rule Graph,
 we may consider the set $E_{k, K}$ to be all learned rules involving
