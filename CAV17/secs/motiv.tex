@@ -41,7 +41,6 @@ If the user runs \app on such a misconfiguration file,
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
     MISSING ENTRY ERROR: Expected "extension=pgsal.so"
     in the same file: "extension=curl.so"
-    w/ confidence ...
 \end{lstlisting} 
 
 %TODO would be nice to have these as subsection or somehow be able to ref specific examples
@@ -81,8 +80,8 @@ between \code{key\_buffer\_size} and other buffer sizes of the system.
 If we run \app on the above configuration file, \app will give an explicit answer:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-[FINE GRAINED ERROR: Expected "max-connections[mysqld]" * "sort-buffer-size[mysqld]"
-  {gt = 63, lt = 5, eq = 0} "key-buffer-size[mysqld]"
+FINE GRAINED ERROR: Expected 
+  "max_connections" * "sort_buffer_size" >= "key_buffer_size"
 \end{lstlisting} 
 
 The above example is a complex integer correlation, which implicitly
@@ -120,8 +119,7 @@ named ``slow-query-log-file'' used to specify the log path.
 With \app, this user can get the following result:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-TYPE ERROR: Expected a PType {string = 2, path = 0, int = 37, bool = 7, size = 0} 
-  for "slow-query-log"
+TYPE ERROR: Expected an integer type for "slow-query-log"
 \end{lstlisting} 
 
 \para{Example~4: Ordering error} 
@@ -148,8 +146,7 @@ below:
  
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 ORDERING ERROR: Expected "innodb_data_home_dir[mysqld]" BEFORE
-"innodb_data_file_path[mysqld]" 
-  w/ confidence {tru = 17, fls = 1}
+  "innodb_data_file_path[mysqld]" 
 \end{lstlisting} 
 
 
