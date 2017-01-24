@@ -1,14 +1,14 @@
 
 \section{Evaluation}
 
+\markk{TODO rewrite all this}
 We evaluate this approach using our implementation, \app.
 We use two training sets, a preexisting set of MySQL configuration from~\cite{xu15systems} of 256 files,
- and our own set of collected MySQL configuration from Github of 1120 files.
+ and our own set of collected MySQL configuration from Github of 973 files.
 In our evaluation we focus on MySQL for consistency, but any configuration language (that can be parsed to the intermediate representation from Sec.~\ref{sec:trans}) can be used.
 
-
-We run \app on 80\% as our collected configuration files, selected at random, as a training set to generate rules.
-The remaining 20\% is used as a testing set to be verified by the learned rules.
+We run \app on 256 files from Tianyin, as a training set to generate rules.
+We scraped github for 973 mysql config files as a test set.
 We report the number of rules learned and number of errors detected in Table~\ref{table:learning}.
 Note that in contrast to program verification, we do not have an oracle for determining if a reported error is a true error, or a false positive.
 When learning a specification for a program, that specification can be checked by violating said specification and testing the program.
@@ -18,7 +18,7 @@ In this case, the very definition of a true error is necessarily imprecise.
 
 \begin{table}[h]
 \centering
-\caption{Results of Learning}
+\caption{Results of \app}
 \label{table:learning}
 \setlength{\tabcolsep}{0.5em}
 \begin{tabular}{|c|c|c|c|c|}
@@ -26,12 +26,12 @@ In this case, the very definition of a true error is necessarily imprecise.
 {\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Rules Detected} & {\bf Support} & {\bf Confidence}\\ 
 \hline
 \hline
-Order        & 2.997     & &  & \\ 
-Missing      & 46.4208   & &  & \\ 
-Type         & 206.7798  & &  & \\ 
-Fine-Grain   & 431.7772  & &  & \\ 
-Coarse-Grain & 856.6383  & &  & \\ 
-\hline
+Order        & 13  & 389  &  & \\ 
+Missing      & 53  & 237  &  & \\ 
+Type         & 92  & 1367 &  & \\ 
+Fine-Grain   & 327 & 55   &  & \\ 
+Coarse-Grain & 97  & 63   &  & \\ 
+\hline 
 \end{tabular}
 \end{table}
 
