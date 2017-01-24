@@ -23,7 +23,7 @@ In this case, the very definition of a true error is necessarily imprecise.
 \setlength{\tabcolsep}{0.5em}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-{\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Rules Detected} & {\bf Support} & {\bf Confidence}\\ 
+{\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Errors Detected} & {\bf Support} & {\bf Confidence}\\ 
 \hline
 \hline
 Order        & 13  & 389  &  & \\ 
@@ -48,46 +48,48 @@ Maybe we actually compare measure the distance from the ideal rank, so that a va
 \caption{Effect of Post Analysis Rule Ordering for known true positives}
 \label{table:order}
 \setlength{\tabcolsep}{1em}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
-{\bf Class of Error} & {\bf Reference} & {\bf Rank w/o} & {\bf Rank w/} & {\bf Ideal Rank}\\
+{\bf Class of Error} & {\bf Reference} & {\bf Rank w/o} & {\bf Rank w/}\\
 \hline
 \hline
-Order        & Ex.~\ref{ex:order}   & & \\ 
-Missing      & Ex.~\ref{ex:miss}    & & \\ 
-Type         & Ex.~\ref{ex:type}    & & \\ 
-Fine-Grain   & Ex.~\ref{ex:fine}    & & \\ 
-Coarse-Grain & Ex.~\ref{ex:coarse}  & & \\ 
+Order        & Ex.~\ref{ex:order}   &  & \\ 
+Missing      & Ex.~\ref{ex:miss}    &  & \\ 
+Type         & Ex.~\ref{ex:type}    &  & \\ 
+Fine-Grain   & Ex.~\ref{ex:fine}    &  & \\ 
+Coarse-Grain & Ex.~\ref{ex:coarse}  &  & \\ 
 \hline
 \end{tabular}
 \end{table}
 
 The checker stage of \app is the only one facing an end user that wants to verify a new configuration file.
-However, the user may also want to interface with the previous stages as well. 
-We have only build rules for MySQL, a relatively well documented language, but any configuration language can be analyzed with \app given a training set.
-In this case, the user will need to rebuild the rule set.
-A user also may want to update the support of confidence threshold to report more or fewer error, as is needed for their application.
-It is then important that the learning process is reasonably fast.
-The times reported in Table~\ref{table:training} were run on a single thread of a Intel i5-3450 CPU @ 3.10GHz with 16GB of RAM.
-We see the drastic difference in times here because ConfigC assumes a correct training set, and learns every relation derivable.
-With \app, we instead only process rule that meet the required support and confidence, reducing the cost of resolve to a consistent set of rules.
+Once a set of rules has been learned, it is not necessary to rerun the learner.
+However, we have only used \app to build rules for MySQL, but any configuration language can be analyzed with \app given a training set.
+In an industrial setting, the available training set may be much larger than ours as well, so is important that the learning process scales.
+We see in Table~\ref{table:training} that \app scales roughly linearly.
 
+\markk{TODO rewrite}
+We also compare \app to prior work in configuration verification, ConfigC~\cite{santolucitoCAV}.
+ConfigC scales exponentially because the learning algorithm assumes a completely correct training set, and learns every derivable relation.
+With \app, we instead only process rules that meet the required support and confidence, reducing the cost of resolving to a consistent set of rules. 
+The times reported in Table~\ref{table:training} were run on four cores of a Kaby Lake Intel Core i7-7500U CPU @ 2.70GHz on 16GB RAM and Fedora 25.
 
 \begin{table}[h]
 \centering
-\caption{Training time for different datasets}
+\caption{Time for training over various training set sizes}
 \label{table:training}
 \setlength{\tabcolsep}{1em}
 \begin{tabular}{|c|c|c|}
 \hline
-{\bf The \# of Files for Training} & {\bf ConfigC (s)} & {\bf \app (s)}\\ 
+{\bf \# of Files for Training} & {\bf ConfigC (sec)} & {\bf \app (sec)}\\ 
 \hline
 \hline
-10   & 2.997     &   \\ \hline
-50   & 46.4208   &   \\ \hline
-100  & 206.7798  &   \\ \hline
-150  & 431.7772  &   \\ \hline
-200  & 856.6383  &   \\ 
+0    & 0.051    & 0.51  \\ \hline
+50   & 1.815    & 1.638  \\ \hline
+100  & 13.331   & 4.119  \\ \hline
+150  & 95.547   & 4.231  \\ \hline
+200  & 192.882  & 12.271  \\ \hline
+256  & 766.904  & 15.627  \\ 
 \hline
 \end{tabular}
 \end{table}
