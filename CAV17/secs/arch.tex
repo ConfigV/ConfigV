@@ -2,33 +2,26 @@
 \section{The \app Framework Overview}
 
 \begin{figure*}[tbp] \centering
-\includegraphics[width=0.84\textwidth]{figs/overview}
-\caption{\app's workflow. The green components represent configuration 
-  files, including both training set of configuration files and users' input
-  configuration files to verify.
-  The blue dashed box is \app. 
-  The yellow components are key modules of \app.
-  The purple circle is a checker for checking whether the target
-  configuration file violates any rule.}
+\includegraphics[width=0.99\textwidth]{figs/overview}
+\caption{\app's workflow.
+  The dashed box is the specification learning module. 
+  The yellow components are key modules of \app.}
 \label{fig-overview}
 \end{figure*}
 
-We propose \app, an automatic verification framework for 
-software configuration files.
-As shown in Sec.~\ref{sec-motiv}, \app can detect many sophisticated 
-configuration errors, including ordering errors, missing entry errors,
-type errors and integer correlation errors. 
-Figure~\ref{fig-overview} shows
-a typical \app verification workflow with three steps:
-translation, learning, and rule refinement. This section briefly
-describes how each step works.
+Figure~\ref{fig-overview} gives an overview of the \app framework.
+The biggest part is dedicated to 
+learning and inferring the specification for configuration 
+files. This process is done offline, before the user even starts 
+to use \app. There are three main steps in the process:
+translation, learning, and rule refinement.
 
 \para{Initial phase}
-We start with the assumption 
-that we are given a number of (not necessarily correct) 
-configuration files, called {\em training set}, 
-belonging to the same system, such as MySQL or Apache. 
-These files, therefore, follow similar patterns.
+Since there is no proper formal specification for configuration 
+files, we learn the specification from a large number of 
+(not necessarily correct) configuration files belonging to the same 
+system, such as MySQL or Apache. These files are our training set.
+
 %In the following steps,
 %we will exploit in a collection of learning algorithms 
 %to build rules that describe a language model for the files.
@@ -37,26 +30,32 @@ These files, therefore, follow similar patterns.
 The translator module first parses the input training  
 set of configuration files, and then transforms them into 
 a more structured and typed intermediate representation.
-When we infer the types of entries in a configuration file, 
-the type of an entry cannot always be fully determined from 
-a single value, since it is difficult to understand
-the purposes of key-value entries in modern
-software configuration files~\cite{xu15hey}.
+Most of entries in a configuration file follow a key-value pattern, 
+where some environmental variable (``key'') is assigned  a value.
+Looking at a single entry, by inspecting the value
+we cannot always fully determine the type of the key~\cite{xu15hey}.
 We address this problem 
 by introducing {\em probabilistic types}.
 Rather than giving a variable a single type, 
 we assign several types over a probability distribution. 
-We can later use these well-structured files
-as a ``true'' training set to learn the rules. 
 
 \para{Learning}
-The learner reads a set of configuration  files that have been translated
+The learner reads a set of configuration files that have been translated
 into well-structured representations. 
-The learner employs a learning algorithm, {\em rule association 
-algorithm}, to generate various rules,
-potentially used to handle different types of configuration errors,
-including ordering errors, missing entry errors,
-type errors and integer correlation errors.
+It employs a learning algorithm, {\em rule association 
+algorithm}, to generate a list of rules, describing properties 
+of configuration files. In a nutshell, the learning algorithm 
+takes a set of rule interfaces and instantiate them with the concrete
+values that appear in the training set. Since there are no guarantees 
+that the files in the training set are correct, our main assumption
+is that even if a file contains an error, majority of the files do not 
+have the same error and our learning process should detect these
+
+generate concrete instances of t
+
+\ruzica{i need to read the rest of the paper first}
+
+
 These rules are the outputs of the learner, 
 and will be used to detect errors later.
 Because the translator gives the learner probabilistically typed entries,
