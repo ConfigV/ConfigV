@@ -43,6 +43,24 @@ for v in vertices:
             else:
                 degrees[v] = edge['WEIGHT']
 
+# prune nodes without context and add their degrees
+# to context-bearing nodes
+
+to_delete = []
+
+for d1 in degrees:
+    if "[" not in d1:
+        for d2 in degrees:
+            if (d2.startswith(d1)
+                    and not d1 == d2):
+                degrees[d2] = degrees[d2] + degrees[d1]
+        to_delete.append(d1)
+
+for d in to_delete:
+    degrees.pop(d, None)
+
+# done pruning
+
 sorted_degrees = sorted(degrees.items(), key=operator.itemgetter(1))
 
 with open(args.degree_file, 'w') as outfile:
