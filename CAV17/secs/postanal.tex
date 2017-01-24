@@ -13,23 +13,27 @@ The simple structure of rules with weights from an association rule learning-lik
 \subsection{Rule Ordering}
 \label{sec:ruleorder}
 
-Define a graph with labeled, weighted edges $G = (V,E)$ such that:
+Define a directed hypergraph with labeled, weighted edges $H = (V,E)$ such that:
 
     $$V = \{ keywords \}$$
 
 and 
 
-    $$E = \{ (v_1, v_2, l, w) \}$$
+    $$E = \{ (V_s, V_t, l, w) \}$$
 
-Where the label $l \in L$ indicates the predicate $p$ extracted by the learner,
-$L$ is the set of all predicates learned,
-and the weight $w$ is defined as 
+Where $V_s$ and $V_t$ are sets of vertices. Intuitively, we may think of the
+hyper-edge as being directed from $V_s$ to $V_t$. The label $l \in L$ indicates
+the predicate $p$ extracted by the learner, where $L$ is the set of all
+predicates learned. The weight $w$ is defined as:
 
     $$w = \frac{true}{total}$$
 
-for that relationship. For notational convenience later in this section
-we will refer to $w_{v_1, v_2, l}$ as referring to the weight of the
-edge $(v_1, v_2, l, w)$. We will refer to this graph as the {\bf Rule Graph}
+as measured by the learner for that relationship. For notational
+convenience, later in this section
+we shall define $w_{V_1, V_2, l}$ as the weight of the
+hyperedge $(V_1, V_2, l, w)$, and $s_{v_1, v_2, l}$ as the sum of weights
+over all hyperedges where $v_1 \in V_1$ and $v_2 \in V_2$.
+We will refer to this hypergraph as the {\bf Rule Graph}
 in further analysis.
 
 Note that due to support / confidence assertions in the learner, we
@@ -41,7 +45,7 @@ and out-degree defined in the usual way. Explicitly, for a vertex $x \in V$:
 
     $$DEGREE(x) = OUT\_DEGREE(x) + IN\_DEGREE(x)$$
 
-    $$DEGREE(x) = \sum_{l \in L} \sum_{v \in V} w_{x, v, l} + \sum_{l \in L} \sum_{v \in V} w_{v, x, l}$$
+    $$DEGREE(x) = \sum_{l \in L} \sum_{v \in V} s_{x, v, l} + \sum_{l \in L} \sum_{v \in V} s_{v, x, l}$$
 
 \iffalse
 
@@ -51,15 +55,15 @@ a keyword $k$ in the configuration space. We are restricted
 by the total set of learning modules from which to derive
 relationships $l$. If a keyword were highly constrained by some
 relationship to other keywords in a way that might not be
-measurable by current techniques, the learner (and therefore
-consequently the graph) will show these keywords as being
+measurable by current techniques, the learner (and
+consequently the rule graph) will show these keywords as being
 unrelated.
 
 \fi
 
 \para {Semantics}
 
-The more rules of high confidence extracted for a keyword by the learner, 
+The more rules of high confidence are extracted for a keyword by the learner, 
 the higher the $DEGREE$ of the corresponding vertex in the Rule Graph.
 We may use this measurement to examine which keywords in the configuration
 space examined by the learner are most important - which keyword configurations
@@ -70,9 +74,10 @@ by a {\it ratio} of predicate hits to total keyword observations, the weight
 of an edge is {\bf dependent only on the confidence of the corresponding rule
 and independent of the support}. We address this issue by pruning nodes of
 inadequate support in the learner, but an alternative formulation of the rule
-graph (in particular the  of edges in the graph) may provide additional
-power for graph analysis techniques to take support into account
-as well as confidence.
+graph (in particular an alternative weighting of edges)
+could provide additional
+information for graph analysis techniques to take support into account
+beyond rule confidence.
 
 \rahul{Not sure how important this last point about alternative Rule Graph
 formulation is - we certainly want to make sure the reader understands that
@@ -118,21 +123,108 @@ needs to be refactored.
 The intermediate representation produced VeriConf's learner stage
 may be used to analyze the complexity of a configuration file.
 
-INCLUDE SHORT BACKGROUND ON CODE COMPLEXITY. We define a measurement
-of complexity based on the calculated correlation. The presented
-metric is a heuristic that intends to approximate the quetion, 
+\para {Definition}
+
+We define a measurement of complexity based on the calculated correlation.
+For a configuration file with a set of keywords $K$ for a system
+with a Rule Hypergraph $H = (V, E)$, we first define $E_{source}(V_s, V_t)$ as
+the set of all hyperedges where a vertex $v_1 \in V_s$ is in the source set and
+a vertex $v_2 \in V_t$ is in the target. Finally we define the size
+of an edge set $|E|$ to be the sum over all weights in the edge set.
+
+and may now define our complexity measure:
+
+\begin{equation}
+    COMPLEXITY(K, H) = \sum_{k \in K} \
+        \begin{cases}
+            1 * (1 - \frac{|E(k, K)|}{|E(k, V)|}) & \text{if}\ \ |E(k, V)| > 0 \\
+            1 & \text{otherwise}
+        \end{cases}
+\end{equation}
+
+\para {Semantics}
+
+The presented metric is a heuristic that intends to approximate the question: 
 how much redundancy exists in a configuration file, when considering
-probabilistic constraints imposed by the problem domain?
+probabilistic constraints imposed by the problem domain? It does this by
+expanding on a naive metric of complexity - the number of configuration 
+parameters. Consider the following set of configuration files, drawing from
+an example presented earlier in this paper.
+
+\begin{figure}[!htb]
+    \centering
+    \begin{minipage}{.25\textwidth}
+    \begin{lstlisting} [label={lst:1.cnf},language=C,caption={1.cnf}]
+[server]
+foo = ON
+[client]
+bar = 1
+    \end{lstlisting}
+    \end{minipage}%
+    \hspace{1cm}
+    \begin{minipage}{0.25\textwidth}
+    \begin{lstlisting} [label={lst:2.cnf},language=C,caption={2.cnf}]
+[server]
+foo = ON
+[client]
+bar = ON
+    \end{lstlisting}
+    \end{minipage}
+    \hspace{1cm}
+    \begin{minipage}{0.25\textwidth}
+    \begin{lstlisting} [label={lst:2.cnf},language=C,caption={3.cnf}]
+[server]
+pot = ON
+[client]
+cat = ON
+    \end{lstlisting}
+    \end{minipage}
+    \caption{A learning set of configuration files}
+    \label{fig:complexityset}
+\end{figure}
+
+From our learner, we determined that the parameters $foo$ and $bar$ are
+highly correlated with each other, by an equality relation. In fact, this
+is the only relation learned for $foo$ and $bar$ within the configuration
+space. $pot$ and $cat$ on the other hand, were determined to be unrelated
+by the learner. If using the naive counting measure of complexity, all 
+three of these configuration files would have the same measure of $2$.
+
+However, we know that $foo$ and $bar$ are not independent settings.
+The fact that they are both set to a truthy value communicates less
+information than the settings for the file with $pot$ and $cat$.
+
+Our defined complexity measure would evaluate to $1$ on the
+configuration file with $foo$ and $bar$, while evaluating to $2$ on
+the configuration file with $pot$ and $cat$, more accurately representing
+the amount of information actually conveyed by these settings. Note,
+however that our metric does not actually consider the {\it values}
+of the configuration settings when determining complexity. In the
+future, it may be possible in the future to have interpreted predicates,
+such that these heuristics may even more closely reflect the informational
+content of a constrained configuration file.
+
+We hope that further researchers will expand on the foundation we lay
+here to extract more useful information from the intermediate
+representation built by the VeriConf learner.
+
+\iffalse
 
 it may be possible in the future to have interpreted predicates,
 such that these heuristics may more accurately reflect the informational
 content of a constrained configuration file.
 
-\iffalse
-
 Use the listing in figure 2 to put together an example of why the
 naive implementation of complexity doesn't give as much of an idea
 of what is going on as our heuristic.
 
+Additional refinement of a complexity metric could take into account
+when learned rules are violated (indicating potentially brittle
+configuration state)
+
 \fi
+
+
+
+
 
