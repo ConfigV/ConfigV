@@ -4,7 +4,7 @@ module Settings where
   vERBOSE = True
 
   --use the prebuilt cache, if false, will overwrite cache using this run
-  uSE_CACHE = False
+  uSE_CACHE = True
 
   --verify benchmarks and report # passing or verify files in 'user' dir
   bENCHMARKS = False
@@ -17,8 +17,11 @@ module Settings where
   -- an abusive of notation here, we use slightly different interprtation of the words - same idea in the end
   --TODO unify numerical comutations to be consistent with true interpretation of support and confidence
 
+  sortingStyle  = RuleGraphDegree
+  data SortStyles = Support | RuleGraphDegree deriving (Eq)
+
   --TODO this should really be read from training set dir
-  totalFiles = 1120
+  totalFiles = 971
 
   --TODO use confidence instead of maxFalse everytwhere
   thresholds  :: (Double,Double) -> (Int,Int)

@@ -41,7 +41,6 @@ main = do
   G.setForeignEncoding utf8  
   
   degrees <- ((M.fromList. fromJust. decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
-  print degrees
  
   vFiles <- mapM T.readFile vFilePaths :: IO [T.Text]
   let vTargets = map (\(f,v) -> (f,v,MySQL)) (zip vFilePaths vFiles) :: [ConfigFile Language]
@@ -91,8 +90,8 @@ x `percent` y = floor $ 100 * (fromIntegral x / fromIntegral y)
 reportUserPerformance :: M.Map Keyword Double -> (FilePath,ErrorReport) -> IO Int
 reportUserPerformance ds (f,es) = do
   print f
- -- print $ L.sortBy supportComp es
-  print $ L.sortBy (degreeComp ds) es
+  when (Settings.sortingStyle == Settings.Support)  $ print $ L.sortBy supportComp es
+  when (Settings.sortingStyle == Settings.RuleGraphDegree) $ print $ L.sortBy (degreeComp ds) es
   return $ length es
 
 degreeComp :: M.Map Keyword Double -> Error -> Error -> Prelude.Ordering
