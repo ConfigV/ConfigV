@@ -84,18 +84,18 @@ FINE GRAINED ERROR: Expected
   "max_connections" * "sort_buffer_size" >= "key_buffer_size"
 \end{lstlisting} 
 
-The above example is a complex integer correlation, which implicitly
+This example is a tricky configuration error, which implicitly
 includes a computational correlation among different entries
 in the configuration file.
-We call these {\em fine-grained integer correlations}. 
-Our tool can detect simple integer correlation---one entry's
+We call these errors as {\em fine-grained integer correlations}. 
+\app can also detect simple integer correlation: one entry's
 value should have a certain correlation with another entry's 
-value---as well.
-For example, in MySQL, the value of \code{key\_buffer} 
+value.
+For instance, in MySQL, the value of \code{key\_buffer} 
 should be larger than \code{max\_allowed\_packet}.
-Few existing tools~\cite{yin11anempirical, zhang14encore}
+While several existing tools~\cite{yin11anempirical, zhang14encore}
 can detect simple integer correlation errors,
-but to the best of our knowledge, \app is the first capable of
+\app is, to the best of our knowledge, the first effort capable of
 detecting fine-grained integer correlation errors.
 
 \para{Example~3: Type errors} 
