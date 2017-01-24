@@ -10,15 +10,14 @@ Association rule learning is a technique to learn how frequently items of a set 
 For example, by examining a list of food store receipts, we would learn that when a customer buys bread and peanut butter, the set of purchased items is also likely to include jelly.
 Since configuration files have complex relations, we extend these association relationships to generalized predicates.
 
-A \textit{rule}, $r$, is then an implication relationship, $r = X \implies p(X,Y)$, between two possibly empty sets of keywords $X,Y \subset \keys$, where $\keys$ is the set of unique keys from the training set (denoted \trainingSet) and the predicate $p$ is one of the classes of configuration errors.
+A \textit{rule} $r$, is then an implication relationship, $r = X \implies p(X,Y)$, between two possibly empty sets of keywords $X,Y \subset \keys$, where $\keys$ is the set of unique keys from the training set (denoted \trainingSet) and the predicate $p$ is one of the classes of configuration errors.
 Implicitly we interpret a rule to mean that if the keywords $X\cup Y$ appear in a configuration file, the predicate $p$ should hold.
 The task of the learning algorithm is to transform a training set to a set of rules, weighted with \textit{support} and \textit{confidence}.
 The set of rules learned from training set \trainingSet constitutes a specification, $Spec(\trainingSet)$, for a configuration file to be considered correct.
 
-%TODO math def of support and confidence
-The two metrics support and confidence are used in association rule learning, as well as other rule based machine learning techniques~\cite{han2007frequent,langley1995applications}.
-We use slightly modified definitions of support and confidence to handle arbitrary predicates as rules.
-Each rule is assigned a support and confidence to measure the truth of the rule during the learning process.
+The two metrics, support and confidence, are used in association rule learning, as well as other rule based machine learning techniques~\cite{han2007frequent,langley1995applications}.
+We use slightly modified definitions of of these to handle arbitrary predicates as rules.
+During the learning process, each rule is assigned a support and confidence to measure the amount and quality of evidence for the rule.
 %
 \begin{equation}
  support(p,X,Y) = \frac{|\{C \in \trainingSet \mid X \cup Y \subseteq C\}|} {|\trainingSet|}
@@ -28,52 +27,31 @@ Each rule is assigned a support and confidence to measure the truth of the rule 
 \end{equation}
 
 Support is the frequency that the that set of keywords in the proposed rule, $X \cup Y$, have been seen in the configuration files $C$ in the training set \trainingSet.
-Notice support does not consider the predicate itself, only how many times the predicate had the chance to be evaluated.
+%Notice support does not consider the predicate itself, only how many times the predicate had the chance to be evaluated.
 Confidence is the number of times the rule predicate has held true over the given keywords.
-In the learning process, each class of rule is manually assigned a support and confidence threshold, below which a rule will be rejected for lack of evidence.
-The set of learned rules is then:
+In the learning process, each class of rule is manually assigned a support and confidence threshold, $t_s$ and $t_c$ respectively, below which a rule will be rejected for lack of evidence.
+The set rules that are learned and included as part of the final specification are as follows:
 
-\begin{equation}
-  Spec(\trainingSet) = \forall X,Y \subset \keys. {r | support(p,X,Y) > t_s \land confidence(p,X,Y) > t_c}
-\end{equation}
+\begin{align*}
+Spec(\trainingSet) = \{r | \ &support(p,X,Y) > t_s\ \land \\
+    & confidence(p,X,Y) > t_c\ \land \\
+    & X,\ Y \subset \keys\}
+\end{align*}
 
 \subsection{Error Classes}
-Ordering errors take the form $X \implies order(X,Y)$, where $|X|,|Y|=1$ and the keyword $X$ must come before the keyword $Y$ in any configuration file.
-Missing keyword entries take the form $X \implies missing(X,Y)$, where $|X|,|Y|=1$ and the keyword $X$ must appear in the same file as the keyword $Y$ in any configuration file.
-
-\para{Type}
+Each class of error forms a rule with a predicate $p$, and additional restrictions on the sets $X, Y$.
+Ordering errors have $|X|, |Y| = 1$ and use the predicate $order$ to mean the keyword $X$ must come before the keyword $Y$ in any configuration file.
+Missing keyword entry errors also require $|X|, |Y| = 1$ and use the predicate $missing$ to mean the keyword $X$ must appear in the same file as the keyword $Y$ in any configuration file.
 The type rule is a set of rules over multiple predicates, which take the form $X \implies isType\ast(X)$, where $|X|=1, |Y|=0$ and $\ast$ matches all the basic types (string, int, etc).
-In \app, probabilistic typing is implemented as an instance of the learning interface.
-This module will specify the counting and resolution type judgments from Sec.~\ref{sec:ptypes}.
-It 
 
-\para{Integer Correlation}
-\app supports two types of integer correlation rules, coarse-grained and fine-grained.
-Coarse-grained rules follow $X \implies compare(X,Y)$, where $|X|,|Y|=1$ and $compare \in \{<,=,>\}$, such that $X$ must hold $compare$ to $Y$.
-Fine-grained rules follow $X \implies compare(X,Y)$, where $|X|=2,|Y|=1$ and $compare \in \{<,=,>\}$, such that for $k_1,\ k_2 \in X,\ k1*k2$ must hold $compare$ to $Y$.
-These rules also implement a typing judgment over the keywords probabilistic type.
+\app also supports two types of integer correlation rules, coarse-grained and fine-grained.
+Both integer correlation rules are set of rules over the predicates $\{<,=,>\}$.
+Coarse grain rules require $|X|, |Y| = 1$, and the predicates have the typical interpretation.
+Fine-grained rules use $|X|=2,|Y|=1$, and interpret the predicates such that for $k_1,\ k_2 \in X,\ k1*k2$ must have the predicate relation to $Y$.
+The integer correlation rules also use probabilistic types to prune the search space.
 To avoid learning too many false positives, we restrict this rule to either $size*int=size$, $int*size=size$, or $int*int = int$.
-Without probabilistic typing, we would also learn, for example, $int*int=size$.
+Without probabilistic typing, we would also learn, for example, $size*size=size$, which is an invalid interpretation.
 %TODO include exactly how many false positive we prune with types over our training set? Here or in eval?
-
-\app is primarily implemented in Haskell.
-The source code for our implementation is available at {\em (URL omitted for blind review)}.
-
-We have developed \app to be easily extendable and customizable. Each of the rules are implemented as an instance of the \textit{Learnable} interface (a typeclass in Haskell):
-
-\begin{lstlisting}[language=Haskell, xleftmargin=.01\textwidth]
-class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
-  buildRelations :: IRConfigFile -> RuleDataMap a b
-  merge :: Countable b => [RuleDataMap a b] -> RuleDataMap a b
-  check :: a -> b -> b -> Maybe b
-  toError :: FilePath -> (a, b) -> Error
-\end{lstlisting} 
-
-Each of the rules that check for a particular type of error are implemented in three functions, \textit{buildRelations} for constructing a map of possible observations to a count of how often they are observed, a \textit{merge} function for taking multiple sets of built relations from different files and combining them into one set of relations (weighted accordingly), and finally, a \textit{check} that takes an individual relation mapping from our built set of relations, the observation in the file we are verifying, and whether there is a violation of that particular observation of the relation. (There is a fourth \textit{toError} function that serves as a helper function to pretty-print the output of \app.) Hence, if we can define how to build the relations to verify against a new type of error, a system for combining these relations with weights across multiple files that are seen, along with a mechanism for checking whether each individual relation was violated or not, we can extend \app to check for new types of errors. Furthermore, the approach of defining a method to build relations from a single file as well as a method to combine these relations facilitates the parallelization of our implementation, since each of the \textit{buildRelations} calls can work parlellely on each file before the results are combined with the \textit{merge} step.
-
-Each of the outputs of the \textit{buildRelations} is in the form \textit{RuleDataMap a b}, where \textit{a} is a group of entities between which we want to define a relation (for example, a pair of keywords for Missing, Order, and Integer Correlation) and \textit{Countable b} is a tally of likelihoods of each possible outcome of the relation that can be weighted and combined over multiple files (for example, a count of files that exhibit the relation versus not for Missing or a count of files that exhibit less than, equals, or greater than between a pair of keywords for Ordering or a set of probabilities for Type rules).
-
-Once the program has finished merging together a set of built relations over every example file in the learning set, we have implemented a \textit{check} function for each of the rules, where we input the group of entities under which a relation is defined, the expected observation on that relation, and the actually observed observation in the file we are checking. If the observed instance is inconsistent with the relations built from our training set files, then we would see it reported. In the probablistic setting of our tool, we would implement cutoffs to tune our \textit{check} to ignore observed relations under a certain significance level.
 
 \subsection{Checker}
 \label{sec-checker}
@@ -85,7 +63,28 @@ For any relation that violates a known rule, the checker will output the predica
 Since the tool is probabilistic, we provide the user with these values to determine if they rule must be satisfied in their application on a case-by-case basis.
 For instance, the \texttt{key\_buffer} misconfiguration from Sec. \ref{ex:fine} will only be noticeable if the application experiences a heavy traffic load, so the user may choose to ignore this error if they are confident this will not be an issue.
 
-
 \subsection{Implementation}
 
+\app is primarily implemented in Haskell.
+The source code for our implementation is available at {\em (URL omitted for blind review)}.
+We have developed \app to be easily extendable and customizable. Each of the classes of rules are implemented as an instance of the \textit{Learnable} interface (a typeclass in Haskell):
+
+\begin{lstlisting}[language=Haskell, xleftmargin=.01\textwidth]
+class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
+  buildRelations :: IRConfigFile -> RuleDataMap a b
+  merge :: Countable b => [RuleDataMap a b] -> RuleDataMap a b
+  check :: a -> b -> b -> Maybe b
+  toError :: FilePath -> (a, b) -> Error
+\end{lstlisting} 
+
+Each of the rules that check for a particular type of error are implemented in three functions;
+   \textit{buildRelations} for constructing a map of possible observations to a count of how often they are observed, 
+   \textit{merge} function for taking multiple sets of built relations from different files and combining them into one set of relations (weighted accordingly), 
+   and finally, a \textit{check} that takes an individual relation mapping from our built set of relations, the observation in the file we are verifying, and whether there is a violation of that particular observation of the relation. 
+(There is a fourth \textit{toError} function that serves as a helper function to pretty-print the output of \app.) 
+Hence, if we can define how to build the relations to verify against a new type of error, a system for combining these relations with weights across multiple files that are seen, along with a mechanism for checking whether each individual relation was violated or not, we can extend \app to check for new types of errors. Furthermore, the approach of defining a method to build relations from a single file as well as a method to combine these relations facilitates the parallelization of our implementation, since each of the \textit{buildRelations} calls can work parlellely on each file before the results are combined with the \textit{merge} step.
+
+Each of the outputs of the \textit{buildRelations} is in the form \textit{RuleDataMap a b}, where \textit{a} is a group of entities between which we want to define a relation (for example, a pair of keywords for Missing, Order, and Integer Correlation) and \textit{Countable b} is a tally of likelihoods of each possible outcome of the relation that can be weighted and combined over multiple files (for example, a count of files that exhibit the relation versus not for Missing or a count of files that exhibit less than, equals, or greater than between a pair of keywords for Ordering or a set of probabilities for Type rules).
+
+Once the program has finished merging together a set of built relations over every example file in the learning set, we have implemented a \textit{check} function for each of the rules, where we input the group of entities under which a relation is defined, the expected observation on that relation, and the actually observed observation in the file we are checking. If the observed instance is inconsistent with the relations built from our training set files, then we would see it reported. In the probablistic setting of our tool, we would implement cutoffs to tune our \textit{check} to ignore observed relations under a certain significance level.
 
