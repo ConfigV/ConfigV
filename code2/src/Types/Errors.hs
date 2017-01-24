@@ -10,6 +10,7 @@ data Error = Error{
     errLocs  :: [(FilePath, Keyword)]
   , errIdent :: ErrorType
   , errMsg   :: String
+  , errSupport :: Int
 }
 
 instance Show Error where

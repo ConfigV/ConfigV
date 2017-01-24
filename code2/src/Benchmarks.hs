@@ -48,7 +48,7 @@ u = unsafePerformIO
 getFileName = fst . head . errLocs
 
 makeError (errLoc1,errLoc2,errIdent) =
-  Error {errMsg=(show errIdent)++" SPEC - "++(show$snd errLoc1)++" AND "++(show$snd errLoc2),errLocs=[errLoc1,errLoc2],..}
+  Error {errMsg=(show errIdent)++" SPEC - "++(show$snd errLoc1)++" AND "++(show$snd errLoc2),errLocs=[errLoc1,errLoc2],errSupport=0,..}
 
 newSet :: [ErrorReport]
 newSet = map (map makeError) [

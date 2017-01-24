@@ -44,13 +44,12 @@ instance Learnable TypeErr QType where
      M.fromList $ map toTypeErr f'
 
   merge rs = 
-     M.unionsWith add rs
+     M.filter (\rd -> totalC rd > 15) $ M.unionsWith add rs
 
   -- 
   check _ rd1 rd2 = let
-     tot = fromIntegral $ sum [string rd1, int rd1, size rd1, bool rd1, path rd1] 
-     toProb x = if tot > 10
-       then (fromIntegral .x)rd1 / tot 
+     toProb x = if (totalC rd1) > 10
+       then (fromIntegral .x)rd1 / (fromIntegral $totalC rd1)
        else 1
    in
      if --TODO allow 1/0 in place of bool 
@@ -59,15 +58,18 @@ instance Learnable TypeErr QType where
        (bool   rd2 == 1 && (toProb bool + toProb int) > 0.7) ||
        (int    rd2 == 1 && ((toProb int + toProb size > 0.7) || (toProb int + toProb bool > 0.7))) ||
        (size   rd2 == 1 && toProb size> 0.7) ||
-       tot == 0
+       totalC rd1 == 0
      then Nothing
      else Just rd1
 
-  toError fname (TypeErr k,rd) = Error{
+  toError fname (TypeErr k,rd1) = Error{
      errLocs = [(fname,k)]
     ,errIdent = TYPE
-    ,errMsg = "TYPE ERROR: Expected a "++(show rd)++" for "++(show k)}
+    ,errMsg = "TYPE ERROR: Expected a "++(show rd1)++" for "++(show k)
+    ,errSupport = totalC rd1}
     --".Found value " ++(show $ findVal f' $ fst x) ++ " of type " ++ (show $ assignProbs $ findVal f' $ fst x) }
+
+totalC rd1 = sum [string rd1, int rd1, size rd1, bool rd1, path rd1] 
 
 p = QType {
   string =1

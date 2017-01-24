@@ -45,7 +45,7 @@ for v in vertices:
 
 # prune nodes without context and add their degrees
 # to context-bearing nodes
-
+'''
 to_delete = []
 
 for d1 in degrees:
@@ -58,7 +58,7 @@ for d1 in degrees:
 
 for d in to_delete:
     degrees.pop(d, None)
-
+'''
 # done pruning
 
 sorted_degrees = sorted(degrees.items(), key=operator.itemgetter(1))

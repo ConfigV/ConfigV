@@ -61,5 +61,6 @@ instance Learnable Ordering AntiRule where
   toError fname ((Ordering (k1,k2)),rd) = Error{
      errLocs = map (fname,) [k1,k2]
     ,errIdent = ORDERING
-    ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" w/ confidence "++(show rd)}
+    ,errMsg = "ORDERING ERROR: Expected "++(show k1)++" BEFORE "++(show k2)++" w/ confidence "++(show rd)
+    ,errSupport = tru rd + fls rd}
 

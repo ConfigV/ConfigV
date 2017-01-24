@@ -84,7 +84,7 @@ instance Learnable R.FineGrained Formula where
      errLocs = map (\x->(fname, x)) [k1, k2, k3]
     ,errIdent = FINEGRAINED
     ,errMsg = "FINE GRAINED ERROR: Expected "++(show k1)++" * "++(show k2)++(show rd)++(show k3)
-    }
+    ,errSupport = gt rd + lt rd + eq rd}
 
 {-
 TODO this doesnt help at all, whyyyy 

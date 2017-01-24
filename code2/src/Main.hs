@@ -1,10 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE MultiWayIf #-}
 
 module Main where
 
 import           Data.Aeson
 import qualified Data.ByteString.Lazy  as B
 import qualified Data.List             as L
+import qualified Data.Map             as M
 import           Data.Maybe
 import qualified Data.Text             as T
 import qualified Data.Text.IO          as T
@@ -26,8 +28,10 @@ import           Checker
 import qualified Settings
 import Types.Rules
 import Types.IR
+import Types.Common
 import Types.JSON
 import Types.Errors
+
 
 rules = learnRules learnTarget
 
@@ -35,6 +39,10 @@ main = do
   G.setLocaleEncoding utf8
   G.setFileSystemEncoding utf8
   G.setForeignEncoding utf8  
+  
+  degrees <- ((M.fromList. fromJust. decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
+  print degrees
+ 
   vFiles <- mapM T.readFile vFilePaths :: IO [T.Text]
   let vTargets = map (\(f,v) -> (f,v,MySQL)) (zip vFilePaths vFiles) :: [ConfigFile Language]
   unless Settings.uSE_CACHE $ B.writeFile "cachedRules.json" $ encode ((toLists $ learnRules learnTarget):: RuleSetLists)
@@ -43,17 +51,17 @@ main = do
   --to check integrity of cache
   --when (rules /= (fromLists. fromJust $ decode c)) (fail  "error in json cache")
 
-  fitness <- runVerify cached vTargets
+  fitness <- runVerify cached degrees vTargets
   return ()
 
 
-runVerify ::  RuleSet -> [ConfigFile Language] -> IO Int
-runVerify rules vTargets  = do
+runVerify ::  RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
+runVerify rules ds vTargets  = do
   let errors =  map (verifyOn rules) vTargets
   fitnesses <- 
     if Settings.bENCHMARKS 
     then zipWithM reportBenchmarkPerformance benchmarks errors 
-    else mapM reportUserPerformance $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
+    else mapM (reportUserPerformance ds) $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
   printSummary errors fitnesses
   return $ sum fitnesses
 
@@ -80,11 +88,30 @@ percent :: Int -> Int -> Int
 x `percent` y = floor $ 100 * (fromIntegral x / fromIntegral y)
 
 -- print and how many errs
-reportUserPerformance :: (FilePath,ErrorReport) -> IO Int
-reportUserPerformance (f,es) = do
+reportUserPerformance :: M.Map Keyword Double -> (FilePath,ErrorReport) -> IO Int
+reportUserPerformance ds (f,es) = do
   print f
-  print es
+ -- print $ L.sortBy supportComp es
+  print $ L.sortBy (degreeComp ds) es
   return $ length es
+
+degreeComp :: M.Map Keyword Double -> Error -> Error -> Prelude.Ordering
+degreeComp ds e1 e2 = let
+  findK k = M.findWithDefault 0 k ds
+  calcD e = (sum $ map (\ks -> findK $ snd ks) $ errLocs e) / ((fromIntegral $ length $ errLocs e))
+  e1s = calcD e1
+  e2s = calcD e2
+ in
+  if
+   | e1s > e2s -> GT
+   | e1s < e2s -> LT
+   | otherwise -> EQ
+
+supportComp e1 e2 = if
+  | errSupport e1 > errSupport e2 -> LT
+  | errSupport e1 < errSupport e2 -> GT
+  | otherwise -> EQ
+ 
 
  -- | compare the original benchark spec to the generated one
 reportBenchmarkPerformance :: ErrorReport -> ErrorReport -> IO Int

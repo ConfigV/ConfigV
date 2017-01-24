@@ -58,6 +58,7 @@ instance Learnable R.IntRel Formula where
      errLocs = map (\x->(fname, x)) [k1,k2]
     ,errIdent = INTREL
     ,errMsg = "INTEGER RELATION ERROR: Expected "++(show k1)++(show rd)++(show k2)
+    ,errSupport = gt rd + lt rd + eq rd
     }
 
 combineFlips :: M.Map IntRel Formula -> IntRel -> Formula -> M.Map IntRel Formula
