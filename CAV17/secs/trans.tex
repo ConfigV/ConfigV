@@ -3,23 +3,22 @@
 \label{sec:trans}
 
 The translator takes as input a training set of configuration files and transforms it into a typed and well-structured intermediate representation.
-The translator can be seen a parser used to generate an intermediate representation for learning rules (see $\S$\ref{sec-learn}).
+The translator can be seen a parser used to generate an intermediate representation for the learner module (cf. Sec.~\ref{sec-learn}).
 Translating or parsing is system dependent since each configuration language (MySQL, Apache, PHP) uses a different grammar.
 \app allows users to provide extra help to the translator for their specific system configurations.
 
-The translator will convert each key-value assignment $k=v$ in the configuration file to a triple, $(k, v, \tau)$, where $\tau$ is the type of $v$. 
+The translator converts each key-value assignment $k=v$ in the configuration file to a triple $(k, v, \tau)$, where $\tau$ is the type of $v$. 
 There are two major challenges in this step.
 First is that configuration files' keywords are not necessarily unique and may have some additional context (modules or conditionals).
 To solve this, we rely on the fact that keywords in a configuration file must be unique within their context, and rename all keywords with their context.
-The set of unique keys, $\keys$, for the sample training set in Figure ~\ref{fig:tset} would then be [``{\tt foo[server]}'',``{\tt bar[client]}''] internally to the intermediate representation.
-We will call the set of key-value pairs $C$.
+The set of unique keys, $\keys$, for the sample training set in Figure~\ref{fig:tset} would then be [``{\tt foo[server]}'',``{\tt bar[client]}''].
 
 {
 \setlength{\belowcaptionskip}{-15pt}
 \begin{figure}[!htb]
     \centering
     \begin{minipage}{.25\textwidth}
-	\begin{lstlisting} [label={lst:1.cnf},language=C,caption={1.cnf}]
+	\begin{lstlisting} [label={lst:file1.cnf},language=C,caption={file1.cnf}]
 [server]
 foo = ON
 [client]
@@ -28,7 +27,7 @@ bar = 1
     \end{minipage}%
     \hspace{1cm}
     \begin{minipage}{0.25\textwidth}
-	\begin{lstlisting} [label={lst:2.cnf},language=C,caption={2.cnf}]
+	\begin{lstlisting} [label={lst:file2.cnf},language=C,caption={file2.cnf}]
 [server]
 foo = ON
 [client]
@@ -37,36 +36,35 @@ bar = ON
     \end{minipage}
     \hspace{1cm}
     \begin{minipage}{0.25\textwidth}
-	\begin{lstlisting} [label={lst:2.cnf},language=C,caption={3.cnf}]
+	\begin{lstlisting} [label={lst:file3.cnf},language=C,caption={file3.cnf}]
 [server]
 foo = OFF
 [client]
 bar = OFF
 	\end{lstlisting}
     \end{minipage}
-    \caption{A learning set of configuration files}
+    \caption{A sample training set of configuration files}
     \label{fig:tset}
 \end{figure}
 }
 
-\para{Probabilistic types}
+\para{Probabilistic Types}
 %\label{sec:ptypes}
 An additional challenge is that it is not always possible to fully determine the type of key based on a single example value. 
 For this reason, we introduce \textit{probabilistic types}, as contrasted with \textit{basic types}.
-In \app, the set of basic types contains strings, file paths, integers, sizes, and booleans. 
-Taking the configuration \ref{lst:1.cnf} \ennan{configuration 1.4 is too
-far away from this place}, we can assume {\tt foo} is a boolean type by the grammar of MySQL,
-  but the keyword {\tt bar} could either be a integer type or a boolean type.
-Consider that we would like to learn a rule that the boolean keywords should have the same values ($eq(\texttt{foo},\texttt{bar})$).
-We then have two potential situations; in the first case where {\tt bar}$::int$, we do not learn the above rule, but in the second case where {\tt bar}$::bool$, the rule is valid.
+In \app, the set of basic types contains strings, file paths, integers, sizes, and Booleans. 
+Taking the configuration \ref{lst:file1.cnf}, we can assume {\tt foo} is a Boolean type by the grammar of MySQL,
+  but the keyword {\tt bar} could either be a integer type or a Boolean type.
+Let us assume that there is a rule stating that the Boolean keywords should have the same values ($eq(\texttt{foo},\texttt{bar})$).
+Then there are two potential situations; in the first case where {\tt bar}$::int$, we do not learn the above rule, but in the second case where {\tt bar}$::bool$, the rule is valid.
 To resolve this ambiguity, instead of immediately assigning one type to a value, the translator assigns a distribution of types to a value based on examples from the learning set.
-% an idea closely related to existentially quantified types~\cite{Launchbury93lazyfunctional}. 
+
 
 A probabilistic type is a set of counts over a set $\mathcal{T}$ of basic types.
-Formally, we define a space of probabilistic types $\tilde{\mathcal{T}}$, where $\ptype=\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$ is a set of pairs, such that $\ptype \in \tilde{\mathcal{T}}, \tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
+Formally, we define a space of probabilistic types $\tilde{\mathcal{T}}$, where $\ptype \in \tilde{\mathcal{T}}$ has a form $\ptype=\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
 Every keyword $k\in\keys$ has a probabilistic type, expressed $k:\ptype$, which, without any evidence, remains {\scriptsize EMPTY}.
 The count for $(\tau_i,c_i) \in \ptype$ is incremented each time a new example value that matches to type $\tau_i$ is encountered for a particular key, using the update notation $\update$.
-We also denote a keyword value pair that exists in some configuration file as $(k,v) \in C$.
+We also denote the set of key-value pairs with $C$ and a keyword value pair that exists in some configuration file as $(k,v) \in C$.
 
 {
 \setlength{\abovecaptionskip}{-.05pt}
@@ -96,14 +94,14 @@ We also denote a keyword value pair that exists in some configuration file as $(
 {k1 :: \tau \\ k2 :: \tau \\ \tau \in \mathcal{T}}
 {eq(k1,k2) :: Rule}
 \end{mathpar}
-\caption{Type judgments for boolean equality rules with probabilistic types}
+\caption{Type judgments for Boolean equality rules with probabilistic types}
 \label{fig:ptypes}
 \end{figure}
 }
 
 In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to a basic type with enough evidence.
 The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
-In this case, we allow a probabilistic type to resolve to a boolean if we have two counts for boolean, and no more than one count for any other basic type ($\ast$).
+In this case, we allow a probabilistic type to resolve to a Boolean if we have two counts for Boolean, and no more than one count for any other basic type ($\ast$).
 We use the notation, $\ptype \models p$, to denote a probabilistic type whose counts hold on the predicate $p$.
 Taking the type inference rules above, we can run an example inference on the sample training set in Figure~\ref{fig:tset}.
 Using the rules from Fig.~\ref{fig:ptypes}, we would derive the probabilistic type \texttt{bar}$:[bool=3,int=1]$, which then resolves to \texttt{bar}$::bool$.
