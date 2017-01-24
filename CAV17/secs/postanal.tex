@@ -3,6 +3,8 @@
 
 \section{Post Analysis}
 
+RULE GRAPH
+
 VeriConf can output the set of learned rules from the training set as described in $\S$\ref{sec-learn}.
 Note that the ability to inspect the learned rule set is a special property of this technique.
 The core task, building a model from unlabeled examples to classify files as either correct or incorrect, is also a classic problem for other machine learning techniques such as neural networks~\cite{nn1,nn2,nn3}.
@@ -13,7 +15,7 @@ The simple structure of rules with weights from an association rule learning-lik
 \subsection{Rule Ordering}
 \label{sec:ruleorder}
 
-Define a directed hypergraph with labeled, weighted edges $H = (V,E)$ such that:
+Define a directed hypergraph with $H = (V,E)$ labeled, weighted edges such that:
 
     $$V = \{ keywords \}$$
 
@@ -33,6 +35,7 @@ convenience, later in this section
 we shall define $w_{V_1, V_2, l}$ as the weight of the
 hyperedge $(V_1, V_2, l, w)$, and $s_{v_1, v_2, l}$ as the sum of weights
 over all hyperedges where $v_1 \in V_1$ and $v_2 \in V_2$.
+\markk{define s explicity as a sum, using E notation from complexity}
 We will refer to this hypergraph as the {\bf Rule Graph}
 in further analysis.
 
@@ -47,6 +50,7 @@ and out-degree defined in the usual way. Explicitly, for a vertex $x \in V$:
 
     $$DEGREE(x) = \sum_{l \in L} \sum_{v \in V} s_{x, v, l} + \sum_{l \in L} \sum_{v \in V} s_{v, x, l}$$
 
+Talk more about hyperedges or some shit
 \iffalse
 
 Note that we will be summing in-degree and out-degree over all
@@ -85,7 +89,7 @@ this is an area that can be easily expanded on, but don't want to distract
 from the fundamental semantics here.}
 
 It is also worth noting that how good of a heuristic the $DEGREE$ metric is for
-\"importance of a configuration parameter\" is dependent on the coverage
+importance of a configuration parameter is dependent on the coverage
 of the learnable predicate set encompassed by $L$. The more this predicate
 set covers the true configuration parameter relationships in the system,
 the better the heuristic.
@@ -142,6 +146,7 @@ and may now define our complexity measure:
         \end{cases}
 \end{equation}
 
+Waste less time explaining the example (that should be maybe 1 or 2 paragraphs) and more time explaining the complexity measure.
 \para {Semantics}
 
 The presented metric is a heuristic that intends to approximate the question: 
