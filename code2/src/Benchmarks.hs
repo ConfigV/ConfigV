@@ -21,7 +21,6 @@ learnTarget = case Settings.pROBRULES of
     Settings.Test -> genSet "testLearn/"
     Settings.NonProb -> genSet "benchmarkSet/correctMySQL/"
     Settings.Prob -> genSet "learningSet/MySQL/"
-    --Settings.Prob -> genSet "trainingDownload/downloads/"
   where
     genSet s =
       map (\x -> (s++x,u $ T.readFile (s++x), MySQL))

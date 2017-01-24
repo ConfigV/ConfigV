@@ -75,10 +75,9 @@ instance Learnable R.FineGrained Formula where
     M.filter validRule merged
  
   check _ r1 r2 = if
-    | gt r1 > 3 && lt r1 > 3 -> Nothing --ignore rules if they dont have a clear tendancy
     | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1
-    | lt r2 == 1 && gt r1 > 3 && lt r1 < 2-> Just r1
-    | gt r2 == 1 && lt r1 > 3 && gt r1 < 2-> Just r1
+    | lt r2 == 1 && gt r1 > Settings.fineGrainSupport && lt r1 <= Settings.fineGrainConfidence -> Just r1
+    | gt r2 == 1 && lt r1 > Settings.fineGrainSupport && gt r1 <= Settings.fineGrainConfidence-> Just r1
     | otherwise -> Nothing
 
   toError fname ((FineGrained k1 k2 k3), rd) = Error{

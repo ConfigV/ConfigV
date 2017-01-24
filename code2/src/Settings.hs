@@ -38,10 +38,10 @@ module Settings where
   --support and maxFalse
   fineGrainSupport = 
     -- fst $ thresholds(0.1,0.9)  
-    65 :: Int
+    62 :: Int
   fineGrainConfidence = 
     --snd $ thresholds(0.1,0.9)  
-    1 :: Int
+    5 :: Int
 
   --minTrue (actually minTrue is Support, well kind of) and maxFalse
   keywordCoorSupport = 
