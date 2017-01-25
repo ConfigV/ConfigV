@@ -67,8 +67,11 @@ The count for $(\tau_i,c_i) \in \ptype$ is incremented each time a new example v
 We also denote the set of key-value pairs with $C$ and a keyword value pair that exists in some configuration file as $(k,v) \in C$.
 
 Fig.~\ref{fig:ptypes} provides a fragment of a calculus for type judgments for deriving Boolean equality rules with probabilistic types.
-We use the notation, $\ptype \models p$, to denote a probabilistic type whose counts hold on the predicate $p$. For a $\ptype$ with $|\tau_i|$ 
-we denote $c_i$, and $*$ is shorthand for all basic types. When there is no evidence for a type $\tau$ we call this empty type ({\scriptsize EMPTY}). Initially, before we count any type, all types are set to empty. 
+We use the notation, $\ptype \models p$, to denote a probabilistic type whose counts hold on the predicate $p$. 
+For a probabilistic type, $\ptype$, we use the notation $|\tau_i|$ to select from $\ptype$, the $c_i$.
+We use $*$ as a wildcard selector for all basic types in a $\ptype$.
+When there is no evidence for a type $\tau$ we call this the empty type ({\scriptsize EMPTY}). 
+Initially, all keywords are set to the empty set.
 In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to a basic type with enough evidence.
 The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
 
@@ -105,7 +108,9 @@ The definition of enough evidence must be empirically determined by the user dep
 \end{figure}
 }
 
-Taking these type inference rules above, we can run an example inference on the sample training set in Figure~\ref{fig:tset}. The result is the probabilistic type \texttt{bar}$:[bool=3,int=1]$. By setting $M=3, N=1$, we resolve it to \texttt{bar}$::bool$.
+Taking these type inference rules above, we can run an example inference on the sample training set in Figure~\ref{fig:tset}.
+The result is the probabilistic type \texttt{bar}$:[bool=3,int=1]$.
+If in this example, the user had set $M=3, N=1$, we resolve the probabilistic type of \texttt{bar} to \texttt{bar}$::bool$.
 
 \ruzica{Mark, please argue better about this}
  
