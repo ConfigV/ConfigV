@@ -22,82 +22,71 @@ automatic verification tools used for regular program
 verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
 detect errors without executing the code. In this paper we propose
 a framework for automated verification of configuration files: we are analyzing 
-files and proactively reporting potential errors, without waiting for them to happen.
+files and proactively reporting potential errors, without waiting for them to happen. We developed a tool, called \app, and tested it on 
+almost a thousand file from github.
 
+We believe there are two main obstacles 
+to why we cannot simply apply  the existing automatic 
+tools and techniques to verification of configuration files:
+1) the lack
+of a specification describing properties of configuration files;
+2) the structure of configuration files -- they
+are mainly a sequence of entries assigning some value to system
+variables (called {\emph {keywords}}). 
+The language in which configuration files are written does 
+not adhere to a specific grammar or syntax. In particular, the
+entries in configuration files are untyped. Moreover, there are surprisingly few rules specifying constraints on entries, and there
+is no explicit structure policy for the entries.
 
+\app overcomes the above obstacles by first automatically inferring a
+specification for configuration files. It is unrealistic to expect the 
+users to write an entire specification for configuration files on their own. 
+This process can easily lead to incomplete or even contradictory 
+specifications. Instead, we learn specification from 
+a large sample of 
+configuration files~\cite{configdataset}. The first step is to 
+translate this training set into a more structured typed representation.
+We then apply the learning process and we learn an abundant set of rules 
+specifying various properties that hold on the given sample. The rules, in general, 
+specify which properties keywords in configuration files need to satisfy.
+The learning process is language-agnostic and works for any kind 
+of configuration files,  but all of the files in the sample need to be of 
+the same kind (such as MySQL or HTTPD configuration files).
+We see this learning process as 
+a way of deriving  a specification for configuration files. 
+It is hard to talk here about a complete specification, but it is still
+a set of formal rules describing the properties that configuration files need to satisfy. 
 
+Having a specification, \app can then efficiently check 
+the correctness of the configuration files of interest and detect 
+potential errors. Errors are reported if the configuration file does not 
+adhere to the derived specification.
 
-Configuration errors were
-reported to be the largest fraction of failures in storage systems in a 2014 industry
-survey~\cite{yin11anempirical}.
-
-Configuration errors are one of the most important root causes of today's 
-software system failures~\cite{xu15systems, yin11anempirical}.
-In their empirical study, Yin {\em et al.}~\cite{yin11anempirical} report 
-that about 31\% of system failures were caused by misconfiguration problems
-and only 20\% were caused by bugs in program code. 
-Misconfigurations, in practice, may result in various system-wide problems,
-including security vulnerabilities, application crashes, severe disruptions
-in software functionality, 
-and incorrect program executions~\cite{xu15systems, xu13do, xu15hey}.  
-Therefore, how to automatically verify configuration files is an open
-problem~\cite{xu15systems}.
-
-To the best of our knowledge, there have been several prior 
-efforts that attempt to verify 
+There have been several prior efforts that attempt to verify 
 configuration files~\cite{santolucitoCAV, xu16early,
 zhang14encore, huang15confvalley}.
 However, state-of-the-art efforts either are impractical to be used
 in reality, or can only deal with simplistic configuration errors.
-In general, these efforts fall into two categories.
-
-\squishlist
-
-\item On the one hand are tools that can detect sophisticated 
+In general, these efforts fall into two categories.\begin{itemize}
+\item On the one hand there are tools that can detect sophisticated 
 configuration errors, \eg, ConfigC~\cite{santolucitoCAV}. 
 However, these tools heavily rely on datasets containing 100\% 
 correct configuration files to extract configuration rules.
 Existing investigation studies~\cite{wang04automatic, yin11anempirical}
 have demonstrated determining or obtaining 100\% correct configuration
 files to drive rules is almost impossible in reality. 
-Without 100\% correct datasets, these tools would, unfortunately, 
-work poorly.
-
-\item On the other hand, practical efforts, 
+Without 100\% correct datasets, these tools do not work.
+\item On the other hand there are tools, 
 \eg, EnCore~\cite{zhang14encore} and
-ConfValley~\cite{huang15confvalley}, can only 
-detect simplistic configuration errors (\eg, value range errors 
+ConfValley~\cite{huang15confvalley}, that can only 
+detect rather simplistic configuration errors (\eg, value range errors 
 and simple integer correlation errors), but cannot detect
-sophisticated configuration errors. 
-Consider entry ordering errors, 
-which happen when some entries are inserted in a wrong order
-in the configuration files. 
-For example, in a PHP configuration file, 
-an entry \code{extension=mysql.so} appears 
-before \code{extension=recode.so},  
-it would cause Apache server to crash. The correct ordering 
-should be \code{extension=recode.so} before 
-\code{extension=mysql.so}~\cite{yin11anempirical}.
+more complex configuration errors, such as ordering errors or 
 Nevertheless, these types of errors cannot be detected by above existing
 efforts.
+\end{itemize}
 
-\squishend
 
-The goal of this work is to propose and build a {\em practical} 
-configuration
-verification tool capable of checking {\em sophisticated} 
-configuration errors (more details
-for sophisticated configuration errors in Sec.~\ref{sec:motiv}).
-Achieving this goal requires us addressing two main obstacles:
-1) the lack of a specification describing properties of configuration
-files, and 2) the structure of configuration files---they are 
-mainly a sequence of entries assigning some values to system
-parameters (called keywords).
-In other words, the ``language'' in which configuration 
-files are written does not adhere to any specific grammar or syntax. 
-Moreover, the entries in configuration files 
-lack type or rules specifying constraints on entries, 
-and there is no explicit structure policy for these entries.
 
 This paper presents \app, the first automatic verification framework
 for general software configurations, by overcoming the above two
