@@ -47,7 +47,7 @@
 
     - Example of the complexity heuristic on a graph (? space permitting)
 
-    - Additional interpretations of the Rule Graph
+    - Additional interpretations of the rule graph
 
 \fi
 
@@ -59,27 +59,27 @@ described in Sec.~\ref{sec-learn}. Recall that a rule is
 an implication relationship of the form $r = S \implies p(S,T)$.
 This data is necessary to perform the core verification task,
 but can also be used for further analysis. By interpreting the rules as a graph (which
-we call the \textit{Rule Graph}), we can 
+we call the \textit{rule graph}), we can 
 use tools from graph theory to extract information
 about the configuration space that can improve the quality of the learned model.
 We inspect properties of this 
-Rule Graph to sort reported errors by those most likely to be valid.
-To demonstrate the additional value of the Rule Graph, we
+rule graph to sort reported errors by those most likely to be valid.
+To demonstrate the additional value of the rule graph, we
 also use it to estimate the complexity of a configuration file.
 
-Accessibility of the Rule Graph is a useful property of the association 
+Accessibility of the rule graph is a useful property of the association 
 rule learning technique applied by \app.
 While it is possible to analyze the models from other machine learning techniques, such as neural networks~\cite{lei2016rationalizing} and
 conditional random fields~\cite{raychev2015predicting}, these analyses require a deep knowledge of the applied techniques.
-In contrast the Rule Graph is a relatively simple, yet information rich, representation of the learned model.
-The following section provides a precise definition of the Rule Graph
+In contrast the rule graph is a relatively simple, yet information rich, representation of the learned model.
+The following section provides a precise definition of the rule graph
 and demonstrates useful metrics we derive for the purposes of ranking reported errors
 and complexity analysis.
 
 \subsection{Rule Ordering}
 \label{sec:ruleorder}
 
-We define the \textit{Rule Graph} as a directed hypergraph $H = (V,E)$,
+We define the \textit{rule graph} as a directed hypergraph $H = (V,E)$,
    with vertices $V = \{ keywords \}$ and labeled, weighted edges $E = \{ (V_s, V_t, l, w) \}$.
 The set of edges is constructed from the learned rules, using the source and target keyword sets as sources and targets respectively, the predicates as labels, and the confidence as weights:
 %
@@ -110,7 +110,7 @@ The size of an edge set is the sum of all weights in that set, so:
     $$|E| = \sum_{(S, T, l, w) \in E} w$$
 
 The use of the support and confidence thresholds $t_s$ and $t_c$ in the learner ensure 
-that all weights in the Rule Graph are positive.
+that all weights in the rule graph are positive.
 
 We define a measure of degree $\mathcal{D}(v)$ for each vertex $v$ as the sum of 
 in-degree and out-degree. Explicitly, for a vertex $x \in V$:
@@ -119,14 +119,14 @@ in-degree and out-degree. Explicitly, for a vertex $x \in V$:
 
 We may now use this measure to rank our errors.
 The more rules of high confidence are extracted for a keyword by the learner, 
-the higher the $\mathcal{D}(v)$ of the corresponding vertex in the Rule Graph.
+the higher the $\mathcal{D}(v)$ of the corresponding vertex in the rule graph.
 In our final analysis, we use this classification to
 order the reported {\it errors} by estimated importance.
 
 Keywords (specifically their corresponding vertices)
 of low $\mathcal{D}(v)$ may be rarer configuration
 parameters where rules learned are more likely to be governed by 
-tehchnical necessity, rather than industry convention. As such, errors
+technical necessity, rather than industry convention. As such, errors
 reported involving low-degree keywords are more likely to be errors
 of high significance and should be presented with high importance
 to users of \app.
@@ -141,17 +141,17 @@ the paper.
 
 \subsection{Complexity Measure}
 
-We may also use the Rule Graph to advance our general knowledge
+We may also use the rule graph to advance our general knowledge
 of the configuration space, outside the strict confines of a
 verification system. As an example, we present a heuristic
 for configuration file complexity based on the topology of the
-Rule Graph. This measure of complexity could be used by software
+rule graph. This measure of complexity could be used by software
 organizations to manage configuration files in much the same way
 as Kolomogrov complexity~\cite{kolmogorov1965} is used to manage code - identifying
 potentially brittle configurations for targeted refactoring.
 
 For a configuration file with a set of keywords $K$
-and a Rule Graph $H = (V, E)$, we define our complexity measure:
+and a rule graph $H = (V, E)$, we define our complexity measure:
 
 \begin{equation}
     \mathcal{C}(K, H) = \sum_{k \in K} \
@@ -163,7 +163,7 @@ and a Rule Graph $H = (V, E)$, we define our complexity measure:
 
 The complexity measure, $\mathcal{C}$, can be thought of as an
 extension of the na\"ive line-counting measure of complexity.
-When a keyword in the configuration file is present in the Rule Graph,
+When a keyword in the configuration file is present in the rule graph,
 we may consider the set $E_{k, K}$ to be all learned rules involving
 keyword $k$ that
 are {\it relevant} to the configuration file being examined. 
@@ -175,7 +175,7 @@ in the global configuration space. The more constrained a configuration
 keyword in a particular configuration file, the {\it less} it should
 contribute to the complexity (hence $1 * (1 - \frac{|E_{k, K}|}{|E_{k, V}|})$).
 If a keyword is not constrained at all in the current configuration
-file or is not present in the Rule Graph, we revert to the standard
+file or is not present in the rule graph, we revert to the standard
 counting metric of complexity. 
 
 While an in-depth evaluation of the complexity metric presented here
