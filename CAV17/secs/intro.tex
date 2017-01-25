@@ -62,6 +62,10 @@ the correctness of the configuration files of interest and detect
 potential errors. Errors are reported if the configuration file does not 
 adhere to the derived specification.
 
+The errors found can cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
+Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging 
+techniques~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
+
 There have been several prior efforts that attempt to verify 
 configuration files~\cite{santolucitoCAV, xu16early,
 zhang14encore, huang15confvalley}.
@@ -88,7 +92,7 @@ efforts.
 
 Our learning algorithm surmounts all of difficulties present in 
 existing tools.  \app implements a learning
-algorithm inspired by {\em rule association
+algorithm inspired by {\em association rule
 learning}~\cite{agrawal1993mining}. It analyzes a large training set of configuration  files~\cite{configdataset}. Those are real-world reported misconfigurations. A file in the training set might 
 contain several different errors and these errors only appear 
 in a small percentage of files. We first translate those file into an 
@@ -105,26 +109,36 @@ In general, \app builds a graph modeling the learned rules,
 and then analyzes this graph to rank the importance
 and relevance of the learned rules. 
 
-We have implemented a tool, \app, and evaluated it on almost 1000 real-world configuration files from Github.
-We demonstrate that we are able to detect known errors, based on StackOverflow posts, in this data set.
-Furthermore, we find compelling evidence that out optimizations are effective, for example using probabilistic types removes 1023 false positives errors reports to reduce the total error reports to 324.
-The rule graph analysis drastically improves the ranking of importance of the error reports, which allows users to more quickly fix the most critical misconfigurations.
-Additionally, \app scales linearly, whereas a previous tool~\cite{santolucitoCAV} showed exponential slow downs on the same benchmark set.
+We have implemented a tool, \app, and evaluated it on almost 1000 real-
+world configuration files from Github.
+We demonstrate that we are able to detect known errors, based on 
+StackOverflow posts, in this data set.
+Furthermore, we find compelling evidence that out optimizations are 
+effective, for example using probabilistic types removes 1023 false 
+positives errors reports to reduce the total error reports to 324.
+The rule graph analysis drastically improves the ranking of importance of 
+the error reports, which allows users to more quickly fix the most 
+critical misconfigurations.
+Additionally, \app scales linearly, whereas 
+a previous tool~\cite{santolucitoCAV} showed exponential slow downs on 
+the same benchmark set.
 
+In summary, we make the following contributions:
+\begin{itemize}
+\item We propose the automated configuration verification
+framework, \app, that can learn a language model from a sample
+dataset, and then use this language model to verify 
+configuration files of interest.
+\item We describing the logical foundation of using association rule learning to build a probabilistic specification for configuration files. 
+\item We analyze the learned model to further refine the generated specification and we empirically show the usefulness of this approach.
+\item We implement a \app prototype and evaluate it by
+conducting comprehensive experiments on real-world dataset.
 
-In summary, we make the following contributions.
+\end{itemize}
 
 
 \com{ 
 
-
-\markk{maybe we can use these lines in the intro somewhere.}
-These errors can cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
-Since these runtime errors may only be triggered after some time in a deployment environment, the standard delta-debugging technique~\cite{x} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
-
-Our main contributions are as follows:
-
-\begin{enumerate}
 
 % Encore also used association rule learning, but did not describe why it is useful for verification in particular,
 %   or how it contrasts with other ML techniques that are less appropriate for verification (NN).
@@ -197,9 +211,6 @@ enable powerful rule and constraint inference.
 be detected by previous efforts,
 including entry ordering errors, fine-grained value correlation errors, 
 missing entry errors, and environment-related errors. 
-
-\item We implement a \app prototype and evaluate it by
-conducting comprehensive experiments on real-world dataset.
 
 \end{enumerate}
 
