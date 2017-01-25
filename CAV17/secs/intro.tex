@@ -86,23 +86,18 @@ Nevertheless, these types of errors cannot be detected by above existing
 efforts.
 \end{itemize}
 
+Our learning algorithm surmounts all of difficulties present in 
+existing tools.  \app implements a learning
+algorithm inspired by {\em rule association
+learning}~\cite{agrawal1993mining}. It analyzes a large training set of configuration  files~\cite{configdataset}. Those are real-world reported misconfigurations. A file in the training set might 
+contain several different errors and these errors only appear 
+in a small percentage of files. We first translate those file into an 
+intermediary typed language. With with every type we associate 
+a set of very general templates. The user does not
+need to provide any templates, they are internally associated to the types. 
 
 
-This paper presents \app, the first automatic verification framework
-for general software configurations, by overcoming the above two
-obstacles. In general, \app verifies a given configuration file $F$ 
-through three steps:
-
-\para{Step~1: Translator}
-\app takes as input a large training set of configuration files
-belonging the same system as $F$,
-and we do not have any assumption on the correctness of these files.
-\app analyzes the training set, and generates a well-structured and
-probabilistically-typed intermediate representations.
-
-\para{Step~2: Learning}
-\app derives configuration rules by running {\em rule association
-learning} algorithm to learn the generated intermediate representations.
+ algorithm to learn the generated intermediate representations.
 The insight of our design is: every file in the training set
 contains several different errors and these errors only appear 
 in a small percentage of files. Based on this insight,
@@ -115,6 +110,10 @@ Once a specification is obtained, we can do verification that
 uses these learned rules to check the correctness of 
 the configuration files
 of interest and detect potential errors.
+
+
+
+
 
 \para{Step~3: Rule graph analysis}
 To ensure the learned rules are good enough,
