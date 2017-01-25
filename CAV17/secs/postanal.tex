@@ -51,13 +51,14 @@
 
 \fi
 
-\section{Post Analysis}
+\section{Rule Graph Analysis}
+\label{sec-post}
 
-\app can output the set of learned rules from the training set as
-described in $\S$\ref{sec-learn}. Recall that a rule is 
+\app can output the set of learned rules from the training set (as
+described in Sec.~\ref{sec-learn}). Recall that a rule is 
 an implication relationship of the form $r = X \implies p(X,Y)$.
 This data is sufficient for \app to perform its core task of
-configuration file validation, but can be used for more than 
+configuration file verification, but can be used for more than 
 simple rule checking. By interpreting the rules as a graph (which
 we call the {\bf Rule Graph}), we can 
 use tools from graph theory to extract information
@@ -69,7 +70,7 @@ also use it to estimate the complexity of configuration settings.
 Accessibility of the Rule Graph is a useful property of the association 
 rule learning technique applied by \app.
 In contrast, the model output from a neural network is not as easily 
-amenable to analysis \cite{nnAnalysis1, nnAnalysis2}, making it harder
+amenable to analysis~\cite{nnAnalysis1, nnAnalysis2}, making it harder
 to build on the work of previously developed methods and tools.
 The following section provides a precise definition of the Rule Graph
 and the metrics derived for the purposes of ranking reported errors
@@ -84,7 +85,8 @@ The set of edges is constructed from the learned rules, using the source and tar
 %
 \begin{align*}
 \forall r \in & Learn(\trainingSet).\ \exists e\ \in E.\\
-              & V_s = X_r \land V_t=Y_r \land l=p_r \land w = confidence(r)
+              & V_s = X_r \land V_t=Y_r \land l=p_r \land w =
+\textit{confidence(r)}
 \end{align*}
 
 We will also denote $E_{V_1, V_2} \subset E$ as the \textit{slice set} 
@@ -132,7 +134,7 @@ to users of \app.
 Specifically, for an error reported by \app on a rule $r$ involving
 keywords $K$, we rank the errors by:
 
-    $$RANK(r) = \frac{\sum_{k \in K} \mathcal{D}(k)}{|K|}$$
+    $$\textit{RANK(r)} = \frac{\sum_{k \in K} \mathcal{D}(k)}{|K|}$$
 
 The results from ranking errors in this way are presented later in
 the paper.
