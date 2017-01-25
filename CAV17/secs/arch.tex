@@ -31,16 +31,17 @@ we assign several types over a probability distribution that can later be resolv
 
 \para{Learning}
 The learner converts the intermediate representation from the translator to a set of rules.
-It employs variation on the {\em rule association 
+It employs variation on the {\em association rule 
 algorithm}~\cite{agrawal1993mining}, to generate this list of rules, which describe properties of a correct configuration file. 
 This is a probabilistic verification approach that learns a specification for a correct file over an unlabeled training set of both correct and incorrect configurations files.
 The learning algorithm uses various instances of a rule interface to learn different classes of rules, such as ordering or integer relations.
 These rules are then considered to be required for any configuration files to be correct, and can be used for verification.
 
-\para{Post Analysis}
+\para{Rule Graph Analysis}
 Finally, the logically structured representation of learned rules allows for a further \textit{rule graph analysis}.
-We introduce the concept of a rule graph that can be built from the output of the modified association rule learning algorithm.
-We analyze the properties of this graph to construct an ordering of rules by their importance, 
+The purpose of this module is to refine the learned rules.
+To this end, we introduce the concept of a rule graph that can be built from the output of the modified association rule learning algorithm.
+We analyze the properties of this graph to construct a ranking of rules by their importance, 
   as well as to produce a measure of complexity for any configuration of the target system.
 While the metrics in used in \app are effective, they are not intended to be exhaustive.
 The information contained in the structured representation of the learned rules, 
