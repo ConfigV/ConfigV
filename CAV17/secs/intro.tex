@@ -12,18 +12,18 @@ researchers revealed that about 31\% of system failures were caused by
 configuration errors, which is higher than the percentage of
 failures resulting from program bugs (20\%).
 
-The systems research community has recognized this as an important
+In this paper we propose
+a framework for automated verification of configuration files: we are analyzing 
+files and proactively reporting potential errors, without waiting for them to happen. We developed a tool, called \app, and tested it on 
+almost a thousand file from Github. The systems research community has recognized this as an important
 problem~\cite{xu16early}. While many efforts have been proposed to check, troubleshoot, diagnose, and repair configuration 
 errors~\cite{attariyan10automating,
 su07autobash, whitaker04configuration},
 those tools mainly try to understand {\emph{what}} caused the 
 error -- they are still not on a level of
-automatic verification tools used for regular program 
+automated verification tools used for regular program 
 verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
-detect errors without executing the code. In this paper we propose
-a framework for automated verification of configuration files: we are analyzing 
-files and proactively reporting potential errors, without waiting for them to happen. We developed a tool, called \app, and tested it on 
-almost a thousand file from Github.
+detect errors without executing the code. 
 
 We believe there are two main obstacles 
 to why we cannot simply apply  the existing automatic 
@@ -105,24 +105,12 @@ In general, \app builds a graph modeling the learned rules,
 and then analyzes this graph to rank the importance
 and relevance of the learned rules. 
 
-
-\ruzica{mark, please put here summary of evaluation resuls}
-
 We have implemented a tool, \app, and evaluated it on almost 1000 real-world configuration files from Github.
 We demonstrate that we are able to detect known errors, based on StackOverflow posts, in this data set.
 Furthermore, we find compelling evidence that out optimizations are effective, for example using probabilistic types removes 1023 false positives errors reports to reduce the total error reports to 324.
 The rule graph analysis drastically improves the ranking of importance of the error reports, which allows users to more quickly fix the most critical misconfigurations.
 Additionally, \app scales linearly, whereas a previous tool~\cite{santolucitoCAV} showed exponential slow downs on the same benchmark set.
 
-\markk{see above}
-
-datasets. In our verification experiments, 
-we first use a public configuration dataset~\cite{configdataset}, which
-contains 261 incorrect MySQL configuration files, as our
-training set. We then use \app to learn rules from this training set
-and refine these rules. Finally, we check sophisticated 
-errors of real configuration files crawled from Github,
-and detect many errors in these widely-used configuration files.
 
 In summary, we make the following contributions.
 
