@@ -71,6 +71,7 @@ For any relation that violates a known rule, the checker will output the predica
 Since this is a probabilistic approach, in our implementation \app, we provide the user with these values to determine if they rule must be satisfied in their application on a case-by-case basis.
 For instance, the \texttt{key\_buffer} misconfiguration from Sec. \ref{ex:fine} will only be noticeable if the application experiences a heavy traffic load, so the user may choose to ignore this error if they are confident this will not be an issue.
 
+\iffalse
 \subsection{Implementation}
 
 \app is primarily implemented in Haskell.
@@ -95,4 +96,4 @@ Hence, if we can define how to build the relations to verify against a new type 
 Each of the outputs of the \textit{buildRelations} is in the form \textit{RuleDataMap a b}, where \textit{a} is a group of entities between which we want to define a relation (for example, a pair of keywords for Missing, Order, and Integer Correlation) and \textit{Countable b} is a tally of likelihoods of each possible outcome of the relation that can be weighted and combined over multiple files (for example, a count of files that exhibit the relation versus not for Missing or a count of files that exhibit less than, equals, or greater than between a pair of keywords for Ordering or a set of probabilities for Type rules).
 
 Once the program has finished merging together a set of built relations over every example file in the learning set, we have implemented a \textit{check} function for each of the rules, where we input the group of entities under which a relation is defined, the expected observation on that relation, and the actually observed observation in the file we are checking. If the observed instance is inconsistent with the relations built from our training set files, then we would see it reported. In the probablistic setting of our tool, we would implement cutoffs to tune our \textit{check} to ignore observed relations under a certain significance level.
-
+\fi
