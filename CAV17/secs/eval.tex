@@ -1,19 +1,39 @@
 
-\section{Evaluation}
+\section{Implementation and Evaluation}
 
-We evaluate this approach using our implementation, \app.
-For our training set, \trainingSet, we use a preexisting set of 256 industrial MySQL configuration files collected in previous configuration analysis work~\cite{xu15systems}.
-For our test set we collected 1000 MySQL configuration from Github, and filtered the poorly formatted files out for a final total of 973 files.
-In our evaluation we focus on MySQL for consistency, but \app can handle any configuration language (that can be parsed to the intermediate representation from Sec.~\ref{sec:trans}).
+We have implemented a \app prototype, and evaluated it based on
+real-world configuration datasets.
+
+\subsection{Prototype Implementation}
+
+\ennan{put the implementation as one or more paragraphs.}
+
+\subsection{Evaluation}
+
+To evaluate our \app prototype, we need to have two datasets:
+1)a training set and 2) a dataset for testing. 
+For our training set, \trainingSet, we use a preexisting set of 256 
+industrial MySQL configuration files collected in previous configuration 
+analysis work~\cite{configdataset}.
+The majority of configuration files in this training set are incorrect.
+For our evaluation, we collected 1000 MySQL configuration files 
+from Github, and filtered the poorly formatted files out for a final 
+total of 973 files, called as {\em test set}.
+In our evaluation we focus on MySQL for consistency, 
+but \app can handle any configuration language (that can be parsed to 
+the intermediate representation from Sec.~\ref{sec:trans}).
+
 We report the number of rules learned from the training set and number of errors detected in the test set in Table~\ref{table:learning}.
-
 Note that in contrast to program verification, we do not have an oracle for determining if a reported error is a true error, or a false positive, where a false positive means an error that has no impact on the system.
 While we can run program to determine the effect a specification has on success of compiling or running the program, no such test exists for configuration files.
 Because misconfigurations are dependent on the rest of the system, the available hardware, and the usage patterns, we cannot simulate the all conditions to determine if a reported error will cause system failure.
 As evidenced by Example~\ref{ex:fine}, some misconfigurations will only cause greater than expected performance degradation, and only under particular traffic loads.
 In this case, the definition of a true error is necessarily imprecise.
 
-However, we are able to manually determine that some errors are true positives by search forums like StackOverflow for records that particular configuration settings have cause problems on real-world systems.
+However, we are able to manually determine that some errors are true
+positives by searching forums like StackOverflow for records that
+particular configuration settings have cause problems on real-world
+systems.
 
 
 \begin{table}[h]
