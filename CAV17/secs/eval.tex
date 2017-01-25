@@ -42,9 +42,9 @@ This is intuitively an expected result from randomly sampling Github - most repo
 {\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Errors Detected} & {\bf Support} & {\bf Confidence}\\ 
 \hline
 \hline
-Order        & 13  & 62   & 6 \% & 94 \% \\ 
+Order        & 13  & 62   & 6 \%  & 94 \% \\ 
 Missing      & 53  & 55   & 2 \%  & 71\% \\ 
-Type         & 92  & 389  & -  & -  \\ 
+Type         & 92  & 389  & 12 \% & 70\%  \\ 
 Fine-Grain   & 213 & 324  & 24 \% & 91\%  \\ 
 Coarse-Grain & 97  & 237  & 10 \% & 96\% \\ 
 \hline 
@@ -64,12 +64,12 @@ particular configuration settings have caused problems on real-world systems.
 Furthermore, any error for which we can find evidence online is likely to be more problematic than errors that do not have an online record, 
   using the reasoning that this error has caused enough problems for people to seek help online.
 In this case, we would like \app to can sort the errors by their importance or potential severity.
-To achieve this sorting we use the Rule Graph analysis metric described in Sec.~\ref{sec:ruleorder}.
+To achieve this sorting we use the rule graph analysis metric described in Sec.~\ref{sec:ruleorder}.
 
 To estimate the impact of this metric, we track the rank of known true positives with, and without, the augmented rule ordering in Table~\ref{table-casestudy}.
 For this table, we picked the known true positive rules, listed in the Errors column, and pick configuration files in the test set that have these errors.
 We picked 3 files for each true positive by choosing the files the most total errors to most clearly observe the effects of our optimizations.
-We test the following conditions; just Rule Graph analysis (RG) to sort the errors, just probabilistic types to filter the rules (PT), and both optimizations at the same time (RG $\land$ PT).
+We test the following conditions; just rule graph analysis (RG) to sort the errors, just probabilistic types to filter the rules (PT), and both optimizations at the same time (RG $\land$ PT).
 For each entry we list X/Y, where X is the rank of the known true positive, and Y is the total number of errors found on that file.
 %Here we also compare the effect of probabilistic types - without probablitic types we learned 327 fin grainedrules and 1367 detections
 
