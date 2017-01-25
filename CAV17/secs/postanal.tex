@@ -87,17 +87,20 @@ The set of edges is constructed from the learned rules, using the source and tar
               & V_s = X_r \land V_t=Y_r \land l=p_r \land w = confidence(r)
 \end{align*}
 
-We will also denote $E_{V_1, V_2} \subset E$ as the \textit{slice set} of $E$ over $V_1, V_2$: 
+We will also denote $E_{V_1, V_2} \subset E$ as the \textit{slice set} 
+of $E$ over $V_1, V_2$.
+We can think of $E_{V_1, V_2}$ as being the subset of edges in $E$ 
+such that each source set $V_s$ shares a vertex with $V_1$
+and each target set $V_t$ shares a vertex with $V_2$.
+Formally: 
 
 \begin{align*}
     E_{V_1, V_2} = \{ \left( V_s, V_t, l, w \right) \in E \ \mid \ & \exists v_1 \in V_1 \land v_1 \in V_s \\
     & \land \exists v_2 \in V_2 \land v_2 \in V_t \}
 \end{align*}
 
-We can think of $E_{V_1, V_2}$ as being the subset of edges in $E$ 
-such that each source set $V_s$ shares a vertex with $V_1$
-and each target set $V_t$ shares a vertex with $V_2$.
-We denote a naked vertex $v$ in our subscripts as notational 
+
+We denote a standalone vertex $v$ in our subscripts as notational 
 convenience for the singleton set containing that vertex $v$.
 
 The size of an edge set is the sum of all weights in that set, so:
