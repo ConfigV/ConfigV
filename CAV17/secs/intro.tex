@@ -13,8 +13,11 @@ configuration errors, which is higher than the percentage of
 failures resulting from program bugs (20\%).
 
 In this paper we propose
-a framework for automated verification of configuration files: we are analyzing 
-configuration files of interest and proactively reporting potential errors, without waiting for them to happen. We developed a tool, called \app, 
+a framework for automated verification of configuration files: 
+we derive specifications by learning ``raw'' configuration files 
+and proactively report potential errors in the configuration files
+of interest, without waiting for them to happen. 
+We developed a tool, called \app, 
 and evaluated it on 
 almost a thousand configuration files from Github. The systems research community has recognized this as an important
 problem~\cite{xu16early}. While many efforts have been proposed to
@@ -23,15 +26,16 @@ errors~\cite{attariyan10automating,
 su07autobash, whitaker04configuration},
 those tools heavily rely on analyzing the source code of 
 the target systems and need to run these systems
-multiple times to understand where is the error---\ie,
+multiple times to understand where are the errors---\ie,
 they are still not on a level of
 automated verification tools used for regular program 
 verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
 detect errors without executing the code. 
 
 We believe there are two main obstacles 
-to why we cannot simply apply  the existing automatic 
-tools and techniques to verification of configuration files:
+to why we cannot simply apply the existing automatic program
+verification 
+techniques to verification of configuration files:
 1) the lack
 of a specification describing properties of configuration files;
 2) the structure of configuration files -- they
@@ -70,7 +74,7 @@ The errors found can cause total system failures, but can also be more insidious
 Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging 
 techniques~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
 
-To our knowledge, there have been several prior efforts that attempt to verify 
+To the best of our knowledge, there have been several prior efforts that attempt to verify 
 configuration files~\cite{santolucitoCAV, xu16early,
 zhang14encore, huang15confvalley}.
 However, state-of-the-art efforts either are impractical to be used
@@ -130,7 +134,7 @@ the same benchmark set.
 In summary, we make the following contributions:
 \begin{itemize}
 \item We propose the automated configuration verification
-framework, \app, that can learn specifications (rules) from a training set
+framework, \app, that can learn specifications from a training set
 of configuration files, and then use the specifications to verify 
 configuration files of interest.
 \item We describe the logical foundation of using association rule learning to build a probabilistic specification for configuration files. 
