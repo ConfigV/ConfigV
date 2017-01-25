@@ -51,7 +51,8 @@
 
 \fi
 
-\section{Post Analysis}
+\section{Rule Graph Analysis}
+\label{sec-post}
 
 The learner outputs a set of rules learned from the training set as
 described in Sec.~\ref{sec-learn}. Recall that a rule is 
@@ -68,7 +69,7 @@ also use it to estimate the complexity of a configuration file.
 
 Accessibility of the Rule Graph is a useful property of the association 
 rule learning technique applied by \app.
-While it is possible to analyze the models from other machine learning techniques such as neural networks~\cite{lei2016rationalizing} and
+While it is possible to analyze the models from other machine learning techniques, such as neural networks~\cite{lei2016rationalizing} and
 conditional random fields~\cite{raychev2015predicting}, these analyses require a deep knowledge of the applied techniques.
 In contrast the Rule Graph is a relatively simple, yet information rich, representation of the learned model.
 The following section provides a precise definition of the Rule Graph
@@ -84,7 +85,8 @@ The set of edges is constructed from the learned rules, using the source and tar
 %
 \begin{align*}
 \forall r \in & Learn(\trainingSet).\ \exists e\ \in E.\\
-              & V_s = X_r \land V_t=Y_r \land l=p_r \land w = confidence(r)
+              & V_s = X_r \land V_t=Y_r \land l=p_r \land w =
+\textit{confidence(r)}
 \end{align*}
 
 We will also denote $E_{V_1, V_2} \subset E$ as the \textit{slice set} 
@@ -132,7 +134,7 @@ to users of \app.
 Specifically, for an error reported by \app on a rule $r$ involving
 keywords $K$, we rank the errors by:
 
-    $$RANK(r) = \frac{\sum_{k \in K} \mathcal{D}(k)}{|K|}$$
+    $$\textit{RANK(r)} = \frac{\sum_{k \in K} \mathcal{D}(k)}{|K|}$$
 
 The results from ranking errors in this way are presented later in
 the paper.
