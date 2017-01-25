@@ -3,7 +3,7 @@
 \label{sec:trans}
 
 The translator takes as input a training set of configuration files and transforms it into a typed and well-structured intermediate representation.
-The translator can be seen a parser used to generate an intermediate representation for the learner module (cf. Sec.~\ref{sec-learn}).
+The translator can be seen as a parser used to generate an intermediate representation for the learner module (cf. Sec.~\ref{sec-learn}).
 Translating or parsing is system dependent since each configuration language (MySQL, Apache, PHP) uses a different grammar.
 \app allows users to provide extra help to the translator for their specific system configurations.
 
@@ -54,23 +54,28 @@ An additional challenge is that it is not always possible to fully determine the
 For this reason, we introduce \textit{probabilistic types}, as contrasted with \textit{basic types}.
 In \app, the set of basic types contains strings, file paths, integers, sizes, and Booleans. 
 Taking the configuration \ref{lst:file1.cnf}, we can assume {\tt foo} is a Boolean type by the grammar of MySQL,
-  but the keyword {\tt bar} could many types.
-If we choose the type on the first example it will be a integer type, if we choose a type that fits all examples it will be a string, or we might somehow select the Boolean type.
+  but the keyword {\tt bar} could be many types.
+If we choose the type based on the first example, {\tt bar} will be a integer type.
+If we choose a type that fits all examples, {\tt bar} will be a string.
+However the correct classification needed is a Boolean type.
 Let us assume that there is a critical rule we must learn that the Boolean keywords should have the same values, $eq(\texttt{foo},\texttt{bar})$.
 If we take {\tt bar}$::int$, we do not learn the above rule, nor do we learn this rule with {\tt bar}$::string$ - only with {\tt bar}$::bool$ is the rule is valid.
-To resolve this ambiguity, and choose the best type, the translator assigns a distribution of types to a keyword based on examples from the training set (denoted \trainingSet).
+To resolve this ambiguity, and choose the best type, the translator assigns a distribution of types to a keyword based on examples from the training set of configuration files (denoted $\trainingSet=\{C\}$).
+ 
 
 A probabilistic type is a set of counts over a set $\mathcal{T}$ of basic types.
-Formally, we define a space of probabilistic types $\tilde{\mathcal{T}}$, where $\ptype \in \tilde{\mathcal{T}}$ has a form $\ptype=\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
-Every keyword $k \in \keys$ has a probabilistic type, expressed $k:\ptype$, as opposed to the basic type notation $k::\tau$.
+Formally, we define a space of probabilistic types $\tilde{\mathcal{T}}$, where $\ptype \in \tilde{\mathcal{T}}$ has the form $\ptype=\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
+Figure~\ref{fig:ptypes} provides a calculus for probabilistic types over an example subset of basic types.
+This allows us to give a clear definition of the set of possible (\ie well-typed) equality rules.
+
+Every unique keyword $k \in \trainingSet$ has a probabilistic type, expressed $k:\ptype$, as opposed to the basic type notation $k::\tau$.
 The count for $(\tau_i,c_i) \in \ptype$ should be equal to the number of times a key in \trainingSet has a potential match to type $\tau_i$.
+The judgment {\scriptsize PTYPE} counts, over all files $C \in \trainingSet$, the times the value of a key matches a user defined set of acceptable values for each type $\tau_i \in \ptype$.
+We use the notation $\ptype[\tau_i=N]$ to create a probabilistic type with the count of $N$ for $\tau_i \in \ptype$.
 %We also denote the set of key-value pairs with $C$ and a keyword value pair that exists in some configuration file as $(k,v) \in C$.
 
-Figure~\ref{fig:ptypes} provides a calculus for type judgments for deriving equality rules with probabilistic types.
-We use the notation $\ptype[\tau=N]$ to create a probabilistic type with the count of $N$ for $\tau$ in {\scriptsize PTYPE}.
-This rule simply counts the regex matches for each key value pair.
-In the {\scriptsize BOOL} judgment, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to the basic type $bool$ when the $\ptype$ satisfies the predicate $p_{bool}$, \ie\ the probabilistic type has enough evidence.
-The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
+In the {\scriptsize BOOL} judgment, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to the basic type $bool$ when the $\ptype$ satisfies the resolution predicate $p_{bool}$, \ie\ the probabilistic type has sufficient evidence.
+The definition of sufficient evidence must be empirically determined by the user depending on the quality of the training set.
 
 {
 \setlength{\abovecaptionskip}{-.05pt}
@@ -99,16 +104,17 @@ The definition of enough evidence must be empirically determined by the user dep
 \end{figure}
 }
 
-In order to define predicates, we use the notation $|\tau_i\ptype|$ to select $c_i$ from a $\ptype \in \tilde{\mathcal{T}}$.
-As an example, we can set the predicate $p_{bool}(\ptype)= |bool\ptype| \geq 3 \land |int\ptype| \leq 1$,
-Then taking these type inference rules above, we can run an example inference on the sample training set in Figure~\ref{fig:tset}.
-The resultant probabilistic type \texttt{bar}$:[bool=3,int=1]$ is then resolved to \texttt{bar}$::bool$.
+In order to define resolution predicates, we use the notation $|\tau_i\ptype|$ to select $c_i$ from a $\ptype \in \tilde{\mathcal{T}}$.
+As an example, for the sample training set provided in Figure~\ref{fig:tset}, we might choose to set $p_{bool}(\ptype)= |bool\ptype| \geq 3 \land |int\ptype| \leq 1$ and $p_{int}(\ptype)= |int\ptype| \geq 3$.
+We then can run inference on that sample training set to derive a probabilistic type \texttt{bar}$:[bool=3,int=1]$.
+This is then resolved, as required in our earlier example, to \texttt{bar}$::bool$.
  
-A user may pick predicates for probabilistic type resolution that result in overlapping inference rules.
-For example, if a user picks $p_{int}(\ptype)= |int\ptype| \geq 1$, then {\scriptsize INT} overlaps with {\scriptsize BOOL}.
-To resolve the ambiguity in this case we must add a new rule {\scriptsize INTBOOL} that introduces a new type $intbool$.
-This type is only a place holder to be used in the additional subtyping relations $intbool <: int$ and $intbool <: bool$.
-These subtype relations allow the $intbool$ to take the place of either $int$ or $bool$ when determining if two keyswords may be compared in the {\scriptsize EQ\_RULE}.
+Note that a user may pick predicates for probabilistic type resolution that result in overlapping inference rules.
+For example, if a user instead picked $p_{int}(\ptype)= |int\ptype| \geq 1$, {\scriptsize INT} would overlap with {\scriptsize BOOL}.
+To resolve the ambiguity in this case, we must add a new rule {\scriptsize INTBOOL} that introduces a new, internal type $intbool$ to be created when both resolution predicates are true.
+The antecedent statement of {\scriptsize INT} must also be updated to $p_{int}(\ptype) \land \neg p_{bool}(\ptype)$, and likewise with {\scriptsize BOOL}.
+The $intbool$ type is only a placeholder to be used with the additional subtyping relations $intbool <: int$ and $intbool <: bool$
+These subtype relations allow the $intbool$ to take the place of either $int$ or $bool$ when determining if two keywords may be compared in the {\scriptsize EQ\_RULE}.
 
 \begin{mathpar}
 \hspace{-0.8cm} %no idea why, but this is better than \centering here
