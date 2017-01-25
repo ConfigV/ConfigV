@@ -1,6 +1,126 @@
 \section{Introduction}
 \label{sec-intro}
 
+Configuration errors are one of the most important root causes of today's 
+software system failures~\cite{xu15systems, yin11anempirical}.
+In their empirical study, Yin {\em et al.}~\cite{yin11anempirical} report 
+that about 31\% of system failures were caused by misconfiguration problems
+and only 20\% were caused by bugs in program code. 
+Misconfigurations, in practice, may result in various system-wide problems,
+including security vulnerabilities, application crashes, severe disruptions
+in software functionality, 
+and incorrect program executions~\cite{xu15systems, xu13do, xu15hey}.  
+Therefore, how to automatically verify configuration files is an open
+problem~\cite{xu15systems}.
+
+To the best of our knowledge, there have been several prior 
+efforts that attempt to verify 
+configuration files~\cite{santolucitoCAV, xu16early,
+zhang14encore, huang15confvalley}.
+However, state-of-the-art efforts either are impractical to be used
+in reality, or can only deal with simplistic configuration errors.
+In general, these efforts fall into two categories.
+
+\squishlist
+
+\item On the one hand are tools that can detect sophisticated 
+configuration errors, \eg, ConfigC~\cite{santolucitoCAV}. 
+However, these tools heavily rely on datasets containing 100\% 
+correct configuration files to extract configuration rules.
+Existing investigation studies~\cite{wang04automatic, yin11anempirical}
+have demonstrated determining or obtaining 100\% correct configuration
+files to drive rules is almost impossible in reality. 
+Without 100\% correct datasets, these tools would, unfortunately, 
+work poorly.
+
+\item On the other hand, practical efforts, 
+\eg, EnCore~\cite{zhang14encore} and
+ConfValley~\cite{huang15confvalley}, can only 
+detect simplistic configuration errors (\eg, value range errors 
+and simple integer correlation errors), but cannot detect
+sophisticated configuration errors. 
+Consider entry ordering errors, 
+which happen when some entries are inserted in a wrong order
+in the configuration files. 
+For example, in a PHP configuration file, 
+an entry \code{extension=mysql.so} appears 
+before \code{extension=recode.so},  
+it would cause Apache server to crash. The correct ordering 
+should be \code{extension=recode.so} before 
+\code{extension=mysql.so}~\cite{yin11anempirical}.
+Nevertheless, these types of errors cannot be detected by above existing
+efforts.
+
+\squishend
+
+The goal of this work is to propose and build a {\em practical} 
+configuration
+verification tool capable of checking {\em sophisticated} 
+configuration errors (more details
+for sophisticated configuration errors in Sec.~\ref{sec:motiv}).
+Achieving this goal requires us addressing two main obstacles:
+1) the lack of a specification describing properties of configuration
+files, and 2) the structure of configuration files---they are 
+mainly a sequence of entries assigning some values to system
+parameters (called keywords).
+In other words, the ``language'' in which configuration 
+files are written does not adhere to any specific grammar or syntax. 
+Moreover, the entries in configuration files 
+lack type or rules specifying constraints on entries, 
+and there is no explicit structure policy for these entries.
+
+This paper presents \app, the first automatic verification framework
+for general software configurations, by overcoming the above two
+obstacles. In general, \app verifies a given configuration file $F$ 
+through three steps:
+
+\para{Step~1: Translator}
+\app takes as input a large training set of configuration files
+belonging the same system as $F$,
+and we do not have any assumption on the correctness of these files.
+\app analyzes the training set, and generates a well-structured and
+probabilistically-typed intermediate representations.
+
+\para{Step~2: Learning}
+\app derives configuration rules by running {\em rule association
+learning} algorithm to learn the generated intermediate representations.
+The insight of our design is: every file in the training set
+contains several different errors and these errors only appear 
+in a small percentage of files. Based on this insight,
+we are able, with the help of the probabilistic cutoff, to learn a
+set of configuration rules. These rules, in general, specify 
+which properties the entries in configuration files need to satisfy. 
+One can see this learning process as a way of deriving  
+a specification for configuration files.  
+Once a specification is obtained, we can do verification that 
+uses these learned rules to check the correctness of 
+the configuration files
+of interest and detect potential errors.
+
+\para{Step~3: Rule graph analysis}
+To ensure the learned rules are good enough,
+\app employs a further analysis stage to refine the learned rules.
+In general, \app builds a graph to model the learned rules,
+and analyzes this graph's properties, ranking the importance
+and relevance of these rules. Finally, \app outputs
+a set of refined rules as the eventual specification
+to check the target configuration file $F$.
+
+We have implemented a \app prototype, and evaluated it based on
+real-world datasets. In our verification experiments, 
+we first use a public configuration dataset~\cite{configdataset}, which
+contains 261 incorrect MySQL configuration files, as our
+training set. We then use \app to learn rules from this training set
+and refine these rules. Finally, we check sophisticated 
+errors of real configuration files crawled from github,
+and detect many errors in these widely-used configuration files.
+
+In summary, we make the following contributions.
+
+
+\com{ 
+
+
 \markk{maybe we can use these lines in the intro somewhere.}
 These errors can cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
 Since these runtime errors may only be triggered after some time in a deployment environment, the standard delta-debugging technique~\cite{x} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
@@ -27,72 +147,11 @@ Our main contributions are as follows:
 \end{enumerate}
 
 
-Configuration errors are one of the most important root causes of today's software system failures~\cite{xu15systems, yin11anempirical}.
-In their empirical study, Yin {\em et al.}~\cite{yin11anempirical} report that about 31\% of system failures were caused by misconfiguration problems and only 20\% were caused by bugs in program code. 
-Misconfigurations, result in various system-wide problems, such as security vulnerabilities, application crashes, severe disruptions in software functionality, and incorrect program executions~\cite{zhang14encore, yuan11context, xu13do, xu15hey}.  
 
-While many efforts have been proposed to check, troubleshoot, diagnose, and repair configuration errors~\cite{attariyan10automating,su07autobash, whitaker04configuration},
-  those tools mainly post-factum and cannot give the safety guarantees available from powerful static analysis tools in program verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15}.
-Existing techniques for program verification do not fit this application domain, as configuration files often lack specifications and structure.
-There are rarely formal, or any, specifications on the constraints of the key values.
-In the case of MySQL, the canonical specification is a 5240 page reference manual~\cite{mysql-manual15} to describe valid configurations and behavior.
-We aim to automatically learn a formal specification the encodes this information by examining a set of example configuration files.
 
-In previous work~\cite{santolucitoCAV}, we used a set of manually verified files by an domain expert order to learn specifications.
-This approach is expensive and still prone to error by the expert.
-Related work on configuration verification has used machine learning
-
-While the grammar of configuration files tends to be simple (a series of key value pairs with some additional context), the keys and values themselves lack often structure and are untyped plain text.
-
-   1) lack of a specification which would describe properties of configuration files, and 
-   2) a program structure of configuration files -- they are mainly a sequence of entries assigning some value to system variables. 
-The language in which configuration files are written does not adhere to a specific grammar or syntax. 
-In particular, the entries in configuration files are untyped. 
-Moreover, there are surprisingly few rules specifying constraints on entries and there is no explicit structure policy for the entries.
-Thus, automated verification of configuration files would be highly desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
-
-To overcome these obstacles, researchers proposed approaches based on
-statistical analysis and learning%
-~\cite{wang04automatic, zhang14encore, yuan11context}
-that try to infer rules and policies about 
-how configuration files are constructed.
-Rather than explicitly specifying entries' types or rules, 
-these efforts focused on learning policies from a sample dataset.
-The learned rules are usually constructed in the following way: 
-for every entry in a configuration file, 
-they check if it deviates from a ``typical'' value, \ie, 
-a value computed from a large training set 
-consisting of configuration files.
-If the entry is significantly different from a typical value, 
-they suspect that it could be a potential configuration error.
-
-The downside of these is that their learning approaches 
-are limited to simplistic configuration errors, 
-such as type errors and syntax errors, or they 
-heavily rely on template-based inference~\cite{zhang14encore}. 
-%As we mentioned earlier, 
-%because configuration files are not written in a typed language 
-%with a fixed syntax,
-%type errors and syntax errors are relatively rare and easy to detect. 
-Many sophisticated configuration errors, 
-which are difficult to template in practice, 
-cannot be detected in this way. 
-As an illustration of such an error, consider entry ordering errors, 
-which happens when some entries are inserted in a wrong order. 
-For example, if in a PHP configuration file 
-an entry {\tt extension = mysql.so} appears 
-before {\tt extension = recode.so},  
-it would lead to a crash error, where the Apache server cannot start 
-due to the segmentation fault error. The correct ordering 
-should be {\tt extension = recode.so} before 
-{\tt extension = mysql.so}~\cite{yin11anempirical}.
-These types of errors cannot be detected by existing
-learning efforts, 
-since it is hard to build a corresponding template~\cite{xu15systems}. 
-%we would need to capture ordering relations of all the entries. 
-%Some of them can appear in an arbitrary ordering, 
-%and the resulting templates would be too large 
-%and not efficient for a practical use.
+%Therefore, automated verification of configuration 
+%files would be highly
+%desirable~\cite{wang04automatic, zhang14encore, xu15systems}.
 
 %Offering automatic verification to configuration files -- like
 %what we did to programs -- has been advocated as a reasonable means
@@ -147,3 +206,4 @@ conducting comprehensive experiments on real-world dataset.
 
 \end{enumerate}
 
+}

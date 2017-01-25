@@ -54,23 +54,23 @@
 \section{Post Analysis}
 
 \app can output the set of learned rules from the training set as
-described in $\S$\ref{sec-learn}, recalling that a rule is 
+described in $\S$\ref{sec-learn}. Recall that a rule is 
 an implication relationship of the form $r = X \implies p(X,Y)$.
 This data is sufficient for \app to perform its core task of
 configuration file validation, but can be used for more than 
-simple rule checking. By re-interpreting
-rules as being the edges of a {\bf Rule Graph}, we use tools from network
-theory to extract information
-about the configuration space. We inspect properties of the Rule Graph 
-to triage reported errors by those most likely to be valid,
-and even to estimate the complexity of configuration settings.
+simple rule checking. By interpreting the rules as a graph (which
+we call the {\bf Rule Graph}), we can 
+use tools from graph theory to extract information
+about the configuration space. We inspect properties of this 
+Rule Graph to sort reported errors by those most likely to be valid.
+To demonstrate the additional value of the Rule Graph, we
+also use it to estimate the complexity of configuration settings.
 
-Accessibility of the Rule Graph is a hallmark of the association rule
-learning technique applied by \app \cite{someOtherGraphStuff}.
+Accessibility of the Rule Graph is a useful property of the association 
+rule learning technique applied by \app.
 In contrast, the model output from a neural network is not as easily 
 amenable to analysis \cite{nnAnalysis1, nnAnalysis2}, making it harder
 to build on the work of previously developed methods and tools.
-
 The following section provides a precise definition of the Rule Graph
 and the metrics derived for the purposes of ranking reported errors
 and complexity analysis.
@@ -80,7 +80,7 @@ and complexity analysis.
 
 We define the \textit{Rule Graph} as a directed hypergraph $H = (V,E)$,
    with vertices $V = \{ keywords \}$ and labeled, weighted edges $E = \{ (V_s, V_t, l, w) \}$.
-The set of edges is constructed from the learned rules, using the keyword sets as source and targets, the predicates as labels, and the confidence as weights:
+The set of edges is constructed from the learned rules, using the source and target keyword sets as sources and targets respectively, the predicates as labels, and the confidence as weights:
 %
 \begin{align*}
 \forall r \in & Learn(\trainingSet).\ \exists e\ \in E.\\
@@ -89,33 +89,37 @@ The set of edges is constructed from the learned rules, using the keyword sets a
 
 We will also denote $E_{V_1, V_2} \subset E$ as the \textit{slice set} of $E$ over $V_1, V_2$: 
 
-    $$E_{V_1, V_2} = \{ \left( V_s, V_t, l, w \right) \in E \ \mid \ \exists v_1 \in V_1, V_s \land \exists v_2 \in V_2, V_t \}$$
+\begin{align*}
+    E_{V_1, V_2} = \{ \left( V_s, V_t, l, w \right) \in E \ \mid \ & \exists v_1 \in V_1 \land v_1 \in V_s \\
+    & \land \exists v_2 \in V_2 \land v_2 \in V_t \}
+\end{align*}
 
-Sometimes we will write a single vertex $v$ in our subscript, as
-notational convenience for the singleton set containing $v$.
+We can think of $E_{V_1, V_2}$ as being the subset of edges in $E$ 
+such that each source set $V_s$ shares a vertex with $V_1$
+and each target set $V_t$ shares a vertex with $V_2$.
+We denote a naked vertex $v$ in our subscripts as notational 
+convenience for the singleton set containing that vertex $v$.
 
 The size of an edge set is the sum of all weights in that set, so:
 
-    $$|E_{v_1, v_2}| = \sum_{(X, Y, l, w) \in E_{v_1, v_2}} w$$
+    $$|E| = \sum_{(X, Y, l, w) \in E} w$$
 
 The use of the support and confidence thresholds $t_s$ and $t_c$ in the learner ensure 
 that all weights in the Rule Graph are positive.
 
-\para {Definition}
-We define a measure of degree $\mathcal{D}(v)$ for each vertex $v$ as the sum of in-degree
-and out-degree defined in the usual way. Explicitly, for a vertex $x \in V$:
+We define a measure of degree $\mathcal{D}(v)$ for each vertex $v$ as the sum of 
+in-degree and out-degree. Explicitly, for a vertex $x \in V$:
 
     $$\mathcal{D}(x) = \sum_{v \in V} |E_{x, v}| + \sum_{v \in V} |E_{v, x}|$$
 
-\para {Discussion}
-
+We may now use this measure to rank our errors.
 The more rules of high confidence are extracted for a keyword by the learner, 
-the higher the $DEGREE$ of the corresponding vertex in the Rule Graph.
-By classifying keywords in this way, we may extract a simple way to
-order the {\it errors} reported by \app by estimated importance.
+the higher the $\mathcal{D}(v)$ of the corresponding vertex in the Rule Graph.
+In our final analysis, we use this classification to
+order the reported {\it errors} by estimated importance.
 
-We hypothesize that keywords (specifically their corresponding vertices)
-of low $DEGREE$ will be rarer configuration
+Keywords (specifically their corresponding vertices)
+of low $\mathcal{D}(v)$ may be rarer configuration
 parameters where rules learned are more likely to be governed by 
 tehchnical necessity, rather than industry convention. As such, errors
 reported involving low-degree keywords are more likely to be errors
@@ -123,9 +127,9 @@ of high significance and should be presented with high importance
 to users of \app.
 
 Specifically, for an error reported by \app on a rule $r$ involving
-keywords $K$, we may rank the errors simply by:
+keywords $K$, we rank the errors by:
 
-    $$RANK(r) = avg( DEGREE(K) )$$
+    $$RANK(r) = \frac{\sum_{k \in K} \mathcal{D}(k)}{|K|}$$
 
 The results from ranking errors in this way are presented later in
 the paper.
@@ -134,7 +138,7 @@ the paper.
 
 We may also use the Rule Graph to advance our general knowledge
 of the configuration space, outside the strict confines of a
-verification system. As an example, we briefly present a heuristic
+verification system. As an example, we present a heuristic
 for configuration file complexity based on the topology of the
 Rule Graph. This measure of complexity could be used by software
 organizations to manage configuration files in much the same way
@@ -143,7 +147,7 @@ potentially brittle configurations for targeted refactoring.
 
 \para {Definition}
 
-For a configuration file with a set of keywords $K$ for a system
+For a configuration file with a set of keywords $K$
 and a Rule Graph $H = (V, E)$, we define our complexity measure:
 
 \begin{equation}
@@ -161,16 +165,20 @@ extension of the na\"ive line-counting measure of complexity.
 When a keyword in the configuration file is present in the Rule Graph,
 we may consider the set $E_{k, K}$ to be all learned rules involving
 keyword $k$ that
-are {\it relevant} to the configuration file being examined. the set
-$E_{k, V}$ denotes {\it all} learned rules involving $k$.
+are {\it relevant} to the configuration file being examined. 
+The set $E_{k, V}$ denotes {\it all} learned rules involving $k$.
 Given these sets, we may think of $\frac{|E_{k, K}|}{|E_{k, V}|}$
 as representing the amount that $k$ is constrained in the current
 configuration file relative to how much it could be constrained
 in the global configuration space. The more constrained a configuration
 keyword in a particular configuration file, the {\it less} it should
 contribute to the complexity (hence $1 * (1 - \frac{|E_{k, K}|}{|E_{k, V}|})$).
-
 If a keyword is not constrained at all in the current configuration
 file or is not present in the Rule Graph, we revert to the standard
-counting metric of complexity.
+counting metric of complexity. 
+
+While an in-depth evaluation of the complexity metric presented here
+is out of scope for this paper, we use this measure to
+demonstrate the flexibility of the rule graph, and potential
+for further applications.
 
