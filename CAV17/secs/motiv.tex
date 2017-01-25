@@ -51,10 +51,8 @@ The user has configured her MySQL as follows:
   max_connections               = 64
   thread_cache_size             = 8
   thread_concurrency            = 8
-
   key_buffer_size               = 4G
   max_heap_table_size           = 128M
-
   join_buffer_size              = 32M
   sort_buffer_size              = 32M    
 \end{lstlisting} 
@@ -76,7 +74,7 @@ If we run \app on the above configuration file, \app will give an explicit answe
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
 FINE GRAINED ERROR: Expected 
-  "max_connections" * "sort_buffer_size" >= "key_buffer_size"
+  "max_connections" * "sort_buffer_size" > "key_buffer_size"
 \end{lstlisting} 
 
 %This example is a tricky configuration error, which implicitly
