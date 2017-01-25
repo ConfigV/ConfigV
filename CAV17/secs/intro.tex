@@ -23,7 +23,7 @@ verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
 detect errors without executing the code. In this paper we propose
 a framework for automated verification of configuration files: we are analyzing 
 files and proactively reporting potential errors, without waiting for them to happen. We developed a tool, called \app, and tested it on 
-almost a thousand file from github.
+almost a thousand file from Github.
 
 We believe there are two main obstacles 
 to why we cannot simply apply  the existing automatic 
@@ -93,36 +93,24 @@ learning}~\cite{agrawal1993mining}. It analyzes a large training set of configur
 contain several different errors and these errors only appear 
 in a small percentage of files. We first translate those file into an 
 intermediary typed language. With with every type we associate 
-a set of very general templates. The user does not
-need to provide any templates, they are internally associated to the types. 
-
-
- algorithm to learn the generated intermediate representations.
-The insight of our design is: every file in the training set
-contains several different errors and these errors only appear 
-in a small percentage of files. Based on this insight,
-we are able, with the help of the probabilistic cutoff, to learn a
-set of configuration rules. These rules, in general, specify 
-which properties the entries in configuration files need to satisfy. 
-One can see this learning process as a way of deriving  
-a specification for configuration files.  
-Once a specification is obtained, we can do verification that 
-uses these learned rules to check the correctness of 
-the configuration files
-of interest and detect potential errors.
-
-
-
-
-
-\para{Step~3: Rule graph analysis}
+a set of very general interfaces. An \app's user does not
+need to provide them, they are internally associated to the types. The 
+learner then instantiates those interfaces with the keywords appearing in 
+the training set. However, since files might also contain errors we take 
+this into account when learning correct rules. All learned rules are 
+annotated with the probability of correctness.  
 To ensure the learned rules are good enough,
-\app employs a further analysis stage to refine the learned rules.
-In general, \app builds a graph to model the learned rules,
-and analyzes this graph's properties, ranking the importance
-and relevance of these rules. Finally, \app outputs
-a set of refined rules as the eventual specification
-to check the target configuration file $F$.
+\app employs a further analysis to refine the learned rules.
+In general, \app builds a graph modeling the learned rules,
+and then analyzes this graph to rank the importance
+and relevance of the learned rules. 
+
+
+\ruzica{mark, please put here summary of evaluation resuls}
+
+
+
+
 
 We have implemented a \app prototype, and evaluated it based on
 real-world datasets. In our verification experiments, 
@@ -130,7 +118,7 @@ we first use a public configuration dataset~\cite{configdataset}, which
 contains 261 incorrect MySQL configuration files, as our
 training set. We then use \app to learn rules from this training set
 and refine these rules. Finally, we check sophisticated 
-errors of real configuration files crawled from github,
+errors of real configuration files crawled from Github,
 and detect many errors in these widely-used configuration files.
 
 In summary, we make the following contributions.
