@@ -62,9 +62,15 @@ To resolve this ambiguity, instead of immediately assigning one type to a value,
 
 A probabilistic type is a set of counts over a set $\mathcal{T}$ of basic types.
 Formally, we define a space of probabilistic types $\tilde{\mathcal{T}}$, where $\ptype \in \tilde{\mathcal{T}}$ has a form $\ptype=\{(\tau_1, c_1),\ldots,(\tau_n, c_n)\}$, such that $\tau_i \in \mathcal{T}$, $c_i \in \mathbb{Z}$. 
-Every keyword $k\in\keys$ has a probabilistic type, expressed $k:\ptype$, which, without any evidence, remains {\scriptsize EMPTY}.
+Every keyword $k\in\keys$ has a probabilistic type, expressed $k:\ptype$.
 The count for $(\tau_i,c_i) \in \ptype$ is incremented each time a new example value that matches to type $\tau_i$ is encountered for a particular key, using the update notation $\update$.
 We also denote the set of key-value pairs with $C$ and a keyword value pair that exists in some configuration file as $(k,v) \in C$.
+
+Fig.~\ref{fig:ptypes} provides a fragment of a calculus for type judgments for deriving Boolean equality rules with probabilistic types.
+We use the notation, $\ptype \models p$, to denote a probabilistic type whose counts hold on the predicate $p$. For a $\ptype$ with $|\tau_i|$ 
+we denote $c_i$, and $*$ is shorthand for all basic types. When there is no evidence for a type $\tau$ we call this empty type ({\scriptsize EMPTY}). Initially, before we count any type, all types are set to empty. 
+In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to a basic type with enough evidence.
+The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
 
 {
 \setlength{\abovecaptionskip}{-.05pt}
@@ -86,25 +92,22 @@ We also denote the set of key-value pairs with $C$ and a keyword value pair that
 \\
 \and
 \inferrule* [Right=bool\_resolve]
-{k:\ptype \\ \ptype \models bool \geq 2 \land \ast \leq 1}
+{k:\ptype \\ \ptype \models |bool| \geq M \land |\ast| \leq N}
 {k :: bool}
 \\
 \and
 \inferrule* [Right=eq\_rule]
-{k1 :: \tau \\ k2 :: \tau \\ \tau \in \mathcal{T}}
-{eq(k1,k2) :: Rule}
+{k_1 :: \tau \\ k_2 :: \tau \\ \tau \in \mathcal{T}}
+{eq(k_1,k_2) :: Rule}
 \end{mathpar}
 \caption{Type judgments for Boolean equality rules with probabilistic types}
 \label{fig:ptypes}
 \end{figure}
 }
 
-In the {\scriptsize BOOL\_RESOLVE} rule, a keyword with a probabilistic type $k : \ptype \in \tilde{\mathcal{T}}$ can be resolved to a basic type with enough evidence.
-The definition of enough evidence must be empirically determined by the user depending on the quality of the learning set.
-In this case, we allow a probabilistic type to resolve to a Boolean if we have two counts for Boolean, and no more than one count for any other basic type ($\ast$).
-We use the notation, $\ptype \models p$, to denote a probabilistic type whose counts hold on the predicate $p$.
-Taking the type inference rules above, we can run an example inference on the sample training set in Figure~\ref{fig:tset}.
-Using the rules from Fig.~\ref{fig:ptypes}, we would derive the probabilistic type \texttt{bar}$:[bool=3,int=1]$, which then resolves to \texttt{bar}$::bool$.
+Taking these type inference rules above, we can run an example inference on the sample training set in Figure~\ref{fig:tset}. The result is the probabilistic type \texttt{bar}$:[bool=3,int=1]$. By setting $M=3, N=1$, we resolve it to \texttt{bar}$::bool$.
+
+\ruzica{Mark, please argue better about this}
  
 A user may implement overlapping inference rules, for example in {\scriptsize INT\_RESOLVE}.
 This not a subtyping relation, as the predicates over the counts may not be strictly overlapping.

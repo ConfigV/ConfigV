@@ -1,8 +1,6 @@
 % Graph Analysis
 % Rahul
 
-\section{Post Analysis}
-
 \iffalse
 
 # Structure and Core Points]
@@ -20,7 +18,7 @@
 
 [Problem Definition]
 
-    - What is the intermediate representation?
+    - What is the intermediate representation from the learner?
         -> why can / should we interpret it as a graph?
         -> what benefits does this give over neural-networks?
 
@@ -53,241 +51,126 @@
 
 \fi
 
-RULE GRAPH
+\section{Post Analysis}
 
-VeriConf can output the set of learned rules from the training set as described in $\S$\ref{sec-learn}.
-Note that the ability to inspect the learned rule set is a special property of this technique.
-The core task, building a model from unlabeled examples to classify files as either correct or incorrect, is also a classic problem for other machine learning techniques such as neural networks~\cite{nn1,nn2,nn3}.
-When applying machine learning to verification of configuration files, this is not, however, an ideal approach.
-The resulting model from a neural network is not easily amenable to analysis~\cite{nnAnalysis1,nnAnalysis2}.
-The simple structure of rules with weights from an association rule learning-like approach, will instead allows us to do further inference on the resulting model.
+\app can output the set of learned rules from the training set as
+described in $\S$\ref{sec-learn}, recalling that a rule is 
+an implication relationship of the form $r = X \implies p(X,Y)$.
+This data is sufficient for \app to perform its core task of
+configuration file validation, but can be used for more than 
+simple rule checking. By re-interpreting
+rules as being the edges of a {\bf Rule Graph}, we use tools from network
+theory to extract information
+about the configuration space. We inspect properties of the Rule Graph 
+to triage reported errors by those most likely to be valid,
+and even to estimate the complexity of configuration settings.
+
+Accessibility of the Rule Graph is a hallmark of the association rule
+learning technique applied by \app \cite{someOtherGraphStuff}.
+In contrast, the model output from a neural network is not as easily 
+amenable to analysis \cite{nnAnalysis1, nnAnalysis2}, making it harder
+to build on the work of previously developed methods and tools.
+
+The following section provides a precise definition of the Rule Graph
+and the metrics derived for the purposes of ranking reported errors
+and complexity analysis.
 
 \subsection{Rule Ordering}
 \label{sec:ruleorder}
 
-Define a directed hypergraph with $H = (V,E)$ labeled, weighted edges such that:
+We define the \textit{Rule Graph} as a directed hypergraph $H = (V,E)$,
+   with vertices $V = \{ keywords \}$ and labeled, weighted edges $E = \{ (V_s, V_t, l, w) \}$.
+The set of edges is constructed from the learned rules, using the keyword sets as source and targets, the predicates as labels, and the confidence as weights:
+%
+\begin{align*}
+\forall r \in & Learn(\trainingSet).\ \exists e\ \in E.\\
+              & V_s = X_r \land V_t=Y_r \land l=p_r \land w = confidence(r)
+\end{align*}
 
-    $$V = \{ keywords \}$$
+We will also denote $E_{V_1, V_2} \subset E$ as the \textit{slice set} of $E$ over $V_1, V_2$: 
 
-and 
+    $$E_{V_1, V_2} = \{ \left( V_s, V_t, l, w \right) \in E \ \mid \ \exists v_1 \in V_1, V_s \land \exists v_2 \in V_2, V_t \}$$
 
-    $$E = \{ (V_s, V_t, l, w) \}$$
-
-Where $V_s$ and $V_t$ are sets of vertices. Intuitively, we may think of the
-hyper-edge as being directed from $V_s$ to $V_t$. The label $l \in L$ indicates
-the predicate $p$ extracted by the learner, where $L$ is the set of all
-predicates learned. The weight $w$ is defined as:
-
-    $$w = \frac{true}{total}$$
-
-as measured by the learner for that relationship. We will also denote
-$E_{V_1, V_2}$ as
-the set of all hyperedges where a vertex $v_1 \in V_s$ is in the 
-source set and a vertex $v_2 \in V_t$ is in the target. Sometimes we
-will write a single vertex $v$ in our subscript, as notational convenience
-for the singleton set containing $v$.
+Sometimes we will write a single vertex $v$ in our subscript, as
+notational convenience for the singleton set containing $v$.
 
 The size of an edge set is the sum of all weights in that set, so:
 
     $$|E_{v_1, v_2}| = \sum_{(X, Y, l, w) \in E_{v_1, v_2}} w$$
 
-We will refer to this hypergraph as the {\bf Rule Graph}
-in further analysis.
-
-We note that support and confidence assertions in the learner ensure
-that all weights are positive.
+The use of the support and confidence thresholds $t_s$ and $t_c$ in the learner ensure 
+that all weights in the Rule Graph are positive.
 
 \para {Definition}
-We define a measure of degree for each node as the sum of in-degree
+We define a measure of degree $\mathcal{D}(v)$ for each vertex $v$ as the sum of in-degree
 and out-degree defined in the usual way. Explicitly, for a vertex $x \in V$:
 
-    $$DEGREE(x) = OUT\_DEGREE(x) + IN\_DEGREE(x)$$
+    $$\mathcal{D}(x) = \sum_{v \in V} |E_{x, v}| + \sum_{v \in V} |E_{v, x}|$$
 
-    $$DEGREE(x) = \sum_{v \in V} |E_{x, v}| + \sum_{v \in V} |E_{v, x}|$$
-
-Talk more about hyperedges or some shit
-\iffalse
-
-Note that we will be summing in-degree and out-degree over all
-relationships $l$ to determine the total importance of
-a keyword $k$ in the configuration space. We are restricted
-by the total set of learning modules from which to derive
-relationships $l$. If a keyword were highly constrained by some
-relationship to other keywords in a way that might not be
-measurable by current techniques, the learner (and
-consequently the rule graph) will show these keywords as being
-unrelated.
-
-\fi
-
-\para {Semantics}
+\para {Discussion}
 
 The more rules of high confidence are extracted for a keyword by the learner, 
 the higher the $DEGREE$ of the corresponding vertex in the Rule Graph.
-We may use this measurement to examine which keywords in the configuration
-space examined by the learner are most important - which keyword configurations
-are the most constrained / most constraining.
+By classifying keywords in this way, we may extract a simple way to
+order the {\it errors} reported by \app by estimated importance.
 
-Note that since the Rule Graph, as it is formulated in this paper, weights edges
-by a {\it ratio} of predicate hits to total keyword observations, the weight
-of an edge is {\bf dependent only on the confidence of the corresponding rule
-and independent of the support}. We address this issue by pruning nodes of
-inadequate support in the learner, but an alternative formulation of the rule
-graph (in particular an alternative weighting of edges)
-could provide additional
-information for graph analysis techniques to take support into account
-beyond rule confidence.
+We hypothesize that keywords (specifically their corresponding vertices)
+of low $DEGREE$ will be rarer configuration
+parameters where rules learned are more likely to be governed by 
+tehchnical necessity, rather than industry convention. As such, errors
+reported involving low-degree keywords are more likely to be errors
+of high significance and should be presented with high importance
+to users of \app.
 
-\rahul{Not sure how important this last point about alternative Rule Graph
-formulation is - we certainly want to make sure the reader understands that
-this is an area that can be easily expanded on, but don't want to distract
-from the fundamental semantics here.}
+Specifically, for an error reported by \app on a rule $r$ involving
+keywords $K$, we may rank the errors simply by:
 
-It is also worth noting that how good of a heuristic the $DEGREE$ metric is for
-importance of a configuration parameter is dependent on the coverage
-of the learnable predicate set encompassed by $L$. The more this predicate
-set covers the true configuration parameter relationships in the system,
-the better the heuristic.
+    $$RANK(r) = avg( DEGREE(K) )$$
 
-\iffalse
+The results from ranking errors in this way are presented later in
+the paper.
 
-Intuitively, keywords that are seen together more often with defined relationships are more likely to generate rules within the learner.
- (it would be nice to show this with a quick derivation)
-
-for a rule to be considered *true*, two conditions must hold:
-
-1) adequate support -we have seen the keywords together x number of times
-
-2) adequate confidence - how many times out of the x number of times was the relationship true?
-
-\fi
-
-\iffalse
-- Open Questions
-> What is the difference between {\it important} rules and
-  {\it rules we are more sure about}?
-
-> Why doesn't everything just sum to zero?
-
-\fi
 \subsection{Complexity Measure}
 
-A common goal for software projects is managing complexity. As
-constraints accumulate over the lifecycle of a project additional
-configuration file complexity often grows, with the danger of
-making code brittle and unwieldy. For code, Kolomogrov complexity
-can be a good indicator of whether a solution is bloated and 
-needs to be refactored.
-
-The intermediate representation produced VeriConf's learner stage
-may be used to analyze the complexity of a configuration file.
+We may also use the Rule Graph to advance our general knowledge
+of the configuration space, outside the strict confines of a
+verification system. As an example, we briefly present a heuristic
+for configuration file complexity based on the topology of the
+Rule Graph. This measure of complexity could be used by software
+organizations to manage configuration files in much the same way
+as Kolomogrov complexity~\cite{kolomogrov} is used to manage code - identifying
+potentially brittle configurations for targeted refactoring.
 
 \para {Definition}
 
-We define a measurement of complexity based on the calculated correlation.
 For a configuration file with a set of keywords $K$ for a system
-with a Rule Hypergraph $H = (V, E)$.
-
-and may now define our complexity measure:
+and a Rule Graph $H = (V, E)$, we define our complexity measure:
 
 \begin{equation}
-    COMPLEXITY(K, H) = \sum_{k \in K} \
+    \mathcal{C}(K, H) = \sum_{k \in K} \
         \begin{cases}
             1 * (1 - \frac{|E_{k, K}|}{|E_{k, V}|}) & \text{if}\ \ |E_{k, V}| > 0 \\
             1 & \text{otherwise}
         \end{cases}
 \end{equation}
 
-Since all weights are positive, $|E_{k, V}| > 0$ if there is at least one 
-edge in $E_{k, V}$. Examining $\frac{|E_{k, K}|}{|E_{k, V}|}$, we may think of this
-term as the ratio of {\it possible} constraints on a keyword $k$ by all keywords
-in the configuration space ($V$) to the {\it actual} constraints imposed in the
-examined configuration file ($K$).
+\para {Discussion}
 
-Waste less time explaining the example (that should be maybe 1 or 2 paragraphs) and more time explaining the complexity measure.
-\para {Semantics}
+The complexity measure, $\mathcal{C}$, can be thought of as an
+extension of the na\"ive line-counting measure of complexity.
+When a keyword in the configuration file is present in the Rule Graph,
+we may consider the set $E_{k, K}$ to be all learned rules involving
+keyword $k$ that
+are {\it relevant} to the configuration file being examined. the set
+$E_{k, V}$ denotes {\it all} learned rules involving $k$.
+Given these sets, we may think of $\frac{|E_{k, K}|}{|E_{k, V}|}$
+as representing the amount that $k$ is constrained in the current
+configuration file relative to how much it could be constrained
+in the global configuration space. The more constrained a configuration
+keyword in a particular configuration file, the {\it less} it should
+contribute to the complexity (hence $1 * (1 - \frac{|E_{k, K}|}{|E_{k, V}|})$).
 
-The presented metric is a heuristic that intends to approximate the question: 
-how much redundancy exists in a configuration file, when considering
-probabilistic constraints imposed by the problem domain? It does this by
-expanding on a naive metric of complexity - the number of configuration 
-parameters. Consider the following set of configuration files, drawing from
-an example presented earlier in this paper.
-
-\begin{figure}[!htb]
-    \centering
-    \begin{minipage}{.25\textwidth}
-    \begin{lstlisting} [label={lst:1.cnf},language=C,caption={1.cnf}]
-[server]
-foo = ON
-[client]
-bar = 1
-    \end{lstlisting}
-    \end{minipage}%
-    \hspace{1cm}
-    \begin{minipage}{0.25\textwidth}
-    \begin{lstlisting} [label={lst:2.cnf},language=C,caption={2.cnf}]
-[server]
-foo = ON
-[client]
-bar = ON
-    \end{lstlisting}
-    \end{minipage}
-    \hspace{1cm}
-    \begin{minipage}{0.25\textwidth}
-    \begin{lstlisting} [label={lst:2.cnf},language=C,caption={3.cnf}]
-[server]
-pot = ON
-[client]
-cat = ON
-    \end{lstlisting}
-    \end{minipage}
-    \caption{A learning set of configuration files}
-    \label{fig:complexityset}
-\end{figure}
-
-From our learner, we determined that the parameters $foo$ and $bar$ are
-highly correlated with each other, by an equality relation. In fact, this
-is the only relation learned for $foo$ and $bar$ within the configuration
-space. $pot$ and $cat$ on the other hand, were determined to be unrelated
-by the learner. If using the naive counting measure of complexity, all 
-three of these configuration files would have the same measure of $2$.
-
-However, we know that $foo$ and $bar$ are not independent settings.
-The fact that they are both set to a truthy value communicates less
-information than the settings for the file with $pot$ and $cat$.
-
-Our defined complexity measure would evaluate to $1$ on the
-configuration file with $foo$ and $bar$, while evaluating to $2$ on
-the configuration file with $pot$ and $cat$, more accurately representing
-the amount of information actually conveyed by these settings. Note,
-however that our metric does not actually consider the {\it values}
-of the configuration settings when determining complexity. In the
-future, it may be possible in the future to have interpreted predicates,
-such that these heuristics may even more closely reflect the informational
-content of a constrained configuration file.
-
-We hope that further researchers will expand on the foundation we lay
-here to extract more useful information from the intermediate
-representation built by the VeriConf learner.
-
-\iffalse
-
-it may be possible in the future to have interpreted predicates,
-such that these heuristics may more accurately reflect the informational
-content of a constrained configuration file.
-
-Use the listing in figure 2 to put together an example of why the
-naive implementation of complexity doesn't give as much of an idea
-of what is going on as our heuristic.
-
-Additional refinement of a complexity metric could take into account
-when learned rules are violated (indicating potentially brittle
-configuration state)
-
-\fi
-
-
-
-
+If a keyword is not constrained at all in the current configuration
+file or is not present in the Rule Graph, we revert to the standard
+counting metric of complexity.
 

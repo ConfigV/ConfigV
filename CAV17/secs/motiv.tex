@@ -1,27 +1,24 @@
 \section{Motivating Examples}
 \label{sec:motiv}
 
-In this section we present the capability of \app through 
-detecting errors in several real-world misconfiguration examples. 
-These examples were non-trivial configuration errors
+In this section we illustrate capabilities of \app by 
+using several real-world misconfiguration examples. 
+These examples are non-trivial configuration errors
 that were reported on StackOverflow~\cite{stackoverflow},
-a popular question and answer website for programmers and administrators. 
-%To better understand these problems, 
-%we explored and analyzed misconfigurations 
-%on a large number of user forums and on-line discussion sites.
+a popular forum for programmers and administrators. 
 
-\para{Example~1: Missing entry error} 
+\para{Example~1: Missing Entry Error} 
 Many critical system outages result from the fact that an important
 entry was missing from the configuration file. 
 We call such a problem a {\em missing entry error}.
 In a public misconfiguration 
 dataset~\cite{configdataset}, many misconfiguration issues were 
-reported as missing entry errors.
+reported exactly to be missing entry errors.
 Below is a real-world missing entry error example~\cite{missingentry}:
 when a user configures her PHP and PostgreSQL,
 she needs to use both \code{pgsql.so} and \code{curl.so}
-in her \code{/ctc/php5/conf.d/curl.ini} file.
-Specifically, this is usually
+in the \code{/ctc/php5/conf.d/curl.ini} configuration file.
+This is usually
 achieved by the following entries in 
 the curl configuration file:
 
@@ -31,12 +28,12 @@ the curl configuration file:
     ...
 \end{lstlisting} 
 
-Nevertheless, in this example, the user 
+However, in this example the user accidentally
 left out the \code{extension=pgsql.so} entry, 
 as done by many users~\cite{yin11anempirical, missingentry}, 
 causing a segmentation fault. 
-If the user runs \app on such a misconfiguration file,
-\app would return:
+If the user would run \app on her file,
+our tool returns:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
     MISSING ENTRY ERROR: Expected "extension=pgsal.so"
@@ -48,10 +45,9 @@ If the user runs \app on such a misconfiguration file,
 \label{ex:fine}
 Our second misconfiguration example~\cite{correlation} 
 comes from a discussion on StackOverflow.
-The user has configured her MySQL as in the following:
+The user has configured her MySQL as follows:
 
 \begin{lstlisting}[language=C, xleftmargin=.01\textwidth]
-  ...
   max_connections               = 64
   thread_cache_size             = 8
   thread_concurrency            = 8
@@ -61,12 +57,11 @@ The user has configured her MySQL as in the following:
 
   join_buffer_size              = 32M
   sort_buffer_size              = 32M    
-  ...
 \end{lstlisting} 
 
-The user complains that her MySQL load was very high, 
+The user then complains that her MySQL load was very high, 
 causing the website's response speed to be very slow.
-The accepted answer to the post reveals that \code{key\_buffer\_size} 
+The accepted answer to the post reveals that the value \code{key\_buffer\_size} 
 is used by all the threads cooperatively, 
 while \code{join\_buffer} and \code{sort\_buffer} are created 
 by each thread for private use.

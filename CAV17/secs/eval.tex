@@ -23,17 +23,19 @@ In this case, the very definition of a true error is necessarily imprecise.
 \setlength{\tabcolsep}{0.5em}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-{\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Errors Detected} & {\bf Support (\%)} & {\bf Confidence (\%)}\\ 
+{\bf Class of Error } & {\bf \# Rules Learned} & {\bf \# Errors Detected} & {\bf Support} & {\bf Confidence}\\ 
 \hline
 \hline
-Order        & 13  & 62   & 6 & 94 \\ 
-Missing      & 53  & 55   & 2  & 71 \\ 
+Order        & 13  & 62   & 6 \% & 94 \% \\ 
+Missing      & 53  & 55   & 2 \%  & 71\% \\ 
 Type         & 92  & 389  & -  & -  \\ 
-Fine-Grain   & 327 & 1367 & 24 & 91 \\ 
-Coarse-Grain & 97  & 237  & 10 & 96\\ 
+Fine-Grain   & 213 & 324  & 24 \% & 91\%  \\ 
+Coarse-Grain & 97  & 237  & 10 \% & 96\% \\ 
 \hline 
 \end{tabular}
 \end{table}
+
+Without ptypes - finegrained = 327 rules and 1367 detections
 
 The errors reported may have a varying impact on the system, ranging from failing to start, runtime crash, or performance degradation.
 Since this is a probablistic system, it is also that some errors are false positives, a violation of the rule has no effect on the system.
@@ -43,24 +45,7 @@ To estimate the impact of this metric, we track the rank of known true positives
 We compare how close the updated rank is compared to the ideal rank, which was calculated by ennan and estimates the potential severity of an error related to those keywords.
 Maybe we actually compare measure the distance from the ideal rank, so that a value of 0 is good.
 
-\begin{table}[h]
-\centering
-\caption{Effect of Post Analysis Rule Ordering for known true positives}
-\label{table:order}
-\setlength{\tabcolsep}{1em}
-\begin{tabular}{|c|c|c|c|}
-\hline
-{\bf Class of Error} & {\bf Reference} & {\bf Rank w/o} & {\bf Rank w/}\\
-\hline
-\hline
-Order        & Ex.~\ref{ex:order}   &  & \\ 
-Missing      & Ex.~\ref{ex:miss}    &  & \\ 
-Type         & Ex.~\ref{ex:type}    &  & \\ 
-Fine-Grain   & Ex.~\ref{ex:fine}    &  & \\ 
-Coarse-Grain & Ex.~\ref{ex:coarse}  &  & \\ 
-\hline
-\end{tabular}
-\end{table}
+\input{secs/table2}
 
 The checker stage of \app is the only one facing an end user that wants to verify a new configuration file.
 Once a set of rules has been learned, it is not necessary to rerun the learner.
@@ -87,7 +72,7 @@ The times reported in Table~\ref{table:training} were run on four cores of a Kab
 0    & 0.051    & 0.051  \\ \hline
 50   & 1.815    & 1.638  \\ \hline
 100  & 13.331   & 4.119  \\ \hline
-150  & 95.547   & 4.231  \\ \hline
+150  & 95.547   & 10.232  \\ \hline
 200  & 192.882  & 12.271  \\ \hline
 256  & 766.904  & 15.627  \\ 
 \hline
