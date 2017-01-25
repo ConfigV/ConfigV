@@ -10,8 +10,9 @@ Association rule learning is a technique to learn how frequently items of a set 
 For example, by examining a list of food store receipts, we would learn that when a customer buys bread and peanut butter, the set of purchased items is also likely to include jelly.
 Since configuration files have complex relations, we extend these association relationships to generalized predicates.
 
-A \textit{rule}, $r$, is then an implication relationship, $r = X \implies p(X,Y)$, between two possibly empty sets of keywords $X,Y \subset \keys$, where $\keys$ is the set of unique keys from the training set (denoted \trainingSet) and the predicate $p$ is one of the classes of configuration errors.
-Implicitly we interpret a rule to mean that if the keywords $X\cup Y$ appear in a configuration file, the predicate $p$ should hold.
+A \textit{rule}, $r$, is then an implication relationship, $r = S \implies p(S,T)$, between two possibly empty sets of keywords $S,T \subset \keys$, which we call the source and target keyword sets.
+The set $\keys$ is the set of unique keys from the training set (denoted \trainingSet) and the predicate $p$ is one of the classes of configuration errors.
+Implicitly we interpret a rule to mean that if the keywords $S\cup T$ appear in a configuration file, the predicate $p$ should hold.
 The task of the learning algorithm is to transform a training set to a set of rules, weighted with \textit{support} and \textit{confidence}.
 The set of rules learned from training set \trainingSet constitutes a specification for a configuration file to be considered correct.
 
@@ -20,13 +21,13 @@ We use slightly modified definitions of of these to handle arbitrary predicates 
 During the learning process, each rule is assigned a support and confidence to measure the amount and quality of evidence for the rule.
 %
 \begin{equation*}
- \textit{support(r)} = \frac{|\{C \in \trainingSet \mid X_r \cup Y_r \subseteq C\}|} {|\trainingSet|}
+ \textit{support(r)} = \frac{|\{C \in \trainingSet \mid S_r \cup T_r \subseteq C\}|} {|\trainingSet|}
 \end{equation*}
 \begin{equation*}
- \textit{confidence(r)} = \frac{|\{C \in \trainingSet \mid p_r(X_r,Y_r) \subseteq C\}| } {support(r)*|\trainingSet|}
+ \textit{confidence(r)} = \frac{|\{C \in \trainingSet \mid p_r(S_r,T_r) \subseteq C\}| } {support(r)*|\trainingSet|}
 \end{equation*}
 
-Support is the frequency that the that set of keywords in the proposed rule, $X \cup Y$, have been seen in the configuration files $C$ in the training set \trainingSet.
+Support is the frequency that the that set of keywords in the proposed rule, $S \cup T$, have been seen in the configuration files $C$ in the training set \trainingSet.
 %Notice support does not consider the predicate itself, only how many times the predicate had the chance to be evaluated.
 Confidence is the number of times the rule predicate has held true over the given keywords.
 In the learning process, each class of rule is manually assigned a support and confidence threshold, $t_s$ and $t_c$ respectively, below which a rule will be rejected for lack of evidence.
@@ -35,20 +36,20 @@ The denote the set rules that are learned and included as part of the final spec
 \begin{align}
 Learn(\trainingSet) = \{r | \ &support(r) > t_s\ \land \nonumber \\
     & \textit{confidence(r)} > t_c\ \land \label{eq:learn}\\ 
-    & X,\ Y \subset \keys\} \nonumber
+    & S,\ T \subset \keys\} \nonumber
 \end{align}
 
 \subsection{Error Classes}
-Each class of error forms a rule with a predicate $p$, and additional restrictions on the sets $X, Y$.
-Ordering errors have $|X|, |Y| = 1$ and use the predicate $order$ to mean the keyword $X$ must come before the keyword $Y$ in any configuration file.
-Missing keyword entry errors also require $|X|, |Y| = 1$ and use the predicate $missing$ to mean the keyword $X$ must appear in the same file as the keyword $Y$ in any configuration file.
+Each class of error forms a rule with a predicate $p$, and additional restrictions on the sets $S, T$.
+Ordering errors have $|S|, |T| = 1$ and use the predicate $order$ to mean the keyword $S$ must come before the keyword $T$ in any configuration file.
+Missing keyword entry errors also require $|S|, |T| = 1$ and use the predicate $missing$ to mean the keyword $S$ must appear in the same file as the keyword $T$ in any configuration file.
 The type rule is a set of rules over multiple predicates, which take the
-form $X \implies \textit{isType}\ast(X)$, where $|X|=1, |Y|=0$ and $\ast$ matches all the basic types (string, int, etc).
+form $S \implies \textit{isType}\ast(S)$, where $|S|=1, |T|=0$ and $\ast$ matches all the basic types (string, int, etc).
 
 \app also supports two types of integer correlation rules, coarse-grained and fine-grained.
 Both integer correlation rules are set of rules over the predicates $\{<,=,>\}$.
-Coarse grain rules require $|X|, |Y| = 1$, and the predicates have the typical interpretation.
-Fine-grained rules use $|X|=2,|Y|=1$, and interpret the predicates such that for $k_1,\ k_2 \in X,\ k1*k2$ must have the predicate relation to $Y$.
+Coarse grain rules require $|S|, |T| = 1$, and the predicates have the typical interpretation.
+Fine-grained rules use $|S|=2,|T|=1$, and interpret the predicates such that for $k_1,\ k_2 \in S,\ k1*k2$ must have the predicate relation to $T$.
 The integer correlation rules also use probabilistic types to prune the search space.
 To avoid learning too many false positives, we restrict this rule to either $size*int=size$, $int*size=size$, or $int*int = int$.
 Without probabilistic typing, we would also learn, for example, $size*size=size$, which is an invalid interpretation.
@@ -64,7 +65,7 @@ $\textit{Learn}(\mathcal{V})$ to build the set of relations observed in the file
 The checker will then report the following set of errors:
 
 \begin{align*}
-\textit{Errors}(\mathcal{V}) = \{ r\ |\ & X_r \cup Y_r \in \mathcal{V} \ \land \\
+\textit{Errors}(\mathcal{V}) = \{ r\ |\ & S_r \cup T_r \in \mathcal{V} \ \land \\
                                & r \in \textit{Learn}(\trainingSet) \ \land \\
                                & r \notin \textit{Learn}(\mathcal{V})
 \end{align*}

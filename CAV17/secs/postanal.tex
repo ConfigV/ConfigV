@@ -56,10 +56,10 @@
 
 The learner outputs a set of rules learned from the training set as
 described in Sec.~\ref{sec-learn}. Recall that a rule is 
-an implication relationship of the form $r = X \implies p(X,Y)$.
+an implication relationship of the form $r = S \implies p(S,T)$.
 This data is necessary to perform the core verification task,
 but can also be used for further analysis. By interpreting the rules as a graph (which
-we call the {\bf Rule Graph}), we can 
+we call the \textit{Rule Graph}), we can 
 use tools from graph theory to extract information
 about the configuration space that can improve the quality of the learned model.
 We inspect properties of this 
@@ -85,7 +85,7 @@ The set of edges is constructed from the learned rules, using the source and tar
 %
 \begin{align*}
 \forall r \in & Learn(\trainingSet).\ \exists e\ \in E.\\
-              & V_s = X_r \land V_t=Y_r \land l=p_r \land w =
+              & V_s = S_r \land V_t=T_r \land l=p_r \land w =
 \textit{confidence(r)}
 \end{align*}
 
@@ -107,7 +107,7 @@ convenience for the singleton set containing that vertex $v$.
 
 The size of an edge set is the sum of all weights in that set, so:
 
-    $$|E| = \sum_{(X, Y, l, w) \in E} w$$
+    $$|E| = \sum_{(S, T, l, w) \in E} w$$
 
 The use of the support and confidence thresholds $t_s$ and $t_c$ in the learner ensure 
 that all weights in the Rule Graph are positive.
