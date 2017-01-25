@@ -19,6 +19,10 @@ total of 973 files.
 In our evaluation we focus on MySQL for comparability of results, but \app can handle any configuration language (that can be parsed to the intermediate representation from Sec.~\ref{sec:trans}).
 
 We report the number of rules learned from the training set and number of errors detected in the test set in Table~\ref{table:learning}.
+One interesting note is that without probabilistic types we learned 327 fine grained rules and detected 1367 errors.
+By introducing probabilistic types, we remove 114 rules and 1023 false positives.
+We can be guaranteed these are all false positives since there cannot be a rule of type $size*size=size$ because of the semantic interpretation of the $size$ units.
+
 We also provide the support and confidence thresholds, $t_s, t_c$, used in this evaluation.
 These number can be adjusted by the user as a slider to control the level of assurance that their file is correct.
 Since these settings depend on both the user preference and training set quality, we simply choose values for which \app reports reasonably sized output.
@@ -71,7 +75,6 @@ For this table, we picked the known true positive rules, listed in the Errors co
 We picked 3 files for each true positive by choosing the files the most total errors to most clearly observe the effects of our optimizations.
 We test the following conditions; just rule graph analysis (RG) to sort the errors, just probabilistic types to filter the rules (PT), and both optimizations at the same time (RG $\land$ PT).
 For each entry we list X/Y, where X is the rank of the known true positive, and Y is the total number of errors found on that file.
-%Here we also compare the effect of probabilistic types - without probablitic types we learned 327 fin grainedrules and 1367 detections
 
 \input{secs/table2}
 
@@ -86,7 +89,7 @@ ConfigC scales exponentially because the learning algorithm assumes a completely
 With \app, we instead only process rules that meet the required support and confidence, reducing the cost of resolving to a consistent set of rules. 
 The times reported in Table~\ref{table:training} were run on four cores of a Kaby Lake Intel Core i7-7500U CPU @ 2.70GHz on 16GB RAM and Fedora 25.
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \caption{Time for training over various training set sizes}
 \label{table:training}
