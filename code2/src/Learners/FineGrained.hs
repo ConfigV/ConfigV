@@ -80,10 +80,11 @@ instance Learnable R.FineGrained Formula where
     | gt r2 == 1 && lt r1 > Settings.fineGrainSupport && gt r1 <= Settings.fineGrainConfidence-> Just r1
     | otherwise -> Nothing
 
-  toError fname ((FineGrained k1 k2 k3), rd) = Error{
+  toError ir fname ((FineGrained k1 k2 k3), rd) = Error{
      errLocs = map (\x->(fname, x)) [k1, k2, k3]
     ,errIdent = FINEGRAINED
-    ,errMsg = "FINE GRAINED ERROR: Expected "++(show k1)++" * "++(show k2)++(show rd)++(show k3)
+    ,errMsg = "FINE GRAINED ERROR: Expected "++(show k1)++" * "++(show k2)++(show rd)++(show k3)++" \n Found values: "
+              ++(show $ map (\x-> (T.unpack$ keyword x)++"="++(T.unpack$ value x)) $ filter (\x->keyword x==k1 || keyword x==k2 || keyword x==k3) ir)
     ,errSupport = gt rd + lt rd + eq rd}
 
 {-

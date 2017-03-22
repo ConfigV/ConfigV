@@ -19,8 +19,8 @@ import qualified Data.Text as T
 import Debug.Trace
 
 verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
-verifyOn rs configFile@(fp,_,_)  =
-  genErrReport fp $ checkFile rs configFile
+verifyOn rs configFile  =
+  genErrReport configFile $ checkFile rs configFile
 
 traceMe x = trace (show x) x
 --traceMe = id
@@ -73,11 +73,11 @@ ruleDiff rs1 rs2 = RuleSet {
 
 -- | basically, the show instance for rules
 -- this was the biggest mess last time, can this somehow be simpiler
-genErrReport :: FilePath -> RuleSet -> ErrorReport
-genErrReport fname rs = 
+genErrReport :: ConfigFile Language -> RuleSet -> ErrorReport
+genErrReport cf@(fname,_,_) rs = 
   let  
     f :: Learnable a b => (RuleSet -> RuleDataMap a b) -> [Error]
-    f classOfErr= map (\rd -> toError fname rd) $ M.toList $ classOfErr rs
+    f classOfErr= map (\rd -> toError (convert cf) fname rd) $ M.toList $ classOfErr rs
   in 
     f order ++ 
     f missing ++ 

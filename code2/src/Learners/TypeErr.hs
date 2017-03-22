@@ -51,21 +51,22 @@ instance Learnable TypeErr QType where
      toProb x = if (totalC rd1) > 10
        then (fromIntegral .x)rd1 / (fromIntegral $totalC rd1)
        else 1
+     cutoff = 0.7
    in
      if --TODO allow 1/0 in place of bool 
-       (string rd2 == 1 && toProb string > 0.7) ||
-       (path   rd2 == 1 && (toProb string+ toProb path) > 0.7) ||
-       (bool   rd2 == 1 && (toProb bool + toProb int) > 0.7) ||
-       (int    rd2 == 1 && ((toProb int + toProb size > 0.7) || (toProb int + toProb bool > 0.7))) ||
-       (size   rd2 == 1 && toProb size> 0.7) ||
+       (string rd2 == 1 && toProb string > cutoff) ||
+       (path   rd2 == 1 && (toProb string+ toProb path) > cutoff) ||
+       (bool   rd2 == 1 && (toProb bool + toProb int) > cutoff) ||
+       (int    rd2 == 1 && ((toProb int + toProb size > cutoff) || (toProb int + toProb bool > cutoff))) ||
+       (size   rd2 == 1 && toProb size> cutoff) ||
        totalC rd1 == 0
      then Nothing
      else Just rd1
 
-  toError fname (TypeErr k,rd1) = Error{
+  toError ir fname (TypeErr k,rd1) = Error{
      errLocs = [(fname,k)]
     ,errIdent = TYPE
-    ,errMsg = "TYPE ERROR: Expected a "++(show rd1)++" for "++(show k)
+    ,errMsg = "TYPE ERROR: Expected a "++(show rd1)++" for "++(show k)++" \n Found value:"++(show $ map value $ filter (\x-> (T.takeWhile (/= '[') $ keyword x) == k) ir)
     ,errSupport = totalC rd1}
     --".Found value " ++(show $ findVal f' $ fst x) ++ " of type " ++ (show $ assignProbs $ findVal f' $ fst x) }
 

@@ -34,7 +34,7 @@ vFilePaths = if Settings.bENCHMARKS
     then benchmarkFiles
     else userFiles
   where
-    dir = "user" --"caseStudies"
+    dir = "caseStudies" --"user"
     userFiles = map ((dir++"/")++) $ u $ listDirectory dir
     benchmarkFiles = map getFileName $ concat benchmarks
 

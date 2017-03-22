@@ -38,7 +38,7 @@ class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
   --check if the first (learned) rule is violated by the second rule from the target verification file
   check :: a -> b -> b -> Maybe b
   -- | How to convert a rule to an error message
-  toError :: FilePath -> (a, b) -> Error
+  toError :: IRConfigFile -> FilePath -> (a, b) -> Error
 
 class Locatable a where
   keys :: a -> [Keyword]

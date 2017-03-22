@@ -54,10 +54,10 @@ instance Learnable R.IntRel Formula where
     | otherwise -> Nothing
     
     
-  toError fname ((IntRel k1 k2),rd) = Error{
+  toError ir fname ((IntRel k1 k2),rd) = Error{
      errLocs = map (\x->(fname, x)) [k1,k2]
     ,errIdent = INTREL
-    ,errMsg = "INTEGER RELATION ERROR: Expected "++(show k1)++(show rd)++(show k2)
+    ,errMsg = "INTEGER RELATION ERROR: Expected "++(show k1)++(show rd)++(show k2)++" \n Found values: "++(show $ filter (\x->keyword x==k1 || keyword x==k2) ir)
     ,errSupport = gt rd + lt rd + eq rd
     }
 

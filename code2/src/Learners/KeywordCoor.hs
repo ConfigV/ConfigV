@@ -69,7 +69,7 @@ instance Learnable R.KeywordCoor AntiRule where
      then Just rd1
      else Nothing
 
-  toError fname ((KeywordCoor (k1,k2)),rd) = Error{
+  toError ir fname ((KeywordCoor (k1,k2)),rd) = Error{
      errLocs= [(fname,k1),(fname,k2)]
     ,errIdent = MISSING
     ,errMsg = "MISSING ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)
