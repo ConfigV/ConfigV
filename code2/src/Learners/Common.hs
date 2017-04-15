@@ -61,7 +61,7 @@ units v = if
   | all C.isNumber (T.unpack $ T.init v) -> Just $ scale $ T.last v
   | otherwise -> Nothing
 scale c = if
-  | C.toUpper c == 'M' -> 1
+  | C.toUpper c == 'M' -> 1 
   | C.toUpper c == 'K' -> 1000
   | C.toUpper c == 'G' -> 1000000
   | otherwise -> 1 
@@ -96,10 +96,10 @@ sameConfigModule (ir1,ir2) = let
 
 
 --TYPES
-validAsString v = (((T.length $ T.takeWhile C.isAlpha v) > 1) || (T.length v>=3 && T.head v == '"' && T.last v == '"')) || mysqlvar v
+validAsString v = (((T.length $ T.takeWhile C.isAlpha v) > 1) || (T.length v>=2 && T.head v == '"' && T.last v == '"')) || mysqlvar v
 validAsPath v  = ((T.isInfixOf "/" v) || (T.isInfixOf "." v)) || mysqlvar v
-validAsBool v = (v == "") || mysqlvar v--flag keywords have no values 
-validAsInt v = ((all C.isNumber $T.unpack v) && (T.length v>0)) || mysqlvar v
+validAsBool v = (any (==v) ["","on","off","ON","OFF","0","1"]) || mysqlvar v--flag keywords have no values 
+validAsInt v = ((all C.isNumber $T.unpack $T.filter (/='.') v)&& (T.length v>0)) && (T.length v <=1+(T.length $ T.filter (/='.') v))|| mysqlvar v
 validAsSize v = ((or $ map (\x-> T.isSuffixOf x v) ["G","g","M","m","K","k"]) &&
                  (T.length $ T.takeWhile C.isNumber v) == (T.length v -1) ) || mysqlvar v
 --a var can have any type

@@ -57,9 +57,9 @@ instance Learnable R.FineGrained Formula where
     xs = ["dir","socket","port"]
     tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (keyword ir)) xs) rs
     -- TODO should use learning result from TypeErr module
-    rs' = filter (\(ir1,ir2,ir3)-> ((validAsSize $ value ir1) `B.xor` (validAsSize $ value ir2) && (validAsSize $ value ir3)) ||
+    wellTypedTris = filter (\(ir1,ir2,ir3)-> ((validAsSize $ value ir1) `B.xor` (validAsSize $ value ir2) && (validAsSize $ value ir3)) ||
                                     all (validAsInt.value) [ir1,ir2,ir3]) tris
-    eqs = map toFineGrained rs' --tris
+    eqs = map toFineGrained (if Settings.pROBTYPES then wellTypedTris else tris)
    in
     M.fromList $ eqs
 

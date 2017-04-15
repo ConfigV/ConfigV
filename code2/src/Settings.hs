@@ -13,12 +13,13 @@ module Settings where
   pROBRULES = Prob
   data ModeSetting = NonProb | Prob | Test
 
+  sortingStyle  =  RuleGraphDegree
+  data SortStyles = Support | RuleGraphDegree deriving (Eq)
+
+  pROBTYPES = True
   --cutoffs (see https://en.wikipedia.org/wiki/Association_rule_learning#Useful_Concepts)
   -- an abusive of notation here, we use slightly different interprtation of the words - same idea in the end
   --TODO unify numerical comutations to be consistent with true interpretation of support and confidence
-
-  sortingStyle  =  RuleGraphDegree
-  data SortStyles = Support | RuleGraphDegree deriving (Eq)
 
   --TODO this should really be read from training set dir
   totalFiles = 971
