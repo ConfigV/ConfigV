@@ -12,7 +12,7 @@ researchers revealed that about 31\% of system failures were caused by
 configuration errors, which is higher than the percentage of
 failures resulting from program bugs (20\%).
 
-In this paper we propose
+In this paper, we propose
 a framework for automated verification of configuration files: 
 we derive specifications by learning ``raw'' configuration files 
 and proactively report potential errors in the configuration files
@@ -74,12 +74,11 @@ The errors found can cause total system failures, but can also be more insidious
 Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging 
 techniques~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
 
-To the best of our knowledge, there have been several prior efforts that attempt to verify 
+To the best of our knowledge, there have been several prior efforts that attempt to proactively verify 
 configuration files~\cite{santolucitoCAV, xu16early,
 zhang14encore, huang15confvalley}.
-However, state-of-the-art efforts either are impractical to be used
-in reality, or can only deal with simplistic configuration errors.
-In general, these efforts fall into two categories.\begin{itemize}
+However, state-of-the-art efforts have limitations that are impractical to meet in practice.
+In general, these efforts fall into two categories with respect to their limitations.\begin{itemize}
 \item On the one hand there are tools that can detect sophisticated 
 configuration errors, \eg, ConfigC~\cite{santolucitoCAV}. 
 However, these tools heavily rely on datasets containing 100\% 
@@ -98,24 +97,22 @@ Nevertheless, these types of errors cannot be detected by above existing
 efforts.
 \end{itemize}
 
-Our learning algorithm surmounts all of difficulties present in 
+Our learning algorithm surmounts both of these shortcomings present in 
 existing tools.  \app implements a learning
 algorithm inspired by {\em association rule
-learning}~\cite{agrawal1993mining}. It analyzes a large training set of configuration  files~\cite{configdataset}. Those are real-world reported misconfigurations. A file in the training set might 
+learning}~\cite{agrawal1993mining}. It analyzes a large training set of configuration files~\cite{configdataset}. Those are real-world reported misconfigurations. A file in the training set might 
 contain several different errors and these errors only appear 
 in a small percentage of files. We first translate those file into an 
-intermediary typed language. With with every type we associate 
-a set of very general interfaces. An \app's user does not
-need to provide them, they are internally associated to the types. The 
+intermediary typed language. With with every type, we associate 
+a set of very general interfaces. The user does not
+need to provide them - they are internally associated with the types. The 
 learner then instantiates those interfaces with the keywords appearing in 
 the training set. However, since files might also contain errors we take 
 this into account when learning correct rules. All learned rules are 
 annotated with the probability of correctness.  
-To ensure the learned rules are good enough,
-\app employs a further analysis to refine the learned rules.
-In general, \app builds a graph modeling the learned rules,
-and then analyzes this graph to rank the importance
-and relevance of the learned rules. 
+To ensure the learned rules are correct enough,
+\app employs a graph analysis to refine the set learned rules.
+\app analyzes the rule graph to rank the importance and relevance of the learned rules. 
 
 We have implemented a tool, \app, and evaluated it on almost 1000 real-
 world configuration files from Github.

@@ -3,7 +3,7 @@
 
 We have implemented a tool, \app, and evaluated it based on real-world configuration files taken from Github.
 \app is written in Haskell and is available open source at \textit{url redacted for anonymity}.
-Thanks to the Haskell's powerful type system, the implementation can easily be extended with with new rule classes or applied to different configuration languages with minimal change to the rest of the code base.
+Thanks to the Haskell's powerful type system, the implementation can easily be extended with new rule classes or applied to different configuration languages with minimal change to the rest of the code base.
 A user only needs to provide the functions for the rule interface (a typeclass in Haskell) to 1) learn relations from a single file 2) merge two sets of rules and 3) check a file given some set of rules.
 
 \subsection{Evaluation}
@@ -16,12 +16,12 @@ This is an unlabeled training set, though most of the files have some errors.
 For our test set, we collected 1000 MySQL configuration files 
 from Github, and filtered the incorrectly formatted files out for a final 
 total of 973 files.
-In our evaluation we focus on MySQL for comparability of results, but \app can handle any configuration language (that can be parsed to the intermediate representation from Sec.~\ref{sec:trans}).
+In our evaluation, we focus on MySQL for comparability of results, but \app can handle any configuration language (that can be parsed to the intermediate representation from Sec.~\ref{sec:trans}).
 
-We report the number of rules learned from the training set and number of errors detected in the test set in Table~\ref{table:learning}.
+We report the number of rules learned from the training set and the number of errors detected in the test set in Table~\ref{table:learning}.
 One interesting note is that without probabilistic types we learned 327 fine grained rules and detected 1367 errors.
 By introducing probabilistic types, we remove 114 rules and 1023 false positives.
-We can be guaranteed these are all false positives since there cannot be a rule of type $size*size=size$ because of the semantic interpretation of the $size$ units.
+We are guaranteed these are all false positives since there cannot be a rule of type $size*size=size$ because of the semantic interpretation of the $size$ units.
 
 We also provide the support and confidence thresholds, $t_s, t_c$, used in this evaluation.
 These number can be adjusted by the user as a slider to control the level of assurance that their file is correct.
@@ -63,8 +63,8 @@ Because configurations are dependent on the rest of the system (\ie, the availab
 As evidenced by Example~\ref{ex:fine}, some misconfigurations will only cause greater than expected performance degradation, and only under particular traffic loads.
 In light of this, the definition of a true error is necessarily imprecise.
 
-Although we cannot identify false positives, we can identify true positives by examining online forums, like StackOverflow, for record that
-particular configuration settings have caused problems on real-world systems.
+Although we cannot identify false positives, we can identify true positives by examining online forums, like StackOverflow.
+On these forums we find reports that particular configuration settings have caused problems on real-world systems.
 Furthermore, any error for which we can find evidence online is likely to be more problematic than errors that do not have an online record, 
   using the reasoning that this error has caused enough problems for people to seek help online.
 In this case, we would like \app to sort the errors by their importance or potential severity.
@@ -72,9 +72,11 @@ To achieve this sorting we use the rule graph analysis metric described in Sec.~
 
 To estimate the impact of this metric, we track the rank of known true positives with, and without, the augmented rule ordering in Table~\ref{table-casestudy}.
 For this table, we picked the known true positive rules, listed in the Errors column, and pick configuration files in the test set that have these errors.
-We picked 3 files for each true positive by choosing the files the most total errors to most clearly observe the effects of our optimizations.
+We picked 3 files for each true positive by choosing the files with the highest number of total reported errors in order to clearly observe the effects of our optimizations.
+Although this gives a more clear picture of the effect of our optimizations, it results in a slightly inflated false positive rate.
+
 We test the following conditions; just rule graph analysis (RG) to sort the errors, just probabilistic types to filter the rules (PT), and both optimizations at the same time (RG $\land$ PT).
-For each entry we list X/Y, where X is the rank of the known true positive, and Y is the total number of errors found on that file.
+For each entry we list X/Y, where X is the rank of the known true positive, and Y is the total number of errors found in that file.
 
 \input{secs/table2}
 
