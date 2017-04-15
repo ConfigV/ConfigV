@@ -1,0 +1,33 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+key_buffer		= 64M
+innodb_buffer_pool_size = 32M
+join_buffer_size	= 512K
+max_allowed_packet	= 32M
+thread_stack		= 256K
+thread_cache_size       = 16K
+# This replaces the startup script and checks MyISAM tables if needed
+# the first time they are touched
+myisam-recover          = BACKUP
+max_connections         = 100
+# Read this before increasing table_cache over 64: http://bit.ly/1mi7c4C
+table_cache             = 64
+max_allowed_packet 	= 256M
+innodb_file_per_table = 1
+#thread_concurrency     = 10
+#
+# * Query Cache Configuration
+#
+query_cache_limit    	= 32M
+query_cache_size     	= 64M
+
+[isamchk]
+key_buffer	     	= 16M
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
