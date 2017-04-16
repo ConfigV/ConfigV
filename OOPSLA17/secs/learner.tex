@@ -5,14 +5,18 @@ The goal of the learner is to derive rules from the intermediate representation 
 We describe an interface to define the different classes of rules that should be learned.
 Each instance of the interface corresponds to a different class of configuration errors, as described in Sec.~\ref{sec:motiv}.
 
-To learn rules over sets of configuration files, we use a generalization of \textit{association rule learning}~\cite{agrawal1993mining}, a technique that can be summarized as inductive machine learning.
-Association rule learning is a technique to learn how frequently items of a set appear together.
-For example, by examining a list of food store receipts, we would learn that when a customer buys bread and peanut butter, the set of purchased items is also likely to include jelly.
-Since configuration files have complex relations, we extend these association relationships to generalized predicates.
+To learn rules over sets of configuration files, we use a generalization of \textit{association rule learning}~\cite{agrawal1993mining}, a technique very briefly summarized as inductive machine learning.
+Association rule learning is used to learn how frequently items of a set appear together.
+For example, by examining a list of food store receipts, we might learn that when a customer buys bread and peanut butter, the set of purchased items is also likely to include jelly.
+Since configuration files have multiple complex relations, we extend these association relationships to generalized predicates.
 
-A \textit{rule}, $r$, is then an implication relationship, $r = S \implies p(S,T)$, between two possibly empty sets of keywords $S,T \subset \keys$, which we call the source and target keyword sets.
+A \textit{rule}, $r$, takes the form of an implication relationship, $r = S \in \validSet \implies T \in \validSet \land p(S,T)$, between two possibly empty sets of keywords $S,T \subset \keys$ where \validSet is the set of all valid configuration files.
+In keeping with vocabulary from association rule learning, we refer to $S$ and $T$ as the source and target keyword sets respectively.
+A rule states that if the source set of keyword appears in a valid configuration file, the target set of keywords must be present and the given predicate must hold.
+For simplicity of notation, we treat the $S,T \in \validSet$ as implicit when writing a rule.
+
+Taking the food store example, our learned rule would be $\{bread, butter\} \implies assoc(\{bread,butter\},\{jelly\})$.
 The set $\keys$ is the set of unique keys from the training set (denoted \trainingSet) and the predicate $p$ is one of the classes of configuration errors.
-Implicitly we interpret a rule to mean that if the keywords $S\cup T$ appear in a configuration file, the predicate $p$ should hold.
 The task of the learning algorithm is to transform a training set to a set of rules, weighted with \textit{support} and \textit{confidence}.
 The set of rules learned from training set \trainingSet constitutes a specification for a configuration file to be considered correct.
 
@@ -31,7 +35,7 @@ Support is the frequency that the set of keywords in the proposed rule, $S \cup 
 %Notice support does not consider the predicate itself, only how many times the predicate had the chance to be evaluated.
 Confidence is the percentage of times the rule predicate has held true over the given keywords.
 In the learning process, each class of rule is manually assigned a support and confidence threshold, $t_s$ and $t_c$ respectively, below which a rule will be rejected for lack of evidence.
-The denote the set rules that are learned and included as part of the final specification are as follows:
+We denote the set rules that are learned and included as part of the final specification are as follows:
 
 \begin{align}
 Learn(\trainingSet) = \{r | \ &support(r) > t_s\ \land \nonumber \\
@@ -41,33 +45,65 @@ Learn(\trainingSet) = \{r | \ &support(r) > t_s\ \land \nonumber \\
 
 \subsection{Error Classes}
 Each class of error forms a rule with a predicate $p$, and additional restrictions on the sets $S, T$.
-Ordering errors have $|S|, |T| = 1$ and use the predicate $order$ to mean the keyword $S$ must come before the keyword $T$ in any configuration file.
-Missing keyword entry errors also require $|S|, |T| = 1$ and use the predicate $missing$ to mean the keyword $S$ must appear in the same file as the keyword $T$ in any configuration file.
-The type rule is a set of rules over multiple predicates, which take the
-form $S \implies \textit{isType}\ast(S)$, where $|S|=1, |T|=0$ and $\ast$ matches all the basic types (string, int, etc).
+Ordering errors require $|S|, |T| = 1$ and use the predicate $order$ to mean the keyword $S$ must come before the keyword $T$ in any configuration file.
+For example, the ordering error given in Sec.~\ref{sec:motiv} is expressed:
+%
+\begin{equation*}
+\{\texttt{innodb\_data\_home\_dir}\} \in \validSet \implies ord(\{\texttt{innoddb\_data\_home\_dir}\},\{\texttt{innodb\_data\_file\_path}\})
+\end{equation*}
+%
+Missing keyword entry errors require $|S|, |T| = 1$ and use the predicate $missing$ to mean the keyword $T$ must appear in the same file as the keyword $S$ in any configuration file.
+The type rule is a set of rules over multiple predicates, where $|S|=1, |T|=0$.
+These type rules take the form $S \implies is\_(S)$ where $\_$ matches all the basic types (bool, int, size, etc).
 
 \app also supports two types of integer correlation rules, coarse-grained and fine-grained.
 Both integer correlation rules are set of rules over the predicates $\{<,=,>\}$.
 Coarse grain rules require $|S|, |T| = 1$, and the predicates have the typical interpretation.
 Fine-grained rules use $|S|=2,|T|=1$, and interpret the predicates such that for $k_1,\ k_2 \in S,\ k1*k2$ must have the predicate relation to $T$.
 The integer correlation rules also use probabilistic types to prune the search space.
-To avoid learning too many false positives, we restrict this rule to either $size*int=size$, or $int*int = int$.
-Without probabilistic typing, we would also learn, for example, $size*size=size$, which is an invalid interpretation.
-%TODO include exactly how many false positive we prune with types over our training set? Here or in eval?
+To avoid learning too many false positives, we restrict this rule to either $size*int=size$, or $int*int = int$, as shown in Fig.~\ref{fig:allrules}.
+Without probabilistic typing, we would also learn rules which do not have a invalid sematinc interpretation, for example a relation between three size keywords ($k1,k2,k3::size$) of the form $k1*k2>k3$.
+
+{
+\setlength{\abovecaptionskip}{-.05pt}
+\setlength{\belowcaptionskip}{-15pt}
+\begin{figure}
+\begin{mathpar}
+%\hspace{-1cm} %no idea why, but this is better than \centering here
+\inferrule* [Right=bool]
+{k1 :: bool}
+{isbool(k1) :: Rule}
+\and\quad
+\inferrule* [Right=int]
+{k1 :: int}
+{isint(k1) :: Rule}
+\and\\
+\inferrule* [Right=fine\_grain\_rule]
+{k1,k2,k3 :: int}
+{fine(k1,k2,k3) :: Rule}
+\and\quad
+\inferrule* [Right=fine\_grain\_rule]
+{k1,k3 :: size \\ k2 :: int}
+{fine(k1,k2,k3) :: Rule}
+\end{mathpar}
+\caption{An expanded set of typing judgements for valid rules}
+\label{fig:allrules}
+\end{figure}
+}
 
 \subsection{Checker}
 \label{sec-checker}
 
 With the rules generated by the learner module, \app checks whether any entry in a target configuration file violates the learned rules and constraints.
-\app parses a verification target configuration file with the translator from Sec.~\ref{sec:trans}  to obtain a set of key-value pairs, $\mathcal{V}$, for that file.
-Then, the checker applies the learner from Eq.~\ref{eq:learn},
-$\textit{Learn}(\mathcal{V})$ to build the set of relations observed in the file, with the thresholds $t_s,t_c = 100\%$. 
+\app parses a single verification target configuration file with the translator from Sec.~\ref{sec:trans}  to obtain a set of key-value pairs, $\mathcal{C}$, for that file.
+Then, the checker applies the learner from Eq.~\ref{eq:learn} with $\textit{Learn}(\mathcal{C})$,
+  to build the set of relations observed in the file, with the thresholds $t_s,t_c = 100\%$. 
 The checker will then report the following set of errors:
 
 \begin{align*}
-\textit{Errors}(\mathcal{V}) = \{ r\ |\ & S_r \cup T_r \in \mathcal{V} \ \land \\
+\textit{Errors}(\mathcal{C}) = \{ r\ |\ & S_r \cup T_r \in \mathcal{C} \ \land \\
                                & r \in \textit{Learn}(\trainingSet) \ \land \\
-                               & r \notin \textit{Learn}(\mathcal{V})
+                               & r \notin \textit{Learn}(\mathcal{C})
 \end{align*}
 
 For any relation from the verification target that violates a known rule, the checker will report the predicate and keyword sets associated with that rule as an error.
