@@ -10,12 +10,33 @@ Association rule learning is used to learn how frequently items of a set appear 
 For example, by examining a list of food store receipts, we might learn that when a customer buys bread and peanut butter, the set of purchased items is also likely to include jelly.
 Since configuration files have multiple complex relations, we extend these association relationships to generalized predicates.
 
-A \textit{rule}, $r$, takes the form of an implication relationship, $r = S \in \validSet \implies T \in \validSet \land p(S,T)$, between two possibly empty sets of keywords $S,T \subset \keys$ where \validSet is the set of all valid configuration files.
-In keeping with vocabulary from association rule learning, we refer to $S$ and $T$ as the source and target keyword sets respectively.
-A rule states that if the source set of keyword appears in a valid configuration file, the target set of keywords must be present and the given predicate must hold.
-For simplicity of notation, we treat the $S,T \in \validSet$ as implicit when writing a rule.
+In traditional association rule learning, rules take the form of an implication:
+\begin{align*}
+r = \{S_0,...,S_{|S|}\} \in\ valid\ \implies \{T_0,...,T_{|T|}\} \in\ valid
+\end{align*}
+where $S$ and $T$ are source and target sets of words.
+This rule states that if the set of words $S$ appear in some $valid$ (i.e. non-rule breaking) file, the words $T$ must also appear in that file.
+We generalize this relation so that a rule, $r$, instead takes the following form:
+%
+\begin{align*}
+r = [S_0,...,S_{|S|}] \in \validSet \implies \validSet \vdash p([S_0,...,S_{|S|}],[T_0,...,T_{|T|}])
+\end{align*}
+%
+This rule relates the keywords $S_i,T_j \subseteq \keys$ for $0 \leq i \leq |S|, 0 \leq j \leq |T|$ with a predicate $p$.
+Whenever the set of keywords $S$ is present in some valid configuration file, \validSet, the predicate $p$ must hold over $S$ and $T$ given the context of \validSet.
+In keeping with vocabulary from association rule learning, we refer to $S_r$ and $T_r$ as the source and target keyword lists of rule $r$ respectively.
+A rule states that if the source list of keyword appears in a valid configuration file, the given predicate must hold between the source and target lists.
+For clarity in notation, we define all predicates to have arity 2 by separating the source and target keywords into lists of length $|S|$ and $|T|$ respectively,
+   but these can be equivalently thought of as predicates of arity $|S|+|T|$ as notated in Fig.~\ref{fig:ptypes}.
 
-Taking the food store example, our learned rule would be $\{bread, butter\} \implies assoc(\{bread,butter\},\{jelly\})$.
+Taking the food store example, our learned rule would be:
+\begin{align*}
+[bread, butter] \in\ valid \implies\ valid \vdash assoc([bread,butter],[jelly])
+\end{align*}
+%
+where the $assoc$ predicate denotes that the words must all appear in a file. 
+In this way, our formalism is more expressive than the classic association rule learning problem.
+
 The set $\keys$ is the set of unique keys from the training set (denoted \trainingSet) and the predicate $p$ is one of the classes of configuration errors.
 The task of the learning algorithm is to transform a training set to a set of rules, weighted with \textit{support} and \textit{confidence}.
 The set of rules learned from training set \trainingSet constitutes a specification for a configuration file to be considered correct.
@@ -28,7 +49,7 @@ During the learning process, each rule is assigned a support and confidence to m
  \textit{support(r)} = \frac{|\{C \in \trainingSet \mid S_r \cup T_r \subseteq C\}|} {|\trainingSet|}
 \end{equation*}
 \begin{equation*}
- \textit{confidence(r)} = \frac{|\{C \in \trainingSet \mid p_r(S_r,T_r) \subseteq C\}| } {support(r)*|\trainingSet|}
+ \textit{confidence(r)} = \frac{|\{C \in \trainingSet \mid C\ \vdash p_r(S_r,T_r) \}| } {support(r)*|\trainingSet|}
 \end{equation*}
 
 Support is the frequency that the set of keywords in the proposed rule, $S \cup T$, have been seen in the configuration files $C$ in the training set \trainingSet.
@@ -40,29 +61,31 @@ We denote the set rules that are learned and included as part of the final speci
 \begin{align}
 Learn(\trainingSet) = \{r | \ &support(r) > t_s\ \land \nonumber \\
     & \textit{confidence(r)} > t_c\ \land \label{eq:learn}\\ 
-    & S,\ T \subset \keys\} \nonumber
+    & S,\ T \subseteq \keys\} \nonumber
 \end{align}
 
 \subsection{Error Classes}
-Each class of error forms a rule with a predicate $p$, and additional restrictions on the sets $S, T$.
-Ordering errors require $|S|, |T| = 1$ and use the predicate $order$ to mean the keyword $S$ must come before the keyword $T$ in any configuration file.
+Each class of error forms a rule with a predicate $p$, and choices of $|S|$ and $|T|$, the sizes of the source and target keyword lists.
+Ordering errors require $|S|=1, |T|=1$ and use the predicate $order$ which means if both keywords $S_0,T_0$ appear in a file, $S_0$ must come before $T_0$.
 For example, the ordering error given in Sec.~\ref{sec:motiv} is expressed:
 %
-\begin{equation*}
-\{\texttt{innodb\_data\_home\_dir}\} \in \validSet \implies ord(\{\texttt{innoddb\_data\_home\_dir}\},\{\texttt{innodb\_data\_file\_path}\})
-\end{equation*}
+\begin{align*}
+[\texttt{innodb\_data\_home\_dir}&] \in \validSet \implies \\
+&\validSet \vdash order([\texttt{innoddb\_data\_home\_dir}],[\texttt{innodb\_data\_file\_path}])
+\end{align*}
 %
-Missing keyword entry errors require $|S|, |T| = 1$ and use the predicate $missing$ to mean the keyword $T$ must appear in the same file as the keyword $S$ in any configuration file.
-The type rule is a set of rules over multiple predicates, where $|S|=1, |T|=0$.
-These type rules take the form $S \implies is\_(S)$ where $\_$ matches all the basic types (bool, int, size, etc).
+Missing keyword entry errors require $|S|, |T| = 1$ and use the predicate $missing$ to mean the keyword $T_0$ must appear, in any location, in the same file as the keyword $S_0$ in any configuration file.
+The type rule is a set of rules over multiple predicates, where $|S|=1, |T|=1$.
+These type rules take the form $S_0 \in \validSet \implies \validSet \vdash is\_([S_0],[S_0])$ where $\_$ matches all the basic types (bool, int, size, etc), as shown in Fig.~\ref{fig:allrules}.
+In this case, the source and target are the same keyword, since a type constraint is only on a single keyword.
 
 \app also supports two types of integer correlation rules, coarse-grained and fine-grained.
-Both integer correlation rules are set of rules over the predicates $\{<,=,>\}$.
+Both integer correlation rules are set of rules over the set of predicates $compare=\{<,=,>\}$.
 Coarse grain rules require $|S|, |T| = 1$, and the predicates have the typical interpretation.
-Fine-grained rules use $|S|=2,|T|=1$, and interpret the predicates such that for $k_1,\ k_2 \in S,\ k1*k2$ must have the predicate relation to $T$.
+Fine-grained rules use $|S|=2,|T|=1$, and interpret the predicates such that for $k_1,\ k_2 \in S,\ k1*k2$ must have the predicate relation to $T_0$.
 The integer correlation rules also use probabilistic types to prune the search space.
 To avoid learning too many false positives, we restrict this rule to either $size*int=size$, or $int*int = int$, as shown in Fig.~\ref{fig:allrules}.
-Without probabilistic typing, we would also learn rules which do not have a invalid sematinc interpretation, for example a relation between three size keywords ($k1,k2,k3::size$) of the form $k1*k2>k3$.
+Without probabilistic typing, we would also learn rules which do not have a valid sematinc interpretation, for example a relation between three size keywords ($k1,k2,k3::size$) of the form $k1*k2>k3$.
 
 {
 \setlength{\abovecaptionskip}{-.05pt}
@@ -71,20 +94,28 @@ Without probabilistic typing, we would also learn rules which do not have a inva
 \begin{mathpar}
 %\hspace{-1cm} %no idea why, but this is better than \centering here
 \inferrule* [Right=bool]
-{k1 :: bool}
-{isbool(k1) :: Rule}
+{k_1 :: bool}
+{isbool([k_1],[k_1]) :: Rule}
 \and\quad
 \inferrule* [Right=int]
-{k1 :: int}
-{isint(k1) :: Rule}
+{k_{1} :: int}
+{isint([k_1],[k_1]) :: Rule}
 \and\\
-\inferrule* [Right=fine\_grain\_rule]
-{k1,k2,k3 :: int}
-{fine(k1,k2,k3) :: Rule}
+\inferrule* [Right=missing]
+{ }
+{missing([k_1],[k_2]) :: Rule}
 \and\quad
-\inferrule* [Right=fine\_grain\_rule]
-{k1,k3 :: size \\ k2 :: int}
-{fine(k1,k2,k3) :: Rule}
+\inferrule* [Right=coarse\_grain]
+{k_1, k_2 :: int}
+{compare([k_1],[k_2]) :: Rule}
+\and\\
+\inferrule* [Right=fine\_grain,before=\hspace{-1.3cm}]
+{k_1,k_2,k_3 :: int}
+{compare([k_1,k_2],[k_3]) :: Rule}
+\and\quad
+\inferrule* [Right=fine\_grain]
+{k_1,k_3 :: size \\ k_2 :: int}
+{compare([k_1,k_2],[k_3]) :: Rule}
 \end{mathpar}
 \caption{An expanded set of typing judgements for valid rules}
 \label{fig:allrules}
