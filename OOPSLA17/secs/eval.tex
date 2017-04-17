@@ -81,6 +81,28 @@ For each entry we list X/Y, where X is the rank of the known true positive, and 
 
 \input{secs/table2}
 
+\subsection{False Positive Rate}
+
+Because \app detects complex and subtle misconfigurations that, for example, may cause performance degradation in a high traffic load, false positives are system and use-case dependent and therefore ill-defined.
+However, we report an estimation of the false positive rate for comparison to other tools.
+To estimate a false positive rate, we asked two industry experts, one from MongoDB and one from Microsoft, to independently classify all errors from Table~\ref{table-casestudy}.
+For each unique error reported in Table~\ref{table-casestudy} (a total of 70 unique errors), the expert was asked to classify the error as: definitely false positive, potential true positive, or definitely true positive. 
+The MongoDB expert rated 13/70 errors as definitely false positives. 
+The Microsoft expert rated 8/70 errors as definitely false positives. 
+The similarity between experts is suggestive that these are approximately correct classifications.
+
+The resulting false positive rate is then estimated to be 11\%-18\%.
+This is in the range of existing work, for example in the EnCore tool, which had a false positive rate of 13\%,21\%,32\% for MySQL, Apache, and PHP respectively~\cite{encore}.
+We note again that as opposed to a tool like EnCore, which is used mainly to detect initialization errors, thanks to the complex relations that can be learned, \app also learns misconfigurations causing runtime performance degradation.
+This means \app generates a larger rule set, and false positives cannot be garunteed, i.e. there may be some environment conditions that will cause a ``false'' positive to become a true positive.
+
+In contrast, a true positive can be confirmed as such based on evidence of unwanted system behvaior.
+The errors listed in Table~\ref{table-casestudy} are confirmed true positives, evidenced by posts on help forums.
+\app detected and reports these errors in the 15 code repositories listed in the URL column of Table~\ref{table-casestudy}. 
+These are real-world configuration files that contain errors that may be unknown to the maintainers of the repositories.
+%The errors were not submitted as patches to the repository owners, since it is possible the owner of the repository has a user case for this configuration file that will not trigger the unwanted behavior.
+
+\subsection{Runtime Performance}
 We also evaluate the speed of \app.
 Generally, once a set of rules has been learned, it is not necessary to rerun the learner.
 However, we have only used \app to build rules for MySQL, but any configuration language can be analyzed with \app given a training set, which requires rerunning the learner.
