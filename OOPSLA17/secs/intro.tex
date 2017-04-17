@@ -3,50 +3,50 @@
 
 Configuration errors (also known as misconfigurations) have become
 one of the major causes of system failures, resulting in security vulnerabilities,
-application outages, and incorrect program executions~\cite{xu15systems, xu13do, xu15hey}. Recently, there was a problem in accessing  
-Facebook and Instagram~\cite{mashableNews}, 
+application outages, and incorrect program executions~\cite{xu15systems, xu13do, xu15hey}. 
+In one high profile case,  
+Facebook and Instagram became inaccessible~\cite{mashableNews}
 and a Facebook spokeswoman reported that 
 this was caused by a change to the site's configuration systems.
-\ruzica{1) one more such example? we have enough space. 2) do something about citations (mas 2015) looks silly 3) there is no comparison, or even
-mentioning of the OSDI paper 2016, which is on configuration files and they got even the best paper award }
-In a software system failures study~\cite{yin11anempirical},
-it was shown that about 31\% of system failures were caused by 
-configuration errors, which is higher than the percentage of
-failures resulting from program bugs (20\%).
+In another case, a system configuration change caused an outage of AT\&T's 911 service for five hours.
+During this time, 12,600 unique callers were not able to reach the 911 emergency line~\cite{att-outage}.
+These critical system failures are not rare either -
+a software system failures study~\cite{yin11anempirical},
+reports that about 31\% of system failures were caused by 
+configuration errors.
+This is even higher than the percentage of failures resulting from program bugs (20\%).
 
-In this paper, we propose
-a framework for automated verification of configuration files: 
-we derive specifications by learning ``raw'' configuration files 
-and proactively report potential errors in the configuration files
-of interest, without waiting for them to happen. 
-We developed a tool, called \app, 
-and evaluated it on 
-almost a thousand configuration files from Github. The systems research community has recognized this as an important
-problem~\cite{xu16early}. While many efforts have been proposed to
+
+The systems research community has recognized this as an important
+problem~\cite{xu16early} and many efforts have been proposed to
 check, troubleshoot, and diagnose configuration 
 errors~\cite{attariyan10automating,
-su07autobash, whitaker04configuration},
-those tools heavily rely on analyzing the source code of 
-the target systems and need to run these systems
-multiple times to understand where are the errors---\ie,
-they are still not on a level of
+su07autobash, whitaker04configuration,xu2016early}.
+However, these tools rely on analyzing the source code of 
+the target systems or need to run the system
+multiple times to understand the source of the errors.
+The support for a static analysis style verification for configuration files
+is still not on a level of
 automated verification tools used for regular program 
 verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
-detect errors without executing the code. 
+preemptively detect errors. 
 
-We believe there are two main obstacles 
-to why we cannot simply apply the existing automatic program
-verification 
-techniques to verification of configuration files:
-1) the lack
-of a specification describing properties of configuration files;
-2) the structure of configuration files -- they
+In this paper, we propose a framework for automated verification of configuration files: 
+we derive specifications for a correct configuration file by processing a training set of configuration files 
+and proactively report potential errors in the configuration files of interest.
+In this framework, the example configurations from which we derive the specifications do not need to be labeled as correct or incorrect.
+
+There are two main obstacles to directly applying existing automatic program
+verification techniques to verification of configuration files:
+1) the lack of a specification describing properties of configuration files;
+2) the flat structure of configuration files -- they
 are mainly a sequence of entries assigning some value to system
 variables (called {\emph {keywords}}). 
 The language in which configuration files are written does 
-not adhere to a specific grammar or syntax. In particular, the
-entries in configuration files are untyped. Moreover, there are surprisingly few rules specifying constraints on entries, and there
-is no explicit structure policy for the entries.
+not always adhere to a specific grammar or syntax. In particular, the
+entries in configuration files are untyped. 
+Moreover, there are surprisingly few rules specifying constraints on entries, 
+and there is no explicit structure policy for the entries.
 
 \app overcomes the above obstacles by first automatically inferring a
 specification for configuration files. It is unrealistic to expect the 
@@ -62,21 +62,21 @@ specify which properties keywords in configuration files need to satisfy.
 The learning process is language-agnostic and works for any kind 
 of configuration files,  but all of the files in the training set need to be of 
 the same kind (such as MySQL or HTTPD configuration files).
-We see this learning process as 
-a way of deriving  a specification for configuration files. 
-It is hard to talk here about a complete specification, but it is still
-a set of formal rules describing the properties that configuration files need to satisfy. 
+This learning process is a way to derive a specification for configuration files. 
+%It is hard to talk here about a complete specification, but it is still
+%a set of formal rules describing the properties that configuration files need to satisfy. 
 
 Having a specification, \app can then efficiently check 
 the correctness of the configuration files of interest and detect 
 potential errors. Errors are reported if the configuration file does not 
 adhere to the derived specification.
 
-The errors found can cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
+The errors \app detects may cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
 Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging 
 techniques~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
 
-To the best of our knowledge, there have been several prior efforts that attempt to proactively verify 
+\markk{xu16early should go here somehow}
+There have been several prior efforts that attempt to proactively verify 
 configuration files~\cite{santolucitoCAV, xu16early,
 zhang14encore, huang15confvalley}.
 However, state-of-the-art efforts have limitations that are impractical to meet in practice.
@@ -95,8 +95,7 @@ ConfValley~\cite{huang15confvalley}, that can only
 detect rather simplistic configuration errors (\eg, value range errors 
 and simple integer correlation errors), but cannot detect
 more complex configuration errors, such as ordering errors or 
-Nevertheless, these types of errors cannot be detected by above existing
-efforts.
+Nevertheless, these types of errors cannot be detected by above existing efforts.
 \end{itemize}
 
 Our learning algorithm surmounts both of these shortcomings present in 
@@ -148,7 +147,7 @@ from real-world dataset.
 \com{ 
 
 
-% Encore also used association rule learning, but did not describe why it is useful for verification in particular,
+% EnCore also used association rule learning, but did not describe why it is useful for verification in particular,
 %   or how it contrasts with other ML techniques that are less appropriate for verification (NN).
 \item Describing the logical foundation of using association rule learning to build a probabilistic specification for configuration files. 
       We contrast this with the application of other machine learning techniques, such as neural networks, in verification.
@@ -159,8 +158,8 @@ from real-world dataset.
 \item Analyzing the learned model to further refine the generated specification. 
       We highlight why these analysis techniques are uniquely possible in an association rule learning approach.
 
-% The problem is intractable for off-the-shelf data mining solutions (see Encore).
-% In addition to the optimizations Encore used, we add new ones that make our tool even better.  
+% The problem is intractable for off-the-shelf data mining solutions (see EnCore).
+% In addition to the optimizations EnCore used, we add new ones that make our tool even better.  
 \item An open-source implementation, \app, of this approach, which uses various domain specific optimizations to make the solution efficient. 
       We also evaluate \app on a set of 256 real world benchmarks, and identify XX new misconfigurations errors on YY of these files.
 \end{enumerate}
