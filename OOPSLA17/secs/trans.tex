@@ -58,7 +58,7 @@ Taking the configuration \ref{lst:file1.cnf}, we can assume {\tt foo} is a Boole
 If we choose the type based on the first example, {\tt bar} will be a integer type.
 If we choose a type that fits all examples, {\tt bar} will be a string.
 However the correct classification needed is a Boolean type.
-For illustrative purposes, let us assume that there is a critical rule we must learn where tow Boolean keywords should always have the same values, e.g. $eq(\texttt{foo},\texttt{bar})$.
+For illustrative purposes, let us assume that there is a critical rule we must learn where tow Boolean keywords should always have the same values, \eg $eq(\texttt{foo},\texttt{bar})$.
 If we take {\tt bar}$::int$, we do not learn the above rule, nor do we learn this rule with {\tt bar}$::string$ - only with {\tt bar}$::bool$ is the rule is valid.
 To resolve this ambiguity, and choose the best type, the translator assigns a distribution of types to a keyword based on examples from the training set of configuration files (denoted $\trainingSet=\{C\}$).
  
@@ -95,11 +95,11 @@ The definition of sufficient evidence must be empirically determined by the user
 {k:\ptype \\ p_{bool}(\ptype)}
 {k :: bool}
 \and\\
-\inferrule* [Right=eq\_rule]
+\inferrule* [Right=eq\_rule,before=\hspace{-1.5cm}]
 {k_1 :: \tau \\ k_2 :: \tau}
 {eq(k_1,k_2) :: Rule}
 \and
-\inferrule* [Right=order\_rule]
+\inferrule* [Right=order\_rule,before=\hspace{-1cm}]
 {k1,k2 \in C \\ k1 \neq k2}
 {ord(k1,k2) :: Rule}
 \end{mathpar}
@@ -108,14 +108,14 @@ The definition of sufficient evidence must be empirically determined by the user
 \end{figure}
 }
 
-In order to define resolution predicates, we use the notation $|\tau_i\ptype|$ to select $c_i$ from a $\ptype \in \tilde{\mathcal{T}}$.
-As an example, for the sample training set provided in Figure~\ref{fig:tset}, we might choose to set $p_{bool}(\ptype)= |bool_{\ptype}| \geq 3 \land |int_{\ptype}| \leq 1$ and $p_{int}(\ptype)= |int\ptype| \geq 3$.
+In order to define resolution predicates, we use the notation $|\tau_{i\ptype}|$ to select $c_i$ from a $\ptype \in \tilde{\mathcal{T}}$.
+As an example, for the sample training set provided in Figure~\ref{fig:tset}, we might choose to set $p_{bool}(\ptype)= |bool_{\ptype}| \geq 3 \land |int_{\ptype}| \leq 1$ and $p_{int}(\ptype)= |int_{\ptype}| \geq 3$.
 We then can run inference on that sample training set to derive a probabilistic type \texttt{bar}$:[bool=3,int=1]$.
 This is then resolved, as required in our earlier example, to \texttt{bar}$::bool$.
  
 Note that a user may pick predicates for probabilistic type resolution that result in overlapping inference rules.
-For example, if a user instead picked $p_{int}(\ptype)= |int\ptype| \geq 1$, {\scriptsize INT} would overlap with {\scriptsize BOOL}.
-This means that types are not unique in this system, i.e. $k:\ptype \land k:\ptype' \centernot\implies \ptype = \ptype'$.
+For example, if a user instead picked $p_{int}(\ptype)= |int_{\ptype}| \geq 1$, this predicate would overlap with the $p_{bool}$ predicate.
+This means that basic types are not unique in this system, \ie $k::\tau \land k::\tau' \centernot\implies \tau = \tau'$.
 
 In the case that there is not enough evidence to resolve a probabilistic type to a basic type, no type-dependent rules may be learned over that keyword.
 However, we are still able to learn rules such as {\scriptsize ORDER}, which do not require any resolved type. 
