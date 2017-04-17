@@ -71,18 +71,13 @@ Finally, \app is a very automatic system, but
 EnCore needs significant human interventions, \eg, system parameters
 and templates.
 
-PCheck~\cite{xu16early} aims to add configuration checking code to
-the system source code by emulating potential commands and behaviors
-of the system. However, PCheck is limited to the reliability problems
-caused by misconfiguration parameters; on the contrary, 
-\app can cover general misconfiguration issues 
-including performance, security, availability and reliability.
-In addition, PCheck's emulation capability heavily depends on 
-system category and source code.
-For example, for some systems (\eg, ZooKeeper) whose behaviors are 
-hard to emulate, PCheck cannot automatically generate the corresponding
-checking code; on the contrary, \app does not rely on specific
-system behaviors or source code.
+PCheck~\cite{xu16early} aims to add configuration checking code to the system source code by emulating potential commands and behaviors of the system. 
+This emulation is a ``white-box'' approach and requires access to the system's source code.
+One drawback to this approach is that for some systems (\eg, ZooKeeper) whose behavior is 
+hard to emulate, PCheck cannot automatically generate the corresponding checking code.
+Due to the emulation based testing strategy, PCheck's scope is limited to reliability problems caused by misconfiguration parameters. 
+In contrast, \app is a ``black-box'' approach and only requires a training set of configuration files to learn rules.
+By using a rule learning strategy of examples, \app is able to detect general misconfiguration issues that are outside the scope of emulation testing (\eg memory or thread usage settings), including performance, security, availability and reliability.
 
 \para{Misconfiguration diagnosis}
 Misconfiguration diagnosis approaches have been proposed to address configuration problems post-mortem.
