@@ -1,6 +1,7 @@
 \section{Introduction}
 \label{sec-intro}
 
+%what is the problem
 Configuration errors (also known as misconfigurations) have become
 one of the major causes of system failures, resulting in security vulnerabilities,
 application outages, and incorrect program executions~\cite{xu15systems, xu13do, xu15hey}. 
@@ -16,7 +17,7 @@ reports that about 31\% of system failures were caused by
 configuration errors.
 This is even higher than the percentage of failures resulting from program bugs (20\%).
 
-
+%what has been done
 The systems research community has recognized this as an important
 problem~\cite{xu16early} and many efforts have been proposed to
 check, troubleshoot, and diagnose configuration 
@@ -31,11 +32,38 @@ automated verification tools used for regular program
 verification~\cite{Leino10Dafny, PiskacWZ14, BobotFMP15} that can
 preemptively detect errors. 
 
+%why is that insufficent
+\markk{xu16early should go here somehow}
+There have been several prior efforts that attempt to proactively verify 
+configuration files~\cite{santolucitoCAV, xu16early,
+zhang14encore, huang15confvalley}.
+However, state-of-the-art efforts have limitations that are impractical to meet in practice.
+In general, these efforts fall into two categories with respect to their limitations.\begin{itemize}
+\item On the one hand there are tools that can detect sophisticated 
+configuration errors, \eg, ConfigC~\cite{santolucitoCAV}. 
+However, these tools heavily rely on datasets containing 100\% 
+correct configuration files to extract configuration rules.
+Existing investigation studies~\cite{wang04automatic, yin11anempirical}
+have demonstrated determining or obtaining 100\% correct configuration
+files to drive rules is almost impossible in reality. 
+Without 100\% correct datasets, these tools do not work.
+\item On the other hand there are tools, 
+\eg, EnCore~\cite{zhang14encore} and
+ConfValley~\cite{huang15confvalley}, that can only 
+detect rather simplistic configuration errors (\eg, value range errors 
+and simple integer correlation errors), but cannot detect
+more complex configuration errors, such as ordering errors or 
+Nevertheless, these types of errors cannot be detected by above existing efforts.
+\end{itemize}
+
+
+%what do we do
 In this paper, we propose a framework for automated verification of configuration files: 
 we derive specifications for a correct configuration file by processing a training set of configuration files 
 and proactively report potential errors in the configuration files of interest.
 In this framework, the example configurations from which we derive the specifications do not need to be labeled as correct or incorrect.
 
+% how did we do it
 There are two main obstacles to directly applying existing automatic program
 verification techniques to verification of configuration files:
 1) the lack of a specification describing properties of configuration files;
@@ -75,29 +103,7 @@ The errors \app detects may cause total system failures, but can also be more in
 Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging 
 techniques~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
 
-\markk{xu16early should go here somehow}
-There have been several prior efforts that attempt to proactively verify 
-configuration files~\cite{santolucitoCAV, xu16early,
-zhang14encore, huang15confvalley}.
-However, state-of-the-art efforts have limitations that are impractical to meet in practice.
-In general, these efforts fall into two categories with respect to their limitations.\begin{itemize}
-\item On the one hand there are tools that can detect sophisticated 
-configuration errors, \eg, ConfigC~\cite{santolucitoCAV}. 
-However, these tools heavily rely on datasets containing 100\% 
-correct configuration files to extract configuration rules.
-Existing investigation studies~\cite{wang04automatic, yin11anempirical}
-have demonstrated determining or obtaining 100\% correct configuration
-files to drive rules is almost impossible in reality. 
-Without 100\% correct datasets, these tools do not work.
-\item On the other hand there are tools, 
-\eg, EnCore~\cite{zhang14encore} and
-ConfValley~\cite{huang15confvalley}, that can only 
-detect rather simplistic configuration errors (\eg, value range errors 
-and simple integer correlation errors), but cannot detect
-more complex configuration errors, such as ordering errors or 
-Nevertheless, these types of errors cannot be detected by above existing efforts.
-\end{itemize}
-
+%did what we did work?
 Our learning algorithm surmounts both of these shortcomings present in 
 existing tools.  \app implements a learning
 algorithm inspired by {\em association rule
