@@ -5,8 +5,8 @@
 Configuration errors (also known as misconfigurations) have become
 one of the major causes of system failures, resulting in security vulnerabilities,
 application outages, and incorrect program executions~\cite{xu15systems, xu13do, xu15hey}. 
-In one high profile case,  
-Facebook and Instagram became inaccessible~\cite{mashableNews}
+In a recent high visible case~\cite{mashableNews},  
+Facebook and Instagram became inaccessible
 and a Facebook spokeswoman reported that 
 this was caused by a change to the site's configuration systems.
 In another case, a system configuration change caused an outage of AT\&T's 911 service for five hours.
@@ -57,10 +57,11 @@ more complex configuration errors, such as ordering errors, fine-grain correlati
 \end{itemize}
 
 %what do we do
-In this paper, we propose a framework for automated verification of configuration files: 
-We derive specifications for a correct configuration file by processing a training set of configuration files that may contain some errors.
-The errors that we learn are detailed and complex enough proactively report a wide range of potential misconfigurations.
-In this framework, the example configurations from which we derive the specifications do not need to be labeled as correct or incorrect.
+In this paper, we propose a framework for automated verification of 
+configuration files, which mimics standard automated verification 
+techniques: for a given configuration file, we  checked if it 
+adheres to a specification, and if there are issues we report them to 
+the user.
 
 % how did we do it
 There are two main obstacles to directly applying existing automatic program
@@ -72,20 +73,39 @@ Second, the flat structure of configuration files is only a sequence of entries 
 variables (called {\emph {keywords}}) and provides little structural information.
 In particular, the keywords in configuration files are often untyped, a useful property to leverage in program verification.
 
-In order to learn a specification from a large training set of configuration files,
+Our main task was to first derive a specification for configuration 
+files. We first process a \ruzica{mention the size, size does matter :)}training set of configuration files. Those files are benchmarks 
+available on-line~\ruzica{put a citation here}. They are mostly correct
+but they also may contain some errors.
+
+In order to learn a specification from this large set of configuration
+files,
 the first step is to 
-translate this training set into a more structured typed representation.
+translate the training set into a more structured typed representation.
 We then apply the learning process and we learn an abundant set of rules 
-specifying various properties that hold on the given training set. The rules, in general, 
+specifying various properties that hold on the given training set. 
+\ruzica{say here 2 sentences about the learning process }
+
+The rules, in general, 
 specify which properties keywords in configuration files need to satisfy.
 The learning process is language-agnostic and works for any kind 
 of configuration files, though all of the files in the training set need to be of 
 the same language (such as MySQL or HTTPD configuration files).
+
 This learning process is a way to derive a specification for configuration files. 
 With the learned specification, \app can then efficiently check 
 the correctness of the configuration files of interest and detect 
 potential errors. Errors are reported if the configuration file does not 
 adhere to the derived specification.
+
+The errors that we learn are detailed and complex enough proactively report a wide range of potential misconfigurations.
+In this framework, the example configurations from which we derive the specifications do not need to be labeled as correct or incorrect.
+
+
+
+
+
+
 
 The errors \app detects may cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
 Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging 
