@@ -84,30 +84,27 @@ the first step is to
 translate the training set into a more structured typed representation.
 We then apply our learning process to learn an abundant set of rules 
 specifying various properties that hold on the given training set. 
-The learning process is a more expressive form of association rule learning~\cite{agrawal1993mining}, which is used to learn predicate relations between multiple keywords in a configuration file.
-The rules, in general, specify which properties such as, one kewyord must appear before another, or the value of one keyword should always be greater than another.
-
+The learning process is a more expressive form of \textit{association rule learning}~\cite{agrawal1993mining}, which is used to learn predicate relations between multiple keywords in a configuration file.
+The rules, in general, specify which properties such as, one keyword must appear before another, or the value of one keyword should always be greater than another.
+This set of learned rules constitutes a specification for a correct configuration file,
+which are then used to efficiently check the correctness of a user's configuration files and detect 
+potential errors. 
 The learning process is language-agnostic and works for any kind 
 of configuration files, though all of the files in the training set need to be of 
 the same language (such as MySQL or HTTPD configuration files).
 
-This learning process is a way of deriving a specification for configuration files. 
-With the learned specification, \app can then efficiently check 
-the correctness of the configuration files of interest and detect 
-potential errors. 
 
-The errors that \app detects may cause total system failures, but can also be more insidious, for example slowing down the system only when the server load increases beyond a certain threshold.
-Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging 
-technique~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
+
+Our implementation, \app, detects errors that may cause total system failures, but can also find more insidious errors, for example configurations that will slow down the system only when the server load increases beyond a certain threshold.
+Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging techniques~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
 
 %did what we did work?
 
-\ruzica{hmmm... this appears to be repeating - can you merge some of those stuff with stuff above}
 
 Our learning algorithm surmounts both of these shortcomings present in 
-existing tools.  \app implements a learning
-algorithm inspired by {\em association rule
-learning}~\cite{agrawal1993mining} that analyzes a training set of partially correct files.
+existing tools. \app implements a learning
+algorithm inspired by association rule
+learning~\cite{agrawal1993mining} that analyzes a training set of partially correct files.
 A file in the training set might contain several different errors, but errors only appear 
 in a small percentage of files. 
 We first translate those file into an intermediary typed language.
