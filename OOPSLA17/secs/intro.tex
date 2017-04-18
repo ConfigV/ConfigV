@@ -5,7 +5,7 @@
 Configuration errors (also known as misconfigurations) have become
 one of the major causes of system failures, resulting in security vulnerabilities,
 application outages, and incorrect program executions~\cite{xu15systems, xu13do, xu15hey}. 
-In a recent high visible case~\cite{mashableNews},  
+In a recent highly visible case~\cite{mashableNews},  
 Facebook and Instagram became inaccessible
 and a Facebook spokeswoman reported that 
 this was caused by a change to the site's configuration systems.
@@ -57,11 +57,12 @@ more complex configuration errors, such as ordering errors, fine-grain correlati
 \end{itemize}
 
 %what do we do
-In this paper, we propose a framework for automated verification of 
+In this paper, we propose a framework, \app, for automated verification of 
 configuration files, which mimics standard automated verification 
 techniques: for a given configuration file, we  checked if it 
 adheres to a specification, and if there are issues we report them to 
 the user.
+Our framework surmounts both of the aforementioned shortcomings present in existing tools. 
 
 % how did we do it
 There are two main obstacles to directly applying existing automatic program
@@ -95,16 +96,13 @@ the same language (such as MySQL or HTTPD configuration files).
 
 
 
-Our implementation, \app, detects errors that may cause total system failures, but can also find more insidious errors, for example configurations that will slow down the system only when the server load increases beyond a certain threshold.
+\app detects errors that may cause total system failures, but can also find more insidious errors, for example configurations that will slow down the system only when the server load increases beyond a certain threshold.
 Since these runtime errors may only be triggered after some time in a deployment environment, the standard debugging techniques~\cite{Zeller:2005:WPF:1077048} of starting a system multiple times with different configuration settings will not help detect these misconfigurations.
 
 %did what we did work?
 
 
-Our learning algorithm surmounts both of these shortcomings present in 
-existing tools. \app implements a learning
-algorithm inspired by association rule
-learning~\cite{agrawal1993mining} that analyzes a training set of partially correct files.
+\app works by analyzing a training set of partially correct files.
 A file in the training set might contain several different errors, but errors only appear 
 in a small percentage of files. 
 We first translate those file into an intermediary typed language.
@@ -116,7 +114,7 @@ To ensure the learned rules are correct enough,
 \app employs a graph analysis to refine the set learned rules.
 \app analyzes the rule graph to rank the importance and relevance of the learned rules. 
 
-We have implemented a tool, \app, and evaluated it on almost 1000 real-
+We implemented \app in Haskell  and evaluated it on almost 1000 real-
 world configuration files from Github.
 We demonstrate that we are able to detect known errors, based on 
 StackOverflow posts, in this data set.
