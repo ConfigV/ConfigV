@@ -1,0 +1,137 @@
+===========================================================================
+                           ICFP 2017 Review #87A
+---------------------------------------------------------------------------
+           Paper #87: Synthesizing Functional Reactive Programs
+---------------------------------------------------------------------------
+
+                      Overall merit: C. Weak paper, though I will not fight
+                                        strongly against it
+                         Confidence: X. I am an expert in this area
+
+                         ===== Paper summary =====
+
+This paper investigates the synthesis of Functional Reactive
+Programming (FRP) programs from temporal formulae. FRP programs
+are proof terms for constructive temporal logic, so this
+amounts to synthesizing a proof for a temporal logic formula.
+
+The logic under study is TSL, which extends LTL with
+predicates p(e) and updates [s <| e] where e is built from
+function symbols and stream names, and s is a stream name.
+The paper proceeds by treating the TSL formula as an LTL
+formula where predicates and updates are uninterpreted.
+If the LTL formula is realized by a given automaton,
+then the automaton can be treated as a state machine,
+and then translated into an FRP program.
+
+The techniques of the paper are not particularly surprising,
+and depend on the use of LTL realizability over uninterpreted
+symbols. The LTL formula has no knowledge of the semantics
+for predicates and updates, which introduces many artificial
+non-realizability results. For example the predicate
+(x > 0) => [x <| x+1] is vacuous as long as x is initially
+positive, but the LTL formula is unaware of this.
+
+The construction of the FRP program from an automaton
+is the core of the material relevant to an ICFP audience,
+but it is not particularly surprising, as it essentially
+codes a single step of an automaton into a function f,
+which is then looped. The translation introduces exponential
+blowup, so does not scale.
+
+The paper is a technical result, possibly of interest to a
+dedicated FRP workshop, but not to a general ICFP audience.
+
+===========================================================================
+                           ICFP 2017 Review #87B
+---------------------------------------------------------------------------
+           Paper #87: Synthesizing Functional Reactive Programs
+---------------------------------------------------------------------------
+
+                      Overall merit: A. Good paper, I will champion it
+                         Confidence: X. I am an expert in this area
+
+                         ===== Paper summary =====
+
+This paper designs, formalises, implements and evaluates a system
+for automatically translating temporal logic specifications of
+reactive systems into executable FRP programs.   The core the
+the approach is the synthesis of a 'term annotated Mealy
+machine' from a 'temporal stream logic' specification.
+
+                      ===== Comments to authors =====
+
+General comments:
+
+I enjoyed this paper a lot.  The topic is interesting and novel,
+the system that is developed seems to be both principled and
+practical, and the paper itself is extremely well written.  I
+look forward to seeing this work presented at ICFP this year.
+A few suggestions for improvement are included below.
+
+The introductory section is rather long, at around 2.5 pages.
+It would be preferable to keep the introduction to around
+1.5 pages max, either by compressing what is already there or
+by factoring some of the material into a separate section.
+
+The related work section gives a good comparison with other work,
+but would be better moved to the end of the paper, in order to
+allow the reader to get to the new material more quickly.
+
+In the experimental results section, it would be useful to
+discuss how readable the resulting FRP programs are, perhaps
+with an example (e.g. the code for the escalator example).
+
+The concluding section is rather brief, at just 11 lines.
+This should be expanded in the final version.
+
+Specific comments:
+
+p1, Excellent abstract - very clear!
+
+p3, "topics, such as" -> "topics such as" (remove comma).
+
+p8, Some explanation for the semantics of LTL is required.
+
+p9, "manipulation infinite" -> "manipulation of infinite".
+
+p10, In the syntax for TSL, why not replace
+
+  tau in T_P U T_< | ...
+
+by the following, which is simpler:
+
+   T_P | T_< | ...
+
+p11, Some explanation for the semantics of TSL is required,
+along with the derived temporal operators.
+
+p11, The escalator example works very well here!
+
+p11, "exists" -> "exits".
+
+===========================================================================
+                           ICFP 2017 Review #87C
+---------------------------------------------------------------------------
+           Paper #87: Synthesizing Functional Reactive Programs
+---------------------------------------------------------------------------
+
+                      Overall merit: B. OK paper, but I will not champion
+                                        it
+                         Confidence: Y. I am knowledgeable in this area,
+                                        but not an expert
+
+                         ===== Paper summary =====
+
+The authors explore synthesis for functional reactive programs. They define an extension of LTL that will then be used in the synthesis procedure. The paper has a prototype implementation and experimental evaluation.
+
+                      ===== Comments to authors =====
+
+The paper is well written and I enjoyed the simplicity of the approach. Using a cairns of temporal logic is not unexpected but still pleasant to realise a small variation can cover another class of programs. 
+
+I would have liked to see better motivation for functional reactive programs as an interesting class to tackle for the synthesis problem. I have several questions: 
+
+- Was TSL created for the sake of succinctness? Could you have done the paper using just LTL? [Even at the price of more complex specifications?]
+- The Mealy machines corresponding to formulas -- what is the precise connection with the operational semantics of FRP programs. 
+- The use of temporal logic left me wondering one thing: I would have expected infinite state transition systems, but as far as I can see your FRPs will only give rise to finite-state ones. Is this correct?
+

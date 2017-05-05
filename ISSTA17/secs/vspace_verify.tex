@@ -1,0 +1,51 @@
+\section{Version Space for Verification}
+
+Version space learning builds a logical constraint model for binary classification, which we use to test a configuration file for membership in the set of all correct files~\cite{mitchell82}.
+Traditional version space learning builds a model that tests membership using a series of disjunctions from a set of predefined hypotheses.
+In ConfigC, we instead restrict the model to use a series of conjunctions.
+In other words, rather than describing a correct file by allowable traits, we describe the required traits. 
+This way, ConfigC can not only flag misconfigurations, but also give the points of failure for non-membership.
+We now show in detail how this process works.
+
+Our definition of a configuration file, $C$, is a file that can be transformed to an ordered list of $(keyword, value)$ pairs, called $Line$s.
+ConfigC builds a model for a single file, $M(C)$, that is the set of all possible relations between the lines in the file.
+A relation is described by user provided templates.
+A template is a function taking some number of lines and determining a relation on the keywords of the lines ($Line^{n} \rightarrow Rel_{k1,..,kn}$).
+As an example, ConfigC might derive the relation \texttt{extension mysql.so} comes before \texttt{extension recode.so} by using the ordering template.
+ConfigC features the following default templates.
+
+\begin{center}
+\begin{tabular} {|c |c |c |}
+ \hline
+ Template & Arity & Relation \\
+\hline
+ ordering &            2 & Before $\vert$ After $\vert$ None \\
+\hline
+ coarse relation &     2  & $< | == | >$  \\
+\hline
+ fine-grain relation & 3  & $< | == | >$  \\
+\hline
+ type &                1  & String $\vert$ Int $\vert$ Boolean $\vert$ IP  \\
+\hline
+ missing entry &       2 & Required $\vert$ Not \\
+\hline
+\end{tabular}
+\end{center}
+
+It is assumed if a file is correct, all relations in that file are in the set of necessary relations, $Nec$, for any other file to be correct ($Correct(C) \implies \forall r \in M(C), r \in Nec$).
+In this way, the initial model is built by creating the strongest conditions for a correct file, called the \textit{specific boundary} in version space learning.
+This model is then iteratively relaxed as more examples are seen, a process called \textit{candidate elimination}.
+To relax the model, two sets of relations from two files are merged into a single consistent set.
+\begin{lstlisting}
+n = {}
+for (c in files):
+  n1 = M(c)
+  n = merge(n, n1)
+\end{lstlisting}
+
+Since we maintain the strongest condition for correctness, this approach will identify many correct files as incorrect, which we call a high false positive rate.
+This is a problem when a user is then asked to manually review many files for errors, when the files are in fact correct.
+
+When the system is run on a new file, one of the relations from the templates will not be satisfied.
+To provide an error message, the system only needs to report which relation is not satisfied.
+

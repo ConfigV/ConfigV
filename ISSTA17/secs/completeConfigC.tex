@@ -1,0 +1,26 @@
+
+
+ConfigC is complete but unsound.
+We first define the set of incorrect files based on ground truth $Inc_{gt}$, and the set of files which are predicted by the model to be incorrect, $Inc_{prd}$.
+To define $Inc_{gt}$, we will introduce the set of relations that are necessary and breaking based on ground truth, $Nec_{gt}$ and $Br_{gt}$ respectively.
+The definition of $Inc_{prd}$ follows from the description of the algorithm.
+
+\begin{align}
+Inc_{gt} = \{&\forall C, \exists r \in Nec_{gt}, r \notin M(C)\\ \nonumber
+ &\lor \exists r \in Br_{gt}, r \in M(C)\} \\
+Inc_{prd} = \{&\forall C, \exists r \in Nec, r \notin M(C)\}
+\end{align}
+
+Our definition of sound and complete are as follows:
+
+\begin{align}
+&\forall C \in Inc_{gt}, C \in Inc_{prd} \text{  Complete} \\
+&\not \exists C \in Inc_{prd}, C \notin Inc_{gt} \text{  Sound}
+\end{align}
+
+Completeness follows from showing that $Inc_{gt} \subseteq Inc_{prd}$.
+The algorithm is complete if, for any file which breaks a relation for which we have a template (a misconfiguration) and have seen an correct example, the system will mark that file as incorrect.
+Since the model always maintains the strongest conditions for correctness for any file, the algorithm is clearly complete.
+Completeness corresponds to no false negatives.
+However, this algorithm is unsound, as some correct file may be marked as incorrect, i.e. ConfigC returns a false positive.
+We have a high false positive rate since the model is an over-approximation of the true model.
