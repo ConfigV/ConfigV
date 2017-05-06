@@ -21,9 +21,7 @@ ConfigC features the following default templates.
 \hline
  ordering &            2 & Before $\vert$ After $\vert$ None \\
 \hline
- coarse relation &     2  & $< | == | >$  \\
-\hline
- fine-grain relation & 3  & $< | == | >$  \\
+ interger relation &     2  & $< | == | >$  \\
 \hline
  type &                1  & String $\vert$ Int $\vert$ Boolean $\vert$ IP  \\
 \hline
@@ -43,9 +41,11 @@ for (c in files):
   n = merge(n, n1)
 \end{lstlisting}
 
-Since we maintain the strongest condition for correctness, this approach will identify many correct files as incorrect, which we call a high false positive rate.
-This is a problem when a user is then asked to manually review many files for errors, when the files are in fact correct.
-
 When the system is run on a new file, one of the relations from the templates will not be satisfied.
 To provide an error message, the system only needs to report which relation is not satisfied.
+
+Since we maintain the strongest condition for correctness, this approach will identify many correct files as incorrect, which we call a high false positive rate.
+This is a problem when a user is then asked to manually review many files for errors, when the files are in fact correct.
+However, the benefit to this approach is that, given the coverage of the training set, every misconfiguration will be detected.
+
 

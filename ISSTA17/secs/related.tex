@@ -1,76 +1,52 @@
 
 \section{Related Work}
 
-\iffalse
-Configuration verification has been considered a promising way  
+Static configuration verification has been proposed as an effective way  
 to tackle misconfiguration problems~\cite{xu15systems}.
 Nevertheless, a practical and automatic configuration
 verification approach still remains an open problem.
 
+
+%rewritten
 \para{Language-support misconfiguration checking}
-There have been several language-support efforts proposed for preventing
-configuration errors introduced by fundamental deficiencies in
-either untyped or low-level languages. For example, in the network
-configuration management area, administrators often
-produce configuration errors in their routing configuration files.
-PRESTO~\cite{enck07configuration} 
-automates the generation of device-native configurations
-with configlets in a template language. 
-Loo {\em et al.}~\cite{loo05declarative} adopt Datalog to reason about 
-routing protocols in a declarative fashion. 
-COOLAID~\cite{chen10declarative} constructs
-a language to describe domain knowledge about devices and
-services for convenient network reasoning and management.
-Compared with the above efforts, our work focuses on software systems, 
-\eg, MySQL and Apache, and our main purpose is to automate configuration
-verification rather than proposing new languages 
-to convenient configuration-file writing. 
+One approach to statically checking configuration files is to avoid the difficult and unstructured nature of configuration files in the first place.
+To that end efforts have introduced special configuration languages that overcome the fundamental deficiencies in the existing untyped or low-level configuration languages. 
+For example, network administrators often produce configuration errors in their routing configuration files.
+PRESTO~\cite{enck07configuration} introduces configlets as a template language to automates the generation of device-native configurations.
+Other work uses Datalog to reason about routing protocols in a declarative fashion~\cite{loo05declarative}. 
+COOLAID~\cite{chen10declarative} is a domain specific language to describe knowledge about network devices and services.
+In contrast to this approach, our main purpose is to automate configuration verification of existing configuration languages, rather than proposing new, more powerful languages.
+This is largely motivated by the unwieldy amount of existing configuration files in industry production.
+%Furthermore, new systems are likely to continue to support the simple, unstructured style of existing configuration files beacuse the
 
-\para{Misconfiguration detection}
-Misconfiguration detection techniques aim at checking configuration
-efforts before system outages occur.
-Most existing detection approaches check 
-the configuration files against a set of predefined correctness 
-rules, named constraints, and then report errors if 
-the checked configuration files do not satisfy these rules.
-Huang {\em et al.}~\cite{huang15confvalley},
-for example, proposed a 
-language, ConfValley, to validate 
-whether given configuration files meet administrators' specifications. 
-As opposed to our work, ConfValley does not
-have inherent misconfiguration checking capability, since it only offers
-a language representation and requires administrators to
-manually write specifications, which is an error-prone
-process. On the contrary, our work does not need users to manually
-write anything.
+One approach to preemptive error detection is to use predefined constraints, or correctness rules, for checking.
+After encoding these constraints, it is straightforward to report errors if a target configuration file does not satisfy these rules.
+For example, ConfValley is specification language for administrators to provide constraints on their systems' configurations~\cite{huang15confvalley}. 
+This approach requires that administrators manually write specifications - an error-prone and difficult process. 
+In contrast, by using a learning approach, our work does not require users to manually write any specifications.
 
-Several machine learning-based misconfiguration detection efforts 
-also have been proposed~\cite{yuan11context, zhang14encore, xu16early}.
-EnCore~\cite{zhang14encore} introduces a template-based
-learning approach to improve the accuracy of their learning results.
-The learning process is guided by a set of predefined rule templates
-that enforce learning to focus on patterns of interest.
-In this way, EnCore filters out irrelevant information and reduces
-false positives; moreover, the templates are able to express
-system environment information that other machine learning
-techniques cannot handle.
-Compared with EnCore, \app has the following advantages.
-First, \app does not rely on any template. 
-Second, EnCore cannot detect missing entry errors, type errors,
-ordering errors and fine-grained integer correlation errors,
-but \app can detect all of them.
-Finally, \app is a very automatic system, but
-EnCore needs significant human interventions, \eg, system parameters
-and templates.
+\para{Learning}
+Using machine learning to tackle misconfiguration detection has also been explored~\cite{yuan11context, zhang14encore, xu16early}.
+As an example, EnCore~\cite{zhang14encore} uses a rule learning approach, augmented with user provided templates, to improve the accuracy of their learning results.
+The learning process is guided by a set of predefined rule templates that enforce learning to focus on patterns of interest and allow the problem to scale over larger training sets.
+EnCore uses the templates to filters out configuration entries that are unlikely to cause errors to reduce false positives.
+The templates are also used to directly encode system environment information that would not be contained in the training set for their machine learning.
+Compared with EnCore, our approach does not rely on templates - everything is automatically generated.
+Furthermore, none of the above approaches use the temporal ordering on the training set inside the learning process.
 
-PCheck~\cite{xu16early} aims to add configuration checking code to the system source code by emulating potential commands and behaviors of the system. 
-This emulation is a ``white-box'' approach and requires access to the system's source code.
-One drawback to this approach is that for some systems (\eg, ZooKeeper) whose behavior is 
-hard to emulate, PCheck cannot automatically generate the corresponding checking code.
+\para{White-box}
+In our approach we assume a ``black-box'' model where we cannot access the system source code.
+This is as opposed to a ``white-box'' model, where the source code is available and can leveraged in the configuration analysis.
+Although this is a strong assumption, PCheck~\cite{xu16early} explores misconfiguration detection by adding configuration checking code directly in the system source code.
+The system is then emulating with various potential configurations of the system.
+One drawback to this approach is that for some systems (\eg, ZooKeeper) whose behavior is hard to emulate, PCheck cannot automatically generate the corresponding checking code.
 Due to the emulation based testing strategy, PCheck's scope is limited to reliability problems caused by misconfiguration parameters. 
 In contrast, \app is a ``black-box'' approach and only requires a training set of configuration files to learn rules.
-By using a rule learning strategy of examples, \app is able to detect general misconfiguration issues that are outside the scope of emulation testing (\eg memory or thread usage settings), including performance, security, availability and reliability.
+By using the version space learning strategy of examples, we are also able to detect general misconfiguration issues that are outside the scope of emulation testing (\eg memory or thread usage settings), including performance, security, availability and reliability.
 
+
+\iffalse
+%TODO rewrite
 \para{Misconfiguration diagnosis}
 Misconfiguration diagnosis approaches have been proposed to address configuration problems post-mortem.
 For example, ConfAid~\cite{attariyan10automating} 
@@ -81,5 +57,4 @@ tracks causality and automatically fixes
 misconfigurations. Unlike \app, most misconfiguration
 diagnosis efforts aim at finding errors after system
 failures occur, which leads to prolonged recovery time.
-
 \fi
