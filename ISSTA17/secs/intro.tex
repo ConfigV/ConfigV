@@ -1,54 +1,51 @@
 \section{Introduction}
 
 %what is the problem
-Configuration files provide easy access to the most critical parameters of software systems in order to quickly tune the behavior system.
+Configuration files provide easy access to the most critical parameters of software systems in order to quickly tune the behavior of a system.
 This expressive power in a single file creates a large surface for potential errors that can degrade performance or take down systems entirely.
-The verification task for configuration files cannot be addressed with traditional software analysis techniques.
-There are rarely formal specifications of a correct configuration, 
+The verification task for configuration files cannot be addressed with traditional software analysis techniques because they take a less structured form than a program.
+As opposed to programs, configuration files rarely have formal specifications of a correctness, 
   the source code of the underlying system may not be available, 
   and the configuration may depend on the external environment such as the network or available hardware.
-To address this issue, we propose a method for automated configuration file verification using a data set of labeled examples of correct and incorrect configurations.
-
-%what approach do we take to the problem
-In previous work, we used version space learning for configuration file verification.
-We extend that work which only works on correct examples, to work on temporally structured correct and incorrect examples by building an SMT formula to find a classification model.
-As a demonstration of this algorithm, we plan to implement it to automatically verify TravisCI configurations.
-The algorithm will utilize Github histories to allow us to detect potential build errors without actually building, saving valuable programmer and server time.
-
-%why cant we use existing approach
-%legibility issue
-Machine learning has been used in various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
-However, many popular machine learning algorithms, such as neural nets and n-gram models, are not designed to provide simple justifications for their classification results.
-While effective in practice, the lack of justification for the results limits the applicability to software analysis, where justification is often critical.
-For example, in the case of error detection, the system should not only report which files have errors, but also locate the errors.
-This justification issue is also called \textit{legibility} of machine learning.
-
-%correctness issue
-Additionally, these probabilistic approaches to machine learning cannot be guaranteed to be complete, that is they will always find the error.
-We use version space learning to address the need for a formal completeness guarantee in an automated model generation for verification.
-Version space learning is a technique for logical constraint classification~\cite{mitchell82}.
-As a logical constraint system, version space learning can provide the justification that is difficult to obtain from other methods, but its main weakness is that it cannot handle noisy data.
+To overcome the unique challenges in this domain, we propose a method for automated configuration file verification using a data set of labeled examples of correct and incorrect configurations.
 
 %What have we already done (labeled correct)
-In our previous work~\cite{Santolucito2016} we built a prototype to verify configuration files from a set of correct examples.
-The tool, ConfigC, takes as a training set a set of correct configuration files and builds a set of rules describing a language model.
+In our previous work~\cite{Santolucito2016} we built the tool ConfigC to verify configuration files from a set of correct examples.
+ConfigC takes as a training set a set of correct configuration files and builds a set of rules describing a language model.
 This model is then used to check if a new configuration file adheres to those rules.
 If a file is incorrect, the tool identifies the location of error and reports what is incorrect.
 For example, ConfigC might output \texttt{Ordering Error: Expected "extension mysql.so"} before \texttt{"extension recode.so"}.
-While this prototype's results are promising, the main weakness is that the learning can only use correct configuration files.
+While ConfigC's results are promising, the main weakness is that the learning can only use correct configuration files.
 Additionally, there is a relatively high false positive rate (marking correct files as incorrect).
 
 %What do we 'plan' to do to extend this (labeled correct and incorrect)
-In order to extend ConfigC, in this paper we provide a new description of ConfigC in terms of version space learning.
-This description will allow us to understand how the justifications are produced in ConfigC.
-We can then extend ConfigC with a new algorithm to decrease the false positive rate, while maintaining the ability to provide justification.
+Here we propose to extend that work, which only works on correct examples, to work on both correct and incorrect examples by building an SMT formula to find a classification model.
+By learning over both correct and incorrect examples, we expect that we will be able to decrease the high false positive rate observed in ConfigC.
+In order to extend ConfigC, we first provide a new description of ConfigC in terms of version space learning.
+This description allows us to understand how the error reports are are produced in ConfigC.
+Any extension to ConfigC must maintain the \textit{legibility} of learning - the tool must not only classify configuration files as correct or incorrect, but also identify the contributing factors (misconfigurations) to that classification.
 
-We propose an extension to ConfigC that allows it to handle both correct and incorrect files in the training set.
-Additionally, we extend ConfigC with the ability to use structure within the training set.
-While the previous training set from ConfigC was a random sampling of configuration files, many other training sets have a structure based on version history.
-The algorithm we propose takes advantage of this commonly available, but underutilized structure of training sets for software analysis.
+Additionally, our extension takes advantage of a commonly available, but underutilized structure of training sets for software analysis.
+While the previous training sets for ConfigC were an unsorted sampling of configuration files, typically we can obtain training sets that have a structure based on version history.
 Because most code does not exist in isolation, but changes over time with development, any training set of code from a version control system, like Github, has this rich temporal structure. 
 This structure is a partial order over time, and can be used by our proposed algorithm for more effective learning.
+
+%TODO NOW NEED TO CONNECT BACK TO legibility
+
+%legibility issue
+Machine learning has been used in various software analysis techniques, such as programming-by-example \cite{lau2000version}, invariant synthesis \cite{garg2014ice}, and error detection \cite{Santolucito2016}.
+However, many popular machine learning algorithms, such as neural nets and n-gram models, lack legibility and so are not able to provide simple justifications for their classification results.
+While these classification may be effective, the lack of justification for the results limits the applicability to software analysis, where justification is often critical.
+For example, in the case of error detection, the system should not only report which files have errors, but also locate the errors so a user may fix them.
+
+%correctness issue
+Additionally, these probabilistic approaches to machine learning cannot be guaranteed to be complete, that is they are not guaranteed to always find an error if one exists.
+We use version space learning to address the need for a formal completeness guarantee in an automated model generation for verification.
+Version space learning is a technique for logical constraint classification~\cite{mitchell82}.
+As a logical constraint system, version space learning not only provides justification of its classification results, but is has the foundation to build a completeness proof without the need for probabilistic thresholds.
+
+As a demonstration of this algorithm, we plan to implement it to automatically verify TravisCI configurations.
+The algorithm will utilize the temporal ordering on code in Github histories to allow us to detect potential build errors without actually building, saving valuable programmer and server time.
 
 %evaluation plans
 To test this approach in practice, we plan to implement our algorithm to check for TravisCI\footnote{\url{http://www.travis-ci.com}} configuration errors.
