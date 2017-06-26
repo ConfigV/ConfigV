@@ -1,137 +1,110 @@
-===========================================================================
-                           ICFP 2017 Review #87A
----------------------------------------------------------------------------
-           Paper #87: Synthesizing Functional Reactive Programs
----------------------------------------------------------------------------
+----------------------- REVIEW 1 ---------------------
+PAPER: 7
+TITLE: Version Space Learning for Verification on Temporal Differentials
+AUTHORS: Mark Santolucito
 
-                      Overall merit: C. Weak paper, though I will not fight
-                                        strongly against it
-                         Confidence: X. I am an expert in this area
+Overall evaluation: 1 (weak accept)
 
-                         ===== Paper summary =====
+----------- Overall evaluation -----------
+This is a nicely written and interesting submission. In previous work, the author has presented ConfigC, a technique that can (1) learn from a set of correct configuration files a model consisting of logical constraints and (2) use this model to classify unknown configurations as either correct or incorrect. In this submission, the author proposes to extend ConfigC so as to be able to learn also from negative examples (i.e., incorrect configurations) and decrease its imprecision. In addition, the author proposes to also take advantage of multiple versions of a configuration files, which would allow ConfigC to take advantage of configuration files that are available in multiple versions. Finally, the author proposes to evaluate the proposed approach on TravisCI, a commonly used continuous integration system.
 
-This paper investigates the synthesis of Functional Reactive
-Programming (FRP) programs from temporal formulae. FRP programs
-are proof terms for constructive temporal logic, so this
-amounts to synthesizing a proof for a temporal logic formula.
+I liked this submission and found the topic both interesting and timely. My only concern is this submissions seems to be more about a piece of research that has been mostly defined and is about to be written, whereas normally authors would present some sort of dissertation proposal at a doctoral symposium.
 
-The logic under study is TSL, which extends LTL with
-predicates p(e) and updates [s <| e] where e is built from
-function symbols and stream names, and s is a stream name.
-The paper proceeds by treating the TSL formula as an LTL
-formula where predicates and updates are uninterpreted.
-If the LTL formula is realized by a given automaton,
-then the automaton can be treated as a state machine,
-and then translated into an FRP program.
+I am sure that it would not hurt the author to present his work at the symposium, but I believe he would benefit less from attendance than authors whose papers have less well defined topics and a broader scope.
 
-The techniques of the paper are not particularly surprising,
-and depend on the use of LTL realizability over uninterpreted
-symbols. The LTL formula has no knowledge of the semantics
-for predicates and updates, which introduces many artificial
-non-realizability results. For example the predicate
-(x > 0) => [x <| x+1] is vacuous as long as x is initially
-positive, but the LTL formula is unaware of this.
 
-The construction of the FRP program from an automaton
-is the core of the material relevant to an ICFP audience,
-but it is not particularly surprising, as it essentially
-codes a single step of an automaton into a function f,
-which is then looped. The translation introduces exponential
-blowup, so does not scale.
+----------------------- REVIEW 2 ---------------------
+PAPER: 7
+TITLE: Version Space Learning for Verification on Temporal Differentials
+AUTHORS: Mark Santolucito
 
-The paper is a technical result, possibly of interest to a
-dedicated FRP workshop, but not to a general ICFP audience.
+Overall evaluation: 2 (accept)
 
-===========================================================================
-                           ICFP 2017 Review #87B
----------------------------------------------------------------------------
-           Paper #87: Synthesizing Functional Reactive Programs
----------------------------------------------------------------------------
+----------- Overall evaluation -----------
+This paper proposes to extend the ConfigC tool for detecting configuration errors to leverage temporal constraints via "version space learning."  I think configuration problems are a complex enough issue to merit more advanced approaches.  I think this is worth discussing at the symposium, in particular the evaluation could use more detail.
 
-                      Overall merit: A. Good paper, I will champion it
-                         Confidence: X. I am an expert in this area
+The author has demonstrated understanding of this domain, and has prior work that is interesting appearing (I did not have time to investigate in detail), so I trust the author knows the general field and will produce formal work that is of interest.  And the problem is one of practical importance.
 
-                         ===== Paper summary =====
+The most important thing to discuss is, as noted, evaluation.  I don't quite get the experiment proposed here, in the sense that  I don't have a feeling for the goal.  How few false positives is a "win" -- what level of additional cost is worth it?  Presumably if predicting a failure now takes as much compute time as just trying the build, there is no gain, right?  So there needs to be a way to describe the move towards "sounder" results and the tradeoffs inherent.
 
-This paper designs, formalises, implements and evaluates a system
-for automatically translating temporal logic specifications of
-reactive systems into executable FRP programs.   The core the
-the approach is the synthesis of a 'term annotated Mealy
-machine' from a 'temporal stream logic' specification.
 
-                      ===== Comments to authors =====
+----------------------- REVIEW 3 ---------------------
+PAPER: 7
+TITLE: Version Space Learning for Verification on Temporal Differentials
+AUTHORS: Mark Santolucito
 
-General comments:
+Overall evaluation: 1 (weak accept)
 
-I enjoyed this paper a lot.  The topic is interesting and novel,
-the system that is developed seems to be both principled and
-practical, and the paper itself is extremely well written.  I
-look forward to seeing this work presented at ICFP this year.
-A few suggestions for improvement are included below.
+----------- Overall evaluation -----------
+The paper proposes an approach to learn rules for configuration files from examples of (labeled) correct and incorrect files. These rules could then be checked on the new files that are not labeled. The author has prior work in this area (including a CAV'16 paper). The theoretical framework in the paper builds on the work from so called "version space learning" developed decades ago. The proposed work includes evaluating this theoretical framework on the configuration files developed for TravisCI.
 
-The introductory section is rather long, at around 2.5 pages.
-It would be preferable to keep the introduction to around
-1.5 pages max, either by compressing what is already there or
-by factoring some of the material into a separate section.
+I find the theoretical aspects of this paper to be its strong point. I expect the author to make advanced in this area. However, I'm concerned about the practical application of the work, and the presentation of this current paper is rather lacking.
 
-The related work section gives a good comparison with other work,
-but would be better moved to the end of the paper, in order to
-allow the reader to get to the new material more quickly.
+For practical applications, I don't understand the motivation for checking for TravisCI configuration errors. Why not just run on TravisCI and see what error(s) it reports? TravisCI already has a parser for configurations and some static checking while generating scripts, plus dynamically tries to execute the generated scripts. The motivation sounds a bit like saying "We will use machine learning to check whether a given file is valid Python code": one already has an actual Python interpreter that can do lexing, parsing, and semantic checking of the file while building the intermediate representation, plus then execute the resulting IR. So why build an incomplete/unsound checker when a precise one already exists? If you want to argue that TravisCI doesn't release much of their code to be run by clients (because that may endanger their business model of delivering the service), then the question becomes how expensive it is to manually build a robust checker that can process .!
+ travis.yml files locally on the client vs. trying to learn the checker using ML (and then having to manually adjust the learned model).
 
-In the experimental results section, it would be useful to
-discuss how readable the resulting FRP programs are, perhaps
-with an example (e.g. the code for the escalator example).
+For presentation issues, there's a long list of points that I found questionable.
 
-The concluding section is rather brief, at just 11 lines.
-This should be expanded in the final version.
+- "a new description ... in terms of version space learning" should provide some reference to "version space learning" (because it's a known term from machine learning; otherwise, the term should have been italicized or in some other form highlighted if you were introducing it)
 
-Specific comments:
+- stuttering "are" in "error reports are are produced"
 
-p1, Excellent abstract - very clear!
+- the citations need not be of the form "(LastName et al. YEAR)" but "[N]"
 
-p3, "topics, such as" -> "topics such as" (remove comma).
+- some flipped exclamation mark before "any popular machine"
 
-p8, Some explanation for the semantics of LTL is required.
+- "This ensures the tool can always be automatically built correctly on a fresh machine." 1) most TravisCI users don't build "the tool" but "the code", and 2) building successfully on TravisCI doesn't guarantee that the code can build on another platform (but does increase chances that the code can build on a Docker instance similar to TravisCI)
 
-p9, "manipulation infinite" -> "manipulation of infinite".
+- "âerrorsâ - ... mean[s] the configuration file was malformed and the software could not even be built" does "error" really mean that the configuration file was malformed or that software could not be built for another reason (e.g., could not download a required dependent library)?
 
-p10, In the syntax for TSL, why not replace
+- "interger" is misspelled (in the table on page 2)
 
-  tau in T_P U T_< | ...
+- why is the arity for "Missing Entry" 2: what is missing from where?
 
-by the following, which is simpler:
+- the pseudo-code on page 2 is unnecessary; the use of "n1" can be inlined, and the key magic is in the function "merge"
 
-   T_P | T_< | ...
+- this sounds too strong "we will always detect a misconfiguration": you may detect all misconfigurations with respect to your model, but your model may not capture all types of misconfigurations; e.g., suppose that TravisCI decides that Python2 is not supported any more, how could the tool detect the error of using Python2
 
-p11, Some explanation for the semantics of TSL is required,
-along with the derived temporal operators.
+- more generally, how can you learn from old and new samples that were written for different versions of the TravisCI configuration language? some old .travis.yml may not work any more
 
-p11, The escalator example works very well here!
+- "seen an correct" should be "seen a correct"
 
-p11, "exists" -> "exits".
+- "incorrect, i.e. ConfigC" would better be "incorrect, i.e., ConfigC"
 
-===========================================================================
-                           ICFP 2017 Review #87C
----------------------------------------------------------------------------
-           Paper #87: Synthesizing Functional Reactive Programs
----------------------------------------------------------------------------
+- this is unclear: "ConfigC only analyzes correct configuration files"; how do you know whether a random .travis.yml from some project is correct or not? how do you know whether it lead to an âerrorâ on TravisCI when it was run, and whether it'd lead to an âerrorâ if it were run now?
 
-                      Overall merit: B. OK paper, but I will not champion
-                                        it
-                         Confidence: Y. I am knowledgeable in this area,
-                                        but not an expert
+- what does this mean: "configuration files were labeled in isolation from their system by an expert"? is that how you manually built the ground truth?
 
-                         ===== Paper summary =====
+- "that may effect" should be "that may affect"
 
-The authors explore synthesis for functional reactive programs. They define an extension of LTL that will then be used in the synthesis procedure. The paper has a prototype implementation and experimental evaluation.
+- "detailed, that is it must" would be better with a comma "detailed, that is, it must" or "detailed, i.e., it must"
 
-                      ===== Comments to authors =====
+- this sounds very strong: "contain every piece of information that might lead to a build error"; the build process can be often rather non-deterministic, e.g., it may fail because some network connection is down or slow and some library doesn't get downloaded
 
-The paper is well written and I enjoyed the simplicity of the approach. Using a cairns of temporal logic is not unexpected but still pleasant to realise a small variation can cover another class of programs. 
+- "simultaneous commit chains" is broken, but I can't suggest how to repair it
 
-I would have liked to see better motivation for functional reactive programs as an interesting class to tackle for the synthesis problem. I have several questions: 
+- this is very confusing: "To handle the start of a branch, add a superscript to indicate the branch, and restart the counter on a branch." what superscripts will you use to indicate branches? are you talking about branches that are still named in Git, or about branches that existing at some point in the history but don't have the name any more? what does it mean to "restart a counter"? the term "counter" is not used either before or after this sentence!
 
-- Was TSL created for the sake of succinctness? Could you have done the paper using just LTL? [Even at the price of more complex specifications?]
-- The Mealy machines corresponding to formulas -- what is the precise connection with the operational semantics of FRP programs. 
-- The use of temporal logic left me wondering one thing: I would have expected infinite state transition systems, but as far as I can see your FRPs will only give rise to finite-state ones. Is this correct?
+- missing some word in "we now consider both incorrect and correct" what? examples?
 
+- this can be expanded more: "we will still be able to provide justifications for the classification results"; your proposed system ("ConfigC++", or however you decide to call it) can provide justification in terms of relations that are incorrect (either necessary that is missing or breaking that is present), but the user may want justification in terms of why you believe that such a relation should hold. For example, if the tool says "your .travis.yml is broken because you have `extension mysql.so' before `extension recode.so'", I'd like to ask the tool "why do you think that `mysql.so' should come after `recode.so'"? (Where) did you see that in correct files? (Where) did you see the opposite in incorrect files? Who wrote those files? (If it's some beginners, I'd trust much less than if they were written by experts.) When were the files written? (I'd have a much higher confidence about more recent files.)
+
+- you may want to reference some papers for this claim: "practice of making incremental commits when using source control"
+
+- having finished section 3, I didn't see how you exploit the fact that the Git history is a partial order; there was nothing specific about branch or merge points (not to mention other operations such as "revert" or "cherry-pick"); all the example just talked about two consecutive cases that created the PE pattern (used to indicate that the change in .travis.yml may have led to the error, although there could have been other reasons)
+
+- this sentence sounds wrong: "While these are the strong assumptions - our algorithm is able to detect cases where these assumptions are not met"; maybe "the" should be removed, and "-" should be ","
+
+- what does this mean for the practical application: "It is then the userâs responsibility to expand the definitions accordingly." Who is the "user" here? Is it a researcher who's building the tool to statically check TravisCI configs? That can be understandable. Or is it the end user (e.g., an open-source developers) who's just using the tool while developing some code and writing .travis.yml? It is highly unlikely that the end user would bother to understand the inner workings of ConfigC++ and expand some definitions to allow the tool to be more complete. Even if the user were to do that, how would the tool proceed? Would it need to be rerun on all historical learning to update its model?
+
+- this is not necessarily a bug: "it is possible that between versions of TravisCI, two identical program summaries may have different build statuses"! That can simply mean that the TravisCI configuration language evolved in a backwards incompatible way. It happens all the time in real software. If the authors wants to focus on TravisCI, the author may want to study the evolution of the language, e.g., by looking at old .travis.yml files, and to look at the actual mistakes that people made in those files, e.g., by looking into patches provided in those files. BUT, the authors may choose to apply all the interesting theory being developed in another domain where the motivation for checking would not be so easy to question as for checking TravisCI config files.
+
+- is this really the first paper on the topic: "Static configuration verification has been proposed as an effective way to tackle misconfiguration problems (Xu and Zhou 2015)." If you cite some line of work, it'd be good to add some first papers.
+
+- this is true "by using a learning approach, our work does not require users to manually write any specifications" BUT it ignores the fact that the user still has to do a lot manually: write those "templates" that you refer to in the paper, "expand the definitions (accordingly)" -- I don't know if there's difference between "template" and "definition", inspect violations to establish if they're false positives or not, have a potentially reduced confidence in the tool, etc. It's not clear that the seemingly better automated approach is actually practically more cost-effective.
+
+- this is repeated: "none of the above approaches use the temporal ordering on the training set inside the learning process." However, I still cannot succinctly describe how the approach proposed in this paper actually exploits some temporal ordering (besides the PE pattern).
+
+- What is "VeriConf": "In contrast, VeriConf..." Is that the old name for "ConfigC" or the new name (instead of "ConfigC++")? Or is it just a typo? Or it is some other tool?
+
+- "e.g.memory" should be "e.g., memory", and "security, availability and reliability" may be better as "security, availability, and reliability"

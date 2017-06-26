@@ -1,12 +1,11 @@
 \section{Properties of Temporal Learning}
 
 We have made two assumptions in Eq. \ref{eq:E1}; first that the summary $P_t$ sufficiently detailed, i.e. contains every piece of information that might lead to a build error, and second that the model $M(P_t)$ will learn all relations that might lead to a build error, i.e. has a template for all types of errors.
-While these are the strong assumptions - our algorithm is able to detect cases where these assumptions are not met.
-If we cannot find a solution for Eq. \ref{eq:PE}, it means either $P_t$ or $M(P_t)$ has been underspecified and is insufficiently detailed.
-It is then the user's responsibility to expand the definitions accordingly.
+While these are strong assumptions, our algorithm is able to detect cases where these conditions are not met.
+If we cannot find a solution for Eq. \ref{eq:PE}, it means either $P_t$ or $M(P_t)$ has been underspecified and is insufficiently detailed, and the definitions must be expanded accordingly.
 
 In addition to the sufficient detail of $P_t$ and $M(P_t)$, we must pick a trusted base.
-Since it is possible for TravisCI to have bugs, it is possible that between versions of TravisCI, two identical program summaries may have different build statuses.
+Since TravisCI may not always be backwards compatible, it is possible that between versions of TravisCI, two identical program summaries may have different build statuses.
 Since version space learning is (generally) intolerant of noise, we require that
 $P_t = P_{t'} \implies S(P_t) = S(P_{t'})$.
 If we allow for noisy data, for example in the case that it is not possible to identify a trusted base, this predicate will no longer hold.

@@ -6,7 +6,7 @@
 %%%     date            = "10 July 2016",
 %%%     filename        = "ACM-Reference-Format.bst",
 %%%     email           = "beebe@math.utah.edu, beebe@acm.org,
-%%%                        beebe@computer.org, borisv@lk.net, murray@hq.acm.org", 
+%%%                        beebe@computer.org, borisv@lk.net, murray@hq.acm.org",
 %%%     codetable       = "ISO/ASCII",
 %%%     keywords        = "ACM Transactions bibliography style; BibTeX",
 %%%     license         = "public domain",
@@ -25,6 +25,7 @@
 %  Revised 15-APRIL-2011 (Boris/Gerry)
 %  Revised 27-SEPTEMBER-2011 (Boris)
 %  Revised 10-JULY-2016 (Boris)
+%  Revised 04-FEB-2017 (Boris)
 %
 %
 % History (by Nelson)
@@ -152,10 +153,10 @@
 %
 % Start of ACM-Reference-Format-Journals.bst
 %
-% Note: Many of the new bibentry 'fields' will only work with the 
+% Note: Many of the new bibentry 'fields' will only work with the
 % 'ACM-Reference-Format-Journals.bst' file. Legacy .bib files (which will, in all probability,
 % NOT contain these new fields) will _still_ work with the ACM-Reference-Format-Journals.bst.
-% 
+%
 %
 ENTRY
   { address
@@ -186,9 +187,10 @@ ENTRY
     type
     volume
     year
-        % New keys recognized 
+        % New keys recognized
         issue         % UTAH: used in, e.g., ACM SIGSAM Bulletin and ACM Communications in Computer Algebra
         articleno
+	eid           
         day           % UTAH: needed for newspapers, weeklies, bi-weeklies
         doi           % UTAH
         url           % UTAH
@@ -221,6 +223,28 @@ STRINGS { s t t.org u }
 STRINGS { last.label next.extra }
 
 STRINGS { p1 p2 p3 page.count }
+
+FUNCTION { not }
+{
+    { #0 }
+    { #1 }
+  if$
+}
+
+FUNCTION { and }
+{
+    'skip$
+    { pop$ #0 }
+  if$
+}
+
+FUNCTION { or }
+{
+   { pop$ #1 }
+    'skip$
+  if$
+}
+
 
 FUNCTION { dump.stack.1 }
 {
@@ -542,14 +566,22 @@ FUNCTION { output.coden }       % UTAH
 
 FUNCTION { format.articleno }
 {
-  articleno empty.or.unknown
+  articleno empty.or.unknown not eid empty.or.unknown not and
+     { "Both articleno and eid are defined for " cite$ * warning$ }
+     'skip$
+  if$
+  articleno empty.or.unknown eid empty.or.unknown and
      { "" }
      {
         numpages empty.or.unknown
-          { "articleno field, but no numpages field, in " cite$ * warning$ }
+          { "articleno or eid field, but no numpages field, in " 
+            cite$ * warning$ }
           { }
         if$
-        "Article \bibinfo{articleno}{" articleno * "}" *
+        eid empty.or.unknown 
+          { "Article \bibinfo{articleno}{" articleno * "}" * }
+          { "Article \bibinfo{articleno}{" eid * "}" * }
+        if$
      }
   if$
 }
@@ -558,7 +590,7 @@ FUNCTION { format.year }
 { % push year string or "????" onto output stack
   %% Because year is a mandatory field, we always force SOMETHING
   %% to be output
-  "\bibinfo{year}{" 
+  "\bibinfo{year}{"
   year empty.or.unknown
     { "????" }
     { year }
@@ -589,9 +621,13 @@ FUNCTION { format.day.month.year }     % UTAH
   % Needed for frequent periodicals: 2008. ... New York Times C-1, C-2, C-17 (23 Oct.)
   % acm-*.bst addition: prefix parenthesized date string with
   % ", Article nnn "
-  articleno empty.or.unknown
+  articleno empty.or.unknown eid empty.or.unknown and
     { "" }
-    { ", " format.articleno * }
+    { output.state after.block =
+       {", " format.articleno * }
+       { format.articleno  }
+      if$
+    }
   if$
   " (" * format.day.month * format.year * ")" *
 }
@@ -612,7 +648,7 @@ FUNCTION { strip.doi } % UTAH
   % "10.1145/1534530.1534545".  That is later typeset and displayed as
   % doi:10.1145/1534530.1534545 as the LAST item in the reference list
   % entry.  Publisher Web sites wrap this with a suitable link to a real
-  % URL to resolve the DOI, and the master http://dx.doi.org/ address is
+  % URL to resolve the DOI, and the master https://doi.org/ address is
   % preferred, since publisher-specific URLs can disappear in response
   % to economic events.  All journals are encouraged by the DOI
   % authorities to use that typeset format and link procedures for
@@ -620,12 +656,22 @@ FUNCTION { strip.doi } % UTAH
   % lists.
   % The numeric prefix is guaranteed to start with "10.", so we use
   % that as a test.
+  % 2017-02-04 Added stripping of https:// (Boris)
   doi #1 #3 substring$ "10." =
     { doi }
     {
-      doi #1 #7 substring$ "http://" =
+      doi 't :=  % get modifiable copy of DOI
+
+      % Change https:// to http:// to strip both prefixes (BV)
+
+      t #1 #8 substring$ "https://" =
+        { "http://"  t #9 t text.length$ #8 - substring$ * 't := }
+        { }
+      if$
+
+      t #1 #7 substring$ "http://" =
         {
-            doi #8 doi text.length$ #7 - substring$ 't := % get modifiable copy of rest of DOI
+            t #8 t text.length$ #7 - substring$ 't :=
 
             "INTERNAL STYLE-FILE ERROR" 's :=
 
@@ -680,7 +726,7 @@ FUNCTION { output.doi } % UTAH
       %% the presence of the line wrapping, but \path|...| and
       %% \verb|...| do not.
       "\showDOI{%" writeln
-      "\url{http://dx.doi.org/" strip.doi * "}}" * writeln
+      "\url{https://doi.org/" strip.doi * "}}" * writeln
     }
   if$
 }
@@ -762,21 +808,21 @@ FUNCTION { output.note.check } % UTAH
   if$
 }
 
-FUNCTION { output.eprint } % 
+FUNCTION { output.eprint } %
 { % return with stack empty
   eprint empty.or.unknown
     { }
-    { "\showeprint" 
+    { "\showeprint"
          archiveprefix empty.or.unknown
            { }
            { "["  archiveprefix "l" change.case$ "]" * * * }
          if$
          "{" *
-         primaryclass empty.or.unknown 
+         primaryclass empty.or.unknown
            { }
            { primaryclass "/" * *}
          if$
-         eprint "}" * *    
+         eprint "}" * *
          writeln
     }
   if$
@@ -851,33 +897,13 @@ FUNCTION { output.year.check }
   year empty.or.unknown
      { "empty year in " cite$ * warning$ }
      { write$
-        " \bibinfo{year}{" year * "}"  *
-	"\natexlab{" extra.label * "}" * *
+       " \bibinfo{year}{" year * "}"  *
+       "\natexlab{" extra.label * "}" * *
        mid.sentence 'output.state :=
      }
   if$
 }
 
-FUNCTION { not }
-{
-    { #0 }
-    { #1 }
-  if$
-}
-
-FUNCTION { and }
-{
-    'skip$
-    { pop$ #0 }
-  if$
-}
-
-FUNCTION { or }
-{
-   { pop$ #1 }
-    'skip$
-  if$
-}
 
 FUNCTION { le }
 {
@@ -1150,7 +1176,7 @@ FUNCTION { format.names }
                 { "," * }
                 'skip$
               if$
-              t "{\sc others}" =
+              t "\bibinfo{person}{others}" =
                 { " {et~al\mbox{.}}" * } % jrh: avoid spacing problems
                 { " {and} " * t * } % from Chicago Manual of Style
               if$
@@ -1223,7 +1249,7 @@ FUNCTION { format.names.fml }
                 { "," * }
                 'skip$
               if$
-              t "{others}" =
+              t "\bibinfo{person}{others}" =
                 { " {et~al\mbox{.}}" * }
                 { " {and} " * t * }
               if$
@@ -1242,8 +1268,8 @@ FUNCTION { format.authors }
 {
   author empty.or.unknown
     { "" }
-    { 
-      "\bibfield{author}{" 
+    {
+      "\bibfield{author}{"
       author format.names add.period$ * "}" *} % jtb: add period if none before
   if$
 }
@@ -1274,8 +1300,8 @@ FUNCTION { format.editors.fml }
   editor empty.or.unknown
     { "" }
     {
-      "\bibfield{editor}{" 
-      editor format.names.fml 
+      "\bibfield{editor}{"
+      editor format.names.fml
       *  "}" *
       editor num.names$ #1 >
         { " (Eds.)" * }
@@ -1290,7 +1316,7 @@ FUNCTION { format.editors }
   editor empty.or.unknown
     { "" }
     {
-      "\bibfield{editor}{" 
+      "\bibfield{editor}{"
       editor format.names
       *  "}" *
       editor num.names$ #1 >
@@ -1541,7 +1567,7 @@ FUNCTION { format.pages.check.without.articleno }
     { }
   if$
 
-  articleno empty.or.unknown
+  articleno empty.or.unknown eid empty.or.unknown and
     {
       pages missing$
         { numpages }
@@ -1586,13 +1612,7 @@ FUNCTION { format.page.count }
 {
   page.count empty.or.unknown
     { "" }
-    {
-      articleno empty.or.unknown
-        { "numpages field, but no articleno field, in " cite$ * warning$ }
-        { }
-      if$
-      "\bibinfo{numpages}{" page.count * "}~pages" *
-    }
+    { "\bibinfo{numpages}{" page.count * "}~pages" * }
   if$
 }
 
@@ -1614,11 +1634,12 @@ FUNCTION { format.articleno.numpages }
   %%     numpages                       -> "numpages-value"
   %%     pages                          -> "pages-value"
 
-  articleno empty.or.unknown
+  articleno empty.or.unknown eid empty.or.unknown and
     {
       numpages empty.or.unknown
         { }
-        { "require articleno with numpages field in " cite$ * warning$ }
+        { "numpages field, but no articleno or eid field, in "
+	  cite$ * warning$ }
       if$
       ""
     }
@@ -1627,7 +1648,8 @@ FUNCTION { format.articleno.numpages }
         {
           pages empty.or.unknown
             {
-              "require pages or numpages fields with articleno field in " cite$ * warning$
+              "articleno or eid, but no pages or numpages field in "
+	         cite$ * warning$
               "" 'page.count :=
             }
             { reduce.pages.to.page.count }
@@ -1644,6 +1666,24 @@ FUNCTION { format.articleno.numpages }
     }
   if$
 }
+
+FUNCTION {calc.format.page.count}
+{
+  numpages empty.or.unknown
+   {
+     pages empty.or.unknown
+        {
+        "" 'page.count :=
+        }
+        { reduce.pages.to.page.count }
+     if$
+   }
+   { numpages 'page.count := }
+  if$
+  format.page.count
+}
+
+
 
 FUNCTION { format.journal.volume.number.day.month.year }
 {
@@ -2091,12 +2131,19 @@ FUNCTION { format.journal.volume.number.day.month.year }
           " \bibinfo{number}{" * number * "}" *
         }
         { " \bibinfo{volume}{" * volume  * "}, \bibinfo{number}{" *
-	  number * "}" *}
+          number * "}" *}
       if$
     }
   if$
+  after.block 'output.state :=
 
-  format.day.month.year *
+  % Sometimes proceedings are published in journals
+  % In this case we do not want to put year, day and month here
+
+  type$ "inproceedings" =
+    { }
+    {format.day.month.year * }
+  if$
 }
 
 FUNCTION { format.chapter.pages }
@@ -2161,7 +2208,7 @@ FUNCTION { format.tr.number }
 {
   "\bibinfo{type}{"
   type empty.or.unknown
-    { "{T}echnical {R}eport" }  
+    { "{T}echnical {R}eport" }
     'type
   if$
   "}" * *
@@ -2292,23 +2339,6 @@ FUNCTION { author.key.label }
   if$
 }
 
-FUNCTION { author.key.organization.label }
-{ % added - gnp. Provide label formatting by organization if author is null.
-  author empty.or.unknown
-    { organization empty.or.unknown
-        { key empty.or.unknown
-            { "no key, author or organization in " cite$ * warning$
-              cite$ #1 #3 substring$ }
-            'key
-          if$
-        }
-        { organization }
-      if$
-    }
-    { author format.lab.names }
-  if$
-}
-
 FUNCTION { editor.key.organization.label }
 { % added - gnp. Provide label formatting by organization if editor is null.
   editor empty.or.unknown
@@ -2343,30 +2373,58 @@ FUNCTION { author.editor.key.label }
   if$
 }
 
-FUNCTION { calc.label }
-{
-  % Changed - GNP. See also author.organization.sort, editor.organization.sort
-  % Form label for BibTeX entry. The classification of which fields are used
-  % for which type of entry (book, inbook, etc.) are taken from alpha.bst.
-  % The change here from newapa is to also include organization as a
-  % citation label if author or editor is missing.
+FUNCTION { author.editor.key.organization.label }
+{ % added - gnp. Provide label formatting by organization if author is null.
+  author empty.or.unknown
+    { editor empty.or.unknown
+        { organization empty.or.unknown
+            { key empty.or.unknown
+               { "no key, author, editor or organization in " cite$ * warning$
+                 cite$ #1 #3 substring$ }
+               'key
+              if$
+            }
+            { organization }
+          if$
+        }
+        { editor format.lab.names }
+      if$
+    }
+    { author format.lab.names }
+  if$
+}
 
+FUNCTION { calc.basic.label }
+{
   type$ "book" =
   type$ "inbook" =
   or
-  type$ "periodical" =
+  type$ "article" =
   or
     'author.editor.key.label
     { type$ "proceedings" =
+      type$ "periodical" =
+      or
         'editor.key.organization.label
         { type$ "manual" =
-            'author.key.organization.label
+            'author.editor.key.organization.label
             'author.key.label
           if$
         }
       if$
     }
   if$
+}
+
+FUNCTION { calc.label }
+{
+  % Changed - GNP. See also author.editor.organization.sort, editor.organization.sort
+  % Form label for BibTeX entry. The classification of which fields are used
+  % for which type of entry (book, inbook, etc.) are taken from alpha.bst.
+  % The change here from newapa is to also include organization as a
+  % citation label if author or editor is missing.
+
+  calc.basic.label
 
   author empty.or.unknown  % generate the full label citation information.
     {
@@ -2449,7 +2507,7 @@ FUNCTION { output.issue.doi.coden.isxn.lccn.url.eprint }
   output.lccn
   output.doi    % DOI is ALWAYS last according to CrossRef DOI documentation
   output.eprint
-  output.url    % but ACM wants URL last  
+  output.url    % but ACM wants URL last
 }
 
 FUNCTION { output.issue.doi.coden.isxn.lccn.url.eprint.note }
@@ -2503,13 +2561,12 @@ FUNCTION { article }
   if$
 
   crossref missing$
-    { format.journal.volume.number.day.month.year }
+    { format.journal.volume.number.day.month.year output}
     {
       "cross reference in @Article{...} is unusual" warning$
       format.article.crossref output.nonnull
     }
   if$
-  output
 
   format.pages.check.without.articleno output
   format.articleno.numpages output
@@ -2539,7 +2596,7 @@ FUNCTION { book }
       new.block
       format.number.series output
       new.sentence
-      publisher "publisher" bibinfo.output.check      
+      publisher "publisher" bibinfo.output.check
       address "address" bibinfo.output.check    % jtb: require address
       fin.sentence
       pages empty.or.unknown
@@ -2732,7 +2789,7 @@ FUNCTION { mastersthesis }
   format.title emphasize "title" output.check  % NB: ACM style requires emphasized thesis title
   new.block
   "\bibinfo{thesistype}{Master's\ thesis}" format.thesis.type output
-  new.sentence  
+  new.sentence
   school "school" bibinfo.output.check
   address empty.or.unknown
      { }
@@ -2759,7 +2816,8 @@ FUNCTION { misc }
     { "\bibinfo{howpublished}{" howpublished "}" * * output }
   if$
   "" output.nonnull.dot.space
-  output.day.month.year      
+  output.day.month.year
+  calc.format.page.count output
   fin.block
   output.issue.doi.coden.isxn.lccn.url.eprint.note
   fin.entry
@@ -2779,8 +2837,8 @@ FUNCTION { phdthesis }
   new.block
   format.title emphasize "title" output.check  % NB: ACM style requires emphasized thesis title
   new.block
- "\bibinfo{thesistype}{Ph.D. Dissertation}" format.thesis.type output
- new.sentence 
+  "\bibinfo{thesistype}{Ph.D. Dissertation}" format.thesis.type output
+  new.sentence
   school "school" bibinfo.output.check
   address empty.or.unknown
      { }
@@ -2849,10 +2907,11 @@ FUNCTION { periodical }
     { format.editors output.nonnull }
   if$
   new.block
-  output.year.check  
+  output.year.check
   new.sentence
   format.articletitle "title" output.check
   format.journal.volume.number.day.month.year output
+  calc.format.page.count output
   fin.entry
 }
 
@@ -2924,6 +2983,7 @@ FUNCTION { unpublished }
   format.title "title" output.check
   fin.sentence
   output.day.month.year                 % UTAH
+  calc.format.page.count output
   fin.block
   output.issue.doi.coden.isxn.lccn.url.eprint.note.check
   fin.entry
@@ -3173,27 +3233,6 @@ FUNCTION { author.editor.sort }
   if$
 }
 
-FUNCTION { author.organization.sort }
-{
-  % added - GNP. Stack author or organization for sorting (from alpha.bst).
-  % Unlike alpha.bst, we need entire names, not abbreviations
-
-  author empty.or.unknown
-    { organization empty.or.unknown
-        { key empty.or.unknown
-            { "to sort, need author, organization, or key in " cite$ * warning$
-              ""
-            }
-            { key sortify }
-          if$
-        }
-        { organization sortify }
-      if$
-    }
-    { author sort.format.names }
-  if$
-}
-
 FUNCTION { editor.organization.sort }
 {
   % added - GNP. Stack editor or organization for sorting (from alpha.bst).
@@ -3215,6 +3254,32 @@ FUNCTION { editor.organization.sort }
   if$
 }
 
+FUNCTION { author.editor.organization.sort }
+{
+  % added - GNP. Stack author or organization for sorting (from alpha.bst).
+  % Unlike alpha.bst, we need entire names, not abbreviations
+
+  author empty.or.unknown
+    {
+      editor empty.or.unknown
+        { organization empty.or.unknown
+            { key empty.or.unknown
+                { "to sort, need author, editor, or key in " cite$ * warning$
+                ""
+                }
+                { key sortify }
+              if$
+            }
+            { organization sortify }
+          if$
+        }
+        { editor sort.format.names }
+      if$
+    }
+    { author sort.format.names }
+  if$
+}
+
 FUNCTION { presort }
 {
   % Presort creates the bibentry's label via a call to calc.label, and then
@@ -3229,11 +3294,15 @@ FUNCTION { presort }
   type$ "book" =
   type$ "inbook" =
   or
+  type$ "article" =
+  or
     'author.editor.sort
     { type$ "proceedings" =
+      type$ "periodical" =
+      or
         'editor.organization.sort
         { type$ "manual" =
-            'author.organization.sort
+            'author.editor.organization.sort
             'author.sort
           if$
         }
@@ -3272,7 +3341,7 @@ FUNCTION { forward.pass }
   last.label
   % OLD:calc.label year field.or.null purify$ #-1 #4 substring$ * % add year
   % NEW:
-  author.key.label year field.or.null purify$ #-1 #4 substring$ * % add year
+  calc.basic.label year field.or.null purify$ #-1 #4 substring$ * % add year
   #1 entry.max$ substring$ =     % are they equal?
      { last.extra.num #1 + 'last.extra.num :=
        last.extra.num int.to.chr$ 'extra.label :=
@@ -3281,7 +3350,7 @@ FUNCTION { forward.pass }
        "" 'extra.label :=
        % OLD: calc.label year field.or.null purify$ #-1 #4 substring$ * % add year
        % NEW:
-       author.key.label year field.or.null purify$ #-1 #4 substring$ * % add year
+       calc.basic.label year field.or.null purify$ #-1 #4 substring$ * % add year
        #1 entry.max$ substring$ 'last.label := % assign to last.label
      }
   if$
@@ -3375,7 +3444,7 @@ FUNCTION { begin.bib }
   %%         \newcommand{\showLCCN}[1]{LCCN #1.}
 
   "\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi" writeln
-  "\ifx \showDOI      \undefined \def \showDOI       #1{{\tt DOI:}\penalty0{#1}\ } \fi" writeln
+  "\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi" writeln
   % ACM styles omit ISBNs, but they can be included by suitable definitions of
   % \showISBNx and \showISBNxiii before the .bbl file is read
   "\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi" writeln
@@ -3384,7 +3453,7 @@ FUNCTION { begin.bib }
   "\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi" writeln
   "\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi" writeln % NB: final period supplied by add.period$ above
   "\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi" writeln
-  "\ifx \showURL      \undefined \def \showURL       #1{#1}          \fi" writeln
+  "\ifx \showURL      \undefined \def \showURL       {\relax}        \fi" writeln
   "% The following commands are used for tagged output and should be " writeln
   "% invisible to TeX" writeln
   "\providecommand\bibfield[2]{#2}" writeln
@@ -3407,6 +3476,3 @@ FUNCTION { end.bib }
 }
 
 EXECUTE {end.bib}
-
-
-
