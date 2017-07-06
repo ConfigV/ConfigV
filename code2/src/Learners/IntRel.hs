@@ -42,15 +42,15 @@ instance Learnable R.IntRel Formula where
   merge rs = let
     rs' = M.unionsWith add rs
     merged = M.foldlWithKey combineFlips M.empty rs'
- --   validRule r = gt r >= 3 && lt r >= 3 || (gt r + lt r + eq r)<20  --ignore rules if they dont have a clear tendancy
+    --TODO def for when an eq rule has enough conf
     validRule r = (gt r + lt r + eq r)>Settings.intRelSupport &&  (gt r < Settings.intRelConfidence|| lt r <= Settings.intRelConfidence)
    in
     M.filter validRule merged
  
   check _ r1 r2 = if
-    | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1
-    | lt r2 == 1 && gt r1 > 3 && lt r1 < 2-> Just r1
-    | gt r2 == 1 && lt r1 > 3 && gt r1 < 2-> Just r1
+    | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1 --TODO eq rules require more evidence than others
+    | lt r2 == 1 && gt r1 > lt r1 -> Just r1
+    | gt r2 == 1 && lt r1 > gt r1 -> Just r1
     | otherwise -> Nothing
     
     

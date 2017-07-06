@@ -15,6 +15,7 @@ import qualified Data.Text as T
 import qualified Data.Bits as B
 import qualified Data.Char as C
 
+import Settings 
 import Debug.Trace
 import Learners.Common
 -- | We assume that all IRConfigFiles have a set of unique keywords
@@ -44,19 +45,19 @@ instance Learnable TypeErr QType where
      M.fromList $ map toTypeErr f'
 
   merge rs = 
-     M.filter (\rd -> totalC rd > 15) $ M.unionsWith add rs
+     M.filter (\rd -> totalC rd > Settings.typeSupport) $ M.unionsWith add rs --NB this is support for all possible types, not per file
 
   -- 
   check _ rd1 rd2 = let
-     toProb x = if (totalC rd1) > 10
+     toProb x = if (totalC rd1) > Settings.typeSupport --TODO necessary?
        then (fromIntegral .x)rd1 / (fromIntegral $totalC rd1)
        else 1
-     cutoff = 0.7
+     cutoff = typeConfidence
    in
-     if --TODO allow 1/0 in place of bool 
+     if 
        (string rd2 == 1 && toProb string > cutoff) ||
        (path   rd2 == 1 && (toProb string+ toProb path) > cutoff) ||
-       (bool   rd2 == 1 && (toProb bool + toProb int) > cutoff) ||
+       (bool   rd2 == 1 && (toProb bool + toProb int) > cutoff) || --TODO only allow 0/1 as bool
        (int    rd2 == 1 && ((toProb int + toProb size > cutoff) || (toProb int + toProb bool > cutoff))) ||
        (size   rd2 == 1 && toProb size> cutoff) ||
        totalC rd1 == 0

@@ -17,7 +17,7 @@ import           System.IO.Unsafe
 import Debug.Trace
 
 learnTarget :: [ConfigFile Language]
-learnTarget = case Settings.pROBRULES of
+learnTarget = case Settings.trainingTarget of
     Settings.Test -> genSet "testLearn/"
     Settings.NonProb -> genSet "benchmarkSet/correctMySQL/"
     Settings.Prob -> genSet "learningSet/MySQL/"
@@ -34,12 +34,12 @@ vFilePaths = if Settings.bENCHMARKS
     then benchmarkFiles
     else userFiles
   where
-    dir = "caseStudies" --"user"
+    dir = Settings.verificationTarget
     userFiles = map ((dir++"/")++) $ u $ listDirectory dir
     benchmarkFiles = map getFileName $ concat benchmarks
 
 benchmarks :: [ErrorReport]
-benchmarks = case Settings.pROBRULES of
+benchmarks = case Settings.trainingTarget of
   Test -> testBenchSet
   NonProb -> group2 ++ group3 ++ group4 ++ group5
   Prob ->  cavAE_benchmarks

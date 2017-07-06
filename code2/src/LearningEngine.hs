@@ -35,14 +35,14 @@ learnRules fs = let
 -- | use the learning module instances to decide probabiliity cutoff and the sort
 resolveRules :: [RuleSet] -> RuleSet
 resolveRules rs = RuleSet
-  { order   = f "o" order
-  , missing = f "m" missing
-  , intRel  = f "i" intRel
-  , typeErr = f "t" typeErr
-  , fineInt = f "f"fineInt
+  { order   = f "order" order
+  , missing = f "missing" missing
+  , intRel  = f "coarse grain" intRel
+  , typeErr = f "type" typeErr
+  , fineInt = f "fine grain" fineInt
   }
  where
-  f s classOfErr =  trace s $ merge (map classOfErr rs)
+  f s classOfErr =  trace ("learning rules for "++s) $ merge (map classOfErr rs)
 
 -- | call each of the learning modules
 buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet

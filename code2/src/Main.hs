@@ -32,6 +32,7 @@ import Types.Common
 import Types.JSON
 import Types.Errors
 
+import Text.Printf
 
 rules = learnRules learnTarget
 
@@ -74,17 +75,21 @@ printSummary ers fitnesses = do
   putStrLn "Table of results"
   putStrLn "Error Class, Number, Support Threshold, Confidence Threshold"
   putStrLn $ (numOfClass TYPE)++", - , - "
-  putStrLn $ numOfClass INTREL++", "++(show (Settings.intRelSupport `percent` 256))++"%, "++(show ((Settings.intRelSupport -Settings.intRelConfidence) `percent` Settings.intRelSupport))++"%"
-  putStrLn $ numOfClass FINEGRAINED++", "++(show (Settings.fineGrainSupport `percent` 256))++"%, "++(show ((Settings.fineGrainSupport -Settings.fineGrainConfidence) `percent` Settings.fineGrainSupport))++"%"
-  putStrLn $ numOfClass MISSING++", "++(show (Settings.keywordCoorSupport `percent` 256))++"%, "++(show ((Settings.keywordCoorSupport -Settings.keywordCoorConfidence) `percent` Settings.keywordCoorSupport))++"%"
-  putStrLn $ numOfClass ORDERING++", "++(show (Settings.orderSupport `percent` 256))++"%, "++(show ((Settings.orderSupport -Settings.orderConfidence) `percent` Settings.orderSupport))++"%"
+  putStrLn $ numOfClass TYPE++", "++(roundToStr 2 (Settings.typeSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 (100*Settings.typeConfidence))++"%"
+  putStrLn $ numOfClass INTREL++", "++(roundToStr 2 (Settings.intRelSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 ((Settings.intRelSupport -Settings.intRelConfidence) `percent` Settings.intRelSupport))++"%"
+  putStrLn $ numOfClass FINEGRAINED++", "++(roundToStr 2 (Settings.fineGrainSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 ((Settings.fineGrainSupport -Settings.fineGrainConfidence) `percent` Settings.fineGrainSupport))++"%"
+  putStrLn $ numOfClass MISSING++", "++(roundToStr 2 (Settings.keywordCoorSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 ((Settings.keywordCoorSupport -Settings.keywordCoorConfidence) `percent` Settings.keywordCoorSupport))++"%"
+  putStrLn $ numOfClass ORDERING++", "++(roundToStr 2 (Settings.orderSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 ((Settings.orderSupport -Settings.orderConfidence) `percent` Settings.orderSupport))++"%"
   putStrLn $ "Total, "++(show $sum fitnesses)++", -, -"
   putStrLn "------------"
   putStrLn "Histogram of Errors"
   print fitnesses
-  
-percent :: Int -> Int -> Int
-x `percent` y = floor $ 100 * (fromIntegral x / fromIntegral y)
+ 
+roundToStr :: (PrintfArg a, Floating a) => Int -> a -> String
+roundToStr = printf "%0.*f" 
+
+percent :: Int -> Int -> Double
+x `percent` y = 100 * (fromIntegral x / fromIntegral y)
 
 -- print and how many errs
 reportUserPerformance :: M.Map Keyword Double -> (FilePath,ErrorReport) -> IO Int
