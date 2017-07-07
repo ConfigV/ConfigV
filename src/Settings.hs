@@ -13,9 +13,15 @@ module Settings where
     --"githubFiles" 
     --"caseStudies"
 
-  
   trainingTarget = Test
   data ModeSetting = NonProb | Prob | Test
+
+  ----------------------------
+  --                        --
+  -- Support and Confidence --
+  --       thresholds       --
+  --                        --
+  ----------------------------
 
   -- You can set support and confidence as percentages, or as a # of files (usually specific for a trainging set)
   (intRelSupport,intRelConfidence) = 
@@ -37,7 +43,7 @@ module Settings where
 
   -- TODO - can only be provided as Int for support and percent for confidence
   (typeSupport, typeConfidence) =
-    --(15,0.7) ::(Int,Double)
+   (15,0.7) ::(Int,Double)
     --(0,0) ::(Int,Double)
 
 
