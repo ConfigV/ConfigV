@@ -1,10 +1,14 @@
 # Testing the tool 
 
-open src/Settings.hs
-change trainginTarget = Test 
-  this will make the tool learn from the file in testLearn dir
-change verificationTarget = "user"
-  this will make the tool verify the files in the user dir
+Install with 'cabal install' and run the executable with '.cabal-sandbox/bin/ConfigV'
+
+The settings are preset to a testing configuration, but if you ever need to get back to the testing configuration:
+
+  - open src/Settings.hs
+  - change trainginTarget = Test 
+      this will make the tool learn from the file in testLearn dir
+  - change verificationTarget = "user"
+      this will make the tool verify the files in the user dir
 
 Both 'testLearn' and 'user' are preloaded with very simple configurations to test that the tool is working correct. 
 
@@ -12,12 +16,16 @@ Both 'testLearn' and 'user' are preloaded with very simple configurations to tes
 
 The key files are:
 
- - src/Settings.hs : all the useful settings to configure the tool
+ - src/Settings.hs : all the useful settings to configure the tool - you must recompile after changing this with 'cabal install'
  - cachedRules.json : the rules that were learned in json form, can be manually inspected as a sanity check
 
-#Reproducing results
+The way to explore the tool at first is to keep the testing configuration and change values in the 'testLearn' files or the 'user' files.
+After adding more configuration settings (make up any keywords and values you like) to 'testLearn', you can inspect cachedRules.json to directly see what was learned.
+You can also change the support and confidence thresholds in src/Settings.hs to control when rules will be accepted (although on the small testLearn training set this isnt very interesting).
 
-By editing the Settings.hs file, you can reproduce any experiment from the paper
+#Reproducing results from paper
+
+By editing the Settings.hs file, you can reproduce any experiment from the paper.
 For example, to generate the error reports from the Github files, with probablistic types and rule graph sorting, change the following settings:
 
    verificationTarget = "githubFiles"
@@ -31,8 +39,19 @@ For example, to generate the error reports from the Github files, with probablis
 If you want to see the effect of different support and confidence thresholds, simply edit the threshold settings in the Setting.hs file.
 The values are preset to the values used in the evaluation in the paper.
 
+# New Configuration Languages
+
+To handle a new configuration language you will need the following:
+
+  - A parser defined in src/Convert.hs
+  - A trainingSet of 'mostly' correct configurations
+  - To choose support and confidence thresholds depend on the 'correctness' your training set
+  - Update the file paths in Settings.hs to point to the new trainingSet
+
 # Helpful tips
 
 To read cachedRules.json rules easier, run from the command line
    > python -m json.tool ../cachedRules.json 
 
+By default the tool will compile with profiling enabled which gives you all the performance information you could ever need.
+This does come at the cost of a bit of a slow down - if you want to see ConfigV at its fastest change

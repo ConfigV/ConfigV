@@ -16,6 +16,8 @@ import Control.DeepSeq
 import qualified Data.Text.IO as T
 import qualified Data.Map.Strict as M
 
+import Settings
+
 import Debug.Trace
 
 -- | collect contraints from each file indepentantly
@@ -24,7 +26,7 @@ learnRules :: [ConfigFile Language] -> RuleSet
 learnRules fs = let
   --fs' = parMap rseq convert fs
   --rs = parMap rdeepseq buildAllRelations fs'
-  fs' = map convert fs
+  fs' = map convert (take Settings.learnFileLimit fs)
   --rs = parMap rseq buildAllRelations fs'
   keyCounts :: M.Map Keyword Int 
   keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty (concat fs')

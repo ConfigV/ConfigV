@@ -15,12 +15,6 @@ import Control.Monad
 import Debug.Trace
 
 import Learners.Common
--- | why would i want to do this?
-{-addConfigType :: TypeMap -> (Keyword,Val) -> IRLine
-addConfigType tyMap (keyword,value) =
-case M.lookup keyword tyMap of
-Just configType -> IRLine{..}
-Nothing -> IRLine{configType = emptyConfigQType,..}-}
 
 -- | Main function of this file - translate configFile to intermediate rep
 

@@ -74,7 +74,6 @@ printSummary ers fitnesses = do
   putStrLn "------------"
   putStrLn "Table of results"
   putStrLn "Error Class, Number, Support Threshold, Confidence Threshold"
-  putStrLn $ (numOfClass TYPE)++", - , - "
   putStrLn $ numOfClass TYPE++", "++(roundToStr 2 (Settings.typeSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 (100*Settings.typeConfidence))++"%"
   putStrLn $ numOfClass INTREL++", "++(roundToStr 2 (Settings.intRelSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 ((Settings.intRelSupport -Settings.intRelConfidence) `percent` Settings.intRelSupport))++"%"
   putStrLn $ numOfClass FINEGRAINED++", "++(roundToStr 2 (Settings.fineGrainSupport `percent` Settings.totalFiles))++"%, "++(roundToStr 2 ((Settings.fineGrainSupport -Settings.fineGrainConfidence) `percent` Settings.fineGrainSupport))++"%"

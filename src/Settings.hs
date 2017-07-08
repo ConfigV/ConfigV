@@ -9,11 +9,11 @@ module Settings where
   vERBOSE = True
 
   verificationTarget = 
-    "user"
-    --"githubFiles" 
+    --"user"
+    "githubFiles" 
     --"caseStudies"
 
-  trainingTarget = Test
+  trainingTarget = Prob
   data ModeSetting = NonProb | Prob | Test
 
   ----------------------------
@@ -38,8 +38,8 @@ module Settings where
 
   --minTrue and maxFalse
   (orderSupport, orderConfidence) = 
-    --thresholds(0.067,0.94) 
-    (17, 1) :: (Int,Int)
+    thresholds(0.067,0.94) 
+    --(17, 1) :: (Int,Int)
 
   -- TODO - can only be provided as Int for support and percent for confidence
   (typeSupport, typeConfidence) =
@@ -54,8 +54,8 @@ module Settings where
   -----------------------
 
 
-  --how to sort errors in the report, rerun the rule graph builder for each training set for best results
-  --(will still work fairly well if you dont tho)
+  --how to sort errors in the report, rerun the rule graph builder for each training set for best results (see graphAnalysis/README)
+  --(will still work fairly well if you dont rerun tho)
   sortingStyle  =  RuleGraphDegree
   data SortStyles = Support | RuleGraphDegree deriving (Eq)
 
@@ -64,7 +64,12 @@ module Settings where
 
   --use the prebuilt cache, if false, will overwrite cache using this run
   uSE_CACHE = False
-  
+ 
+  --the limit for files to be used in learning
+  --useful for benchmarking learning times (be sure to turn off use_cache)
+  learnFileLimit :: Int
+  learnFileLimit = 9999
+
   --verify benchmarks and report # passing or verify files in 'user' dir
   bENCHMARKS = False --TODO not yet implemented, only works on False setting
 
