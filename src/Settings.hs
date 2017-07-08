@@ -9,11 +9,11 @@ module Settings where
   vERBOSE = True
 
   verificationTarget = 
-    --"user"
-    "githubFiles" 
+    "user"
+    --"githubFiles" 
     --"caseStudies"
 
-  trainingTarget = Prob
+  trainingTarget = Test
   data ModeSetting = NonProb | Prob | Test
 
   ----------------------------
