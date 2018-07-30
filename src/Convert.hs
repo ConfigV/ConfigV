@@ -5,6 +5,8 @@ module Convert where
 import Types.IR
 import Types.Common
 
+import Learners.Common
+import Utils
 
 import qualified Data.Text as T
 import qualified Data.Map as M
@@ -16,7 +18,6 @@ import Control.Monad
 
 import Debug.Trace
 
-import Learners.Common
 
 -- | Main function of this file - translate configFile to intermediate rep
 

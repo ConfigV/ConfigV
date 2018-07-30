@@ -22,9 +22,10 @@ learnTarget = case Settings.trainingTarget of
     Settings.Test -> genSet "testLearn/"
     Settings.NonProb -> genSet "benchmarkSet/correctMySQL/"
     Settings.Prob -> genSet "learningSet/MySQL/"
+    Settings.UserSpecified -> genSet Settings.userLearnDir 
   where
     genSet s =
-      map (\x -> (s++x,u $ T.readFile (s++x), MySQL))
+      map (\x -> (s++x,u $ T.readFile (s++x), Settings.language))
       (u (listDirectory s))
 
 traceMe cs = trace (concatMap (\(f,t,l) -> (show f++"\n")) cs) cs

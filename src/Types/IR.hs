@@ -33,5 +33,5 @@ data IRLine = IRLine {
  deriving (Eq,Ord, Generic,Data,Typeable, ToJSON, FromJSON,NFData)
 
 instance Show IRLine where
-  show IRLine{..} = (show keyword) ++ (show value)
+  show IRLine{..} = "k:"++(show keyword) ++ " ==> v:"++(show value)
 

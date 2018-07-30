@@ -18,8 +18,6 @@ import           System.Environment
 import qualified GHC.IO.Encoding       as G
 import           Text.Printf
 
-import           Debug.Trace
-
 import qualified Benchmarks as Bench
 import           Convert
 import qualified LearningEngine
@@ -34,7 +32,6 @@ import Types.Common
 import Types.JSON
 import Types.Errors
 
-language = MySQL
 main = do
   G.setLocaleEncoding utf8
   G.setFileSystemEncoding utf8
@@ -45,13 +42,13 @@ main = do
   vFiles <- mapM T.readFile Bench.vFilePaths :: IO [T.Text]
   let vTargets = zip3 
                    Bench.vFilePaths 
-                   vFiles 
-                   (repeat language) :: [ConfigFile Language]
+                   vFiles
+                   (repeat Settings.language) :: [ConfigFile Language]
 
   rules <- getRules 
   checkCache rules
 
-  fitness <- runVerify rules degrees vTargets
+  --fitness <- runVerify rules degrees vTargets
   return ()
 
 getRules :: IO RuleSet

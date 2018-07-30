@@ -1,4 +1,3 @@
-
 module LearningEngine where
 
 import Types.IR
@@ -17,6 +16,7 @@ import qualified Data.Text.IO as T
 import qualified Data.Map.Strict as M
 
 import Settings
+import Utils
 
 import Debug.Trace
 
