@@ -26,25 +26,25 @@ learnRules :: [ConfigFile Language] -> RuleSet
 learnRules fs = let
   --fs' = parMap rseq convert fs
   --rs = parMap rdeepseq buildAllRelations fs'
-  fs' = map convert (take Settings.learnFileLimit fs)
+  configLines = map convert (take Settings.learnFileLimit fs)
   --rs = parMap rseq buildAllRelations fs'
   keyCounts :: M.Map Keyword Int 
-  keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty (concat fs')
-  rs = map (buildAllRelations keyCounts) fs'
+  keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty $ concat configLines
+  rs = map (buildAllRelations keyCounts) configLines
  in
   resolveRules rs --`using` parRuleSet
 
 -- | use the learning module instances to decide probabiliity cutoff and the sort
 resolveRules :: [RuleSet] -> RuleSet
 resolveRules rs = RuleSet
-  { order   = f "order" order
-  , missing = f "missing" missing
-  , intRel  = f "coarse grain" intRel
-  , typeErr = f "type" typeErr
-  , fineInt = f "fine grain" fineInt
+  { order   = applyThresholds "order" order
+  , missing = applyThresholds "missing" missing
+  , intRel  = applyThresholds "coarse grain" intRel
+  , typeErr = applyThresholds "type" typeErr
+  , fineInt = applyThresholds "fine grain" fineInt
   }
  where
-  f s classOfErr =  trace ("learning rules for "++s) $ merge (map classOfErr rs)
+  applyThresholds templateName classOfErr =  trace ("resolving rules for "++templateName) $ merge (map classOfErr rs)
 
 -- | call each of the learning modules
 buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet
@@ -56,8 +56,6 @@ buildAllRelations ks f = RuleSet
   , fineInt = buildRelations f
   }
 
-
- 
 parRuleSet :: Strategy RuleSet
 parRuleSet rs = do
   o' <- rpar $ force $order rs

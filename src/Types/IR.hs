@@ -19,9 +19,11 @@ import Types.Common
 import Control.DeepSeq
 
 type ConfigFile a = (FilePath,T.Text, a)
-data Language = MySQL | HTTPD deriving (Show)
-
-
+data Language = 
+     MySQL 
+   | HTTPD
+   | CSV --when your config file preprocessing happens elsewhere and you just have a key,value csv
+     deriving (Eq,Show)
 
 -- | Intermediate Representation stuff
 type IRConfigFile = [IRLine]

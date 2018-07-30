@@ -61,8 +61,8 @@ units v = if
   | all C.isNumber (T.unpack $ T.init v) -> Just $ scale $ T.last v
   | otherwise -> Nothing
 scale c = if
-  | C.toUpper c == 'M' -> 1 
-  | C.toUpper c == 'K' -> 1000
+  | C.toUpper c == 'K' -> 1 
+  | C.toUpper c == 'M' -> 1000
   | C.toUpper c == 'G' -> 1000000
   | otherwise -> 1 
 

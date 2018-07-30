@@ -4,10 +4,11 @@
 
 module Benchmarks where
 
-import           Settings
+import qualified Settings
 import           Types.Errors
 import           Types.Rules
 import           Types.IR
+import           Utils 
 
 import qualified Data.Text        as T
 import qualified Data.Text.IO     as T
@@ -30,7 +31,7 @@ traceMe cs = trace (concatMap (\(f,t,l) -> (show f++"\n")) cs) cs
 
 -- verification file paths
 vFilePaths :: [FilePath]
-vFilePaths = if Settings.bENCHMARKS
+vFilePaths = if Settings.benchmarks
     then benchmarkFiles
     else userFiles
   where
@@ -40,13 +41,10 @@ vFilePaths = if Settings.bENCHMARKS
 
 benchmarks :: [ErrorReport]
 benchmarks = case Settings.trainingTarget of
-  Test -> testBenchSet
-  NonProb -> group2 ++ group3 ++ group4 ++ group5
-  Prob ->  cavAE_benchmarks
+  Settings.Test -> testBenchSet
+  Settings.NonProb -> group2 ++ group3 ++ group4 ++ group5
+  Settings.Prob ->  cavAE_benchmarks
   --Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
-
-u = unsafePerformIO
-getFileName = fst . head . errLocs
 
 makeError (errLoc1,errLoc2,errIdent) =
   Error {errMsg=(show errIdent)++" SPEC - "++(show$snd errLoc1)++" AND "++(show$snd errLoc2),errLocs=[errLoc1,errLoc2],errSupport=0,..}

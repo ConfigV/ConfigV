@@ -6,7 +6,7 @@ module Settings where
 
   import Learners.Common
   -- enable debugging logs
-  vERBOSE = True
+  verbose = True
 
   verificationTarget = 
     "user"
@@ -15,6 +15,8 @@ module Settings where
 
   trainingTarget = Test
   data ModeSetting = NonProb | Prob | Test
+
+  cacheLocation = "cachedRules.json"
 
   ----------------------------
   --                        --
@@ -60,10 +62,10 @@ module Settings where
   data SortStyles = Support | RuleGraphDegree deriving (Eq)
 
   --Turn on/off probablitic type inference
-  pROBTYPES = True
-
+  probtypes = True
+ 
   --use the prebuilt cache, if false, will overwrite cache using this run
-  uSE_CACHE = False
+  useCache = False
  
   --the limit for files to be used in learning
   --useful for benchmarking learning times (be sure to turn off use_cache)
@@ -71,7 +73,7 @@ module Settings where
   learnFileLimit = 9999
 
   --verify benchmarks and report # passing or verify files in 'user' dir
-  bENCHMARKS = False --TODO not yet implemented, only works on False setting
+  benchmarks = False --TODO not yet implemented, only works on False setting
 
   totalFiles = case Settings.trainingTarget of
     Settings.Test -> f "testLearn/"

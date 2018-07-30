@@ -8,6 +8,8 @@ import Types.Common
 
 import qualified Data.Text as T
 import qualified Data.Map as M
+import Data.Maybe (fromJust)
+import Data.List (elemIndex)
 import Control.Monad
 
 --import Data.List.Unique as L
@@ -20,16 +22,17 @@ import Learners.Common
 
 -- | If the user wants to give hints to how to parse a config file based on filetype they go here
 convert :: ConfigFile Language -> [IRLine] --[(Keyword,Val)]
-convert (f, t, l) =
+convert (filePath, textOfConfig, lang) =
   let
-    noComments = (map (stripComment l) $ T.lines t)
+    noComments = (map (stripComment lang) $ T.lines textOfConfig)
     noEmpty = filter (not. T.null) noComments
     noEmptyAsKV = map seperateVals noEmpty
-    noDups = makeUniq l noEmptyAsKV
+    noDups = makeUniq lang noEmptyAsKV
+    irRep = map (\(k,v)-> IRLine{keyword=(T.replace "_" "-" k),value=v}) noDups -- replace _ with - in keywords
   in
-    --NB replace _ with - in keywords
-    map (\(k,v)-> IRLine{keyword=(T.replace "_" "-" k),value=v}) noDups 
-    
+    if lang==CSV 
+    then map (\l -> let (k,v) = T.breakOn "," l in IRLine{keyword=k,value=v}) $ T.lines textOfConfig 
+    else irRep
 
 makeUniq :: Language -> [(Keyword,Val)] -> [(Keyword,Val)]
 makeUniq lang ls = case lang of
