@@ -41,6 +41,7 @@ filterRules :: [Keyword] -> RuleSet -> RuleSet
 filterRules fKs rs = RuleSet {
        order   = f order
       ,missing = f' missing 
+      ,keyvalkey = f' keyvalkey
       ,intRel  = f intRel 
       ,typeErr = f'' typeErr 
       ,fineInt = f fineInt
@@ -60,6 +61,7 @@ ruleDiff :: RuleSet -> RuleSet -> RuleSet
 ruleDiff rs1 rs2 = RuleSet {
        order   = f order 
       ,missing = f missing
+      ,keyvalkey = f keyvalkey
       ,intRel  = f' intRel
       ,typeErr = f typeErr
       ,fineInt = f' fineInt
@@ -81,6 +83,7 @@ genErrReport cf@(fname,_,_) rs =
   in 
     f order ++ 
     f missing ++ 
+    f keyvalkey ++ 
     f intRel ++
     f typeErr ++
     f fineInt

@@ -48,19 +48,21 @@ class Locatable a where
 type RuleDataMap a b = M.Map a b
 
 data RuleSet = RuleSet
-  { missing  :: RuleDataMap KeywordCoor AntiRule
-  , order    :: RuleDataMap Ordering AntiRule
-  , intRel   :: RuleDataMap IntRel Formula
-  , fineInt  :: RuleDataMap FineGrained Formula
-  , typeErr  :: RuleDataMap TypeErr QType
+  { missing   :: RuleDataMap KeywordCoor AntiRule
+  , keyvalkey :: RuleDataMap KeyValKeyCoor AntiRule
+  , order     :: RuleDataMap Ordering AntiRule
+  , intRel    :: RuleDataMap IntRel Formula
+  , fineInt   :: RuleDataMap FineGrained Formula
+  , typeErr   :: RuleDataMap TypeErr QType
   } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
-emptyRuleSet = RuleSet
-  { missing  = M.empty
-  , order    = M.empty
-  , intRel   = M.empty
-  , fineInt  = M.empty
-  , typeErr  = M.empty}
+emptyRuleSet  = RuleSet
+  { missing   = M.empty
+  , keyvalkey = M.empty
+  , order     = M.empty
+  , intRel    = M.empty
+  , fineInt   = M.empty
+  , typeErr   = M.empty}
 
 ------------
 -- The specific types of relations we want to learn
@@ -73,6 +75,12 @@ data KeywordCoor = KeywordCoor (Keyword,Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable KeywordCoor where
   keys (KeywordCoor (k1,k2)) = [k1,k2]
+
+data KeyValKeyCoor = KeyValKeyCoor (Keyword,Val,Keyword) 
+  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
+instance Locatable KeyValKeyCoor where
+  keys (KeyValKeyCoor (k1,v,k2)) = [k1,k2]
+
 
 data Ordering = Ordering (Keyword,Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)

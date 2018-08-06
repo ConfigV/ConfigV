@@ -6,7 +6,8 @@ import Types.Common
 import Types.Countable
 
 import Learners
-import Learners.KeywordCoor
+import qualified Learners.KeywordCoor as K
+import qualified Learners.KeyValKeyCoor as KV
 import Convert
 
 import Control.Parallel.Strategies
@@ -37,11 +38,12 @@ learnRules fs = let
 -- | use the learning module instances to decide probabiliity cutoff and the sort
 resolveRules :: [RuleSet] -> RuleSet
 resolveRules rs = RuleSet
-  { order   = applyThresholds "order" order
-  , missing = applyThresholds "missing" missing
-  , intRel  = applyThresholds "coarse grain" intRel
-  , typeErr = applyThresholds "type" typeErr
-  , fineInt = applyThresholds "fine grain" fineInt
+  { order     = applyThresholds "order" order
+  , missing   = applyThresholds "missing" missing
+  , keyvalkey = applyThresholds "keyvalkey" keyvalkey
+  , intRel    = applyThresholds "coarse grain" intRel
+  , typeErr   = applyThresholds "type" typeErr
+  , fineInt   = applyThresholds "fine grain" fineInt
   }
  where
   applyThresholds templateName classOfErr =  trace ("resolving rules for "++templateName) $ merge (map classOfErr rs)
@@ -49,19 +51,21 @@ resolveRules rs = RuleSet
 -- | call each of the learning modules
 buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet
 buildAllRelations ks f = RuleSet
-  { order   = buildRelations f
-  , missing = buildRelations' ks f 
-  , intRel  = buildRelations f
-  , typeErr = buildRelations f
-  , fineInt = buildRelations f
+  { order     = buildRelations f
+  , missing   = K.buildRelations' ks f 
+  , keyvalkey = KV.buildRelations' ks f 
+  , intRel    = buildRelations f
+  , typeErr   = buildRelations f
+  , fineInt   = buildRelations f
   }
 
 parRuleSet :: Strategy RuleSet
 parRuleSet rs = do
   o' <- rpar $ force $order rs
   m' <- rpar $ force $missing rs
+  k' <- rpar $ force $keyvalkey rs
   i' <- rpar $ force $intRel rs
   t' <- rpar $ force $typeErr rs
   f' <- rpar $ force $fineInt rs
-  let newRs = RuleSet { order = o', missing = m', intRel = i', typeErr = t', fineInt = f'}
+  let newRs = RuleSet { order = o', missing = m', intRel = i', typeErr = t', fineInt = f', keyvalkey = k'}
   return newRs

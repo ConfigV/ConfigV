@@ -46,7 +46,7 @@ main = do
                    (repeat Settings.language) :: [ConfigFile Language]
 
   rules <- getRules 
-  checkCache rules
+  --checkCache rules
 
   --fitness <- runVerify rules degrees vTargets
   return ()
@@ -55,6 +55,7 @@ getRules :: IO RuleSet
 getRules = do
   let learnedRules = (toLists $ LearningEngine.learnRules Bench.learnTarget) :: RuleSetLists
   unless Settings.useCache $ B.writeFile Settings.cacheLocation $ encode learnedRules 
+  unless Settings.useCache $ putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
   (fromLists. fromJust. decode) <$> B.readFile Settings.cacheLocation
 
 runVerify ::  RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
@@ -67,8 +68,10 @@ runVerify rules ds vTargets  = do
   printSummary errors fitnesses
   return $ sum fitnesses
 
+
+-- | to check integrity of cache, rerun learning, even if useCache is on, and compare
+--   TODO, only allow this to run if useCache is on?
 checkCache cache = do
-  --to check integrity of cache
   let freshRules = LearningEngine.learnRules Bench.learnTarget
   when (freshRules /= cache) (fail  "error in json cache")
 

@@ -40,7 +40,11 @@ module Settings where
     --(62, 5) :: (Int,Int)
 
   (keywordCoorSupport, keywordCoorConfidence)  = 
-    thresholds(0.02,0.7)  
+    thresholds(0.1,1)  
+--    (1,1) :: (Int,Int)
+  
+  (keyValKeyCoorSupport, keyValKeyCoorConfidence)  = 
+    thresholds(0.04,1)  
 --    (1,1) :: (Int,Int)
 
   --minTrue and maxFalse
@@ -67,7 +71,7 @@ module Settings where
   data SortStyles = Support | RuleGraphDegree deriving (Eq)
 
   --Turn on/off probablitic type inference
-  probtypes = True
+  probtypes = False
  
   --use the prebuilt cache, if false, will overwrite cache using this run
   useCache = False
