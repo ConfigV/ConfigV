@@ -46,6 +46,7 @@ class Locatable a where
 -- | A rule is the structure for tracking and merging evidence relations
 --   We need to track how much evidence we have for the rule, against the rule, and how often we have seen the rule
 type RuleDataMap a b = M.Map a b
+emptyRuleMap = M.empty
 
 data RuleSet = RuleSet
   { missing   :: RuleDataMap KeywordCoor AntiRule

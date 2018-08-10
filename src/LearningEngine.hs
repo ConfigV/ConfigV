@@ -51,12 +51,12 @@ resolveRules rs = RuleSet
 -- | call each of the learning modules
 buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet
 buildAllRelations ks f = RuleSet
-  { order     = buildRelations f
-  , missing   = K.buildRelations' ks f 
-  , keyvalkey = KV.buildRelations' ks f 
-  , intRel    = buildRelations f
-  , typeErr   = buildRelations f
-  , fineInt   = buildRelations f
+  { order     = if Settings.enableOrder then buildRelations f else emptyRuleMap
+  , missing   = if Settings.enableMissing then K.buildRelations' ks f else emptyRuleMap
+  , keyvalkey = if Settings.enableKeyvalkey then KV.buildRelations' ks f else emptyRuleMap
+  , intRel    = if Settings.enableCoarseGrain then buildRelations f else emptyRuleMap
+  , fineInt   = if Settings.enableFineGrain then buildRelations f else emptyRuleMap
+  , typeErr   = if Settings.enableTypesRules then buildRelations f else emptyRuleMap
   }
 
 parRuleSet :: Strategy RuleSet

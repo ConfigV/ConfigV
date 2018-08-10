@@ -19,10 +19,17 @@ module Settings where
   data ModeSetting = NonProb | Prob | Test | UserSpecified
   
   -- only used when ModeSetting set to UserSpecified
-  userLearnDir = "../Apriori/configvData/"
+  userLearnDir = "cfn_data/"
   cacheLocation = "cachedRules.json"
 
   language = CSV
+
+  enableOrder = False
+  enableMissing = False
+  enableKeyvalkey = True
+  enableCoarseGrain = False
+  enableFineGrain = False
+  enableTypesRules = False
   ----------------------------
   --                        --
   -- Support and Confidence --
