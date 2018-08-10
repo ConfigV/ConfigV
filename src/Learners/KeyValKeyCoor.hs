@@ -34,7 +34,7 @@ buildRelations' keyCounts f = let
   embedWith keyCounts rs
 
 -- | TODO these are undirected coorelation
-instance Learnable R.KeyValKeyCoor AntiRule where
+instance Learnable R.KeyValKeyCoor NontrivRule where
 
   buildRelations f = let
     --order pairs consistently
@@ -43,6 +43,7 @@ instance Learnable R.KeyValKeyCoor AntiRule where
       then KeyValKeyCoor (keyword ir1, value ir1, keyword ir2) 
       else KeyValKeyCoor (keyword ir2, value ir2, keyword ir1) 
     irPairs = pairs' f
+    -- this is specific to CFN, this should be moved to preprocesing
     isRelevant (KeyValKeyCoor (k1,v,k2)) = 
         not (
              T.isSuffixOf ".Type" k1 
@@ -50,37 +51,55 @@ instance Learnable R.KeyValKeyCoor AntiRule where
           || T.isSuffixOf "Description" k1 
           || T.isInfixOf "Fn::" k1)
     -- tot = # times x + # times y
-    totalTimes = M.fromList $ embedOnce $ filter isRelevant $ map toKVKCoors irPairs 
+    totalTimes = M.fromList $ embedAsNontriv $ filter isRelevant $ map toKVKCoors irPairs 
    in
     totalTimes
 
+-- For NontrivRules, when we merge, we need to keep an eye out for evidence on nontriviality in other rules we have constructed
+-- this is a bit tricky
   merge rs = let 
-      rsAdded = M.unionsWith add rs
-      -- false = total - (true *2) b/c total counted both ks
-      rsWithFalse = M.map (\r -> r{fls=(tot r)-((tru r)*2)}) rsAdded
-      validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
+      antiRuleCounts = mergeAsAntiRules rs
+      nonTrivs = addNontrivEvidence antiRuleCounts
     in
-      M.filter validRule rsWithFalse
-      --rsUpdated
-
+      nonTrivs
 
   --   should we report the relation r2 found in the target file
   --   as in conflict with the learned rule r1
-  check _ rd1 rd2 = let
+  check _ existingLearnedRule incomingRuleToCheck = let
+     rd1' = antiRuleData existingLearnedRule
+     rd2' = antiRuleData incomingRuleToCheck
      agrees r1 r2 = 
        if tru r2 ==1
        then tru r1 > fls r1
-       else True--fls r1 > tru r1
+       else True
    in
-     if (not $agrees rd1 rd2)
-     then Just rd1
+     if (not $agrees rd1' rd2')
+     then Just existingLearnedRule
      else Nothing
 
   toError ir fname ((KeyValKeyCoor (k1,v,k2)),rd) = Error{
      errLocs= [(fname,k1),(fname,k2)]
-    ,errIdent = MISSING
-    ,errMsg = "(Key,Val) => Val ERROR: Given "++(show k1)++" WITH "++(show v) ++ ", expected to see a keyowrd with value CONF. = " ++ (show rd)
-    ,errSupport = tru rd + fls rd}
+    ,errIdent = KEYVALKEY
+    ,errMsg = "(Key,Val) => Val ERROR: Given "++(show k1)++" WITH "++(show v) ++ ", expected to see a keyword "++(show k2)++" with CONF. = " ++ (show rd)
+    ,errSupport = (tru $ antiRuleData rd) + (fls $ antiRuleData rd)}
+
+-- does a simple embedding into a Nontriv rule, treating it as a wrapper for Antirule 
+-- we do not put any nontriv evidence in during the build stage, we need to do that in the merge stage
+embedAsNontriv :: [a] -> [(a, NontrivRule)]
+embedAsNontriv = map (\r -> (r, (NontrivRule {nontrivialityEvidence = 0, antiRuleData = AntiRule {tru=1, fls=0, tot=1}})))
+
+--addNontrivEvidence :: Int
+addNontrivEvidence rs = undefined
+
+mergeAsAntiRules :: [RuleDataMap KeyValKeyCoor NontrivRule] -> RuleDataMap KeyValKeyCoor NontrivRule
+mergeAsAntiRules rs = let
+    rsAdded = M.unionsWith add rs
+    -- false = total - (true *2) b/c total counted both ks (why did I count both keys in the first place?)
+    rsWithFalse = M.map (\r -> r{antiRuleData = (antiRuleData r){fls=(tot $ antiRuleData r)-((tru $ antiRuleData r)*2)}}) rsAdded
+    validRule r = (tru $ antiRuleData r)>=minTrue && (fls$ antiRuleData r)<=maxFalse
+    combinedAntiRules = M.filter validRule rsWithFalse
+  in
+    combinedAntiRules
 
 pairs' :: [IRLine]  -> [(IRLine,IRLine)]
 pairs' [] = []
@@ -92,13 +111,15 @@ pairs' (l:ls) =
   in
     noSelf
 
-embedWith :: M.Map Keyword Int -> M.Map KeyValKeyCoor AntiRule -> M.Map KeyValKeyCoor AntiRule
+embedWith :: M.Map Keyword Int -> M.Map KeyValKeyCoor NontrivRule -> M.Map KeyValKeyCoor NontrivRule 
 embedWith counts rules =
   M.mapWithKey (addCount counts) rules
 
-addCount :: M.Map Keyword Int -> KeyValKeyCoor -> AntiRule -> AntiRule
+addCount :: M.Map Keyword Int -> KeyValKeyCoor -> NontrivRule -> NontrivRule
 addCount counts (KeyValKeyCoor (k1,v,k2)) rd = let
   kcount k = M.findWithDefault 0 k counts
  in
-  rd{tot=(kcount k1 + kcount k2)}
+  -- TODO is this correct? I thought it should only increment if both keys are present
+  -- this increments by 1 for each key present
+  rd { antiRuleData = (antiRuleData rd) { tot=(kcount k1 + kcount k2)}}
   

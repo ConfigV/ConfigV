@@ -43,7 +43,7 @@ instance Learnable R.KeywordCoor AntiRule where
       else KeywordCoor (keyword ir2, keyword ir1) 
     irPairs = pairs' f
     -- tot = # times x + # times y
-    totalTimes = M.fromList $ embedOnce $ map toKC irPairs 
+    totalTimes = M.fromList $ embedAsTrueAntiRule $ map toKC irPairs 
    in
     totalTimes
 

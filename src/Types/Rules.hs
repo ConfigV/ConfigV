@@ -50,7 +50,7 @@ emptyRuleMap = M.empty
 
 data RuleSet = RuleSet
   { missing   :: RuleDataMap KeywordCoor AntiRule
-  , keyvalkey :: RuleDataMap KeyValKeyCoor AntiRule
+  , keyvalkey :: RuleDataMap KeyValKeyCoor NontrivRule
   , order     :: RuleDataMap Ordering AntiRule
   , intRel    :: RuleDataMap IntRel Formula
   , fineInt   :: RuleDataMap FineGrained Formula

@@ -25,6 +25,7 @@ data QType = QType {
  ,size :: Int --mb/kb
 } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
+-- For relations over partial orders (usually numeric values, e.g. RAM size)
 data Formula = Formula {
   gt :: Int
  ,lt :: Int
@@ -32,11 +33,18 @@ data Formula = Formula {
  }
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
-
+-- Rules that can only be true or false
 data AntiRule = AntiRule {
    tru :: Int
   ,fls :: Int
   ,tot :: Int
+  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
+
+-- Rules that can only be true or false, but also need some other evidence to hold to prove it is a non-trivial
+-- TODO not so sure how to describ/generalize this one
+data NontrivRule = NontrivRule {
+   antiRuleData :: AntiRule
+  ,nontrivialityEvidence :: Int
   } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
 class Countable a where 
@@ -46,6 +54,10 @@ class Countable a where
 instance Countable AntiRule where
   add (AntiRule tru fls tot) (AntiRule tru' fls' tot') =
     AntiRule (tru+tru') (fls+fls') (tot)
+
+instance Countable NontrivRule where
+  add (NontrivRule antiR otherEvidence) (NontrivRule antiR' otherEvidence') =
+    NontrivRule (add antiR antiR') (otherEvidence+otherEvidence')
 
 instance Countable Formula where
   add (Formula gt lt eq) (Formula gt' lt' eq') = 

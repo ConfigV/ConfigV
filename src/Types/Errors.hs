@@ -5,12 +5,13 @@ import           Types.Common
 
 --printing  stuff
 type ErrorReport = [Error]
-data ErrorType = INTREL | ORDERING | MISSING | TYPE | FINEGRAINED deriving (Show, Eq, Enum, Bounded)
+data ErrorType = INTREL | ORDERING | MISSING | TYPE | FINEGRAINED | KEYVALKEY
+  deriving (Show, Eq, Enum, Bounded)
 data Error = Error{
     errLocs  :: [(FilePath, Keyword)]
   , errIdent :: ErrorType
   , errMsg   :: String
-  , errSupport :: Int
+  , errSupport :: Int --TODO I think this should be removed, why have support, but not conf? this type is just for printing - if this data is needed in printout, better to just change errMsg
 }
 
 instance Show Error where

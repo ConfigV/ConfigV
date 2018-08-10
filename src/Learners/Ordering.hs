@@ -30,7 +30,7 @@ instance Learnable Ordering AntiRule where
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
     irPairs = filter (sameConfigModule) $ pairs f
    in
-     M.fromList $ embedOnce $ map toOrdering $ irPairs 
+     M.fromList $ embedAsTrueAntiRule $ map toOrdering $ irPairs 
     --M.foldrWithKey removeConflicts x x
 
   --since AntiRules are built with different keyword pais

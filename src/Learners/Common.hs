@@ -26,8 +26,8 @@ showErr rawEs printFxn =
     map printFxn es
 -}
 
---embedOnce :: Learnable a => [a] -> [(a,RuleData AntiRule)]
-embedOnce = map (\r -> (r, (AntiRule {tru=1, fls=0, tot=1})))
+embedAsTrueAntiRule :: [a] -> [(a, AntiRule)]
+embedAsTrueAntiRule = map (\r -> (r, (AntiRule {tru=1, fls=0, tot=1})))
 
 combine :: AntiRule -> AntiRule -> AntiRule
 combine (AntiRule tru fls tot) (AntiRule truOp flsOp totOp)
