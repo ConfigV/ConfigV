@@ -83,13 +83,19 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
     ,errMsg = "(Key,Val) => Val ERROR: Given "++(show k1)++" WITH "++(show v) ++ ", expected to see a keyword "++(show k2)++" with CONF. = " ++ (show rd)
     ,errSupport = (tru $ antiRuleData rd) + (fls $ antiRuleData rd)}
 
--- does a simple embedding into a Nontriv rule, treating it as a wrapper for Antirule 
--- we do not put any nontriv evidence in during the build stage, we need to do that in the merge stage
+-- | does a simple embedding into a Nontriv rule, treating it as a wrapper for Antirule 
+--   we do not put any nontriv evidence in during the build stage, we need to do that in the merge stage
 embedAsNontriv :: [a] -> [(a, NontrivRule)]
 embedAsNontriv = map (\r -> (r, (NontrivRule {nontrivialityEvidence = 0, antiRuleData = AntiRule {tru=1, fls=0, tot=1}})))
 
---addNontrivEvidence :: Int
-addNontrivEvidence rs = undefined
+-- | we need to count how many times we see k1, v1', k2 where v1' != v1
+--   if this count is low (ideally 0) this is evidence that the coorlations are due to the keyword,value pair
+--   and not just that the two keyword appear together, and v1 is a common value for k1
+addNontrivEvidence :: RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule
+addNontrivEvidence rs = let
+  updateNontriv r = undefined
+ in
+  M.map updateNontriv rs
 
 mergeAsAntiRules :: [RuleDataMap KeyValKeyCoor NontrivRule] -> RuleDataMap KeyValKeyCoor NontrivRule
 mergeAsAntiRules rs = let
