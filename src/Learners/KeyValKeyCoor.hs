@@ -52,6 +52,7 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
 -- this is a bit tricky
   merge rs = let 
       antiRuleCounts = mergeAsAntiRules rs
+      --Need to calculate nontriviality based on the full set of rules we observed
       nonTrivs = addNontrivEvidence (M.unionsWith add rs) antiRuleCounts
     in
       M.filter (\r-> nontrivialityEvidence r >= Settings.nontrivEvidenceThreshold) 
@@ -85,6 +86,8 @@ embedAsNontriv = map (\r -> (r, (NontrivRule {nontrivialityEvidence = 0, antiRul
 -- | we need to count how many times we see k1, v1', k2' where v1' != v1 and k2'!=k2
 --   if this count is high (or really anything greater than 1) this is evidence that the coorlations are due to the keyword,value pair
 --   and not just that the two keyword appear together, and v1 is a common value for k1
+--   intuition: a rule is nontrivial if we used a differnt v1 for k1, and did not see k2 - easier to think of in the contrapositive)
+--      if we say k1 and k2, with v1, this is not a very good rule (TODO might make more sense to count these instead
 addNontrivEvidence :: RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule
 addNontrivEvidence fullRs rs = let
   updateNontriv k r = let
@@ -100,7 +103,7 @@ addNontrivEvidence fullRs rs = let
 
 mergeAsAntiRules :: [RuleDataMap KeyValKeyCoor NontrivRule] -> RuleDataMap KeyValKeyCoor NontrivRule
 mergeAsAntiRules rMaps = let
-    -- for a single rule, how many files had a rule with k1,v1, but not a rule with k1,v1,k2
+    -- for a single rule, the number of time the rule was false is equal to how many files had a rule with k1,v1, but not a rule with k1,v1,k2
     findOpp k r = let
       ruleOverlap otherKey _ =
         (k1 k == k1 otherKey) &&
@@ -110,9 +113,13 @@ mergeAsAntiRules rMaps = let
       r { antiRuleData = (antiRuleData r){fls=count}}
     rsWithFalse = map (M.mapWithKey $ findOpp ) rMaps
     
+    -- with correct tru and fls counts, we can combine rules as antirules
     rsAdded = M.unionsWith add rsWithFalse
 
+    -- tot is just false + true
     rsWithTotal = M.map (\r -> r{antiRuleData = (antiRuleData r){tot=(fls $ antiRuleData r)+(tru $ antiRuleData r)}}) rsAdded
+
+    -- finally we filter based on Assoc Rule Learning Thresholds
     validRule r = (tru $ antiRuleData r)>=minTrue && (fls$ antiRuleData r)<=maxFalse
     combinedAntiRules = M.filter validRule rsWithTotal
   in
