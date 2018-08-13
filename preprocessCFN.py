@@ -19,8 +19,8 @@ class CFNData:
 ################
 
 assigned = " ==> "
-targetDir = "../templates2"
-resultsDir = "cfn_data2"
+targetDir = "templates_custom_auth_api"
+resultsDir = "cfn_data_custom_auth_api"
 fileLimit = 99999
 
 ############
@@ -41,6 +41,8 @@ def flattenjson( node, parent, delim ):
                         val[ child["Type"] + "." + j ] = child[j]
                     else:
                         val[ j ] = child[j]
+                elif (j=="Ref" or ("Fn::" in j)): #treat as leaf node
+                    val[i] = node[i]
                 else:
                     val[ i + delim + j ] = child[j]
         # if we are at a leaf
