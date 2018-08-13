@@ -4,6 +4,7 @@
 {-# LANGUAGE MultiParamTypeClasses #-} 
 {-# LANGUAGE AllowAmbiguousTypes #-} 
 {-# LANGUAGE MultiWayIf #-} 
+{-# LANGUAGE RecordWildCards #-} 
 
 module Types.Rules where
 
@@ -77,10 +78,13 @@ data KeywordCoor = KeywordCoor (Keyword,Keyword)
 instance Locatable KeywordCoor where
   keys (KeywordCoor (k1,k2)) = [k1,k2]
 
-data KeyValKeyCoor = KeyValKeyCoor (Keyword,Val,Keyword) 
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
+data KeyValKeyCoor = KeyValKeyCoor 
+  { k1 :: Keyword
+  , v1 :: Val
+  , k2 :: Keyword
+  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable KeyValKeyCoor where
-  keys (KeyValKeyCoor (k1,v,k2)) = [k1,k2]
+  keys (KeyValKeyCoor {..}) = [k1,k2]
 
 
 data Ordering = Ordering (Keyword,Keyword)

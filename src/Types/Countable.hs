@@ -50,11 +50,14 @@ data NontrivRule = NontrivRule {
 class Countable a where 
   add :: a -> a -> a
 
---TODO, use generics to derive Countable
+-- used the KeywordCoor, tot counts how many times either keyword appeared
+-- this computation is handled seperatly, so when adding rules dont touch tot
 instance Countable AntiRule where
   add (AntiRule tru fls tot) (AntiRule tru' fls' tot') =
-    AntiRule (tru+tru') (fls+fls') (tot)
+    AntiRule (tru+tru') (fls+fls') (max tot tot')
 
+-- used in KeyValKey, tot counts how many times k1 and v1 appear
+-- this computation is handled seperatly, so when adding rules dont touch tot
 instance Countable NontrivRule where
   add (NontrivRule antiR otherEvidence) (NontrivRule antiR' otherEvidence') =
     NontrivRule (add antiR antiR') (otherEvidence+otherEvidence')

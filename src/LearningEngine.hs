@@ -7,7 +7,6 @@ import Types.Countable
 
 import Learners
 import qualified Learners.KeywordCoor as K
-import qualified Learners.KeyValKeyCoor as KV
 import Convert
 
 import Control.Parallel.Strategies
@@ -53,7 +52,7 @@ buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet
 buildAllRelations ks f = RuleSet
   { order     = if Settings.enableOrder then buildRelations f else emptyRuleMap
   , missing   = if Settings.enableMissing then K.buildRelations' ks f else emptyRuleMap
-  , keyvalkey = if Settings.enableKeyvalkey then KV.buildRelations' ks f else emptyRuleMap
+  , keyvalkey = if Settings.enableKeyvalkey then buildRelations f else emptyRuleMap
   , intRel    = if Settings.enableCoarseGrain then buildRelations f else emptyRuleMap
   , fineInt   = if Settings.enableFineGrain then buildRelations f else emptyRuleMap
   , typeErr   = if Settings.enableTypesRules then buildRelations f else emptyRuleMap

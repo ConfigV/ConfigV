@@ -19,8 +19,8 @@ class CFNData:
 ################
 
 assigned = " ==> "
-targetDir = "../all_templates"
-resultsDir = "cfn_data"
+targetDir = "../templates2"
+resultsDir = "cfn_data2"
 fileLimit = 99999
 
 ############

@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs #-}
+{-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs, RecordWildCards #-}
 {-# LANGUAGE MultiParamTypeClasses #-} 
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE OverloadedStrings #-} 
@@ -12,6 +12,7 @@ import Types.Rules
 import Types.Countable
 
 import Settings
+import Utils
 
 import qualified Types.Rules as R
 
@@ -22,36 +23,28 @@ import           System.Directory
 
 import Learners.Common
 
-import Debug.Trace
-
 
 minTrue = Settings.keyValKeyCoorSupport
 maxFalse = Settings.keyValKeyCoorConfidence
-
-buildRelations' keyCounts f = let
-  rs = buildRelations f
- in
-  embedWith keyCounts rs
 
 -- | TODO these are undirected coorelation
 instance Learnable R.KeyValKeyCoor NontrivRule where
 
   buildRelations f = let
-    --order pairs consistently
+    --since order matters, we take both pairs
     toKVKCoors (ir1,ir2) = 
-      if keyword ir1 > keyword ir2
-      then KeyValKeyCoor (keyword ir1, value ir1, keyword ir2) 
-      else KeyValKeyCoor (keyword ir2, value ir2, keyword ir1) 
+      [KeyValKeyCoor {k1= keyword ir1, v1=value ir1, k2=keyword ir2} 
+      ,KeyValKeyCoor {k1= keyword ir2, v1=value ir2, k2=keyword ir1}]
     irPairs = pairs' f
     -- this is specific to CFN, this should be moved to preprocesing
-    isRelevant (KeyValKeyCoor (k1,v,k2)) = 
+    isRelevant (KeyValKeyCoor {..}) = 
         not (
              T.isSuffixOf ".Type" k1 
           || T.isSuffixOf "Ref" k1 
           || T.isSuffixOf "Description" k1 
           || T.isInfixOf "Fn::" k1)
     -- tot = # times x + # times y
-    totalTimes = M.fromList $ embedAsNontriv $ filter isRelevant $ map toKVKCoors irPairs 
+    totalTimes = M.fromList $ embedAsNontriv $ filter isRelevant $ concatMap toKVKCoors irPairs 
    in
     totalTimes
 
@@ -59,8 +52,9 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
 -- this is a bit tricky
   merge rs = let 
       antiRuleCounts = mergeAsAntiRules rs
-      nonTrivs = addNontrivEvidence antiRuleCounts
+      nonTrivs = addNontrivEvidence (M.unionsWith add rs) antiRuleCounts
     in
+      M.filter (\r-> nontrivialityEvidence r >= Settings.nontrivEvidenceThreshold) 
       nonTrivs
 
   --   should we report the relation r2 found in the target file
@@ -77,10 +71,10 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
      then Just existingLearnedRule
      else Nothing
 
-  toError ir fname ((KeyValKeyCoor (k1,v,k2)),rd) = Error{
+  toError ir fname ((KeyValKeyCoor {..}), rd) = Error{
      errLocs= [(fname,k1),(fname,k2)]
     ,errIdent = KEYVALKEY
-    ,errMsg = "(Key,Val) => Val ERROR: Given "++(show k1)++" WITH "++(show v) ++ ", expected to see a keyword "++(show k2)++" with CONF. = " ++ (show rd)
+    ,errMsg = "(Key,Val) => Val ERROR: Given "++(show k1)++" WITH "++(show v1) ++ ", expected to see a keyword "++(show k2)++" with CONF. = " ++ (show rd)
     ,errSupport = (tru $ antiRuleData rd) + (fls $ antiRuleData rd)}
 
 -- | does a simple embedding into a Nontriv rule, treating it as a wrapper for Antirule 
@@ -88,22 +82,39 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
 embedAsNontriv :: [a] -> [(a, NontrivRule)]
 embedAsNontriv = map (\r -> (r, (NontrivRule {nontrivialityEvidence = 0, antiRuleData = AntiRule {tru=1, fls=0, tot=1}})))
 
--- | we need to count how many times we see k1, v1', k2 where v1' != v1
---   if this count is low (ideally 0) this is evidence that the coorlations are due to the keyword,value pair
+-- | we need to count how many times we see k1, v1', k2' where v1' != v1 and k2'!=k2
+--   if this count is high (or really anything greater than 1) this is evidence that the coorlations are due to the keyword,value pair
 --   and not just that the two keyword appear together, and v1 is a common value for k1
-addNontrivEvidence :: RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule
-addNontrivEvidence rs = let
-  updateNontriv r = undefined
+addNontrivEvidence :: RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule
+addNontrivEvidence fullRs rs = let
+  updateNontriv k r = let
+    isNonTrivEvidence otherKey _ =
+      (k1 k == k1 otherKey) &&
+      (k2 k /= k2 otherKey) &&
+      (v1 k /= v1 otherKey)
+    count = M.size $ M.filterWithKey isNonTrivEvidence fullRs
+   in
+    r {nontrivialityEvidence = count} 
  in
-  M.map updateNontriv rs
+  M.mapWithKey updateNontriv rs
 
 mergeAsAntiRules :: [RuleDataMap KeyValKeyCoor NontrivRule] -> RuleDataMap KeyValKeyCoor NontrivRule
-mergeAsAntiRules rs = let
-    rsAdded = M.unionsWith add rs
-    -- false = total - (true *2) b/c total counted both ks (why did I count both keys in the first place?)
-    rsWithFalse = M.map (\r -> r{antiRuleData = (antiRuleData r){fls=(tot $ antiRuleData r)-((tru $ antiRuleData r)*2)}}) rsAdded
+mergeAsAntiRules rMaps = let
+    -- for a single rule, how many files had a rule with k1,v1, but not a rule with k1,v1,k2
+    findOpp k r = let
+      ruleOverlap otherKey _ =
+        (k1 k == k1 otherKey) &&
+        (v1 k == v1 otherKey)
+      count = length $ filter (\rMap -> (not $ M.member k rMap) && ((M.size $ M.filterWithKey ruleOverlap rMap) > 0)) rMaps
+     in
+      r { antiRuleData = (antiRuleData r){fls=count}}
+    rsWithFalse = map (M.mapWithKey $ findOpp ) rMaps
+    
+    rsAdded = M.unionsWith add rsWithFalse
+
+    rsWithTotal = M.map (\r -> r{antiRuleData = (antiRuleData r){tot=(fls $ antiRuleData r)+(tru $ antiRuleData r)}}) rsAdded
     validRule r = (tru $ antiRuleData r)>=minTrue && (fls$ antiRuleData r)<=maxFalse
-    combinedAntiRules = M.filter validRule rsWithFalse
+    combinedAntiRules = M.filter validRule rsWithTotal
   in
     combinedAntiRules
 
@@ -122,7 +133,7 @@ embedWith counts rules =
   M.mapWithKey (addCount counts) rules
 
 addCount :: M.Map Keyword Int -> KeyValKeyCoor -> NontrivRule -> NontrivRule
-addCount counts (KeyValKeyCoor (k1,v,k2)) rd = let
+addCount counts (KeyValKeyCoor {..}) rd = let
   kcount k = M.findWithDefault 0 k counts
  in
   -- TODO is this correct? I thought it should only increment if both keys are present

@@ -19,7 +19,9 @@ module Settings where
   data ModeSetting = NonProb | Prob | Test | UserSpecified
   
   -- only used when ModeSetting set to UserSpecified
-  userLearnDir = "cfn_data/"
+  userLearnDir = 
+       --"cfn_data2/"
+       "benchmarkSet/CSVTest/" -- should learn (x,3) => y
   cacheLocation = "cachedRules.json"
 
   language = CSV
@@ -51,8 +53,10 @@ module Settings where
 --    (1,1) :: (Int,Int)
   
   (keyValKeyCoorSupport, keyValKeyCoorConfidence)  = 
-    thresholds(0.04,1)  
---    (1,1) :: (Int,Int)
+    --thresholds(0.5,1)
+    (2,0) :: (Int,Int) --(minTrue,maxFalse)
+  nontrivEvidenceThreshold :: Int 
+  nontrivEvidenceThreshold = 1
 
   --minTrue and maxFalse
   (orderSupport, orderConfidence) = 

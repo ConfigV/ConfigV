@@ -49,7 +49,7 @@ instance Learnable R.KeywordCoor AntiRule where
 
   merge rs = let 
       rsAdded = M.unionsWith add rs
-      -- false = total - (true *2) b/c total counted both ks
+    -- false = total - (true *2) b/c total counted both ks (why did I count both keys in the first place?)
       rsWithFalse = M.map (\r -> r{fls=(tot r)-((tru r)*2)}) rsAdded
       validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
     in

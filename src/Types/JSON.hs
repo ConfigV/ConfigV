@@ -21,7 +21,7 @@ import           Types.Common
 data RuleSetLists = RuleSetLists
   { orderl    :: [(R.Ordering,AntiRule)]
   , missingl  :: [(KeywordCoor,AntiRule)]
-  , keyvalkeyl :: [(KeyValKeyCoor,AntiRule)]
+  , keyvalkeyl :: [(KeyValKeyCoor,NontrivRule)]
   , typeErrl  :: [(TypeErr,QType)]
   , intRell  :: [(IntRel,Formula)]
   , finel  :: [(FineGrained,Formula)]
