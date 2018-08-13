@@ -44,7 +44,7 @@ data AntiRule = AntiRule {
 -- TODO not so sure how to describ/generalize this one
 data NontrivRule = NontrivRule {
    antiRuleData :: AntiRule
-  ,nontrivialityEvidence :: Int
+  ,trivialityEvidence :: Int
   } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
 class Countable a where 

@@ -42,8 +42,11 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
              T.isSuffixOf ".Type" k1 
           || T.isSuffixOf "Ref" k1 
           || T.isSuffixOf "Description" k1 
-          || T.isInfixOf "Fn::" k1)
-    -- tot = # times x + # times y
+          || T.isInfixOf "Fn::" k1
+          || T.isSuffixOf ".Type" k2
+          || T.isSuffixOf "Ref" k2
+          || T.isSuffixOf "Description" k2
+          || T.isInfixOf "Fn::" k2)
     totalTimes = M.fromList $ embedAsNontriv $ filter isRelevant $ concatMap toKVKCoors irPairs 
    in
     totalTimes
@@ -53,9 +56,9 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
   merge rs = let 
       antiRuleCounts = mergeAsAntiRules rs
       --Need to calculate nontriviality based on the full set of rules we observed
-      nonTrivs = addNontrivEvidence (M.unionsWith add rs) antiRuleCounts
+      nonTrivs = addTrivEvidence (M.unionsWith add rs) antiRuleCounts
     in
-      M.filter (\r-> nontrivialityEvidence r >= Settings.nontrivEvidenceThreshold) 
+      M.filter (\r-> trivialityEvidence r <= Settings.trivEvidenceThreshold) 
       nonTrivs
 
   --   should we report the relation r2 found in the target file
@@ -81,25 +84,23 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
 -- | does a simple embedding into a Nontriv rule, treating it as a wrapper for Antirule 
 --   we do not put any nontriv evidence in during the build stage, we need to do that in the merge stage
 embedAsNontriv :: [a] -> [(a, NontrivRule)]
-embedAsNontriv = map (\r -> (r, (NontrivRule {nontrivialityEvidence = 0, antiRuleData = AntiRule {tru=1, fls=0, tot=1}})))
+embedAsNontriv = map (\r -> (r, (NontrivRule {trivialityEvidence = 0, antiRuleData = AntiRule {tru=1, fls=0, tot=1}})))
 
--- | we need to count how many times we see k1, v1', k2' where v1' != v1 and k2'!=k2
---   if this count is high (or really anything greater than 1) this is evidence that the coorlations are due to the keyword,value pair
---   and not just that the two keyword appear together, and v1 is a common value for k1
---   intuition: a rule is nontrivial if we used a differnt v1 for k1, and did not see k2 - easier to think of in the contrapositive)
---      if we say k1 and k2, with v1, this is not a very good rule (TODO might make more sense to count these instead
-addNontrivEvidence :: RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule
-addNontrivEvidence fullRs rs = let
-  updateNontriv k r = let
-    isNonTrivEvidence otherKey _ =
+-- | we need to count how many times we see k1, v1', k2 where v1' != v1
+--   if this count is high (or really anything greater than 1) this is evidence that the key,val is not important to k2
+--   intuition: a rule is trivial if we if we used a differnt v1 for k1, and still saw  k2
+addTrivEvidence :: RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule -> RuleDataMap KeyValKeyCoor NontrivRule
+addTrivEvidence fullRs rs = let
+  updateTriv k r = let
+    isTrivEvidence otherKey _ =
       (k1 k == k1 otherKey) &&
-      (k2 k /= k2 otherKey) &&
+      (k2 k == k2 otherKey) &&
       (v1 k /= v1 otherKey)
-    count = M.size $ M.filterWithKey isNonTrivEvidence fullRs
+    count = M.size $ M.filterWithKey isTrivEvidence fullRs
    in
-    r {nontrivialityEvidence = count} 
+    r {trivialityEvidence = count} 
  in
-  M.mapWithKey updateNontriv rs
+  M.mapWithKey updateTriv rs
 
 mergeAsAntiRules :: [RuleDataMap KeyValKeyCoor NontrivRule] -> RuleDataMap KeyValKeyCoor NontrivRule
 mergeAsAntiRules rMaps = let

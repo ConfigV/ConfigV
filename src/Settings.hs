@@ -20,7 +20,7 @@ module Settings where
   
   -- only used when ModeSetting set to UserSpecified
   userLearnDir = 
-       --"cfn_data2/"
+       --"cfn_data/"
        "benchmarkSet/CSVTest/" -- should learn (x,3) => y
   cacheLocation = "cachedRules.json"
 
@@ -55,8 +55,8 @@ module Settings where
   (keyValKeyCoorSupport, keyValKeyCoorConfidence)  = 
     --thresholds(0.5,1)
     (2,0) :: (Int,Int) --(minTrue,maxFalse)
-  nontrivEvidenceThreshold :: Int 
-  nontrivEvidenceThreshold = 1
+  trivEvidenceThreshold :: Int 
+  trivEvidenceThreshold = 0
 
   --minTrue and maxFalse
   (orderSupport, orderConfidence) = 
