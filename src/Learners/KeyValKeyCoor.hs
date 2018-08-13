@@ -44,7 +44,7 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
           || T.isSuffixOf "Description" k1 
           || T.isSuffixOf ".Type" k2
           || T.isSuffixOf ".Version" k2
-          || T.isSuffixOf "Description" k2
+          || T.isSuffixOf "Description" k2)
     totalTimes = M.fromList $ embedAsNontriv $ filter isRelevant $ concatMap toKVKCoors irPairs 
    in
     totalTimes
