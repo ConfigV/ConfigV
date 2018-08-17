@@ -5,16 +5,13 @@ module Learners.Common where
 -- I expect that the resolve stage of all the learners will have a lot of repitition
 -- that can all go here
 
-import Debug.Trace
-
 import qualified Data.Bits as B
 import qualified Data.Char as C
-import qualified Data.Map as M
+import qualified Data.Set as S
 import qualified Data.Text as T
 import           Data.Maybe
 
 import Types.IR
-import Types.Rules
 import Types.Countable
 
 {-
@@ -33,17 +30,28 @@ combine :: AntiRule -> AntiRule -> AntiRule
 combine (AntiRule tru fls tot) (AntiRule truOp flsOp totOp)
   = AntiRule tru truOp (tot+totOp) 
 
-traceMe x = trace (show x) x
+pairs irs = 
+  S.toList $ pairsAsSet $ S.fromList irs
 
-pairs :: [IRLine]  -> [(IRLine,IRLine)]
-pairs [] = []
-pairs (l:ls) =
+pairs_old :: [IRLine]  -> [(IRLine,IRLine)]
+pairs_old [] = []
+pairs_old (l:ls) =
   let
     thisP = map (\x->(l,x)) ls
     theRest = pairs ls
     noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
   in
     noSelf
+
+pairsAsSet :: S.Set IRLine  -> S.Set (IRLine,IRLine)
+pairsAsSet ls =
+  let
+    addToAllPairs allPairs ir1 = 
+       S.union allPairs (S.foldl (\thisPairSet ir2 -> (S.union thisPairSet $ S.singleton (ir1,ir2))) S.empty ls)
+    allPairs = S.foldl addToAllPairs S.empty ls
+    noSelf = S.filter (\(ir1, ir2) -> (keyword ir1)/=(keyword ir2)) allPairs
+  in
+    noSelf 
 
 -- For weeding out IRLine with values that do not resemble integer formats (IntRel and FineGrained)
 -- TODO use validAsInt and validAsSize

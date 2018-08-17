@@ -2,10 +2,9 @@ module Settings where
 
   import System.IO.Unsafe 
   import System.Directory
-  import Debug.Trace  
 
   import Types.IR
-  import Learners.Common
+
   -- enable debugging logs
   verbose =  True
 
@@ -20,7 +19,8 @@ module Settings where
   
   -- only used when ModeSetting set to UserSpecified
   userLearnDir = 
-       "cfn_data_custom_auth_api/"
+       "cfn_data/"
+       --"cfn_data_custom_auth_api/"
        --"benchmarkSet/CSVTest/" -- should learn (x,3) => y
   cacheLocation = "cachedRules.json"
 
@@ -56,7 +56,7 @@ module Settings where
     --thresholds(0.5,1)
     (4,0) :: (Int,Int) --(minTrue,maxFalse)
   trivEvidenceThreshold :: Int 
-  trivEvidenceThreshold = 1
+  trivEvidenceThreshold = 0
 
   --minTrue and maxFalse
   (orderSupport, orderConfidence) = 

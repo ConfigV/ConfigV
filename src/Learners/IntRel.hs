@@ -18,9 +18,6 @@ import qualified Data.Map as M
 import qualified Data.Text as T
 import qualified Data.Char as C
 import           Data.Maybe 
-import           System.Directory
-
-import Debug.Trace
 
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile

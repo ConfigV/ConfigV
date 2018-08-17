@@ -15,13 +15,8 @@ import Settings
 import qualified Types.Rules as R
 
 import qualified Data.Map as M
-import qualified Data.Bits as B
-import           System.Directory
 
 import Learners.Common
-
-import Debug.Trace
-
 
 minTrue = Settings.keywordCoorSupport
 maxFalse = Settings.keywordCoorConfidence

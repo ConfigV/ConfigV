@@ -9,19 +9,16 @@ import Types.IR
 import Types.Common
 import Types.Errors
 import Types.Rules 
+import qualified Types.Rules as R
 import Types.Countable
 
-import Settings
-import Utils
+import Learners.Common
 
-import qualified Types.Rules as R
+import Settings
 
 import qualified Data.Map as M
 import qualified Data.Text as T
-import qualified Data.Bits as B
-import           System.Directory
 
-import Learners.Common
 
 
 minTrue = Settings.keyValKeyCoorSupport
@@ -33,7 +30,7 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
   buildRelations f = let
     --since order matters, we take both pairs
     toKVKCoors (ir1,ir2) = 
-      [KeyValKeyCoor {k1= keyword ir1, v1=value ir1, k2=keyword ir2} 
+      [KeyValKeyCoor {k1= keyword ir1, v1=value ir1, k2=keyword ir2}
       ,KeyValKeyCoor {k1= keyword ir2, v1=value ir2, k2=keyword ir1}]
     irPairs = pairs' f
     -- this is specific to CFN, this should be moved to preprocesing

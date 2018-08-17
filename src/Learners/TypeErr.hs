@@ -10,14 +10,11 @@ import Types.Countable
 
 import Prelude hiding (TypeErr)
 import qualified Data.Map as M
-import           System.Directory
 import qualified Data.Text as T
-import qualified Data.Bits as B
-import qualified Data.Char as C
 
 import Settings 
-import Debug.Trace
 import Learners.Common
+
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file

@@ -38,11 +38,14 @@ executable ConfigV
                          , Types.JSON
                          , Types.Rules
                          , Utils
+
   ghc-options: 
     -O2 
+    -Wunused-imports
     -threaded 
     -rtsopts 
-    "-with-rtsopts= -N4" 
+    -fprof-auto
+    "-with-rtsopts= -N4 -p -s -h -i1" 
   other-extensions:     DeriveAnyClass, 
                         DeriveDataTypeable, 
                         DeriveGeneric, 

@@ -11,12 +11,9 @@ import           Control.DeepSeq
 import           Data.Aeson
 import           Data.Data
 import qualified Data.Text       as T
-import           Data.Typeable
 import           GHC.Generics    (Generic)
-import           System.Directory
 
 import Types.Common
-import Control.DeepSeq
 
 type ConfigFile a = (FilePath,T.Text, a)
 data Language = 

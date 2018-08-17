@@ -5,15 +5,12 @@ import Types.IR
 import Types.Rules
 import Types.Errors
 import Types.Common
-import Types.Countable
 
 import LearningEngine
 import Convert (convert)
 
-import Data.Maybe
 import qualified Data.Map.Merge.Strict as M
 import qualified Data.Map.Strict as M
-import           System.Directory
 
 import qualified Data.Text as T
 import Debug.Trace

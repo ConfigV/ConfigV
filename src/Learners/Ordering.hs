@@ -13,8 +13,6 @@ import Settings
 
 import Prelude hiding (Ordering)
 import qualified Data.Map as M
-import           System.Directory
-import qualified Data.Text as T
 
 import Learners.Common
 -- | We assume that all IRConfigFiles have a set of unique keywords

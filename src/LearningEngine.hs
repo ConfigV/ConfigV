@@ -3,20 +3,17 @@ module LearningEngine where
 import Types.IR
 import Types.Rules
 import Types.Common
-import Types.Countable
 
-import Learners
+import Learners()
 import qualified Learners.KeywordCoor as K
 import Convert
 
 import Control.Parallel.Strategies
 import Control.DeepSeq
 
-import qualified Data.Text.IO as T
 import qualified Data.Map.Strict as M
 
 import Settings
-import Utils
 
 import Debug.Trace
 
@@ -45,7 +42,7 @@ resolveRules rs = RuleSet
   , fineInt   = applyThresholds "fine grain" fineInt
   }
  where
-  applyThresholds templateName classOfErr =  trace ("resolving rules for "++templateName) $ merge (map classOfErr rs)
+  applyThresholds templateName classOfErr =  trace ("resolving rules for "++templateName) $ merge $! (map classOfErr rs)
 
 -- | call each of the learning modules
 buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet

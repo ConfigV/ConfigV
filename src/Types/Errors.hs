@@ -1,6 +1,5 @@
 module Types.Errors where
 
-import           Types.IR
 import           Types.Common
 
 --printing  stuff

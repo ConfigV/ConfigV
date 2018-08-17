@@ -12,11 +12,9 @@ import           Data.Aeson
 import qualified Data.Map        as M
 import           GHC.Generics    (Generic)
 
-import           Types.IR
 import           Types.Countable
 import           Types.Rules
 import qualified Types.Rules as R
-import           Types.Common
 
 data RuleSetLists = RuleSetLists
   { orderl    :: [(R.Ordering,AntiRule)]

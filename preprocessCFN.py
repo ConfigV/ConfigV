@@ -1,4 +1,5 @@
 import json
+import yaml
 import csv
 import os
 from collections import Counter
@@ -18,7 +19,6 @@ class CFNData:
 ##            ##
 ################
 
-assigned = " ==> "
 targetDir = "templates_custom_auth_api"
 resultsDir = "cfn_data_custom_auth_api"
 fileLimit = 99999
@@ -70,6 +70,8 @@ def convertDataset(pathToDset):
             if fileCounter >= fileLimit:
                 break
             print(filename)
+            os.system("cfn-lint "+os.path.join(root,filename))
+
             try:
                 templateData = jsonToCSV(os.path.join(root, filename))
                 with open( resultsDir+"/"+filename+".csv", 'wb' ) as out_file:

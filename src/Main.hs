@@ -9,20 +9,14 @@ import qualified Data.Map             as M
 import           Data.Maybe
 import qualified Data.Text             as T
 import qualified Data.Text.IO          as T
-import           Data.Time.Clock.POSIX
 
-import           Control.Applicative
 import           Control.Monad
 import           System.IO
-import           System.Environment
 import qualified GHC.IO.Encoding       as G
-import           Text.Printf
 
 import qualified Benchmarks as Bench
-import           Convert
 import qualified LearningEngine
 import           Checker
-import           Utils
 import qualified Settings
 import           OutputPrinter
 
@@ -30,7 +24,6 @@ import Types.Rules
 import Types.IR
 import Types.Common
 import Types.JSON
-import Types.Errors
 
 main = do
   G.setLocaleEncoding utf8

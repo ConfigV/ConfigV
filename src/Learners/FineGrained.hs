@@ -17,15 +17,10 @@ import Settings
 import qualified Data.Map as M
 import qualified Data.Text as T
 import qualified Data.Text.Read as T
-import qualified Data.Char as C
-import qualified Data.List as L
 import qualified Data.Bits as B
 import           Data.Maybe 
-import           System.Directory
 
 import Control.Parallel
-
-import Debug.Trace
 
 -- aaron's debugging code
 x = FineGrained "a" "b" "c"

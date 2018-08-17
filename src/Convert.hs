@@ -5,19 +5,7 @@ module Convert where
 import Types.IR
 import Types.Common
 
-import Learners.Common
-import Utils
-
 import qualified Data.Text as T
-import qualified Data.Map as M
-import Data.Maybe (fromJust)
-import Data.List (elemIndex)
-import Control.Monad
-
---import Data.List.Unique as L
-
-import Debug.Trace
-
 
 -- | Main function of this file - translate configFile to intermediate rep
 

@@ -6,14 +6,11 @@ module Benchmarks where
 
 import qualified Settings
 import           Types.Errors
-import           Types.Rules
 import           Types.IR
 import           Utils 
 
-import qualified Data.Text        as T
 import qualified Data.Text.IO     as T
 import           System.Directory
-import           System.IO.Unsafe
 
 import Debug.Trace
 

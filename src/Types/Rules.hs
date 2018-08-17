@@ -16,13 +16,9 @@ import Types.Countable
 import Prelude hiding (Ordering)
 import           Data.Aeson
 import           GHC.Generics     (Generic)
-import           System.Directory
 
 --TODO Strict or Lazy maps?
 import qualified Data.Map.Strict as M
-import qualified Data.Set        as S
-import qualified Data.Text       as T
-import           Data.Tuple      
 
 import Control.DeepSeq
 -- | every instance of Learnable is a template of rules we can learn
