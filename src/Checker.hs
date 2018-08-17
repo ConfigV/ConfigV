@@ -11,15 +11,14 @@ import Convert (convert)
 
 import qualified Data.Map.Merge.Strict as M
 import qualified Data.Map.Strict as M
+import Data.Interned
 
 import qualified Data.Text as T
-import Debug.Trace
 
 verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
 verifyOn rs configFile  =
   genErrReport configFile $ checkFile rs configFile
 
-traceMe x = trace (show x) x
 --traceMe = id
 -- | fitler out the rules that won't be in the error report
 checkFile :: RuleSet -> ConfigFile Language -> RuleSet
@@ -46,10 +45,10 @@ filterRules fKs rs = RuleSet {
    where
      f classOfErr  =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
      f' classOfErr =  M.filterWithKey (\e _ -> oneKeyMatch (keys e)) (classOfErr rs)
-     f'' classOfErr=  M.filterWithKey (\(e::TypeErr) _ -> keyPartMatch (keys e)) (classOfErr rs)
+     f'' classOfErr=  M.filterWithKey (\(e::TypeErr) _ -> keyPartMatch (map unintern $ keys e)) (classOfErr rs)
      keysMatch ks   = and $ map (\k->elem k fKs) ks
      oneKeyMatch ks = or $ map (\k->elem k fKs) ks
-     keyPartMatch ks = elem (T.takeWhile (/='[') $head ks) (map (T.takeWhile (/='[')) fKs) 
+     keyPartMatch ks = elem (T.takeWhile (/='[') $ head ks) (map (T.takeWhile (/='[').unintern) fKs) 
 
 
 --TODO apply to each rule type in a rule set individually

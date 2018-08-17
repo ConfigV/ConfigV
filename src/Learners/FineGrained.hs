@@ -19,6 +19,7 @@ import qualified Data.Text as T
 import qualified Data.Text.Read as T
 import qualified Data.Bits as B
 import           Data.Maybe 
+import Data.Interned
 
 import Control.Parallel
 
@@ -50,10 +51,10 @@ instance Learnable R.FineGrained Formula where
     rs = mapMaybe intLike f 
     --dont want anything with these
     xs = ["dir","socket","port"]
-    tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (keyword ir)) xs) rs
+    tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) xs) rs
     -- TODO should use learning result from TypeErr module
-    wellTypedTris = filter (\(ir1,ir2,ir3)-> ((validAsSize $ value ir1) `B.xor` (validAsSize $ value ir2) && (validAsSize $ value ir3)) ||
-                                    all (validAsInt.value) [ir1,ir2,ir3]) tris
+    wellTypedTris = filter (\(ir1,ir2,ir3)-> ((validAsSize $ unintern $ value ir1) `B.xor` (validAsSize $ unintern $ value ir2) && (validAsSize $ unintern $ value ir3)) ||
+                                    all (validAsInt.unintern.value) [ir1,ir2,ir3]) tris
     eqs = map toFineGrained (if Settings.probtypes then wellTypedTris else tris)
    in
     M.fromList $ eqs
@@ -79,7 +80,7 @@ instance Learnable R.FineGrained Formula where
      errLocs = map (\x->(fname, x)) [k1, k2, k3]
     ,errIdent = FINEGRAINED
     ,errMsg = "FINE GRAINED ERROR: Expected "++(show k1)++" * "++(show k2)++(show rd)++(show k3)++" \n Found values: "
-              ++(show $ map (\x-> (T.unpack$ keyword x)++"="++(T.unpack$ value x)) $ filter (\x->keyword x==k1 || keyword x==k2 || keyword x==k3) ir)
+              ++(show $ map (\x-> (show $ keyword x)++"="++(show $ value x)) $ filter (\x->keyword x==k1 || keyword x==k2 || keyword x==k3) ir)
     ,errSupport = gt rd + lt rd + eq rd}
 
 {-
@@ -103,7 +104,7 @@ toFineGrained (IRLine k1 v1, IRLine k2 v2, IRLine k3 v3) = let
      | v1*v2 == v3 -> Formula {gt=0,eq=1,lt=0}
      | v1*v2 > v3  -> Formula {gt=1,eq=0,lt=0}
   in
-    ((FineGrained k1 k2 k3), formula (asInt v1) (asInt v2) (asInt v3))
+    ((FineGrained k1 k2 k3), formula (asInt $ unintern v1) (asInt $ unintern v2) (asInt $ unintern v3))
 
 -- REMOVES DUPLICATES BY FOLDLWITHKEY
 -- (The Map won't automatically do this unless we force an Ord on FineGrained that preserves the equality)

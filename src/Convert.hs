@@ -3,9 +3,9 @@
 module Convert where
 
 import Types.IR
-import Types.Common
 
 import qualified Data.Text as T
+import Data.Interned
 
 -- | Main function of this file - translate configFile to intermediate rep
 
@@ -17,22 +17,21 @@ convert (filePath, textOfConfig, lang) =
     noEmpty = filter (not. T.null) noComments
     noEmptyAsKV = map seperateVals noEmpty
     noDups = makeUniq lang noEmptyAsKV
-    irRep = map (\(k,v)-> IRLine{keyword=(T.replace "_" "-" k),value=v}) noDups -- replace _ with - in keywords
+    irRep = map (\(k,v)-> IRLine{keyword=(intern $ T.replace "_" "-" k),value=intern $ v}) noDups -- replace _ with - in keywords
   in
     if lang==CSV 
-    then map (\l -> let (k,v) = T.breakOn "," l in IRLine{keyword=k,value=v}) $ T.lines textOfConfig 
+    then map (\l -> let (k,v) = T.breakOn "," l in IRLine{keyword=intern k,value=intern v}) $ T.lines textOfConfig 
     else irRep
 
-makeUniq :: Language -> [(Keyword,Val)] -> [(Keyword,Val)]
-makeUniq lang ls = case lang of
+--makeUniq :: Language -> [(Keyword,Val)] -> [(Keyword,Val)]
+makeUniq lang irs = case lang of
   MySQL ->
     let
       f _ [] = []
       f header (x:xs) =
-        --if (fst x==snd x) && T.isInfixOf "[" (fst x) then f x xs else (T.append (fst x) (fst header),snd x) : f header xs
-        if T.isInfixOf "[" (fst x) then x:f x xs else (T.append (fst x) (fst header),snd x) : f header xs
+        if T.isInfixOf "[" $ fst x then x:f x xs else (T.append (fst x) (fst header),snd x) : f header xs
     in
-      f (head ls) ls
+      f (head irs) irs
 
 -- TODO strip "set-variable ="
 stripComment :: Language -> T.Text -> T.Text
@@ -44,7 +43,7 @@ stripComment l t = case l of
 
 -- | for now we are just using spaces and = to seperate keywords and values
 --   if no delim, then leave value as ""
-seperateVals :: T.Text -> (Keyword,Val)
+seperateVals :: T.Text -> (T.Text,T.Text)
 seperateVals t =
   let
     hasDelim = any isDelimeter $ T.unpack t

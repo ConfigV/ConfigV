@@ -9,6 +9,7 @@ import qualified Data.Bits as B
 import qualified Data.Char as C
 import qualified Data.Set as S
 import qualified Data.Text as T
+import Data.Interned
 import           Data.Maybe
 
 import Types.IR
@@ -33,16 +34,6 @@ combine (AntiRule tru fls tot) (AntiRule truOp flsOp totOp)
 pairs irs = 
   S.toList $ pairsAsSet $ S.fromList irs
 
-pairs_old :: [IRLine]  -> [(IRLine,IRLine)]
-pairs_old [] = []
-pairs_old (l:ls) =
-  let
-    thisP = map (\x->(l,x)) ls
-    theRest = pairs ls
-    noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
-  in
-    noSelf
-
 pairsAsSet :: S.Set IRLine  -> S.Set (IRLine,IRLine)
 pairsAsSet ls =
   let
@@ -59,7 +50,7 @@ intLike :: IRLine -> Maybe IRLine
 intLike (IRLine k v) = let
   hasInt v = (all C.isNumber$ T.unpack v) || ((isJust $ units v) && (any C.isNumber (T.unpack v)))
  in
-  if hasInt v && (v/="")
+  if hasInt (unintern v) && (v/="")
   then Just $ IRLine k v
   else Nothing
 
@@ -74,13 +65,13 @@ scale c = if
   | C.toUpper c == 'G' -> 1000000
   | otherwise -> 1 
 
-emptyMod ir= (==) "" $ (snd$ T.breakOn c$ keyword ir)
+emptyMod ir= (==) "" $ (snd$ T.breakOn c$ unintern $ keyword ir)
   where
-    c = if T.isInfixOf "_" $ keyword ir then "_" else "-"
-getMod ir = fst$ T.breakOn c $ keyword ir
+    c = if T.isInfixOf "_" $ unintern $ keyword ir then "_" else "-"
+getMod ir = fst$ T.breakOn c $ unintern $ keyword ir
   where
-    c = if T.isInfixOf "_" $ keyword ir then "_" else "-"
-getContext = snd. T.breakOn "[". keyword
+    c = if T.isInfixOf "_" $ unintern $ keyword ir then "_" else "-"
+getContext = snd. T.breakOn "[". unintern . keyword
 
 -- does the pair contain just no socket/port, or both
 sockport (ir1,ir2) = not $

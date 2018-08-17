@@ -1,11 +1,11 @@
 module Types.Common where
 
-import qualified Data.Text       as T
+import Data.Interned.Text 
 
 --just some simple types used by multiple type defs
 
-type Keyword = T.Text
-type Val = T.Text
+type Keyword = InternedText
+type Val = InternedText
 
 type Probability = Double
 

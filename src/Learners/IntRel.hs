@@ -19,6 +19,8 @@ import qualified Data.Text as T
 import qualified Data.Char as C
 import           Data.Maybe 
 
+import Data.Interned
+
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
@@ -28,7 +30,7 @@ instance Learnable R.IntRel Formula where
     rs = mapMaybe intLike f 
 --assume socket and port can only only have int relations with each other
 --TODO is this a valid assumtpion?
-    rs' = filter (\(ir1,ir2) -> sockport (ir1,ir2) && (not $T.isInfixOf "dir" $ keyword ir1) && (not $ T.isInfixOf "dir" $ keyword ir2)) $ pairs rs
+    rs' = filter (\(ir1,ir2) -> sockport (ir1,ir2) && (not $T.isInfixOf "dir" $ unintern $ keyword ir1) && (not $ T.isInfixOf "dir" $ unintern $ keyword ir2)) $ pairs rs
     eqs = map toIntRel rs'
    in
     M.fromList $ eqs
@@ -55,7 +57,7 @@ instance Learnable R.IntRel Formula where
      errLocs = map (\x->(fname, x)) [k1,k2]
     ,errIdent = INTREL
     ,errMsg = "INTEGER RELATION ERROR: Expected "++(show k1)++(show rd)++(show k2)++" \n Found values: "
-              ++(show $ map (\x-> (T.unpack$ keyword x)++"="++(T.unpack$ value x)) $ filter (\x->keyword x==k1 || keyword x==k2) ir)
+              ++(show $ map (\x-> (T.unpack$ unintern $ keyword x)++"="++(T.unpack$ unintern $ value x)) $ filter (\x->keyword x==k1 || keyword x==k2) ir)
     ,errSupport = gt rd + lt rd + eq rd
     }
 
@@ -82,6 +84,6 @@ toIntRel (IRLine k1 v1,IRLine k2 v2) = let
    | v1 > v2  -> Formula {gt=1,eq=0,lt=0}
  in
   if k1>k2 
-  then ((IntRel k1 k2), formula (asInt v1) (asInt v2))
-  else ((IntRel k2 k1), formula (asInt v2) (asInt v1))
+  then ((IntRel k1 k2), formula (asInt $ unintern v1) (asInt $ unintern v2))
+  else ((IntRel k2 k1), formula (asInt $ unintern v2) (asInt $ unintern v1))
   

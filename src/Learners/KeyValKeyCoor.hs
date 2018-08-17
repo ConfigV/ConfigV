@@ -19,6 +19,7 @@ import Settings
 import qualified Data.Map as M
 import qualified Data.Text as T
 
+import Data.Interned
 
 
 minTrue = Settings.keyValKeyCoorSupport
@@ -35,13 +36,17 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
     irPairs = pairs' f
     -- this is specific to CFN, this should be moved to preprocesing
     isRelevant (KeyValKeyCoor {..}) = 
-        not (
-             T.isSuffixOf ".Type" k1 
-          || T.isSuffixOf ".Version" k1
-          || T.isSuffixOf "Description" k1 
-          || T.isSuffixOf ".Type" k2
-          || T.isSuffixOf ".Version" k2
-          || T.isSuffixOf "Description" k2)
+        let 
+          k1' = unintern k1
+          k2' = unintern k2
+        in
+          not (
+               T.isSuffixOf ".Type" k1'
+            || T.isSuffixOf ".Version" k1'
+            || T.isSuffixOf "Description" k1' 
+            || T.isSuffixOf ".Type" k2'
+            || T.isSuffixOf ".Version" k2'
+            || T.isSuffixOf "Description" k2')
     totalTimes = M.fromList $ embedAsNontriv $ filter isRelevant $ concatMap toKVKCoors irPairs 
    in
     totalTimes

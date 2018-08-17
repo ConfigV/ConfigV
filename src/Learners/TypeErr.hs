@@ -11,6 +11,7 @@ import Types.Countable
 import Prelude hiding (TypeErr)
 import qualified Data.Map as M
 import qualified Data.Text as T
+import Data.Interned
 
 import Settings 
 import Learners.Common
@@ -35,9 +36,9 @@ instance Learnable TypeErr QType where
     -- this creates a problem with the Chekcer tho...
     toTypeErr :: IRLine -> (TypeErr,QType)
     --toTypeErr ir = (TypeErr (keyword ir),getQType $ value ir)
-    toTypeErr ir = (TypeErr (T.takeWhile (/= '[') $ keyword ir),getQType $ value ir)
+    toTypeErr ir = (TypeErr (intern $ T.takeWhile (/= '[') $ unintern $ keyword ir), getQType $ unintern $ value ir)
     xs = ["set-variable"]
-    f' = filter (\ir -> not $ any (\k -> T.isInfixOf k (keyword ir)) xs) f
+    f' = filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) xs) f
    in
      M.fromList $ map toTypeErr f'
 
@@ -64,7 +65,7 @@ instance Learnable TypeErr QType where
   toError ir fname (TypeErr k,rd1) = Error{
      errLocs = [(fname,k)]
     ,errIdent = TYPE
-    ,errMsg = "TYPE ERROR: Expected a "++(show rd1)++" for "++(show k)++" \n Found value:"++(show $ map value $ filter (\x-> (T.takeWhile (/= '[') $ keyword x) == k) ir)
+    ,errMsg = "TYPE ERROR: Expected a "++(show rd1)++" for "++(show k)++" \n Found value:"++(show $ map value $ filter (\x-> (T.takeWhile (/= '[') $ unintern $ keyword x) == unintern k) ir)
     ,errSupport = totalC rd1}
     --".Found value " ++(show $ findVal f' $ fst x) ++ " of type " ++ (show $ assignProbs $ findVal f' $ fst x) }
 
