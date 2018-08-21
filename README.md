@@ -13,6 +13,7 @@ To set up ConfigV with the testing configuration, open src/Settings.hs, and set 
 - verificationTarget = "user"
 
 To run the tool on a large example, change these settings to:
+
 - trainingTarget = Prob
 - verificationTarget = "githubFiles"
 
