@@ -19,8 +19,8 @@ class CFNData:
 ##            ##
 ################
 
-targetDir = "templates_custom_auth_api"
-resultsDir = "cfn_data_custom_auth_api"
+targetDir = "templates4"
+resultsDir = "templates4_2CSV"
 fileLimit = 99999
 
 ############
@@ -86,4 +86,9 @@ def convertDataset(pathToDset):
 
 if not os.path.exists(resultsDir):
     os.mkdir(resultsDir)
-convertDataset(targetDir)
+
+try:
+  convertDataset(targetDir)
+except KeyboardInterrupt:
+  sys.exit()
+ 

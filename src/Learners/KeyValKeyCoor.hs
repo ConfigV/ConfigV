@@ -39,6 +39,7 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
         let 
           k1' = unintern k1
           k2' = unintern k2
+          v'  = unintern v1
         in
           not (
                T.isSuffixOf ".Type" k1'
@@ -46,7 +47,11 @@ instance Learnable R.KeyValKeyCoor NontrivRule where
             || T.isSuffixOf "Description" k1' 
             || T.isSuffixOf ".Type" k2'
             || T.isSuffixOf ".Version" k2'
-            || T.isSuffixOf "Description" k2')
+            || T.isSuffixOf "Description" k2'
+            -- ignore refs and parameters for now
+            || T.isInfixOf "Ref" v'
+            || T.isInfixOf "Parameters" k1' 
+            || T.isInfixOf "Parameters" k2')
     totalTimes = M.fromList $ embedAsNontriv $ filter isRelevant $ concatMap toKVKCoors irPairs 
    in
     totalTimes

@@ -19,7 +19,8 @@ module Settings where
   
   -- only used when ModeSetting set to UserSpecified
   userLearnDir = 
-       "cfn_data/"
+       "templates4_2CSV/"
+       --"cfn_data/"
        --"cfn_data_custom_auth_api/"
        --"benchmarkSet/CSVTest/" -- should learn (x,3) => y
   cacheLocation = "cachedRules.json"
@@ -90,7 +91,7 @@ module Settings where
   --the limit for files to be used in learning
   --useful for benchmarking learning times (be sure to turn off use_cache)
   learnFileLimit :: Int
-  learnFileLimit = 9999
+  learnFileLimit = 200
 
   --verify benchmarks and report # passing or verify files in 'user' dir
   benchmarks = False --TODO not yet implemented, only works on False setting
