@@ -33,11 +33,12 @@ checkFile rs f =
    in
      diff
 
+-- what is this doing? is this calculating support? no i dont think so, maybe this really is just the checking procdure - still not sure what is happenign here tho
 filterRules :: [Keyword] -> RuleSet -> RuleSet
 filterRules fKs rs = RuleSet {
        order   = f order
       ,missing = f' missing 
-      ,keyvalkey = f' keyvalkey
+      ,keyvalkey = f' keyvalkey --why only require one key match?
       ,intRel  = f intRel 
       ,typeErr = f'' typeErr 
       ,fineInt = f fineInt

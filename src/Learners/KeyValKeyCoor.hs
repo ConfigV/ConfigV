@@ -111,7 +111,7 @@ mergeAsAntiRules :: [RuleDataMap KeyValKeyCoor NontrivRule] -> RuleDataMap KeyVa
 mergeAsAntiRules rMaps = let
     -- for a single rule, the number of time the rule was false is equal to how many files had a rule with k1,v1, but not a rule with k1,v1,k2
     findOpp k r = let
-      ruleOverlap otherKey _ =
+      ruleOverlap otherKey _ = --this is the support calculation for KVK rules, which indeed only take the keywords - I will need to redefine support?
         (k1 k == k1 otherKey) &&
         (v1 k == v1 otherKey)
       count = length $ filter (\rMap -> (not $ M.member k rMap) && ((M.size $ M.filterWithKey ruleOverlap rMap) > 0)) rMaps
