@@ -1,0 +1,49 @@
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'IpProtocol': u'-1', u'CidrIp': u'0.0.0.0/0'}]"
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'private-route-table', u'Key': u'Name'}]"
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'vpc'}
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.100.40.0/24
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Security group for the RDS instances
+Resources.AWS::EC2::Instance.Properties.KeyName,webserver
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
+Resources.AWS::EC2::Instance.Properties.ImageId,ami-8fcee4e5
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,us-east-1c
+Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'webserverSecurityGroup'}]
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'igw'}
+Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'publicSubnet1'}
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'elbSecurityGroup'}]
+Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'igw'}
+Resources.AWS::EC2::VPC.Properties.CidrBlock,10.100.0.0/16
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'private-subnet-us-east-1c', u'Key': u'Name'}]"
+Resources.AWS::EC2::VPC.Properties.InstanceTenancy,default
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'privateRouteTable'}
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': u'bootcamp-igw', u'Key': u'Name'}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[{u'Ref': u'publicSubnet1'}, {u'Ref': u'publicSubnet2'}]"
+Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': u'AWS Bootcamp', u'Key': u'Name'}]"
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'privateSubnet1'}
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,false
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'publicRouteTable'}
+Resources.AWS::EC2::Route.DependsOn,igw
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,true
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'vpc'}
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'vpc'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,TCP:80
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3306', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'webserverSecurityGroup'}, u'FromPort': u'3306'}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Instances,[{u'Ref': u'webserverEC2Instance'}]
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'vpc'}

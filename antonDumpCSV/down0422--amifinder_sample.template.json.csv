@@ -1,0 +1,16 @@
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,RDP to the instance
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
+Resources.Custom::AMIFinder.Type,Custom::AMIFinder
+Resources.Custom::AMIFinder.Properties.Version,2012
+Parameters.KeyName.Type,String
+Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'RDPSecurityGroup'}]
+Outputs.WindowsAMIID.Value,{u'Ref': u'AMIFinder'}
+Resources.Custom::AMIFinder.Properties.ServiceToken,<insert ARN of Topic created for AMIFinder Custom Resource>
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Resources.Custom::AMIFinder.Version,1.0
+Parameters.KeyName.Default,sst-aws
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3389', u'FromPort': u'3389', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the Instance
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'AMIFinder'}
+Outputs.WindowsInstanceDNSName.Value,"{u'Fn::GetAtt': [u'WindowsInstance', u'PublicDnsName']}"

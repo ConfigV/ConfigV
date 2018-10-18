@@ -1,0 +1,50 @@
+Resources.AWS::CloudFormation::Stack.DependsOn,CodeDeployEC2InstancesStack
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CodePipelineLambdaRole'}]
+Parameters.KeyName.MinLength,1
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
+Resources.AWS::CloudFormation::Stack.Properties.TimeoutInMinutes,60
+Resources.AWS::IAM::Policy.DependsOn,[u'CodePipelineLambdaRole']
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Description,Validate a website URL
+Parameters.S3Key.Default,cloudformation-templates/github/example-apps/aws-codepipeline-s3-aws-codedeploy_linux.zip
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,Archive.zip
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Lambda::Function.Properties.Timeout,20
+Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'S3'}, u'OutputArtifacts': [{u'Name': u'MyApp'}], u'Configuration': {u'S3Bucket': {u'Ref': u'S3Bucket'}, u'S3ObjectKey': {u'Ref': u'S3Key'}}, u'Name': u'Source'}]}, {u'Name': u'Beta', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeDeploy'}, u'OutputArtifacts': [], u'Configuration': {u'ApplicationName': {u'Fn::GetAtt': [u'CodeDeploySimpleStack', u'Outputs.MyApplication']}, u'DeploymentGroupName': {u'Fn::GetAtt': [u'CodeDeploySimpleStack', u'Outputs.MyDeploymentGroup']}}, u'Name': {u'Fn::GetAtt': [u'CodeDeploySimpleStack', u'Outputs.MyDeploymentGroup']}}]}, {u'Name': u'LambdaStage', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineLambdaTest'}, u'UserParameters': {u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'CodeDeployEC2InstancesStack', u'Outputs.PublicIp']}]]}}, u'Name': u'MyLambdaAction'}]}, {u'Name': u'Production', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeDeploy'}, u'OutputArtifacts': [], u'Configuration': {u'ApplicationName': {u'Fn::GetAtt': [u'CodeDeploySimpleStack', u'Outputs.MyApplication']}, u'DeploymentGroupName': {u'Fn::GetAtt': [u'CodeDeploySimpleStack', u'Outputs.MyDeploymentGroup']}}, u'Name': u'Deploy-Second-Deployment'}]}]"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/AWS-CodePipeline-Service']]}"
+Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
+Parameters.S3Bucket.Default,stelligent-public
+Parameters.KeyName.ConstraintDescription,Can contain only ASCII characters.
+Resources.AWS::CodePipeline::Pipeline.DependsOn,"[u'CodeDeploySimpleStack', u'CodePipelineLambdaTest']"
+Parameters.S3Key.Description,S3 key within S3Bucket.
+Resources.AWS::Lambda::Function.Properties.Handler,validateurl.handler
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'S3Bucket'}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.TagValue,{u'Ref': u'AWS::StackName'}
+Parameters.KeyName.MaxLength,255
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Resources.AWS::Lambda::Function.Properties.MemorySize,128
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Bucket,{u'Ref': u'S3Bucket'}
+Parameters.S3Bucket.Type,String
+Resources.AWS::Lambda::Function.DependsOn,"[u'CodePipelineLambdaRole', u'LambdaCodePipelineExecutionPolicy']"
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
+Parameters.KeyName.Description,Name of an existing Amazon EC2 key pair to enable SSH or RDP access to the instances.
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:*'], u'Resource': [u'arn:aws:logs:*:*:*'], u'Effect': u'Allow'}, {u'Action': [u'codepipeline:PutJobSuccessResult', u'codepipeline:PutJobFailureResult'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs4.3
+Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaRolePolicy
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.RoleArn,"{u'Fn::GetAtt': [u'CodeDeployEC2InstancesStack', u'Outputs.CodeDeployTrustRoleARN']}"
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'CodePipelineLambdaRole', u'Arn']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Key,{u'Ref': u'S3Key'}
+Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
+Parameters.S3Key.Type,String
+Resources.AWS::CodePipeline::Pipeline.Properties.DisableInboundStageTransitions,"[{u'Reason': u'Demonstration', u'StageName': u'Production'}]"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyName'}
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,{u'Ref': u'S3Bucket'}
+Parameters.S3Bucket.Description,S3 bucket to use for artifacts. Just bucket Name; not URL. IAM user should have access to the bucket.
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.amazonaws.com/stelligent-public/cloudformation-templates/github/labs/codepipeline/codedeploy-ec2.json
+Outputs.LambdaFunctionName.Value,{u'Ref': u'CodePipelineLambdaTest'}
+Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

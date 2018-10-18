@@ -1,0 +1,56 @@
+Resources.AWS::SQS::Queue.Properties.RedrivePolicy.maxReceiveCount,1
+Parameters.RdsPassword.Type,String
+Parameters.AllowedFrom.MaxLength,18
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::RDS::DBInstance.Properties.Engine,mysql
+Resources.AWS::SQS::Queue.Properties.RedrivePolicy.deadLetterTargetArn,"[u'DeadLetterQueue', u'Arn']"
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Elasticache Security Group
+Resources.AWS::SQS::QueuePolicy.Type,AWS::SQS::QueuePolicy
+Resources.AWS::EC2::Instance.Properties.DisableApiTermination,FALSE
+Resources.AWS::RDS::DBInstance.Properties.PubliclyAccessible,True
+Outputs.InstanceId.Value,UserTagAndUserDataInstance
+Resources.AWS::ElastiCache::SubnetGroup.Type,AWS::ElastiCache::SubnetGroup
+Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
+Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Subnetgroup for both VPNs
+Resources.AWS::ElastiCache::CacheCluster.Properties.VpcSecurityGroupIds,"[[u'CacheSecurityGroup', u'GroupId']]"
+Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,5
+Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Fn::ImportValue': u'TeamCity-SubnetA'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Fn::ImportValue': u'TeamCity-InstanceSecurityGroup'}], u'DeleteOnTermination': u'true', u'AssociatePublicIpAddress': u'true'}]"
+Resources.AWS::RDS::DBInstance.Properties.MasterUsername,admin
+Resources.AWS::EC2::Instance.Properties.UserData,data1:value1;data2:value2
+Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Version,2008-10-17
+Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,RdsPassword
+Resources.AWS::ElastiCache::CacheCluster.Properties.Engine,redis
+Resources.AWS::ElastiCache::CacheCluster.Type,AWS::ElastiCache::CacheCluster
+Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.t2.micro
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Statement,"[{u'Resource': [u'NotificationQueue', u'Arn'], u'Effect': u'Allow', u'Sid': u'Allow-Sns-SendMessage', u'Action': [u'sqs:SendMessage'], u'Condition': {u'ArnEquals': {u'aws:SourceArn': u'SqsReceivingSnsTopic'}}, u'Principal': {u'AWS': u'*'}}]"
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'SourceSecurityGroupId': {u'Fn::ImportValue': u'TeamCity-InstanceSecurityGroup'}, u'FromPort': u'3306', u'ToPort': u'3306', u'IpProtocol': u'tcp'}, {u'ToPort': u'3306', u'FromPort': u'3306', u'IpProtocol': u'tcp', u'CidrIp': u'AllowedFrom'}]"
+Resources.AWS::ElastiCache::SubnetGroup.Properties.Description,Subnet group for both subnets
+Parameters.RdsPassword.NoEcho,True
+Parameters.RdsPassword.MinLength,8
+Parameters.AllowedFrom.Type,String
+Resources.AWS::SQS::QueuePolicy.Properties.Queues,[u'NotificationQueue']
+Resources.AWS::ElastiCache::CacheCluster.Properties.NumCacheNodes,1
+Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Fn::ImportValue': u'TeamCity-SubnetA'}, {u'Fn::ImportValue': u'TeamCity-SubnetB'}]"
+Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Id,SnsToSqsPolicy
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': u'http://build.elasticspring.org', u'Protocol': u'http'}]"
+Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[u'DatabaseSecurityGroup']
+Resources.AWS::RDS::DBInstance.Properties.DBName,test
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Fn::ImportValue': u'TeamCity-VPC'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.AllowedFrom.ConstraintDescription,must be a valid CIDR range of the form x.x.x.x/x.
+Resources.AWS::ElastiCache::SubnetGroup.Properties.SubnetIds,"[{u'Fn::ImportValue': u'TeamCity-SubnetA'}, {u'Fn::ImportValue': u'TeamCity-SubnetB'}]"
+Resources.AWS::ElastiCache::CacheCluster.Properties.CacheNodeType,cache.t2.micro
+Resources.AWS::EC2::Instance.Properties.ImageId,ami-70edb016
+Resources.AWS::ElastiCache::CacheCluster.Properties.CacheSubnetGroupName,CacheSubnetGroup
+Parameters.AllowedFrom.MinLength,9
+Parameters.RdsPassword.Description,The master password for the RDS instance
+Parameters.AllowedFrom.Description,Lockdown DB access to the host (default can be accessed from anywhere)
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'tagv1', u'Key': u'tag1'}, {u'Value': u'tagv3', u'Key': u'tag3'}, {u'Value': u'tagv2', u'Key': u'tag2'}, {u'Value': u'tagv4', u'Key': u'tag4'}]"
+Parameters.AllowedFrom.Default,0.0.0.0/0
+Resources.AWS::RDS::DBInstance.Properties.SourceDBInstanceIdentifier,RdsSingleMicroInstance
+Parameters.AllowedFrom.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,RdsSubnetGroup

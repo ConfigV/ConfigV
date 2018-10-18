@@ -1,0 +1,146 @@
+Resources.AWS::Serverless::Function.Properties.CodeUri,./sam/functions/talr-inquirer
+Resources.AWS::Serverless::Function.Properties.Events.accountReconcile.Type,Schedule
+Resources.AWS::CloudFormation::Stack.Properties.TimeoutInMinutes,15
+Resources.AWS::Serverless::Function.Properties.Events.talrClaResponse.Type,SNS
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_OPS,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrOps']}"
+Resources.AWS::Serverless::Function.Properties.Events.dynamodbScaleUp.Type,Schedule
+Resources.AWS::Serverless::Function.Properties.FunctionName,"[u'-', [u'talr-inquirer', u'stage']]"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsTopicNameTalrNipapCfnResponse,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsTopicNameTalrNipapCfnResponse']}"
+Resources.AWS::ApiGateway::DomainName.Properties.DomainName,apiDomainName
+Resources.AWS::Serverless::Function.Properties.VpcConfig.SubnetIds,applicationSubnetIds
+Resources.AWS::Serverless::Function.Properties.Events.talrAdSecGroupStream.Properties.Stream,{u'Fn::ImportValue': u'talr-${stage}-dynamodbStreamsTalrAdsecgroup'}
+Resources.AWS::Serverless::Function.Properties.Events.talrAdSecGroupStream.Type,DynamoDB
+Resources.AWS::Serverless::Function.Properties.Events.talrAdSecGroupStream.Properties.BatchSize,100
+Resources.AWS::Serverless::Function.Properties.MemorySize,128
+Resources.AWS::Serverless::Api.Properties.StageName,stage
+Resources.AWS::ApiGateway::DomainName.Type,AWS::ApiGateway::DomainName
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_ADSECGROUP,{u'Fn::ImportValue': u'talr-${stage}-dynamodbTableNameTalrAdsecgroup'}
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_SNSARN_EVENTS_PUSH,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrEventsPush']}"
+Outputs.dynamodbTableNameTalrTaskStatus.Value,dynamodbTablesStack.Outputs.dynamodbTableNameTalrTaskStatus
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_SNSARN_VPCCFN_RESPONSE,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrVpcCfnResponse']}"
+Parameters.stage.AllowedValues,"[u'alpha', u'beta', u'prod']"
+Resources.AWS::Serverless::Api.Properties.Variables.accountId,AWS::AccountId
+Resources.AWS::Serverless::Function.Properties.Events.accountReconcile.Properties.Schedule,cron(30 23 * * ? *)
+Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
+Resources.AWS::Serverless::Function.Properties.Events.talrTaskStatusStream.Properties.Stream,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbStreamsTalrTaskStatus']}"
+Outputs.snsArnTalrOpsNotifications.Export.Name,talr-${stage}-snsArnTalrOpsNotifications
+Parameters.s3Bucket.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrAdsecgroup,{u'Fn::ImportValue': u'talr-${stage}-dynamodbTableNameTalrAdsecgroup'}
+Outputs.dynamodbTableNameTalrCbInfo.Export.Name,talr-${stage}-dynamodbTableNameTalrCbInfo
+Parameters.applicationSubnetIds.Description,Enter 2-3 Application Subnet Ids
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrAccountupdateMetadataFunction,talrAccountupdateMetadataFunction
+Resources.AWS::Serverless::Function.Properties.Timeout,60
+Outputs.dynamodbTableNameTalrAccountInfo.Value,dynamodbTablesStack.Outputs.dynamodbTableNameTalrAccountInfo
+Parameters.vpcId.Type,AWS::EC2::VPC::Id
+Resources.AWS::Serverless::Function.Properties.Events.talrDispatchRequest.Properties.Topic,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrDispatchRequest']}"
+Resources.AWS::Serverless::Function.Properties.Events.dynamodbScaleUp.Properties.Input,"{ ""message"": ""scaleup"" }"
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_ACCOUNTINFO,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrAccountInfo']}"
+Resources.AWS::Serverless::Api.Properties.DefinitionUri,./sam/api/swagger.yaml
+Resources.AWS::Serverless::Function.Properties.Events.talrClaRequest.Properties.Topic,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrClaRequest']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrAccountupdateVpcdnsFunction,talrAccountupdateVpcdnsFunction
+Parameters.stage.Type,String
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrAccountupdateConfigFunction,talrAccountupdateConfigFunction
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.stage,stage
+Outputs.snsArnTalrDispatchRequest.Export.Name,talr-${stage}-snsArnTalrDispatchRequest
+Resources.AWS::Serverless::Function.Properties.Events.schedule1m.Properties.Schedule,rate(1 minute)
+Resources.AWS::Serverless::Function.Properties.Events.talrAdSecGroupStream.Properties.StartingPosition,LATEST
+Resources.AWS::Serverless::Function.Properties.Events.talrClaResponse.Properties.Topic,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrClaResponse']}"
+Resources.AWS::Serverless::Function.Properties.Events.talrOpsNotifications.Type,SNS
+Outputs.dynamodbTableNameTalrAccountInfo.Description,talr-accountInfo DynamoDB table
+Resources.AWS::Serverless::Function.Properties.Handler,handler.handler
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsTopicNameTalrClaResponse,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsTopicNameTalrClaResponse']}"
+Resources.AWS::Serverless::Api.Properties.Variables.stage,stage
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrAccountupdateConfigrulesFunction,talrAccountupdateConfigrulesFunction
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_SNSARN_DISPATCH_REQUEST,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrDispatchRequest']}"
+Resources.AWS::Serverless::Function.Properties.Runtime,python2.7
+Outputs.snsArnTalrOpsNotifications.Description,talr-ops-notifications SNS Topic Arn
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsTopicNameTalrNotifyRequest,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsTopicNameTalrNotifyRequest']}"
+Resources.AWS::Serverless::Function.Properties.Events.talrDispatchRequest.Type,SNS
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrAccountupdateVpcflowlogsFunction,talrAccountupdateVpcflowlogsFunction
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrOps,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrOps']}"
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_NIPAPCFN,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrNipapCfn']}"
+Resources.AWS::Serverless::Function.Properties.Events.talrTaskStatusStream.Properties.StartingPosition,LATEST
+Parameters.apiDomainName.Type,String
+Resources.AWS::ApiGateway::BasePathMapping.Properties.RestApiId,tailorApiGateway
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_CBINFO,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrCbInfo']}"
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,./sam/cfn/cfn-dynamodb-tables.yaml
+Parameters.kmsKeyId.Description,Enter the key Id of the KMS master key
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_SNSARN_CLARESPONSE,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrClaResponse']}"
+Outputs.dynamodbTableNameTalrTaskStatus.Export.Name,talr-${stage}-dynamodbTableNameTalrTaskStatus
+Resources.AWS::Serverless::Function.Properties.Events.schedule24h.Properties.Schedule,rate(24 hours)
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbStreamsTalrTaskStatus,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbStreamsTalrTaskStatus']}"
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,talr-vpc security group
+Resources.AWS::Serverless::Function.Properties.Tracing,Active
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_API_DOMAINNAME,apiDomainName
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrClaStatus,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrClaStatus']}"
+Resources.AWS::ApiGateway::BasePathMapping.Type,AWS::ApiGateway::BasePathMapping
+Parameters.notifyEmail.Type,String
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_SNSARN_CLAREQUEST,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrClaRequest']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.s3Bucket,s3Bucket
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.kmsKeyId,kmsKeyId
+Parameters.kmsKeyId.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrDxInterface,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrDxInterface']}"
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_SNSARN_NIPAPCFN_RESPONSE,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrNipapCfnResponse']}"
+Resources.AWS::Serverless::Api.Properties.Variables.accountRegion,AWS::Region
+Parameters.vpcId.Description,Enter the VPC ID that should be used for this stack
+Parameters.applicationSubnetIds.Type,List<AWS::EC2::Subnet::Id>
+Parameters.notifyEmail.Description,Enter the SendFrom email address that Tailor should use when sending notifications to users.
+Outputs.dynamodbTableNameTalrCbInfo.Description,talr-cbInfo DynamoDB table
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsTopicNameTalrDispatchRequest,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsTopicNameTalrDispatchRequest']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.apiGateway,tailorApiGateway
+Resources.AWS::Serverless::Api.Properties.Name,tailor-${stage}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.lambdaArnTalrCresourceSns,talrCresourceSNSFunction.Arn
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrTaskStatus,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrTaskStatus']}"
+Resources.AWS::Serverless::Function.Properties.Events.talrOpsNotifications.Properties.Topic,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrOpsNotifications']}"
+Resources.AWS::Serverless::Function.Properties.Events.talrTaskStatusStream.Type,DynamoDB
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.notifyEmail,notifyEmail
+Resources.AWS::Serverless::Function.Properties.Events.talrTaskStatusStream.Properties.BatchSize,100
+Resources.AWS::Serverless::Function.Properties.Events.dynamodbScaleUp.Properties.Schedule,cron(20 23 * * ? *)
+Resources.AWS::CertificateManager::Certificate.Type,AWS::CertificateManager::Certificate
+Outputs.dynamodbTableNameTalrTaskStatus.Description,talr-taskStatus DynamoDB table
+Resources.AWS::Serverless::Function.Properties.Events.talrClaRequest.Type,SNS
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_CLASTATUS,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrClaStatus']}"
+Resources.AWS::ApiGateway::DomainName.Properties.CertificateArn,tailorApiCertificate
+Resources.AWS::Serverless::Function.Properties.Events.talrNotifyRequest.Type,SNS
+Resources.AWS::Serverless::Function.Properties.Events.talrNipapcfnResponse.Properties.Topic,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrNipapCfnResponse']}"
+Resources.AWS::Serverless::Function.Properties.Events.talrNotifyRequest.Properties.Topic,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrNotifyRequest']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrReceptionistFunction,talrReceptionistFunction
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrNipapCfn,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrNipapCfn']}"
+Outputs.dynamodbTableNameTalrAccountInfo.Export.Name,talr-${stage}-dynamodbTableNameTalrAccountInfo
+Resources.AWS::Serverless::Function.Properties.VpcConfig.SecurityGroupIds,[u'talrVpcSecuritGroup']
+Resources.AWS::Serverless::Function.Properties.Events.talrNipapcfnResponse.Type,SNS
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrCbInfo,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrCbInfo']}"
+Parameters.apiDomainName.Description,Enter the name of the API Gateway FQDN for the Tailor API e.g. tailor.mycompany.com
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrAccountInfo,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrAccountInfo']}"
+Parameters.s3Bucket.Description,Enter the name of the S3 bucket that contains the Tailor artifacts
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsArnTalrOpsNotifications,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrOpsNotifications']}"
+Outputs.snsArnTalrDispatchRequest.Value,snsTopicsStack.Outputs.snsArnTalrDispatchRequest
+Resources.AWS::ApiGateway::BasePathMapping.DependsOn,tailorApiGateway
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrAccountupdateCloudtrailFunction,talrAccountupdateCloudtrailFunction
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_TASKSTATUS,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrTaskStatus']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrInquirerFunction,talrInquirerFunction
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbTableNameTalrConfigRulesCompliance,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrConfigRulesCompliance']}"
+Resources.AWS::Serverless::Function.Properties.Description,"Lookup account info by requestId, emailId or accountId"
+Resources.AWS::CertificateManager::Certificate.Properties.DomainName,apiDomainName
+Resources.AWS::Serverless::Function.Properties.Role,"{u'Fn::GetAtt': [u'iamCoreFunctionsRolesStack', u'Outputs.iamRoleArnLambdaTalrInquirer']}"
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_SNSARN_NOTIFY_REQUEST,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsArnTalrNotifyRequest']}"
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,vpcId
+Resources.AWS::Serverless::Api.Properties.Variables.apiDomainName,apiDomainName
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrAccountupdateCloudabilityFunction,talrAccountupdateCloudabilityFunction
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsTopicNameTalrEventsPush,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsTopicNameTalrEventsPush']}"
+Resources.AWS::Serverless::Function.Properties.Events.schedule24h.Type,Schedule
+Resources.AWS::ApiGateway::BasePathMapping.Properties.DomainName,tailorApiDomain
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.dynamodbStreamsTalrAdsecgroup,{u'Fn::ImportValue': u'talr-${stage}-dynamodbStreamsTalrAdsecgroup'}
+Outputs.snsArnTalrDispatchRequest.Description,talr-dispatch-request SNS Topic Arn
+Outputs.dynamodbTableNameTalrCbInfo.Value,dynamodbTablesStack.Outputs.dynamodbTableNameTalrCbInfo
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TAILOR_TABLENAME_DXINTERFACE,"{u'Fn::GetAtt': [u'dynamodbTablesStack', u'Outputs.dynamodbTableNameTalrDxInterface']}"
+Parameters.stage.Description,"Enter alpha, beta or prod to designate the deployment stage/environment"
+Outputs.snsArnTalrOpsNotifications.Value,snsTopicsStack.Outputs.snsArnTalrOpsNotifications
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsTopicNameTalrVpcCfnResponse,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsTopicNameTalrVpcCfnResponse']}"
+Resources.AWS::Serverless::Function.Properties.Events.schedule1m.Type,Schedule
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.talrRequeststatusFunction,talrRequeststatusFunction
+Resources.AWS::ApiGateway::BasePathMapping.Properties.Stage,stage
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.snsTopicNameTalrClaRequest,"{u'Fn::GetAtt': [u'snsTopicsStack', u'Outputs.snsTopicNameTalrClaRequest']}"

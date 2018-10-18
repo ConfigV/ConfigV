@@ -1,0 +1,74 @@
+Resources.AWS::IAM::Policy.Properties.Roles,[u'CFDeployerRole']
+Resources.AWS::CodeBuild::Project.Properties.Description,${AWS::StackName}-deployproject
+Resources.AWS::CodePipeline::Pipeline.Properties.Name,AWS::StackName
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
+Outputs.CodePipelineUrl.Description,CodePipeline AWS Console HTTP URL
+Outputs.CodePipelineUrl.Value,https://${AWS::Region}.console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${AWS::StackName}
+Mappings.ServiceToRepo.greeting.Repo,microservices-greeting
+Mappings.ServiceToRepo.greeting.Owner,arun-gupta
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Mappings.ServiceToRepo.webapp.Repo,microservices-webapp
+Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
+Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'source-code-checkout', u'Actions': [{u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'ThirdParty', u'Version': 1, u'Provider': u'GitHub'}, u'Configuration': {u'Owner': [u'OverrideDefaultRepo', u'GitHubOwner', [u'ServiceToRepo', u'ServiceName', u'Owner']], u'Repo': [u'OverrideDefaultRepo', u'GitHubRepo', [u'ServiceToRepo', u'ServiceName', u'Repo']], u'OAuthToken': u'GitHubOAuthToken', u'Branch': [u'OverrideDefaultRepo', u'GitHubBranch', [u'ServiceToRepo', u'ServiceName', u'Branch']]}, u'Name': u'Source', u'OutputArtifacts': [{u'Name': u'SCCheckoutArtifact'}]}]}, {u'Name': u'build-lambda-function', u'Actions': [{u'InputArtifacts': [{u'Name': u'SCCheckoutArtifact'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeBuild'}, u'OutputArtifacts': [{u'Name': u'BuildOutput'}], u'Configuration': {u'ProjectName': u'BuildProject'}, u'Name': u'build-lambda-function'}]}, {u'Name': u'deploy-microservice', u'Actions': [{u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeBuild'}, u'Configuration': {u'ProjectName': u'DeployProject'}, u'Name': u'deploy-lambda-apigateway', u'InputArtifacts': [{u'Name': u'BuildOutput'}], u'RunOrder': 1}]}]"
+Mappings.ServiceToRepo.name.Owner,arun-gupta
+Resources.AWS::CodeBuild::Project.Properties.Source.Type,CODEPIPELINE
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.ArtifactBucket.Description,ArtifactBucket to be Used
+Parameters.GitHubOwner.Type,String
+Resources.AWS::CodePipeline::Pipeline.DependsOn,PipelineRole
+Parameters.GitHubBranch.Description,GitHub repo branch
+Parameters.GitHubSetting.Description,GitHub setting (USE-DEFAULT or OVERRIDE)
+Mappings.ServiceToRepo.name.Repo,microservices-name
+Resources.AWS::IAM::Policy.DependsOn,ArtifactBucket
+Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENERAL1_SMALL
+Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/python:3.5.2
+Parameters.GitHubOwner.Default,USE-DEFAULT
+Resources.AWS::CodeBuild::Project.Properties.Name,${AWS::StackName}-DeployProject
+Resources.AWS::CodeBuild::Project.Properties.Environment.Type,linuxContainer
+Resources.AWS::CodeBuild::Project.Properties.Cache.Type,S3
+Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,CODEPIPELINE
+Parameters.ServiceName.AllowedValues,"[u'greeting', u'name', u'webapp']"
+Parameters.GitHubOAuthToken.Type,String
+Mappings.ServiceToRepo.greeting.Branch,master
+Parameters.GitHubBranch.Default,USE-DEFAULT
+Parameters.GitHubRepo.Default,USE-DEFAULT
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'${AWS::StackName}-policy-${AWS::Region}', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'codepipeline:*', u'iam:ListRoles', u'cloudformation:*', u'codecommit:List*', u'codecommit:Get*', u'codecommit:GitPull', u'codecommit:UploadArchive', u'codecommit:CancelUploadArchive', u'codebuild:BatchGetBuilds', u'codebuild:StartBuild', u'iam:PassRole', u's3:ListAllMyBuckets', u's3:GetBucketLocation', u'lambda:InvokeFunction', u'lambda:ListFunctions', u'lambda:GetFunctionConfiguration'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u's3:PutObject', u's3:GetBucketPolicy', u's3:GetObject', u's3:ListBucket'], u'Resource': [[u'', [u'arn:aws:s3:::', u'ArtifactBucket', u'/*']], [u'', [u'arn:aws:s3:::', u'ArtifactBucket']]], u'Effect': u'Allow'}]}}]"
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Parameters.ServiceName.Type,String
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codebuild.amazonaws.com']}}]"
+Resources.AWS::CodeBuild::Project.Properties.Cache.Location,${ArtifactBucket}/cache
+Mappings.ServiceToRepo.webapp.Owner,arun-gupta
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'lambda:*', u'iam:AttachRolePolicy', u'iam:CreatePolicy', u'iam:CreateRole', u'iam:DeleteRole', u'iam:DeleteRolePolicy', u'iam:DetachRolePolicy', u'iam:GetRole', u'iam:GetRolePolicy', u'iam:ListRolePolicies', u'iam:ListRoles', u'iam:PassRole', u'iam:PutRolePolicy', u'cloudformation:*', u'apigateway:*', u'cloudwatch:*', u'codedeploy:*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:PutObject', u's3:GetBucketPolicy', u's3:GetObject', u's3:ListBucket'], u'Resource': [[u'', [u'arn:aws:s3:::', u'ArtifactBucket', u'/*']], [u'', [u'arn:aws:s3:::', u'ArtifactBucket']]], u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'ssm:PutParameter', u'ssm:GetParameter', u'ssm:GetParameters'], u'Resource': [u'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/NameApiEndpoint', u'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/GreetingApiEndpoint'], u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.GitHubBranch.Type,String
+Mappings.ServiceToRepo.webapp.Branch,master
+Resources.AWS::CodeBuild::Project.Properties.ServiceRole,CFDeployerRole.Arn
+Resources.AWS::CodeBuild::Project.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
+Resources.AWS::IAM::Policy.Properties.PolicyName,${AWS::StackName}-DeployPolicy
+Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,PipelineRole.Arn
+Mappings.ServiceToRepo.name.Branch,master
+Resources.AWS::CodeBuild::Project.Properties.Environment.EnvironmentVariables,"[{u'Name': u'S3Bucket', u'Value': u'ArtifactBucket'}, {u'Name': u'StackName', u'Value': u'lambda-microservices-${ServiceName}'}, {u'Name': u'ServiceName', u'Value': u'ServiceName'}]"
+Parameters.GitHubOAuthToken.Description,GutHub personal access token
+Resources.AWS::CodeBuild::Project.Properties.TimeoutInMinutes,10
+Parameters.GitHubSetting.Type,String
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,ArtifactBucket
+Parameters.GitHubOwner.Description,GitHub repo owner
+Parameters.GitHubSetting.AllowedValues,"[u'USE-DEFAULT', u'OVERRIDE']"
+Parameters.GitHubSetting.Default,USE-DEFAULT
+Parameters.GitHubRepo.Description,GitHub  Repo
+Parameters.GitHubRepo.Type,String
+Resources.AWS::CodeBuild::Project.Properties.Source.BuildSpec,"version: 0.2
+phases:
+  build:
+    commands:
+      - aws cloudformation deploy --template-file sam.transformed.yaml --stack-name $StackName --capabilities CAPABILITY_IAM
+  post_build:
+    commands:
+      - curl `aws cloudformation describe-stacks --stack-name $StackName --query ""Stacks[].Outputs[?OutputKey=='${ServiceName}ApiEndpoint'].[OutputValue]"" --output text`
+"
+Parameters.GitHubOAuthToken.NoEcho,True
+Outputs.ArtifactBucket.Value,ArtifactBucket
+Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

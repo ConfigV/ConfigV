@@ -1,0 +1,54 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Parameters.ReleaseLabel.Default,emr-5.7.0
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole']
+Resources.AWS::EMR::Cluster.Properties.JobFlowRole,{u'Ref': u'EMRClusterinstanceProfile'}
+Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.InstanceCount,{u'Ref': u'NumberOfCoreInstances'}
+Resources.AWS::EMR::Cluster.Properties.AutoScalingRole,EMR_AutoScaling_DefaultRole
+Parameters.Applications.Type,String
+Resources.AWS::EMR::Cluster.Properties.Instances.Ec2KeyName,{u'Ref': u'KeyName'}
+Parameters.LogUri.Description,Must be a valid S3 URL
+Parameters.Applications.Description,"Please select which application will be installed on the cluster this would be either Ganglia and spark, or Ganglia and s3 acked Hbase"
+Parameters.ReleaseLabel.Type,String
+Parameters.MasterInstacneType.Description,Instance type to be used for the master instance.
+Parameters.EMRClusterName.Default,emrcluster
+Parameters.LogUri.Type,String
+Resources.AWS::EMR::Cluster.Properties.Instances.Ec2SubnetId,{u'Ref': u'SubnetID'}
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.LogUri.Default,s3://emrclusterlogbucket/
+Parameters.KeyName.Type,String
+Parameters.EMRClusterName.Description,Name of the cluster
+Parameters.NumberOfCoreInstances.Description,Must be a valid number
+Parameters.Applications.AllowedValues,"[u'Spark', u'Hbase']"
+Parameters.NumberOfCoreInstances.Default,2
+Parameters.MasterInstacneType.Type,String
+Parameters.SubnetID.Description,Must be Valid public subnet ID
+Resources.AWS::EMR::Cluster.Properties.Applications,"[{u'Name': u'Ganglia'}, {u'Fn::If': [u'Spark', {u'Name': u'Spark'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'Hbase', {u'Name': u'Hbase'}, {u'Ref': u'AWS::NoValue'}]}]"
+Parameters.EMRClusterName.Type,String
+Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.Market,ON_DEMAND
+Resources.AWS::EMR::Cluster.Properties.VisibleToAllUsers,True
+Parameters.SubnetID.Default,subnet-dba430ad
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.Name,Master
+Resources.AWS::EMR::Cluster.Type,AWS::EMR::Cluster
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'EMRClusterinstanceProfileRole'}]
+Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.Name,Core
+Resources.AWS::EMR::Cluster.DependsOn,"[u'EMRClusterServiceRole', u'EMRClusterinstanceProfileRole', u'EMRClusterinstanceProfile']"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'elasticmapreduce.amazonaws.com']}}]"
+Parameters.ReleaseLabel.Description,Must be a valid EMR release  version
+Parameters.S3DataUri.Type,String
+Parameters.SubnetID.Type,String
+Parameters.KeyName.Description,Must be an existing Keyname
+Resources.AWS::EMR::Cluster.Properties.ReleaseLabel,{u'Ref': u'ReleaseLabel'}
+Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.InstanceCount,1
+Parameters.S3DataUri.Default,s3://emrclusterdatabucket/
+Parameters.NumberOfCoreInstances.Type,Number
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.MasterInstacneType.Default,m3.xlarge
+Resources.AWS::EMR::Cluster.Properties.ServiceRole,{u'Ref': u'EMRClusterServiceRole'}
+Resources.AWS::EMR::Cluster.Properties.Name,{u'Ref': u'EMRClusterName'}
+Resources.AWS::EMR::Cluster.Properties.Instances.TerminationProtected,False
+Resources.AWS::EMR::Cluster.Properties.LogUri,{u'Ref': u'LogUri'}
+Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.Market,ON_DEMAND
+Resources.AWS::EMR::Cluster.Properties.Configurations,"[{u'ConfigurationProperties': {u'hbase.rootdir': {u'Ref': u'S3DataUri'}}, u'Classification': u'hbase-site'}, {u'ConfigurationProperties': {u'hbase.emr.storageMode': u's3'}, u'Classification': u'hbase'}]"
+Parameters.S3DataUri.Description,Must be a valid S3 bucket URL 

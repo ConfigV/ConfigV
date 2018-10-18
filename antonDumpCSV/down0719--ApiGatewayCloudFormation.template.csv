@@ -1,0 +1,18 @@
+Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
+Resources.AWS::IAM::ManagedPolicy.Properties.Path,/infrastructure/base/lambda/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'apigateway:*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"exports.handler = function(event, context) { context.fail('Not Implemented'); };"
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaFunctionRole', u'Arn']}"
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
+Resources.AWS::Lambda::Function.Properties.Description,Api Gateway CloudFormation.
+Resources.AWS::Lambda::Function.Properties.Handler,lib/index.handler
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[{u'Ref': u'LambdaBasePolicy'}]
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
+Resources.AWS::Lambda::Function.Properties.Timeout,10
+Resources.AWS::IAM::ManagedPolicy.Properties.Description,managed Policy for API Gateway Lambda function
+Outputs.LambdaFunction.Value,"{u'Fn::GetAtt': [u'LambdaFunction', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.MemorySize,256

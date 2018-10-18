@@ -1,0 +1,20 @@
+Resources.AWS::WAF::Rule.Properties.MetricName,{u'Ref': u'ByteURIRule2'}
+Parameters.ByteURICondition2.Default,ByteURICondition2
+Parameters.ByteURIRule2.Type,String
+Outputs.WAFByteURICondition2ID.Value,{u'Ref': u'WAFByteURICondition2'}
+Parameters.ByteURIRule2.Default,ByteURIRule2
+Parameters.WhiteListIPCondition1.Description,Enter the ID of the WhiteList IP condition 1.
+Outputs.WAFByteURIRule2ID.Value,{u'Ref': u'WAFByteURIRule2'}
+Resources.AWS::WAF::ByteMatchSet.Type,AWS::WAF::ByteMatchSet
+Resources.AWS::WAF::Rule.Properties.Name,{u'Ref': u'ByteURIRule2'}
+Parameters.ByteURICondition2.Type,String
+Parameters.ByteURIRule2.Description,Enter the name of the byte URI rule 2. Note names cannot be modified after creation and must be alphanumeric without spaces.
+Outputs.WAFByteURICondition2ID.Description,UserAgents Condition ID 1
+Resources.AWS::WAF::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFByteURICondition2'}, u'Type': u'ByteMatch', u'Negated': False}, {u'DataId': {u'Ref': u'WhiteListIPCondition1'}, u'Type': u'IPMatch', u'Negated': True}]"
+Resources.AWS::WAF::ByteMatchSet.Properties.ByteMatchTuples,"[{u'TargetString': u'$user_id', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'$userid', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'$user_name', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'$username', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'$password', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'$session', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'databasedrivermysql', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'SimplepieFactory', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}]"
+Resources.AWS::WAF::Rule.DependsOn,WAFByteURICondition2
+Resources.AWS::WAF::Rule.Type,AWS::WAF::Rule
+Parameters.WhiteListIPCondition1.Type,String
+Resources.AWS::WAF::ByteMatchSet.Properties.Name,{u'Ref': u'ByteURICondition2'}
+Outputs.WAFByteURIRule2ID.Description,UserAgents Rule ID 1
+Parameters.ByteURICondition2.Description,Enter the name of the byte URI condition 2. Note names cannot be modified after creation and must be alphanumeric without spaces.

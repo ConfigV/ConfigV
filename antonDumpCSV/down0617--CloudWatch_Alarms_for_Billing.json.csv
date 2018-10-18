@@ -1,0 +1,30 @@
+Parameters.2ndAlarmThreshold.Default,6
+Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
+Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
+Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::CloudWatch::Alarm.Properties.InsufficientDataActions,[{u'Ref': u'AlarmNotificationTopic'}]
+Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Maximum
+Parameters.3rdAlarmThreshold.MinValue,1
+Resources.AWS::CloudWatch::Alarm.Properties.MetricName,EstimatedCharges
+Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/Billing
+Parameters.Email.Type,String
+Resources.AWS::CloudWatch::Alarm.Properties.Threshold,{u'Ref': u'1stAlarmThreshold'}
+Parameters.3rdAlarmThreshold.Type,Number
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,"{u'Fn::Join': [u'', [u'Your AWS Bill has crossed $', {u'Ref': u'1stAlarmThreshold'}]]}"
+Parameters.2ndAlarmThreshold.MinValue,1
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'AlarmNotificationTopic'}]
+Parameters.1stAlarmThreshold.Type,Number
+Parameters.1stAlarmThreshold.MinValue,1
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmName,"{u'Fn::Join': [u'', [u'Your AWS Bill has crossed $', {u'Ref': u'1stAlarmThreshold'}]]}"
+Parameters.Email.MinLength,6
+Parameters.1stAlarmThreshold.Description,Please enter the dollar amount threshold you want the 1st alarm to alert you on.
+Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'Currency', u'Value': u'USD'}]"
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Ref': u'Email'}, u'Protocol': u'email'}]"
+Parameters.2ndAlarmThreshold.Description,Please enter the dollar amount threshold you want the 2nd alarm to alert you on.
+Parameters.1stAlarmThreshold.Default,2
+Parameters.3rdAlarmThreshold.Description,Please enter the dollar amount threshold you want the Final alarm to alert you on.
+Parameters.3rdAlarmThreshold.Default,12
+Parameters.2ndAlarmThreshold.Type,Number
+Resources.AWS::CloudWatch::Alarm.Properties.Period,21600
+Parameters.Email.Description,Email address to notify when billing has exceeded threshold

@@ -1,0 +1,46 @@
+Resources.AWS::Serverless::Function.Properties.CodeUri,./hooks/
+Resources.AWS::Serverless::Function.Properties.DeploymentPreference.Alarms,"[u'LambdaAliasErrorMetricGreaterThanZeroAlarm', u'LambdaLatestVersionErrorMetricGreaterThanZeroAlarm']"
+Resources.AWS::Serverless::Function.Properties.Events.greet.Properties.Path,/resources/greeting
+Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/greeting.get.x-amazon-apigateway-integration.httpMethod,POST
+Resources.AWS::Serverless::Function.Properties.Events.greet.Properties.RestApiId,GreetingApi
+Resources.AWS::Serverless::Function.Properties.FunctionName,CodeDeployHook_gretting_postTrafficHook
+Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,2
+Resources.AWS::Serverless::Function.Properties.Tracing,Active
+Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
+Resources.AWS::SSM::Parameter.Properties.Name,GreetingApiEndpoint
+Resources.AWS::Serverless::Function.Properties.Events.greet.Type,Api
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/greeting.get.x-amazon-apigateway-integration.type,aws_proxy
+Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Sum
+Resources.AWS::Serverless::Function.Properties.DeploymentPreference.Type,CanaryDeploymentType
+Resources.AWS::CloudWatch::Alarm.Properties.MetricName,Errors
+Resources.AWS::Serverless::Function.Properties.MemorySize,1024
+Resources.AWS::Serverless::Api.Properties.StageName,prod
+Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/Lambda
+Resources.AWS::Serverless::Function.Properties.Timeout,20
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Lambda Function Error > 0
+Resources.AWS::Serverless::Function.Properties.Handler,preTrafficHook.handler
+Parameters.LambdaAlias.Type,String
+Outputs.greetingApiEndpoint.Description,Greeting API URL for application
+Resources.AWS::Serverless::Function.Properties.Policies,"[{u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'codedeploy:PutLifecycleEventHookExecutionStatus'], u'Resource': u'*', u'Effect': u'Allow'}]}, {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'lambda:InvokeFunction'], u'Resource': u'*', u'Effect': u'Allow'}]}]"
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/greeting.get.responses.200.content.text/plain.scheme.type,string
+Resources.AWS::SSM::Parameter.Properties.Value,${GreetingApi}.execute-api.${AWS::Region}.amazonaws.com
+Resources.AWS::Serverless::Function.Properties.Runtime,nodejs6.10
+Resources.AWS::SSM::Parameter.Properties.Type,String
+Resources.AWS::Serverless::Function.Properties.Events.greet.Properties.Method,GET
+Resources.AWS::SSM::Parameter.Properties.Description,Greeting API Endpoint
+Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
+Parameters.CanaryDeploymentType.AllowedValues,"[u'Canary10Percent30Minutes', u'Canary10Percent5Minutes', u'Canary10Percent10Minutes', u'Canary10Percent15Minutes', u'AllAtOnce', u'Linear10PercentEvery10Minutes', u'Linear10PercentEvery1Minute', u'Linear10PercentEvery2Minutes', u'Linear10PercentEvery3Minutes']"
+Outputs.greetingApiEndpoint.Value,https://${GreetingApi}.execute-api.${AWS::Region}.amazonaws.com/prod/resources/greeting
+Resources.AWS::CloudWatch::Alarm.Properties.Period,60
+Resources.AWS::SSM::Parameter.Type,AWS::SSM::Parameter
+Resources.AWS::Serverless::Function.Properties.DeploymentPreference.Enabled,False
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.swagger,2.0
+Resources.AWS::CloudWatch::Alarm.Properties.Threshold,0
+Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'Resource', u'Value': u'GreetingFunction.Version'}, {u'Name': u'FunctionName', u'Value': u'GreetingFunction'}]"
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/greeting.get.x-amazon-apigateway-integration.uri,arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GreetingFunction.Arn}:${LambdaAlias}/invocations
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.AWS::Serverless::Function.Properties.AutoPublishAlias,LambdaAlias
+Parameters.LambdaAlias.Default,prod
+Parameters.CanaryDeploymentType.Type,String
+Parameters.CanaryDeploymentType.Default,Canary10Percent5Minutes

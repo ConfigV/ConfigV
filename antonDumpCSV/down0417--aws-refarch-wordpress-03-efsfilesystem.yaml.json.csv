@@ -1,0 +1,248 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.efs-add-storage.files./tmp/efs-add-storage.sh.group,root
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Cmk.default,KMS Key
+Mappings.RegionMap.eu-central-1.AMI,ami-c7ee5ca8
+Resources.AWS::EFS::FileSystem.Properties.FileSystemTags,"[{u'Value': [u'', [u'WordPress / ', u'AWS::StackName']], u'Key': u'Name'}]"
+Resources.AWS::Lambda::Permission.Properties.FunctionName,EfsSizeMonitorFunction
+Parameters.EC2KeyName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.filesystemid,ElasticFileSystem
+Parameters.Subnet.Description,Select existing subnets.
+Resources.AWS::Lambda::Function.Properties.Timeout,60
+Outputs.ElasticFileSystemMountCommand.Value,"[u'', [u'sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 ', [u'.', [u'ElasticFileSystem', u'efs', u'AWS::Region', u'amazonaws', u'com:/', u'/', u'ElasticFileSystem']]]]"
+Resources.AWS::EFS::MountTarget.Type,AWS::EFS::MountTarget
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfSubnets.default,Number of subnets
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Subnet.default,Subnets
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': 1, u'Arn': u'EfsSizeMonitorFunction.Arn'}]"
+Resources.AWS::Lambda::Function.Properties.FunctionName,"[u'', [u'efs-', u'ElasticFileSystem', u'-size-monitor']]"
+Parameters.Growth.MaxValue,6144
+Parameters.PerformanceMode.Description,Select the performance mode of the file system.
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[u'SecurityGroup']
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::EFS::MountTarget.Condition,Subnet4
+Resources.AWS::EFS::FileSystem.Properties.KmsKeyId,"[u'UseAWS-ManagedCMK', u'AWS::NoValue', u'Cmk']"
+Resources.AWS::Lambda::Function.Properties.Description,Lambda function to update the SizeInBytes EFS CloudWatch metric
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,EC2
+Resources.AWS::Lambda::Permission.Properties.SourceArn,EfsSizeMonitorEvent.Arn
+Parameters.EncrpytedBoolean.AllowedValues,"[True, False]"
+Resources.AWS::EFS::FileSystem.Properties.PerformanceMode,PerformanceMode
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingReplacingUpdate.WillReplace,True
+Outputs.ElasticFileSystem.Value,ElasticFileSystem
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.efs-add-storage.files./tmp/efs-add-storage.sh.mode,511
+Parameters.EfsCopyDataFrom.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Growth', u'InstanceType', u'EC2KeyName', u'PerformanceMode', u'EncrpytedBoolean', u'Cmk', u'SecurityGroup', u'NumberOfSubnets', u'Subnet'], u'Label': {u'default': u'Amazon EFS Parameters'}}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': [u'', [u'#cloud-config\n', u'repo_update: true\n', u'repo_upgrade: all\n', u'\n', u'packages:\n', u'- parallel\n', u'\n', u'runcmd:\n', u'- yum --enablerepo=epel install nload -y\n', u'- ntpstat\n', u'- /opt/aws/bin/cfn-init --configsets efs_add_storage --verbose --stack ', u'AWS::StackName', u' --resource LaunchConfiguration --region ', u'AWS::Region', u'\n', u'- /tmp/efs-add-storage.sh ', u'ElasticFileSystem', u' throughput_data ', u'Growth', u' ', u'EfsCopyDataFrom', u' ', u'WPDirectory', u'\n', u'- /opt/aws/bin/cfn-signal -e $? --stack ', u'AWS::StackName', u' --resource AutoScalingGroup --region ', u'AWS::Region', u'\n']]}"
+Resources.AWS::EFS::MountTarget.Properties.SubnetId,"[4, u'Subnet']"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': [u'', [u'EFS ', u'ElasticFileSystem', u' data load... will auto terminate.']], u'PropagateAtLaunch': True, u'Key': u'Name'}]"
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(1 minute)
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Growth.default,Add data (GiB)
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[u'arn:aws:iam::aws:policy/CloudWatchFullAccess', u'arn:aws:iam::aws:policy/AmazonElasticFileSystemReadOnlyAccess']"
+Resources.AWS::EFS::MountTarget.Properties.SecurityGroups,[u'SecurityGroup']
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Outputs.ElasticFileSystemMountCommand.Description,Mount command for mounting the Amazon EFS file system.
+Parameters.EncrpytedBoolean.Type,String
+Parameters.Growth.Description,Amount of dummy data (GiB) to add to the file system (max 6144 GiB). Amazon EFS storage charges apply.
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.InstanceMonitoring,True
+Parameters.Cmk.Description,An existing AWS KMS Customer Master Key (CMK) to encrypt file system
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,InstanceProfile
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,0
+Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Timeout,PT12H
+Parameters.Subnet.Type,List<AWS::EC2::Subnet::Id>
+Parameters.SecurityGroup.Type,AWS::EC2::SecurityGroup::Id
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.AutoScalingGroupName,AutoScalingGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvda', u'Ebs': {u'DeleteOnTermination': True, u'VolumeType': u'gp2', u'VolumeSize': 10}}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,120
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.PolicyType,SimpleScaling
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'efs-create-file-system-with-storage', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'autoscaling:DescribeAutoScalingGroups', u'autoscaling:DescribeAutoScalingInstances', u'autoscaling:DescribePolicies', u'autoscaling:UpdateAutoScalingGroup'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::EFS::FileSystem.Properties.Encrypted,EncrpytedBoolean
+Parameters.WPDirectory.Type,String
+Mappings.RegionMap.ca-central-1.AMI,ami-fd55ec99
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,EC2KeyName
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.EncrpytedBoolean.default,Encryption state
+Parameters.EfsCopyDataFrom.Description,Clone EFS from existing EFS
+Resources.AWS::EFS::FileSystem.Type,AWS::EFS::FileSystem
+Parameters.PerformanceMode.AllowedValues,"[u'generalPurpose', u'maxIO']"
+Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Count,0
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Parameters.EncrpytedBoolean.Default,True
+Parameters.NumberOfSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,LaunchConfiguration
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.AdjustmentType,ChangeInCapacity
+Parameters.EncrpytedBoolean.Description,Create an encrypted Amazon EFS file system.
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,60
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.SecurityGroup.default,EFS Security Group
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Parameters.NumberOfSubnets.Default,3
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.region,AWS::Region
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2KeyName.default,Existing Key Pair
+Parameters.EC2KeyName.Description,Name of an existing EC2 key pair
+Parameters.Growth.ConstraintDescription,Must be an integer.
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PerformanceMode.default,Performance Mode
+Parameters.NumberOfSubnets.Type,String
+Parameters.WPDirectory.Description,Wordpress directory
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::AutoScaling::ScalingPolicy.Type,AWS::AutoScaling::ScalingPolicy
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.configSets.efs_add_storage,[u'efs-add-storage']
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,60
+Outputs.ElasticFileSystemDnsName.Value,"[u'.', [u'ElasticFileSystem', u'efs', u'AWS::Region', u'amazonaws', u'com']]"
+Parameters.SecurityGroup.Description,Select the Amazon EFS security group.
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Parameters.Growth.Type,Number
+Parameters.NumberOfSubnets.Description,Number of subnets. This must match your selections in the list of Subnets below.
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"[u'RegionMap', u'AWS::Region', u'AMI']"
+Parameters.PerformanceMode.Default,generalPurpose
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"import boto3
+import os
+import sys
+
+def handler(event, context):
+    if not os.environ.get('filesystemid'):
+        print ""Unable to get the environment variable filesystemid""
+        sys.exit(1)
+    else:
+        filesystemid = os.environ.get('filesystemid')
+
+    if not os.environ.get('region'):
+        print ""Unable to get the environment variable region""
+        sys.exit(1)
+    else:
+        region = os.environ.get('region')
+
+    def efs_get_size():
+        client = boto3.client('efs')
+        response = client.describe_file_systems(FileSystemId=filesystemid)
+        k = response['FileSystems'][0]['SizeInBytes']['Value']
+        return k
+
+    def cloudwatch_put_metric():
+        client = boto3.client('cloudwatch')
+        client.put_metric_data(
+            MetricData=[
+                {
+                    'MetricName': 'SizeInBytes',
+                    'Dimensions': [
+                        {
+                            'Name': 'FileSystemId',
+                            'Value': filesystemid
+                        },
+                    ],
+                    'Unit': 'None',
+                    'Value': efs_get_size()
+                },
+            ],
+            Namespace='Custom/EFS'
+        )
+        print('CloudWatch metric SizeInBytes sucessfully updated.')
+
+    cloudwatch_put_metric()
+"
+Resources.AWS::EFS::MountTarget.Properties.FileSystemId,ElasticFileSystem
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[u'NumberOfSubnets1', [[0, u'Subnet']], [u'NumberOfSubnets2', [[0, u'Subnet'], [1, u'Subnet']], [u'NumberOfSubnets3', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet']], [u'NumberOfSubnets4', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet']], [u'NumberOfSubnets5', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet']], [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet'], [5, u'Subnet']]]]]]]"
+Parameters.Growth.Default,0
+Resources.AWS::Events::Rule.Properties.Name,"[u'', [u'efs-', u'ElasticFileSystem', u'-size-monitor-scheduled-event']]"
+Parameters.PerformanceMode.Type,String
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved. Licensed under the Amazon Software License (the ""License""). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/asl/ or in the ""license"" file accompanying this file. This file is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.efs-add-storage.files./tmp/efs-add-storage.sh.content,"#!/bin/bash -x
+
+FILE_SYSTEM_ID=$1
+DATA_DIRECTORY=$2
+GROWTH=$3
+COPY_SYSTEM_ID=$4
+WP_DIR=$5
+
+if [ $# -lt 3 ]; then
+  echo ""Invalid # of arguments. Require: file system id, data directory, file system growth (GiB) ""
+  exit 0
+fi
+
+# get region from instance meta-data
+availabilityzone=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
+region=${!availabilityzone:0:-1}
+
+# get instance id
+instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+
+# get autoscaling group name
+asg_name=$(aws autoscaling describe-auto-scaling-instances --instance-ids $instance_id --region $region --output text --query 'AutoScalingInstances[0].AutoScalingGroupName')
+
+# set the number of threads to the number of vcpus
+threads=$(( $(nproc --all) * 8 ))
+
+# wait for file system DNS name to be propagated
+results=1
+while [[ $results != 0 ]]; do
+  nslookup $FILE_SYSTEM_ID.efs.$region.amazonaws.com
+  results=$?
+  if [[ results = 1 ]]; then
+    sleep 30
+  fi
+done
+
+# mount file system
+sudo mkdir -p /$FILE_SYSTEM_ID
+sudo chown ec2-user:ec2-user /$FILE_SYSTEM_ID
+sudo mountpoint -q /$FILE_SYSTEM_ID || sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $FILE_SYSTEM_ID.efs.$region.amazonaws.com:/ /$FILE_SYSTEM_ID
+
+# create directory if not exists
+sudo mkdir -p /$FILE_SYSTEM_ID/$DATA_DIRECTORY
+sudo chown ec2-user:ec2-user /$FILE_SYSTEM_ID/$DATA_DIRECTORY
+
+# dd 1GiB files to file system to match DATA_SIZE
+files=$GROWTH
+if [ $(( $files / $threads )) == 0 ];
+  then
+    runs=0
+    parallel_threads=$(( $files % $threads ))
+  else
+    runs=$(( $files / $threads ))
+    parallel_threads=$threads
+fi
+while [ $runs -ge 0 ]; do
+  if [ $runs == 0 ];
+    then
+      parallel_threads=$(( $files % $threads ))
+      seq 0 $(( $parallel_threads - 1 )) | parallel --will-cite -j $parallel_threads --compress dd if=/dev/zero of=/$FILE_SYSTEM_ID/$DATA_DIRECTORY/1G-dd-$(date +%Y%m%d%H%M%S.%3N)-{} bs=1M count=1024 oflag=sync
+      runs=$(($runs-1))
+    else
+      seq 0 $(( $parallel_threads - 1 )) | parallel --will-cite -j $parallel_threads --compress dd if=/dev/zero of=/$FILE_SYSTEM_ID/$DATA_DIRECTORY/1G-dd-$(date +%Y%m%d%H%M%S.%3N)-{} bs=1M count=1024 oflag=sync
+      runs=$(($runs-1))
+  fi
+done
+
+#Sync data from 
+
+if [[ ! -z $COPY_SYSTEM_ID ]];
+  then
+    sudo mkdir -p /$COPY_SYSTEM_ID
+    sudo chown ec2-user:ec2-user /$COPY_SYSTEM_ID
+    sudo mountpoint -q /$COPY_SYSTEM_ID || sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $COPY_SYSTEM_ID.efs.$region.amazonaws.com:/ /$COPY_SYSTEM_ID
+    COPY_SOURCE=/$COPY_SYSTEM_ID
+    if [ -d ""/$COPY_SOURCE/$WP_DIR"" ]; then
+      COPY_SOURCE=/$COPY_SYSTEM_ID/$WP_DIR #If the wordpress folder is there, ensure we get only the contents
+    fi
+    sudo mkdir -p /$FILE_SYSTEM_ID/$WP_DIR
+    sudo rsync -r $COPY_SOURCE/* /$FILE_SYSTEM_ID/$WP_DIR/
+fi
+
+# set ASG to zero which terminates instance
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name $asg_name --desired-capacity 0 --region $region
+"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.efs-add-storage.files./tmp/efs-add-storage.sh.owner,root
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Outputs.ElasticFileSystemDnsName.Description,DNS name for the Amazon EFS file system.
+Parameters.Cmk.Type,String
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.ScalingAdjustment,1
+Resources.AWS::Lambda::Function.Properties.Role,LambdaRole.Arn
+Parameters.Growth.MinValue,0
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[u'InstanceRole']
+Resources.AWS::Events::Rule.Properties.Description,Scheduled event to update SizeInBytes EFS CloudWatch metric

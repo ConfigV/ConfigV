@@ -1,0 +1,97 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/sysconfig/httpd.mode,000644
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,{u'Ref': u'AppSubnets'}
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': True, u'Value': u'cfn-flask-signup app instance', u'Key': u'Name'}]"
+Parameters.VpcId.Type,AWS::EC2::VPC::Id
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,True
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.Werkzeug,[u'0.9.4']
+Parameters.AppDeployUrl.Description,HTTP/S URL for application bundle
+Mappings.AWSRegionArch2AMI.eu-central-1.windows,ami-ea8bb8f7
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.MySQL-python26,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.group,apache
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'WebAppSecurityGroup', u'GroupId']}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.encoding,base64
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.owner,apache
+Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,600
+Parameters.MySqlEndpoint.Description,DNS name or IP address of MySQL server endpoint
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,ELB
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[{u'Fn::Select': [u'0', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}, {u'Fn::Select': [u'1', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'# Apply updates cfn-init bootstrapper helper scripts\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackName'}, u' -r WebAppAutoScalingLaunchConfiguration --region ', {u'Ref': u'AWS::Region'}, u"" || echo 'Failed to run cfn-init'\n"", u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WaitConditionHandle'}, u""'\n""]]}}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.SQLAlchemy,[u'0.9.8']
+Parameters.AppSubnets.Description,List of VPC private subnet Ids to deploy application servers to - one private subnet per AZ
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,20
+Parameters.ElbSubnets.Type,List<AWS::EC2::Subnet::Id>
+Parameters.AppTheme.Description,Bootstrap theme for web application
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.Flask,[u'0.10.1']
+Parameters.SignUpSnsTopic.Description,ARN of SNS topic to send new user signup notification messages to
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'AppAccessDatastoreInstanceProfile'}
+Outputs.WebAppUrl.Description,The Flask SignUp web application URL
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd24,[]
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,{u'Ref': u'ElbSubnets'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/sysconfig/httpd.group,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/sysconfig/httpd.owner,root
+Mappings.AWSRegionArch2AMI.eu-central-1.linux,ami-04003319
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.MarkupSafe,[u'0.18']
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.files,"[u'/etc/httpd/conf/httpd.conf', u'/etc/httpd/conf.d/wsgi.conf', u'/etc/sysconfig/httpd']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.content,PFZpcnR1YWxIb3N0ICo+DQoNCkFsaWFzIC9zdGF0aWMvIC92YXIvd3d3L2h0bWwvc3RhdGljLw0KPERpcmVjdG9yeSAvdmFyL3d3dy9odG1sL3N0YXRpYy8+DQogIE9yZGVyIGFsbG93LGRlbnkNCiAgQWxsb3cgZnJvbSBhbGwNCjwvRGlyZWN0b3J5Pg0KDQoNCldTR0lTY3JpcHRBbGlhcyAvIC92YXIvd3d3L2h0bWwvYXBwbGljYXRpb24ucHkNCldTR0lQYXNzQXV0aG9yaXphdGlvbiBPbg0KDQo8RGlyZWN0b3J5IC92YXIvd3d3L2h0bWw+DQogIFJlcXVpcmUgYWxsIGdyYW50ZWQNCjwvRGlyZWN0b3J5Pg0KDQpXU0dJRGFlbW9uUHJvY2VzcyB3c2dpIHVzZXI9d3NnaSBncm91cD13c2dpIHByb2Nlc3Nlcz0xIHRocmVhZHM9MTUgZGlzcGxheS1uYW1lPSV7R1JPVVB9DQpXU0dJUHJvY2Vzc0dyb3VwIHdzZ2kNCg0KPC9WaXJ0dWFsSG9zdD4=
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,300
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'AppAccess-Datastore', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:PutItem'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'sns:Publish'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'AppAccessDatastoreRole'}]
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
+Resources.AWS::CloudFormation::WaitCondition.Properties.Count,1
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.python26-pip,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.MySQL-python,[u'1.2.3']
+Parameters.SignUpSnsTopic.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP and HTTPS access to port 80 and 443 respectively
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'WebAppAutoScalingLaunchConfiguration'}
+Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebAppAutoScalingGroup
+Parameters.VpcId.Description,Id of VPC to deploy application tier to
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.sources./var/www/html/,{u'Ref': u'AppDeployUrl'}
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Timeout,20
+Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitConditionHandle'}
+Parameters.ElbSubnets.Description,List of VPC public subnet Ids to deploy ELBs to - one public subnet per AZ
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Outputs.LoadBalancerName.Value,{u'Ref': u'WebAppLoadBalancer'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.mod24_wsgi-python26,[]
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
+Parameters.AppTheme.Type,String
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/
+Outputs.WebAppUrl.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'WebAppLoadBalancer', u'DNSName']}]]}"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,360
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.boto,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Enabled,True
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.itsdangerous,[u'0.23']
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.mode,000444
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'linux']}"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'WebAppLoadBalancer'}]
+Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,10
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/sysconfig/httpd.content,"{u'Fn::Join': [u'', [u'export FLASK_DEBUG=""false""\n', u'export THEME=""', {u'Ref': u'AppTheme'}, u'""\n', u'export AWS_REGION=""', {u'Ref': u'AWS::Region'}, u'""\n', u'export STARTUP_SIGNUP_RDBMS=""', {u'Ref': u'MySqlEndpoint'}, u'""\n', u'export NEW_SIGNUP_TOPIC=""', {u'Ref': u'SignUpSnsTopic'}, u'""\n']]}"
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.MySqlEndpoint.Type,String
+Parameters.AppSubnets.Type,List<AWS::EC2::Subnet::Id>
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'ElbSecurityGroup', u'GroupId']}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.sources,[u'/var/www/html']
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.users.wsgi.homeDir,/home/wsgi
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.Flask-SQLAlchemy,[u'2.0']
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.Jinja2,[u'2.7.1']
+Parameters.AppTheme.Default,flatly
+Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
+Parameters.AppDeployUrl.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.virtualenv,[]
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'443', u'FromPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
+Outputs.LoadBalancerName.Description,Resource name of the load balancer
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.python.wsgiref,[u'0.1.2']
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true

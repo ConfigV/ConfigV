@@ -1,0 +1,12 @@
+Resources.AWS::ECS::TaskDefinition.Properties.Family,ixortalk-assetmgmt-ui
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,assetmgmt-ui-logs
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
+Parameters.AssetMgmtUiImageVersion.Type,String
+Parameters.SpringCloudConfigLabel.Type,String
+Parameters.SpringCloudConfigLabel.Description,The branch of the config environment to use
+Parameters.SpringProfilesActive.Type,String
+Outputs.TaskDefinition.Value,TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'assetmgmt-ui-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-assetmgmt-ui', u'Image': u'ixortalk/ixortalk-assetmgmt-ui:${AssetMgmtUiImageVersion}', u'Environment': [{u'Name': u'IXORTALK_PROFILE', u'Value': u'SpringProfilesActive'}, {u'Name': u'IXORTALK_CONFIG_SERVER_URL', u'Value': u'https://${LoadbalancerDNS}/config'}, {u'Name': u'IXORTALK_CONFIG_SERVER_LABEL', u'Value': u'SpringCloudConfigLabel'}], u'Memory': 64, u'PortMappings': [{u'ContainerPort': 7001}]}]"
+Parameters.LoadbalancerDNS.Type,String
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

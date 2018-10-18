@@ -1,0 +1,125 @@
+Outputs.LambdaRoleArn.Value,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaRole'}]
+Resources.AWS::Lambda::EventSourceMapping.DependsOn,"[u'JobStreamDynamoDBTable', u'LambdaScraperQueueCombinedPolicy', u'LambdaRoleInstanceProfile', u'LambdaRole']"
+Resources.Custom::ApiResource.Type,Custom::ApiResource
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.Custom::ApiMethod.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
+Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/x-www-form-urlencoded,"## convert HTML POST data or HTTP GET query string to JSON
+ 
+## get the raw post data from the AWS built-in variable and give it a nicer name
+#if ($context.httpMethod == ""POST"")
+ #set($rawAPIData = $input.path('$'))
+#elseif ($context.httpMethod == ""GET"")
+ #set($rawAPIData = $input.params().querystring)
+ #set($rawAPIData = $rawAPIData.toString())
+ #set($rawAPIDataLength = $rawAPIData.length() - 1)
+ #set($rawAPIData = $rawAPIData.substring(1, $rawAPIDataLength))
+ #set($rawAPIData = $rawAPIData.replace("", "", ""&""))
+#else
+ #set($rawAPIData = """")
+#end
+ 
+## first we get the number of ""&"" in the string, this tells us if there is more than one key value pair
+#set($countAmpersands = $rawAPIData.length() - $rawAPIData.replace(""&"", """").length())
+ 
+## if there are no ""&"" at all then we have only one key value pair.
+## we append an ampersand to the string so that we can tokenise it the same way as multiple kv pairs.
+## the ""empty"" kv pair to the right of the ampersand will be ignored anyway.
+#if ($countAmpersands == 0)
+ #set($rawPostData = $rawAPIData + ""&"")
+#end
+ 
+## now we tokenise using the ampersand(s)
+#set($tokenisedAmpersand = $rawAPIData.split(""&""))
+ 
+## we set up a variable to hold the valid key value pairs
+#set($tokenisedEquals = [])
+ 
+## now we set up a loop to find the valid key value pairs, which must contain only one ""=""
+#foreach( $kvPair in $tokenisedAmpersand )
+ #set($countEquals = $kvPair.length() - $kvPair.replace(""="", """").length())
+ #if ($countEquals == 1)
+  #set($kvTokenised = $kvPair.split(""=""))
+  #if ($kvTokenised[0].length() > 0)
+   ## we found a valid key value pair. add it to the list.
+   #set($devNull = $tokenisedEquals.add($kvPair))
+  #end
+ #end
+#end
+ 
+## next we set up our loop inside the output structure ""{"" and ""}""
+{
+#foreach( $kvPair in $tokenisedEquals )
+  ## finally we output the JSON for this pair and append a comma if this isn't the last pair
+  #set($kvTokenised = $kvPair.split(""=""))
+ ""$util.urlDecode($kvTokenised[0])"" : #if($kvTokenised[1].length() > 0)""$util.urlDecode($kvTokenised[1])""#{else}""""#end#if( $foreach.hasNext ),#end
+#end
+}"
+Resources.Custom::ApiResource.Properties.restApiId,{u'Ref': u'RestApi'}
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.Custom::ApiMethod.Properties.method.httpMethod,GET
+Resources.AWS::Lambda::Function.Properties.Description,QueueJob
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'QueueJobLambdaFunction', u'Arn']}"
+Parameters.TagName.Description,Tag for resources
+Parameters.NewResources.AllowedValues,"[u'true', u'false']"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
+Resources.AWS::Lambda::EventSourceMapping.Properties.EventSourceArn,"{u'Fn::GetAtt': [u'JobStreamDynamoDBTable', u'StreamArn']}"
+Resources.AWS::Lambda::Function.Properties.Timeout,30
+Resources.AWS::Lambda::EventSourceMapping.Properties.Enabled,True
+Resources.Custom::ApiResource.Properties.parentId,{u'Ref': u'JobsApiResource'}
+Resources.AWS::Lambda::EventSourceMapping.Properties.FunctionName,{u'Ref': u'WorkerLambdaFunction'}
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'id'}]"
+Outputs.LambdaRoleArn.Description,ARN for LambdaRole
+Resources.Custom::ApiMethod.Properties.integration.uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'GetJobStatusLambdaFunction', u'Arn']}, u'/invocations']]}"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"exports.handler = function(event, context) { context.fail('Not Implemented'); };"
+Parameters.ServiceToken.Type,String
+Resources.AWS::Lambda::EventSourceMapping.Type,AWS::Lambda::EventSourceMapping
+Resources.Custom::RestApi.Properties.name,Scraper Queue
+Resources.AWS::Lambda::Function.Properties.Handler,lib/index.handler
+Parameters.NewResources.Default,false
+Resources.AWS::DynamoDB::Table.Properties.StreamSpecification.StreamViewType,NEW_IMAGE
+Resources.AWS::Lambda::EventSourceMapping.Properties.StartingPosition,LATEST
+Resources.Custom::ApiResource.Properties.corsConfiguration.allowMethods,[u'GET']
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
+Parameters.NewResources.Description,Include new resources (still being developed)
+Resources.AWS::Lambda::Function.Properties.MemorySize,128
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'id', u'AttributeType': u'S'}]"
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.Custom::ApiMethod.Properties.responses..*Error.*.statusCode,400
+Resources.Custom::ApiMethod.Properties.resourceId,{u'Ref': u'JobsJobIdApiResource'}
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Parameters.NewResources.Type,String
+Resources.Custom::ApiMethod.Properties.restApiId,{u'Ref': u'RestApi'}
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.Custom::ApiMethod.Type,Custom::ApiMethod
+Resources.Custom::ApiResource.Properties.corsConfiguration.allowDefaultHeaders,True
+Resources.Custom::RestApi.Type,Custom::RestApi
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': u's3:*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'WebsiteS3'}, u'/*']]}, u'Effect': u'Allow'}, {u'Action': u'dynamodb:*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/', {u'Ref': u'JobStreamDynamoDBTable'}]]}, u'Effect': u'Allow'}, {u'Action': [u'dynamodb:GetRecords', u'dynamodb:GetShardIterator', u'dynamodb:DescribeStream', u'dynamodb:ListStreams'], u'Resource': {u'Fn::GetAtt': [u'JobStreamDynamoDBTable', u'StreamArn']}, u'Effect': u'Allow'}]"
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'WebsiteS3'}, u'/*']]}], u'Effect': u'Allow', u'Principal': {u'AWS': {u'Fn::GetAtt': [u'LambdaRole', u'Arn']}}}, {u'Action': [u's3:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'WebsiteS3'}, u'/*']]}], u'Effect': u'Allow', u'Principal': u'*'}]"
+Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/json.jobId,$input.params('jobId')
+Resources.Custom::ApiMethod.Properties.responses..*NotFound.*.statusCode,404
+Resources.Custom::ApiResource.Properties.pathPart,{jobId}
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
+Parameters.TagName.Type,String
+Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaScraperQueueCombined
+Resources.Custom::ApiResource.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:execute-api:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'RestApi'}, u'/*/POST/jobs']]}"
+Resources.Custom::ApiMethod.Properties.responses.default.statusCode,200
+Parameters.ServiceToken.Description,ARN for ApiGatewayCloudFormation-LambdaFunction
+Resources.Custom::ApiMethod.Properties.integration.type,AWS
+Resources.Custom::RestApi.Properties.description,API for adding jobs to scraper queue and viewing status and results
+Resources.AWS::Lambda::EventSourceMapping.Properties.BatchSize,1
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'WebsiteS3'}
+Resources.Custom::RestApi.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'LambdaRole'}]
+Resources.Custom::ApiMethod.Properties.integration.httpMethod,POST

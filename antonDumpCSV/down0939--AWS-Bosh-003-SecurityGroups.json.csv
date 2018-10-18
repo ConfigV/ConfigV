@@ -1,0 +1,30 @@
+Outputs.SmtpSecurityGroup.Description,SMTP Outbound Security Groups
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'25', u'FromPort': u'25', u'IpProtocol': u'tcp', u'Description': u'Outbound SMTP TCP Port 25 (smtp)', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'587', u'FromPort': u'587', u'IpProtocol': u'tcp', u'Description': u'Outbound SMTP TCP Port 25 (submission)', u'CidrIp': u'0.0.0.0/0'}]"
+Outputs.DirectorInstanceSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-DirectorInstanceSecurityGroup'}
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Router In Out
+Outputs.PrivateSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-PrivateSecurityGroup'}
+Parameters.Availability.AllowedValues,"[u'SingleAZ', u'SingleAZ-HA', u'MultiAZ']"
+Outputs.ApplicationLbSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-ApplicationLbSecurityGroup'}
+Outputs.RouterSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-RouterSecurityGroup'}
+Parameters.DeploymentName.MaxLength,16
+Parameters.DeploymentName.Description,Deployment Name
+Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
+Outputs.DirectorInstanceSecurityGroup.Value,{u'Ref': u'DirectorInstanceSecurityGroup'}
+Outputs.SmtpSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-SmtpSecurityGroup'}
+Outputs.PrivateSecurityGroup.Description,Private Security Groups
+Outputs.DirectorInstanceSecurityGroup.Description,Director Instance Security Group
+Outputs.RouterSecurityGroup.Value,{u'Ref': u'RouterSecurityGroup'}
+Parameters.Availability.Type,String
+Outputs.ApplicationLbSecurityGroup.Description,Application Load Balancer Security Group
+Outputs.PrivateSecurityGroup.Value,{u'Ref': u'PrivateSecurityGroup'}
+Parameters.Availability.Default,SingleAZ
+Outputs.SmtpSecurityGroup.Value,{u'Ref': u'SmtpSecurityGroup'}
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CloudFoundryVpc'}}
+Outputs.RouterSecurityGroup.Description,Router Security Groups
+Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
+Parameters.DeploymentName.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:RouterSecurityGroup'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.Availability.Description,Availability Type
+Parameters.DeploymentName.MinLength,1
+Outputs.ApplicationLbSecurityGroup.Value,{u'Ref': u'ApplicationLbSecurityGroup'}

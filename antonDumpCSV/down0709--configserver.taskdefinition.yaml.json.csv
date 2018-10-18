@@ -1,0 +1,25 @@
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ConfigServerImageVersion,ConfigServerImageVersion
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerMemory,1024
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerPort,8899
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerImage,ixortalk/ixortalk-config-server:${ConfigServerImageVersion}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SpringCloudConfigServerURI,SpringCloudConfigServerURI
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,configserver-logs
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerDefinitionName,ixortalk-configserver
+Parameters.SpringProfilesActive.Type,String
+Parameters.ConfigServerImageVersion.Type,String
+Parameters.Environment.Description,The target environment (tst/stg/prd)
+Parameters.ProjectName.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SpringProfilesActive,SpringProfilesActive
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Parameters.Environment.Type,String
+Resources.AWS::CloudFormation::Stack.Condition,UseHttps
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.LogGroupName,configserver-logs
+Parameters.GitUriPrefix.Type,String
+Parameters.S3TemplatesBucketName.Default,ixortalktooling-prd-aws-cloudformation
+Outputs.TaskDefinition.Value,"[u'UseSsh', u'SshConfigserverTaskDefinition.Outputs.TaskDefinition', u'HttpsConfigserverTaskDefinition.Outputs.TaskDefinition']"
+Parameters.S3TemplatesBucketName.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHost,"[u'UseBitbucketSsh', u'Bitbucket', u'Github']"
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.eu-central-1.amazonaws.com/${S3TemplatesBucketName}/services/core/configserver.https.taskdefinition.yaml
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Parameters.SpringCloudConfigServerURI.Type,String

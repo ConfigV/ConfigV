@@ -1,0 +1,39 @@
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,VPC
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetType,ip
+Resources.AWS::ECS::Service.DependsOn,listener
+Resources.AWS::ECS::Service.Properties.LaunchType,FARGATE
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,8080
+Parameters.VPC.Type,String
+Parameters.PublicSubnet2.Type,String
+Resources.AWS::ECS::Service.Type,AWS::ECS::Service
+Parameters.ALBPrivateCNAME.Type,String
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': {u'Ref': u'targetgroup002'}, u'Type': u'forward'}]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
+Resources.AWS::ECS::Service.Properties.HealthCheckGracePeriodSeconds,60
+Resources.AWS::ECS::TaskDefinition.Properties.Memory,1GB
+Resources.AWS::ECS::TaskDefinition.Properties.Cpu,256
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,60
+Resources.AWS::ECS::Service.Properties.LoadBalancers,"[{u'ContainerName': u'webapp', u'TargetGroupArn': u'targetgroup002', u'ContainerPort': 8080}]"
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,10
+Resources.AWS::ECS::Service.Properties.Cluster,ECSCluster
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,PublicALB
+Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
+Parameters.PublicALB.Type,String
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/
+Resources.AWS::ECS::TaskDefinition.Properties.NetworkMode,awsvpc
+Parameters.ECSCluster.Type,String
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'PortMappings': [{u'ContainerPort': 8080}], u'Name': u'webapp', u'Image': u'arungupta/webapp', u'Environment': [{u'Name': u'NAME_SERVICE_HOST', u'Value': u'ALBPrivateCNAME'}, {u'Name': u'NAME_SERVICE_PORT', u'Value': u'8082'}, {u'Name': u'NAME_SERVICE_PATH', u'Value': u'/resources/names'}, {u'Name': u'GREETING_SERVICE_HOST', u'Value': u'ALBPrivateCNAME'}, {u'Name': u'GREETING_SERVICE_PORT', u'Value': u'8081'}, {u'Name': u'GREETING_SERVICE_PATH', u'Value': u'/resources/greeting'}], u'Memory': 500, u'Cpu': 10}]"
+Parameters.SecurityGroup.Type,String
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.SecurityGroups,[u'SecurityGroup']
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.AssignPublicIp,ENABLED
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,webapp
+Resources.AWS::ECS::TaskDefinition.Properties.RequiresCompatibilities,[u'FARGATE']
+Parameters.PublicSubnet1.Type,String
+Resources.AWS::ECS::Service.Properties.DesiredCount,1
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.Subnets,"[u'PublicSubnet1', u'PublicSubnet2']"
+Resources.AWS::ECS::Service.Properties.TaskDefinition,taskdefinition
+Resources.AWS::ECS::Service.Properties.ServiceName,webapp
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,80

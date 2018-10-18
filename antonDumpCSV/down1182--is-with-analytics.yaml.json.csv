@@ -1,0 +1,133 @@
+Resources.AWS::AutoScaling::AutoScalingGroup.DependsOn,"[u'WSO2ISLoadBalancer', u'WSO2ISNode1LaunchConfiguration']"
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Resources.AWS::EC2::Route.Properties.NatGatewayId,WSO2ISNATGateway
+Resources.AWS::EFS::MountTarget.Properties.SubnetId,WSO2ISPrivateSubnet2
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': u'WSO2ISInstance1', u'PropagateAtLaunch': u'true', u'Key': u'Name'}, {u'Value': u'is', u'PropagateAtLaunch': u'true', u'Key': u'cluster'}]"
+Resources.AWS::EFS::MountTarget.Properties.SecurityGroups,[u'WSO2ISEFSSecurityGroup']
+Resources.AWS::RDS::DBInstance.Properties.MasterUsername,DBUsername
+Resources.AWS::EC2::SecurityGroup.Properties.GroupName,WSO2AnalyticsSecurityGroup
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,WSO2ISPublicInternetGateway
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
+Parameters.WUMPassword.NoEcho,True
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Join': [u'\n', [u'#!/bin/bash', u'export PATH=~/.local/bin:$PATH', u'echo ""> Set hostname to puppetmaster""', u'hostname puppetmaster', u'echo $(hostname) >> /etc/hostname', u'echo ""127.0.0.1 $(hostname)"" >> /etc/hosts', u""sed -i '/\\[main\\]/a dns_alt_names=puppetmaster,puppet\\nenvironmentpath=$confdir/environments\\nhiera_config=/etc/puppet/hiera.yaml' /etc/puppet/puppet.conf"", u""sed -i '/\\[master\\]/a autosign=true' /etc/puppet/puppet.conf"", u'service puppetmaster restart', u'./home/ubuntu/is-init.sh ${WUMUsername} ${WUMPassword}', u'./home/ubuntu/is-analytics-init.sh ${WUMUsername} ${WUMPassword}', [u'', [u'sed -i ""s/access-key/', u'AWSAccessKeyId', u'/g"" /etc/puppet/hieradata/dev/wso2/wso2is/pattern-2/default.yaml']], [u'', [u'sed -i ""s/REGION_NAME/', u'AWS::Region', u'/g"" /etc/puppet/hieradata/dev/wso2/wso2is/pattern-2/default.yaml']], [u'', [u'sed -i ""s/access-key/', u'AWSAccessKeyId', u'/g"" /etc/puppet/hieradata/dev/wso2/wso2is_analytics/pattern-1/default.yaml']], [u'', [u'sed -i ""s/CF_ANALYTICS_DB_HOST/', [u'WSO2ISAnalyticsDBInstance', u'Endpoint.Address'], u'/g"" /etc/puppet/hieradata/dev/wso2/wso2is_analytics/pattern-1/default.yaml']], [u'', [u'sed -i ""s/CF_ELB_DNS_NAME/', [u'WSO2ISLoadBalancer', u'DNSName'], u'/g"" /etc/puppet/hieradata/dev/wso2/wso2is/pattern-2/default.yaml']], [u'', [u'sed -i ""s/CF_ANALYTICS_ELB_DNS_NAME/', u'localhost', u'/g"" /etc/puppet/hieradata/dev/wso2/wso2is_analytics/pattern-1/default.yaml']], [u'', [u'sed -i ""s/CF_DB_USERNAME/', u'DBUsername', u'/g"" /etc/puppet/hieradata/dev/wso2/common.yaml']], [u'', [u'sed -i ""s/CF_DB_PASSWORD/', u'DBPassword', u'/g"" /etc/puppet/hieradata/dev/wso2/common.yaml']], [u'', [u'sed -i ""s/JDK_VERSION/', u'jdk-8u144-linux-x64.tar.gz', u'/g"" /etc/puppet/hieradata/dev/wso2/common.yaml']], [u'', [u'sed -i ""s/CF_RDS_URL/', [u'WSO2ISDBInstance', u'Endpoint.Address'], u'/g"" /etc/puppet/hieradata/dev/wso2/common.yaml']], [u'', [u'sed -i ""s^secretkey^', u'AWSAccessKeySecret', u'^g"" /etc/puppet/hieradata/dev/wso2/wso2is/pattern-2/default.yaml']], [u'', [u'sed -i ""s^secretkey^', u'AWSAccessKeySecret', u'^g"" /etc/puppet/hieradata/dev/wso2/wso2is_analytics/pattern-1/default.yaml']]]]}"
+Outputs.ISPortalURL.Value,"[u'', [u'https://', [u'WSO2ISAnalyticsLoadBalancer', u'DNSName'], u'/portal']]"
+Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,0
+Parameters.AWSAccessKeyId.Type,String
+Parameters.CertificateName.Type,String
+Resources.AWS::RDS::DBInstance.Properties.MultiAZ,true
+Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[u'WSO2ISAnalyticsSecurityGroup']
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,True
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'9763', u'FromPort': u'9763', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'443', u'FromPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'9443', u'FromPort': u'9443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'4040', u'FromPort': u'4040', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'5701', u'FromPort': u'5701', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
+Parameters.WUMUsername.Default,
+Resources.AWS::AutoScaling::LaunchConfiguration.DependsOn,"[u'WSO2ISAnalyticsSecurityGroup', u'WSO2ISAnalyticsLoadBalancer', u'WSO2ISVPCInternetGatewayAttachment', u'WSO2ISDBInstance', u'PuppetMaster']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'DeleteOnTermination': u'true', u'VolumeType': u'gp2', u'VolumeSize': u'20'}}]"
+Resources.AWS::EFS::FileSystem.Properties.PerformanceMode,generalPurpose
+Parameters.WUMPassword.Default,
+Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,True
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'AWSAccessKeyId', u'AWSAccessKeySecret', u'KeyPairName', u'WSO2InstanceType'], u'Label': {u'default': u'Cluster Configuration'}}, {u'Parameters': [u'CertificateName'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'DBUsername', u'DBPassword'], u'Label': {u'default': u'Database Credentials'}}, {u'Parameters': [u'WUMUsername', u'WUMPassword'], u'Label': {u'default': u'WUM Credentials'}}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Join': [u'\n', [u'#!/bin/bash', u'export PATH=~/.local/bin:$PATH', u'apt-get update', u""sed -i '/\\[main\\]/a server=puppet' /etc/puppet/puppet.conf"", u'export DB_NAME=WSO2_IS_ANALYTICS_DB', [u'', [u'export PuppetmasterIP=', [u'PuppetMaster', u'PrivateIp']]], u'echo ""${PuppetmasterIP} puppet puppetmaster"" >> /etc/hosts', u'./home/ubuntu/set_jdk.sh jdk-8u144-linux-x64.tar.gz', [u'', [u'sed -i ""s/CF_DB_USERNAME/', u'DBUsername', u'/g"" /usr/local/bin/provision_db_analytics.sh']], [u'', [u'sed -i ""s/CF_DB_PASSWORD/', u'DBPassword', u'/g"" /usr/local/bin/provision_db_analytics.sh']], [u'', [u'sed -i ""s/CF_DB_HOST/', [u'WSO2ISAnalyticsDBInstance', u'Endpoint.Address'], u'/g"" /usr/local/bin/provision_db_analytics.sh']], [u'', [u'sed -i ""s/CF_DB_PORT/', [u'WSO2ISDBInstance', u'Endpoint.Port'], u'/g"" /usr/local/bin/provision_db_analytics.sh']], u'sleep 450', u'sudo /opt/setup.sh start', u'sleep 30', u'bash /usr/local/bin/provision_db_analytics.sh', u'sleep 10', [u'', [u'sed -i ""s/LOCAL_MEMBER_HOST/', u'$PRIVATE_IP', u'/g"" /mnt/wso2is-analytics-5.6.0/repository/conf/axis2/axis2.xml']], u'/mnt/wso2is-analytics-5.6.0/bin/wso2server.sh start', u'echo \'export HISTTIMEFORMAT=""%F %T ""\' >> /etc/profile.d/history.sh', u'cat /dev/null > ~/.bash_history && history -c']]}"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.JDK.default,JDK Version
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.252.0/24
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WUMUsername.default,Username
+Resources.AWS::EC2::Instance.Properties.KeyName,KeyPairName
+Resources.AWS::EC2::NatGateway.Properties.SubnetId,WSO2ISPublicSubnet1
+Resources.AWS::EC2::Instance.Properties.DisableApiTermination,false
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
+Outputs.SparkUIURL.Description,Spark UI Node
+Resources.AWS::EC2::NatGateway.Properties.AllocationId,"[u'WSO2ISEIP', u'AllocationId']"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Parameters.KeyPairName.Description,The private key used to log in to instances through SSH
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WUMPassword.default,Password
+Resources.AWS::EC2::EIPAssociation.Type,AWS::EC2::EIPAssociation
+Resources.AWS::EFS::MountTarget.Type,AWS::EFS::MountTarget
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
+Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,DBPassword
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[u'WSO2ISPublicSubnet2', u'WSO2ISPublicSubnet1']"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DBPassword.default,Password
+Outputs.ISCarbonURL.Value,"[u'', [u'https://', [u'WSO2ISLoadBalancer', u'DNSName'], u'/carbon']]"
+Resources.AWS::EC2::Route.Properties.RouteTableId,WSO2ISPrivateSubnetRouteTable
+Resources.AWS::EC2::Route.DependsOn,WSO2ISVPCInternetGatewayAttachment
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': u'WSO2ISPrivateSubnet1', u'DeviceIndex': 0, u'GroupSet': [u'PuppetMasterSecurityGroup'], u'DeleteOnTermination': u'true', u'Description': u'Primary network interface'}]"
+Parameters.DBUsername.Type,String
+Resources.AWS::EC2::RouteTable.Properties.VpcId,WSO2ISVPC
+Parameters.DBPassword.Type,String
+Outputs.ISPortalURL.Description,Identity Server Analytics Dashboard
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.AWSAccessKeyId.default,AWS Access Key ID
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DBUsername.default,Username
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,KeyPairName
+Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'9763', u'FromPort': u'9763', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'9443', u'FromPort': u'9443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'443', u'FromPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'4040', u'FromPort': u'4040', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'5701', u'FromPort': u'5701', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
+Parameters.DBUsername.MinLength,4
+Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::EC2::Subnet.Properties.VpcId,WSO2ISVPC
+Resources.AWS::EFS::FileSystem.Type,AWS::EFS::FileSystem
+Resources.AWS::EC2::Instance.Properties.InstanceInitiatedShutdownBehavior,stop
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,WSO2 IS Analytics ELB Security Group
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Parameters.WUMUsername.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.CertificateName.default,SSL Certificate Name
+Parameters.CertificateName.MinLength,1
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,WSO2ISNode1LaunchConfiguration
+Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,DB Subnet Group
+Parameters.AWSAccessKeySecret.Type,String
+Parameters.DBPassword.NoEcho,True
+Resources.AWS::EC2::Instance.Properties.Monitoring,false
+Outputs.ISCarbonURL.Description,Identity Server Management Console URL
+Parameters.DBUsername.AllowedPattern,[A-Za-z0-9\-]+
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"[u'1', u'']"
+Parameters.WUMPassword.Type,String
+Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[u'WSO2ISPrivateSubnet1', u'WSO2ISPrivateSubnet2']"
+Outputs.ISAnalyticsURL.Value,"[u'', [u'https://', [u'WSO2ISAnalyticsLoadBalancer', u'DNSName'], u'/carbon']]"
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,WSO2ISPrivateSubnetRouteTable
+Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.t2.medium
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.DependsOn,[u'WSO2ISAnalyticsLoadBalancerSecurityGroup']
+Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[u'WSO2ISDBInstanceSecurityGroup']
+Resources.AWS::EC2::EIPAssociation.Properties.InstanceId,WSO2BastionInstance
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'9763', u'PolicyNames': [u'LBStickyPolicy'], u'LoadBalancerPort': u'9763', u'Protocol': u'HTTP', u'InstanceProtocol': u'HTTP'}, {u'InstancePort': u'4040', u'PolicyNames': [u'LBStickyPolicy'], u'LoadBalancerPort': u'80', u'Protocol': u'HTTP', u'InstanceProtocol': u'HTTP'}, {u'InstancePort': u'9443', u'Protocol': u'HTTPS', u'InstanceProtocol': u'HTTPS', u'LoadBalancerPort': u'9443', u'PolicyNames': [u'LBStickyPolicy'], u'SSLCertificateId': [u'', [u'arn:aws:iam::', u'AWS::AccountId', u':server-certificate', u'/', u'CertificateName']]}, {u'InstancePort': u'9443', u'Protocol': u'HTTPS', u'InstanceProtocol': u'HTTPS', u'LoadBalancerPort': u'443', u'PolicyNames': [u'LBStickyPolicy'], u'SSLCertificateId': [u'', [u'arn:aws:iam::', u'AWS::AccountId', u':server-certificate', u'/', u'CertificateName']]}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,True
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Resources.AWS::RDS::DBInstance.DeletionPolicy,Delete
+Outputs.ISAnalyticsURL.Description,Identity Server Analytics Management Console URL
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,WSO2ISVPC
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,TCP:9763
+Parameters.DBPassword.MinLength,8
+Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,WSO2ISDBSubnetGroup
+Resources.AWS::RDS::DBInstance.Properties.StorageType,gp2
+Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
+Outputs.SparkUIURL.Value,"[u'', [u'http://', [u'WSO2ISAnalyticsLoadBalancer', u'DNSName'], u'/jobs']]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"[u'WSO2ISAnalyticsAMIRegionMap', u'AWS::Region', u'Ubuntu140464bit']"
+Resources.AWS::EC2::EIPAssociation.Properties.AllocationId,WSO2BastionEIP.AllocationId
+Parameters.CertificateName.Description,A valid SSL certificate used for HTTPS
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[u'WSO2ISLoadBalancer']
+Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,5
+Resources.AWS::EFS::MountTarget.Properties.FileSystemId,WSO2ISEFSFileSystem
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,[u'WSO2ISPrivateSubnet1']
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[u'WSO2ISAnalyticsLoadBalancerSecurityGroup']
+Resources.AWS::EC2::Route.Properties.GatewayId,WSO2ISPublicInternetGateway
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyPairName.default,Key Pair Name
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,WSO2ISPrivateSubnet1
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceIdentifier,WSO2ISDBInstance
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LBCookieStickinessPolicy,[{u'PolicyName': u'LBStickyPolicy'}]
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.AWSAccessKeySecret.default,AWS Access Secret Key
+Resources.AWS::RDS::DBInstance.Properties.DBName,WSO2_IS_DB
+Resources.AWS::EC2::Instance.Properties.ImageId,"[u'WSO2PuppetMasterRegionMap', u'AWS::Region', u'Ubuntu140464bit']"
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,WSO2ISVPC
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'PuppetMasterInstance', u'Key': u'Name'}]"

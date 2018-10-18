@@ -1,0 +1,112 @@
+Parameters.SlackWebhookURL.NoEcho,True
+Parameters.EnableSubscriberSMS.AllowedValues,"[True, False]"
+Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
+Resources.AWS::SNS::TopicPolicy.Type,AWS::SNS::TopicPolicy
+Resources.AWS::Lambda::Function.Condition,cDeployLambda
+Parameters.SlackChannel.Type,String
+Outputs.SNSAlertsErrorArn.Value,SNSAlertsError
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"[u'SlackNotificationLambda', u'Arn']"
+Resources.AWS::SNS::TopicPolicy.Properties.Topics,"[u'SNSAlertsCritical', u'SNSAlertsError', u'SNSAlertsInfo']"
+Parameters.DeployLambda.AllowedValues,"[True, False]"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.SLACK_CHANNEL,SlackChannel
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Statement,"[{u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'My-statement-id', u'Action': u'sns:Publish', u'Condition': {u'StringEquals': {u'AWS:SourceOwner': u'AWS::AccountId'}}, u'Principal': {u'AWS': u'*'}}]"
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:invokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,80
+Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Parameters.SlackChannel.Default,#aws_notices
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Id,AlertTopicPolicy
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Outputs.SNSAlertsInfoArn.Export.Name,${AWS::Region}-${AWS::StackName}-SNSAlertsInfoArn
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"# Lambda to send SNS Messages to Slack
+from __future__ import print_function
+
+import boto3
+import json
+import logging
+import os
+
+from base64 import b64decode
+from urllib2 import Request, urlopen, URLError, HTTPError
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+def lambda_handler(event, context):
+    logger.info(""Received event: "" + json.dumps(event, sort_keys=True))
+    message = event['Records'][0]['Sns']['Message']
+    subject = event['Records'][0]['Sns']['Subject']
+    timestamp = event['Records'][0]['Sns']['Timestamp']
+    topicARN = event['Records'][0]['Sns']['TopicArn'].split(':')[-1]
+
+    slack_message = {
+        'channel': os.environ['SLACK_CHANNEL'],
+        'text': ""%s: %s - %s"" % (timestamp, subject, message),
+        'username': topicARN,
+        'icon_emoji': os.environ['ICON_EMOJI']
+    }
+
+    req = Request(os.environ['HOOK_URL'], json.dumps(slack_message))
+    try:
+        response = urlopen(req)
+        response.read()
+        logger.info(""Message posted to %s"", slack_message['channel'])
+    except HTTPError as e:
+        logger.error(""Request failed: %d %s"", e.code, e.reason)
+    except URLError as e:
+        logger.error(""Server connection failed: %s"", e.reason)
+"
+Parameters.EnableSubscriberSMS.Type,String
+Parameters.EnableSubscriberSMS.Description,Enable SMS notification of critical alerts
+Resources.AWS::CloudWatch::Alarm.Properties.MetricName,EstimatedCharges
+Resources.AWS::Lambda::Permission.Properties.Principal,sns.amazonaws.com
+Resources.AWS::Lambda::Function.Properties.Handler,index.lambda_handler
+Resources.AWS::SNS::Topic.Condition,cDeploySMSAlerts
+Parameters.SlackIconEmoji.Default,:cloud:
+Parameters.BillingThreshold.Description,Sets the billing alert to go off above this figure
+Parameters.SlackChannel.Description,Slack Channel to send the spam to
+Parameters.InitialSubscriberSMS.Type,String
+Outputs.SNSAlertsCriticalArn.Value,SNSAlertsCritical
+Parameters.InitialSubscriberSMS.Default,1-404-867-5309-CHANGETHIS
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,"[u'', [u'Alarm if AWS spending is over $', u'BillingThreshold']]"
+Outputs.SNSAlertsCriticalArn.Export.Name,${AWS::Region}-${AWS::StackName}-SNSAlertsCriticalArn
+Outputs.SNSAlertsNightmare.Condition,cDeploySMSAlerts
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[u'SNSAlertsError']
+Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'Currency', u'Value': u'USD'}]"
+Parameters.DeployLambda.Type,String
+Parameters.DeployLambda.Description,Whether or not to deploy the slack lambda
+Parameters.SlackWebhookURL.Default,https://hooks.slack.com/services/slack-webhook-id
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Parameters.SlackIconEmoji.Type,String
+Resources.AWS::Lambda::Permission.Condition,cDeployLambda
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Maximum
+Resources.AWS::Lambda::Function.Properties.Description,Send SNS Messages to Slack
+Outputs.SNSAlertsErrorArn.Export.Name,${AWS::Region}-${AWS::StackName}-SNSAlertsErrorArn
+Parameters.EnableSubscriberSMS.Default,True
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.HOOK_URL,SlackWebhookURL
+Outputs.SNSAlertsNightmare.Export.Name,${AWS::Region}-${AWS::StackName}-SNSAlertsNightmare
+Parameters.SlackWebhookURL.Description,WebHook URL from Slack. Keep this secret
+Resources.AWS::IAM::Role.Condition,cDeployLambda
+Resources.AWS::Lambda::Function.Properties.Role,"[u'SlackNotificationLambdaRole', u'Arn']"
+Resources.AWS::CloudWatch::Alarm.Properties.Period,21600
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': u'InitialSubscriberEmail', u'Protocol': u'email'}, {u'Endpoint': [u'SlackNotificationLambda', u'Arn'], u'Protocol': u'lambda'}]"
+Resources.AWS::Lambda::Permission.Properties.SourceArn,SNSAlertsCritical
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Version,2012-10-17
+Parameters.InitialSubscriberSMS.Description,Add this initial Cell for SMS notification of critical alerts
+Resources.AWS::CloudWatch::Alarm.Properties.Threshold,BillingThreshold
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ICON_EMOJI,SlackIconEmoji
+Outputs.SNSAlertsInfoArn.Value,SNSAlertsInfo
+Parameters.InitialSubscriberEmail.Type,String
+Parameters.InitialSubscriberEmail.Description,Add this initial email to the alerts
+Parameters.SlackIconEmoji.Description,Slack Emoji to use
+Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/Billing
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CloudWatch', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'cloudwatch:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'logs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.SlackWebhookURL.Type,String
+Parameters.BillingThreshold.Type,Number
+Outputs.SNSAlertsNightmare.Value,SNSAlertsNightmare
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1

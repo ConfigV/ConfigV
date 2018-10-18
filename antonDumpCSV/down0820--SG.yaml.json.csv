@@ -1,0 +1,25 @@
+Resources.AWS::EC2::SecurityGroupEgress.Properties.SourceSecurityGroupId,SGEC2Web.GroupId
+Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allow Ingress(443) from Internet and allow Egress(80) to WEB Servers
+Outputs.SGEC2WebGroupId.Export.Name,"[u'${AppName}SGEC2WebGroupId', {u'AppName': u'AppName'}]"
+Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,80
+Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
+Resources.AWS::EC2::SecurityGroupEgress.Properties.FromPort,443
+Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,SGEC2Web.GroupId
+Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,SGELB.GroupId
+Resources.AWS::EC2::SecurityGroupEgress.Type,AWS::EC2::SecurityGroupEgress
+Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,80
+Outputs.SGEC2Web.Value,SGEC2Web
+Resources.AWS::EC2::SecurityGroupEgress.Properties.ToPort,443
+Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,0.0.0.0/0
+Resources.AWS::EC2::SecurityGroupEgress.Properties.IpProtocol,tcp
+Outputs.SGEC2WebGroupId.Value,SGEC2Web.GroupId
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,"{u'Fn::ImportValue': [u'${AppName}VPC', {u'AppName': u'AppName'}]}"
+Parameters.AppName.Type,String
+Resources.AWS::EC2::SecurityGroupEgress.Properties.GroupId,SGEC2Web.GroupId
+Outputs.SGELB.Export.Name,"[u'${AppName}SGELB', {u'AppName': u'AppName'}]"
+Outputs.SGEC2Web.Export.Name,"[u'${AppName}SGEC2Web', {u'AppName': u'AppName'}]"
+Outputs.SGELB.Value,SGELB
+Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::EC2::SecurityGroupEgress.Properties.CidrIp,0.0.0.0/0

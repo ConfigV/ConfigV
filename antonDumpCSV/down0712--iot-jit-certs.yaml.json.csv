@@ -1,0 +1,132 @@
+Resources.AWS::IoT::TopicRule.Properties.TopicRulePayload.AwsIotSqlVersion,2016-03-23
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::IoT::TopicRule.Properties.RuleName,IoTTopicRuleName
+Resources.AWS::IoT::TopicRule.Properties.TopicRulePayload.RuleDisabled,False
+Resources.AWS::IoT::TopicRule.Properties.TopicRulePayload.Sql,"[u'', [u""SELECT * FROM '$aws/events/certificates/registered/"", u'IotCaCertId', u""'""]]"
+Resources.AWS::IoT::TopicRule.Properties.TopicRulePayload.Actions,[{u'Lambda': {u'FunctionArn': u'RegisterIoTCertificateLambda.Arn'}}]
+Resources.AWS::Lambda::Function.Properties.Description,Lambda for jit cert registration for IoT devices.
+Resources.AWS::Lambda::Permission.Properties.FunctionName,FunctionName
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.TOPIC_NAME,ProjectName
+Resources.AWS::Lambda::Permission.Properties.Principal,iot.amazonaws.com
+Resources.AWS::IoT::TopicRule.Properties.TopicRulePayload.Description,Aws IoT Rule for Just In Time Cert registration
+Resources.AWS::Lambda::Function.Properties.Timeout,25
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"[u'RegisterIoTCertificateLambdaRole', u'Arn']"
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"var AWS = require('aws-sdk');
+
+exports.handler = function(event, context, callback) {
+
+    console.log(""Entering lamba function with "",event)
+
+    var region = process.env.AWS_REGION;
+
+    var accountId = event.awsAccountId.toString().trim();
+
+    var iot = new AWS.Iot({'region': region, apiVersion: '2015-05-28'});
+    var certificateId = event.certificateId.toString().trim();
+
+    var params = {
+      certificateId: certificateId
+    };
+
+    var topicName = `/` + process.env.TOPIC_NAME;
+
+    var certificateARN = `arn:aws:iot:${region}:${accountId}:cert/${certificateId}`;
+    var policyName = `Policy_${certificateId}`;
+
+    // Policy that allows connect, publish, subscribe and receive.
+    var policy = {
+        ""Version"": ""2012-10-17"",
+        ""Statement"": [
+            {
+                ""Effect"": ""Allow"",
+                ""Action"": [
+                    ""iot:Connect""
+                ],
+                ""Resource"": `arn:aws:iot:${region}:${accountId}:client/${""${iot:Certificate.Subject.CommonName}""}`
+            },
+            {
+                ""Effect"": ""Allow"",
+                ""Action"": [
+                    ""iot:Publish"",
+                    ""iot:Receive""
+                ],
+                ""Resource"": `arn:aws:iot:${region}:${accountId}:topic/${topicName}/${""${iot:Certificate.Subject.CommonName}""}/*`
+            },
+            {
+                ""Effect"": ""Allow"",
+                ""Action"": [
+                    ""iot:Subscribe"",
+                ],
+                ""Resource"": `arn:aws:iot:${region}:${accountId}:topicfilter/${topicName}/${""${iot:Certificate.Subject.CommonName}""}/*`
+            }
+        ]
+    };
+
+    /*
+    Step 1) Create a policy
+    */
+    iot.createPolicy({
+        policyDocument: JSON.stringify(policy),
+        policyName: policyName
+    }, (err, data) => {
+        //Ignore if the policy already exists
+        if (err && (!err.code || err.code !== 'ResourceAlreadyExistsException')) {
+            console.log(err);
+            callback(err, data);
+            return;
+        }
+        console.log(data);
+
+        /*
+        Step 2) Attach the policy to the certificate
+        */
+        iot.attachPrincipalPolicy({
+            policyName: policyName,
+            principal: certificateARN
+        }, (err, data) => {
+            //Ignore if the policy is already attached
+            if (err && (!err.code || err.code !== 'ResourceAlreadyExistsException')) {
+                console.log(err);
+                callback(err, data);
+                return;
+            }
+            console.log(data);
+            /*
+            Step 3) Activate the certificate. Optionally, you can have your custom Certificate Revocation List (CRL) check
+            logic here and ACTIVATE the certificate only if it is not in the CRL. Revoke the certificate if it is in the CRL
+            */
+            iot.updateCertificate({
+                certificateId: certificateId,
+                newStatus: 'ACTIVE'
+            }, (err, data) => {
+                if (err) {
+                    console.log(err, err.stack);
+                    callback(err, data);
+                }
+                else {
+                    console.log(data);
+                    callback(null, ""Success, created, attached policy and activated the certificate "" + certificateId);
+                }
+            });
+        });
+    });
+
+}
+"
+Resources.AWS::IAM::Role.Properties.RoleName,LambdaRoleName
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Parameters.LambdaRoleName.Type,String
+Parameters.ProjectName.Type,String
+Resources.AWS::Lambda::Function.Properties.FunctionName,FunctionName
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.IoTTopicRuleName.Type,String
+Parameters.FunctionName.Type,String
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
+Resources.AWS::IoT::TopicRule.Type,AWS::IoT::TopicRule
+Resources.AWS::Lambda::Permission.Properties.SourceArn,RegisterIoTCertificateTopicRule.Arn
+Parameters.IotCaCertId.Type,String
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'iot-and-cloudwatch-access', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'iot:UpdateCertificate', u'iot:CreatePolicy', u'iot:AttachPrincipalPolicy'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"

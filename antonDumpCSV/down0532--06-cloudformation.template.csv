@@ -1,0 +1,76 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Mappings.StackConfig.FrontendSubnet1.CIDR,10.123.0.0/20
+Parameters.EnvironmentType.ConstraintDescription,"must specify production, development or local."
+Resources.AWS::EC2::VPC.Properties.CidrBlock,"{u'Fn::FindInMap': [u'StackConfig', u'VPC', u'CIDR']}"
+Resources.AWS::ElasticBeanstalk::Environment.Type,AWS::ElasticBeanstalk::Environment
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Parameters.AppVersionLabel.Type,String
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::ElasticBeanstalk::Environment.Properties.Tier.Version,1.0
+Resources.AWS::ElasticBeanstalk::Environment.Properties.OptionSettings,"[{u'OptionName': u'InstanceType', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': {u'Fn::FindInMap': [u'StackConfig', u'ApplicationServer', u'InstanceType']}}, {u'OptionName': u'RootVolumeType', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': u'gp2'}, {u'OptionName': u'RootVolumeSize', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': u'10'}, {u'OptionName': u'MinSize', u'Namespace': u'aws:autoscaling:asg', u'Value': u'1'}, {u'OptionName': u'MaxSize', u'Namespace': u'aws:autoscaling:asg', u'Value': u'4'}, {u'OptionName': u'RollingUpdateEnabled', u'Namespace': u'aws:autoscaling:updatepolicy:rollingupdate', u'Value': u'true'}, {u'OptionName': u'RollingUpdateType', u'Namespace': u'aws:autoscaling:updatepolicy:rollingupdate', u'Value': u'Health'}, {u'OptionName': u'CFN_STACK_NAME', u'Namespace': u'aws:elasticbeanstalk:application:environment', u'Value': {u'Ref': u'AWS::StackName'}}, {u'OptionName': u'DEV_TOPIC_ARN', u'Namespace': u'aws:elasticbeanstalk:application:environment', u'Value': {u'Ref': u'DeveloperNotificationTopic'}}]"
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,"{u'Fn::FindInMap': [u'StackConfig', u'DatabaseSubnet1', u'CIDR']}"
+Resources.AWS::ElasticBeanstalk::Environment.Properties.ApplicationName,{u'Ref': u'Application'}
+Resources.AWS::ElasticBeanstalk::Environment.DependsOn,AttachGateway
+Parameters.EnvironmentType.AllowedValues,"[u'production', u'development', u'local']"
+Resources.AWS::ElasticBeanstalk::Environment.Condition,IsProductionOrDevelopment
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.OptionSettings,"[{u'OptionName': u'VPCId', u'Namespace': u'aws:ec2:vpc', u'Value': {u'Ref': u'VPC'}}, {u'OptionName': u'Subnets', u'Namespace': u'aws:ec2:vpc', u'Value': {u'Fn::Join': [u',', [{u'Ref': u'AppSubnet1'}, {u'Ref': u'AppSubnet2'}]]}}, {u'OptionName': u'AssociatePublicIpAddress', u'Namespace': u'aws:ec2:vpc', u'Value': u'true'}, {u'OptionName': u'EC2KeyName', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': {u'Ref': u'KeyName'}}, {u'OptionName': u'IamInstanceProfile', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': {u'Ref': u'PowerUserProfile'}}, {u'OptionName': u'Application Healthcheck URL', u'Namespace': u'aws:elasticbeanstalk:application', u'Value': u'/health'}, {u'OptionName': u'LogPublicationControl', u'Namespace': u'aws:elasticbeanstalk:hostmanager', u'Value': u'true'}]"
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::ElasticBeanstalk::Environment.Properties.Tier.Type,Standard
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::ElasticBeanstalk::Application.Properties.Description,{u'Ref': u'AWS::StackName'}
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}"
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Bucket,"{u'Fn::Join': [u'-', [u'elasticbeanstalk', {u'Ref': u'AWS::Region'}, {u'Ref': u'AWS::AccountId'}]]}"
+Resources.AWS::ElasticBeanstalk::Environment.Properties.Description,blue environment
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
+Resources.AWS::ElasticBeanstalk::Application.Type,AWS::ElasticBeanstalk::Application
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Mappings.StackConfig.AppSubnet1.CIDR,10.123.64.0/20
+Resources.AWS::EC2::RouteTable.DependsOn,AttachGateway
+Resources.AWS::SNS::Topic.Properties.DisplayName,app-developers
+Resources.AWS::ElasticBeanstalk::Application.Condition,IsProductionOrDevelopment
+Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.SolutionStackName,64bit Amazon Linux 2015.03 v1.4.0 running Docker 1.6.0
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::EC2::VPC.Properties.InstanceTenancy,default
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Key,"{u'Fn::Join': [u'', [u'eb-apps/06-cloudformation/06-cloudformation-', {u'Ref': u'AppVersionLabel'}, u'.zip']]}"
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.Description,configuration template
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.ApplicationName,{u'Ref': u'Application'}
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'FrontendSubnet2'}
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Mappings.StackConfig.DatabaseSubnet1.CIDR,10.123.128.0/20
+Mappings.StackConfig.DatabaseSubnet2.CIDR,10.123.144.0/20
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Type,AWS::ElasticBeanstalk::ApplicationVersion
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
+Mappings.StackConfig.AppSubnet2.CIDR,10.123.80.0/20
+Parameters.AppVersionLabel.Description,The version label string of application version.
+Resources.AWS::ElasticBeanstalk::Environment.Properties.VersionLabel,{u'Ref': u'AppVersion'}
+Parameters.EnvironmentType.Description,"The environment type - production, development or local"
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Parameters.EnvironmentType.Default,development
+Resources.AWS::ElasticBeanstalk::Application.Properties.ApplicationName,{u'Ref': u'AWS::StackName'}
+Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::ElasticBeanstalk::Environment.Properties.EnvironmentName,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'blue']]}"
+Mappings.StackConfig.VPC.CIDR,10.123.0.0/16
+Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.ApplicationName,{u'Ref': u'Application'}
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Condition,IsProductionOrDevelopment
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Type,AWS::ElasticBeanstalk::ConfigurationTemplate
+Resources.AWS::ElasticBeanstalk::Environment.Properties.Tier.Name,WebServer
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'PowerUserPolicy', u'PolicyDocument': {u'Statement': [{u'NotAction': [u'iam:*'], u'Resource': [u'*'], u'Effect': u'Allow', u'Sid': u'PowerUserStmt'}]}}]"
+Mappings.StackConfig.FrontendSubnet2.CIDR,10.123.16.0/20
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Condition,IsProductionOrDevelopment
+Parameters.EnvironmentType.Type,String
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.Description,{u'Ref': u'AppVersionLabel'}
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'PowerUserRole'}]
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::ElasticBeanstalk::Environment.Properties.TemplateName,{u'Ref': u'AppConfig'}

@@ -1,0 +1,17 @@
+Parameters.Password.Type,String
+Parameters.Password.Description,IAM user login password
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Outputs.BucketName.Value,{u'Ref': u'S3Bucket'}
+Outputs.IAMUser.Value,{u'Ref': u'S3User'}
+Resources.AWS::IAM::User.Type,AWS::IAM::User
+Resources.AWS::IAM::User.Properties.LoginProfile.Password,{u'Ref': u'Password'}
+Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'S3Access', u'PolicyDocument': {u'Statement': [{u'Action': u's3:ListAllMyBuckets', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u's3:*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3Bucket'}, u'/*']]}, u'Effect': u'Allow'}]}}]"
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Outputs.IAMUser.Description,IAM User for customer
+Parameters.Password.NoEcho,true
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Id,Give access to user
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:*'], u'Principal': {u'AWS': {u'Fn::GetAtt': [u'S3User', u'Arn']}}, u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3Bucket'}]]}, u'Effect': u'Allow', u'Sid': u'AllAccess'}]"
+Parameters.Password.MaxLength,50
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'S3Bucket'}
+Outputs.BucketName.Description,Name of newly created customer S3 bucket
+Parameters.Password.MinLength,3

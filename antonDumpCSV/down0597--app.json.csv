@@ -1,0 +1,21 @@
+Outputs.AppLambdaName.Value,{u'Ref': u'AppLambda'}
+Resources.AWS::Lambda::Function.Properties.Description,serverless application
+Parameters.AppRole.Type,String
+Resources.AWS::Lambda::Function.Properties.Timeout,{u'Ref': u'AppTimeout'}
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'\n', [u'exports.handler = function(event, context) {', u'    context.fail(new Error(500));', u'};']]}"
+Parameters.AppMemorySize.Default,384
+Parameters.AppRole.Description,The role for the function to run as.
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Parameters.AppTimeout.Default,10
+Parameters.AppTimeout.Type,Number
+Parameters.AppTimeout.Description,The name to use for the app lambda function.
+Outputs.AppLambdaName.Description,Lambda name
+Resources.AWS::Lambda::Function.Properties.MemorySize,{u'Ref': u'AppMemorySize'}
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Outputs.AppLambdaArn.Description,Lambda Arn
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
+Outputs.AppLambdaArn.Value,"{u'Fn::GetAtt': [u'AppLambda', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Role,{u'Ref': u'AppRole'}
+Parameters.AppMemorySize.Type,Number
+Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
+Parameters.AppMemorySize.Description,The size to use for the lambda.

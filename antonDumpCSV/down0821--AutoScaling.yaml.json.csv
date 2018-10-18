@@ -1,0 +1,54 @@
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,"[u'${AppName}KeyPair', {u'AppName': u'AppName'}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.TargetGroupARNs,"[{u'Fn::ImportValue': [u'${AppName}TargetGroupArn', {u'AppName': u'AppName'}]}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.WaitOnResourceSignals,True
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingScheduledAction.IgnoreUnmodifiedGroupSizeProperties,True
+Mappings.InstanceSettings.Count.ScaleDown,-2
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,ImageId
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.PauseTime,"[u'InstanceSettings', u'Time', u'SignalLimit']"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'ResourceType': u'auto-scaling-group', u'ResourceId': u'AutoScalingGroup', u'Value': u'AWS::StackName', u'PropagateAtLaunch': True, u'Key': u'Name'}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.PlacementTenancy,default
+Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,LaunchConfig
+Parameters.CfnBucketName.Type,String
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,"[u'InstanceSettings', u'Count', u'Max']"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,"[u'InstanceSettings', u'Count', u'Min']"
+Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Maximum
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,0
+Mappings.InstanceSettings.Count.Min,2
+Mappings.InstanceSettings.Type.Web,t2.nano
+Resources.AWS::CloudWatch::Alarm.Properties.MetricName,CPUUtilization
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.InstanceMonitoring,True
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Fn::ImportValue': [u'${AppName}PrivateSubnet1a', {u'AppName': u'AppName'}]}, {u'Fn::ImportValue': [u'${AppName}PrivateSubnet1c', {u'AppName': u'AppName'}]}]"
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.AdjustmentType,ChangeInCapacity
+Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/EC2
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,"{u'Fn::ImportValue': [u'${AppName}EC2IamInstanceProfile', {u'AppName': u'AppName'}]}"
+Resources.AWS::CloudWatch::Alarm.Properties.Threshold,15
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.EbsOptimized,False
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Launch instances when CPU Util > 15% for 1min
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MaxBatchSize,"[u'InstanceSettings', u'Count', u'ScaleUp']"
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingReplacingUpdate.WillReplace,True
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[u'ScaleUpPolicy']
+Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'AutoScalingGroupName', u'Value': u'AutoScalingGroup'}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Fn::ImportValue': [u'${AppName}SGEC2Web', {u'AppName': u'AppName'}]}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,"[u'InstanceSettings', u'Count', u'Desired']"
+Mappings.InstanceSettings.Count.Max,8
+Mappings.InstanceSettings.Time.SignalLimit,PT5M
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.AutoScalingGroupName,AutoScalingGroup
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.ScalingAdjustment,"[u'InstanceSettings', u'Count', u'ScaleUp']"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,ELB
+Resources.AWS::CloudWatch::Alarm.Properties.Period,60
+Resources.AWS::AutoScaling::ScalingPolicy.Type,AWS::AutoScaling::ScalingPolicy
+Outputs.AutoScalingGroup.Value,AutoScalingGroup
+Parameters.AppName.Type,String
+Mappings.InstanceSettings.Count.Desired,2
+Parameters.S3TemplateURL.Type,String
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,60
+Outputs.AutoScalingGroup.Export.Name,"[u'${AppName}AutoScalingGroup', {u'AppName': u'AppName'}]"
+Parameters.ImageId.Type,String
+Mappings.InstanceSettings.Count.ScaleUp,2
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.PolicyType,SimpleScaling
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MinInstancesInService,"[u'InstanceSettings', u'Count', u'Min']"
+Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1

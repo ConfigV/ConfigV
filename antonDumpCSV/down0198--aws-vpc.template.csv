@@ -1,0 +1,399 @@
+Outputs.NAT3EIP.Description,NAT 3 IP address
+Outputs.S3VPCEndpoint.Value,{u'Ref': u'S3VPCEndpoint'}
+Resources.AWS::EC2::Route.Properties.NatGatewayId,"{u'Fn::If': [u'NATGatewayCondition', {u'Ref': u'NATGateway4'}, {u'Ref': u'AWS::NoValue'}]}"
+Outputs.PrivateSubnet1ACIDR.Condition,PrivateSubnetsCondition
+Resources.AWS::EC2::RouteTable.Condition,AdditionalPrivateSubnetsCondition
+Outputs.PrivateSubnet3BID.Value,{u'Ref': u'PrivateSubnet3B'}
+Parameters.KeyPairName.Description,Public/private key pairs allow you to securely connect to your NAT instance after it launches. This is used only if the region does not support NAT gateways.
+Outputs.PrivateSubnet1ARouteTable.Value,{u'Ref': u'PrivateSubnet1ARouteTable'}
+Outputs.NAT4EIP.Condition,PrivateSubnets&4AZCondition
+Outputs.PrivateSubnet2ARouteTable.Value,{u'Ref': u'PrivateSubnet2ARouteTable'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,false
+Outputs.PublicSubnet3CIDR.Condition,3AZCondition
+Outputs.PrivateSubnet2ACIDR.Condition,PrivateSubnetsCondition
+Parameters.PrivateSubnet1BCIDR.Default,10.0.192.0/21
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfAZs.default,Number of Availability Zones
+Resources.AWS::EC2::VPCEndpoint.Properties.PolicyDocument.Version,2012-10-17
+Outputs.PrivateSubnet1AID.Condition,PrivateSubnetsCondition
+Parameters.PublicSubnet2CIDR.Default,10.0.144.0/20
+Outputs.PublicSubnet4ID.Value,{u'Ref': u'PublicSubnet4'}
+Parameters.PrivateSubnet1ACIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnetTag1.default,Tag for Public Subnets
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.CreatePrivateSubnets.default,Create private subnets
+Parameters.PrivateSubnetBTag2.Default,
+Parameters.PrivateSubnet3BCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Outputs.PrivateSubnet4ARouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet4ARouteTable'}
+Outputs.PublicSubnet2CIDR.Description,Public subnet 2 CIDR in Availability Zone 2
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'AvailabilityZones', u'NumberOfAZs'], u'Label': {u'default': u'Availability Zone Configuration'}}, {u'Parameters': [u'VPCCIDR', u'PublicSubnet1CIDR', u'PublicSubnet2CIDR', u'PublicSubnet3CIDR', u'PublicSubnet4CIDR', u'PublicSubnetTag1', u'PublicSubnetTag2', u'PublicSubnetTag3', u'CreatePrivateSubnets', u'PrivateSubnet1ACIDR', u'PrivateSubnet2ACIDR', u'PrivateSubnet3ACIDR', u'PrivateSubnet4ACIDR', u'PrivateSubnetATag1', u'PrivateSubnetATag2', u'PrivateSubnetATag3', u'CreateAdditionalPrivateSubnets', u'PrivateSubnet1BCIDR', u'PrivateSubnet2BCIDR', u'PrivateSubnet3BCIDR', u'PrivateSubnet4BCIDR', u'PrivateSubnetBTag1', u'PrivateSubnetBTag2', u'PrivateSubnetBTag3', u'VPCTenancy'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'KeyPairName', u'NATInstanceType'], u'Label': {u'default': u'Amazon EC2 Configuration'}}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet2CIDR.default,Public subnet 2 CIDR
+Outputs.PrivateSubnet4BID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet4BID'}
+Outputs.VPCCIDR.Description,VPC CIDR
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,-1
+Resources.AWS::EC2::VPCEndpoint.Type,AWS::EC2::VPCEndpoint
+Outputs.PrivateSubnet3AID.Condition,PrivateSubnets&3AZCondition
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'PublicSubnet4CIDR'}
+Parameters.PublicSubnet3CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Outputs.PrivateSubnet4AID.Condition,PrivateSubnets&4AZCondition
+Parameters.PrivateSubnet3ACIDR.Type,String
+Parameters.PrivateSubnet1BCIDR.Type,String
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'PrivateSubnet1BNetworkAcl'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet4BCIDR.default,Private subnet 4B with dedicated network ACL CIDR
+Parameters.PrivateSubnetATag2.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Parameters.PublicSubnet1CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Parameters.PrivateSubnetBTag1.Description,"tag to add to private subnets B, in format Key=Value (Optional)"
+Parameters.PrivateSubnetBTag2.Description,"tag to add to private subnets B, in format Key=Value (Optional)"
+Outputs.PrivateSubnet3ACIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet3ACIDR'}
+Resources.AWS::EC2::Route.DependsOn,VPCGatewayAttachment
+Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeleteOnTermination': u'true', u'DeviceIndex': u'0', u'SubnetId': {u'Ref': u'PublicSubnet3'}, u'GroupSet': [{u'Ref': u'NATInstanceSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
+Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::EC2::VPCEndpoint.Condition,S3VPCEndpointCondition
+Outputs.PrivateSubnet1BCIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet1BCIDR'}
+Parameters.PrivateSubnetATag2.Default,
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet1BCIDR.default,Private subnet 1B with dedicated network ACL CIDR
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet4CIDR.default,Public subnet 4 CIDR
+Outputs.PrivateSubnet2AID.Description,Private subnet 2A ID in Availability Zone 2
+Outputs.PrivateSubnet2ARouteTable.Description,Private subnet 2A route table
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet1ACIDR.default,Private subnet 1A CIDR
+Resources.AWS::EC2::VPCEndpoint.Properties.PolicyDocument.Statement,"[{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow', u'Principal': u'*'}]"
+Outputs.PrivateSubnet2ACIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet2ACIDR'}
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'3', {u'Ref': u'AvailabilityZones'}]}"
+Parameters.PrivateSubnetATag1.Description,"tag to add to private subnets A, in format Key=Value (Optional)"
+Parameters.PrivateSubnetATag3.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Outputs.NAT1EIP.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-NAT1EIP'}
+Parameters.PrivateSubnetATag1.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Outputs.PrivateSubnet1ARouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet1ARouteTable'}
+Parameters.CreatePrivateSubnets.Description,"Set to false to create only public subnets. If false, the CIDR parameters for ALL private subnets will be ignored."
+Outputs.NAT3EIP.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-NAT3EIP'}
+Outputs.PrivateSubnet2BID.Condition,AdditionalPrivateSubnetsCondition
+Outputs.S3VPCEndpoint.Description,S3 VPC Endpoint
+Parameters.VPCCIDR.Default,10.0.0.0/16
+Outputs.PrivateSubnet3BRouteTable.Condition,AdditionalPrivateSubnets&3AZCondition
+Outputs.PrivateSubnet4ARouteTable.Condition,PrivateSubnets&4AZCondition
+Outputs.PrivateSubnet2BCIDR.Condition,AdditionalPrivateSubnetsCondition
+Outputs.PrivateSubnet4BCIDR.Value,{u'Ref': u'PrivateSubnet4BCIDR'}
+Resources.AWS::EC2::Subnet.Condition,4AZCondition
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
+Outputs.VPCCIDR.Value,{u'Ref': u'VPCCIDR'}
+Outputs.PrivateSubnet3BCIDR.Description,Private subnet 3B CIDR in Availability Zone 3
+Outputs.NAT4EIP.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-NAT4EIP'}
+Parameters.AvailabilityZones.Type,List<AWS::EC2::AvailabilityZone::Name>
+Outputs.PublicSubnet1CIDR.Value,{u'Ref': u'PublicSubnet1CIDR'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnetBTag1.default,Tag for Private B Subnets
+Outputs.PublicSubnet3ID.Value,{u'Ref': u'PublicSubnet3'}
+Resources.AWS::EC2::DHCPOptions.Properties.DomainNameServers,[u'AmazonProvidedDNS']
+Resources.AWS::EC2::EIP.DependsOn,VPCGatewayAttachment
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Outputs.PrivateSubnet4BCIDR.Description,Private subnet 4B CIDR in Availability Zone 4
+Resources.AWS::EC2::VPCEndpoint.Properties.VpcId,{u'Ref': u'VPC'}
+Outputs.NAT2EIP.Condition,PrivateSubnetsCondition
+Outputs.PrivateSubnet3ARouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet3ARouteTable'}
+Outputs.PrivateSubnet4AID.Description,Private subnet 4A ID in Availability Zone 4
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet1CIDR.default,Public subnet 1 CIDR
+Resources.AWS::EC2::DHCPOptions.Type,AWS::EC2::DHCPOptions
+Outputs.PrivateSubnet3BCIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet3BCIDR'}
+Resources.AWS::EC2::EIP.Properties.InstanceId,"{u'Fn::If': [u'NATInstanceCondition', {u'Ref': u'NATInstance3'}, {u'Ref': u'AWS::NoValue'}]}"
+Parameters.PrivateSubnet1BCIDR.Description,CIDR block for private subnet 1B with dedicated network ACL located in Availability Zone 1
+Outputs.PublicSubnet3CIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet3CIDR'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet3ACIDR.default,Private subnet 3A CIDR
+Parameters.PrivateSubnetATag1.Default,Network=Private
+Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'PrivateSubnet3BNetworkAcl'}
+Parameters.PublicSubnetTag3.Description,"tag to add to public subnets, in format Key=Value (Optional)"
+Outputs.PrivateSubnet2ARouteTable.Condition,PrivateSubnetsCondition
+Parameters.PrivateSubnet2BCIDR.Default,10.0.200.0/21
+Outputs.PublicSubnetRouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnetRouteTable'}
+Outputs.PublicSubnet4CIDR.Condition,4AZCondition
+Outputs.PublicSubnet2ID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet2ID'}
+Outputs.PrivateSubnet2ARouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet2ARouteTable'}
+Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::EC2::NetworkAcl.Condition,AdditionalPrivateSubnets&3AZCondition
+Resources.AWS::EC2::VPC.Properties.InstanceTenancy,{u'Ref': u'VPCTenancy'}
+Outputs.PrivateSubnet3ACIDR.Value,{u'Ref': u'PrivateSubnet3ACIDR'}
+Outputs.PrivateSubnet3AID.Description,Private subnet 3A ID in Availability Zone 3
+Parameters.PublicSubnetTag3.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Parameters.PrivateSubnet2ACIDR.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'65535', u'IpProtocol': u'-1', u'CidrIp': {u'Ref': u'VPCCIDR'}, u'FromPort': u'1'}]"
+Outputs.NAT3EIP.Value,{u'Ref': u'NAT3EIP'}
+Parameters.PublicSubnetTag3.Default,
+Outputs.PrivateSubnet1ARouteTable.Condition,PrivateSubnetsCondition
+Parameters.PrivateSubnet2ACIDR.Description,CIDR block for private subnet 2A located in Availability Zone 2
+Parameters.PublicSubnetTag2.Default,
+Mappings.AWSAMIRegionMap.AMI.AWSNATHVM,amzn-ami-vpc-nat-hvm-2017.03.0.20170401-x86_64-ebs
+Outputs.PrivateSubnet3BRouteTable.Value,{u'Ref': u'PrivateSubnet3BRouteTable'}
+Parameters.PublicSubnet4CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Outputs.PrivateSubnet3ACIDR.Description,Private subnet 3A CIDR in Availability Zone 3
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnetATag1.default,Tag for Private A Subnets
+Parameters.PrivateSubnetBTag2.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Parameters.PrivateSubnet4ACIDR.Type,String
+Outputs.PublicSubnet2CIDR.Value,{u'Ref': u'PublicSubnet2CIDR'}
+Parameters.VPCCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Outputs.PrivateSubnet2BID.Value,{u'Ref': u'PrivateSubnet2B'}
+Outputs.PrivateSubnet1BRouteTable.Value,{u'Ref': u'PrivateSubnet1BRouteTable'}
+Outputs.PrivateSubnet4BID.Description,Private subnet 4B ID in Availability Zone 4
+Outputs.PrivateSubnet4ACIDR.Value,{u'Ref': u'PrivateSubnet4ACIDR'}
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Parameters.PrivateSubnet2BCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Parameters.PrivateSubnet2BCIDR.Description,CIDR block for private subnet 2B with dedicated network ACL located in Availability Zone 2
+Outputs.NAT2EIP.Description,NAT 2 IP address
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet2BCIDR.default,Private subnet 2B with dedicated network ACL CIDR
+Parameters.PrivateSubnet3ACIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Outputs.NAT1EIP.Value,{u'Ref': u'NAT1EIP'}
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PrivateSubnet4ARouteTable'}
+Outputs.PrivateSubnet4BRouteTable.Condition,AdditionalPrivateSubnets&4AZCondition
+Resources.AWS::EC2::NatGateway.Condition,NATGateway&3AZCondition
+Outputs.PublicSubnet1ID.Description,Public subnet 1 ID in Availability Zone 1
+Parameters.PublicSubnet3CIDR.Type,String
+Outputs.VPCID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-VPCID'}
+Parameters.PublicSubnetTag1.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnetBTag3.default,Tag for Private B Subnets
+Outputs.PrivateSubnet1BRouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet1BRouteTable'}
+Outputs.PublicSubnet4ID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet4ID'}
+Outputs.PrivateSubnet2BID.Description,Private subnet 2B ID in Availability Zone 2
+Outputs.PrivateSubnet1BRouteTable.Description,Private subnet 1B route table
+Parameters.PublicSubnetTag3.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enables outbound internet access for the VPC via the NAT instances
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnetBTag2.default,Tag for Private B Subnets
+Parameters.VPCTenancy.Default,default
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.CreateAdditionalPrivateSubnets.default,Create additional private subnets with dedicated network ACLs
+Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
+Parameters.PublicSubnetTag2.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Outputs.PublicSubnet2CIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet2CIDR'}
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PrivateSubnet4BRouteTable'}
+Outputs.PrivateSubnet1BRouteTable.Condition,AdditionalPrivateSubnetsCondition
+Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
+Outputs.PrivateSubnet3BRouteTable.Description,Private subnet 3B route table
+Outputs.PublicSubnet4ID.Condition,4AZCondition
+Resources.AWS::EC2::SubnetRouteTableAssociation.Condition,AdditionalPrivateSubnets&4AZCondition
+Parameters.NumberOfAZs.Default,2
+Outputs.PublicSubnetRouteTable.Description,Public subnet route table
+Parameters.CreateAdditionalPrivateSubnets.Description,"Set to true to create a network ACL protected subnet in each Availability Zone. If false, the CIDR parameters for those subnets will be ignored. If true, it also requires that the 'Create private subnets' parameter is also true to have any effect."
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet3CIDR.default,Public subnet 3 CIDR
+Parameters.PrivateSubnet2ACIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnetATag2.default,Tag for Private A Subnets
+Outputs.PublicSubnet1ID.Value,{u'Ref': u'PublicSubnet1'}
+Outputs.PrivateSubnet3BCIDR.Condition,AdditionalPrivateSubnets&3AZCondition
+Parameters.PrivateSubnet4ACIDR.Description,CIDR block for private subnet 4A located in Availability Zone 4
+Resources.AWS::EC2::Route.Condition,PrivateSubnets&4AZCondition
+Parameters.PublicSubnet1CIDR.Default,10.0.128.0/20
+Resources.AWS::EC2::VPCDHCPOptionsAssociation.Properties.DhcpOptionsId,{u'Ref': u'DHCPOptions'}
+Outputs.PrivateSubnet2BCIDR.Value,{u'Ref': u'PrivateSubnet2BCIDR'}
+Outputs.NAT2EIP.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-NAT2EIP'}
+Parameters.PrivateSubnet4ACIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSAMIRegionMap', {u'Ref': u'AWS::Region'}, u'AWSNATHVM']}"
+Resources.AWS::EC2::EIP.Condition,PrivateSubnets&3AZCondition
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
+Parameters.VPCCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Parameters.PrivateSubnetBTag3.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Parameters.PrivateSubnet3ACIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Parameters.PublicSubnet1CIDR.Type,String
+Parameters.PublicSubnet1CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
+Parameters.PrivateSubnet3BCIDR.Default,10.0.208.0/21
+Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'Public subnet 4', u'Key': u'Name'}, {u'Fn::If': [u'PublicSubnetTag1Condition', {u'Value': {u'Fn::Select': [u'1', {u'Fn::Split': [u'=', {u'Ref': u'PublicSubnetTag1'}]}]}, u'Key': {u'Fn::Select': [u'0', {u'Fn::Split': [u'=', {u'Ref': u'PublicSubnetTag1'}]}]}}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'PublicSubnetTag2Condition', {u'Value': {u'Fn::Select': [u'1', {u'Fn::Split': [u'=', {u'Ref': u'PublicSubnetTag2'}]}]}, u'Key': {u'Fn::Select': [u'0', {u'Fn::Split': [u'=', {u'Ref': u'PublicSubnetTag2'}]}]}}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'PublicSubnetTag3Condition', {u'Value': {u'Fn::Select': [u'1', {u'Fn::Split': [u'=', {u'Ref': u'PublicSubnetTag3'}]}]}, u'Key': {u'Fn::Select': [u'0', {u'Fn::Split': [u'=', {u'Ref': u'PublicSubnetTag3'}]}]}}, {u'Ref': u'AWS::NoValue'}]}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyPairName.default,Key pair name
+Parameters.PrivateSubnet4BCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnetTag3.default,Tag for Public Subnets
+Parameters.PrivateSubnetBTag1.Type,String
+Resources.AWS::EC2::NatGateway.Properties.AllocationId,"{u'Fn::GetAtt': [u'NAT3EIP', u'AllocationId']}"
+Parameters.PublicSubnet3CIDR.Description,CIDR block for the public DMZ subnet 3 located in Availability Zone 3
+Outputs.PrivateSubnet3AID.Value,{u'Ref': u'PrivateSubnet3A'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet2ACIDR.default,Private subnet 2A CIDR
+Outputs.PublicSubnet3ID.Condition,3AZCondition
+Parameters.PublicSubnet2CIDR.Type,String
+Parameters.PublicSubnetTag2.Type,String
+Outputs.PublicSubnet1CIDR.Description,Public subnet 1 CIDR in Availability Zone 1
+Outputs.NAT1EIP.Description,NAT 1 IP address
+Parameters.PrivateSubnet2BCIDR.Type,String
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Outputs.PrivateSubnet4BCIDR.Condition,AdditionalPrivateSubnets&4AZCondition
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,100
+Parameters.VPCCIDR.Type,String
+Resources.AWS::EC2::VPCDHCPOptionsAssociation.Type,AWS::EC2::VPCDHCPOptionsAssociation
+Parameters.VPCTenancy.Description,The allowed tenancy of instances launched into the VPC
+Parameters.PrivateSubnet4BCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Outputs.PrivateSubnet2BCIDR.Description,Private subnet 2B CIDR in Availability Zone 2
+Outputs.PrivateSubnet2ACIDR.Description,Private subnet 2A CIDR in Availability Zone 2
+Parameters.AvailabilityZones.Description,List of Availability Zones to use for the subnets in the VPC. Note: The logical order is preserved.
+Outputs.PrivateSubnet1BCIDR.Condition,AdditionalPrivateSubnetsCondition
+Parameters.PublicSubnetTag2.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Outputs.PrivateSubnet4ACIDR.Description,Private subnet 4A CIDR in Availability Zone 4
+Outputs.PublicSubnet4CIDR.Value,{u'Ref': u'PublicSubnet4CIDR'}
+Parameters.PrivateSubnet3BCIDR.Description,CIDR block for private subnet 3B with dedicated network ACL located in Availability Zone 3
+Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
+Parameters.PrivateSubnetATag3.Description,"tag to add to private subnets A, in format Key=Value (Optional)"
+Outputs.NAT2EIP.Value,{u'Ref': u'NAT2EIP'}
+Outputs.NAT1EIP.Condition,PrivateSubnetsCondition
+Outputs.S3VPCEndpoint.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-S3VPCEndpoint'}
+Outputs.VPCID.Value,{u'Ref': u'VPC'}
+Outputs.PrivateSubnet1AID.Description,Private subnet 1A ID in Availability Zone 1
+Parameters.CreateAdditionalPrivateSubnets.Default,false
+Outputs.PrivateSubnet1BID.Condition,AdditionalPrivateSubnetsCondition
+Parameters.CreatePrivateSubnets.Type,String
+Resources.AWS::EC2::NatGateway.Properties.SubnetId,{u'Ref': u'PublicSubnet3'}
+Outputs.PrivateSubnet4BID.Condition,AdditionalPrivateSubnets&4AZCondition
+Outputs.PublicSubnet1CIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet1CIDR'}
+Parameters.PrivateSubnet4BCIDR.Description,CIDR block for private subnet 4B with dedicated network ACL located in Availability Zone 4
+Parameters.PrivateSubnet2BCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Parameters.PrivateSubnet1ACIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Parameters.PublicSubnetTag1.Default,Network=Public
+Outputs.PrivateSubnet4AID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet4AID'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.AvailabilityZones.default,Availability Zones
+Parameters.PrivateSubnetBTag3.Default,
+Parameters.PrivateSubnet1ACIDR.Description,CIDR block for private subnet 1A located in Availability Zone 1
+Outputs.PublicSubnet2ID.Value,{u'Ref': u'PublicSubnet2'}
+Outputs.PrivateSubnet2ACIDR.Value,{u'Ref': u'PrivateSubnet2ACIDR'}
+Outputs.PrivateSubnet2AID.Condition,PrivateSubnetsCondition
+Outputs.PublicSubnet3ID.Description,Public subnet 3 ID in Availability Zone 3
+Outputs.PrivateSubnet2BRouteTable.Condition,AdditionalPrivateSubnetsCondition
+Parameters.PublicSubnet2CIDR.Description,CIDR block for the public DMZ subnet 2 located in Availability Zone 2
+Parameters.PrivateSubnet4BCIDR.Type,String
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Parameters.PrivateSubnet1ACIDR.Default,10.0.0.0/19
+Outputs.PrivateSubnet2BRouteTable.Value,{u'Ref': u'PrivateSubnet2BRouteTable'}
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Outputs.PrivateSubnet1ACIDR.Value,{u'Ref': u'PrivateSubnet1ACIDR'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet3BCIDR.default,Private subnet 3B with dedicated network ACL CIDR
+Resources.AWS::EC2::NatGateway.DependsOn,VPCGatewayAttachment
+Parameters.PrivateSubnet4ACIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Resources.AWS::EC2::VPCEndpoint.Properties.RouteTableIds,"[{u'Ref': u'PrivateSubnet1ARouteTable'}, {u'Ref': u'PrivateSubnet2ARouteTable'}, {u'Fn::If': [u'PrivateSubnets&3AZCondition', {u'Ref': u'PrivateSubnet3ARouteTable'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'PrivateSubnets&4AZCondition', {u'Ref': u'PrivateSubnet4ARouteTable'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'AdditionalPrivateSubnetsCondition', {u'Ref': u'PrivateSubnet1BRouteTable'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'AdditionalPrivateSubnetsCondition', {u'Ref': u'PrivateSubnet2BRouteTable'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'AdditionalPrivateSubnets&3AZCondition', {u'Ref': u'PrivateSubnet3BRouteTable'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'AdditionalPrivateSubnets&4AZCondition', {u'Ref': u'PrivateSubnet4BRouteTable'}, {u'Ref': u'AWS::NoValue'}]}]"
+Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
+Outputs.PrivateSubnet4ARouteTable.Description,Private subnet 4A route table
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCCIDR.default,VPC CIDR
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnetATag3.default,Tag for Private A Subnets
+Outputs.PrivateSubnet3ARouteTable.Description,Private subnet 3A route table
+Parameters.PrivateSubnetATag1.Type,String
+Outputs.PrivateSubnet3ARouteTable.Condition,PrivateSubnets&3AZCondition
+Parameters.CreateAdditionalPrivateSubnets.Type,String
+Outputs.PublicSubnet1ID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet1ID'}
+Outputs.PrivateSubnet3ARouteTable.Value,{u'Ref': u'PrivateSubnet3ARouteTable'}
+Outputs.PrivateSubnet2AID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet2AID'}
+Parameters.PrivateSubnet3BCIDR.Type,String
+Parameters.PublicSubnet4CIDR.Default,10.0.176.0/20
+Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': u'NACL Protected subnet 3', u'Key': u'Name'}, {u'Value': u'NACL Protected', u'Key': u'Network'}]"
+Outputs.PublicSubnet4CIDR.Description,Public subnet 4 CIDR in Availability Zone 4
+Outputs.PrivateSubnet1BID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet1BID'}
+Outputs.PrivateSubnet3BID.Description,Private subnet 3B ID in Availability Zone 3
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCTenancy.default,VPC Tenancy
+Outputs.PrivateSubnet1ARouteTable.Description,Private subnet 1A route table
+Parameters.PrivateSubnet1ACIDR.Type,String
+Resources.AWS::EC2::Route.Properties.InstanceId,"{u'Fn::If': [u'NATInstanceCondition', {u'Ref': u'NATInstance4'}, {u'Ref': u'AWS::NoValue'}]}"
+Parameters.PrivateSubnetBTag1.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Outputs.PublicSubnet3CIDR.Value,{u'Ref': u'PublicSubnet3CIDR'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Outputs.PublicSubnet4CIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet4CIDR'}
+Parameters.CreateAdditionalPrivateSubnets.AllowedValues,"[u'true', u'false']"
+Parameters.PrivateSubnet3ACIDR.Default,10.0.64.0/19
+Parameters.PrivateSubnet2ACIDR.Default,10.0.32.0/19
+Parameters.PrivateSubnet2ACIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Parameters.CreatePrivateSubnets.Default,true
+Parameters.PublicSubnetTag1.Type,String
+Resources.AWS::EC2::Instance.Condition,NATInstance&3AZCondition
+Outputs.PrivateSubnet1BCIDR.Value,{u'Ref': u'PrivateSubnet1BCIDR'}
+Outputs.NAT3EIP.Condition,PrivateSubnets&3AZCondition
+Parameters.CreatePrivateSubnets.AllowedValues,"[u'true', u'false']"
+Parameters.PrivateSubnetBTag1.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Outputs.PrivateSubnet3AID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet3AID'}
+Outputs.PublicSubnet3CIDR.Description,Public subnet 3 CIDR in Availability Zone 3
+Resources.AWS::EC2::VPC.Properties.CidrBlock,{u'Ref': u'VPCCIDR'}
+Outputs.PrivateSubnet4BCIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet4BCIDR'}
+Parameters.PublicSubnet4CIDR.Type,String
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.PrivateSubnet4BCIDR.Default,10.0.216.0/21
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PrivateSubnet4B'}
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Outputs.PrivateSubnet4ARouteTable.Value,{u'Ref': u'PrivateSubnet4ARouteTable'}
+Parameters.VPCCIDR.Description,CIDR block for the VPC
+Parameters.PrivateSubnetATag3.Default,
+Resources.AWS::EC2::VPCEndpoint.Properties.ServiceName,"{u'Fn::Join': [u'', [u'com.amazonaws.', {u'Ref': u'AWS::Region'}, u'.s3']]}"
+Parameters.PublicSubnet4CIDR.Description,CIDR block for the public DMZ subnet 4 located in Availability Zone 4
+Outputs.PrivateSubnet2BID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet2BID'}
+Outputs.PrivateSubnet1BID.Value,{u'Ref': u'PrivateSubnet1B'}
+Outputs.PrivateSubnet3BID.Condition,AdditionalPrivateSubnets&3AZCondition
+Outputs.PrivateSubnet1BCIDR.Description,Private subnet 1B CIDR in Availability Zone 1
+Outputs.PrivateSubnet2BRouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet2BRouteTable'}
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'PrivateSubnet1B'}
+Outputs.NAT4EIP.Value,{u'Ref': u'NAT4EIP'}
+Parameters.NumberOfAZs.Description,Number of Availability Zones to use in the VPC. This must match your selections in the list of Availability Zones parameter.
+Outputs.NAT4EIP.Description,NAT 4 IP address
+Parameters.PublicSubnet4CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Resources.AWS::EC2::VPCDHCPOptionsAssociation.Properties.VpcId,{u'Ref': u'VPC'}
+Parameters.PrivateSubnet1BCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Outputs.PrivateSubnet4BRouteTable.Description,Private subnet 4B route table
+Parameters.PrivateSubnet4ACIDR.Default,10.0.96.0/19
+Parameters.PublicSubnet3CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Parameters.PublicSubnet2CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Parameters.PrivateSubnetATag1.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Parameters.PublicSubnetTag1.Description,"tag to add to public subnets, in format Key=Value (Optional)"
+Parameters.PublicSubnetTag1.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
+Outputs.PrivateSubnet4ACIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet4ACIDR'}
+Resources.AWS::EC2::Instance.Properties.KeyName,"{u'Fn::If': [u'NATInstanceCondition', {u'Ref': u'KeyPairName'}, {u'Ref': u'AWS::NoValue'}]}"
+Outputs.PrivateSubnet4AID.Value,{u'Ref': u'PrivateSubnet4A'}
+Resources.AWS::EC2::DHCPOptions.Properties.DomainName,"{u'Fn::If': [u'NVirginiaRegionCondition', u'ec2.internal', {u'Fn::Join': [u'', [{u'Ref': u'AWS::Region'}, u'.compute.internal']]}]}"
+Outputs.PrivateSubnet3ACIDR.Condition,PrivateSubnets&3AZCondition
+Outputs.PrivateSubnet4BID.Value,{u'Ref': u'PrivateSubnet4B'}
+Parameters.PrivateSubnet3BCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+Parameters.PrivateSubnetBTag3.Type,String
+Parameters.PrivateSubnetBTag2.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
+Outputs.PrivateSubnet1ACIDR.Description,Private subnet 1A CIDR in Availability Zone 1
+Parameters.PrivateSubnetBTag1.Default,Network=Private
+Parameters.PublicSubnetTag2.Description,"tag to add to public subnets, in format Key=Value (Optional)"
+Outputs.VPCCIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-VPCCIDR'}
+Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'Private subnet 1B', u'Key': u'Name'}, {u'Value': u'Private', u'Key': u'Network'}]"
+Outputs.S3VPCEndpoint.Condition,S3VPCEndpointCondition
+Outputs.PrivateSubnet1AID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet1AID'}
+Outputs.PrivateSubnet4BRouteTable.Value,{u'Ref': u'PrivateSubnet4BRouteTable'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet4ACIDR.default,Private subnet 4A CIDR
+Outputs.PrivateSubnet3BID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet3BID'}
+Outputs.PrivateSubnet3BRouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet3BRouteTable'}
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Condition,AdditionalPrivateSubnetsCondition
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Parameters.PrivateSubnetATag3.AllowedPattern,"^([a-zA-Z0-9+\-._:/@]+=[a-zA-Z0-9+\-.,_:/@ *\\""'\[\]\{\}]*)?$"
+Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,True
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Outputs.PrivateSubnet4ACIDR.Condition,PrivateSubnets&4AZCondition
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
+Outputs.VPCID.Description,VPC ID
+Outputs.PublicSubnet2ID.Description,Public subnet 2 ID in Availability Zone 2
+Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
+Parameters.PublicSubnet3CIDR.Default,10.0.160.0/20
+Outputs.PrivateSubnet2BCIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet2BCIDR'}
+Outputs.PublicSubnetRouteTable.Value,{u'Ref': u'PublicSubnetRouteTable'}
+Parameters.NumberOfAZs.AllowedValues,"[u'2', u'3', u'4']"
+Resources.AWS::EC2::Instance.Properties.SourceDestCheck,false
+Outputs.PrivateSubnet3BCIDR.Value,{u'Ref': u'PrivateSubnet3BCIDR'}
+Parameters.PublicSubnetTag3.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Parameters.PrivateSubnetBTag3.Description,"tag to add to private subnets B, in format Key=Value (Optional)"
+Parameters.PrivateSubnetBTag3.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
+Parameters.PublicSubnet1CIDR.Description,CIDR block for the public DMZ subnet 1 located in Availability Zone 1
+Outputs.PublicSubnet4ID.Description,Public subnet 4 ID in Availability Zone 4
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Parameters.PrivateSubnet1BCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Outputs.PrivateSubnet4BRouteTable.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet4BRouteTable'}
+Resources.AWS::EC2::SecurityGroup.Condition,NATInstanceCondition
+Outputs.PublicSubnet3ID.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PublicSubnet3ID'}
+Resources.AWS::EC2::NetworkAclEntry.Condition,AdditionalPrivateSubnets&3AZCondition
+Parameters.PrivateSubnetATag3.Type,String
+Parameters.VPCTenancy.AllowedValues,"[u'default', u'dedicated']"
+Outputs.PrivateSubnet1BID.Description,Private subnet 1B ID in Availability Zone 1
+Parameters.PrivateSubnetATag2.Description,"tag to add to private subnets A, in format Key=Value (Optional)"
+Parameters.PrivateSubnet3ACIDR.Description,CIDR block for private subnet 3A located in Availability Zone 3
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnetTag2.default,Tag for Public Subnets
+Parameters.VPCTenancy.Type,String
+Parameters.NumberOfAZs.Type,String
+Parameters.PrivateSubnetATag2.ConstraintDescription,"tags must be in format ""Key=Value"" keys can only contain [a-zA-Z0-9+\-._:/@], values can contain [a-zA-Z0-9+\-._:/@ *\\""'\[\]\{\}]"
+Outputs.PrivateSubnet2BRouteTable.Description,Private subnet 2B route table
+Resources.AWS::EC2::Instance.DependsOn,VPCGatewayAttachment
+Outputs.PrivateSubnet1AID.Value,{u'Ref': u'PrivateSubnet1A'}
+Parameters.PublicSubnet2CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
+Outputs.PrivateSubnet2AID.Value,{u'Ref': u'PrivateSubnet2A'}
+Parameters.PrivateSubnetBTag2.Type,String
+Outputs.PrivateSubnet1ACIDR.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-PrivateSubnet1ACIDR'}
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'NAT3', u'Key': u'Name'}]"
+Parameters.PrivateSubnetATag2.Type,String

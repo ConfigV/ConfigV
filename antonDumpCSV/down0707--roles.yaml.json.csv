@@ -1,0 +1,13 @@
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Action,sts:AssumeRole
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Principal.Service,ec2.amazonaws.com
+Parameters.ECSBucketArn.Type,String
+Outputs.ECSHostRole.Value,ECSHostRole
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'ecs.amazonaws.com'}}]"
+Outputs.ECSServiceRole.Value,ECSServiceRole
+Outputs.ECSServiceRole.Export.Name,ecs-infra:ECSServiceRole
+Parameters.ECSBucketArn.Description,The ARN of the bucket in which the ECS config resides
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Effect,Allow
+Resources.AWS::IAM::Role.Properties.RoleName,ECSServiceRole
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ECSServiceRolePolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ec2:AuthorizeSecurityGroupIngress', u'ec2:Describe', u'elasticloadbalancing:DeregisterInstancesFromLoadBalancer', u'elasticloadbalancing:Describe*', u'elasticloadbalancing:RegisterInstancesWithLoadBalancer', u'elasticloadbalancing:DeregisterTargets', u'elasticloadbalancing:DescribeTargetGroups', u'elasticloadbalancing:DescribeTargetHealth', u'elasticloadbalancing:RegisterTargets'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"

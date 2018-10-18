@@ -1,0 +1,61 @@
+Parameters.PublicNetworkAcl.Description,Enter Public Network ACL ID.
+Parameters.DeleteAfter.Default,00/00/201x
+Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DeleteAfter.default,Delete After Date
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Parameters.Owner.Default,FirstName LastName
+Parameters.DeleteAfter.Type,String
+Resources.AWS::EC2::Route.Properties.NatGatewayId,{u'Ref': u'NatGateway'}
+Parameters.AllowNatRuleNumber.Default,120
+Parameters.VPC.Type,AWS::EC2::VPC::Id
+Resources.AWS::EC2::NatGateway.Properties.SubnetId,{u'Ref': u'PublicSubnet'}
+Outputs.PublicNetworkACLRuleNumbers.Value,"{u'Fn::Join': [u'', [u'Inbound (', {u'Ref': u'AllowNatRuleNumber'}, u')']]}"
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,false
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Parameters.PublicSubnet.Description,Public Subnet to Attach NAT Gateway.
+Parameters.AllowNatRuleNumber.Description,Enter Public Network ACL Rule Number to Allow Return NAT Traffic.
+Outputs.Owner.Value,{u'Ref': u'Owner'}
+Outputs.NatEIP.Value,{u'Ref': u'NatEIP'}
+Parameters.Project.Description,Enter Project Name.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet.default,Public Subnet
+Outputs.VPC.Description,VPC Used
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateRouteTable.default,Private Route Table
+Resources.AWS::EC2::Route.DependsOn,NatGateway
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,{u'Ref': u'AllowNatRuleNumber'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicNetworkAcl.default,Public Network ACL
+Parameters.AllowNatRuleNumber.Type,Number
+Parameters.Owner.Type,String
+Outputs.Project.Value,{u'Ref': u'Project'}
+Parameters.PublicSubnet.Type,AWS::EC2::Subnet::Id
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,1024
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Outputs.Project.Description,The project name
+Outputs.NatEIP.Description,NAT Elastic IP Address
+Parameters.PublicNetworkAcl.Default,acl-0000000
+Outputs.DeleteAfter.Value,{u'Ref': u'DeleteAfter'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
+Outputs.PublicNetworkACLRuleNumbers.Description,Public Network ACL Rules Number Created.
+Parameters.Project.Type,String
+Parameters.PrivateRouteTable.Default,rtb-0000000
+Parameters.VPC.Description,Select VPC.
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Resources.AWS::EC2::NatGateway.Properties.AllocationId,"{u'Fn::GetAtt': [u'NatEIP', u'AllocationId']}"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Owner.default,Team or Individual Owner
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PrivateRouteTable'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Outputs.DeleteAfter.Description,It is ok to delete the Formation after this date
+Parameters.PublicNetworkAcl.Type,String
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'PublicNetworkAcl'}
+Resources.AWS::EC2::NatGateway.DependsOn,NatEIP
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.AllowNatRuleNumber.default,Public Network ACL Rule Number
+Parameters.DeleteAfter.Description,Enter Date It's Ok to Delete the Stack or 'Never' if meant to be persistent.
+Outputs.VPC.Value,{u'Ref': u'VPC'}
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Owner', u'Project', u'DeleteAfter'], u'Label': {u'default': u'Ownership'}}, {u'Parameters': [u'VPC', u'PublicSubnet', u'PrivateRouteTable', u'PublicNetworkAcl', u'AllowNatRuleNumber'], u'Label': {u'default': u'Network Configuration'}}]"
+Outputs.Owner.Description,Team or Individual that Owns this Formation.
+Parameters.Project.Default,NAT Gateway Creation
+Parameters.Owner.Description,Enter Team or Individual Name Responsible for the Stack.
+Parameters.PrivateRouteTable.Description,Enter Private Route Table ID.
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Parameters.PrivateRouteTable.Type,String

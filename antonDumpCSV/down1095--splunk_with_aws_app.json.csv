@@ -1,0 +1,91 @@
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Mappings.RegionMap.eu-central-1.AMI,ami-85c50dea
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'SplunkNetworkAcl'}
+Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Parameters.SplunkAdminPassword.MinLength,8
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,100
+Parameters.SplunkVPCCIDR.MinLength,9
+Parameters.SSHLocation.ConstraintDescription,Must be a valid IP range in x.x.x.x/x notation.  Use 0.0.0.0/0 for no restrictions.
+Parameters.KeyName.ConstraintDescription,Must be the name of an existing EC2 KeyPair.
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,false
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'/sbin/service splunk stop\n', u'export LOCALIP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)\n', u'export INSTANCEID=$(curl http://169.254.169.254/latest/meta-data/instance-id)\n', u'printf \'%s\t%s\n\' ""$LOCALIP"" \'splunk\' >> /etc/hosts\n', u'hostname splunk\n', u'mv /opt/splunk/etc/passwd /opt/splunk/etc/passwd.bak\n', u'mkdir -p /opt/splunk/.splunk ; chown splunk:splunk /opt/splunk/.splunk\n', u'mkdir -p /opt/splunk/etc/licenses/enterprise\n', u'usermod --expiredate 1 splunk\n', u""sed -i 's/force-change-pass true//' /etc/init.d/splunk\n"", u'/opt/splunk/bin/splunk start --accept-license\n', u'HOME=/opt/splunk /opt/splunk/bin/splunk edit user admin -password ', {u'Ref': u'SplunkAdminPassword'}, u' -role admin -auth admin:changeme\n', u'touch /opt/splunk/etc/.ui_login\n', u'wget -qO /opt/splunk/etc/apps/splunk_AWS_app.tgz https://s3-us-west-2.amazonaws.com/splk-gsa/splunk-app-502.tgz\n', u'wget -qO /opt/splunk/etc/apps/splunk_AWS_TA.tgz https://s3-us-west-2.amazonaws.com/splk-gsa/splunk-TA-422.tgz\n', u'cd /opt/splunk/etc/apps && tar zxf splunk_AWS_TA.tgz && rm -f splunk_AWS_TA.tgz\n', u'cd /opt/splunk/etc/apps && tar zxf splunk_AWS_app.tgz && rm -f splunk_AWS_app.tgz\n', u'chown -R splunk:splunk /opt/splunk/etc/apps\n', u'mkdir -p /opt/splunk/etc/users/admin/user-prefs/local\n', u'echo ""[general]"" >> /opt/splunk/etc/users/admin/user-prefs/local/user-prefs.conf\n', u'echo ""eai_app_only = False"" >> /opt/splunk/etc/users/admin/user-prefs/local/user-prefs.conf\n', u'echo ""eai_results_per_page = 25"" >> /opt/splunk/etc/users/admin/user-prefs/local/user-prefs.conf\n', u'echo ""default_namespace = splunk_app_aws"" >> /opt/splunk/etc/users/admin/user-prefs/local/user-prefs.conf\n', u'/opt/splunk/bin/splunk restart\n']]}}"
+Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'SplunkSubnet'}
+Parameters.SplunkAdminPassword.ConstraintDescription,Must be alphanumeric only.  8-32 characters
+Parameters.SplunkSubnetCIDR.Description,The address space that will be assigned specifically to the Splunk server subnet. (x.x.x.x/x notation)
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}, {u'ToPort': u'8000', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'8000'}, {u'ToPort': u'8089', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SplunkVPCCIDR'}, u'FromPort': u'8089'}, {u'ToPort': u'9997', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SplunkVPCCIDR'}, u'FromPort': u'9997'}, {u'ToPort': u'9997', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'9997'}, {u'ToPort': u'9997', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'9997'}, {u'ToPort': u'514', u'IpProtocol': u'udp', u'CidrIp': {u'Ref': u'SplunkVPCCIDR'}, u'FromPort': u'514'}]"
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'SplunkSubnet'}
+Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
+Parameters.SplunkSubnetCIDR.MaxLength,19
+Parameters.SplunkAdminPassword.Description,"Admin password for Splunk. (8-32 characters, alphanumeric only)"
+Parameters.SplunkAdminPassword.MaxLength,32
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'SplunkSubnetCIDR'}
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
+Parameters.SplunkVPCCIDR.Description,The address space that will be assigned to the entire VPC where Splunk will reside. (Recommend at least a /16)
+Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'SplunkNetworkAcl'}
+Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SplunkSecurityGroup'}]
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
+Parameters.SplunkAdminPassword.Type,String
+Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'RouteTable'}
+Resources.AWS::EC2::Route.DependsOn,AttachGateway
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvda', u'Ebs': {u'VolumeSize': u'50'}}]"
+Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
+Parameters.SplunkSubnetCIDR.Type,String
+Resources.AWS::EC2::VPC.Properties.CidrBlock,{u'Ref': u'SplunkVPCCIDR'}
+Outputs.SplunkURL.Description,Splunk web interface URL
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,8000
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
+Parameters.SplunkSubnetCIDR.Default,10.0.0.0/24
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,"Enable SSH, and all Splunk-related ports except web interface"
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,8000
+Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
+Parameters.SplunkVPCCIDR.Type,String
+Outputs.Credentials.Description,Admin credentials for Splunk search head URL
+Outputs.SplunkURL.Value,"{u'Fn::Join': [u':', [{u'Ref': u'SplunkIP'}, u'8000']]}"
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'RouteTable'}
+Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
+Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
+Mappings.RegionMap.ca-central-1.AMI,ami-6fb5080b
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.SSHLocation.MinLength,9
+Parameters.SplunkSubnetCIDR.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Parameters.SplunkAdminPassword.AllowedPattern,[a-zA-Z0-9]*
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
+Parameters.SSHLocation.Type,String
+Parameters.SplunkVPCCIDR.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
+Outputs.Credentials.Value,"{u'Fn::Join': [u':', [u'admin', {u'Ref': u'SplunkAdminPassword'}]]}"
+Resources.AWS::EC2::EIP.DependsOn,AttachGateway
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Parameters.SplunkSubnetCIDR.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
+Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.SSHLocation.MaxLength,19
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'SplunkSubnet'}
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,true
+Parameters.SplunkVPCCIDR.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Parameters.SplunkVPCCIDR.Default,10.0.0.0/16
+Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'SplunkInstance'}
+Parameters.SplunkAdminPassword.NoEcho,true
+Parameters.SplunkSubnetCIDR.MinLength,9
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
+Parameters.SplunkVPCCIDR.MaxLength,19
+Parameters.SSHLocation.Description, The IP address range that is allowed to SSH to the EC2 instances
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': u'splunk', u'Key': u'role'}, {u'Value': u'splunk', u'Key': u'Name'}]"

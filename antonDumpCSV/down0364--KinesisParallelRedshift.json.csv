@@ -1,0 +1,67 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::Kinesis::Stream.Properties.ShardCount,1
+Parameters.DBUsername.Description,Redshift Username
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'redShiftEndpoint'}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
+Parameters.KeyName.ConstraintDescription,can contain only ASCII characters.
+Parameters.KeyName.MaxLength,255
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'redShiftEndpoint', u'AttributeType': u'S'}]"
+Parameters.DBName.Description,Redshift Databasename
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'AccessLocation'}, u'FromPort': u'22'}]"
+Outputs.KinesisStreamName.Description,The name of the created Kinesis Stream
+Outputs.KinesisStreamName.Value,{u'Ref': u'KinesisStream'}
+Parameters.RedshiftCluster2AZ.Type,String
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,[{u'Ref': u'RedshiftCluster2AZ'}]
+Parameters.AccessLocation.MinLength,9
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,10
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex', u'\n', u'yum update -y\n', u'yum -y install python-devel postgresql-devel gcc aws-cli\n', u'easy_install pip\n', u'pip install psycopg2 configparser\n', u'cat <<EOF > /home/ec2-user/defaults.cfg\n', u'[db]\n', u'dbUser=', {u'Ref': u'DBUsername'}, u'\n', u'dbPassword=', {u'Ref': u'DBPassword'}, u'\n', u'dbName=', {u'Ref': u'DBName'}, u'\n', u'dbHost=', {u'Ref': u'RedshiftCluster2Endpoint'}, u'\n', u'[kenisis]\n', u'steamName=', {u'Ref': u'KinesisStream'}, u'\n', u'[dynamodb2]\n', u'tableName =', {u'Ref': u'DynamoDBTable'}, u'\n', u'[iam]\n', u'roleName=', {u'Ref': u'IAMRole'}, u'\n', u'EOF\n', u'chown ec2-user /home/ec2-user/defaults.cfg\n', u'https://raw.githubusercontent.com/awslabs/aws-big-data-blog/master/aws-blog-multi-az-multi-region-redshift/loader.py -P /home/ec2-user\n', u'chown ec2-user /home/ec2-user/loader.py\n', u'echo ""su ec2-user -c \'python /home/ec2-user/loader.py\'"" >> /etc/rc.local\n', u""su ec2-user -c 'python /home/ec2-user/loader.py'""]]}}"
+Parameters.AccessLocation.MaxLength,18
+Outputs.DynamoDBTableName.Value,{u'Ref': u'DynamoDBTable'}
+Parameters.KeyName.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
+Parameters.RedshiftCluster2AZ.AllowedValues,"[u'us-east-1a', u'us-east-1b', u'us-east-1c', u'us-east-1d', u'us-east-1e', u'us-west-1a', u'us-west-1b', u'us-west-1c', u'us-west-2a', u'us-west-2b', u'us-west-2c', u'eu-west-1a', u'eu-west-1b', u'eu-west-1c', u'ap-southeast-1a', u'ap-southeast-1b', u'ap-southeast-2a', u'ap-southeast-2b', u'ap-northeast-1a', u'ap-northeast-1b', u'ap-northeast-1c', u'as-east-1a', u'as-east-1b']"
+Parameters.AccessLocation.Type,String
+Parameters.DBUsername.Type,String
+Parameters.RedshiftCluster1AZ.AllowedValues,"[u'us-east-1a', u'us-east-1b', u'us-east-1c', u'us-east-1d', u'us-east-1e', u'us-west-1a', u'us-west-1b', u'us-west-1c', u'us-west-2a', u'us-west-2b', u'us-west-2c', u'eu-west-1a', u'eu-west-1b', u'eu-west-1c', u'ap-southeast-1a', u'ap-southeast-1b', u'ap-southeast-2a', u'ap-southeast-2b', u'ap-northeast-1a', u'ap-northeast-1b', u'ap-northeast-1c', u'as-east-1a', u'as-east-1b']"
+Parameters.DBName.Type,String
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'Kinesispolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'kinesis:*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:kinesis:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stream/', {u'Ref': u'KinesisStream'}]]}, u'Effect': u'Allow'}, {u'Action': [u'dynamodb:*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/', {u'Ref': u'DynamoDBTable'}]]}, u'Effect': u'Allow'}]}}]"
+Parameters.RedshiftCluster1Endpoint.Type,String
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'IAMRole'}]
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable Access to SSH access via port 22
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'AZ2LaunchConfig'}
+Parameters.DBPassword.NoEcho,true
+Outputs.DynamoDBTableName.Description,The name of the created DynamoDB Table
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Parameters.RedshiftCluster1AZ.Type,String
+Outputs.IAMRoleName.Value,{u'Ref': u'IAMRole'}
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the Kinesis enabled application instances
+Parameters.RedshiftCluster1AZ.Description,AZ of first Redsfhit Cluster e.g us-east-1b
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.DBPassword.Type,String
+Parameters.RedshiftCluster1Endpoint.Description,Endpoint to access first Redshift Cluster
+Parameters.RedshiftCluster2Endpoint.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Parameters.KeyName.MinLength,1
+Parameters.AccessLocation.Description, The IP address range that can be used to access the instance via SSH
+Parameters.RedshiftCluster2AZ.Description,AZ of the second Redsfhit Cluster e.g us-east-1c
+Parameters.AccessLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Parameters.DBName.Default,mydb
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.DBPassword.Description,The Redshift database account password
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Parameters.RedshiftCluster2Endpoint.Description,Endpoint to access second Redshift Cluster
+Resources.AWS::Kinesis::Stream.Type,AWS::Kinesis::Stream
+Outputs.IAMRoleName.Description,The name of the created IAM Role
+Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
+Parameters.AccessLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Parameters.AccessLocation.Default,0.0.0.0/0
+Parameters.DBUsername.Default,admin

@@ -1,0 +1,40 @@
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': {u'Ref': u'WebServerPort'}, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': {u'Ref': u'WebServerPort'}}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Ref': u'AZs'}
+Parameters.AZs.Description,The list of AvailabilityZones for your Virtual Private Cloud (VPC)
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': {u'Ref': u'WebServerPort'}, u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
+Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}]]}"
+Parameters.VpcId.Description,VpcId of your existing Virtual Private Cloud (VPC)
+Parameters.InstanceCount.Default,1
+Parameters.VpcId.Type,String
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,25
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
+Parameters.InstanceCount.Type,Number
+Parameters.Subnets.Description,The list of SubnetIds in your Virtual Private Cloud (VPC)
+Parameters.WebServerPort.Description,TCP/IP port of the web server
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,{u'Ref': u'Subnets'}
+Parameters.Subnets.Type,CommaDelimitedList
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'LoadBalancerSecurityGroup'}]
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,10
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Parameters.WebServerPort.Default,8888
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'InstanceCount'}
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,{u'Ref': u'Subnets'}
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,"{u'Fn::Join': [u'', [u'HTTP:', {u'Ref': u'WebServerPort'}, u'/']]}"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
+Outputs.URL.Description,URL of the website
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
+Parameters.AZs.Type,CommaDelimitedList
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP access on the configured port
+Parameters.WebServerPort.Type,String
+Parameters.InstanceCount.Description,Number of EC2 instances to launch
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': {u'Ref': u'WebServerPort'}, u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'LoadBalancerSecurityGroup'}, u'FromPort': {u'Ref': u'WebServerPort'}}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,{u'Fn::Base64': {u'Ref': u'WebServerPort'}}

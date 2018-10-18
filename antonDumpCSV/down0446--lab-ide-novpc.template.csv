@@ -1,0 +1,44 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[u'arn:aws:iam::aws:policy/AmazonEC2FullAccess', u'arn:aws:iam::aws:policy/AmazonRoute53FullAccess', u'arn:aws:iam::aws:policy/AmazonS3FullAccess', u'arn:aws:iam::aws:policy/IAMFullAccess', u'arn:aws:iam::aws:policy/AmazonVPCFullAccess', u'arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess']"
+Resources.Custom::AddRoleToInstance.Properties.EnvironmentId,{u'Ref': u'LabIDE'}
+Resources.AWS::Cloud9::EnvironmentEC2.Properties.AutomaticStopTimeMinutes,60
+Resources.Custom::AddRoleToInstance.Properties.LabIdeInstanceProfileName,{u'Ref': u'LabIdeInstanceProfile'}
+Resources.Custom::AddRoleToInstance.Properties.BucketName,{u'Ref': u'KopsStateStore'}
+Outputs.EksServiceRoleArn.Value,"{u'Fn::GetAtt': [u'EksServiceRole', u'Outputs.RoleArn']}"
+Resources.Custom::AddRoleToInstance.DependsOn,"[u'AddRoleToInstanceFunction', u'KopsStateStore']"
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::Lambda::Function.Properties.Timeout,30
+Resources.Custom::AddRoleToInstance.Description,Add LabIdeRole to Cloud9 IDE Instance
+Resources.AWS::Cloud9::EnvironmentEC2.Properties.SubnetId,{u'Ref': u'SubnetId'}
+Parameters.SubnetId.Default,
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'\n', [u'from __future__ import print_function', u'import boto3', u'import logging', u'import json', u'import time', u'import traceback', u'import cfnresponse', u'', u'logger = logging.getLogger()', u'logger.setLevel(logging.INFO)', u'', u'def handler(event, context):', u""    logger.debug('Event: {}'.format(event))"", u""    logger.debug('Context: {}'.format(context))"", u'    responseData = {}', u'    ', u'    # Immediately respond on Delete', u""    if event['RequestType'] == 'Delete':"", u'        # Empty Bucket before CloudFormation deletes it', u'        session = boto3.Session()', u""        s3 = session.resource(service_name='s3')"", u'        try:', u""            bucket = s3.Bucket(event['ResourceProperties']['BucketName'])"", u'            bucket.object_versions.delete()', u'            ', u""            logger.info('Bucket '+event['ResourceProperties']['BucketName']+' objects/versions deleted.')"", u""            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')"", u'        except Exception as e:', u'            logger.error(e, exc_info=True)', u""            responseData = {'Error': traceback.format_exc(e)}"", u""            cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')"", u'    ', u""    if event['RequestType'] == 'Create':"", u'        try:', u'            # Open AWS clients', u""            ec2 = boto3.client('ec2')"", u'            ', u'            # Get the InstanceId of the Cloud9 IDE', u""            instance = ec2.describe_instances(Filters=[{'Name': 'tag:Name','Values': ['aws-cloud9-'+event['ResourceProperties']['StackName']+'-'+event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]"", u'            ', u'            # Create the IamInstanceProfile request object', u'            iam_instance_profile = {', u""                'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn'],"", u""                'Name': event['ResourceProperties']['LabIdeInstanceProfileName']"", u'            }', u'            ', u'            # Wait for Instance to become ready before adding Role', u""            instance_state = instance['State']['Name']"", u""            while instance_state != 'running':"", u'                time.sleep(5)', u""                instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])"", u""            ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])"", u'            ', u""            responseData = {'Success': 'Role added to instance'+instance['InstanceId']+'.'}"", u""            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')"", u'        except Exception as e:', u'            logger.error(e, exc_info=True)', u""            responseData = {'Error': traceback.format_exc(e)}"", u""            cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')""]]}"
+Resources.AWS::S3::Bucket.Description,-
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.Custom::AddRoleToInstance.Properties.Region,{u'Ref': u'AWS::Region'}
+Parameters.SubnetId.Type,AWS::EC2::Subnet::Id
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Outputs.Cloud9IDE.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'AWS::Region'}, u'.console.aws.amazon.com/cloud9/ide/', {u'Ref': u'LabIDE'}, u'?region=', {u'Ref': u'AWS::Region'}]]}"
+Resources.AWS::Cloud9::EnvironmentEC2.Type,AWS::Cloud9::EnvironmentEC2
+Outputs.EksVpcSecurityGroups.Value,"{u'Fn::GetAtt': [u'EksVpc', u'Outputs.SecurityGroups']}"
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Outputs.EksVpcSubnetIds.Value,"{u'Fn::GetAtt': [u'EksVpc', u'Outputs.SubnetIds']}"
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.AWS::Cloud9::EnvironmentEC2.Properties.Description,Lab IDE for container workshop
+Outputs.EksVpcId.Value,"{u'Fn::GetAtt': [u'EksVpc', u'Outputs.VpcId']}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.Custom::AddRoleToInstance.Type,Custom::AddRoleToInstance
+Resources.Custom::AddRoleToInstance.Properties.StackName,{u'Ref': u'AWS::StackName'}
+Resources.Custom::AddRoleToInstance.Properties.LabIdeInstanceProfileArn,"{u'Fn::GetAtt': [u'LabIdeInstanceProfile', u'Arn']}"
+Resources.AWS::Cloud9::EnvironmentEC2.Properties.Name,{u'Ref': u'AWS::StackName'}
+Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'LabIdeRole'}]
+Resources.Custom::AddRoleToInstance.Properties.ServiceToken,"{u'Fn::GetAtt': [u'AddRoleToInstanceFunction', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'cloudformation:DescribeStacks', u'cloudformation:DescribeStackEvents', u'cloudformation:DescribeStackResource', u'cloudformation:DescribeStackResources', u'ec2:DescribeInstances', u'ec2:AssociateIamInstanceProfile', u'ec2:ReplaceIamInstanceProfileAssociation', u'iam:ListInstanceProfiles', u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:*'], u'Resource': [{u'Fn::GetAtt': [u'KopsStateStore', u'Arn']}, {u'Fn::Join': [u'', [{u'Fn::GetAtt': [u'KopsStateStore', u'Arn']}, u'/*']]}], u'Effect': u'Allow'}]}}]"
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/amazon-eks-vpc-sample.yaml
+Resources.AWS::Cloud9::EnvironmentEC2.Description,-
+Parameters.SubnetId.Description,Public Subnet for the Lab IDE.

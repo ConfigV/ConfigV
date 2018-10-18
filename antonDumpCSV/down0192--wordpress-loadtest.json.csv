@@ -1,0 +1,149 @@
+Resources.AWS::AutoScaling::AutoScalingGroup.DependsOn,VPCGatewayAttachment
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.sources./var/www/html,https://wordpress.org/wordpress-4.2.4.tar.gz
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': u'wordpress', u'PropagateAtLaunch': True, u'Key': u'Name'}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mysql,[]
+Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'LoadBalancer', u'DNSName']}, u'/wordpress']]}"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,2
+Resources.AWS::IAM::User.Properties.Path,/
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,true
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.AdjustmentType,ChangeInCapacity
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u' yum install -y httpd-tools\n', u'ab -n 10000 -c 2 http://', {u'Fn::GetAtt': [u'LoadBalancer', u'DNSName']}, u'/wordpress/\n']]}}"
+Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,0
+Resources.AWS::RDS::DBInstance.DeletionPolicy,Delete
+Parameters.BlogTitle.Default,Amazon Web Services in Action - Example
+Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
+Parameters.BlogTitle.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
+Parameters.AdminUsername.Type,String
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,2
+Parameters.AdminEMail.Description,The email address of the administrator.
+Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'UploadToS3', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'BlogID'}, u'/*']]}], u'Effect': u'Allow'}]}}]"
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3306', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'WebServerSecurityGroup'}, u'FromPort': u'3306'}]"
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'SubnetA'}
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,ELB
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Scheme,internet-facing
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,2
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.01_config.command,/tmp/config
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -v --stack ', {u'Ref': u'AWS::StackName'}, u' --resource LaunchConfiguration --region ', {u'Ref': u'AWS::Region'}, u'\n', u'/opt/aws/bin/cfn-signal -e $? --stack ', {u'Ref': u'AWS::StackName'}, u' --resource AutoScalingGroup --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql,[]
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,-1
+Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,LessThanThreshold
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Parameters.BlogID.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.01_config.cwd,/var/www/html/wordpress
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,172.31.38.0/24
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
+Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,True
+Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,3
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,5
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./tmp/config.mode,000500
+Resources.AWS::RDS::DBInstance.Properties.MasterUsername,wordpress
+Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
+Resources.AWS::CloudWatch::Alarm.Properties.MetricName,CPUUtilization
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,100
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'ScalingDownPolicy'}]
+Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/EC2
+Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,wordpress
+Parameters.KeyName.Default,mykey
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[{u'Ref': u'SubnetA'}, {u'Ref': u'SubnetB'}]"
+Parameters.AdminPassword.Description,A password for admin.
+Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Timeout,PT10M
+Parameters.AdminPassword.Type,String
+Parameters.BlogTitle.Description,The title of the blog.
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'RouteTable'}
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.AutoScalingGroupName,{u'Ref': u'AutoScalingGroup'}
+Resources.AWS::EC2::Route.DependsOn,VPCGatewayAttachment
+Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'SubnetA'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Ref': u'LoadTestSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
+Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'AutoScalingGroupName', u'Value': {u'Ref': u'AutoScalingGroup'}}]"
+Parameters.AdminUsername.Default,admin
+Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,"[{u'Fn::GetAtt': [u'DatabaseSecurityGroup', u'GroupId']}]"
+Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,120
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
+Resources.AWS::CloudWatch::Alarm.Properties.Period,60
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./tmp/config.owner,root
+Parameters.BlogID.AllowedPattern,[A-Za-z0-9\-]+
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,awsinaction-db-sg
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP', u'InstanceProtocol': u'HTTP'}]"
+Parameters.AdminPassword.NoEcho,true
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfiguration'}
+Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,DB subnet group
+Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
+Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Average
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,60
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./tmp/config.group,root
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Fn::GetAZs': u''}]}"
+Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'SubnetA'}, {u'Ref': u'SubnetB'}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LoadBalancerName,{u'Ref': u'BlogID'}
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'RouteTable'}
+Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
+Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.t2.micro
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.DependsOn,VPCGatewayAttachment
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,4
+Parameters.KeyName.Description,Key Pair name
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,true
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Outputs.URL.Description,Wordpress URL
+Resources.AWS::AutoScaling::ScalingPolicy.Type,AWS::AutoScaling::ScalingPolicy
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,TCP:80
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,60
+Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'DBSubnetGroup'}
+Resources.AWS::EC2::VPC.Properties.CidrBlock,172.31.0.0/16
+Resources.AWS::RDS::DBInstance.DependsOn,VPCGatewayAttachment
+Parameters.BlogID.ConstraintDescription,"Only letters, digits or dash allowed."
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Parameters.AdminEMail.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'LoadBalancer'}]
+Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,5
+Resources.AWS::IAM::User.Type,AWS::IAM::User
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Ref': u'SubnetA'}, {u'Ref': u'SubnetB'}]"
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'LoadBalancerSecurityGroup'}]
+Resources.AWS::CloudWatch::Alarm.Properties.Threshold,20
+Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Alarm if CPU load is low.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
+Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./tmp/config.content,"{u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php\n', u'sed -i ""s/\'database_name_here\'/\'wordpress\'/g"" wp-config.php\n', u'sed -i ""s/\'username_here\'/\'wordpress\'/g"" wp-config.php\n', u'sed -i ""s/\'password_here\'/\'wordpress\'/g"" wp-config.php\n', u'sed -i ""s/\'localhost\'/\'', {u'Fn::GetAtt': [u'Database', u'Endpoint.Address']}, u'\'/g"" wp-config.php\n', u'chmod -R 777 wp-content/ \n', u'echo ""define(\'AWS_ACCESS_KEY_ID\', \'', {u'Ref': u'IAMAccessKey'}, u'\'); "" >> wp-config.php \n', u'echo ""define(\'AWS_SECRET_ACCESS_KEY\', \'', {u'Fn::GetAtt': [u'IAMAccessKey', u'SecretAccessKey']}, u'\'); "" >> wp-config.php \n', u'curl -O https://raw.githubusercontent.com/AWSinAction/builds/gh-pages/phar/wp-cli.phar \n', u'php wp-cli.phar core install --url=""', {u'Fn::GetAtt': [u'LoadBalancer', u'DNSName']}, u'/wordpress"" --title=""', {u'Ref': u'BlogTitle'}, u'"" --admin_user=""', {u'Ref': u'AdminUsername'}, u'"" --admin_password=""', {u'Ref': u'AdminPassword'}, u'"" --admin_email=""', {u'Ref': u'AdminEMail'}, u'"" \n', u'php wp-cli.phar plugin install --activate amazon-web-services \n', u'php wp-cli.phar plugin install --activate amazon-s3-and-cloudfront \n', u'CHARCOUNT=`printf ""', {u'Ref': u'BlogID'}, u'"" | wc -c` \n', u'php wp-cli.phar db query ""DELETE FROM wp_options WHERE option_name = \'tantan_wordpress_s3\'; INSERT INTO wp_options (option_name, option_value, autoload) VALUES(\'tantan_wordpress_s3\', \'a:15:{s:17:\\""post_meta_version\\"";i:1;s:6:\\""bucket\\"";s:', u'$CHARCOUNT', u':\\""', {u'Ref': u'BlogID'}, u'\\"";s:6:\\""region\\"";s:0:\\""\\"";s:6:\\""domain\\"";s:9:\\""subdomain\\"";s:7:\\""expires\\"";s:1:\\""0\\"";s:10:\\""cloudfront\\"";s:0:\\""\\"";s:13:\\""object-prefix\\"";s:19:\\""wp-content/uploads/\\"";s:10:\\""copy-to-s3\\"";s:1:\\""1\\"";s:13:\\""serve-from-s3\\"";s:1:\\""1\\"";s:17:\\""remove-local-file\\"";s:1:\\""0\\"";s:3:\\""ssl\\"";s:7:\\""request\\"";s:12:\\""hidpi-images\\"";s:1:\\""0\\"";s:17:\\""object-versioning\\"";s:1:\\""0\\"";s:21:\\""use-yearmonth-folders\\"";s:1:\\""1\\"";s:20:\\""enable-object-prefix\\"";s:1:\\""1\\"";}\', \'yes\');"" \n']]}"
+Resources.AWS::EC2::Instance.DependsOn,VPCGatewayAttachment
+Parameters.BlogID.Description,A unique identifier for your blog.
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'SubnetB'}
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceIdentifier,{u'Ref': u'BlogID'}
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Resources.AWS::AutoScaling::ScalingPolicy.Properties.ScalingAdjustment,-1
+Resources.AWS::RDS::DBInstance.Properties.DBName,wordpress
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'wordpress-loadtest', u'Key': u'Name'}]"
+Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'IAMUser'}
+Parameters.AdminUsername.Description,A username for admin.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true
+Resources.AWS::S3::Bucket.Properties.BucketName,{u'Ref': u'BlogID'}

@@ -19,8 +19,8 @@ class CFNData:
 ##            ##
 ################
 
-targetDir = "templates4"
-resultsDir = "templates4_2CSV"
+targetDir = "../amazon-data/dump/downloads/"
+resultsDir = "antonDumpCSV"
 fileLimit = 99999
 
 ############
@@ -70,7 +70,7 @@ def convertDataset(pathToDset):
             if fileCounter >= fileLimit:
                 break
             print(filename)
-            os.system("cfn-lint "+os.path.join(root,filename))
+            #os.system("cfn-lint "+os.path.join(root,filename))
 
             try:
                 templateData = jsonToCSV(os.path.join(root, filename))

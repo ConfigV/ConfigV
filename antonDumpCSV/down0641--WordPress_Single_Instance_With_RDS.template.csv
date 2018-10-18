@@ -1,0 +1,86 @@
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
+Parameters.DBPassword.MaxLength,41
+Parameters.DBName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Parameters.DBUsername.Description,The WordPress database admin account username
+Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUsername'}
+Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
+Parameters.KeyName.ConstraintDescription,can contain only ASCII characters.
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r WebServer ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WaitHandle'}, u""'\n"", u'# Setup correct file ownership\n', u'chown -R apache:apache /var/www/html/wordpress\n', u'# Add keys and salts to the config file\n', u'wp_config=/var/www/html/wordpress/wp-config.php\n', u'GET https://api.wordpress.org/secret-key/1.1/salt/ >> $wp_config\n', u'echo ""define(\'WPLANG\'            , \'\');"" >> $wp_config\n', u'echo ""define(\'WP_DEBUG\'          , false);"" >> $wp_config\n', u'echo ""\\$table_prefix  = \'wp_\';"" >> $wp_config\n', u'echo ""if ( !defined(\'ABSPATH\') )"" >> $wp_config\n', u'echo ""    define(\'ABSPATH\', dirname(__FILE__) . \'/\');"" >> $wp_config\n', u'echo ""require_once(ABSPATH . \'wp-settings.php\');"" >> $wp_config\n']]}}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.mode,000644
+Parameters.KeyName.MaxLength,255
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./var/www/html,http://wordpress.org/latest.tar.gz
+Parameters.DBName.Description,The WordPress database name
+Parameters.SSHLocation.Description, The IP address range that can be used to SSH to the EC2 instances
+Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,600
+Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
+Parameters.DBClass.AllowedValues,"[u'db.t1.micro', u'db.t2.micro', u'db.t2.small', u'db.t2.medium', u'db.m3.medium', u'db.m3.large', u'db.m3.xlarge', u'db.m3.2xlarge']"
+Parameters.DBUsername.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
+Parameters.DBAllocatedStorage.Type,Number
+Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'WebServer', u'PublicDnsName']}, u'/wordpress']]}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.ensureRunning,false
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
+Parameters.KeyName.Type,String
+Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
+Parameters.DBAllocatedStorage.ConstraintDescription,must be between 5 and 1024Gb.
+Resources.AWS::RDS::DBInstance.Properties.DBSecurityGroups,[{u'Ref': u'DBSecurityGroup'}]
+Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
+Parameters.KeyName.Default,key_pair_oregon
+Parameters.DBUsername.Type,String
+Parameters.DBAllocatedStorage.MaxValue,1024
+Parameters.DBClass.Description,Database instance class
+Parameters.DBPassword.Type,String
+Parameters.DBName.Type,String
+Parameters.DBPassword.MinLength,8
+Parameters.DBUsername.MinLength,1
+Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
+Resources.AWS::RDS::DBSecurityGroup.Type,AWS::RDS::DBSecurityGroup
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mysql,[]
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP access via port 80 and SSH access
+Parameters.DBUsername.NoEcho,true
+Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebServer
+Resources.AWS::RDS::DBSecurityGroup.Properties.GroupDescription,Frontend Access
+Parameters.DBPassword.NoEcho,true
+Resources.AWS::RDS::DBSecurityGroup.Properties.DBSecurityGroupIngress.EC2SecurityGroupName,{u'Ref': u'WebServerSecurityGroup'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.content,"{u'Fn::Join': [u'', [u'<?php\n', u""define('DB_NAME',          '"", {u'Ref': u'DBName'}, u""');\n"", u""define('DB_USER',          '"", {u'Ref': u'DBUsername'}, u""');\n"", u""define('DB_PASSWORD',      '"", {u'Ref': u'DBPassword'}, u""');\n"", u""define('DB_HOST',          '"", {u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Address']}, u""');\n"", u""define('DB_CHARSET',       'utf8');\n"", u""define('DB_COLLATE',       '');\n""]]}"
+Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.group,root
+Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBClass'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.DBAllocatedStorage.Default,5
+Parameters.SSHLocation.MinLength,9
+Parameters.DBName.MinLength,1
+Parameters.KeyName.MinLength,1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true
+Parameters.DBPassword.Default,password
+Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Parameters.DBName.Default,wordpress
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
+Parameters.DBClass.ConstraintDescription,must select a valid database instance type.
+Parameters.SSHLocation.Type,String
+Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'DBAllocatedStorage'}
+Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
+Parameters.DBClass.Type,String
+Parameters.DBPassword.Description,The WordPress database admin account password
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.owner,root
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.enabled,false
+Parameters.DBClass.Default,db.t1.micro
+Parameters.DBAllocatedStorage.MinValue,5
+Parameters.DBName.MaxLength,64
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.SSHLocation.MaxLength,18
+Parameters.SSHLocation.Default,0.0.0.0/0
+Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
+Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
+Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
+Parameters.DBUsername.MaxLength,16
+Outputs.WebsiteURL.Description,WordPress Website
+Parameters.DBAllocatedStorage.Description,The size of the database (Gb)
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}]"
+Parameters.DBUsername.Default,admin

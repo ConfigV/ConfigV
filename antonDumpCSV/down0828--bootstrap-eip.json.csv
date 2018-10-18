@@ -1,0 +1,17 @@
+Parameters.StackName.Type,String
+Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'WebInstance'}
+Outputs.AppURL.Description,URL of App
+Outputs.WebInstanceEIP.Description,WebInstance EIP
+Outputs.WebInstanceEIP.Value,{u'Ref': u'EIP'}
+Parameters.WebInstance.Description,Instance Id
+Parameters.StackName.ConstraintDescription,A short name to identify this swimlane (USE LOWERCASE ONLY as this name is also used for S3 bucket name.)
+Parameters.WebInstance.Type,String
+Parameters.StackName.MaxLength,18
+Parameters.StackName.Default,VPC
+Parameters.WebInstance.MinLength,9
+Parameters.WebInstance.MaxLength,20
+Parameters.StackName.MinLength,1
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Outputs.AppURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Ref': u'EIP'}]]}"
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Parameters.StackName.Description,The name of the Stack

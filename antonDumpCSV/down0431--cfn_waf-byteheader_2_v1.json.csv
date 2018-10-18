@@ -1,0 +1,20 @@
+Resources.AWS::WAF::Rule.Properties.MetricName,{u'Ref': u'ByteHeaderRule2'}
+Parameters.ByteHeaderCondition2.Description,Enter the name of the byte header condition 2. Note names cannot be modified after creation and must be alphanumeric without spaces.
+Outputs.WAFByteHeaderRule2ID.Description,Byte Header Rule ID 2
+Parameters.WhiteListIPCondition1.Description,Enter the ID of the WhiteList IP condition 1.
+Outputs.WAFByteHeaderCondition2ID.Value,{u'Ref': u'WAFByteHeaderCondition2'}
+Resources.AWS::WAF::ByteMatchSet.Type,AWS::WAF::ByteMatchSet
+Resources.AWS::WAF::Rule.Properties.Name,{u'Ref': u'ByteHeaderRule2'}
+Outputs.WAFByteHeaderRule2ID.Value,{u'Ref': u'WAFByteHeaderRule2'}
+Resources.AWS::WAF::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFByteHeaderCondition2'}, u'Type': u'ByteMatch', u'Negated': False}, {u'DataId': {u'Ref': u'WhiteListIPCondition1'}, u'Type': u'IPMatch', u'Negated': True}]"
+Resources.AWS::WAF::ByteMatchSet.Properties.ByteMatchTuples,"[{u'TargetString': u'curl', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'User-Agent', u'Type': u'HEADER'}}, {u'TargetString': u'urllib', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'User-Agent', u'Type': u'HEADER'}}, {u'TargetString': u'python', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'User-Agent', u'Type': u'HEADER'}}, {u'TargetString': u'wget', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'User-Agent', u'Type': u'HEADER'}}, {u'TargetString': u'ruby', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'User-Agent', u'Type': u'HEADER'}}, {u'TargetString': u'java', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'User-Agent', u'Type': u'HEADER'}}, {u'TargetString': u'libwww', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'User-Agent', u'Type': u'HEADER'}}]"
+Resources.AWS::WAF::Rule.DependsOn,WAFByteHeaderCondition2
+Resources.AWS::WAF::Rule.Type,AWS::WAF::Rule
+Parameters.ByteHeaderRule2.Default,ByteHeaderRule2
+Outputs.WAFByteHeaderCondition2ID.Description,Byte Header Condition ID 2
+Parameters.WhiteListIPCondition1.Type,String
+Parameters.ByteHeaderCondition2.Type,String
+Parameters.ByteHeaderRule2.Description,Enter the name of the byte header rule 2. Note names cannot be modified after creation and must be alphanumeric without spaces.
+Resources.AWS::WAF::ByteMatchSet.Properties.Name,{u'Ref': u'ByteHeaderCondition2'}
+Parameters.ByteHeaderRule2.Type,String
+Parameters.ByteHeaderCondition2.Default,ByteHeaderCondition2

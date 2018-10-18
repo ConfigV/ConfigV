@@ -1,0 +1,48 @@
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubRepo,GitHubRepo
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubUser,GitHubUser
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcId,VPC.Outputs.VpcId
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubBranch.default,Branch
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Subnets,VPC.Outputs.Subnets
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcCIDR,10.215.0.0/16
+Outputs.ServiceUrl.Value,LoadBalancer.Outputs.ServiceUrl
+Parameters.LaunchType.AllowedValues,"[u'Fargate', u'EC2']"
+Parameters.GitHubRepo.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Subnet2CIDR,10.215.20.0/24
+Parameters.GitHubToken.NoEcho,True
+Parameters.GitHubBranch.Description,The branch of the repo to continuously deploy.
+Outputs.PipelineUrl.Value,DeploymentPipeline.Outputs.PipelineUrl
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubToken.default,Personal Access Token
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Name,AWS::StackName
+Outputs.ServiceUrl.Description,The sample service that is being continuously deployed.
+Outputs.PipelineUrl.Description,The continuous deployment pipeline in the AWS Management Console.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubRepo.default,Repo
+Parameters.GitHubBranch.Default,master
+Parameters.GitHubUser.Description,Your username on GitHub.
+Parameters.GitHubUser.Type,String
+Parameters.GitHubToken.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Cluster,Cluster.Outputs.ClusterName
+Parameters.GitHubRepo.Default,ecs-demo-php-simple-app
+Parameters.LaunchType.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SourceSecurityGroup,LoadBalancer.Outputs.SecurityGroup
+Parameters.TemplateBucket.Type,String
+Parameters.GitHubBranch.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.TargetGroup,LoadBalancer.Outputs.TargetGroup
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Subnet1CIDR,10.215.10.0/24
+Parameters.TemplateBucket.Default,ecs-refarch-continuous-deployment
+Parameters.LaunchType.Default,Fargate
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Service,Service.Outputs.Service
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.amazonaws.com/${TemplateBucket}/templates/deployment-pipeline.yaml
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubBranch,GitHubBranch
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.LaunchType,LaunchType
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubUser.default,User
+Parameters.GitHubToken.Description,"Token for the user specified above. (https://github.com/settings/tokens)
+"
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'LaunchType'], u'Label': {u'default': u'Cluster Configuration'}}, {u'Parameters': [u'GitHubRepo', u'GitHubBranch', u'GitHubUser', u'GitHubToken'], u'Label': {u'default': u'GitHub Configuration'}}, {u'Parameters': [u'TemplateBucket'], u'Label': {u'default': u'Stack Configuration'}}]"
+Parameters.GitHubRepo.Description,The repo name of the sample service.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubToken,GitHubToken
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.LaunchType.default,Launch Type
+Parameters.LaunchType.Description,"The launch type for your service. Selecting EC2 will create an Auto Scaling group of t2.micro instances for your cluster. See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html to learn more about launch types.
+"
+Parameters.TemplateBucket.Description,"The S3 bucket from which to fetch the templates used by this stack.
+"

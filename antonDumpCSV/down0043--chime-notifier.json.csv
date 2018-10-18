@@ -1,0 +1,29 @@
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaFunctionRole'}]
+Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.health']
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'ChimeNotifierLambdaFn', u'Arn']}"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,60
+Parameters.HookURL.Type,String
+Parameters.HookURL.NoEcho,True
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaFunctionRole', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Sub': u'#Sample Lambda Function to post notifications to a Chime room when an AWS Health event happens\nfrom __future__ import print_function \nimport boto3 \nimport json \nimport logging \nimport os \nfrom urllib2 import Request, urlopen, URLError, HTTPError \n# Setting up logging \nlogger = logging.getLogger() \nlogger.setLevel(logging.INFO) \n# main function \ndef lambda_handler(event, context): \n  message =  str(event[\'detail\'][\'eventDescription\'][0][\'latestDescription\']  + "" https://phd.aws.amazon.com/phd/home?region=us-east-1#/event-log?eventID="" + event[\'detail\'][\'eventArn\'])\n  json.dumps(message) \n  chime_message = {\'Content\': message}\n  logger.info(str(chime_message))\n  webhookurl = str(os.environ[\'CHIMEWEBHOOK\'])\n  req = Request(webhookurl, json.dumps(chime_message)) \n  try: \n    response = urlopen(req) \n    response.read() \n    logger.info(""Message posted: %s"", chime_message[\'Content\']) \n  except HTTPError as e: \n    logger.error(""Request failed : %d %s"", e.code, e.reason) \n  except URLError as e: \n    logger.error(""Server connection failed: %s"", e.reason)       \n'}"
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.CHIMEWEBHOOK,{u'Ref': u'HookURL'}
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'ChimeNotifierLambdaFn', u'Arn': {u'Fn::GetAtt': [u'ChimeNotifierLambdaFn', u'Arn']}}]"
+Resources.AWS::Lambda::Function.Properties.Handler,index.lambda_handler
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow', u'Sid': u'Stmt12349896368829'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Parameters.HookURL.Description,Please enter the web hook url from Chime:
+Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaPolicy
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'CloudWatchEventRule', u'Arn']}"
+Resources.AWS::Events::Rule.Properties.Description,EventRule

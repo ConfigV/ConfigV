@@ -1,0 +1,15 @@
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Parameters.HostedZoneNameWithoutDot.Type,String
+Parameters.Environment.Type,String
+Parameters.ProjectName.Default,demo
+Parameters.CloudFrontCertificateARN.Type,String
+Parameters.S3TemplatesBucketName.Default,ixortalktooling-prd-aws-cloudformation
+Parameters.S3TemplatesBucketName.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.AssetsBucketName,ixortalk-${ProjectName}-assets-${Environment}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CertificateARN,CloudFrontCertificateARN
+Parameters.HostedZoneNameWithoutDot.Default,yourdomain.com
+Parameters.Environment.Default,tst
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.DistributionAlias,"[u'.', [[u'IsProd', u'assets', u'assets-${Environment}'], u'HostedZoneNameWithoutDot']]"
+Parameters.ProjectName.Type,String
+Parameters.CloudFrontCertificateARN.Description,The Certificate ARN to be used for the cloudfront distribution
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.eu-central-1.amazonaws.com/${S3TemplatesBucketName}/infrastructure/cloudfront.yaml

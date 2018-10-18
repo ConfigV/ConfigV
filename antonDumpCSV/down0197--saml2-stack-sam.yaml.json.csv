@@ -1,0 +1,80 @@
+Parameters.AdfsArn.Type,String
+Outputs.RestApiId.Value,Saml2ApiDeploy
+Outputs.ProcessSAMLFunction.Value,ProcessSAMLFunction
+Resources.AWS::Lambda::Permission.Properties.FunctionName,ProcessSAMLFunction
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Outputs.WebsiteURL.Value,WebsiteBucket.WebsiteURL
+Outputs.CustomAuthFunction.Description,Custom Auth Function Name
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
+Outputs.RestApiId.Description,Unique ID of SAML API
+Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,30
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ID_HASH,IdHash
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
+Parameters.EncryptionContext.Description,an encryption context for encrypted SAML tokens
+Parameters.saml2Key.Description,Key ID or alias for KMS key to use for encrypting credentials
+Parameters.EncryptionContext.Type,String
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'CognitoID'}]"
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Outputs.UserTable.Value,UserTable
+Outputs.GenerateKeyFunction.Value,GenerateKeyFunction
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Outputs.ProcessSAMLFunction.Description,Process SAML Function Name
+Outputs.SessionTable.Description,Session DDB Table
+Resources.AWS::IAM::Role.Properties.RoleName,SAMLSessions-Delete_awslabs_samldemo
+Resources.AWS::DynamoDB::Table.Properties.TableName,SAMLUsers
+Resources.AWS::Serverless::Api.Properties.StageName,dev
+Resources.AWS::Lambda::Function.Properties.Handler,ProcessSAML.handler
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'execute-api:Invoke'], u'Resource': [u'', [u'arn:aws:execute-api:', u'AWS::Region', u':', u'AWS::AccountId', u':', u'Saml2ApiDeploy', u'/dev/GET/users']], u'Effect': u'Allow'}]"
+Outputs.saml2Key.Description,Creation of newly created key
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,YOUR_S3_BUCKET
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.USER_DDB_TABLE,UserTable
+Parameters.AdfsArn.Description,ARN for ADFS IdP
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.KMS_KEY_ID,saml2Key
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
+Resources.AWS::Lambda::Function.Properties.FunctionName,ProcessSAML_awslabs_samldemo
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'CognitoID', u'AttributeType': u'S'}]"
+Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.SESSION_DDB_TABLE,SessionTable
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': [u'', [u'SessionTable', u'-DeletePolicy']], u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:DeleteItem'], u'Resource': [u'', [u'arn:aws:dynamodb:', u'AWS::Region', u':', u'AWS::AccountId', u':', u'table/', u'SessionTable']], u'Effect': u'Allow'}]}}]"
+Outputs.ApiUrl.Value,"[u'', [u'https://', u'Saml2ApiDeploy', u'.execute-api.', u'AWS::Region', u'.amazonaws.com/dev/saml']]"
+Outputs.SessionTable.Value,SessionTable
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.REDIRECT_URL,"[u'', [u'WebsiteBucket.WebsiteURL', u'/index.html']]"
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': u'apigateway.amazonaws.com'}}]"
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Outputs.WebsiteBucket.Value,WebsiteBucket
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.PRINCIPAL_ARN,AdfsArn
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.WebsiteBucketName.Type,String
+Outputs.ApiUrl.Description,URL of your API endpoint
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Resource': [u'', [u'arn:aws:s3:::', u'WebsiteBucket', u'/*']], u'Effect': u'Allow', u'Principal': u'*'}]"
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.html
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs4.3
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.RAND_HASH,IdHash
+Resources.AWS::Serverless::Api.Properties.DefinitionUri,s3://YOUR_S3_BUCKET/saml2-api.yaml
+Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
+Parameters.WebsiteBucketName.Description,Bucket name for a new website
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"[u'', [u'arn:aws:execute-api:', u'AWS::Region', u':', u'AWS::AccountId', u':', u'Saml2ApiDeploy', u'/*/POST/saml']]"
+Parameters.IdHash.Description,a hash key for storing an ecrypted DEK for encrypting SAML tokens
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,saml.zip
+Outputs.WebsiteBucket.Description,New Bucket for hosting this website
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ProcessSAMLRole', u'Arn']}"
+Outputs.CustomAuthFunction.Value,CustomAuthFunction
+Outputs.saml2Key.Value,saml2Key
+Outputs.WebsiteURL.Description,New Bucket URL for hosting this website
+Parameters.EncryptionContext.Default,ADFS
+Outputs.GenerateKeyFunction.Description,Generate key function Name
+Parameters.IdHash.Type,String
+Outputs.UserTable.Description,User DDB Table
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
+Parameters.IdHash.Default,us-east-1:XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,WebsiteBucket
+Parameters.saml2Key.Type,String
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ENC_CONTEXT,EncryptionContext
+Resources.AWS::S3::Bucket.Properties.BucketName,WebsiteBucketName

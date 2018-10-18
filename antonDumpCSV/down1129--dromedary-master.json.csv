@@ -1,0 +1,177 @@
+Resources.AWS::CloudFormation::Stack.DependsOn,"[u'DynamoDBStack', u'VPCStack', u'IAMStack']"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awscli.conf.owner,root
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.commands.02_create_my_tmp_directory.command,mkdir -p /tmp/pmd
+Outputs.DromedaryAppURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'PipelineStoreStack', u'Outputs.DromedaryAppURL']}, u'/']]}"
+Parameters.DDBTableName.Description,Unique name for the generated Dromedary Dynamo DB table.
+Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Domain,{u'Ref': u'Domain'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.services.sysvinit.cfn-hup.enabled,true
+Parameters.Branch.Description,The GitHub branch to the public Dromedary repository.
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,7
+Parameters.DDBTableName.MinLength,1
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'BaseTemplateURL', u'Branch', u'Domain', u'ProdHostedZone', u'DDBTableName', u'GitHubToken', u'KeyName'], u'Label': {u'default': u'Dynamic Configuration'}}, {u'Parameters': [u'CodePipelineActionsCFNTemplateFile', u'CodePipelineCFNTemplateFile', u'DDBCFNTemplateFile', u'ENICFNTemplateFile', u'IAMCFNTemplateFile', u'JenkinsCFNTemplateFile', u'PipelineStoreCFNTemplateFile', u'VPCCFNTemplateFile'], u'Label': {u'default': u'CloudFormation Files'}}, {u'Parameters': [u'GitHubUser', u'InstanceType', u'Repo', u'SSHLocation'], u'Label': {u'default': u'Additional Configuration'}}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.IAMCFNTemplateFile.default,CFN Template File for AIM
+Parameters.DDBCFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Branch,{u'Ref': u'Branch'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.commands.01_create_state_directory.command,mkdir -p /var/awslogs/state
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.IAMStackName,"{u'Fn::GetAtt': [u'IAMStack', u'Outputs.StackName']}"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Domain.default,Domain Name
+Parameters.DDBCFNTemplateFile.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CfnInitRole,"{u'Fn::GetAtt': [u'IAMStack', u'Outputs.InstanceRole']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPC,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPC']}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_app.files./var/www/html/index.html.owner,root
+Parameters.ProdHostedZone.Description,Route53 Hosted Zone (include leading .). Your AWS account must have access to this Hosted Zone.
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.services.sysvinit.cfn-hup.ensureRunning,true
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,{u'Ref': u'KeyName'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.content,"{u'Fn::Join': [u'', [u'[cfn-auto-reloader-hook]\n', u'triggers=post.update\n', u'path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init\n', u'action=/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerInstance ', u'         --configsets install_all ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'runas=root\n']]}"
+Parameters.JenkinsCFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubUser.default,GitHub User
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awscli.conf.mode,000444
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.S3Bucket,"{u'Fn::GetAtt': [u'PipelineStoreStack', u'Outputs.DromedaryS3Bucket']}"
+Resources.AWS::IAM::Role.Properties.Path,/
+Parameters.SSHLocation.Type,String
+Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
+Parameters.PipelineStoreCFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Outputs.DromedaryAppURL.Description,The URL to Dromedary application. Only operations once a pipeline has completed its first run.
+Parameters.VPCCFNTemplateFile.Default,vpc.json
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.services.sysvinit.awslogs.ensureRunning,true
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DDBCFNTemplateFile.default,CFN Template File for DynamoDB
+Resources.AWS::Logs::LogGroup.DependsOn,[u'DynamoDBStack']
+Parameters.SSHLocation.MaxLength,18
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.DDBTableName,{u'Ref': u'DDBTableName'}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetId,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.SubnetId']}"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Branch.default,GitHub Branch
+Parameters.GitHubUser.Default,stelligent
+Parameters.GitHubToken.Description,Secret. OAuthToken with access to Repo. Long string of characters and digits. Go to https://github.com/settings/tokens
+Outputs.JenkinsURL.Description,The URL to Jenkins server that runs the execution of jobs for CodePipeline
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awslogs.conf.group,root
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.packages.yum.awslogs,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awslogs.conf.content,"{u'Fn::Join': [u'', [u'[general]\n', u'state_file= /var/awslogs/state/agent-state\n', u'[/var/log/cloud-init.log]\n', u'file = /var/log/cloud-init.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cloud-init.log\n', u'datetime_format = \n', u'[/var/log/cloud-init-output.log]\n', u'file = /var/log/cloud-init-output.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cloud-init-output.log\n', u'datetime_format = \n', u'[/var/log/cfn-init.log]\n', u'file = /var/log/cfn-init.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cfn-init.log\n', u'datetime_format = \n', u'[/var/log/cfn-hup.log]\n', u'file = /var/log/cfn-hup.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cfn-hup.log\n', u'datetime_format = \n', u'[/var/log/cfn-wire.log]\n', u'file = /var/log/cfn-wire.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cfn-wire.log\n', u'datetime_format = \n', u'[/var/log/httpd]\n', u'file = /var/log/httpd/*\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/httpd\n', u'datetime_format = %d/%b/%Y:%H:%M:%S\n']]}"
+Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.MasterStackName,{u'Ref': u'AWS::StackName'}
+Parameters.SSHLocation.Description,The IP address range that can be used to SSH to the EC2 instances
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.CodePipelineCFNTemplateFile.default,CFN Template File for CodePipeline
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.files./etc/cfn/cfn-hup.conf.group,root
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ENICFNTemplateFile.default,CFN Template File for ENI
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DDBTableName.default,Unique name for DynamoDB table
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Repo.default,GitHub Repository Name
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Hostname,{u'Ref': u'AWS::StackName'}
+Parameters.CodePipelineCFNTemplateFile.Default,codepipeline-cfn.json
+Parameters.Repo.Type,String
+Outputs.CodePipelineURL.Description,The URL to the instantiated pipeline
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.CodePipelineActionsCFNTemplateFile.default,CFN Template File for Custom Actions
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_app.files./var/www/html/index.html.group,root
+Parameters.CodePipelineActionsCFNTemplateFile.Type,String
+Parameters.ProdHostedZone.Type,String
+Parameters.ProdHostedZone.Default,.example.com
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'AllowAll', u'PolicyDocument': {u'Statement': [{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.InstanceProfile,"{u'Fn::GetAtt': [u'IAMStack', u'Outputs.InstanceProfile']}"
+Resources.AWS::IAM::Role.DependsOn,[u'DynamoDBStack']
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access and HTTP access on the inbound port
+Parameters.CodePipelineActionsCFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubToken,{u'Ref': u'GitHubToken'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_app.packages.yum.httpd,[]
+Parameters.JenkinsCFNTemplateFile.Default,jenkins-instance.json
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awslogs.conf.owner,root
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CodePipelineServiceRole,"{u'Fn::GetAtt': [u'IAMStack', u'Outputs.CodePipelineTrustRoleARN']}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awscli.conf.group,root
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.JobConfigsTarball,"{u'Fn::GetAtt': [u'PipelineStoreStack', u'Outputs.JobConfigsTarball']}"
+Parameters.Domain.Default,example.com.
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyName.default,EC2 Key Pair Name
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.SSHLocation.default,CIDR Block for EC2 Instance
+Parameters.IAMCFNTemplateFile.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubToken.default,GitHub Token
+Mappings.Region2Principal.eu-central-1.OpsWorksPrincipal,opsworks.amazonaws.com
+Parameters.DDBTableName.Type,String
+Parameters.VPCCFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Parameters.IAMCFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_app.files./var/www/html/index.html.content,"{u'Fn::Join': [u'\n', [u'<img src=""', {u'Fn::FindInMap': [u'Region2Examples', {u'Ref': u'AWS::Region'}, u'Examples']}, u'/cloudformation_graphic.png"" alt=""AWS CloudFormation Logo""/>', u'<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>']]}"
+Mappings.Region2Examples.eu-central-1.Examples,https://s3-eu-central-1.amazonaws.com/cloudformation-examples-eu-central-1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_app.services.sysvinit.httpd.enabled,true
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::CloudFormation::Stack.Properties.TimeoutInMinutes,60
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ProdHostedZone,{u'Ref': u'ProdHostedZone'}
+Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-794a5915
+Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.services.sysvinit.awslogs.files,[u'/etc/awslogs/awslogs.conf']
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.MyBuildProvider,"{u'Fn::GetAtt': [u'PipelineStoreStack', u'Outputs.MyBuildProvider']}"
+Parameters.Domain.Description,Route53 Hosted Zone name for prod IP (include trailing .). Your AWS account must have access to this Hosted Zone.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCStackName,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.StackName']}"
+Parameters.DDBTableName.MaxLength,32
+Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
+Parameters.Branch.Type,String
+Parameters.BaseTemplateURL.Type,String
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_app.services.sysvinit.httpd.ensureRunning,true
+Mappings.AWSRegionArch2AMI.eu-central-1.HVMG2,ami-ba1a09d6
+Parameters.Repo.Default,dromedary
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Join': [u'', [{u'Ref': u'BaseTemplateURL'}, {u'Ref': u'VPCCFNTemplateFile'}]]}"
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'LogRole'}]
+Parameters.BaseTemplateURL.Default,https://s3.amazonaws.com/stelligent-public/cloudformation-templates/github/dromedary/
+Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Timeout,PT10M
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.services.sysvinit.awslogs.enabled,true
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.services.sysvinit.cfn-hup.files,"[u'/etc/cfn/cfn-hup.conf', u'/etc/cfn/hooks.d/cfn-auto-reloader.conf']"
+Parameters.GitHubUser.Type,String
+Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'LogRoleInstanceProfile'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ProdHostedZone.default,Route 53 Hosted Zone
+Parameters.SSHLocation.MinLength,9
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ArtifactStoreBucket,"{u'Fn::GetAtt': [u'PipelineStoreStack', u'Outputs.DromedaryS3Bucket']}"
+Mappings.Region2Principal.eu-central-1.EC2Principal,ec2.amazonaws.com
+Parameters.Repo.Description,"The name of the dromedary repository, not the URL"
+Parameters.BaseTemplateURL.Description,S3 Base URL of all the CloudFormation templated used in Dromedary (without the file names)
+Parameters.CodePipelineCFNTemplateFile.Type,String
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.SSHLocation.Default,0.0.0.0/0
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.BaseTemplateURL.default,S3 URL for Base Template
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.DDBStackName,"{u'Fn::GetAtt': [u'DynamoDBStack', u'Outputs.StackName']}"
+Resources.AWS::IAM::InstanceProfile.DependsOn,[u'DynamoDBStack']
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.install_all,"[u'install_cfn', u'install_app', u'install_logs']"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Repo,{u'Ref': u'Repo'}
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}]"
+Parameters.Branch.Default,master
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
+Outputs.CodePipelineURL.Value,"{u'Fn::GetAtt': [u'CodePipelineStack', u'Outputs.CodePipelineURL']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.UUID,{u'Ref': u'AWS::StackName'}
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerInstance ', u'         --configsets install_all ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'yum install -y git\n', u'git clone -b ', {u'Ref': u'Branch'}, u' ', {u'Fn::Join': [u'', [u'https://github.com/', {u'Ref': u'GitHubUser'}, u'/', {u'Ref': u'Repo'}, u'.git']]}, u' /opt/dromedary\n', u'export AWS_DEFAULT_REGION=', {u'Ref': u'AWS::Region'}, u'\n', u'cd /opt/dromedary\n', u'./bin/configure-jenkins.sh ', {u'Fn::GetAtt': [u'PipelineStoreStack', u'Outputs.StackName']}, u'\n', u'/opt/aws/bin/cfn-signal -e $? ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerInstance ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
+Parameters.ENICFNTemplateFile.Default,app-eni.json
+Parameters.GitHubUser.Description,GitHub UserName. This username must have access to the GitHubToken.
+Parameters.JenkinsCFNTemplateFile.Type,String
+Parameters.Domain.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PipelineStoreCFNTemplateFile.default,CFN Template File for Pipeline Store
+Parameters.DDBCFNTemplateFile.Default,dynamodb.json
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.files./etc/cfn/cfn-hup.conf.owner,root
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
+Parameters.PipelineStoreCFNTemplateFile.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCCFNTemplateFile.default,CFN Template File for VPC
+Outputs.JenkinsURL.Value,"{u'Fn::GetAtt': [u'JenkinsStack', u'Outputs.JenkinsURL']}"
+Mappings.Region2ARNPrefix.eu-central-1.ARNPrefix,arn:aws:
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.JenkinsCFNTemplateFile.default,CFN Template File for Jenkins
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.MyJenkinsURL,"{u'Fn::GetAtt': [u'JenkinsStack', u'Outputs.JenkinsURL']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubUser,{u'Ref': u'GitHubUser'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_cfn.files./etc/cfn/cfn-hup.conf.mode,000400
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awscli.conf.content,"{u'Fn::Join': [u'', [u'[plugins]\n', u'cwlogs = cwlogs\n', u'[default]\n', u'region = ', {u'Ref': u'AWS::Region'}, u'\n']]}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.DromedaryS3Bucket,{u'Ref': u'AWS::AccountId'}
+Parameters.CodePipelineActionsCFNTemplateFile.Default,codepipeline-custom-actions.json
+Parameters.GitHubToken.NoEcho,true
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ENIStackName,"{u'Fn::GetAtt': [u'ENIStack', u'Outputs.StackName']}"
+Parameters.CodePipelineCFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Parameters.GitHubToken.Type,String
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_app.files./var/www/html/index.html.mode,000644
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Parameters.PipelineStoreCFNTemplateFile.Default,pipeline-store.json
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Count,1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_logs.files./etc/awslogs/awslogs.conf.mode,000444
+Resources.AWS::EC2::Instance.DependsOn,"[u'DynamoDBStack', u'PipelineStoreStack']"
+Parameters.VPCCFNTemplateFile.Type,String
+Parameters.IAMCFNTemplateFile.Default,iam.json
+Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-bc5b48d0
+Parameters.ENICFNTemplateFile.Description,Just the name of the CloudFormation template. Used with BaseTemplateURL.
+Parameters.ENICFNTemplateFile.Type,String

@@ -1,0 +1,34 @@
+Parameters.CreateSimpleRoles.Description,Set to 'true' if the EncryptWithKeyRole and DecryptWithKeyRole should be created. This requires CAPABAILITY_IAM.
+Parameters.KeyDescription.Description,The description string to attach to the created key.
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Id,BiscuitKmsKeyPolicy
+Parameters.KeyDescription.Type,String
+Outputs.KeyArn.Description,Key ARN
+Parameters.AllowIAMPoliciesToControlKeyAccess.Description,"If 'false', the only policies that are evaluated to determine key access are those defined in the Key Policy, and IAM policies will not be considered (though 'Grants' to IAM roles will be honored). If 'true', the IAM policies can control access to the KMS keys."
+Outputs.DecryptWithKeyRole.Value,{u'Ref': u'DecryptWithKeyRole'}
+Resources.AWS::KMS::Key.Properties.EnableKeyRotation,true
+Outputs.EncryptWithKeyRole.Condition,UseCapabilityIamCondition
+Outputs.EncryptWithKeyRole.Description,Name of the role that allows encryption of anything under this key.
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.DecryptWithKeyRole.Condition,UseCapabilityIamCondition
+Resources.AWS::KMS::Key.Properties.Description,{u'Ref': u'KeyDescription'}
+Outputs.KeyID.Description,Key ID
+Parameters.CreateSimpleRoles.AllowedValues,"[u'true', u'false']"
+Outputs.KeyArn.Value,"{u'Fn::Join': [u'', [u'arn:aws:kms:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':key/', {u'Ref': u'BiscuitKey'}]]}"
+Outputs.EncryptWithKeyRole.Value,{u'Ref': u'EncryptWithKeyRole'}
+Parameters.AdministratorPrincipals.Description,Full ARNs of users that are allowed to perform all administration functions on this key.
+Parameters.CreateSimpleRoles.Type,String
+Outputs.DecryptWithKeyRole.Description,Name of role that allows decryption of anything encrypted under this key.
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Resources.AWS::IAM::Role.Metadata.Comment,DecryptWithKeyRole permits decryption of values encrypted under this KMS key without any restrictions.
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.UserPrincipals.Description,Full ARNs of users that are allowed to perform all day-to-day operations with this key.
+Parameters.AllowIAMPoliciesToControlKeyAccess.Type,String
+Resources.AWS::IAM::Role.Condition,UseCapabilityIamCondition
+Parameters.UserPrincipals.Type,CommaDelimitedList
+Parameters.AdministratorPrincipals.Type,CommaDelimitedList
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Version,2012-10-17
+Outputs.KeyID.Value,{u'Ref': u'BiscuitKey'}
+Parameters.CreateSimpleRoles.Default,true
+Resources.AWS::KMS::Key.Type,AWS::KMS::Key
+Parameters.AllowIAMPoliciesToControlKeyAccess.AllowedValues,"[u'true', u'false']"
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Statement,"[{u'Fn::If': [u'EnableIamPoliciesCondition', {u'Action': u'kms:*', u'Principal': {u'AWS': [{u'Fn::Join': [u':', [u'arn:aws:iam:', {u'Ref': u'AWS::AccountId'}, u'root']]}]}, u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Enable IAM policies to grant access to keys, and allow root account all actions.'}, {u'Action': [u'kms:GetKeyPolicy', u'kms:ListKeyPolicies', u'kms:PutKeyPolicy'], u'Principal': {u'AWS': [{u'Fn::Join': [u':', [u'arn:aws:iam:', {u'Ref': u'AWS::AccountId'}, u'root']]}]}, u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Allow root account to replace key policy.'}]}, {u'Action': [u'kms:Create*', u'kms:Describe*', u'kms:Enable*', u'kms:List*', u'kms:Put*', u'kms:Update*', u'kms:Revoke*', u'kms:Disable*', u'kms:Get*', u'kms:Delete*', u'kms:ScheduleKeyDeletion', u'kms:CancelKeyDeletion'], u'Principal': {u'AWS': {u'Ref': u'AdministratorPrincipals'}}, u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Allow access for Key Administrators'}, {u'Action': [u'kms:Encrypt', u'kms:Decrypt', u'kms:ReEncrypt*', u'kms:GenerateDataKey*', u'kms:DescribeKey'], u'Principal': {u'AWS': {u'Ref': u'UserPrincipals'}}, u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Allow use of the key'}, {u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Allow attachment of persistent resources', u'Action': [u'kms:CreateGrant', u'kms:ListGrants', u'kms:RevokeGrant'], u'Condition': {u'Bool': {u'kms:GrantIsForAWSResource': True}}, u'Principal': {u'AWS': {u'Ref': u'UserPrincipals'}}}, {u'Fn::If': [u'UseCapabilityIamCondition', {u'Action': [u'kms:Decrypt'], u'Principal': {u'AWS': [{u'Fn::GetAtt': [u'DecryptWithKeyRole', u'Arn']}]}, u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Allow decrypting of any value encrypted under this key.'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'UseCapabilityIamCondition', {u'Action': [u'kms:Encrypt', u'kms:GenerateDataKey'], u'Principal': {u'AWS': [{u'Fn::GetAtt': [u'EncryptWithKeyRole', u'Arn']}]}, u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Allow encrypting under this key.'}, {u'Ref': u'AWS::NoValue'}]}]"

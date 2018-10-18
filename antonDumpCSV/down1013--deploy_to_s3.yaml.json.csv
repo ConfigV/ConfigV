@@ -1,0 +1,104 @@
+Parameters.OriginalHipchatNotifierZip.Type,String
+Resources.Custom::LambdaTrigger.Type,Custom::LambdaTrigger
+Parameters.OriginalReaperZip.Default,reaper.zip
+Resources.Custom::LambdaTrigger.Properties.ServiceToken,S3CopierLambda.Arn
+Resources.Custom::LambdaTrigger.Properties.OrigBucketName,OriginalS3Bucket
+Resources.AWS::Lambda::Function.Properties.Timeout,180
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,S3CopierRole.Arn
+Resources.Custom::LambdaTrigger.Properties.OrigHipchatNotifierKey,OriginalHipchatNotifierZip
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"import boto3
+import json
+import sys
+import traceback
+
+try:
+    from urllib2 import HTTPError, build_opener, HTTPHandler, Request
+except ImportError:
+    from urllib.error import HTTPError
+    from urllib.request import build_opener, HTTPHandler, Request
+
+SUCCESS = ""SUCCESS""
+FAILED = ""FAILED""
+s3 = boto3.resource('s3')
+def handler(event, context):
+    print event
+    try:
+        if event['RequestType'] == 'Delete':
+            print('Deletion request received')
+            bucket = s3.Bucket(event['ResourceProperties']['NewBucket'])
+            bucket.objects.all().delete()
+            send(event, context, SUCCESS)
+            return
+        copy_source = {'Bucket': event['ResourceProperties']['OrigBucketName'],
+            'Key': event['ResourceProperties']['OrigReaperKey']}
+        s3.meta.client.copy(copy_source, 
+            event['ResourceProperties']['NewBucket'],
+            event['ResourceProperties']['OrigReaperKey'])
+        s3.ObjectAcl(event['ResourceProperties']['NewBucket'],
+            event['ResourceProperties']['OrigReaperKey']).put(ACL='public-read')
+        hc_notifier_copy_source = {'Bucket': event['ResourceProperties']['OrigBucketName'],
+            'Key': event['ResourceProperties']['OrigHipchatNotifierKey']}
+        s3.meta.client.copy(hc_notifier_copy_source, 
+            event['ResourceProperties']['NewBucket'],
+            event['ResourceProperties']['OrigHipchatNotifierKey'])
+        s3.ObjectAcl(event['ResourceProperties']['NewBucket'],
+            event['ResourceProperties']['OrigHipchatNotifierKey']).put(ACL='public-read')
+    except Exception as e:
+        print('Error copying S3 data')
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        traceback.print_exception(exc_type, exc_value, exc_traceback,
+                                  limit=2, file=sys.stdout)
+        send(event, context, FAILED)
+    send(event, context, SUCCESS)
+
+def send(event, context, response_status, reason=None, response_data=None, physical_resource_id=None):
+    response_data = response_data or {}
+    response_body = json.dumps(
+        {
+            'Status': response_status,
+            'Reason': reason or ""See the details in CloudWatch Log Stream: "" + context.log_stream_name,
+            'PhysicalResourceId': physical_resource_id or context.log_stream_name,
+            'StackId': event['StackId'],
+            'RequestId': event['RequestId'],
+            'LogicalResourceId': event['LogicalResourceId'],
+            'Data': response_data
+        }
+    )
+
+    opener = build_opener(HTTPHandler)
+    request = Request(event['ResponseURL'], data=response_body)
+    request.add_header('Content-Type', '')
+    request.add_header('Content-Length', len(response_body))
+    request.get_method = lambda: 'PUT'
+    try:
+        response = opener.open(request)
+        print(""Status code: {}"".format(response.getcode()))
+        print(""Status message: {}"".format(response.msg))
+        return True
+    except HTTPError as exc:
+        print(""Failed executing HTTP request: {}"".format(exc.code))
+        return False 
+"
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Parameters.OriginalReaperZip.Description,Key for the reaper.zip file in the S3 bucket.
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Parameters.OriginalHipchatNotifierZip.Default,hipchat_notifier.zip
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Parameters.OriginalHipchatNotifierZip.Description,Key for the reaper.zip file in the S3 bucket.
+Parameters.OriginalReaperZip.Type,String
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.S3BucketPrefix.Default,ec2-reaper
+Resources.Custom::LambdaTrigger.Properties.OrigReaperKey,OriginalReaperZip
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Parameters.OriginalS3Bucket.Description,Original bucket that the reaper script resides in.
+Parameters.S3BucketPrefix.Type,String
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.Custom::LambdaTrigger.Properties.NewBucket,S3Bucket
+Parameters.S3BucketPrefix.Description,Prefix for the S3 Bucket Name in each region.
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u's3:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.OriginalS3Bucket.Default,reaperfiles
+Parameters.OriginalS3Bucket.Type,String
+Resources.AWS::S3::Bucket.Properties.BucketName,${S3BucketPrefix}-${AWS::Region}

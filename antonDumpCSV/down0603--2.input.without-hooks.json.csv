@@ -1,0 +1,85 @@
+Resources.AWS::CloudWatch::Alarm.Properties.InsufficientDataActions,[]
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'HelloLambdaFunction', u'Arn']}"
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Outputs.ServiceEndpoint.Description,URL of the service endpoint
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'id'}]"
+Resources.AWS::ApiGateway::Deployment.Properties.StageName,dev
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::Lambda::EventSourceMapping.Type,AWS::Lambda::EventSourceMapping
+Resources.AWS::Lambda::Function.Properties.Handler,handler.hello
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'ServerlessDeploymentBucket'}
+Resources.AWS::Lambda::Function.Properties.FunctionName,canary-deployments-test-dev-hello
+Resources.AWS::ApiGateway::Method.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'id', u'AttributeType': u'S'}]"
+Resources.AWS::Lambda::Function.Properties.MemorySize,1024
+Resources.AWS::Lambda::Function.DependsOn,"[u'HelloLogGroup', u'IamRoleLambdaExecution']"
+Resources.AWS::ApiGateway::RestApi.Properties.Name,dev-canary-deployments-test
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:sns:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', u'snsTopic']]}"
+Resources.AWS::Lambda::Version.DeletionPolicy,Retain
+Resources.AWS::CloudWatch::Alarm.Properties.TreatMissingData,missing
+Resources.AWS::Lambda::Version.Type,AWS::Lambda::Version
+Resources.AWS::ApiGateway::Method.Type,AWS::ApiGateway::Method
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
+Resources.AWS::SNS::Topic.Properties.TopicName,snsTopic
+Resources.AWS::ApiGateway::Method.Properties.AuthorizationType,NONE
+Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanOrEqualToThreshold
+Resources.AWS::ApiGateway::Deployment.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
+Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,6
+Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
+Resources.AWS::Lambda::EventSourceMapping.Properties.FunctionName,"{u'Fn::GetAtt': [u'HelloLambdaFunction', u'Arn']}"
+Resources.AWS::CloudWatch::Alarm.Properties.MetricName,Errors
+Outputs.HelloLambdaFunctionQualifiedArn.Value,{u'Ref': u'HelloLambdaVersionFYAirphUvjV7H12yGxU1eQrqAiSBMjAi9hdLPgV62L8'}
+Resources.AWS::ApiGateway::Resource.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
+Resources.AWS::DynamoDB::Table.Properties.StreamSpecification.StreamViewType,NEW_AND_OLD_IMAGES
+Resources.AWS::Lambda::Version.Properties.FunctionName,{u'Ref': u'HelloLambdaFunction'}
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[]
+Resources.AWS::ApiGateway::Method.Properties.HttpMethod,GET
+Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/Lambda
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::ApiGateway::Resource.Properties.PathPart,hello
+Resources.AWS::CloudWatch::Alarm.Properties.Period,60
+Resources.AWS::ApiGateway::Deployment.Type,AWS::ApiGateway::Deployment
+Resources.AWS::ApiGateway::Method.Properties.ResourceId,{u'Ref': u'ApiGatewayResourceHello'}
+Resources.AWS::ApiGateway::Method.Properties.MethodResponses,[]
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'IamRoleLambdaExecution', u'Arn']}"
+Resources.AWS::Lambda::EventSourceMapping.Properties.BatchSize,10
+Resources.AWS::ApiGateway::RestApi.Properties.EndpointConfiguration.Types,[u'EDGE']
+Resources.AWS::Lambda::EventSourceMapping.Properties.EventSourceArn,"{u'Fn::GetAtt': [u'StreamsTestTable', u'StreamArn']}"
+Resources.AWS::ApiGateway::Resource.Type,AWS::ApiGateway::Resource
+Resources.AWS::Lambda::Permission.Properties.Principal,sns.amazonaws.com
+Resources.AWS::ApiGateway::Deployment.DependsOn,[u'ApiGatewayMethodHelloGet']
+Resources.AWS::Lambda::EventSourceMapping.Properties.Enabled,True
+Resources.AWS::ApiGateway::Resource.Properties.ParentId,"{u'Fn::GetAtt': [u'ApiGatewayRestApi', u'RootResourceId']}"
+Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Minimum
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/aws/lambda/canary-deployments-test-dev-hello
+Resources.AWS::ApiGateway::Method.Properties.ApiKeyRequired,False
+Resources.AWS::Lambda::EventSourceMapping.Properties.StartingPosition,TRIM_HORIZON
+Resources.AWS::ApiGateway::Method.Properties.Integration.IntegrationHttpMethod,POST
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::DynamoDB::Table.Properties.TableName,StreamsTestTable
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Outputs.HelloLambdaFunctionQualifiedArn.Description,Current Lambda function version
+Resources.AWS::Lambda::EventSourceMapping.DependsOn,IamRoleLambdaExecution
+Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'FunctionName', u'Value': {u'Ref': u'HelloLambdaFunction'}}]"
+Resources.AWS::ApiGateway::RestApi.Type,AWS::ApiGateway::RestApi
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Resources.AWS::ApiGateway::Method.Properties.Integration.Uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'HelloLambdaFunction', u'Arn']}, u'/invocations']]}"
+Resources.AWS::CloudWatch::Alarm.Properties.OKActions,[]
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,serverless/canary-deployments-test/dev/1520191533287-2018-03-04T19:25:33.287Z/canary-deployments-test.zip
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::IAM::Role.Properties.RoleName,"{u'Fn::Join': [u'-', [u'canary-deployments-test', u'dev', u'us-east-1', u'lambdaRole']]}"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
+Resources.AWS::CloudWatch::Alarm.Properties.Threshold,1
+Outputs.ServerlessDeploymentBucketName.Value,{u'Ref': u'ServerlessDeploymentBucket'}
+Outputs.ServiceEndpoint.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'ApiGatewayRestApi'}, u'.execute-api.us-east-1.amazonaws.com/dev']]}"
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
+Resources.AWS::SNS::Topic.Properties.DisplayName,
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'HelloLambdaFunction', u'Arn']}, u'Protocol': u'lambda'}]"
+Resources.AWS::Lambda::Version.Properties.CodeSha256,sZvdDgxnAbKe1yaQga0XJPD82+o5jFWz+J3lR+q9UHU=
+Resources.AWS::ApiGateway::Method.Properties.Integration.Type,AWS_PROXY
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': {u'Fn::Join': [u'-', [u'dev', u'canary-deployments-test', u'lambda']]}, u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogStream'], u'Resource': [{u'Fn::Sub': u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/canary-deployments-test-dev-hello:*'}], u'Effect': u'Allow'}, {u'Action': [u'logs:PutLogEvents'], u'Resource': [{u'Fn::Sub': u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/canary-deployments-test-dev-hello:*:*'}], u'Effect': u'Allow'}, {u'Action': [u'codedeploy:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:GetRecords', u'dynamodb:GetShardIterator', u'dynamodb:DescribeStream', u'dynamodb:ListStreams'], u'Resource': [{u'Fn::GetAtt': [u'StreamsTestTable', u'StreamArn']}], u'Effect': u'Allow'}]}}]"

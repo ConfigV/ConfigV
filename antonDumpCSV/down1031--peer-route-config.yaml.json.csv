@@ -1,0 +1,13 @@
+Parameters.VpnCidr.Default,10.1.0.0/16
+Resources.AWS::EC2::Route.Properties.VpcPeeringConnectionId,PeeringConnectionId
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,VpnCidr
+Parameters.PeeringConnectionId.Description,The peering connection to the VPN (i.e. pcx-eb02e083)
+Parameters.VpnCidr.Type,String
+Parameters.PeeringConnectionId.Type,String
+Parameters.VpnCidr.Description,The CIDR of the VPN
+Parameters.VpcPrivateRouteTable.Description,Private route table in the VPC (.e. rtb-a558a1ae)
+Resources.AWS::EC2::Route.Properties.RouteTableId,VpcPrivateRouteTable
+Parameters.VpcPublicRouteTable.Description,Public route table in the VPC (i.e. rtb-f1a9698d)
+Parameters.VpcPrivateRouteTable.Type,String
+Parameters.VpcPublicRouteTable.Type,String
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route

@@ -1,0 +1,15 @@
+Resources.AWS::IAM::Role.Properties.Path,/
+Outputs.CodePipelineRoleArn.Value,"{u'Fn::GetAtt': [u'CodePipelineRole', u'Arn']}"
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Outputs.ApiIntegrationCredentialsRole.Value,"{u'Fn::GetAtt': [u'ApiIntegrationCredentialsRole', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': [u'lambda.amazonaws.com']}, u'Effect': u'Allow', u'Sid': u'1'}]"
+Outputs.AppLambdaRoleArn.Value,"{u'Fn::GetAtt': [u'AppLambdaTrustRole', u'Arn']}"
+Outputs.ApiGatewayCfnLambdaRole.Value,"{u'Fn::GetAtt': [u'ApiGatewayCfnLambdaRole', u'Arn']}"
+Outputs.CodePipelineRoleArn.Description,"The ARN of the Pipeline Trust Role, which is needed to configure Pipeline"
+Outputs.ApiIntegrationCredentialsRole.Description,The ARN of the role that API Gateway assumes for running lambda app
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'LambdaPolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'apigateway:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'iam:PassRole'], u'Resource': [{u'Fn::GetAtt': [u'ApiIntegrationCredentialsRole', u'Arn']}], u'Effect': u'Allow'}]}}]"
+Outputs.CodePipelineLambdaRoleArn.Description,"The ARN of the Pipeline custom action role, which is needed to configure Pipeline custom actions"
+Outputs.AppLambdaRoleArn.Description,"The ARN of the Application Lambda Trust Role, which is needed to configure Lambda Function"
+Outputs.ApiGatewayCfnLambdaRole.Description,"The ARN of the Lambda Trust Role, which is needed by the custom resources for api gateway"
+Outputs.CodePipelineLambdaRoleArn.Value,"{u'Fn::GetAtt': [u'CodePipelineLambdaRole', u'Arn']}"

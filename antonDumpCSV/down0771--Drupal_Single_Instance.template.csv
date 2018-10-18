@@ -1,0 +1,98 @@
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
+Parameters.DBPassword.MaxLength,41
+Parameters.DBName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-gd,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/setup.mysql.group,root
+Parameters.DBRootPassword.ConstraintDescription,must contain only alphanumeric characters.
+Parameters.DBUsername.Description,The Drupal database admin account username
+Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql-server,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mbstring,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/setup.mysql.mode,000644
+Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
+Parameters.KeyName.ConstraintDescription,can contain only ASCII characters.
+Parameters.SitePassword.AllowedPattern,[a-zA-Z0-9]*
+Parameters.SiteEMail.Description,EMail for site adminitrator
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'yum update -y aws-cfn-bootstrap\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 0 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'# Install Apache Web Server, MySQL, PHP and Drupal\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r WebServer --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n"", u'# Setup MySQL root password and create a user\n', u""mysqladmin -u root password '"", {u'Ref': u'DBRootPassword'}, u""' || error_exit 'Failed to initialize root password'\n"", u""mysql -u root --password='"", {u'Ref': u'DBRootPassword'}, u""' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n"", u'# Make changes to Apache Web Server configuration\n', u'mv /var/www/html/drupal-7.8/* /var/www/html\n', u'mv /var/www/html/drupal-7.8/.* /var/www/html\n', u'rmdir /var/www/html/drupal-7.8\n', u""sed -i 's/AllowOverride None/AllowOverride All/g'  /etc/httpd/conf/httpd.conf\n"", u'service httpd restart\n', u'# Create the site in Drupal\n', u'cd /var/www/html\n', u""~ec2-user/drush/drush site-install standard --yes --site-name='"", {u'Ref': u'SiteName'}, u""' --site-mail="", {u'Ref': u'SiteEMail'}, u' --account-name=', {u'Ref': u'SiteAdmin'}, u' --account-pass=', {u'Ref': u'SitePassword'}, u' --db-url=mysql://', {u'Ref': u'DBUsername'}, u':', {u'Ref': u'DBPassword'}, u'@localhost/', {u'Ref': u'DBName'}, u' --db-prefix=drupal_\n', u'chown apache:apache sites/default/files\n', u'# All is well so signal success\n', u'/opt/aws/bin/cfn-signal -e 0 -r ""Drupal setup complete"" \'', {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
+Parameters.KeyName.MaxLength,255
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./var/www/html,http://ftp.drupal.org/files/projects/drupal-7.8.tar.gz
+Parameters.DBName.Description,The Drupal database name
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql,[]
+Parameters.DBRootPassword.AllowedPattern,[a-zA-Z0-9]*
+Parameters.DBRootPassword.Type,String
+Parameters.SiteName.Type,String
+Parameters.DBRootPassword.Description,Root password for MySQL
+Parameters.SSHLocation.Description,The IP address range that can be used to SSH to the EC2 instances
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./home/ec2-user,http://ftp.drupal.org/files/projects/drush-7.x-4.5.tar.gz
+Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,300
+Parameters.SiteAdmin.MinLength,1
+Parameters.DBUsername.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
+Parameters.SitePassword.ConstraintDescription,must contain only alphanumeric characters.
+Parameters.SiteAdmin.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Parameters.DBRootPassword.NoEcho,true
+Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'WebServer', u'PublicDnsName']}]]}"
+Parameters.SiteAdmin.Description,The Drupal site admin account username
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
+Parameters.SiteAdmin.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql-devel,[]
+Parameters.KeyName.Type,String
+Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
+Parameters.SiteAdmin.Type,String
+Parameters.DBRootPassword.MinLength,1
+Parameters.DBUsername.Type,String
+Parameters.DBPassword.Type,String
+Parameters.DBName.Type,String
+Parameters.DBPassword.MinLength,1
+Parameters.DBUsername.MinLength,1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mysql,[]
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP access via port 80 and SSH access
+Parameters.DBRootPassword.MaxLength,41
+Parameters.DBUsername.NoEcho,true
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.mysqld.enabled,true
+Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebServer
+Parameters.DBPassword.NoEcho,true
+Parameters.SitePassword.Type,String
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/setup.mysql.content,"{u'Fn::Join': [u'', [u'CREATE DATABASE ', {u'Ref': u'DBName'}, u';\n', u""CREATE USER '"", {u'Ref': u'DBUsername'}, u""'@'localhost' IDENTIFIED BY '"", {u'Ref': u'DBPassword'}, u""';\n"", u'GRANT ALL ON ', {u'Ref': u'DBName'}, u"".* TO '"", {u'Ref': u'DBUsername'}, u""'@'localhost';\n"", u'FLUSH PRIVILEGES;\n']]}"
+Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
+Parameters.SitePassword.NoEcho,true
+Parameters.SiteName.Description,The name of the Drupal Site
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.mysqld.ensureRunning,true
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.ensureRunning,false
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.SitePassword.Description,The Drupal site admin account password
+Parameters.SSHLocation.MinLength,9
+Parameters.DBName.MinLength,1
+Parameters.KeyName.MinLength,1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true
+Parameters.DBPassword.Default,admin
+Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Parameters.DBName.Default,drupaldb
+Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
+Parameters.SitePassword.MinLength,1
+Parameters.SSHLocation.Type,String
+Parameters.SiteEMail.Type,String
+Parameters.SiteAdmin.MaxLength,16
+Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
+Parameters.DBPassword.Description,The Drupal database admin account password
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-xml,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.enabled,false
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/setup.mysql.owner,root
+Parameters.DBName.MaxLength,64
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.SSHLocation.MaxLength,18
+Parameters.SSHLocation.Default,0.0.0.0/0
+Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
+Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql-libs,[]
+Parameters.SiteName.Default,My Site
+Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
+Parameters.DBUsername.MaxLength,16
+Outputs.WebsiteURL.Description,Drupal Website
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
+Parameters.SitePassword.MaxLength,41
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}]"
+Parameters.DBUsername.Default,admin

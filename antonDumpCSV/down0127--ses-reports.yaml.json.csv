@@ -1,0 +1,131 @@
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,Frequency
+Parameters.BucketPrefix.Description,"[OPTIONAL] The S3 Bucket Key Prefix, Example: Prefix/"
+Resources.AWS::SQS::QueuePolicy.Type,AWS::SQS::QueuePolicy
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Key,Value
+Parameters.Frequency.Type,String
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Resources.Custom::RunLambdaFunctionCode.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CustomResourceLambdaFunctionDownloadCode', u'Arn']}"
+Resources.Custom::RunLambdaFunctionCode.DependsOn,[u'CustomResourceLambdaExecutionRole']
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'CustomResourceLambdaFunction', u'Arn']}"
+Resources.AWS::Lambda::Permission.Properties.Principal,cloudformation.amazonaws.com
+Resources.AWS::Lambda::Permission.DependsOn,CustomResourceLambdaFunction
+Parameters.Identity.Description,"The SES identity for which the Amazon SNS topic will be set (Email or Domain). You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. You can also give as an input multiple identities comma delimited (,)"
+Resources.Custom::RunLambdaFunction.DependsOn,"[u'CustomResourceLambdaFunction', u'MySNSTopic']"
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.Custom::RunLambdaFunction.Properties.MySNSTopic,MySNSTopic
+Resources.Custom::RunLambdaFunction.Properties.Identity,Identity
+Resources.AWS::Lambda::Function.Properties.Timeout,300
+Parameters.DestinationEmail.Type,String
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::Lambda::Function.Properties.MemorySize,1024
+Resources.AWS::SQS::Queue.DependsOn,MySNSTopic
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
+Resources.AWS::SQS::Queue.Properties.VisibilityTimeout,300
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"var AWS = require('aws-sdk');
+var response = require('cfn-response');
+var ses = new AWS.SES();
+var sqs = new AWS.SQS();
+exports.handler = (event, context, callback) => {
+  
+  var identity = event.ResourceProperties.Identity;
+  var snsTopic = event.ResourceProperties.MySNSTopic;
+  var NotificationType = event.ResourceProperties.NotificationType;
+  var MyQueue = event.ResourceProperties.MyQueue;
+  var identities = identity.replace(/\s/g, '').split(',');
+  var responseData = {};
+
+    function purgeQueue(MyQueue){
+      var params = {
+        QueueUrl: MyQueue
+      };
+      sqs.purgeQueue(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else     console.log(data);           // successful response
+      });
+    };
+    //When CloudFormation's Stack is deleted
+    if (event.RequestType == 'Delete') {
+      response.send(event, context, response.SUCCESS);
+      return;
+    }
+    //When CloudFormation's Stack is Updated
+    if (event.RequestType == 'Update') {
+      response.send(event, context, response.SUCCESS);
+      return;
+    }
+
+  for (var i = 0, len = identities.length; i < len; i++) {
+    console.log(""Enabling notificaiton for: "" + identities[i]);
+  var params = {
+    Identity: identities[i], 
+    NotificationType: NotificationType,
+    SnsTopic: snsTopic
+  };
+  
+  ses.setIdentityNotificationTopic(params, function(err, data) {
+      if (err) {
+          console.log(err, err.stack); // an error occurred
+          responseData = {Error: 'setIdentifyNotificationTopic failed'};
+          response.send(event, context, response.FAILED, responseData);
+      } else {
+          purgeQueue(MyQueue);
+          response.send(event, context, response.SUCCESS, responseData);
+          console.log(data);  // successful response
+      }
+  });
+};
+}; 
+"
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.Custom::RunLambdaFunction.Properties.MyQueue,MyQueue
+Parameters.SourceEmail.Type,String
+Resources.AWS::SQS::QueuePolicy.DependsOn,MyQueue
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Parameters.SourceEmail.Description,Email address that will be used as FROM address (Must be SES Verified) -> yourRecipient@yourDomain.com. The solution will send you a daily email with the Report link using the From address specified in this parameter.
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,MyS3Bucket
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'SESReportCronjob', u'Arn': u'LambdaFunction.Arn'}]"
+Parameters.BucketPrefix.Type,String
+Resources.AWS::SNS::Subscription.Properties.Protocol,sqs
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.BucketPrefix,BucketPrefix
+Resources.AWS::SNS::Subscription.Properties.TopicArn,MySNSTopic
+Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::Events::Rule.Properties.Description,CloudWatch Event that triggers SESReport Lambda Function
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::Lambda::Function.DependsOn,RunLambdaCodeSource
+Resources.Custom::RunLambdaFunctionCode.Type,Custom::RunLambdaFunctionCode
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.Custom::RunLambdaFunction.Type,Custom::RunLambdaFunction
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Region,AWS::Region
+Parameters.BucketName.Description,"Bucket that will be created to save the reports (It will create a new bucket for you, please choose a non-existent bucket name)"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Statement,"[{u'Resource': u'MyQueue.Arn', u'Effect': u'Allow', u'Sid': u'Allow-SNS-Send-Message', u'Action': [u'sqs:SendMessage'], u'Condition': {u'ArnEquals': {u'aws:SourceArn': u'MySNSTopic'}}, u'Principal': u'*'}]"
+Resources.Custom::RunLambdaFunction.Properties.NotificationType,Bounce
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.BucketName,BucketName
+Parameters.Frequency.AllowedValues,[u'cron(00 23 * * ? *)']
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs4.3
+Resources.AWS::SNS::Subscription.Properties.Endpoint,"{u'Fn::GetAtt': [u'MyQueue', u'Arn']}"
+Resources.Custom::RunLambdaFunction.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CustomResourceLambdaFunction', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Bucket,BucketName
+Resources.AWS::SQS::QueuePolicy.Properties.Queues,[u'MyQueue']
+Parameters.Identity.Type,String
+Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Id,MyQueuePolicy
+Resources.AWS::Lambda::Permission.Properties.SourceArn,CronjobEvent.Arn
+Parameters.Frequency.Description,cron(00 23 * * ? *) = Once a day at 23h00
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,sesreport.zip
+Parameters.DestinationEmail.Description,"The recipient that will receive the reports URL , example -> ""yourDestination@Domain.com"""
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ToAddr,DestinationEmail
+Resources.Custom::RunLambdaFunctionCode.Properties.Bucket,MyS3Bucket
+Parameters.Frequency.Default,cron(00 23 * * ? *)
+Resources.AWS::SNS::Subscription.Type,AWS::SNS::Subscription
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.QueueURL,MyQueue
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'SQSPermissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'sqs:ChangeMessageVisibility', u'sqs:ChangeMessageVisibilityBatch', u'sqs:DeleteMessage', u'sqs:DeleteMessageBatch', u'sqs:GetQueueAttributes', u'sqs:GetQueueUrl', u'sqs:ReceiveMessage'], u'Resource': {u'Fn::GetAtt': [u'MyQueue', u'Arn']}, u'Effect': u'Allow'}]}}, {u'PolicyName': u'S3Permissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:PutObject', u's3:PutObjectAcl'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'BucketName', u'/*']]}, u'Effect': u'Allow'}]}}, {u'PolicyName': u'SESPermissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ses:SendEmail'], u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'CWLogsPermissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents', u'logs:DescribeLogStreams'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.SrcAddr,SourceEmail
+Resources.AWS::SNS::Topic.Properties.TopicName,SESReportSNSTopic
+Resources.AWS::S3::Bucket.Properties.BucketName,BucketName
+Parameters.BucketName.Type,String
+Resources.AWS::SQS::Queue.Properties.QueueName,SESReportQueue

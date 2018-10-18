@@ -1,0 +1,47 @@
+Outputs.RestApiId.Value,Saml1ApiDeploy
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
+Resources.AWS::Lambda::Permission.Properties.FunctionName,RedirectFunction
+Parameters.WebsiteBucketName.Description,Bucket name for a new website
+Outputs.WebsiteURL.Value,WebsiteBucket.WebsiteURL
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,redirect.zip
+Outputs.RedirectFunction.Value,RedirectFunction
+Outputs.RestApiId.Description,Unique ID of SAML API
+Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,30
+Outputs.RedirectFunction.Description,Redirect function Name
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.ApiUrl.Value,"[u'', [u'https://', u'Saml1ApiDeploy', u'.execute-api.', u'AWS::Region', u'.amazonaws.com/dev/saml']]"
+Resources.AWS::IAM::Role.Properties.RoleName,RedirectRole_awslabs_samldemo
+Resources.AWS::Serverless::Api.Properties.StageName,dev
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'execute-api:Invoke'], u'Resource': [u'', [u'arn:aws:execute-api:', u'AWS::Region', u':', u'AWS::AccountId', u':', u'Saml1ApiDeploy', u'/dev/GET/users']], u'Effect': u'Allow'}]"
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,YOUR_S3_BUCKET
+Resources.AWS::Lambda::Function.Properties.FunctionName,redirect_awslabs_samldemo
+Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Outputs.WebsiteBucket.Value,WebsiteBucket
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.WebsiteBucketName.Type,String
+Outputs.ApiUrl.Description,URL of your API endpoint
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Resource': [u'', [u'arn:aws:s3:::', u'WebsiteBucket', u'/*']], u'Effect': u'Allow', u'Principal': u'*'}]"
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.html
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs4.3
+Resources.AWS::Serverless::Api.Properties.DefinitionUri,s3://YOUR_S3_BUCKET/saml1-api.yaml
+Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"[u'', [u'arn:aws:execute-api:', u'AWS::Region', u':', u'AWS::AccountId', u':', u'Saml1ApiDeploy', u'/*/POST/saml']]"
+Outputs.WebsiteBucket.Description,Name of new website bucket
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'RedirectRole', u'Arn']}"
+Outputs.WebsiteURL.Description,New Bucket URL for hosting this website
+Resources.AWS::Serverless::Api.Properties.Variables.RedirectFunc,RedirectFunction
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.REDIRECT_URL,"[u'', [u'WebsiteBucket.WebsiteURL', u'/index.html']]"
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,WebsiteBucket
+Resources.AWS::S3::Bucket.Properties.BucketName,WebsiteBucketName

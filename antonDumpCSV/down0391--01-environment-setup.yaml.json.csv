@@ -1,0 +1,206 @@
+Resources.AWS::CloudTrail::Trail.Properties.IncludeGlobalServiceEvents,True
+Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.guardduty']
+Resources.Custom::CustomResource.Condition,CreateInspectorRole
+Resources.AWS::Lambda::Permission.Properties.FunctionName,LambdaRemediationNACL
+Parameters.ResourceName.Description,Prefix of Resources created for this workshop.
+Resources.AWS::Lambda::Function.Properties.Timeout,120
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::CloudTrail::Trail.Properties.S3BucketName,LogBucket
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'DetectionSNSTopic-GuardDuty', u'Arn': {u'Ref': u'DetectionSNSTopic'}, u'InputTransformer': {u'InputTemplate': u'""Amazon GuardDuty Finding: <gddesc>""', u'InputPathsMap': {u'gddesc': u'$.detail.description'}}}]"
+Resources.AWS::Lambda::Function.Properties.FunctionName,"{u'Fn::Join': [u'-', [u'ResourceName', u'remediation', u'inspector']]}"
+Resources.AWS::CloudTrail::Trail.Properties.IsLogging,True
+Resources.AWS::Config::ConfigurationRecorder.Condition,CreateRecorder
+Resources.AWS::SNS::Subscription.Type,AWS::SNS::Subscription
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.ConfigEnabled.Type,String
+Parameters.ConfigEnabled.Description,Is AWS Config already enabled in this region?
+Resources.AWS::SNS::Subscription.Properties.Endpoint,Email
+Parameters.ResourceName.Type,String
+Resources.AWS::IAM::Role.Condition,CreateRecorder
+Resources.Custom::CustomResource.Type,Custom::CustomResource
+Resources.AWS::Config::DeliveryChannel.Condition,CreateRecorder
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Id,ID-GD-Topic-Policy
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'ResourceName', u'Email'], u'Label': {u'default': u'Resource and Notification Configuration'}}, {u'Parameters': [u'ConfigEnabled', u'InspectorRole'], u'Label': {u'default': u'Security Services Configuration'}}]"
+Resources.AWS::SNS::Topic.Properties.TopicName,ResourceName
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSConfigRole']
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u'sns:Publish', u'Sid': u'SID-Detection-Workshop', u'Resource': u'DetectionSNSTopic', u'Effect': u'Allow', u'Principal': {u'Service': [u'events.amazonaws.com', u'inspector.amazonaws.com']}}]"
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Config::DeliveryChannel.Properties.Name,"{u'Fn::Join': [u'-', [u'ResourceName', u'delivery']]}"
+Parameters.InspectorRole.Type,String
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.PREFIX,ResourceName
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.InspectorRole.default,AWS Inspector Role
+Resources.AWS::SNS::Subscription.Properties.TopicArn,DetectionSNSTopic
+Resources.AWS::SNS::Subscription.Properties.Protocol,email
+Parameters.ConfigEnabled.AllowedValues,"[u'No', u'Yes']"
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::CloudTrail::Trail.Type,AWS::CloudTrail::Trail
+Resources.AWS::Config::ConfigurationRecorder.Type,AWS::Config::ConfigurationRecorder
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ConfigEnabled.default,AWS Config
+Resources.AWS::Config::ConfigurationRecorder.Properties.Name,"{u'Fn::Join': [u'-', [u'ResourceName', u'recorder']]}"
+Resources.AWS::Lambda::Function.Condition,CreateInspectorRole
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ConfigPolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:PutObject*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'LogBucket', u'/AWSLogs/*']]}, u'Effect': u'Allow', u'Condition': {u'StringLike': {u's3:x-amz-acl': u'bucket-owner-full-control'}}}, {u'Action': [u's3:GetBucketAcl'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'LogBucket']]}, u'Effect': u'Allow'}, {u'Action': [u'cloudtrail:GetTrailStatus', u'cloudtrail:DescribeTrails', u'cloudtrail:LookupEvents', u'cloudtrail:ListTags', u'cloudtrail:ListPublicKeys', u'cloudtrail:GetEventSelectors'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.ResourceName.Default,forensics-wksp
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,LogBucket
+Parameters.InspectorRole.Description,Has the Inspector Service-Linked Role been created for this account?
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Email.default,Email Address
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Resources.AWS::SNS::TopicPolicy.Properties.Topics,[u'DetectionSNSTopic']
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.AWS::CloudTrail::Trail.Properties.EnableLogFileValidation,True
+Resources.Custom::CustomResource.Properties.ServiceToken,LambdaInspectorCreation.Arn
+Resources.AWS::CloudTrail::Trail.DependsOn,[u'LogBucketPolicy']
+Resources.AWS::S3::Bucket.Properties.BucketEncryption.ServerSideEncryptionConfiguration,[{u'ServerSideEncryptionByDefault': {u'SSEAlgorithm': u'AES256'}}]
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::Config::ConfigurationRecorder.Properties.RoleARN,"{u'Fn::GetAtt': [u'ConfigRole', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'config.amazonaws.com']}}]"
+Parameters.InspectorRole.Default,No
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ResourceName.default,Resource Prefix
+Resources.AWS::CloudTrail::Trail.Properties.IsMultiRegionTrail,False
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::CloudTrail::Trail.Properties.TrailName,"{u'Fn::Join': [u'-', [u'ResourceName', u'trail']]}"
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.type,[u'UnauthorizedAccess:EC2/SSHBruteForce']
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.COMRPOMISED_INSTANCE_TAG,"{u'Fn::Join': [u':', [u'ResourceName', u' Compromised Instance']]}"
+Resources.AWS::Config::ConfigurationRecorder.Properties.RecordingGroup.IncludeGlobalResourceTypes,True
+Resources.Custom::CustomResource.Properties.ParameterOne,Parameter to pass into Custom Lambda Function
+Resources.AWS::SNS::TopicPolicy.Type,AWS::SNS::TopicPolicy
+Resources.AWS::Lambda::Permission.DependsOn,[u'LambdaRemediationNACL']
+Resources.AWS::S3::BucketPolicy.DependsOn,[u'LogBucket']
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'GuardDuty Finding']
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRemediationRole', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"from __future__ import print_function
+from botocore.exceptions import ClientError
+import json
+import boto3
+import os
+import uuid
+import time
+
+def handler(event, context):
+
+  # Log Event
+  print(""log -- Event: %s "" % json.dumps(event))
+
+  instance_id = event[""detail""][""resource""][""instanceDetails""][""instanceId""]
+  gd_sev = event['detail']['severity']
+  scan_id = str(uuid.uuid4())
+  scan_name = '%s-inspector-scan' % os.environ['PREFIX']
+  target_name = '%s-target-%s' % (os.environ['PREFIX'], event[""id""])
+  template_name = '%s-template-%s' % (os.environ['PREFIX'], event[""id""])
+  assess_name = '%s-assessment-%s' % (os.environ['PREFIX'], event[""id""])
+
+  response = ""Skipping Remediation""
+
+  ec2 = boto3.client('ec2')
+  scan = True
+  wksp = False
+
+  for i in event['detail']['resource']['instanceDetails']['tags']:
+    if i['value'] == os.environ['PREFIX']:
+      wksp = True
+    elif i['key'] == scan_name:
+      scan = False
+
+  print(""log -- Event: Scan - %s"" % scan)
+  print(""log -- Event: Workshop - %s"" % wksp)
+
+  if gd_sev == 2 and scan == True and wksp == True:
+    
+    print(""log -- Event: Inspector Scan Kickoff"")
+    try:
+      inspector = boto3.client('inspector')
+      
+      ec2.create_tags(
+          Resources=[
+              instance_id,
+          ],
+          Tags=[
+              {
+                  'Key': scan_name,
+                  'Value': scan_id
+              }
+          ]
+      )
+      if os.environ['AWS_REGION'] == 'us-east-1':
+        packages = ['arn:aws:inspector:us-east-1:316112463485:rulespackage/0-R01qwB5Q','arn:aws:inspector:us-east-1:316112463485:rulespackage/0-gEjTy7T7']
+      elif os.environ['AWS_REGION'] == 'us-west-2':
+        packages = ['arn:aws:inspector:us-west-2:758058086616:rulespackage/0-JJOtZiqQ','arn:aws:inspector:us-west-2:758058086616:rulespackage/0-9hgA516p']
+
+      group = inspector.create_resource_group(
+          resourceGroupTags=[
+              {
+                  'key': scan_name,
+                  'value': scan_id
+              },
+          ]
+      )
+
+      target = inspector.create_assessment_target(
+          assessmentTargetName=target_name,
+          resourceGroupArn=group['resourceGroupArn']
+      )
+
+      template = inspector.create_assessment_template(
+          assessmentTargetArn=target['assessmentTargetArn'],
+          assessmentTemplateName=template_name,
+          durationInSeconds=900,
+          rulesPackageArns=packages,
+          userAttributesForFindings=[
+              {
+                  'key': 'instance-id',
+                  'value': instance_id
+              },
+              {
+                  'key': 'scan-name',
+                  'value': scan_name
+              },
+              {
+                  'key': 'scan-id',
+                  'value': scan_id
+              }
+          ]
+      )
+
+      for x in range(0, 5):
+        try:
+          time.sleep(5)
+          assessment = inspector.start_assessment_run(
+              assessmentTemplateArn=template['assessmentTemplateArn'],
+              assessmentRunName=assess_name     
+          )
+          break
+        except ClientError as e:
+          print(e)
+
+      # Set Remediation Metadata
+      response = ""An Inspector scan has been initiated on this instance: %s"" % instance_id
+    except ClientError as e:
+      print(e)
+      print(""log -- Error Starting an AWS Inspector Assessment"")
+      response = ""Error""
+
+  print(response)
+  return response
+"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.TOPIC_ARN,DetectionSNSTopic
+Parameters.ResourceName.AllowedValues,[u'forensics-wksp']
+Resources.AWS::Events::Rule.Properties.Name,"{u'Fn::Join': [u'-', [u'ResourceName', u'guardduty-finding']]}"
+Resources.AWS::Config::DeliveryChannel.Properties.S3BucketName,LogBucket
+Parameters.Email.Type,String
+Parameters.InspectorRole.AllowedValues,"[u'No', u'Yes']"
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetBucketAcl', u'Sid': u'AWSCloudTrailAclCheck', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'LogBucket']]}, u'Effect': u'Allow', u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}, {u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'LogBucket', u'/AWSLogs/*']]}, u'Effect': u'Allow', u'Sid': u'AWSCloudTrailWrite', u'Action': u's3:PutObject', u'Condition': {u'StringEquals': {u's3:x-amz-acl': u'bucket-owner-full-control'}}, u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}]"
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::Config::ConfigurationRecorder.Properties.RecordingGroup.AllSupported,True
+Resources.AWS::Config::DeliveryChannel.Type,AWS::Config::DeliveryChannel
+Resources.AWS::SNS::Subscription.Condition,CreateTopicSubscription
+Resources.AWS::Events::Rule.Properties.Description,All GuardDuty Findings
+Resources.AWS::IAM::Role.Properties.RoleName,"{u'Fn::Join': [u'-', [u'ResourceName', u'config']]}"
+Parameters.ConfigEnabled.Default,No
+Parameters.Email.Description,Enter a valid email address for receiving alerts.
+Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::Join': [u'-', [u'ResourceName', u'AWS::AccountId', u'AWS::Region', u'logs']]}"

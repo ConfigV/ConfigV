@@ -1,0 +1,12 @@
+Resources.AWS::ECS::TaskDefinition.Properties.Family,ixortalk-gateway
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,gateway-logs
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
+Parameters.SpringCloudConfigLabel.Type,String
+Parameters.SpringCloudConfigLabel.Description,The branch of the config environment to use
+Parameters.SpringProfilesActive.Type,String
+Outputs.TaskDefinition.Value,TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'gateway-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-gateway', u'Image': u'ixortalk/ixortalk-gateway:${GatewayImageVersion}', u'Environment': [{u'Name': u'SPRING_PROFILES_ACTIVE', u'Value': u'SpringProfilesActive'}, {u'Name': u'SPRING_CLOUD_CONFIG_URI', u'Value': u'https://${LoadbalancerDNS}/config'}, {u'Name': u'SPRING_CLOUD_CONFIG_LABEL', u'Value': u'SpringCloudConfigLabel'}, {u'Name': u'JAVA_OPTS', u'Value': u'-Xmx256m'}], u'Memory': 640, u'PortMappings': [{u'ContainerPort': 8888}]}]"
+Parameters.GatewayImageVersion.Type,String
+Parameters.LoadbalancerDNS.Type,String
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

@@ -1,0 +1,197 @@
+Mappings.Settings.DynamoDbTableCapacities.ConfigTableMinRead,2
+Parameters.TagName.MinLength,1
+Parameters.SendAnonymousData.AllowedValues,"[u'Yes', u'No']"
+Outputs.AccountId.Value,{u'Ref': u'AWS::AccountId'}
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.Custom::ServiceSetup.Properties.cross_account_roles,{u'Ref': u'CrossAccountRoles'}
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::Join': [u':', [u'arn:aws:lambda', {u'Ref': u'AWS::Region'}, {u'Ref': u'AWS::AccountId'}, u'function', {u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'InstanceSchedulerMain']]}]]}"
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,{u'Ref': u'LogRetentionDays'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.USER_AGENT,"{u'Fn::Join': [u'-', [u'InstanceScheduler', {u'Ref': u'AWS::StackName'}, u'2.10.0.25']]}"
+Parameters.StoppedTags.Description,"Comma separated list of tagname and values on the formt name=value,name=value,.. that are set on stopped instances"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ENV_BOTO_RETRY_LOGGING,False
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Outputs.ConfigurationTable.Value,{u'Ref': u'ConfigTable'}
+Resources.AWS::Lambda::Function.Properties.Timeout,300
+Resources.Custom::ServiceSetup.Properties.scheduled_services,"{u'Fn::Split': [u',', {u'Fn::FindInMap': [u'Services', {u'Ref': u'ScheduledServices'}, u'Value']}]}"
+Parameters.MemorySize.Type,Number
+Mappings.Timeouts.2.Value,cron(0/2 * * * ? *)
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'service'}, {u'KeyType': u'RANGE', u'AttributeName': u'account-region'}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.UseCloudWatchMetrics.default,Enable CloudWatch Metrics
+Mappings.EnabledDisabled.Yes.Value,ENABLED
+Mappings.Settings.DynamoDbTableCapacities.StateTableMinWrite,5
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.SOLUTION_ID,"{u'Fn::FindInMap': [u'Settings', u'Metrics', u'SolutionId']}"
+Parameters.TagName.Type,String
+Parameters.ScheduledServices.AllowedValues,"[u'EC2', u'RDS', u'Both']"
+Parameters.UseCloudWatchMetrics.Type,String
+Resources.Custom::ServiceSetup.Type,Custom::ServiceSetup
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::Join': [u'-', [u'solutions', {u'Ref': u'AWS::Region'}]]}"
+Parameters.DefaultTimezone.Description,Choose the default Time Zone. Default is 'UTC'
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.MemorySize.default,Memory size
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'Instance-Scheduler-Main', u'Arn': {u'Fn::GetAtt': [u'Main', u'Arn']}}]"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.BOTO_RETRY,"5,10,30,0.25"
+Resources.Custom::ServiceSetup.Properties.timeout,120
+Parameters.SchedulerFrequency.Default,5
+Parameters.DefaultTimezone.Type,String
+Resources.AWS::SNS::Topic.Properties.DisplayName,{u'Ref': u'AWS::StackName'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ISSUES_TOPIC_ARN,{u'Ref': u'InstanceSchedulerSnsTopic'}
+Parameters.ScheduledServices.Default,EC2
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Type,AWS::ApplicationAutoScaling::ScalableTarget
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'ec2:CreateTags', u'ec2:DeleteTags', u'ec2:DescribeInstances', u'ec2:DescribeRegions', u'ec2:ModifyInstanceAttribute', u'ec2:StartInstances', u'ec2:StopInstances'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'rds:AddTagsToResource', u'rds:DeleteDBSnapshot', u'rds:DescribeDBInstances', u'rds:DescribeDBSnapshots', u'rds:RemoveTagsFromResource', u'rds:StartDBInstance', u'rds:StopDBInstance'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:DeleteItem', u'dynamodb:GetItem', u'dynamodb:PutItem', u'dynamodb:Query', u'dynamodb:Scan', u'dynamodb:BatchWriteItem'], u'Resource': [{u'Fn::Join': [u'', [{u'Fn::Join': [u':', [u'arn:aws:dynamodb', {u'Ref': u'AWS::Region'}, {u'Ref': u'AWS::AccountId'}, u'table/']]}, {u'Ref': u'StateTable'}]]}, {u'Fn::Join': [u'', [{u'Fn::Join': [u':', [u'arn:aws:dynamodb', {u'Ref': u'AWS::Region'}, {u'Ref': u'AWS::AccountId'}, u'table/']]}, {u'Ref': u'ConfigTable'}]]}], u'Effect': u'Allow'}, {u'Action': [u'logs:DescribeLogStreams', u'logs:PutRetentionPolicy'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': u'sns:Publish', u'Resource': [{u'Ref': u'InstanceSchedulerSnsTopic'}], u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction'], u'Resource': [{u'Fn::Join': [u':', [u'arn:aws:lambda', {u'Ref': u'AWS::Region'}, {u'Ref': u'AWS::AccountId'}, u'function', {u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'InstanceSchedulerMain']]}]]}], u'Effect': u'Allow'}, {u'Action': [u'tag:GetResources'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'cloudwatch:PutMetricData'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'sts:AssumeRole'], u'Resource': {u'Fn::If': [u'NotUsingCrossAccountRoles', {u'Fn::Sub': u'arn:aws:iam::${AWS::AccountId}:role/None'}, {u'Ref': u'CrossAccountRoles'}]}, u'Effect': u'Allow'}]"
+Parameters.StartedTags.Description,"Comma separated list of tagname and values on the formt name=value,name=value,.. that are set on started instances"
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'SchedulerRule', u'Arn']}"
+Parameters.UseCloudWatchMetrics.Default,No
+Resources.AWS::Lambda::Function.Properties.Description,"ECS and RDS instance scheduler, version 2.10.0.25"
+Mappings.Services.EC2.Value,ec2
+Mappings.TrueFalse.Yes.Value,True
+Resources.Custom::ServiceSetup.Properties.stack_version,2.10.0.25
+Parameters.MemorySize.Description,"Size of the Lambda function running the scheduler, increase size when processing large numbers of instances"
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.ScaleOutCooldown,60
+Mappings.Settings.DynamoDbTableCapacities.RdsTagCacheTableMaxWrite,50
+Mappings.Settings.Metrics.Url,https://metrics.awssolutionsbuilder.com/generic
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.StartedTags.default,Started tags
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'TagName', u'ScheduledServices', u'SchedulingActive', u'Regions', u'DefaultTimezone', u'CrossAccountRoles', u'ScheduleLambdaAccount', u'SchedulerFrequency', u'MemorySize'], u'Label': {u'default': u'Scheduler (version 2.10.0.25)'}}, {u'Parameters': [u'UseCloudWatchMetrics', u'SendAnonymousData', u'Trace'], u'Label': {u'default': u'Options'}}, {u'Parameters': [u'LogRetentionDays', u'StartedTags', u'StoppedTags'], u'Label': {u'default': u'Other parameters'}}]"
+Parameters.ScheduleLambdaAccount.Description,Schedule instances in this account.
+Parameters.ScheduledServices.Description,Scheduled Services
+Mappings.Settings.DynamoDbTableCapacities.StateTableMaxRead,50
+Mappings.Settings.DynamoDbTableCapacities.StateTableMaxWrite,50
+Mappings.Services.Both.Value,"ec2,rds"
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ScalableDimension,dynamodb:table:WriteCapacityUnits
+Parameters.UseCloudWatchMetrics.Description,Collect instance scheduling data using CloudWatch metrics.
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'SchedulerRole'}]
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[u'arn:aws:iam::aws:policy/service-role/AWSLambdaDynamoDBExecutionRole', u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']"
+Mappings.Timeouts.10.Value,cron(0/10 * * * ? *)
+Parameters.ScheduleLambdaAccount.Default,Yes
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Parameters.Trace.AllowedValues,"[u'Yes', u'No']"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Parameters.SchedulerFrequency.Type,String
+Parameters.SendAnonymousData.Description,Send Anonymous Metrics Data.
+Mappings.Services.RDS.Value,rds
+Parameters.StartedTags.Type,String
+Outputs.IssueSnsTopicArn.Description,Topic to subscribe to for notifications of errors and warnings
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Trace.default,Enable CloudWatch Logs
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.STATE_TABLE,{u'Ref': u'StateTable'}
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.ScaleInCooldown,60
+Outputs.ConfigurationTable.Description,Name of the DynomoDB configuration table
+Resources.Custom::ServiceSetup.Properties.log_retention_days,{u'Ref': u'LogRetentionDays'}
+Mappings.Settings.DynamoDbTableCapacities.RdsTagCacheTableMinWrite,5
+Parameters.TagName.MaxLength,127
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.SEND_METRICS,"{u'Fn::FindInMap': [u'TrueFalse', {u'Ref': u'SendAnonymousData'}, u'Value']}"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,"{u'Fn::FindInMap': [u'Settings', u'DynamoDbTableCapacities', u'StateTableMinRead']}"
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyType,TargetTrackingScaling
+Parameters.LogRetentionDays.Type,Number
+Parameters.Trace.Description,Enable logging of detailed informtion in CloudWatch logs.
+Parameters.UseCloudWatchMetrics.AllowedValues,"[u'Yes', u'No']"
+Mappings.TrueFalse.No.Value,False
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.DependsOn,StateTableAutoScalingWritePolicy
+Parameters.SchedulingActive.Type,String
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.LOG_GROUP,{u'Ref': u'SchedulerLogGroup'}
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ResourceId,"{u'Fn::Join': [u'/', [u'table', {u'Ref': u'ConfigTable'}]]}"
+Parameters.MemorySize.AllowedValues,"[128, 384, 512, 640, 768, 896, 1024, 1152, 1280, 1408, 1536]"
+Resources.Custom::ServiceSetup.Properties.stopped_tags,{u'Ref': u'StoppedTags'}
+Mappings.Settings.Metrics.SolutionId,S00030
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.TargetValue,75.0
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'OpsAutomatorScalingRolePolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:DescribeTable', u'dynamodb:UpdateTable', u'cloudwatch:PutMetricAlarm', u'cloudwatch:DescribeAlarms', u'cloudwatch:GetMetricStatistics', u'cloudwatch:SetAlarmState', u'cloudwatch:DeleteAlarms'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::Events::Rule.Properties.State,"{u'Fn::FindInMap': [u'EnabledDisabled', {u'Ref': u'SchedulingActive'}, u'Value']}"
+Parameters.SchedulingActive.Description,Activate or deactivate scheduling.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.SendAnonymousData.default,Send anonymous usage data
+Parameters.LogRetentionDays.AllowedValues,"[1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]"
+Resources.AWS::IAM::Role.DependsOn,[u'SchedulerRole']
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,"{u'Fn::FindInMap': [u'Timeouts', {u'Ref': u'SchedulerFrequency'}, u'Value']}"
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,aws-instance-scheduler/latest/instance-scheduler-2.10.0.25.zip
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Mappings.Settings.DynamoDbTableCapacities.ConfigTableMaxWrite,5
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ScheduleLambdaAccount.default,This account
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.TAG_NAME,{u'Ref': u'TagName'}
+Resources.Custom::ServiceSetup.Properties.tagname,{u'Ref': u'TagName'}
+Resources.AWS::Lambda::Function.Properties.Handler,main.lambda_handler
+Outputs.ServiceInstanceScheduleServiceToken.Value,"{u'Fn::GetAtt': [u'Main', u'Arn']}"
+Mappings.Timeouts.15.Value,cron(0/15 * * * ? *)
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'logs']]}"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.CrossAccountRoles.default,Cross-account roles
+Mappings.Timeouts.60.Value,cron(0 0/1 * * ? *)
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.SchedulerFrequency.default,Frequency
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DefaultTimezone.default,Default time zone
+Parameters.Trace.Default,No
+Parameters.ScheduledServices.Type,String
+Parameters.SchedulingActive.AllowedValues,"[u'Yes', u'No']"
+Parameters.SchedulerFrequency.Description,Scheduler running frequency in minutes.
+Mappings.Settings.RdsTagCaching.Enabled,True
+Mappings.Timeouts.5.Value,cron(0/5 * * * ? *)
+Mappings.EnabledDisabled.No.Value,DISABLED
+Parameters.Regions.Type,CommaDelimitedList
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'AWS': {u'Fn::GetAtt': [u'SchedulerRole', u'Arn']}, u'Service': u'application-autoscaling.amazonaws.com'}}]"
+Mappings.Settings.DynamoDbTableCapacities.RdsTagCacheTableMaxRead,50
+Parameters.DefaultTimezone.AllowedValues,"[u'Africa/Abidjan', u'Africa/Accra', u'Africa/Addis_Ababa', u'Africa/Algiers', u'Africa/Asmara', u'Africa/Bamako', u'Africa/Bangui', u'Africa/Banjul', u'Africa/Bissau', u'Africa/Blantyre', u'Africa/Brazzaville', u'Africa/Bujumbura', u'Africa/Cairo', u'Africa/Casablanca', u'Africa/Ceuta', u'Africa/Conakry', u'Africa/Dakar', u'Africa/Dar_es_Salaam', u'Africa/Djibouti', u'Africa/Douala', u'Africa/El_Aaiun', u'Africa/Freetown', u'Africa/Gaborone', u'Africa/Harare', u'Africa/Johannesburg', u'Africa/Juba', u'Africa/Kampala', u'Africa/Khartoum', u'Africa/Kigali', u'Africa/Kinshasa', u'Africa/Lagos', u'Africa/Libreville', u'Africa/Lome', u'Africa/Luanda', u'Africa/Lubumbashi', u'Africa/Lusaka', u'Africa/Malabo', u'Africa/Maputo', u'Africa/Maseru', u'Africa/Mbabane', u'Africa/Mogadishu', u'Africa/Monrovia', u'Africa/Nairobi', u'Africa/Ndjamena', u'Africa/Niamey', u'Africa/Nouakchott', u'Africa/Ouagadougou', u'Africa/Porto-Novo', u'Africa/Sao_Tome', u'Africa/Tripoli', u'Africa/Tunis', u'Africa/Windhoek', u'America/Adak', u'America/Anchorage', u'America/Anguilla', u'America/Antigua', u'America/Araguaina', u'America/Argentina/Buenos_Aires', u'America/Argentina/Catamarca', u'America/Argentina/Cordoba', u'America/Argentina/Jujuy', u'America/Argentina/La_Rioja', u'America/Argentina/Mendoza', u'America/Argentina/Rio_Gallegos', u'America/Argentina/Salta', u'America/Argentina/San_Juan', u'America/Argentina/San_Luis', u'America/Argentina/Tucuman', u'America/Argentina/Ushuaia', u'America/Aruba', u'America/Asuncion', u'America/Atikokan', u'America/Bahia', u'America/Bahia_Banderas', u'America/Barbados', u'America/Belem', u'America/Belize', u'America/Blanc-Sablon', u'America/Boa_Vista', u'America/Bogota', u'America/Boise', u'America/Cambridge_Bay', u'America/Campo_Grande', u'America/Cancun', u'America/Caracas', u'America/Cayenne', u'America/Cayman', u'America/Chicago', u'America/Chihuahua', u'America/Costa_Rica', u'America/Creston', u'America/Cuiaba', u'America/Curacao', u'America/Danmarkshavn', u'America/Dawson', u'America/Dawson_Creek', u'America/Denver', u'America/Detroit', u'America/Dominica', u'America/Edmonton', u'America/Eirunepe', u'America/El_Salvador', u'America/Fortaleza', u'America/Glace_Bay', u'America/Godthab', u'America/Goose_Bay', u'America/Grand_Turk', u'America/Grenada', u'America/Guadeloupe', u'America/Guatemala', u'America/Guayaquil', u'America/Guyana', u'America/Halifax', u'America/Havana', u'America/Hermosillo', u'America/Indiana/Indianapolis', u'America/Indiana/Knox', u'America/Indiana/Marengo', u'America/Indiana/Petersburg', u'America/Indiana/Tell_City', u'America/Indiana/Vevay', u'America/Indiana/Vincennes', u'America/Indiana/Winamac', u'America/Inuvik', u'America/Iqaluit', u'America/Jamaica', u'America/Juneau', u'America/Kentucky/Louisville', u'America/Kentucky/Monticello', u'America/Kralendijk', u'America/La_Paz', u'America/Lima', u'America/Los_Angeles', u'America/Lower_Princes', u'America/Maceio', u'America/Managua', u'America/Manaus', u'America/Marigot', u'America/Martinique', u'America/Matamoros', u'America/Mazatlan', u'America/Menominee', u'America/Merida', u'America/Metlakatla', u'America/Mexico_City', u'America/Miquelon', u'America/Moncton', u'America/Monterrey', u'America/Montevideo', u'America/Montreal', u'America/Montserrat', u'America/Nassau', u'America/New_York', u'America/Nipigon', u'America/Nome', u'America/Noronha', u'America/North_Dakota/Beulah', u'America/North_Dakota/Center', u'America/North_Dakota/New_Salem', u'America/Ojinaga', u'America/Panama', u'America/Pangnirtung', u'America/Paramaribo', u'America/Phoenix', u'America/Port-au-Prince', u'America/Port_of_Spain', u'America/Porto_Velho', u'America/Puerto_Rico', u'America/Rainy_River', u'America/Rankin_Inlet', u'America/Recife', u'America/Regina', u'America/Resolute', u'America/Rio_Branco', u'America/Santa_Isabel', u'America/Santarem', u'America/Santiago', u'America/Santo_Domingo', u'America/Sao_Paulo', u'America/Scoresbysund', u'America/Sitka', u'America/St_Barthelemy', u'America/St_Johns', u'America/St_Kitts', u'America/St_Lucia', u'America/St_Thomas', u'America/St_Vincent', u'America/Swift_Current', u'America/Tegucigalpa', u'America/Thule', u'America/Thunder_Bay', u'America/Tijuana', u'America/Toronto', u'America/Tortola', u'America/Vancouver', u'America/Whitehorse', u'America/Winnipeg', u'America/Yakutat', u'America/Yellowknife', u'Antarctica/Casey', u'Antarctica/Davis', u'Antarctica/DumontDUrville', u'Antarctica/Macquarie', u'Antarctica/Mawson', u'Antarctica/McMurdo', u'Antarctica/Palmer', u'Antarctica/Rothera', u'Antarctica/Syowa', u'Antarctica/Vostok', u'Arctic/Longyearbyen', u'Asia/Aden', u'Asia/Almaty', u'Asia/Amman', u'Asia/Anadyr', u'Asia/Aqtau', u'Asia/Aqtobe', u'Asia/Ashgabat', u'Asia/Baghdad', u'Asia/Bahrain', u'Asia/Baku', u'Asia/Bangkok', u'Asia/Beirut', u'Asia/Bishkek', u'Asia/Brunei', u'Asia/Choibalsan', u'Asia/Chongqing', u'Asia/Colombo', u'Asia/Damascus', u'Asia/Dhaka', u'Asia/Dili', u'Asia/Dubai', u'Asia/Dushanbe', u'Asia/Gaza', u'Asia/Harbin', u'Asia/Hebron', u'Asia/Ho_Chi_Minh', u'Asia/Hong_Kong', u'Asia/Hovd', u'Asia/Irkutsk', u'Asia/Jakarta', u'Asia/Jayapura', u'Asia/Jerusalem', u'Asia/Kabul', u'Asia/Kamchatka', u'Asia/Karachi', u'Asia/Kashgar', u'Asia/Kathmandu', u'Asia/Khandyga', u'Asia/Kolkata', u'Asia/Krasnoyarsk', u'Asia/Kuala_Lumpur', u'Asia/Kuching', u'Asia/Kuwait', u'Asia/Macau', u'Asia/Magadan', u'Asia/Makassar', u'Asia/Manila', u'Asia/Muscat', u'Asia/Nicosia', u'Asia/Novokuznetsk', u'Asia/Novosibirsk', u'Asia/Omsk', u'Asia/Oral', u'Asia/Phnom_Penh', u'Asia/Pontianak', u'Asia/Pyongyang', u'Asia/Qatar', u'Asia/Qyzylorda', u'Asia/Rangoon', u'Asia/Riyadh', u'Asia/Sakhalin', u'Asia/Samarkand', u'Asia/Seoul', u'Asia/Shanghai', u'Asia/Singapore', u'Asia/Taipei', u'Asia/Tashkent', u'Asia/Tbilisi', u'Asia/Tehran', u'Asia/Thimphu', u'Asia/Tokyo', u'Asia/Ulaanbaatar', u'Asia/Urumqi', u'Asia/Ust-Nera', u'Asia/Vientiane', u'Asia/Vladivostok', u'Asia/Yakutsk', u'Asia/Yekaterinburg', u'Asia/Yerevan', u'Atlantic/Azores', u'Atlantic/Bermuda', u'Atlantic/Canary', u'Atlantic/Cape_Verde', u'Atlantic/Faroe', u'Atlantic/Madeira', u'Atlantic/Reykjavik', u'Atlantic/South_Georgia', u'Atlantic/St_Helena', u'Atlantic/Stanley', u'Australia/Adelaide', u'Australia/Brisbane', u'Australia/Broken_Hill', u'Australia/Currie', u'Australia/Darwin', u'Australia/Eucla', u'Australia/Hobart', u'Australia/Lindeman', u'Australia/Lord_Howe', u'Australia/Melbourne', u'Australia/Perth', u'Australia/Sydney', u'Canada/Atlantic', u'Canada/Central', u'Canada/Eastern', u'Canada/Mountain', u'Canada/Newfoundland', u'Canada/Pacific', u'Europe/Amsterdam', u'Europe/Andorra', u'Europe/Athens', u'Europe/Belgrade', u'Europe/Berlin', u'Europe/Bratislava', u'Europe/Brussels', u'Europe/Bucharest', u'Europe/Budapest', u'Europe/Busingen', u'Europe/Chisinau', u'Europe/Copenhagen', u'Europe/Dublin', u'Europe/Gibraltar', u'Europe/Guernsey', u'Europe/Helsinki', u'Europe/Isle_of_Man', u'Europe/Istanbul', u'Europe/Jersey', u'Europe/Kaliningrad', u'Europe/Kiev', u'Europe/Lisbon', u'Europe/Ljubljana', u'Europe/London', u'Europe/Luxembourg', u'Europe/Madrid', u'Europe/Malta', u'Europe/Mariehamn', u'Europe/Minsk', u'Europe/Monaco', u'Europe/Moscow', u'Europe/Oslo', u'Europe/Paris', u'Europe/Podgorica', u'Europe/Prague', u'Europe/Riga', u'Europe/Rome', u'Europe/Samara', u'Europe/San_Marino', u'Europe/Sarajevo', u'Europe/Simferopol', u'Europe/Skopje', u'Europe/Sofia', u'Europe/Stockholm', u'Europe/Tallinn', u'Europe/Tirane', u'Europe/Uzhgorod', u'Europe/Vaduz', u'Europe/Vatican', u'Europe/Vienna', u'Europe/Vilnius', u'Europe/Volgograd', u'Europe/Warsaw', u'Europe/Zagreb', u'Europe/Zaporozhye', u'Europe/Zurich', u'GMT', u'Indian/Antananarivo', u'Indian/Chagos', u'Indian/Christmas', u'Indian/Cocos', u'Indian/Comoro', u'Indian/Kerguelen', u'Indian/Mahe', u'Indian/Maldives', u'Indian/Mauritius', u'Indian/Mayotte', u'Indian/Reunion', u'Pacific/Apia', u'Pacific/Auckland', u'Pacific/Chatham', u'Pacific/Chuuk', u'Pacific/Easter', u'Pacific/Efate', u'Pacific/Enderbury', u'Pacific/Fakaofo', u'Pacific/Fiji', u'Pacific/Funafuti', u'Pacific/Galapagos', u'Pacific/Gambier', u'Pacific/Guadalcanal', u'Pacific/Guam', u'Pacific/Honolulu', u'Pacific/Johnston', u'Pacific/Kiritimati', u'Pacific/Kosrae', u'Pacific/Kwajalein', u'Pacific/Majuro', u'Pacific/Marquesas', u'Pacific/Midway', u'Pacific/Nauru', u'Pacific/Niue', u'Pacific/Norfolk', u'Pacific/Noumea', u'Pacific/Pago_Pago', u'Pacific/Palau', u'Pacific/Pitcairn', u'Pacific/Pohnpei', u'Pacific/Port_Moresby', u'Pacific/Rarotonga', u'Pacific/Saipan', u'Pacific/Tahiti', u'Pacific/Tarawa', u'Pacific/Tongatapu', u'Pacific/Wake', u'Pacific/Wallis', u'US/Alaska', u'US/Arizona', u'US/Central', u'US/Eastern', u'US/Hawaii', u'US/Mountain', u'US/Pacific', u'UTC']"
+Resources.Custom::ServiceSetup.Properties.regions,{u'Ref': u'Regions'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ACCOUNT,{u'Ref': u'AWS::AccountId'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.CONFIG_TABLE,{u'Ref': u'ConfigTable'}
+Resources.Custom::ServiceSetup.Properties.started_tags,{u'Ref': u'StartedTags'}
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Parameters.SchedulingActive.Default,Yes
+Outputs.ServiceInstanceScheduleServiceToken.Description,Arn to use as ServiceToken property for custom resource type Custom::ServiceInstanceSchedule
+Resources.AWS::Lambda::Permission.DependsOn,Main
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ServiceNamespace,dynamodb
+Resources.AWS::Lambda::Function.Properties.FunctionName,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'InstanceSchedulerMain']]}"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.TRACE,"{u'Fn::FindInMap': [u'TrueFalse', {u'Ref': u'Trace'}, u'Value']}"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.STACK_NAME,{u'Ref': u'AWS::StackName'}
+Mappings.Settings.DynamoDbTableCapacities.RdsTagCacheTableMinRead,5
+Mappings.Settings.DynamoDbTableCapacities.ConfigTableMaxRead,10
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'service', u'AttributeType': u'S'}, {u'AttributeName': u'account-region', u'AttributeType': u'S'}]"
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Resources.Custom::ServiceSetup.Properties.trace,"{u'Fn::FindInMap': [u'TrueFalse', {u'Ref': u'Trace'}, u'Value']}"
+Outputs.IssueSnsTopicArn.Value,{u'Ref': u'InstanceSchedulerSnsTopic'}
+Resources.Custom::ServiceSetup.Properties.schedule_lambda_account,"{u'Fn::FindInMap': [u'TrueFalse', {u'Ref': u'ScheduleLambdaAccount'}, u'Value']}"
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.RoleARN,"{u'Fn::GetAtt': [u'SchedulerDynamoDBScalingRole', u'Arn']}"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ScheduledServices.default,Service(s) to schedule
+Parameters.CrossAccountRoles.Type,CommaDelimitedList
+Resources.Custom::ServiceSetup.DependsOn,"[u'Main', u'ConfigTable', u'SchedulerLogGroup']"
+Parameters.Regions.Description,"List of regions in which instances are scheduled, leave blank for current region only."
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Type,AWS::ApplicationAutoScaling::ScalingPolicy
+Parameters.TagName.Description,Name of tag to use for associating instance schedule schemas with service instances.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.SchedulingActive.default,Scheduling enabled
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.TagName.default,Instance Scheduler tag name
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Regions.default,Region(s)
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.ScalingTargetId,{u'Ref': u'ConfigTableAutoScalingReadTarget'}
+Resources.AWS::Lambda::Function.Properties.MemorySize,{u'Ref': u'MemorySize'}
+Parameters.Trace.Type,String
+Resources.AWS::IAM::Role.Properties.Path,/
+Outputs.AccountId.Description,Account to give access to when creating cross-account access role fro cross account scenario 
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'SchedulerRole', u'Arn']}"
+Parameters.SchedulerFrequency.AllowedValues,"[u'1', u'2', u'5', u'10', u'15', u'30', u'60']"
+Parameters.MemorySize.Default,128
+Parameters.SendAnonymousData.Type,String
+Parameters.LogRetentionDays.Description,Retention days for scheduler logs.
+Parameters.LogRetentionDays.Default,30
+Mappings.Settings.DynamoDbTableCapacities.ConfigTableMinWrite,2
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,"{u'Fn::FindInMap': [u'Settings', u'DynamoDbTableCapacities', u'StateTableMinWrite']}"
+Resources.Custom::ServiceSetup.Properties.default_timezone,{u'Ref': u'DefaultTimezone'}
+Parameters.StoppedTags.Type,String
+Resources.AWS::Lambda::Function.DependsOn,"[u'SchedulerPolicy', u'SchedulerRole']"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.StoppedTags.default,Stopped tags
+Parameters.TagName.Default,Schedule
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.METRICS_URL,"{u'Fn::FindInMap': [u'Settings', u'Metrics', u'Url']}"
+Parameters.CrossAccountRoles.Description,Comma separated list of ARN's for cross account access roles. These roles must be created in all checked accounts the scheduler to start and stop instances.
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MaxCapacity,"{u'Fn::FindInMap': [u'Settings', u'DynamoDbTableCapacities', u'ConfigTableMaxWrite']}"
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MinCapacity,"{u'Fn::FindInMap': [u'Settings', u'DynamoDbTableCapacities', u'ConfigTableMinWrite']}"
+Resources.Custom::ServiceSetup.Properties.config_table,{u'Ref': u'ConfigTable'}
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Mappings.Timeouts.30.Value,cron(0/30 * * * ? *)
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::IAM::Policy.Properties.PolicyName,SchedulerPolicy
+Resources.Custom::ServiceSetup.Properties.use_metrics,"{u'Fn::FindInMap': [u'TrueFalse', {u'Ref': u'UseCloudWatchMetrics'}, u'Value']}"
+Parameters.ScheduleLambdaAccount.Type,String
+Mappings.Settings.DynamoDbTableCapacities.StateTableMinRead,5
+Parameters.DefaultTimezone.Default,Europe/Rome
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.SendAnonymousData.Default,Yes
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyName,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'ConfigTableAutoScalingReadPolicy']]}"
+Parameters.ScheduleLambdaAccount.AllowedValues,"[u'Yes', u'No']"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.LogRetentionDays.default,Log retention days
+Resources.AWS::Events::Rule.Properties.Description,Instance Scheduler - Rule to trigger instance for scheduler function version 2.10.0.25
+Resources.Custom::ServiceSetup.Properties.ServiceToken,"{u'Fn::GetAtt': [u'Main', u'Arn']}"
+Mappings.Timeouts.1.Value,cron(0/1 * * * ? *)
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.PredefinedMetricSpecification.PredefinedMetricType,DynamoDBReadCapacityUtilization

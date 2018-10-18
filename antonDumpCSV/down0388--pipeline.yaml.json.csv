@@ -1,0 +1,137 @@
+Parameters.CognitoIdentityPoolId.Description,"Cognito Identity Pool Id to used in the web app configuration.
+"
+Parameters.BotName.Type,String
+Parameters.CodePipelineName.Description,Name of CodePipeline to be created.
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Parameters.CodeBuildName.Type,String
+Resources.AWS::Lambda::Function.Properties.Timeout,120
+Parameters.CognitoIdentityPoolId.MinLength,1
+Parameters.CustomResourceCodeObject.Type,String
+Outputs.WebAppUrl.Description,URL of the web application
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Resources.AWS::Lambda::Function.Properties.Handler,s3-cleanup.handler
+Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENERAL1_LARGE
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,CustomResourceCodeBucket
+Parameters.BotName.Description,"Name of Lex bot to be used in the web app configuration.
+"
+Parameters.CodePipelineName.Type,String
+Parameters.CustomResourceCodeObject.Default,artifacts/aws-lex-web-ui/artifacts/custom-resources.zip
+Resources.Custom::S3Cleanup.Condition,ShouldCleanupBuckets
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.CognitoIdentityPoolId.Type,String
+Parameters.BotName.MinLength,2
+Parameters.CodeCommitRepoName.AllowedPattern,^[\w\.-]+$
+Parameters.CodePipelineName.MaxLength,100
+Resources.AWS::IAM::Role.Condition,ShouldCleanupBuckets
+Outputs.LoaderScriptUrl.Condition,NeedsParentOrigin
+Resources.AWS::CodeBuild::Project.Properties.ServiceRole,CodeBuildRole.Arn
+Parameters.CustomResourceCodeObject.Description,"S3 object zip file containing Lambda custom resource functions
+"
+Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
+Outputs.SnippetUrl.Description,URL of a page showing the snippet to load the chatbot UI as an iframe
+Parameters.CodeBuildName.Description,"CodeBuild project to be created. Used for building the web app with the pipeline.
+"
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
+Parameters.ParentOrigin.Description,"Browser origin (e.g. http://mysite.example.com:8080) of an existing site that is allowed to send/receive data and events from the web ui in an iframe setup. This is an optional parameter. If left empty, an S3 bucket will be created to host a sample parent site embedding the webapp as an iframe.
+"
+Parameters.CodeBuildName.MaxLength,255
+Parameters.CodeBuildName.ConstraintDescription,"Should start with Alphanumeric. May contain alphanumeric, undescore and dash.
+"
+Parameters.CodeCommitRepoName.MinLength,1
+Parameters.CustomResourceCodeBucket.Type,String
+Resources.AWS::CodeBuild::Project.Properties.Source.Type,CODEPIPELINE
+Parameters.CustomResourceCodeBucket.Default,aws-bigdata-blog
+Parameters.RepoBranchName.Default,master
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,ArtifactStore
+Parameters.CodePipelineName.AllowedPattern,^[A-Za-z0-9.@\-_]+$
+Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,CODEPIPELINE
+Parameters.CodeBuildName.MinLength,2
+Parameters.CodePipelineName.MinLength,1
+Parameters.CodeCommitRepoName.Description,"CodeCommit repository name to be used as the source of the pipeline.
+"
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Parameters.RepoBranchName.MaxLength,100
+Outputs.ParentPageUrl.Value,https://${ParentPageBucket.DomainName}/parent.html
+Parameters.CleanupBuckets.Default,True
+Parameters.RepoBranchName.AllowedPattern,^[\w\.-]+$
+Outputs.PipelineName.Description,Name of CodePipeline pipeline
+Parameters.CleanupBuckets.Description,"If set to True, buckets and their associated data will be deleted on CloudFormation stack delete. If set to False, S3 buckets will be retained.
+"
+Parameters.ParentOrigin.AllowedPattern,(^$|^https?://[\w\.-]+(:\d+)?$)
+Parameters.BotName.ConstraintDescription,"Must conform with the permitted Lex Bot name pattern.
+"
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CloudWatchLogsCodeBuild', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${CodeBuildName}', u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${CodeBuildName}:*'], u'Effect': u'Allow'}]}}, {u'PolicyName': u'S3ReadWrite', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:Get*', u's3:Head*', u's3:List*', u's3:CreateMultipartUpload', u's3:CompleteMultipartUpload', u's3:AbortMultipartUpload', u's3:CopyObject', u's3:PutObject*', u's3:DeleteObject*', u's3:Upload*'], u'Resource': [u'arn:aws:s3:::${ArtifactStore}', u'arn:aws:s3:::${ArtifactStore}/*', u'arn:aws:s3:::${WebAppBucket}', u'arn:aws:s3:::${WebAppBucket}/*', [u'NeedsParentOrigin', u'arn:aws:s3:::${ParentPageBucket}', u'AWS::NoValue'], [u'NeedsParentOrigin', u'arn:aws:s3:::${ParentPageBucket}/*', u'AWS::NoValue']], u'Effect': u'Allow'}]}}]"
+Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline
+Parameters.BotName.MaxLength,50
+Resources.AWS::CodeBuild::Project.Properties.Description,Used to build the Lex Web UI
+Resources.AWS::CodePipeline::Pipeline.Properties.Name,CodePipelineName
+Parameters.CodeCommitRepoName.Type,String
+Resources.Custom::S3Cleanup.Properties.ServiceToken,S3CleanupLambda.Arn
+Resources.AWS::CodeBuild::Project.Properties.Name,CodeBuildName
+Parameters.RepoBranchName.Description,"CodeCommit repository branch name to be used as the source of the pipeline.
+"
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Parameters.CodePipelineName.ConstraintDescription,"Alphanumeric, dot and dash."
+Parameters.CleanupBuckets.Type,String
+Parameters.CodeCommitRepoName.Default,lex-web-ui
+Resources.Custom::S3Cleanup.Properties.Buckets,"[u'ArtifactStore', u'WebAppBucket', [u'NeedsParentOrigin', u'ParentPageBucket', u'AWS::NoValue']]"
+Parameters.CognitoIdentityPoolId.ConstraintDescription,"Alphanumeric followed by a colum and ending with a hex uuid type.
+"
+Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,CodePipelineRole.Arn
+Outputs.SnippetUrl.Value,https://${ParentPageBucket.DomainName}/iframe-snippet.html
+Parameters.CognitoIdentityPoolId.MaxLength,55
+Outputs.SnippetUrl.Condition,NeedsParentOrigin
+Resources.AWS::CodeBuild::Project.Properties.Environment.Type,LINUX_CONTAINER
+Parameters.CodeBuildName.Default,lex-web-ui
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codebuild.amazonaws.com']}}]"
+Resources.AWS::CodeBuild::Project.Properties.TimeoutInMinutes,30
+Resources.AWS::Lambda::Function.Condition,ShouldCleanupBuckets
+Resources.AWS::S3::Bucket.Condition,NeedsParentOrigin
+Resources.AWS::CodeBuild::Project.Properties.Source.BuildSpec,"version: 0.1
+phases:
+    install:
+        commands:
+            - npm install -g n
+            - n stable
+            - npm update -g npm
+            - make install-deps
+    pre_build:
+        commands:
+            - aws configure set region ""$AWS_DEFAULT_REGION""
+            - make config
+    build:
+        commands:
+            - make build
+    post_build:
+        commands:
+            - make deploy-to-s3
+"
+Parameters.CustomResourceCodeBucket.Description,S3 bucket name for custom resource Lambda bundle
+Outputs.WebAppUrl.Value,https://${WebAppBucket.DomainName}/index.html
+Parameters.RepoBranchName.ConstraintDescription,"Alphanumeric, dot and dash."
+Parameters.CognitoIdentityPoolId.AllowedPattern,^[\w-]+:[0-9a-f-]+$
+Parameters.CodeBuildName.AllowedPattern,"^[A-Za-z0-9][A-Za-z0-9\-_]{1,254}$"
+Parameters.CodeCommitRepoName.ConstraintDescription,"Alphanumeric, dot and dash."
+Outputs.PipelineName.Value,CodePipeline
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,CustomResourceCodeObject
+Parameters.RepoBranchName.MinLength,1
+Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
+Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeCommit'}, u'Configuration': {u'BranchName': u'RepoBranchName', u'RepositoryName': u'CodeCommitRepoName'}, u'Name': u'CodeCommitRepo', u'OutputArtifacts': [{u'Name': u'SourceOutput'}]}]}, {u'Name': u'BuildDeploy', u'Actions': [{u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeBuild'}, u'Configuration': {u'ProjectName': u'CodeBuild'}, u'Name': u'WebApp', u'InputArtifacts': [{u'Name': u'SourceOutput'}], u'RunOrder': 1}]}]"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.LoaderScriptUrl.Value,https://${ParentPageBucket.DomainName}/lex-web-ui-loader.min.js
+Resources.Custom::S3Cleanup.Type,Custom::S3Cleanup
+Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/nodejs:6.3.1
+Parameters.ParentOrigin.ConstraintDescription,Empty or valid browser origin
+Outputs.LoaderScriptUrl.Description,URL of the loader script
+Parameters.CodeCommitRepoName.MaxLength,100
+Parameters.CleanupBuckets.AllowedValues,"[True, False]"
+Outputs.ParentPageUrl.Description,URL of the sample parent page
+Resources.AWS::Lambda::Function.Properties.Role,S3CleanupLambdaRole.Arn
+Parameters.BotName.AllowedPattern,^[a-zA-Z]+((_[a-zA-Z]+)*|([a-zA-Z]+_)*|_)
+Outputs.ParentPageUrl.Condition,NeedsParentOrigin
+Parameters.ParentOrigin.Type,String
+Parameters.CodePipelineName.Default,lex-web-ui
+Parameters.RepoBranchName.Type,String
+Resources.AWS::CodeBuild::Project.Properties.Environment.EnvironmentVariables,"[{u'Name': u'BUILD_TYPE', u'Value': u'full'}, {u'Name': u'POOL_ID', u'Value': u'CognitoIdentityPoolId'}, {u'Name': u'WEBAPP_BUCKET', u'Value': u'WebAppBucket'}, {u'Name': u'PARENT_PAGE_BUCKET', u'Value': [u'NeedsParentOrigin', u'ParentPageBucket', u'']}, {u'Name': u'BOT_NAME', u'Value': u'BotName'}, {u'Name': u'AWS_DEFAULT_REGION', u'Value': u'${AWS::Region}'}, {u'Name': u'PARENT_ORIGIN', u'Value': [u'NeedsParentOrigin', u'https://${ParentPageBucket.DomainName}', u'ParentOrigin']}, {u'Name': u'IFRAME_ORIGIN', u'Value': u'https://${WebAppBucket.DomainName}'}]"

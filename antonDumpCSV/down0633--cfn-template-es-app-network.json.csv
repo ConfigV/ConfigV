@@ -1,0 +1,45 @@
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
+Outputs.DBTierAZ1SubnetId.Value,{u'Ref': u'DBTierAZ1Subnet'}
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'AppVPC'}
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
+Resources.AWS::EC2::NetworkAclEntry.Properties.Icmp.Code,
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.101.36.0/22
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'AppNetworkAcl'}
+Parameters.Environment.Type,String
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,False
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,10.101.0.0/16
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'AppNetworkAcl'}
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Fn::GetAZs': u''}]}"
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,300
+Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'AppVPC'}
+Parameters.Environment.AllowedValues,"[u'dev', u'test', u'prod']"
+Parameters.Environment.Description,Type of environment this will be used for
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,3306
+Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': u'app', u'Key': u'Name'}, {u'Value': u'acl:app', u'Key': u'custom:resource:name'}, {u'Value': u'acl', u'Key': u'custom:resource:type'}, {u'Value': u'elasticstores', u'Key': u'custom:app:name'}]"
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'app', u'Key': u'Name'}, {u'Value': u'routetable:app', u'Key': u'custom:resource:name'}, {u'Value': u'routetable', u'Key': u'custom:resource:type'}, {u'Value': u'elasticstores', u'Key': u'custom:app:name'}]"
+Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'web-tier-az1', u'Key': u'Name'}, {u'Value': u'subnet:web-tier-az1', u'Key': u'custom:resource:name'}, {u'Value': u'subnet', u'Key': u'custom:resource:type'}, {u'Value': u'elasticstores', u'Key': u'custom:app:name'}]"
+Resources.AWS::EC2::VPC.Properties.InstanceTenancy,default
+Parameters.Environment.ConstraintDescription,must select one of the supported environments
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'AppVPCRouteTable'}
+Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': u'app', u'Key': u'Name'}, {u'Value': u'vpc:app', u'Key': u'custom:resource:name'}, {u'Value': u'vpc', u'Key': u'custom:resource:type'}, {u'Value': u'elasticstores', u'Key': u'custom:app:name'}]"
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'AppTierAZ1Subnet'}
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,false
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'DevOpsSubnet'}
+Outputs.DBTierAZ2SubnetId.Description,DB-Tier AvailabilityZone2 Subnet ID created in this template
+Outputs.AppVpcId.Description,APP VPC ID created in this template
+Outputs.DBTierAZ2SubnetId.Value,{u'Ref': u'DBTierAZ2Subnet'}
+Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
+Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'AppVPC'}
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Outputs.AppVpcId.Value,{u'Ref': u'AppVPC'}
+Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
+Outputs.DBTierAZ1SubnetId.Description,DB-Tier AvailabilityZone1 Subnet ID created in this template
+Resources.AWS::EC2::NetworkAclEntry.Properties.Icmp.Type,
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
+Resources.AWS::EC2::VPC.Properties.CidrBlock,10.101.0.0/16
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,3306

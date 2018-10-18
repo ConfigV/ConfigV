@@ -1,0 +1,63 @@
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyPairName'}
+Parameters.ContainerPlatformRole.AllowedValues,"[u'manager', u'worker']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Parameters.SubnetIDs.Type,List<AWS::EC2::Subnet::Id>
+Mappings.AWSAMIRegionMap.eu-central-1.AMZNLINUXHVM,ami-ac442ac3
+Parameters.QSS3BucketName.Default,aws-quickstart
+Parameters.QSS3BucketName.Description,"S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
+Parameters.ClusterName.MinLength,1
+Parameters.InternalAccessSecurityGroupID.Description,The internal SecurityGroup for the cluster nodes to access each other.
+Parameters.NumberOfNodes.Default,3
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Parameters.ClusterName.Description,Name of the cluster.
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': {u'Fn::Join': [u'-', [{u'Ref': u'ClusterName'}, {u'Ref': u'ContainerPlatformRole'}]]}, u'Key': u'Name'}, {u'PropagateAtLaunch': u'true', u'Value': {u'Ref': u'ClusterName'}, u'Key': {u'Fn::Join': [u'-', [u'firecamp', {u'Ref': u'ContainerPlatformRole'}]]}}]"
+Parameters.ClusterName.ConstraintDescription,"Cluster name must start with a letter and can only contain letters, numbers, or hyphens."
+Parameters.AvailabilityZones.Type,List<AWS::EC2::AvailabilityZone::Name>
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSAMIRegionMap', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'LinuxAMINameMap', {u'Ref': u'NodeAMIOS'}, u'Code']}]}"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'ContainerInstances'}
+Parameters.Release.Description,The FireCamp release version
+Parameters.ServiceSecurityGroupID.Description,The SecurityGroup to access the services in the cluster.
+Parameters.QSS3BucketName.Type,String
+Parameters.Release.Default,latest
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'NumberOfNodes'}
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
+Parameters.ClusterName.Default,default
+Parameters.InternalAccessSecurityGroupID.Type,AWS::EC2::SecurityGroup::Id
+Parameters.ContainerPlatform.Description,The container orchestration platform.
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,{u'Ref': u'SubnetIDs'}
+Parameters.ContainerPlatformRole.Description,"The role in the container orchestration platform. For Swarm, one node could be a manager or worker."
+Parameters.ServiceSecurityGroupID.Type,AWS::EC2::SecurityGroup::Id
+Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the cluster instances.
+Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+Parameters.ClusterName.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'NodeInstanceProfileID'}
+Mappings.LinuxAMINameMap.Amazon-Linux-HVM.Code,AMZNLINUXHVM
+Parameters.NodeInstanceProfileID.Type,String
+Parameters.ClusterName.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
+Parameters.NumberOfNodes.Type,Number
+Parameters.AvailabilityZones.Description,List of Availability Zones to use for the subnets in the VPC. Note: The logical order is preserved.
+Parameters.NumberOfNodes.Description,Number of instances to launch in the cluster.
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Ref': u'ServiceSecurityGroupID'}, {u'Ref': u'InternalAccessSecurityGroupID'}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'NumberOfNodes'}
+Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Timeout,PT10M
+Parameters.ContainerPlatform.AllowedValues,"[u'ecs', u'swarm']"
+Parameters.NodeInstanceProfileID.Description,ID of the instance IAM Profile
+Parameters.Release.Type,String
+Parameters.QSS3KeyPrefix.Default,quickstart-cloudstax-firecamp/
+Mappings.AWSAMIRegionMap.AMI.AMZNLINUXHVM,amzn-ami-hvm-2017.09.1.20180307-x86_64-gp2
+Parameters.NodeAMIOS.Description,The Linux distribution for the AMI to be used for the service instances
+Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
+Mappings.AWSAMIRegionMap.ca-central-1.AMZNLINUXHVM,ami-5b55d23f
+Parameters.NodeInstanceProfileID.Default,
+Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingReplacingUpdate.WillReplace,true
+Parameters.ContainerPlatform.Type,String
+Parameters.NodeAMIOS.Type,String
+Parameters.QSS3KeyPrefix.Type,String
+Parameters.SubnetIDs.Description,Subnet-ID the existing subnet in your VPC where you want to deploy node(s).
+Parameters.ContainerPlatformRole.Default,worker
+Parameters.ContainerPlatformRole.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -x\n', u'yum install -y aws-cfn-bootstrap\n', u'version=', {u'Ref': u'Release'}, u'\n', u'# get and run the node init script\n', u'for i in 1 2 3\n', u'do\n', u'  wget -O /tmp/init.sh https://s3.amazonaws.com/', {u'Ref': u'QSS3BucketName'}, u'/', {u'Ref': u'QSS3KeyPrefix'}, u'scripts/init.sh\n', u'  if [ ""$?"" = ""0"" ]; then\n', u'    break\n', u'  elif [ ""$i"" = ""3"" ]; then\n', u'    echo ""failed to get init.sh""\n', u'    exit 2\n', u'  else\n', u'    sleep 4\n', u'  fi\n', u'done\n', u'chmod +x /tmp/init.sh\n', u'/tmp/init.sh $version ', {u'Ref': u'ClusterName'}, u' ', {u'Ref': u'ContainerPlatform'}, u' ', {u'Ref': u'ContainerPlatformRole'}, u' ', {u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}, u'\n', u'res=$?\n', u'echo $res\n', u'# Signal init result\n', u'/opt/aws/bin/cfn-signal -e $res ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource ServiceAutoScalingGroup ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
+Parameters.QSS3BucketName.ConstraintDescription,"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
+Parameters.ClusterName.MaxLength,255
+Parameters.NodeAMIOS.Default,Amazon-Linux-HVM
+Parameters.ContainerPlatform.Default,ecs

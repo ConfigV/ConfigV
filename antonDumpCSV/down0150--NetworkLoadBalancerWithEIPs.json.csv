@@ -1,0 +1,28 @@
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,"{u'Fn::Select': [u'0', {u'Ref': u'VPC'}]}"
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.DependsOn,"[u'EIP2', u'EIP1']"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,10
+Parameters.VPC.Type,List<AWS::EC2::VPC::Id>
+Parameters.ELBIpAddressType.Type,String
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': {u'Ref': u'TargetGroup'}, u'Type': u'forward'}]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,TCP
+Parameters.Subnet2.Description,"ID of the Subnet the instance should be launched in, this will link the instance to the same VPC."
+Parameters.Subnet1.Description,"ID of the Subnet the instance should be launched in, this will link the instance to the same VPC."
+Parameters.ELBIpAddressType.AllowedValues,"[u'ipv4', u'dualstack']"
+Parameters.Subnet1.Type,List<AWS::EC2::Subnet::Id>
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,{u'Ref': u'loadBalancer'}
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,TCP
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SubnetMappings,"[{u'SubnetId': {u'Fn::Select': [u'0', {u'Ref': u'Subnet1'}]}, u'AllocationId': {u'Fn::GetAtt': [u'EIP1', u'AllocationId']}}, {u'SubnetId': {u'Fn::Select': [u'0', {u'Ref': u'Subnet2'}]}, u'AllocationId': {u'Fn::GetAtt': [u'EIP2', u'AllocationId']}}]"
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.IpAddressType,{u'Ref': u'ELBIpAddressType'}
+Parameters.ELBType.Type,String
+Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetGroupAttributes,"[{u'Value': u'20', u'Key': u'deregistration_delay.timeout_seconds'}]"
+Parameters.ELBIpAddressType.Default,ipv4
+Parameters.Subnet2.Type,List<AWS::EC2::Subnet::Id>
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,MyTargets
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Type,{u'Ref': u'ELBType'}
+Parameters.ELBType.Default,network
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,80

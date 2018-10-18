@@ -1,0 +1,53 @@
+Outputs.nodeEnvironment.Description,The Elastic Beanstalk environment on which the application runs
+Outputs.nodeApplicationVersion.Value,{u'Ref': u'nodeApplicationVersion'}
+Resources.AWS::ElasticBeanstalk::Environment.Type,AWS::ElasticBeanstalk::Environment
+Outputs.nodeConfigurationTemplate.Description,The Elastic Beanstalk configuration
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Bucket,"{u'Fn::Join': [u'-', [u'elasticbeanstalk-samples', {u'Ref': u'AWS::Region'}]]}"
+Outputs.CodePipelineURL.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codepipeline/home?region=', {u'Ref': u'AWS::Region'}, u'#/view/', {u'Ref': u'CodePipelineStack'}]]}"
+Resources.AWS::ElasticBeanstalk::Environment.Properties.ApplicationName,{u'Ref': u'nodeApplication'}
+Resources.AWS::ElasticBeanstalk::Environment.DependsOn,"[u'nodeApplication', u'nodeConfigurationTemplate', u'nodeApplicationVersion']"
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.OptionSettings,"[{u'OptionName': u'MinSize', u'Namespace': u'aws:autoscaling:asg', u'Value': u'2'}, {u'OptionName': u'MaxSize', u'Namespace': u'aws:autoscaling:asg', u'Value': u'6'}, {u'OptionName': u'EnvironmentType', u'Namespace': u'aws:elasticbeanstalk:environment', u'Value': u'LoadBalanced'}]"
+Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeCommit'}, u'OutputArtifacts': [{u'Name': u'MyApp'}], u'Configuration': {u'BranchName': {u'Ref': u'RepositoryBranch'}, u'RepositoryName': {u'Ref': u'RepositoryName'}}, u'Name': u'Source'}]}, {u'Name': u'Beta', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'ElasticBeanstalk'}, u'OutputArtifacts': [], u'Configuration': {u'ApplicationName': {u'Ref': u'nodeApplication'}, u'EnvironmentName': {u'Ref': u'nodeEnvironment'}}, u'Name': u'EbApp'}]}]"
+Outputs.AppURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'nodeEnvironment', u'EndpointURL']}, u'/']]}"
+Parameters.RepositoryName.Type,String
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.AppURL.Description,URL for the working Node application
+Resources.AWS::CodePipeline::Pipeline.DependsOn,"[u'nodeApplication', u'nodeEnvironment']"
+Parameters.RepositoryBranch.Default,master
+Resources.AWS::ElasticBeanstalk::Environment.Properties.Description,AWS ElasticBeanstalk Sample Node Environment
+Resources.AWS::ElasticBeanstalk::Application.Type,AWS::ElasticBeanstalk::Application
+Parameters.RepositoryBranch.AllowedPattern,[\x20-\x7E]*
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,"{u'Fn::Join': [u'', [u'codepipeline-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}]]}"
+Outputs.nodeApplication.Value,{u'Ref': u'nodeApplication'}
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.Description,AWS ElasticBeanstalk Sample Application Version
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.RepositoryBranch.default,CodeCommit Repository Branch
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Key,nodejs-sample.zip
+Parameters.RepositoryName.ConstraintDescription,Can contain only ASCII characters.
+Parameters.RepositoryBranch.Description,The name of the branch for the CodeCommit repo
+Outputs.CodePipelineRole.Value,{u'Ref': u'CodePipelineRole'}
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codepipeline.amazonaws.com']}}]"
+Parameters.RepositoryName.AllowedPattern,[\x20-\x7E]*
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.ApplicationName,{u'Ref': u'nodeApplication'}
+Resources.AWS::ElasticBeanstalk::ApplicationVersion.Type,AWS::ElasticBeanstalk::ApplicationVersion
+Outputs.CodePipelineURL.Description,Pipeline URL
+Parameters.RepositoryBranch.ConstraintDescription,Can contain only ASCII characters.
+Outputs.nodeConfigurationTemplate.Value,{u'Ref': u'nodeConfigurationTemplate'}
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'RepositoryName', u'RepositoryBranch'], u'Label': {u'default': u'CodeCommit Repository'}}]"
+Resources.AWS::ElasticBeanstalk::Environment.Properties.VersionLabel,{u'Ref': u'nodeApplicationVersion'}
+Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/', {u'Ref': u'CodePipelineRole'}]]}"
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.SolutionStackName,64bit Amazon Linux 2015.09 v2.0.5 running Node.js
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.Description,AWS ElasticBeanstalk Sample Configuration Template
+Outputs.nodeEnvironment.Value,{u'Ref': u'nodeEnvironment'}
+Outputs.nodeApplicationVersion.Description,The Elastic Beanstalk application
+Outputs.CodePipelineRole.Description,The IAM role associated with CodePipeline pipeline
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.ApplicationName,{u'Ref': u'nodeApplication'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.RepositoryName.default,CodeCommit Repository Name
+Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Type,AWS::ElasticBeanstalk::ConfigurationTemplate
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'codepipeline-service', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'codecommit:GetBranch', u'codecommit:GetCommit', u'codecommit:UploadArchive', u'codecommit:GetUploadArchiveStatus', u'codecommit:CancelUploadArchive'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:GetObjectVersion', u's3:GetBucketVersioning'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:PutObject'], u'Resource': [u'arn:aws:s3:::codepipeline*', u'arn:aws:s3:::elasticbeanstalk*'], u'Effect': u'Allow'}, {u'Action': [u'codedeploy:CreateDeployment', u'codedeploy:GetApplicationRevision', u'codedeploy:GetDeployment', u'codedeploy:GetDeploymentConfig', u'codedeploy:RegisterApplicationRevision'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'elasticbeanstalk:*', u'ec2:*', u'elasticloadbalancing:*', u'autoscaling:*', u'cloudwatch:*', u's3:*', u'sns:*', u'cloudformation:*', u'rds:*', u'sqs:*', u'ecs:*', u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction', u'lambda:ListFunctions'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.RepositoryBranch.Type,String
+Parameters.RepositoryName.Description,The name of your CodeCommit repo. Go to https://console.aws.amazon.com/codecommit.
+Resources.AWS::ElasticBeanstalk::Environment.Properties.TemplateName,{u'Ref': u'nodeConfigurationTemplate'}
+Resources.AWS::ElasticBeanstalk::Application.Properties.Description,AWS Elastic Beanstalk Sample Application
+Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

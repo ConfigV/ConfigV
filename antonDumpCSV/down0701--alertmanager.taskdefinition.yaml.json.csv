@@ -1,0 +1,13 @@
+Resources.AWS::ECS::TaskDefinition.Properties.Family,ixortalk-alertmanager
+Parameters.SpringCloudConfigLabel.Description,The branch of the config environment to use
+Parameters.AlertManagerImageVersion.Type,String
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,alertmanager-logs
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
+Parameters.SpringCloudConfigLabel.Type,String
+Parameters.SpringProfilesActive.Type,String
+Parameters.AlertManagerImageVersion.Description,The image version to use
+Outputs.TaskDefinition.Value,TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'alertmanager-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-alertmanager', u'Image': u'ixortalk/ixortalk-alertmanager:${AlertManagerImageVersion}', u'Environment': [{u'Name': u'IXORTALK_PROFILE', u'Value': u'SpringProfilesActive'}, {u'Name': u'IXORTALK_CONFIG_SERVER_LABEL', u'Value': u'SpringCloudConfigLabel'}, {u'Name': u'IXORTALK_CONFIG_SERVER_URL', u'Value': u'https://${LoadbalancerDNS}/config'}], u'Command': [u'--web.external-url=https://${LoadbalancerDNS}/alertmanager', u'--config.file=/etc/alertmanager/config.yml'], u'Memory': 128, u'PortMappings': [{u'ContainerPort': 9093}]}]"
+Parameters.LoadbalancerDNS.Type,String
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

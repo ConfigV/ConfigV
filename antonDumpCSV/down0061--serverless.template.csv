@@ -1,0 +1,24 @@
+Resources.AWS::Serverless::Function.Properties.CodeUri,
+Outputs.ApiURL.Value,{u'Fn::Sub': u'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'}
+Outputs.ApiURL.Description,API endpoint URL for Prod environment
+Resources.AWS::Serverless::Function.Properties.Policies,[u'AWSLambdaFullAccess']
+Outputs.S3ProxyBucket.Value,"{u'Fn::If': [u'CreateS3Bucket', {u'Ref': u'Bucket'}, {u'Ref': u'BucketName'}]}"
+Parameters.ShouldCreateBucket.AllowedValues,"[u'true', u'false']"
+Parameters.ShouldCreateBucket.Type,String
+Parameters.BucketName.Type,String
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.AppS3Bucket,"{u'Fn::If': [u'CreateS3Bucket', {u'Ref': u'Bucket'}, {u'Ref': u'BucketName'}]}"
+Resources.AWS::Serverless::Function.Properties.MemorySize,256
+Resources.AWS::Serverless::Function.Properties.Events.PutResource.Properties.Method,ANY
+Resources.AWS::Serverless::Function.Properties.Timeout,30
+Resources.AWS::Serverless::Function.Properties.Role,
+Resources.AWS::Serverless::Function.Properties.Handler,BlueprintBaseName.1::BlueprintBaseName._1.LambdaEntryPoint::FunctionHandlerAsync
+Parameters.BucketName.MinLength,0
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Parameters.BucketName.Description,Name of S3 bucket that will be proxied. If left blank a name will be generated.
+Resources.AWS::Serverless::Function.Properties.Runtime,dotnetcore2.1
+Parameters.ShouldCreateBucket.Description,If true then the S3 bucket that will be proxied will be created with the CloudFormation stack.
+Resources.AWS::Serverless::Function.Properties.Events.PutResource.Type,Api
+Resources.AWS::Serverless::Function.Properties.Events.PutResource.Properties.Path,/{proxy+}
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.AWS::S3::Bucket.Condition,CreateS3Bucket
+Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::If': [u'BucketNameGenerated', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'BucketName'}]}"

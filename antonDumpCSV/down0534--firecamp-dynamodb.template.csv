@@ -1,0 +1,19 @@
+Parameters.ClusterName.ConstraintDescription,"Cluster name must start with a letter and can only contain letters, numbers, or hyphens."
+Parameters.WriteCapacityUnits.Type,Number
+Parameters.ClusterName.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
+Parameters.ClusterName.Description,Name of the cluster.
+Parameters.ClusterName.Default,default
+Resources.AWS::DynamoDB::Table.Properties.TableName,"{u'Fn::Join': [u'-', [{u'Ref': u'ClusterName'}, u'firecamp-table']]}"
+Parameters.ReadCapacityUnits.Description,The  maximum number of strongly consistent reads consumed per second.
+Parameters.ReadCapacityUnits.Default,25
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
+Parameters.ClusterName.MinLength,1
+Parameters.WriteCapacityUnits.Description,The  maximum number of writes consumed per second.
+Parameters.ClusterName.Type,String
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'WriteCapacityUnits'}
+Parameters.ReadCapacityUnits.Type,Number
+Parameters.WriteCapacityUnits.Default,25
+Parameters.ClusterName.MaxLength,255
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'PartitionKey'}, {u'KeyType': u'RANGE', u'AttributeName': u'SortKey'}]"
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'PartitionKey', u'AttributeType': u'S'}, {u'AttributeName': u'SortKey', u'AttributeType': u'S'}]"

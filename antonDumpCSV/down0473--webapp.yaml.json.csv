@@ -1,0 +1,36 @@
+Resources.AWS::ECS::Service.DependsOn,TaskDefinition
+Resources.AWS::ECS::Service.Properties.LaunchType,FARGATE
+Parameters.Cluster.Type,String
+Resources.AWS::ECS::Service.Type,AWS::ECS::Service
+Resources.AWS::ECS::TaskDefinition.Properties.Family,${AWS::StackName}-webapp
+Parameters.DesiredCount.Type,Number
+Resources.AWS::ECS::Service.Properties.HealthCheckGracePeriodSeconds,60
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/ecs/${AWS::StackName}
+Parameters.LaunchType.AllowedValues,"[u'Fargate', u'EC2']"
+Resources.AWS::ECS::TaskDefinition.Properties.Memory,1GB
+Resources.AWS::ECS::TaskDefinition.Properties.Cpu,256
+Resources.AWS::ECS::Service.Properties.LoadBalancers,"[{u'ContainerName': u'webapp', u'TargetGroupArn': u'TargetGroup', u'ContainerPort': 8080}]"
+Parameters.Subnet1.Type,String
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::Service.Properties.Cluster,Cluster
+Parameters.DesiredCount.Default,1
+Parameters.ExecutionRole.Type,String
+Parameters.TargetGroup.Type,String
+Parameters.ALBPrivateCNAME.Type,String
+Parameters.LaunchType.Type,String
+Parameters.Subnet2.Type,String
+Parameters.PublicALB.Type,String
+Resources.AWS::ECS::TaskDefinition.Properties.NetworkMode,"[u'Fargate', u'awsvpc', u'bridge']"
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-stream-prefix': u'AWS::StackName', u'awslogs-group': u'LogGroup', u'awslogs-region': u'AWS::Region'}}, u'Name': u'webapp', u'Image': u'arungupta/webapp', u'Essential': True, u'Environment': [{u'Name': u'NAME_SERVICE_HOST', u'Value': u'ALBPrivateCNAME'}, {u'Name': u'NAME_SERVICE_PORT', u'Value': u'8082'}, {u'Name': u'NAME_SERVICE_PATH', u'Value': u'/resources/names'}, {u'Name': u'GREETING_SERVICE_HOST', u'Value': u'ALBPrivateCNAME'}, {u'Name': u'GREETING_SERVICE_PORT', u'Value': u'8081'}, {u'Name': u'GREETING_SERVICE_PATH', u'Value': u'/resources/greeting'}], u'Memory': 500, u'PortMappings': [{u'ContainerPort': 8080}], u'Cpu': 10}]"
+Parameters.SecurityGroup.Type,String
+Parameters.LaunchType.Default,Fargate
+Resources.AWS::ECS::TaskDefinition.Properties.ExecutionRoleArn,ExecutionRole
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.SecurityGroups,[u'SecurityGroup']
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.AssignPublicIp,ENABLED
+Resources.AWS::ECS::TaskDefinition.Properties.RequiresCompatibilities,"[[u'Fargate', u'FARGATE', u'EC2']]"
+Outputs.Service.Value,"[u'Fargate', u'FargateService', u'EC2Service']"
+Resources.AWS::ECS::Service.Condition,Fargate
+Resources.AWS::ECS::Service.Properties.DesiredCount,DesiredCount
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.Subnets,"[u'Subnet1', u'Subnet2']"
+Resources.AWS::ECS::Service.Properties.TaskDefinition,TaskDefinition
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

@@ -1,0 +1,128 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/cron.daily/jenkins.context.s3_bucket,{u'Ref': u'S3Bucket'}
+Parameters.EmailAddress.Default,
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Parameters.S3Prefix.Default,
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/aws.conf.group,root
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,7
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.packages.yum.awslogs,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/cron.daily/jenkins.group,root
+Parameters.VpcId.Type,AWS::EC2::VPC::Id
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
+Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.files./etc/cfn/cfn-hup.conf.owner,root
+Parameters.EmailAddress.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/aws.conf.context.access_key,{u'Ref': u'HostKeys'}
+Parameters.DnsPrefix.Description,Prefix for Jenkins' DNS record (<prefix>.<zone>)
+Parameters.DnsPrefix.Default,builds
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.commands.01_create_state_directory.command,mkdir -p /var/awslogs/state
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Ref': u'ServerSecurityGroup'}, {u'Ref': u'AdminSecurityGroup'}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1
+Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'S3Access', u'PolicyDocument': {u'Statement': [{u'Action': u's3:*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3Bucket'}, u'/*']]}, u'Effect': u'Allow'}]}}, {u'PolicyName': u'IAMAccess', u'PolicyDocument': {u'Statement': [{u'NotAction': u'iam:*', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'EC2Access', u'PolicyDocument': {u'Statement': [{u'Action': u'ec2:*', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'ec2:*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'elasticloadbalancing:*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'cloudwatch:*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'autoscaling:*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u's3:*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'iam:PassRole', u'iam:ListInstanceProfiles', u'ec2:*'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.services.sysvinit.cfn-hup.ensureRunning,true
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awscli.conf.mode,000444
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-backup.group,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.packages.yum.git-all,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.files./etc/cfn/cfn-hup.conf.group,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awslogs.conf.group,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-backup.mode,000755
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
+Parameters.S3Bucket.Description,Existing S3 bucket to use for Jenkins backups and restores
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'/opt/aws/bin/cfn-init --stack ', {u'Ref': u'AWS::StackName'}, u'    --resource LaunchConfig', u'    --configsets install', u'    --access-key ', {u'Ref': u'HostKeys'}, u'    --secret-key ', {u'Fn::GetAtt': [u'HostKeys', u'SecretAccessKey']}, u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n"", u'# Post-cfn work\n', u'# Updating to Java 8\n', u'yum install -y java-1.8.0-openjdk.x86_64 || true \n', u'sudo /usr/sbin/alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java || true\n', u'sudo /usr/sbin/alternatives --set javac /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/javac || true \n', u'yum remove java-1.7 || true \n', u'sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins.io/redhat-stable/jenkins.repo\n', u'sudo rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key\n', u'yum install -y jenkins\n', u'sudo mkdir -p /var/lib/jenkins\n', u'sudo chown -R jenkins:jenkins /var/lib/jenkins\n', u""# Handle case where cron doesn't detect the new /etc/cron.d file\n"", u'#service cron restart\n', u'# Attempt to restore from backup\n', u'export AWS_CONFIG_FILE=/etc/aws.conf\n', u'sudo /usr/local/bin/jenkins-restore s3://', {u'Ref': u'S3Bucket'}, u'/', {u'Ref': u'S3Prefix'}, u' /var/lib/jenkins || true # ignore errors\n', u'sudo service jenkins start\n', u'sudo chown -R jenkins:jenkins /var/lib/jenkins\n', u'sudo chmod -R 755 /var/lib/jenkins\n', u'# Start Jenkins\n', u'sudo service jenkins restart\n', u'sudo chkconfig jenkins on\n', u'sleep 400\n', u'printf ""Subject: Your Jenkins Password\n\n', u'$(cat /var/lib/jenkins/secrets/initialAdminPassword)\n', u'CHANGE THIS RIGHT AWAY AT: ', u'http://', {u'Ref': u'DnsRecord'}, u'"" | sendmail -v ', {u'Ref': u'EmailAddress'}, u'\n', u'# All is well, signal success\n', u'./opt/aws/bin/cfn-signal --exit-code 0 --reason ""Stack setup complete"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'#EOF']]}}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-restore.content,"{u'Fn::Join': [u'\n', [u'#!/bin/bash -e', u'', u'USAGE=""Usage: $0 S3_TARGET JENKINS_HOME\\n', u'\\n', u'Example:\\n', u'$0 s3://mybucket/jenkins/jenkins-201405011901.tar.gz /var/lib/jenkins\\n', u'\\n', u'If S3_TARGET is a directory, restore from the newest file. Make sure to include the trailing slash:\\n', u'$0 s3://mybucket/jenkins/ /var/lib/jenkins""', u'', u'S3_TARGET=$1', u'JENKINS_HOME=$2', u'if [[ -z ""`echo $S3_TARGET|grep \'^s3://\'`"" ]]; then', u'    echo -e $USAGE', u'    exit 1', u'fi', u'', u'if [[ ""$S3_TARGET"" == */ ]]; then', u""    S3_TARGET=$S3_TARGET`aws s3 ls $S3_TARGET|tail -1|awk '{print $NF}'`"", u'fi', u'', u'LOCAL_BACKUP=/tmp/`basename $S3_TARGET`', u'aws s3 cp $S3_TARGET $LOCAL_BACKUP', u'', u'rm -rf $JENKINS_HOME', u'#if [[ -d ""$JENKINS_HOME"" ]]; then', u'#    read -p ""Delete existing $JENKINS_HOME? (y/n) "" -n 1 -r', u'#    echo', u'#    if [[ $REPLY =~ ^[Yy]$ ]]; then', u'#        rm -rf $JENKINS_HOME', u'#    else', u'#        echo ""Bailing out""', u'#        exit 1', u'#    fi', u'#fi', u'', u'mkdir -p $JENKINS_HOME', u'tar zxf $LOCAL_BACKUP -C $JENKINS_HOME', u'rm -f $LOCAL_BACKUP']]}"
+Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'SwiftOtterJenkins'}
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'BuildRole'}]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/cron.daily/jenkins.owner,root
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
+Parameters.SshKey.Default,your-ssh-key
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Route53::RecordSet.Properties.TTL,900
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-backup.owner,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/aws.conf.content,"{u'Fn::Join': [u'\n', [u'[default]', u'aws_access_key_id={{access_key}}', u'aws_secret_access_key={{secret_key}}']]}"
+Parameters.IPWhitelist.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/cron.daily/jenkins.context.s3_prefix,{u'Ref': u'S3Prefix'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'BuildInstanceProfile'}
+Parameters.AdminSecurityGroup.Description,"Existing security group that should be granted administrative access to Jenkins (e.g., 'sg-123456')"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Parameters.S3Prefix.Description,[Optional] Key prefix to use for Jenkins backups
+Parameters.DnsZone.Description,Route53-hosted zone to use for the DNS record (<prefix>.<zone>)
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
+Parameters.S3Bucket.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/aws.conf.context.secret_key,"{u'Fn::GetAtt': [u'HostKeys', u'SecretAccessKey']}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.packages.python.awscli,[]
+Parameters.DnsPrefix.Type,String
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,{u'Ref': u'Subnets'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-restore.owner,root
+Parameters.Subnets.Description,List of VPC subnet IDs for the cluster
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awslogs.conf.mode,000444
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.content,"{u'Fn::Join': [u'', [u'[cfn-auto-reloader-hook]\n', u'triggers=post.update\n', u'path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init\n', u'action=/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerInstance ', u'         --configsets install_all ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'runas=root\n']]}"
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'BuildRole'}]
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'SshKey'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-restore.mode,000755
+Parameters.AdminSecurityGroup.Default,Primary
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Jenkins servers
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'8080', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awslogs.conf.owner,root
+Parameters.IPWhitelist.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
+Parameters.VpcId.Description,VPC associated with the provided subnets
+Parameters.IPWhitelist.MaxLength,18
+Parameters.S3Bucket.Default,your-s3-bucket
+Parameters.SshKey.Description,Name of an existing EC2 keypair to enable SSH access to the instances
+Parameters.IPWhitelist.MinLength,9
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awscli.conf.owner,root
+Parameters.DnsZone.Default,your-website.com
+Parameters.AdminSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.configSets.install,"[u'installConfig', u'installApp', u'installLogs']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/cron.daily/jenkins.content,"{u'Fn::Join': [u'\n', [u'#!/bin/bash\n', u'AWS_CONFIG_FILE=/etc/aws.conf\n', u'PATH=/bin:/usr/bin::/usr/local/bin\n', u'source /usr/local/bin/jenkins-backup /var/lib/jenkins s3://{{s3_bucket}}/{{s3_prefix}}jenkins-`date +\\%Y\\%m\\%d\\%H\\%M.tar.gz` >> ~/jenkins.cron.log 2>&1\n', u'sleep 60 && /opt/aws/bin/ec2-terminate-instances $(curl -s http://169.254.169.254/latest/meta-data/instance-id)']]}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.services.sysvinit.cfn-hup.enabled,true
+Parameters.DnsZone.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awslogs.conf.content,"{u'Fn::Join': [u'', [u'[general]\n', u'state_file= /var/awslogs/state/agent-state\n', u'[/var/log/cloud-init.log]\n', u'file = /var/log/cloud-init.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cloud-init.log\n', u'datetime_format = \n', u'[/var/log/cloud-init-output.log]\n', u'file = /var/log/cloud-init-output.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cloud-init-output.log\n', u'datetime_format = \n', u'[/var/log/cfn-init.log]\n', u'file = /var/log/cfn-init.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cfn-init.log\n', u'datetime_format = \n', u'[/var/log/cfn-hup.log]\n', u'file = /var/log/cfn-hup.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cfn-hup.log\n', u'datetime_format = \n', u'[/var/log/cfn-wire.log]\n', u'file = /var/log/cfn-wire.log\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/cfn-wire.log\n', u'datetime_format = \n', u'[/var/log/httpd]\n', u'file = /var/log/httpd/*\n', u'log_group_name = ', {u'Ref': u'CloudFormationLogs'}, u'\n', u'log_stream_name = {instance_id}/httpd\n', u'datetime_format = %d/%b/%Y:%H:%M:%S\n']]}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-backup.content,"{u'Fn::Join': [u'\n', [u'#!/bin/bash -e', u'', u'USAGE=""Usage: $0 JENKINS_HOME S3_TARGET\\n', u'\\n', u'Examples:\\n', u'$0 /var/lib/jenkins s3://mybucket/jenkins/jenkins-201405011901.tar.gz""', u'', u'JENKINS_HOME=$1', u'S3_TARGET=$2', u'if [[ -z ""`echo $S3_TARGET|grep \'^s3://\'`"" || ! -d ""$JENKINS_HOME"" ]]; then', u'    echo -e $USAGE', u'    exit 1', u'fi', u'', u'LOCAL_BACKUP=/tmp/`basename $S3_TARGET`', u'', u'tar -C $JENKINS_HOME -zcf $LOCAL_BACKUP .\\', u'    --exclude ""config-history/"" \\', u'    --exclude ""config-history/*"" \\', u'    --exclude ""jobs/*/workspace*"" \\', u'    --exclude ""jobs/*/builds/*/archive"" \\', u'    --exclude ""plugins/*/*"" \\', u'    --exclude ""plugins/*.bak"" \\', u'    --exclude ""war"" \\', u'    --exclude ""cache""', u'', u'aws s3 cp $LOCAL_BACKUP $S3_TARGET', u'rm -f $LOCAL_BACKUP']]}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/cron.daily/jenkins.mode,000755
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
+Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'DnsPrefix'}, u'.', {u'Ref': u'DnsZone'}, u'.']]}"
+Parameters.EmailAddress.Description,What email address will receive the default Jenkins password
+Parameters.SshKey.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,TCP:8080
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.services.sysvinit.cfn-hup.files,"[u'/etc/cfn/cfn-hup.conf', u'/etc/cfn/hooks.d/cfn-auto-reloader.conf']"
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./usr/local/bin/jenkins-restore.group,root
+Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Ref': u'DnsZone'}, u'.']]}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
+Resources.AWS::Route53::RecordSet.Properties.Type,CNAME
+Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/aws.conf.mode,000700
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
+Parameters.IPWhitelist.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.IPWhitelist.Description,IP Address to Whitelist (your IP address followed by /32)
+Resources.AWS::IAM::User.Type,AWS::IAM::User
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installApp.files./etc/aws.conf.owner,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installConfig.files./etc/cfn/cfn-hup.conf.mode,000400
+Parameters.Subnets.Type,List<AWS::EC2::Subnet::Id>
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,"[{u'Ref': u'LbSecurityGroup'}, {u'Ref': u'AdminSecurityGroup'}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.services.sysvinit.awslogs.ensureRunning,true
+Outputs.DnsAddress.Value,"{u'Fn::Join': [u'', [u'http://', {u'Ref': u'DnsRecord'}]]}"
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
+Outputs.DnsAddress.Description,Jenkins URL
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awscli.conf.group,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.services.sysvinit.awslogs.enabled,true
+Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}]"
+Resources.AWS::IAM::Policy.Properties.PolicyName,root
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.services.sysvinit.awslogs.files,[u'/etc/awslogs/awslogs.conf']
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.installLogs.files./etc/awslogs/awscli.conf.content,"{u'Fn::Join': [u'', [u'[plugins]\n', u'cwlogs = cwlogs\n', u'[default]\n', u'region = ', {u'Ref': u'AWS::Region'}, u'\n']]}"
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'8080', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'8080'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'IPWhitelist'}, u'FromPort': u'22'}]"
+Parameters.S3Prefix.Type,String

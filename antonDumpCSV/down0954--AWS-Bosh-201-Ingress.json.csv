@@ -1,0 +1,39 @@
+Parameters.CreateRabbitmqNetworks.AllowedValues,"[u'true', u'false']"
+Parameters.DeployCfRdsInstance.AllowedValues,"[u'true', u'false']"
+Parameters.CreateElastiCacheInfrastructure.Default,true
+Parameters.DeployBoshRdsInstance.Description,Deploy Bosh RDS Instance
+Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
+Parameters.CreateRabbitmqNetworks.Description,Create RabbitMQ network(s)
+Parameters.Availability.AllowedValues,"[u'SingleAZ', u'SingleAZ-HA', u'MultiAZ']"
+Parameters.DeployBoshRdsInstance.Default,true
+Parameters.CreateElastiCacheInfrastructure.AllowedValues,"[u'true', u'false']"
+Parameters.DeploymentName.Description,Deployment Name
+Parameters.CreateElastiCacheInfrastructure.Type,String
+Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,80
+Parameters.DeployAppsRdsInstance.Type,String
+Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
+Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
+Parameters.DeployAppsRdsInstance.Default,true
+Parameters.DeployBoshRdsInstance.Type,String
+Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-ApplicationLbSecurityGroup'}}
+Parameters.Availability.Type,String
+Parameters.DeploymentName.MaxLength,16
+Parameters.DeployBoshRdsInstance.AllowedValues,"[u'true', u'false']"
+Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,80
+Parameters.Availability.Description,Availability Typr
+Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,"{u'Fn::Join': [u'/', [{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-NatAz2Ip'}}, u'32']]}"
+Parameters.Availability.Default,SingleAZ
+Parameters.DeployCfRdsInstance.Description,Deploy Cf RDS Instance
+Parameters.DeploymentName.Type,String
+Parameters.DeploymentName.MinLength,1
+Parameters.DeployCfRdsInstance.Default,true
+Parameters.DeployAppsRdsInstance.AllowedValues,"[u'true', u'false']"
+Parameters.DeployAppsRdsInstance.Description,Deploy Apps RDS Instance
+Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
+Resources.AWS::EC2::SecurityGroupIngress.Condition,CreateRabbitmqNetworks
+Resources.AWS::EC2::SecurityGroupIngress.Properties.Description,Private Security Group To Loadbalancer Security Group TCP Port 80 (http)
+Parameters.CreateElastiCacheInfrastructure.Description,Create ElastiCache Networks
+Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-PrivateSecurityGroup'}}
+Parameters.CreateRabbitmqNetworks.Default,true
+Parameters.DeployCfRdsInstance.Type,String
+Parameters.CreateRabbitmqNetworks.Type,String

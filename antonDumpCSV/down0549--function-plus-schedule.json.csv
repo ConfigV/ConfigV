@@ -1,0 +1,38 @@
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(5 minutes)
+Outputs.Documentation.Description,"For more details, see this blog post"
+Parameters.TagKey.Description,Tag key that will be used to find AWS resources. Mandatory
+Outputs.ScheduledEvent.Description,CloudWatch Events schedule that will trigger the Lambda function
+Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'LambdaRealtimeCalculatePricingFunction'}
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,lambda-near-realtime-pricing/calculate-near-realtime-pricing-v3.6.zip
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,300
+Parameters.TagValue.Description,Tag value that will be used to find AWS resources. Mandatory
+Resources.AWS::Lambda::Function.Properties.MemorySize,1024
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRealtimeCalculatePricingRole', u'Arn']}"
+Parameters.TagKey.ConstraintDescription,Tag key is mandatory.
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Outputs.ScheduledEvent.Value,{u'Ref': u'ScheduledPricingCalculationRule'}
+Resources.AWS::Lambda::Function.Properties.Handler,functions/calculate-near-realtime.handler
+Outputs.Documentation.Value,https://www.concurrencylabs.com/blog/aws-pricing-lambda-realtime-calculation-function/
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::Join': [u'', [u'concurrencylabs-deployment-artifacts-public-', {u'Ref': u'AWS::Region'}]]}"
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Input': {u'Fn::Join': [u'', [u'{""tag"":{""key"":""', {u'Ref': u'TagKey'}, u'"",""value"":""', {u'Ref': u'TagValue'}, u'""}}']]}, u'Id': u'NearRealTimePriceCalculatorFunctionv1', u'Arn': {u'Fn::GetAtt': [u'LambdaRealtimeCalculatePricingFunction', u'Arn']}}]"
+Parameters.TagValue.MinLength,1
+Outputs.LambdaFunction.Value,{u'Ref': u'LambdaRealtimeCalculatePricingFunction'}
+Resources.AWS::Events::Rule.Properties.Description,Invoke Pricing Calculator Lambda function every 5 minutes
+Parameters.TagValue.ConstraintDescription,Tag value is mandatory.
+Resources.AWS::Lambda::Function.DependsOn,[u'LambdaRealtimeCalculatePricingRole']
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'ScheduledPricingCalculationRule', u'Arn']}"
+Parameters.TagKey.Type,String
+Outputs.LambdaFunction.Description,Lambda function that calculates pricing in near real-time
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'cloudwatch:*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'ec2:Describe*', u'elasticloadbalancing:Describe*', u'autoscaling:Describe*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'rds:Describe*', u'rds:List*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'dynamodb:Describe*', u'dynamodb:List*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'kinesis:Describe*', u'kinesis:List*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'lambda:GetFunctionConfiguration'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'tag:getResources', u'tag:getTagKeys', u'tag:getTagValues'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.TagKey.MinLength,1
+Parameters.TagValue.Type,String

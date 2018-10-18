@@ -1,0 +1,38 @@
+Parameters.VerificationToken.Type,String
+Resources.AWS::Serverless::Function.Properties.CodeUri,../lambda_functions/
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.VERIFICATION_TOKEN,VerificationToken
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.x-amazon-apigateway-integration.httpMethod,POST
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.x-amazon-apigateway-integration.contentHandling,CONVERT_TO_TEXT
+Resources.AWS::Serverless::Api.Properties.StageName,Prod
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.x-amazon-apigateway-integration.type,aws
+Resources.AWS::Serverless::Function.Properties.Events.HotdogDetectorAPIPost.Properties.RestApiId,HotdogDetectorAPI
+Parameters.VerificationToken.Description,Verification token from Slack app settings
+Resources.AWS::Serverless::Function.Properties.Events.HotdogDetectorAPIPost.Properties.Path,/
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.responses.200.schema.$ref,#/definitions/Empty
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.basePath,/Prod
+Resources.AWS::Serverless::Function.Properties.Events.HotdogDetectorAPIPost.Properties.Method,post
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.definitions.Empty.title,Empty Schema
+Outputs.RequestURL.Description,Prod URL for API to use as Request URL for Slack app
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.x-amazon-apigateway-integration.responses.default.statusCode,200
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.x-amazon-apigateway-integration.uri,arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HotdogDetectorFunction.Arn}/invocations
+Resources.AWS::Serverless::Function.Properties.Description,Checks Slack message.channels events for images. If an image is found uses Rekognition to determine if it contains a hotdog.
+Parameters.AccessToken.NoEcho,True
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.responses.200.description,200 response
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.definitions.Empty.type,object
+Resources.AWS::Serverless::Function.Properties.Handler,detect_hotdog.lambda_handler
+Resources.AWS::Serverless::Function.Properties.Policies,[{u'RekognitionLabelsPolicy': {}}]
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.info.title,AWS::StackName
+Parameters.VerificationToken.NoEcho,True
+Parameters.AccessToken.Description,OAuth access token from Slack app settings
+Resources.AWS::Serverless::Function.Properties.Runtime,python3.6
+Resources.AWS::Serverless::Function.Properties.Events.HotdogDetectorAPIPost.Type,Api
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.schemes,[u'https']
+Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.info.version,2017-06-11T02:20:25Z
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.swagger,2.0
+Parameters.AccessToken.Type,String
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Outputs.RequestURL.Value,https://${HotdogDetectorAPI}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.produces,[u'application/json']
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./.post.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.ACCESS_TOKEN,AccessToken

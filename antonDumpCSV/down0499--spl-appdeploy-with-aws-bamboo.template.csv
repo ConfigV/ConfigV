@@ -1,0 +1,36 @@
+Parameters.AdminCidr.Default,0.0.0.0/0
+Outputs.DeploymentS3Bucket.Value,"{u'Fn::GetAtt': [u'DevOpsServers', u'Outputs.DeploymentS3Bucket']}"
+Parameters.AdminCidr.Type,String
+Outputs.CustomResourceTopicArn.Condition,CreateBambooOk
+Outputs.DevOpsServerLinuxDns.Description,DNS Name of the newly created Linux DevOps instance
+Outputs.DevOpsUserAccessKey.Description,IAM Access Key for DevOps Tools
+Outputs.CustomResourceTopicArn.Value,"{u'Fn::GetAtt': [u'ArtifactDb', u'Outputs.CustomResourceTopicArn']}"
+Outputs.DevOpsUserSecretKey.Description,IAM Secret Key for DevOps Tools
+Parameters.AdminCidr.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
+Outputs.DynamoDbAmiTable.Condition,CreateBambooOk
+Outputs.DevOpsServerLinuxDns.Value,"{u'Fn::GetAtt': [u'DevOpsServers', u'Outputs.DevOpsServerLinuxDns']}"
+Outputs.AwsRegion.Description,AWS Region to be used for deployment
+Outputs.CustomResourceTopicArn.Description,AMI Lookup Custom Resource SNS topic ARN
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.AdminCidr,{u'Ref': u'AdminCidr'}
+Outputs.DynamoDbAmiTable.Value,"{u'Fn::GetAtt': [u'ArtifactDb', u'Outputs.DynamoDbAmiTableName']}"
+Outputs.DeploymentS3Bucket.Description,Deployment S3 Bucket Name
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Parameters.CreateBamboo.Description,"Create Bamboo CI server instance, true or false"
+Parameters.CreateBamboo.Type,String
+Outputs.BambooServer.Description,URL for newly created Bamboo server
+Parameters.CreateBamboo.ConstraintDescription,Enter either true of false
+Outputs.DevOpsUserAccessKey.Value,"{u'Fn::GetAtt': [u'DevOpsServers', u'Outputs.DevOpsUserAccessKey']}"
+Parameters.AdminCidr.Description,CIDR block who can access Development Server instance via admin tools
+Parameters.AdminCidr.ConstraintDescription,VPC CIDR block address must be in the form n.n.n.n/m
+Resources.AWS::CloudFormation::Stack.Condition,CreateBambooOk
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable remote access to the development server
+Outputs.BambooServer.Condition,CreateBambooOk
+Outputs.AwsRegion.Value,{u'Ref': u'AWS::Region'}
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,http://awsinfo.me.s3.amazonaws.com/services/cloudformation/templates/custom-resource-ami-lookup.template
+Parameters.CreateBamboo.Default,true
+Outputs.DynamoDbAmiTable.Description,DynamoDB table name for the AMI lookup catalog - composite key required for queries are hash and range
+Outputs.DevOpsUserSecretKey.Value,"{u'Fn::GetAtt': [u'DevOpsServers', u'Outputs.DevOpsUserSecretKey']}"
+Outputs.BambooServer.Value,"{u'Fn::GetAtt': [u'BambooServer', u'Outputs.BambooServer']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,{u'Ref': u'KeyName'}
+Parameters.CreateBamboo.AllowedValues,"[u'true', u'false']"

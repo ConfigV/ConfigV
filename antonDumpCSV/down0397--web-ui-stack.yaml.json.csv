@@ -1,0 +1,26 @@
+Resources.AWS::IAM::Policy.Properties.Roles,[u'SXRAuthenticatedRole']
+Outputs.CognitoIdentityPoolId.Description,Cognito Identity Pool Id
+Outputs.CognitoIdentityPoolId.Value,CognitoIdentityPool
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Outputs.BucketName.Description,The name of the website bucket
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Outputs.CognitoIdentityPoolId.Export.Name,${AWS::StackName}-CognitoIdentityPoolId
+Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.IdentityPoolId,CognitoIdentityPool
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.html
+Resources.AWS::Cognito::IdentityPoolRoleAttachment.Type,AWS::Cognito::IdentityPoolRoleAttachment
+Outputs.BucketName.Value,WebsiteBucket
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRoleWithWebIdentity'], u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'cognito-identity.amazonaws.com:aud': [u'CognitoIdentityPool']}, u'ForAnyValue:StringLike': {u'cognito-identity.amazonaws.com:amr': [u'authenticated']}}, u'Principal': {u'Federated': [u'cognito-identity.amazonaws.com']}}]"
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Cognito::IdentityPool.Type,AWS::Cognito::IdentityPool
+Outputs.BucketURL.Description,URL for the static website
+Resources.AWS::IAM::Policy.Properties.PolicyName,authenticatedpolicy
+Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.authenticated,SXRAuthenticatedRole.Arn
+Resources.AWS::Cognito::IdentityPool.Properties.IdentityPoolName,SXRIdentityPool
+Outputs.BucketURL.Value,WebsiteBucket.WebsiteURL
+Resources.AWS::Cognito::IdentityPool.Properties.AllowUnauthenticatedIdentities,False

@@ -1,0 +1,13 @@
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Outputs.S3BucketSecureURL.Description,Name of the S3 bucket to hold website content
+Outputs.BucketName.Value,S3Bucket
+Outputs.S3BucketSecureURL.Value,"[u'https://${Domain}', {u'Domain': u'S3Bucket.DomainName'}]"
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Outputs.WebsiteURL.Description,URL for the website hosted on S3
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Outputs.WebsiteURL.Value,S3Bucket.WebsiteURL
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Resource': u'arn:aws:s3:::${S3Bucket}/*', u'Effect': u'Allow', u'Principal': u'*'}]"
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,S3Bucket
+Outputs.BucketName.Description,The created bucket name

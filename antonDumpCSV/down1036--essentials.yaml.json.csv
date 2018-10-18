@@ -1,0 +1,78 @@
+Resources.AWS::Config::ConfigRule.Properties.Description,Checks whether AWS CloudTrail is enabled.
+Outputs.AWSS3LambdaArtifactsBucket.Export.Name,${AWS::Region}-${AWS::StackName}-LambdaArtifactsBucket
+Resources.AWS::CloudTrail::Trail.Properties.IncludeGlobalServiceEvents,True
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'AWSIAMCloudtrailLogManagedPolicy']
+Outputs.VPCPeeringAuthorizerRole.Value,VPCPeeringAuthorizerRole
+Resources.AWS::SNS::TopicPolicy.Type,AWS::SNS::TopicPolicy
+Resources.AWS::Config::ConfigRule.Properties.Source.Owner,AWS
+Resources.AWS::KMS::Alias.Type,AWS::KMS::Alias
+Resources.AWS::S3::Bucket.DeletionPolicy,Delete
+Outputs.AWSKmsInfraKeyAlias.Export.Name,${AWS::Region}-${AWS::StackName}-InfraKeyAlias
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,90
+Resources.AWS::CloudTrail::Trail.Type,AWS::CloudTrail::Trail
+Resources.AWS::Config::ConfigRule.Properties.MaximumExecutionFrequency,TwentyFour_Hours
+Resources.AWS::KMS::Key.Type,AWS::KMS::Key
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u'SNS:Publish', u'Sid': u'CloudtrailTopicPolicy', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}]"
+Resources.AWS::KMS::Alias.Properties.TargetKeyId,AWSKmsInfraKey
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.s3BucketName,essentials-awss3configbucket-9n8wjykhvr5z
+Resources.AWS::Config::ConfigurationRecorder.Properties.RecordingGroup.IncludeGlobalResourceTypes,True
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogStream'], u'Resource': [u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${AWSLogsCloudtrailLogGroup}:log-stream:${AWS::AccountId}_CloudTrail_${AWS::Region}*'], u'Effect': u'Allow', u'Sid': u'AWSCloudTrailCreateLogStream'}, {u'Action': [u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${AWSLogsCloudtrailLogGroup}:log-stream:${AWS::AccountId}_CloudTrail_${AWS::Region}*'], u'Effect': u'Allow', u'Sid': u'AWSCloudTrailPutLogEvents'}]"
+Outputs.AWSS3LambdaArtifactsBucket.Value,AWSS3LambdaArtifactsBucket
+Resources.AWS::SNS::TopicPolicy.Properties.Topics,[u'AWSSNSCloudtrailTopic']
+Outputs.AWSS3CloudtrailBucket.Export.Name,${AWS::Region}-${AWS::StackName}-CloudtrailBucket
+Parameters.VpcPeeringRequesterAwsAccountId.NoEcho,True
+Resources.AWS::CloudTrail::Trail.Properties.CloudWatchLogsLogGroupArn,AWSLogsCloudtrailLogGroup.Arn
+Resources.AWS::CloudTrail::Trail.Properties.EnableLogFileValidation,True
+Resources.AWS::Config::ConfigurationRecorder.Properties.RecordingGroup.AllSupported,True
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Version,2008-10-17
+Resources.AWS::Config::DeliveryChannel.Type,AWS::Config::DeliveryChannel
+Resources.AWS::Config::DeliveryChannel.Properties.S3BucketName,essentials-awss3configbucket-9n8wjykhvr5z
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::Config::ConfigRule.Properties.Source.SourceIdentifier,CLOUD_TRAIL_ENABLED
+Resources.AWS::CloudTrail::Trail.Properties.SnsTopicName,AWSSNSCloudtrailTopic.TopicName
+Outputs.AWSS3ConfigBucket.Export.Name,${AWS::Region}-${AWS::StackName}-AwsConfigBucket
+Resources.AWS::CloudTrail::Trail.Properties.IsLogging,True
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': u'OperatorEmail', u'Protocol': u'email'}]"
+Parameters.VpcPeeringRequesterAwsAccountId.ConstraintDescription,Must be account number without dashes
+Resources.AWS::KMS::Alias.Properties.AliasName,"[u'', [u'alias/', u'AWS::StackName', u'/InfraKey']]"
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Parameters.OperatorEmail.Type,String
+Resources.AWS::Config::ConfigurationRecorder.Properties.RoleARN,"[u'AWSIAMConfigRole', u'Arn']"
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'cloudtrail.amazonaws.com']}}]"
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.AWS::Config::ConfigurationRecorder.Type,AWS::Config::ConfigurationRecorder
+Outputs.AWSS3CloudtrailBucket.Value,AWSS3CloudtrailBucket
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Config::ConfigRule.Type,AWS::Config::ConfigRule
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetBucketAcl', u'Sid': u'AWSCloudTrailAclCheck', u'Resource': u'arn:aws:s3:::${AWSS3CloudtrailBucket}', u'Effect': u'Allow', u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}, {u'Resource': u'arn:aws:s3:::${AWSS3CloudtrailBucket}/AWSLogs/${AWS::AccountId}/*', u'Effect': u'Allow', u'Sid': u'AWSCloudTrailWrite', u'Action': u's3:PutObject', u'Condition': {u'StringEquals': {u's3:x-amz-acl': u'bucket-owner-full-control'}}, u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}]"
+Outputs.AWSS3ConfigBucket.Value,AWSS3ConfigBucket
+Outputs.VPCPeeringAuthorizerRole.Description,Cross Account Role Name
+Resources.AWS::CloudTrail::Trail.Properties.IsMultiRegionTrail,True
+Parameters.VpcPeeringRequesterAwsAccountId.Description,The AWS account running the Sophos-VPN
+Outputs.VPCPeeringAuthorizerRole.Export.Name,${AWS::Region}-${AWS::StackName}-VPCPeeringAuthorizerRole
+Resources.AWS::CloudTrail::Trail.Properties.S3BucketName,essentials-awss3cloudtrailbucket-1jz6pf8dzid7r
+Resources.AWS::Config::DeliveryChannel.Properties.ConfigSnapshotDeliveryProperties.DeliveryFrequency,Six_Hours
+Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
+Outputs.AWSKmsInfraKeyAlias.Value,AWSKmsInfraKeyAlias
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/aws/cloudtrail/${AWS::StackName}.log
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.snsTopicArn,AWSSNSCloudtrailTopic
+Outputs.AWSKmsInfraKey.Value,AWSKmsInfraKey
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Version,2012-10-17
+Parameters.VpcPeeringRequesterAwsAccountId.Type,String
+Resources.AWS::Config::ConfigRule.DependsOn,AWSConfigConfigurationRecorder
+Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Id,ConfigTopicPolicy
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.cloudWatchLogsLogGroupArn,AWSLogsCloudtrailLogGroup.Arn
+Parameters.VpcPeeringRequesterAwsAccountId.AllowedPattern,[0-9]*
+Resources.AWS::CloudTrail::Trail.DependsOn,"[u'AWSLogsCloudtrailLogGroup', u'AWSIAMS3CloudtrailBucketPolicy', u'AWSSNSCloudtrailTopicPolicy', u'AWSIAMCloudtrailLogRole']"
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u's3:GetBucketAcl', u'Resource': [u'', [u'arn:aws:s3:::', u'AWSS3ConfigBucket']], u'Effect': u'Allow'}, {u'Action': u's3:PutObject', u'Resource': [u'', [u'arn:aws:s3:::', u'AWSS3ConfigBucket', u'/AWSLogs/', u'AWS::AccountId', u'/*']], u'Effect': u'Allow', u'Condition': {u'StringEquals': {u's3:x-amz-acl': u'bucket-owner-full-control'}}}, {u'Action': u'config:Put*', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::CloudTrail::Trail.Properties.CloudWatchLogsRoleArn,AWSIAMCloudtrailLogRole.Arn
+Resources.AWS::KMS::Key.Properties.Description,"[u'-', [u'AWS::StackName', u'InfraKey']]"
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,AWSS3CloudtrailBucket
+Outputs.AWSKmsInfraKey.Export.Name,${AWS::Region}-${AWS::StackName}-InfraKey
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Statement,"[{u'Action': [u'kms:Create*', u'kms:Describe*', u'kms:Enable*', u'kms:List*', u'kms:Put*', u'kms:Update*', u'kms:Revoke*', u'kms:Disable*', u'kms:Get*', u'kms:Delete*', u'kms:ScheduleKeyDeletion', u'kms:CancelKeyDeletion'], u'Sid': u'Allow administration of the key', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'AWS': [[u'', [u'arn:aws:iam::', u'AWS::AccountId', u':root']], u'us-east-1-bootstrap-TravisUserArn', u'us-east-1-bootstrap-CfServiceRoleArn']}}, {u'Action': [u'kms:Encrypt', u'kms:Decrypt', u'kms:ReEncrypt*', u'kms:GenerateDataKey*', u'kms:DescribeKey'], u'Sid': u'Allow use of the key', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'AWS': [u'us-east-1-bootstrap-TravisUserArn', u'us-east-1-bootstrap-CfServiceRoleArn']}}]"

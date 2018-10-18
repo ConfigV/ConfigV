@@ -1,0 +1,23 @@
+Parameters.WebACLName.Description,"Enter the name you want to use for the WebACL. This value is also added as a prefix for the names of the rules, conditions, and CloudWatch metrics created by this template."
+Resources.AWS::WAFRegional::WebACL.Type,AWS::WAFRegional::WebACL
+Resources.AWS::WAFRegional::SqlInjectionMatchSet.Type,AWS::WAFRegional::SqlInjectionMatchSet
+Resources.AWS::WAFRegional::XssMatchSet.Type,AWS::WAFRegional::XssMatchSet
+Resources.AWS::WAFRegional::SqlInjectionMatchSet.Properties.SqlInjectionMatchTuples,"[{u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'URI'}}]"
+Resources.AWS::WAFRegional::Rule.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'ManualIPBlockRule']]}"
+Resources.AWS::WAFRegional::IPSet.Properties.Name,Manual IP Block Set
+Resources.AWS::WAFRegional::WebACL.Properties.MetricName,{u'Ref': u'WebACLName'}
+Parameters.WebACLName.Default,CommonAttackProtection
+Resources.AWS::WAFRegional::Rule.Properties.MetricName,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'ManualIPBlockRule']]}"
+Resources.AWS::WAFRegional::WebACL.Properties.DefaultAction.Type,ALLOW
+Resources.AWS::WAFRegional::WebACL.Properties.Name,{u'Ref': u'WebACLName'}
+Resources.AWS::WAFRegional::SizeConstraintSet.Type,AWS::WAFRegional::SizeConstraintSet
+Resources.AWS::WAFRegional::WebACL.Properties.Rules,"[{u'Action': {u'Type': u'BLOCK'}, u'Priority': 1, u'RuleId': {u'Ref': u'ManualIPBlockRule'}}, {u'Action': {u'Type': u'COUNT'}, u'Priority': 2, u'RuleId': {u'Ref': u'SizeMatchRule'}}, {u'Action': {u'Type': u'BLOCK'}, u'Priority': 3, u'RuleId': {u'Ref': u'SqliRule'}}, {u'Action': {u'Type': u'BLOCK'}, u'Priority': 4, u'RuleId': {u'Ref': u'XssRule'}}]"
+Resources.AWS::WAFRegional::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFManualIPBlockSet'}, u'Type': u'IPMatch', u'Negated': u'false'}]"
+Resources.AWS::WAFRegional::XssMatchSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'XssMatch']]}"
+Resources.AWS::WAFRegional::XssMatchSet.Properties.XssMatchTuples,"[{u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'URI'}}]"
+Resources.AWS::WAFRegional::Rule.Type,AWS::WAFRegional::Rule
+Resources.AWS::WAFRegional::SizeConstraintSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'LargeBodyMatch']]}"
+Resources.AWS::WAFRegional::SizeConstraintSet.Properties.SizeConstraints,"[{u'ComparisonOperator': u'GT', u'TextTransformation': u'NONE', u'FieldToMatch': {u'Type': u'BODY'}, u'Size': u'8192'}]"
+Resources.AWS::WAFRegional::IPSet.Type,AWS::WAFRegional::IPSet
+Parameters.WebACLName.Type,String
+Resources.AWS::WAFRegional::SqlInjectionMatchSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'SqliMatch']]}"

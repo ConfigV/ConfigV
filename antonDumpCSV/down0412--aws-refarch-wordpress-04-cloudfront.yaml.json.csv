@@ -1,0 +1,37 @@
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.CacheBehaviors,"[{u'TargetOriginId': u'elb', u'Compress': True, u'ViewerProtocolPolicy': u'allow-all', u'ForwardedValues': {u'Headers': [u'Host'], u'QueryString': True}, u'MaxTTL': 900, u'PathPattern': u'wp-includes/*', u'DefaultTTL': 900, u'AllowedMethods': [u'DELETE', u'GET', u'HEAD', u'OPTIONS', u'PATCH', u'POST', u'PUT'], u'MinTTL': 900}, {u'TargetOriginId': u'elb', u'Compress': True, u'ViewerProtocolPolicy': u'allow-all', u'ForwardedValues': {u'Headers': [u'Host'], u'QueryString': True}, u'MaxTTL': 900, u'PathPattern': u'wp-content/*', u'DefaultTTL': 900, u'AllowedMethods': [u'DELETE', u'GET', u'HEAD', u'OPTIONS', u'PATCH', u'POST', u'PUT'], u'MinTTL': 900}]"
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.PriceClass,PriceClass_100
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ViewerProtocolPolicy,allow-all
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ForwardedValues.Cookies.Forward,all
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.TargetOriginId,elb
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.ViewerCertificate.MinimumProtocolVersion,TLSv1
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ForwardedValues.Headers,[u'*']
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPDomainName.default,Domain name of the WordPress site
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.MaxTTL,0
+Resources.AWS::CloudFront::Distribution.Condition,NoSslCertificate
+Parameters.CloudFrontAcmCertificate.AllowedPattern,^$|(arn:aws:acm:)([a-z0-9/:-])*([a-z0-9])$
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicAlbDnsName.default,Public ALB DNS Name
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn,CloudFrontAcmCertificate
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Aliases,"[[u'WPDomainName', [u'', [u'*.', u'WPDomainName']], u'AWS::NoValue']]"
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Enabled,True
+Parameters.CloudFrontAcmCertificate.Type,String
+Resources.AWS::CloudFront::Distribution.Type,AWS::CloudFront::Distribution
+Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved. Licensed under the Amazon Software License (the ""License""). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/asl/ or in the ""license"" file accompanying this file. This file is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+Outputs.DnsEndpoint.Value,"[u'NoSslCertificate', u'CloudFrontDistributionNoSslCertificate.DomainName', u'CloudFrontDistributionSslCertificate.DomainName']"
+Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.AllowedMethods,"[u'DELETE', u'GET', u'HEAD', u'OPTIONS', u'PATCH', u'POST', u'PUT']"
+Outputs.DnsHostname.Value,"[u'NoSslCertificate', [u'', [u'http://', u'CloudFrontDistributionNoSslCertificate.DomainName']], [u'', [u'https://', u'CloudFrontDistributionSslCertificate.DomainName']]]"
+Parameters.WPDomainName.Type,String
+Parameters.CloudFrontAcmCertificate.Description,[ Optional ] The AWS Certification Manager certificate ARN for the CloudFront distribution certificate - this certificate should be created in the us-east-1 (N. Virginia) region and must reference the WordPress domain name you use below.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.CloudFrontAcmCertificate.default,CloudFront Certificate ARN
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Comment,AWS::StackName
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.ViewerCertificate.SslSupportMethod,sni-only
+Parameters.PublicAlbDnsName.Description,The public application load balancer dns name.
+Parameters.WPDomainName.AllowedPattern,^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$
+Parameters.PublicAlbDnsName.Type,String
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Origins,"[{u'DomainName': u'PublicAlbDnsName', u'Id': u'elb', u'CustomOriginConfig': {u'OriginProtocolPolicy': u'http-only'}}]"
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.DefaultTTL,0
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'CloudFrontAcmCertificate', u'WPDomainName', u'PublicAlbDnsName'], u'Label': {u'default': u'AWS Parameters'}}]"
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.Compress,True
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ForwardedValues.QueryString,True
+Parameters.WPDomainName.Description,[ Optional ] The main domain name of the WordPress site (e.g. example.com).
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.MinTTL,0

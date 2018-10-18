@@ -1,0 +1,93 @@
+Parameters.ClientRegistryReadCapacityUnits.Default,1
+Resources.Custom::IotCgpPolicy.Type,Custom::IotCgpPolicy
+Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
+Resources.Custom::AccessControl.DependsOn,"[u'ClientRegistry', u'ServiceLambda', u'ServiceApi', u'IotServicePermissions', u'IotPlayerPermissions', u'IotPlayerPolicy', u'IotCgpPolicy', u'IotDevicePolicy']"
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.AWS::Lambda::Function.Properties.Timeout,10
+Resources.Custom::ServiceApi.Type,Custom::ServiceApi
+Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
+Resources.AWS::Lambda::Function.Properties.Handler,service.dispatch
+Outputs.ServiceUrl.Description,The service url.
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationBucket']}"
+Parameters.ServiceApiCacheClusterSize.Description,Indicates whether cache clustering is enabled for the service API.
+Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions,"[{u'Action': u'execute-api:Invoke', u'ResourceSuffix': [u'/api/GET/client/registration/*', u'/api/POST/client/channel'], u'AbstractRole': u'AuthenticatedPlayer'}, {u'Action': u'execute-api:Invoke', u'ResourceSuffix': [u'/api/GET/client/channels'], u'AbstractRole': u'Player'}]"
+Parameters.ResourceGroupName.Description,Name of the resource group.
+Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.WriteCapacityUnits.Default,2
+Parameters.WriteCapacityUnits.MinValue,1
+Parameters.ReadCapacityUnits.MaxValue,10000
+Resources.Custom::IotPlayerPolicy.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::LambdaConfiguration.Properties.Settings.IotDevicePolicy,{u'Ref': u'IotDevicePolicy'}
+Parameters.ClientRegistryWriteCapacityUnits.Default,1
+Resources.Custom::AccessControl.Type,Custom::AccessControl
+Resources.Custom::LambdaConfiguration.Properties.Settings.IotPlayerPolicy,{u'Ref': u'IotPlayerPolicy'}
+Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
+Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Parameters.ConfigurationKey.Type,String
+Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
+Parameters.DeploymentName.Description,Name of the resource group's deployment.
+Parameters.ClientRegistryWriteCapacityUnits.Description,Number of writes per second.
+Resources.Custom::IotDevicePolicy.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
+Parameters.ResourceGroupName.Type,String
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions,"[{u'Action': u'lambda:InvokeFunction', u'AbstractRole': u'ServiceApi'}]"
+Parameters.ReadCapacityUnits.Description,Provisioned read throughput
+Parameters.WriteCapacityUnits.ConstraintDescription,must be between 1 and 10000
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.ServiceApiCacheClusterEnabled.Default,false
+Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
+Parameters.DeploymentName.Type,String
+Resources.Custom::DynamoDBTable.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:GetItem', u'dynamodb:Scan', u'dynamodb:UpdateItem', u'dynamodb:DeleteItem'], u'AbstractRole': u'ServiceLambda'}]"
+Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::DynamoDBTable.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'Channel'}]"
+Parameters.ClientRegistryReadCapacityUnits.Description,Number of reads per second.
+Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn::GetAtt': [u'ServiceLambda', u'Arn']}"
+Parameters.WriteCapacityUnits.MaxValue,10000
+Resources.Custom::IotServicePermissions.Type,Custom::IotServicePermissions
+Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
+Parameters.ReadCapacityUnits.Type,Number
+Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
+Parameters.ReadCapacityUnits.Default,5
+Parameters.ProjectResourceHandler.Type,String
+Resources.Custom::IotPlayerPermissions.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Parameters.ClientRegistryReadCapacityUnits.Type,Number
+Resources.Custom::DynamoDBTable.Properties.AttributeDefinitions,"[{u'AttributeName': u'Channel', u'AttributeType': u'S'}]"
+Parameters.ServiceApiCacheClusterEnabled.Type,String
+Resources.Custom::DynamoDBTable.Type,Custom::DynamoDBTable
+Resources.Custom::LambdaConfiguration.Properties.Settings.ChannelDataTable,{u'Ref': u'ChannelDataTable'}
+Parameters.CloudCanvasStack.Default,ResourceGroup
+Parameters.CloudCanvasStack.Type,String
+Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
+Parameters.ConfigurationBucket.Type,String
+Parameters.ReadCapacityUnits.ConstraintDescription,must be between 1 and 10000
+Parameters.ReadCapacityUnits.MinValue,1
+Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'WriteCapacityUnits'}
+Parameters.DeploymentStackArn.Type,String
+Resources.Custom::LambdaConfiguration.Properties.FunctionName,ServiceLambda
+Resources.Custom::IotServicePermissions.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationKey']}"
+Resources.Custom::IotCgpPolicy.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Role']}"
+Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clustering is enabled for the service API.
+Metadata.CloudCanvas.Id,$Revision: #7 $
+Resources.Custom::LambdaConfiguration.Properties.Settings.IotCgpPolicy,{u'Ref': u'IotCgpPolicy'}
+Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Resources.Custom::LambdaConfiguration.Properties.Settings.ClientRegistry,{u'Ref': u'ClientRegistry'}
+Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Runtime']}"
+Resources.Custom::IotPlayerPolicy.Type,Custom::IotPlayerPolicy
+Parameters.ServiceApiCacheClusterSize.Type,String
+Parameters.WriteCapacityUnits.Type,Number
+Resources.Custom::IotServicePermissions.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'iot:AttachPrincipalPolicy', u'iot:DetachPrincipalPolicy', u'iot:ListPrincipalPolicies', u'iot:CreateKeysAndCertificate', u'iot:CreateThing', u'iot:DescribeEndpoint', u'iot:AttachThingPrincipal', u'iot:Publish', u'iot:GetPolicy', u'iot:Connect'], u'AbstractRole': u'ServiceLambda'}]"
+Resources.Custom::DynamoDBTable.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::IotPlayerPermissions.Type,Custom::IotPlayerPermissions
+Parameters.ClientRegistryWriteCapacityUnits.Type,Number
+Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
+Parameters.WriteCapacityUnits.Description,Provisioned write throughput
+Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceApiCacheClusterEnabled'}
+Resources.Custom::IotDevicePolicy.Type,Custom::IotDevicePolicy
+Resources.Custom::IotPlayerPermissions.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'iot:Connect', u'iot:Subscribe', u'iot:Receive'], u'AbstractRole': u'AuthenticatedPlayer'}]"
+Parameters.ServiceApiCacheClusterSize.Default,0.5

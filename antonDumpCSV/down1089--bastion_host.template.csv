@@ -1,0 +1,72 @@
+Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'CfnUser'}
+Resources.AWS::IAM::User.Type,AWS::IAM::User
+Parameters.KeyName.MinLength,1
+Parameters.BastionKeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.owner,chef
+Parameters.ResourceName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Parameters.ResourceName.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access via port 22
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
+Parameters.ResourceName.Description,The Logical Resource Name - commonly set by parent stack
+Outputs.BastionKeyName.Value,{u'Ref': u'BastionKeyName'}
+Mappings.AWSRegionArch2AMI.eu-central-1.64HVM,ami-a8221fb5
+Parameters.SSHFrom.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Resources.AWS::CloudFormation::WaitCondition.DependsOn,BastionHost
+Parameters.BastionKeyName.Description,Name of the EC2 KeyPair we will create internally to access instances in our VPC
+Parameters.VpcId.Description,Vpc ID of your existing Virtual Private Cloud (VPC)
+Parameters.VpcId.Type,String
+Parameters.SubnetId.Default,subnet-
+Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
+Resources.AWS::IAM::User.Properties.Path,/
+Parameters.KeyName.Type,String
+Parameters.SSHFrom.MaxLength,18
+Parameters.ResourceName.Default,BastionHost
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.mode,000644
+Parameters.SSHFrom.ConstraintDescription,must be a valid CIDR range of the form x.x.x.x/x.
+Parameters.BastionKeyName.MaxLength,64
+Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeleteOnTermination': u'true', u'DeviceIndex': u'0', u'SubnetId': {u'Ref': u'SubnetId'}, u'GroupSet': [{u'Ref': u'BastionSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'yum update -y aws-cfn-bootstrap\n', u'yum install -y python-boto\n', u'#do some chef things before the cfn-init due to race issues\n', u'/bin/mkdir -p /etc/chef\n', u'/bin/mkdir -p /var/lib/chef\n', u'/bin/mkdir -p /var/log/chef\n', u'/usr/sbin/groupadd chef -r\n', u'/usr/sbin/useradd chef -r -s /bin/sh -d /var/lib/chef -g chef\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'BastionHostHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackName'}, u' -r BastionHost ', u'    --access-key ', {u'Ref': u'CfnKeys'}, u'    --secret-key ', {u'Fn::GetAtt': [u'CfnKeys', u'SecretAccessKey']}, u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n"", u'#install chef client for later\n', u'curl -L http://www.opscode.com/chef/install.sh | bash\n', u'cd /etc/chef\n', u'/bin/chown -R chef:chef /etc/chef\n', u'# All is well so signal success\n', u'/opt/aws/bin/cfn-signal -e 0 -r ""Bastion host setup complete"" \'', {u'Ref': u'BastionHostHandle'}, u""'\n""]]}}"
+Parameters.BastionKeyName.MinLength,1
+Parameters.SubnetId.Type,String
+Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'BastionHostHandle'}
+Parameters.BastionKeyName.Type,String
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/.boto.owner,ec2-user
+Parameters.KeyName.MaxLength,64
+Parameters.SSHFrom.Default,0.0.0.0/0
+Outputs.InstanceID.Value,{u'Ref': u'BastionHost'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.content,"{u'Fn::Join': [u'', [u'{""run_list"": [ ""role[<put role here>]"" ]}']]}"
+Outputs.BastionKeyName.Description,Internal bastion KeyPair name
+Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/create-keypair.mode,000750
+Parameters.BastionKeyName.AllowedPattern,[-_ a-zA-Z0-9]*
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'ResourceName'}, u'Key': u'Name'}]"
+Outputs.PublicIp.Description,Public IP address of instance
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/create-keypair.content,"{u'Fn::Join': [u'', [u'#!/usr/bin/python\n', u'import string\n', u'import random\n', u'import boto.ec2\n', u""kp_name = '"", {u'Ref': u'BastionKeyName'}, u""'\n"", u""ec2 = boto.ec2.connect_to_region('"", {u'Ref': u'AWS::Region'}, u""')\n"", u'keypair = ec2.create_key_pair(kp_name)\n', u""keypair.save('/home/ec2-user/.ssh/')\n"", u""print 'Created keypair: %s' % kp_name\n""]]}"
+Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Statement': [{u'Action': [u'ec2:CreateKeyPair', u'ec2:DescribeKeyPairs', u'ec2:DescribeRegions', u'ec2:ImportKeyPair'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'cloudformation:DescribeStackResource', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/.boto.group,ec2-user
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHFrom'}, u'FromPort': u'22'}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/.boto.mode,000600
+Parameters.ResourceName.MaxLength,128
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
+Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,900
+Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
+Outputs.InstanceID.Description,Bastion Instance ID
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.00create-keypair.command,"[u'su', u'ec2-user', u'-c', u'python create-keypair']"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.group,root
+Parameters.ResourceName.MinLength,1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/.boto.content,"{u'Fn::Join': [u'', [u'[Credentials]\n', u'aws_access_key_id = ', {u'Ref': u'CfnKeys'}, u'\n', u'aws_secret_access_key = ', {u'Fn::GetAtt': [u'CfnKeys', u'SecretAccessKey']}, u'\n', u'[Boto]\n', u'ec2_region_name = ', {u'Ref': u'AWS::Region'}, u'\n', u'ec2_region_endpoint = ec2.', {u'Ref': u'AWS::Region'}, u'.amazonaws.com\n']]}"
+Outputs.PublicIp.Value,"{u'Fn::GetAtt': [u'BastionHost', u'PublicIp']}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/create-keypair.owner,ec2-user
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
+Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
+Parameters.VpcId.Default,vpc-
+Parameters.SSHFrom.MinLength,9
+Parameters.SSHFrom.Description,Lockdown SSH access to the instance (default can be accessed from anywhere)
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'64HVM']}"
+Parameters.SSHFrom.Type,String
+Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/create-keypair.group,ec2-user
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.00create-keypair.cwd,/home/ec2-user
+Parameters.SubnetId.Description,Subnet ID of an existing public facing subnet in your Virtual Private Cloud (VPC)
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup

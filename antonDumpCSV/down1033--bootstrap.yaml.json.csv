@@ -1,0 +1,34 @@
+Resources.AWS::IAM::AccessKey.Properties.UserName,AWSIAMTravisUser
+Resources.AWS::IAM::Policy.Properties.Roles,[u'AWSIAMCfServiceRole']
+Outputs.AWSIAMTravisUserSecretAccessKey.Export.Name,${AWS::Region}-${AWS::StackName}-TravisUserSecretAccessKey
+Outputs.AWSIAMTravisUser.Value,AWSIAMTravisUser
+Resources.AWS::S3::Bucket.DeletionPolicy,Delete
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Outputs.AWSS3CloudformationBucket.Export.Name,${AWS::Region}-${AWS::StackName}-CloudformationBucket
+Resources.AWS::IAM::User.Properties.Groups,[u'AWSIAMCiGroup']
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::IAM::Group.Type,AWS::IAM::Group
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.AWSIAMTravisUserSecretAccessKey.Value,AWSIAMTravisUserAccessKey.SecretAccessKey
+Outputs.AWSIAMTravisUserAccessKey.Export.Name,${AWS::Region}-${AWS::StackName}-TravisUserAccessKey
+Resources.AWS::IAM::User.Type,AWS::IAM::User
+Outputs.AWSIAMTravisUserArn.Value,AWSIAMTravisUser.Arn
+Resources.AWS::IAM::Group.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/AdministratorAccess']
+Outputs.AWSIAMTravisUser.Export.Name,${AWS::Region}-${AWS::StackName}-TravisUser
+Outputs.AWSIAMTravisUserAccessKey.Value,AWSIAMTravisUserAccessKey
+Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
+Outputs.AWSIAMTravisUserArn.Export.Name,${AWS::Region}-${AWS::StackName}-TravisUserArn
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'AWS': [u'AWSIAMTravisUser.Arn']}}]"
+Outputs.AWSIAMCfServiceRoleArn.Value,AWSIAMCfServiceRole.Arn
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetObject', u'Sid': u'AllowPublicRead', u'Resource': u'arn:aws:s3:::${AWSS3CloudformationBucket}/*', u'Effect': u'Allow', u'Principal': {u'AWS': u'*'}}]"
+Resources.AWS::IAM::Policy.Properties.PolicyName,CfService
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,AWSS3CloudformationBucket
+Outputs.AWSS3CloudformationBucket.Value,AWSS3CloudformationBucket
+Outputs.AWSIAMCfServiceRoleArn.Export.Name,${AWS::Region}-${AWS::StackName}-CfServiceRoleArn

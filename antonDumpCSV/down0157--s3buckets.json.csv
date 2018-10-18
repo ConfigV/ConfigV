@@ -1,0 +1,27 @@
+Resources.AWS::S3::Bucket.Properties.LoggingConfiguration.LogFilePrefix,bucket/
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Outputs.SiteBucketUrl.Description,S3 Bucket configured to host content as a website
+Parameters.HostedZoneName.Description,The DNS name of an existing Amazon Route 53 hosted zone
+Outputs.LogBucketUrl.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-LogBucket'}
+Parameters.HostName.Description,The hostname that will be appended to HostZone to create the Site
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Outputs.LogBucketUrl.Description,S3 Bucket Name for logging
+Parameters.HostName.ConstraintDescription,must be a valid host name.
+Outputs.SiteBucketName.Description,S3 Bucket configured to host content as a website
+Resources.AWS::S3::Bucket.Properties.LoggingConfiguration.DestinationBucketName,"{u'Fn::Join': [u'', [u'', u'logs.', {u'Ref': u'HostName'}, u'.', {u'Ref': u'HostedZoneName'}]]}"
+Outputs.LogBucketName.Value,"{u'Fn::Join': [u'', [u'logs.', {u'Ref': u'HostName'}, u'.', {u'Ref': u'HostedZoneName'}]]}"
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.html
+Outputs.LogBucketUrl.Value,"{u'Fn::Join': [u'', [u'logs.', {u'Ref': u'HostName'}, u'.', {u'Ref': u'HostedZoneName'}, u'.s3.amazonaws.com']]}"
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Outputs.SiteBucketUrl.Value,"{u'Fn::Join': [u'', [{u'Ref': u'HostName'}, u'.', {u'Ref': u'HostedZoneName'}, u'.s3.amazonaws.com']]}"
+Parameters.HostName.Type,String
+Parameters.HostedZoneName.Type,String
+Outputs.SiteBucketName.Value,"{u'Fn::Join': [u'', [u'', {u'Ref': u'HostName'}, u'.', {u'Ref': u'HostedZoneName'}]]}"
+Outputs.LogBucketName.Description,S3 Bucket Name for logging
+Resources.AWS::S3::Bucket.Properties.AccessControl,LogDeliveryWrite
+Parameters.HostName.AllowedPattern,"(?!-)[a-zA-Z0-9-.]{1,63}(?<!-)"
+Outputs.SiteBucketName.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-SiteBucketName'}
+Outputs.LogBucketName.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-LogBucketName'}
+Outputs.SiteBucketUrl.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-SiteBucket'}
+Resources.AWS::S3::Bucket.DependsOn,[u'S3BucketForWebsiteLog']
+Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::Join': [u'', [u'', u'logs.', {u'Ref': u'HostName'}, u'.', {u'Ref': u'HostedZoneName'}]]}"

@@ -1,0 +1,36 @@
+Outputs.MessageArn.Description,Message ARN.
+Outputs.LambdaComplexCoordinatorConcurrencyQueueArn.Value,"{u'Fn::GetAtt': [u'LambdaComplexCoordinatorConcurrencyQueue', u'Arn']}"
+Outputs.LambdaComplexCoordinatorArn.Description,LambdaComplexCoordinator ARN.
+Outputs.InvocationConcurrencyQueueArn.Value,"{u'Fn::GetAtt': [u'InvocationConcurrencyQueue', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Description,Message
+Outputs.LambdaComplexCoordinatorArn.Value,"{u'Fn::GetAtt': [u'LambdaComplexCoordinator', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,applications/mock/15/message.zip
+Outputs.MessageQueueArn.Value,"{u'Fn::GetAtt': [u'MessageQueue', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Timeout,60
+Outputs.MessageConcurrencyQueueArn.Value,"{u'Fn::GetAtt': [u'MessageConcurrencyQueue', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'S3ReadARole', u'Arn']}"
+Resources.AWS::SQS::Queue.Properties.VisibilityTimeout,300
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,lambda-complex
+Outputs.MessageConcurrencyQueueArn.Description,MessageConcurrencyQueue ARN.
+Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
+Resources.AWS::Lambda::Function.Properties.MemorySize,128
+Resources.AWS::SQS::Queue.Properties.MessageRetentionPeriod,300
+Outputs.LambdaComplexInvokerConcurrencyQueueArn.Description,LambdaComplexInvokerConcurrencyQueue ARN.
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': u'lambda.amazonaws.com'}, u'Effect': u'Allow', u'Sid': u'AssumeRole'}]"
+Outputs.InvocationArn.Description,Invocation ARN.
+Outputs.LambdaComplexInvokerArn.Value,"{u'Fn::GetAtt': [u'LambdaComplexInvoker', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Outputs.MessageQueueArn.Description,MessageQueue ARN.
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
+Outputs.LambdaComplexInvokerConcurrencyQueueArn.Value,"{u'Fn::GetAtt': [u'LambdaComplexInvokerConcurrencyQueue', u'Arn']}"
+Outputs.LambdaComplexCoordinatorConcurrencyQueueArn.Description,LambdaComplexCoordinatorConcurrencyQueue ARN.
+Outputs.MessageArn.Value,"{u'Fn::GetAtt': [u'Message', u'Arn']}"
+Outputs.InvocationArn.Value,"{u'Fn::GetAtt': [u'Invocation', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'InternalLambdaComplexRole', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'sqs:DeleteMessage', u'sqs:GetQueueAttributes', u'sqs:ReceiveMessage', u'sqs:SendMessage'], u'Resource': [{u'Fn::GetAtt': [u'MessageQueue', u'Arn']}], u'Effect': u'Allow'}, {u'Action': [u'sqs:DeleteMessage', u'sqs:GetQueueAttributes', u'sqs:ReceiveMessage', u'sqs:SendMessage'], u'Resource': [{u'Fn::GetAtt': [u'LambdaComplexCoordinatorConcurrencyQueue', u'Arn']}, {u'Fn::GetAtt': [u'LambdaComplexInvokerConcurrencyQueue', u'Arn']}, {u'Fn::GetAtt': [u'MessageConcurrencyQueue', u'Arn']}, {u'Fn::GetAtt': [u'InvocationConcurrencyQueue', u'Arn']}], u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction'], u'Resource': [u'arn:aws:lambda:us-east-1:*:function:mock-*'], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject'], u'Resource': [u'arn:aws:s3:::lambda-complex/applications/mock/15/arnMap.json'], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:PutObject', u's3:PutObjectAcl'], u'Resource': [u'arn:aws:s3:::lambda-complex/applications/mock/15/confirm.txt'], u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:us-east-1:*:*'], u'Effect': u'Allow'}]}}]"
+Outputs.LambdaComplexInvokerArn.Description,LambdaComplexInvoker ARN.
+Outputs.InvocationConcurrencyQueueArn.Description,InvocationConcurrencyQueue ARN.
+Resources.AWS::SQS::Queue.Properties.QueueName,mock-15-LambdaComplexCoordinatorConcurrencyQueue

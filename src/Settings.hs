@@ -9,8 +9,8 @@ module Settings where
   verbose =  True
 
   verificationTarget = 
-    "../Apriori/configvData"
-    --"user"
+    --"../Apriori/configvData"
+    "data/user"
     --"githubFiles" 
     --"caseStudies"
 
@@ -19,7 +19,7 @@ module Settings where
   
   -- only used when ModeSetting set to UserSpecified
   userLearnDir = 
-       "templates4_2CSV/"
+       "antonDumpCSV/"
        --"cfn_data/"
        --"cfn_data_custom_auth_api/"
        --"benchmarkSet/CSVTest/" -- should learn (x,3) => y

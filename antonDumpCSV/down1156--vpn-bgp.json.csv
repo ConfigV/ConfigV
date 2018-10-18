@@ -1,0 +1,119 @@
+Parameters.DeleteAfter.Default,00/00/201x
+Parameters.AllowOfficeNetworktoPrivateRuleNumber.Description,Enter Private Network ACL Rule Number to Allow Office Network.
+Parameters.IncludePublicSubnets.Default,true
+Outputs.AllowOfficeToPublicRuleNumber.Description,Allow Office Network to Public Subnets Rule Number Used.
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'PrivateNetworkAcl'}
+Parameters.VPC.Type,AWS::EC2::VPC::Id
+Resources.AWS::EC2::VPNGatewayRoutePropagation.Properties.VpnGatewayId,{u'Ref': u'VPNGateway'}
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.RemoteBgpAsn.default,VPN Device BGP ASN
+Parameters.AllowOfficeNetworktoPublicRuleNumber.Default,125
+Parameters.Project.Description,Enter Project Name.
+Resources.AWS::EC2::VPNGatewayRoutePropagation.Properties.RouteTableIds,"[{u'Ref': u'PrivateRouteTable'}, {u'Ref': u'PublicRouteTable'}]"
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,false
+Resources.AWS::EC2::VPNGateway.Type,AWS::EC2::VPNGateway
+Resources.AWS::EC2::VPNGateway.Properties.Type,ipsec.1
+Outputs.RemoteNetworkCidr.Description,Remote Network CIDR Used.
+Resources.AWS::EC2::VPNGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'Owner'}, u'Key': u'Owner'}, {u'Value': {u'Ref': u'Project'}, u'Key': u'Project'}, {u'Value': {u'Ref': u'DeleteAfter'}, u'Key': u'DeleteAfter'}]"
+Parameters.RemoteBgpAsn.Default,65000
+Parameters.Project.Type,String
+Resources.AWS::EC2::VPNGatewayRoutePropagation.Condition,IncludePublic
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.AllowOfficeNetworktoPublicRuleNumber.default,Public Rule Number
+Resources.AWS::EC2::CustomerGateway.Properties.Type,ipsec.1
+Resources.AWS::EC2::CustomerGateway.Type,AWS::EC2::CustomerGateway
+Resources.AWS::EC2::CustomerGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'Owner'}, u'Key': u'Owner'}, {u'Value': {u'Ref': u'Project'}, u'Key': u'Project'}, {u'Value': {u'Ref': u'DeleteAfter'}, u'Key': u'DeleteAfter'}, {u'Value': {u'Fn::Join': [u'', [u'Gateway to ', {u'Ref': u'RemoteVpnDeviceIp'}]]}, u'Key': u'VPN'}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateNetworkAcl.default,Private Network ACL
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Owner', u'Project', u'DeleteAfter'], u'Label': {u'default': u'Ownership'}}, {u'Parameters': [u'RemoteVpnDeviceIp', u'RemoteNetworkCidr', u'RemoteBgpAsn'], u'Label': {u'default': u'Remote Network Configuration'}}, {u'Parameters': [u'VPC', u'PrivateRouteTable', u'PrivateNetworkAcl', u'AllowOfficeNetworktoPrivateRuleNumber'], u'Label': {u'default': u'AWS Network Configuration'}}, {u'Parameters': [u'IncludePublicSubnets', u'PublicRouteTable', u'PublicNetworkAcl', u'AllowOfficeNetworktoPublicRuleNumber'], u'Label': {u'default': u'Include Public Subnet Access (Optional)'}}]"
+Parameters.Owner.Description,Enter Team or Individual Name Responsible for the Stack.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.RemoteVpnDeviceIp.default,VPN Device IP
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,-1
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DeleteAfter.default,Delete After Date
+Parameters.Owner.Default,FirstName LastName
+Parameters.DeleteAfter.Type,String
+Resources.AWS::EC2::VPNGatewayRoutePropagation.Type,AWS::EC2::VPNGatewayRoutePropagation
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.AllowOfficeNetworktoPrivateRuleNumber.default,Private Rule Number
+Parameters.RemoteBgpAsn.Description,Enter Remote VPN Device BGP ASN.
+Resources.AWS::EC2::VPNConnection.Properties.VpnGatewayId,{u'Ref': u'VPNGateway'}
+Outputs.AllowOfficeToPrivateRuleNumber.Value,{u'Ref': u'AllowOfficeNetworktoPrivateRuleNumber'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,{u'Ref': u'AllowOfficeNetworktoPrivateRuleNumber'}
+Outputs.AllowOfficeToPublicRuleNumber.Value,{u'Ref': u'AllowOfficeNetworktoPublicRuleNumber'}
+Parameters.RemoteBgpAsn.MaxLength,5
+Parameters.RemoteVpnDeviceIp.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})"
+Parameters.RemoteBgpAsn.Type,String
+Parameters.IncludePublicSubnets.Type,String
+Outputs.RemoteVpnDeviceIp.Description,Remote VPN Device IP Used.
+Parameters.RemoteVpnDeviceIp.MinLength,7
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.IncludePublicSubnets.default,Include Public Subnets?
+Parameters.RemoteNetworkCidr.MaxLength,18
+Resources.AWS::EC2::VPNConnection.Properties.CustomerGatewayId,{u'Ref': u'CustomerGateway'}
+Parameters.AllowOfficeNetworktoPublicRuleNumber.Type,Number
+Parameters.RemoteBgpAsn.ConstraintDescription,Must be a valid CIDR range of the form x.x.x.x/x.
+Parameters.AllowOfficeNetworktoPrivateRuleNumber.Default,125
+Parameters.PrivateNetworkAcl.Default,acl-0000000
+Parameters.PrivateNetworkAcl.Type,String
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Parameters.PublicRouteTable.Type,String
+Resources.AWS::EC2::VPNConnection.DependsOn,"[u'CustomerGateway', u'VPNGateway']"
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
+Parameters.PublicNetworkAcl.Description,Enter Public Network ACL ID. (Skip if Not Including Public)
+Parameters.PublicRouteTable.Description,Enter Public Route Table ID. (Skip if Not Including Public)
+Outputs.AllowOfficeToPublicRuleNumber.Condition,IncludePublic
+Outputs.Owner.Value,{u'Ref': u'Owner'}
+Parameters.RemoteVpnDeviceIp.Default,0.0.0.0
+Parameters.RemoteNetworkCidr.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateRouteTable.default,Private Route Table
+Parameters.PrivateNetworkAcl.Description,Enter Private Network ACL ID.
+Outputs.IncludePublic.Value,{u'Ref': u'IncludePublicSubnets'}
+Parameters.RemoteVpnDeviceIp.MaxLength,12
+Parameters.Owner.Type,String
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,0
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.RemoteNetworkCidr.default,Network CIDR Block
+Resources.AWS::EC2::CustomerGateway.Properties.IpAddress,{u'Ref': u'RemoteVpnDeviceIp'}
+Outputs.IncludePublic.Description,Include Public Subnets?
+Outputs.AllowOfficeToPrivateRuleNumber.Description,Allow Office Network to Private Subnets Rule Number Used.
+Parameters.RemoteVpnDeviceIp.Type,String
+Parameters.PublicNetworkAcl.Type,String
+Resources.AWS::EC2::VPNConnection.Type,AWS::EC2::VPNConnection
+Parameters.AllowOfficeNetworktoPublicRuleNumber.Description,Enter Public Network ACL Rule Number to Allow Office Network. (Skip if Not Including Public)
+Parameters.RemoteNetworkCidr.MinLength,11
+Parameters.PublicRouteTable.Default,rtb-0000000
+Parameters.Project.Default,VPN Connection Creation
+Resources.AWS::EC2::CustomerGateway.Properties.BgpAsn,{u'Ref': u'RemoteBgpAsn'}
+Parameters.PrivateRouteTable.Description,Enter Private Route Table ID.
+Parameters.IncludePublicSubnets.AllowedValues,"[u'true', u'false']"
+Resources.AWS::EC2::NetworkAclEntry.Condition,IncludePublic
+Parameters.RemoteBgpAsn.MinLength,4
+Parameters.IncludePublicSubnets.Description,Select whether to include the Public Subnets in VPN Access or not.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicNetworkAcl.default,Public Network ACL
+Resources.AWS::EC2::VPNConnection.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'Owner'}, u'Key': u'Owner'}, {u'Value': {u'Ref': u'Project'}, u'Key': u'Project'}, {u'Value': {u'Ref': u'DeleteAfter'}, u'Key': u'DeleteAfter'}, {u'Value': {u'Fn::Join': [u'', [u'Connection to ', {u'Ref': u'RemoteNetworkCidr'}]]}, u'Key': u'VPN'}]"
+Parameters.AllowOfficeNetworktoPrivateRuleNumber.Type,Number
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpnGatewayId,{u'Ref': u'VPNGateway'}
+Resources.AWS::EC2::VPNGatewayRoutePropagation.DependsOn,"[u'VPNGateway', u'VPNConnection']"
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,{u'Ref': u'RemoteNetworkCidr'}
+Outputs.RemoteVpnDeviceIp.Value,{u'Ref': u'RemoteVpnDeviceIp'}
+Parameters.RemoteVpnDeviceIp.ConstraintDescription,Must be a valid IP Address x.x.x.x
+Outputs.VPC.Description,VPC Used
+Parameters.RemoteNetworkCidr.Description,Enter Remote Network IP Range CIDR (i.e. 192.168.100.0/24).
+Parameters.RemoteNetworkCidr.Type,String
+Parameters.RemoteVpnDeviceIp.Description,Enter External IP Address of the Customer VPN Device.
+Outputs.RemoteNetworkCidr.Value,{u'Ref': u'RemoteNetworkCidr'}
+Outputs.Project.Value,{u'Ref': u'Project'}
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Parameters.RemoteBgpAsn.AllowedPattern,"(\d{4,5})"
+Outputs.Project.Description,The project name
+Resources.AWS::EC2::VPNConnection.Properties.Type,ipsec.1
+Parameters.PublicNetworkAcl.Default,acl-0000000
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicRouteTable.default,Public Route Table
+Outputs.Owner.Description,Team or Individual that Owns this Formation.
+Outputs.DeleteAfter.Value,{u'Ref': u'DeleteAfter'}
+Parameters.PrivateRouteTable.Default,rtb-0000000
+Parameters.VPC.Description,Select VPC.
+Parameters.RemoteNetworkCidr.Default,192.168.100.0/24
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Owner.default,Team or Individual Owner
+Parameters.RemoteNetworkCidr.ConstraintDescription,Must be a valid CIDR range of the form x.x.x.x/x.
+Outputs.DeleteAfter.Description,It is ok to delete the Formation after this date
+Parameters.DeleteAfter.Description,Enter Date It's Ok to Delete the Stack or 'Never' if meant to be persistent.
+Parameters.PrivateRouteTable.Type,String
+Resources.AWS::EC2::VPNConnection.Properties.StaticRoutesOnly,false
+Outputs.VPC.Value,{u'Ref': u'VPC'}

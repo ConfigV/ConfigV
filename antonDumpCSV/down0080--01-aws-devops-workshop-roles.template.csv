@@ -1,0 +1,24 @@
+Outputs.LambdaRoleArn.Value,"{u'Fn::GetAtt': [u'CodePipelineLambdaExecRole', u'Arn']}"
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CodePipelineLambdaExecRole'}]
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole']
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Resources.AWS::S3::Bucket.Properties.Tags,"[{u'Value': u'CICDWorkshop-S3Bucket', u'Key': u'Name'}]"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Outputs.LambdaRoleArn.Description,Lambda Exec role Arn
+Outputs.DeployRoleArn.Value,"{u'Fn::GetAtt': [u'DeployTrustRole', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.BuildRoleArn.Description,Build role Arn
+Outputs.S3BucketName.Value,{u'Ref': u'S3Bucket'}
+Outputs.PipelineRoleArn.Description,Pipeline role Arn
+Outputs.S3BucketName.Description,Bucket to for storing artifacts
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': [u'codepipeline.amazonaws.com']}, u'Effect': u'Allow', u'Sid': u'1'}]"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'codepipeline:PutJobSuccessResult', u'codepipeline:PutJobFailureResult'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Outputs.BuildRoleArn.Value,"{u'Fn::GetAtt': [u'BuildTrustRole', u'Arn']}"
+Resources.AWS::IAM::Policy.Properties.PolicyName,CodePipelineLambdaExecPolicy
+Outputs.PipelineRoleArn.Value,"{u'Fn::GetAtt': [u'PipelineTrustRole', u'Arn']}"
+Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
+Outputs.DeployRoleArn.Description,Deploy role Arn
+Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::Join': [u'', [u'cicd-workshop-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}]]}"

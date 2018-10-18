@@ -1,0 +1,133 @@
+Parameters.ServiceApiCacheClusterEnabled.Type,String
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.AmoebaLauncher,{u'Ref': u'AmoebaLauncher'}
+Resources.AWS::Lambda::Function.Properties.Description,The Lambda used for starting a amoeba generator lamdas.  One amoeba generator per source/buildid/year/month/day/hour
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'GlueCrawlerLauncher', u'Arn']}"
+Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
+Parameters.DeploymentName.Description,Name of the resource group's deployment.
+Resources.Custom::AccessControl.DependsOn,"[u'ServiceApi', u'ServiceLambda', u'MetricContext', u'MetricStorage', u'FIFOConsumer', u'LambdaConsumerLauncher', u'SQS', u'Glue', u'Amoeba1', u'Amoeba2', u'Amoeba3', u'Amoeba4', u'Amoeba5', u'AmoebaLauncher', u'AmoebaConfiguration', u'FIFOProducer', u'GlueCrawlerLauncher']"
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.AWS::Lambda::Function.Properties.Timeout,300
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'key'}]"
+Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::ServiceApi.Type,Custom::ServiceApi
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
+Resources.Custom::SQSScaler.Type,Custom::SQSScaler
+Resources.AWS::Lambda::Function.Properties.Handler,amoeba_launcher.launch
+Outputs.ServiceUrl.Description,The service url.
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::GetAtt': [u'AmoebaLauncherConfiguration', u'ConfigurationBucket']}"
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'AmoebaLauncher', u'Arn': {u'Fn::GetAtt': [u'AmoebaLauncher', u'Arn']}}]"
+Parameters.ServiceApiCacheClusterSize.Description,Indicates whether cache clustering is enabled for the service API.
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'key', u'AttributeType': u'S'}]"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Amoeba1,{u'Ref': u'Amoeba1'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Amoeba3,{u'Ref': u'Amoeba3'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Amoeba2,{u'Ref': u'Amoeba2'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Amoeba5,{u'Ref': u'Amoeba5'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Amoeba4,{u'Ref': u'Amoeba4'}
+Resources.AWS::Lambda::Function.DependsOn,"[u'Amoeba1', u'Amoeba2', u'Amoeba3', u'Amoeba4', u'Amoeba5']"
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Type,AWS::ApplicationAutoScaling::ScalableTarget
+Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.ResourceGroupName.Description,Name of the resource group.
+Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.GlueCrawlerRole,{u'Ref': u'GlueCrawlerRole'}
+Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'AllowedHeaders': [u'*'], u'AllowedMethods': [u'PUT'], u'AllowedOrigins': [u'*']}]"
+Parameters.WriteCapacityUnits.Default,5
+Resources.Custom::Glue.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'GlueCrawlerSchedulerRule', u'Arn']}"
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.ScaleOutCooldown,0
+Resources.Custom::LambdaConfiguration.Properties.Settings.MetricStorage,{u'Ref': u'MetricStorage'}
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Effect,Allow
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.ResourceSuffix,"[u'/api/GET/service/status', u'/api/GET/clientcontext', u'/api/POST/producer/produce/message']"
+Resources.Custom::AccessControl.Type,Custom::AccessControl
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(20 minutes)
+Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
+Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Outputs.MetricBucketName.Value,{u'Ref': u'MetricStorage'}
+Parameters.ConfigurationKey.Type,String
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.Custom::LambdaConfiguration.Properties.Settings.MetricContext,{u'Ref': u'MetricContext'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.Verbose,False
+Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Action,[u'sts:AssumeRole']
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.ScaleInCooldown,0
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.MetricContext,{u'Ref': u'MetricContext'}
+Parameters.ResourceGroupName.Type,String
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.Custom::LambdaConfiguration.Properties.IgnoreAppendingSettingsToZip,True
+Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions,"[{u'Action': u'lambda:InvokeFunction', u'AbstractRole': u'ServiceLambda'}]"
+Resources.Custom::SpecialPermissions.Type,Custom::SpecialPermissions
+Parameters.ReadCapacityUnits.Description,Number of game state reads per second.
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Resources.Custom::Glue.Type,Custom::Glue
+Parameters.ServiceApiCacheClusterEnabled.Default,false
+Resources.Custom::SQSScaler.DependsOn,"[u'LambdaConsumerLauncher', u'FIFOConsumer', u'FIFOProducer']"
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ResourceId,"{u'Fn::Join': [u'/', [u'table', {u'Ref': u'MetricContext'}]]}"
+Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
+Parameters.DeploymentName.Type,String
+Resources.Custom::SpecialPermissions.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.AbstractRole,Player
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'gluepolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'glue:UpdateDatabase', u'glue:GetDatabase', u'glue:CreateTable', u'glue:UpdateTable', u'glue:GetTable', u'glue:GetTableVersions', u'glue:CreatePartition', u'glue:BatchCreatePartition', u'glue:UpdatePartition', u'glue:DeletePartition', u'glue:BatchDeletePartition', u'glue:GetPartition', u'glue:GetPartitions', u'glue:BatchGetPartition', u'glue:CreateDatabase', u'glue:UpdateDatabase', u'glue:ImportCatalogToGlue', u'glue:GetCatalogImportStatus', u's3:GetBucketLocation', u's3:ListBucket', u's3:ListAllMyBuckets'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u's3:CreateBucket'], u'Resource': [u'arn:aws:s3:::aws-glue-*'], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:PutObject', u's3:DeleteObject'], u'Resource': [u'arn:aws:s3:::aws-glue-*/*', u'arn:aws:s3:::*/*aws-glue-*/*'], u'Effect': u'Allow'}, {u'Action': [u's3:HeadBucket', u's3:ListObjects', u's3:GetBucketLocation', u's3:GetObject', u's3:GetObjectTagging', u's3:GetObjectAcl', u's3:GetObjectVersion', u's3:GetObjectVersionAcl', u's3:GetObjectVersionTagging', u's3:GetObjectVersionTorrent'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'MetricStorage'}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject'], u'Resource': [u'arn:aws:s3:::aws-glue-*'], u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:*:*:/aws-glue/*'], u'Effect': u'Allow'}]}}]"
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.MetricStorage,{u'Ref': u'MetricStorage'}
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Principal.Service,[u'glue.amazonaws.com']
+Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn::GetAtt': [u'ServiceLambda', u'Arn']}"
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Parameters.ReadCapacityUnits.Type,Number
+Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.DeploymentStackArn,{u'Ref': u'DeploymentStackArn'}
+Parameters.ReadCapacityUnits.Default,5
+Resources.Custom::SQSScaler.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Parameters.ProjectResourceHandler.Type,String
+Resources.Custom::SQSScaler.Properties.Environment.Variables.MetricContext,{u'Ref': u'MetricContext'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.LambdaConsumerLauncher,{u'Ref': u'LambdaConsumerLauncher'}
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.GlueCrawlerLauncher,{u'Ref': u'GlueCrawlerLauncher'}
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.Custom::Glue.DependsOn,"[u'MetricStorage', u'FIFOConsumer', u'FIFOProducer']"
+Parameters.CloudCanvasStack.Default,ResourceGroup
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ScalableDimension,dynamodb:table:WriteCapacityUnits
+Parameters.CloudCanvasStack.Type,String
+Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ServiceNamespace,dynamodb
+Parameters.ConfigurationBucket.Type,String
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyType,TargetTrackingScaling
+Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::SQSScaler.Properties.Environment.Variables.DeploymentStackArn,{u'Ref': u'DeploymentStackArn'}
+Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
+Parameters.DeploymentStackArn.Type,String
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.RoleARN,"{u'Fn::GetAtt': [u'DynamoDbAutoScalingRole', u'Arn']}"
+Resources.Custom::LambdaConfiguration.Properties.FunctionName,LambdaConsumerLauncher
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.FIFOConsumer,{u'Ref': u'FIFOConsumer'}
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Type,AWS::ApplicationAutoScaling::ScalingPolicy
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'AmoebaLauncherConfiguration', u'ConfigurationKey']}"
+Resources.Custom::SpecialPermissions.DependsOn,"[u'ServiceLambda', u'AmoebaConfiguration', u'GlueCrawlerLauncher']"
+Resources.AWS::S3::Bucket.Metadata.CloudCanvas.Permissions,"[{u'Action': [u's3:GetObject', u's3:PutObject'], u'ResourceSuffix': u'/*', u'AbstractRole': [u'FIFOConsumer']}, {u'Action': [u's3:HeadBucket', u's3:ListObjects', u's3:ListBucket'], u'ResourceSuffix': [u'/*', u''], u'AbstractRole': u'AmoebaLauncher'}, {u'Action': [u's3:GetObject', u's3:PutObject', u's3:DeleteObject', u's3:DeleteObjectVersion', u's3:HeadBucket', u's3:ListObjects', u's3:ListBucket', u's3:HeadObject'], u'ResourceSuffix': [u'/*', u''], u'AbstractRole': [u'AmoebaConfiguration', u'Amoeba', u'Amoeba1', u'Amoeba2', u'Amoeba3', u'Amoeba4', u'Amoeba5']}, {u'Action': [u's3:DeleteObject', u's3:PutObject', u's3:ListBucketMultipartUploads', u's3:ListMultipartUploadParts', u's3:AbortMultipartUpload'], u'ResourceSuffix': [u'/results/*'], u'AbstractRole': [u'ServiceLambda', u'GlueCrawlerLauncher']}, {u'Action': [u's3:GetObject', u's3:GetBucketLocation', u's3:ListBucket'], u'ResourceSuffix': [u'/*', u'*'], u'AbstractRole': [u'ServiceLambda', u'GlueCrawlerLauncher']}, {u'Action': [u's3:GetObject', u's3:PutObject', u's3:DeleteObject'], u'ResourceSuffix': [u'/heatmaps/*'], u'AbstractRole': [u'CloudGemPortalAdministratorRole', u'CloudGemPortalUserRole']}]"
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.ScalingTargetId,{u'Ref': u'MetricContextReadScalingTarget'}
+Resources.AWS::Lambda::Function.Properties.MemorySize,1024
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'AmoebaLauncherConfiguration', u'Role']}"
+Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clustering is enabled for the service API.
+Resources.AWS::DynamoDB::Table.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:UpdateItem', u'dynamodb:Scan', u'dynamodb:Query'], u'AbstractRole': u'ServiceLambda'}, {u'Action': [u'dynamodb:Scan'], u'AbstractRole': [u'FIFOConsumer', u'FIFOProducer', u'LambdaConsumerLauncher', u'AmoebaLauncher', u'AmoebaConfiguration', u'Amoeba', u'Amoeba1', u'Amoeba2', u'Amoeba3', u'Amoeba4', u'Amoeba5']}, {u'Action': [u'dynamodb:UpdateItem', u'dynamodb:DeleteItem', u'dynamodb:Scan'], u'AbstractRole': [u'GlueCrawlerLauncher']}]"
+Metadata.CloudCanvas.Id,$Revision: #1 $
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'WriteCapacityUnits'}
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.TargetValue,50
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MaxCapacity,40000
+Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MinCapacity,2
+Outputs.MetricBucketName.Description,Name of the metrics S3 bucket.
+Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'AmoebaLauncherConfiguration', u'Runtime']}"
+Resources.Custom::LambdaConfiguration.Properties.Settings.FIFOConsumer,{u'Ref': u'FIFOConsumer'}
+Parameters.ServiceApiCacheClusterSize.Type,String
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.FIFOProducer,{u'Ref': u'FIFOProducer'}
+Parameters.WriteCapacityUnits.Type,Number
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyName,ReadScaling
+Parameters.WriteCapacityUnits.Description,Number of game state writes per second.
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.Action,execute-api:Invoke
+Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceApiCacheClusterEnabled'}
+Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'Transitions': [{u'TransitionInDays': 720, u'StorageClass': u'GLACIER'}], u'Id': u'Move2YrOldDataToGlacier'}]"
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.PredefinedMetricSpecification.PredefinedMetricType,DynamoDBReadCapacityUtilization
+Parameters.ServiceApiCacheClusterSize.Default,0.5

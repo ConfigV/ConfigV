@@ -1,0 +1,34 @@
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,"{u'Fn::ImportValue': [u'${AppName}VPC', {u'AppName': u'AppName'}]}"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckProtocol,HTTP
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Name,ELBWeb
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,80
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Scheme,internet-facing
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckTimeoutSeconds,5
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.LoadBalancerAttributes,"[{u'Value': True, u'Key': u'access_logs.s3.enabled'}, {u'Value': u'ELBLogsBucketName', u'Key': u'access_logs.s3.bucket'}, {u'Value': u'ELBWeb', u'Key': u'access_logs.s3.prefix'}, {u'Value': False, u'Key': u'deletion_protection.enabled'}, {u'Value': u'60', u'Key': u'idle_timeout.timeout_seconds'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthyThresholdCount,2
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': u'TargetGroup', u'Type': u'forward'}]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTPS
+Outputs.TargetGroupArn.Export.Name,"[u'${AppName}TargetGroupArn', {u'AppName': u'AppName'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,10
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,ELBWeb
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetGroupAttributes,"[{u'Value': u'30', u'Key': u'deregistration_delay.timeout_seconds'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,2
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
+Outputs.ELBWEBDNSName.Value,ELBWeb.DNSName
+Parameters.ELBLogsBucketName.Type,String
+Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Certificates,"[{u'CertificateArn': {u'Fn::ImportValue': [u'${AppName}AcmCertificateArn', {u'AppName': u'AppName'}]}}]"
+Parameters.AppName.Type,String
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Matcher.HttpCode,200
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,"[{u'Fn::ImportValue': [u'${AppName}SGELB', {u'AppName': u'AppName'}]}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,TargetGroup
+Outputs.ELBWEBDNSName.Export.Name,"[u'${AppName}ELBWEBDNSName', {u'AppName': u'AppName'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPort,traffic-port
+Outputs.TargetGroupArn.Value,TargetGroup
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[{u'Fn::ImportValue': [u'${AppName}PublicSubnet1a', {u'AppName': u'AppName'}]}, {u'Fn::ImportValue': [u'${AppName}PublicSubnet1c', {u'AppName': u'AppName'}]}]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,443

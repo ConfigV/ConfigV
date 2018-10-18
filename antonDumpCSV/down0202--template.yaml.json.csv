@@ -1,0 +1,48 @@
+Parameters.StreamName.Type,String
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaFunctionExecutionRole'}]
+Resources.AWS::Kinesis::Stream.Properties.ShardCount,1
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Sub': [u""var AWS = require('aws-sdk');\nvar MILLILS_TO_L = 0.001;\n\nexports.handler = function(event, context, callback) {\n\n  let results = {};\n  var iotdata = new AWS.IotData({endpoint: '${endpoint}'});\n\n  for (let record of event.Records) {\n    let b = new Buffer(record.kinesis.data, 'base64');\n    let obj = JSON.parse(b.toString('utf8'));\n    let thingName = obj.deviceId;\n    for (let data of obj.data) {\n      if (data.type === 'Flow') {\n\n        if (!(thingName in results)) {\n          results[thingName] = 0.0;\n        }\n        results[thingName] += data.value * MILLILS_TO_L;\n      }\n    }\n  }\n\n  let numRunningAsync = 0;  // Keeping track of callbacks.\n  for (let thing_name in results) {\n    if (results[thing_name] === 0) {\n      console.log('Zero flow; Will not update shadow for ' + thing_name);\n      continue;  // Don't bother updating shadow.\n    }\n\n    numRunningAsync++;\n\n    var params = {\n      thingName: thing_name\n    };\n\n    iotdata.getThingShadow(params, function(err, data) {\n      if (err) {\n        console.log(err, err.stack);\n      } else {\n        let shadow = JSON.parse(data.payload);\n\n        // Update the thing shadow.\n        delete shadow.state.delta;\n\n        shadow.state.desired.kegdata.usage += results[thing_name];\n\n        if (shadow.state.desired.kegdata.usage >  shadow.state.desired.kegdata.size) {\n          shadow.state.desired.kegdata.usage = shadow.state.desired.kegdata.size\n        }\n\n        var params = {\n          payload: JSON.stringify(shadow),\n          thingName: thing_name\n        };\n\n        iotdata.updateThingShadow(params, function(err, data) {\n          numRunningAsync--;\n          console.log('Intended new shadow for ' + thing_name);\n          if (err) {\n            console.log(err, err.stack);\n          } else {\n            console.log('Updated shadow successfully for ' + thing_name);\n\n            if (numRunningAsync === 0) {\n              callback(null, 'done');\n            }\n          }\n        });\n\n      }\n    });\n\n\n  }\n\n\n\n\n};"", {u'endpoint': {u'Ref': u'IotEndpoint'}}]}"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Outputs.LambdaFunctionExecutionRoleARN.Value,"{u'Fn::GetAtt': [u'LambdaFunctionExecutionRole', u'Arn']}"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Lambda::EventSourceMapping.Properties.EventSourceArn,"{u'Fn::GetAtt': [u'Stream', u'Arn']}"
+Resources.AWS::Lambda::EventSourceMapping.Properties.Enabled,True
+Resources.AWS::Lambda::Function.Properties.Timeout,{u'Ref': u'Timeout'}
+Parameters.MemorySize.Type,Number
+Parameters.Timeout.Description,Timeout for the function in seconds
+Parameters.IotEndpoint.Type,String
+Resources.AWS::Lambda::Function.Properties.MemorySize,{u'Ref': u'MemorySize'}
+Resources.AWS::Lambda::EventSourceMapping.Properties.FunctionName,{u'Ref': u'LambdaFunction'}
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.ResourcePrefix.MinLength,2
+Resources.AWS::Lambda::EventSourceMapping.Type,AWS::Lambda::EventSourceMapping
+Outputs.SigninUrl.Value,{u'Fn::Sub': u'https://signin.aws.amazon.com/switchrole?account=${AWS::AccountId}&roleName=${LambdaFunctionExecutionRole}&displayName=assumed-role\n'}
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.AWS::Lambda::EventSourceMapping.Properties.StartingPosition,TRIM_HORIZON
+Outputs.LambdaFunction.Value,{u'Ref': u'LambdaFunction'}
+Outputs.LambdaFunctionExecutionRole.Value,{u'Ref': u'LambdaFunctionExecutionRole'}
+Parameters.IotEndpoint.MinLength,2
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'kinesis-put', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'kinesis:PutRecord'], u'Resource': {u'Fn::GetAtt': [u'Stream', u'Arn']}, u'Effect': u'Allow'}]}}]"
+Parameters.Timeout.Type,Number
+Resources.AWS::Lambda::Function.DependsOn,[u'LambdaFunctionExecutionRole']
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}, {u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'AWS': [{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':', u'root']]}]}}]"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'ec2:DescribeSecurityGroups'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'kinesis:GetShardIterator', u'kinesis:GetRecords', u'kinesis:DescribeStream', u'kinesis:ListStreams'], u'Resource': {u'Fn::GetAtt': [u'Stream', u'Arn']}, u'Effect': u'Allow'}, {u'Action': [u'kinesis:ListStreams'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'iot:GetThingShadow', u'iot:UpdateThingShadow'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.ResourcePrefix.Type,String
+Parameters.StreamName.MinLength,2
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
+Resources.AWS::Kinesis::Stream.Type,AWS::Kinesis::Stream
+Parameters.BatchSize.Type,Number
+Parameters.MemorySize.Description,Memory for the function in MB
+Outputs.TestCommand.Value,{u'Fn::Sub': u'aws lambda invoke --function-name ${LambdaFunction} /tmp/${LambdaFunction}-output.txt; cat /tmp/${LambdaFunction}-output.txt\n'}
+Outputs.LambdaFunctionARN.Value,"{u'Fn::GetAtt': [u'LambdaFunction', u'Arn']}"
+Resources.AWS::Lambda::EventSourceMapping.DependsOn,[u'Policy']
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaFunctionExecutionRole', u'Arn']}"
+Resources.AWS::IAM::Policy.Properties.PolicyName,CommonPolicyForLambdaAndDevelopment
+Parameters.ResourcePrefix.Description,"A description to identify resources  (e.g. ""my-perf-test"")"
+Resources.AWS::Lambda::Function.Metadata.Comment,{u'Fn::Sub': u'Function for ${ResourcePrefix}'}
+Resources.AWS::Lambda::EventSourceMapping.Properties.BatchSize,{u'Ref': u'BatchSize'}
+Parameters.BatchSize.Description,Kinesis batch size
+Resources.AWS::Kinesis::Stream.Properties.Name,{u'Ref': u'StreamName'}

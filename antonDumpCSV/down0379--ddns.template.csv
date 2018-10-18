@@ -1,0 +1,30 @@
+Parameters.LambdaBucketName.Type,String
+Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.ec2']
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.state,"[u'running', u'shutting-down', u'stopped']"
+Resources.AWS::Lambda::Function.Properties.Description,Create A and PTR records for Private Hosted Zone for EC2 instance launches
+Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'ddnslambda'}
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,union.py.zip
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,90
+Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'EC2 Instance State-change Notification']
+Parameters.LambdaBucketName.Description,Name of S3 Bucket for where Lambda function zip files are uploaded to
+Resources.AWS::Lambda::Function.Properties.Handler,union.lambda_handler
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ddnslambdarole', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.RoleName,ddns-lambda-role
+Resources.AWS::Events::Rule.Properties.Name,ec2_lambda_ddns_rule
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaBucketName'}
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'TargetFunctionV1', u'Arn': {u'Fn::GetAtt': [u'ddnslambda', u'Arn']}}]"
+Resources.AWS::Lambda::Function.Properties.FunctionName,ddns_lambda
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ddns-lambda-role', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'ec2:Describe*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'dynamodb:*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'route53:*'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': u'lambda.amazonaws.com'}, u'Effect': u'Allow', u'Sid': u''}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'DdnsRule', u'Arn']}"
+Parameters.LambdaBucketName.MinLength,3
+Resources.AWS::Events::Rule.Properties.Description,trigger whenever CloudWatch detects a change to the state of an EC2 instance
+Resources.AWS::Events::Rule.Properties.State,ENABLED

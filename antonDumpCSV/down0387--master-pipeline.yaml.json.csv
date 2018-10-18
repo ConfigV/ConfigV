@@ -1,0 +1,125 @@
+Parameters.CognitoIdentityPoolId.Description,"Id of an existing Cognito Identity Pool. This is an optional parameter. If left empty, a Cognito Identity Pool will be automatically created. The pool ID is used by the web ui to get AWS credentials for making calls to Lex and Polly.
+"
+Parameters.BotName.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.TimeoutInMinutes,15
+Parameters.CodePipelineName.Description,"Name of CodePipeline pipeline to be created. Used to manage the build and deployment of the web application. Must be unique per region. to true.
+"
+Parameters.CognitoIdentityPoolId.Default,
+Parameters.CodeCommitRepoName.AllowedPattern,^[\w\.-]+$
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SourceObject,${BootstrapPrefix}/src.zip
+Outputs.WebAppUrl.Description,"URL of the stand-alone sample web application. This page will be available after the pipeline/deployment completes.
+"
+Parameters.ShouldDeleteBot.Description,"If set to True, the Lex bot and associated resources will be deleted when the stack is deleted. Otherwise, the bot will be preserved. Only applies if the bot is created by this stack.
+"
+Outputs.PipelineUrl.Value,https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline.Outputs.PipelineName}
+Outputs.CodeCommitRepoUrl.Description,CodeCommit repository clone URL
+Parameters.BotName.Description,"Name of an existing Lex Bot to be used by the web ui. This is an optional parameter. If left empty, a Bot based on the OrderFlowers sample will be automatically created.
+"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CognitoIdentityPoolName,CognitoIdentityPoolName
+Parameters.CodePipelineName.Type,String
+Resources.AWS::CloudFormation::Stack.Condition,NeedsBot
+Parameters.CognitoIdentityPoolId.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CleanupBuckets,CleanupBuckets
+Parameters.CodeBuildName.Type,String
+Parameters.CodePipelineName.MaxLength,100
+Parameters.CognitoIdentityPoolName.ConstraintDescription,Alphanumeric and spaces.
+Parameters.BootstrapBucket.Type,String
+Parameters.CognitoIdentityPoolName.Description,"Name of Cognito identity pool to be created to provide AWS credentials to the web ui. Only used if the CognitoIdentityPoolId parameter is left empty (default).
+"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SourceBucket,BootstrapBucket
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'CodeBuildName', u'CodePipelineName', u'CodeCommitRepoName', u'CleanupBuckets', u'BootstrapBucket', u'BootstrapPrefix'], u'Label': {u'default': u'Deployment Parameters'}}, {u'Parameters': [u'BotName', u'BotNamePrefix', u'ShouldDeleteBot'], u'Label': {u'default': u'Lex Bot Configuration Parameters'}}, {u'Parameters': [u'CognitoIdentityPoolId', u'CognitoIdentityPoolName'], u'Label': {u'default': u'Cognito Parameters'}}, {u'Parameters': [u'WebAppParentOrigin'], u'Label': {u'default': u'Web Application Parameters'}}]"
+Outputs.SnippetUrl.Description,"URL of a page showing the snippet to load the chatbot UI as an iframe
+"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ParentOrigin,WebAppParentOrigin
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ShouldDeleteBot,ShouldDeleteBot
+Parameters.CodeBuildName.Description,"Name of the CodeBuild project to be created.  Used for building the web app with the pipeline. Must be unique per region.
+"
+Parameters.CognitoIdentityPoolName.AllowedPattern,^[\w ]+$
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CognitoIdentityPoolId,"[u'NeedsCognito', u'CognitoIdentityPool.Outputs.CognitoIdentityPoolId', u'CognitoIdentityPoolId']"
+Outputs.CognitoIdentityPoolId.Value,CognitoIdentityPool.Outputs.CognitoIdentityPoolId
+Parameters.CodeBuildName.MaxLength,255
+Parameters.CodeBuildName.ConstraintDescription,"Should start with Alphanumeric. May contain alphanumeric, undescore and dash.
+"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CustomResourceCodeObject,${BootstrapPrefix}/custom-resources.zip
+Parameters.BootstrapPrefix.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CustomResourceCodeBucket,BootstrapBucket
+Parameters.CodeCommitRepoName.MinLength,1
+Outputs.CognitoIdentityPoolId.Condition,NeedsCognito
+Outputs.CodeCommitRepoUrl.Value,CodeCommitRepo.Outputs.CodeCommitRepoUrl
+Parameters.BotNamePrefix.ConstraintDescription,"Must conform with the permitted Lex Bot name pattern.
+"
+Parameters.BotNamePrefix.MaxLength,32
+Parameters.CodeBuildName.MinLength,2
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.BotName,"[u'NeedsBot', u'Bot.Outputs.BotName', u'BotName']"
+Parameters.CodePipelineName.MinLength,1
+Parameters.CodeCommitRepoName.Description,"Name of CodeCommit repository to be created. Used as the source for the pipeline and to automate deployments of the web app. It is initialized with source artifacts from the bootstrap S3 bucket. Must be unique per region.
+"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CodeBuildName,${CodeCommitRepoName}-init
+Outputs.ParentPageUrl.Value,Pipeline.Outputs.ParentPageUrl
+Parameters.CleanupBuckets.Default,True
+Parameters.CognitoIdentityPoolName.Default,Lex Web UI
+Parameters.ShouldDeleteBot.Type,String
+Parameters.BotNamePrefix.Type,String
+Parameters.CleanupBuckets.Description,"If set to True, buckets created for the Pipeline and to store the web application will be deleted on CloudFormation stack delete. If set to False, S3 buckets will be retained.
+"
+Parameters.BotName.ConstraintDescription,"Must conform with the permitted Lex Bot name pattern.
+"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CodeCommitRepoName,CodeCommitRepoName
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.amazonaws.com/${BootstrapBucket}/${BootstrapPrefix}/templates/coderepo.yaml
+Parameters.BotName.MaxLength,50
+Parameters.CodeCommitRepoName.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.LexBotName,"[u'NeedsBot', u'Bot.Outputs.BotName', u'BotName']"
+Outputs.BotName.Value,Bot.Outputs.BotName
+Parameters.BootstrapPrefix.Default,artifacts/aws-lex-web-ui/artifacts
+Parameters.CodePipelineName.ConstraintDescription,"Alphanumeric, dot, dash, underscore and @."
+Parameters.CleanupBuckets.Type,String
+Parameters.CodeCommitRepoName.Default,lex-web-ui
+Parameters.CognitoIdentityPoolId.ConstraintDescription,Empty or a valid Cognito Identity Pool ID
+Outputs.SnippetUrl.Value,Pipeline.Outputs.SnippetUrl
+Parameters.CodeBuildName.Default,lex-web-ui
+Parameters.WebAppParentOrigin.ConstraintDescription,Empty or valid browser origin
+Parameters.CognitoIdentityPoolName.MinLength,1
+Parameters.CodePipelineName.AllowedPattern,[A-Za-z0-9.@\-_]+
+Outputs.CognitoIdentityPoolId.Description,Cognito Identity Pool Id
+Parameters.CognitoIdentityPoolName.Type,String
+Outputs.WebAppUrl.Value,Pipeline.Outputs.WebAppUrl
+Parameters.BootstrapBucket.Default,aws-bigdata-blog
+Parameters.WebAppParentOrigin.Default,
+Parameters.CognitoIdentityPoolId.AllowedPattern,(^$|^[\w-]+:[0-9a-f-]+$)
+Parameters.CodeBuildName.AllowedPattern,"^[A-Za-z0-9][A-Za-z0-9\-_]{1,254}$"
+Parameters.WebAppParentOrigin.AllowedPattern,(^$|^https?://[\w\.-]+(:\d+)?$)
+Parameters.BotNamePrefix.Default,WebUi
+Parameters.BotNamePrefix.Description,"Prefix to add to Lex resource names when using the sample bot. Ignored if you provide your own bot. Must conform to the permitted Lex Bot name syntax (alpha characters).
+"
+Parameters.CodeCommitRepoName.ConstraintDescription,"Alphanumeric, dot and dash."
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CodePipelineName,CodePipelineName
+Parameters.BotName.Default,
+Parameters.BotNamePrefix.MinLength,3
+Parameters.ShouldDeleteBot.Default,True
+Outputs.LoaderScriptUrl.Value,Pipeline.Outputs.LoaderScriptUrl
+Parameters.BootstrapBucket.Description,"S3 bucket containing pre-staged nested templates and source artifacts
+"
+Parameters.WebAppParentOrigin.Type,String
+Parameters.WebAppParentOrigin.Description,"Browser origin (e.g. http://mysite.example.com:8080) of an existing site that is allowed to send/receive data and events from the web ui in an iframe setup. This is an optional parameter. If left empty, an S3 bucket will be created to host a sample parent site embedding the webapp as an iframe.
+"
+Outputs.PipelineUrl.Description,"Monitor the pipeline URL to see when the application has been fully built and deployed.
+"
+Outputs.BotName.Description,"Name of the Lex bot created by the stack
+"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.NamePrefix,BotNamePrefix
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Parameters.CognitoIdentityPoolName.MaxLength,128
+Outputs.LoaderScriptUrl.Description,"URL of the loader script This script will be available after the pipeline/deployment completes.
+"
+Parameters.CodeCommitRepoName.MaxLength,100
+Parameters.ShouldDeleteBot.AllowedValues,"[True, False]"
+Parameters.BootstrapPrefix.Description,"S3 prefix where the templates and source are stored under
+"
+Parameters.CleanupBuckets.AllowedValues,"[True, False]"
+Outputs.ParentPageUrl.Description,"URL of the iframe based sample web application This page will be available after the pipeline/deployment completes.
+"
+Parameters.BotName.AllowedPattern,(^$|^[a-zA-Z]+((_[a-zA-Z]+)*|([a-zA-Z]+_)*|_))
+Outputs.ParentPageUrl.Condition,NeedsParentOrigin
+Parameters.CodePipelineName.Default,lex-web-ui
+Parameters.BotNamePrefix.AllowedPattern,^[a-zA-Z\._]+$
+Outputs.BotName.Condition,NeedsBot

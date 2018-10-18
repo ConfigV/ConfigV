@@ -1,0 +1,67 @@
+Resources.AWS::CloudFormation::Stack.DependsOn,"[u'DynamoDBTables', u'Route53HostedZone']"
+Parameters.SubnetIDs.Type,List<AWS::EC2::Subnet::Id>
+Resources.AWS::Route53::HostedZone.Properties.VPCs,"[{u'VPCId': {u'Ref': u'VPCID'}, u'VPCRegion': {u'Ref': u'AWS::Region'}}]"
+Parameters.QSS3BucketName.Default,aws-quickstart
+Parameters.AvailabilityZones.Type,List<AWS::EC2::AvailabilityZone::Name>
+Parameters.QSS3BucketName.Description,"S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
+Parameters.ClusterName.MinLength,1
+Parameters.InternalAccessSecurityGroupID.Description,The internal SecurityGroup for the cluster nodes to access each other.
+Parameters.QSS3KeyPrefix.Default,quickstart-cloudstax-firecamp/
+Parameters.ClusterName.Description,Name of the cluster.
+Parameters.NodeAMIOS.Type,String
+Parameters.ClusterName.ConstraintDescription,"Cluster name must start with a letter and can only contain letters, numbers, or hyphens."
+Parameters.NumberOfNodes.Type,Number
+Parameters.NumberOfManagers.Default,3
+Parameters.ContainerPlatform.AllowedValues,"[u'ecs', u'swarm']"
+Parameters.Release.Description,The FireCamp System Services release version
+Parameters.CatalogRelease.Type,String
+Parameters.QSS3BucketName.Type,String
+Parameters.Release.Default,latest
+Parameters.NumberOfManagers.Description,Number of the Swarm manager instances to launch. This field will be ignored for ECS.
+Parameters.QSS3KeyPrefix.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CatalogRelease,{u'Ref': u'CatalogRelease'}
+Parameters.ClusterName.Default,default
+Parameters.InternalAccessSecurityGroupID.Type,AWS::EC2::SecurityGroup::Id
+Parameters.VPCID.Description,The Virtual Private Cloud (VPC) ID to deploy the cluster.
+Parameters.ContainerPlatform.Description,The container orchestration platform.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfManagers,{u'Ref': u'NumberOfManagers'}
+Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
+Parameters.ServiceSecurityGroupID.Type,AWS::EC2::SecurityGroup::Id
+Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Release,{u'Ref': u'Release'}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ServiceSecurityGroupID,{u'Ref': u'ServiceSecurityGroupID'}
+Parameters.QSS3BucketName.ConstraintDescription,"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
+Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+Parameters.ServiceSecurityGroupID.Description,The SecurityGroup to access the services in the cluster.
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Parameters.ClusterName.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
+Parameters.ContainerPlatform.Default,ecs
+Parameters.AvailabilityZones.Description,List of Availability Zones to use for the subnets in the VPC. Note: The logical order is preserved.
+Parameters.ClusterName.Type,String
+Resources.AWS::CloudFormation::Stack.Condition,SwarmContainerPlatformCondition
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
+Parameters.NumberOfManagers.Type,Number
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfNodes,{u'Ref': u'NumberOfNodes'}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerPlatform,{u'Ref': u'ContainerPlatform'}
+Parameters.Release.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterName,{u'Ref': u'ClusterName'}
+Parameters.NodeAMIOS.Description,The Linux distribution for the AMI to be used for the service instances
+Parameters.CatalogRelease.Default,latest
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeAMIOS,{u'Ref': u'NodeAMIOS'}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.InternalAccessSecurityGroupID,{u'Ref': u'InternalAccessSecurityGroupID'}
+Parameters.CatalogRelease.Description,The FireCamp Catalog Service release version
+Parameters.NumberOfNodes.Description,Number of instances to launch.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyPairName'}
+Parameters.NumberOfNodes.Default,3
+Parameters.ContainerPlatform.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetIDs,"{u'Fn::Join': [u',', {u'Ref': u'SubnetIDs'}]}"
+Resources.AWS::Route53::HostedZone.Type,AWS::Route53::HostedZone
+Parameters.SubnetIDs.Description,Subnet-ID the existing subnet in your VPC where you want to deploy node(s).
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeInstanceProfileID,"{u'Fn::GetAtt': [u'EC2InstanceProfileStack', u'Outputs.NodeInstanceProfile']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}"
+Parameters.NodeAMIOS.Default,Amazon-Linux-HVM
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Sub': [u'https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/firecamp-iamprofile.template', {u'QSS3Region': {u'Fn::If': [u'GovCloudCondition', u's3-us-gov-west-1', u's3']}}]}"
+Resources.AWS::Route53::HostedZone.Properties.Name,"{u'Fn::Join': [u'-', [{u'Ref': u'ClusterName'}, u'firecamp.com']]}"
+Parameters.ClusterName.MaxLength,255
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Ref': u'QSS3KeyPrefix'}
+Parameters.VPCID.Type,AWS::EC2::VPC::Id

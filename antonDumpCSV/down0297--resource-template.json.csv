@@ -1,0 +1,79 @@
+Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'SpeechLibTableWriteCapacityUnits'}
+Resources.Custom::AccessControl.DependsOn,"[u'ttscache', u'Polly', u'ServiceApi', u'ServiceLambda', u'SpeechLibTable', u'characterdefs', u'PackageVoiceLinesConfiguration', u'PackageVoiceLines', u'packagedvoicelines']"
+Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::Polly.Metadata.CloudCanvas.Permissions,"[{u'Action': u'polly:SynthesizeSpeech', u'AbstractRole': u'PackageVoiceLines'}]"
+Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
+Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Parameters.SpeechLibTableReadCapacityUnits.Type,Number
+Resources.Custom::LambdaConfiguration.Properties.FunctionName,ServiceLambda
+Parameters.SpeechLibTableReadCapacityUnits.Default,1
+Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Runtime']}"
+Parameters.DeploymentName.Type,String
+Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
+Parameters.DeploymentName.Description,Name of the resource group's deployment.
+Resources.AWS::S3::Bucket.Metadata.CloudCanvas.Permissions,"[{u'Action': [u's3:GetObject', u's3:PutObject', u's3:DeleteObject'], u'ResourceSuffix': u'/*', u'AbstractRole': u'ServiceLambda'}, {u'Action': u's3:ListBucket', u'AbstractRole': u'ServiceLambda'}, {u'Action': [u's3:GetObject', u's3:PutObject', u's3:DeleteObject'], u'ResourceSuffix': u'/*', u'AbstractRole': u'PackageVoiceLines'}, {u'Action': u's3:ListBucket', u'AbstractRole': u'PackageVoiceLines'}]"
+Resources.Custom::LambdaConfiguration.Properties.Settings.characterdefs,{u'Ref': u'characterdefs'}
+Resources.AWS::Lambda::Function.Properties.Timeout,10
+Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
+Resources.Custom::LambdaConfiguration.Properties.Settings.PackageVoiceLines,{u'Ref': u'PackageVoiceLines'}
+Parameters.SpeechLibTableWriteCapacityUnits.Description,Number of writes per second.
+Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::ServiceApi.Type,Custom::ServiceApi
+Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
+Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
+Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Role']}"
+Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
+Parameters.DeploymentStackArn.Type,String
+Resources.Custom::LambdaConfiguration.Properties.Settings.packagedvoicelines,{u'Ref': u'packagedvoicelines'}
+Parameters.ProjectResourceHandler.Type,String
+Resources.AWS::Lambda::Function.Properties.Handler,cgf_lambda_service.dispatch
+Resources.Custom::Polly.Type,Custom::Polly
+Outputs.ServiceUrl.Description,The service url.
+Resources.Custom::Polly.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationBucket']}"
+Resources.Custom::LambdaConfiguration.Properties.Settings.ttscache,{u'Ref': u'ttscache'}
+Resources.Custom::LambdaConfiguration.Properties.Settings.SpeechLibTable,{u'Ref': u'SpeechLibTable'}
+Parameters.ServiceApiCacheClusterSize.Description,The size of the Cache Cluster for the service API.
+Parameters.ConfigurationBucket.Type,String
+Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn::GetAtt': [u'ServiceLambda', u'Arn']}"
+Parameters.ConfigurationKey.Type,String
+Resources.Custom::DynamoDBTable.Properties.AttributeDefinitions,"[{u'AttributeName': u'character', u'AttributeType': u'S'}, {u'AttributeName': u'line', u'AttributeType': u'S'}]"
+Parameters.ServiceApiCacheClusterEnabled.Type,String
+Resources.Custom::DynamoDBTable.Type,Custom::DynamoDBTable
+Parameters.ResourceGroupName.Type,String
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
+Metadata.CloudCanvas.Id,$Revision: #7 $
+Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'SpeechLibTableReadCapacityUnits'}
+Parameters.ResourceGroupName.Description,Name of the resource group.
+Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions,"[{u'Action': u'lambda:InvokeFunction', u'AbstractRole': u'ServiceApi'}]"
+Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'MaxAge': 3000, u'AllowedMethods': [u'GET'], u'Id': u'AllowCGP', u'AllowedOrigins': [u'*']}]"
+Parameters.CloudCanvasStack.Default,ResourceGroup
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.ServiceApiCacheClusterSize.Type,String
+Parameters.CloudCanvasStack.Type,String
+Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Parameters.SpeechLibTableReadCapacityUnits.Description,Number of reads per second.
+Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'Prefix': u'idPackages/', u'ExpirationInDays': 1}]"
+Parameters.ServiceApiCacheClusterEnabled.Default,false
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationKey']}"
+Resources.Custom::DynamoDBTable.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
+Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
+Parameters.SpeechLibTableWriteCapacityUnits.Default,1
+Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clustering is enabled for the service API.
+Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Resources.Custom::DynamoDBTable.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:Scan', u'dynamodb:PutItem', u'dynamodb:GetItem', u'dynamodb:DeleteItem', u'dynamodb:UpdateItem'], u'AbstractRole': u'ServiceLambda'}]"
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.AbstractRole,Player
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.Action,execute-api:Invoke
+Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceApiCacheClusterEnabled'}
+Parameters.SpeechLibTableWriteCapacityUnits.Type,Number
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.ResourceSuffix,"[u'/api/POST/tts/voiceline', u'/api/POST/tts/speechmarks']"
+Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::DynamoDBTable.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'character'}, {u'KeyType': u'RANGE', u'AttributeName': u'line'}]"
+Parameters.ServiceApiCacheClusterSize.Default,0.5
+Resources.Custom::AccessControl.Type,Custom::AccessControl

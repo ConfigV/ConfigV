@@ -1,0 +1,73 @@
+Parameters.AccountClassification.ConstraintDescription,must be one of those 4 values: 1-Sensitive | 2-Confidential | 3-Private | 4-Public
+Resources.AWS::Config::ConfigRule.Properties.Source.Owner,CUSTOM_LAMBDA
+Resources.AWS::IAM::Policy.DependsOn,AWSConfigAndComplianceRole
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Parameters.ConfigAndComplianceAuditRoleName.Type,String
+Parameters.AddPCIguidanceRuleSet.Default,False
+Parameters.AddPCIguidanceRuleSet.Type,String
+Parameters.AccountClassification.Description,"The classification of this AWS account. Depending of the classification, relevant Rules will be deployed as part of the Security Baseline RuleSet."
+Parameters.AddPCIguidanceRuleSet.Description,"Choose ""true"" to deploy all Rules from the PCI guidance RuleSet."
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'guardduty:Get*', u'guardduty:List*'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.CentralizedS3BucketConfigFullName.Type,String
+Resources.AWS::Config::ConfigurationRecorder.DependsOn,"[u'AWSConfigAndComplianceRole', u'ConfigS3WritePolicy']"
+Parameters.AddHighAvailaibilityRuleSet.Description,"Choose ""true"" to deploy the High-Availability RuleSet. It is suitable for applications wanting to achieve over 99.9% availability."
+Resources.AWS::IAM::Policy.Properties.Roles,[u'ConfigAndComplianceAuditRoleName']
+Resources.AWS::Config::ConfigRule.Properties.MaximumExecutionFrequency,TwentyFour_Hours
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[u'arn:aws:iam::aws:policy/service-role/AWSConfigRole', u'arn:aws:iam::aws:policy/SecurityAudit', u'arn:aws:iam::aws:policy/CloudWatchEventsReadOnlyAccess', u'arn:aws:iam::aws:policy/AWSCloudTrailReadOnlyAccess']"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Config::ConfigRule.Properties.Scope.ComplianceResourceTypes,[u'AWS::S3::Bucket']
+Parameters.LM22override.AllowedValues,"[u'default', u'deactivate']"
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'CentralizedS3BucketConfigFullName', u'ComplianceAccountId', u'ConfigAndComplianceAuditRoleName'], u'Label': {u'default': u'Compliance-as-Code Engine Configuration'}}, {u'Parameters': [u'AccountClassification', u'AddPCIguidanceRuleSet', u'AddHighAvailaibilityRuleSet'], u'Label': {u'default': u'RuleSet to deploy'}}, {u'Parameters': [u'DeployDownToCriticity', u'LM22override'], u'Label': {u'default': u'(Advanced User Only) RuleSet options'}}]"
+Parameters.DeployDownToCriticity.Type,String
+Parameters.AddPCIguidanceRuleSet.AllowedValues,"[True, False]"
+Parameters.AddHighAvailaibilityRuleSet.Type,String
+Parameters.AddHighAvailaibilityRuleSet.AllowedValues,"[True, False]"
+Resources.AWS::Config::ConfigurationRecorder.Type,AWS::Config::ConfigurationRecorder
+Resources.AWS::Config::AggregationAuthorization.Properties.AuthorizedAwsRegion,AWS::Region
+Resources.AWS::Config::ConfigurationRecorder.Properties.RecordingGroup.IncludeGlobalResourceTypes,True
+Resources.AWS::Config::DeliveryChannel.Properties.ConfigSnapshotDeliveryProperties.DeliveryFrequency,TwentyFour_Hours
+Parameters.ComplianceAccountId.ConstraintDescription,"12 digits, no dashes"
+Parameters.CentralizedS3BucketConfigFullName.Default,centralized-config-112233445566
+Parameters.ConfigAndComplianceAuditRoleName.Default,AWSConfigAndComplianceAuditRole-DO-NOT-DELETE
+Parameters.LM22override.Description,"Choose ""deactivate"" to not deploy. ""FullVisibility"" must be ""true"" to work. Let ""default"" to deploy depending on other parameters."
+Resources.AWS::Config::DeliveryChannel.DependsOn,[u'ConfigS3WritePolicy']
+Resources.AWS::Config::ConfigRule.Properties.Description,"Checks that an event bus is configured in all AWS Regions of this account to your Security Monitoring AWS Account, and that an active rule sends all events to the bus."
+Parameters.DeployDownToCriticity.AllowedValues,"[u'all', u'critical', u'high', u'medium']"
+Parameters.DeployDownToCriticity.Default,all
+Parameters.ComplianceAccountId.Type,String
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.AccountClassification,AccountClassification
+Parameters.CentralizedS3BucketConfigFullName.MaxLength,63
+Parameters.LM22override.Default,default
+Resources.AWS::Config::DeliveryChannel.Type,AWS::Config::DeliveryChannel
+Parameters.CentralizedS3BucketConfigFullName.ConstraintDescription,Enter DNS-compliant name
+Parameters.CentralizedS3BucketConfigFullName.Description,Bucket name where Config logs are centrally stored. It is located in the Compliance Account.
+Resources.AWS::Config::ConfigurationRecorder.Properties.RoleARN,"[u'', [u'arn:aws:iam::', u'AWS::AccountId', u':role/service-role/', u'ConfigAndComplianceAuditRoleName']]"
+Parameters.LM22override.Type,String
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': u'config.amazonaws.com'}}, {u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'AWS': u'ComplianceAccountId'}}]"
+Parameters.AddHighAvailaibilityRuleSet.Default,False
+Resources.AWS::Config::ConfigRule.Condition,LM22
+Parameters.ComplianceAccountId.Description,Account ID of the Compliance Account. The compliance-as-code engine must be installed in this account first.
+Resources.AWS::Config::ConfigurationRecorder.Properties.RecordingGroup.AllSupported,True
+Parameters.CentralizedS3BucketConfigFullName.MinLength,10
+Parameters.ConfigAndComplianceAuditRoleName.Description,Role Name of the Compliance Account Cross Account Role
+Parameters.DeployDownToCriticity.Description,"Choose deploy down to which Rule criticality. Useful to have an iterative approach in monitoring and fixing the compliance of existing accounts. It does not affect PCI guidance RuleSet, HA RuleSet and the Rule 7.1 on Compliance Validation."
+Parameters.AccountClassification.Type,String
+Resources.AWS::IAM::Role.Properties.Path,/service-role/
+Resources.AWS::Config::ConfigRule.Properties.Source.SourceDetails,"[{u'EventSource': u'aws.config', u'MessageType': u'ScheduledNotification', u'MaximumExecutionFrequency': u'TwentyFour_Hours'}]"
+Resources.AWS::Config::ConfigRule.Properties.ConfigRuleName,2_HIGH-LM_2_2-cloudwatch_event_bus_centralized
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.ComplianceAccountId.MinLength,12
+Resources.AWS::IAM::Role.Properties.RoleName,ConfigAndComplianceAuditRoleName
+Parameters.AccountClassification.AllowedValues,"[u'1-Sensitive', u'2-Confidential', u'3-Private', u'4-Public']"
+Resources.AWS::Config::DeliveryChannel.Properties.S3BucketName,CentralizedS3BucketConfigFullName
+Parameters.ComplianceAccountId.MaxLength,12
+Parameters.ComplianceAccountId.Default,112233445566
+Resources.AWS::Config::AggregationAuthorization.Type,AWS::Config::AggregationAuthorization
+Resources.AWS::Config::AggregationAuthorization.Properties.AuthorizedAccountId,ComplianceAccountId
+Resources.AWS::Config::ConfigRule.Properties.Source.SourceIdentifier,"[u':', [u'arn:aws:lambda', u'AWS::Region', u'ComplianceAccountId', u'function', u'CLOUDWATCH_EVENT_BUS_CENTRALIZED']]"
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.daysToExpiration,90
+Resources.AWS::Config::ConfigRule.Type,AWS::Config::ConfigRule
+Resources.AWS::IAM::Policy.Properties.PolicyName,GuarddutyReadOnly
+Parameters.AccountClassification.Default,1-Sensitive
+Resources.AWS::Config::ConfigRule.DependsOn,"[u'ConfigurationRecorder', u'DeliveryChannel']"

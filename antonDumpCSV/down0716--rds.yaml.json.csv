@@ -1,0 +1,92 @@
+Mappings.DBEngineMapping.sqlserver-web.port,1433
+Mappings.DBEngineMapping.sqlserver-ee.connectionString,sqlserver
+Mappings.DBEngineMapping.oracle-ee.port,1521
+Parameters.VPC.Type,String
+Parameters.BackupRetention.Default,30
+Resources.AWS::RDS::DBInstance.Properties.MasterUsername,MasterUsername
+Resources.AWS::EC2::SecurityGroup.Properties.GroupName,"[u'${SGPrefix}-RDS-SecurityGroup', {u'SGPrefix': [u'HasSpecifiedDBName', u'DBName', u'ProjectName']}]"
+Parameters.DBSubnetGroupDescription.Type,String
+Parameters.Subnets.Description,The Subnets that the RDS is deployed in
+Parameters.Storage.Type,Number
+Mappings.DBEngineMapping.oracle-se.port,1521
+Parameters.MasterPassword.Description,Password for admin user
+Parameters.DBEngine.Default,postgres
+Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,BackupRetention
+Parameters.DBName.Description,"The name of the database you want to have created. If not specified, specify projectname instead"
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'SourceSecurityGroupId': u'SourceSecurityGroup', u'FromPort': [u'HasSpecifiedPort', u'DBPort', [u'DBEngineMapping', u'DBEngine', u'port']], u'ToPort': [u'HasSpecifiedPort', u'DBPort', [u'DBEngineMapping', u'DBEngine', u'port']], u'IpProtocol': u'tcp'}, {u'SourceSecurityGroupId': u'vpc:BastionHostSecurityGroup', u'FromPort': [u'HasSpecifiedPort', u'DBPort', [u'DBEngineMapping', u'DBEngine', u'port']], u'ToPort': [u'HasSpecifiedPort', u'DBPort', [u'DBEngineMapping', u'DBEngine', u'port']], u'IpProtocol': u'tcp'}]"
+Parameters.MasterUsername.Type,String
+Parameters.MasterPassword.Type,String
+Parameters.DBEngine.Description,Engine of the DB
+Parameters.DBPort.MaxValue,65535
+Parameters.MasterUsername.Description,Username for Postgres admin user
+Mappings.DBEngineMapping.mariadb.connectionString,mariadb
+Parameters.MasterPassword.NoEcho,true
+Mappings.DBEngineMapping.mysql.connectionString,mysql
+Mappings.DBEngineMapping.mysql.port,3306
+Parameters.DBPort.Type,Number
+Parameters.BackupRetention.Type,Number
+Parameters.ProjectName.Type,String
+Parameters.BackupRetention.Description,Number of days to retain automatic RDS backups
+Parameters.ProjectName.Default,:default
+Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,MasterPassword
+Parameters.SecurityGroupDescription.Type,String
+Outputs.JDBCConnectionString.Value,"[u'jdbc:${DBEngineConnectionString}://${Address}:${Port}/${DBName}', {u'DBEngineConnectionString': [u'DBEngineMapping', u'DBEngine', u'connectionString'], u'Port': u'Database.Endpoint.Port', u'DBName': u'DBName', u'Address': u'Database.Endpoint.Address'}]"
+Parameters.DBEngine.Type,String
+Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[u'SecurityGroup']
+Parameters.VPC.Description,The VPC that the RDS is deployed in
+Mappings.DBEngineMapping.sqlserver-ex.port,1433
+Parameters.MultiAZ.Default,false
+Mappings.DBEngineMapping.postgres.connectionString,postgresql
+Parameters.DBPort.Description,The port where the database runs on
+Mappings.DBEngineMapping.postgres.port,5432
+Resources.AWS::RDS::DBInstance.Properties.Engine,DBEngine
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,SecurityGroupDescription
+Outputs.JDBCConnectionString.Export.Name,JDBCConnectionStringExportName
+Mappings.DBEngineMapping.sqlserver-se.port,1433
+Outputs.SecurityGroup.Value,SecurityGroup
+Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,DBSubnetGroupDescription
+Parameters.SecurityGroupDescription.Default,Allow incoming traffic for ECS hosts
+Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
+Mappings.DBEngineMapping.oracle-se1.connectionString,oracle
+Parameters.MultiAZ.AllowedValues,"[u'false', u'true']"
+Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupName,"[u'${DBSubnetPrefix}-RDS-DBSubnetGroup', {u'DBSubnetPrefix': [u'HasSpecifiedDBName', u'DBName', u'ProjectName']}]"
+Parameters.DBSubnetGroupDescription.Default,Subnets for the RDS instances
+Mappings.DBEngineMapping.aurora.port,3306
+Mappings.DBEngineMapping.aurora-postgresql.connectionString,postgresql
+Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,InstanceType
+Parameters.MultiAZ.Type,String
+Parameters.Storage.Default,5
+Parameters.DBEngine.AllowedValues,"[u'aurora', u'aurora-postgresql', u'mariadb', u'mysql', u'oracle-ee', u'oracle-se2', u'oracle-se1', u'oracle-se', u'postgres', u'sqlserver-ee', u'sqlserver-se', u'sqlserver-ex', u'sqlserver-web']"
+Parameters.DBPort.Default,-1
+Mappings.DBEngineMapping.oracle-se.connectionString,oracle
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VPC
+Parameters.MasterUsername.Default,root
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Mappings.DBEngineMapping.aurora.connectionString,mysql
+Mappings.DBEngineMapping.mariadb.port,3306
+Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,SubnetGroup
+Resources.AWS::RDS::DBInstance.Properties.StorageType,gp2
+Mappings.DBEngineMapping.sqlserver-ex.connectionString,sqlserver
+Parameters.DBPort.MinValue,-1
+Parameters.DBName.Default,defaultDB
+Parameters.DBName.Type,String
+Parameters.MultiAZ.Description,Configure multi-AZ failover HA - requires 2 or more subnet IDs to be defined
+Mappings.DBEngineMapping.sqlserver-ee.port,1433
+Resources.AWS::RDS::DBInstance.Properties.MultiAZ,MultiAZ
+Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,Storage
+Mappings.DBEngineMapping.aurora-postgresql.port,3306
+Parameters.Subnets.Type,List<String>
+Mappings.DBEngineMapping.oracle-se2.port,1521
+Mappings.DBEngineMapping.sqlserver-web.connectionString,sqlserver
+Resources.AWS::RDS::DBInstance.Properties.StorageEncrypted,True
+Parameters.SourceSecurityGroup.Description,The SecurityGroup that the RDS SecurityGroup will allow incoming traffic for
+Parameters.SourceSecurityGroup.Type,String
+Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,Subnets
+Parameters.JDBCConnectionStringExportName.Type,String
+Mappings.DBEngineMapping.oracle-ee.connectionString,oracle
+Resources.AWS::RDS::DBInstance.Properties.DBName,DBName
+Parameters.Storage.Description,Space in GB to allocate for database storage
+Mappings.DBEngineMapping.oracle-se2.connectionString,oracle
+Mappings.DBEngineMapping.oracle-se1.port,1521
+Mappings.DBEngineMapping.sqlserver-se.connectionString,sqlserver

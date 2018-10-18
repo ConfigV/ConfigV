@@ -1,0 +1,11 @@
+cloudFormation.Outputs.IamRoleArnLambda.Description,ARN of the lambda IAM role
+cloudFormation.Outputs.IamRoleArnLambda.Value,"{u'Fn::GetAtt': [u'IamRoleLambda', u'Arn']}"
+cloudFormation.Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'IamRoleLambda'}]
+cloudFormation.Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+cloudFormation.Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+cloudFormation.Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+cloudFormation.Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+cloudFormation.Resources.AWS::IAM::Policy.Properties.PolicyName,${stage}-${project}-lambda
+cloudFormation.Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+cloudFormation.Resources.AWS::IAM::Role.Properties.Path,/
+cloudFormation.Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:${region}:*:*', u'Effect': u'Allow'}]"

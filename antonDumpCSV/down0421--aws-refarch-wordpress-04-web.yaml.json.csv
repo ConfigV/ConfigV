@@ -1,0 +1,222 @@
+Parameters.DatabaseMasterPassword.AllowedPattern,"^([a-z0-9A-Z`~!#$%^&*()_+,\\-])*$"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_opcache.packages.yum.php55-opcache,[]
+Mappings.RegionMap.eu-central-1.AMI,ami-bf2ba8d0
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseMasterPassword.default,DB Master Password
+Parameters.DatabaseName.Type,String
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[u'NumberOfSubnets1', [[0, u'Subnet']], [u'NumberOfSubnets2', [[0, u'Subnet'], [1, u'Subnet']], [u'NumberOfSubnets3', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet']], [u'NumberOfSubnets4', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet']], [u'NumberOfSubnets5', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet']], [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet'], [5, u'Subnet']]]]]]]"
+Parameters.DatabaseName.AllowedPattern,^([a-zA-Z0-9]*)$
+Parameters.EC2KeyName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': [u'', [u'Web ASG / ', u'AWS::StackName']], u'PropagateAtLaunch': True, u'Key': u'Name'}]"
+Parameters.Subnet.Description,Select existing subnets. The number selected must match the number of subnets above. Subnets selected must be in separate AZs.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPVersion.default,WordPress Version
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.download_aws_ini.files./tmp/download_aws_ini.sh.owner,root
+Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved. Licensed under the Amazon Software License (the ""License""). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/asl/ or in the ""license"" file accompanying this file. This file is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,WebAsgMin
+Parameters.WPAdminPassword.Description,The WordPress admin password.
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Parameters.PHPVersion.AllowedValues,"[5.5, 5.6, 7]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.commands.create_site_conf.cwd,/tmp
+Parameters.WebSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
+Parameters.ElasticFileSystem.Type,String
+Parameters.WebAsgMin.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_cacheclient.files./tmp/install_cacheclient.sh.group,root
+Parameters.ElasticFileSystem.AllowedPattern,^(fs-)([a-z0-9]{8})$
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,ELB
+Parameters.WPTitle.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseClusterEndpointAddress.default,DB Cluster Endpoint Address
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_opcache.packages.yum.php56-opcache,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php56,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.commands.create_site_conf.ignoreErrors,False
+Parameters.WPAdminPassword.ConstraintDescription,"Must be letters (upper or lower), numbers, and these special characters '_'`~!#$%^&*()_+,-"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[u'WebSecurityGroup']
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.files./tmp/create_site_conf.sh.owner,root
+Parameters.WPAdminPassword.NoEcho,True
+Parameters.PHPVersion.Type,String
+Parameters.WebAsgMax.Description,Specifies the maximum number of EC2 instances in the Web Autoscaling Group.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_wordpress.commands.install_wordpress.ignoreErrors,False
+Parameters.DatabaseMasterUsername.Description,The Amazon RDS master username.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.files./tmp/create_site_conf.sh.content,"[u'', [u'#!/bin/bash -xe\n', u'if [ ! -f /etc/httpd/conf.d/', u'WPDirectory', u'.conf ]; then\n', u'   touch /etc/httpd/conf.d/', u'WPDirectory', u'.conf\n', u""   echo 'ServerName 127.0.0.1:80' >> /etc/httpd/conf.d/"", u'WPDirectory', u'.conf\n', u""   echo 'DocumentRoot /var/www/wordpress/"", u'WPDirectory', u""' >> /etc/httpd/conf.d/"", u'WPDirectory', u'.conf\n', u""   echo '<Directory /var/www/wordpress/"", u'WPDirectory', u"">' >> /etc/httpd/conf.d/"", u'WPDirectory', u'.conf\n', u""   echo '  Options Indexes FollowSymLinks' >> /etc/httpd/conf.d/"", u'WPDirectory', u'.conf\n', u""   echo '  AllowOverride All' >> /etc/httpd/conf.d/"", u'WPDirectory', u'.conf\n', u""   echo '  Require all granted' >> /etc/httpd/conf.d/"", u'WPDirectory', u'.conf\n', u""   echo '</Directory>' >> /etc/httpd/conf.d/"", u'WPDirectory', u'.conf\n', u'fi\n']]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_aws_ini.commands.install_aws_ini.ignoreErrors,True
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_wordpress.files./tmp/install_wordpress.sh.owner,root
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPAdminUsername.default,Admin Username
+Parameters.SslCertificate.Default,False
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': u'#!/bin/bash -xe\nyum update -y\nmkdir -p /var/www/wordpress\nmount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 ${ElasticFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /var/www/wordpress\n/opt/aws/bin/cfn-init --configsets deploy_webserver --verbose --stack ${AWS::StackName} --resource WebLaunchConfiguration70 --region ${AWS::Region}\n/opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebAutoScalingGroup --region ${AWS::Region}\n'}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php70-mysqlnd,[]
+Parameters.WPAdminUsername.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9_-])*([a-zA-Z0-9])$
+Parameters.WebAsgMax.Default,4
+Parameters.WPAdminEmail.Description,The WordPress admin email address.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_wordpress.commands.install_wordpress.cwd,/tmp
+Parameters.EC2KeyName.ConstraintDescription,"Must be letters (upper or lower), numbers, and special characters."
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseName.default,DB Name
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_opcache.commands.install_opcache.cwd,/tmp
+Resources.AWS::AutoScaling::LaunchConfiguration.Condition,PHP70
+Parameters.NumberOfSubnets.Type,String
+Parameters.SslCertificate.Type,String
+Mappings.RegionMap.ca-central-1.AMI,ami-d29e25b6
+Parameters.DatabaseMasterPassword.NoEcho,True
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPDomainName.default,Site Domain
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPDirectory.default,Site Directory
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_opcache.files./tmp/install_opcache.sh.group,root
+Parameters.WebAsgMin.Default,2
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_opcache.files./tmp/install_opcache.sh.owner,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_cacheclient.files./tmp/install_cacheclient.sh.mode,320
+Parameters.DatabaseMasterPassword.MaxLength,41
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicAlbHostname.default,Public Alb Hostname
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.InstanceMonitoring,True
+Parameters.PublicAlbTargetGroupArn.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.SslCertificate.default,ACM Cert attached to Public Alb
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'PHPVersion', u'PHPIniOverride', u'EC2KeyName', u'WebInstanceType', u'WebAsgMax', u'WebAsgMin', u'WebSecurityGroup', u'NumberOfSubnets', u'Subnet', u'PublicAlbTargetGroupArn', u'PublicAlbHostname', u'SslCertificate'], u'Label': {u'default': u'Web Parameters'}}, {u'Parameters': [u'WPVersion', u'WPTitle', u'WPDomainName', u'WPDirectory', u'WPAdminUsername', u'WPAdminPassword', u'WPAdminEmail', u'WPLocale'], u'Label': {u'default': u'WordPress Parameters'}}, {u'Parameters': [u'DatabaseClusterEndpointAddress', u'DatabaseName', u'DatabaseMasterUsername', u'DatabaseMasterPassword'], u'Label': {u'default': u'Database Parameters'}}, {u'Parameters': [u'ElasticFileSystem'], u'Label': {u'default': u'File System Parameters'}}]"
+Parameters.DatabaseMasterUsername.MaxLength,16
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,WebInstanceProfile
+Outputs.Opcachestatus.Value,"[u'', [u'PublicAlbHostname', u'/opcache-instanceid.php']]"
+Parameters.WebAsgMin.AllowedPattern,^([0-0]?[0-9]|10)$
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebAsgMax.default,Web ASG Max
+Parameters.WPLocale.Description,"The main language of the WordPress site, as per https://codex.WordPress.org/Installing_WordPress_in_Your_Language. The default is 'en_GB'."
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,EC2KeyName
+Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Timeout,PT5M
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPLocale.default,Language Code
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_aws_ini.commands.install_aws_ini.cwd,/tmp
+Parameters.WPDomainName.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php70,[]
+Parameters.Subnet.Type,List<AWS::EC2::Subnet::Id>
+Parameters.DatabaseMasterPassword.ConstraintDescription,"Must be letters (upper or lower), numbers, and these special characters '_'`~!#$%^&*()_+,-"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_cacheclient.files./tmp/install_cacheclient.sh.content,"#!/bin/bash -xe
+ln -s /usr/bin/pecl7 /usr/bin/pecl #just so pecl is available easily
+pecl7 install igbinary
+wget -P /tmp/ https://s3.amazonaws.com/aws-refarch/wordpress/latest/bits/AmazonElastiCacheClusterClient-2.0.1-PHP70-64bit.tar.gz
+tar -xf '/tmp/AmazonElastiCacheClusterClient-2.0.1-PHP70-64bit.tar.gz'
+cp '/tmp/artifact/amazon-elasticache-cluster-client.so' /usr/lib64/php/7.0/modules/
+if [ ! -f /etc/php-7.0.d/50-memcached.ini ]; then
+    touch /etc/php-7.0.d/50-memcached.ini
+fi
+echo 'extension=igbinary.so;' >> /etc/php-7.0.d/50-memcached.ini
+echo 'extension=/usr/lib64/php/7.0/modules/amazon-elasticache-cluster-client.so;' >> /etc/php-7.0.d/50-memcached.ini
+"
+Parameters.PublicAlbHostname.Description,The hostname of the public ALB http form (e.g. http://abdc-12345-xyz.<region>.elb.amazonaws.com)
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebSecurityGroup.default,Web Security Group
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php55-pear,[]
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,120
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PHPVersion.default,PHP Version
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_cacheclient.packages.yum.gcc-c++,[]
+Parameters.DatabaseMasterUsername.MinLength,1
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseMasterUsername.default,DB Master Username
+Parameters.WPVersion.Default,latest
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Subnet.default,Subnets
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_opcache.commands.install_opcache.command,./install_opcache.sh
+Parameters.WPDirectory.Type,String
+Parameters.WPDomainName.Description,[ Optional ] The main domain name of the WordPress site (e.g. example.com). Leave empty to use the ALB DNS name for the WordPress site.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.download_aws_ini.files./tmp/download_aws_ini.sh.group,root
+Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Count,WebAsgMin
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPTitle.default,Site Title
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicAlbTargetGroupArn.default,Public Alb Target Group Arn
+Parameters.WPAdminUsername.Description,The WordPress admin username.
+Parameters.DatabaseMasterUsername.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.download_aws_ini.files./tmp/download_aws_ini.sh.content,"[u'', [u'#!/bin/bash -x\n', u'\n', u'wget -P /etc/php-7.0.d/ ', u'PHPIniOverride', u'\n']]"
+Parameters.DatabaseClusterEndpointAddress.Description,The RDS cluster endpoint address.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_cacheclient.commands.install_cacheclient.ignoreErrors,False
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.start_webserver.services.sysvinit.httpd.ensureRunning,True
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_opcache.files./tmp/install_opcache.sh.content,"#!/bin/bash -xe
+# create hidden opcache directory locally & change owner to apache
+if [ ! -d /var/www/.opcache ]; then                    
+    mkdir -p /var/www/.opcache
+fi
+# enable opcache in /etc/php-7.0.d/10-opcache.ini
+sed -i 's/;opcache.file_cache=.*/opcache.file_cache=\/var\/www\/.opcache/' /etc/php-7.0.d/10-opcache.ini
+sed -i 's/opcache.memory_consumption=.*/opcache.memory_consumption=512/' /etc/php-7.0.d/10-opcache.ini
+# download opcache-instance.php to verify opcache status
+if [ ! -f /var/www/wordpress/${WPDirectory}/opcache-instanceid.php ]; then
+    wget -P /var/www/wordpress/${WPDirectory}/ https://s3.amazonaws.com/aws-refarch/wordpress/latest/bits/opcache-instanceid.php
+fi
+"
+Parameters.NumberOfSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,"[u'PHP55', u'WebLaunchConfiguration55', [u'PHP56', u'WebLaunchConfiguration56', u'WebLaunchConfiguration70']]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.files./tmp/create_site_conf.sh.group,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php7-pear,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.commands.create_site_conf.command,./create_site_conf.sh
+Parameters.WPAdminPassword.AllowedPattern,"^([a-zA-Z0-9`~!#$%^&*()_+,\\-])*$"
+Parameters.WebAsgMax.AllowedPattern,^((?!0$)[1-2]?[0-9]|30)$
+Parameters.PublicAlbHostname.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.files./tmp/create_site_conf.sh.mode,320
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php56-devel,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php55-mysqlnd,[]
+Parameters.NumberOfSubnets.Default,3
+Parameters.SslCertificate.Description,Is there an ACM SSL Certificate attached to the Public Alb?
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2KeyName.default,Existing Key Pair
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.awslogs,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_opcache.commands.install_opcache.ignoreErrors,False
+Parameters.WPLocale.Default,en_GB
+Parameters.DatabaseClusterEndpointAddress.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php70-devel,[]
+Parameters.WPAdminPassword.Type,String
+Parameters.PublicAlbTargetGroupArn.Description,The public application load balancer target group arn.
+Parameters.WPVersion.Type,String
+Parameters.EC2KeyName.Description,Name of an EC2 KeyPair. Your bastion & Web instances will launch with this KeyPair.
+Parameters.WebSecurityGroup.Description,Select the web security group.
+Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.configSets.deploy_webserver,"[u'install_webserver', u'build_cacheclient', u'build_wordpress', u'build_opcache', u'download_aws_ini', u'install_aws_ini', u'install_cacheclient', u'install_wordpress', u'install_opcache', u'start_webserver']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_aws_ini.commands.install_aws_ini.command,./download_aws_ini.sh
+Parameters.WPTitle.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9 _-]*)([a-zA-Z0-9])$
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_cacheclient.commands.install_cacheclient.command,./install_cacheclient.sh
+Parameters.WPDirectory.Description,The WordPress site directory.
+Parameters.WPLocale.Type,String
+Parameters.SslCertificate.AllowedValues,"[True, False]"
+Parameters.WPAdminUsername.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.mysql56,[]
+Parameters.WebAsgMax.Type,String
+Parameters.DatabaseName.Description,The Amazon RDS master database name.
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,60
+Parameters.PHPIniOverride.Description,Full Amazon S3 https path to a php.ini override file (e.g. https://s3.amazonaws.com/aws-refarch/wordpress/latest/bits/20-aws.ini)
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebAsgMin.default,Web ASG Min
+Parameters.WPAdminEmail.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_wordpress.files./tmp/install_wordpress.sh.mode,320
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_wordpress.files./tmp/install_wordpress.sh.content,"[u'', [u'#!/bin/bash -xe\n', u'\n', u'# install wp-cli\n', u'if [ ! -f /bin/wp/wp-cli.phar ]; then\n', u'   curl -o /bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar\n', u'   chmod +x /bin/wp\n', u'fi\n', u'\n', u'# make site directory\n', u'if [ ! -d /var/www/wordpress/', u'WPDirectory', u' ]; then\n', u'   mkdir -p /var/www/wordpress/', u'WPDirectory', u'\n', u'\n', u'   cd /var/www/wordpress/', u'WPDirectory', u'\n', u'   # install wordpress if not installed\n', u'   # use public alb host name if wp domain name was empty\n', u'   if ! $(wp core is-installed --allow-root); then\n', u""       wp core download --version='"", u'WPVersion', u""' --locale='"", u'WPLocale', u""' --allow-root\n"", u""       wp core config --dbname='"", u'DatabaseName', u""' --dbuser='"", u'DatabaseMasterUsername', u""' --dbpass='"", u'DatabaseMasterPassword', u""' --dbhost='"", u'DatabaseClusterEndpointAddress', u""' --dbprefix=wp_ --allow-root\n"", u'       wp core install --url=', [u'NoWPDomainName', u'PublicAlbHostname', [u'', [u""'http://www."", u'WPDomainName', u""'""]]], u"" --title='"", u'WPTitle', u""' --admin_user='"", u'WPAdminUsername', u""' --admin_password='"", u'WPAdminPassword', u""' --admin_email='"", u'WPAdminEmail', u""' --skip-email --allow-root\n"", u'       wp plugin install w3-total-cache\n', u'       sed -i ""/$table_prefix = \'wp_\';/ a \\define(\'WP_HOME\', \'http://\' . \\$_SERVER[\'HTTP_HOST\']); "" /var/www/wordpress/', u'WPDirectory', u'/wp-config.php\n', u'       sed -i ""/$table_prefix = \'wp_\';/ a \\define(\'WP_SITEURL\', \'http://\' . \\$_SERVER[\'HTTP_HOST\']); "" /var/www/wordpress/', u'WPDirectory', u'/wp-config.php\n', u'       # enable HTTPS in wp-config.php if ACM Public SSL Certificate parameter was not empty\n', [u'NoSslCertificate', [u'', [u'       sed -i ""/$table_prefix = \'wp_\';/ a \\# No ACM Public SSL Certificate "" /var/www/wordpress/', u'WPDirectory', u'/wp-config.php\n']], [u'', [u'       sed -i ""/$table_prefix = \'wp_\';/ a \\$_SERVER[\'HTTPS\'] = \'on\';"" /var/www/wordpress/', u'WPDirectory', u'/wp-config.php\n']]], u'\n', u'       # set permissions of wordpress site directories\n', u'       chown -R apache:apache /var/www/wordpress/', u'WPDirectory', u'\n', u'       chmod u+wrx /var/www/wordpress/', u'WPDirectory', u'/wp-content/*\n', u'       if [ ! -f /var/www/wordpress/', u'WPDirectory', u'/opcache-instanceid.php ]; then\n', u'         wget -P /var/www/wordpress/', u'WPDirectory', u'/ https://s3.amazonaws.com/aws-refarch/wordpress/latest/bits/opcache-instanceid.php\n', u'       fi\n', u'   fi\n', u'   RESULT=$?\n', u'   if [ $RESULT -eq 0 ]; then\n', u'       touch /var/www/wordpress/', u'WPDirectory', u'/wordpress.initialized\n', u'         else\n', u'       touch /var/www/wordpress/', u'WPDirectory', u'/wordpress.failed\n', u'   fi\n', u'fi\n']]"
+Parameters.PHPVersion.Description,The version of PHP to install.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPAdminPassword.default,Admin Password
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.TargetGroupARNs,[u'PublicAlbTargetGroupArn']
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfSubnets.default,Number of subnets
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Parameters.PHPIniOverride.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php55,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_cacheclient.commands.install_cacheclient.cwd,/tmp
+Parameters.DatabaseMasterPassword.MinLength,8
+Parameters.NumberOfSubnets.Description,Number of subnets. This must match your selections in the list of subnets below.
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"[u'RegionMap', u'AWS::Region', u'AMI']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_opcache.packages.yum.php70-opcache,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.start_webserver.services.sysvinit.httpd.enabled,True
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php56-mysqlnd,[]
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,WebAsgMax
+Resources.AWS::IAM::Role.Properties.Path,/
+Parameters.WPAdminEmail.AllowedPattern,"^(([^<>()\[\]\\.,;:\s@""]+(\.[^<>()\[\]\\.,;:\s@""]+)*)|("".+""))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElasticFileSystem.default,EFS File System
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.download_aws_ini.files./tmp/download_aws_ini.sh.mode,320
+Parameters.WebAsgMin.Description,Specifies the minimum number of EC2 instances in the Web Autoscaling Group.
+Parameters.WPVersion.Description,The WordPress version (make sure this version is compatible with the PHP version selected above).
+Parameters.WPDirectory.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9_-])*([a-zA-Z0-9])$
+Parameters.WPVersion.AllowedValues,"[u'latest', u'nightly', 4.5, 4.6, 4.7, 4.8, 4.9]"
+Parameters.EC2KeyName.AllowedPattern,"^([a-zA-Z0-9 @.`~!#$%^&*()_+,\\-])*$"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.httpd24,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_cacheclient.files./tmp/install_cacheclient.sh.owner,root
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'logs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents', u'logs:DescribeLogStreams'], u'Resource': [u'arn:aws:logs:*:*:*'], u'Effect': u'Allow'}]}}]"
+Parameters.WebAsgMax.ConstraintDescription,Must be a number between 1 and 30.
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[u'WebInstanceRole']
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php56-pear,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_wordpress.files./tmp/install_wordpress.sh.group,root
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PHPIniOverride.default,AWS php.ini Overrides
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_wordpress.commands.install_wordpress.command,./install_wordpress.sh
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPAdminEmail.default,Admin Email
+Parameters.DatabaseMasterUsername.AllowedPattern,^([a-zA-Z0-9]*)$
+Parameters.PHPVersion.Default,7
+Parameters.DatabaseMasterPassword.Type,String
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.WPDomainName.AllowedPattern,^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$
+Parameters.ElasticFileSystem.Description,The Amazon EFS file system id.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.install_webserver.packages.yum.php55-devel,[]
+Parameters.DatabaseMasterUsername.ConstraintDescription,Must contain only alphanumeric characters and be at least 8 characters.
+Parameters.WPTitle.Description,The WordPress website title.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.build_opcache.files./tmp/install_opcache.sh.mode,320
+Parameters.WebAsgMin.ConstraintDescription,Must be a number between 0 and 10.
+Parameters.DatabaseMasterPassword.Description,The Amazon RDS master password.

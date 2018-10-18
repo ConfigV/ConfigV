@@ -1,0 +1,20 @@
+Resources.AWS::WAF::Rule.Properties.MetricName,{u'Ref': u'ByteURIRule1'}
+Parameters.ByteURIRule1.Description,Enter the name of the byte URI rule 1. Note names cannot be modified after creation and must be alphanumeric without spaces.
+Parameters.ByteURICondition1.Type,String
+Parameters.WhiteListIPCondition1.Description,Enter the ID of the WhiteList IP condition 1.
+Outputs.WAFByteURIRule1ID.Value,{u'Ref': u'WAFByteURIRule1'}
+Resources.AWS::WAF::ByteMatchSet.Type,AWS::WAF::ByteMatchSet
+Resources.AWS::WAF::Rule.Properties.Name,{u'Ref': u'ByteURIRule1'}
+Outputs.WAFByteURIRule1ID.Description,Byte URI Rule ID 1
+Resources.AWS::WAF::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFByteURICondition1'}, u'Type': u'ByteMatch', u'Negated': False}, {u'DataId': {u'Ref': u'WhiteListIPCondition1'}, u'Type': u'IPMatch', u'Negated': True}]"
+Resources.AWS::WAF::ByteMatchSet.Properties.ByteMatchTuples,"[{u'TargetString': u'config.', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'install.', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'shell.', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'update.', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'.conf', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'.log', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'.ini', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'/var/', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'/etc/', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}, {u'TargetString': u'/opt/', u'PositionalConstraint': u'CONTAINS', u'TextTransformation': u'CMD_LINE', u'FieldToMatch': {u'Data': u'', u'Type': u'URI'}}]"
+Outputs.WAFByteURICondition1ID.Description,Byte URI Condition ID 1
+Parameters.ByteURICondition1.Default,ByteURICondition1
+Resources.AWS::WAF::Rule.DependsOn,WAFByteURICondition1
+Resources.AWS::WAF::Rule.Type,AWS::WAF::Rule
+Outputs.WAFByteURICondition1ID.Value,{u'Ref': u'WAFByteURICondition1'}
+Parameters.ByteURICondition1.Description,Enter the name of the byte URI condition 1. Note names cannot be modified after creation and must be alphanumeric without spaces.
+Parameters.ByteURIRule1.Default,ByteURIRule1
+Parameters.WhiteListIPCondition1.Type,String
+Parameters.ByteURIRule1.Type,String
+Resources.AWS::WAF::ByteMatchSet.Properties.Name,{u'Ref': u'ByteURICondition1'}

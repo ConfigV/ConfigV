@@ -1,0 +1,49 @@
+Resources.Custom::CognitoIdentityPool.Type,Custom::CognitoIdentityPool
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[{u'Ref': u'DeploymentAccess'}, {u'Ref': u'DeploymentOwnerAccess'}, {u'Ref': u'DeploymentAdminRestrictions'}]"
+Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Parameters.PlayerAccessTokenExchange.Description,ARN for the lambda that the login cognito-identity pool needs access to.
+Resources.AWS::IAM::Role.Metadata.CloudCanvas.RoleMappings,"[{u'Effect': u'Allow', u'AbstractRole': [u'*.DeploymentAdmin']}]"
+Resources.Custom::Helper.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Parameters.ConfigurationKey.Type,String
+Resources.Custom::AccessControl.DependsOn,"[u'Player', u'Server', u'DeploymentOwner', u'DeploymentAdmin', u'AuthenticatedPlayer']"
+Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
+Resources.AWS::IAM::Role.Properties.Path,"{u'Fn::Join': [u'', [u'/', {u'Ref': u'ProjectStack'}, u'/', {u'Ref': u'DeploymentName'}, u'/']]}"
+Resources.AWS::IAM::ManagedPolicy.Properties.Path,"{u'Fn::Join': [u'', [u'/', {u'Ref': u'ProjectStack'}, u'/', {u'Ref': u'DeploymentName'}, u'/']]}"
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.Custom::CognitoIdentityPool.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.DeploymentStack.Type,String
+Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
+Parameters.DeploymentStackArn.Type,String
+Parameters.ProjectResourceHandler.Type,String
+Metadata.CloudCanvas.Id,$Revision: #1 $
+Parameters.ProjectStack.Description,The name of the project stack.
+Resources.Custom::CognitoIdentityPool.Properties.AllowUnauthenticatedIdentities,true
+Resources.Custom::Helper.Properties.Input.LowerCaseStackName,{u'HelperFn::LowerCase': {u'Ref': u'AWS::StackName'}}
+Parameters.ConfigurationKey.Description,Key that contains the current upload location.
+Parameters.CloudCanvasStack.Type,String
+Resources.Custom::CognitoIdentityPool.Properties.IdentityPoolName,PlayerLogin
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'cloudformation:CreateStack', u'cloudformation:DeleteStack'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:cloudformation:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stack/', {u'Ref': u'DeploymentStack'}, u'-*']]}], u'Effect': u'Allow', u'Sid': u'CreateAndDeleteResourceGroupStacks'}, {u'Action': u'lambda:CreateFunction', u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'CreateLambdaFunctions'}, {u'Action': [u'logs:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:logs:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':log-group:/aws/lambda/', {u'Ref': u'DeploymentStack'}, u'-*']]}, {u'Fn::Join': [u'', [u'arn:aws:logs:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':log-group:/aws/lambda/', {u'Ref': u'ProjectStack'}, u'ProjectResourceHandler*']]}], u'Effect': u'Allow', u'Sid': u'FullAccessToDeploymentAndResourceGroupLogs'}, {u'Action': [u'dynamodb:*', u's3:*', u'sqs:*', u'sns:*', u'lambda:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/', {u'Ref': u'DeploymentStack'}, u'-*']]}, {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Fn::GetAtt': [u'Helper', u'LowerCaseDeploymentStackName']}, u'-*']]}, {u'Fn::Join': [u'', [u'arn:aws:sqs:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'DeploymentStack'}, u'-*']]}, {u'Fn::Join': [u'', [u'arn:aws:sns:*:', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'DeploymentStack'}, u'-*']]}, {u'Fn::Join': [u'', [u'arn:aws:lambda:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':function:', {u'Ref': u'DeploymentStack'}, u'-*']]}], u'Effect': u'Allow', u'Sid': u'FullAccessToDeploymentAndResourceGroupResources'}, {u'Action': [u's3:PutObject', u's3:GetObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ConfigurationBucket'}, u'/upload/*/deployment/', {u'Ref': u'DeploymentName'}, u'/*']]}], u'Effect': u'Allow', u'Sid': u'GetAndPutDeploymentConfigurationUploads'}, {u'Action': [u's3:PutObject', u's3:GetObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ConfigurationBucket'}, u'/cgp-resource-code/deployment/', {u'Ref': u'DeploymentName'}, u'/*']]}], u'Effect': u'Allow', u'Sid': u'GetAndPutCloudGemPortalContent'}, {u'Action': [u'lambda:InvokeFunction'], u'Resource': [{u'Ref': u'ProjectResourceHandler'}], u'Effect': u'Allow', u'Sid': u'InvokeProjectResourceHandler'}, {u'Action': [u'cloudformation:UpdateStack', u'cloudformation:DeleteStack'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:cloudformation:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stack/', {u'Ref': u'AWS::StackName'}, u'/*']]}], u'Effect': u'Deny', u'Sid': u'PreventDeploymentAccessStackAccess'}, {u'Action': [u'dynamodb:*', u'sqs:*', u'sns:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/', {u'Ref': u'AWS::StackName'}, u'-*']]}, {u'Fn::Join': [u'', [u'arn:aws:sqs:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'AWS::StackName'}, u'-*']]}, {u'Fn::Join': [u'', [u'arn:aws:sns:*:', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'AWS::StackName'}, u'-*']]}], u'Effect': u'Deny', u'Sid': u'PreventDeploymentAccessResourceAccess'}, {u'Action': [u'iam:PassRole', u'iam:GetRolePolicy', u'iam:ListRolePolicies'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/', {u'Ref': u'ProjectStack'}, u'/', {u'Ref': u'DeploymentName'}, u'/*']]}], u'Effect': u'Allow', u'Sid': u'ReadAndPassDeploymentRoles'}, {u'Action': [u'lambda:InvokeFunction'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:lambda:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':function:', {u'Ref': u'ProjectStack'}, u'-AH-*']]}], u'Effect': u'Allow', u'Sid': u'InvokeArnLambdas'}, {u'Action': [u'cloudformation:DescribeStacks', u'cloudformation:DescribeStackEvents', u'cloudformation:GetTemplate', u'cloudformation:UpdateStack'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:cloudformation:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stack/', {u'Ref': u'DeploymentStack'}, u'/*']]}, {u'Fn::Join': [u'', [u'arn:aws:cloudformation:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stack/', {u'Ref': u'DeploymentStack'}, u'-*']]}], u'Effect': u'Allow', u'Sid': u'UpdateDeploymentAndResourceGroupStacks'}, {u'Action': [u's3:PutObject', u's3:GetObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ConfigurationBucket'}, u'/resource-settings/', {u'Ref': u'DeploymentName'}, u'/*']]}], u'Effect': u'Allow', u'Sid': u'GetAndPutResourceGroupSettings'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'AWS': {u'Ref': u'AWS::AccountId'}}, u'Effect': u'Allow', u'Sid': u'AccountUserAssumeRole'}]"
+Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.ProjectResourceHandler.Description,The the project resource handler lambda ARN.
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.DeploymentName.Description,The name of the deployment.
+Parameters.CloudCanvasStack.Default,DeploymentAccess
+Resources.Custom::CognitoIdentityPool.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::CognitoIdentityPool.Properties.Roles.unauthenticated,"{u'Fn::GetAtt': [u'PlayerLoginRole', u'Arn']}"
+Resources.Custom::Helper.Properties.Input.LowerCaseDeploymentStackName,{u'HelperFn::LowerCase': {u'Ref': u'DeploymentStack'}}
+Resources.Custom::Helper.Type,Custom::Helper
+Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
+Parameters.ProjectStack.Type,String
+Resources.Custom::CognitoIdentityPool.Properties.Roles.authenticated,"{u'Fn::GetAtt': [u'AuthenticatedPlayer', u'Arn']}"
+Parameters.PlayerAccessTokenExchange.Type,String
+Resources.Custom::CognitoIdentityPool.Properties.UseAuthSettingsObject,false
+Parameters.DeploymentName.Type,String
+Parameters.ConfigurationBucket.Type,String
+Parameters.DeploymentStackArn.Description,The ARN of the deployment stack.
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ExchangeTokenAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'lambda:InvokeFunction'], u'Resource': {u'Ref': u'PlayerAccessTokenExchange'}, u'Effect': u'Allow', u'Sid': u'PlayerLoginExecution'}]}}]"
+Resources.Custom::CognitoIdentityPool.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Parameters.DeploymentStack.Description,The name of the deployment stack.
+Resources.Custom::AccessControl.Type,Custom::AccessControl

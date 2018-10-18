@@ -1,0 +1,34 @@
+Parameters.ParamInstSubnet.Description,Subnet for instance
+Parameters.ParamRSAKeyName.Description,RSA Key for instances
+Parameters.ParamInstanceAMI.Description,ID of instance AMI
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Security group for instance
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'ParamRSAKeyName'}
+Parameters.ParamUseElasticIP.Description,Whether to create and assign an elastic ip to the instance
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Resources.AWS::EC2::EIP.Condition,UseElasticIP
+Parameters.ParamIamInstanceProfile.Description,IAM Role Profile for instances
+Parameters.ParamUseElasticIP.Type,String
+Parameters.ParamVPC.Description,VPC ID
+Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"[{u'Ref': u'ParamInstanceDefaultSG'}, {u'Ref': u'SGInstance'}]"
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n']]}}"
+Resources.AWS::EC2::Instance.Properties.SourceDestCheck,true
+Parameters.ParamInstanceAMI.Type,String
+Resources.AWS::EC2::EIP.DependsOn,Instance
+Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'ParamInstSubnet'}
+Parameters.ParamRSAKeyName.Type,AWS::EC2::KeyPair::KeyName
+Parameters.ParamUseElasticIP.Default,false
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.ParamVPC.Type,AWS::EC2::VPC::Id
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,[]
+Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'ParamIamInstanceProfile'}
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Parameters.ParamInstanceDefaultSG.Type,AWS::EC2::SecurityGroup::Id
+Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'Instance'}
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ParamVPC'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'ParamInstanceAMI'}
+Parameters.ParamIamInstanceProfile.Type,String
+Parameters.ParamUseElasticIP.AllowedValues,"[u'true', u'false']"
+Parameters.ParamInstSubnet.Type,AWS::EC2::Subnet::Id
+Parameters.ParamInstanceDefaultSG.Description,ID of Default Management SG
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'@', [u'inst', {u'Ref': u'AWS::StackName'}]]}, u'Key': u'Name'}]"

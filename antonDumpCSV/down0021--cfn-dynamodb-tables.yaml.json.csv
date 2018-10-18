@@ -1,0 +1,51 @@
+Resources.AWS::IAM::Policy.Properties.Roles,[u'dynamodbAutoscalingRole']
+Outputs.dynamodbTableNameTalrDxInterface.Value,dynamodbTableDxInterface
+Outputs.dynamodbTableNameTalrOps.Description,talr-ops DynamoDB table name
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Type,AWS::ApplicationAutoScaling::ScalingPolicy
+Parameters.stage.Type,String
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.ScalingTargetId,autoscaleTargetTableAccountInfoTableReadCapacity
+Outputs.dynamodbTableNameTalrNipapCfn.Value,dynamodbTableNipapCfn
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'requestId'}]"
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyType,TargetTrackingScaling
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyName,ReadAutoScalingPolicy
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.ScaleInCooldown,60
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.RoleARN,dynamodbAutoscalingRole.Arn
+Resources.AWS::DynamoDB::Table.Properties.StreamSpecification.StreamViewType,NEW_AND_OLD_IMAGES
+Outputs.dynamodbTableNameTalrConfigRulesCompliance.Description,talr-configRulesCompliance DynamoDB table name
+Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'requestId'}], u'IndexName': u'gsiRequestId', u'Projection': {u'ProjectionType': u'KEYS_ONLY'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': u'1', u'ReadCapacityUnits': u'1'}}, {u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'accountId'}], u'IndexName': u'gsiAccountId', u'Projection': {u'ProjectionType': u'ALL'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': u'1', u'ReadCapacityUnits': u'1'}}]"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
+Outputs.dynamodbTableNameTalrTaskStatus.Description,talr-taskStatus DynamoDB table name
+Resources.AWS::IAM::Role.Properties.Path,/
+Outputs.dynamodbTableNameTalrTaskStatus.Value,dynamodbTableTaskStatus
+Outputs.dynamodbTableNameTalrCbInfo.Description,talr-cbInfo DynamoDB table name
+Resources.AWS::DynamoDB::Table.Properties.TableName,"[u'-', [u'talr-claStatus', u'stage']]"
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MaxCapacity,10
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'application-autoscaling.amazonaws.com']}}]"
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MinCapacity,1
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Type,AWS::ApplicationAutoScaling::ScalableTarget
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'dynamodb:DescribeTable', u'dynamodb:UpdateTable', u'cloudwatch:PutMetricAlarm', u'cloudwatch:DescribeAlarms', u'cloudwatch:GetMetricStatistics', u'cloudwatch:SetAlarmState', u'cloudwatch:DeleteAlarms'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Outputs.dynamodbStreamsTalrTaskStatus.Description,talr-taskStatus DynamoDB stream name
+Outputs.dynamodbTableNameTalrNipapCfn.Description,talr-nipapCfn DynamoDB table name
+Outputs.dynamodbTableNameTalrClaStatus.Value,dynamodbTableClaStatus
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ScalableDimension,dynamodb:index:WriteCapacityUnits
+Outputs.dynamodbTableNameTalrCbInfo.Value,dynamodbTableCbInfo
+Outputs.dynamodbStreamsTalrTaskStatus.Value,dynamodbTableTaskStatus.StreamArn
+Outputs.dynamodbTableNameTalrClaStatus.Description,talr-claStatus DynamoDB table name
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.TargetValue,50
+Outputs.dynamodbTableNameTalrConfigRulesCompliance.Value,dynamodbTableConfigRulesCompliance
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ServiceNamespace,dynamodb
+Resources.AWS::IAM::Policy.Properties.PolicyName,dynamodbAutoscaling
+Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.ResourceId,table/${dynamodbTableAccountInfo}/index/gsiRequestId
+Outputs.dynamodbTableNameTalrDxInterface.Description,talr-dxInterface DynamoDB table name
+Outputs.dynamodbTableNameTalrOps.Value,dynamodbTableOps
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
+Outputs.dynamodbTableNameTalrAccountInfo.Value,dynamodbTableAccountInfo
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'requestId', u'AttributeType': u'S'}]"
+Outputs.dynamodbTableNameTalrAccountInfo.Description,talr-accountInfo DynamoDB table name
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.PredefinedMetricSpecification.PredefinedMetricType,DynamoDBReadCapacityUtilization
+Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.ScaleOutCooldown,60

@@ -1,0 +1,36 @@
+Parameters.EmailAddress.ConstraintDescription,Please enter a valid email address for the SNS subscription
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaFunctionRole'}]
+Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.health']
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'SNSPublishFunction', u'Arn']}"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::Lambda::Function.Properties.Timeout,25
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'AWS Health Event']
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.service,[u'DIRECTCONNECT']
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaFunctionRole', u'Arn']}"
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'', [u'// Sample Lambda Function to send notifications to a SNS topic when an AWS Health event happens\n', u""var AWS = require('aws-sdk');\n"", u'var sns = new AWS.SNS();\n', u'\n', u'// define configuration\n', u""const snsTopic ='"", {u'Ref': u'SnsTopic'}, u""'; //use ARN"", u'\n', u'//main function which gets AWS Health data from Cloudwatch event\n', u'exports.handler = (event, context, callback) => {\n', u'    //extract details from Cloudwatch event\n', u""    healthMessage = event.detail.eventDescription[0].latestDescription + '. For more details, please see https://phd.aws.amazon.com/phd/home?region=' + event.region + '#/dashboard/open-issues' + '\\n\\nRegion: ' + event.region + '\\nAccount Id: ' + event.account + '\\n\\nAffected Resources:';\n"", u""    for (var i=0; i<event.resources.length; i++) {healthMessage += '\\n' + event.resources[i];}\n"", u""    healthMessage += '\\n\\nStart Time: ' + event.detail.startTime + '\\nEnd Time: ' + event.detail.endTime;\n"", u'    eventName = event.detail.eventTypeCode\n', u'    //prepare message for SNS to publish\n', u'    var snsPublishParams = {\n', u'        Message: healthMessage, \n', u'        Subject: eventName,\n', u'        TopicArn: snsTopic\n', u'    };\n', u'    sns.publish(snsPublishParams, function(err, data) {\n', u'    if (err) {\n', u'        const snsPublishErrorMessage = `Error publishing AWS Health event to SNS`;\n', u'        console.log(snsPublishErrorMessage, err);\n', u'        callback(snsPublishErrorMessage);\n', u'        } \n', u'    else {\n', u'        const snsPublishSuccessMessage = `Successfully got details from AWS Health event, ${eventName} and published to SNS topic.`;\n', u'        console.log(snsPublishSuccessMessage, data);\n', u'        callback(null, snsPublishSuccessMessage); //return success\n', u'        }\n', u'    });\n', u'};']]}"
+Parameters.EmailAddress.Type,String
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'SNSPublishFunction', u'Arn': {u'Fn::GetAtt': [u'SNSPublishFunction', u'Arn']}}]"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::Lambda::Function.DependsOn,SnsTopic
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow', u'Sid': u'Stmt1477516473539'}, {u'Action': [u'sns:Publish'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Stmt1484080345748'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.1
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaPolicy
+Resources.AWS::SNS::Topic.Properties.DisplayName,DXMaintNotify
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Ref': u'EmailAddress'}, u'Protocol': u'email'}]"
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'CloudWatchEventRule', u'Arn']}"
+Parameters.EmailAddress.Description,"Please enter an email address to subscribe to the SNS topic. To subscribe additional email addresses and for other subscription options, go to SNS >> Topics >> ""DXMaintNotify"" >> Create subscription"
+Parameters.EmailAddress.AllowedPattern,[a-zA-Z0-9]+@[0-9a-zA-Z]+\.[a-zA-Z]+
+Resources.AWS::Events::Rule.Properties.Description,EventRule
+Resources.AWS::SNS::Topic.Properties.TopicName,DXMaintNotify

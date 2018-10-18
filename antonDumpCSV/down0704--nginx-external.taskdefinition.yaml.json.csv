@@ -1,0 +1,12 @@
+Resources.AWS::ECS::TaskDefinition.Properties.Family,ixortalk-nginx-external
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,nginx-external-logs
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
+Parameters.SpringCloudConfigLabel.Type,String
+Parameters.SpringCloudConfigLabel.Description,The branch of the config environment to use
+Parameters.SpringProfilesActive.Type,String
+Outputs.TaskDefinition.Value,TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'nginx-external-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-nginx-external', u'Image': u'ixortalk/ixortalk-nginx-docker-proxy:${NginxImageVersion}', u'Hostname': u'ixortalk-nginx-external', u'Environment': [{u'Name': u'IXORTALK_NGINX_PROFILE', u'Value': u'SpringProfilesActive'}, {u'Name': u'IXORTALK_CONFIG_SERVER_LABEL', u'Value': u'SpringCloudConfigLabel'}, {u'Name': u'IXORTALK_NGINX_ENABLE_BASIC_AUTH', u'Value': u'false'}, {u'Name': u'IXORTALK_CONFIG_SERVER_URL', u'Value': u'https://${LoadbalancerDNS}/config'}, {u'Name': u'IXORTALK_NGINX_SUFFIX', u'Value': u'external'}], u'Memory': 64, u'PortMappings': [{u'ContainerPort': 80}]}]"
+Parameters.LoadbalancerDNS.Type,String
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Parameters.NginxImageVersion.Type,String

@@ -1,0 +1,51 @@
+Outputs.AwsAccountId.Value,{u'Ref': u'AWS::AccountId'}
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CognitoIdentityPoolAuthAdminRole'}]
+Outputs.CognitoIdentityPoolAuthAdminRoleArn.Value,"{u'Fn::GetAtt': [u'CognitoIdentityPoolAuthAdminRole', u'Arn']}"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Outputs.LambdaBucket.Description,Name of the private S3 bucket used to store zipped Lambda function code
+Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'AllowedHeaders': [u'*'], u'AllowedMethods': [u'GET', u'PUT', u'POST', u'HEAD'], u'MaxAge': u'3000', u'AllowedOrigins': [u'*']}]"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Outputs.CognitoIdentityPoolUnAuthRoleArn.Description,ARN of the Cognito Identity Pool unauthenticated user role
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'execute-api:Invoke', u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:execute-api:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'ApiGatewayRestApi'}, u'/*/*/*']]}], u'Effect': u'Allow'}, {u'Action': [u's3:*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'UserDataBucket'}, u'/*']]}, u'Effect': u'Allow'}]"
+Outputs.LambdaExecutionRole.Description,Name of the Lambda execution role
+Outputs.CognitoIdentityPoolUnAuthRole.Value,{u'Ref': u'CognitoIdentityPoolUnAuthRole'}
+Resources.AWS::IAM::Role.Metadata.AWS::CloudFormation::Designer.id,b39c3719-0f5a-45cd-996a-54e2169a8292
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.ResourcePrefix.Description,Resource prefix to use when creating necessary objects
+Outputs.LambdaBucket.Value,{u'Ref': u'LambdaBucket'}
+Outputs.CognitoIdentityPoolAuthAdminRole.Description,Name of the Cognito Identity Pool authenticated user role
+Outputs.AwsRegion.Description,Region of the AWS deployment
+Outputs.LambdaExecutionRoleArn.Value,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Outputs.CognitoIdentityPoolAuthStandardRoleArn.Value,"{u'Fn::GetAtt': [u'CognitoIdentityPoolAuthStandardRole', u'Arn']}"
+Outputs.CognitoIdentityPoolAuthAdminRoleArn.Description,ARN of the Cognito Identity Pool authenticated user role
+Outputs.UserDataBucket.Description,Name of the S3 bucket used to store application-specific user data
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::S3::Bucket.Metadata.AWS::CloudFormation::Designer.id,33617384-d25d-4fd2-9fce-59ed9394a747
+Outputs.ApiGatewayRestApi.Description,Name of the ApiGatewayRestApi
+Parameters.ResourcePrefix.ConstraintDescription,"Resource prefix can only contain lower-case letters, numbers, and dashes"
+Outputs.LambdaExecutionRoleArn.Description,ARN of the Lambda execution role
+Outputs.CognitoIdentityPoolAuthAdminRole.Value,{u'Ref': u'CognitoIdentityPoolAuthAdminRole'}
+Outputs.CognitoIdentityPoolUnAuthRoleArn.Value,"{u'Fn::GetAtt': [u'CognitoIdentityPoolUnAuthRole', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.ResourcePrefix.Type,String
+Outputs.CognitoIdentityPoolAuthStandardRoleArn.Description,ARN of the Cognito Identity Pool authenticated user role
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Principal': u'*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'UserDataBucket'}, u'/*']]}, u'Effect': u'Allow', u'Sid': u'Make all content public'}]"
+Resources.AWS::IAM::Policy.Metadata.AWS::CloudFormation::Designer.id,057d78c2-d091-4c1e-8043-1fbdc1150d93
+Resources.AWS::ApiGateway::RestApi.Properties.Name,"{u'Fn::Join': [u'-', [{u'Ref': u'ResourcePrefix'}, u'-lambda-execution-role']]}"
+Outputs.CognitoIdentityPoolAuthStandardRole.Description,Name of the Cognito Identity Pool authenticated user role
+Resources.AWS::IAM::Policy.Properties.PolicyName,CognitoIdentityPoolAuthAdminPolicy
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRoleWithWebIdentity', u'Effect': u'Allow', u'Condition': {u'ForAnyValue:StringLike': {u'cognito-identity.amazonaws.com:amr': u'authenticated'}}, u'Principal': {u'Federated': u'cognito-identity.amazonaws.com'}}]"
+Outputs.LambdaExecutionRole.Value,{u'Ref': u'LambdaExecutionRole'}
+Outputs.AwsRegion.Value,{u'Ref': u'AWS::Region'}
+Outputs.UserDataBucket.Value,{u'Ref': u'UserDataBucket'}
+Outputs.ApiGatewayRestApi.Value,{u'Ref': u'ApiGatewayRestApi'}
+Outputs.AwsAccountId.Description,Account ID of the AWS account
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'UserDataBucket'}
+Resources.AWS::ApiGateway::RestApi.Properties.Description,The API resource
+Parameters.ResourcePrefix.MaxLength,30
+Outputs.CognitoIdentityPoolUnAuthRole.Description,Name of the Cognito Identity Pool unauthenticated user role
+Resources.AWS::ApiGateway::RestApi.Type,AWS::ApiGateway::RestApi
+Parameters.ResourcePrefix.AllowedPattern,^[a-z0-9][a-z0-9-]+$
+Outputs.CognitoIdentityPoolAuthStandardRole.Value,{u'Ref': u'CognitoIdentityPoolAuthStandardRole'}

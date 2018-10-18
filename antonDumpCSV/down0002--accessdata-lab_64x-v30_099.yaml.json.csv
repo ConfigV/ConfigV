@@ -1,0 +1,272 @@
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Resources.AWS::EC2::PlacementGroup.Properties.Strategy,cluster
+Outputs.Documentation.Description,AccessData Lab Documentation
+Mappings.RegionMap.ca-cental-1.AWSSQL,ami-56388332
+Resources.AWS::IAM::Policy.DependsOn,rADInstanceRole
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
+Resources.AWS::EC2::Route.Properties.NatGatewayId,rNATGateway
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3389', u'FromPort': u'3389', u'IpProtocol': u'tcp', u'CidrIp': u'pPublicCIDR'}]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': u'ADLab', u'PropagateAtLaunch': u'true', u'Key': u'Product'}, {u'Value': u'DPEGroup', u'PropagateAtLaunch': u'true', u'Key': u'Name'}, {u'Value': u'DPE', u'PropagateAtLaunch': u'true', u'Key': u'Component'}, {u'Value': u'6.4.0', u'PropagateAtLaunch': u'true', u'Key': u'Version'}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDomainConfig.default,Domain
+Resources.AWS::SSM::Document.Type,AWS::SSM::Document
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'IpProtocol': u'-1', u'CidrIp': u'0.0.0.0/0'}]"
+Resources.AWS::DirectoryService::SimpleAD.Properties.Name,pDomainName
+Parameters.pSQLOption.Description,"Select your licensing method for Microsoft SQL Server. 'AWS License' uses an Amazon EC2 License with the cost for SQL Server Standard Edition baked into the hourly EC2 charge for your instance 'BYOL' installs SQL, but you will need to license it with a valid SQL Server license key. (Check with your DBA for information.)"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,0
+Parameters.pDirectoryPassword.NoEcho,true
+Resources.AWS::DirectoryService::SimpleAD.Properties.VpcSettings.SubnetIds,"[u'rSubnetPrivateApp', u'rSubnetDirectoryServices']"
+Resources.AWS::DirectoryService::SimpleAD.Properties.Password,pDirectoryPassword
+Parameters.pDPMType.Description,Select the EC2 Instance type for The Distributed Processing Management (DPM) Server.
+Resources.AWS::EC2::Volume.Properties.AvailabilityZone,"[0, u'pAZ']"
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,True
+Parameters.pKeyPair.ConstraintDescription,ERROR! You must select a certificate pair to proceed!
+Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[u'rSecurityGroupLabClient']
+Parameters.pDomainName.ConstraintDescription,Domain name must be between 6 and 24 characters to proceed.
+Resources.AWS::EC2::Instance.Properties.SubnetId,rSubnetPrivateApp
+Parameters.pEULA.Description,"You must accept End User License Agreement (EULA), visit https://accessdata.com/ADG_EULA for a copy of the current license."
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pSQLDataVolumeSize.default,SQL Database Volume Size
+Parameters.pEvidenceVolumeSize.AllowedValues,"[u'256', u'512', u'1024', u'2048', u'4096', u'8192', u'12288', u'16384']"
+Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'DirecotrySubnet', u'Key': u'Name'}]"
+Resources.AWS::EC2::PlacementGroup.Type,AWS::EC2::PlacementGroup
+Outputs.EULA.Description,AccessData End User License Agreement
+Resources.AWS::EC2::VPC.Properties.InstanceTenancy,default
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[u'rSecurityGroupApp']
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1
+Resources.AWS::SSM::Document.Properties.Content.parameters.directoryId.type,String
+Parameters.pDPMType.Type,String
+Parameters.pDomainName.Type,String
+Resources.AWS::EC2::Volume.DeletionPolicy,Retain
+Parameters.pKeyPair.Type,AWS::EC2::KeyPair::KeyName
+Parameters.pSQLOption.MinLength,4
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,rSubnetPrivateApp
+Resources.AWS::SSM::Association.Properties.Parameters.dnsIpAddresses,"[u'rDirectorySimpleAD', u'DnsIpAddresses']"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDPMType.default,DPM Instance Type
+Resources.AWS::DirectoryService::SimpleAD.Type,AWS::DirectoryService::SimpleAD
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pSQLType.default,SQL Server Instance Type
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,rADInstanceProfile
+Resources.AWS::EC2::Instance.Properties.PlacementGroupName,rCoreGroup
+Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
+Parameters.pDirectorySubnetCIDR.AllowedPattern,"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sdk', u'Ebs': {u'VolumeSize': u'1024', u'VolumeType': u'gp2'}}]"
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,rNACLPublic
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pCaseDataVolumeSize.default,Case Data Volume Size
+Parameters.pDomainConfig.AllowedValues,"[u'SimpleAD', u'none']"
+Resources.AWS::S3::BucketPolicy.Condition,cCreateS3Bucket
+Resources.AWS::EC2::Instance.DeletionPolicy,Retain
+Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
+Parameters.pSQLLogVolumeSize.Type,Number
+Resources.AWS::SSM::Document.Properties.Content.schemaVersion,1.2
+Resources.AWS::EC2::Instance.Properties.EbsOptimized,true
+Parameters.pEULA.Type,String
+Parameters.pDirectorySubnetCIDR.Description,Select a subnet in CIDR notation for the directory you are creating or joining. (Leave this as-is if you are not creating a new AWS SimpleAD.)
+Parameters.pSQLLogVolumeSize.Default,256
+Parameters.pDPMType.Default,c4.4xlarge
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Resources.AWS::EC2::Volume.Properties.Tags,"[{u'Value': u'MSSQL', u'Key': u'Component'}, {u'Value': u'6.4.0', u'Key': u'Version'}, {u'Value': u'SQL-DBData', u'Key': u'Name'}, {u'Value': u'ADLab', u'Key': u'Product'}]"
+Parameters.pDBPrivateSubnetCIDR.Default,10.0.2.0/24
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
+Resources.AWS::IAM::Policy.Properties.Roles,[u'rADInstanceRole']
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM']
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDPEType.default,DPE(s) Instance Type
+Resources.AWS::SSM::Association.Properties.Name,rDocumentJoinSimpleAD
+Resources.AWS::EC2::Route.Properties.RouteTableId,rRouteTablePrivate
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pEvidenceVolumeSize.default,Evidence Volume Size
+Resources.AWS::S3::BucketPolicy.DeletionPolicy,Retain
+Resources.AWS::SSM::Association.Properties.Parameters.directoryName,[u'pDomainName']
+Parameters.pSQLDataVolumeSize.Default,256
+Parameters.pKeyPair.Description,Required: Select the Amazon EC2 Key Pair to use for this install. This will be used to decrypt passwords. 
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::SSM::Document.Properties.Content.parameters.directoryName.type,String
+Resources.AWS::EC2::NatGateway.Properties.SubnetId,rSubnetDMZ
+Parameters.pDirectoryPassword.Type,String
+Parameters.pS3Bucket.Type,String
+Parameters.pDomainConfig.Type,String
+Parameters.pCaseDataVolumeSize.Default,256
+Resources.AWS::EC2::Volume.Properties.Encrypted,true
+Parameters.pVpcCIDR.Type,String
+Mappings.RegionMap.ca-cental-1.ADLab,ami-
+Parameters.pDMZSubnetCIDR.Description,"Select a subnet in CIDR notation for your DMZ and Bastion host. If unsure, use the default options."
+Resources.AWS::SSM::Document.Properties.Content.parameters.dnsIpAddresses.default,[]
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Resources.AWS::SSM::Association.Type,AWS::SSM::Association
+Parameters.pDomainName.Description,Enter the domain name you would like to use. Or the name of an existing domain for ADLab to join.
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,210
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,rInternetGateway
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDirectoryPassword.default,Active Directory Password
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'pAZ', u'pVpcCIDR', u'pAppPrivateSubnetCIDR', u'pDBPrivateSubnetCIDR', u'pDMZSubnetCIDR'], u'Label': {u'default': u'ADLab Networking Configuration'}}, {u'Parameters': [u'pDomainConfig', u'pDomainName', u'pDirectoryPassword', u'pDirectorySubnetCIDR'], u'Label': {u'default': u'ADLab Active Directory Domain Configuration'}}, {u'Parameters': [u'pKeyPair', u'pDPMType', u'pDPEType', u'pSQLOption', u'pSQLType'], u'Label': {u'default': u'ADLab EC2 Instance Configuration'}}, {u'Parameters': [u'pEvidenceVolumeSize', u'pCaseDataVolumeSize', u'pSQLDataVolumeSize', u'pSQLLogVolumeSize', u'pS3Bucket'], u'Label': {u'default': u'ADLab AWS Storage Configuration'}}, {u'Parameters': [u'pPublicCIDR'], u'Label': {u'default': u'Incoming Network Access Information'}}, {u'Parameters': [u'pEULA'], u'Label': {u'default': u'ADLab License Agreement'}}]"
+Parameters.pS3Bucket.Description,Would you like to create an encrypted S3 Bucket for evidence imports?
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,rNACLPrivate
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
+Parameters.pSQLDataVolumeSize.Description,EBS Volume (1024 GB = 1 TB) for SQL Database Storage (minimum recommended 25% of processed Evidence)
+Parameters.pS3Bucket.Default,Yes
+Outputs.EULA.Value,https://accessdata.com/ADG_EULA
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.EbsOptimized,true
+Mappings.RegionMap.eu-cental-1.ADLab,ami-
+Parameters.pDomainName.Default,adlab.local
+Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'Prod-PublicRoute', u'Key': u'Name'}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pPublicCIDR.default,CIDR Range
+Outputs.Documentation.Value,https://accessdata.com/products-services/ad-lab
+Parameters.pCaseDataVolumeSize.Description,EBS Volume (1024 GB = 1TB) for Case Data Storage. (Minimum recommended 25% of Evidence Storage)
+Parameters.pSQLDataVolumeSize.Type,Number
+Parameters.pDMZSubnetCIDR.Type,String
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pKeyPair.default,Key Pair
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDMZSubnetCIDR.default,CIDR Range
+Resources.AWS::SSM::Document.Properties.Content.parameters.directoryId.description,(Required) The ID of the AWS Directory Service directory.
+Parameters.pDirectorySubnetCIDR.Default,10.0.11.0/24
+Parameters.pDirectoryPassword.Description,"Select a password for the SimpleAD 'Administrator@adlab.local' user, or the password for an existing domain Administrator to join into."
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDirectorySubnetCIDR.default,CIDR Range
+Parameters.pDomainConfig.MinLength,4
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': 0, u'GroupSet': [u'rSecurityGroupBastion'], u'Description': u'Primary network interface', u'DeleteOnTermination': u'true', u'SubnetId': u'rSubnetDMZ', u'AssociatePublicIpAddress': u'true'}]"
+Resources.AWS::EC2::RouteTable.Properties.VpcId,rVPC
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,rEvidenceBucket
+Resources.AWS::SSM::Document.Properties.Content.runtimeConfig.aws:domainJoin.properties.dnsIpAddresses,{{ dnsIpAddresses }}
+Parameters.pPublicCIDR.Type,String
+Resources.AWS::IAM::InstanceProfile.DependsOn,rADInstanceRole
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ADInstanceRole', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ssm:CreateAssociation'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::DirectoryService::SimpleAD.Condition,cCreateSimpleAD
+Parameters.pDMZSubnetCIDR.AllowedPattern,"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$"
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Parameters.pDirectoryPassword.MinLength,6
+Parameters.pDBPrivateSubnetCIDR.AllowedPattern,"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$"
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,pKeyPair
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pAppPrivateSubnetCIDR.default,CIDR Range
+Parameters.pVpcCIDR.Description,Select a subnet prefix (In CIDR Format) for the new VPC.
+Resources.AWS::SSM::Document.Properties.Content.runtimeConfig.aws:domainJoin.properties.directoryId,{{ directoryId }}
+Parameters.pKeyPair.MinLength,1
+Parameters.pSQLLogVolumeSize.Description,EBS Volume (1024 GB = 1TB) for SQL Log Storage (Please consult your DBA for recommendations)
+Parameters.pDBPrivateSubnetCIDR.Type,String
+Parameters.pAZ.AllowedPattern,[a-z][a-z]-[a-z]+-[0-9][a-z]
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Parameters.pSQLType.AllowedValues,"[u'm4.xlarge', u'm4.2xlarge', u'm4.4xlarge', u'm4.10xlarge']"
+Resources.AWS::SSM::Document.Properties.Content.parameters.dnsIpAddresses.type,StringList
+Resources.AWS::EC2::Instance.Properties.InstanceInitiatedShutdownBehavior,stop
+Parameters.pEvidenceVolumeSize.Default,256
+Parameters.pPublicCIDR.AllowedPattern,"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$"
+Parameters.pEvidenceVolumeSize.Type,Number
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Bastion access rule
+Parameters.pDomainConfig.Default,SimpleAD
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pS3Bucket.default,Create an Evidence S3 Bucket?
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,rDPELaunchConfig
+Parameters.pSQLType.Default,m4.xlarge
+Resources.AWS::SSM::Document.Properties.Content.runtimeConfig.aws:domainJoin.properties.directoryName,{{ directoryName }}
+Resources.AWS::EC2::NetworkAcl.Properties.VpcId,rVPC
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.PlacementGroup,rCoreGroup
+Parameters.pAppPrivateSubnetCIDR.AllowedPattern,"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$"
+Resources.AWS::EC2::Instance.Properties.Volumes,"[{u'Device': u'xvdi', u'VolumeId': u'rSQLDBDataVolume'}, {u'Device': u'xvdj', u'VolumeId': u'rSQLDBLogsVolume'}, {u'Device': u'xvdk', u'VolumeId': u'rSQLTempDBVolume'}]"
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Join': [u'', [u'<powershell>\n', u'#INITIALIZEDISKS\n', u'C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeDisks.ps1\n', u'#DISABLE SERVICES AND UNINSTALL APPS\n', u'Set-Service adprocessingengine -StartupType Disabled\n', u'$app = Get-WmiObject -Query ""SELECT * FROM Win32_Product WHERE Name like \'AccessData Distr%\'""\n', u'$app.Uninstall() | Out-Null\n', [u'cCreateSimpleAD', [u'', [u'#ENABLE FEATURES\n', u'Add-WindowsFeature RSAT-AD-Tools\n', u'Add-WindowsFeature GPMC\n']], u'AWS::NoValue'], u'</powershell>']]}"
+Resources.AWS::EC2::Route.DependsOn,rAttachGateway
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"[1, u'pAZ']"
+Parameters.pAppPrivateSubnetCIDR.Default,10.0.0.0/24
+Resources.AWS::EC2::Volume.Properties.VolumeType,gp2
+Parameters.pDirectoryPassword.ConstraintDescription,Password must be between 6 and 24 characters and contain alpha number characters. (allowed symbols -_.!@&)
+Resources.AWS::SSM::Document.Condition,cCreateSimpleAD
+Parameters.pSQLLogVolumeSize.AllowedValues,"[u'256', u'512', u'1024', u'2048', u'4096', u'8192', u'12288', u'16384']"
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,3389
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDBPrivateSubnetCIDR.default,CIDR Range
+Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': u'NACL-Private', u'Key': u'Name'}]"
+Resources.AWS::EC2::Instance.Properties.Monitoring,false
+Parameters.pDomainName.MinLength,6
+Resources.AWS::SSM::Association.Properties.Parameters.directoryId,[u'rDirectorySimpleAD']
+Mappings.RegionMap.eu-cental-1.AWSSQL,ami-d0901fbf
+Parameters.pDPEType.Default,i3.2xlarge
+Parameters.pSQLOption.Default,BYOL
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,rRouteTablePrivate
+Resources.AWS::EC2::Subnet.Properties.VpcId,rVPC
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Join': [u'', [u'<powershell>\n', u'#INITIALIZEDISKS\n', u'C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeDisks.ps1\n', u'#CREATE DIRECTORIES AND UPDATE SERVICES\n', u'New-Item -ItemType Directory -Force -Path T:\\AD\\ADTemp\n', u'$regKey = ""HKLM:\\Software\\AccessData\\Products\\Common""\n', u'Set-ItemProperty -Path $regKey -Name ""TempDir"" -Value ""T:\\AD\\ADTemp"" -Type STRING -Force\n', u'#UNINSTALL APPS\n', u'$app = Get-WmiObject -Query ""SELECT * FROM Win32_Product WHERE Name like \'AccessData Distr%\'""\n', u'$app.Uninstall() | Out-Null\n', u'$app = Get-WmiObject -Query ""SELECT * FROM Win32_Product WHERE Name like \'AccessData Lab%\'""\n', u'$app.Uninstall() | Out-Null\n', u'$app = Get-WmiObject -Query ""SELECT * FROM Win32_Product WHERE Name like \'AccessData License%\'""\n', u'$app.Uninstall() | Out-Null\n', u'$app = Get-WmiObject -Query ""SELECT * FROM Win32_Product WHERE Name like \'CodeMeter%\'""\n', u'$app.Uninstall() | Out-Null  \n', u'#Enable PS Remoting \n', u'Enable-PSRemoting - force \n', u'# Configure MSTDC Option(s) Here\n', u'#Section 01: Enable Security Settings enabling Network Acces for Local and Remote CLients:\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""NetworkDtcAccess"" -Value ""1""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""NetworkDtcAccessAdmin"" -Value ""1""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""NetworkDtcAccessClients"" -Value ""1""\n', u'#Section 02: Allow Ingress and Egress Traffic and disable Authentication and Auth Fall Back.\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""NetworkDtcAccessTransactions"" -Value ""1""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""NetworkDtcAccessInbound"" -Value ""1""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""NetworkDtcAccessOutbound"" -Value ""1""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\"" -Name ""AllowOnlySecureRpcCalls"" -Value ""0""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\"" -Name ""FallbackToUnsecureRPCIfNecessary"" -Value ""0""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\"" -Name ""TurnOffRpcSecurity"" -Value ""1"" | # Section 03 - Enable XA and SNA LU 6.2 Transactions:\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""XaTransactions"" -Value ""1""\n', u'Set-ItemProperty ""HKLM:\\\\SOFTWARE\\\\Microsoft\\\\MSDTC\\\\Security\\\\"" -Name ""LuTransactions"" -Value ""1"" | #End MSTDC Config\n', [u'cCreateSimpleAD', [u'', [u'gpupdate /force\n', u'cmd /c ""sc config """"adprocessingengine"""" obj= """"', u'pDomainName', u'Administrator@', u'"""" password= """"', u'pDirectoryPassword', u'""""""\n']], u'AWS::NoValue'], u'</powershell>']]}"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pVpcCIDR.default,CIDR Range
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Resources.AWS::S3::Bucket.Properties.AccessControl,Private
+Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': u'igw-LabNetwork', u'Key': u'Name'}]"
+Parameters.pEULA.ConstraintDescription,You must accept End User License Agreement (EULA). Select Yes to proceed
+Resources.AWS::S3::Bucket.Condition,cCreateS3Bucket
+Parameters.pVpcCIDR.Default,10.0.0.0/16
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,false
+Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,rADInstanceProfile
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,pDirectorySubnetCIDR
+Resources.AWS::EC2::Subnet.Condition,cCreateSimpleAD
+Parameters.pAppPrivateSubnetCIDR.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,rVPC
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pLabClientPrivateSubnetCIDR.default,CIDR Range
+Parameters.pSQLDataVolumeSize.AllowedValues,"[u'256', u'512', u'1024', u'2048', u'4096', u'8192', u'12288', u'16384']"
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::IAM::Policy.Properties.PolicyName,ADInstancePolicy
+Parameters.pDirectorySubnetCIDR.Type,String
+Resources.AWS::SSM::Document.Properties.Content.description,Join instances to an AWS Directory Service domain.
+Resources.AWS::DirectoryService::SimpleAD.Properties.VpcSettings.VpcId,rVPC
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pAZ.default,Availability Zones
+Parameters.pDBPrivateSubnetCIDR.Description,"Select a subnet in CIDR notation for your Database Subnet. If unsure, use the default options."
+Resources.AWS::EC2::Volume.Properties.Size,pSQLDataVolumeSize
+Parameters.pSQLType.Type,String
+Parameters.pCaseDataVolumeSize.AllowedValues,"[u'256', u'512', u'1024', u'2048', u'3072', u'4096', u'8192', u'16384']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Parameters.pDirectoryPassword.Default,abc123!
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Parameters.pPublicCIDR.Description,Select the Network in CIDR Notation of hosts you will allow to log in.
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Parameters.pDirectoryPassword.AllowedPattern,^[a-zA-Z][a-zA-Z0-9-_.!@&]*$
+Resources.AWS::DirectoryService::SimpleAD.Properties.Size,Small
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'cloudformation:DescribeStackResource'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::S3::BucketPolicy.DependsOn,rEvidenceBucket
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pSQLLogVolumeSize.default,SQL Log Volume Size
+Resources.AWS::EC2::Instance.Properties.ImageId,"[u'RegionMap', u'AWS::Region', u'ADLab']"
+Parameters.pCaseDataVolumeSize.Type,Number
+Resources.AWS::SSM::Document.Properties.Content.parameters.dnsIpAddresses.description,(Optional) The IP addresses of the DNS servers in the directory. Required when DHCP is not configured. Learn more at http://docs.aws.amazon.com/directoryservice/latest/simple-ad/join_get_dns_addresses.html
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
+Parameters.pDomainName.AllowedPattern,^[a-zA-Z][a-zA-Z0-9-_.$]*$
+Resources.AWS::EC2::Instance.Properties.DisableApiTermination,false
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.pSQLOption.AllowedValues,"[u'AWS License', u'BYOL']"
+Parameters.pS3Bucket.AllowedValues,"[u'Yes', u'No']"
+Parameters.pAppPrivateSubnetCIDR.Description,"Select a subnet in CIDR notation for your Application Subnet. If unsure, use the default options."
+Parameters.pDPMType.AllowedValues,"[u'c4.2xlarge', u'c4.4xlarge', u'c4.8xlarge']"
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,[u'rSubnetPrivateApp']
+Resources.AWS::SSM::Association.Condition,cCreateSimpleAD
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pEULA.default,Accept The AccessData Lab Terms and Conditions
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pSQLOption.default,SQL Licensing Method
+Parameters.pAZ.Type,List<AWS::EC2::AvailabilityZone::Name>
+Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'SG-Bastion', u'Key': u'Name'}]"
+Resources.AWS::SSM::Document.Properties.Content.parameters.directoryName.description,"(Required) The name (FQDN) of the directory; for example, test.example.com"
+Resources.AWS::EC2::Route.Properties.GatewayId,rInternetGateway
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.pDomainName.default,Domain Name
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,16
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Parameters.pDirectoryPassword.MaxLength,24
+Parameters.pDPEType.Type,String
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::EC2::Volume.Type,AWS::EC2::Volume
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.pEULA.AllowedValues,[u'Yes']
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,rSubnetPrivateApp
+Parameters.pDPEType.AllowedValues,"[u'i3.2xlarge', u'i3.4xlarge', u'i3.8xlarge', u'm4.2xlarge', u'm4.4xlarge', u'm4.10xlarge']"
+Resources.AWS::EC2::NatGateway.Properties.AllocationId,"[u'rElasticIP', u'AllocationId']"
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetBucketAcl', u'Sid': u'AWSCloudTrailAclCheck20150319', u'Resource': [u'', [u'arn:aws:s3:::', u'rEvidenceBucket']], u'Effect': u'Allow', u'Principal': u'*'}, {u'Resource': [u'', [u'arn:aws:s3:::', u'rEvidenceBucket', u'/*']], u'Effect': u'Allow', u'Sid': u'AWSCloudTrailWrite20150319', u'Action': u's3:PutObject', u'Condition': {u'StringEquals': {u's3:x-amz-acl': u'bucket-owner-full-control'}}, u'Principal': u'*'}, {u'Resource': [u'', [u'arn:aws:s3:::', u'rEvidenceBucket', u'/*']], u'Effect': u'Deny', u'Sid': u'DenyUnEncryptedObjectUploads', u'Action': u's3:PutObject', u'Condition': {u'StringNotEquals': {u's3:x-amz-server-side-encryption': u'AES256'}}, u'Principal': u'*'}]"
+Parameters.pSQLOption.Type,String
+Parameters.pDomainConfig.Description,"Select a domain configuration. Simple AD (Please check for availability in your region.) Select 'None' to use an existing directory service, or skip it entirely."
+Parameters.pPublicCIDR.Default,255.255.255.255/32
+Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': u'ADLab-Production', u'Key': u'Name'}]"
+Parameters.pEvidenceVolumeSize.Description,EBS Volume (1024 GB = 1TB) for Evidence Storage.
+Resources.AWS::SSM::Association.Properties.Targets,"[{u'Values': [u'rDPEAutoScale'], u'Key': u'tag:aws:autoscaling:groupName'}]"
+Parameters.pVpcCIDR.AllowedPattern,"^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$"
+Resources.AWS::SSM::Document.Properties.Content.parameters.dnsIpAddresses.allowedPattern,((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)
+Parameters.pSQLType.Description,EC2 Instance type for SQL Server. (Reccomended size: m4.4xlarge.)
+Parameters.pDPEType.Description,Select the EC2 Instance type for The Distributed Processing Engine(s).
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"[u'RegionMap', u'AWS::Region', u'ADLab']"
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,3389
+Parameters.pAZ.Description,Select two availability zones for your VPC subnets. (The Second AZ is only used for directory services.)
+Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
+Resources.AWS::EC2::Instance.Properties.KeyName,pKeyPair
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,rVPC
+Resources.AWS::EC2::VPC.Properties.CidrBlock,pVpcCIDR
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'ADLab', u'Key': u'Product'}, {u'Value': u'LabClient', u'Key': u'Component'}, {u'Value': u'6.4.0', u'Key': u'Version'}, {u'Value': u'LabClient', u'Key': u'Name'}]"
+Parameters.pDMZSubnetCIDR.Default,10.0.10.0/24
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[u'rADInstanceRole']
+Parameters.pDomainName.MaxLength,24

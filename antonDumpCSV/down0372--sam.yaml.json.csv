@@ -1,0 +1,44 @@
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.SES_REGION,SESRegion
+Resources.AWS::Serverless::Function.Properties.CodeUri,../bin/lambda.zip
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.SES_SEND,SESSendTo
+Parameters.SESSendTo.Type,String
+Resources.AWS::Serverless::Function.Properties.FunctionName,CostExplorerReportLambda
+Resources.AWS::Serverless::Function.Properties.Events.MonthlyEvent.Type,Schedule
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.ACCOUNT_LABEL,AccountLabel
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.COST_TAGS,ListOfCostTags
+Parameters.AccountLabel.Description,"Email or Name, default is Email"
+Resources.AWS::IAM::Role.Properties.Path,/
+Parameters.DayOfMonth.Default,6
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.SESRegion.Default,us-east-1
+Parameters.SESSendFrom.Description,Email thats authorised in account for SES sending. Will not email if blank
+Resources.AWS::Serverless::Function.Properties.MemorySize,256
+Parameters.DayOfMonth.Type,Number
+Parameters.ListOfCostTags.Type,String
+Parameters.ListOfCostTags.Description,Comma seperated list of all Cost Allocation Tags
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.CURRENT_MONTH,CurrentMonth
+Resources.AWS::Serverless::Function.Properties.Description,Function for generating / sending monthly cost report
+Resources.AWS::Serverless::Function.Properties.Timeout,60
+Resources.AWS::Serverless::Function.Properties.Role,CostExplorerReportLambdaIAMRole.Arn
+Parameters.S3Bucket.Description,S3 Bucket to store the report in
+Resources.AWS::Serverless::Function.Properties.Handler,lambda.main_handler
+Parameters.AccountLabel.Type,String
+Parameters.AccountLabel.Default,Email
+Parameters.S3Bucket.Type,String
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.SES_FROM,SESSendFrom
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Sid': u'AllowLambdaServiceToAssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Parameters.DayOfMonth.Description,"DayOfMonth for Schedule, default 6 - use 12 if you want to report refunds and finalised Enterprise Support."
+Resources.AWS::Serverless::Function.Properties.Runtime,python3.6
+Parameters.SESRegion.Description,Region you have configured SES in (Default us-east-1)
+Parameters.CurrentMonth.Description,true | false for if current partial month included
+Parameters.SESSendFrom.Type,String
+Resources.AWS::Serverless::Function.Properties.Events.MonthlyEvent.Properties.Schedule,cron(0 1 ${DayOfMonth} * ? *)
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.SESRegion.Type,String
+Parameters.SESSendTo.Description,List of comma emails to send to
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.S3_BUCKET,S3Bucket
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ce:*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'organizations:ListAccounts'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'ses:SendEmail', u'ses:SendRawEmail'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:PutObject', u's3:PutObjectAcl'], u'Resource': u'arn:aws:s3:::${S3Bucket}/*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.INC_SUPPORT,false
+Parameters.CurrentMonth.Type,String

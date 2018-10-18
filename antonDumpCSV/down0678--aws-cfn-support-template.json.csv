@@ -1,0 +1,152 @@
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mbstring,[]
+Parameters.DBPassword.MaxLength,41
+Parameters.DBName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.sources./var/www/html,http://ftp.drupal.org/files/projects/drupal-7.8.tar.gz
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Parameters.DBUsername.Description,The Drupal database admin account username
+Parameters.DBAllocatedStorage.Type,Number
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mysql,[]
+Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUsername'}
+Parameters.WebServerCapacity.Default,2
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
+Parameters.MultiAZDatabase.Default,true
+Parameters.DBClass.Description,Database instance class
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.mailcap,[]
+Parameters.SitePassword.AllowedPattern,[a-zA-Z0-9]*
+Parameters.SiteEMail.Description,EMail for site adminitrator
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/passwd-s3fs.owner,root
+Parameters.DBName.Description,The Drupal database name
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'WebServerCapacity'}
+Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Statement': [{u'Action': u's3:*', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.SiteName.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'IpProtocol': u'tcp', u'SourceSecurityGroupOwnerId': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.OwnerAlias']}, u'SourceSecurityGroupName': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.GroupName']}, u'FromPort': u'80'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}]"
+Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,600
+Parameters.SiteAdmin.MinLength,1
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql,[]
+Parameters.DBClass.AllowedValues,"[u'db.m1.small', u'db.m1.large', u'db.m1.xlarge', u'db.m2.xlarge', u'db.m2.2xlarge', u'db.m2.4xlarge']"
+Parameters.DBUsername.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Metadata.Comment,Configure the Load Balancer with a simple health check and cookie-based stickiness
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
+Parameters.SitePassword.ConstraintDescription,must contain only alphanumeric characters.
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.enabled,false
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/settings.php.owner,root
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-gd,[]
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'yum update -y aws-cfn-bootstrap\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'# Install Apache Web Server, MySQL and Drupal\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r LaunchConfig ', u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n"", u'# Install s3fs\n', u'cd /home/ec2-user/s3fs/s3fs-1.61\n', u'./configure --prefix=/usr\n', u'make\n', u'make install\n', u'# Move the website files to the top level\n', u'mv /var/www/html/drupal-7.8/* /var/www/html\n', u'mv /var/www/html/drupal-7.8/.htaccess /var/www/html\n', u'rm -Rf /var/www/html/drupal-7.8\n', u'# Mount the S3 bucket\n', u'mv /var/www/html/sites/default/files /var/www/html/sites/default/files_original\n', u'mkdir -p /var/www/html/sites/default/files\n', u's3fs -o allow_other -o use_cache=/tmp ', {u'Ref': u'S3Bucket'}, u"" /var/www/html/sites/default/files || error_exit 'Failed to mount the S3 bucket'\n"", u'echo `hostname` >> /var/www/html/sites/default/files/hosts\n', u'# Make changes to Apache Web Server configuration\n', u""sed -i 's/AllowOverride None/AllowOverride All/g'  /etc/httpd/conf/httpd.conf\n"", u'service httpd restart\n', u""# Only execute the site install if we are the first host up - otherwise we'll end up losing all the data\n"", u'read first < /var/www/html/sites/default/files/hosts\n', u'if [ `hostname` = $first ]\n', u'then\n', u'  # Create the site in Drupal\n', u'  cd /var/www/html\n', u'  ~ec2-user/drush/drush site-install standard --yes', u""     --site-name='"", {u'Ref': u'SiteName'}, u""' --site-mail="", {u'Ref': u'SiteEMail'}, u'     --account-name=', {u'Ref': u'SiteAdmin'}, u' --account-pass=', {u'Ref': u'SitePassword'}, u'     --db-url=mysql://', {u'Ref': u'DBUsername'}, u':', {u'Ref': u'DBPassword'}, u'@', {u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Address']}, u':', {u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Port']}, u'/', {u'Ref': u'DBName'}, u'     --db-prefix=drupal_\n', u'  # use the S3 bucket for shared file storage\n', u'  cp -R sites/default/files_original/* sites/default/files\n', u'  cp -R sites/default/files_original/.htaccess sites/default/files\n', u'else\n', u'  # Copy settings.php file since everything else is configured\n', u'  cp /home/ec2-user/settings.php /var/www/html/sites/default\n', u'fi\n', u'# Update the code on all machines. \n', u'cd ~ec2-user \n', u'~ec2-user/drush/drush self-update --choice=2 --yes \n', u'cd /var/www/html \n', u'~ec2-user/drush/drush pm-updatecode --yes \n', u'# Update the database from the first machine only. \n', u'if [ `hostname` = $first ]\n', u'then\n', u'    ~ec2-user/drush/drush updatedb --yes \n', u'fi\n', u'# Add modules. Many more are automatically added to this list. \n', u'# Files are copied to all machines. \n', u'~ec2-user/drush/drush pm-download acl commerce content_access entity rules support --yes \n', u'# Enable modules and rebuild the permissions table. The database holds this. \n', u'if [ `hostname` = $first ]\n', u'then\n', u'~ec2-user/drush/drush pm-enable  commerce content_access support --yes \n', u""~ec2-user/drush/drush php-eval 'node_access_rebuild();' \n"", u'fi\n', u'# Fix ownership and permissions. \n', u'chown -R root:apache /var/www/html \n', u'chmod 640 /var/www/html/sites/default/settings.php \n', u'# clean up \n', u'rm /home/ec2-user/settings.php\n', u'# All is well so signal success\n', u'/opt/aws/bin/cfn-signal -e 0 -r ""Drupal setup complete"" \'', {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
+Parameters.WebServerCapacity.Description,The initial number of WebServer instances
+Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'S3User'}
+Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}]]}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.gcc,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-xml,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.libstdc++-devel,[]
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
+Parameters.SiteAdmin.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
+Parameters.KeyName.Type,String
+Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
+Parameters.DBAllocatedStorage.ConstraintDescription,must be between 5 and 1024Gb.
+Parameters.SiteAdmin.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Parameters.SiteAdmin.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.make,[]
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Parameters.WebServerCapacity.MaxValue,5
+Resources.AWS::RDS::DBInstance.Properties.DBSecurityGroups,[{u'Ref': u'DBSecurityGroup'}]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.gcc-c++,[]
+Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Parameters.WebServerCapacity.ConstraintDescription,must be between 1 and 5 EC2 instances.
+Resources.AWS::IAM::User.Properties.Path,/
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.sources./home/ec2-user/s3fs,http://s3fs.googlecode.com/files/s3fs-1.61.tar.gz
+Parameters.DBUsername.Type,String
+Parameters.DBPassword.Type,String
+Parameters.DBName.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.libxml2-devel,[]
+Parameters.WebServerCapacity.MinValue,1
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Id,UploadPolicy
+Parameters.MultiAZDatabase.AllowedValues,"[u'true', u'false']"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.sources./home/ec2-user,http://ftp.drupal.org/files/projects/drush-7.x-4.5.tar.gz
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.openssl-devel,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
+Parameters.DBUsername.MinLength,1
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/passwd-s3fs.group,root
+Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
+Resources.AWS::RDS::DBSecurityGroup.Type,AWS::RDS::DBSecurityGroup
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,"Enable HTTP access via port 80, locked down to requests from the load balancer only and SSH access"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'PolicyNames': [u'CookieBasedPolicy'], u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
+Parameters.SiteAdmin.Description,The Drupal site admin account username
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
+Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebServerGroup
+Resources.AWS::RDS::DBSecurityGroup.Properties.GroupDescription,Frontend Access
+Parameters.DBPassword.NoEcho,true
+Parameters.SitePassword.Type,String
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LBCookieStickinessPolicy,"[{u'PolicyName': u'CookieBasedPolicy', u'CookieExpirationPeriod': u'30'}]"
+Resources.AWS::RDS::DBSecurityGroup.Properties.DBSecurityGroupIngress.EC2SecurityGroupName,{u'Ref': u'WebServerSecurityGroup'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/settings.php.mode,000400
+Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
+Parameters.SitePassword.NoEcho,true
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/settings.php.group,root
+Parameters.MultiAZDatabase.ConstraintDescription,must be either true or false.
+Parameters.SiteName.Description,The name of the Drupal Site
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
+Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBClass'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/settings.php.content,"{u'Fn::Join': [u'', [u'<?php\n', u'\n', u'$databases = array (\n', u""  'default' =>\n"", u'  array (\n', u""    'default' =>\n"", u'    array (\n', u""      'database' => '"", {u'Ref': u'DBName'}, u""',\n"", u""      'username' => '"", {u'Ref': u'DBUsername'}, u""',\n"", u""      'password' => '"", {u'Ref': u'DBPassword'}, u""',\n"", u""      'host' => '"", {u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Address']}, u""',\n"", u""      'port' => '"", {u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Port']}, u""',\n"", u""      'driver' => 'mysql',\n"", u""      'prefix' => 'drupal_',\n"", u'    ),\n', u'  ),\n', u');\n', u'\n', u'$update_free_access = FALSE;\n', u'\n', u""$drupal_hash_salt = '0c3R8noNALe3shsioQr5hK1dMHdwRfikLoSfqn0_xpA';\n"", u'\n', u""ini_set('session.gc_probability', 1);\n"", u""ini_set('session.gc_divisor', 100);\n"", u""ini_set('session.gc_maxlifetime', 200000);\n"", u""ini_set('session.cookie_lifetime', 2000000);\n""]]}"
+Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2008-10-17
+Parameters.MultiAZDatabase.Description,Create a multi-AZ MySQL Amazon RDS database instance
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/README.txt
+Parameters.DBAllocatedStorage.Default,5
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.libcurl-devel,[]
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/passwd-s3fs.mode,000400
+Parameters.SitePassword.Description,The Drupal site admin account password
+Parameters.DBAllocatedStorage.MaxValue,1024
+Parameters.DBName.MinLength,1
+Parameters.DBPassword.MinLength,1
+Resources.AWS::RDS::DBInstance.Properties.MultiAZ,{u'Ref': u'MultiAZDatabase'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Parameters.DBPassword.Default,admin
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Parameters.DBName.Default,drupaldb
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
+Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
+Parameters.SitePassword.MinLength,1
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,5
+Parameters.DBClass.ConstraintDescription,must select a valid database instance type.
+Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'DBAllocatedStorage'}
+Resources.AWS::IAM::User.Type,AWS::IAM::User
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.ensureRunning,false
+Parameters.SiteEMail.Type,String
+Parameters.SiteAdmin.MaxLength,16
+Parameters.DBClass.Type,String
+Parameters.DBPassword.Description,The Drupal database admin account password
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/passwd-s3fs.content,"{u'Fn::Join': [u'', [{u'Ref': u'S3Keys'}, u':', {u'Fn::GetAtt': [u'S3Keys', u'SecretAccessKey']}, u'\n']]}"
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
+Parameters.DBClass.Default,db.m1.small
+Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
+Parameters.DBAllocatedStorage.MinValue,5
+Parameters.DBName.MaxLength,64
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject', u's3:PutObject', u's3:PutObjectACL'], u'Principal': {u'AWS': {u'Fn::GetAtt': [u'S3User', u'Arn']}}, u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3Bucket'}, u'/*']]}, u'Effect': u'Allow', u'Sid': u'EnableReadWrite'}]"
+Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
+Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'S3Bucket'}
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
+Parameters.SiteName.Default,My Site
+Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.fuse-devel,[]
+Parameters.DBUsername.Default,admin
+Parameters.DBUsername.MaxLength,16
+Outputs.WebsiteURL.Description,Drupal Website
+Parameters.DBAllocatedStorage.Description,The size of the database (Gb)
+Parameters.WebServerCapacity.Type,Number
+Parameters.SitePassword.MaxLength,41
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2
+Parameters.MultiAZDatabase.Type,String
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true
+Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.fuse,[]

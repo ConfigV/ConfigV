@@ -1,0 +1,168 @@
+Resources.AWS::ApiGateway::RestApi.Properties.Body.swagger,2
+Resources.AWS::Lambda::Function.Properties.Description,Copies objects from a source S3 bucket to a destination
+Resources.AWS::Lambda::Permission.Properties.FunctionName,RequestUnicornFunction
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.responses.200.headers.Access-Control-Allow-Methods.type,string
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.AWS::Lambda::Function.Properties.Timeout,120
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'RideId'}]"
+Resources.AWS::ApiGateway::Deployment.Properties.StageName,prod
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.responses.200.schema.$ref,#/definitions/Empty
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Resources.Custom::CognitoConfigFile.Properties.Region,AWS::Region
+Resources.AWS::Lambda::Function.Properties.FunctionName,RequestUnicorn
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'RideId', u'AttributeType': u'S'}]"
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.x-amazon-apigateway-integration.contentHandling,CONVERT_TO_TEXT
+Resources.AWS::Lambda::Function.Properties.MemorySize,128
+Resources.AWS::Lambda::Function.DependsOn,WebsiteContent
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
+Resources.AWS::ApiGateway::RestApi.Properties.Name,WildRydes
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::ApiGateway::RestApi.Properties.Body.securityDefinitions.CognitoAuthorizer.x-amazon-apigateway-authorizer.type,cognito_user_pools
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.responses.200.headers.Access-Control-Allow-Origin.type,string
+Parameters.CodeBucket.Type,String
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:execute-api:', u'AWS::Region', u':', u'AWS::AccountId', u':', u'WildRydesApi', u'/*']]}"
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.responses.200.description,200 response
+Resources.Custom::ApiConfigFile.Properties.InvokeUrl,"{u'Fn::Join': [u'', [u'https://', u'WildRydesApi', u'.execute-api.', u'AWS::Region', u'.amazonaws.com/prod']]}"
+Parameters.CodeBucket.Default,wildrydes-us-east-1
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.description,Requests a new ride
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'BucketName'], u'Label': {u'default': u'Website Configuration'}}, {u'Parameters': [u'CodeBucket'], u'Label': {u'default': u'Advanced Configuration'}}]"
+Resources.Custom::CognitoConfigFile.Properties.UserPool,UserPool
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
+Resources.AWS::Cognito::UserPool.Properties.AutoVerifiedAttributes,[u'email']
+Resources.Custom::S3Objects.Properties.Bucket,WebsiteBucket
+Resources.Custom::CognitoConfigFile.Properties.ServiceToken,UpdateCognitoConfigFunction.Arn
+Parameters.CodeBucket.Description,S3 bucket containing the code deployed by this template
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
+Resources.Custom::CognitoConfigFile.Properties.Bucket,WebsiteBucket
+Resources.AWS::ApiGateway::Deployment.Properties.RestApiId,WildRydesApi
+Outputs.WebsiteURL.Value,WebsiteBucket.WebsiteURL
+Resources.Custom::S3Objects.Type,Custom::S3Objects
+Resources.AWS::Cognito::UserPool.Properties.UserPoolName,WildRydes
+Resources.AWS::ApiGateway::RestApi.Properties.Body.securityDefinitions.CognitoAuthorizer.type,apiKey
+Parameters.BucketName.Type,String
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.x-amazon-apigateway-integration.type,mock
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.x-amazon-apigateway-integration.uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', u'AWS::Region', u':lambda:path/2015-03-31/functions/', u'RequestUnicornFunction.Arn', u'/invocations']]}"
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.security,[{u'CognitoAuthorizer': []}]
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Outputs.WildRydesApiInvokeUrl.Value,"{u'Fn::Join': [u'', [u'https://', u'WildRydesApi', u'.execute-api.', u'AWS::Region', u'.amazonaws.com/prod']]}"
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.x-amazon-apigateway-integration.type,aws_proxy
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.consumes,[u'application/json']
+Resources.AWS::ApiGateway::RestApi.Properties.Body.info.version,1.0.0
+Resources.AWS::ApiGateway::Deployment.Type,AWS::ApiGateway::Deployment
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Headers,"'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+Outputs.WildRydesApiInvokeUrl.Export.Name,WildRydesApiUrl
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CognitoConfig', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Logging'}, {u'Action': [u'cognito-idp:CreateUserPool', u'cognito-idp:DeleteUserPool', u'cognito-idp:CreateUserPoolClient', u'cognito-idp:DeleteUserPoolClient'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Cognito'}, {u'Action': [u's3:PutObject', u's3:PutObjectAcl', u's3:PutObjectVersionAcl'], u'Resource': [u'arn:aws:s3:::${WebsiteBucket}/*'], u'Effect': u'Allow', u'Sid': u'ConfigBucketWriteAccess'}]}}]"
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,WebsiteBucket
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.x-amazon-apigateway-integration.responses.default.statusCode,200
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.produces,[u'application/json']
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.x-amazon-apigateway-integration.responses.default.statusCode,200
+Resources.Custom::S3Objects.Properties.SourceBucket,CodeBucket
+Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
+Resources.AWS::ApiGateway::RestApi.Properties.Body.securityDefinitions.CognitoAuthorizer.name,Authorization
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.responses.200.description,200 response
+Resources.AWS::ApiGateway::Deployment.Properties.Description,Prod deployment for wild Rydes API
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
+Resources.AWS::Cognito::UserPoolClient.Properties.ClientName,WildRydesWeb
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::DynamoDB::Table.Properties.TableName,Rides
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
+Resources.AWS::Cognito::UserPool.Type,AWS::Cognito::UserPool
+Parameters.BucketName.Description,"The name for the bucket hosting your website, e.g. 'wildrydes-yourname'"
+Resources.AWS::Cognito::UserPool.Properties.Schema,"[{u'AttributeDataType': u'String', u'Required': True, u'Name': u'email'}]"
+Resources.Custom::CognitoConfigFile.Type,Custom::CognitoConfigFile
+Resources.AWS::Cognito::UserPoolClient.Type,AWS::Cognito::UserPoolClient
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::ApiGateway::RestApi.Properties.Body.securityDefinitions.CognitoAuthorizer.x-amazon-apigateway-authtype,cognito_user_pools
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.responses.200.headers.Access-Control-Allow-Headers.type,string
+Resources.AWS::ApiGateway::RestApi.Type,AWS::ApiGateway::RestApi
+Outputs.WildRydesApiInvokeUrl.Description,URL for the deployed wild rydes API
+Resources.Custom::ApiConfigFile.Type,Custom::ApiConfigFile
+Resources.Custom::S3Objects.Properties.ServiceToken,CopyS3ObjectsFunction.Arn
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.BucketName.default,Website Bucket Name
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Methods,"'GET,OPTIONS,POST'"
+Resources.Custom::ApiConfigFile.Properties.ServiceToken,UpdateApiConfigFunction.Arn
+Resources.AWS::Cognito::UserPoolClient.Properties.UserPoolId,UserPool
+Resources.AWS::IAM::Role.Properties.Path,/wildrydes/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"import json
+import boto3
+import cfnresponse
+
+s3 = boto3.resource('s3')
+
+def create(properties, physical_id):
+  userPoolId = properties['UserPool']
+  clientId = properties['Client']
+  region = properties['Region']
+  bucket = properties['Bucket']
+
+  object = s3.Object(bucket, 'js/config.js')
+  config_content = """"""
+var _config = {
+    cognito: {
+        userPoolId: '%s', // e.g. us-east-2_uXboG5pAb
+        userPoolClientId: '%s', // e.g. 25ddkmj4v6hfsfvruhpfi7n4hv
+        region: '%s', // e.g. us-east-2
+    },
+    api: {
+        invokeUrl: 'Base URL of your API including the stage', // e.g. https://rc7nyt4tql.execute-api.us-west-2.amazonaws.com/prod'
+    }
+};
+    """"""
+  config_content = config_content % (userPoolId, clientId, region)
+  print ""Writing config content: %s"" % config_content
+  print ""Writing to bucket: %s"" % bucket
+  config = s3.Object(bucket,'js/config.js')
+  config.put(Body=config_content)
+  return cfnresponse.SUCCESS, None
+
+def update(properties, physical_id):
+  return create(properties, physical_id)
+
+def delete(properties, physical_id):
+  return cfnresponse.SUCCESS, physical_id
+
+def handler(event, context):
+  print ""Received event: %s"" % json.dumps(event)
+
+  status = cfnresponse.FAILED
+  new_physical_id = None
+
+  try:
+    properties = event.get('ResourceProperties')
+    physical_id = event.get('PhysicalResourceId')
+
+    status, new_physical_id = {
+      'Create': create,
+      'Update': update,
+      'Delete': delete
+    }.get(event['RequestType'], lambda x, y: (cfnresponse.FAILED, None))(properties, physical_id)
+  except Exception as e:
+    print ""Exception: %s"" % e
+    status = cfnresponse.FAILED
+  finally:
+    cfnresponse.send(event, context, status, {}, new_physical_id)
+"
+Resources.AWS::IAM::Role.Properties.RoleName,WildRydesLambda
+Resources.Custom::S3Objects.Properties.SourcePrefix,WebApplication/1_StaticWebHosting/website/
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.options.x-amazon-apigateway-integration.requestTemplates.application/json,"{""statusCode"": 200}"
+Resources.AWS::ApiGateway::RestApi.Properties.Body.securityDefinitions.CognitoAuthorizer.x-amazon-apigateway-authorizer.providerARNs,"[{u'Fn::Join': [u'', [u'arn:aws:cognito-idp:', u'AWS::Region', u':', u'AWS::AccountId', u':userpool/', u'UserPool']]}]"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
+Resources.Custom::ApiConfigFile.Properties.Bucket,WebsiteBucket
+Resources.AWS::ApiGateway::RestApi.Properties.Body.securityDefinitions.CognitoAuthorizer.in,header
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.responses.200.headers.Access-Control-Allow-Origin.type,string
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetObject', u'Resource': u'arn:aws:s3:::${WebsiteBucket}/*', u'Effect': u'Allow', u'Principal': u'*'}]"
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::ApiGateway::RestApi.Properties.Body.info.title,WildRydes
+Resources.AWS::Lambda::Function.Properties.Role,UpdateConfigRole.Arn
+Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./ride.post.x-amazon-apigateway-integration.httpMethod,POST
+Resources.AWS::Cognito::UserPool.Properties.AliasAttributes,[u'email']
+Resources.AWS::Cognito::UserPoolClient.Properties.GenerateSecret,False
+Resources.Custom::CognitoConfigFile.Properties.Client,UserPoolClient
+Resources.AWS::S3::Bucket.Properties.BucketName,BucketName

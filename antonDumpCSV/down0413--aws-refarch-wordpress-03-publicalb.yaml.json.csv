@@ -1,0 +1,49 @@
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,Vpc
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Vpc', u'PublicAlbAcmCertificate', u'PublicAlbSecurityGroup', u'NumberOfSubnets', u'Subnet'], u'Label': {u'default': u'ALB Parameters'}}]"
+Parameters.PublicAlbSecurityGroup.Description,Select the ALB security group.
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicAlbAcmCertificate.default,ALB Certificate ARN
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicAlbSecurityGroup.default,Public ALB Security Group
+Parameters.NumberOfSubnets.Type,String
+Parameters.NumberOfSubnets.Description,Number of subnets. This must match your selections in the list of subnets below.
+Parameters.Vpc.Description,Select an existing Vpc
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,80
+Outputs.PublicAlbHostname.Value,"[u'NoSslCertificate', [u'', [u'http://', u'PublicApplicationLoadBalancer.DNSName']], [u'', [u'https://', u'PublicApplicationLoadBalancer.DNSName']]]"
+Parameters.NumberOfSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
+Outputs.PublicAlbFullName.Value,PublicApplicationLoadBalancer.LoadBalancerFullName
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.LoadBalancerAttributes,"[{u'Value': 60, u'Key': u'idle_timeout.timeout_seconds'}]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': u'PublicAlbTargetGroup', u'Type': u'forward'}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfSubnets.default,Number of subnets
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTPS
+Outputs.PublicAlbTargetGroupArn.Value,PublicAlbTargetGroup
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Subnet.default,Subnets
+Parameters.NumberOfSubnets.Default,3
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,30
+Outputs.SslCertificate.Value,"[u'SslCertificate', True, False]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Condition,SslCertificate
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,PublicApplicationLoadBalancer
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,5
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
+Parameters.PublicAlbSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
+Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
+Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved. Licensed under the Amazon Software License (the ""License""). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/asl/ or in the ""license"" file accompanying this file. This file is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Tags,"[{u'Value': [u'', [u'Public ALB / ', u'AWS::StackName']], u'Key': u'Name'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Vpc.default,Vpc Id
+Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/wp-login.php
+Parameters.Vpc.Type,AWS::EC2::VPC::Id
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
+Parameters.Subnet.Type,List<AWS::EC2::Subnet::Id>
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Certificates,[{u'CertificateArn': u'PublicAlbAcmCertificate'}]
+Parameters.Subnet.Description,Select existing subnets. The number selected must match the number of subnets above. Subnets selected must be in separate AZs.
+Outputs.PublicAlbCanonicalHostedZoneId.Value,PublicApplicationLoadBalancer.CanonicalHostedZoneID
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,[u'PublicAlbSecurityGroup']
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckTimeoutSeconds,5
+Parameters.PublicAlbAcmCertificate.Type,String
+Parameters.PublicAlbAcmCertificate.Description,[ Optional ] The AWS Certification Manager certificate ARN for the ALB certificate - this certificate should be created in the region you wish to run the ALB and must reference the WordPress domain name you use below.
+Outputs.PublicAlbDnsName.Value,PublicApplicationLoadBalancer.DNSName
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Scheme,internet-facing
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Tags,"[{u'Value': [u'', [u'Public ALB / ', u'AWS::StackName']], u'Key': u'Name'}]"
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,443
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[u'NumberOfSubnets1', [[0, u'Subnet']], [u'NumberOfSubnets2', [[0, u'Subnet'], [1, u'Subnet']], [u'NumberOfSubnets3', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet']], [u'NumberOfSubnets4', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet']], [u'NumberOfSubnets5', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet']], [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet'], [5, u'Subnet']]]]]]]"
+Parameters.PublicAlbAcmCertificate.AllowedPattern,^$|(arn:aws:acm:)([a-z0-9/:-])*([a-z0-9])$

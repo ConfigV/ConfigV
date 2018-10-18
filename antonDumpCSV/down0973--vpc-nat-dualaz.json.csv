@@ -1,0 +1,41 @@
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Parameters.ParamInstSubnet1.Type,AWS::EC2::Subnet::Id
+Parameters.ParamRSAKeyName.Description,RSA Key for instances
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::EC2::Route.Properties.InstanceId,{u'Ref': u'NATDevice1'}
+Parameters.ParamRouteTable2.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable internal access to the NAT device
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'ParamRSAKeyName'}
+Parameters.ParamInstSubnet2.Type,AWS::EC2::Subnet::Id
+Parameters.ParamVPCCDRBlock.ConstraintDescription,Parameter CIDRBlock must be a valid CIDR expression.
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Parameters.ParamIamInstanceProfile.Description,IAM Instance Profile for instances
+Resources.AWS::EC2::Instance.Properties.Monitoring,true
+Parameters.ParamVPC.Description,VPC ID
+Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"[{u'Ref': u'NATSecurityGroup'}, {u'Ref': u'ParamInstanceDefaultSG'}]"
+Resources.AWS::EC2::Instance.Properties.SourceDestCheck,false
+Parameters.ParamVPCCDRBlock.AllowedPattern,"([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}"
+Resources.AWS::EC2::EIP.DependsOn,NATDevice1
+Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'ParamInstSubnet1'}
+Parameters.ParamRSAKeyName.Type,String
+Parameters.ParamRouteTable1.Type,String
+Parameters.ParamInstSubnet1.Description,Subnet for NAT Instance 1
+Parameters.ParamInstSubnet2.Description,Subnet for NAT instance 2
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.ParamRouteTable2.Description,A route table to associate with the second NAT instance
+Parameters.ParamVPC.Type,AWS::EC2::VPC::Id
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'IpProtocol': u'-1', u'CidrIp': {u'Ref': u'ParamVPCCDRBlock'}}]"
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'ParamRouteTable1'}
+Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'ParamIamInstanceProfile'}
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Parameters.ParamInstanceDefaultSG.Type,AWS::EC2::SecurityGroup::Id
+Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'NATDevice1'}
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ParamVPC'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSNATAMI', {u'Ref': u'AWS::Region'}, u'AMI']}"
+Parameters.ParamIamInstanceProfile.Type,String
+Parameters.ParamInstanceDefaultSG.Description,ID of Default Management SG
+Parameters.ParamRouteTable1.Description,A route table to associate with the first NAT instance
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'@', [u'NAT-L', {u'Ref': u'AWS::StackName'}]]}, u'Key': u'Name'}]"
+Parameters.ParamVPCCDRBlock.Type,String
+Parameters.ParamVPCCDRBlock.Description,VPC CIDR Block

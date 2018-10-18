@@ -1,0 +1,14 @@
+Resources.AWS::ECS::TaskDefinition.Properties.Family,ixortalk-prometheus
+Resources.AWS::ECS::TaskDefinition.Properties.Volumes,"[{u'Host': {u'SourcePath': u'/efs/assetmgmt-volume'}, u'Name': u'assetmgmt-volume'}, {u'Host': {u'SourcePath': u'/efs/prometheus-data-volume'}, u'Name': u'prometheus-data-volume'}]"
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,prometheus-logs
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
+Parameters.PrometheusImageVersion.Type,String
+Parameters.ExternalLoadbalancerDNS.Type,String
+Parameters.SpringCloudConfigLabel.Type,String
+Parameters.SpringProfilesActive.Type,String
+Parameters.SpringCloudConfigLabel.Description,The branch of the config environment to use
+Outputs.TaskDefinition.Value,TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'prometheus-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-prometheus', u'MountPoints': [{u'SourceVolume': u'assetmgmt-volume', u'ReadOnly': True, u'ContainerPath': u'/assets'}, {u'SourceVolume': u'prometheus-data-volume', u'ContainerPath': u'/prometheus'}], u'Image': u'ixortalk/ixortalk-prometheus:${PrometheusImageVersion}', u'Environment': [{u'Name': u'IXORTALK_PROFILE', u'Value': u'SpringProfilesActive'}, {u'Name': u'IXORTALK_CONFIG_SERVER_LABEL', u'Value': u'SpringCloudConfigLabel'}, {u'Name': u'IXORTALK_CONFIG_SERVER_URL', u'Value': u'https://${LoadbalancerDNS}/config'}], u'Command': [u'--web.external-url=https://${ExternalLoadbalancerDNS}/prometheus', u'--config.file=/etc/prometheus/config.yml'], u'User': u'root', u'Memory': 384, u'PortMappings': [{u'ContainerPort': 9090}]}]"
+Parameters.LoadbalancerDNS.Type,String
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

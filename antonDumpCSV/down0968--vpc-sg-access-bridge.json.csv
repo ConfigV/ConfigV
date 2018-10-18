@@ -1,0 +1,23 @@
+Parameters.ParamIpProtocol.Default,tcp
+Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
+Parameters.ParamSourceSG.Default,
+Parameters.ParamToPort.Type,Number
+Parameters.ParamFromPort.Type,Number
+Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,{u'Ref': u'ParamToPort'}
+Parameters.ParamIpProtocol.Description,Protocol (tcp/udp/icmp)
+Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,{u'Ref': u'ParamIpProtocol'}
+Parameters.ParamSourceCIDR.Description,Source CIDR network. Can only be used if SourceSG is omitted
+Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'ParamDestinationSG'}
+Parameters.ParamDestinationSG.Type,String
+Parameters.ParamFromPort.Description,First port in the range
+Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,{u'Ref': u'ParamSourceSG'}
+Parameters.ParamToPort.Description,Last port in the range
+Parameters.ParamSourceCIDR.Default,
+Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,{u'Ref': u'ParamFromPort'}
+Parameters.ParamDestinationSG.Description,Destination security group
+Parameters.ParamSourceSG.Type,String
+Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,{u'Ref': u'ParamSourceCIDR'}
+Parameters.ParamSourceSG.Description,Source security group. Can only be used if SourceCIDR is omitted
+Parameters.ParamIpProtocol.Type,String
+Parameters.ParamSourceCIDR.Type,String
+Resources.AWS::EC2::SecurityGroupIngress.Condition,UseCIDR

@@ -1,0 +1,17 @@
+Outputs.SpotFleetRole.Value,spotFleetRole.Arn
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Outputs.BatchServiceRole.Value,awsBatchServiceRole.Arn
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Outputs.EcsInstanceRole.Value,ecsInstanceRole.Arn
+Resources.AWS::IAM::InstanceProfile.Properties.InstanceProfileName,ecsInstanceRole
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'*'], u'Effect': u'Allow', u'Sid': u'CloudWatchPolicy'}, {u'Action': [u's3:List*'], u'Resource': [u'*'], u'Effect': u'Allow', u'Sid': u'S3Policy'}, {u'Action': [u'lambda:InvokeFunction'], u'Resource': [u'*'], u'Effect': u'Allow', u'Sid': u'LambdaPolicy'}, {u'Action': [u'batch:DescribeJobs', u'batch:ListJobs', u'batch:SubmitJob'], u'Resource': [u'*'], u'Effect': u'Allow', u'Sid': u'BatchPolicy'}]"
+Outputs.EcsTaskRole.Value,ecsTaskRole.Arn
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[u'ecsInstanceRole']
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::IAM::Policy.Properties.Roles,[u'lambdaBatchExecutionRole']
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[u'arn:aws:iam::aws:policy/AmazonEC2FullAccess', u'arn:aws:iam::aws:policy/AmazonS3FullAccess', u'arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role']"
+Outputs.LambdaBatchExecutionRole.Value,lambdaBatchExecutionRole.Arn
+Resources.AWS::IAM::Policy.Properties.PolicyName,lambdaBatchExecutionPolicy

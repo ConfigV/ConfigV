@@ -1,0 +1,75 @@
+Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::GetAtt': [u'PipelineRole', u'Arn']}"
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'PipelineName', u'S3Bucket', u'SourceS3Key', u'Email'], u'Label': {u'default': u'CodePipeline Settings'}}, {u'Parameters': [u'TestStackName', u'TemplateFileName', u'TestStackConfig', u'TemplateFilePath'], u'Label': {u'default': u'Test Stack Settings'}}, {u'Parameters': [u'ChangeSetName', u'ProdStackName', u'ProdStackConfig'], u'Label': {u'default': u'Production Stack Settings'}}]"
+Resources.AWS::CodePipeline::Pipeline.Properties.Name,{u'Ref': u'PipelineName'}
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
+Resources.AWS::IAM::Policy.DependsOn,[u'CodePipelineLambdaRole']
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::Lambda::Function.Properties.Description,Always return success
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'LambdaS3Key'}
+Parameters.SourceS3Key.Default,codepipe-single-sg.zip
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Parameters.SourceS3Key.Type,String
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CodePipelineLambdaRole'}]
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Parameters.LambdaS3Key.Description,"The file name of the source artifact of the Lambda code, such as myfolder/myartifact.zip"
+Resources.AWS::Lambda::Function.Properties.Timeout,60
+Parameters.ChangeSetName.Type,String
+Outputs.LambdaFunction.Description,Lambda Function Name
+Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Commit', u'Actions': [{u'InputArtifacts': [], u'RunOrder': u'1', u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'S3'}, u'OutputArtifacts': [{u'Name': u'TemplateSource'}], u'Configuration': {u'S3Bucket': {u'Ref': u'S3Bucket'}, u'S3ObjectKey': {u'Ref': u'SourceS3Key'}}, u'Name': u'TemplateSource'}]}, {u'Name': u'StaticCodeAnalysis', u'Actions': [{u'InputArtifacts': [{u'Name': u'TemplateSource'}], u'RunOrder': u'1', u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [{u'Name': u'TemplateSource2'}], u'Configuration': {u'FunctionName': {u'Ref': u'CFNValidateLambda'}, u'UserParameters': {u'Fn::Sub': u'{""input"": ""TemplateSource"", ""file"": ""${TemplateFilePath}"",""output"": ""${S3Bucket}""}'}}, u'Name': u'CFNParsing'}]}, {u'Name': u'TestDeployment', u'Actions': [{u'InputArtifacts': [{u'Name': u'TemplateSource'}], u'RunOrder': u'1', u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CloudFormation'}, u'OutputArtifacts': [], u'Configuration': {u'StackName': {u'Ref': u'TestStackName'}, u'ActionMode': u'REPLACE_ON_FAILURE', u'RoleArn': {u'Fn::GetAtt': [u'CFNRole', u'Arn']}, u'TemplateConfiguration': {u'Fn::Sub': u'TemplateSource::${TestStackConfig}'}, u'TemplatePath': {u'Fn::Sub': u'TemplateSource::${TemplateFilePath}'}}, u'Name': u'CreateStack'}, {u'InputArtifacts': [{u'Name': u'TemplateSource'}], u'RunOrder': u'2', u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'TestStackValidationLambda'}, u'UserParameters': {u'Ref': u'TestStackName'}}, u'Name': u'StackValidation_Test'}, {u'ActionTypeId': {u'Category': u'Approval', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Manual'}, u'Configuration': {u'NotificationArn': {u'Ref': u'CodePipelineSNSTopic'}, u'CustomData': {u'Fn::Sub': u'Do you want to create a change set against the production stack and delete the ${TestStackName} stack?'}}, u'Name': u'ApproveTestStack', u'RunOrder': u'3'}, {u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CloudFormation'}, u'Configuration': {u'StackName': {u'Ref': u'TestStackName'}, u'ActionMode': u'DELETE_ONLY', u'RoleArn': {u'Fn::GetAtt': [u'CFNRole', u'Arn']}}, u'Name': u'DeleteTestStack', u'RunOrder': u'4'}]}, {u'Name': u'ProductionDeployment', u'Actions': [{u'InputArtifacts': [{u'Name': u'TemplateSource'}], u'RunOrder': u'1', u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CloudFormation'}, u'OutputArtifacts': [], u'Configuration': {u'ActionMode': u'CHANGE_SET_REPLACE', u'ChangeSetName': {u'Ref': u'ChangeSetName'}, u'RoleArn': {u'Fn::GetAtt': [u'CFNRole', u'Arn']}, u'StackName': {u'Ref': u'ProdStackName'}, u'TemplateConfiguration': {u'Fn::Sub': u'TemplateSource::${ProdStackConfig}'}, u'TemplatePath': {u'Fn::Sub': u'TemplateSource::${TemplateFilePath}'}}, u'Name': u'CreateChangeSet'}, {u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CloudFormation'}, u'Configuration': {u'StackName': {u'Ref': u'ProdStackName'}, u'ActionMode': u'CHANGE_SET_EXECUTE', u'RoleArn': {u'Fn::GetAtt': [u'CFNRole', u'Arn']}, u'ChangeSetName': {u'Ref': u'ChangeSetName'}}, u'Name': u'ExecuteChangeSet', u'RunOrder': u'2'}]}]"
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'rule'}]"
+Resources.AWS::IAM::Role.Properties.Path,/
+Parameters.ProdStackName.Description,A name for the production  stack
+Parameters.ProdStackConfig.Description,The configuration file name for the production  stack
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.ProdStackConfig.Default,codepipe-single-sg/prod-stack-configuration.json
+Parameters.TemplateFilePath.Description,The file path of the  template
+Parameters.TestStackConfig.Description,The configuration file name for the test  stack
+Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaRolePolicy
+Resources.AWS::Lambda::Function.Properties.Handler,stack_validate_lambda.lambda_handler
+Parameters.PipelineName.Description,A name for pipeline
+Parameters.TestStackName.Description,A name for the test  stack
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'S3Bucket'}
+Parameters.TestStackName.Default,Test-SG
+Parameters.ProdStackName.Default,Prod-SG
+Resources.AWS::SNS::Topic.Properties.TopicName,{u'Ref': u'PipelineName'}
+Parameters.Email.Type,String
+Parameters.TestStackConfig.Default,codepipe-single-sg/test-stack-configuration.json
+Outputs.LambdaFunction.Value,{u'Ref': u'CFNValidateLambda'}
+Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
+Parameters.LambdaS3Key.Type,String
+Parameters.PipelineName.Type,String
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Parameters.SourceS3Key.Description,"The file name of the source artifact, such as myfolder/myartifact.zip"
+Resources.AWS::DynamoDB::Table.Properties.TableName,lab3DDBRules
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codepipeline.amazonaws.com']}}]"
+Resources.AWS::Lambda::Function.DependsOn,"[u'CodePipelineLambdaRole', u'LambdaCodePipelineExecutionPolicy']"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
+Parameters.S3Bucket.Type,String
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:*'], u'Resource': [u'arn:aws:logs:*:*:*'], u'Effect': u'Allow'}, {u'Action': [u'codepipeline:PutJobSuccessResult', u'codepipeline:PutJobFailureResult', u's3:*', u'ec2:*', u'cloudformation:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'sns:*'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.ChangeSetName.Default,UpdatePreview-MySG
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Parameters.LambdaS3Key.Default,codepipeline-lambda.zip
+Parameters.ProdStackConfig.Type,String
+Parameters.S3Bucket.Description,"The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack"
+Parameters.TestStackConfig.Type,String
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Ref': u'Email'}, u'Protocol': u'email'}]"
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,{u'Ref': u'ArtifactStoreBucket'}
+Resources.AWS::CodePipeline::Pipeline.Properties.DisableInboundStageTransitions,[]
+Parameters.TemplateFilePath.Type,String
+Parameters.ProdStackName.Type,String
+Parameters.TestStackName.Type,String
+Parameters.ChangeSetName.Description,A name for the production  stack change set
+Parameters.TemplateFileName.Description,The file name of the  template
+Parameters.TemplateFileName.Type,String
+Parameters.TemplateFileName.Default,single_security_group_one_cidr_ingress.json
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CodePipelineAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:*', u'cloudformation:CreateStack', u'cloudformation:DescribeStacks', u'cloudformation:DeleteStack', u'cloudformation:UpdateStack', u'cloudformation:CreateChangeSet', u'cloudformation:ExecuteChangeSet', u'cloudformation:DeleteChangeSet', u'cloudformation:DescribeChangeSet', u'cloudformation:SetStackPolicy', u'iam:PassRole', u'sns:Publish', u'lambda:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.PipelineName.Default,DemoPipeline2
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'CodePipelineLambdaRole', u'Arn']}"
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'rule', u'AttributeType': u'S'}]"
+Parameters.TemplateFilePath.Default,codepipe-single-sg/single_security_group_one_cidr_ingress.json
+Parameters.Email.Description,The email address where CodePipeline sends pipeline notifications
+Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

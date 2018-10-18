@@ -1,0 +1,138 @@
+Outputs.WriteTalkersToDynamoDBLambdaFunction.Value,{u'Ref': u'WriteTalkersToDynamoDB'}
+Parameters.NumberOfTeammates.MinValue,0
+Resources.AWS::IAM::Policy.Condition,CreateIamResources
+Resources.AWS::IAM::Policy.DependsOn,"[u'ZombieLabLambdaRole', u'CreateIAMUsers']"
+Resources.Custom::CreateIAMUsers.Type,Custom::CreateIAMUsers
+Resources.Custom::CreateAPIGateway.Properties.apiname,"{u'Fn::Join': [u'', [{u'Ref': u'AWS::StackName'}, u'- Zombie Workshop API Gateway']]}"
+Outputs.WriteTalkersToDynamoDBLambdaFunction.Description,This Lambda function is used for writing talkers to the Talkers table.
+Resources.AWS::Lambda::Function.Properties.Timeout,10
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'channel'}, {u'KeyType': u'RANGE', u'AttributeName': u'timestamp'}]"
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Resources.Custom::CreateIAMUsers.DependsOn,[u'ZombieLabLambdaRole']
+Outputs.IamGroupCreated.Value,"{u'Fn::GetAtt': [u'CreateIAMUsers', u'IamGroup']}"
+Parameters.NumberOfTeammates.Description,"How many teammates do you have? Input that here, one for each of your teammates. Don't include yourself"
+Outputs.DynamoDBUsersTableName.Description,Table name of the newly created Users DynamoDB table that will contain records about registered users for the app.
+Resources.AWS::Lambda::Function.Properties.Handler,index.handler
+Outputs.GetTalkersFromDynamoDBLambdaFunction.Description,This Lambda function is used for getting talkers from the Talkers table.
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'S3BucketForWebsiteContent'}
+Resources.Custom::CognitoPoolsFunction.Properties.cognitoRoleARN,"{u'Fn::GetAtt': [u'ZombieLabLambdaRole', u'Arn']}"
+Resources.Custom::CognitoPoolsFunction.Type,Custom::CognitoPoolsFunction
+Resources.AWS::Lambda::Function.Properties.FunctionName,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'z0mb1es', u'WriteTalkersToDynamoDB', {u'Ref': u'AWS::Region'}]]}"
+Resources.Custom::CreateCognitoTrigger.Properties.IamRole,"{u'Fn::GetAtt': [u'ZombieLabLambdaRole', u'Arn']}"
+Resources.Custom::PutWebsiteFilesInS3.Properties.BucketName,"{u'Fn::FindInMap': [u'AllowedRegions', {u'Ref': u'AWS::Region'}, u'S3ContentsBucket']}"
+Outputs.DynamoDBGetMessagesLambdaFunction.Description,This Lambda function is used for getting chat messages from the Messages table.
+Outputs.MyChatRoomURL.Description,The URL to access your newly created chat.
+Resources.Custom::CreateCognitoTrigger.Properties.StackName,{u'Ref': u'AWS::StackName'}
+Resources.AWS::Lambda::Function.Properties.MemorySize,1536
+Resources.AWS::Lambda::Function.DependsOn,"[u'TalkersDynamoDBTable', u'ZombieLabLambdaRole']"
+Resources.Custom::CreateAPIGateway.Properties.iamrole,"{u'Fn::GetAtt': [u'ZombieLabLambdaRole', u'Arn']}"
+Resources.Custom::PutWebsiteFilesInS3.Properties.ServiceToken,"{u'Fn::GetAtt': [u'S3GetFilesFunction', u'Arn']}"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'aws-portal:*'], u'Resource': [u'*'], u'Effect': u'Deny'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.Custom::CreateCognitoTrigger.Properties.LambdaFunctionBucket,"{u'Fn::FindInMap': [u'AllowedRegions', {u'Ref': u'AWS::Region'}, u'S3ContentsBucket']}"
+Resources.Custom::CreateIAMUsers.Condition,CreateIamResources
+Resources.Custom::PutWebsiteFilesInS3.Properties.S3Region,{u'Ref': u'AWS::Region'}
+Outputs.IamUsersLambdaFunction.Condition,CreateIamResources
+Resources.Custom::CognitoPoolsFunction.Properties.region,{u'Ref': u'AWS::Region'}
+Mappings.AllowedRegions.eu-central-1.S3Endpoint,https://s3-eu-central-1
+Resources.Custom::CreateCognitoTrigger.Properties.CognitoRegion,"{u'Fn::FindInMap': [u'AllowedRegions', {u'Ref': u'AWS::Region'}, u'CognitoRegion']}"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,10
+Outputs.IamUsersPassword.Condition,CreateIamResources
+Resources.Custom::PutWebsiteFilesInS3.Properties.WebsiteBucketCreatedEarlier,{u'Ref': u'S3BucketForWebsiteContent'}
+Resources.Custom::CreateCognitoTrigger.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CognitoTriggerBuild', u'Arn']}"
+Resources.Custom::CognitoPoolsFunction.Properties.bucket,{u'Ref': u'S3BucketForWebsiteContent'}
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'ZombieLabLambdaRole'}]
+Outputs.IamUsersCreated.Description,The IAM users created to be used for group work
+Outputs.IamUsersCreated.Condition,CreateIamResources
+Outputs.DynamoDBGetMessagesLambdaFunction.Value,{u'Ref': u'GetMessagesFromDynamoDB'}
+Outputs.LoginURL.Condition,CreateIamResources
+Outputs.IamUsersLambdaFunction.Description,This Lambda function is used for creating additional IAM users in th environment.
+Resources.Custom::CognitoPoolsFunction.DependsOn,"[u'S3BucketForWebsiteContent', u'ZombieLabLambdaRole', u'PutWebsiteFilesInS3', u'WriteMessagesToDynamoDB', u'GetMessagesFromDynamoDB', u'MessagesDynamoDBTable']"
+Resources.Custom::PutWebsiteFilesInS3.Type,Custom::PutWebsiteFilesInS3
+Outputs.DynamoDBUsersTableName.Value,{u'Ref': u'UsersDynamoDBTable'}
+Outputs.Bucket.Value,{u'Ref': u'S3BucketForWebsiteContent'}
+Parameters.NumberOfTeammates.MaxValue,10
+Resources.Custom::CognitoPoolsFunction.Properties.CognitoRegion,"{u'Fn::FindInMap': [u'AllowedRegions', {u'Ref': u'AWS::Region'}, u'CognitoRegion']}"
+Outputs.IamUsersCreated.Value,"{u'Fn::GetAtt': [u'CreateIAMUsers', u'Users']}"
+Resources.Custom::CreateIAMUsers.Properties.IamUsers,{u'Ref': u'NumberOfTeammates'}
+Outputs.IamGroupCreated.Description,The IAM group created for the users
+Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'phone'}], u'IndexName': {u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'phoneindex']]}, u'Projection': {u'ProjectionType': u'INCLUDE', u'NonKeyAttributes': [u'confirmed', u'camp']}, u'ProvisionedThroughput': {u'WriteCapacityUnits': 5, u'ReadCapacityUnits': 5}}, {u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'slackuser'}, {u'KeyType': u'RANGE', u'AttributeName': u'slackteamdomain'}], u'IndexName': {u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'slackindex']]}, u'Projection': {u'ProjectionType': u'INCLUDE', u'NonKeyAttributes': [u'confirmed', u'camp']}, u'ProvisionedThroughput': {u'WriteCapacityUnits': 5, u'ReadCapacityUnits': 5}}]"
+Outputs.DynamoDBGetMessageARN.Description,The ARN for the Get Messages Lambda function
+Resources.Custom::CreateAPIGateway.Properties.region,{u'Ref': u'AWS::Region'}
+Resources.Custom::CreateAPIGateway.Properties.postmessagelambdaapiuri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'WriteMessagesToDynamoDB', u'Arn']}, u'/invocations']]}"
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.Custom::CognitoPoolsFunction.Properties.StackName,{u'Ref': u'AWS::StackName'}
+Outputs.DynamoDBMessagesTableName.Value,{u'Ref': u'MessagesDynamoDBTable'}
+Mappings.AllowedRegions.eu-central-1.S3ContentsBucket,aws-zombie-workshop-eu-central-1
+Outputs.MyStackRegion.Description,The region where the stack was created.
+Outputs.LoginURL.Description,The URL to login to the AWS Management console for the IAM users.
+Mappings.AllowedRegions.eu-central-1.CognitoRegion,eu-central-1
+Resources.Custom::CognitoPoolsFunction.Properties.constantsFile,S3/assets/js/constants.js
+Outputs.Bucket.Description,The S3 bucket which contains the chat web app contents.
+Resources.AWS::Lambda::Function.Condition,CreateIamResources
+Outputs.DynamoDBUsersSlackIndex.Value,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'slackindex']]}"
+Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'S3BucketForWebsiteContent'}
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'cloudformation:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'lambda:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'execute-api:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'kinesis:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'es:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u's3:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'apigateway:*'], u'Resource': [u'*', u'arn:aws:apigateway:*::/*'], u'Effect': u'Allow'}, {u'Action': [u'mobileanalytics:PutEvents', u'cognito-sync:*', u'cognito-identity:*', u'cognito-idp:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'iam:*'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
+Resources.Custom::CreateIAMUsers.Properties.ServiceToken,"{u'Fn::GetAtt': [u'IamUsersFunction', u'Arn']}"
+Resources.Custom::CreateIAMUsers.Properties.StackName,{u'Ref': u'AWS::StackName'}
+Outputs.DynamoDBTalkersTableName.Value,{u'Ref': u'TalkersDynamoDBTable'}
+Outputs.DynamoDBWriteMessagesARN.Value,"{u'Fn::GetAtt': [u'WriteMessagesToDynamoDB', u'Arn']}"
+Resources.Custom::PutWebsiteFilesInS3.DependsOn,"[u'ZombieLabLambdaRole', u'S3BucketForWebsiteContent']"
+Resources.AWS::Lambda::Function.Properties.Runtime,nodejs4.3
+Outputs.ApiID.Description,The unique ID for your API Gateway API.
+Outputs.MyChatRoomURL.Value,"{u'Fn::Join': [u'', [{u'Fn::FindInMap': [u'AllowedRegions', {u'Ref': u'AWS::Region'}, u'S3Endpoint']}, u'.amazonaws.com/', {u'Ref': u'S3BucketForWebsiteContent'}, u'/S3/index.html']]}"
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.AWS::IAM::Policy.Properties.Groups,"[{u'Fn::GetAtt': [u'CreateIAMUsers', u'IamGroup']}]"
+Resources.Custom::CreateCognitoTrigger.Type,Custom::CreateCognitoTrigger
+Outputs.DynamoDBWriteMessagesLambdaFunction.Description,This Lambda function is used for writing chat messages to the Messages table.
+Outputs.IamUsersFunctionARN.Value,"{u'Fn::GetAtt': [u'IamUsersFunction', u'Arn']}"
+Resources.Custom::CreateAPIGateway.Properties.getmessagelambdaapiuri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'GetMessagesFromDynamoDB', u'Arn']}, u'/invocations']]}"
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.html
+Outputs.IamUsersFunctionARN.Description,The ARN for the Lambda function that creates additional IAM users.
+Resources.Custom::CognitoPoolsFunction.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CognitoPoolsFunction', u'Arn']}"
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.AWS::DynamoDB::Table.Properties.TableName,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'messages']]}"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole', u'sts:AssumeRoleWithWebIdentity'], u'Effect': u'Allow', u'Principal': {u'Federated': u'cognito-identity.amazonaws.com', u'Service': [u'lambda.amazonaws.com', u'apigateway.amazonaws.com']}}]"
+Resources.Custom::CreateIAMUsers.Properties.region,{u'Ref': u'AWS::Region'}
+Outputs.DynamoDBUsersPhoneIndex.Description,Name of the Phone index associated with the newly created Users DynamoDB table.
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,ZombieGetMessages.zip
+Outputs.DynamoDBUsersPhoneIndex.Value,"{u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'phoneindex']]}"
+Resources.Custom::CreateCognitoTrigger.Properties.region,{u'Ref': u'AWS::Region'}
+Resources.Custom::CreateAPIGateway.Type,Custom::CreateAPIGateway
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'channel', u'AttributeType': u'S'}, {u'AttributeName': u'timestamp', u'AttributeType': u'N'}]"
+Parameters.NumberOfTeammates.Default,0
+Resources.Custom::CreateCognitoTrigger.DependsOn,"[u'S3BucketForWebsiteContent', u'ZombieLabLambdaRole', u'PutWebsiteFilesInS3', u'WriteMessagesToDynamoDB', u'GetMessagesFromDynamoDB', u'MessagesDynamoDBTable']"
+Outputs.DynamoDBMessagesTableName.Description,Table name of the newly created Messages DynamoDB table that will contain chat messages.
+Outputs.LoginURL.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'AWS::AccountId'}, u'.signin.aws.amazon.com/console']]}"
+Outputs.IamUsersFunctionARN.Condition,CreateIamResources
+Outputs.BucketCopiedContentsFrom.Value,"{u'Fn::FindInMap': [u'AllowedRegions', {u'Ref': u'AWS::Region'}, u'S3ContentsBucket']}"
+Outputs.MyStackRegion.Value,{u'Ref': u'AWS::Region'}
+Resources.Custom::CreateAPIGateway.Properties.s3bucket,{u'Ref': u'S3BucketForWebsiteContent'}
+Outputs.IamUsersPassword.Value,"{u'Fn::GetAtt': [u'CreateIAMUsers', u'IamPassword']}"
+Resources.Custom::PutWebsiteFilesInS3.Properties.StackName,{u'Ref': u'AWS::StackName'}
+Outputs.DynamoDBGetMessageARN.Value,"{u'Fn::GetAtt': [u'GetMessagesFromDynamoDB', u'Arn']}"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'', [u""console.log('Loading function');\n"", u'\n', u""var AWS = require('aws-sdk');\n"", u'\n', u'var docClient = new AWS.DynamoDB.DocumentClient({\n', u""  region: '"", {u'Ref': u'AWS::Region'}, u""',\n"", u'});\n', u'\n', u'exports.handler = function(event, context) {\n', u""  console.log('Received event:', JSON.stringify(event, null, 2));\n"", u'\n', u'  if (event.name == null) {\n', u""    context.fail(new Error('name cannot be null: ' + JSON.stringify(event, null, 2)));\n"", u'  }\n', u'\n', u'  var params = {\n', u""    TableName: '"", {u'Ref': u'AWS::StackName'}, u""-talkers',\n"", u'    Item: {\n', u""      channel: 'default',\n"", u'      talktime: Date.now(),\n', u'      name: event.name\n', u'    }\n', u'  };\n', u'\n', u'  docClient.put(params, function(err, data) {\n', u'    if (err) {\n', u""      console.log('DDB Err:' + err);\n"", u""      context.fail(new Error('DynamoDB Error: ' + err));\n"", u'    } else {\n', u'      console.log(data);\n', u""      context.done(null, {Status: 'Success'});\n"", u'    }\n', u'\n', u'  });\n', u'\n', u'};\n']]}"
+Outputs.IamUsersLambdaFunction.Value,{u'Ref': u'IamUsersFunction'}
+Resources.Custom::CreateAPIGateway.Properties.ServiceToken,"{u'Fn::GetAtt': [u'APIGatewayFunction', u'Arn']}"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,10
+Resources.Custom::CreateAPIGateway.Properties.s3key,S3/assets/js/constants.js
+Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
+Resources.Custom::CreateAPIGateway.DependsOn,"[u'S3BucketForWebsiteContent', u'ZombieLabLambdaRole', u'PutWebsiteFilesInS3', u'WriteMessagesToDynamoDB', u'GetMessagesFromDynamoDB', u'MessagesDynamoDBTable']"
+Outputs.ApiID.Value,"{u'Fn::GetAtt': [u'CreateAPIGateway', u'RestApiID']}"
+Outputs.DynamoDBUsersSlackIndex.Description,Name of the Slack index associated with the newly created Users DynamoDB table.
+Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3BucketForWebsiteContent'}, u'/*']]}, u'Effect': u'Allow', u'Principal': u'*'}]"
+Outputs.IamGroupCreated.Condition,CreateIamResources
+Outputs.DynamoDBWriteMessagesARN.Description,The ARN for the Write Messages Lambda function
+Outputs.DynamoDBWriteMessagesLambdaFunction.Value,{u'Ref': u'WriteMessagesToDynamoDB'}
+Resources.AWS::IAM::Policy.Properties.PolicyName,ZombieLabUserPolicy
+Outputs.IamUsersPassword.Description,The password for your IAM users
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ZombieLabLambdaRole', u'Arn']}"
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Outputs.GetTalkersFromDynamoDBLambdaFunction.Value,{u'Ref': u'GetTalkersFromDynamoDB'}
+Parameters.NumberOfTeammates.Type,Number
+Outputs.DynamoDBTalkersTableName.Description,Table name of the newly created Talkers DynamoDB table that will contain metadata about survivors who are typing.
+Outputs.BucketCopiedContentsFrom.Description,This is the local region AWS bucket where your files were copied from.
+Resources.AWS::S3::Bucket.DependsOn,ZombieLabLambdaRole

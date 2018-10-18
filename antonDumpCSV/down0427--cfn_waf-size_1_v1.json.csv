@@ -1,0 +1,25 @@
+Resources.AWS::WAF::Rule.Properties.MetricName,{u'Ref': u'SizeRule1'}
+Outputs.WAFSizeCondition1ID.Value,{u'Ref': u'WAFSizeCondition1'}
+Parameters.SizeQuery1.Type,String
+Parameters.SizeCondition1.Type,String
+Parameters.SizeCondition1.Description,Enter the name of the size condition. Note names cannot be modified after creation and must be alphanumeric without spaces.
+Parameters.SizeURI1.Description,Enter the size limit of the URI.
+Resources.AWS::WAF::SizeConstraintSet.Type,AWS::WAF::SizeConstraintSet
+Parameters.WhiteListIPCondition1.Description,Enter the ID of the WhiteList IP condition 1.
+Resources.AWS::WAF::SizeConstraintSet.Properties.SizeConstraints,"[{u'ComparisonOperator': u'GT', u'TextTransformation': u'NONE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}, u'Size': {u'Ref': u'SizeQuery1'}}, {u'ComparisonOperator': u'GT', u'TextTransformation': u'NONE', u'FieldToMatch': {u'Type': u'URI'}, u'Size': {u'Ref': u'SizeURI1'}}]"
+Parameters.SizeRule1.Description,Enter the name of the size rule. Note names cannot be modified after creation and must be alphanumeric without spaces.
+Outputs.WAFSizeRule1ID.Description,Size Rule ID 1
+Resources.AWS::WAF::Rule.Properties.Name,{u'Ref': u'SizeRule1'}
+Parameters.SizeURI1.Type,String
+Resources.AWS::WAF::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFSizeCondition1'}, u'Type': u'SizeConstraint', u'Negated': False}, {u'DataId': {u'Ref': u'WhiteListIPCondition1'}, u'Type': u'IPMatch', u'Negated': True}]"
+Parameters.SizeCondition1.Default,SizeCondition1
+Parameters.SizeURI1.Default,8192
+Resources.AWS::WAF::Rule.Type,AWS::WAF::Rule
+Parameters.SizeRule1.Default,SizeRule1
+Parameters.SizeQuery1.Default,8192
+Outputs.WAFSizeCondition1ID.Description,Size Condition ID 1
+Parameters.SizeRule1.Type,String
+Parameters.WhiteListIPCondition1.Type,String
+Parameters.SizeQuery1.Description,Enter the size limit of the query string.
+Outputs.WAFSizeRule1ID.Value,{u'Ref': u'WAFSizeRule1'}
+Resources.AWS::WAF::SizeConstraintSet.Properties.Name,{u'Ref': u'SizeCondition1'}

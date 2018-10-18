@@ -1,0 +1,17 @@
+Resources.AWS::CodeDeploy::DeploymentGroup.Type,AWS::CodeDeploy::DeploymentGroup
+Resources.AWS::CodeDeploy::DeploymentGroup.DependsOn,CodeDeployApp
+Parameters.AppName.Type,String
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.IgnoreApplicationStopFailures,False
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.AutoScalingGroups,"[{u'Fn::ImportValue': [u'${AppName}AutoScalingGroup', {u'AppName': u'AppName'}]}]"
+Parameters.Repository.Type,String
+Resources.AWS::CodeDeploy::Application.Type,AWS::CodeDeploy::Application
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.GitHubLocation.Repository,Repository
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.DeploymentGroupName,production
+Resources.AWS::CodeDeploy::Application.Properties.ApplicationName,AppName
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.GitHubLocation.CommitId,CommitId
+Parameters.CommitId.Type,String
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ServiceRoleArn,"{u'Fn::ImportValue': [u'${AppName}CodeDeployRoleArn', {u'AppName': u'AppName'}]}"
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Description,DeployFromGitHub
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.DeploymentConfigName,CodeDeployDefault.HalfAtATime
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.RevisionType,GitHub
+Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ApplicationName,AppName

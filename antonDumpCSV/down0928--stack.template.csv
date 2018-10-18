@@ -1,0 +1,36 @@
+Resources.AWS::CloudFormation::Stack.DependsOn,VPC
+Parameters.AdminCIDR.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Parameters.SSHKey.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZone,{u'Ref': u'AvailabilityZone'}
+Parameters.SSHKey.Default,opalmer
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SecurityGroupId,"{u'Fn::GetAtt': [u'VPCSecurity', u'Outputs.SecurityGroupId']}"
+Resources.AWS::Route53::RecordSet.Properties.TTL,86400
+Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,pyfarm.net.
+Resources.AWS::Route53::RecordSet.Properties.Type,CNAME
+Parameters.StorageType.Type,String
+Parameters.AdminCIDR.MaxLength,18
+Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
+Parameters.AdminCIDR.MinLength,9
+Parameters.SSHKey.Description,SSH key pair to be used for accessing the host.
+Parameters.AdminCIDR.ConstraintDescription,Must be a valid IP CIDR range of the form x.x.x.x/x.
+Parameters.AvailabilityZone.Description,The AZ to place the instance in.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CidrBlock,192.168.1.0/24
+Parameters.StorageType.AllowedValues,"[u'SSD', u'Magnetic', u'InstanceStore']"
+Parameters.StorageType.ConstraintDescription,Must be a valid storage type.
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcId,"{u'Fn::GetAtt': [u'VPC', u'Outputs.VpcId']}"
+Parameters.AvailabilityZone.Default,us-east-1e
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetId,"{u'Fn::GetAtt': [u'Subnet', u'Outputs.SubnetId']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SSHKey,{u'Ref': u'SSHKey'}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.RouteTable,"{u'Fn::GetAtt': [u'VPC', u'Outputs.RouteTable']}"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.AdminCIDR,{u'Ref': u'AdminCIDR'}
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetName,{u'Ref': u'AWS::StackName'}
+Parameters.StorageType.Description,The general type of storage to provision for instances.
+Resources.AWS::Route53::RecordSet.Properties.Name,groups.pyfarm.net.
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ImageId,"{u'Fn::FindInMap': [u'TrustyHVMImages', {u'Ref': u'AWS::Region'}, {u'Ref': u'StorageType'}]}"
+Parameters.AdminCIDR.Description,The IP address range that can be used to SSH to the EC2 instances
+Parameters.AdminCIDR.Type,String
+Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,[u'ghs.googlehosted.com.']
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.amazonaws.com/opalmer/aws/cloud_formation/common/vpc.template
+Parameters.AvailabilityZone.Type,AWS::EC2::AvailabilityZone::Name
+Parameters.StorageType.Default,Magnetic

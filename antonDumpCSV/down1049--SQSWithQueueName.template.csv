@@ -1,0 +1,12 @@
+Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
+Outputs.QueueARN.Value,"{u'Fn::GetAtt': [u'MyQueue', u'Arn']}"
+Parameters.QueueName.ConstraintDescription,must be a valid queue name.
+Parameters.QueueName.AllowedPattern,[a-zA-Z0-9_-]+
+Parameters.QueueName.Description,Name of queue to create
+Parameters.QueueName.Type,String
+Parameters.QueueName.MinLength,1
+Outputs.QueueURL.Value,{u'Ref': u'MyQueue'}
+Parameters.QueueName.MaxLength,80
+Outputs.QueueARN.Description,ARN of newly created SQS Queue
+Outputs.QueueURL.Description,URL of newly created SQS Queue
+Resources.AWS::SQS::Queue.Properties.QueueName,{u'Ref': u'QueueName'}

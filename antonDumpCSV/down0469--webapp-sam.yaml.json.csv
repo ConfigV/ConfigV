@@ -1,0 +1,41 @@
+Resources.AWS::Serverless::Function.Properties.CodeUri,../../../microservices-webapp/target/webapp.zip
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.GREETING_SERVICE_HOST,GreetingApiEndpoint
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.NAME_SERVICE_SCHEME,https
+Parameters.GreetingApiEndpoint.Type,AWS::SSM::Parameter::Value<String>
+Resources.AWS::Serverless::Function.Properties.Events.WebAppName.Properties.Method,GET
+Resources.AWS::Serverless::Function.Properties.Events.WebAppRoot.Properties.RestApiId,WebAppApi
+Resources.AWS::Serverless::Function.Properties.Events.WebAppRoot.Properties.Method,GET
+Parameters.GreetingApiEndpoint.Description,Greeting Service API Gateway Endpoint
+Resources.AWS::Serverless::Function.Properties.Tracing,Active
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./{id}.get.x-amazon-apigateway-integration.httpMethod,POST
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./{id}.get.produces,[u'text/plain']
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.NAME_SERVICE_HOST,NameApiEndpoint
+Outputs.webappApiEndpoint.Value,https://${WebAppApi}.execute-api.${AWS::Region}.amazonaws.com/prod/
+Parameters.NameApiEndpoint.Default,NameApiEndpoint
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./{id}.get.x-amazon-apigateway-integration.uri,arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${WebAppFunction.Arn}/invocations
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./{id}.get.parameters,"[{u'required': False, u'type': u'number', u'name': u'id', u'in': u'path'}]"
+Resources.AWS::Serverless::Function.Properties.MemorySize,1024
+Resources.AWS::Serverless::Api.Properties.StageName,prod
+Resources.AWS::Serverless::Function.Properties.Events.WebAppName.Properties.Path,/{id}
+Resources.AWS::Serverless::Function.Properties.Description,Amazon API Gateway.
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./{id}.get.x-amazon-apigateway-integration.type,aws_proxy
+Resources.AWS::Serverless::Function.Properties.Timeout,20
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.GREETING_SERVICE_SCHEME,https
+Resources.AWS::Serverless::Function.Properties.Handler,org.aws.samples.compute.webapp.WebappHandler::handleRequest
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.info.title,Webapp API
+Resources.AWS::Serverless::Function.Properties.Events.WebAppName.Properties.RestApiId,WebAppApi
+Resources.AWS::Serverless::Function.Properties.Events.WebAppRoot.Properties.Path,/
+Resources.AWS::Serverless::Function.Properties.Runtime,java8
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.GREETING_SERVICE_PATH,/prod/resources/greeting
+Resources.AWS::Serverless::Function.Properties.Events.WebAppName.Type,Api
+Parameters.NameApiEndpoint.Description,Name Service API Gateway Endpoint
+Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
+Parameters.GreetingApiEndpoint.Default,GreetingApiEndpoint
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.swagger,2.0
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.GREETING_SERVICE_PORT,443
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.NAME_SERVICE_PORT,443
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Outputs.webappApiEndpoint.Description,WebApp URL for application
+Resources.AWS::Serverless::Function.Properties.Events.WebAppRoot.Type,Api
+Parameters.NameApiEndpoint.Type,AWS::SSM::Parameter::Value<String>
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.NAME_SERVICE_PATH,/prod/resources/names

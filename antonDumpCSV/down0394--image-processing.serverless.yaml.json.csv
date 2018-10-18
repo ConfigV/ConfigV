@@ -1,0 +1,48 @@
+Resources.AWS::Serverless::Function.Properties.CodeUri,../lambda-functions/rekognition
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.Custom::S3EventTrigger.Properties.accountId,AWS::AccountId
+Resources.Custom::S3EventTrigger.Version,1.0
+Outputs.S3PhotoRepoBucket.Value,{u'Ref': u'PhotoRepoS3Bucket'}
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Outputs.DescribeExecutionLambda.Value,{u'Ref': u'DescribeExecutionFunction'}
+Outputs.DDBAlbumMetadataTable.Value,{u'Ref': u'AlbumMetadataDDBTable'}
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'albumID'}]"
+Resources.AWS::IAM::Role.Properties.Path,/MediaSharingRefarch/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Serverless::Function.Properties.MemorySize,256
+Resources.Custom::S3EventTrigger.Properties.StartExecutionFunction,ImageProcStartExecutionFunction
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.STATE_MACHINE_ARN,ImageProcStateMachine
+Outputs.Region.Value,{u'Ref': u'AWS::Region'}
+Outputs.CognitoIdentityPool.Value,{u'Ref': u'TestClientIdentityPool'}
+Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'userID'}, {u'KeyType': u'RANGE', u'AttributeName': u'creationTime'}], u'IndexName': u'userID-creationTime-index', u'Projection': {u'ProjectionType': u'ALL'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': u'1', u'ReadCapacityUnits': u'2'}}]"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
+Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.IdentityPoolId,TestClientIdentityPool
+Resources.AWS::Serverless::Function.Properties.Timeout,60
+Resources.AWS::Serverless::Function.Properties.Role,BackendProcessingLambdaRole.Arn
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'albumID', u'AttributeType': u'S'}, {u'AttributeName': u'creationTime', u'AttributeType': False}, {u'AttributeName': u'userID', u'AttributeType': u'S'}]"
+Resources.AWS::Serverless::Function.Properties.Handler,index.handler
+Resources.AWS::Cognito::IdentityPoolRoleAttachment.Type,AWS::Cognito::IdentityPoolRoleAttachment
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Resources.Custom::S3EventTrigger.Properties.ServiceToken,CreateS3EventTriggerFunction.Arn
+Resources.AWS::Serverless::Function.Properties.Description,Use Amazon Rekognition to detect labels from image
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.Custom::S3EventTrigger.DependsOn,"[u'PhotoRepoS3Bucket', u'ImageProcStartExecutionFunction']"
+Resources.AWS::StepFunctions::StateMachine.Type,AWS::StepFunctions::StateMachine
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.Custom::S3EventTrigger.Type,Custom::S3EventTrigger
+Resources.AWS::StepFunctions::StateMachine.Properties.DefinitionString,"[u'', {u'RekognitionLambdaArn': u'RekognitionFunction.Arn', u'StoreImageMetadataLambdaArn': u'StoreImageMetadataFunction.Arn', u'ExtractImageMetadataLambdaArn': u'ExtractImageMetadataFunction.Arn', u'GenerateThumbnailLambdaArn': u'GenerateThumbnailFunction.Arn', u'TransformMetadataLambdaArn': u'TransformMetadataFunction.Arn'}]"
+Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'AllowedHeaders': [u'*'], u'ExposedHeaders': [u'ETag'], u'AllowedMethods': [u'PUT', u'GET', u'POST', u'HEAD'], u'AllowedOrigins': [u'*']}]"
+Resources.Custom::S3EventTrigger.Properties.StartExecutionFunctionArn,ImageProcStartExecutionFunction.Arn
+Resources.AWS::Cognito::IdentityPool.Type,AWS::Cognito::IdentityPool
+Resources.AWS::StepFunctions::StateMachine.Properties.RoleArn,StateMachineRole.Arn
+Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.authenticated,TestClientIAMRole.Arn
+Resources.AWS::Serverless::Function.Properties.Runtime,nodejs4.3
+Outputs.DDBImageMetadataTable.Value,{u'Ref': u'ImageMetadataDDBTable'}
+Resources.AWS::Cognito::IdentityPool.Properties.IdentityPoolName,TestWebApp
+Resources.AWS::Cognito::IdentityPool.Properties.AllowUnauthenticatedIdentities,True
+Resources.Custom::S3EventTrigger.Properties.PhotoRepoS3Bucket,PhotoRepoS3Bucket
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.IMAGE_METADATA_DDB_TABLE,ImageMetadataDDBTable
+Resources.AWS::Serverless::Function.DependsOn,PhotoRepoS3Bucket
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'LambdaWriteCWLogs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'AllowLogging'}]}}, {u'PolicyName': u'ReadFromPhotoRepoS3Bucket', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:Get*'], u'Resource': u'arn:aws:s3:::${PhotoRepoS3Bucket}/*', u'Effect': u'Allow', u'Sid': u'ReadFromPhotoRepoS3Bucket'}]}}, {u'PolicyName': u'WriteToPhotoRepoS3Bucket', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:PutObject'], u'Resource': u'arn:aws:s3:::${PhotoRepoS3Bucket}/*', u'Effect': u'Allow', u'Sid': u'WriteToPhotoRepoS3Bucket'}]}}, {u'PolicyName': u'WriteToImageMetadataDDBTable', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:UpdateItem', u'dynamodb:PutItem'], u'Resource': u'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ImageMetadataDDBTable}', u'Effect': u'Allow', u'Sid': u'WriteToImageMetadataDDBTable'}]}}, {u'PolicyName': u'RekognitionDetectLabels', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'rekognition:DetectLabels'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'RekognitionDetectLabels'}]}}, {u'PolicyName': u'StepFunctionStartExecution', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'states:StartExecution'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'StepFunctionStartExecution'}]}}]"
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,2
+Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.unauthenticated,TestClientIAMRole.Arn

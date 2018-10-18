@@ -1,0 +1,7 @@
+Parameters.S3DNSName.Description,The DNS name of an existing S3 bucket to use as the Cloudfront distribution origin
+Outputs.DistributionName.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'myDistribution', u'DomainName']}]]}"
+Parameters.S3DNSName.Type,String
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.S3Origin.DNSName,{u'Ref': u'S3DNSName'}
+Outputs.DistributionId.Value,{u'Ref': u'myDistribution'}
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Enabled,true
+Resources.AWS::CloudFront::Distribution.Type,AWS::CloudFront::Distribution

@@ -1,0 +1,48 @@
+Resources.AWS::ApiGateway::Stage.Properties.RestApiId,{u'Fn::ImportValue': u'sls-test-project-dev-ApiGatewayRestApi'}
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(5 minutes)
+Outputs.AliasFlags.Value,"{""hasRole"":false}"
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::ApiGateway::Stage.Properties.Variables.SERVERLESS_ALIAS,myAlias
+Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'Testfct1Alias'}
+Resources.AWS::ApiGateway::Deployment.Properties.RestApiId,{u'Fn::ImportValue': u'sls-test-project-dev-ApiGatewayRestApi'}
+Outputs.AliasResources.Description,Custom resource references
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,7
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:execute-api:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Fn::ImportValue': u'sls-test-project-dev-ApiGatewayRestApi'}, u'/*/*']]}"
+Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
+Resources.AWS::ApiGateway::Deployment.DependsOn,[]
+Resources.AWS::Lambda::Alias.DependsOn,[u'WarmUpPluginLambdaVersionWh5jTkiTR67V05RPWQIlzPI25WiPbdHDYNgbtAMneU']
+Outputs.ServerlessAliasReference.Description,Alias stack reference.
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Outputs.AliasOutputs.Value,[]
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/serverless/sls-test-project-dev-myAlias
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.AWS::ApiGateway::Stage.Properties.StageName,myAlias
+Resources.AWS::ApiGateway::Stage.Properties.DeploymentId,{u'Ref': u'ApiGatewayDeployment1494367071211'}
+Outputs.ServerlessAliasLogGroup.Description,Log group for alias.
+Outputs.ServerlessAliasLogGroup.Export.Name,sls-test-project-dev-myAlias-LogGroup
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'warmUpPluginSchedule', u'Arn': {u'Ref': u'WarmUpPluginAlias'}}]"
+Resources.AWS::Lambda::Alias.Properties.FunctionName,{u'Fn::ImportValue': u'sls-test-project-dev-WarmUpPlugin-LambdaFunctionArn'}
+Resources.AWS::Lambda::Alias.Properties.Name,myAlias
+Resources.AWS::Events::Rule.DependsOn,[u'WarmUpPluginAlias']
+Outputs.AliasOutputs.Description,Custom output references
+Resources.AWS::ApiGateway::Stage.Properties.Variables.SERVERLESS_STAGE,dev
+Resources.AWS::Lambda::Alias.Properties.Description,Serverless WarmUP Plugin
+Outputs.ServerlessAliasReference.Value,{u'Fn::ImportValue': u'sls-test-project-dev-ServerlessAliasReference'}
+Resources.AWS::Lambda::Version.Properties.FunctionName,{u'Fn::ImportValue': u'sls-test-project-dev-WarmUpPlugin-LambdaFunctionArn'}
+Resources.AWS::ApiGateway::Stage.DependsOn,[u'ApiGatewayDeployment1494367071211']
+Outputs.AliasResources.Value,[]
+Resources.AWS::Lambda::Version.Properties.Description,Serverless WarmUP Plugin
+Outputs.ServerlessAliasName.Description,Alias the stack represents.
+Outputs.ServerlessAliasName.Value,myAlias
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::Lambda::Alias.Properties.FunctionVersion,"{u'Fn::GetAtt': [u'WarmUpPluginLambdaVersionWh5jTkiTR67V05RPWQIlzPI25WiPbdHDYNgbtAMneU', u'Version']}"
+Resources.AWS::ApiGateway::Deployment.Type,AWS::ApiGateway::Deployment
+Resources.AWS::Lambda::Version.Properties.CodeSha256,Wh5jTkiTR67+V05RPWQIlzPI25WiPbdHDYNgbtAMneU=
+Resources.AWS::Lambda::Permission.DependsOn,"[u'Testfct1LambdaVersionWh5jTkiTR67V05RPWQIlzPI25WiPbdHDYNgbtAMneU', u'Testfct1Alias']"
+Resources.AWS::Lambda::Version.DeletionPolicy,Delete
+Outputs.ServerlessAliasLogGroup.Value,{u'Ref': u'ServerlessAliasLogGroup'}
+Resources.AWS::Lambda::Alias.Type,AWS::Lambda::Alias
+Resources.AWS::Lambda::Version.Type,AWS::Lambda::Version
+Resources.AWS::ApiGateway::Stage.Type,AWS::ApiGateway::Stage
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Outputs.AliasFlags.Description,Alias flags.

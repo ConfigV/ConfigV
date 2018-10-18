@@ -1,0 +1,41 @@
+Parameters.MaximumMessageSize.Type,Number
+Outputs.QueueName.Value,"{u'Fn::GetAtt': [u'SQSQueue', u'QueueName']}"
+Resources.AWS::SQS::Queue.Properties.ReceiveMessageWaitTimeSeconds,{u'Ref': u'ReceiveMessageWaitTimeSeconds'}
+Parameters.VisibilityTimeout.Description,"This should be longer than the time it would take to process and delete a message, this should not exceed 12 hours."
+Resources.AWS::SQS::Queue.Properties.MaximumMessageSize,{u'Ref': u'MaximumMessageSize'}
+Outputs.QueueURL.Value,{u'Ref': u'SQSQueue'}
+Parameters.MessageRetentionPeriod.Default,345600
+Parameters.MessageRetentionPeriod.Type,Number
+Parameters.ContentBasedDeduplication.Description,specifies whether to enable content-based deduplication
+Parameters.UsedeadletterQueue.Type,String
+Parameters.ReceiveMessageWaitTimeSeconds.Description,"Specifies the duration, in seconds, that the ReceiveMessage action call waits until a message is in the queue in order to include it in the response, as opposed to returning an empty response if a message is not yet available. 1 to 20"
+Parameters.ContentBasedDeduplication.AllowedValues,"[u'true', u'false']"
+Parameters.DelaySeconds.Type,Number
+Resources.AWS::SQS::Queue.Properties.VisibilityTimeout,{u'Ref': u'VisibilityTimeout'}
+Parameters.UsedeadletterQueue.AllowedValues,"[u'true', u'false']"
+Parameters.QueueName.Type,String
+Resources.AWS::SQS::Queue.Properties.ContentBasedDeduplication,{u'Ref': u'ContentBasedDeduplication'}
+Parameters.VisibilityTimeout.Default,5
+Parameters.ReceiveMessageWaitTimeSeconds.Type,Number
+Outputs.QueueARN.Description,ARN of newly created SQS Queue
+Parameters.MaximumMessageSize.Description,"The limit of how many bytes that a message can contain before Amazon SQS rejects it, 1024 bytes (1 KiB) to 262144 bytes (256 KiB)"
+Parameters.ContentBasedDeduplication.Type,String
+Parameters.ReceiveMessageWaitTimeSeconds.Default,0
+Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
+Outputs.QueueARN.Value,"{u'Fn::GetAtt': [u'SQSQueue', u'Arn']}"
+Resources.AWS::SQS::Queue.Properties.MessageRetentionPeriod,{u'Ref': u'MessageRetentionPeriod'}
+Parameters.UsedeadletterQueue.Default,false
+Resources.AWS::SQS::Queue.Condition,CreateDeadLetterQueue
+Parameters.ContentBasedDeduplication.Default,true
+Parameters.VisibilityTimeout.Type,Number
+Outputs.QueueName.Description,Name newly created SQS Queue
+Parameters.MaximumMessageSize.Default,262144
+Parameters.UsedeadletterQueue.Description,A dead-letter queue is a queue that other (source) queues can target for messages that can't be processed (consumed) successfully. You can set aside and isolate these messages in the dead-letter queue to determine why their processing doesn't succeed.
+Resources.AWS::SQS::Queue.Properties.FifoQueue,true
+Parameters.QueueName.Description,This stack will append fifo to the end of this name.
+Resources.AWS::SQS::Queue.Properties.RedrivePolicy,"{u'Fn::If': [u'CreateDeadLetterQueue', {u'deadLetterTargetArn': {u'Fn::GetAtt': [u'MyDeadLetterQueue', u'Arn']}, u'maxReceiveCount': 5}, {u'Ref': u'AWS::NoValue'}]}"
+Parameters.DelaySeconds.Description,The Id of the AMI you wish to launch the instance from.
+Parameters.DelaySeconds.Default,5
+Parameters.MessageRetentionPeriod.Description,The number of seconds that Amazon SQS retains a message. You can specify an integer value from 60 seconds (1 minute) to 1209600 seconds (14 days). 
+Outputs.QueueURL.Description,URL of newly created SQS Queue
+Resources.AWS::SQS::Queue.Properties.QueueName,"{u'Fn::Join': [u'', [{u'Ref': u'QueueName'}, u'.fifo']]}"

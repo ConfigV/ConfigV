@@ -1,0 +1,29 @@
+Resources.AWS::Route53::RecordSetGroup.Properties.RecordSets,"[{u'AliasTarget': {u'EvaluateTargetHealth': u'true', u'HostedZoneId': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-ApplicationElbCanonicalHostedZoneId'}}, u'DNSName': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-ApplicationElbDnsName'}}}, u'Type': u'A', u'Name': {u'Fn::Join': [u'.', [u'*.apps', {u'Ref': u'DeploymentName'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-HostedZone'}}]]}}, {u'AliasTarget': {u'EvaluateTargetHealth': u'true', u'HostedZoneId': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-ApplicationElbCanonicalHostedZoneId'}}, u'DNSName': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-ApplicationElbDnsName'}}}, u'Type': u'A', u'Name': {u'Fn::Join': [u'.', [u'*.system', {u'Ref': u'DeploymentName'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-HostedZone'}}]]}}, {u'AliasTarget': {u'EvaluateTargetHealth': u'true', u'HostedZoneId': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CfSshElbCanonicalHostedZoneId'}}, u'DNSName': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CfSshElbDnsName'}}}, u'Type': u'A', u'Name': {u'Fn::Join': [u'.', [u'ssh.system', {u'Ref': u'DeploymentName'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-HostedZone'}}]]}}, {u'AliasTarget': {u'EvaluateTargetHealth': u'true', u'HostedZoneId': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DirectorElbCanonicalHostedZoneId'}}, u'DNSName': {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DirectorElbDnsName'}}}, u'Type': u'A', u'Name': {u'Fn::Join': [u'.', [u'director', {u'Ref': u'DeploymentName'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-HostedZone'}}]]}}]"
+Outputs.NatAz2DnsName.Value,"{u'Fn::Join': [u'.', [u'nat-z2', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
+Outputs.UaaDns.Description,API DNS name
+Parameters.Availability.AllowedValues,"[u'SingleAZ', u'SingleAZ-HA', u'MultiAZ']"
+Outputs.ApiDns.Value,"{u'Fn::Join': [u'.', [u'api.system', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
+Outputs.DirectorDns.Value,"{u'Fn::Join': [u'.', [u'director', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
+Outputs.UaaDns.Value,"{u'Fn::Join': [u'.', [u'uaa.system', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
+Parameters.DeploymentName.Description,Deployment Name
+Outputs.NatAz2DnsName.Description,NAT AZ2 DNS Name
+Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
+Outputs.NatAz3DnsName.Value,"{u'Fn::Join': [u'.', [{u'Fn::Sub': u'nat-z3.${DeploymentName}'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
+Outputs.NatAz1DnsName.Description,NAT AZ1 DNS Name
+Outputs.NatDns.Description,NAT DNS Name
+Outputs.DirectorDns.Description,Director DNS name
+Outputs.ApiDns.Description,API DNS name
+Outputs.NatAz3DnsName.Description,NAT AZ3 DNS Name
+Parameters.DeploymentName.MaxLength,16
+Outputs.NatDns.Value,"{u'Fn::Join': [u'.', [u'nat', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
+Parameters.Availability.Type,String
+Outputs.NatAz3DnsName.Condition,MultiAz
+Parameters.Availability.Default,SingleAZ
+Resources.AWS::Route53::RecordSetGroup.Condition,SingleAz
+Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
+Parameters.DeploymentName.Type,String
+Resources.AWS::Route53::RecordSetGroup.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-HostedZone'}}, u'.']]}"
+Resources.AWS::Route53::RecordSetGroup.Type,AWS::Route53::RecordSetGroup
+Parameters.Availability.Description,Availability Type
+Parameters.DeploymentName.MinLength,1
+Outputs.NatAz1DnsName.Value,"{u'Fn::Join': [u'.', [u'nat-z1', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"

@@ -1,0 +1,45 @@
+Resources.AWS::CloudFormation::Stack.DependsOn,[u'ELBStack']
+Parameters.LambdaBucketName.Type,String
+Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
+Parameters.CommitId.Type,String
+Parameters.ImageId.Description,Repository
+Parameters.Repository.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.AppName,AppName
+Resources.AWS::CloudFormation::Stack.Properties.TimeoutInMinutes,5
+Parameters.AppName.Description,AppName
+Parameters.CfnBucketName.Type,String
+Parameters.LambdaBucketName.Description,LambdaBucketName
+Parameters.S3LogsBucketName.Type,String
+Outputs.Domain.Export.Name,"[u'${AppName}Domain', {u'AppName': u'AppName'}]"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.SiteCNAME,"[u'${Domain}.', {u'Domain': u'Domain'}]"
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.S3TemplateURL,S3TemplateURL
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Domain,Domain
+Parameters.HostedDomain.Type,String
+Parameters.S3LogsBucketName.Description,S3LogsBucketName
+Parameters.CfnBucketName.Description,CfnBucketName
+Parameters.ELBLogsBucketName.Description,ELBLogsBucketName
+Parameters.StaticBucketName.Description,StaticBucketName
+Parameters.ELBLogsBucketName.Type,String
+Parameters.CommitId.Description,CommitId
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.HostedZoneName,"[u'${HostedDomain}.', {u'HostedDomain': u'HostedDomain'}]"
+Parameters.Repository.Description,Repository
+Outputs.S3TemplateURL.Value,S3TemplateURL
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.LambdaBucketName,LambdaBucketName
+Parameters.Domain.Description,DomainNameUserAccess
+Mappings.ImageIds.AmazonLinux.2017031HVMSSD,ami-3bd3c45c
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.Repository,Repository
+Parameters.StaticBucketName.Type,String
+Parameters.S3TemplateURL.Description,S3TemplateURL
+Parameters.Domain.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CommitId,CommitId
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.CfnBucketName,CfnBucketName
+Outputs.Domain.Value,Domain
+Outputs.S3TemplateURL.Export.Name,S3TemplateURL
+Parameters.AppName.Type,String
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.StaticBucketName,StaticBucketName
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ImageId,"[u'ImageIds', u'AmazonLinux', u'2017031HVMSSD']"
+Parameters.S3TemplateURL.Type,String
+Parameters.ImageId.Type,String
+Parameters.HostedDomain.Description,ZoneApex
+Resources.AWS::CloudFormation::Stack.Properties.Parameters.ELBLogsBucketName,ELBLogsBucketName
+Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"[u'${S3TemplateURL}/yaml/Route53.yaml', {u'S3TemplateURL': u'S3TemplateURL'}]"

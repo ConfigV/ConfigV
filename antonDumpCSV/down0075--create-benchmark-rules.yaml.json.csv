@@ -1,0 +1,138 @@
+Resources.AWS::Config::ConfigRule.Properties.Source.Owner,CUSTOM_LAMBDA
+Resources.AWS::Lambda::Function.Properties.Description,Evaluates whether VPC Flow Logs are enabled for the VPCs
+Resources.AWS::Lambda::Permission.Properties.FunctionName,FunctionForEvaluateCloudTrailBucketRule.Arn
+Resources.AWS::Lambda::Function.Properties.Timeout,10
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Resources.AWS::Lambda::Function.Properties.Handler,index.lambda_handler
+Resources.Custom::ResourceForEvaluateCisBenchmarkingPreconditions.Properties.ServiceToken,FunctiontForEvaluateCisBenchmarkingPreconditions.Arn
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'TargetFunctionV1', u'Arn': u'FunctionToFormatCloudWatchEvent.Arn'}]"
+Resources.AWS::Lambda::Function.Properties.FunctionName,EvaluateVpcFlowLogs
+Resources.AWS::Lambda::Function.Properties.MemorySize,1024
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmName,IAM Root Activity
+Resources.AWS::Lambda::Function.DependsOn,"[u'MasterConfigRole', u'ResourceForEvaluateCisBenchmarkingPreconditions']"
+Resources.Custom::ResourceForGetCloudTrailCloudWatchLog.DependsOn,GetCloudTrailCloudWatchLog
+Resources.AWS::Lambda::Permission.Condition,IsLevel2
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.MinimumPasswordLength,14
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.eventSource,[u's3.amazonaws.com']
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.MaxPasswordAge,90
+Resources.AWS::CloudWatch::Alarm.Properties.TreatMissingData,notBreaching
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'ProfileLevel'], u'Label': {u'default': u'Profile Level'}}, {u'Parameters': [u'NotificationEmailAddressForCloudWatchAlarms'], u'Label': {u'default': u'CloudWatch Rules and Alarms'}}]"
+Resources.Custom::ResourceForGetCloudTrailCloudWatchLog.Properties.ServiceToken,GetCloudTrailCloudWatchLog.Arn
+Resources.AWS::SNS::Topic.Properties.TopicName,CloudWatchNotifications
+Resources.Custom::ResourceForEvaluateCisBenchmarkingPreconditions.DependsOn,FunctiontForEvaluateCisBenchmarkingPreconditions
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(1 day)
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
+Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanOrEqualToThreshold
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.PasswordReusePrevention,24
+Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.RequireNumbers,True
+Resources.AWS::Config::ConfigRule.Properties.Scope.ComplianceResourceTypes,[u'AWS::EC2::Volume']
+Resources.AWS::Events::Rule.Condition,IsLevel2
+Resources.AWS::CloudWatch::Alarm.Properties.MetricName,RootUserEventCount
+Resources.AWS::CloudWatch::Alarm.Properties.Namespace,CloudTrailMetrics
+Resources.AWS::Logs::MetricFilter.Properties.LogGroupName,ResourceForGetCloudTrailCloudWatchLog.LogName
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[u'SnsTopicForCloudWatchEvents']
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.RequireSymbols,True
+Parameters.NotificationEmailAddressForCloudWatchAlarms.Default,
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.NotificationEmailAddressForCloudWatchAlarms.default,Notification Address
+Parameters.ProfileLevel.AllowedValues,"[u'Level 1', u'Level 2']"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.ProfileLevel.default,Profile Level
+Resources.AWS::Logs::MetricFilter.Type,AWS::Logs::MetricFilter
+Resources.AWS::CloudWatch::Alarm.Properties.Period,60
+Resources.AWS::Lambda::Function.Condition,IsLevel2
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.eventName,"[u'PutBucketAcl', u'PutBucketPolicy', u'PutBucketCors', u'PutBucketLifecycle', u'PutBucketReplication', u'DeleteBucketPolicy', u'DeleteBucketCors', u'DeleteBucketLifecycle', u'DeleteBucketReplication']"
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.RequireLowercaseCharacters,True
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'DisableCredentials', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'iam:DeleteLoginProfile', u'iam:GetAccessKeyLastUsed', u'iam:GetLoginProfile', u'iam:DeleteLoginProfile', u'iam:ListAccessKeys', u'iam:ListUsers', u'iam:UpdateAccessKey'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Parameters.ProfileLevel.Description,"Level 1 controls are baseline governance controls, whereas Level 2 controls represent redundant or stricter governance controls. See the control list here for guidance: https://benchmarks.cisecurity.org/en-us/?route=downloads.form.awsfoundations.110"
+Resources.AWS::Config::ConfigRule.Properties.Description,Evaluates whether customer-managed KMS keys are rotated.
+Resources.AWS::IAM::Role.DependsOn,ResourceForEvaluateCisBenchmarkingPreconditions
+Resources.AWS::Lambda::Permission.Properties.Principal,config.amazonaws.com
+Resources.AWS::SNS::Topic.DependsOn,ResourceForEvaluateCisBenchmarkingPreconditions
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.tag1Key,CostCenter
+Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Sum
+Parameters.NotificationEmailAddressForCloudWatchAlarms.Description,Email address that will be subscribed to the SNS topic for CloudWatch alarms and rules (a subscription confirmation email will be sent).
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.RequireUppercaseCharacters,True
+Resources.Custom::ResourceForGetCloudTrailCloudWatchLog.Type,Custom::ResourceForGetCloudTrailCloudWatchLog
+Resources.AWS::SNS::Topic.Properties.DisplayName,Broadcasts formatted CloudWatch events to subscribers
+Parameters.ProfileLevel.Default,Level 2
+Resources.AWS::Logs::MetricFilter.Properties.MetricTransformations,"[{u'MetricValue': 1, u'MetricNamespace': u'CloudTrailMetrics', u'MetricName': u'ConsoleLoginFailures'}]"
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Resources.AWS::Config::ConfigRule.Properties.InputParameters.blockedPort1,3389
+Parameters.ProfileLevel.Type,String
+Resources.AWS::Config::ConfigRule.Condition,IsLevel2
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::Logs::MetricFilter.Properties.FilterPattern,"{ ($.eventName = ""ConsoleLogin"") && ($.errorMessage = ""Failed authentication"") }"
+Parameters.NotificationEmailAddressForCloudWatchAlarms.Type,String
+Resources.AWS::Logs::MetricFilter.Condition,IsLevel2
+Resources.AWS::Lambda::Permission.DependsOn,FunctionForEvaluateCloudTrailBucketRule
+Resources.AWS::Logs::MetricFilter.DependsOn,"[u'ResourceForEvaluateCisBenchmarkingPreconditions', u'ResourceForGetCloudTrailCloudWatchLog']"
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'AWS API Call via CloudTrail']
+Resources.AWS::Config::ConfigRule.Properties.Source.SourceDetails,"[{u'EventSource': u'aws.config', u'MessageType': u'ConfigurationItemChangeNotification'}, {u'EventSource': u'aws.config', u'MessageType': u'ScheduledNotification'}]"
+Resources.AWS::Config::ConfigRule.Properties.ConfigRuleName,KmsCustomerKeysMustBeRotated
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"#==================================================================================================
+# Function: EvaluateVpcFlowLogs
+# Purpose:  Determines whether VPC Flow Logs are enabled in the region
+#==================================================================================================
+
+import boto3
+import json
+
+def evaluate_compliance(config_item, vpc_id):
+    if (config_item['resourceType'] != 'AWS::EC2::VPC'):
+        return 'NOT_APPLICABLE'
+
+    elif is_flow_logs_enabled(vpc_id):
+        return 'COMPLIANT'
+    else:
+        return 'NON_COMPLIANT'
+
+def is_flow_logs_enabled(vpc_id):
+    ec2 = boto3.client('ec2')
+    response = ec2.describe_flow_logs(
+        Filter=[
+            {
+                'Name': 'resource-id',
+                'Values': [vpc_id,]
+            },
+        ],
+    )
+    if response['FlowLogs']: return True
+
+def lambda_handler(event, context):
+    invoking_event = json.loads(event['invokingEvent'])
+
+    compliance_value = 'NOT_APPLICABLE'
+
+    vpc_id = invoking_event['configurationItem']['resourceId']
+    compliance_value = evaluate_compliance(invoking_event['configurationItem'], vpc_id)
+
+    config = boto3.client('config')
+    response = config.put_evaluations(
+       Evaluations=[
+           {
+               'ComplianceResourceType': invoking_event['configurationItem']['resourceType'],
+               'ComplianceResourceId': vpc_id,
+               'ComplianceType': compliance_value,
+               'OrderingTimestamp': invoking_event['configurationItem']['configurationItemCaptureTime']
+           },
+       ],
+       ResultToken=event['resultToken'])
+"
+Resources.AWS::Events::Rule.Properties.Name,DetectS3BucketPolicyChanges
+Resources.AWS::CloudWatch::Alarm.Properties.Threshold,1
+Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Root user activity detected
+Resources.AWS::Config::ConfigRule.Properties.Source.SourceIdentifier,FunctionForEvaluateKeyRotationRule.Arn
+Resources.AWS::Config::ConfigRule.Type,AWS::Config::ConfigRule
+Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
+Resources.AWS::Lambda::Function.Properties.Role,MasterConfigRole.Arn
+Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': u'NotificationEmailAddressForCloudWatchAlarms', u'Protocol': u'email'}]"
+Resources.Custom::ResourceForEvaluateCisBenchmarkingPreconditions.Type,Custom::ResourceForEvaluateCisBenchmarkingPreconditions
+Resources.AWS::Config::ConfigRule.DependsOn,"[u'FunctionForEvaluateKeyRotationRule', u'ConfigPermissionToCallEvaluateKeyRotationLambda']"
+Resources.AWS::Events::Rule.Properties.Description,Publishes formatted S3 bucket policy change events to an SNS topic

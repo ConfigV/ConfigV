@@ -1,0 +1,131 @@
+Resources.AWS::StepFunctions::StateMachine.Properties.RoleArn,ExecutionRole.Arn
+Parameters.SubnetIds.Type,List<AWS::EC2::Subnet::Id>
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,VpcId
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/AdministratorAccess']
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetType,ip
+Outputs.KibanaWhitelist.Value,PublicCidr
+Resources.Custom::VpcCidr.Version,1
+Resources.AWS::Lambda::Function.Properties.VpcConfig.SecurityGroupIds,[u'ElasticsearchSecurityGroup']
+Outputs.KibanaURL.Value,"[u'', [u'http://', u'ElasticsearchELB.DNSName', u'/_plugin/kibana']]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,5
+Resources.Custom::ElasticsearchIP.Properties.ServiceToken,LambdaElasticsearchIp.Arn
+Resources.AWS::Lambda::Function.Properties.Runtime,python3.6
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allows internal data loading and public access to Elasticsearch.
+Resources.Custom::VpcCidr.Type,Custom::VpcCidr
+Parameters.SubnetIds.Description,"You must select AT LEAST two (2) PUBLIC subnets for demo instance, ELB, Elasticsearch domain, and Lambda load functions to work."
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.eventTypeCode,[u'AWS_EBS_VOLUME_LOST']
+Resources.AWS::Lambda::Function.Properties.Timeout,120
+Outputs.KibanaURL.Description,Access URL for Kibana.
+Resources.Custom::ElasticsearchIP.Version,1
+Parameters.SNSTopicName.Type,String
+Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'AWS Health Event']
+Parameters.VpcId.Type,AWS::EC2::VPC::Id
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': u'ElasticsearchELBTargetGroup', u'Type': u'forward'}]"
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.service,[u'EBS']
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.ESDOMAIN,ElasticsearchDomain.DomainEndpoint
+Outputs.KibanaWhitelist.Description,Public IPs Kibana is accessible from.
+Resources.AWS::Elasticsearch::Domain.Properties.VPCOptions.SubnetIds,"[[0, u'SubnetIds']]"
+Parameters.VpcId.Description,Enter the VPC that the subnets belong to.
+Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"import json
+import os
+import urllib.request
+from time import sleep
+
+es = str(""http://"" + os.environ['ESDOMAIN'])
+
+
+def lambda_handler(event, context):
+    sleep(1)
+    try:
+        pTime = event['PhdEventTime']
+        pId = event['PhdEventId']
+    except:
+        pTime = 'ERROR_PARSING_JSON'
+        pId = 'ERROR_PARSING_JSON'
+
+    iterateJson(event, pTime, pId)
+    try:
+        ToEs(event, 'phd-full-events')
+    except:
+        event['ESUpload'] = 'Failed'
+    return event
+
+
+def iterateJson(jsn, time, id):
+    pld = {}
+    for i in jsn.items():
+        if type(i[1]) is str:
+            pld[i[0]] = i[1]
+        elif type(i[1]) is dict:
+            iterateJson(jsn[i[0]], time, id)
+        elif type(i[1]) is list:
+            for k in jsn[i[0]]:
+                iterateJson(k, time, id)
+
+    pld['PhdEventTime'] = time
+    pld['PhdEventId'] = id
+    pld['ESUpload'] = 'Success'
+    ToEs(pld, 'phd-events')
+
+
+def ToEs(doc, index):
+    payload = json.dumps(doc).encode('utf8')
+    rq = urllib.request.Request(es + '/' + index + '/doc', payload, {'Content-Type': 'application/json'}, method='POST')
+    try:
+        f = urllib.request.urlopen(rq)
+        rsp = f.read()
+        f.close()
+    except urllib.error.HTTPError:
+        rsp = 'Error uploading ' + str(doc)
+    print(rsp)
+"
+Resources.Custom::VpcCidr.Properties.ServiceToken,LambdaVpcCidr.Arn
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.eventTypeCategory,[u'issue']
+Resources.Custom::ElasticsearchIP.Properties.EsEndpoint,ElasticsearchDomain.DomainEndpoint
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthyThresholdCount,2
+Resources.AWS::Lambda::Function.Properties.Handler,index.lambda_handler
+Parameters.PublicCidr.Description,The public IP address that Kibana will be accessible from.
+Resources.Custom::VpcCidr.Properties.VpcId,VpcId
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,ElasticsearchELB
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
+Resources.AWS::Events::Rule.Properties.RoleArn,ExecutionRole.Arn
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'RoleArn': u'ExecutionRole.Arn', u'Id': u'StepFunctionVolumeLost', u'Arn': u'StepFunctionVolumeLost'}]"
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
+Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.VolumeSize,10
+Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Statement,"[{u'Action': u'es:*', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'AWS': u'*'}}]"
+Resources.AWS::Elasticsearch::Domain.Properties.VPCOptions.SecurityGroupIds,[u'ElasticsearchSecurityGroup']
+Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.InstanceCount,1
+Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'events.amazonaws.com', u'lambda.amazonaws.com', u'states.amazonaws.com']}}]"
+Resources.AWS::StepFunctions::StateMachine.Type,AWS::StepFunctions::StateMachine
+Resources.AWS::Lambda::Function.Properties.VpcConfig.SubnetIds,SubnetIds
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2008-10-17
+Parameters.SNSTopicName.Description,Please enter your SNS Topic Name. (SNS Topic must exist in the same region where this stack is launched).
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 80, u'FromPort': 80, u'IpProtocol': u'TCP', u'CidrIp': u'PublicCidr'}, {u'ToPort': 80, u'FromPort': 80, u'IpProtocol': u'TCP', u'CidrIp': u'CustomVpcCidr.Cidr'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
+Resources.AWS::StepFunctions::StateMachine.Properties.DefinitionString,"[u'{\n  ""StartAt"": ""ComposeVolumeLostDetected"",\n  ""States"": {\n    ""ComposeVolumeLostDetected"": {\n      ""Type"": ""Pass"",\n      ""Result"": {\n        ""Message"": ""VOLUME_LOST_DETECTED""\n      },\n      ""ResultPath"": ""$.NOTIFMESSAGE"",\n      ""Next"": ""SendStartNotification""\n    },\n    ""SendStartNotification"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaSNSNotification}"",\n      ""Next"": ""FindVolumeDetails""\n    },\n    ""FindVolumeDetails"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaFindVolume}"",\n      ""Next"": ""CheckDetached""\n    },\n    ""CheckDetached"": {\n      ""Type"": ""Choice"",\n      ""Choices"": [{\n        ""Variable"": ""$.Attachment.Device"",\n        ""StringEquals"": ""none"",\n        ""Next"": ""ComposeMessageVolDetached""\n      }],\n      ""Default"": ""FindCloudFormationStack""\n    },\n    ""ComposeMessageVolDetached"": {\n      ""Type"": ""Pass"",\n      ""Result"": {\n        ""Message"": ""ERROR_VOLUME_IS_DETACHED""\n      },\n      ""ResultPath"": ""$.NOTIFMESSAGE"",\n      ""Next"": ""UploadToElasticsearch_Fail""\n    },\n    ""FindCloudFormationStack"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaFindInstanceId}"",\n      ""Next"": ""CheckIfCloudFormationExist""\n    },\n    ""CheckIfCloudFormationExist"": {\n      ""Type"": ""Choice"",\n      ""Choices"": [{\n        ""Variable"": ""$.ResourceStack.StackName"",\n        ""StringEquals"": ""none"",\n        ""Next"": ""ComposeMessageNoCloudFormation""\n      }],\n      ""Default"": ""FindLatestSnapshot""\n    },\n    ""ComposeMessageNoCloudFormation"": {\n      ""Type"": ""Pass"",\n      ""Result"": {\n        ""Message"": ""ERROR_NO_CLOUDFORMATION_FOUND""\n      },\n      ""ResultPath"": ""$.NOTIFMESSAGE"",\n      ""Next"": ""UploadToElasticsearch_Fail""\n    },\n    ""FindLatestSnapshot"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaCheckSnapshot}"",\n      ""Next"": ""CheckIfSnapshotExist""\n    },\n    ""CheckIfSnapshotExist"": {\n      ""Type"": ""Choice"",\n      ""Choices"": [{\n        ""Variable"": ""$.RestoredResources.RestoreSnapshotId"",\n        ""StringEquals"": ""none"",\n        ""Next"": ""ComposeMessageNoSnapshot""\n      }],\n      ""Default"": ""FindRestoreImage""\n    },\n    ""ComposeMessageNoSnapshot"": {\n      ""Type"": ""Pass"",\n      ""Result"": {\n        ""Message"": ""ERROR_NO_SNAPSHOT_FOUND""\n      },\n      ""ResultPath"": ""$.NOTIFMESSAGE"",\n      ""Next"": ""UploadToElasticsearch_Fail""\n    },\n    ""UploadToElasticsearch_Fail"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaElasticsearchLoad}"",\n      ""Next"": ""SendFailNotification""\n    },\n    ""SendFailNotification"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaSNSNotification}"",\n      ""Next"": ""Fail""\n    },\n    ""Fail"": {\n      ""Type"": ""Fail""\n    },\n    ""FindRestoreImage"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaFindAmi}"",\n      ""Next"": ""CheckIfAmiExist""\n    },\n    ""CheckIfAmiExist"": {\n      ""Type"": ""Choice"",\n      ""Choices"": [{\n        ""Variable"": ""$.RestoredResources.RestoreImageId"",\n        ""StringEquals"": ""none"",\n        ""Next"": ""ComposeMessageNoImage""\n      }],\n      ""Default"": ""RestoreInstanceImage""\n    },\n    ""ComposeMessageNoImage"": {\n      ""Type"": ""Pass"",\n      ""Result"": {\n        ""Message"": ""ERROR_NO_AMI_FOUND_FOR_VOLUME""\n      },\n      ""ResultPath"": ""$.NOTIFMESSAGE"",\n      ""Next"": ""UploadToElasticsearch_Fail""\n    },\n    ""RestoreInstanceImage"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaUpdateStack}"",\n      ""Next"": ""Wait""\n    },\n    ""Wait"": {\n      ""Type"": ""Wait"",\n      ""Seconds"": 20,\n      ""Next"": ""CheckRestoreStatus""\n    },\n    ""CheckRestoreStatus"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaCheckStack}"",\n      ""Next"": ""RestoreComplete?""\n    },\n    ""RestoreComplete?"": {\n      ""Type"": ""Choice"",\n      ""Choices"": [{\n          ""Variable"": ""$.ResourceStack.StackStatus"",\n          ""StringEquals"": ""FAILED"",\n          ""Next"": ""ComposeMessageRestoreFailed""\n        },\n        {\n          ""Variable"": ""$.ResourceStack.StackStatus"",\n          ""StringEquals"": ""UPDATE_COMPLETE"",\n          ""Next"": ""GatherEvents""\n        }\n      ],\n      ""Default"": ""Wait""\n    },\n    ""ComposeMessageRestoreFailed"": {\n      ""Type"": ""Pass"",\n      ""Result"": {\n        ""Message"": ""ERROR_IMAGE_RESTORE_FAIL""\n      },\n      ""ResultPath"": ""$.NOTIFMESSAGE"",\n      ""Next"": ""UploadToElasticsearch_Fail""\n    },\n    ""GatherEvents"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaGatherEvents}"",\n      ""Next"": ""ComposeRestoreSuccessMessage""\n    },\n    ""ComposeRestoreSuccessMessage"": {\n      ""Type"": ""Pass"",\n      ""Result"": {\n        ""Message"": ""OK_IMAGE_RESTORE_SUCCESS""\n      },\n      ""ResultPath"": ""$.NOTIFMESSAGE"",\n      ""Next"": ""UploadToElasticsearch_Success""\n    },\n    ""UploadToElasticsearch_Success"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaElasticsearchLoad}"",\n      ""Next"": ""SendSuccessNotification""\n    },\n    ""SendSuccessNotification"": {\n      ""Type"": ""Task"",\n      ""Resource"": ""${LambdaSNSNotification}"",\n      ""End"": true\n    }\n  }\n}\n', {u'LambdaGatherEvents': u'LambdaGatherEvents.Arn', u'LambdaCheckStack': u'LambdaCheckStack.Arn', u'LambdaSNSNotification': u'LambdaSNSNotification.Arn', u'LambdaElasticsearchLoad': u'LambdaElasticsearchLoad.Arn', u'LambdaCheckSnapshot': u'LambdaCheckSnapshot.Arn', u'LambdaFindVolume': u'LambdaFindVolume.Arn', u'LambdaFindAmi': u'LambdaFindAmi.Arn', u'LambdaFindInstanceId': u'LambdaFindInstanceId.Arn', u'LambdaUpdateStack': u'LambdaUpdateStack.Arn'}]"
+Resources.Custom::ElasticsearchIP.Type,Custom::ElasticsearchIP
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Targets,"[{u'Id': u'CustomElasticsearchIp.Ip', u'Port': 80}]"
+Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.VolumeType,gp2
+Resources.AWS::Lambda::Function.Properties.Role,ExecutionRole.Arn
+Resources.AWS::Lambda::Function.Properties.Environment.Variables.SNSARN,"{u'Fn::Join': [u'', [u'arn:aws:sns:', u'AWS::Region', u':', u'AWS::AccountId', u':', u'SNSTopicName']]}"
+Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'awshealth.mock']
+Resources.AWS::Elasticsearch::Domain.Type,AWS::Elasticsearch::Domain
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VpcId
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,[u'ElasticsearchSecurityGroup']
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,80
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckTimeoutSeconds,2
+Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.EBSEnabled,True
+Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchVersion,6.2
+Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Version,2012-10-17
+Parameters.PublicCidr.Type,String
+Resources.AWS::Events::Rule.Properties.Description,MockEventRule
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Type,application
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,SubnetIds
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,80

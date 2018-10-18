@@ -1,0 +1,33 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::OpsWorks::Layer.Properties.EnableAutoHealing,true
+Resources.AWS::OpsWorks::Stack.Properties.ServiceRoleArn,"{u'Fn::GetAtt': [u'OpsWorksServiceRole', u'Arn']}"
+Resources.AWS::OpsWorks::Layer.Properties.Name,MyPHPApp
+Resources.AWS::OpsWorks::Layer.Type,AWS::OpsWorks::Layer
+Resources.AWS::OpsWorks::Layer.Properties.Type,php-app
+Resources.AWS::OpsWorks::App.Properties.AppSource.Url,git://github.com/amazonwebservices/opsworks-demo-php-simple-app.git
+Resources.AWS::OpsWorks::App.Type,AWS::OpsWorks::App
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Outputs.AppId.Value,{u'Ref': u'myApp'}
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Resources.AWS::OpsWorks::App.Properties.StackId,{u'Ref': u'myStack'}
+Resources.AWS::OpsWorks::Instance.Properties.StackId,{u'Ref': u'myStack'}
+Resources.AWS::OpsWorks::App.Properties.AppSource.Revision,version1
+Resources.AWS::OpsWorks::Instance.Properties.LayerIds,[{u'Ref': u'myLayer'}]
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Resources.AWS::OpsWorks::Instance.Type,AWS::OpsWorks::Instance
+Resources.AWS::OpsWorks::App.Properties.AppSource.Type,git
+Resources.AWS::OpsWorks::App.Properties.Type,php
+Resources.AWS::OpsWorks::Layer.Properties.Shortname,php-app
+Resources.AWS::OpsWorks::App.Properties.Attributes.DocumentRoot, 
+Resources.AWS::OpsWorks::Stack.Type,AWS::OpsWorks::Stack
+Resources.AWS::OpsWorks::Stack.Properties.Name,{u'Ref': u'AWS::StackName'}
+Resources.AWS::OpsWorks::App.Properties.Name,MyPHPApp
+Outputs.StackId.Value,{u'Ref': u'myStack'}
+Resources.AWS::OpsWorks::Layer.Properties.AutoAssignElasticIps,false
+Resources.AWS::OpsWorks::Layer.Properties.StackId,{u'Ref': u'myStack'}
+Resources.AWS::OpsWorks::Layer.DependsOn,myApp
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'opsworks-service', u'PolicyDocument': {u'Statement': [{u'Action': [u'ec2:*', u'iam:PassRole', u'cloudwatch:GetMetricStatistics', u'elasticloadbalancing:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::OpsWorks::Stack.Properties.DefaultInstanceProfileArn,"{u'Fn::GetAtt': [u'OpsWorksInstanceProfile', u'Arn']}"
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'OpsWorksInstanceRole'}]
+Resources.AWS::OpsWorks::Layer.Properties.AutoAssignPublicIps,true

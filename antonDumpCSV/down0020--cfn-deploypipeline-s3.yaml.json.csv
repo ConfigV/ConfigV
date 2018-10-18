@@ -1,0 +1,66 @@
+Parameters.Stage.Description,"Enter alpha, beta or prod to designate the deployment stage/environment"
+Resources.AWS::Serverless::Function.Properties.CodeUri,./functions/slack-notify
+Resources.AWS::CodeBuild::Project.Properties.Description,Build project for the Tailor service
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Principal.Service,[u'cloudformation.amazonaws.com']
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
+Resources.AWS::Serverless::Function.Properties.Handler,handler.handler
+Resources.AWS::CodeBuild::Project.Properties.Name,${ServiceName}-build-${Stage}
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Parameters.BuildArtifactsBucket.Type,String
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'IamRoleLambdaSlackNotify'}]
+Resources.AWS::CodePipeline::Pipeline.Properties.Name,${ServiceName}-pipeline-${Stage}
+Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
+Resources.AWS::IAM::ManagedPolicy.Properties.Description,CloudFormation Pipeline Execution Policy
+Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': 1, u'Provider': u'S3'}, u'Configuration': {u'S3Bucket': u'BuildArtifactsBucket', u'S3ObjectKey': [u'/', [u'Stage', u'code', u'DeploymentZipName']]}, u'Name': u'DownloadCodeZip', u'OutputArtifacts': [{u'Name': u'SourceZip'}]}]}, {u'Name': u'Build', u'Actions': [{u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeBuild'}, u'Configuration': {u'ProjectName': u'CodeBuildProject'}, u'Name': u'PackageCode', u'InputArtifacts': [{u'Name': u'SourceZip'}], u'OutputArtifacts': [{u'Name': u'BuildArtifacts'}]}, {u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': 1, u'Provider': u'Lambda'}, u'Configuration': {u'FunctionName': u'LambdaSlackNotify'}, u'Name': u'BuildSlackNotification'}]}, {u'Name': u'Deploy', u'Actions': [{u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CloudFormation'}, u'Configuration': {u'StackName': u'${ServiceName}-${Stage}', u'ActionMode': u'CHANGE_SET_EXECUTE', u'RoleArn': u'CloudFormationExecutionRole.Arn', u'ChangeSetName': u'${ServiceName}-${Stage}-ChangeSet'}, u'Name': u'ExecuteChangeSet', u'OutputArtifacts': [{u'Name': u'${ServiceName}-${Stage}-ChangeSet'}]}, {u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': 1, u'Provider': u'Lambda'}, u'Configuration': {u'FunctionName': u'LambdaSlackNotify'}, u'Name': u'ExecuteChangeSetSlackNotification', u'RunOrder': 1}]}, {u'Name': u'Complete', u'Actions': [{u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': 1, u'Provider': u'Lambda'}, u'Configuration': {u'FunctionName': u'LambdaSlackNotify'}, u'Name': u'CompletionNotification'}]}]"
+Parameters.BuildArtifactsBucket.Description,Enter the name of the S3 bucket that will store all artifacts
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement.Effect,Allow
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Action,[u'sts:AssumeRole']
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,PipelineExecutionRole.Arn
+Parameters.DeploymentZipName.Default,tailor-deploy.zip
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement.Resource,*
+Parameters.SamInputFile.Type,String
+Resources.AWS::Serverless::Function.Properties.MemorySize,128
+Parameters.Stage.AllowedValues,"[u'alpha', u'beta', u'prod']"
+Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENERAL1_SMALL
+Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/python:2.7.12
+Resources.AWS::Serverless::Function.Properties.Description,Sends CodePipeline events to Slack
+Resources.AWS::CodeBuild::Project.Properties.Environment.Type,LINUX_CONTAINER
+Resources.AWS::Serverless::Function.Properties.Timeout,30
+Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,CODEPIPELINE
+Resources.AWS::Serverless::Function.Properties.Role,IamRoleLambdaSlackNotify.Arn
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.SLACK_WEBHOOK_URL,SlackWebhookUrl
+Parameters.ServiceName.Type,String
+Parameters.ServiceName.Description,"Name of the service being built. This name will be reflected in the pipeline name, build names and lamdab functions."
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CodeBuildAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ServiceName}-build-${Stage}', u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ServiceName}-build-${Stage}:*'], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:GetObjectVersion', u's3:PutObject'], u'Resource': [u'arn:aws:s3:::${BuildArtifactsBucket}/*'], u'Effect': u'Allow'}, {u'Action': [u'iam:PassRole'], u'Resource': [u'arn:aws:iam::${AWS::AccountId}:role/${CloudFormationExecutionRole}'], u'Effect': u'Allow'}, {u'Action': [u'cloudformation:CreateChangeSet'], u'Resource': [u'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/tailor-${Stage}/*'], u'Effect': u'Allow'}]}}]"
+Resources.AWS::CodeBuild::Project.Properties.Source.Type,CODEPIPELINE
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement.Action,"[u'cloudformation:CreateStack', u'cloudformation:DescribeStacks', u'cloudformation:DeleteStack', u'cloudformation:UpdateStack', u'cloudformation:CreateChangeSet', u'cloudformation:ExecuteChangeSet', u'cloudformation:DeleteChangeSet', u'cloudformation:DescribeChangeSet', u'cloudformation:SetStackPolicy', u'cloudformation:SetStackPolicy', u'cloudformation:ValidateTemplate', u'codebuild:StartBuild', u'codebuild:BatchGetBuilds']"
+Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,${BuildArtifactsBucket}
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codebuild.amazonaws.com']}}]"
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'codepipeline:Get*', u'codepipeline:PutJob*'], u'Resource': u'*', u'Effect': u'Allow'}]"
+Resources.AWS::Serverless::Function.Properties.Runtime,python2.7
+Resources.AWS::IAM::ManagedPolicy.Properties.Path,/
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.SERVICE_NAME,ServiceName
+Parameters.DeploymentZipName.Type,String
+Parameters.SlackChannelName.Type,String
+Resources.AWS::IAM::Policy.Properties.PolicyName,CodePipelineAccess
+Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.STAGE,Stage
+Resources.AWS::CodeBuild::Project.Properties.ServiceRole,CodeBuildServiceRole.Arn
+Parameters.Stage.Type,String
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.SlackChannelName.Description,Slack channel name where notifications should appear
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.SLACK_CHANNEL_NAME,SlackChannelName
+Parameters.SamInputFile.Default,main.yaml
+Parameters.DeploymentZipName.Description,Enter the name of the zip artifact in S3 that CodePipeline will watch to invoke the pipeline
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Effect,Allow
+Parameters.SlackWebhookUrl.Type,String
+Parameters.SlackWebhookUrl.Description,Slack webhook URL (including https://)
+Resources.AWS::CodeBuild::Project.Properties.Environment.EnvironmentVariables,"[{u'Name': u'S3_BUCKET', u'Value': u'${BuildArtifactsBucket}'}, {u'Name': u'STAGE_NAME', u'Value': u'${Stage}'}, {u'Name': u'SAM_INPUT_FILE', u'Value': u'SamInputFile'}, {u'Name': u'AWS_ACCOUNT_NUMBER', u'Value': u'${AWS::AccountId}'}, {u'Name': u'CFN_ROLE', u'Value': u'CloudFormationExecutionRole'}]"
+Parameters.SamInputFile.Description,Enter the name of the SAM input file
+Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

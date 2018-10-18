@@ -1,0 +1,26 @@
+Parameters.Capabilities.AllowedValues,"[u'CAPABILITY_IAM', u'CAPABILITY_NAMED_IAM', u'']"
+Parameters.StackSetDescription.Description,[Optional] Description for this StackSet
+Resources.Custom::StackSet.Properties.TemplateURL,TemplateURL
+Parameters.TemplateURL.Type,String
+Parameters.Capabilities.Default,
+Resources.Custom::StackSet.Properties.StackSetDescription,"[u'HasStackSetDescription', u'StackSetDescription', u'AWS::NoValue']"
+Resources.Custom::StackSet.Properties.OperationPreferences.MaxConcurrentCount,3
+Resources.Custom::StackSet.Type,Custom::StackSet
+Parameters.TemplateURL.Default,https://s3.us-east-2.amazonaws.com/cloudformation-pipeline/events.yaml
+Resources.Custom::StackSet.Properties.ServiceToken,{u'Fn::ImportValue': u'StackSetCustomResource'}
+Resources.Custom::StackSet.Properties.OperationPreferences.RegionOrder,AWS::NoValue
+Resources.Custom::StackSet.Properties.Tags,"[{u'Environment': u'Testing'}, {u'Creator': u'Chuck'}]"
+Resources.Custom::StackSet.Properties.StackInstances,"[{u'Regions': [u'us-east-2'], u'Accounts': [225704381548]}, {u'Regions': [u'us-east-2', u'us-west-2', u'eu-west-2'], u'Accounts': [888049286042], u'ParameterOverrides': [{u'ReadCapacity': 50}, {u'WriteCapacity': 50}]}]"
+Resources.Custom::StackSet.Properties.OperationPreferences.FailureToleranceCount,0
+Parameters.StackSetName.Description,[Optional] Unique name for this StackSet
+Parameters.TemplateURL.Description,S3 URL for the CloudFormation template to associate with this StackSet
+Parameters.Capabilities.Type,String
+Parameters.TemplateURL.AllowedPattern,^https://s3(.+)\.amazonaws.com/.+$
+Parameters.StackSetDescription.Type,String
+Parameters.Capabilities.Description,Include capabilities if your template contains IAM resources (see https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#using-iam-capabilities)
+Resources.Custom::StackSet.Properties.StackSetName,"[u'HasStackSetName', u'StackSetName', u'AWS::NoValue']"
+Resources.Custom::StackSet.Properties.Parameters,"[{u'ReadCapacity': 20}, {u'WriteCapacity': 20}]"
+Parameters.TemplateURL.ConstraintDescription,must be a valid S3 URL to a template object
+Resources.Custom::StackSet.Properties.loglevel,debug
+Resources.Custom::StackSet.Properties.Capabilities,"[u'HasCapabilities', [u'Capabilities'], [u'AWS::NoValue']]"
+Parameters.StackSetName.Type,String

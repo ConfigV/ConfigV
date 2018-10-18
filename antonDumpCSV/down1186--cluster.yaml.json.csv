@@ -1,0 +1,61 @@
+Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,WorkerSecurityGroup
+Resources.AWS::KMS::Key.Properties.EnableKeyRotation,False
+Resources.AWS::EC2::SecurityGroupIngress.Properties.Tags,"[{u'Value': u'owned', u'Key': u'kubernetes.io/cluster/{{.Cluster.ID}}'}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LoadBalancerName,{{.Cluster.LocalID}}
+Resources.AWS::KMS::Alias.Type,AWS::KMS::Alias
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Enabled,True
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Id,{{.Cluster.LocalID}}-deployment-key
+Outputs.MasterSecurityGroup.Export.Name,{{.Cluster.ID}}:master-security-group
+Outputs.WorkerSecurityGroup.Value,WorkerSecurityGroup
+Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,AWS::StackName
+Resources.AWS::KMS::Key.Type,AWS::KMS::Key
+Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,{{.Values.hosted_zone}}.
+Resources.AWS::KMS::Alias.Properties.TargetKeyId,DeploymentSecretKey
+Resources.AWS::Route53::RecordSet.Properties.Type,A
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
+Resources.AWS::Route53::RecordSet.Properties.AliasTarget.HostedZoneId,"[u'MasterLoadBalancer', u'CanonicalHostedZoneNameID']"
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Timeout,60
+Resources.AWS::IAM::Role.Properties.RoleName,{{.Cluster.LocalID}}-static-egress-controller
+Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,true
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,10255
+Outputs.MasterSecurityGroup.Value,MasterSecurityGroup
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[u'MasterLoadBalancerSecurityGroup']
+Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,WorkerSecurityGroup
+Outputs.MasterLoadBalancer.Export.Name,{{.Cluster.ID}}:master-load-balancer
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
+Resources.AWS::Route53::RecordSet.Properties.AliasTarget.DNSName,"[u'MasterLoadBalancer', u'DNSName']"
+Resources.AWS::KMS::Alias.Properties.AliasName,alias/{{.Cluster.LocalID}}-deployment-secret
+Outputs.MasterIAMRole.Export.Name,{{.Cluster.ID}}:master-iam-role
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}, {u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'AWS': [u'', [u'arn:aws:iam::{{.Cluster.InfrastructureAccount | getAWSAccountID}}:role/', u'WorkerIAMRole']]}}]"
+Resources.AWS::KMS::Key.Properties.KeyUsage,ENCRYPT_DECRYPT
+Outputs.WorkerIAMRole.Value,WorkerIAMRole
+Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,10255
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionSettings.IdleTimeout,300
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': -1, u'FromPort': -1, u'IpProtocol': u'icmp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': 22, u'FromPort': 22, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': 8082, u'FromPort': 8082, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}, {u'ToPort': 7980, u'FromPort': 7980, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}, {u'ToPort': 8083, u'FromPort': 8083, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}, {u'ToPort': 9100, u'FromPort': 9100, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}, {u'ToPort': 9911, u'FromPort': 9911, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}, {u'ToPort': 30080, u'FromPort': 30080, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}, {u'ToPort': 4194, u'FromPort': 4194, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}, {u'ToPort': 9054, u'FromPort': 9054, u'IpProtocol': u'tcp', u'CidrIp': u'{{.Values.vpc_ipv4_cidr}}'}]"
+Outputs.WorkerSecurityGroup.Export.Name,{{.Cluster.ID}}:worker-security-group
+Resources.AWS::KMS::Key.Properties.Description,Key used by deployment pipeline for secret encryption/decryption
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[u',', u'{{.Cluster.ConfigItems.subnets}}']"
+Outputs.MasterLoadBalancer.Value,MasterLoadBalancer
+Outputs.WorkerIAMRole.Export.Name,{{.Cluster.ID}}:worker-iam-role
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Tags,"[{u'Value': u'owned', u'Key': u'kubernetes.io/cluster/{{.Cluster.ID}}'}]"
+Resources.AWS::KMS::Key.Properties.Enabled,True
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Scheme,internet-facing
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{{.Cluster.ConfigItems.vpc_id}}
+Outputs.MasterIAMRole.Value,MasterIAMRole
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::Route53::RecordSet.Properties.Name,{{.Cluster.LocalID}}.{{.Values.hosted_zone}}.
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Version,2012-10-17
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:8080/healthz
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,2
+Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'owned', u'Key': u'kubernetes.io/cluster/{{.Cluster.ID}}'}]"
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'cloudformation:*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:AllocateAddress', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:AssociateRouteTable', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DisassociateRouteTable', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:CreateRouteTable', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:CreateRoute', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:CreateNatGateway', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:CreateSubnet', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:CreateTags', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:ReleaseAddress', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DeleteRouteTable', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DeleteRoute', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DeleteNatGateway', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DeleteSubnet', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DescribeAddresses', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DescribeInternetGateways', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DescribeRouteTables', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DescribeNatGateways', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DescribeSubnets', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': u'ec2:DescribeVpcs', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': 443, u'Protocol': u'SSL', u'InstanceProtocol': u'SSL', u'LoadBalancerPort': 443, u'PolicyNames': [], u'SSLCertificateId': u'{{.Values.load_balancer_certificate}}'}]"
+Resources.AWS::KMS::Key.Properties.KeyPolicy.Statement,"[{u'Action': [u'kms:ReEncrypt*', u'kms:Create*', u'kms:Describe*', u'kms:Enable*', u'kms:Encrypt', u'kms:Decrypt', u'kms:List*', u'kms:Put*', u'kms:Update*', u'kms:Revoke*', u'kms:Disable*', u'kms:Get*', u'kms:Delete*', u'kms:ScheduleKeyDeletion', u'kms:CancelKeyDeletion'], u'Sid': u'Allow access for Key Administrators', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'AWS': u'arn:aws:iam::{{.Cluster.InfrastructureAccount | getAWSAccountID}}:root'}}, {u'Action': [u'kms:Decrypt'], u'Sid': u'Allow access for deployment system to decrypt the keys', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'AWS': [u'', [u'arn:aws:iam::{{.Cluster.InfrastructureAccount | getAWSAccountID}}:role/', u'DeploymentIAMRole']]}}]"
+Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2

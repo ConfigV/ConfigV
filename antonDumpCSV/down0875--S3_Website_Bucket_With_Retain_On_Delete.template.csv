@@ -1,0 +1,9 @@
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
+Outputs.S3BucketSecureURL.Description,Name of S3 bucket to hold website content
+Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
+Outputs.WebsiteURL.Description,URL for website hosted on S3
+Outputs.S3BucketSecureURL.Value,"{u'Fn::Join': [u'', [u'https://', {u'Fn::GetAtt': [u'S3Bucket', u'DomainName']}]]}"
+Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
+Resources.AWS::S3::Bucket.DeletionPolicy,Retain
+Outputs.WebsiteURL.Value,"{u'Fn::GetAtt': [u'S3Bucket', u'WebsiteURL']}"
+Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.html

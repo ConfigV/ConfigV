@@ -1,0 +1,51 @@
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.SetUpLaravel.files./etc/nginx/conf.d/laravel.conf.source,"[u'${S3TemplateURL}/files/etc/nginx/conf.d/laravel.conf', {u'S3TemplateURL': u'S3TemplateURL'}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.RoleBased.buckets,[u'CfnBucketName']
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-tidy,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-cli,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Nginx.packages.yum.nginx,[]
+Parameters.ImageId.Type,String
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.services.sysvinit.php-fpm.ensureRunning,True
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.RoleBased.type,S3
+Resources.AWS::EC2::Instance.Properties.KeyName,"[u'${AppName}KeyPair', {u'AppName': u'AppName'}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.files./etc/php.ini.source,"[u'${S3TemplateURL}/files/etc/php.ini', {u'S3TemplateURL': u'S3TemplateURL'}]"
+Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Timeout,PT5M
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Nginx.services.sysvinit.nginx.enabled,True
+Outputs.PrivateIpPHP71.Value,PHP71.PrivateIp
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-common,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-pecl-redis,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-embedded,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.Config,"[u'User', u'SetUpLaravel']"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-opcache,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-process,[]
+Parameters.CfnBucketName.Type,String
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': u'#!/bin/bash -xe\nyum update -y\n\n# CodeDeploy\nwget https://aws-codedeploy-${AWS::Region}.s3.amazonaws.com/latest/install\nchmod +x ./install\n./install auto\nservice codedeploy-agent start\n\n# AWSLogs\ncurl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py -O\nchmod +x ./awslogs-agent-setup.py\n./awslogs-agent-setup.py -n -r ${AWS::Region} -c s3://${CfnBucketName}/etc/awslogs/awslogs.conf\nservice awslogs start\n\n# Install the files and packages from the metadata\n/opt/aws/bin/cfn-init --stack ${AWS::StackName} --resource PHP71 --configsets Install,Config --region ${AWS::Region}\n\n# Composer (needs php)\n# The HOME or COMPOSER_HOME environment variable must be set for composer to run correctly\necho ""export HOME=/root"" >> ~/.bash_profile\nsource ~/.bash_profile\ncurl -s https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer\n\n# signals AWS CloudFormation to indicate whether Amazon EC2 instances have been successfully created or updated\n/opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource PHP71 --region ${AWS::Region}\n'}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-pecl-igbinary-devel,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Nginx.services.sysvinit.nginx.ensureRunning,True
+Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Fn::ImportValue': [u'${AppName}PublicSubnet1a', {u'AppName': u'AppName'}]}, u'DeviceIndex': 0, u'GroupSet': [{u'Fn::ImportValue': [u'${AppName}SGEC2Web', {u'AppName': u'AppName'}]}], u'AssociatePublicIpAddress': True}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-pecl-memcached,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.SetUpLaravel.files./var/www/laravel/.env.source,"[u'${S3TemplateURL}/files/var/www/laravel/.env', {u'S3TemplateURL': u'S3TemplateURL'}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-intl,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-devel,[]
+Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Count,1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.RoleBased.roleName,"{u'Fn::ImportValue': [u'${AppName}EC2Role', {u'AppName': u'AppName'}]}"
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.Install,"[u'Nginx', u'PHP71']"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-mbstring,[]
+Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvda', u'Ebs': {u'DeleteOnTermination': True, u'VolumeType': u'gp2', u'VolumeSize': 8}}]"
+Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,"{u'Fn::ImportValue': [u'${AppName}EC2IamInstanceProfile', {u'AppName': u'AppName'}]}"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-mysqlnd,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php7-pear,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-pdo,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-pecl-igbinary,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-mcrypt,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-json,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-fpm,[]
+Parameters.AppName.Type,String
+Parameters.S3TemplateURL.Type,String
+Resources.AWS::EC2::Instance.Properties.ImageId,ImageId
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-pecl-apcu,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.packages.yum.php71-pecl-apcu-devel,[]
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.services.sysvinit.php-fpm.enabled,True
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.PHP71.files./etc/php-fpm-7.1.d/www.conf.source,"[u'${S3TemplateURL}/files/etc/php-fpm-7.1.d/www.conf', {u'S3TemplateURL': u'S3TemplateURL'}]"

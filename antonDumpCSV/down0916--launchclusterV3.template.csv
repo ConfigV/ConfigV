@@ -1,0 +1,48 @@
+Parameters.LogUri.Description,The location where you want to store the logs from this EMR cluster. This should be of the form s3://your-bucket/Logs.
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Resources.AWS::EMR::Cluster.Properties.JobFlowRole,EMR_EC2_DefaultRole
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'RecoVPC'}
+Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.InstanceCount,2
+Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,True
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.23.24.0/24
+Resources.AWS::EMR::Cluster.Properties.Instances.Ec2KeyName,{u'Ref': u'KeyName'}
+Resources.AWS::EMR::Cluster.Properties.ReleaseLabel,emr-5.5.0
+Parameters.LogUri.Type,String
+Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.Market,ON_DEMAND
+Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::EMR::Cluster.Properties.ServiceRole,EMR_DefaultRole
+Resources.AWS::EMR::Cluster.Properties.Applications,"[{u'Name': u'Hadoop'}, {u'Name': u'Spark'}, {u'Name': u'Zeppelin'}]"
+Outputs.MasterInstanceFQDN.Value,"{u'Fn::GetAtt': [u'RecoCluster', u'MasterPublicDNS']}"
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGtwy'}
+Outputs.MasterInstanceFQDN.Description,The Fully Qualified DNS name of the Master Node of your Amazon EMR cluster.
+Resources.AWS::EMR::Cluster.Properties.Instances.Ec2SubnetId,{u'Ref': u'RecoSubnet'}
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
+Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGtwy'}
+Resources.AWS::EC2::VPC.Properties.CidrBlock,10.23.0.0/16
+Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.Name,Master
+Resources.AWS::EMR::Cluster.Type,AWS::EMR::Cluster
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.Name,Core
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'RecoSubnet'}
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,True
+Resources.AWS::EMR::Cluster.Properties.LogUri,{u'Ref': u'LogUri'}
+Parameters.KeyName.Description,Name of an existing EC2 Key pair to enable SSH access to the cluster master node.
+Resources.AWS::EMR::Cluster.Properties.Tags,"[{u'Value': u'Workshop', u'Key': u'Purpose'}]"
+Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.InstanceCount,1
+Resources.AWS::EC2::Route.DependsOn,GtwyAttach
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'RecoVPC'}
+Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,True
+Resources.AWS::EC2::VPC.Properties.InstanceTenancy,default
+Resources.AWS::EMR::Cluster.Properties.VisibleToAllUsers,True
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
+Resources.AWS::EMR::Cluster.Properties.Name,RecommendationCluster
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::EMR::Cluster.Properties.Instances.TerminationProtected,False
+Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.Market,ON_DEMAND
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Resources.AWS::EMR::Cluster.Properties.Configurations,"[{u'ConfigurationProperties': {u'PYSPARK_PYTHON': u'/usr/bin/python3', u'PYSPARK_DRIVER_PYTHON': u'/usr/bin/python3'}, u'Classification': u'spark-env'}]"
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'RecoVPC'}

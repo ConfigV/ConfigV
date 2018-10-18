@@ -1,0 +1,42 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,EC2KeyName
+Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
+Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved. Licensed under the Amazon Software License (the ""License""). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/asl/ or in the ""license"" file accompanying this file. This file is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Mappings.RegionMap.eu-central-1.AMI,ami-bf2ba8d0
+Parameters.BastionSecurityGroup.Description,Select the bastion security group.
+Parameters.NumberOfSubnets.Type,String
+Parameters.NumberOfSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
+Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Parameters.EC2KeyName.Type,AWS::EC2::KeyPair::KeyName
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': [u'', [u'Bastion / ', u'AWS::StackName']], u'PropagateAtLaunch': True, u'Key': u'Name'}]"
+Parameters.Subnet.Description,Select existing subnets. The number selected must match the number of subnets above. Subnets selected must be in separate AZs.
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,BastionLaunchConfiguration
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,0
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfSubnets.default,Number of subnets
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2KeyName.default,Existing Key Pair
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.Subnet.default,Subnets
+Parameters.NumberOfSubnets.Default,3
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.InstanceMonitoring,True
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[u'NumberOfSubnets1', [[0, u'Subnet']], [u'NumberOfSubnets2', [[0, u'Subnet'], [1, u'Subnet']], [u'NumberOfSubnets3', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet']], [u'NumberOfSubnets4', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet']], [u'NumberOfSubnets5', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet']], [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet'], [5, u'Subnet']]]]]]]"
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,BastionInstanceProfile
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,EC2
+Parameters.EC2KeyName.Description,Name of an EC2 KeyPair. Your bastion instances will launch with this KeyPair.
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[u'BastionSecurityGroup']
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[u'BastionInstanceRole']
+Parameters.BastionSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
+Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Parameters.NumberOfSubnets.Description,Number of subnets. This must match your selections in the list of subnets below.
+Parameters.Subnet.Type,List<AWS::EC2::Subnet::Id>
+Metadata.AWS::CloudFormation::Interface.ParameterLabels.BastionSecurityGroup.default,Bastion Security Group
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,120
+Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,60
+Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"[u'RegionMap', u'AWS::Region', u'AMI']"
+Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'EC2KeyName', u'BastionInstanceType', u'BastionSecurityGroup', u'NumberOfSubnets', u'Subnet'], u'Label': {u'default': u'AWS Parameters'}}]"
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'logs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents', u'logs:DescribeLogStreams'], u'Resource': [u'arn:aws:logs:*:*:*'], u'Effect': u'Allow'}]}}]"
+Mappings.RegionMap.ca-central-1.AMI,ami-d29e25b6

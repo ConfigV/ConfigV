@@ -1,0 +1,39 @@
+Resources.AWS::Serverless::Function.Properties.CodeUri,../../../microservices-name/target/name.zip
+Resources.AWS::Serverless::Function.Properties.Events.names.Properties.Method,GET
+Resources.AWS::Serverless::Function.Properties.Events.findname.Type,Api
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names/{id}.get.parameters,"[{u'required': True, u'type': u'number', u'name': u'id', u'in': u'path'}]"
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names/{id}.get.responses.200.content.text/plain.scheme.type,string
+Resources.AWS::SSM::Parameter.Properties.Description,Name API Endpoint
+Resources.AWS::Serverless::Function.Properties.Events.names.Properties.RestApiId,NameApi
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names.get.x-amazon-apigateway-integration.type,aws_proxy
+Resources.AWS::Serverless::Function.Properties.Tracing,Active
+Resources.AWS::Serverless::Api.Properties.StageName,prod
+Resources.AWS::Serverless::Function.Properties.Events.findname.Properties.RestApiId,NameApi
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names/{id}.get.produces,"[u'text/plain', u'application/json', u'application/xml']"
+Resources.AWS::SSM::Parameter.Properties.Type,String
+Resources.AWS::Serverless::Function.Properties.Events.findname.Properties.Method,GET
+Resources.AWS::Serverless::Function.Properties.MemorySize,1024
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.definitions.Name.properties.name.type,string
+Resources.AWS::Serverless::Function.Properties.Description,Amazon API Gateway.
+Resources.AWS::Serverless::Function.Properties.Timeout,20
+Resources.AWS::SSM::Parameter.Properties.Name,NameApiEndpoint
+Resources.AWS::Serverless::Function.Properties.Handler,org.aws.samples.compute.name.NameHandler::handleRequest
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names/{id}.get.x-amazon-apigateway-integration.type,aws_proxy
+Resources.AWS::SSM::Parameter.Properties.Value,${NameApi}.execute-api.${AWS::Region}.amazonaws.com
+Resources.AWS::Serverless::Function.Properties.Runtime,java8
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names/{id}.get.x-amazon-apigateway-integration.httpMethod,POST
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names.get.x-amazon-apigateway-integration.uri,arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NamesFunction.Arn}/invocations
+Resources.AWS::Serverless::Function.Properties.Events.names.Type,Api
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names.get.x-amazon-apigateway-integration.httpMethod,POST
+Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
+Resources.AWS::SSM::Parameter.Type,AWS::SSM::Parameter
+Resources.AWS::Serverless::Function.Properties.Events.names.Properties.Path,/resources/names
+Outputs.nameApiEndpoint.Value,https://${NameApi}.execute-api.${AWS::Region}.amazonaws.com/prod/resources/names
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.definitions.Name.type,object
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names.get.produces,"[u'application/json', u'application/xml']"
+Resources.AWS::Serverless::Function.Properties.Events.findname.Properties.Path,/resources/names/{id}
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.swagger,2.0
+Outputs.nameApiEndpoint.Description,Names API URL for application
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./resources/names/{id}.get.x-amazon-apigateway-integration.uri,arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NamesFunction.Arn}/invocations
+Resources.AWS::Serverless::Api.Properties.DefinitionBody.definitions.Name.properties.id.type,number

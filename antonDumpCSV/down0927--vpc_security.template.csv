@@ -1,0 +1,33 @@
+Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
+Parameters.AdminCIDR.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'65535', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'0'}, {u'ToPort': u'65535', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'0'}]"
+Outputs.SecurityGroupId.Description,The security group created for this VPC.
+Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,VPC Security Group
+Outputs.NetworkAclId.Value,{u'Ref': u'NetworkAcl'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,101
+Parameters.VpcId.Description,The VPC to apply the settings to.
+Parameters.AdminCIDR.MaxLength,18
+Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
+Outputs.SecurityGroupId.Value,{u'Ref': u'SecurityGroup'}
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,true
+Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VpcId'}
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,0
+Parameters.SubnetId.Type,AWS::EC2::Subnet::Id
+Parameters.VpcId.Type,AWS::EC2::VPC::Id
+Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'AdminCIDR'}, u'FromPort': u'22'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'443'}]"
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'SubnetId'}
+Parameters.AdminCIDR.ConstraintDescription,Must be a valid IP CIDR range of the form x.x.x.x/x.
+Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.AdminCIDR.Description,The IP address range that can be used to SSH to the EC2 instances
+Parameters.SubnetId.Description,The subnet to apply the settings to.
+Parameters.AdminCIDR.Type,String
+Outputs.NetworkAclId.Description,The ID of the network ACL created by this stack
+Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
+Parameters.AdminCIDR.MinLength,9
+Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
+Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535

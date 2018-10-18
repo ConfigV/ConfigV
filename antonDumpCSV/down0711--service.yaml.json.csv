@@ -1,0 +1,51 @@
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,VPC
+Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Conditions,"[{u'Field': u'path-pattern', u'Values': [u'ListenerPath']}]"
+Resources.AWS::ECS::Service.DependsOn,ListenerRule
+Parameters.DesiredCount.Description,How many instances of this task should we run across our cluster?
+Parameters.Cluster.Type,String
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,80
+Parameters.VPC.Type,AWS::EC2::VPC::Id
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckTimeoutSeconds,10
+Parameters.TaskDefinition.Type,String
+Resources.AWS::ECS::Service.Type,AWS::ECS::Service
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthyThresholdCount,2
+Parameters.HealthCheckPath.Description,The path the load balancer should use for performing the health checks
+Parameters.DesiredCount.Type,Number
+Resources.AWS::ECS::Service.Properties.DeploymentConfiguration.MaximumPercent,100
+Resources.AWS::ECS::Service.Properties.DeploymentConfiguration.MinimumHealthyPercent,0
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,15
+Parameters.ListenerRulePriority.Type,Number
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetGroupAttributes,"[{u'Value': u'30', u'Key': u'deregistration_delay.timeout_seconds'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,10
+Resources.AWS::ECS::Service.Properties.Cluster,Cluster
+Parameters.HealthCheckPath.Type,String
+Parameters.TaskDefinition.Description,The task definition that you want to run on the cluster
+Resources.AWS::ECS::Service.Properties.Role,ecs-infra:ECSServiceRole
+Parameters.ServiceName.Type,String
+Parameters.ContainerName.Type,String
+Resources.AWS::ECS::Service.Properties.LoadBalancers,"[{u'ContainerName': u'ContainerName', u'TargetGroupArn': u'TargetGroup', u'ContainerPort': u'ContainerPort'}]"
+Parameters.Listener.Type,String
+Parameters.ContainerName.Description,The name of the container that the ECS Service should create tasks for
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
+Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Type,AWS::ElasticLoadBalancingV2::ListenerRule
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,HealthCheckPath
+Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.ListenerArn,Listener
+Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Priority,ListenerRulePriority
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
+Parameters.DesiredCount.Default,1
+Parameters.TargetGroupName.Type,String
+Parameters.ContainerPort.Type,Number
+Parameters.Cluster.Description,Please provide the ECS Cluster ID that this service should run on
+Parameters.VPC.Description,The VPC that the ECS cluster is deployed to
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Matcher.HttpCode,200-299
+Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Actions,"[{u'TargetGroupArn': u'TargetGroup', u'Type': u'forward'}]"
+Parameters.ListenerPath.Type,String
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckProtocol,HTTP
+Parameters.DesiredCount.MinValue,0
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,TargetGroupName
+Parameters.Listener.Description,The Application Load Balancer listener to register with
+Resources.AWS::ECS::Service.Properties.DesiredCount,DesiredCount
+Parameters.ListenerPath.Description,The path to register with the Application Load Balancer
+Resources.AWS::ECS::Service.Properties.TaskDefinition,TaskDefinition
+Parameters.ContainerPort.Description,The port which should be exposed by the container
+Resources.AWS::ECS::Service.Properties.ServiceName,ServiceName

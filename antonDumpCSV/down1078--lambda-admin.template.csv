@@ -1,0 +1,7 @@
+Outputs.PushInvocationRole.Description,An IAM role that Amazon S3 can assume 'adminuser' to invoke your Lambda function.
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
+Outputs.ExecutionRole.Value,"{u'Fn::GetAtt': [u'LambdaExecRole', u'Arn']}"
+Outputs.PushInvocationRole.Value,"{u'Fn::GetAtt': [u'LambdaInvokeRole', u'Arn']}"
+Outputs.ExecutionRole.Description,An IAM role that Lambda can assume 'adminuser' to access your AWS resources.
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'LambdaInvoke', u'PolicyDocument': {u'Statement': [{u'Action': [u'lambda:InvokeFunction', u'kinesis:GetRecords', u'kinesis:GetShardIterator', u'kinesis:DescribeStream', u'kinesis:ListStreams'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"

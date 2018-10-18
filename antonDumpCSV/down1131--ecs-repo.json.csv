@@ -1,0 +1,7 @@
+Parameters.IAMARN.Description,Use the full ARN for the IAM user (e.g. arn:aws:iam::123456789012:user/patrick.henry)
+Resources.AWS::ECR::Repository.Properties.RepositoryName,{u'Ref': u'AWS::StackName'}
+Resources.AWS::ECR::Repository.Properties.RepositoryPolicyText.Version,2008-10-17
+Parameters.IAMARN.Type,String
+Resources.AWS::ECR::Repository.Properties.RepositoryPolicyText.Statement,"[{u'Action': [u'ecr:GetDownloadUrlForLayer', u'ecr:BatchGetImage', u'ecr:BatchCheckLayerAvailability', u'ecr:PutImage', u'ecr:InitiateLayerUpload', u'ecr:UploadLayerPart', u'ecr:CompleteLayerUpload'], u'Principal': {u'AWS': [{u'Ref': u'IAMARN'}]}, u'Effect': u'Allow', u'Sid': u'AllowPushPull'}]"
+Resources.AWS::ECR::Repository.Type,AWS::ECR::Repository
+Outputs.ECSRepository.Value,{u'Ref': u'MyRepository'}

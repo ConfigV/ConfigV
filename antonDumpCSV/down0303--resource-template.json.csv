@@ -1,0 +1,124 @@
+Parameters.LeaderboardTableWriteCapacityUnits.Default,1
+Parameters.StatsSettingsWriteCapacityUnits.Default,1
+Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'RecordSetProcessor', u'Arn']}"
+Parameters.LeaderboardInfoWriteCapacityUnits.Description,Number of writes per second.
+Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
+Resources.Custom::AccessControl.DependsOn,"[u'ServiceApi', u'ServiceLambda', u'MainTable', u'BannedPlayerTable', u'StatsSettings', u'RecordSetProcessor']"
+Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.AWS::Lambda::Function.Properties.Timeout,30
+Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'user'}]"
+Resources.Custom::ServiceApi.Type,Custom::ServiceApi
+Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
+Parameters.UserIdentityMapWriteCapacityUnits.Type,Number
+Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
+Parameters.LeaderboardTableReadCapacityUnits.Type,Number
+Parameters.ScoreStreamStatusWriteCapacityUnits.Default,1
+Resources.AWS::Lambda::Function.Properties.Handler,service.dispatch
+Outputs.ServiceUrl.Description,The service url.
+Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationBucket']}"
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'RecordSetProcessorScheduler', u'Arn': {u'Fn::GetAtt': [u'RecordSetProcessor', u'Arn']}}]"
+Parameters.ScoreStreamStatusReadCapacityUnits.Default,1
+Parameters.ServiceApiCacheClusterSize.Description,Indicates whether cache clustering is enabled for the service API.
+Parameters.UserIdentityMapReadCapacityUnits.Description,Number of reads per second.
+Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'user', u'AttributeType': u'S'}]"
+Parameters.ScoreStreamStatusWriteCapacityUnits.Description,Number of writes per second.
+Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::LambdaConfiguration.Properties.Settings.LeaderboardInfo,{u'Ref': u'LeaderboardInfo'}
+Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions,"[{u'Action': u'execute-api:Invoke', u'ResourceSuffix': [u'/api/POST/score', u'/api/GET/score/*', u'/api/GET/scores/*', u'/api/GET/leaderboard/*', u'/api/POST/leaderboard/*'], u'AbstractRole': u'Player'}, {u'Action': u'execute-api:Invoke', u'ResourceSuffix': [u'/api/POST/score', u'/api/GET/score/*', u'/api/GET/scores/*', u'/api/GET/leaderboard/*', u'/api/POST/leaderboard/*'], u'AbstractRole': u'Server'}]"
+Parameters.ResourceGroupName.Description,Name of the resource group.
+Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.MainTableReadCapacityUnits.Default,3
+Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'RecordSetProcessorSchedulerRule', u'Arn']}"
+Parameters.BannedPlayerTableWriteCapacityUnits.Type,Number
+Parameters.BannedPlayerTableReadCapacityUnits.Default,1
+Parameters.MainTableWriteCapacityUnits.Type,Number
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'MainTableReadCapacityUnits'}
+Parameters.StatsSettingsReadCapacityUnits.Default,1
+Resources.Custom::AccessControl.Type,Custom::AccessControl
+Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(5 minutes)
+Parameters.LeaderboardTableReadCapacityUnits.Description,Number of reads per second.
+Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
+Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::LambdaConfiguration.Properties.Settings.StatsSettingsTable,{u'Ref': u'StatsSettings'}
+Parameters.ConfigurationKey.Type,String
+Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
+Parameters.LeaderboardTableWriteCapacityUnits.Type,Number
+Parameters.UserIdentityMapReadCapacityUnits.Type,Number
+Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
+Parameters.MainTableWriteCapacityUnits.Description,Number of writes per second.
+Parameters.StatsSettingsWriteCapacityUnits.Type,Number
+Parameters.StatsSettingsWriteCapacityUnits.Description,Number of writes per second.
+Parameters.BannedPlayerTableReadCapacityUnits.Description,Number of reads per second.
+Resources.Custom::LambdaConfiguration.Properties.Settings.BannedPlayerTable,{u'Ref': u'BannedPlayerTable'}
+Parameters.LeaderboardInfoReadCapacityUnits.Default,1
+Resources.AWS::DynamoDB::Table.Properties.StreamSpecification.StreamViewType,NEW_AND_OLD_IMAGES
+Parameters.UserIdentityMapWriteCapacityUnits.Default,1
+Resources.Custom::LambdaConfiguration.Properties.Settings.LeaderboardTable,{u'Ref': u'LeaderboardTable'}
+Parameters.ResourceGroupName.Type,String
+Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
+Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions,"[{u'Action': u'lambda:InvokeFunction', u'AbstractRole': u'ServiceApi'}]"
+Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.ServiceApiCacheClusterEnabled.Default,false
+Parameters.ScoreStreamStatusReadCapacityUnits.Type,Number
+Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
+Parameters.DeploymentName.Type,String
+Parameters.StatsSettingsReadCapacityUnits.Description,Number of reads per second.
+Parameters.BannedPlayerTableWriteCapacityUnits.Description,Number of writes per second.
+Resources.Custom::DynamoDBTable.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:Scan', u'dynamodb:PutItem', u'dynamodb:GetItem', u'dynamodb:DeleteItem', u'dynamodb:UpdateItem'], u'AbstractRole': u'ServiceLambda'}]"
+Resources.Custom::DynamoDBTable.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'user'}]"
+Resources.Custom::LambdaConfiguration.Properties.Services,"[{u'InterfaceId': u'CloudGemPlayerAccount_banplayer_1_0_0', u'Optional': u'True'}]"
+Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn::GetAtt': [u'ServiceLambda', u'Arn']}"
+Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
+Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
+Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
+Parameters.MainTableReadCapacityUnits.Type,Number
+Parameters.BannedPlayerTableWriteCapacityUnits.Default,1
+Parameters.ScoreStreamStatusReadCapacityUnits.Description,Number of reads per second.
+Parameters.LeaderboardInfoReadCapacityUnits.Type,Number
+Parameters.ProjectResourceHandler.Type,String
+Resources.Custom::DynamoDBTable.Properties.AttributeDefinitions,"[{u'AttributeName': u'user', u'AttributeType': u'S'}]"
+Parameters.ServiceApiCacheClusterEnabled.Type,String
+Resources.Custom::DynamoDBTable.Type,Custom::DynamoDBTable
+Parameters.CloudCanvasStack.Default,ResourceGroup
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Parameters.CloudCanvasStack.Type,String
+Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
+Parameters.ConfigurationBucket.Type,String
+Parameters.BannedPlayerTableReadCapacityUnits.Type,Number
+Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
+Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'BannedPlayerTableWriteCapacityUnits'}
+Parameters.DeploymentStackArn.Type,String
+Resources.Custom::LambdaConfiguration.Properties.FunctionName,ServiceLambda
+Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationKey']}"
+Resources.Custom::LambdaConfiguration.Properties.Settings.MainTable,{u'Ref': u'MainTable'}
+Parameters.StatsSettingsReadCapacityUnits.Type,Number
+Resources.Custom::LambdaConfiguration.Properties.Settings.RecordSetProcessor,{u'Ref': u'RecordSetProcessor'}
+Parameters.UserIdentityMapWriteCapacityUnits.Description,Number of writes per second.
+Parameters.LeaderboardInfoWriteCapacityUnits.Type,Number
+Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Role']}"
+Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clustering is enabled for the service API.
+Resources.AWS::DynamoDB::Table.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:Scan', u'dynamodb:PutItem', u'dynamodb:DeleteItem', u'dynamodb:GetItem', u'dynamodb:UpdateItem'], u'AbstractRole': u'ServiceLambda'}, {u'Action': [u'dynamodb:DescribeStreams', u'dynamodb:DescribeStream', u'dynamodb:ListStreams', u'dynamodb:GetShardIterator', u'dynamodb:GetRecords'], u'ResourceSuffix': u'/stream/*', u'AbstractRole': u'RecordSetProcessor'}, {u'Action': [u'dynamodb:DescribeTable'], u'AbstractRole': u'RecordSetProcessor'}]"
+Metadata.CloudCanvas.Id,$Revision: #7 $
+Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'MainTableWriteCapacityUnits'}
+Parameters.LeaderboardInfoWriteCapacityUnits.Default,1
+Parameters.MainTableWriteCapacityUnits.Default,3
+Resources.Custom::LambdaConfiguration.Properties.Settings.UserIdentityMap,{u'Ref': u'UserIdentityMap'}
+Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
+Parameters.ScoreStreamStatusWriteCapacityUnits.Type,Number
+Parameters.DeploymentName.Description,Name of the resource group's deployment.
+Parameters.LeaderboardTableWriteCapacityUnits.Description,Number of writes per second.
+Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Runtime']}"
+Parameters.ServiceApiCacheClusterSize.Type,String
+Parameters.UserIdentityMapReadCapacityUnits.Default,3
+Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'BannedPlayerTableReadCapacityUnits'}
+Parameters.LeaderboardInfoReadCapacityUnits.Description,Number of reads per second.
+Resources.Custom::DynamoDBTable.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
+Parameters.MainTableReadCapacityUnits.Description,Number of reads per second.
+Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
+Resources.Custom::LambdaConfiguration.Properties.Settings.ScoreStreamStatus,{u'Ref': u'ScoreStreamStatus'}
+Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceApiCacheClusterEnabled'}
+Parameters.LeaderboardTableReadCapacityUnits.Default,1
+Parameters.ServiceApiCacheClusterSize.Default,0.5

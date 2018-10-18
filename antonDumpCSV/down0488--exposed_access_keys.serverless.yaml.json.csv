@@ -1,0 +1,44 @@
+Resources.AWS::Serverless::Function.Properties.CodeUri,../lambda_functions/
+Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.trustedadvisor']
+Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
+Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'Trusted Advisor Check Item Refresh Notification']
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.status,[u'ERROR']
+Resources.AWS::Events::Rule.Properties.EventPattern.detail.check-name,[u'Exposed Access Keys']
+Resources.AWS::Events::Rule.Properties.State,ENABLED
+Resources.AWS::Events::Rule.Properties.Name,ExposedKeyEventRule
+Resources.AWS::Events::Rule.Properties.Targets,"[{u'RoleArn': u'ExecuteStateMachineRole.Arn', u'Id': u'TargetFunctionV1', u'Arn': u'ExposedKeyStepFunction'}]"
+Resources.AWS::Serverless::Function.Properties.Role,LambdaDeleteAccessKeyPairRole.Arn
+Resources.AWS::Serverless::Function.Properties.Handler,delete_access_key_pair.lambda_handler
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'states.us-east-1.amazonaws.com'}}]"
+Resources.AWS::StepFunctions::StateMachine.Type,AWS::StepFunctions::StateMachine
+Resources.AWS::Serverless::Function.Properties.Runtime,python3.6
+Resources.AWS::StepFunctions::StateMachine.Properties.DefinitionString,"{
+  ""Comment"": ""Deletes exposed IAM access keypairs and notifies security"",
+  ""StartAt"": ""DeleteAccessKeyPair"",
+  ""States"": {
+    ""DeleteAccessKeyPair"": {
+      ""Type"": ""Task"",
+      ""Resource"": ""${DeleteAccessKeyPair.Arn}"",
+      ""Next"": ""LookupCloudTrailEvents""
+    },
+    ""LookupCloudTrailEvents"": {
+      ""Type"": ""Task"",
+      ""Resource"": ""${LookupCloudTrailEvents.Arn}"",
+      ""Next"": ""NotifySecurity""
+    },
+    ""NotifySecurity"": {
+      ""Type"": ""Task"",
+      ""Resource"": ""${NotifySecurity.Arn}"",
+      ""End"": true
+    }
+  }
+}"
+Resources.AWS::Serverless::Function.Properties.Environment.Variables.TOPIC_ARN,NotificationTopic
+Resources.AWS::Events::Rule.Type,AWS::Events::Rule
+Resources.AWS::StepFunctions::StateMachine.Properties.RoleArn,StepFunctionExecutionRole.Arn
+Resources.AWS::SNS::Topic.Properties.DisplayName,SecurityNotificationTopic
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
+Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'StatesExecutionPolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'lambda:InvokeFunction'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"

@@ -1,0 +1,76 @@
+Resources.AWS::IAM::InstanceProfile.Properties.Path,/
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.02-signal-ready.waitAfterCompletion,0
+Mappings.OS2SSHPort.Windows.SSHPort,3389
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.02-signal-ready.command,"{u'Fn::Join': [u'', [u'""C:\\Program Files\\Amazon\\cfn-bootstrap\\cfn-signal""', u' -e 0 ""', {u'Ref': u'WaitHandle'}, u'""']]}"
+Parameters.TagKey.Description,The EC2 tag key that identifies this as a target for deployments.
+Parameters.OperatingSystem.ConstraintDescription,Must be Windows or Linux.
+Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.00-download-host-agent.cwd,C:/cfn
+Parameters.KeyPairName.MaxLength,255
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.services.sysvint.codedeploy-agent.enabled,true
+Parameters.TagValue.Type,String
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.windows.codedeploy-agent.ensureRunning,true
+Parameters.SSHLocation.ConstraintDescription,Must be a valid IP CIDR range of the form x.x.x.x/x.
+Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'yum update -y aws-cfn-bootstrap\n', u'yum install -y aws-cli\n', u'# Helper function.\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'# Install the AWS CodeDeploy Agent.\n', u'cd /home/ec2-user/\n', u""aws s3 cp 's3://aws-codedeploy-us-east-1/latest/codedeploy-agent.noarch.rpm' . || error_exit 'Failed to download AWS CodeDeploy Agent.'\n"", u""yum -y install codedeploy-agent.noarch.rpm || error_exit 'Failed to install AWS CodeDeploy Agent.' \n"", u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r LinuxEC2Instance --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init.'\n"", u'# All is well, so signal success.\n', u'/opt/aws/bin/cfn-signal -e 0 -r ""AWS CodeDeploy Agent setup complete."" \'', {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
+Mappings.OS2SSHPort.Linux.SSHPort,22
+Parameters.InstanceCount.MaxValue,3
+Parameters.KeyPairName.AllowedPattern,[\x20-\x7E]*
+Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'ec2:Describe*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'autoscaling:CompleteLifecycleAction', u'autoscaling:DeleteLifecycleHook', u'autoscaling:DescribeLifecycleHooks', u'autoscaling:DescribeAutoScalingGroups', u'autoscaling:PutLifecycleHook', u'autoscaling:RecordLifecycleActionHeartbeat'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
+Parameters.SSHLocation.Description,The IP address range that can be used to connect using SSH or RDP to the Amazon EC2 instances.
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.01-install-host-agent.ignoreErrors,true
+Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,900
+Parameters.TagKey.Default,Name
+Parameters.TagKey.Type,String
+Parameters.InstanceCount.ConstraintDescription,Must be a number between 1 and 3.
+Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CodeDeployTrustRole'}]
+Parameters.InstanceCount.MinValue,1
+Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyPairName'}
+Parameters.KeyPairName.MinLength,1
+Parameters.InstanceCount.Default,1
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.00-download-host-agent.waitAfterCompletion,0
+Parameters.KeyPairName.Description,Name of an existing Amazon EC2 key pair to enable SSH or RDP access to the instances.
+Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
+Parameters.TagValue.AllowedPattern,[\x20-\x7E]*
+Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
+Resources.AWS::CloudFormation::WaitCondition.Properties.Count,{u'Ref': u'InstanceCount'}
+Parameters.KeyPairName.Type,String
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP access via port 80 and SSH access.
+Parameters.InstanceCount.Type,Number
+Parameters.TagKey.ConstraintDescription,Can contain only ASCII characters.
+Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
+Parameters.OperatingSystem.Type,String
+Parameters.TagValue.ConstraintDescription,Can contain only ASCII characters.
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': [u'codedeploy.us-east-1.amazonaws.com', u'codedeploy.us-west-2.amazonaws.com']}, u'Effect': u'Allow', u'Sid': u'1'}]"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.services.sysvint.codedeploy-agent.ensureRunning,true
+Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceRoleInstanceProfile'}
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.01-install-host-agent.waitAfterCompletion,0
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Parameters.InstanceCount.Description,Number of Amazon EC2 instances (Must be a number between 1 and 3).
+Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
+Parameters.SSHLocation.MinLength,9
+Parameters.OperatingSystem.Default,Linux
+Parameters.TagValue.Description,The EC2 tag value that identifies this as a target for deployments.
+Parameters.OperatingSystem.AllowedValues,"[u'Linux', u'Windows']"
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.windows.codedeploy-agent.commands,[u'01-install-host-agent']
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.01-install-host-agent.command,C:\cfn\codedeploy-agent.msi /quiet /l C:\cfn\host-agent-install-log.txt
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.windows.codedeploy-agent.enabled,true
+Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
+Resources.AWS::EC2::Instance.Condition,LaunchLinuxEC2Instance3
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Parameters.SSHLocation.Type,String
+Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'SecurityGroup'}]
+Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
+Outputs.CodeDeployTrustRoleARN.Value,"{u'Fn::GetAtt': [u'CodeDeployTrustRole', u'Arn']}"
+Parameters.SSHLocation.MaxLength,18
+Parameters.OperatingSystem.Description,Amazon EC2 operating system type (Linux or Windows).
+Parameters.SSHLocation.Default,0.0.0.0/0
+Parameters.TagValue.Default,CodeDeployDemo
+Parameters.KeyPairName.ConstraintDescription,KeyPairName is a required Field and can contain only ASCII characters.
+Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
+Resources.AWS::IAM::Policy.Properties.PolicyName,CodeDeployPolicy
+Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.00-download-host-agent.command,"{u'Fn::Join': [u'', [u'powershell.exe -Command ""Read-S3Object ', u'-BucketName aws-codedeploy-us-east-1 ', u'-Key latest/codedeploy-agent.msi ', u'-File codedeploy-agent.msi""']]}"
+Parameters.TagKey.AllowedPattern,[\x20-\x7E]*
+Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionOS2AMI', {u'Ref': u'AWS::Region'}, {u'Ref': u'OperatingSystem'}]}"
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': {u'Fn::FindInMap': [u'OS2SSHPort', {u'Ref': u'OperatingSystem'}, u'SSHPort']}, u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': {u'Fn::FindInMap': [u'OS2SSHPort', {u'Ref': u'OperatingSystem'}, u'SSHPort']}}]"
+Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'TagValue'}, u'Key': {u'Ref': u'TagKey'}}]"

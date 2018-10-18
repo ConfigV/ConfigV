@@ -1,0 +1,12 @@
+Resources.AWS::ECS::TaskDefinition.Properties.Family,ixortalk-user-registration-api
+Parameters.LoadbalancerDNS.Type,String
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,user-registration-api-logs
+Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
+Parameters.UserRegistrationApiImageVersion.Type,String
+Parameters.SpringCloudConfigLabel.Type,String
+Parameters.SpringCloudConfigLabel.Description,The branch of the config environment to use
+Parameters.SpringProfilesActive.Type,String
+Outputs.TaskDefinition.Value,TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'user-registration-api-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-user-registration-api', u'Image': u'ixortalk/ixortalk-user-registration-api:${UserRegistrationApiImageVersion}', u'Environment': [{u'Name': u'SPRING_PROFILES_ACTIVE', u'Value': u'SpringProfilesActive'}, {u'Name': u'SPRING_CLOUD_CONFIG_URI', u'Value': u'https://${LoadbalancerDNS}/config'}, {u'Name': u'SPRING_CLOUD_CONFIG_LABEL', u'Value': u'SpringCloudConfigLabel'}, {u'Name': u'JAVA_OPTS', u'Value': u'-Xmx256m'}], u'Memory': 640, u'PortMappings': [{u'ContainerPort': 8005}]}]"
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

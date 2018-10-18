@@ -1,0 +1,20 @@
+Parameters.CertificateARN.Type,String
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.PriceClass,PriceClass_100
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ViewerProtocolPolicy,allow-all
+Outputs.CloudFrontDomainName.Export.Name,cloudfront:CloudFrontDomainName
+Parameters.AssetsBucketName.Type,String
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.TargetOriginId,S3-${AssetsBucketName}
+Parameters.DistributionAlias.Type,String
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.DefaultTTL,3600
+Resources.AWS::CloudFront::CloudFrontOriginAccessIdentity.Type,AWS::CloudFront::CloudFrontOriginAccessIdentity
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn,CertificateARN
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Aliases,[u'DistributionAlias']
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Enabled,true
+Resources.AWS::CloudFront::Distribution.Type,AWS::CloudFront::Distribution
+Resources.AWS::CloudFront::CloudFrontOriginAccessIdentity.Properties.CloudFrontOriginAccessIdentityConfig.Comment,Access Identity for the Ixortalk assets
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.IPV6Enabled,true
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.ViewerCertificate.SslSupportMethod,sni-only
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.HttpVersion,http2
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Origins,"[{u'S3OriginConfig': {u'OriginAccessIdentity': u'origin-access-identity/cloudfront/${AssetsCloudFrontOriginAccessIdentity}'}, u'Id': u'S3-${AssetsBucketName}', u'DomainName': u'${AssetsBucketName}.s3.amazonaws.com'}]"
+Outputs.CloudFrontDomainName.Value,AssetsCloudFrontDistribution.DomainName
+Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ForwardedValues.QueryString,false

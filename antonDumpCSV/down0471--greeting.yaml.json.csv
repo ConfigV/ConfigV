@@ -1,0 +1,39 @@
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy']
+Resources.AWS::ECS::Service.Properties.LaunchType,FARGATE
+Parameters.Cluster.Type,String
+Parameters.Subnet4.Type,String
+Resources.AWS::ECS::Service.Type,AWS::ECS::Service
+Resources.AWS::ECS::TaskDefinition.Properties.Family,${AWS::StackName}-greeting
+Resources.AWS::IAM::Role.Properties.Path,/
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::ECS::Service.Properties.HealthCheckGracePeriodSeconds,60
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/ecs/${AWS::StackName}
+Parameters.LaunchType.AllowedValues,"[u'Fargate', u'EC2']"
+Resources.AWS::ECS::TaskDefinition.Properties.Memory,1GB
+Resources.AWS::ECS::TaskDefinition.Properties.Cpu,256
+Resources.AWS::ECS::Service.Properties.LoadBalancers,"[{u'ContainerName': u'greeting', u'TargetGroupArn': u'TargetGroup', u'ContainerPort': 8081}]"
+Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
+Resources.AWS::ECS::Service.Properties.Cluster,Cluster
+Parameters.DesiredCount.Default,1
+Parameters.Subnet3.Type,String
+Parameters.PrivateALB.Type,String
+Parameters.TargetGroup.Type,String
+Parameters.DesiredCount.Type,Number
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'ecs-tasks.amazonaws.com'}}]"
+Parameters.LaunchType.Type,String
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
+Resources.AWS::ECS::TaskDefinition.Properties.NetworkMode,"[u'Fargate', u'awsvpc', u'bridge']"
+Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'PortMappings': [{u'ContainerPort': 8081}], u'Name': u'greeting', u'Image': u'arungupta/greeting', u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-stream-prefix': u'AWS::StackName', u'awslogs-group': u'LogGroup', u'awslogs-region': u'AWS::Region'}}, u'Memory': 500, u'Essential': True}]"
+Parameters.SecurityGroup.Type,String
+Parameters.LaunchType.Default,Fargate
+Resources.AWS::ECS::TaskDefinition.Properties.ExecutionRoleArn,TaskExecutionRole
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.SecurityGroups,[u'SecurityGroup']
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.AssignPublicIp,ENABLED
+Outputs.ExecutionRole.Value,TaskExecutionRole
+Resources.AWS::ECS::TaskDefinition.Properties.RequiresCompatibilities,"[[u'Fargate', u'FARGATE', u'EC2']]"
+Outputs.Service.Value,"[u'Fargate', u'FargateService', u'EC2Service']"
+Resources.AWS::ECS::Service.Condition,Fargate
+Resources.AWS::ECS::Service.Properties.DesiredCount,DesiredCount
+Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.Subnets,"[u'Subnet3', u'Subnet4']"
+Resources.AWS::ECS::Service.Properties.TaskDefinition,TaskDefinition
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

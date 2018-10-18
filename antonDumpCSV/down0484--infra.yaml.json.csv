@@ -1,0 +1,78 @@
+Outputs.LogGroup.Value,LogGroup
+Outputs.ALBPrivateCNAME.Value,ALBPrivate.DNSName
+Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role']
+Resources.AWS::EC2::Route.Type,AWS::EC2::Route
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetType,ip
+Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
+Resources.AWS::EC2::Subnet.Properties.VpcId,VPC
+Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
+Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
+Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
+Resources.AWS::EC2::Route.Properties.NatGatewayId,{u'Ref': u'NAT1'}
+Outputs.ALBPublic.Value,ALBPublic
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Scheme,internet-facing
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,VPC
+Outputs.NameTargetGroupArn.Value,targetgroupname
+Resources.AWS::EC2::NatGateway.Properties.SubnetId,PublicSubnet1
+Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': {u'Ref': u'targetgroupname'}, u'Type': u'forward'}]"
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,InternetGateway
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
+Resources.AWS::EC2::NatGateway.Properties.AllocationId,"{u'Fn::GetAtt': [u'EIP1', u'AllocationId']}"
+Resources.AWS::IAM::Role.Type,AWS::IAM::Role
+Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/ecs/ecs-demo
+Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
+Outputs.PrivateSubnet2.Value,PrivateSubnet2
+Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [1, {u'Fn::GetAZs': u''}]}"
+Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,60
+Resources.AWS::EC2::EIP.Properties.Domain,vpc
+Resources.AWS::IAM::Role.Properties.Path,/
+Outputs.PrivateSubnet1.Value,PrivateSubnet1
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,ALBPrivate
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,10
+Resources.AWS::ECS::Cluster.Type,AWS::ECS::Cluster
+Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,SecurityGroupWebapp.GroupId
+Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
+Resources.AWS::EC2::Route.Properties.GatewayId,InternetGateway
+Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,SecurityGroupWebapp.GroupId
+Resources.AWS::EC2::SecurityGroup.Properties.GroupName,ALBPublic
+Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,PrivateRouteTable1
+Outputs.ALBPrivate.Value,ALBPrivate
+Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com', u'ecs-tasks.amazonaws.com']}}]"
+Outputs.GreetingTargetGroupArn.Value,targetgroupgreeting
+Outputs.PublicSubnet1.Value,PublicSubnet1
+Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,8080
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/resources/greeting
+Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,8082
+Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 80, u'FromPort': 80, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,8081
+Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
+Outputs.SecurityGroupWebapp.Value,SecurityGroupWebapp.GroupId
+Resources.AWS::EC2::Route.Properties.RouteTableId,PublicRouteTable
+Resources.AWS::ElasticLoadBalancingV2::Listener.DependsOn,ECSRole
+Outputs.ECSCluster.Value,ECSCluster
+Outputs.ALBPublicCNAME.Value,ALBPublic.DNSName
+Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
+Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.0.192/26
+Resources.AWS::EC2::RouteTable.Properties.VpcId,VPC
+Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VPC
+Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,PrivateSubnet1
+Outputs.PublicSubnet2.Value,PublicSubnet2
+Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,[u'SecurityGroupPublic.GroupId']
+Outputs.WebappTargetGroupArn.Value,targetgroupwebapp
+Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,greeting-svc
+Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[u'PublicSubnet1', u'PublicSubnet2']"
+Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
+Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/24
+Outputs.ECSRole.Value,ECSRole
+Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,AllowWebTraffic
+Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
+Outputs.VPC.Value,VPC
+Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,VPC
+Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,8082
