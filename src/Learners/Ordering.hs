@@ -15,6 +15,7 @@ import Prelude hiding (Ordering)
 import qualified Data.Map as M
 
 import Learners.Common
+
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
@@ -26,7 +27,7 @@ instance Learnable Ordering AntiRule where
 
   buildRelations f = let
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
-    irPairs = filter (sameConfigModule) $ pairs f
+    irPairs = filter (sameConfigModule) $ orderPreservingPairs f
    in
      M.fromList $ embedAsTrueAntiRule $ map toOrdering $ irPairs 
     --M.foldrWithKey removeConflicts x x
@@ -41,8 +42,9 @@ instance Learnable Ordering AntiRule where
         AntiRule tru truOp (t+tOp) 
       updateWithOp k v = combine v $ findOp k
       validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
+      mergedRules = M.filter validRule $ M.mapWithKey updateWithOp rs
     in
-      M.filter validRule $ M.mapWithKey updateWithOp rs
+      mergedRules 
 
   -- | does the r2 we found in the target file
   --   agree with the learned r1

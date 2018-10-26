@@ -19,17 +19,17 @@ module Settings where
   
   -- only used when ModeSetting set to UserSpecified
   userLearnDir = 
-       "antonDumpCSV/"
+       --"antonDumpCSV/"
        --"cfn_data/"
        --"cfn_data_custom_auth_api/"
-       --"benchmarkSet/CSVTest/" -- should learn (x,3) => y
+       "data/benchmarkSet/CSVTest/" -- should learn (x,3) => y
   cacheLocation = "cachedRules.json"
 
   language = CSV
 
-  enableOrder = False
+  enableOrder = True
   enableMissing = False
-  enableKeyvalkey = True
+  enableKeyvalkey = False
   enableCoarseGrain = False
   enableFineGrain = False
   enableTypesRules = False
@@ -42,8 +42,8 @@ module Settings where
 
   -- You can set support and confidence as percentages, or as a # of files (usually specific for a trainging set)
   (intRelSupport,intRelConfidence) = 
-    thresholds(0.105,2) --support and confidence 
-    --(27,1) :: (Int,Int) --min # evidenced file and max # contradictory files
+    --thresholds(0.105,2) --support and confidence 
+    (0,1) :: (Int,Int) --min # evidenced file and max # contradictory files
 
   (fineGrainSupport, fineGrainConfidence) = 
     thresholds(0.24,2)  
@@ -61,8 +61,8 @@ module Settings where
 
   --minTrue and maxFalse
   (orderSupport, orderConfidence) = 
-    thresholds(0.067,2) 
-    --(17, 1) :: (Int,Int)
+    --thresholds(0.067,2) 
+    (2, 1) :: (Int,Int)
 
   -- TODO - can only be provided as Int for support and percent for confidence
   (typeSupport, typeConfidence) =

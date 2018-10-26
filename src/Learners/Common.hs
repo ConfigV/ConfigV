@@ -31,6 +31,8 @@ combine :: AntiRule -> AntiRule -> AntiRule
 combine (AntiRule tru fls tot) (AntiRule truOp flsOp totOp)
   = AntiRule tru truOp (tot+totOp) 
 
+-- | Construct all pairs from irs, 
+-- | given [x,y], this includes both (x,y) and (y,x), but not (x,x)
 pairs irs = 
   S.toList $ pairsAsSet $ S.fromList irs
 
@@ -43,6 +45,18 @@ pairsAsSet ls =
     noSelf = S.filter (\(ir1, ir2) -> (keyword ir1)/=(keyword ir2)) allPairs
   in
     noSelf 
+
+-- | Construct all pairs from irs that are consistent with order
+-- | [x,y] produces (x,y) but not (y,x)
+orderPreservingPairs :: [IRLine]  -> [(IRLine,IRLine)]
+orderPreservingPairs [] = []
+orderPreservingPairs (l:ls) =
+  let
+    thisP = map (\x->(l,x)) ls
+    theRest = orderPreservingPairs ls
+    noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
+  in
+    noSelf
 
 -- For weeding out IRLine with values that do not resemble integer formats (IntRel and FineGrained)
 -- TODO use validAsInt and validAsSize

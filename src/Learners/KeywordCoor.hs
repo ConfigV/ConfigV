@@ -36,7 +36,7 @@ instance Learnable R.KeywordCoor AntiRule where
       if keyword ir1 > keyword ir2
       then KeywordCoor (keyword ir1, keyword ir2) 
       else KeywordCoor (keyword ir2, keyword ir1) 
-    irPairs = pairs' f
+    irPairs = orderPreservingPairs f
     -- tot = # times x + # times y
     totalTimes = M.fromList $ embedAsTrueAntiRule $ map toKC irPairs 
    in
@@ -69,16 +69,6 @@ instance Learnable R.KeywordCoor AntiRule where
     ,errIdent = MISSING
     ,errMsg = "MISSING ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)
     ,errSupport = tru rd + fls rd}
-
-pairs' :: [IRLine]  -> [(IRLine,IRLine)]
-pairs' [] = []
-pairs' (l:ls) =
-  let
-    thisP = map (\x->(l,x)) ls
-    theRest = pairs ls
-    noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
-  in
-    noSelf
 
 embedWith :: M.Map Keyword Int -> M.Map KeywordCoor AntiRule -> M.Map KeywordCoor AntiRule
 embedWith counts rules =
