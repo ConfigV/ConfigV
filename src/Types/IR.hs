@@ -21,10 +21,10 @@ import Data.Interned.Internal.Text
 
 type ConfigFile a = (FilePath,T.Text, a)
 data Language = 
-     MySQL 
-   | HTTPD
-   | CSV --when your config file preprocessing happens elsewhere and you just have a key,value csv
-     deriving (Eq,Show)
+       MySQL 
+     | HTTPD
+     | CSV --when your config file preprocessing happens elsewhere and you just have a key,value csv
+       deriving (Eq,Show)
 
 deriving instance Data InternedText
 deriving instance Generic InternedText

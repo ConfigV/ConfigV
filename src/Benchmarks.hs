@@ -1,6 +1,7 @@
 {-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
+{-# LANGUAGE MultiWayIf #-}
 
 module Benchmarks where
 
@@ -8,6 +9,7 @@ import qualified Settings
 import           Types.Errors
 import           Types.IR
 import           Utils 
+import           Settings
 
 import qualified Data.Text.IO     as T
 import           System.Directory
@@ -15,34 +17,31 @@ import           System.Directory
 import Debug.Trace
 
 learnTarget :: [ConfigFile Language]
-learnTarget = case Settings.trainingTarget of
-    Settings.Test -> genSet "testLearn/"
-    Settings.NonProb -> genSet "benchmarkSet/correctMySQL/"
-    Settings.Prob -> genSet "learningSet/MySQL/"
-    Settings.UserSpecified -> genSet Settings.userLearnDir 
+learnTarget = genSet Settings.userLearnDir 
   where
     genSet s =
       map (\x -> (s++x,u $ T.readFile (s++x), Settings.language))
       (u (listDirectory s))
 
+-- TODO move to utils
 traceMe cs = trace (concatMap (\(f,t,l) -> (show f++"\n")) cs) cs
 
 -- verification file paths
 vFilePaths :: [FilePath]
-vFilePaths = if Settings.benchmarks
-    then benchmarkFiles
-    else userFiles
+vFilePaths = case Settings.verificationTarget of
+    Just filePath -> collectFiles filePath
+    Nothing -> []
   where
-    dir = Settings.verificationTarget
-    userFiles = map ((dir++"/")++) $ u $ listDirectory dir
-    benchmarkFiles = map getFileName $ concat benchmarks
-
+    collectFiles dir = map ((dir++"/")++) $ u $ listDirectory dir
+    --benchmarkFiles = map getFileName $ concat benchmarks --TODO unused atm
+{-
 benchmarks :: [ErrorReport]
 benchmarks = case Settings.trainingTarget of
   Settings.Test -> testBenchSet
   Settings.NonProb -> group2 ++ group3 ++ group4 ++ group5
   Settings.Prob ->  cavAE_benchmarks
   --Prob -> newSet --learnSetBench -- newSet--group2 -- ++ group4 ++ group5 -- ++ group6
+-}
 
 makeError (errLoc1,errLoc2,errIdent) =
   Error {errMsg=(show errIdent)++" SPEC - "++(show$snd errLoc1)++" AND "++(show$snd errLoc2),errLocs=[errLoc1,errLoc2],errSupport=0,..}

@@ -3,6 +3,7 @@
 module Convert where
 
 import Types.IR
+import Settings
 
 import qualified Data.Text as T
 import Data.Interned

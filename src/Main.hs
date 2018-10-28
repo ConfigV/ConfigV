@@ -55,8 +55,8 @@ runVerify ::  RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
 runVerify rules ds vTargets  = do
   let errors = map (verifyOn rules) vTargets
   fitnesses <- 
-    if Settings.benchmarks
-    then zipWithM reportBenchmarkPerformance Bench.benchmarks errors 
+    if False --Settings.benchmarks
+    then undefined --zipWithM reportBenchmarkPerformance Bench.benchmarks errors 
     else mapM (reportUserPerformance ds) $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
   printSummary errors fitnesses
   return $ sum fitnesses

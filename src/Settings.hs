@@ -8,21 +8,15 @@ module Settings where
   -- enable debugging logs
   verbose =  True
 
+  -- if verification target is Nothing, do not try to verify anything
+  verificationTarget :: Maybe FilePath
   verificationTarget = 
-    --"../Apriori/configvData"
-    "data/user"
-    --"githubFiles" 
-    --"caseStudies"
+    Just "benchmarks/CSVTest"
 
-  trainingTarget = UserSpecified
-  data ModeSetting = NonProb | Prob | Test | UserSpecified
-  
   -- only used when ModeSetting set to UserSpecified
   userLearnDir = 
-       --"antonDumpCSV/"
-       --"cfn_data/"
-       --"cfn_data_custom_auth_api/"
-       "data/benchmarkSet/CSVTest/" -- should learn (x,3) => y
+       "benchmarks/CSVTest/" 
+
   cacheLocation = "cachedRules.json"
 
   language = CSV
@@ -96,13 +90,8 @@ module Settings where
   --verify benchmarks and report # passing or verify files in 'user' dir
   benchmarks = False --TODO not yet implemented, only works on False setting
 
-  totalFiles = case Settings.trainingTarget of
-    Settings.Test -> f "testLearn/"
-    Settings.NonProb -> f "benchmarkSet/correctMySQL/"
-    Settings.Prob -> f "learningSet/MySQL/"
-    Settings.UserSpecified -> f userLearnDir
-   where
-    f = length . unsafePerformIO . listDirectory
+  totalFiles = 
+     length $ unsafePerformIO $ listDirectory userLearnDir
 
   thresholds  :: (Double,Double) -> (Int,Int)
   thresholds (support,conf) = (floor supportAbs,floor confAbs)

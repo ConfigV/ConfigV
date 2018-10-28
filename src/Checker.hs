@@ -6,6 +6,8 @@ import Types.Rules
 import Types.Errors
 import Types.Common
 
+import Settings
+
 import LearningEngine
 import Convert (convert)
 
