@@ -12,14 +12,16 @@ import Types.Countable
 import qualified Types.Rules as R
 import Learners.Common
 
-import Settings
-
 import qualified Data.Map as M
 import qualified Data.Text as T
 import qualified Data.Char as C
 import           Data.Maybe 
 
 import Data.Interned
+
+import Settings.Config
+import Control.Monad.Reader
+
 
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
@@ -33,18 +35,21 @@ instance Learnable R.IntRel Formula where
     rs' = filter (\(ir1,ir2) -> sockport (ir1,ir2) && (not $T.isInfixOf "dir" $ unintern $ keyword ir1) && (not $ T.isInfixOf "dir" $ unintern $ keyword ir2)) $ pairs rs
     eqs = map toIntRel rs'
    in
-    M.fromList $ eqs
+    return $ M.fromList $ eqs
 
   -- unionsWith work by Ord, so just providing a custom instance of Eq wont work, also need Ord
   -- ord is too sensitive, since traversal might miss an EQ
   -- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
-  merge rs = let
-    rs' = M.unionsWith add rs
-    merged = M.foldlWithKey combineFlips M.empty rs'
+  merge rs = do
+    settings <- ask
+    let 
+      rs' = M.unionsWith add rs
+      merged = M.foldlWithKey combineFlips M.empty rs'
     --TODO def for when an eq rule has enough conf
-    validRule r = (gt r + lt r + eq r)>Settings.intRelSupport &&  (gt r < Settings.intRelConfidence|| lt r <= Settings.intRelConfidence)
-   in
-    M.filter validRule merged
+      validRule r = (gt r + lt r + eq r)>(intRelSupport $ thresholdSettings settings) &&  
+                    (gt r < (intRelConfidence $ thresholdSettings settings)) || 
+                    (lt r <= (intRelConfidence $ thresholdSettings settings))
+    return $ M.filter validRule merged
  
   check _ r1 r2 = if
     | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1 --TODO eq rules require more evidence than others

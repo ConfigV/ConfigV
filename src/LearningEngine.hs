@@ -1,3 +1,7 @@
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE NoMonoPatBinds #-}
+
 module LearningEngine where
 
 import Types.IR
@@ -13,27 +17,25 @@ import Control.DeepSeq
 
 import qualified Data.Map.Strict as M
 
-import Settings
+import Settings.Config
+import Control.Monad.Reader
 
 import Debug.Trace
 
 -- | collect contraints from each file indepentantly
--- this should be parmap
-learnRules :: [ConfigFile Language] -> RuleSet
-learnRules fs = let
-  --fs' = parMap rseq convert fs
-  --rs = parMap rdeepseq buildAllRelations fs'
-  configLines = map convert (take Settings.learnFileLimit fs)
-  --rs = parMap rseq buildAllRelations fs'
+--   this should be parmap
+learnRules :: ConfigVConfiguration -> [ConfigFile Language] -> RuleSet
+learnRules configVconfig fs = let
+  configLines = map convert (take (learnFileLimit $ optionsSettings configVconfig) fs)
   keyCounts :: M.Map Keyword Int 
   keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty $ concat configLines
-  rs = map (buildAllRelations keyCounts) configLines
+  rs = map (buildAllRelations configVconfig keyCounts) configLines
  in
-  resolveRules rs --`using` parRuleSet
+  resolveRules configVconfig rs --`using` parRuleSet
 
 -- | use the learning module instances to decide probabiliity cutoff and the sort
-resolveRules :: [RuleSet] -> RuleSet
-resolveRules rs = RuleSet
+resolveRules :: ConfigVConfiguration -> [RuleSet] -> RuleSet
+resolveRules configVconfig rs = RuleSet
   { order     = applyThresholds "order" order
   , missing   = applyThresholds "missing" missing
   , keyvalkey = applyThresholds "keyvalkey" keyvalkey
@@ -42,18 +44,28 @@ resolveRules rs = RuleSet
   , fineInt   = applyThresholds "fine grain" fineInt
   }
  where
-  applyThresholds templateName classOfErr =  trace ("resolving rules for "++templateName) $ merge $! (map classOfErr rs)
+  applyThresholds templateName classOfErr =
+     trace ("resolving rules for "++templateName) $ runReader (merge $! (map classOfErr rs)) configVconfig
 
 -- | call each of the learning modules
-buildAllRelations :: M.Map Keyword Int -> IRConfigFile -> RuleSet
-buildAllRelations ks f = RuleSet
-  { order     = if Settings.enableOrder then buildRelations f else emptyRuleMap
-  , missing   = if Settings.enableMissing then K.buildRelations' ks f else emptyRuleMap
-  , keyvalkey = if Settings.enableKeyvalkey then buildRelations f else emptyRuleMap
-  , intRel    = if Settings.enableCoarseGrain then buildRelations f else emptyRuleMap
-  , fineInt   = if Settings.enableFineGrain then buildRelations f else emptyRuleMap
-  , typeErr   = if Settings.enableTypesRules then buildRelations f else emptyRuleMap
-  }
+buildAllRelations :: ConfigVConfiguration -> M.Map Keyword Int -> IRConfigFile -> RuleSet
+buildAllRelations configVconfig ks f = let
+  getRuleOpt sel = sel $ optionsSettings configVconfig
+  getRules :: Learnable a b => (Options -> Bool) -> RuleDataMap a b
+  getRules sel = if getRuleOpt sel 
+                 then runReader (buildRelations f) configVconfig 
+                 else emptyRuleMap
+ in
+  RuleSet
+    { order     = getRules enableOrder
+    , keyvalkey = getRules enableKeyvalkey
+    , intRel    = getRules enableCoarseGrain
+    , fineInt   = getRules enableFineGrain
+    , typeErr   = getRules enableTypeRules
+    , missing   = if getRuleOpt enableMissing  
+                  then runReader (K.buildRelations' ks f) configVconfig
+                  else emptyRuleMap
+    }
 
 parRuleSet :: Strategy RuleSet
 parRuleSet rs = do

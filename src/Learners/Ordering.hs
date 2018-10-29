@@ -9,19 +9,18 @@ import Types.Errors
 import Types.Rules 
 import Types.Countable
 
-import Settings 
-
 import Prelude hiding (Ordering)
 import qualified Data.Map as M
 
 import Learners.Common
 
+import Settings.Config
+import Control.Monad.Reader
+
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
 
-minTrue = Settings.orderSupport
-maxFalse = Settings.orderConfidence
 
 instance Learnable Ordering AntiRule where
 
@@ -29,13 +28,17 @@ instance Learnable Ordering AntiRule where
     toOrdering (ir1,ir2) = Ordering (keyword ir1, keyword ir2) 
     irPairs = filter (sameConfigModule) $ orderPreservingPairs f
    in
-     M.fromList $ embedAsTrueAntiRule $ map toOrdering $ irPairs 
+     return $ M.fromList $ embedAsTrueAntiRule $ map toOrdering $ irPairs 
     --M.foldrWithKey removeConflicts x x
 
   --since AntiRules are built with different keyword pais
   --we need to generate the counts of false evidence
   --ths is nice since we will maintain both (k1,k2) and (k2,k1) rules
-  merge rs' = let 
+  merge rs' = do
+    settings <- ask
+    let 
+      minTrue = orderSupport $ thresholdSettings $ settings
+      maxFalse = orderConfidence $ thresholdSettings $ settings
       rs = M.unionsWith add rs'
       findOp (Ordering (k1,k2)) = M.findWithDefault (AntiRule 0 0 0) (Ordering (k2,k1)) rs
       adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
@@ -43,8 +46,7 @@ instance Learnable Ordering AntiRule where
       updateWithOp k v = combine v $ findOp k
       validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
       mergedRules = M.filter validRule $ M.mapWithKey updateWithOp rs
-    in
-      mergedRules 
+    return mergedRules 
 
   -- | does the r2 we found in the target file
   --   agree with the learned r1

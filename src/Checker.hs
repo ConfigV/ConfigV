@@ -6,8 +6,6 @@ import Types.Rules
 import Types.Errors
 import Types.Common
 
-import Settings
-
 import LearningEngine
 import Convert (convert)
 
@@ -28,12 +26,12 @@ checkFile rs f =
    let
      keyCounts :: M.Map Keyword Int 
      keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty (convert f)
-     fRules = buildAllRelations keyCounts $ convert f
+     {-fRules = buildAllRelations keyCounts $ convert f --TODO what in gods name is this doing here?
      fKs = map keyword $ convert f
      rs' = filterRules fKs rs
-     diff = ruleDiff rs' fRules --the difference between the two rule sets
+     diff = ruleDiff rs' fRules --the difference between the two rule sets-}
    in
-     diff
+     emptyRuleSet --diff
 
 -- what is this doing? is this calculating support? no i dont think so, maybe this really is just the checking procdure - still not sure what is happenign here tho
 filterRules :: [Keyword] -> RuleSet -> RuleSet

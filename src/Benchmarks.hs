@@ -5,35 +5,19 @@
 
 module Benchmarks where
 
-import qualified Settings
 import           Types.Errors
 import           Types.IR
 import           Utils 
-import           Settings
+import           Settings.Config
 
 import qualified Data.Text.IO     as T
 import           System.Directory
 
 import Debug.Trace
 
-learnTarget :: [ConfigFile Language]
-learnTarget = genSet Settings.userLearnDir 
-  where
-    genSet s =
-      map (\x -> (s++x,u $ T.readFile (s++x), Settings.language))
-      (u (listDirectory s))
-
 -- TODO move to utils
 traceMe cs = trace (concatMap (\(f,t,l) -> (show f++"\n")) cs) cs
 
--- verification file paths
-vFilePaths :: [FilePath]
-vFilePaths = case Settings.verificationTarget of
-    Just filePath -> collectFiles filePath
-    Nothing -> []
-  where
-    collectFiles dir = map ((dir++"/")++) $ u $ listDirectory dir
-    --benchmarkFiles = map getFileName $ concat benchmarks --TODO unused atm
 {-
 benchmarks :: [ErrorReport]
 benchmarks = case Settings.trainingTarget of

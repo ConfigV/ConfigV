@@ -24,7 +24,11 @@ data Language =
        MySQL 
      | HTTPD
      | CSV --when your config file preprocessing happens elsewhere and you just have a key,value csv
-       deriving (Eq,Show)
+       deriving (Eq,Show,Enum,Bounded,Ord,Data)
+
+-- | all the languages we support, used in help file
+allLanguages :: [Language]
+allLanguages = [minBound..]
 
 deriving instance Data InternedText
 deriving instance Generic InternedText

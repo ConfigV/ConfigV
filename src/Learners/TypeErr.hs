@@ -13,15 +13,17 @@ import qualified Data.Map as M
 import qualified Data.Text as T
 import Data.Interned
 
-import Settings 
 import Learners.Common
+
+import Settings.Config
+import Control.Monad.Reader
 
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
 instance Learnable TypeErr QType where
 
-  buildRelations :: IRConfigFile -> RuleDataMap TypeErr QType
+--  buildRelations :: IRConfigFile -> RuleDataMap TypeErr QType
   buildRelations f = let
     getQType :: T.Text -> QType
     getQType v =
@@ -32,30 +34,32 @@ instance Learnable TypeErr QType where
         ,int = fromEnum $ validAsInt v 
         ,size = fromEnum $ validAsSize v
       }
-    --NB on takeWhile, types of keywords do not depend on context
+    -- on takeWhile, types of keywords do not depend on context
     -- this creates a problem with the Chekcer tho...
     toTypeErr :: IRLine -> (TypeErr,QType)
     --toTypeErr ir = (TypeErr (keyword ir),getQType $ value ir)
     toTypeErr ir = (TypeErr (intern $ T.takeWhile (/= '[') $ unintern $ keyword ir), getQType $ unintern $ value ir)
-    xs = ["set-variable"]
-    f' = filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) xs) f
+    untypable = ["set-variable"] -- some keywords are too hard to type, make sure they can take any type
+    f' = filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) untypable) f
    in
-     M.fromList $ map toTypeErr f'
+     return $ M.fromList $ map toTypeErr f'
 
-  merge rs = 
-     M.filter (\rd -> totalC rd > Settings.typeSupport) $ M.unionsWith add rs --NB this is support for all possible types, not per file
+  merge rules = do
+     settings <- ask
+     -- this is support for all possible types, not per file
+     return $ M.filter (\rd -> totalC rd > (typeSupport $ thresholdSettings settings)) $ M.unionsWith add rules
 
   -- 
   check _ rd1 rd2 = let
-     toProb x = if (totalC rd1) > Settings.typeSupport --TODO necessary?
+     toProb x = if (totalC rd1) > 0 --Settings.typeSupport --TODO necessary?
        then (fromIntegral .x)rd1 / (fromIntegral $totalC rd1)
        else 1
-     cutoff = typeConfidence
+     cutoff = 0 --typeConfidence
    in
      if 
        (string rd2 == 1 && toProb string > cutoff) ||
        (path   rd2 == 1 && (toProb string+ toProb path) > cutoff) ||
-       (bool   rd2 == 1 && (toProb bool + toProb int) > cutoff) || --TODO only allow 0/1 as bool
+       (bool   rd2 == 1 && (toProb bool + toProb int) > cutoff) || --TODO only allow ints of value 0/1 as bool, rn any int is ok
        (int    rd2 == 1 && ((toProb int + toProb size > cutoff) || (toProb int + toProb bool > cutoff))) ||
        (size   rd2 == 1 && toProb size> cutoff) ||
        totalC rd1 == 0

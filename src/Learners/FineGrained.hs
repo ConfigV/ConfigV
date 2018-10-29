@@ -12,8 +12,6 @@ import Types.Countable
 import qualified Types.Rules as R
 import Learners.Common
 
-import Settings
-
 import qualified Data.Map as M
 import qualified Data.Text as T
 import qualified Data.Text.Read as T
@@ -21,59 +19,54 @@ import qualified Data.Bits as B
 import           Data.Maybe 
 import Data.Interned
 
+import Settings.Config
+import Control.Monad.Reader
+
+
 import Control.Parallel
-
--- aaron's debugging code
-x = FineGrained "a" "b" "c"
-y = FineGrained "b" "a" "c"
-
-f1 :: IRConfigFile
-f1 = [IRLine "a" "2", IRLine "b" "1", IRLine "c" "2"]
-
-f2 :: IRConfigFile
-f2 = [IRLine "b" "0", IRLine "a" "1", IRLine "c" "2"]
-
-rs1 :: RuleDataMap FineGrained Formula
-rs1 = buildRelations f1
-
-rs2 :: RuleDataMap FineGrained Formula
-rs2 = buildRelations f2
-
-rs = merge [rs1, rs2]
--- aaron's debugging code END
 
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile
 --   this means we cannot derive both (a,b) and (b,a) from one file
 instance Learnable R.FineGrained Formula where
 
-  buildRelations f = let
-    rs = mapMaybe intLike f 
-    --dont want anything with these
-    xs = ["dir","socket","port"]
-    tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) xs) rs
-    -- TODO should use learning result from TypeErr module
-    wellTypedTris = filter (\(ir1,ir2,ir3)-> ((validAsSize $ unintern $ value ir1) `B.xor` (validAsSize $ unintern $ value ir2) && (validAsSize $ unintern $ value ir3)) ||
-                                    all (validAsInt.unintern.value) [ir1,ir2,ir3]) tris
-    eqs = map toFineGrained (if Settings.probtypes then wellTypedTris else tris)
-   in
-    M.fromList $ eqs
+  buildRelations f = do
+    settings <- ask
+    let
+      rs = mapMaybe intLike f
+      --dont want anything with these
+      xs = ["dir","socket","port"]
+      tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) xs) rs
+      -- TODO should use learning result from TypeErr module
+      wellTypedTris = 
+          filter 
+          (\(ir1,ir2,ir3) -> 
+             ((validAsSize $ unintern $ value ir1) `B.xor` 
+              (validAsSize $ unintern $ value ir2) && 
+              (validAsSize $ unintern $ value ir3)) ||
+             all (validAsInt.unintern.value) [ir1,ir2,ir3]) 
+          tris
+      eqs = map toFineGrained $ if (enableProbTypeInference $ optionsSettings settings) then wellTypedTris else tris
+    return $ M.fromList $ eqs
 
   -- unionsWith work by Ord, so just providing a custom instance of Eq wont work, also need Ord
   -- ord is too sensitive, since traversal might miss an EQ
   -- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
-  merge rs = let
-    rs' = M.unionsWith add rs
-    --merged = M.mapKeysWith add (\fg@(FineGrained k1 k2 k3)-> if k2 > k1 then (FineGrained k2 k1 k3) else fg) rs'
-    merged = M.foldlWithKey combineFlips M.empty rs'
-    validRule r = (gt r + lt r + eq r)>Settings.fineGrainSupport &&  (gt r <= Settings.fineGrainConfidence || lt r <= Settings.fineGrainConfidence)
-   in
-    M.filter validRule merged
+  merge rs = do
+    settings <- ask
+    let
+      rs' = M.unionsWith add rs
+      --merged = M.mapKeysWith add (\fg@(FineGrained k1 k2 k3)-> if k2 > k1 then (FineGrained k2 k1 k3) else fg) rs'
+      merged = M.foldlWithKey combineFlips M.empty rs'
+      validRule r = (gt r + lt r + eq r)>(fineGrainSupport $ thresholdSettings settings) &&  
+                    (gt r <= (fineGrainConfidence $ thresholdSettings settings)) || 
+                    (lt r <= (fineGrainConfidence $ thresholdSettings settings))
+    return $ M.filter validRule merged
  
   check _ r1 r2 = if
     | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1
-    | lt r2 == 1 && gt r1 > Settings.fineGrainSupport && lt r1 <= Settings.fineGrainConfidence -> Just r1
-    | gt r2 == 1 && lt r1 > Settings.fineGrainSupport && gt r1 <= Settings.fineGrainConfidence-> Just r1
+    {- | lt r2 == 1 && gt r1 > Settings.fineGrainSupport && lt r1 <= Settings.fineGrainConfidence -> Just r1
+    | gt r2 == 1 && lt r1 > Settings.fineGrainSupport && gt r1 <= Settings.fineGrainConfidence-> Just r1 -}
     | otherwise -> Nothing
 
   toError ir fname ((FineGrained k1 k2 k3), rd) = Error{

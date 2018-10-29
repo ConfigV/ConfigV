@@ -1,8 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE LambdaCase #-}
+{-# OPTIONS_GHC -fno-cse #-}
 module Main where
 
 
-import           Data.Aeson
+import qualified Data.Aeson            as A
 import qualified Data.ByteString.Lazy  as B
 import qualified Data.List             as L
 import qualified Data.Map             as M
@@ -10,49 +13,79 @@ import           Data.Maybe
 import qualified Data.Text             as T
 import qualified Data.Text.IO          as T
 
-import           Control.Monad
 import           System.IO
 import qualified GHC.IO.Encoding       as G
 
 import qualified Benchmarks as Bench
 import qualified LearningEngine
 import           Checker
-import qualified Settings
 import           OutputPrinter
+import Utils
 
 import Types.Rules
 import Types.IR
 import Types.Common
+
 import Types.JSON
+
+import System.Console.CmdArgs
+import Settings.Config
+
+import           System.Directory
 
 main = do
   G.setLocaleEncoding utf8
   G.setFileSystemEncoding utf8
   G.setForeignEncoding utf8  
-  
-  degrees <- ((M.fromList. fromJust. decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
  
-  vFiles <- mapM T.readFile Bench.vFilePaths :: IO [T.Text]
-  let vTargets = zip3 
-                   Bench.vFilePaths 
-                   vFiles
-                   (repeat Settings.language) :: [ConfigFile Language]
+  settings <- cmdArgsRun mode
+  case settings of
+    Learning {} -> do 
+      checkSettings settings
+      thresholds <- calcThresholds settings
+      let configVconfig = ConfigVConfiguration { 
+                            optionsSettings = settings, 
+                            thresholdSettings = thresholds}
+      targets <- gatherLearnTargets settings
+      let learnedRules = 
+            (toLists $ LearningEngine.learnRules configVconfig targets) :: RuleSetLists
 
-  rules <- getRules 
+      B.writeFile (cacheLocation settings) $ A.encode learnedRules 
+      putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
+
+    Verification {} -> do
+      (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)
+      degrees <- ((M.fromList. fromJust. A.decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
+      vFiles <- mapM T.readFile (vFilePaths settings) :: IO [T.Text]
+      let vTargets = zip3 
+                   (vFilePaths settings) --the names of the files
+                   vFiles -- the file data
+                   (repeat $ language settings) :: [ConfigFile Language]
+      --fitness <- runVerify rules degrees vTargets
+      return ()
   --checkCache rules
 
-  --fitness <- runVerify rules degrees vTargets
-  return ()
+gatherLearnTargets :: Options -> IO [ConfigFile Language]
+gatherLearnTargets Learning{..} = do
+  fs' <- listDirectory learnTarget
+  let fs = map (learnTarget++) fs'
+  fContents <- mapM T.readFile fs
+  let cs = zipWith 
+             (\fName fc -> (fName, fc, language)) 
+             fs 
+             fContents
+  return cs
 
-getRules :: IO RuleSet
-getRules = do
-  let learnedRules = (toLists $ LearningEngine.learnRules Bench.learnTarget) :: RuleSetLists
-  unless Settings.useCache $ B.writeFile Settings.cacheLocation $ encode learnedRules 
-  unless Settings.useCache $ putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
-  (fromLists. fromJust. decode) <$> B.readFile Settings.cacheLocation
+vFilePaths :: Options -> [FilePath]
+vFilePaths Verification{..} = 
+    map ((verifyTarget++"/")++) $ u $ listDirectory verifyTarget
+    --benchmarkFiles = map getFileName $ concat benchmarks --TODO unused atm
 
 runVerify ::  RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
-runVerify rules ds vTargets  = do
+runVerify rules ds vTargets  = do  
+  print "Under construction"
+  return 0
+  {-
   let errors = map (verifyOn rules) vTargets
   fitnesses <- 
     if False --Settings.benchmarks
@@ -60,11 +93,12 @@ runVerify rules ds vTargets  = do
     else mapM (reportUserPerformance ds) $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
   printSummary errors fitnesses
   return $ sum fitnesses
-
+  -}
 
 -- | to check integrity of cache, rerun learning, even if useCache is on, and compare
 --   TODO, only allow this to run if useCache is on?
-checkCache cache = do
-  let freshRules = LearningEngine.learnRules Bench.learnTarget
+{-
+checkCache settings cache = do
+  let freshRules = LearningEngine.learnRules settings Bench.learnTarget
   when (freshRules /= cache) (fail  "error in json cache")
-
+-}

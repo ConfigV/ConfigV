@@ -1,6 +1,7 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs #-}
 {-# LANGUAGE MultiParamTypeClasses #-} 
 {-# LANGUAGE MultiWayIf #-} 
+{-# LANGUAGE PartialTypeSignatures #-} 
 
 module Learners.KeywordCoor where
 
@@ -10,20 +11,17 @@ import Types.Errors
 import Types.Rules 
 import Types.Countable
 
-import Settings
-
 import qualified Types.Rules as R
 
 import qualified Data.Map as M
 
 import Learners.Common
 
-minTrue = Settings.keywordCoorSupport
-maxFalse = Settings.keywordCoorConfidence
+import Settings.Config
+import Control.Monad.Reader
 
-buildRelations' keyCounts f = let
-  rs = buildRelations f
- in
+buildRelations' keyCounts f = do
+  rs <- buildRelations f
   embedWith keyCounts rs
 
 -- | TODO these are undirected coorelation
@@ -40,15 +38,18 @@ instance Learnable R.KeywordCoor AntiRule where
     -- tot = # times x + # times y
     totalTimes = M.fromList $ embedAsTrueAntiRule $ map toKC irPairs 
    in
-    totalTimes
+    return totalTimes
 
-  merge rs = let 
+  merge rs = do
+    settings <- ask
+    let 
+      minTrue = keywordCoorSupport $ thresholdSettings settings
+      maxFalse = keywordCoorConfidence $ thresholdSettings settings
       rsAdded = M.unionsWith add rs
     -- false = total - (true *2) b/c total counted both ks (why did I count both keys in the first place?)
       rsWithFalse = M.map (\r -> r{fls=(tot r)-((tru r)*2)}) rsAdded
       validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
-    in
-      M.filter validRule rsWithFalse
+    return $ M.filter validRule rsWithFalse
       --rsUpdated
 
 
@@ -70,9 +71,9 @@ instance Learnable R.KeywordCoor AntiRule where
     ,errMsg = "MISSING ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)
     ,errSupport = tru rd + fls rd}
 
-embedWith :: M.Map Keyword Int -> M.Map KeywordCoor AntiRule -> M.Map KeywordCoor AntiRule
+embedWith :: M.Map Keyword Int -> M.Map KeywordCoor AntiRule -> Reader ConfigVConfiguration (M.Map KeywordCoor AntiRule)
 embedWith counts rules =
-  M.mapWithKey (addCount counts) rules
+  return $ M.mapWithKey (addCount counts) rules
 
 addCount :: M.Map Keyword Int -> KeywordCoor -> AntiRule -> AntiRule
 addCount counts (KeywordCoor (k1,k2)) rd = let
