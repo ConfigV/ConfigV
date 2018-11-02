@@ -37,9 +37,13 @@ import Settings.Config
 
 import           System.Directory
 
-executeLearning settings = do
+executeLearning :: Options -> Either RawThresholds PercentageThresholds -> IO()
+executeLearning settings userThresholds = do
   checkSettings settings
-  thresholds <- calcThresholds settings
+  thresholds <- 
+    case userThresholds of
+      Left rawThresholds -> return rawThresholds
+      Right percentageThresholds -> calcThresholds settings percentageThresholds
   let configVconfig = ConfigVConfiguration { 
                         optionsSettings = settings, 
                         thresholdSettings = thresholds}

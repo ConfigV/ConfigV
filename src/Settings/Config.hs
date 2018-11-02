@@ -9,6 +9,6 @@ import Settings.Thresholds
 
 data ConfigVConfiguration = ConfigVConfiguration {
     optionsSettings :: Options
-  , thresholdSettings :: Thresholds
+  , thresholdSettings :: RawThresholds
   }
 

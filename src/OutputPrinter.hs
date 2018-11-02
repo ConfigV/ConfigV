@@ -14,8 +14,8 @@ import Types.Common
 import Types.Errors
 
 
-printSummary :: Thresholds -> [ErrorReport] -> [Int] -> IO ()
-printSummary Thresholds{..} ers fitnesses = do
+printSummary :: RawThresholds -> [ErrorReport] -> [Int] -> IO ()
+printSummary RawThresholds{..} ers fitnesses = do
   putStrLn "------------"
   putStrLn $ "Found "++(show $sum fitnesses)++" errors in "++(show $ length $ filter (>0) fitnesses)++"/"++(show $ length fitnesses)++" files."
   let numOfClass x = (show x)++", "++(show $ length $ filter (\e-> errIdent e == x) (concat ers))

@@ -26,3 +26,4 @@ debugPrint x = do
       then traceShow x x
       else x
 
+traceMe x = traceShow x x

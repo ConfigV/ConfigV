@@ -13,7 +13,7 @@ main = do
   settings <- cmdArgsRun mode
   case settings of
     Learning {} -> do 
-      executeLearning settings
+      executeLearning settings (Left defaultThresholds)
 
     Verification {} -> do
       executeVerification settings
