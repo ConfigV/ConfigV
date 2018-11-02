@@ -47,12 +47,9 @@ instance Learnable R.FineGrained Formula where
               (validAsSize $ unintern $ value ir3)) ||
              all (validAsInt.unintern.value) [ir1,ir2,ir3]) 
           tris
-      eqs = map toFineGrained $ if (enableProbTypeInference $ optionsSettings settings) then wellTypedTris else tris
+      eqs = map toFineGrained $ if (enableProbTypeInference $ optionsSettings settings) then wellTypedTris else traceMe tris
     return $ M.fromList $ eqs
 
-  -- unionsWith work by Ord, so just providing a custom instance of Eq wont work, also need Ord
-  -- ord is too sensitive, since traversal might miss an EQ
-  -- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
   merge rs = do
     settings <- ask
     let
@@ -100,17 +97,17 @@ toFineGrained (IRLine k1 v1, IRLine k2 v2, IRLine k3 v3) = let
   in
     ((FineGrained k1 k2 k3), formula (asInt $ unintern v1) (asInt $ unintern v2) (asInt $ unintern v3))
 
--- REMOVES DUPLICATES BY FOLDLWITHKEY
--- (The Map won't automatically do this unless we force an Ord on FineGrained that preserves the equality)
--- I was thinking whether we could generalize this between IntRel's and FineGrained's, but it doesn't seem that likely
---   because we need to know about all the possible members of every equivalence class to do the guard check here:
---   it's easier to program in the possible variations rather than try to determine them programatically.
+-- | Combine k1 k2 k3 with k2 k1 k3 rules
+-- unionsWith work by Ord, so just providing a custom instance of Eq wont work, also need Ord
+-- ord is too sensitive, since traversal might miss an EQ
+-- instead just rebuild the whole map with combineFlips (only happens once so shouldnt be too bad
 combineFlips :: RuleDataMap FineGrained Formula -> FineGrained -> Formula -> RuleDataMap FineGrained Formula
 combineFlips old (FineGrained k1 k2 k3) v = if 
+  -- if we already have a rule in this form, we increment the count
   | M.member (FineGrained k1 k2 k3) old -> M.adjust (add v) (FineGrained k1 k2 k3) old
-  --since we have a custom Eq instance, which already accounts for order, we shouldnt hit the second check, 
-  -- but we do (checked wiht trace), so I leave it in
-  | M.member (FineGrained k2 k1 k3) old -> M.adjust (add v) (FineGrained k2 k1 k3) old
+  -- if we are already counting this rule as k1 k2, any time we see k2 k1, we can throw it away
+  -- since we are guaranteed to add the k1 k2 version
+  | M.member (FineGrained k2 k1 k3) old -> old
   | otherwise -> M.insert (FineGrained k1 k2 k3) v old
 
 -- Aaron's implementation

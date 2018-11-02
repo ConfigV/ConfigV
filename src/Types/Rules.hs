@@ -108,12 +108,7 @@ instance Locatable IntRel where
   keys (IntRel k1 k2) = [k1,k2]
 
 data FineGrained = FineGrained Keyword Keyword Keyword
-  deriving (Show,Ord,Generic,ToJSON,FromJSON,NFData)
-instance Eq FineGrained where
-  (==) (FineGrained k1 k2 k3) (FineGrained k1' k2' k3')= 
-     k3 == k3' &&
-     ((k1==k1' && k2==k2') || 
-     (k1==k2' && k2==k1'))
+  deriving (Eq,Show,Ord,Generic,ToJSON,FromJSON,NFData)
 
 instance Locatable FineGrained where
   keys (FineGrained k1 k2 k3) = [k1,k2,k3]

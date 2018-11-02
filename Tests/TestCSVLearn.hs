@@ -16,7 +16,7 @@ main = do
 
   if expectedResults == actualResults
     then return ()
-    else putStrLn ("Generated unexpected rule set for CSV Test: \n\n"++ (show actualResults)) >> exitFailure
+    else putStrLn ("Generated unexpected rule set for CSV Test: \n\n"++ (actualResults)) >> exitFailure
 
 
 settings = learnConfig {
@@ -32,7 +32,7 @@ settings = learnConfig {
 csvThresholds = RawThresholds {
         intRelSupport = 1
       , intRelConfidence = 0
-      , fineGrainSupport = 3
+      , fineGrainSupport = 1
       , fineGrainConfidence = 0
       , keywordCoorSupport = 2
       , keywordCoorConfidence = 1
