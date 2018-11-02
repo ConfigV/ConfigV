@@ -4,25 +4,39 @@ A tool for learning rules about configuration langauges.
 
 ConfigV uses a generalization of Association Rule Learning to learn user-defined predicates over datasets of configuration files. You can think of this as data science meets programming languages meets systems.
 
-## Basic Testing
+## Basic Setup and Testing
 
-Install with 'cabal install' and run the executable with /home/tester/.cabal/bin/ConfigV to see learning and verification in action on a toy example.
-To set up ConfigV with the testing configuration, open src/Settings.hs, and set the below settings. This will make the tool learn from the files in the directory named testLearn and verify the files in the directory named “user”. Note that both testLearn and user directories are preloaded with simple configurations to test that the tool is working correctly.
+To get ConfigV installed (assuming you have Haskell on your system)
 
-- trainingTarget = Test
-- verificationTarget = "user"
+```
+cabal sandbox init
+cabal install
+```
 
-To run the tool on a large example, change these settings to:
+Then to run the learning process on a small benchmark:
 
-- trainingTarget = Prob
-- verificationTarget = "githubFiles"
+```
+cabal test 
+```
 
-## Helpful Tips
+You can the check the log for details on the test run, and inspect the test code in the Tests directory.
 
-The two key files you will need to know about in order to use ConfigV are as follows:
 
-- src/Settings.hs: all the useful settings to configure the tool. This file is documented in detail for each setting. NB, after changing any setting,you must cabal install again.
-- cachedRules.json: the rules that were learned in json form. This can be manually inspected as a sanity check. To pretty print this file,you call ./viewRules.sh
+## Basic Usage
+
+For usage on your own dataset, you can use the command line tool, in a similar way to below. Your exact location of the executable may vary.
+
+```
+.cabal-sandbox/bin/ConfigV learn --learntarget "benchmarks/CSVTest/" --enableorder --enablemissing
+```
+
+You can also use ConfigV from a Haskell program. For this usage, see the Executables directory.
+
+# Helpful Tips
+
+The default location of the learned rules is ```cachedRules.json```
+This can file be manually inspected as a sanity check. 
+To pretty print this file, you use ```python -m json.tool cachedRules.json```
 
 Support and Confidence If you want to see the effect of different support and confidence thresholds, simply edit the threshold settings in the Settings.hs file. The values are present to the values used in the evaluation in the paper. Your own input The best way to explore the tool at first is to keep the testing configuration and change values in the ’testLearn’ files or the ’user’ files. After adding more configuration settings (make up any keywords and values you
 like) to ’testLearn’, you can inspect cachedRules.json to directly see what was learned. You can also change the support and confidence thresholds in src/Settings.hs to control when rules will be accepted (although on the small testLearn training set this isn’t very interesting).

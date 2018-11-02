@@ -2,7 +2,11 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE LambdaCase #-}
 {-# OPTIONS_GHC -fno-cse #-}
-module Main where
+module ConfigV (
+  executeLearning,
+  executeVerification,
+  module Settings.Config
+  ) where
 
 
 import qualified Data.Aeson            as A
@@ -33,37 +37,30 @@ import Settings.Config
 
 import           System.Directory
 
-main = do
-  G.setLocaleEncoding utf8
-  G.setFileSystemEncoding utf8
-  G.setForeignEncoding utf8  
- 
-  settings <- cmdArgsRun mode
-  case settings of
-    Learning {} -> do 
-      checkSettings settings
-      thresholds <- calcThresholds settings
-      let configVconfig = ConfigVConfiguration { 
-                            optionsSettings = settings, 
-                            thresholdSettings = thresholds}
-      targets <- gatherLearnTargets settings
-      let learnedRules = 
-            (toLists $ LearningEngine.learnRules configVconfig targets) :: RuleSetLists
+executeLearning settings = do
+  checkSettings settings
+  thresholds <- calcThresholds settings
+  let configVconfig = ConfigVConfiguration { 
+                        optionsSettings = settings, 
+                        thresholdSettings = thresholds}
+  targets <- gatherLearnTargets settings
+  let learnedRules = 
+        (toLists $ LearningEngine.learnRules configVconfig targets) :: RuleSetLists
 
-      B.writeFile (cacheLocation settings) $ A.encode learnedRules 
-      putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
+  B.writeFile (cacheLocation settings) $ A.encode learnedRules 
+  putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
 
-    Verification {} -> do
-      (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)
-      degrees <- ((M.fromList. fromJust. A.decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
-      vFiles <- mapM T.readFile (vFilePaths settings) :: IO [T.Text]
-      let vTargets = zip3 
-                   (vFilePaths settings) --the names of the files
-                   vFiles -- the file data
-                   (repeat $ language settings) :: [ConfigFile Language]
-      --fitness <- runVerify rules degrees vTargets
-      return ()
-  --checkCache rules
+executeVerification settings = do
+  (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)
+  degrees <- ((M.fromList. fromJust. A.decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
+  vFiles <- mapM T.readFile (vFilePaths settings) :: IO [T.Text]
+  let vTargets = zip3 
+               (vFilePaths settings) --the names of the files
+               vFiles -- the file data
+               (repeat $ language settings) :: [ConfigFile Language]
+  return ()
+  --fitness <- runVerify rules degrees vTargets
+
 
 gatherLearnTargets :: Options -> IO [ConfigFile Language]
 gatherLearnTargets Learning{..} = do

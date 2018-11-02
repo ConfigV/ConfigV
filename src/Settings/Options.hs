@@ -36,6 +36,8 @@ data Options
 
 mode = cmdArgsMode $ modes [learnConfig, verifyConfig] &= program "ConfigV" &= summary "ConfigV v0.0.1"
 
+cachedRulesDefaultLoc = "cachedRules.json"
+
 checkSettings Learning{..} = do
   when (learnTarget == "") $ die "ConfigV: No learning target provided. See help."
 
@@ -49,7 +51,8 @@ learnConfig = Learning {
   , enableFineGrain = False
   , enableTypeRules = False
   , enableProbTypeInference = False
-  , cacheLocation = "cachedRules.json" &= help "The location where the cache of learned rules wll be written" &= typFile
+  , cacheLocation = cachedRulesDefaultLoc &= 
+      help ("The location where the cache of learned rules wll be written. Default: "++ cachedRulesDefaultLoc) &= typFile
   , thresholdsPath = def &= help "The location from which to read threshold values (unsupported)" &= typFile
   , learnFileLimit = 9999 &= help "the limit for files to be used in learning. useful for benchmarking learning times" &= typ "INT"
   , verbose = False
@@ -58,7 +61,8 @@ learnConfig = Learning {
 
 verifyConfig = Verification {
     verifyTarget = def &= help "The files to verify." &= typDir
-  , cacheLocation = "cachedRule.json" &= help "The location of the cache file to read rules from"
+  , cacheLocation = cachedRulesDefaultLoc &= 
+      help ("The location where the cache of learned rules wll be read from. Default: "++ cachedRulesDefaultLoc) &= typFile
   , sortWithRuleGraph = def &= help "Turn on rule graph sorting, rerun the rule graph builder for each training set for best results (see graphAnalysis/README)"
   , language = CSV &= help ("The language of the verification files, select from "++(show allLanguages))
   , verbose = False
