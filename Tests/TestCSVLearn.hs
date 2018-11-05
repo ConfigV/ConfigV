@@ -30,16 +30,16 @@ settings = learnConfig {
       }
 
 csvThresholds = RawThresholds {
-        intRelSupport = 1
-      , intRelConfidence = 0
+        intRelSupport = 1 --min true
+      , intRelConfidence = 0 --max false
       , fineGrainSupport = 1
       , fineGrainConfidence = 0
-      , keywordCoorSupport = 2
+      , keywordCoorSupport = 3
       , keywordCoorConfidence = 1
       , keyValKeyCoorSupport = 2
       , keyValKeyCoorConfidence = 0 
       , trivEvidenceThreshold = 0
-      , orderSupport = 2
+      , orderSupport = 3
       , orderConfidence = 1 
       , typeSupport = 1
       , typeConfidence = 1 

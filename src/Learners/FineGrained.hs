@@ -47,7 +47,7 @@ instance Learnable R.FineGrained Formula where
               (validAsSize $ unintern $ value ir3)) ||
              all (validAsInt.unintern.value) [ir1,ir2,ir3]) 
           tris
-      eqs = map toFineGrained $ if (enableProbTypeInference $ optionsSettings settings) then wellTypedTris else traceMe tris
+      eqs = map toFineGrained $ if (enableProbTypeInference $ optionsSettings settings) then wellTypedTris else tris
     return $ M.fromList $ eqs
 
   merge rs = do
