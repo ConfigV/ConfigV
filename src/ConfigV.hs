@@ -11,19 +11,14 @@ module ConfigV (
 
 import qualified Data.Aeson            as A
 import qualified Data.ByteString.Lazy  as B
-import qualified Data.List             as L
 import qualified Data.Map             as M
 import           Data.Maybe
 import qualified Data.Text             as T
 import qualified Data.Text.IO          as T
 
-import           System.IO
-import qualified GHC.IO.Encoding       as G
-
-import qualified Benchmarks as Bench
 import qualified LearningEngine
-import           Checker
-import           OutputPrinter
+--import           Checker
+--import           OutputPrinter
 import Utils
 
 import Types.Rules
@@ -32,7 +27,7 @@ import Types.Common
 
 import Types.JSON
 
-import System.Console.CmdArgs
+import System.Console.CmdArgs()
 import Settings.Config
 
 import           System.Directory
