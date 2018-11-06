@@ -11,7 +11,7 @@ main = do
   G.setForeignEncoding utf8  
  
   executeLearning settings (Left csvThresholds)
-  expectedResults <- readFile "Tests/TestCSVLearn_results.json"
+  expectedResults <- readFile "benchmarks/CSVTest/TestCSVLearn_results.json"
   actualResults   <- readFile cachedRulesDefaultLoc
 
   if expectedResults == actualResults

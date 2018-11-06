@@ -39,6 +39,8 @@ The default location of the learned rules is ```cachedRules.json```
 This can file be manually inspected as a sanity check. 
 To pretty print this file, you use ```python -m json.tool cachedRules.json```
 
+To see the files in a benchmark set use ```tail -n +1 benchmarks/MissingCSV/*```
+
 ## Support and Confidence 
 
 Thresholds cannot be set using the command line tool. If you want to change the thresholds for the command line tool, you will need to change the code of the command line tool directly (Executables/Main.hs). All you need to do is pass in the Thresholds obeject that you prefer to use
