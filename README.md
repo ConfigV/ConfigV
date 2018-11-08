@@ -1,6 +1,6 @@
-# ConfigV
-
 [![Build Status](https://travis-ci.com/ConfigV/ConfigV.svg?branch=master)](https://travis-ci.com/ConfigV/ConfigV)
+
+# ConfigV
 
 A tool for learning rules about configuration langauges. 
 
