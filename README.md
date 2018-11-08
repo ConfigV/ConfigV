@@ -1,5 +1,7 @@
 # ConfigV
 
+[![Build Status](https://travis-ci.com/ConfigV/ConfigV.svg?branch=master)](https://travis-ci.com/ConfigV/ConfigV)
+
 A tool for learning rules about configuration langauges. 
 
 ConfigV uses a generalization of Association Rule Learning to learn user-defined predicates over datasets of configuration files. You can think of this as data science meets programming languages meets systems.
