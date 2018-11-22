@@ -19,22 +19,16 @@ import Learners.Common
 
 import Settings.Config
 import Control.Monad.Reader
-
-buildRelations' keyCounts f = do
-  rs <- buildRelations f
-  embedWith keyCounts rs
+import Debug.Trace
 
 -- | TODO these are undirected coorelation
 --   really should have seperate rules for "X" require "Y" and "Y" requires "X"
 instance Learnable R.KeywordCoor AntiRule where
 
   buildRelations f = let
-    --order pairs consistently
     toKC (ir1,ir2) = 
-      if keyword ir1 > keyword ir2
-      then KeywordCoor (keyword ir1, keyword ir2) 
-      else KeywordCoor (keyword ir2, keyword ir1) 
-    irPairs = orderPreservingPairs f
+      KeywordCoor (keyword ir1, keyword ir2) 
+    irPairs = pairs f
     -- tot = # times x + # times y
     totalTimes = M.fromList $ embedAsTrueAntiRule $ map toKC irPairs 
    in
@@ -46,12 +40,8 @@ instance Learnable R.KeywordCoor AntiRule where
       minTrue = keywordCoorSupport $ thresholdSettings settings
       maxFalse = keywordCoorConfidence $ thresholdSettings settings
       rsAdded = M.unionsWith add rs
-    -- false = total - (true *2) b/c total counted both ks (why did I count both keys in the first place?)
-      rsWithFalse = M.map (\r -> r{fls=(tot r)-((tru r)*2)}) rsAdded
-      validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
-    return $ M.filter validRule rsWithFalse
-      --rsUpdated
-
+      rsWithFalse = M.mapWithKey (addFalse rs) rsAdded
+    return $ filterByThresholds minTrue maxFalse rsWithFalse
 
   --   should we report the relation r2 found in the target file
   --   as in conflict with the learned rule r1
@@ -71,13 +61,14 @@ instance Learnable R.KeywordCoor AntiRule where
     ,errMsg = "MISSING ERROR: Expected "++(show k1)++" WITH "++(show k2) ++ " CONF. = " ++ (show rd)
     ,errSupport = tru rd + fls rd}
 
-embedWith :: M.Map Keyword Int -> M.Map KeywordCoor AntiRule -> Reader ConfigVConfiguration (M.Map KeywordCoor AntiRule)
-embedWith counts rules =
-  return $ M.mapWithKey (addCount counts) rules
-
-addCount :: M.Map Keyword Int -> KeywordCoor -> AntiRule -> AntiRule
-addCount counts (KeywordCoor (k1,k2)) rd = let
-  kcount k = M.findWithDefault 0 k counts
+-- false is equal to how many times we saw k1 but not k2
+addFalse:: [M.Map KeywordCoor AntiRule] -> KeywordCoor -> AntiRule -> AntiRule
+addFalse allRules (KeywordCoor (k1,k2)) rd = let
+    fCount = 
+      sum $ map (\r -> fromEnum $
+                  (not $ M.member (KeywordCoor (k1,k2)) r) &&
+                  (not $ M.null $ M.filterWithKey (\(KeywordCoor (k1',k2')) v-> k1==k1' && k2/=k2') r))
+                allRules
  in
-  rd{tot=(kcount k1 + kcount k2)}
+  rd{fls= fCount}
   

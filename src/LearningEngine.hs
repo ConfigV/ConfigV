@@ -62,9 +62,7 @@ buildAllRelations configVconfig ks f = let
     , intRel    = getRules enableCoarseGrain
     , fineInt   = getRules enableFineGrain
     , typeErr   = getRules enableTypeRules
-    , missing   = if getRuleOpt enableMissing  
-                  then runReader (K.buildRelations' ks f) configVconfig
-                  else emptyRuleMap
+    , missing   = getRules enableMissing  
     }
 
 parRuleSet :: Strategy RuleSet

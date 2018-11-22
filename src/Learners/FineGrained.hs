@@ -55,6 +55,7 @@ instance Learnable R.FineGrained Formula where
     let
       rs' = M.unionsWith add rs
       --merged = M.mapKeysWith add (\fg@(FineGrained k1 k2 k3)-> if k2 > k1 then (FineGrained k2 k1 k3) else fg) rs'
+      -- TODO this can't be refactored outto filterByThresholds because gt and lt are merged into the same rule type here
       validRule r = (gt r + lt r + eq r)>(fineGrainSupport $ thresholdSettings settings) &&  
                     ((gt r <= (fineGrainConfidence $ thresholdSettings settings)) || 
                      (lt r <= (fineGrainConfidence $ thresholdSettings settings)))

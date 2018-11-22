@@ -44,8 +44,7 @@ instance Learnable Ordering AntiRule where
       adjWithOp (AntiRule tru fls t) (AntiRule truOp flsOp tOp) = 
         AntiRule tru truOp (t+tOp) 
       updateWithOp k v = combine v $ findOp k
-      validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
-      mergedRules = M.filter validRule $ M.mapWithKey updateWithOp rs
+      mergedRules = filterByThresholds minTrue maxFalse $ M.mapWithKey updateWithOp rs
     return mergedRules 
 
   -- | does the r2 we found in the target file
