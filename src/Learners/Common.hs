@@ -9,6 +9,7 @@ import qualified Data.Bits as B
 import qualified Data.Char as C
 import qualified Data.Set as S
 import qualified Data.Text as T
+import qualified Data.Map as M
 import Data.Interned
 import           Data.Maybe
 
@@ -57,6 +58,12 @@ orderPreservingPairs (l:ls) =
     noSelf = filter (\r -> let f s= keyword.s in (f fst r)/=(f snd r)) (thisP++theRest)
   in
     noSelf
+
+filterByThresholds :: Int -> Int -> M.Map k AntiRule -> M.Map k AntiRule
+filterByThresholds minTrue maxFalse rs = let
+  passesThresholds r = (tru r)>=minTrue && (fls r)<=maxFalse
+ in
+  M.filter passesThresholds rs
 
 -- For weeding out IRLine with values that do not resemble integer formats (IntRel and FineGrained)
 -- TODO use validAsInt and validAsSize

@@ -15,6 +15,7 @@ import qualified Data.Map             as M
 import           Data.Maybe
 import qualified Data.Text             as T
 import qualified Data.Text.IO          as T
+import Data.List
 
 import qualified LearningEngine
 --import           Checker
@@ -63,7 +64,10 @@ executeVerification settings = do
 
 gatherLearnTargets :: Options -> IO [ConfigFile Language]
 gatherLearnTargets Learning{..} = do
-  fs' <- listDirectory learnTarget
+  fs'' <- listDirectory learnTarget
+  let fs' = case language of
+             CSV -> filter (isSuffixOf "csv") fs''
+             _   -> fs''
   let fs = map (learnTarget++) fs'
   fContents <- mapM T.readFile fs
   let cs = zipWith 

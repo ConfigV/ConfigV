@@ -30,7 +30,7 @@ settings = learnConfig {
 
 csvThresholds = defaultThresholds {
         keywordCoorSupport = 3
-      , keywordCoorConfidence = 0
+      , keywordCoorConfidence = 1
       }
 
 

@@ -62,3 +62,8 @@ For more information on ConfigV and the theory behind how/why it works see:
 - Jurgen Cito 
 
 Feel free to reach out if you have any questions about the tool or how to use it - happy to help!
+
+## TODO
+
+- [ ] Merge AntiRule and Formula (maybe by splitting Formula into seperate rules?)
+- [ ] Merge all Learners into one module to make it easier to extend with new rules (this is a big job)
