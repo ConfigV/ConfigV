@@ -56,6 +56,7 @@ data RuleSet = RuleSet
   , order     :: RuleDataMap Ordering AntiRule
   , intRel    :: RuleDataMap IntRel Formula
   , fineInt   :: RuleDataMap FineGrained Formula
+  , smtRules  :: RuleDataMap SMTRule AntiRule
   , typeErr   :: RuleDataMap TypeErr QType
   } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
@@ -65,6 +66,7 @@ emptyRuleSet  = RuleSet
   , order     = M.empty
   , intRel    = M.empty
   , fineInt   = M.empty
+  , smtRules  = M.empty
   , typeErr   = M.empty}
 
 ------------
@@ -78,6 +80,14 @@ data KeywordCoor = KeywordCoor (Keyword,Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable KeywordCoor where
   keys (KeywordCoor (k1,k2)) = [k1,k2]
+
+data SMTRule = SMTRule
+  { smt_irs :: [IRLine]
+  , smtFormula :: SMTFormula
+  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
+instance Locatable SMTRule where
+  keys (STRule {..}) = ks
+
 
 data KeyValKeyCoor = KeyValKeyCoor 
   { k1 :: Keyword

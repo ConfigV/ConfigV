@@ -9,13 +9,10 @@ import Types.Rules
 import Types.Common
 
 import Learners()
-import qualified Learners.KeywordCoor as K
 import Convert
 
 import Control.Parallel.Strategies
 import Control.DeepSeq
-
-import qualified Data.Map.Strict as M
 
 import Settings.Config
 import Control.Monad.Reader
@@ -27,9 +24,7 @@ import Debug.Trace
 learnRules :: ConfigVConfiguration -> [ConfigFile Language] -> RuleSet
 learnRules configVconfig fs = let
   configLines = map convert (take (learnFileLimit $ optionsSettings configVconfig) fs)
-  keyCounts :: M.Map Keyword Int 
-  keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty $ concat configLines
-  rs = map (buildAllRelations configVconfig keyCounts) configLines
+  rs = map (buildAllRelations configVconfig) configLines
  in
   resolveRules configVconfig rs --`using` parRuleSet
 
@@ -48,8 +43,8 @@ resolveRules configVconfig rs = RuleSet
      trace ("resolving rules for "++templateName) $ runReader (merge $! (map classOfErr rs)) configVconfig
 
 -- | call each of the learning modules
-buildAllRelations :: ConfigVConfiguration -> M.Map Keyword Int -> IRConfigFile -> RuleSet
-buildAllRelations configVconfig ks f = let
+buildAllRelations :: ConfigVConfiguration -> IRConfigFile -> RuleSet
+buildAllRelations configVconfig f = let
   getRuleOpt sel = sel $ optionsSettings configVconfig
   getRules :: Learnable a b => (Options -> Bool) -> RuleDataMap a b
   getRules sel = if getRuleOpt sel 
