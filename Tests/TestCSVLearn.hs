@@ -4,6 +4,7 @@ import           ConfigV
 import qualified GHC.IO.Encoding       as G
 import           System.IO
 import           System.Exit
+import Data.Char
 
 main = do
   G.setLocaleEncoding utf8
@@ -14,9 +15,13 @@ main = do
   expectedResults <- readFile "benchmarks/CSVTest/TestCSVLearn_results.json"
   actualResults   <- readFile cachedRulesDefaultLoc
 
-  if expectedResults == actualResults
+  let trim = takeWhile (not. isSpace)
+  if (trim expectedResults) == (trim actualResults)
     then return ()
-    else putStrLn ("Generated unexpected rule set for CSV Test: \n\n"++ (actualResults)) >> exitFailure
+    else do
+             putStrLn ("Generated unexpected rule set for CSVTest: \n\n"++ (actualResults))
+             putStrLn ("expected rule set: \n\n"++ (expectedResults)) >> exitFailure
+
 
 
 settings = learnConfig {
@@ -35,7 +40,7 @@ csvThresholds = RawThresholds {
       , fineGrainSupport = 1
       , fineGrainConfidence = 0
       , keywordCoorSupport = 3
-      , keywordCoorConfidence = 1
+      , keywordCoorConfidence = 0
       , keyValKeyCoorSupport = 2
       , keyValKeyCoorConfidence = 0 
       , trivEvidenceThreshold = 0

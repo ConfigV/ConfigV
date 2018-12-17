@@ -24,18 +24,14 @@ buildRelations' keyCounts f = do
   rs <- buildRelations f
   embedWith keyCounts rs
 
--- | TODO these are undirected coorelation
---   really should have seperate rules for "X" require "Y" and "Y" requires "X"
+-- | these are directed coorelations, so we can learn Y=>X, but this does not necessarily mean X=>Y
 instance Learnable R.KeywordCoor AntiRule where
 
   buildRelations f = let
-    --order pairs consistently
     toKC (ir1,ir2) = 
-      if keyword ir1 > keyword ir2
-      then KeywordCoor (keyword ir1, keyword ir2) 
-      else KeywordCoor (keyword ir2, keyword ir1) 
-    irPairs = orderPreservingPairs f
-    -- tot = # times x + # times y
+      KeywordCoor (keyword ir1, keyword ir2) 
+    irPairs = pairs f
+    -- tot = # times x 
     totalTimes = M.fromList $ embedAsTrueAntiRule $ map toKC irPairs 
    in
     return totalTimes
@@ -47,7 +43,7 @@ instance Learnable R.KeywordCoor AntiRule where
       maxFalse = keywordCoorConfidence $ thresholdSettings settings
       rsAdded = M.unionsWith add rs
     -- false = total - (true *2) b/c total counted both ks (why did I count both keys in the first place?)
-      rsWithFalse = M.map (\r -> r{fls=(tot r)-((tru r)*2)}) rsAdded
+      rsWithFalse = M.map (\r -> r{fls=(tot r)-(tru r)}) rsAdded
       validRule r = (tru r)>=minTrue && (fls r)<=maxFalse
     return $ M.filter validRule rsWithFalse
       --rsUpdated
@@ -79,5 +75,5 @@ addCount :: M.Map Keyword Int -> KeywordCoor -> AntiRule -> AntiRule
 addCount counts (KeywordCoor (k1,k2)) rd = let
   kcount k = M.findWithDefault 0 k counts
  in
-  rd{tot=(kcount k1 + kcount k2)}
+  rd{tot=(kcount k1)}
   
