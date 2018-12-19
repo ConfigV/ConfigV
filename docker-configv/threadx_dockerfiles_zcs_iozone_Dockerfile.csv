@@ -1,0 +1,16 @@
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+cmd,/start.sh
+./start.sh/start.sh :: add_operation,()
+echo ¦echo¦'root:zadara' | chpasswd :: Filesystem_operation,()
+cd ¦iozone3_430/src/current;¦make¦linux;¦cp¦iozone¦/usr/bin :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+expose,22
+echo ¦echo¦'UseDNS no' >> /etc/ssh/sshd_config :: Filesystem_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+wget ¦http://www.iozone.org/src/current/iozone3_430.tar :: Dependencies_operation,()
+from,ubuntu
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+apt-get ¦-y¦install¦wget¦make¦gcc :: Dependencies_operation,()
+tar ¦xvf¦iozone3_430.tar :: Filesystem_operation,()

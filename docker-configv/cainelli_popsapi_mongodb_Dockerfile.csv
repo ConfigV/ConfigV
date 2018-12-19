@@ -1,0 +1,22 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/data/db :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦/etc/mongod.conf¦/etc/mongod.conf.orig :: Filesystem_operation,()
+set ¦-x :: Environment_operation,()
+gpg ¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B42F6819007F00F88E364FD4036A9C25BF357DD4 :: Other_operation,()
+dpkg ¦--print-architecture :: Dependencies_operation,()
+chown ¦-R¦mongodb:mongodb¦/data/db :: Permissions_operation,()
+MONGO_VERSION:3.1.9 :: env_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+expose,27017
+rm ¦-rf¦/var/lib/mongodb :: Filesystem_operation,()
+cmd,mongod
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-y¦¦mongodb-org-unstable=$MONGO_VERSION¦¦mongodb-org-unstable-server=$MONGO_VERSION¦¦mongodb-org-unstable-shell=$MONGO_VERSION¦¦mongodb-org-unstable-mongos=$MONGO_VERSION¦¦mongodb-org-unstable-tools=$MONGO_VERSION :: Dependencies_operation,()
+MONGO_MAJOR:3.1 :: env_operation,()
+echo ¦echo¦"deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/$MONGO_MAJOR main" > /etc/apt/sources.list.d/mongodb-org.list :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦install¦-y¦--no-install-recommends¦¦ca-certificates¦curl¦¦numactl :: Dependencies_operation,()
+groupadd ¦-r¦mongodb :: Permissions_operation,()
+useradd ¦-r¦-g¦mongodb¦mongodb :: Permissions_operation,()
+from,debian@wheezy

@@ -1,0 +1,10 @@
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+AGENT_VERSION:1:4.2.1-1 :: env_operation,()
+echo ¦echo¦"deb http://apt.oneapm.com/ stable main" > /etc/apt/sources.list.d/oneapm-ci-agent.list && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 54B043BC && apt-get update && apt-get install --no-install-recommends -y oneapm-ci-age... :: Filesystem_operation,()
+DOCKER_ONEAPM_CI_AGENT:yes :: env_operation,()
+from,debian@jessie
+expose,8251
+cmd,supervisord¦-n¦-c¦/etc/oneapm-ci-agent/supervisor.conf
+conf.d/docker_daemon.yaml/etc/oneapm-ci-agent/conf.d/docker_daemon.yaml :: copy_operation,()
+entrypoint,/entrypoint.sh
+/conf.d :: volume_operation,()

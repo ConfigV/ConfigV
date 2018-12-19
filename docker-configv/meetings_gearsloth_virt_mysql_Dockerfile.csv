@@ -1,0 +1,11 @@
+conf/multi-master.cnf.1/etc/mysql/src/multi-master.cnf.1 :: add_operation,()
+initmysql.sh/initmysql.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+conf/mysqld_charset.cnf/etc/mysql/conf.d/mysqld_charset.cnf :: add_operation,()
+conf/my.cnf/etc/mysql/my.cnf :: add_operation,()
+from,ubuntu@trusty
+entrypoint,/initmysql.sh
+conf/multi-master.cnf.2/etc/mysql/src/multi-master.cnf.2 :: add_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+expose,3306
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦--yes¦--no-install-recommends¦mysql-server :: Other_operation,()

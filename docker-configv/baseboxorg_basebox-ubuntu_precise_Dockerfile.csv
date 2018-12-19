@@ -1,0 +1,13 @@
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+sed ¦-i¦"s/UsePrivilegeSeparation.*/UsePrivilegeSeparation¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+chmod ¦+x¦/*.sh :: Permissions_operation,()
+cmd,/run.sh
+from,ubuntu@precise
+set_root_pw.sh/set_root_pw.sh :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦openssh-server¦pwgen :: Other_operation,()
+sed ¦-i¦"s/UsePAM.*/UsePAM¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+expose,22
+run.sh/run.sh :: add_operation,()
+AUTHORIZED_KEYS:**None** :: env_operation,()
+sed ¦-i¦"s/PermitRootLogin.*/PermitRootLogin¦yes/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

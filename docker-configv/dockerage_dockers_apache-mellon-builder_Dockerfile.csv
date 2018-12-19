@@ -1,0 +1,14 @@
+./debian/build/debian :: add_operation,()
+chmod ¦0755¦/build/debuild.sh :: Permissions_operation,()
+cmd,bash¦/build/debuild.sh
+apt-get ¦-yq¦install¦apache2¦curl¦¦git¦¦sudo¦pkg-config¦build-essential¦¦devscripts¦¦debhelper¦¦¦autotools-dev¦¦apache2-dev¦¦liblasso3-dev¦¦libcurl4-openssl-dev :: Dependencies_operation,()
+/build :: volume_operation,()
+from,ubuntu:14.04
+/build :: workdir_operation,()
+echo ¦useradd¦--home /build docker && echo "docker:docker" | chpasswd && adduser docker sudo :: Filesystem_operation,()
+chown ¦docker:docker¦-R¦/build :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦-p¦/build :: Filesystem_operation,()
+./debuild.sh/build/debuild.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker :: user_operation,()

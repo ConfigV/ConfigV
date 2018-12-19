@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+wget ¦--content-disposition¦"https://omnitruck.chef.io/${CHANNEL}/chef/download?p=ubuntu&pv=16.04&m=x86_64&v=${VERSION}"¦-O¦/tmp/chef-client.deb :: Dependencies_operation,()
+from,ubuntu:16.04
+dpkg ¦-i¦/tmp/chef-client.deb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+PATH=/opt/chef/bin:/opt/chef/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin: :: env_operation,()
+apt-get ¦install¦-y¦wget¦ssh :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()

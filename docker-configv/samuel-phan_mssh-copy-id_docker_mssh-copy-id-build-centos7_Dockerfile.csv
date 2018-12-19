@@ -1,0 +1,9 @@
+entrypoint,/usr/local/bin/sudo-as-user.sh
+_work/sudo-as-user.sh/usr/local/bin/sudo-as-user.sh :: copy_operation,()
+mkdir ¦/rpmbuild :: Filesystem_operation,()
+yum ¦install¦-y¦rpm-build¦rpmdevtools¦python-setuptools¦sudo :: Dependencies_operation,()
+root :: user_operation,()
+cmd,rpmbuild¦--define¦_topdir /rpmbuild¦-ba¦/rpmbuild/SPECS/mssh-copy-id.spec
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+/rpmbuild :: volume_operation,()

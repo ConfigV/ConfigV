@@ -1,0 +1,21 @@
+/bin/bash ¦-x¦./install.sh :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'deb http://ftp.debian.org/debian jessie-backports main' | tee /etc/apt/sources.list.d/backports.list && echo 'deb http://packages.dotdeb.org jessie-nginx-http2 all' | tee /etc/apt/sources.list.d/backports.list && echo 'deb-src http:/... :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦debconf-utils :: Dependencies_operation,()
+DBPASS=$DBPASS: :: env_operation,()
+wget ¦--no-check-certificate¦https://download.nextcloud.com/server/releases/latest-11.tar.bz2.sha512 :: Dependencies_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+shasum ¦-a¦512¦-¦<¦latest-11.tar.bz2.sha512¦<¦latest-11.tar.bz2 :: Other_operation,()
+install.sh/tmp/ :: copy_operation,()
+from,debian@jessie
+expose,80 443
+entrypoint.sh/tmp/ :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦mariadb-server¦-o¦pkg::Options::="--force-confdef"¦-o¦pkg::Options::="--force-confold"¦--fix-missing :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦¦¦bash¦¦¦¦bzip2¦¦¦¦curl¦¦¦¦openssl¦¦¦¦wget :: Dependencies_operation,()
+wget ¦--no-check-certificate¦https://download.nextcloud.com/server/releases/latest-11.tar.bz2 :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦¦¦nginx¦¦¦¦nginx-full :: Dependencies_operation,()
+cmd,/bin/bash¦-x¦/tmp/entrypoint.sh
+tar ¦xfj¦latest-11.tar.bz2¦-C¦/var/www :: Filesystem_operation,()
+echo ¦echo¦mariadb-server-10.0 mysql-server/root_password password $DBPASS | debconf-set-selections && echo mariadb-server-10.0 mysql-server/root_password_again password $DBPASS | debconf-set-selections :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+rm ¦latest-11.tar.bz2.sha512 :: Filesystem_operation,()

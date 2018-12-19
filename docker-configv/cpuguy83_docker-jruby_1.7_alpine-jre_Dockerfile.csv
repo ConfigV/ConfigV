@@ -1,0 +1,14 @@
+echo ¦apk¦add --no-cache --virtual .build-deps curl tar && mkdir -p /opt/jruby && curl -fSL https://s3.amazonaws.com/jruby.org/downloads/${JRUBY_VERSION}/jruby-bin-${JRUBY_VERSION}.tar.gz -o /tmp/jruby.tar.gz && echo "$JRUBY_SHA1 */tmp/jruby.tar... :: Filesystem_operation,()
+BUNDLE_PATH="$GEM_HOME":BUNDLE_BIN="$GEM_HOME/bin" :: env_operation,()
+echo ¦mkdir¦-p /opt/jruby/etc && { echo 'install: --no-document'; echo 'update: --no-document'; } >> /opt/jruby/etc/gemrc :: Filesystem_operation,()
+PATH:$BUNDLE_BIN:$PATH :: env_operation,()
+cmd,irb
+chmod ¦777¦"$GEM_HOME"¦"$BUNDLE_BIN" :: Permissions_operation,()
+JRUBY_SHA1:cd15aef419f97cff274491e53fcfb8b88ec36785 :: env_operation,()
+GEM_HOME:/usr/local/bundle :: env_operation,()
+apk ¦add¦--no-cache¦bash¦libc6-compat :: Dependencies_operation,()
+mkdir ¦-p¦"$GEM_HOME"¦"$BUNDLE_BIN" :: Filesystem_operation,()
+PATH:/opt/jruby/bin:$PATH :: env_operation,()
+from,java:8.0
+JRUBY_VERSION:1.7.25 :: env_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()

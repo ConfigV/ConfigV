@@ -1,0 +1,12 @@
+cmd,--no_daemon
+apt-get ¦clean :: Dependencies_operation,()
+expose,55414
+add-apt-repository ¦ppa:uroni/urbackup :: Dependencies_operation,()
+entrypoint,/usr/sbin/start_urbackup_server
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+mkdir ¦-p¦/media/BACKUP/urbackup :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦python-software-properties¦btrfs-tools :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦urbackup-server :: Other_operation,()
+from,ubuntu:12.04

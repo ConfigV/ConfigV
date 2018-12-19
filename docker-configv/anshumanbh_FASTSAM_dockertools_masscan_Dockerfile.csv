@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+masscan/scripts/*/opt/secdevops/ :: copy_operation,()
+git ¦clone¦https://github.com/robertdavidgraham/masscan¦/opt/masscan :: Dependencies_operation,()
+cp ¦/opt/masscan/bin/masscan¦/usr/local/bin :: Filesystem_operation,()
+/opt/masscan :: workdir_operation,()
+chmod ¦+x¦/opt/secdevops/* :: Permissions_operation,()
+mkdir ¦/opt/secdevops :: Filesystem_operation,()
+from,ubuntu:14.04
+apt-get ¦clean :: Dependencies_operation,()
+cmd,/opt/secdevops/masscan.sh
+apt-get ¦install¦-y¦git¦build-essential¦curl¦wget¦libpcap-dev¦libdigest-hmac-perl¦libdigest-md5-file-perl¦libfindbin-libs-perl¦libmime-base64-urlsafe-perl¦libgetopt-long-descriptive-perl :: Dependencies_operation,()
+PROJECT:123456 :: env_operation,()
+make ¦-j :: Build_Execute_operation,()

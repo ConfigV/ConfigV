@@ -1,0 +1,18 @@
+make ¦-C¦/usr/src/redis¦install :: Build_Execute_operation,()
+cmd,/usr/local/bin/redis-server¦/etc/redis.conf
+tar ¦-xzf¦redis-$REDIS_VERSION.tar.gz¦-C¦/usr/src/redis¦--strip-components=1 :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+rm ¦-r¦/usr/src/redis :: Filesystem_operation,()
+rm ¦redis-$REDIS_VERSION.tar.gz :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦make¦build-essential :: Dependencies_operation,()
+from,ubuntu:12.04
+wget ¦http://download.redis.io/releases/redis-$REDIS_VERSION.tar.gz :: Dependencies_operation,()
+redis.conf/etc/redis.conf :: add_operation,()
+mkdir ¦-p¦/usr/src/redis :: Filesystem_operation,()
+make ¦-C¦/usr/src/redis :: Build_Execute_operation,()
+expose,6379
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+REDIS_VERSION:2.8.14 :: env_operation,()
+/data :: workdir_operation,()

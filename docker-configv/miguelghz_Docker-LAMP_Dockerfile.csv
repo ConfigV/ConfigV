@@ -1,0 +1,19 @@
+/app :: volume_operation,()
+/data :: volume_operation,()
+mkdir ¦-p¦/etc/service/mysql :: Filesystem_operation,()
+chmod ¦a+x¦/etc/service/apache/run :: Permissions_operation,()
+./files/my.cnf/etc/mysql/my.cnf :: add_operation,()
+./files/start-mysql.sh/etc/service/mysql/run :: add_operation,()
+./files/start-apache-php.sh/etc/service/apache/run :: add_operation,()
+chmod ¦a+x¦/etc/service/mysql/run :: Permissions_operation,()
+./files/hello_world.php/app/index.php :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,3306 80
+mkdir ¦-p¦/etc/service/apache :: Filesystem_operation,()
+apt-get ¦-y¦install¦apache2¦libapache2-mod-php5¦mariadb-server¦php5-gd¦php5-mysql¦php-apc¦php5-mcrypt :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init
+from,phusion/baseimage:0.9.18
+./files/apache_default/etc/apache2/sites-available/000-default.conf :: add_operation,()

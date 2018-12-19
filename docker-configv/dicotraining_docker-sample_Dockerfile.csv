@@ -1,0 +1,22 @@
+APACHE_RUN_USER:www-data :: env_operation,()
+apt-get ¦update;¦apt-get¦install¦-y¦php5-cli¦php5¦php5-mcrypt¦php5-curl¦php5-pgsql :: Dependencies_operation,()
+ln ¦-s¦/etc/apache2/sites-available/001-docker.conf¦/etc/apache2/sites-enabled/ :: Filesystem_operation,()
+APACHE_SERVERNAME:localhost :: env_operation,()
+cmd,bash¦start.sh
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+APACHE_DOCUMENTROOT:/var/www :: env_operation,()
+APACHE_SERVERADMIN:admin@localhost :: env_operation,()
+chmod ¦0755¦/start.sh :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦wget¦curl :: Other_operation,()
+from,ubuntu:14.04
+APACHE_SERVERALIAS:docker.localhost :: env_operation,()
+./scripts/info.php/var/www/html/info.php :: add_operation,()
+./scripts/start.sh/start.sh :: add_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_RUN_DIR:/var/run/apache2 :: env_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+./config/001-docker.conf/etc/apache2/sites-available/ :: add_operation,()
+expose,80
+apt-get ¦update¦-y :: Dependencies_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()

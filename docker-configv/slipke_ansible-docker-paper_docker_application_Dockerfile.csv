@@ -1,0 +1,11 @@
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+from,ubuntu:14.04
+/var/www/symfony :: workdir_operation,()
+apt-get ¦install¦-y¦ant¦nodejs¦ruby¦npm¦git¦curl¦php5¦php5-cli¦php5-json¦php5-intl¦php5-mysql :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+npm ¦install¦-g¦uglify-js¦uglifycss :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/www/symfony :: volume_operation,()
+sed ¦-i¦"s@;date.timezone¦=@date.timezone¦=¦Europe/Berlin@"¦/etc/php5/cli/php.ini :: Filesystem_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+gem ¦install¦sass :: Dependencies_operation,()

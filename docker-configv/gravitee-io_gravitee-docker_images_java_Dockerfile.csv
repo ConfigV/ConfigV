@@ -1,0 +1,9 @@
+yum ¦-y¦update :: Dependencies_operation,()
+wget ¦--no-cookies¦--no-check-certificate¦--header¦"Cookie:¦gpw_e24=http%3A%2F%2Fwww.oracle.com%2F;¦oraclelicense=accept-securebackup-cookie"¦"http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jre-8u91-linux-x64.rpm" :: Dependencies_operation,()
+JAVA_HOME:/usr/java/latest :: env_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+rm ¦-f¦jre-8u91-linux-x64.rpm :: Filesystem_operation,()
+yum ¦install¦-y¦wget¦nc¦zip¦unzip :: Dependencies_operation,()
+from,centos:6.0
+rpm ¦-Uvh¦jre-8u91-linux-x64.rpm :: Dependencies_operation,()

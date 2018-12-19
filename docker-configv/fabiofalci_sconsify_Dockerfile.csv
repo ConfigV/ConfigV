@@ -1,0 +1,11 @@
+curl ¦--insecure¦-o¦/etc/apt/sources.list.d/mopidy.list¦https://apt.mopidy.com/mopidy.list :: Dependencies_operation,()
+/go/src/github.com/fabiofalci/sconsify :: workdir_operation,()
+apt-get ¦install¦-y¦curl¦build-essential¦git¦mercurial¦portaudio19-dev¦ca-certificates¦--no-install-recommends :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+curl ¦--insecure¦https://apt.mopidy.com/mopidy.gpg¦|¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-sSL¦https://storage.googleapis.com/golang/go1.3.3.linux-amd64.tar.gz¦|¦tar¦-v¦-C¦/usr/local¦-xz :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦-y¦libspotify-dev :: Dependencies_operation,()
+PATH:/usr/local/go/bin:$PATH :: env_operation,()
+./go/src/github.com/fabiofalci/sconsify :: copy_operation,()

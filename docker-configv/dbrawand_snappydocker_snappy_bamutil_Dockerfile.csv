@@ -1,0 +1,17 @@
+git ¦checkout¦v1.0.13 :: Dependencies_operation,()
+rm ¦-rvf¦/tmp/* :: Filesystem_operation,()
+cmd,/bin/bash
+git ¦clone¦https://github.com/statgen/libStatGen.git :: Dependencies_operation,()
+HOME:/root :: env_operation,()
+cd ¦bamUtil :: Filesystem_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+git ¦clone¦https://github.com/statgen/bamUtil.git :: Dependencies_operation,()
+cd ¦libStatGen :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+ln ¦-s¦/usr/local/pipeline/bamUtil_1.0.12/bam¦/usr/bin/local :: Filesystem_operation,()
+from,viapath/snappy_ngstools
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/bamUtil_1.0.12'¦/home/snappy/.bashrc :: Filesystem_operation,()
+make ¦install¦INSTALLDIR=/usr/local/pipeline/bamUtil_1.0.12 :: Build_Execute_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline :: Permissions_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+make ¦all :: Build_Execute_operation,()

@@ -1,0 +1,18 @@
+apt-get ¦install¦software-properties-common¦-y :: Dependencies_operation,()
+apt-file ¦update :: Other_operation,()
+apt-get ¦install¦oracle-java8-installer¦-y :: Dependencies_operation,()
+curl ¦-LO¦"https://s3.amazonaws.com/datapipeline-us-east-1/us-east-1/software/latest/TaskRunner/TaskRunner-1.0.jar" :: Dependencies_operation,()
+apt-get ¦-y¦install¦build-essential¦wget¦htop¦git¦emacs :: Dependencies_operation,()
+from,ubuntu@latest
+HOME:/root :: env_operation,()
+mkdir ¦-p¦/work :: Filesystem_operation,()
+apt-get ¦install¦apt-file¦-y :: Dependencies_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,--workerGroup=my_worker_group
+add-apt-repository ¦ppa:webupd8team/java :: Dependencies_operation,()
+entrypoint,java¦-jar¦TaskRunner-1.0.jar¦--accessId=$AWS_ACCESS_KEY_ID¦--secretKey=$AWS_SECRET_ACCESS_KEY¦--region=$AWS_REGION¦--logUri=$S3_LOG_URI¦--workerGroup=$WORKGROUP
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+/work :: workdir_operation,()
+apt-file ¦search¦add-apt-repository :: Other_operation,()

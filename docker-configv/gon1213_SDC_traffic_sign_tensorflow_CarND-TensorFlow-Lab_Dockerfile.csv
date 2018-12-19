@@ -1,0 +1,22 @@
+./notebooks :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,8888
+PATH:$PATH:/root/miniconda3/bin/ :: env_operation,()
+rm ¦get-pip.py :: Filesystem_operation,()
+"/notebooks" :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.shtmp/Miniconda3-latest-Linux-x86_64.sh :: add_operation,()
+cmd,/run_jupyter.sh
+environment.yml. :: copy_operation,()
+run_jupyter.sh/ :: copy_operation,()
+jupyter_notebook_config.py/root/.jupyter/ :: copy_operation,()
+conda ¦env¦create¦-f¦environment.yml :: Dependencies_operation,()
+conda ¦install¦--name¦CarND-TensorFlow-Lab¦-c¦conda-forge¦tensorflow :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦curl¦libfreetype6-dev¦libpng12-dev¦libzmq3-dev¦pkg-config¦python3-dev¦rsync¦software-properties-common¦unzip :: Dependencies_operation,()
+bash ¦tmp/Miniconda3-latest-Linux-x86_64.sh¦-b :: Build_Execute_operation,()
+from,python
+chmod ¦+x¦run_jupyter.sh :: Permissions_operation,()
+conda ¦install¦--yes¦pyyaml :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦-O¦https://bootstrap.pypa.io/get-pip.py :: Dependencies_operation,()
+python ¦get-pip.py :: Build_Execute_operation,()

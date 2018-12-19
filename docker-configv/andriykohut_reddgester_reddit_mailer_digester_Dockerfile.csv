@@ -1,0 +1,8 @@
+expose,8000
+/app :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gcc¦libc6-dev :: Dependencies_operation,()
+cmd,nameko¦run¦digester¦--config=digester.yaml
+./app/ :: copy_operation,()
+from,python:3.5
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦-r¦/app/requirements.txt :: Dependencies_operation,()

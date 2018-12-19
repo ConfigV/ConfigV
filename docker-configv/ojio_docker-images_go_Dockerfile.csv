@@ -1,0 +1,12 @@
+PATH:$PATH:/usr/local/go/bin :: env_operation,()
+tar ¦-C¦/usr/local¦-xzf¦/tmp/go${VERSION}.${OS}-${ARCH}.tar.gz :: Filesystem_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+rm ¦/tmp/go${VERSION}.${OS}-${ARCH}.tar.gz :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/app :: Filesystem_operation,()
+OS:linux :: env_operation,()
+yum ¦-y¦install¦git¦tar :: Dependencies_operation,()
+from,wellsie/centos7
+VERSION:1.4.2 :: env_operation,()
+https://storage.googleapis.com/golang/go${VERSION}.${OS}-${ARCH}.tar.gz/tmp/go${VERSION}.${OS}-${ARCH}.tar.gz :: add_operation,()
+ARCH:amd64 :: env_operation,()

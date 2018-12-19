@@ -1,0 +1,12 @@
+w :: user_operation,()
+prices/home/w/prices/ :: copy_operation,()
+chown ¦-R¦w:w¦/home/w/ :: Permissions_operation,()
+apt-get ¦update¦&&apt-get¦install¦-y¦python3¦python3-flask :: Dependencies_operation,()
+apt-get ¦install¦-y¦imagemagick :: Dependencies_operation,()
+from,debian@jessie
+expose,8090
+useradd ¦w :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+config.py/home/w/ :: copy_operation,()
+/home/w :: workdir_operation,()
+cmd,./w.py

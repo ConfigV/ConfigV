@@ -1,0 +1,11 @@
+chmod ¦+x¦/usr/local/bin/scw :: Permissions_operation,()
+apt-get ¦install¦-y¦-qq¦s3cmd¦git¦curl :: Dependencies_operation,()
+ssh-keygen ¦-f¦~/.ssh/id_rsa¦-t¦rsa¦-N¦'' :: Other_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦upgrade :: Dependencies_operation,()
+curl ¦-L¦https://github.com/scaleway/scaleway-cli/releases/download/v1.3.0/scw-Linux-armv7¦>¦/usr/local/bin/scw :: Dependencies_operation,()
+/usr/local/sbin/builder-enter  :: Other_operation,()
+/usr/local/sbin/builder-leave  :: Other_operation,()
+from,armbuild/scw-image-builder:latest
+apt-get ¦clean :: Dependencies_operation,()
+./patches/usr//usr/ :: add_operation,()

@@ -1,0 +1,10 @@
+SGE_CONFIG_DIR=/usr/share/gridengine:SGE_ROOT=/usr/share/gridengine :: env_operation,()
+cmd,/bin/bash
+echo ¦echo¦"exclude=*.i386 *.i686" >> /etc/yum.conf && yum update -y && yum clean all :: Filesystem_operation,()
+miniconda/usr/share/miniconda :: add_operation,()
+entrypoint,/usr/share/docker/entrypoint.sh
+docker/usr/share/docker :: add_operation,()
+gridengine/usr/share/gridengine :: add_operation,()
+/usr/share/miniconda/install_miniconda.sh  :: Other_operation,()
+from,centos:6.6
+/usr/share/gridengine/install_ge.sh  :: Other_operation,()

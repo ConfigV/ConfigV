@@ -1,0 +1,14 @@
+REPOSITORY:github.com/future-architect/vuls :: env_operation,()
+git ¦clone¦https://$REPOSITORY.git¦$GOPATH/src/$REPOSITORY :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/vuls :: Permissions_operation,()
+cmd,--help
+PWD:$WORKDIR :: env_operation,()
+WORKDIR:/vuls :: env_operation,()
+$WORKDIR :: workdir_operation,()
+go ¦build :: Build_Execute_operation,()
+mkdir ¦-p¦/var/log/vuls :: Filesystem_operation,()
+glide ¦install :: Other_operation,()
+entrypoint,vuls
+mv ¦$GOPATH/src/$REPOSITORY/vuls¦/usr/local/bin :: Filesystem_operation,()
+cd ¦$GOPATH/src/$REPOSITORY :: Filesystem_operation,()
+from,vuls/vuls-base:latest

@@ -1,0 +1,10 @@
+entrypoint,/usr/local/bin/magellan-proxy¦--port¦3000
+MAGELLAN_PROXY_VERSION:0.1.1 :: env_operation,()
+chmod ¦+x¦/usr/local/bin/magellan-proxy :: Permissions_operation,()
+cmd,npm¦start
+from,magellan/node-helloworld
+apk ¦--update¦add¦curl :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦del¦curl :: Dependencies_operation,()
+curl ¦-SLO¦"https://github.com/groovenauts/magellan-proxy/releases/download/v${MAGELLAN_PROXY_VERSION}/magellan-proxy-${MAGELLAN_PROXY_VERSION}_linux-amd64" :: Dependencies_operation,()
+mv ¦magellan-proxy-${MAGELLAN_PROXY_VERSION}_linux-amd64¦/usr/local/bin/magellan-proxy :: Filesystem_operation,()

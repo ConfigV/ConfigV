@@ -1,0 +1,10 @@
+bundle ¦config¦--global¦frozen¦1 :: Dependencies_operation,()
+expose,5000
+bundle ¦install :: Dependencies_operation,()
+cmd,sudo bundle exec puma -b tcp://0.0.0.0:5000
+/usr/src/app :: workdir_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+Gemfile/usr/src/app/ :: copy_operation,()
+./usr/src/app :: copy_operation,()
+from,jruby@latest
+Gemfile.lock/usr/src/app/ :: copy_operation,()

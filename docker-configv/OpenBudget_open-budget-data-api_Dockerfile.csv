@@ -1,0 +1,14 @@
+$GUNICORN_USER :: user_operation,()
+open_budget_data_api$APP_PATH/open_budget_data_api :: add_operation,()
+ :: add_operation,()
+apk ¦add¦--update¦--virtual=build-dependencies¦wget¦ca-certificates¦python3-dev¦postgresql-dev¦build-base :: Dependencies_operation,()
+ls ¦-la¦/opt/app/ :: Filesystem_operation,()
+expose,8000
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+python3 ¦--version :: Build_Execute_operation,()
+from,codexfons/gunicorn
+pip ¦install¦$APP_PATH :: Dependencies_operation,()
+GUNICORN_MODULE=open_budget_data_api.main: :: env_operation,()
+root :: user_operation,()
+apk ¦add¦--update¦libpq :: Dependencies_operation,()
+apk ¦del¦build-dependencies :: Dependencies_operation,()

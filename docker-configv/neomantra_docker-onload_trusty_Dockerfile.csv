@@ -1,0 +1,12 @@
+/tmp/openonload-${ONLOAD_VERSION}/scripts :: workdir_operation,()
+from,ubuntu@trusty
+./onload_build ¦--user :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-y :: Other_operation,()
+/tmp :: workdir_operation,()
+tar ¦-zxf¦openonload-${ONLOAD_VERSION}.tgz :: Filesystem_operation,()
+http://www.openonload.org/download/openonload-${ONLOAD_VERSION}.tgz/tmp/openonload-${ONLOAD_VERSION}.tgz :: add_operation,()
+rm ¦-rf¦/tmp/openonload-${ONLOAD_VERSION}.tgz¦/tmp/openonload-${ONLOAD_VERSION} :: Filesystem_operation,()
+./onload_install ¦--userfiles¦--nobuild :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommends¦wget¦coreutils¦perl¦autoconf¦automake¦libtool¦tar¦gcc¦make¦net-tools¦ethtool¦valgrind¦libpcap0.8-dev¦python-dev¦gcc-multilib¦libc6-dev-i386 :: Other_operation,()
+/ :: workdir_operation,()
+echo ¦echo¦"${ONLOAD_MD5SUM} openonload-${ONLOAD_VERSION}.tgz" | md5sum --check :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+htdocs//var/www/html/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦libpng12-dev¦libjpeg-dev :: Dependencies_operation,()
+from,php:5.6
+chown ¦-hR¦www-data:www-data¦/var/www/html :: Permissions_operation,()
+expose,80
+docker-php-ext-install ¦gd :: Other_operation,()
+docker-php-ext-install ¦mysqli :: Other_operation,()

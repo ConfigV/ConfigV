@@ -1,0 +1,15 @@
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+apk ¦add¦--update¦gpgme¦curl¦py-pip :: Dependencies_operation,()
+imagescripts/opt/cloud :: copy_operation,()
+AWS_CLUSTER=: :: env_operation,()
+root :: user_operation,()
+# ¦Cleanup :: Other_operation,()
+cmd,jobberd
+AWS_DEFAULT_REGION=: :: env_operation,()
+AWS_SECRET_ACCESS_KEY=: :: env_operation,()
+pip ¦install¦awscli :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/ecs-cli :: Permissions_operation,()
+entrypoint,/opt/cloud/docker-entrypoint.sh
+AWS_ACCESS_KEY_ID=: :: env_operation,()
+curl ¦-o¦/usr/local/bin/ecs-cli¦https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest :: Dependencies_operation,()
+from,blacklabelops/jobber:alpine

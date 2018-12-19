@@ -1,0 +1,9 @@
+/setup :: workdir_operation,()
+expose,9002
+cmd,ansible-playbook¦galaxy.yml¦-c¦local¦--tags¦"persists_galaxy,nginx_config,galaxy_config_files"¦--skip-tags=skip_supervisor_start_in_docker¦--extra-vars¦nginx_galaxy_location=$NGINX_GALAXY_LOCATION¦-i¦docker_inventory¦&&¦/usr/bin/python¦/usr/bin/supervisord...
+./setup :: copy_operation,()
+from,artbio/galaxy-kickstart-base
+apt-get ¦clean :: Dependencies_operation,()
+ansible-playbook ¦-i¦docker_metavisitor_inventory¦-c¦local¦galaxy.yml :: Other_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

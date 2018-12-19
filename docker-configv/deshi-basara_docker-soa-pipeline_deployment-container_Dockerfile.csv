@@ -1,0 +1,18 @@
+apt-get ¦update :: Dependencies_operation,()
+/test :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦git¦curl¦openssh-client¦expect¦nano :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+scripts//test/ :: copy_operation,()
+deploy-key.pub/root/.ssh/id_rsa.pub :: copy_operation,()
+cmd,./run-full-suite.sh
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+deploy-key/root/.ssh/id_rsa :: copy_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+chmod ¦600¦/root/.ssh/id_rsa :: Permissions_operation,()
+from,debian@jessie
+mkdir ¦-p¦/test/cache :: Filesystem_operation,()
+ssh.config/root/.ssh/config :: copy_operation,()
+curl ¦--insecure¦-Lso¦/usr/bin/docker¦"https://get.docker.com/builds/Linux/x86_64/docker-1.8.1" :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+curl ¦--insecure¦-Lso¦/usr/bin/docker-compose¦"https://github.com/docker/compose/releases/download/1.5.2/docker-compose-Linux-x86_64" :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/docker¦/usr/bin/docker-compose :: Permissions_operation,()

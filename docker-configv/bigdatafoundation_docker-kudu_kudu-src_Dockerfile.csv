@@ -1,0 +1,19 @@
+KUDU_VERSION=master:KUDU_HOME=/usr/local/kudu :: env_operation,()
+expose,8050 8051
+KUDU_OPTS="": :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+make ¦-j8 :: Build_Execute_operation,()
+cmd,help
+./thirdparty/build-if-necessary.sh  :: Other_operation,()
+PATH=$PATH:$KUDU_HOME/thirdparty/installed/bin:$KUDU_HOME/build/latest: :: env_operation,()
+from,ubuntu:14.04
+/data/kudu-master :: volume_operation,()
+git ¦clone¦https://github.com/cloudera/kudu.git¦$KUDU_HOME :: Dependencies_operation,()
+cd ¦$KUDU_HOME :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦autoconf¦automake¦curl¦gcc¦liboauth-dev¦libssl-dev¦libsasl2-dev¦libtool¦patch¦python¦ntp¦unzip¦libboost-all-dev¦pkg-config¦git¦build-essential :: Other_operation,()
+/data/kudu-tserver :: volume_operation,()
+cmake ¦. :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

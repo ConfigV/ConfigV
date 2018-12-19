@@ -1,0 +1,16 @@
+apt-get ¦install¦-y¦--no-install-recommends¦git¦python-pip¦gcc¦python-mysqldb¦patch¦libxml2-dev¦libxslt1-dev¦python-dev¦libfreetype6-dev¦texlive-latex-base¦libjpeg-dev¦pandoc :: Dependencies_operation,()
+/etc/my_init.d/00_regen_ssh_host_keys.sh  :: Other_operation,()
+/ :: workdir_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+patch ¦<¦cache.patch :: Other_operation,()
+cmd,/sbin/my_init
+expose,22
+pip ¦install¦Django==1.6.5¦djutils==0.3.2¦Genshi==0.7¦Pillow==2.4.0 :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+files/cache.patch/usr/local/lib/python2.7/dist-packages/djutils/cache.patch :: add_operation,()
+/usr/local/lib/python2.7/dist-packages/djutils/ :: workdir_operation,()
+HOME:/root :: env_operation,()
+from,phusion/baseimage:latest
+apt-get ¦-qq¦upgrade :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()

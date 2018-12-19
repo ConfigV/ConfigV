@@ -1,0 +1,13 @@
+apt-get ¦install¦-y¦mysql-client¦php5-mysql¦php5-gd¦php5-geoip¦php-apc¦wget¦unzip :: Dependencies_operation,()
+config.ini.php/piwik/config/config.ini.php :: add_operation,()
+sed ¦-i¦'s/#!\\/bin\\/bash/#!\\/bin\\/bash\\n\\/opt\\/startup-piwik.sh/g'¦/opt/entrypoint.sh :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+unzip ¦piwik.zip :: Filesystem_operation,()
+chmod ¦a+x¦/opt/startup-piwik.sh :: Permissions_operation,()
+rm ¦-rf¦/usr/share/nginx/html/* :: Filesystem_operation,()
+startup-piwik.sh/opt/startup-piwik.sh :: add_operation,()
+nginx-piwik.conf/etc/nginx/conf.d/nginx-piwik.conf :: add_operation,()
+rm ¦piwik.zip :: Filesystem_operation,()
+wget ¦"http://builds.piwik.org/piwik-latest.zip"¦-O¦piwik.zip :: Dependencies_operation,()
+DH_SIZE:512 :: env_operation,()
+from,marvambass/nginx-ssl-php

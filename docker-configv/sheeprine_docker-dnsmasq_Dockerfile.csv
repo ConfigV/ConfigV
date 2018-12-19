@@ -1,0 +1,15 @@
+expose,67
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+touch ¦/var/lib/dnsmasq/options :: Filesystem_operation,()
+touch ¦/var/lib/dnsmasq/hosts :: Filesystem_operation,()
+RANGE_NETMASK=255.255.255.0: :: env_operation,()
+/var/lib/dnsmasq :: volume_operation,()
+GATEWAY=172.16.42.1: :: env_operation,()
+RANGE_START=172.16.42.10: :: env_operation,()
+from,debian@jessie
+LEASE_TIME=1h: :: env_operation,()
+cmd,dnsmasq¦-k¦--dhcp-range=$RANGE_START,$RANGE_END,$RANGE_NETMASK,$LEASE_TIME¦--dhcp-hostsfile=/var/lib/dnsmasq/hosts¦--dhcp-optsfile=/var/lib/dnsmasq/options¦--log-dhcp¦--dhcp-boot=pxelinux.0,pxeserver,$GATEWAY¦--pxe-service=x86PC,"PXE¦Booting...",p...
+apt-get ¦install¦-y¦--no-install-recommends¦dnsmasq :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+RANGE_END=172.16.42.100: :: env_operation,()

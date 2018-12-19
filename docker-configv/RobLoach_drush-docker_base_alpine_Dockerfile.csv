@@ -1,0 +1,8 @@
+from,composer/composer-alpine
+docker-php-ext-install ¦mysqli¦pgsql¦pdo_mysql¦pdo_pgsql :: Other_operation,()
+# ¦Install¦the¦Redis¦module. :: Other_operation,()
+apk ¦--update¦add¦build-base¦libpq¦mysql-client¦postgresql-client¦postgresql-dev¦tar :: Dependencies_operation,()
+entrypoint,drush
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+git ¦clone¦--branch="php7"¦https://github.com/phpredis/phpredis.git¦/usr/src/php/ext/redis :: Dependencies_operation,()
+apk ¦del¦build-base¦postgresql-dev :: Dependencies_operation,()

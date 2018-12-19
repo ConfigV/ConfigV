@@ -1,0 +1,8 @@
+apt-get ¦install¦-y¦rabbitmq-server :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list :: Filesystem_operation,()
+entrypoint,/usr/lib/rabbitmq/bin/rabbitmq-server
+from,ubuntu
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+expose,5672
+wget ¦http://www.rabbitmq.com/rabbitmq-signing-key-public.asc;apt-key¦add¦rabbitmq-signing-key-public.asc :: Dependencies_operation,()

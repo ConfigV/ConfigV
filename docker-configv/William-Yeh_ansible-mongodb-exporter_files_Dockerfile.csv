@@ -1,0 +1,17 @@
+echo ¦echo¦"===> Fetch and build aux tool: go-bindata ..." :: Filesystem_operation,()
+mkdir ¦-p¦/dist :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+cd ¦/opt/src/$PROJECT_REPO :: Filesystem_operation,()
+go ¦get¦-u¦$PROJECT_REPO :: Build_Execute_operation,()
+EXE_NAME:mongodb_exporter-linux-amd64 :: env_operation,()
+echo ¦echo¦"===> Fetch and build main project..." :: Filesystem_operation,()
+cd ¦/opt/src/github.com/jteeuwen/go-bindata :: Filesystem_operation,()
+GOPATH:/opt :: env_operation,()
+/opt :: workdir_operation,()
+go ¦get¦-u¦github.com/jteeuwen/go-bindata :: Build_Execute_operation,()
+make ¦build :: Build_Execute_operation,()
+PROJECT_REPO:github.com/dcu/mongodb_exporter :: env_operation,()
+cmd,cp¦$GOPATH/src/$PROJECT_REPO/mongodb_exporter¦/dist/$EXE_NAME
+PATH:$GOPATH/bin:$PATH :: env_operation,()
+from,golang:1.4
+/dist :: volume_operation,()

@@ -1,0 +1,18 @@
+expose,8181
+curl ¦-sL¦https://deb.nodesource.com/setup¦|¦sudo¦bash¦- :: Dependencies_operation,()
+entrypoint,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+scripts/install-sdk.sh  :: Other_operation,()
+/cloud9/workspace :: volume_operation,()
+from,tutum/ubuntu:trusty
+C9_WORKSPACE:/cloud9/workspace :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+supervisord.conf/etc/supervisor/conf.d/ :: add_operation,()
+mkdir ¦/cloud9/workspace :: Filesystem_operation,()
+apt-get ¦-y¦install¦nodejs :: Dependencies_operation,()
+/cloud9 :: workdir_operation,()
+apt-get ¦-y¦install¦git¦curl¦build-essential¦supervisor :: Dependencies_operation,()
+git ¦clone¦https://github.com/c9/core.git¦/tmp/c9 :: Dependencies_operation,()
+cd ¦/tmp/c9 :: Filesystem_operation,()
+mv ¦/tmp/c9¦/cloud9 :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()

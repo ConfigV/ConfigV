@@ -1,0 +1,11 @@
+expose,9200
+apt-get ¦-y¦install¦openjdk-7-jre¦supervisor¦wget :: Dependencies_operation,()
+from,debian@jessie
+apt-get ¦-y¦install¦elasticsearch :: Dependencies_operation,()
+cmd,service¦supervisor¦start
+/var/lib/elasticsearch :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+files/supervisord.conf/etc/supervisor/conf.d/ :: add_operation,()
+echo ¦wget¦-qO - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add - && echo 'deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main' >> /etc/apt/sources.list :: Filesystem_operation,()
+echo ¦echo¦'debconf debconf/frontend select Dialog' | debconf-set-selections :: Filesystem_operation,()

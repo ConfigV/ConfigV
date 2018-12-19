@@ -1,0 +1,16 @@
+wget ¦--quiet¦-O¦-¦https://www.postgresql.org/media/keys/ACCC4CF8.asc¦|¦apt-key¦add¦- :: Dependencies_operation,()
+pip ¦install¦psycopg2 :: Dependencies_operation,()
+cmd,loader
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦autoremove¦-y¦--purge :: Dependencies_operation,()
+adduser ¦--system¦--uid¦1000¦--shell¦/bin/bash¦loader :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+HOME:/app :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,python:2.7
+echo ¦echo¦deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main > /etc/apt/sources.list.d/jessie-pgdg.list :: Filesystem_operation,()
+/app :: workdir_operation,()
+entrypoint,/app/docker-entrypoint.sh
+./app :: copy_operation,()
+/data :: volume_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦postgresql-client-9.5¦postgis :: Dependencies_operation,()

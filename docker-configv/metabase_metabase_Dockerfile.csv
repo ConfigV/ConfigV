@@ -1,0 +1,22 @@
+LEIN_ROOT:1 :: env_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+https://raw.github.com/technomancy/leiningen/stable/bin/lein/usr/local/bin/lein :: add_operation,()
+LANGUAGE:en_US:en :: env_operation,()
+chmod ¦744¦/usr/local/bin/lein :: Permissions_operation,()
+from,ubuntu@trusty
+expose,3000
+./app/source :: add_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+PATH:/usr/local/bin:$PATH :: env_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+entrypoint,bash¦-c¦./bin/build && ./bin/start
+apt-get ¦install¦-y¦openjdk-7-jdk :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+DEBCONF_NONINTERACTIVE_SEEN:true :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦install¦-y¦npm :: Dependencies_operation,()
+/app/source :: workdir_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()

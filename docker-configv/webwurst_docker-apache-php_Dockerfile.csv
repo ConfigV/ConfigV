@@ -1,0 +1,11 @@
+from,ubuntu:14.1
+apt-get ¦update :: Dependencies_operation,()
+chown ¦-R¦www-data:www-data¦/var/lock/apache2¦/var/run/apache2¦/var/log/apache2¦/var/www/html :: Permissions_operation,()
+rm ¦-rf¦/var/www/html :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦libapache2-mod-php5¦¦php5-apcu¦¦php5-gd¦¦php5-json¦¦php5-intl¦¦php5-sqlite¦¦php5-curl¦¦php5-mysql¦¦php5-pgsql¦¦php5-mcrypt¦¦php5-imagick¦¦php5-xsl¦¦php-xml-parser :: Dependencies_operation,()
+cmd,apache2¦-DFOREGROUND
+/var/www/html :: workdir_operation,()
+expose,80
+apache2.conf/etc/apache2/ :: copy_operation,()
+mkdir ¦-p¦/var/lock/apache2¦/var/run/apache2¦/var/log/apache2¦/var/www/html :: Filesystem_operation,()

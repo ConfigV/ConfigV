@@ -1,0 +1,22 @@
+sample-app/dist//app :: add_operation,()
+mkdir ¦-p¦/var/www/sites/go :: Filesystem_operation,()
+from,debian@wheezy
+/app :: workdir_operation,()
+rm ¦-fr¦/var/www/sites/go/here :: Filesystem_operation,()
+chown ¦-R¦www:www¦/var/log/lighttpd/ :: Permissions_operation,()
+mkdir ¦-p¦/var/run/lighttpd :: Filesystem_operation,()
+expose,80
+RUNchown www:www /app -R :: onbuild_operation,()
+cmd,/run.sh
+ADD. /app :: onbuild_operation,()
+useradd ¦--no-create-home¦www :: Permissions_operation,()
+ln ¦-s¦/app¦/var/www/sites/go/here :: Filesystem_operation,()
+run.sh/run.sh :: add_operation,()
+RUNrm -fr /app :: onbuild_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-yq¦install¦lighttpd :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+server-config/lighttpd.conf/etc/lighttpd/lighttpd.conf :: add_operation,()

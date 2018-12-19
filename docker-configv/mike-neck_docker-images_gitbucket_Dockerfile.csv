@@ -1,0 +1,14 @@
+curl ¦-L¦https://github.com/gitbucket/gitbucket/releases/download/3.7/gitbucket.war¦-o¦/home/gitbucket/bin/gitbucket.war :: Dependencies_operation,()
+mkdir ¦/home/gitbucket/bin :: Filesystem_operation,()
+groupadd ¦-r¦repo :: Permissions_operation,()
+useradd ¦-m¦-g¦repo¦gitbucket :: Permissions_operation,()
+chown ¦gitbucket¦/home/gitbucket/.gitbucket :: Permissions_operation,()
+expose,29418
+mkdir ¦/home/gitbucket/.gitbucket :: Filesystem_operation,()
+chown ¦gitbucket¦/home/gitbucket/bin/gitbucket.war :: Permissions_operation,()
+from,mikeneck/jdk8
+entrypoint,java¦-jar¦bin/gitbucket.war
+/home/gitbucket :: workdir_operation,()
+/home/gitbucket/.gitbucket :: volume_operation,()
+chown ¦-R¦gitbucket¦/home/gitbucket :: Permissions_operation,()
+gitbucket :: user_operation,()

@@ -1,0 +1,14 @@
+wget ¦https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh :: Dependencies_operation,()
+ln ¦-s¦/bin/bash¦/bin/sh :: Filesystem_operation,()
+PATH=/root/miniconda3/bin:$PATH: :: env_operation,()
+/root :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+entrypoint,print_qiime_config.py
+source ¦activate¦qiime1 :: Environment_operation,()
+rm ¦/bin/sh :: Filesystem_operation,()
+from,ubuntu:16.04
+apt-get ¦install¦-y¦wget¦bzip2 :: Dependencies_operation,()
+printf ¦"y"¦|¦/root/miniconda3/bin/conda¦create¦-n¦qiime1¦python=2.7¦qiime¦matplotlib=1.4.3¦mock¦nose¦-c¦bioconda :: Other_operation,()
+/root/miniconda3/bin/conda ¦install¦psutil :: Other_operation,()
+printf ¦"\\n¦yes"¦|¦bash¦Miniconda3-latest-Linux-x86_64.sh :: Other_operation,()

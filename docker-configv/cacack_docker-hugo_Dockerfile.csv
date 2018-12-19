@@ -1,0 +1,8 @@
+expose,1313
+entrypoint,hugo
+mv ¦/tmp/hugo_${HUGO_VERSION}_linux_amd64/hugo_${HUGO_VERSION}_linux_amd64¦/usr/local/bin/hugo :: Filesystem_operation,()
+HUGO_VERSION:0.19 :: env_operation,()
+rm ¦-rf¦/tmp/hugo_${HUGO_VERSION}_Linux_amd64/ :: Filesystem_operation,()
+apk ¦add¦--no-cache¦--update¦curl :: Dependencies_operation,()
+curl ¦-L¦https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz¦|¦tar¦xvz¦-C¦/tmp :: Dependencies_operation,()
+from,alpine@latest

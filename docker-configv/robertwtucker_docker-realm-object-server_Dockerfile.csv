@@ -1,0 +1,10 @@
+cmd,/usr/bin/realm-object-server¦-c¦/etc/realm/configuration.yml
+/var/lib/realm/object-server :: volume_operation,()
+expose,9080
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu:16.04
+apt-get ¦-y¦install¦curl :: Dependencies_operation,()
+curl ¦-s¦https://packagecloud.io/install/repositories/realm/realm/script.deb.sh¦|¦bash :: Dependencies_operation,()
+apt-get ¦-y¦install¦realm-object-server-developer :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

@@ -1,0 +1,9 @@
+mkdir ¦/src :: Filesystem_operation,()
+from,ubuntu:12.04
+apt-get ¦-y¦install¦build-essential¦python-dev¦git-core¦curl¦wget¦libxslt-dev¦zlib1g-dev¦libcurl4-openssl-dev¦libssl-dev¦libyaml-dev¦libtool¦libxml2-dev¦gawk¦pngcrush¦imagemagick¦libreadline-dev¦nginx¦language-pack-en¦sudo¦cron¦vim¦psmisc¦rsyslog¦&... :: Dependencies_operation,()
+echo ¦echo¦'gem: --no-document' >> /usr/local/etc/gemrc &&\\ :: Filesystem_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+apt-get ¦-y¦install¦runit¦monit¦&&\\ :: Dependencies_operation,()
+echo ¦echo¦"debconf debconf/frontend select Teletype" | debconf-set-selections &&\\ :: Filesystem_operation,()
+cd ¦/src :: Filesystem_operation,()
+git ¦clone¦https://github.com/sstephenson/ruby-build.git¦&&\\ :: Dependencies_operation,()

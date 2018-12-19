@@ -1,0 +1,8 @@
+pip3 ¦install¦fava :: Dependencies_operation,()
+apt-get ¦update;¦apt-get¦-y¦install¦python3-pip¦mercurial :: Dependencies_operation,()
+LC_ALL="C.UTF-8":LANG="C.UTF-8" :: env_operation,()
+from,bitnami/minideb:stretch
+/data/ :: volume_operation,()
+pip3 ¦install¦hg+https://bitbucket.org/blais/beancount@master :: Dependencies_operation,()
+cmd,fava¦--host¦0.0.0.0¦--port¦5000¦/data/data.beancount
+expose,5000

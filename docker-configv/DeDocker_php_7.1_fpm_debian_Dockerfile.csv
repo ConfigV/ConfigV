@@ -1,0 +1,13 @@
+build/build :: copy_operation,()
+expose,9000
+cmd,php-fpm7.1
+/usr/src/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+container/ :: copy_operation,()
+'composer-setup.php'  :: Other_operation,()
+mkdir ¦-p¦/run/php :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦php7.1¦php7.1-fpm¦php7.1-bz2¦php7.1-curl¦php7.1-exif¦php7.1-iconv¦php7.1-mbstring¦php7.1-mcrypt¦php7.1-pdo¦php7.1-pdo-mysql¦php7.1-pdo-pgsql¦php7.1-json¦php7.1-phar¦php7.1-dom¦php7.1-gd¦php7.1-ctype¦git¦u... :: Dependencies_operation,()
+chown ¦www-data:www-data¦/run/php :: Permissions_operation,()
+echo ¦apt-get¦update && apt-get install -y --no-install-recommends apt-transport-https lsb-release ca-certificates curl && curl -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && echo "deb https://packages.sury.org/php/ $... :: Filesystem_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+/build/cleanup.sh  :: Other_operation,()

@@ -1,0 +1,9 @@
+from,hypriot/rpi-alpine-scratch:edge
+PYTHON_PIP_VERSION:9.0.1 :: env_operation,()
+python3 ¦/tmp/get-pip.py¦pip==$PYTHON_PIP_VERSION :: Build_Execute_operation,()
+curl ¦-Ls¦https://bootstrap.pypa.io/get-pip.py¦-o¦/tmp/get-pip.py :: Dependencies_operation,()
+PYTHON_VERSION:3.6.0-r0 :: env_operation,()
+apk ¦del¦curl :: Dependencies_operation,()
+rm ¦/tmp/get-pip.py :: Filesystem_operation,()
+apk ¦add¦--no-cache¦curl¦python3=$PYTHON_VERSION¦python3-dev=$PYTHON_VERSION :: Dependencies_operation,()
+cmd,python3

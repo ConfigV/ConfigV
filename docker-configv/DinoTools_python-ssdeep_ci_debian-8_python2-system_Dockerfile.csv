@@ -1,0 +1,11 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,debian:8.0
+BUILD_LIB=0 ¦pip¦install¦. :: Other_operation,()
+pip ¦install¦pytest :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦libffi-dev¦python¦python-dev¦python-pip¦libfuzzy-dev :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦'force-unsafe-io' | tee /etc/dpkg/dpkg.cfg.d/02apt-speedup && echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' | tee /etc/apt/apt.conf.d/no-cache && echo 'Acquire::http {No-Cache=True;};' | tee /etc/apt/... :: Filesystem_operation,()
+cd ¦/code :: Filesystem_operation,()
+py.test  :: Other_operation,()
+./code :: copy_operation,()

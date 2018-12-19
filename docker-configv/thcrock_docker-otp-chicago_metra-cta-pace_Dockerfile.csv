@@ -1,0 +1,27 @@
+mkdir ¦-p¦/var/otp/graphs/chicago :: Filesystem_operation,()
+rm ¦/var/otp/graphs/chicago/kenosha-metra.pbf :: Filesystem_operation,()
+osmosis ¦--read-pbf¦file=/var/otp/graphs/chicago/illinois.osm.pbf¦--bounding-box¦left=-88.9151¦bottom=41.325264¦--write-pbf¦/var/otp/graphs/chicago/illinois-metra.pbf :: Other_operation,()
+osmosis ¦--read-pbf¦file=/var/otp/graphs/chicago/wisconsin.osm.pbf¦--bounding-box¦left=-88.073959¦top=42.67032¦--write-pbf¦/var/otp/graphs/chicago/kenosha-metra.pbf :: Other_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-openjdk-amd64 :: env_operation,()
+wget ¦-O¦/var/otp/graphs/chicago/cta.zip¦http://www.transitchicago.com/downloads/sch_data/google_transit.zip :: Dependencies_operation,()
+java ¦-Xmx8G¦-jar¦/var/otp/otp.jar¦--build¦/var/otp/graphs/chicago :: Other_operation,()
+mkdir ¦-p¦/var/otp/scripting :: Filesystem_operation,()
+wget ¦-O¦/var/otp/graphs/chicago/metra.zip¦http://transitfeeds.com/p/metra/169/latest/download :: Dependencies_operation,()
+rm ¦/var/otp/graphs/chicago/wisconsin.osm.pbf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/var/otp/graphs/chicago/illinois-metra.pbf :: Filesystem_operation,()
+OTP_GRAPHS:/var/otp/graphs :: env_operation,()
+from,debian@sid
+wget ¦-O¦/var/otp/jython.jar¦http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.7.0/jython-standalone-2.7.0.jar :: Dependencies_operation,()
+osmosis ¦--read-pbf¦file=/var/otp/graphs/chicago/illinois-metra.pbf¦--read-pbf¦file=/var/otp/graphs/chicago/kenosha-metra.pbf¦--merge¦--write-pbf¦/var/otp/graphs/chicago/chicago-metra.pbf :: Other_operation,()
+rm ¦/var/otp/graphs/chicago/illinois.osm.pbf :: Filesystem_operation,()
+apt-get ¦install¦-y¦openjdk-8-jre¦wget¦osmosis :: Dependencies_operation,()
+wget ¦-O¦/var/otp/otp.jar¦http://maven.conveyal.com.s3.amazonaws.com/org/opentripplanner/otp/0.19.0/otp-0.19.0-shaded.jar :: Dependencies_operation,()
+wget ¦-O¦/var/otp/graphs/chicago/illinois.osm.pbf¦http://download.geofabrik.de/north-america/us/illinois-latest.osm.pbf :: Dependencies_operation,()
+entrypoint,java¦-Xmx6G¦-Xverify:none¦-cp¦/var/otp/otp.jar:/var/otp/jython.jar¦org.opentripplanner.standalone.OTPMain
+OTP_BASE:/var/otp :: env_operation,()
+expose,8081
+wget ¦-O¦/var/otp/graphs/chicago/wisconsin.osm.pbf¦http://download.geofabrik.de/north-america/us/wisconsin-latest.osm.pbf :: Dependencies_operation,()
+wget ¦-O¦/var/otp/graphs/chicago/pace.zip¦http://www.pacebus.com/gtfs/gtfs.zip :: Dependencies_operation,()
+mkdir ¦-p¦/var/otp :: Filesystem_operation,()
+cmd,--help

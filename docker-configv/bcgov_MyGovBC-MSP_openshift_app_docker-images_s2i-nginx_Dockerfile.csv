@@ -1,0 +1,8 @@
+./s2i/bin//tmp/s2i/bin :: copy_operation,()
+nginx.conf.template/tmp/ :: copy_operation,()
+chmod ¦-R¦0777¦/tmp¦/var¦/run¦/etc¦/mnt :: Permissions_operation,()
+from,nginx@mainline
+expose,8080
+104 :: user_operation,()
+default.conf/etc/nginx/conf.d/ :: copy_operation,()
+io.openshift.s2i.scripts-url:image:///tmp/s2i/bin :: label_operation,()

@@ -1,0 +1,21 @@
+setup.sh/setup.sh :: add_operation,()
+add-apt-repository ¦ppa:ubuntugis/ubuntugis-unstable :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦0755¦/setup.sh :: Permissions_operation,()
+cmd,/start.sh
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦qgis-mapserver :: Dependencies_operation,()
+from,ubuntu:12.04
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+apt-get ¦install¦-y¦python-software-properties :: Dependencies_operation,()
+start.sh/start.sh :: add_operation,()
+apt-get ¦-y¦install¦ca-certificates¦socat¦openssh-server¦supervisor :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+chmod ¦0755¦/start.sh :: Permissions_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+expose,80
+echo ¦echo¦'root:qgis-server' | chpasswd :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+/setup.sh  :: Other_operation,()
+sshd.conf/etc/supervisor/conf.d/sshd.conf :: add_operation,()

@@ -1,0 +1,12 @@
+autoreconf ¦-i :: Other_operation,()
+/updater/aria2 :: workdir_operation,()
+ARIA2_STATIC=yes ¦./configure¦--without-libxml2¦--without-libexpat¦--without-sqlite3¦--disable-ssl¦--enable-libaria2¦--without-zlib¦--without-libcares¦--enable-static=yes :: Other_operation,()
+apt-get ¦install¦-y¦autoconf¦gettext¦libcppunit-dev¦libtool¦libgcrypt11-dev¦libxml2-dev¦pkgconf :: Dependencies_operation,()
+qmake ¦-config¦release :: Other_operation,()
+PATH=/opt/Qt5.8-static-release/bin:$PATH: :: env_operation,()
+./updater :: copy_operation,()
+from,freeslave/qt5-base-static:5.8.0-1
+make ¦-j`nproc` :: Build_Execute_operation,()
+make ¦clean :: Build_Execute_operation,()
+cmd,cp¦updater¦/build-docker
+/updater :: workdir_operation,()

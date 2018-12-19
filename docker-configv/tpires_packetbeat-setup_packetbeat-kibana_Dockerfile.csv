@@ -1,0 +1,20 @@
+rm ¦kibana-3.1.0-packetbeat.tar.gz :: Filesystem_operation,()
+tar ¦xzvf¦v0.2.1.tar.gz :: Filesystem_operation,()
+rm ¦v0.2.1.tar.gz :: Filesystem_operation,()
+apt-get ¦-y¦-q¦install¦curl¦libpcap0.8¦python2.7-dev :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ln ¦-s¦/usr/bin/python2.7¦/usr/bin/python :: Filesystem_operation,()
+cd ¦/opt :: Filesystem_operation,()
+/opt/kibana-3.1.0-packetbeat/ :: workdir_operation,()
+sed ¦'s/main$/main¦universe/'¦-i¦/etc/apt/sources.list :: Filesystem_operation,()
+curl ¦-L¦-O¦https://github.com/packetbeat/dashboards/archive/v0.2.1.tar.gz :: Dependencies_operation,()
+cmd,/bin/bash¦-c¦/launch.sh
+expose,8000
+curl ¦-L¦-O¦https://github.com/packetbeat/kibana/releases/download/v3.1.0-pb/kibana-3.1.0-packetbeat.tar.gz :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+HOME:/opt/kibana-3.1.0-packetbeat :: env_operation,()
+launch.sh/launch.sh :: add_operation,()
+from,ubuntu:14.04
+ES_HOST:localhost :: env_operation,()
+tar ¦-xzvf¦kibana-3.1.0-packetbeat.tar.gz :: Filesystem_operation,()

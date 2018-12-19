@@ -1,0 +1,9 @@
+bundle ¦install :: Dependencies_operation,()
+expose,5000
+/hired_or_fired/services/ipa :: workdir_operation,()
+cmd,bundle¦exec¦rackup¦--host¦0.0.0.0¦-p¦5000
+from,ubuntu:14.04
+apt-get ¦install¦-y¦ruby¦ruby-dev :: Dependencies_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+./hired_or_fired/services/ipa :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

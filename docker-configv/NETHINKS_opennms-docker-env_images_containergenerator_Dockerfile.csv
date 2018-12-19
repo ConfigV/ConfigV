@@ -1,0 +1,9 @@
+LANG:${build_locale}.utf8 :: env_operation,()
+yum ¦install¦-y¦openssh-server.x86_64¦openssh-clients.x86_64¦python35u.x86_64¦python35u-pip.noarch¦python35u-devel.x86_64¦gcc.x86_64¦openssl-devel.x86_64¦#¦install¦Python¦3.5¦modules :: Dependencies_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+yum ¦install¦-y¦https://centos7.iuscommunity.org/ius-release.rpm :: Dependencies_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+from,centos:7.3

@@ -1,0 +1,8 @@
+rm ¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+from,pritunl/archlinux
+cmd,/usr/bin/nginx
+APP="[app:name]" :: env_operation,()
+pacman ¦-S¦sudo¦git¦nginx¦--noconfirm :: Filesystem_operation,()
+chown ¦-R¦http:http¦/srv/http :: Permissions_operation,()
+git ¦clone¦git://"${REPO}"/"${APP}".git¦/srv/http/"${APP}" :: Dependencies_operation,()

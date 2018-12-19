@@ -1,0 +1,13 @@
+ln ¦-s¦/etc/nginx/sites-available/phpapp¦/etc/nginx/sites-enabled/phpapp :: Filesystem_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦mysql-server :: Dependencies_operation,()
+apt-get ¦install¦php5¦php5-cli¦php5-fpm¦php5-curl¦php5-common¦php5-gd¦php5-mysql :: Dependencies_operation,()
+chmod ¦a+x¦/usr/local/bin/symfony :: Permissions_operation,()
+apt-get ¦install¦wget¦curl¦sqlite3¦nginx¦vim¦-y¦--force-yes :: Dependencies_operation,()
+nginxfile/etc/nginx/sites-available/phpapp :: add_operation,()
+/usr/src/symfony :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/usr/src/symfony :: Filesystem_operation,()
+mv ¦symfony.phar¦/usr/local/bin/symfony :: Filesystem_operation,()
+curl ¦-LsS¦http://symfony.com/installer¦>¦symfony.phar :: Dependencies_operation,()
+rm ¦/etc/nginx/sites-enabled/defaults :: Filesystem_operation,()

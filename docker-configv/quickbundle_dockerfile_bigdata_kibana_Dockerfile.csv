@@ -1,0 +1,13 @@
+wget ¦--no-check-certificate¦https://github.com/elasticsearch/kibana/archive/v3.0.0milestone5.tar.gz¦-O¦pkg.tar.gz :: Dependencies_operation,()
+from,mycrypt/debian
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦wget¦nginx-full :: Other_operation,()
+chmod ¦+x¦/usr/local/bin/run :: Permissions_operation,()
+run.sh/usr/local/bin/run :: add_operation,()
+expose,80
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+cp ¦-rf¦./*¦/usr/share/nginx/www/ :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+tar ¦zxf¦pkg.tar.gz :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦kibana-* :: Filesystem_operation,()

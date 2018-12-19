@@ -1,0 +1,11 @@
+from,ubuntu:12.04
+apt-get ¦-y¦install¦nodejs¦git¦supervisor¦python-pip :: Dependencies_operation,()
+pip ¦install¦supervisor-stdout :: Dependencies_operation,()
+./statsd_config.js/var/lib/statsd/config.js :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+expose,8126
+cmd,/usr/bin/node¦/var/lib/statsd/stats.js¦/var/lib/statsd/config.js
+git ¦clone¦https://github.com/etsy/statsd.git¦/var/lib/statsd :: Dependencies_operation,()
+./supervisor_config.conf/etc/supervisor/conf.d/supervisor.conf :: add_operation,()

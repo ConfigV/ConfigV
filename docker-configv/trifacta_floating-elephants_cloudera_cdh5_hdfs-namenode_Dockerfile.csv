@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+start.sh/opt/hadoop-docker/ :: copy_operation,()
+service ¦hadoop-hdfs-namenode¦init :: Build_Execute_operation,()
+from,trifacta/ubuntu-cdh5-base
+chown ¦-R¦hdfs:hdfs¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/name :: Permissions_operation,()
+cmd,/opt/hadoop-docker/start.sh
+conf.skeleton/etc/hadoop/conf.docker_cluster :: copy_operation,()
+mkdir ¦-p¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/name :: Filesystem_operation,()
+expose,50470
+apt-get ¦install¦-y¦hadoop-hdfs-namenode :: Dependencies_operation,()

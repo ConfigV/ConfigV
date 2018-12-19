@@ -1,0 +1,9 @@
+POSTGIS_MAJOR:2.2 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+PGROUTING_VERSION:2.0.0-5.pgdg80+1 :: env_operation,()
+POSTGIS_VERSION:2.2.1+dfsg-2.pgdg80+1 :: env_operation,()
+apt-get ¦install¦-y¦postgresql-9.5-postgis-${POSTGIS_MAJOR}=${POSTGIS_VERSION} :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+from,postgres:9.5
+apt-get ¦install¦-y¦postgresql-9.5-pgrouting=${PGROUTING_VERSION} :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

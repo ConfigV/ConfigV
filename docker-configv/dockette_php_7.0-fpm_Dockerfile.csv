@@ -1,0 +1,10 @@
+ln ¦-s¦/etc/php/mods-available/devstack.ini¦/etc/php/7.0/fpm/conf.d/999-devstack.ini :: Filesystem_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+cmd,php-fpm7.0¦-F
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/var/lib/log/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦autoclean¦-y :: Dependencies_operation,()
+fpm/php-fpm.conf/etc/php/7.0/fpm/php-fpm.conf :: add_operation,()
+apt-get ¦install¦-y¦php7.0-fpm :: Dependencies_operation,()
+from,dockette/php:7

@@ -1,0 +1,14 @@
+cd ¦/root :: Filesystem_operation,()
+CLONE_URL="":BRANCH="master" :: env_operation,()
+from,debian@jessie
+/var/www/html :: workdir_operation,()
+mkdir ¦-p¦/root/.ssh :: Filesystem_operation,()
+cmd,/root/run.sh
+.//root/ :: add_operation,()
+/var/www/html :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+find ¦.¦-name¦"run.sh"¦-exec¦chmod¦+x¦{}; :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+ssh-keyscan ¦github.com¦>>¦/root/.ssh/known_hosts :: Other_operation,()
+ssh-keyscan ¦bitbucket.org¦>>¦/root/.ssh/known_hosts :: Other_operation,()

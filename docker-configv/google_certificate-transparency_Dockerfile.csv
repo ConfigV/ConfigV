@@ -1,0 +1,16 @@
+cpp/server/ct-server/usr/local/bin/ :: copy_operation,()
+mkdir ¦/mnt/ctlog :: Filesystem_operation,()
+apt-get ¦install¦-qqy¦ca-certificates¦etcdctl¦libevent-core-2.0.5¦libevent-extra-2.0.5¦libevent-pthreads-2.0.5¦libgflags2¦libgoogle-glog0¦libjson-c2¦libldns1¦libprotobuf8 :: Dependencies_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+from,ubuntu
+useradd ¦-r¦-g¦ctlog¦ctlog :: Permissions_operation,()
+/mnt/ctlog :: volume_operation,()
+echo ¦echo¦'Building new SuperDuper Docker image...' :: Filesystem_operation,()
+test/testdata/ca-cert.pem/tmp/ :: copy_operation,()
+apt-add-repository ¦-y¦ppa:jbboehr/coreos :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+update-ca-certificates  :: Other_operation,()
+test/testdata/ct-server-key.pem/usr/local/etc/ :: copy_operation,()
+expose,6962
+cat ¦/etc/ssl/certs/*¦/tmp/ca-cert.pem¦>¦/usr/local/etc/ctlog_ca_roots.pem :: Filesystem_operation,()
+groupadd ¦-r¦ctlog :: Permissions_operation,()

@@ -1,0 +1,14 @@
+/home/bazel :: workdir_operation,()
+from,mikeneck/jdk8
+apt-get ¦clean :: Dependencies_operation,()
+useradd ¦-m¦-g¦build¦bazel :: Permissions_operation,()
+BAZEL_BIN=/home/bazel/bin: :: env_operation,()
+PATH=$PATH:$BAZEL_BIN: :: env_operation,()
+apt-get ¦install¦-y¦pkg-config¦g++¦zlib1g-dev :: Dependencies_operation,()
+groupadd ¦-r¦build :: Permissions_operation,()
+cmd,/bin/bash
+chmod ¦700¦bazel-install.sh :: Permissions_operation,()
+curl ¦-L¦https://github.com/bazelbuild/bazel/releases/download/0.1.0/bazel-0.1.0-installer-linux-x86_64.sh¦-o¦bazel-install.sh :: Dependencies_operation,()
+bazel :: user_operation,()
+rm ¦bazel-install.sh :: Filesystem_operation,()
+./bazel-install.sh ¦--user :: Other_operation,()

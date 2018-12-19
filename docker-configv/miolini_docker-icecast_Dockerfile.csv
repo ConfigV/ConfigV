@@ -1,0 +1,12 @@
+/root :: workdir_operation,()
+etc/icecast2/etc/icecast2 :: add_operation,()
+rm ¦-rf¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+from,ubuntu@trusty
+start.sh/usr/local/bin/start.sh :: add_operation,()
+apt-get ¦-qy¦install¦icecast2¦nginx :: Dependencies_operation,()
+etc/nginx_broadcast.conf/etc/nginx/sites-enabled/broadcast.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chown ¦-R¦icecast2¦/etc/icecast2 :: Permissions_operation,()
+cmd,start.sh
+rm ¦-rf¦/etc/icecast2 :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/start.sh :: Permissions_operation,()

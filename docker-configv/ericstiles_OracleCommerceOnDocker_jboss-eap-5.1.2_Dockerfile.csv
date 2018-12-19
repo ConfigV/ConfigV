@@ -1,0 +1,23 @@
+AUTHORIZED_KEYS:**None** :: env_operation,()
+mkdir ¦$BASE_DIR :: Filesystem_operation,()
+yum ¦-y¦install¦unzip :: Dependencies_operation,()
+chmod ¦777¦$BASE_DIR :: Permissions_operation,()
+yum ¦-y¦install¦wget :: Dependencies_operation,()
+BASE_TMP_INSTALL:/tmp :: env_operation,()
+LOCAL_SCRIPTS:scripts :: env_operation,()
+chmod ¦a+x¦$BASE_TMP_INSTALL/jdk-6u38-linux-x64-rpm.bin* :: Permissions_operation,()
+$LOCAL_TOOLS/jboss-eap-5.1.2.zip$BASE_TMP_INSTALL/jboss-eap-5.1.2.zip :: add_operation,()
+JDK_URL:http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-x64-rpm.bin :: env_operation,()
+expose,8080
+unzip ¦-q¦$BASE_TMP_INSTALL/jboss-eap-5.1.2.zip¦-d¦$BASE_DIR :: Filesystem_operation,()
+rm ¦-rf¦$BASE_TMP_INSTALL/* :: Filesystem_operation,()
+source ¦$BASE_TMP_INSTALL/modsudoers.sh :: Environment_operation,()
+ln ¦-s¦$BASE_DIR/jboss-eap-5.1.2¦$BASE_DIR/jboss :: Filesystem_operation,()
+LOCAL_TOOLS:tools :: env_operation,()
+BASE_DIR:/appl :: env_operation,()
+wget ¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦-P¦/tmp¦$JDK_URL :: Dependencies_operation,()
+$BASE_TMP_INSTALL/jdk-6u38-linux-x64-rpm.bin*  :: Other_operation,()
+from,tutum/centos:centos5
+$LOCAL_SCRIPTS/modsudoers.sh$BASE_TMP_INSTALL/modsudoers.sh :: add_operation,()
+cmd,/run.sh
+yum ¦-y¦install¦sudo :: Dependencies_operation,()

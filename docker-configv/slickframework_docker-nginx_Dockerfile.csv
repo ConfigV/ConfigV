@@ -1,0 +1,14 @@
+mv ¦/etc/nginx_extras¦/etc/nginx :: Filesystem_operation,()
+pip ¦install¦--upgrade¦pip¦virtualenv :: Dependencies_operation,()
+mkdir ¦-p¦/etc/nginx/sites-enabled :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+etc/etc/nginx_extras :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦--no-install-recommends¦-y¦-q¦build-essential¦curl¦python2.7¦python2.7-dev¦python-pip :: Other_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦clean :: Dependencies_operation,()
+from,nginx@latest
+apt-get ¦update¦-y :: Dependencies_operation,()
+rm ¦-rf¦/etc/nginx :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+entrypoint.sh/ :: copy_operation,()
+pip ¦install¦Jinja2 :: Dependencies_operation,()

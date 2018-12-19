@@ -1,0 +1,7 @@
+git ¦clone¦https://github.com/pdcbc/viz.git¦-b¦${RELEASE}¦.;¦npm¦config¦set¦python¦/usr/bin/python2.7;¦npm¦install;¦chown¦-R¦app:app¦/app/ :: Dependencies_operation,()
+RELEASE:0.1.7 :: env_operation,()
+/app/ :: workdir_operation,()
+cmd,/sbin/my_init
+from,phusion/passenger-nodejs
+apt-get ¦update;¦apt-get¦install¦-y¦python2.7¦git;¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+echo ¦mkdir¦-p /etc/service/app/; ( echo "#!/bin/bash"; echo "#"; echo "set -e -o nounset"; echo ""; echo ""; echo "# Environment variables"; echo "#"; echo "export PORT=\\${PORT_VIZ:-3004}"; echo "export PORT_VIZ_HTTP=\\${PORT_VIZ:-3008}"; echo "... :: Filesystem_operation,()

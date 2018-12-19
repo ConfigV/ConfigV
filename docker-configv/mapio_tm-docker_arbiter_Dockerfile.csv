@@ -1,0 +1,10 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,/app/bin/gunicorn¦startail
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-qy¦libevent-1.4¦realpath :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,dockerfile/python
+./app :: add_operation,()
+/app :: workdir_operation,()
+expose,8000
+pip ¦install¦gunicorn¦gevent¦flask :: Dependencies_operation,()

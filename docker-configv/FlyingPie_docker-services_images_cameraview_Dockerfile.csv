@@ -1,0 +1,12 @@
+PASSWORD:$PASSWORD :: env_operation,()
+expose,80
+USERNAME:$USERNAME :: env_operation,()
+./protect-and-run.sh/protect-and-run.sh :: add_operation,()
+cmd,/protect-and-run.sh
+apt-get ¦update :: Dependencies_operation,()
+cat ¦/apache2.conf¦>>¦/etc/apache2/sites-enabled/000-default.conf :: Filesystem_operation,()
+from,tutum/apache-php
+apt-get ¦install¦-y¦apache2-utils :: Dependencies_operation,()
+./app/app :: add_operation,()
+./apache2.conf/apache2.conf :: add_operation,()
+/ :: workdir_operation,()

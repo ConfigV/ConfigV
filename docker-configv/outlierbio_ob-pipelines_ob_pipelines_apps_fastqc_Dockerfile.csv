@@ -1,0 +1,10 @@
+chmod ¦777¦/FastQC/fastqc :: Permissions_operation,()
+entrypoint,s3wrap¦fastqc
+PATH:/FastQC:$PATH :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-pip :: Dependencies_operation,()
+unzip ¦/fastqc_v0.11.5.zip :: Filesystem_operation,()
+from,openjdk:8.0
+pip ¦install¦git+https://github.com/outlierbio/ob-pipelines :: Dependencies_operation,()
+http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip/ :: add_operation,()
+pip ¦install¦boto3 :: Dependencies_operation,()

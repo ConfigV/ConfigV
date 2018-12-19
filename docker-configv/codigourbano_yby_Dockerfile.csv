@@ -1,0 +1,14 @@
+apk ¦add¦ca-certificates¦file¦git¦su-exec¦tini¦imagemagick :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/cache/apk/* :: Filesystem_operation,()
+./src :: copy_operation,()
+yarn ¦install :: Other_operation,()
+update-ca-certificates  :: Other_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apk ¦-U¦upgrade :: Dependencies_operation,()
+npm ¦install¦-g¦yarn¦nodemon :: Dependencies_operation,()
+from,node:6.0
+entrypoint,/entrypoint.sh
+/src :: workdir_operation,()
+cmd,node¦web.js
+expose,3000

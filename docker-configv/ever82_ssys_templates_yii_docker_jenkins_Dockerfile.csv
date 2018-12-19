@@ -1,0 +1,16 @@
+entrypoint,/usr/local/bin/dockerjenkins.sh
+JENKINS_HOME:/opt/jenkins/data :: env_operation,()
+echo ¦echo¦deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list :: Filesystem_operation,()
+expose,8080
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,ubuntu:14.04
+mkdir ¦-p¦$JENKINS_HOME/plugins :: Filesystem_operation,()
+./dockerjenkins.sh/usr/local/bin/dockerjenkins.sh :: add_operation,()
+apt-get ¦install¦-qqy¦curl :: Dependencies_operation,()
+curl ¦https://get.docker.io/gpg¦|¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦iptables¦ca-certificates¦lxc¦openjdk-6-jdk¦git-core¦lxc-docker :: Dependencies_operation,()
+JENKINS_MIRROR:http://mirrors.jenkins-ci.org :: env_operation,()
+curl ¦-sf¦-o¦/opt/jenkins/jenkins.war¦-L¦$JENKINS_MIRROR/war-stable/latest/jenkins.war :: Dependencies_operation,()
+for ¦plugin¦in¦chucknorris¦greenballs¦scm-api¦git-client¦git¦ws-cleanup¦;\\ :: Other_operation,()
+/var/lib/docker :: volume_operation,()
+REFRESHED_AT:2014-06-01 :: env_operation,()

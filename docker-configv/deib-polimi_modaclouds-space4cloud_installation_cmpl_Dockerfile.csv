@@ -1,0 +1,17 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+id_rsa$USERHOME/.ssh/id_rsa :: copy_operation,()
+expose,22
+curl ¦-OL¦http://www.coliop.org/_download/Cmpl-1-10-0-linux64.tar.gz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+Cmpl :: workdir_operation,()
+apt-get ¦install¦-y¦libglib2.0-0¦openssh-server¦curl :: Dependencies_operation,()
+$USERHOME :: workdir_operation,()
+bash ¦install :: Build_Execute_operation,()
+tar ¦zxf¦Cmpl-1-10-0-linux64.tar.gz :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+.. :: workdir_operation,()
+/tmp :: workdir_operation,()
+id_rsa.pub$USERHOME/.ssh/id_rsa.pub :: copy_operation,()
+USERHOME:/root :: env_operation,()
+from,ubuntu:14.04
+rm ¦-rf¦Cmpl* :: Filesystem_operation,()

@@ -1,0 +1,14 @@
+/var/run/docker.sock :: volume_operation,()
+cmd,/usr/sbin/sshd¦-D
+NOTVISIBLE:"in :: env_operation,()
+echo ¦echo¦"export LANG=\\"C.UTF-8\\"" >> /root/.bashrc :: Filesystem_operation,()
+from,ubuntu@latest
+expose,22
+apt-get ¦install¦-y¦docker.io¦mc¦nano¦openssh-server :: Dependencies_operation,()
+sed ¦-i¦'s/PermitRootLogin¦prohibit-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'root:secretpw' | chpasswd :: Filesystem_operation,()
+/srv :: volume_operation,()

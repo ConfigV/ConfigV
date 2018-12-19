@@ -1,0 +1,10 @@
+my.cnf/etc/mysql/ :: copy_operation,()
+apk-install ¦mysql :: Dependencies_operation,()
+mkdir ¦-p¦/var/lib/mysql :: Filesystem_operation,()
+/etc/mysql/conf.d/ :: volume_operation,()
+entrypoint,mysqld
+cmd,--skip-grant-tables
+from,gliderlabs/alpine:3.1
+/var/lib/mysql :: volume_operation,()
+expose,3306
+mkdir ¦-p¦/etc/mysql/conf.d :: Filesystem_operation,()

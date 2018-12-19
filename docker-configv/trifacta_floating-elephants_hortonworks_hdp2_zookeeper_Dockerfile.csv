@@ -1,0 +1,20 @@
+mkdir ¦-p¦/var/run/zookeeper :: Filesystem_operation,()
+from,trifacta/ubuntu-hdp2-base
+chmod ¦a+x¦/etc/zookeeper/conf/ :: Permissions_operation,()
+chmod ¦-R¦755¦/var/run/zookeeper :: Permissions_operation,()
+mkdir ¦-p¦/var/log/zookeeper :: Filesystem_operation,()
+files/*/etc/zookeeper/conf/ :: copy_operation,()
+chown ¦-R¦zookeeper:hadoop¦/var/log/zookeeper :: Permissions_operation,()
+chown ¦-R¦zookeeper:hadoop¦/var/run/zookeeper :: Permissions_operation,()
+chown ¦-R¦zookeeper:hadoop¦/var/lib/zookeeper :: Permissions_operation,()
+chmod ¦-R¦755¦/var/log/zookeeper :: Permissions_operation,()
+chmod ¦-R¦755¦/etc/zookeeper :: Permissions_operation,()
+usermod ¦-s¦/bin/bash¦zookeeper :: Permissions_operation,()
+mkdir ¦-p¦/var/lib/zookeeper :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chown ¦-R¦zookeeper:hadoop¦/etc/zookeeper :: Permissions_operation,()
+chmod ¦-R¦755¦/var/lib/zookeeper :: Permissions_operation,()
+start.sh/opt/zookeeper/start.sh :: copy_operation,()
+cmd,/opt/zookeeper/start.sh
+apt-get ¦install¦zookeeper :: Dependencies_operation,()
+expose,2181

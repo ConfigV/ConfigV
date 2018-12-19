@@ -1,0 +1,7 @@
+echo ¦echo¦"JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> /etc/default/tomcat7 :: Filesystem_operation,()
+cmd,service¦tomcat7¦start¦&&¦tail¦-F¦/var/lib/tomcat7/logs/catalina.out
+apt-get ¦--quiet¦update :: Dependencies_operation,()
+expose,8080
+from,kurron/java:1.8.0.05
+apt-get ¦--quiet¦--yes¦dist-upgrade :: Dependencies_operation,()
+apt-get ¦--quiet¦--yes¦install¦tomcat7 :: Dependencies_operation,()

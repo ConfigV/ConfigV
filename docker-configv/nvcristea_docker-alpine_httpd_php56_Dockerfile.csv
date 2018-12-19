@@ -1,0 +1,12 @@
+PHP_MAX_POST:100M :: env_operation,()
+apk ¦add¦--update¦--no-cache¦curl¦apache2¦php5-apache2¦php5-cli¦php5-json¦php5-soap¦php5-mcrypt¦php5-curl¦php5-phar :: Dependencies_operation,()
+httpd-extra.conf/etc/apache2/conf.d/ :: copy_operation,()
+httpd-foreground.sh/usr/local/bin/httpd-foreground :: copy_operation,()
+expose,80
+adduser ¦-u¦82¦-D¦-S¦-G¦www-data¦www-data :: Permissions_operation,()
+addgroup ¦-g¦82¦-S¦www-data :: Permissions_operation,()
+echo ¦sed¦-i 's#^DocumentRoot ".*#DocumentRoot "/var/www/html"#g' /etc/apache2/httpd.conf && sed -i 's#AllowOverride None#AllowOverride All#' /etc/apache2/httpd.conf && sed -i 's/^#ServerName.*/ServerName httpd-php56.dev/' /etc/apache2/httpd.con... :: Filesystem_operation,()
+PHP_MEMORY_LIMIT:512M :: env_operation,()
+from,enkas/alpine:3.5
+cmd,httpd-foreground
+set ¦-x :: Environment_operation,()

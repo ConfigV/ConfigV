@@ -1,0 +1,9 @@
+./target/ingestion-api/opt/ingestion-api/ :: add_operation,()
+./docker/ingestion-api-supervisor.conf/etc/supervisor/conf.d/ :: add_operation,()
+/logs :: volume_operation,()
+expose,9000 15001
+from,relateiq/oracle-java8
+apt-get ¦install¦-y¦supervisor :: Dependencies_operation,()
+./config/opt/ingestion-api/config :: add_operation,()
+./docker/supervisord.conf/etc/supervisor/supervisord.conf :: add_operation,()
+cmd,/bin/sh¦-c¦"/usr/bin/supervisord¦-c¦/etc/supervisor/supervisord.conf¦;¦while¦true¦;¦do¦/usr/bin/supervisorctl¦;¦done"

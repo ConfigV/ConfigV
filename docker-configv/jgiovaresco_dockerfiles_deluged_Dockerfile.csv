@@ -1,0 +1,16 @@
+apt-get ¦install¦-y¦--no-install-recommends¦libssl1.0.0¦deluged¦deluge-console¦unrar¦unzip¦p7zip :: Dependencies_operation,()
+deluge :: user_operation,()
+expose,58846
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦775¦-R¦/var/log/deluge¦/config¦/downloads :: Permissions_operation,()
+core.conf/home/deluge/core.conf :: add_operation,()
+from,jgiovaresco/debian-with-dockerize:latest
+auth.tmpl/home/deluge/auth.tmpl :: add_operation,()
+/downloads :: volume_operation,()
+mkdir ¦/var/log/deluge¦/config¦/downloads :: Filesystem_operation,()
+useradd ¦--gid¦downloads¦deluge :: Permissions_operation,()
+/config :: volume_operation,()
+groupadd ¦--gid¦1002¦downloads :: Permissions_operation,()
+cmd,dockerize¦¦-template¦/home/deluge/core.conf:/config/core.conf¦¦-template¦/home/deluge/auth.tmpl:/config/auth¦¦-stdout¦/var/log/deluge/deluge.log¦¦deluged¦-d¦--config¦/config¦-l¦/var/log/deluge/deluge.log¦-L¦warning
+chown ¦deluge:downloads¦/var/log/deluge¦/config¦/downloads :: Permissions_operation,()

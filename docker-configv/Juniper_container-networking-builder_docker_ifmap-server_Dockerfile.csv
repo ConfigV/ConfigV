@@ -1,0 +1,11 @@
+entrypoint,/entrypoint.sh
+ifmap-server_0.3.2-1contrail1_all.deb/var/cache/apt/archives/ :: copy_operation,()
+dpkg ¦--configure¦ifmap-server :: Dependencies_operation,()
+entrypoint.sh/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"control-node:control-node" >> /etc/ifmap-server/basicauthusers.properties :: Filesystem_operation,()
+dpkg ¦--unpack¦/var/cache/apt/archives/ifmap-server_0.3.2-1contrail1_all.deb :: Dependencies_operation,()
+rm ¦/var/lib/dpkg/info/ifmap-server.postinst¦-f :: Filesystem_operation,()
+from,java:7.0
+apt-get ¦install¦-y¦libcommons-codec-java¦libhttpcore-java¦liblog4j1.2-java :: Dependencies_operation,()
+chmod ¦a+x¦/entrypoint.sh :: Permissions_operation,()

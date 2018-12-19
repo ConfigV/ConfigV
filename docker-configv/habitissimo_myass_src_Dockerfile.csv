@@ -1,0 +1,16 @@
+/code/ :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+chmod ¦+x¦/docker-entrypoint.sh :: Permissions_operation,()
+runserver.py/code/ :: add_operation,()
+pip ¦install¦-r¦requirements-dev.txt :: Dependencies_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+entrypoint,/docker-entrypoint.sh
+cmd,gunicorn¦runserver:app¦-b¦0.0.0.0:5001¦--log-file=-¦--log-level=info¦-w=5¦--timeout=900
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦mysql-client :: Dependencies_operation,()
+requirements.txt/code/ :: add_operation,()
+myaas/code/myaas/ :: add_operation,()
+from,python:3.0
+requirements-dev.txt/code/ :: add_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: add_operation,()

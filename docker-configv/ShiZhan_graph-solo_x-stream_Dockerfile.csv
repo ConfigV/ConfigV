@@ -1,0 +1,16 @@
+apt-get ¦update :: Dependencies_operation,()
+cmd,/sbin/init
+mkdir ¦bin :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+unzip ¦9cf34b3415219bdcf41c67c0881b28b6fd1beb90.zip :: Filesystem_operation,()
+rm ¦9cf34b3415219bdcf41c67c0881b28b6fd1beb90.zip :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦zlib1g-dev¦unzip¦build-essential¦libboost-dev¦libboost-system-dev¦libboost-program-options-dev¦libboost-thread-dev :: Dependencies_operation,()
+cd ¦x-stream-9cf34b3415219bdcf41c67c0881b28b6fd1beb90 :: Filesystem_operation,()
+from,phusion/baseimage:0.9.19
+make ¦install :: Build_Execute_operation,()
+/datasets :: workdir_operation,()
+wget ¦https://github.com/epfl-labos/x-stream/archive/9cf34b3415219bdcf41c67c0881b28b6fd1beb90.zip :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+/datasets :: volume_operation,()
+mkdir ¦object_files :: Filesystem_operation,()

@@ -1,0 +1,9 @@
+startup.sh/usr/bin/startup.sh :: add_operation,()
+chmod ¦+x¦/usr/bin/startup.sh :: Permissions_operation,()
+from,ubuntu:14.04
+echo ¦apt-get¦update -qq && apt-get install -y --no-install-recommends apt-transport-https software-properties-common wget && sh -c "wget -qO- - https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -" && add-apt-repository -y "deb [ar... :: Filesystem_operation,()
+cmd,/usr/bin/startup.sh
+dpkg-reconfigure ¦locales :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+GALAXY_USER=galaxyGALAXY_UID=1450GALAXY_GID=1450GALAXY_HOME=/home/galaxyEXPORT_DIR=/exportLC_ALL=en_US.UTF-8LANG=en_US.UTF-8: :: env_operation,()
+locale-gen ¦$LANG :: Other_operation,()

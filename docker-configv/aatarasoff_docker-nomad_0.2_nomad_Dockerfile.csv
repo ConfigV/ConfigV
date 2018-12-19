@@ -1,0 +1,11 @@
+https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VERSION}_linux_amd64.zip/tmp/nomad.zip :: add_operation,()
+NOMAD_SHA256:a47881efc148cc37a8c94fb120c1d198371b9124e92668e8fc0badddef99cc2a :: env_operation,()
+expose,4648
+apk ¦--update¦add¦curl¦ca-certificates :: Dependencies_operation,()
+curl ¦-Ls¦https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk¦>¦/tmp/glibc-2.21-r2.apk :: Dependencies_operation,()
+from,alpine:3.2
+entrypoint,/bin/nomad
+apk ¦add¦--allow-untrusted¦/tmp/glibc-2.21-r2.apk :: Dependencies_operation,()
+echo ¦echo¦"${NOMAD_SHA256} /tmp/nomad.zip" > /tmp/nomad.sha256 && sha256sum -c /tmp/nomad.sha256 && cd /bin && unzip /tmp/nomad.zip && chmod +x /bin/nomad && rm /tmp/nomad.zip :: Filesystem_operation,()
+rm ¦-rf¦/tmp/glibc-2.21-r2.apk¦/var/cache/apk/* :: Filesystem_operation,()
+NOMAD_VERSION:0.2.1 :: env_operation,()

@@ -1,0 +1,20 @@
+chmod ¦+x¦${FISHEYE_HOME}/start.sh :: Permissions_operation,()
+LANG:C.UTF-8 :: env_operation,()
+FISHEYE_HOME:/opt/atlassian/crucible :: env_operation,()
+chmod ¦+x¦${FISHEYE_HOME}/configure.sh :: Permissions_operation,()
+start.sh${FISHEYE_HOME}/ :: add_operation,()
+./configure.sh  :: Other_operation,()
+cmd,./bin/run.sh
+from,staci/base:0.1
+echo ¦echo¦"atlassian:praqma" | chpasswd :: Filesystem_operation,()
+${FISHEYE_HOME}/ :: workdir_operation,()
+chmod ¦-R¦700¦"${FISHEYE_INST}"&&¦chmod¦-R¦700¦"${FISHEYE_HOME}"&&¦chown¦-R¦atlassian:atlassian¦"${FISHEYE_INST}"&&¦chown¦-R¦atlassian:atlassian¦"${FISHEYE_HOME}" :: Permissions_operation,()
+FECRU_VERSION:3.10.1 :: env_operation,()
+atlassian:atlassian :: user_operation,()
+${FISHEYE_INST} :: volume_operation,()
+expose,8060
+/opt/atlassian/ :: workdir_operation,()
+FISHEYE_INST:/var/atlassian/crucible :: env_operation,()
+configure.sh${FISHEYE_HOME}/ :: add_operation,()
+useradd ¦-u¦1000¦-ms¦/bin/bash¦atlassian :: Permissions_operation,()
+wget ¦"http://www.atlassian.com/software/crucible/downloads/binary/crucible-${FECRU_VERSION}.zip"¦-O¦crucible-${FECRU_VERSION}.zip&&¦unzip¦crucible-${FECRU_VERSION}.zip&&¦mv¦fecru-${FECRU_VERSION}¦crucible&&¦mkdir¦-p¦${FISHEYE_INST}/crucible :: Dependencies_operation,()

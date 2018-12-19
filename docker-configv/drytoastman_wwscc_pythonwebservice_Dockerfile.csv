@@ -1,0 +1,8 @@
+apk ¦del¦buildreq :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--virtual¦buildreq¦g++¦gcc¦musl-dev¦linux-headers¦libffi-dev¦jpeg-dev¦postgresql-dev :: Dependencies_operation,()
+from,python:3.6
+./tmp/app :: copy_operation,()
+pip ¦install¦--no-cache-dir¦-r¦/tmp/requirements.txt :: Dependencies_operation,()
+requirements.txt/tmp :: copy_operation,()
+pip ¦install¦/tmp/app :: Dependencies_operation,()
+apk ¦add¦--no-cache¦libpq¦libstdc++ :: Dependencies_operation,()

@@ -1,0 +1,18 @@
+from,php:5.6
+docker-php-ext-install ¦gd¦mbstring¦mysql¦pdo_mysql¦zip :: Other_operation,()
+OXWALL_VERSION:1.8.0 :: env_operation,()
+/var/www/html/ :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,php-fpm
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/usr/src :: Filesystem_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+curl ¦-fsSL¦-o¦oxwall.zip¦"http://www.oxwall.org/dl/oxwall-$OXWALL_VERSION.zip" :: Dependencies_operation,()
+unzip ¦oxwall.zip :: Filesystem_operation,()
+rm ¦oxwall.zip :: Filesystem_operation,()
+mkdir ¦-p¦/usr/src/oxwall :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+php.ini/usr/local/etc/php/php.ini :: copy_operation,()
+mv ¦oxwall.zip¦/usr/src :: Filesystem_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-y¦cron¦libjpeg-dev¦libfreetype6-dev¦libpng12-dev¦ssmtp¦zip :: Dependencies_operation,()

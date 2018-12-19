@@ -1,0 +1,18 @@
+entrypoint,/usr/bin/java¦-jar¦/tron.jar
+export ¦LEIN_ROOT=ok :: Environment_operation,()
+resources/app/resources/ :: add_operation,()
+wget ¦https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein :: Dependencies_operation,()
+from,openjdk:8.0
+rm ¦-rf¦app :: Filesystem_operation,()
+cd ¦/app :: Filesystem_operation,()
+cp ¦target/uberjar/tron-*-standalone.jar¦/tron.jar :: Filesystem_operation,()
+project.clj/app/ :: add_operation,()
+chmod ¦+x¦lein :: Permissions_operation,()
+expose,3000 4000 54657
+src/app/src/ :: add_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+rm ¦-rf¦~/.m2 :: Filesystem_operation,()
+mv ¦lein¦/usr/local/bin :: Filesystem_operation,()
+lein ¦do¦clean,¦compile,¦test,¦uberjar :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()
+test/app/test/ :: add_operation,()

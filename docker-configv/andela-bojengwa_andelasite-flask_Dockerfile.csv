@@ -1,0 +1,17 @@
+entrypoint,usr/bin/mongod
+PYTHONUNBUFFERED:1 :: env_operation,()
+apt-get ¦install¦-y¦mongodb-org :: Dependencies_operation,()
+cd ¦/code :: Filesystem_operation,()
+easy_install ¦pip :: Dependencies_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+expose,5000
+from,python:2.7
+apt-get ¦update :: Dependencies_operation,()
+./code/ :: add_operation,()
+mkdir ¦/code :: Filesystem_operation,()
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list :: Filesystem_operation,()
+ls  :: Filesystem_operation,()
+pip ¦install¦virtualenvwrapper :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦7F0CEB10 :: Dependencies_operation,()
+pip ¦install¦-r¦/code/requirements.txt :: Dependencies_operation,()
+requirements.txt/code/requirements.txt :: add_operation,()

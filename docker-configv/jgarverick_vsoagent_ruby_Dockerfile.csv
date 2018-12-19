@@ -1,0 +1,17 @@
+vsoservice :: user_operation,()
+chown ¦-R¦vsoservice¦/opt/vsoagent :: Permissions_operation,()
+echo ¦echo¦"vsoservice\\nvsoservice\\n\\n\\n\\n\\n\\n\\n" | adduser vsoservice :: Filesystem_operation,()
+/opt/vsoagent :: workdir_operation,()
+curl ¦-L¦--insecure¦https://www.npmjs.org/install.sh¦|¦bash :: Dependencies_operation,()
+mkdir ¦/opt/vsoagent :: Filesystem_operation,()
+vsoagent-installer  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+npm ¦install¦-g¦vsoagent-installer¦grunt¦bower¦grunt-cli¦jake¦yo¦gulp¦grunt-cli :: Dependencies_operation,()
+mkdir ¦/opt/vsoagent/_work :: Filesystem_operation,()
+apt-get ¦install¦-y¦nodejs-legacy¦git¦cmake :: Dependencies_operation,()
+echo ¦echo¦"deb http://ftp.us.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list :: Filesystem_operation,()
+su ¦vsoservice :: Other_operation,()
+from,ruby
+agent.config/opt/vsoagent/agent/.agent :: copy_operation,()
+/opt/vsoagent/agent :: workdir_operation,()
+entrypoint,/bin/bash

@@ -1,0 +1,12 @@
+scripts/elasticsearch.yml${ELASTICSEARCH_HOME}/config/elasticsearch.yml :: copy_operation,()
+tar ¦xzf¦oshp.tar.gz :: Filesystem_operation,()
+chown ¦-R¦elasticsearch:elasticsearch¦oshp/ :: Permissions_operation,()
+ELASTICSEARCH_HOME:/usr/share/elasticsearch :: env_operation,()
+from,elasticsearch:2.4
+${ELASTICSEARCH_HOME} :: workdir_operation,()
+cd ¦repo/ :: Filesystem_operation,()
+scripts/setup_elasticsearch.sh${ELASTICSEARCH_HOME}/repo/setup_elasticsearch.sh :: copy_operation,()
+rm ¦oshp.tar.gz :: Filesystem_operation,()
+PACKAGE:https://dl.dropboxusercontent.com/u/6427240/oshp.tar.gz :: env_operation,()
+curl ¦-o¦${ELASTICSEARCH_HOME}/repo/oshp.tar.gz¦${PACKAGE} :: Dependencies_operation,()
+mkdir ¦-p¦repo/oshp :: Filesystem_operation,()

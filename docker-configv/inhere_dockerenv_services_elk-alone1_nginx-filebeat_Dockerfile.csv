@@ -1,0 +1,17 @@
+REFRESHED_AT:2016-11-04 :: env_operation,()
+chmod ¦+x¦/usr/local/bin/start.sh :: Permissions_operation,()
+rm ¦/var/log/nginx/access.log¦/var/log/nginx/error.log :: Filesystem_operation,()
+filebeat.yml/etc/filebeat/filebeat.yml :: add_operation,()
+logstash-beats.crt/etc/pki/tls/certs/logstash-beats.crt :: add_operation,()
+html/usr/share/nginx/html :: copy_operation,()
+mkdir ¦-p¦/etc/pki/tls/certs :: Filesystem_operation,()
+apt-get ¦install¦-qqy¦curl :: Dependencies_operation,()
+curl ¦-L¦-O¦https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${FILEBEAT_VERSION}-amd64.deb :: Dependencies_operation,()
+FILEBEAT_VERSION:5.0.0 :: env_operation,()
+from,nginx
+apt-get ¦update¦-qq :: Dependencies_operation,()
+dpkg ¦-i¦filebeat-${FILEBEAT_VERSION}-amd64.deb :: Dependencies_operation,()
+./start.sh/usr/local/bin/start.sh :: add_operation,()
+rm ¦filebeat-${FILEBEAT_VERSION}-amd64.deb :: Filesystem_operation,()
+cmd,/usr/local/bin/start.sh
+apt-get ¦clean :: Dependencies_operation,()

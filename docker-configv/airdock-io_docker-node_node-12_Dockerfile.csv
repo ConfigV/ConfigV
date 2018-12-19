@@ -1,0 +1,9 @@
+/srv/node :: workdir_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+entrypoint,node
+/srv/node :: volume_operation,()
+expose,80 443
+from,airdock/base:latest
+/root/post-install  :: Other_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_0.12¦|¦bash¦- :: Dependencies_operation,()
+cmd,--version

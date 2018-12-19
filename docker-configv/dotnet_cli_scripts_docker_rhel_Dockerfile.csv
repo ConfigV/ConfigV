@@ -1,0 +1,11 @@
+${USER_ID} :: user_operation,()
+USER_ID=0 :: arg_operation,()
+yum ¦install¦-y¦https://www.sudo.ws/sudo/dist/packages/RHEL/7/sudo-1.8.20-3.el7.x86_64.rpm :: Dependencies_operation,()
+echo ¦echo¦'code_executor ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+chmod ¦4755¦/usr/bin/sudo :: Permissions_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+chown ¦root:root¦/usr/bin/sudo :: Permissions_operation,()
+chmod ¦-R¦a+rwx¦/usr/local :: Permissions_operation,()
+from,microsoft/dotnet-buildtools-prereqs:rhel-7-rpmpkg-c982313-20174116044113
+/opt/code :: workdir_operation,()
+chmod ¦-R¦a+rwx¦/home :: Permissions_operation,()

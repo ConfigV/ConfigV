@@ -1,0 +1,10 @@
+unzip ¦/tmp/MonoFiddler-v4484.zip :: Filesystem_operation,()
+entrypoint,mono¦/app/Fiddler.exe
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦pgp.mit.edu¦--recv-keys¦3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦unzip :: Dependencies_operation,()
+curl ¦-O¦http://ericlawrence.com/dl/MonoFiddler-v4484.zip :: Dependencies_operation,()
+from,debian@wheezy
+echo ¦echo¦"deb http://download.mono-project.com/repo/debian wheezy/snapshots/3.12.0 main" > /etc/apt/sources.list.d/mono-xamarin.list && apt-get update && apt-get install -y mono-devel ca-certificates-mono fsharp mono-vbnc nuget && rm -rf /var/... :: Filesystem_operation,()

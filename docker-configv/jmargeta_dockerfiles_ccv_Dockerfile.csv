@@ -1,0 +1,17 @@
+from,ubuntu:14.04
+entrypoint,/opt/ccv/serve/ccv
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+apt-get ¦install¦libdispatch-dev¦-y :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦install¦build-essential¦wget¦-y :: Dependencies_operation,()
+make ¦all :: Build_Execute_operation,()
+/opt/ccv/lib/configure  :: Other_operation,()
+git ¦clone¦https://github.com/liuliu/ccv.git :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦libev-dev¦-y :: Dependencies_operation,()
+cd ¦/opt :: Filesystem_operation,()
+cd ¦/opt/ccv/test :: Filesystem_operation,()
+cd ¦/opt/ccv/lib :: Filesystem_operation,()
+cd ¦/opt/ccv/serve :: Filesystem_operation,()
+/opt/ccv/serve/ :: workdir_operation,()
+apt-get ¦install¦automake¦git¦clang¦-y :: Dependencies_operation,()

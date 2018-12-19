@@ -1,0 +1,14 @@
+dnf ¦-y¦clean¦all¦; :: Dependencies_operation,()
+entrypoint,/usr/bin/perl
+./Configure ¦-de¦-Dprefix=/usr¦-Dman1dir=none¦-Dman3dir=none¦-Doptimize='-O3¦-march=native¦-pipe¦-fPIC' :: Other_operation,()
+cmd,-d¦-E¦42
+cd ¦.. :: Filesystem_operation,()
+dnf ¦-y¦clean¦all :: Dependencies_operation,()
+dnf ¦-y¦install¦tar¦coreutils¦gcc¦bison¦byacc¦make¦procps-ng :: Dependencies_operation,()
+curl ¦http://www.cpan.org/src/5.0/perl-5.22.0.tar.gz¦|¦gzip¦-dc¦|¦tar¦xf¦- :: Dependencies_operation,()
+rm ¦-rf¦perl-5.22.0 :: Filesystem_operation,()
+make ¦all¦install¦distclean :: Build_Execute_operation,()
+cd ¦perl-5.22.0 :: Filesystem_operation,()
+/var/tmp :: workdir_operation,()
+from,fedora@latest
+/usr/bin/h2ph ¦-r¦-l; :: Other_operation,()

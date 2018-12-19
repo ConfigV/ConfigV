@@ -1,0 +1,11 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦-y¦install¦ubuntu-cloud-keyring :: Dependencies_operation,()
+pip ¦install¦python-openstackclient==2.6.0 :: Dependencies_operation,()
+pip ¦install¦python-memcached :: Dependencies_operation,()
+cloud-config/usr/local/bin/ :: add_operation,()
+from,ubuntu:14.04
+apt-get ¦-y¦dist-upgrade¦&&\\ :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+pip ¦install¦pytz :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/cloud-config :: Permissions_operation,()
+echo ¦echo¦"deb http://ubuntu-cloud.archive.canonical.com/ubuntu" "trusty-updates/mitaka main" > /etc/apt/sources.list.d/cloudarchive-mitaka.list :: Filesystem_operation,()

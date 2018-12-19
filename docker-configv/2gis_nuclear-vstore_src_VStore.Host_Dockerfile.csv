@@ -1,0 +1,8 @@
+/app :: workdir_operation,()
+AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID: :: env_operation,()
+expose,5000
+entrypoint,./VStore.Host
+from,docker-hub.2gis.ru/microsoft/dotnet:1.1.1-runtime-deps
+ASPNETCORE_URLS:http://*:5000 :: env_operation,()
+AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY: :: env_operation,()
+.. :: copy_operation,()

@@ -1,0 +1,11 @@
+chmod ¦u+x¦/entrypoint.sh :: Permissions_operation,()
+apt-get ¦install¦--yes¦git¦curl¦wget¦npm :: Dependencies_operation,()
+mkdir ¦/home/developer :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+npm ¦install¦--global¦bower :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ln ¦--symbolic¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+rm ¦--recursive¦--force¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+entrypoint.sh/ :: copy_operation,()
+from,ubuntu@trusty

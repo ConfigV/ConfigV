@@ -1,0 +1,16 @@
+cd ¦osrm-backend :: Filesystem_operation,()
+osrm-contract ¦dc-baltimore_maryland.osrm :: Other_operation,()
+cmake ¦--build¦.¦--target¦install :: Build_Execute_operation,()
+./osm-files :: add_operation,()
+cmake ¦--build¦. :: Build_Execute_operation,()
+cmd,osrm-routed¦--max-trip-size¦500¦osm-files/dc-baltimore_maryland.osrm
+wget ¦https://s3.amazonaws.com/metro-extracts.mapzen.com/dc-baltimore_maryland.osm.pbf :: Dependencies_operation,()
+from,ubuntu:16.04
+cmake ¦.. :: Build_Execute_operation,()
+git ¦clone¦https://github.com/Project-OSRM/osrm-backend :: Dependencies_operation,()
+mkdir ¦-p¦build :: Filesystem_operation,()
+cd ¦build :: Filesystem_operation,()
+osrm-extract ¦dc-baltimore_maryland.osm.pbf¦-p¦../osrm-backend/profiles/bicycle.lua :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦ca-certificates¦build-essential¦git¦cmake¦pkg-config¦libbz2-dev¦libstxxl-dev¦libstxxl1v5¦libxml2-dev¦libzip-dev¦libboost-all-dev¦lua5.2¦liblua5.2-dev¦libtbb-dev¦wget :: Dependencies_operation,()
+cd ¦osm-files :: Filesystem_operation,()

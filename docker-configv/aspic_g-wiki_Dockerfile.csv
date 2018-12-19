@@ -1,0 +1,10 @@
+mkdir ¦/app :: Filesystem_operation,()
+GOBIN:$GOPATH/bin :: env_operation,()
+expose,8080
+go ¦build¦-o¦main¦. :: Build_Execute_operation,()
+./app/ :: add_operation,()
+GOPATH:/app :: env_operation,()
+from,golang@latest
+/app :: workdir_operation,()
+go ¦get¦. :: Build_Execute_operation,()
+entrypoint,/app/entrypoint.sh

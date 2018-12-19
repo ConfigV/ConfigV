@@ -1,0 +1,12 @@
+./go/src/github.com/openshift/origin :: add_operation,()
+cp ¦_output/local/go/bin/*¦/usr/bin/ :: Filesystem_operation,()
+/go/src/github.com/openshift/origin :: workdir_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+PATH:$PATH:$GOROOT/bin:$GOPATH/bin :: env_operation,()
+yum ¦install¦-y¦golang :: Dependencies_operation,()
+hack/build-go.sh  :: Other_operation,()
+expose,8080
+go ¦get¦github.com/openshift/origin :: Build_Execute_operation,()
+from,openshift/origin-base
+entrypoint,/usr/bin/openshift

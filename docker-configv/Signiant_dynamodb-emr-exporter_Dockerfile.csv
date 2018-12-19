@@ -1,0 +1,11 @@
+app/./ :: copy_operation,()
+apk ¦-Uuv¦add¦coreutils¦bash¦groff¦py-pip¦ca-certificates :: Dependencies_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+entrypoint,./invokeEMR.sh
+apk ¦--purge¦-v¦del¦py-pip :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+chmod ¦a+x¦* :: Permissions_operation,()
+from,python:2.7
+pip ¦install¦awscli :: Dependencies_operation,()
+/app :: workdir_operation,()

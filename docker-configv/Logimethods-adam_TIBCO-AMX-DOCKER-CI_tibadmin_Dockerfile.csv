@@ -1,0 +1,10 @@
+TIB_TIBCOAdmin_*.zip/tmp/install/ :: add_operation,()
+unzip ¦/tmp/install/TIB_TIBCOAdmin_*.zip¦-d¦/tmp/install/tibadmin/ :: Filesystem_operation,()
+/bin/bash ¦/tmp/install/tibadmin/TIBCOUniversalInstaller-lnx-*.bin¦-silent¦-is:javahome¦/usr/lib/jvm/java-7-openjdk-amd64/jre/ :: Build_Execute_operation,()
+entrypoint,/opt/tibco/docker-entrypoint.sh
+sed ¦-i¦'s/<entry¦key="environmentName">.*<\\/entry>/<entry¦key="environmentName">DockerEnvironment<\\/entry>/g'¦/tmp/install/tibadmin/TIBCOUniversalInstaller_TIBCOAdmin_*.silent :: Filesystem_operation,()
+rm ¦-rf¦/tmp/install/tibadmin¦/tmp/install/TIB_TIBCOAdmin_*.zip¦&& :: Filesystem_operation,()
+sed ¦-i¦'s/<entry¦key="feature_Documentation_TIBCOAdmin">.*<\\/entry>/<entry¦key="feature_Documentation_TIBCOAdmin">false<\\/entry>/g'¦/tmp/install/tibadmin/TIBCOUniversalInstaller_TIBCOAdmin_*.silent :: Filesystem_operation,()
+docker-entrypoint.sh/opt/tibco/docker-entrypoint.sh :: add_operation,()
+from,tibtra:5.1
+expose,8080

@@ -1,0 +1,17 @@
+cmd,npm¦start
+from,nodesource/trusty-base
+rm ¦node.deb :: Filesystem_operation,()
+NODE_VERSION:4.2.1 :: env_operation,()
+dpkg ¦-i¦node.deb :: Dependencies_operation,()
+apt-get ¦upgrade¦-y¦--force-yes :: Dependencies_operation,()
+REPOSITORTY_URL: :: env_operation,()
+cd ¦srv :: Filesystem_operation,()
+mkdir ¦srv :: Filesystem_operation,()
+APP_DIR_NAME: :: env_operation,()
+REPOSITORTY_BRANCH: :: env_operation,()
+curl ¦"https://deb.nodesource.com/node_4.x/pool/main/n/nodejs/nodejs_$NODE_VERSION-1nodesource1~trusty1_amd64.deb"¦>¦node.deb :: Dependencies_operation,()
+npm ¦install¦-g¦pangyp\\ :: Dependencies_operation,()
+npm ¦install¦-g¦forever :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*; :: Filesystem_operation,()
+NODE_ENV:production :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()

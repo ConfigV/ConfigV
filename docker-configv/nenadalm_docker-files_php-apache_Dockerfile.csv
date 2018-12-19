@@ -1,0 +1,8 @@
+configuration/ :: copy_operation,()
+rm ¦/etc/httpd/conf.d/welcome.conf :: Filesystem_operation,()
+yum ¦upgrade¦-y :: Dependencies_operation,()
+cmd,/usr/sbin/apachectl¦-D¦FOREGROUND
+yum ¦install¦-y¦httpd :: Dependencies_operation,()
+from,nenadalm@php
+expose,80
+ln ¦/opt/phpfarm/inst/current/bin/php-cgi¦/var/www/cgi-bin/php-cgi :: Filesystem_operation,()

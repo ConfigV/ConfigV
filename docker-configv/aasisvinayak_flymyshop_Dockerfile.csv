@@ -1,0 +1,22 @@
+php5enmod ¦gd :: Other_operation,()
+docker/000-default.conf/etc/apache2/sites-enabled/000-default.conf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'s/variables_order¦=¦.*/variables_order¦=¦"EGPCS"/'¦/etc/php5/apache2/php.ini :: Filesystem_operation,()
+docker/docker.env/var/www/html/.env :: copy_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+docker/entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-yapache2-binlibapache2-mod-php5php5-curlphp5-ldapphp5-mysqlphp5-mcryptphp5-gdpatchcurlnanovimgitmysql-client :: Dependencies_operation,()
+echo ¦echo¦export APACHE_RUN_GROUP=staff >> /etc/apache2/envvars :: Filesystem_operation,()
+a2ensite ¦001-default-ssl.conf :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+php5enmod ¦mcrypt :: Other_operation,()
+useradd ¦--uid¦1000¦--gid¦50¦docker :: Permissions_operation,()
+sed ¦-i¦'s/variables_order¦=¦.*/variables_order¦=¦"EGPCS"/'¦/etc/php5/cli/php.ini :: Filesystem_operation,()
+cd ¦/var/www/html;composer¦install :: Filesystem_operation,()
+/var/www/html :: workdir_operation,()
+expose,80
+chown ¦-R¦docker¦/var/www/html :: Permissions_operation,()
+from,ubuntu@trusty
+./var/www/html :: copy_operation,()
+cd ¦/tmp;curl¦-sS¦https://getcomposer.org/installer¦|¦php;mv¦/tmp/composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+entrypoint,/entrypoint.sh

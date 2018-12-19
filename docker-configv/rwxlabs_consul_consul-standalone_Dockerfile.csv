@@ -1,0 +1,10 @@
+rm ¦/tmp/webui.zip :: Filesystem_operation,()
+DNS_RESOLVES:consul :: env_operation,()
+entrypoint,/opt/consul/bin/consul¦agent¦-server¦-config-dir=/opt/consul/config
+unzip ¦webui.zip¦-d¦/opt/consul/ui :: Filesystem_operation,()
+https://releases.hashicorp.com/consul/0.6.0/consul_0.6.0_web_ui.zip/tmp/webui.zip :: add_operation,()
+expose,8300 8301 8301 8302 8302 8400 8500 8600 8600
+from,ldejager/consul:latest
+./config/opt/consul/config/ :: add_operation,()
+DNS_PORT:53 :: env_operation,()
+cd ¦/tmp :: Filesystem_operation,()

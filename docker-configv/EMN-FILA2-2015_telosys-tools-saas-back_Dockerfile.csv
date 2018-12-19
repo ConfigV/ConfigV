@@ -1,0 +1,13 @@
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+apt-get ¦-y¦install¦oracle-java8-installer :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+update-java-alternatives ¦-s¦java-8-oracle :: Other_operation,()
+target/telosys-tools-saas-*.jar~/telosys-tools-saas.jar :: add_operation,()
+add-apt-repository ¦ppa:webupd8team/java¦-y :: Dependencies_operation,()
+cmd,java¦-jar¦~/telosys-tools-saas.jar
+apt-get ¦-y¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦-q¦python-software-properties¦software-properties-common :: Other_operation,()
+from,ubuntu:14.04
+echo ¦echo¦"export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+cmd,/home/golang/build.sh
+GOPATH=$WORKDIR/: :: env_operation,()
+WORKDIR=/home/$LOCAL_USER: :: env_operation,()
+$WORKDIR :: workdir_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+LOCAL_GROUP=golang: :: env_operation,()
+from,debian@jessie
+PATH=$PATH:$WORKDIR/go/bin:$GOROOT/bin: :: env_operation,()
+LOCAL_USER=golang: :: env_operation,()
+apt-get ¦install¦-y¦git¦curl :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+resources/build.sh$WORKDIR/build.sh :: add_operation,()
+GOROOT=$WORKDIR/go: :: env_operation,()

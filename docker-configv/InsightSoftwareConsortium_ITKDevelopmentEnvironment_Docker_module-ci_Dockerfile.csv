@@ -1,0 +1,12 @@
+cmake ¦-G¦Ninja¦-DCMAKE_BUILD_TYPE:STRING=MinSizeRel¦-DBUILD_TESTING:BOOL=OFF¦-DBUILD_SHARED_LIBS:BOOL=ON¦-DITK_USE_SYSTEM_EXPAT:BOOL=ON¦-DITK_USE_SYSTEM_JPEG:BOOL=ON¦-DITK_USE_SYSTEM_PNG:BOOL=ON¦-DITK_USE_SYSTEM_TIFF:BOOL=ON¦-DITK_USE_SYSTEM_ZLI... :: Build_Execute_operation,()
+echo ¦echo¦'http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && apk update && apk add curl cmake expat-dev g++ jpeg-dev libpng-dev ninja tiff-dev zlib-dev :: Filesystem_operation,()
+ninja  :: Other_operation,()
+git ¦clone¦https://github.com/InsightSoftwareConsortium/ITK.git :: Dependencies_operation,()
+from,docker:17.06
+mkdir ¦ITK-build :: Filesystem_operation,()
+rm ¦-rf¦.git :: Filesystem_operation,()
+git ¦checkout¦${ITK_VERSION} :: Dependencies_operation,()
+cd ¦ITK :: Filesystem_operation,()
+ITK_VERSION:ed702da240b4984ce61684bf078cab7bb8301acc :: env_operation,()
+find ¦.¦-name¦'*.o'¦-delete :: Filesystem_operation,()
+cd ¦ITK-build :: Filesystem_operation,()

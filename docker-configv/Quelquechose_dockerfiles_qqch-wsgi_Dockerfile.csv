@@ -1,0 +1,20 @@
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/*¦/build :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cp ¦-R¦/build/overrides/.¦/¦||¦: :: Filesystem_operation,()
+./build :: add_operation,()
+/build/init/00_fixmount  :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦git¦libxml2-dev¦python¦build-essential¦python-dev¦python-pip¦python-virtualenv¦libxslt1-dev¦libjpeg-turbo8-dev¦libjpeg8-dev¦libpq-dev¦libgif-dev¦libgif4¦apache2-mpm-prefork¦mysql-client¦libapache2-mod-wsgi :: Dependencies_operation,()
+cp ¦-R¦/build/init/.¦/etc/my_init.d/¦|| : :: Filesystem_operation,()
+LANGUAGE:fr_FR.UTF-8 :: env_operation,()
+mkdir ¦-p¦/build :: Filesystem_operation,()
+update-locale ¦LANG=fr_FR.UTF-8 :: Other_operation,()
+cmd,/sbin/my_init
+from,qqch/http:latest
+expose,80
+apt-get ¦clean :: Dependencies_operation,()
+cp ¦-R¦/build/runit/.¦/etc/service/¦||¦: :: Filesystem_operation,()
+LC_ALL:fr_FR.UTF-8 :: env_operation,()
+/build/prepare_wsgi.sh  :: Other_operation,()
+LANG:fr_FR.UTF-8 :: env_operation,()

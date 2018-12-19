@@ -1,0 +1,19 @@
+LC_ALL:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦wget :: Other_operation,()
+/var/lib/postgresql :: volume_operation,()
+cmd,/sbin/my_init
+apt-get ¦update :: Dependencies_operation,()
+FIRST_RUN_LOCK:/etc/postgresql/9.3/main/firstrun.lock :: env_operation,()
+from,phusion/baseimage
+LANG:en_US.UTF-8 :: env_operation,()
+touch ¦$FIRST_RUN_LOCK :: Filesystem_operation,()
+mkdir ¦/etc/service/postgresql :: Filesystem_operation,()
+sed ¦-i¦-e"s/^#listen_addresses¦=.*$/listen_addresses¦=¦'*'/"¦/etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+chmod ¦755¦/etc/service/postgresql/run :: Permissions_operation,()
+run.sh/etc/service/postgresql/run :: add_operation,()
+expose,5432
+wget ¦--quiet¦-O¦-¦https://www.postgresql.org/media/keys/ACCC4CF8.asc¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+echo ¦echo¦'#!/bin/sh' "\\nexit 0" > /usr/sbin/policy-rc.d :: Filesystem_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list && apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get install -y --forc... :: Filesystem_operation,()

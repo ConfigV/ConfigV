@@ -1,0 +1,19 @@
+rm ¦-f¦/etc/apache2/sites-enabled/000* :: Filesystem_operation,()
+ln ¦-s¦/etc/apache2/sites-available/001-owncloud.conf¦/etc/apache2/sites-enabled/ :: Filesystem_operation,()
+./openssl.cnf/etc/apache2/ssl/openssl.cnf :: add_operation,()
+a2enmod ¦ssl :: Other_operation,()
+from,debian
+mkdir ¦-p¦/etc/apache2/ssl :: Filesystem_operation,()
+curl ¦-k¦https://download.owncloud.org/community/owncloud-8.1.1.tar.bz2¦|¦tar¦jx¦-C¦/var/www/ :: Dependencies_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+./001-owncloud.conf/etc/apache2/sites-available/ :: add_operation,()
+mkdir ¦/var/www/owncloud/data :: Filesystem_operation,()
+expose,443
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/bin/bash¦/opt/startup.sh
+./startup.sh/opt/startup.sh :: add_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦apache2¦php5¦php5-gd¦php-xml-parser¦php5-intl¦php5-mysqlnd¦php5-json¦php5-mcrypt¦php-apc¦smbclient¦curl¦libcurl3¦php5-curl¦bzip2¦wget¦openssl :: Dependencies_operation,()
+openssl ¦req¦-new¦-x509¦-config¦/etc/apache2/ssl/openssl.cnf¦-days¦1095¦-newkey¦rsa:2048¦-nodes¦-out¦/etc/apache2/ssl/owncloud.crt¦-keyout¦/etc/apache2/ssl/owncloud.key :: Other_operation,()
+chown ¦-R¦www-data:www-data¦/var/www/owncloud :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()

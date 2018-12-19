@@ -1,0 +1,16 @@
+UT2004_DOWNLOAD_SHA1:e1eda562d99e66a7e5972f05bbf0de8733bf60c9 :: env_operation,()
+/usr/src/ut2004/System :: workdir_operation,()
+UT2004_DOWNLOAD_URL:http://gameservermanagers.com/files/ut2004/dedicatedserver3339-bonuspack.zip :: env_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+from,debian@jessie
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+UT2004_PATCH_DOWNLOAD_URL:http://gameservermanagers.com/files/ut2004/ut2004-lnxpatch3369-2.tar.bz2 :: env_operation,()
+expose,7777 7778 7787 28902 80
+cmd,ucc-bin-linux-amd64¦server¦DM-Morpheus3?game=XGame.xDeathMatch?AdminName=myname?AdminPassword=mypass¦ini=UT2004.ini¦-nohomedir
+entrypoint,/entrypoint.sh
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+PATH=$PATH:/usr/src/ut2004/System: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦mkdir¦-p /usr/src/ut2004 && curl -SL "$UT2004_DOWNLOAD_URL" -o ut2004.zip && echo "$UT2004_DOWNLOAD_SHA1 ut2004.zip" | sha1sum -c - && curl -SL "$UT2004_PATCH_DOWNLOAD_URL" -o ut2004_patch.tar.bz2 && echo "$UT2004_PATCH_DOWNLOAD_SHA1 ut200... :: Filesystem_operation,()
+UT2004_PATCH_DOWNLOAD_SHA1:a8cc33877a02a0a09c288b5fc248efde282f7bdf :: env_operation,()
+apt-get ¦install¦-y¦curl¦ca-certificates¦lib32gcc1¦libstdc++5¦libstdc++5:i386¦libstdc++6¦libstdc++6:i386¦libsdl1.2debian¦bzip2¦unzip :: Dependencies_operation,()

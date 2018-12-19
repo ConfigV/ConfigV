@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+cmd,/tmp/startup.sh
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,jimt/ubuntu:12.04
+sources.list/etc/apt/sources.list :: add_operation,()
+startup.sh/tmp/startup.sh :: add_operation,()
+expose,80
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+apt-get ¦install¦-y¦apache2-mpm-worker¦libapache2-mod-fastcgi :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

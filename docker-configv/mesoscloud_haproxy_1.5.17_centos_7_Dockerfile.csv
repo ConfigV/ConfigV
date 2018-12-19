@@ -1,0 +1,8 @@
+from,centos:7.0
+cmd,python3¦-u¦/init.py
+HAPROXY_PEM:/etc/haproxy/site.pem :: env_operation,()
+yum ¦install¦-y¦epel-release¦&&yum¦install¦-y¦gcc¦make¦openssl-devel¦pcre-devel¦python34¦&&curl¦-fLO¦https://bootstrap.pypa.io/get-pip.py¦&&python3¦get-pip.py¦&&rm¦get-pip.py :: Dependencies_operation,()
+mkdir ¦-p¦/etc/haproxy :: Filesystem_operation,()
+init.py/ :: copy_operation,()
+pip3 ¦install¦kazoo :: Dependencies_operation,()
+yum ¦install¦-y¦openssl :: Dependencies_operation,()

@@ -1,0 +1,21 @@
+start.sh/ :: add_operation,()
+echo ¦echo¦"c.FileNotebookManager.notebook_dir = u'/ipy'" >> /root/.ipython/profile_default/ipython_notebook_config.py :: Filesystem_operation,()
+notebook.conf/etc/supervisor/conf.d/notebook.conf :: add_operation,()
+/ipy :: volume_operation,()
+cmd,supervisord¦-n¦-c¦/etc/supervisor/supervisord.conf
+HOME:/root :: env_operation,()
+pip ¦install¦pip¦--upgrade :: Dependencies_operation,()
+pip ¦install¦pyzmq==14.0.1 :: Dependencies_operation,()
+pip ¦install¦markdown==2.3.1 :: Dependencies_operation,()
+mkdir ¦/ipy :: Filesystem_operation,()
+ipython ¦profile¦create :: Other_operation,()
+apt-get ¦-yq¦install¦python-dev :: Dependencies_operation,()
+apt-get ¦-yq¦install¦git :: Dependencies_operation,()
+apt-get ¦-yq¦install¦pandoc¦python¦supervisor¦wget¦python-pip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦tornado==3.2 :: Dependencies_operation,()
+pip ¦install¦git+https://github.com/ipython/ipython.git@a8dcf064dda56a7cd91929ea3d644010a6636047#egg=ipython :: Dependencies_operation,()
+pip ¦install¦pygments==1.6 :: Dependencies_operation,()
+from,ubuntu:13.1
+expose,8888
+pip ¦install¦jinja2==2.7.2 :: Dependencies_operation,()

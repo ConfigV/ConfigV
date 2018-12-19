@@ -1,0 +1,14 @@
+cmd,/usr/bin/java¦-Xmx1024m¦-DSTOP.PORT=55101¦-DSTOP.KEY=stop-jetty-solr¦-jar¦start.jar
+apt-get ¦install¦-qy¦wget¦openjdk-7-jre :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+SOLRPATH:/usr/local/apache-solr-3.6.2/example :: env_operation,()
+from,debian@latest
+tar ¦-xvf¦apache-solr-3.6.2.tgz¦-C¦/usr/local :: Filesystem_operation,()
+apt-get ¦-qy¦purge¦wget :: Dependencies_operation,()
+rm ¦apache-solr-3.6.2.tgz :: Filesystem_operation,()
+conf/solr$SOLRPATH/solr/conf/ :: copy_operation,()
+wget ¦http://archive.apache.org/dist/lucene/solr/3.6.2/apache-solr-3.6.2.tgz :: Dependencies_operation,()
+$SOLRPATH :: workdir_operation,()
+expose,8983
+apt-get ¦update¦-qy :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()

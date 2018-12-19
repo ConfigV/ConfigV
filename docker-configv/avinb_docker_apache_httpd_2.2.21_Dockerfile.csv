@@ -1,0 +1,20 @@
+HTTPD_PREFIX:/usr/local/apache2 :: env_operation,()
+set ¦-x :: Environment_operation,()
+cmd,httpd-foreground
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+HTTPD_VERSION:2.2.21 :: env_operation,()
+HTTPD_BZ2_URL:https://archive.apache.org/dist/httpd/httpd-$HTTPD_VERSION.tar.bz2 :: env_operation,()
+buildDeps=' ¦¦bzip2¦¦ca-certificates¦¦gcc¦¦libpcre++-dev¦¦libssl-dev¦¦make¦¦wget¦' :: Other_operation,()
+rm ¦-r¦/var/lib/apt/lists/*¦\\ :: Filesystem_operation,()
+$HTTPD_PREFIX :: workdir_operation,()
+httpd-foreground/usr/local/bin/ :: copy_operation,()
+chmod ¦ugo+x¦/usr/local/bin/httpd-foreground :: Permissions_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦libapr1¦¦libaprutil1¦¦libaprutil1-ldap¦¦libapr1-dev¦¦libaprutil1-dev¦¦libpcre++0¦¦libssl1.0.0 :: Dependencies_operation,()
+PATH:$HTTPD_PREFIX/bin:$PATH :: env_operation,()
+mkdir ¦-p¦"$HTTPD_PREFIX" :: Filesystem_operation,()
+from,debian@jessie
+expose,80
+chown ¦www-data:www-data¦"$HTTPD_PREFIX" :: Permissions_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦$buildDeps :: Dependencies_operation,()
+HTTPD_SHA1:c02f9b05da9a7e316ff37d9053dc76a57ba51cb4 :: env_operation,()

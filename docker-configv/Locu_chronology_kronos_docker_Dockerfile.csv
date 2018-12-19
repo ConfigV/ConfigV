@@ -1,0 +1,12 @@
+chronology/kronos/requirements.txt/requirements.txt :: copy_operation,()
+sudo ¦pip¦install¦-r¦/requirements.txt :: Other_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+mkdir ¦-p¦/home/kronos :: Filesystem_operation,()
+from,ubuntu:14.04
+python ¦setup.py¦install :: Build_Execute_operation,()
+apt-get ¦install¦-y¦build-essential¦libevent-dev¦libpcre3-dev¦python-all-dev¦python-pip¦python2.7¦supervisor¦uuid-dev¦wget :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/bin/supervisord
+/chronology/kronos :: workdir_operation,()
+chronology/chronology :: copy_operation,()
+chown ¦-R¦kronos:kronos¦/home/kronos :: Permissions_operation,()

@@ -1,0 +1,17 @@
+pip ¦install¦-r¦/var/www/mqtt-rest/requirements.txt :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/www/* :: Filesystem_operation,()
+cd ¦/var/www/mqtt-rest :: Filesystem_operation,()
+uwsgi_params/var/www/mqtt-rest/ :: copy_operation,()
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+cmd,uwsgi¦--emperor¦/etc/uwsgi/vassals
+python ¦/var/www/mqtt-rest/manage.py¦db¦upgrade :: Build_Execute_operation,()
+git ¦clone¦https://github.com/gucluoz/mqtt-rest¦/var/www/mqtt-rest :: Dependencies_operation,()
+from,gucluozturk/python-nginx-uwsgi
+nginx.conf/etc/nginx/sites-enabled/ :: copy_operation,()
+uwsgi.ini/etc/uwsgi/vassals/ :: copy_operation,()
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+expose,80
+mkdir ¦-p¦/var/log/uwsgi :: Filesystem_operation,()
+mkdir ¦-p¦/etc/uwsgi/vassals :: Filesystem_operation,()

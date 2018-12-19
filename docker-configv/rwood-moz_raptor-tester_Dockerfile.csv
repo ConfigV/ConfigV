@@ -1,0 +1,16 @@
+PATH:$PATH:/home/worker/bin :: env_operation,()
+sudo ¦apt-get¦update¦-y :: Other_operation,()
+npm ¦install¦-g¦taskcluster-vcs@2.2.0 :: Dependencies_operation,()
+entrypoint,/home/worker/bin/entrypoint.sh
+sudo ¦apt-get¦upgrade¦-y :: Other_operation,()
+mkdir ¦artifacts :: Filesystem_operation,()
+chmod ¦u+x¦/home/worker/bin/run-emulator-ics.sh :: Permissions_operation,()
+chown ¦-R¦worker:worker¦/home/worker/*¦/home/worker/.* :: Permissions_operation,()
+bin/home/worker/bin :: copy_operation,()
+sudo ¦add-apt-repository¦-y¦ppa:nilarimogard/webupd8 :: Other_operation,()
+sudo ¦apt-get¦install¦-y¦android-tools-adb :: Other_operation,()
+sudo ¦apt-get¦install¦-y¦screen :: Other_operation,()
+sudo ¦apt-get¦install¦-y¦python-software-properties :: Other_operation,()
+from,quay.io/mozilla/base-test:0.0.1
+chmod ¦u+x¦/home/worker/bin/run-emulator-kk.sh :: Permissions_operation,()
+chmod ¦u+x¦/home/worker/bin/entrypoint.sh :: Permissions_operation,()

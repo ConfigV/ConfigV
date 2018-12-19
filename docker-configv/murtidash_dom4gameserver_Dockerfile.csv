@@ -1,0 +1,11 @@
+apt-get ¦install¦--no-install-recommends¦-y¦ca-certificates¦lib32gcc1¦net-tools¦lib32stdc++6¦lib32z1¦lib32z1-dev¦curl :: Dependencies_operation,()
+RUN./install_dominions.sh :: onbuild_operation,()
+/home/daemon/steamcmd :: workdir_operation,()
+from,ubuntu:15.04
+apt-get ¦update :: Dependencies_operation,()
+ADDinstall_dominions.sh /home/daemon/steamcmd/install_dominions.sh :: onbuild_operation,()
+mkdir ¦-p¦/home/daemon/steamcmd :: Filesystem_operation,()
+RUNchmod 777 /home/daemon/steamcmd/install_dominions.sh :: onbuild_operation,()
+curl ¦-s¦http://media.steampowered.com/installer/steamcmd_linux.tar.gz¦|¦tar¦-v¦-C¦/home/daemon/steamcmd¦-zx :: Dependencies_operation,()
+chown ¦-R¦daemon:daemon¦/home/daemon :: Permissions_operation,()
+daemon :: user_operation,()

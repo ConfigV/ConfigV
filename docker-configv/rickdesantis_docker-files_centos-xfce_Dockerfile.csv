@@ -1,0 +1,17 @@
+USER:root :: env_operation,()
+HOSTNAME:centos.rickdesantis.docker.com :: env_operation,()
+from,centos:7.0
+PASSWORD:docker :: env_operation,()
+$USERHOME :: workdir_operation,()
+echo ¦echo¦$PASSWORD > password.txt && cat password.txt password.txt | vncpasswd && rm password.txt && echo "exec /usr/bin/xfce4-session" > /etc/X11/xinit/xinitrc :: Filesystem_operation,()
+mkdir ¦Desktop :: Filesystem_operation,()
+yum ¦groupinstall¦-y¦-q¦"X¦Window¦system"¦"Xfce" :: Dependencies_operation,()
+yum ¦install¦-y¦-q¦epel-release¦tigervnc-server :: Dependencies_operation,()
+USERHOME:/root :: env_operation,()
+cmd,service¦xrdp¦start¦&&¦vncserver¦:1¦-desktop¦XFCE¦-geometry¦$GEOMETRY¦-depth¦24¦-dpi¦100¦&&¦tail¦-F¦/root/.vnc/*.log
+yum ¦update¦-y¦-q :: Dependencies_operation,()
+GEOMETRY:1440x900 :: env_operation,()
+${USERHOME} :: workdir_operation,()
+expose,5901
+mkdir ¦.vnc :: Filesystem_operation,()
+mkdir ¦-p¦.config/autostart :: Filesystem_operation,()

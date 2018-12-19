@@ -1,0 +1,16 @@
+apk ¦add¦--allow-untrusted¦glibc-2.21-r2.apk :: Dependencies_operation,()
+apk ¦add¦--allow-untrusted¦glibc-bin-2.21-r2.apk :: Dependencies_operation,()
+entrypoint,/usr/local/bin/start.sh
+from,alpine:3.2
+IMAGE:panteras/alpine-glibc :: env_operation,()
+curl ¦-O¦"https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-bin-2.21-r2.apk" :: Dependencies_operation,()
+HOME:/ :: env_operation,()
+rm ¦-f¦glibc-2.21-r2.apk :: Filesystem_operation,()
+/usr/glibc/usr/bin/ldconfig ¦/lib¦/usr/glibc/usr/lib :: Other_operation,()
+curl ¦-O¦"https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk" :: Dependencies_operation,()
+/ :: workdir_operation,()
+curl ¦-O¦https://raw.githubusercontent.com/eBayClassifiedsGroup/PanteraS/master/frameworks/start.sh :: Dependencies_operation,()
+rm ¦-f¦glibc-bin-2.21-r2.apk :: Filesystem_operation,()
+apk ¦--update¦add¦curl¦bash :: Dependencies_operation,()
+cd ¦/usr/local/bin/ :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/start.sh :: Permissions_operation,()

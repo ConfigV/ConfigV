@@ -1,0 +1,14 @@
+echo ¦echo¦"deb http://httpredir.debian.org/debian jessie main" > /etc/apt/sources.list :: Filesystem_operation,()
+userconf.sh/etc/cont-init.d/userconf :: copy_operation,()
+/home/rstudio/kitematic :: volume_operation,()
+expose,3838
+wget ¦--no-check-certificate¦-qO-¦https://s3.amazonaws.com/rstudio-server/current.ver :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"Package: *" > /etc/apt/preferences.d/01_release &&echo "Pin: release o=Debian,a=unstable" >> /etc/apt/preferences.d/01_release &&echo "Pin-Priority: 600" >> /etc/apt/preferences.d/01_release &&echo " " >> /etc/apt/preferences.d/01_re... :: Filesystem_operation,()
+cmd,/init
+PATH:/usr/lib/rstudio-server/bin:$PATH :: env_operation,()
+from,42n4/r:latest
+apt-get ¦install¦-y¦libgstreamer0.10-0¦libgstreamer-plugins-base0.10-0¦libssl1.0.0 :: Dependencies_operation,()
+PANDOC_TEMPLATES_VERSION:${PANDOC_TEMPLATES_VERSION:-1.18} :: env_operation,()
+add_shiny.sh/etc/cont-init.d/add :: copy_operation,()
+apt-get ¦update¦&&apt-get¦install¦-y¦--no-install-recommends¦file¦git¦libapparmor1¦libcurl4-openssl-dev¦libedit2¦lsb-release¦psmisc¦python-setuptools¦sudo¦wget :: Dependencies_operation,()

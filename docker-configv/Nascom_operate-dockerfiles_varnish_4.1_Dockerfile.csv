@@ -1,0 +1,12 @@
+apt-get ¦clean :: Dependencies_operation,()
+VARNISH_MEMORY:512m :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦curl¦apt-transport-https¦ca-certificates :: Other_operation,()
+from,debian@jessie
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+run.sh/run.sh :: copy_operation,()
+ln ¦-fs¦/usr/share/zoneinfo/Europe/Brussels¦/etc/localtime :: Filesystem_operation,()
+echo ¦curl¦https://repo.varnish-cache.org/GPG-key.txt | apt-key add - && echo "deb https://repo.varnish-cache.org/debian/ jessie varnish-4.1" >> /etc/apt/sources.list.d/varnish-cache.list && DEBIAN_FRONTEND=noninteractive apt-get update && DEBIA... :: Filesystem_operation,()
+cmd,/bin/bash¦/run.sh
+VARNISH_PORT:80 :: env_operation,()
+dpkg-reconfigure ¦-f¦noninteractive¦tzdata :: Other_operation,()

@@ -1,0 +1,25 @@
+apt-get ¦install¦-y¦libmcrypt-dev¦libz-dev¦git¦wget :: Dependencies_operation,()
+cmd,apache2-foreground
+apt-get ¦clean&&¦apt-get¦autoclean&&¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+cp ¦.env.example¦.env :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+php ¦artisan¦key:g :: Other_operation,()
+ln ¦-s¦/app¦/var/www/HeyCommunityCloud :: Filesystem_operation,()
+/app/backend :: workdir_operation,()
+from,php:5.6
+a2enmod ¦rewrite :: Other_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+service ¦apache2¦restart :: Build_Execute_operation,()
+entrypoint,/bin/bash¦/app/docker-entrypoint.sh
+HC_VERSION:2.0.0-beta.1 :: env_operation,()
+chmod ¦-R¦g+w¦storage¦bootstrap/cache¦public :: Permissions_operation,()
+/app/backend/public/uploads :: volume_operation,()
+echo ¦echo¦'<Directory /var/www/HeyCommunityCloud>\\n\\ :: Filesystem_operation,()
+sed ¦-i¦'s/DocumentRoot/var\\/www\\/html/DocumentRoot/var\\/www\\/HeyCommunityCloud/g'¦/etc/apache2/sites-enabled/000-default.conf :: Filesystem_operation,()
+expose,80
+composer ¦install :: Dependencies_operation,()
+/app :: workdir_operation,()
+./app :: copy_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+env  :: Other_operation,()
+chown ¦-R¦:www-data¦. :: Permissions_operation,()

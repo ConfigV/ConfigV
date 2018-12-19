@@ -1,0 +1,11 @@
+mkdir ¦-p¦/var/lib/varnish/lupin/ :: Filesystem_operation,()
+apt-get ¦upgrade¦-yqq :: Dependencies_operation,()
+apt-get ¦-yqq¦install¦varnish :: Dependencies_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+expose,6082
+start/start :: add_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,ubuntu:14.04
+touch ¦/var/lib/varnish/lupin/_.vsm :: Filesystem_operation,()
+chmod ¦+x¦/start :: Permissions_operation,()
+chmod ¦777¦/var/lib/varnish/lupin/_.vsm :: Permissions_operation,()

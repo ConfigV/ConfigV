@@ -1,0 +1,13 @@
+rm ¦-rf¦musl-1.1.16 :: Filesystem_operation,()
+CC=aarch64-linux-gnu-gcc ¦./configure¦--prefix=/musl-aarch64¦--enable-wrapper=yes :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gcc¦make¦libc6-dev¦git¦curl¦ca-certificates¦gcc-aarch64-linux-gnu¦qemu-user :: Dependencies_operation,()
+cd ¦kernel-headers-3.12.6-5 :: Filesystem_operation,()
+make ¦ARCH=arm64¦prefix=/musl-aarch64¦install¦-j4 :: Build_Execute_operation,()
+cd ¦musl-1.1.16 :: Filesystem_operation,()
+curl ¦-L¦https://github.com/sabotage-linux/kernel-headers/archive/v3.12.6-5.tar.gz¦|¦tar¦xzf¦- :: Dependencies_operation,()
+curl ¦https://www.musl-libc.org/releases/musl-1.1.16.tar.gz¦|¦tar¦xzf¦- :: Dependencies_operation,()
+rm ¦-rf¦kernel-headers-3.12.6-5 :: Filesystem_operation,()
+from,ubuntu:17.1
+make ¦install¦-j4 :: Build_Execute_operation,()

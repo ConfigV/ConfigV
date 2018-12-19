@@ -1,0 +1,20 @@
+OPENCMS_HOME:/var/lib/tomcat7/webapps/opencms :: env_operation,()
+resources/ :: add_operation,()
+from,ubuntu@trusty
+WEBAPPS_HOME:/var/lib/tomcat7/webapps :: env_operation,()
+bash ¦/opencms-fetch.sh :: Build_Execute_operation,()
+apt-get ¦update¦&& :: Dependencies_operation,()
+ROOT_PWD:mypassword :: env_operation,()
+bash ¦/opencms-create-properties.sh :: Build_Execute_operation,()
+service ¦mysql¦start :: Build_Execute_operation,()
+chmod ¦+x¦/opencms-*.sh :: Permissions_operation,()
+chown ¦-R¦tomcat7:tomcat7¦${OPENCMS_HOME} :: Permissions_operation,()
+OPENCMS_URL:http://www.opencms.org/downloads/opencms/opencms-9.5.0.zip :: env_operation,()
+java ¦-classpath¦"${OPENCMS_HOME}/WEB-INF/lib/*:${OPENCMS_HOME}/WEB-INF/classes:/usr/share/tomcat7/lib/*"¦org.opencms.setup.CmsAutoSetup¦-path¦${CONFIG_FILE} :: Other_operation,()
+rm ¦/opencms.war¦/opencms-create-properties.sh¦/opencms-fetch.sh¦${CONFIG_FILE} :: Filesystem_operation,()
+mkdir ¦${OPENCMS_HOME} :: Filesystem_operation,()
+unzip ¦-q¦-d¦${OPENCMS_HOME}¦/opencms.war :: Filesystem_operation,()
+expose,22
+CONFIG_FILE:/setup.properties :: env_operation,()
+mysqladmin ¦-u¦root¦--password=""¦password¦"${ROOT_PWD}" :: Other_operation,()
+cmd,/opencms-run.sh

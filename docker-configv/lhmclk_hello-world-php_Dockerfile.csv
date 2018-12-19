@@ -1,0 +1,15 @@
+git ¦clone¦https://github.com/fermayo/hello-world-php.git¦/app :: Dependencies_operation,()
+./run.sh/run.sh :: add_operation,()
+ln ¦-s¦/app¦/var/www :: Filesystem_operation,()
+./supervisord-apache2.conf/etc/supervisor/conf.d/supervisord-apache2.conf :: add_operation,()
+cmd,/run.sh
+expose,80
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦supervisor¦git¦apache2¦libapache2-mod-php5 :: Other_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+rm ¦-fr¦/var/www :: Filesystem_operation,()
+./start.sh/start.sh :: add_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()
+chmod ¦755¦/run.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu@quantal

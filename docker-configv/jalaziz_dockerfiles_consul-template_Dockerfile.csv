@@ -1,0 +1,9 @@
+/templates :: volume_operation,()
+mv ¦/tmp/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64/consul-template¦/usr/local/bin :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+from,jalaziz/base:alpine
+CONSUL_TEMPLATE_VERSION:0.10.0 :: env_operation,()
+/config :: volume_operation,()
+entrypoint,/usr/local/bin/consul-template
+cmd,-config=/config
+wget ¦-qO-¦https://github.com/hashicorp/consul-template/releases/download/v${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz¦|¦tar¦-C¦/tmp¦-xz :: Dependencies_operation,()

@@ -1,0 +1,11 @@
+from,alpine
+cmd,-config¦/mesos-dns/config_sample.json
+config_sample.json/mesos-dns/ :: copy_operation,()
+expose,53 8123
+chmod ¦+x¦mesos-dns :: Permissions_operation,()
+/mesos-dns/ :: workdir_operation,()
+MESOS_DNS_VERSION=0.4.0: :: env_operation,()
+entrypoint,/mesos-dns/mesos-dns
+gzip ¦-d¦mesos-dns-v${MESOS_DNS_VERSION}-linux-amd64.gz :: Other_operation,()
+https://github.com/mesosphere/mesos-dns/releases/download/v${MESOS_DNS_VERSION}/mesos-dns-v${MESOS_DNS_VERSION}-linux-amd64.gz/mesos-dns/ :: add_operation,()
+mv ¦mesos-dns-v${MESOS_DNS_VERSION}-linux-amd64¦mesos-dns :: Filesystem_operation,()

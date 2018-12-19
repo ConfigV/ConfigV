@@ -1,0 +1,10 @@
+/app :: workdir_operation,()
+./app :: copy_operation,()
+apt-get ¦install¦-y¦pandoc :: Dependencies_operation,()
+cmd,python¦./app.py
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+from,python:3.5
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

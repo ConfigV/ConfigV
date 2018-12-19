@@ -1,0 +1,10 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦upgrade¦-y :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦clean :: Other_operation,()
+localkube/ :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-y :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-yy¦-q¦install¦iptables¦ethtool¦ca-certificates¦util-linux¦socat :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦autoremove¦-y :: Other_operation,()
+addons/etc/kubernetes/addons :: copy_operation,()
+from,debian@jessie
+static-pods/etc/kubernetes/manifests :: copy_operation,()

@@ -1,0 +1,13 @@
+root :: user_operation,()
+from,trifacta/ubuntu-cdh5-base
+start.sh/opt/hadoop-docker/ :: copy_operation,()
+expose,13562
+mkdir ¦-p¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/data :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/hadoop-yarn/containers :: Filesystem_operation,()
+apt-get ¦install¦-y¦hadoop-hdfs-datanode¦hadoop-mapreduce¦hadoop-yarn-nodemanager :: Dependencies_operation,()
+chown ¦-R¦yarn:yarn¦/var/log/hadoop-yarn/containers :: Permissions_operation,()
+mkdir ¦-p¦/var/lib/hadoop-yarn/cache/nm-local-dir :: Filesystem_operation,()
+chown ¦-R¦yarn:yarn¦/var/lib/hadoop-yarn/cache/nm-local-dir :: Permissions_operation,()
+chown ¦-R¦hdfs:hdfs¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/data :: Permissions_operation,()
+cmd,/opt/hadoop-docker/start.sh

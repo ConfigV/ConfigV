@@ -1,0 +1,16 @@
+VERSION:n2048_v0.1 :: env_operation,()
+env ¦--unset=DEBIAN_FRONTEND :: Other_operation,()
+make ¦install :: Build_Execute_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/usr/local/bin/n2048
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+REFRESHED_AT:2015-07-03 :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦apt-transport-https¦build-essential¦git¦make¦libncurses-dev¦wget :: Dependencies_operation,()
+wget ¦http://dettus.net/n2048/${VERSION}.tar.gz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+/src/ :: workdir_operation,()
+tar ¦xzvf¦${VERSION}.tar.gz :: Filesystem_operation,()
+cd ¦${VERSION} :: Filesystem_operation,()
+from,ubuntu@latest

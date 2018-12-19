@@ -1,0 +1,7 @@
+expose,9999
+ADDeap/ /opt/jboss :: onbuild_operation,()
+EAP_HOME:/opt/jboss/$EAP_VERSION :: env_operation,()
+from,bibryam/base-jdk:latest
+cmd,./standalone.sh¦-b=0.0.0.0¦--server-config=standalone-full.xml¦-bmanagement=0.0.0.0
+EAP_VERSION:jboss-eap-6.4 :: env_operation,()
+RUNunzip -q -d $HOME/ $HOME/$EAP_VERSION.0.zip && rm $HOME/$EAP_VERSION.0.zip :: onbuild_operation,()

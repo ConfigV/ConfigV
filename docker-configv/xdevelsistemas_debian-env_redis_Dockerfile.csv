@@ -1,0 +1,14 @@
+from,xdevelsistemas/debian-env:latest
+apt-get ¦install¦locales¦-qq :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+echo ¦echo¦"locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections &&\\ :: Filesystem_operation,()
+gpg ¦--keyserver¦keys.gnupg.net¦--recv-keys¦ACCC4CF8 :: Other_operation,()
+gpg ¦--export¦--armor¦ACCC4CF8|apt-key¦add¦- :: Other_operation,()
+cmd,/usr/bin/redis-server
+expose,6379
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦wget¦-qq :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦redis-server :: Dependencies_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()

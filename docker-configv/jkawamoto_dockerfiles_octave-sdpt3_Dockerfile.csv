@@ -1,0 +1,12 @@
+from,ubuntu@latest
+/root :: workdir_operation,()
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/ :: Filesystem_operation,()
+TERM:vt100 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,octave
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+/data :: workdir_operation,()
+apt-get ¦install¦-y¦git¦octave¦liboctave-dev :: Dependencies_operation,()
+.octaverc. :: add_operation,()
+git ¦clone¦https://github.com/sqlp/sdpt3.git :: Dependencies_operation,()

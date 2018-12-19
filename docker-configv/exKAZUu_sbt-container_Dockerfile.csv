@@ -1,0 +1,13 @@
+adduser ¦--disabled-password¦--gecos¦""¦aicomp :: Permissions_operation,()
+bash ¦-l¦-c¦"sbt¦about¦-mem¦1536" :: Build_Execute_operation,()
+from,ubuntu:16.1
+apt ¦update :: Dependencies_operation,()
+aicomp :: user_operation,()
+apt ¦clean¦-y :: Dependencies_operation,()
+rm ¦-Rf¦/home/aicomp/.sdkman/archives/*¦/home/aicomp/.sdkman/tmp/* :: Filesystem_operation,()
+apt ¦full-upgrade¦-y :: Dependencies_operation,()
+curl ¦-s¦https://get.sdkman.io¦|¦bash :: Dependencies_operation,()
+bash ¦-l¦-c¦"sdk¦install¦sbt" :: Build_Execute_operation,()
+bash ¦-l¦-c¦"yes¦|¦sdk¦install¦java" :: Build_Execute_operation,()
+free ¦-m :: Other_operation,()
+apt ¦install¦-y¦curl¦wget¦zip¦unzip :: Dependencies_operation,()

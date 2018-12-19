@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦zookeeper¦wget¦supervisor¦dnsutils :: Dependencies_operation,()
+supervisor-zookeeper.conf/etc/supervisor/conf.d/zookeeper.conf :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,dockerfile/java:oracle-java7
+supervisor-kafka.conf/etc/supervisor/conf.d/kafka.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/tmp/kafka_2.8.0-0.8.1.1.tgz :: Filesystem_operation,()
+start-kafka.sh/usr/bin/start-kafka.sh :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+wget ¦-q¦http://mirror.gopotato.co.uk/apache/kafka/0.8.1.1/kafka_2.8.0-0.8.1.1.tgz¦-O¦/tmp/kafka_2.8.0-0.8.1.1.tgz :: Dependencies_operation,()
+expose,2181 9092
+tar ¦xfz¦/tmp/kafka_2.8.0-0.8.1.1.tgz¦-C¦/opt :: Filesystem_operation,()
+cmd,supervisord¦-n
+KAFKA_HOME:/opt/kafka_2.8.0-0.8.1.1 :: env_operation,()

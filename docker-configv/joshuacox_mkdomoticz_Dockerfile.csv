@@ -1,0 +1,11 @@
+expose,8080
+git ¦clone¦https://github.com/domoticz/domoticz.git¦dev-domoticz¦;cd¦dev-domoticz¦;cmake¦-DCMAKE_BUILD_TYPE=Release¦CMakeLists.txt¦;make¦-j¦3¦;cp¦domoticz.sh¦/etc/init.d¦;chmod¦+x¦/etc/init.d/domoticz.sh :: Dependencies_operation,()
+/config :: volume_operation,()
+echo ¦apt-get¦-qq update;apt-get -qqy dist-upgrade ;apt-get -qqy --no-install-recommends install localescmake make gcc g++ libssl-dev git curl libcurl4-openssl-dev libusb-dev wiringpilibudev-dev sudo procps ca-certificates wget pwgen supervisor;... :: Filesystem_operation,()
+cmd,-www¦8080
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/tmp/boost¦;cd¦/tmp/boost¦;wget¦http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.gz/download¦;tar¦xvfz¦download¦;rm¦download¦;cd¦boost_1_60_0/¦;./bootstrap.sh¦;./b2¦stage¦threading=multi¦link=static¦--with-thread¦-... :: Filesystem_operation,()
+mkdir ¦/src/domoticz¦;cd¦/src/domoticz¦;wget¦http://www.domoticz.com/releases/release/domoticz_linux_armv7l.tgz¦;tar¦xvfz¦domoticz_linux_armv7l.tgz¦;rm¦domoticz_linux_armv7l.tgz :: Filesystem_operation,()
+entrypoint,/src/domoticz/domoticz¦-dbase¦/config/domoticz.db¦-log¦/config/domoticz.log
+LANG:en_US.UTF-8 :: env_operation,()
+cd ¦/tmp¦;git¦clone¦https://github.com/OpenZWave/open-zwave¦open-zwave-read-only¦;cd¦open-zwave-read-only¦;git¦pull¦;make¦-j¦3¦;cd¦/tmp¦;rm¦-Rf¦open-zwave :: Filesystem_operation,()

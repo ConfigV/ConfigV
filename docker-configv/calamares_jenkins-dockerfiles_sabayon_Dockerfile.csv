@@ -1,0 +1,14 @@
+equo ¦i¦--onlydeps¦app-admin/calamares :: Other_operation,()
+expose,22
+rsync ¦-av¦"rsync://rsync.at.gentoo.org/gentoo-portage/licenses/"¦"/usr/portage/licenses/" :: Other_operation,()
+ssh-keygen ¦-A :: Other_operation,()
+equo ¦i¦sys-devel/gcc¦sys-devel/base-gcc¦sys-devel/automake¦net-misc/openssh¦app-admin/sudo :: Other_operation,()
+from,sabayon/base-amd64
+echo ¦echo¦"jenkins ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/jenkins :: Filesystem_operation,()
+useradd ¦-m¦-s¦/bin/bash¦jenkins :: Permissions_operation,()
+equo ¦up :: Other_operation,()
+ls ¦/usr/portage/licenses¦-1¦|¦xargs¦-0¦>¦/etc/entropy/packages/license.accept :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+sed ¦-i¦-e¦"s/UsePAM¦yes/UsePAM¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+equo ¦i¦net-misc/rsync¦app-crypt/gnupg :: Other_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()

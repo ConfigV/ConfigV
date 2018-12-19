@@ -1,0 +1,13 @@
+apt-get ¦install¦-y¦wget¦unzip¦build-essential :: Dependencies_operation,()
+unzip ¦master.zip :: Filesystem_operation,()
+wget ¦https://github.com/thu-pacman/GridGraph/archive/master.zip :: Dependencies_operation,()
+/datasets :: volume_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,/sbin/init
+rm ¦master.zip :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦GridGraph-master :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,phusion/baseimage:0.9.19
+/datasets :: workdir_operation,()

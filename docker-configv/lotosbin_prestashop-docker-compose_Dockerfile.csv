@@ -1,0 +1,10 @@
+from,php:5.6
+echo ¦echo¦'magic_quotes_gpc = Off' >> /usr/local/etc/php/conf.d/php.ini && echo 'magic_quotes_runtime = Off' >> /usr/local/etc/php/conf.d/php.ini && echo 'magic_quotes_sybase = Off' >> /usr/local/etc/php/conf.d/php.ini :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-install ¦iconv¦mcrypt :: Other_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-png-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+cmd,apache2-foreground
+docker-php-ext-install ¦mysql¦mysqli¦pdo¦pdo_mysql :: Other_operation,()
+docker-php-ext-install ¦zip¦sockets¦mbstring :: Other_operation,()
+apt-get ¦install¦-y¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev¦libjpeg-dev :: Dependencies_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()

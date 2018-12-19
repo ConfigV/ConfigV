@@ -1,0 +1,18 @@
+from,debian@jessie
+curl ¦-L¦http://www.apache.org/dist/couchdb/source/1.6.1/apache-couchdb-1.6.1.tar.gz¦-o¦couchdb.tar.gz :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/couchdb :: Filesystem_operation,()
+gpg ¦--import¦KEYS :: Other_operation,()
+curl ¦-L¦https://www.apache.org/dist/couchdb/source/1.6.1/apache-couchdb-1.6.1.tar.gz.asc¦-o¦couchdb.tar.gz.asc :: Dependencies_operation,()
+cmd,couchdb
+make  :: Build_Execute_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+gpg ¦--verify¦couchdb.tar.gz.asc :: Other_operation,()
+expose,5984
+/usr/src/couchdb :: workdir_operation,()
+sed ¦-i¦'s/^bind_address¦=¦.*$/bind_address¦=¦0.0.0.0/'¦/usr/local/etc/couchdb/default.ini :: Filesystem_operation,()
+tar ¦-xf¦couchdb.tar.gz¦-C¦/usr/src/couchdb¦--strip-components=1 :: Filesystem_operation,()
+rm ¦-rf¦couchdb.tar.gz*¦KEYS :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦ca-certificates¦curl¦build-essential¦libmozjs185-dev¦libicu-dev¦erlang-dev¦erlang-nox :: Dependencies_operation,()
+curl ¦-L¦https://www.apache.org/dist/couchdb/KEYS¦-o¦KEYS :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()

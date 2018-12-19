@@ -1,0 +1,22 @@
+npm ¦install :: Dependencies_operation,()
+root :: user_operation,()
+expose,2369
+/var/www/ghost :: workdir_operation,()
+chown ¦ghost:www-data¦. :: Permissions_operation,()
+cmd,pm2¦start¦index.js¦--name¦blog¦--no-daemon
+ghost :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+mkdir ¦-p¦ghost :: Filesystem_operation,()
+unzip ¦ghost-*.zip¦-d¦ghost :: Filesystem_operation,()
+NODE_ENV:production :: env_operation,()
+/var/www/ :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,dhessenm/rpi-nodejs
+chown ¦ghost:www-data¦-R¦ghost/* :: Permissions_operation,()
+apt-get ¦-qy¦install¦wget¦curl¦unzip¦python¦build-essential :: Dependencies_operation,()
+wget ¦https://ghost.org/zip/ghost-latest.zip :: Dependencies_operation,()
+chown ¦ghost:www-data¦ghost :: Permissions_operation,()
+npm ¦install¦-g¦pm2 :: Dependencies_operation,()
+npm ¦install¦sqlite3¦--build-from-source :: Dependencies_operation,()
+useradd ¦ghost¦-m¦-G¦www-data¦-s¦/bin/bash :: Permissions_operation,()
+config.js/var/www/ghost/ :: add_operation,()

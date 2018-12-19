@@ -1,0 +1,13 @@
+from,markadams/chromium-xvfb
+curl ¦-SLO¦"https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" :: Dependencies_operation,()
+unzip ¦"chromedriver_linux64.zip"¦-d¦/usr/local/bin :: Filesystem_operation,()
+CHROMEDRIVER_VERSION:2.14 :: env_operation,()
+COPY. /usr/src/app :: onbuild_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦"chromedriver_linux64.zip" :: Filesystem_operation,()
+cmd,py.test
+pip3 ¦install¦pytest¦selenium :: Dependencies_operation,()
+RUNpip3 install -r requirements.txt :: onbuild_operation,()
+COPYrequirements.txt /usr/src/app/requirements.txt :: onbuild_operation,()
+/app :: workdir_operation,()
+apt-get ¦install¦-y¦python3¦python3-pip¦curl¦unzip¦libgconf-2-4 :: Dependencies_operation,()

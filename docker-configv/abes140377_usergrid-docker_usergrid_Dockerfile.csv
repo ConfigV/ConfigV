@@ -1,0 +1,8 @@
+expose,8080 8443
+echo ¦echo¦"+++ install tomcat and packages required for compilation" && apt-get update && apt-get install -y maven curl tomcat7 git-core && echo "+++ fix tomcat7 init script: add missing java8 location" && sed -i "s#/usr/lib/jvm/java-7-oracle#/... :: Filesystem_operation,()
+cmd,/root/run.sh
+echo ¦echo¦"+++ build usergrid" && cd /root/usergrid/sdks/java && mvn --quiet clean install -DskipTests -DskipIntegrationTests && mvn --quiet install && cd /root/usergrid/stack && mvn --quiet clean install -DskipTests -DskipIntegrationTests && e... :: Filesystem_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+/root :: workdir_operation,()
+settings.xml/root/.m2/settings.xml :: copy_operation,()
+run.sh/root/run.sh :: copy_operation,()

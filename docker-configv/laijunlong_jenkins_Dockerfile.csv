@@ -1,0 +1,17 @@
+apt-get ¦update¦-qq :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/dockerjenkins.sh :: Permissions_operation,()
+entrypoint,/usr/local/bin/dockerjenkins.sh
+JENKINS_HOME:/opt/jenkins/data :: env_operation,()
+echo ¦echo¦deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list :: Filesystem_operation,()
+expose,8080
+curl ¦-sf¦-o¦/opt/jenkins/jenkins.war¦-L¦$JENKINS_MIRROR/war-stable/latest/jenkins.war :: Dependencies_operation,()
+JENKINS_MIRROR:http://mirrors.jenkins-ci.org :: env_operation,()
+/var/lib/docker :: volume_operation,()
+curl ¦https://get.docker.io/gpg¦|¦apt-key¦add¦- :: Dependencies_operation,()
+for ¦plugin¦in¦chucknorris¦greenballs¦scm-api¦git-client¦git¦ws-cleanup; :: Other_operation,()
+apt-get ¦install¦-qqy¦iptables¦ca-certificates¦lxc¦openjdk-6-jdk¦git-core¦lxc-docker :: Dependencies_operation,()
+REFRESHED_AT:2016-1-25 :: env_operation,()
+mkdir ¦-p¦$JENKINS_HOME/plugins :: Filesystem_operation,()
+./dockerjenkins.sh/usr/local/bin/dockerjenkins.sh :: add_operation,()
+apt-get ¦install¦-qqy¦curl :: Dependencies_operation,()
+from,daocloud.io/ubuntu

@@ -1,0 +1,18 @@
+provision/var/micropcf/ :: add_operation,()
+apt-get ¦-qqy¦install¦wget¦curl¦unzip¦zip¦jq¦libruby2.1¦ruby2.1¦aufs-tools¦iptables¦dnsmasq :: Dependencies_operation,()
+assets/opt/bosh-provisioner/assets :: add_operation,()
+apt-get ¦-qqy¦install¦software-properties-common :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦-qqy¦update :: Dependencies_operation,()
+HOME:/root :: env_operation,()
+RTR_VERSION:2.3.0 :: env_operation,()
+docker-run/var/micropcf/ :: add_operation,()
+config.json/opt/bosh-provisioner/ :: add_operation,()
+entrypoint,/var/micropcf/provision
+echo ¦curl¦-L "https://cli.run.pivotal.io/stable?release=linux64-binary&version=${CF_VERSION}&source=github-rel" | tar -C /usr/local/bin -xz && curl -L "https://github.com/cloudfoundry-incubator/routing-api-cli/releases/download/${RTR_VERSION}/r... :: Filesystem_operation,()
+DOCKER_RUN_BLOCKS:true :: env_operation,()
+/var/vcap/data/garden/aufs_graph :: volume_operation,()
+expose,80 443 2222
+CF_VERSION:6.14.1 :: env_operation,()
+add-apt-repository ¦-y¦ppa:brightbox/ruby-ng :: Dependencies_operation,()
+apt-get ¦-qqy¦--force-yes¦dist-upgrade :: Dependencies_operation,()

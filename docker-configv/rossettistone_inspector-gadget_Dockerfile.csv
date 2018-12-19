@@ -1,0 +1,23 @@
+curl ¦https://toolbelt.heroku.com/install.sh¦|¦sh :: Dependencies_operation,()
+apt-get ¦install¦-y¦libproj-dev :: Dependencies_operation,()
+apt-get ¦install¦-y¦sudo¦curl¦openssh-client¦git :: Dependencies_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential :: Dependencies_operation,()
+/inspector-gadget :: workdir_operation,()
+apt-get ¦install¦-y¦libgeos-dev :: Dependencies_operation,()
+mkdir ¦-p¦/inspector-gadget :: Filesystem_operation,()
+PATH:$PATH:/usr/local/heroku/bin :: env_operation,()
+apt-get ¦install¦-y¦libpq-dev :: Dependencies_operation,()
+Gemfile./ :: copy_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+from,ruby:2.3
+../ :: copy_operation,()
+entrypoint,./docker-entry.sh
+apt-get ¦install¦-y¦libqt4-webkit¦libqt4-dev¦xvfb :: Dependencies_operation,()
+bundle ¦exec¦rake¦assets:precompile :: Dependencies_operation,()
+docker-entry.sh./ :: copy_operation,()
+bundle ¦install :: Dependencies_operation,()
+cmd,bundle¦exec¦puma¦-C¦config/puma.rb
+apt-get ¦install¦-y¦libxml2-dev¦libxslt1-dev :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦-y¦libgdal-dev :: Dependencies_operation,()

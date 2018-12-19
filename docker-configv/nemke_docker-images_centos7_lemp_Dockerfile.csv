@@ -1,0 +1,16 @@
+nginx.repo/etc/yum.repos.d/nginx.repo :: add_operation,()
+entrypoint,/entrypoint.sh
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+cmd,supervisord¦-n
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log¦&&ln¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+yum ¦-y¦install¦nginx¦&&yum¦clean¦all :: Dependencies_operation,()
+from,centos7/base
+entrypoint.sh/entrypoint.sh :: add_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+yum-config-manager ¦--add-repo¦http://rpms.famillecollet.com/enterprise/remi.repo¦&&yum¦-y¦--enablerepo=remi-php71¦--enablerepo=remi¦install¦php-fpm¦php-mbstring¦php-soap¦gd-last¦php-gd¦ImageMagick¦php-xml¦php-mysqlnd¦php-process¦php-cli¦php-pear¦php-bcmath¦p... :: Other_operation,()
+expose,80 9000
+echo ¦echo¦'cgi.fix_pathinfo = 0;' >> /etc/php.ini && sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php.ini :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/composer :: Permissions_operation,()
+www.conf/etc/php-fpm.d/www.conf :: add_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()

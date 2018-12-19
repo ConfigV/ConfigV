@@ -1,0 +1,15 @@
+setup-sshd/usr/local/bin/setup-sshd :: copy_operation,()
+from,openjdk:8.0
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+chmod ¦644¦/usr/share/jenkins/slave.jar :: Permissions_operation,()
+/home/jenkins :: volume_operation,()
+chmod ¦755¦/usr/share/jenkins :: Permissions_operation,()
+expose,22
+entrypoint,setup-sshd
+HOME:/home/jenkins :: env_operation,()
+/home/jenkins :: workdir_operation,()
+sed ¦-i¦'s/#PasswordAuthentication¦yes/PasswordAuthentication¦no/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+curl ¦--create-dirs¦-sSLo¦/usr/share/jenkins/slave.jar¦http://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/2.52/remoting-2.52.jar :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+useradd ¦-c¦"Jenkins¦user"¦-d¦$HOME¦-m¦jenkins :: Permissions_operation,()

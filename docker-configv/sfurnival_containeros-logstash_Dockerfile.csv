@@ -1,0 +1,14 @@
+from,fedora:25.0
+entry.sh/entry.sh :: copy_operation,()
+/var/lib/logstash :: volume_operation,()
+conf.d//logstash/conf.d/ :: copy_operation,()
+dnf ¦upgrade¦-y¦-q :: Dependencies_operation,()
+/var/lib/logstash :: workdir_operation,()
+dnf ¦clean¦all :: Dependencies_operation,()
+wget ¦-q¦https://artifacts.elastic.co/downloads/logstash/logstash-${LS_VERSION}.tar.gz¦-O¦-¦|¦tar¦-xzf¦-;¦mv¦logstash-${LS_VERSION}¦/logstash :: Dependencies_operation,()
+entrypoint,/entry.sh
+JARS_SKIP=true ¦/logstash/bin/logstash-plugin¦install¦--version¦2.0.0¦logstash-input-journald :: Other_operation,()
+config/log4j2.properties/logstash/config/log4j2.properties :: copy_operation,()
+JARS_SKIP=true ¦/logstash/bin/logstash-plugin¦install¦--version¦6.2.6¦logstash-output-elasticsearch :: Other_operation,()
+LS_VERSION:5.2.0 :: env_operation,()
+dnf ¦install¦-y¦-q¦java-headless¦which¦hostname¦tar¦wget :: Dependencies_operation,()

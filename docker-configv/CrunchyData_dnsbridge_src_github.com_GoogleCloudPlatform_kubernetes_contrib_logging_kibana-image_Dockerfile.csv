@@ -1,0 +1,13 @@
+cmd,/usr/local/bin/run_kibana_nginx.sh
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦nginx-full¦curl :: Dependencies_operation,()
+rm ¦kibana-3.1.1.tar.gz :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+run_kibana_nginx.sh/usr/local/bin/run_kibana_nginx.sh :: add_operation,()
+tar ¦xf¦kibana-3.1.1.tar.gz :: Filesystem_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+from,ubuntu:14.04
+mv ¦kibana-3.1.1/*¦/usr/share/nginx/html :: Filesystem_operation,()
+expose,80
+curl ¦-O¦http://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

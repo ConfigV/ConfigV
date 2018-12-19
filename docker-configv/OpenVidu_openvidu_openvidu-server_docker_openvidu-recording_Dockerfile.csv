@@ -1,0 +1,10 @@
+entrypoint,/entrypoint.sh
+echo ¦wget¦-q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && apt-get update && apt-get install -y google-chrome... :: Filesystem_operation,()
+mkdir ¦/recordings :: Filesystem_operation,()
+apt-get ¦install¦-y¦ffmpeg¦pulseaudio¦xvfb :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+from,ubuntu:16.04
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()

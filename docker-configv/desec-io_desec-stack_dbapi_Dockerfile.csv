@@ -1,0 +1,9 @@
+/var/lib/mysql :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦install¦gettext-base :: Dependencies_operation,()
+initdb.d/*/docker-entrypoint-initdb.d/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,mariadb:10.1
+chown ¦-R¦mysql:mysql¦/docker-entrypoint-initdb.d/ :: Permissions_operation,()
+set ¦-ex :: Environment_operation,()

@@ -1,0 +1,13 @@
+cmd,/usr/bin/caddy¦-conf¦/etc/Caddyfile
+caddy_version=0.9.1: :: env_operation,()
+/var/www/laravel/public :: workdir_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+expose,80 443 2015
+apk ¦update :: Dependencies_operation,()
+curl ¦--silent¦--show-error¦--fail¦--location¦--header¦"Accept:¦application/tar+gzip,¦application/x-gzip,¦application/octet-stream"¦-o¦-¦"https://github.com/mholt/caddy/releases/download/v$caddy_version/caddy_linux_amd64.tar.gz"¦|¦tar¦--no-same-... :: Dependencies_operation,()
+apk ¦add¦tar¦curl :: Dependencies_operation,()
+caddy_version:$caddy_version :: label_operation,()
+architecture:amd64 :: label_operation,()
+mv ¦/usr/bin/caddy_linux_amd64¦/usr/bin/caddy :: Filesystem_operation,()
+from,alpine:3.4
+chmod ¦0755¦/usr/bin/caddy :: Permissions_operation,()

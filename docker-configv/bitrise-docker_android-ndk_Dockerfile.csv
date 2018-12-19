@@ -1,0 +1,14 @@
+BITRISE_DOCKER_REV_NUMBER_ANDROID_NDK:1 :: env_operation,()
+PATH:${PATH}:${ANDROID_NDK_HOME} :: env_operation,()
+cd ¦/opt/android-ndk-tmp :: Filesystem_operation,()
+./android-ndk-r10e-linux-x86_64.bin  :: Other_operation,()
+cmd,bitrise¦-version
+chmod ¦a+x¦./android-ndk-r10e-linux-x86_64.bin :: Permissions_operation,()
+from,bitriseio/docker-android:latest
+ANDROID_NDK_HOME:/opt/android-ndk :: env_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+mv ¦./android-ndk-r10e¦/opt/android-ndk :: Filesystem_operation,()
+rm ¦-rf¦/opt/android-ndk-tmp :: Filesystem_operation,()
+wget ¦-q¦http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/opt/android-ndk-tmp :: Filesystem_operation,()

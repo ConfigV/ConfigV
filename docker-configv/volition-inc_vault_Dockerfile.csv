@@ -1,0 +1,10 @@
+mkdir ¦-p¦src/github.com/hashicorp :: Filesystem_operation,()
+cd ¦vault :: Filesystem_operation,()
+make ¦dev :: Build_Execute_operation,()
+cd ¦src/github.com/hashicorp :: Filesystem_operation,()
+make ¦bootstrap :: Build_Execute_operation,()
+Dockerfile.run/ :: copy_operation,()
+git ¦clone¦https://github.com/hashicorp/vault.git :: Dependencies_operation,()
+git ¦checkout¦-t¦origin/pki-csrs :: Dependencies_operation,()
+cmd,tar¦-cf¦-¦-C¦/¦Dockerfile.run¦-C¦$GOPATH/bin¦vault
+from,golang:1.5

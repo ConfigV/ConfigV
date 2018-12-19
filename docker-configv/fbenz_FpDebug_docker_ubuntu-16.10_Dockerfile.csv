@@ -1,0 +1,12 @@
+./install_valgrind.sh  :: Other_operation,()
+git ¦clone¦https://github.com/fbenz/FpDebug.git :: Dependencies_operation,()
+cd ¦FpDebug :: Filesystem_operation,()
+git ¦checkout¦valgrind_3.12 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+gcc ¦valgrind/fpdebug/examples/test_1.c¦-O0¦-g¦-o¦valgrind/fpdebug/examples/test_1.out :: Other_operation,()
+./install_mpfr.sh  :: Other_operation,()
+/FpDebug :: workdir_operation,()
+apt-get ¦install¦-y¦git¦bzip2¦build-essential¦m4 :: Dependencies_operation,()
+from,ubuntu:16.1
+./install_gmp.sh  :: Other_operation,()
+./valgrind/install/bin/valgrind ¦--tool=fpdebug¦valgrind/fpdebug/examples/test_1.out :: Other_operation,()

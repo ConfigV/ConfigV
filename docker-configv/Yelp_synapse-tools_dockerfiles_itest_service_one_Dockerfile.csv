@@ -1,0 +1,9 @@
+from,ubuntu:14.04
+apt-get ¦-y¦install¦socat :: Dependencies_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()
+expose,1025
+cd ¦/hacheck :: Filesystem_operation,()
+cmd,/usr/local/bin/hacheck¦-p¦6666¦&¦socat¦TCP4-LISTEN:1025,fork¦SYSTEM:date
+git ¦clone¦--branch¦yelp¦https://github.com/Yelp/hacheck :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦python¦python-setuptools¦python-pip :: Dependencies_operation,()

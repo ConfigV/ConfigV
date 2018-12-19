@@ -1,0 +1,11 @@
+from,maven:3.3
+mvn ¦clean¦package :: Dependencies_operation,()
+cmd,./timbuctoo-instancev4/target/appassembler/bin/timbuctoo¦server¦./timbuctoo-instancev4/docker_config.yaml
+/app :: workdir_operation,()
+echo ¦echo¦"[]" > /data/auth/logins.json :: Filesystem_operation,()
+expose,8080 8081
+TIMBUCTOO_URL=http://localhost:8080: :: env_operation,()
+../ :: copy_operation,()
+mkdir ¦-p¦/data/auth/authorizations :: Filesystem_operation,()
+mkdir ¦-p¦/data/database :: Filesystem_operation,()
+echo ¦echo¦"[]" > /data/auth/users.json :: Filesystem_operation,()

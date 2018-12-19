@@ -1,0 +1,11 @@
+jdk-8u92-linux-x64.tar.gz/usr/local :: add_operation,()
+cmd,/usr/bin/java¦-jar¦/rc2/rc2drop.jar¦server¦/rc2/docker.yml
+mkdir ¦/rc2 :: Filesystem_operation,()
+rc2drop.jar/rc2/ :: add_operation,()
+ln ¦-s¦jdk1.8.0_92¦java :: Filesystem_operation,()
+from,library/ubuntu:xenial
+expose,8080
+cd ¦/usr/local :: Filesystem_operation,()
+update-alternatives ¦--install¦"/usr/bin/java"¦"java"¦"/usr/local/java/bin/java"¦2000 :: Other_operation,()
+update-alternatives ¦--install¦"/usr/bin/javaws"¦"javaws"¦"/usr/local/java/bin/javaws"¦2000 :: Other_operation,()
+update-alternatives ¦--install¦"/usr/bin/javac"¦"javac"¦"/usr/local/java/bin/javac"¦2000 :: Other_operation,()

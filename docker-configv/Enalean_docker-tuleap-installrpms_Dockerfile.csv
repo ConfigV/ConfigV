@@ -1,0 +1,10 @@
+RPM-GPG-KEY.dag.txt/ :: copy_operation,()
+tuleap-local.repo/etc/yum.repos.d/ :: copy_operation,()
+yum ¦install¦-y¦createrepo¦epel-release¦&&\\ :: Dependencies_operation,()
+from,centos:6.0
+run.sh/run.sh :: add_operation,()
+rpmforge.repo/etc/yum.repos.d/ :: copy_operation,()
+rpm ¦--import¦/RPM-GPG-KEY.dag.txt :: Dependencies_operation,()
+entrypoint,/run.sh
+tuleap.repo/etc/yum.repos.d/ :: copy_operation,()
+chmod ¦u+x¦/run.sh :: Permissions_operation,()

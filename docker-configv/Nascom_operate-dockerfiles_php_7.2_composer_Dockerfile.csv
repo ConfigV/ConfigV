@@ -1,0 +1,12 @@
+TINI_VERSION:v0.14.0 :: env_operation,()
+git ¦config¦--system¦user.email¦docker@localhost :: Dependencies_operation,()
+run.sh/run.sh :: copy_operation,()
+git ¦config¦--system¦user.name¦Docker :: Dependencies_operation,()
+COMPOSER_HOME:/composer :: env_operation,()
+https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini/tini :: add_operation,()
+echo ¦curl¦-o /tmp/composer-setup.php https://getcomposer.org/installer && curl -o /tmp/composer-setup.sig https://composer.github.io/installer.sig && php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_con... :: Filesystem_operation,()
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+PATH:/composer/vendor/bin:$PATH :: env_operation,()
+from,nascom/php:7.2-cli
+entrypoint,/tini¦--¦/run.sh

@@ -1,0 +1,11 @@
+expose,4000
+apt-get ¦install¦-y¦--no-install-recommends¦node¦python-pygments :: Dependencies_operation,()
+gem ¦install¦github-pages¦jekyll¦jekyll-redirect-from¦kramdown¦rdiscount¦rouge :: Dependencies_operation,()
+/src :: volume_operation,()
+from,ruby:2.1
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/ :: Filesystem_operation,()
+entrypoint,jekyll
+REFRESHED_AT:2015-03-07 :: env_operation,()
+/src :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()

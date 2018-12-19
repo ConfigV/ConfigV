@@ -1,0 +1,9 @@
+/app :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/{apt,dpkg,cache,log}/ :: Filesystem_operation,()
+ENVIRONMENT:development :: env_operation,()
+echo ¦chmod¦+x /run.sh && sed -i '/.*\\/\\/.*AllowNoPass/s/\\/\\///' /etc/phpmyadmin/config.inc.php && sed -i '/upload_max_filesize/s/[0-9]\\+/512/' /etc/php5/apache2/php.ini && sed -i '/post_max_size/s/[0-9]\\+/512/' /etc/php5/apache2/php.ini && echo... :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,tutum/apache-php
+run.sh/run.sh :: add_operation,()
+apt-get ¦install¦-y¦mysql-server¦phpmyadmin :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+/src :: workdir_operation,()
+cmd,server¦pipeline.yml
+name:pipeline :: label_operation,()
+version:1.0.0-SNAPSHOT :: label_operation,()
+expose,8080 8180
+entrypoint,java¦-d64¦-server¦-jar¦target/pipeline-application-1.0.2-SNAPSHOT.jar
+mkdir ¦-p¦/src :: Filesystem_operation,()
+rm ¦-rf¦$HOME/.m2 :: Filesystem_operation,()
+mvn ¦package¦-DskipTests=true :: Dependencies_operation,()
+/src/pipline-application :: volume_operation,()
+pipeline-application :: workdir_operation,()
+from,maven:3.0
+./src :: add_operation,()

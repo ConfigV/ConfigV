@@ -1,0 +1,19 @@
+entrypoint,/docker-entrypoint.sh
+expose,5672
+echo ¦echo¦'deb http://www.rabbitmq.com/debian/ testing main' > /etc/apt/sources.list.d/rabbitmq.list :: Filesystem_operation,()
+grep ¦-vE¦'^\\s+-rabbit¦.*error_logger.*'¦/usr/lib/rabbitmq/lib/rabbitmq_server-*/sbin/rabbitmq-server¦>¦/tmp/rabbitmq-server :: Other_operation,()
+RABBITMQ_VERSION:3.4.3-1 :: env_operation,()
+/var/lib/rabbitmq :: volume_operation,()
+from,xdevelsistemas/debian-env:java7-env
+groupadd ¦-r¦rabbitmq :: Permissions_operation,()
+useradd ¦-r¦-d¦/var/lib/rabbitmq¦-m¦-g¦rabbitmq¦rabbitmq :: Permissions_operation,()
+RABBITMQ_SERVER_START_ARGS:-eval :: env_operation,()
+chmod ¦+x¦/tmp/rabbitmq-server :: Permissions_operation,()
+apt-key ¦adv¦--keyserver¦pool.sks-keyservers.net¦--recv-keys¦F78372A06FF50C80464FC1B4F7B8CEA6056E8E56 :: Dependencies_operation,()
+cmd,rabbitmq-server
+mv ¦/tmp/rabbitmq-server¦/usr/lib/rabbitmq/lib/rabbitmq_server-*/sbin/rabbitmq-server :: Filesystem_operation,()
+echo ¦echo¦'[{rabbit, [{loopback_users, []}]}].' > /etc/rabbitmq/rabbitmq.config :: Filesystem_operation,()
+apt-get ¦install¦-y¦rabbitmq-server=$RABBITMQ_VERSION¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

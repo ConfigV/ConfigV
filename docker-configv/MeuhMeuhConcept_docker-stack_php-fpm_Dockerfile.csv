@@ -1,0 +1,11 @@
+from,php:7.0
+chmod ¦u+x¦/entrypoint.sh :: Permissions_operation,()
+apk ¦update :: Dependencies_operation,()
+cmd,php-fpm¦--nodaemonize
+sed ¦-i¦-e¦'s/;daemonize\\s*=\\s*yes/daemonize¦=¦no/g'¦/usr/local/etc/php-fpm.conf :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+www.conf/usr/local/etc/php-fpm.d/www.conf :: add_operation,()
+entrypoint,/entrypoint.sh
+apk ¦add¦bash :: Dependencies_operation,()
+php-fpm.ini/usr/local/etc/php/php.ini :: add_operation,()
+entrypoint.sh/ :: copy_operation,()

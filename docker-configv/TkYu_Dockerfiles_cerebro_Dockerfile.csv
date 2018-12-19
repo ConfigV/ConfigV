@@ -1,0 +1,10 @@
+cmd,bin/cerebro
+mkdir ¦/cerebro :: Filesystem_operation,()
+set ¦-ex :: Environment_operation,()
+/cerebro :: workdir_operation,()
+apk ¦add¦--no-cache¦--virtual¦.deps¦curl¦tar :: Dependencies_operation,()
+cd ¦/cerebro :: Filesystem_operation,()
+apk ¦del¦.deps :: Dependencies_operation,()
+expose,9000
+from,anapsix/alpine-java
+curl ¦-sSL¦https://github.com/lmenezes/cerebro/releases/download/v0.4.1/cerebro-${VERSION}.tgz¦|¦tar¦xz¦--strip¦1 :: Dependencies_operation,()

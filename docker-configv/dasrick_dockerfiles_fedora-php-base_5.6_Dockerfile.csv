@@ -1,0 +1,23 @@
+sed ¦-i¦'s|enabled=0|enabled=1|g'¦/etc/yum.repos.d/remi.repo :: Filesystem_operation,()
+rpm ¦--import¦RPM-GPG-KEY-remi :: Dependencies_operation,()
+sed ¦-i¦'/^listen¦=¦/clisten¦=¦0.0.0.0:9000'¦/etc/php-fpm.d/www.conf :: Filesystem_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+from,fedora:20.0
+yum ¦install¦-y¦php-fpm¦php-intl¦php-mbstring¦php-opcache¦git :: Dependencies_operation,()
+sed ¦-i¦'/^group¦=/cgroup¦=¦apache'¦/etc/php-fpm.d/www.conf :: Filesystem_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+sed ¦-i¦'/^;catch_workers_output/ccatch_workers_output¦=¦yes'¦/etc/php-fpm.d/www.conf :: Filesystem_operation,()
+wget ¦http://rpms.famillecollet.com/RPM-GPG-KEY-remi :: Dependencies_operation,()
+sed ¦-i¦'s|enabled=0|enabled=1|g'¦/etc/yum.repos.d/remi-php56.repo :: Filesystem_operation,()
+yum ¦install¦-y¦remi-release-20.rpm :: Dependencies_operation,()
+cmd,php-fpm¦-F
+sed ¦-i¦'/^listen.allowed_clients/c;listen.allowed_clients¦='¦/etc/php-fpm.d/www.conf :: Filesystem_operation,()
+expose,9000
+yum ¦install¦-y¦wget :: Dependencies_operation,()
+wget ¦http://rpms.famillecollet.com/remi-release-20.rpm :: Dependencies_operation,()
+sed ¦-i¦'/^user¦=/cuser¦=¦apache'¦/etc/php-fpm.d/www.conf :: Filesystem_operation,()
+/var/log/php-fpm :: volume_operation,()
+php.ini/etc/php.d/99-custom.ini :: add_operation,()
+/tmp :: workdir_operation,()
+/root/.composer :: volume_operation,()

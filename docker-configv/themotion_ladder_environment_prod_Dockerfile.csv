@@ -1,0 +1,13 @@
+mkdir ¦-p¦/bin :: Filesystem_operation,()
+cmd,-config.file=/etc/ladder/ladder.yml -json.log
+/ :: workdir_operation,()
+root :: user_operation,()
+../ :: copy_operation,()
+entrypoint,/bin/ladder
+from,themotion/ladder_base:latest
+mkdir ¦-p¦/etc/ladder :: Filesystem_operation,()
+chmod ¦755¦/bin/ladder :: Permissions_operation,()
+/go/src/github.com/themotion/ladder/ :: workdir_operation,()
+COPYladder.yml /etc/ladder/ladder.yml :: onbuild_operation,()
+rm ¦-rf¦/go/src/* :: Filesystem_operation,()
+./build.sh ¦/bin/ladder :: Other_operation,()

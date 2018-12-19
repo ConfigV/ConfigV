@@ -1,0 +1,8 @@
+echo ¦useradd¦-m mpi && echo mpi:mpi | chpasswd :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+expose,22
+touch ¦/var/log/user.log :: Filesystem_operation,()
+from,debian
+cmd,tail¦-f¦/var/log/user.log
+apt-get ¦-y¦install¦build-essential¦git¦mpich¦openssh-server¦rsyslog :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()

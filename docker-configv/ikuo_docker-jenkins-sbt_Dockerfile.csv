@@ -1,0 +1,13 @@
+expose,8080
+entrypoint,/usr/local/bin/jenkins.sh
+curl ¦-sSL¦--create-dirs¦-o¦/tmp/WEB-INF/plugins/git.hpi¦https://updates.jenkins-ci.org/latest/git.hpi :: Dependencies_operation,()
+root :: user_operation,()
+from,jenkins:1.565
+apt-get ¦-y¦install¦mysql-client :: Dependencies_operation,()
+rm ¦-rf¦/tmp/WEB-INF :: Filesystem_operation,()
+curl ¦-sSL¦--create-dirs¦-o¦/tmp/WEB-INF/plugins/git-client.hpi¦http://updates.jenkins-ci.org/download/plugins/git-client/1.11.0/git-client.hpi :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+zip ¦-g¦/usr/share/jenkins/jenkins.war¦WEB-INF/*/* :: Other_operation,()
+jenkins :: user_operation,()
+curl ¦-sSL¦--create-dirs¦-o¦/tmp/WEB-INF/plugins/role-strategy.hpi¦https://updates.jenkins-ci.org/latest/role-strategy.hpi :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()

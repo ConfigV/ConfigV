@@ -1,0 +1,10 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦install¦smokeping¦ssmtp¦spawn-fcgi :: Dependencies_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+DEBCONF_NOWARNINGS:yes :: env_operation,()
+from,stackbrew/debian
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_PRIORITY:critical :: env_operation,()
+chown ¦smokeping:root¦/var/run/smokeping :: Permissions_operation,()
+cmd,/usr/sbin/smokeping¦--config¦/etc/smokeping/config¦--nodaemon
+mkdir ¦/var/run/smokeping :: Filesystem_operation,()

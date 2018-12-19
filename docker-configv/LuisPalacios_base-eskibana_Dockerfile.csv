@@ -1,0 +1,25 @@
+/ :: workdir_operation,()
+apt-get ¦-y¦install¦¦locales¦¦¦¦¦¦net-tools¦¦vim¦¦supervisor¦¦wget¦¦curl¦¦tcpdump¦net-tools¦¦nginx-full :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,dockerfile/java:oracle-java7
+rm ¦-f¦$ES_PKG_NAME.tar.gz :: Filesystem_operation,()
+sed ¦-i¦-e¦'s|elasticsearch:.*|elasticsearch:¦"http://"+window.location.hostname¦+¦":"¦+¦window.location.port,|'¦/kibana/config.js :: Filesystem_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+chmod ¦+x¦/do.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"Europe/Madrid" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata :: Filesystem_operation,()
+entrypoint,/do.sh
+tar ¦xvzf¦$ES_PKG_NAME.tar.gz :: Filesystem_operation,()
+mv ¦kibana-*¦kibana :: Filesystem_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+do.sh/do.sh :: add_operation,()
+nginx.conf/etc/nginx/ :: add_operation,()
+cmd,/usr/bin/supervisord¦-n -c /etc/supervisor/supervisord.conf
+mv ¦/$ES_PKG_NAME¦/elasticsearch :: Filesystem_operation,()
+locale-gen ¦es_ES.UTF-8 :: Other_operation,()
+ES_PKG_NAME:elasticsearch-1.4.1 :: env_operation,()
+HOME:/root :: env_operation,()
+curl ¦https://download.elasticsearch.org/kibana/kibana/kibana-3.1.2.tar.gz¦|¦tar¦xz :: Dependencies_operation,()
+expose,80
+wget ¦https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz :: Dependencies_operation,()

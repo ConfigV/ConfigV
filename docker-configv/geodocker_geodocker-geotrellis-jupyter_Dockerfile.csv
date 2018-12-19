@@ -1,0 +1,20 @@
+from,quay.io/geodocker/spark:latest
+yum ¦-y¦install¦gcc¦gcc-fortran¦gcc-c++ :: Dependencies_operation,()
+scl ¦enable¦python33¦'pip¦install¦jupyter' :: Other_operation,()
+yum ¦-y¦install¦git :: Dependencies_operation,()
+curl ¦https://bintray.com/sbt/rpm/rpm¦|¦tee¦/etc/yum.repos.d/bintray-sbt-rpm.repo :: Dependencies_operation,()
+scl ¦enable¦python33¦'easy_install¦pip' :: Other_operation,()
+yum ¦-y¦install¦blas-devel¦lapack-devel :: Dependencies_operation,()
+git ¦clone¦https://github.com/apache/incubator-toree.git :: Dependencies_operation,()
+ls ¦toree-*.tar.gz :: Filesystem_operation,()
+yum ¦-y¦install¦python33 :: Dependencies_operation,()
+yum ¦-y¦install¦sbt :: Dependencies_operation,()
+scl ¦enable¦python33¦'pip¦install¦numpy' :: Other_operation,()
+rpm ¦-Uvh¦https://www.softwarecollections.org/en/scls/rhscl/python33/epel-7-x86_64/download/rhscl-python33-epel-7-x86_64.noarch.rpm :: Dependencies_operation,()
+yum ¦-y¦install¦scl-utils :: Dependencies_operation,()
+scl ¦enable¦python33¦'pip¦install¦pandas' :: Other_operation,()
+expose,6066
+yum ¦-y¦update :: Dependencies_operation,()
+alternatives ¦--set¦java¦/usr/java/jdk1.8.0_45/jre/bin/java :: Other_operation,()
+scl ¦enable¦python33¦'pip¦install¦scipy' :: Other_operation,()
+cmd,scl¦enable¦python33¦'PYSPARK_PYTHON=python3¦PYSPARK_DRIVER_PYTHON=jupyter¦PYSPARK_DRIVER_PYTHON_OPTS="notebook¦--no-browser¦--port=7777"¦pyspark¦--packages¦com.databricks:spark-csv_2.10:1.1.0¦--executor-memory¦6400M¦--driver-memory¦6400M'

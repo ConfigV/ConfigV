@@ -1,0 +1,11 @@
+mv ¦huginn-master¦/usr/src/app :: Filesystem_operation,()
+sed ¦-i¦'s/config.serve_static_assets¦=¦false/config.serve_static_assets¦=¦true/'¦config/environments/production.rb :: Filesystem_operation,()
+tar ¦xzf¦huginn.tar.gz :: Filesystem_operation,()
+curl ¦https://codeload.github.com/cantino/huginn/tar.gz/master¦>¦huginn.tar.gz :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+expose,3000
+./unicorn.rb/usr/src/app/config/unicorn.rb :: copy_operation,()
+rm ¦huginn.tar.gz :: Filesystem_operation,()
+ON_HEROKU=true ¦bundle¦install¦--without¦development¦test :: Other_operation,()
+from,rails
+cd ¦/tmp :: Filesystem_operation,()

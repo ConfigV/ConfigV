@@ -1,0 +1,17 @@
+apt-get ¦update¦-y :: Dependencies_operation,()
+exim.debconf/root/ :: add_operation,()
+./templates/etc/confd/templates/ :: add_operation,()
+debconf-set-selections ¦<¦/root/exim.debconf :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+./confd/etc/confd/conf.d/ :: add_operation,()
+from,ubuntu@trusty
+entrypoint.sh/entrypoint.sh :: add_operation,()
+apt-get ¦install¦-y¦--force-yes¦openssl¦exim4 :: Dependencies_operation,()
+exim4.conf/etc/exim4/exim4.conf :: add_operation,()
+https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64/usr/local/bin/confd :: add_operation,()
+chmod ¦u+x¦/usr/local/bin/confd :: Permissions_operation,()
+groupadd ¦ssl :: Permissions_operation,()
+usermod ¦-a¦-G¦ssl¦Debian-exim :: Permissions_operation,()
+expose,25 465
+entrypoint,/bin/bash¦/entrypoint.sh
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()

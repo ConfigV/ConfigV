@@ -1,0 +1,9 @@
+packer ¦-S¦sickbeard-git¦--noconfirm :: Other_operation,()
+chmod ¦-R¦775¦/opt/sickbeard :: Permissions_operation,()
+sickbeard.conf/etc/supervisor/conf.d/sickbeard.conf :: add_operation,()
+cmd,supervisord¦-c¦/etc/supervisor.conf¦-n
+expose,8091
+/media :: volume_operation,()
+chown ¦-R¦nobody:users¦/opt/sickbeard :: Permissions_operation,()
+from,binhex/arch-base
+pacman ¦-Sy¦--noconfirm :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+mktemp ¦-d :: Other_operation,()
+useradd ¦-r¦-g¦ruby¦--uid=999¦ruby :: Permissions_operation,()
+GOSU_VERSION:1.7 :: env_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+echo ¦apt-get¦update -qq && apt-get install locales -y && dpkg-reconfigure locales && locale-gen C.UTF-8 && update-locale LANG=C.UTF-8 && echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen && apt-get clean && rm -rf /var/lib/apt/lists/* :: Filesystem_operation,()
+LANGUAGE:en_US.UTF-8 :: env_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+LC_ALL:C.UTF-8 :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+groupadd ¦-r¦ruby¦--gid=999 :: Permissions_operation,()

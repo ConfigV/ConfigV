@@ -1,0 +1,13 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+REFRESHED_AT:2015-11-03 :: env_operation,()
+curl ¦https://wordpress.org/latest.tar.gz¦|¦tar¦-xvzf¦- :: Dependencies_operation,()
+echo ¦echo¦[mail function] >> /usr/local/etc/php/php.ini && echo sendmail_path = /usr/sbin/ssmtp -t >> /usr/local/etc/php/php.ini && apache2ctl restart :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+from,php:5.6
+apt-get ¦install¦-y¦libpng12-dev¦libjpeg-dev¦libpq-dev¦ssmtp :: Dependencies_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+docker-php-ext-install ¦gd¦mbstring¦pdo¦pdo_mysql¦pdo_pgsql :: Other_operation,()
+/var/www/html :: workdir_operation,()
+chown ¦-R¦www-data:www-data¦sites :: Permissions_operation,()

@@ -1,0 +1,11 @@
+chmod ¦+x¦/tini :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦ruby-sass :: Other_operation,()
+from,node:8.0
+https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini/tini :: add_operation,()
+git ¦config¦--system¦user.name¦Docker :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+TINI_VERSION:v0.14.0 :: env_operation,()
+git ¦config¦--system¦user.email¦docker@localhost :: Dependencies_operation,()
+entrypoint,/tini¦--

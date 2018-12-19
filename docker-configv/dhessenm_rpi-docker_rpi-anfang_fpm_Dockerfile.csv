@@ -1,0 +1,9 @@
+from,resin/rpi-raspbian:stretch
+apt-get ¦install¦-y¦php-mysql¦php-fpm¦php-gd¦libjpeg-dev¦libpng-dev¦php-mysql¦pwgen¦vim¦supervisor :: Dependencies_operation,()
+expose,9000
+sed ¦-i¦'s/^listen¦=¦.*/listen¦=¦9000/g'¦/etc/php/7.0/fpm/pool.d/www.conf :: Filesystem_operation,()
+mkdir ¦/run/php :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/bin/supervisord¦-n
+supervisord-fpm.conf/etc/supervisor/conf.d/supervisord-fpm.conf :: add_operation,()

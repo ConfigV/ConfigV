@@ -1,0 +1,10 @@
+app_updater.py. :: add_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦python¦python-pip :: Dependencies_operation,()
+/home/vmagent/app_updater :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,gcr.io/google_appengine/debian8
+mkdir ¦-p¦/home/vmagent/app_updater :: Filesystem_operation,()
+pip ¦install¦google-compute-engine :: Dependencies_operation,()
+entrypoint,./app_updater.py
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()

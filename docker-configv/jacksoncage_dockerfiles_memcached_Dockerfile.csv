@@ -1,0 +1,12 @@
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,bash¦start.sh
+REFRESHED_AT:2015-12-11 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+expose,11211
+from,debian@jessie
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦upgrade¦-y¦%%¦DEBIAN_FRONTEND=noninteractive¦apt-get¦install¦-y¦wget¦curl¦memcached :: Other_operation,()
+daemon :: user_operation,()
+apt-get ¦-yqq¦purge :: Dependencies_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+start.sh/start.sh :: copy_operation,()

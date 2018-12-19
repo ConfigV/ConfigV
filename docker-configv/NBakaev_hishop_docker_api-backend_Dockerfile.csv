@@ -1,0 +1,8 @@
+release.jarapp.jar :: add_operation,()
+/tmp :: volume_operation,()
+from,java:8.0
+bash ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+newrelic.jarnewrelic.jar :: add_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦-javaagent:/newrelic.jar¦/app.jar¦--spring.profiles.active=production
+expose,8080
+newrelic.ymlnewrelic.yml :: add_operation,()

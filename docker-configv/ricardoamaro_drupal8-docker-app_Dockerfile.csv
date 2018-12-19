@@ -1,0 +1,17 @@
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+./start.sh/start.sh :: add_operation,()
+./supervisord.conf/etc/supervisord.conf :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦git¦mysql-client¦mysql-server¦apache2¦libapache2-mod-php5¦pwgen¦python-setuptools¦vim-tiny¦php5-mysql¦php-apc¦php5-gd¦php5-memcache¦memcached¦drush¦mc :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦"s/^bind-address/#bind-address/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+rm ¦-rf¦/var/www/¦;¦cd¦/var¦;¦drush¦dl¦drupal¦;¦mv¦/var/drupal*/¦/var/www/ :: Filesystem_operation,()
+chmod ¦755¦/start.sh¦/etc/apache2/foreground.sh :: Permissions_operation,()
+./foreground.sh/etc/apache2/foreground.sh :: add_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu raring main restricted universe multiverse" > /etc/apt/sources.list :: Filesystem_operation,()
+cmd,/bin/bash¦/start.sh
+apt-get ¦clean :: Dependencies_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+chmod ¦a+w¦/var/www/sites/default¦;¦mkdir¦/var/www/sites/default/files¦;¦chown¦-R¦www-data:www-data¦/var/www/ :: Permissions_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+from,ubuntu@latest
+expose,80

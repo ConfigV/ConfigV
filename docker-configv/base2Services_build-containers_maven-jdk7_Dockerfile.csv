@@ -1,0 +1,20 @@
+from,java:7.0
+adduser ¦--home¦/var/maven¦--uid¦1000¦--shell¦/bin/bash¦maven :: Permissions_operation,()
+MAVEN_VERSION:3.3.3 :: env_operation,()
+rm ¦-rf¦/tmp/maven.tar.gz :: Filesystem_operation,()
+cmd,-v
+curl ¦http://apache.uberglobalmirror.com/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz¦-o¦/tmp/maven.tar.gz :: Dependencies_operation,()
+maven.sh/etc/profile.d/maven.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦git :: Dependencies_operation,()
+entrypoint,/usr/share/java/maven/bin/mvn
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+mv ¦/usr/share/java/apache-maven-$MAVEN_VERSION¦/usr/share/java/maven :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chown ¦-R¦maven:maven¦/var/maven/ :: Permissions_operation,()
+mkdir ¦-p¦/usr/share/java :: Filesystem_operation,()
+maven :: user_operation,()
+tar ¦xvfz¦/tmp/maven.tar.gz¦-C¦/usr/share/java/ :: Filesystem_operation,()
+/app :: workdir_operation,()
+/app :: volume_operation,()
+mkdir ¦-p¦/var/maven/.m2/repository :: Filesystem_operation,()

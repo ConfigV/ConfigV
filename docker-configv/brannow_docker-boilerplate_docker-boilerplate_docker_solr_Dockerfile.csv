@@ -1,0 +1,14 @@
+./conf//opt/solr-conf/ :: copy_operation,()
+chown ¦solr:solr¦-R¦/opt/solr/example/solr/ :: Permissions_operation,()
+mkdir ¦-p¦/opt/solr/example/solr/typo3lib :: Filesystem_operation,()
+mv ¦/tmp/solr-typo3-plugin.jar¦/opt/solr/example/solr/typo3lib/ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+entrypoint.sh/entrypoint.sh :: add_operation,()
+ln ¦-s¦/opt/solr/contrib¦/opt/solr/example/solr/contrib :: Filesystem_operation,()
+cmd,solr
+mkdir ¦-p¦/opt/solr/example/solr/typo3cores/data :: Filesystem_operation,()
+from,guywithnose/solr:4.9.0
+"/storage" :: volume_operation,()
+entrypoint,/entrypoint.sh
+curl ¦-sf¦-o¦/tmp/solr-typo3-plugin.jar¦-L¦http://www.typo3-solr.com/fileadmin/files/solr/solr-typo3-plugin-1.3.0.jar :: Dependencies_operation,()
+cp ¦-a¦/opt/solr-conf/*¦/opt/solr/example/solr/ :: Filesystem_operation,()

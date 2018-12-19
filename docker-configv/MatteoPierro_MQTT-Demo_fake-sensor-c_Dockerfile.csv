@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦build-essential :: Dependencies_operation,()
+/usr/src/mysensor :: workdir_operation,()
+cd ¦paho.mqtt.c :: Filesystem_operation,()
+gcc ¦-o¦fake-sensor-c¦fake-sensor-c.c¦-lpaho-mqtt3c :: Other_operation,()
+from,docker/whalesay:latest
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+apt-get ¦install¦-y¦libssl-dev :: Dependencies_operation,()
+git ¦clone¦https://github.com/eclipse/paho.mqtt.c.git :: Dependencies_operation,()
+./usr/src/mysensor :: copy_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+sudo ¦make¦install :: Other_operation,()

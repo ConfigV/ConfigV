@@ -1,0 +1,17 @@
+entrypoint,/docker-entrypoint.sh
+bind-address|skip-networking  :: Other_operation,()
+from,debian@wheezy
+/var/lib/mysql :: volume_operation,()
+expose,3306
+apt-key ¦adv¦--keyserver¦pool.sks-keyservers.net¦--recv-keys¦199369E5404BD5FC7D2FE43BCBCB082A1BB943DB :: Dependencies_operation,()
+MARIADB_VERSION:10.1.2+maria-1~wheezy :: env_operation,()
+MYSQL_ROOT_PASSWORD:root :: env_operation,()
+echo ¦echo¦"deb http://ftp.osuosl.org/pub/mariadb/repo/$MARIADB_MAJOR/debian wheezy main" > /etc/apt/sources.list.d/mariadb.list :: Filesystem_operation,()
+cmd,mysqld
+dpkg ¦--print-architecture :: Dependencies_operation,()
+gpg ¦--keyserver¦pool.sks-keyservers.net¦--recv-keys¦B42F6819007F00F88E364FD4036A9C25BF357DD4 :: Other_operation,()
+MARIADB_MAJOR:10.1 :: env_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+data/my.cnf/etc/mysql/my.cnf :: copy_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()

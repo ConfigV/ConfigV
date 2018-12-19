@@ -1,0 +1,15 @@
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+setuser ¦app¦ruby¦-S¦passenger-config¦build-native-support :: Other_operation,()
+cmd,/sbin/my_init
+from,phusion/passenger-ruby22:0.9.17
+echo ¦echo¦unattended-upgrades unattended-upgrades/enable_auto_updates select true | debconf-set-selections && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure unattended-upgrades && apt-get -y install update-notifier-common :: Filesystem_operation,()
+dpkg-divert ¦--add¦--divert¦/etc/init.d/nginx.orig¦/etc/init.d/nginx :: Other_operation,()
+scripts/cron-restart.sh/etc/cron.daily/restart-nginx-if-necessary :: add_operation,()
+scripts/policy-rc.d.rb/usr/sbin/policy-rc.d :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg-divert ¦--add¦--rename¦--divert¦/usr/sbin/nginx.real¦/usr/sbin/nginx :: Other_operation,()
+apt-get ¦-y¦upgrade¦-o¦Dpkg::Options::="--force-confold" :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦purge¦openssh-server¦openssh-sftp-server :: Dependencies_operation,()
+sed ¦-i.orig¦-e¦'s/\\/usr\\/sbin\\/nginx$/\\/usr\\/sbin\\/nginx.real/'¦-e¦'s/NAME\\=nginx$/NAME\\=nginx.real/'¦/etc/service/nginx/run¦/etc/init.d/nginx :: Filesystem_operation,()
+rm ¦-f¦/etc/service/nginx/down :: Filesystem_operation,()

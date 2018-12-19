@@ -1,0 +1,16 @@
+USER=root: :: env_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+echo ¦curl¦-sL https://deb.nodesource.com/setup_6.x | bash - && apt-get install --no-install-recommends -y nodejs && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee... :: Filesystem_operation,()
+touch ¦Freyfile.hcl :: Filesystem_operation,()
+./opt/frey :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦openssh-client¦unzip¦git-core :: Dependencies_operation,()
+yarn ¦install :: Other_operation,()
+from,ubuntu:16.04
+entrypoint,/opt/frey/node_modules/.bin/babel-node¦/opt/frey/src/cli.js
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+rm ¦-Rf¦${HOME}/.cache :: Filesystem_operation,()
+/opt/frey :: workdir_operation,()
+# ¦python¦&¦pip :: Other_operation,()
+node_modules/.bin/babel-node ¦src/cli.js¦prepare¦--bail¦--force-yes :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()

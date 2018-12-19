@@ -1,0 +1,13 @@
+cmd,--config-file=/bitmonero/bitmonero.conf
+monerod :: user_operation,()
+/home/monerod :: workdir_operation,()
+HOME:/home/monerod :: env_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+/root :: workdir_operation,()
+entrypoint,./monero-v0.10.3.1/monerod
+useradd ¦-m¦-s¦/bin/bash¦monerod :: Permissions_operation,()
+expose,18080 18081
+apt-get ¦install¦-y¦curl¦bzip2¦gnupg :: Dependencies_operation,()
+from,debian:9.0
+gpg ¦--keyserver¦hkp://pool.sks-keyservers.net¦--recv¦0x55432DF31CCD4FCD¦&&\\ :: Other_operation,()
+/bitmonero :: volume_operation,()

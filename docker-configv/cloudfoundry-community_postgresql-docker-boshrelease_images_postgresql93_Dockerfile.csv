@@ -1,0 +1,11 @@
+service ¦postgresql¦stop :: Build_Execute_operation,()
+chmod ¦+x¦/scripts/*.sh :: Permissions_operation,()
+scripts/scripts :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/data :: volume_operation,()
+entrypoint,/scripts/run.sh
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--force-yes¦postgresql-9.3¦postgresql-client-9.3¦postgresql-contrib-9.3 :: Other_operation,()
+expose,5432
+touch ¦/.firstrun :: Filesystem_operation,()
+from,frodenas/ubuntu
+apt-get ¦clean :: Dependencies_operation,()

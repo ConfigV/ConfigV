@@ -1,0 +1,16 @@
+rm ¦-f¦hbase-1.2.5-bin.tar.gz :: Filesystem_operation,()
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦hbase-1.2.5¦/usr/local/hbase :: Filesystem_operation,()
+cd ¦/usr/local/hbase :: Filesystem_operation,()
+cat ¦~/.ssh/id_rsa.pub¦>>¦~/.ssh/authorized_keys :: Filesystem_operation,()
+expose,16010
+mv ¦/tmp/ssh_config¦~/.ssh/config :: Filesystem_operation,()
+PATH=$PATH:/usr/local/hbase/bin:/usr/local/hbase/sbin: :: env_operation,()
+wget ¦http://ftp.wayne.edu/apache/hbase/stable/hbase-1.2.5-bin.tar.gz :: Dependencies_operation,()
+cmd,sh¦-c¦/usr/local/hbase/bin/start-hbase.sh; bash
+conf/*/usr/local/hbase/conf :: copy_operation,()
+tar ¦-xzvf¦hbase-1.2.5-bin.tar.gz :: Filesystem_operation,()
+ssh-keygen ¦-t¦rsa¦-f¦~/.ssh/id_rsa¦-P¦'' :: Other_operation,()
+apt-get ¦install¦-y¦openssh-server¦openjdk-8-jdk¦wget¦ssh¦rsync :: Dependencies_operation,()
+/usr/local/hbase/ :: workdir_operation,()

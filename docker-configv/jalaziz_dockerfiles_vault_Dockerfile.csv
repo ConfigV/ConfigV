@@ -1,0 +1,10 @@
+wget ¦https://dl.bintray.com/mitchellh/vault/vault_${VAULT_VERSION}_linux_amd64.zip :: Dependencies_operation,()
+rm ¦-f¦vault_${VAULT_VERSION}_linux_amd64.zip :: Filesystem_operation,()
+entrypoint,/usr/local/bin/vault
+/config :: volume_operation,()
+from,alpine@edge
+VAULT_VERSION:0.2.0 :: env_operation,()
+cmd,server¦-config=/config
+unzip ¦vault_${VAULT_VERSION}_linux_amd64.zip :: Filesystem_operation,()
+expose,8200
+mv ¦vault¦/usr/local/bin/ :: Filesystem_operation,()

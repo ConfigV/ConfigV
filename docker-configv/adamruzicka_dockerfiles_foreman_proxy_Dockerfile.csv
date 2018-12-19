@@ -1,0 +1,11 @@
+chmod ¦+x¦/runme.sh :: Permissions_operation,()
+cmd,/runme.sh
+useradd ¦foreman¦-u¦1000¦-g¦users :: Permissions_operation,()
+resources/home/foreman/ :: add_operation,()
+chown ¦-R¦foreman:users¦/home/foreman :: Permissions_operation,()
+PATH:/home/foreman/bin:$PATH :: env_operation,()
+su ¦foreman¦-c¦"cd¦/home/foreman/ :: Other_operation,()
+runme.sh/runme.sh :: add_operation,()
+from,centos:7.0
+bundle ¦install" :: Dependencies_operation,()
+yum ¦-y¦install¦rubygem-bundler¦git¦ruby-devel¦libffi-devel¦gcc¦gcc-c++¦make¦patch¦tar¦krb5-devel¦augeas-devel¦sqlite-devel :: Dependencies_operation,()

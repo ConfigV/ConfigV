@@ -1,0 +1,10 @@
+from,viatcheslavmogilevsky/baseimage:0.0.1
+apt-get ¦install¦-y¦ansible :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/*¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+ansible-playbook ¦/play/setup.yml¦-c¦local :: Other_operation,()
+apt-add-repository ¦ppa:ansible/ansible :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦--auto-remove¦-y¦remove¦ansible :: Dependencies_operation,()
+./play :: add_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦software-properties-common :: Dependencies_operation,()

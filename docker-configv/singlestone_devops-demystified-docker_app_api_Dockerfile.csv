@@ -1,0 +1,13 @@
+apt-get ¦-yq¦update :: Dependencies_operation,()
+vagrant :: user_operation,()
+mv ¦/usr/share/apache-maven-$MAVEN_VERSION¦/usr/share/maven :: Filesystem_operation,()
+REFRESHED_AT:2015-05-20 :: env_operation,()
+from,ubuntu@latest
+ln ¦-s¦/usr/share/maven/bin/mvn¦/usr/bin/mvn :: Filesystem_operation,()
+curl ¦-fsSL¦http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz¦|¦tar¦xzf¦-¦-C¦/usr/share :: Dependencies_operation,()
+HOME:/home/vagrant :: env_operation,()
+MAVEN_VERSION:3.3.3 :: env_operation,()
+/home/vagrant/.mvn :: volume_operation,()
+MAVEN_HOME:/usr/share/maven :: env_operation,()
+echo ¦adduser¦--disabled-password --gecos "" vagrant && echo "vagrant ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers :: Filesystem_operation,()
+apt-get ¦-yq¦install¦--no-install-recommends¦openjdk-7-jdk¦curl¦build-essential¦git¦ca-certificates :: Dependencies_operation,()

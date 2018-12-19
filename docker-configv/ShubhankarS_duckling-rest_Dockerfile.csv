@@ -1,0 +1,10 @@
+/duckling/duckling :: workdir_operation,()
+entrypoint,java
+expose,9000
+./duckling :: copy_operation,()
+lein ¦uberjar :: Dependencies_operation,()
+lein ¦install :: Dependencies_operation,()
+/duckling :: workdir_operation,()
+from,clojure@alpine
+cmd,-Xms256m¦-Xmx512m¦-Djava.awt.headless=true¦-jar¦target/duckling-rest-0.1.1-SNAPSHOT-standalone.jar
+lein ¦jar :: Dependencies_operation,()

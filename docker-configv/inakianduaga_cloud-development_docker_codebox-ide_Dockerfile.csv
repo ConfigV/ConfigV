@@ -1,0 +1,18 @@
+from,node:0.1
+${APP_ROOT} :: workdir_operation,()
+apt-get ¦-y¦install¦git¦python-software-properties¦python¦g++¦make¦software-properties-common :: Dependencies_operation,()
+scripts//scripts/ :: add_operation,()
+apt-get ¦-y¦install¦supervisor :: Dependencies_operation,()
+chmod ¦755¦/scripts/*.sh :: Permissions_operation,()
+npm ¦install¦npm¦-g :: Dependencies_operation,()
+expose,8000
+apt-get ¦clean :: Dependencies_operation,()
+${APP_ROOT} :: volume_operation,()
+cmd,/scripts/start.sh
+conf/supervisor//etc/supervisor/conf.d/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential :: Dependencies_operation,()
+npm ¦install¦-g¦codebox¦--no-bin-link¦--unsafe-perm :: Dependencies_operation,()
+APP_ROOT:/var/www :: env_operation,()

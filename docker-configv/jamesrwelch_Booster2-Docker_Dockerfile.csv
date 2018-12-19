@@ -1,0 +1,11 @@
+/var/lib/mysql :: volume_operation,()
+expose,3306
+mkdir ¦/scripts/pre-exec.d¦&&mkdir¦/scripts/pre-init.d¦&&chmod¦-R¦755¦/scripts :: Filesystem_operation,()
+gwi.war/usr/local/tomcat/webapps :: add_operation,()
+from,tomcat:8.5
+unzip ¦-d¦/booster2¦/booster2/Booster2.zip :: Filesystem_operation,()
+apk ¦--update¦add¦mysql¦mysql-client¦pwgen :: Dependencies_operation,()
+sunshine.jar/sunshine/ :: add_operation,()
+entrypoint,/scripts/startup.sh
+Booster2.zip/booster2/ :: add_operation,()
+startup.sh/scripts/startup.sh :: add_operation,()

@@ -1,0 +1,10 @@
+opam ¦config¦exec¦make¦selfCI :: Other_operation,()
+/datakit-ci :: workdir_operation,()
+root :: user_operation,()
+rm ¦-rf¦_build :: Filesystem_operation,()
+sudo ¦apk¦add¦docker :: Other_operation,()
+./datakit-ci :: add_operation,()
+entrypoint,/datakit-ci/datakit-ci
+ln ¦_build/selfCI.native¦/datakit-ci/datakit-ci :: Filesystem_operation,()
+sudo ¦chown¦opam¦. :: Other_operation,()
+from,docker/datakit:ci

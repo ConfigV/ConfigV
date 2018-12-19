@@ -1,0 +1,15 @@
+DOCKER_SHA256:d0df512afa109006a450f41873634951e19ddabf8c7bd419caeb5a526032d86d :: env_operation,()
+apt-get ¦install¦-qqyapt-transport-httpsca-certificatescurllxcgitgccmakezlib1gzlib1g.devopenssllibssl-deviptables¦&&rm¦-rf¦/var/lib/apt/lists/* :: Dependencies_operation,()
+DOCKER_BUCKET:get.docker.com :: env_operation,()
+cmd,sh
+echo ¦curl¦-fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-$DOCKER_VERSION" -o /usr/local/bin/docker && echo "${DOCKER_SHA256} /usr/local/bin/docker" | sha256sum -c - && chmod +x /usr/local/bin/docker :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+root :: user_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+entrypoint,docker-entrypoint.sh
+from,evarga/jenkins-slave:latest
+chmod ¦+x¦/usr/local/bin/slave.sh :: Permissions_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+slave.sh/usr/local/bin/slave.sh :: add_operation,()
+DOCKER_VERSION:1.10.3 :: env_operation,()
+echo ¦echo¦"jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()

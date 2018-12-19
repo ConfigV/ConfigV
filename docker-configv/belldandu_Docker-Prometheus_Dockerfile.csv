@@ -1,0 +1,10 @@
+./start.sh/start.sh :: copy_operation,()
+container :: user_operation,()
+apt-get ¦install¦-y¦git¦gcc¦libsqlite3-dev :: Dependencies_operation,()
+HOME:/home/container :: env_operation,()
+cmd,/bin/bash¦/start.sh
+apt-get ¦update :: Dependencies_operation,()
+useradd ¦-m¦-d¦/home/container¦container :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,ubuntu:15.1
+/home/container :: workdir_operation,()

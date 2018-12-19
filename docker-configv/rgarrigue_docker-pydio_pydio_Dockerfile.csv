@@ -1,0 +1,11 @@
+apk ¦del¦devs :: Dependencies_operation,()
+apk ¦--no-cache¦add¦--virtual¦devs¦tar¦curl :: Dependencies_operation,()
+cmd,caddy¦--conf¦/etc/Caddyfile
+/srv :: volume_operation,()
+from,alpine@edge
+./Caddyfile/etc/Caddyfile :: copy_operation,()
+curl ¦"https://caddyserver.com/download/build?os=linux&arch=amd64&features=cors,git,hugo,ipfilter,jsonp,jwt,mailout,prometheus,realip,search,upload"¦|¦tar¦--no-same-owner¦-C¦/usr/bin/¦-xz¦caddy :: Dependencies_operation,()
+entrypoint,tini
+expose,80 443
+apk ¦--no-cache¦add¦tini¦git :: Dependencies_operation,()
+/srv :: workdir_operation,()

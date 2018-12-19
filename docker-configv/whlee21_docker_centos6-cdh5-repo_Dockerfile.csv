@@ -1,0 +1,9 @@
+createrepo ¦. :: Other_operation,()
+from,whlee21/centos6-cdh5-base
+cd ¦/var/www/html/cdh/5/ :: Filesystem_operation,()
+expose,80
+mv ¦cloudera-cdh5/RPMS¦/var/www/html/cdh/5/ :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+yum ¦install¦-y¦yum-utils¦createrepo¦python-setuptools¦httpd;¦yum¦clean¦all :: Dependencies_operation,()
+mkdir ¦-p¦/var/www/html/cdh/5 :: Filesystem_operation,()
+reposync ¦-r¦cloudera-cdh5 :: Other_operation,()

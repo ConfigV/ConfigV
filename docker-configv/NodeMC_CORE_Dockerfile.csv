@@ -1,0 +1,21 @@
+mv ¦/opt/dist¦/opt/yarn :: Filesystem_operation,()
+update-ca-certificates  :: Other_operation,()
+./CORE :: copy_operation,()
+chmod ¦+x¦/usr/bin/dumb-init :: Permissions_operation,()
+cmd,/usr/bin/docker-entrypoint
+curl ¦-sL¦https://yarnpkg.com/latest.tar.gz¦|¦tar¦xz¦-C¦/opt :: Dependencies_operation,()
+apk ¦--no-cache¦add¦ca-certificates¦wget :: Dependencies_operation,()
+apk ¦upgrade¦--no-cache¦--no-self-upgrade¦--available :: Dependencies_operation,()
+apk ¦del¦--purge¦curl :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+./docker-entrypoint.sh/usr/bin/docker-entrypoint :: copy_operation,()
+entrypoint,/usr/bin/dumb-init¦--
+from,mhart/alpine-node:base
+yarn  :: Other_operation,()
+ln ¦-s¦/opt/yarn/bin/yarn¦/usr/local/bin :: Filesystem_operation,()
+package.json/CORE :: copy_operation,()
+chmod ¦+x¦/usr/bin/docker-entrypoint :: Permissions_operation,()
+apk ¦add¦--no-cache¦curl :: Dependencies_operation,()
+wget ¦-O¦/usr/bin/dumb-init¦https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 :: Dependencies_operation,()
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+/CORE :: workdir_operation,()

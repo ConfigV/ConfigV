@@ -1,0 +1,11 @@
+tar ¦-xvf¦node-v5.11.0-linux-armv7l.tar.xz :: Filesystem_operation,()
+wget ¦-q¦https://nodejs.org/dist/v5.11.0/node-v5.11.0-linux-armv7l.tar.xz :: Dependencies_operation,()
+rm ¦-r¦node-v5.11.0-linux-armv7l :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦ca-certificates¦git¦wget¦--no-install-recommends :: Dependencies_operation,()
+set ¦-xe :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+rm ¦-r¦node-v5.11.0-linux-armv7l.tar.xz :: Filesystem_operation,()
+from,resin/rpi-raspbian:jessie
+cp ¦-R¦node-v5.11.0-linux-armv7l/bin/¦node-v5.11.0-linux-armv7l/include/¦node-v5.11.0-linux-armv7l/lib/¦node-v5.11.0-linux-armv7l/share/¦/usr/local/ :: Filesystem_operation,()
+cmd,node

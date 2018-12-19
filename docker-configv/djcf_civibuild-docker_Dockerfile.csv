@@ -1,0 +1,18 @@
+CMS_ROOT:/buildkit/build :: env_operation,()
+apt-get ¦update;¦apt-get¦install¦-y¦curl¦links¦ssmtp¦runit :: Dependencies_operation,()
+/var/lib/mysql :: volume_operation,()
+/buildkit/dbconf.sh ¦;¦/buildkit/bin/civibuild¦create¦civicrm¦--type¦$CIVITYPE¦--url¦http://${HOST:-localhost}:80¦--admin-pass¦${ADMINPASS:-s3cr3t} :: Other_operation,()
+/buildkit/postinstall.sh; ¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Other_operation,()
+entrypoint,/usr/sbin/docker-entrypoint.sh
+curl ¦-Ls¦https://civicrm.org/get-buildkit.sh¦|¦bash¦-s¦--¦--full¦--dir¦/buildkit :: Dependencies_operation,()
+SITE_ID:"civi" :: env_operation,()
+TMPDIR:/buildkit/tmp :: env_operation,()
+expose,80
+postinstall.sh/buildkit :: copy_operation,()
+dbconf.sh/buildkit :: copy_operation,()
+SITE_NAME:"Civi" :: env_operation,()
+docker-entrypoint.sh/usr/sbin/docker-entrypoint.sh :: copy_operation,()
+mysql.run/etc/service/mysqld/run :: copy_operation,()
+apache.run/etc/service/apache2/run :: copy_operation,()
+CIVITYPE:drupal-clean :: env_operation,()
+from,colstrom/fish:ubuntu

@@ -1,0 +1,19 @@
+LEIN_ROOT:yes :: env_operation,()
+lein  :: Dependencies_operation,()
+cmd,/opt/start-it
+git ¦clone¦https://github.com/kordano/goldrausch.git¦/opt/goldrausch :: Dependencies_operation,()
+./opt/opt :: add_operation,()
+from,ubuntu@trusty
+apt-get ¦install¦-y¦curl¦git¦wget¦unzip :: Dependencies_operation,()
+mv ¦/opt/datomic-free-0.9.4899¦/opt/datomic :: Filesystem_operation,()
+wget ¦https://raw.github.com/technomancy/leiningen/stable/bin/lein¦-O¦/usr/local/bin/lein :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/lein :: Permissions_operation,()
+export ¦HTTP_CLIENT="wget¦--no-check-certificate¦-O" :: Environment_operation,()
+wget ¦https://my.datomic.com/downloads/free/0.9.4899¦-O¦/opt/datomic.zip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦openjdk-7-jre-headless :: Dependencies_operation,()
+apt-get ¦install¦-y¦mongodb-clients :: Dependencies_operation,()
+unzip ¦/opt/datomic.zip¦-d¦/opt :: Filesystem_operation,()
+expose,8091

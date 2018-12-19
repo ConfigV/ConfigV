@@ -1,0 +1,14 @@
+cd ¦VarDictJava :: Filesystem_operation,()
+from,viapath/snappy_ngstools
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/VarDictJava/VarDict'¦/home/snappy/.bashrc :: Filesystem_operation,()
+git ¦clone¦--recursive¦https://github.com/AstraZeneca-NGS/VarDictJava.git :: Dependencies_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/VarDictJava :: Permissions_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()
+git ¦submodule¦update¦--recursive :: Dependencies_operation,()
+cmd,/bin/bash
+HOME:/root :: env_operation,()
+./gradlew ¦clean¦javadoc :: Other_operation,()
+cd ¦/usr/local/pipeline/ :: Filesystem_operation,()
+git ¦checkout¦v1.4.0 :: Dependencies_operation,()
+./gradlew ¦clean¦installApp :: Other_operation,()

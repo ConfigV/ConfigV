@@ -1,0 +1,16 @@
+/root/libevhtp/build :: workdir_operation,()
+rm ¦-rf¦libevhtp :: Filesystem_operation,()
+/root/ :: workdir_operation,()
+/root/CAvatar/build :: workdir_operation,()
+/root/CAvatar :: workdir_operation,()
+expose,3002
+make  :: Build_Execute_operation,()
+/root :: workdir_operation,()
+git ¦clone¦https://github.com/ellzey/libevhtp.git :: Dependencies_operation,()
+pacman ¦-S¦--noconfirm¦cmake¦openssl¦libpng¦gcc¦git¦make¦libevent :: Filesystem_operation,()
+./root/CAvatar :: add_operation,()
+entrypoint,./build/cavatar
+pacman ¦-Syu¦--noconfirm¦--ignore¦filesystem :: Filesystem_operation,()
+cmake ¦.. :: Build_Execute_operation,()
+make ¦install :: Build_Execute_operation,()
+from,base/arch

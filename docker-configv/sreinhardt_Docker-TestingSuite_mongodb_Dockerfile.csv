@@ -1,0 +1,8 @@
+cmd,--quiet -f /etc/mongodb.conf run 2>&1 >> /var/log/mongodb/mongodb.log
+from,sreinhardt/centos-6-x86_64:latest
+entrypoint,/usr/bin/mongodb
+/var/log/mongodb/ :: volume_operation,()
+/usr/bin/ :: workdir_operation,()
+yum ¦install¦mongodb-server¦-y :: Dependencies_operation,()
+mongodb.conf/etc/mongodb.conf :: add_operation,()
+expose,27017

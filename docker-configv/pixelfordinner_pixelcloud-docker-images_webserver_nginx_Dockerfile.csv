@@ -1,0 +1,15 @@
+data/nginx.conf/etc/nginx/ :: copy_operation,()
+LANG:C.UTF-8 :: env_operation,()
+rm ¦-rf¦/etc/nginx/conf.d :: Filesystem_operation,()
+data/dhparam.pem/etc/nginx/ :: copy_operation,()
+from,nginx
+expose,80 443
+cmd,nginx
+data/mime.types/etc/nginx/ :: copy_operation,()
+mkdir ¦-p¦/opt/www :: Filesystem_operation,()
+data/conf.d/etc/nginx/conf.d :: copy_operation,()
+rm ¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+rm ¦/etc/nginx/fastcgi_params :: Filesystem_operation,()
+/var/cache/nginx :: volume_operation,()
+data/fastcgi_params/etc/nginx/ :: copy_operation,()
+mkdir ¦-p¦/etc/nginx/vhost :: Filesystem_operation,()

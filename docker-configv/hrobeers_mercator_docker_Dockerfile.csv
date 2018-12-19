@@ -1,0 +1,22 @@
+rel/$REL_NAME/releases/$APP_VERSION/start.boot$HOME/$REL_NAME/releases/$APP_VERSION/start.boot :: add_operation,()
+apk ¦--update¦add¦su-exec¦openssl¦erlang-crypto¦erlang-sasl :: Dependencies_operation,()
+rel/$REL_NAME/releases/$APP_VERSION/vm.args$HOME/$REL_NAME/releases/$APP_VERSION/vm.args :: add_operation,()
+HOME:/home/$USER :: env_operation,()
+expose,4000
+REL_NAME:web :: env_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,msaraiva/erlang:18.3
+rel/$REL_NAME/bin$HOME/$REL_NAME/bin :: add_operation,()
+rel/$REL_NAME/lib$HOME/$REL_NAME/lib :: add_operation,()
+rel/$REL_NAME/releases/$APP_VERSION/$REL_NAME.script$HOME/$REL_NAME/releases/$APP_VERSION/$REL_NAME.script :: add_operation,()
+rel/$REL_NAME/releases/$APP_VERSION/$REL_NAME.rel$HOME/$REL_NAME/releases/$APP_VERSION/$REL_NAME.rel :: add_operation,()
+mkdir ¦-p¦/$REL_NAME :: Filesystem_operation,()
+USER:server :: env_operation,()
+entrypoint,/entrypoint.sh
+APP_NAME:mercator :: env_operation,()
+APP_VERSION:"0.0.1" :: env_operation,()
+rel/$REL_NAME/releases/start_erl.data$HOME/$REL_NAME/releases/start_erl.data :: add_operation,()
+rel/$REL_NAME/releases/$APP_VERSION/$REL_NAME.sh$HOME/$REL_NAME/releases/$APP_VERSION/$REL_NAME.sh :: add_operation,()
+rel/$REL_NAME/releases/$APP_VERSION/$REL_NAME.boot$HOME/$REL_NAME/releases/$APP_VERSION/$REL_NAME.boot :: add_operation,()
+rel/$REL_NAME/releases/$APP_VERSION/sys.config$HOME/$REL_NAME/releases/$APP_VERSION/sys.config :: add_operation,()

@@ -1,0 +1,19 @@
+curl ¦http://media.steampowered.com/installer/steamcmd_linux.tar.gz¦|¦tar¦-C¦$SERVER¦-xvz :: Dependencies_operation,()
+./start.sh$SERVER/start.sh :: add_operation,()
+$USER :: user_operation,()
+/home/$USER/hlserver :: workdir_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+./update.sh$SERVER/update.sh :: add_operation,()
+SERVER:$HOME/hlserver :: env_operation,()
+from,ubuntu
+entrypoint,./start.sh
+./csgo_ds.txt$SERVER/csgo_ds.txt :: add_operation,()
+HOME:/home/$USER :: env_operation,()
+mkdir ¦$HOME :: Filesystem_operation,()
+chmod ¦+x¦$SERVER/start.sh :: Permissions_operation,()
+USER:steam :: env_operation,()
+cmd,-console¦-usercon¦+game_type¦0¦+game_mode¦1¦+mapgroup¦mg_active¦+map¦de_cache
+expose,27015
+apt-get ¦-y¦install¦ca-certificates¦lib32gcc1¦net-tools¦lib32stdc++6¦lib32z1¦lib32z1-dev¦curl :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()
+mkdir ¦$SERVER :: Filesystem_operation,()

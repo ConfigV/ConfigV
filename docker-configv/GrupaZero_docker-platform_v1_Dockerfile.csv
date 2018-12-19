@@ -1,0 +1,22 @@
+TERM:xterm :: env_operation,()
+from,ubuntu:14.04
+../start.sh/start.sh :: add_operation,()
+expose,80
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+HOME:/root :: env_operation,()
+../cfg/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+/bin/mv ¦composer.phar¦/usr/local/bin/composer :: Other_operation,()
+echo ¦apt-get¦update && apt-get install -y software-properties-common --no-install-recommends && LANG=C.UTF-8 add-apt-repository ppa:nginx/stable && LANG=C.UTF-8 add-apt-repository ppa:ondrej/php5-5.6 && apt-get update && apt-get install -y nano... :: Filesystem_operation,()
+mv ¦/var/www/html¦/var/www/public :: Filesystem_operation,()
+cmd,/bin/bash¦/start.sh
+chmod ¦+x¦/commandWrapper.sh :: Permissions_operation,()
+../commandWrapper.sh/commandWrapper.sh :: add_operation,()
+/usr/bin/curl ¦-sS¦https://getcomposer.org/installer¦|¦/usr/bin/php :: Other_operation,()
+mv ¦/var/www/public/index.nginx-debian.html¦/var/www/public/index.html :: Filesystem_operation,()
+../cfg/php.ini/etc/php5/fpm/php.ini :: add_operation,()
+../cfg/pool.d/www.conf/etc/php5/fpm/pool.d/www.conf :: add_operation,()
+../cfg/supervisord.conf/etc/supervisord.conf :: add_operation,()
+../cfg/default-site/etc/nginx/conf.d/mysite.template :: add_operation,()
+../cfg/php-fpm.conf/etc/php5/fpm/php-fpm.conf :: add_operation,()
+php5enmod ¦mcrypt :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

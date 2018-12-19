@@ -1,0 +1,13 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cd ¦ruby-install-0.5.0/ :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+from,ubuntu:12.04
+apt-get ¦install¦-qy¦libxml2¦libxml2-dev¦libxslt1-dev¦nodejs¦postgresql-contrib¦libpq-dev" :: Dependencies_operation,()
+ruby-install ¦--system¦ruby¦1.9.3-p547 :: Other_operation,()
+gem ¦install¦bundler¦--no-ri¦--no-rdoc :: Dependencies_operation,()
+tar ¦-xzvf¦ruby-install-0.5.0.tar.gz :: Filesystem_operation,()
+cmd,-l
+/bin/bash ¦-c¦"apt-get¦update¦-qq :: Build_Execute_operation,()
+entrypoint,/bin/bash
+wget ¦-O¦ruby-install-0.5.0.tar.gz¦https://github.com/postmodern/ruby-install/archive/v0.5.0.tar.gz :: Dependencies_operation,()
+apt-get ¦install¦-qy¦wget¦curl¦bzip2¦make¦gcc" :: Dependencies_operation,()

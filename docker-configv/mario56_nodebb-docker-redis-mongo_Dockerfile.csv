@@ -1,0 +1,10 @@
+expose,4567
+sed ¦-i¦'s/archive.ubuntu.com/mirrors.ustc.edu.cn/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+/opt/nodebb :: volume_operation,()
+from,ubuntu:14.04
+ln ¦-s¦-f¦/usr/bin/nodejs¦/usr/local/bin/node :: Filesystem_operation,()
+cmd,node¦app.js
+/opt/nodebb :: workdir_operation,()
+.//opt/nodebb :: add_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦imagemagick¦curl¦ca-certificates¦&&\\ :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

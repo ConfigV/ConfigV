@@ -1,0 +1,10 @@
+APP_HOME:/app :: env_operation,()
+from,ruby:2.3
+$APP_HOME :: workdir_operation,()
+mkdir ¦-p¦$APP_HOME :: Filesystem_operation,()
+cmd,bundle¦exec¦ruby¦main.rb
+apk ¦add¦--update¦imagemagick-dev¦git¦build-base :: Dependencies_operation,()
+Gemfile$APP_HOME :: copy_operation,()
+.$APP_HOME :: copy_operation,()
+bundle ¦install :: Dependencies_operation,()
+expose,4567

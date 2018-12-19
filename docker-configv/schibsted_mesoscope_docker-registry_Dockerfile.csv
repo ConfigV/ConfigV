@@ -1,0 +1,16 @@
+go ¦get¦-x¦github.com/tools/godep :: Build_Execute_operation,()
+mkdir ¦-p¦${SRVPATH}/conf¦${SRVPATH}/data :: Filesystem_operation,()
+godep ¦get¦github.com/docker/distribution/cmd/registry :: Dependencies_operation,()
+curl ¦-sSL¦https://golang.org/dl/go${GOLANG_VERSION}.tar.gz¦|¦tar¦-v¦-C¦/usr/local¦-xz :: Dependencies_operation,()
+PATH="$GOPATH/bin:/usr/local/go/bin:$PATH": :: env_operation,()
+SRVPATH="/opt/docker-registry": :: env_operation,()
+expose,5000
+apt-get ¦clean :: Dependencies_operation,()
+GOPATH="/go": :: env_operation,()
+from,mesoscope/common
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦${GOPATH} :: Filesystem_operation,()
+entrypoint,registry¦/opt/docker-registry/conf/config.yml
+GOLANG_VERSION="1.4.2.linux-amd64": :: env_operation,()
+files/config.yml${SRVPATH}/conf/config.yml :: add_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦git¦mercurial¦curl :: Dependencies_operation,()

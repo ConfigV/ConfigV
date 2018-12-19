@@ -1,0 +1,18 @@
+start_rabbitmq-server.sh/etc/service/rabbitmq-server/run :: add_operation,()
+wget ¦-O¦/root/rabbitmq-signing-key-public.asc¦http://www.rabbitmq.com/rabbitmq-signing-key-public.asc :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+from,phusion/baseimage:0.9.17
+apt-get ¦-y¦install¦rabbitmq-server :: Dependencies_operation,()
+expose,5672
+HOME:/root :: env_operation,()
+ln ¦-s¦-f¦/bin/true¦/usr/bin/chfn :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+rabbitmq.config/etc/rabbitmq/rabbitmq.config :: add_operation,()
+cmd,/sbin/my_init
+echo ¦echo¦"deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-key ¦add¦/root/rabbitmq-signing-key-public.asc :: Dependencies_operation,()
+initialize_rabbitmq.sh/etc/my_init.d/01_initialize_rabbitmq.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦wget :: Dependencies_operation,()
+LANG:en_US.UTF-8 :: env_operation,()

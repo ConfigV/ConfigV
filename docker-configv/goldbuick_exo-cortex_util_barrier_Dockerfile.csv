@@ -1,0 +1,8 @@
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦add¦--update¦nginx :: Dependencies_operation,()
+nginx/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+/var/nginx :: volume_operation,()
+mkdir ¦-p¦/tmp/nginx/client-body :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+from,alpine:3.2
+expose,7080

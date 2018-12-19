@@ -1,0 +1,8 @@
+git ¦clone¦https://github.com/pdcbc/composer.git¦.¦-b¦${RELEASE};¦chown¦-R¦app:app¦/app/;¦/sbin/setuser¦app¦bundle¦install¦--path¦vendor/bundle;¦sed¦-i¦-e¦"s/localhost:27017/hubdb:27017/"¦config/mongoid.yml :: Dependencies_operation,()
+echo ¦mkdir¦-p /etc/service/app/; ( echo "#!/bin/bash"; echo "#"; echo "set -e -o nounset"; echo ""; echo ""; echo "# Create Endpoint public keys file (authorized_keys)"; echo "#"; echo "mkdir -p /home/autossh/.ssh/"; echo "touch /home/autossh/.... :: Filesystem_operation,()
+rm ¦-f¦/etc/service/sshd/down;¦adduser¦--quiet¦--disabled-password¦--home¦/home/autossh¦autossh¦2>&1 :: Filesystem_operation,()
+apt-get ¦update;¦apt-get¦install¦-y¦git;¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+RELEASE:0.1.3 :: env_operation,()
+from,phusion/passenger-ruby19
+/app/ :: workdir_operation,()
+cmd,/sbin/my_init

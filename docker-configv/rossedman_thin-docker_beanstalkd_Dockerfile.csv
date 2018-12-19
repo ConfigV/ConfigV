@@ -1,0 +1,13 @@
+from,alpine:3.2
+apk ¦--update¦add¦--virtual¦build-dependencies¦gcc¦make¦musl-dev¦curl¦bash :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+sed ¦-i¦"s|#include¦<sys/fcntl.h>|#include¦<fcntl.h>|g"¦sd-daemon.c :: Filesystem_operation,()
+cd ¦/tmp/beanstalkd-$version :: Filesystem_operation,()
+apk ¦del¦build-dependencies :: Dependencies_operation,()
+expose,11300
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+version="1.10": :: env_operation,()
+cmd,beanstalkd¦-p¦11300¦-u¦nobody
+cp ¦beanstalkd¦/usr/bin :: Filesystem_operation,()
+curl ¦-sL¦https://github.com/kr/beanstalkd/archive/v$version.tar.gz¦|¦tar¦xvz¦-C¦/tmp :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

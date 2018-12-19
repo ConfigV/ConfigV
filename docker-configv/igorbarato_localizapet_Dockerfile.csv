@@ -1,0 +1,9 @@
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+sed ¦-i¦'s!/var/www/html!/var/www/public!g'¦/etc/apache2/apache2.conf :: Filesystem_operation,()
+mv ¦/var/www/html¦/var/www/public :: Filesystem_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+from,php:7.0
+/var/www :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-install ¦zip :: Other_operation,()
+apt-get ¦install¦-y¦git¦zlib1g-dev :: Dependencies_operation,()

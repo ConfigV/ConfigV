@@ -1,0 +1,9 @@
+entrypoint,java¦-jar¦/dnstest/target/dnstest-1.0-SNAPSHOT.jar
+mvn ¦package :: Dependencies_operation,()
+/dnstest :: workdir_operation,()
+from,openjdk:8.0
+apt-get ¦update :: Dependencies_operation,()
+./dnstest :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦maven :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦maven :: Dependencies_operation,()

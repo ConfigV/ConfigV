@@ -1,0 +1,15 @@
+./config_mariadb.sh/config_mariadb.sh :: add_operation,()
+/sys/fs/cgroup :: volume_operation,()
+from,fedora
+cmd,/usr/sbin/init
+systemctl ¦mask¦systemd-remount-fs.service¦dev-hugepages.mount¦sys-fs-fuse-connections.mount¦systemd-logind.service¦getty.target¦console-getty.service :: Other_operation,()
+/tmp :: volume_operation,()
+/run :: volume_operation,()
+chmod ¦755¦/config_mariadb.sh :: Permissions_operation,()
+container:docker :: env_operation,()
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+expose,3306
+/config_mariadb.sh  :: Other_operation,()
+cp ¦/usr/lib/systemd/system/dbus.service¦/etc/systemd/system/;¦sed¦-i¦'s/OOMScoreAdjust=-900//'¦/etc/systemd/system/dbus.service :: Filesystem_operation,()
+yum ¦-y¦install¦net-tools¦psmisc¦hostname¦mariadb-server¦mariadb;¦yum¦clean¦all :: Dependencies_operation,()
+systemctl ¦enable¦mariadb.service :: Other_operation,()

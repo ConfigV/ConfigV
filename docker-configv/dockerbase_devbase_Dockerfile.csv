@@ -1,0 +1,15 @@
+HOME:/ :: env_operation,()
+echo ¦echo¦"devbase ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,bash
+cd ¦/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+useradd ¦-s¦/bin/bash¦-m¦devbase :: Permissions_operation,()
+git ¦clone¦https://github.com/weimed/pups.git :: Dependencies_operation,()
+/root :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦ruby¦rbenv :: Dependencies_operation,()
+LC_ALL:C :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦make :: Dependencies_operation,()
+from,dockerbase/openssh-server
+echo ¦echo¦"devbase:devbase" | chpasswd :: Filesystem_operation,()

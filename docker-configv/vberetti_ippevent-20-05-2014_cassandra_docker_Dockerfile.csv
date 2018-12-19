@@ -1,0 +1,21 @@
+cmd,/usr/bin/supervisord
+echo ¦echo¦"stomp_interface: 172.17.42.1\\nlocal_interface : XXXXXX" >> /opt/datastax-agent-4.1.2/conf/address.yaml :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server¦supervisor¦ufw :: Dependencies_operation,()
+echo ¦echo¦'root:pass' | chpasswd :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦oracle-java7-installer¦oracle-java7-set-default :: Other_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦wget¦dnsmasq-base¦python2.7¦vim¦less¦iputils-ping :: Other_operation,()
+cassandra.yaml/opt/dsc-cassandra-2.0.7/conf/cassandra.yaml :: add_operation,()
+from,ubuntu
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--force-yes¦software-properties-common¦python-software-properties :: Other_operation,()
+wget ¦-q¦-O¦-¦http://downloads.datastax.com/community/datastax-agent-4.1.2.tar.gz¦|¦tar¦-C¦/opt¦-xz :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+echo ¦echo¦'PermitRootLogin yes' > /etc/ssh/sshd_config :: Filesystem_operation,()
+echo ¦/bin/echo¦debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+expose,61621
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+add-apt-repository ¦-y¦ppa:webupd8team/java :: Dependencies_operation,()
+wget ¦-q¦-O¦-¦http://downloads.datastax.com/community/dsc-cassandra-2.0.7-bin.tar.gz¦|¦tar¦-C¦/opt¦-xz :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()

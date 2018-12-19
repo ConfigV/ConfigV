@@ -1,0 +1,9 @@
+from,gliderlabs/alpine:3.2
+rm ¦-rf¦/go :: Filesystem_operation,()
+apk-install ¦-t¦build-deps¦go¦git :: Dependencies_operation,()
+go ¦build¦-ldflags¦"-X¦main.Version"¦-o¦/bin/risu :: Build_Execute_operation,()
+apk ¦del¦--purge¦build-deps¦go¦git :: Dependencies_operation,()
+./go/src/github.com/wantedly/risu :: copy_operation,()
+cd ¦/go/src/github.com/wantedly/risu :: Filesystem_operation,()
+export ¦GOPATH=/go :: Environment_operation,()
+entrypoint,/bin/risu

@@ -1,0 +1,10 @@
+from,nginx
+tls/istsi.pem/etc/nginx/ssl/istsi.pem :: copy_operation,()
+mv ¦/istsi.conf.new¦/etc/nginx/conf.d/istsi.conf :: Filesystem_operation,()
+cmd,nginx
+rm ¦/etc/nginx/conf.d/default.conf :: Filesystem_operation,()
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+istsi.conf/istsi.conf :: copy_operation,()
+nginx.conf/etc/nginx/ :: copy_operation,()
+tls/istsi.key/etc/nginx/ssl/istsi.key :: copy_operation,()
+envsubst ¦'${HOST}'¦<¦/istsi.conf¦>¦/istsi.conf.new :: Other_operation,()

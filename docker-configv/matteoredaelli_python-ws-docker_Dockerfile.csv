@@ -1,0 +1,17 @@
+cmd,./app.py
+https_proxy="http://myproxy.redaelli.org:80": :: env_operation,()
+/usr/src/app :: workdir_operation,()
+pip ¦install¦--proxy¦$HTTP_PROXY¦--no-cache-dir¦-r¦requirements.txt :: Dependencies_operation,()
+PIP_OPTIONS="--proxy:$HTTP_PROXY" :: env_operation,()
+expose,5000
+entrypoint,python
+apt-get ¦update :: Dependencies_operation,()
+requirements.txt/usr/src/app/ :: copy_operation,()
+HTTP_PROXY="http://myproxy.redaelli.org:80": :: env_operation,()
+apt-get ¦install¦-y¦nmap :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+HTTPS_PROXY="http://myproxy.redaelli.org:80": :: env_operation,()
+app.py/usr/src/app/ :: copy_operation,()
+http_proxy="http://myproxy.redaelli.org:80": :: env_operation,()
+from,python:3.5
+/usr/src/app :: volume_operation,()

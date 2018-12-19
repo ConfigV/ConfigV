@@ -1,0 +1,11 @@
+WEB_DRIVER_SET_VERSION=1.3.0: :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+unzip ¦-o¦JMeterPlugins-WebDriver-${WEB_DRIVER_SET_VERSION}.zip¦-d¦${JMETER_HOME} :: Filesystem_operation,()
+apt-get ¦-y¦install¦wget¦unzip :: Dependencies_operation,()
+apt-get ¦-y¦--purge¦autoremove :: Dependencies_operation,()
+from,cirit/jmeter:base
+apt-get ¦-y¦remove¦wget¦unzip :: Dependencies_operation,()
+wget ¦http://jmeter-plugins.org/downloads/file/JMeterPlugins-WebDriver-${WEB_DRIVER_SET_VERSION}.zip :: Dependencies_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+rm ¦-rf¦JMeterPlugins-WebDriver-${WEB_DRIVER_SET_VERSION}.zip :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

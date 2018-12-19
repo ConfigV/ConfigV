@@ -1,0 +1,11 @@
+/data :: volume_operation,()
+tar ¦xvzf¦elasticsearch-1.7.6.tar.gz :: Filesystem_operation,()
+wget ¦https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.7.6.tar.gz :: Dependencies_operation,()
+expose,9300
+mv ¦/tmp/elasticsearch-1.7.6¦/elasticsearch :: Filesystem_operation,()
+/data :: workdir_operation,()
+entrypoint,/elasticsearch/bin/elasticsearch
+cd ¦/tmp :: Filesystem_operation,()
+from,java:7.0
+config/elasticsearch.yml/elasticsearch/config/elasticsearch.yml :: copy_operation,()
+rm ¦-f¦elasticsearch-1.7.6.tar.gz :: Filesystem_operation,()

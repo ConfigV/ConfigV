@@ -1,0 +1,10 @@
+SCRIPT_DIR:$GOPATH/src/github.com/bearded-web/wappalyzer-script :: env_operation,()
+rm ¦-rf¦$GOPATH/src/github.com/tools/godep :: Filesystem_operation,()
+.$SCRIPT_DIR :: add_operation,()
+expose,9238
+cd ¦$SCRIPT_DIR :: Filesystem_operation,()
+mkdir ¦-p¦$SCRIPT_DIR :: Filesystem_operation,()
+godep ¦go¦build¦-o¦/go/bin/wappalyzer-script¦./main.go :: Dependencies_operation,()
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()
+from,barbudo/golang
+entrypoint,wappalyzer-script

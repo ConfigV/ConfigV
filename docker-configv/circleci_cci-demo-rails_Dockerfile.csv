@@ -1,0 +1,13 @@
+bundle ¦exec¦rake¦db:create¦db:schema:load¦--trace :: Dependencies_operation,()
+Gemfile/src/app/ :: copy_operation,()
+apt-get ¦-y¦install¦build-essential¦libpq-dev¦nodejs :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,bin/rails¦server
+Gemfile.lock/src/app/ :: copy_operation,()
+mkdir ¦-p¦/src/app :: Filesystem_operation,()
+from,ruby@latest
+bundle ¦install :: Dependencies_operation,()
+bundle ¦exec¦rake¦db:migrate :: Dependencies_operation,()
+./src/app :: copy_operation,()
+/src/app :: workdir_operation,()
+expose,3000

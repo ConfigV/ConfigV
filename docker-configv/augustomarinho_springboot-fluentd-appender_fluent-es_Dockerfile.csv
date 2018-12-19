@@ -1,0 +1,9 @@
+expose,24284
+/fluentd/log :: volume_operation,()
+PATH:/home/fluent/.gem/ruby/2.2.0/bin:$PATH :: env_operation,()
+/home/fluent :: workdir_operation,()
+fluent :: user_operation,()
+from,fluent/fluentd:latest
+fluent.conf/fluentd/etc :: add_operation,()
+cmd,fluentd¦-c¦/fluentd/etc/$FLUENTD_CONF¦-p¦/fluentd/plugins¦$FLUENTD_OPT
+gem ¦install¦fluent-plugin-elasticsearch :: Dependencies_operation,()

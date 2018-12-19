@@ -1,0 +1,16 @@
+drone.toml/etc/drone/drone.toml :: add_operation,()
+/go/src/github.com/drone/drone :: workdir_operation,()
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()
+make ¦deps :: Build_Execute_operation,()
+cmd,/usr/local/bin/droned¦-config=/etc/drone/drone.toml
+VERSION:7354ad8e95b4d068f28ae448e1a163fcbb320cdf :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+git ¦clone¦git://github.com/drone/drone.git¦/go/src/github.com/drone/drone :: Dependencies_operation,()
+git ¦clean¦-fdx :: Dependencies_operation,()
+mkdir ¦-p¦/var/cache/drone¦/var/lib/drone :: Filesystem_operation,()
+expose,80
+from,golang@latest
+make  :: Build_Execute_operation,()
+apt-get ¦install¦-yq¦mercurial¦git¦bzr¦libsqlite3-dev¦sqlite3¦build-essential :: Dependencies_operation,()
+git ¦reset¦--hard¦${VERSION} :: Dependencies_operation,()

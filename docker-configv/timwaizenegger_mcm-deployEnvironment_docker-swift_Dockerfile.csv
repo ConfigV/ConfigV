@@ -1,0 +1,19 @@
+from,ubuntu:14.04
+apt-get ¦dist-upgrade :: Dependencies_operation,()
+files/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+files/account-server.conf/etc/swift/account-server.conf :: add_operation,()
+files/swift.conf/etc/swift/swift.conf :: add_operation,()
+files/object-server.conf/etc/swift/object-server.conf :: add_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+files/dispersion.conf/etc/swift/dispersion.conf :: add_operation,()
+files/startmain.sh/usr/local/bin/startmain.sh :: add_operation,()
+expose,8080
+files/rsyncd.conf/etc/rsyncd.conf :: add_operation,()
+files/container-server.conf/etc/swift/container-server.conf :: add_operation,()
+files/proxy-server.conf/etc/swift/proxy-server.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦supervisor¦swift¦python-swiftclient¦rsync¦swift-proxy¦swift-object¦memcached¦python-keystoneclient¦python-swiftclient¦swift-plugin-s3¦python-netifaces¦python-xattr¦python-memcache¦swift-account¦swift-container¦swift-object¦pwgen :: Dependencies_operation,()
+cmd,/usr/local/bin/startmain.sh
+chmod ¦755¦/usr/local/bin/startmain.sh :: Permissions_operation,()
+add-apt-repository ¦cloud-archive:mitaka :: Dependencies_operation,()

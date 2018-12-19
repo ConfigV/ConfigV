@@ -1,0 +1,10 @@
+from,elasticsearch:2.2
+mkdir ¦-p¦/tmp/backups/backup2 :: Filesystem_operation,()
+scripts/*/usr/share/elasticsearch/config/scripts/ :: copy_operation,()
+*.yml/usr/share/elasticsearch/config/ :: copy_operation,()
+ES_IMAGE_PLUGIN_VER:1.7.1 :: env_operation,()
+expose,9200 9300
+ES_PLUGIN_BIN:/usr/share/elasticsearch/bin/plugin :: env_operation,()
+mkdir ¦-p¦/tmp/backups/backup1 :: Filesystem_operation,()
+${ES_PLUGIN_BIN} ¦install¦delete-by-query :: Other_operation,()
+${ES_PLUGIN_BIN} ¦install¦mapper-attachments :: Other_operation,()

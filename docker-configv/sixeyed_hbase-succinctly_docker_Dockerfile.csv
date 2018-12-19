@@ -1,0 +1,12 @@
+/opt/hbase/bin :: workdir_operation,()
+expose,9095
+./install-hbase.sh/hbase-setup/ :: add_operation,()
+/hbase-setup :: workdir_operation,()
+mkdir ¦/hbase-setup :: Filesystem_operation,()
+from,java:7.0
+PATH=$PATH:/opt/hbase/bin: :: env_operation,()
+JAVA_HOME=/usr: :: env_operation,()
+hbase-site.xml/opt/hbase/conf/hbase-site.xml :: add_operation,()
+start-hbase-all.sh/opt/hbase/bin/start-hbase-all.sh :: add_operation,()
+cmd,/opt/hbase/bin/start-hbase-all.sh
+./install-hbase.sh  :: Other_operation,()

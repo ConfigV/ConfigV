@@ -1,0 +1,8 @@
+cmd,/start.sh
+MYSQL_VERSION:5.5.38-r0 :: env_operation,()
+from,mini/base
+./config/mysql.cnf/etc/mysql/my.cnf :: add_operation,()
+/data :: volume_operation,()
+./scripts/start.sh/start.sh :: add_operation,()
+expose,3306
+apk-install ¦mysql=$MYSQL_VERSION¦mysql-client=$MYSQL_VERSION¦pwgen :: Dependencies_operation,()

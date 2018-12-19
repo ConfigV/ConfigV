@@ -1,0 +1,12 @@
+/app/Kodj.Api :: workdir_operation,()
+printf ¦"deb¦http://ftp.us.debian.org/debian¦jessie¦main\\n"¦>>¦/etc/apt/sources.list :: Other_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+dnx ¦ef¦database¦update :: Other_operation,()
+/app/Kodj.Service :: workdir_operation,()
+from,trumhemcut/aspnet-fast
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+dnu ¦restore :: Other_operation,()
+expose,5000
+./app :: copy_operation,()
+apt-get ¦install¦-qqy¦sqlite3¦libsqlite3-dev :: Dependencies_operation,()
+entrypoint,dnx¦-p¦project.json¦web

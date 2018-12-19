@@ -1,0 +1,13 @@
+from,ubuntu
+run.sh/var/run.sh :: add_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+apt-get ¦install¦oracle-java7-installer¦-y :: Dependencies_operation,()
+chmod ¦755¦/var/run.sh :: Permissions_operation,()
+add-apt-repository ¦-y¦ppa:webupd8team/java :: Dependencies_operation,()
+expose,4444
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections :: Filesystem_operation,()
+VERSION:2.44.0 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections :: Filesystem_operation,()
+cmd,/bin/bash¦/var/run.sh
+wget ¦http://selenium-release.storage.googleapis.com/${VERSION%.*}/selenium-server-standalone-${VERSION}.jar :: Dependencies_operation,()

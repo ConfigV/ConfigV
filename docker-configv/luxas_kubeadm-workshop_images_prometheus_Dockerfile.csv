@@ -1,0 +1,9 @@
+prometheus/bin/ :: copy_operation,()
+consoles//etc/prometheus/consoles/ :: copy_operation,()
+console_libraries//etc/prometheus/console_libraries/ :: copy_operation,()
+entrypoint,/bin/prometheus
+prometheus.yml/etc/prometheus/prometheus.yml :: copy_operation,()
+from,BASEIMAGE
+console_libraries//usr/share/prometheus/console_libraries/ :: copy_operation,()
+cmd,-config.file=/etc/prometheus/prometheus.yml¦-storage.local.path=/prometheus¦-web.console.libraries=/usr/share/prometheus/console_libraries¦-web.console.templates=/usr/share/prometheus/consoles
+consoles//usr/share/prometheus/consoles/ :: copy_operation,()

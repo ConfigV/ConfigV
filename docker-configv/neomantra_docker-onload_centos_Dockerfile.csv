@@ -1,0 +1,11 @@
+http://www.openonload.org/download/openonload-${ONLOAD_VERSION}.tgz/tmp/openonload-${ONLOAD_VERSION}.tgz :: add_operation,()
+rm ¦-rf¦/tmp/openonload-${ONLOAD_VERSION}.tgz¦/tmp/openonload-${ONLOAD_VERSION} :: Filesystem_operation,()
+from,centos:7.0
+tar ¦-zxf¦openonload-${ONLOAD_VERSION}.tgz :: Filesystem_operation,()
+/ :: workdir_operation,()
+echo ¦echo¦"${ONLOAD_MD5SUM} openonload-${ONLOAD_VERSION}.tgz" | md5sum --check :: Filesystem_operation,()
+./onload_install ¦--userfiles¦--nobuild :: Other_operation,()
+/tmp/openonload-${ONLOAD_VERSION}/scripts :: workdir_operation,()
+yum ¦install¦-y¦kernel-devel¦binutils¦gettext¦gawk¦which¦file¦gcc¦sed¦make¦bash¦glibc-common¦automake¦libtool¦autoconf¦glibc-devel.x86_64¦glibc-devel.i686¦libgcc.i686¦libpcap-devel¦valgrind-devel¦python-devel :: Dependencies_operation,()
+./onload_build ¦--user :: Other_operation,()
+/tmp :: workdir_operation,()

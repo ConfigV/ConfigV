@@ -1,0 +1,10 @@
+entrypoint,/produits/tomcat/bin/catalina.sh¦run
+TOMCAT_VERSION=7.0.59: :: env_operation,()
+apache-tomcat-${TOMCAT_VERSION}.tar.gz/produits :: add_operation,()
+mv ¦/produits/apache-tomcat-${TOMCAT_VERSION}¦/produits/tomcat :: Filesystem_operation,()
+mkdir ¦-p¦/produits :: Filesystem_operation,()
+echo ¦echo¦"CATALINA_HOME=/produits/tomcat" >> /etc/environment :: Filesystem_operation,()
+/produits/tomcat :: workdir_operation,()
+expose,8080
+tomcat-users.xml/produits/tomcat/conf/ :: copy_operation,()
+from,cdelaitre/openjdk7

@@ -1,0 +1,17 @@
+./bin/etc/toolbelt :: add_operation,()
+cmd,daemon
+/go/src/github.com/ravaj-group/farmer/toolbelt/daemon :: workdir_operation,()
+ln ¦-fs¦/etc/toolbelt/toolbelt¦/usr/bin/ :: Filesystem_operation,()
+./daemon/go/src/github.com/ravaj-group/farmer/toolbelt/daemon :: add_operation,()
+wget ¦-qO-¦https://get.docker.com/¦|¦sh :: Dependencies_operation,()
+apt-get ¦update¦-y¦--fix-missing :: Dependencies_operation,()
+curl ¦-L¦https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname¦-s`-`uname¦-m`¦>¦/usr/local/bin/docker-compose :: Dependencies_operation,()
+expose,80
+apt-get ¦install¦--force-yes¦-y¦git :: Dependencies_operation,()
+git ¦config¦--global¦user.name¦"toolbelt" :: Dependencies_operation,()
+git ¦config¦--global¦user.email¦"toolbelt@ravaj.ir" :: Dependencies_operation,()
+go ¦install¦-v :: Build_Execute_operation,()
+"/root/.docker" :: volume_operation,()
+from,golang:1.5
+go ¦get¦-d¦-v :: Build_Execute_operation,()
+chmod ¦+x¦/usr/local/bin/docker-compose :: Permissions_operation,()

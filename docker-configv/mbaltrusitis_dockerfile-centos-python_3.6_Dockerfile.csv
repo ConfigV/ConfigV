@@ -1,0 +1,14 @@
+from,mbaltrusitis/centos-buildpack-deps:7
+curl ¦-SL¦"https://www.python.org/static/files/pubkeys.txt"¦-o¦pubkeys.txt :: Dependencies_operation,()
+cd ¦/usr/local/bin :: Filesystem_operation,()
+echo ¦set¦-x && mkdir -p /usr/src/python && curl -SL "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz && curl -SL "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PY... :: Filesystem_operation,()
+ln ¦-s¦python-config3.6¦python-config3 :: Filesystem_operation,()
+PYTHON_PIP_VERSION:9.0.1 :: env_operation,()
+ln ¦-s¦pydoc3.6¦pydoc3 :: Filesystem_operation,()
+LANG:C.UTF-8 :: env_operation,()
+PYTHON_VERSION:3.6.0 :: env_operation,()
+ln ¦-s¦idle3.6¦idle3 :: Filesystem_operation,()
+gpg ¦--import¦pubkeys.txt :: Other_operation,()
+cmd,python3
+ln ¦-s¦python3.6¦python3 :: Filesystem_operation,()
+ln ¦-s¦easy_install-3.6¦easy_install3 :: Filesystem_operation,()

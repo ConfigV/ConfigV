@@ -1,0 +1,14 @@
+cd ¦oath-toolkit-2.6.1/ :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+oathtool  :: Other_operation,()
+./configure ¦--disable-pam¦--prefix=/usr/local :: Build_Execute_operation,()
+apk ¦del¦--no-cache¦build-base¦file :: Dependencies_operation,()
+entrypoint,/usr/local/bin/oathtool
+rm ¦-r¦oath-toolkit-2.6.1 :: Filesystem_operation,()
+from,alpine
+apk ¦add¦--no-cache¦build-base¦file :: Dependencies_operation,()
+wget ¦http://download.savannah.gnu.org/releases/oath-toolkit/oath-toolkit-2.6.1.tar.gz¦-O-¦|¦tar¦-xz :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+cd ¦oathtool/ :: Filesystem_operation,()
+cd ¦.. :: Filesystem_operation,()
+cd ¦liboath/ :: Filesystem_operation,()

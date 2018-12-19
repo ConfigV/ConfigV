@@ -1,0 +1,13 @@
+APP_HOME:/home/app/slacksms :: env_operation,()
+PASSENGER_APP_ENV:production :: env_operation,()
+npm ¦install :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,phusion/passenger-nodejs:0.9.19
+$APP_HOME :: workdir_operation,()
+.$APP_HOME/ :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,npm¦start
+expose,80
+chown ¦-R¦app:app¦$APP_HOME :: Permissions_operation,()
+package.json$APP_HOME/ :: add_operation,()

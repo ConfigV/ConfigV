@@ -1,0 +1,9 @@
+cmd,/bin/bash¦/opt/startup.sh
+expose,80
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+./startup.sh/opt/startup.sh :: add_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+apt-get ¦-y¦install¦mysql-client¦mysql-server¦phpmyadmin :: Dependencies_operation,()
+echo ¦echo¦"Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf :: Filesystem_operation,()
+from,debian
+apt-get ¦update :: Dependencies_operation,()

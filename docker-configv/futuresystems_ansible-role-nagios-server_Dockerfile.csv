@@ -1,0 +1,13 @@
+test/test/ :: add_operation,()
+entrypoint,./run.sh
+defaults/test/roles/nagios_server/defaults :: add_operation,()
+tasks/test/roles/nagios_server/tasks :: add_operation,()
+from,phusion/baseimage:0.9.17
+templates/test/roles/nagios_server/templates :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦python-dev¦python-pip¦httpie :: Dependencies_operation,()
+/test :: workdir_operation,()
+handlers/test/roles/nagios_server/handlers :: add_operation,()
+pip ¦install¦jinja2¦ansible :: Dependencies_operation,()
+mkdir ¦-p¦/test/roles/nagios_server :: Filesystem_operation,()
+files/test/roles/nagios_server/files :: add_operation,()

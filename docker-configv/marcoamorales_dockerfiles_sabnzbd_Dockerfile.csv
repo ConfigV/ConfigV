@@ -1,0 +1,15 @@
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty multiverse" >> /etc/apt/sources.list && apt-get -q update && apt-get -qy --force-yes dist-upgrade && apt-get install -qy curl python-software-properties software-properties-common superviso... :: Filesystem_operation,()
+cmd,/usr/bin/sabnzbdplus¦--config-file¦/config¦--server¦:8080¦--console
+expose,8080 9090
+apt-get ¦install¦-qy¦--force-yes¦sabnzbdplus¦sabnzbdplus-theme-classic¦sabnzbdplus-theme-mobile¦sabnzbdplus-theme-plush¦par2¦python-yenc¦unzip¦unrar :: Dependencies_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND="noninteractive":LANG="en_US.UTF-8" :: env_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+xmedia :: user_operation,()
+add-apt-repository ¦-y¦ppa:jcfp/ppa :: Dependencies_operation,()
+/config :: volume_operation,()
+/data :: volume_operation,()
+from,ubuntu@trusty
+useradd ¦-u¦2000¦xmedia :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()

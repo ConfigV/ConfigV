@@ -1,0 +1,10 @@
+rm ¦/etc/nginx/sites-available/default :: Filesystem_operation,()
+expose,80
+./srv/jekyll :: copy_operation,()
+ln ¦-s¦/etc/nginx/sites-available/test.justindirose.com¦/etc/nginx/sites-enabled/test.justindirose.com :: Filesystem_operation,()
+jekyll ¦build¦--destination¦/usr/share/nginx/html :: Other_operation,()
+bundle ¦install¦-j8 :: Dependencies_operation,()
+mkdir ¦/srv/jekyll :: Filesystem_operation,()
+from,justindirose/nginx-jekyll
+nginx/test.justindirose.com/etc/nginx/sites-available/test.justindirose.com :: copy_operation,()
+/srv/jekyll :: workdir_operation,()

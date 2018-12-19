@@ -1,0 +1,10 @@
+openssl ¦req¦-new¦-nodes¦-x509¦-subj¦"/C=FR/ST=France/L=Lyon/O=FR/CN=next.local"¦-days¦3650¦-keyout¦/etc/nginx/ssl/next.local.key¦-out¦/etc/nginx/ssl/next.local.crt¦-extensions¦v3_ca :: Other_operation,()
+apt-get ¦install¦-y¦curl¦git :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./config/nginx.conf/etc/nginx/conf.d/next.conf :: copy_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_6.x¦|¦bash¦- :: Dependencies_operation,()
+rm ¦/etc/nginx/conf.d/default.conf :: Filesystem_operation,()
+from,nginx:1.11
+mkdir ¦/etc/nginx/ssl/ :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;

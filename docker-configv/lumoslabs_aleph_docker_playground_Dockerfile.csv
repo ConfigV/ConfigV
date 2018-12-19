@@ -1,0 +1,10 @@
+from,ruby:2.1
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦cd¦/usr/src && wget -c http://download.redis.io/redis-stable.tar.gz && tar xvzf redis-stable.tar.gz && cd redis-stable && make && make install && echo -ne '\\n' | utils/install_server.sh :: Filesystem_operation,()
+apt-get ¦install¦-y¦postgresql-client¦--no-install-recommends :: Dependencies_operation,()
+SERVER_LOG_ROOT:/var/log/aleph :: env_operation,()
+chmod ¦777¦/tmp :: Permissions_operation,()
+expose,3000
+gem ¦install¦aleph_analytics :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/aleph :: Filesystem_operation,()

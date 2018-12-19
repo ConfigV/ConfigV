@@ -1,0 +1,11 @@
+ssl/etc/nginx/ssl :: copy_operation,()
+/etc/nginx :: workdir_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+sites-templates/etc/nginx/sites-templates :: copy_operation,()
+bin//usr/sbin/ :: copy_operation,()
+/var/log/nginx :: volume_operation,()
+expose,80 443
+rm ¦-rf¦/etc/nginx/conf.d/* :: Filesystem_operation,()
+cmd,nginx
+entrypoint,entrypoint.sh
+from,nginx@latest

@@ -1,0 +1,13 @@
+ln ¦-s¦/var/run/secrets/pulp/httpd-cert/httpd.crt¦/etc/pki/tls/certs/localhost.crt :: Filesystem_operation,()
+expose,80 443
+rm ¦/etc/pki/pulp/ca.key :: Filesystem_operation,()
+rm ¦/etc/pki/tls/certs/localhost.crt :: Filesystem_operation,()
+from,pulp/base
+ln ¦-s¦/var/run/secrets/pulp/httpd-cert/auth-ca.crt¦/etc/pki/pulp/ca.crt :: Filesystem_operation,()
+ln ¦-s¦/var/run/secrets/pulp/httpd-cert/httpd.key¦/etc/pki/tls/private/localhost.key :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/secrets/pulp/httpd-cert :: Filesystem_operation,()
+chmod ¦700¦/var/run/secrets/pulp/httpd-cert :: Permissions_operation,()
+rm ¦/etc/pki/tls/private/localhost.key :: Filesystem_operation,()
+chown ¦apache¦/var/run/secrets/pulp/httpd-cert :: Permissions_operation,()
+rm ¦/etc/pki/pulp/ca.crt :: Filesystem_operation,()
+ln ¦-s¦/var/run/secrets/pulp/httpd-cert/auth-ca.key¦/etc/pki/pulp/ca.key :: Filesystem_operation,()

@@ -1,0 +1,11 @@
+from,golang@alpine
+apk ¦add¦--no-cache¦git :: Dependencies_operation,()
+.. :: add_operation,()
+expose,8080
+go ¦get¦github.com/Masterminds/glide :: Build_Execute_operation,()
+/go/src/github.com/studiously/classsvc :: workdir_operation,()
+./glide.lock./glide.lock :: add_operation,()
+./glide.yaml./glide.yaml :: add_operation,()
+entrypoint,/go/bin/classsvc¦host
+go ¦install¦. :: Build_Execute_operation,()
+glide ¦install¦--skip-test¦-v :: Other_operation,()

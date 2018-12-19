@@ -1,0 +1,14 @@
+echo ¦echo¦${SYNCTHING_HASH} syncthing.tar.gz | sha1sum -c - :: Filesystem_operation,()
+https://github.com/syncthing/syncthing/releases/download/v${SYNCTHING_VERSION}/syncthing-linux-amd64-v0.14.28.tar.gz/home/syncthing/syncthing.tar.gz :: add_operation,()
+root :: user_operation,()
+expose,21027
+cmd,/home/syncthing/syncthing
+syncthing :: user_operation,()
+tar ¦xzf¦syncthing.tar.gz¦--strip-components=1 :: Filesystem_operation,()
+/home/syncthing :: workdir_operation,()
+SYNCTHING_VERSION="0.14.28": :: env_operation,()
+SYNCTHING_HASH="f08984f11e89cbdfb1c92e536ecac34fb22af0c4": :: env_operation,()
+from,ubuntu@xenial
+/home/syncthing/.config :: volume_operation,()
+useradd ¦-d¦"/home/syncthing"¦-u¦1000¦-m¦-s¦/bin/bash¦syncthing :: Permissions_operation,()
+/home/syncthing/Sync :: volume_operation,()

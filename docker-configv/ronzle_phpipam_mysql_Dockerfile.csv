@@ -1,0 +1,10 @@
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+from,ubuntu@latest
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+/var/lib/mysql :: volume_operation,()
+expose,3306
+cmd,mysqld¦--datadir=/var/lib/mysql¦--user=mysql
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦--force-yes¦-y¦mysql-client¦mysql-server :: Dependencies_operation,()

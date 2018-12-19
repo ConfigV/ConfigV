@@ -1,0 +1,16 @@
+/app :: workdir_operation,()
+chmod ¦+x¦/gunicorn.sh :: Permissions_operation,()
+./compose/django/gunicorn.sh/gunicorn.sh :: copy_operation,()
+pip ¦install¦-r¦/requirements/local.txt :: Dependencies_operation,()
+from,python:2.7
+entrypoint,/entrypoint.sh
+sed ¦-i¦'s/\\r//'¦/gunicorn.sh :: Filesystem_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+./compose/django/entrypoint.sh/entrypoint.sh :: copy_operation,()
+./requirements/requirements :: copy_operation,()
+chown ¦django¦/entrypoint.sh :: Permissions_operation,()
+sed ¦-i¦'s/\\r//'¦/entrypoint.sh :: Filesystem_operation,()
+useradd ¦-r¦-g¦django¦django :: Permissions_operation,()
+groupadd ¦-r¦django :: Permissions_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+chown ¦django¦/gunicorn.sh :: Permissions_operation,()

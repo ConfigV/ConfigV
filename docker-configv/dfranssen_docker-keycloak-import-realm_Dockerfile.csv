@@ -1,0 +1,5 @@
+KEYCLOAK_IMPORT_REALM:${KEYCLOAK_IMPORT_REALM:-import-realm.json} :: env_operation,()
+cmd,sh¦-c¦/opt/jboss/keycloak/bin/standalone.sh -b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/${KEYCLOAK_IMPORT_REALM}
+KEYCLOAK_ADMIN_USER=admin :: arg_operation,()
+from,jboss/keycloak:1.7.0.Final
+${KEYCLOAK_IMPORT_REALM}/opt/jboss/keycloak/ :: add_operation,()

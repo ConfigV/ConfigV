@@ -1,0 +1,14 @@
+apt-get ¦update :: Dependencies_operation,()
+cmd,mysqld_safe¦&¦service¦apache2¦start;
+rm ¦/etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦-y¦install¦mysql-server¦mysql-client¦libmysqlclient-dev¦apache2¦php5¦libapache2-mod-php5¦php5-mcrypt :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu:14.04
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+service ¦apache2¦start;¦sleep¦5;¦printf¦y\\\\n\\\\n\\\\n1\\\\n¦|¦apt-get¦install¦-y¦phpmyadmin;¦sleep¦15;¦mysqladmin¦-u¦root¦shutdown :: Build_Execute_operation,()
+service ¦mysql¦start¦&&\\ :: Build_Execute_operation,()
+s#//$cfg\\['Servers'\\]\\[\\$i\\]\\['AllowNoPassword'\\] = TRUE;#\\$cfg\\['Servers'\\]\\[\\$i\\]\\['AllowNoPassword'\\] = TRUE;#g  :: Other_operation,()
+./sources.list/etc/apt/sources.list :: add_operation,()
+expose,3306

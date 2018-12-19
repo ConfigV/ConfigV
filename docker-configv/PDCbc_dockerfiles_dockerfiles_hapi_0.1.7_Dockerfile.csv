@@ -1,0 +1,7 @@
+apt-get ¦update;¦apt-get¦install¦-y¦git¦python2.7;¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+git ¦clone¦https://github.com/pdcbc/hapi.git¦.¦-b¦${RELEASE};¦npm¦config¦set¦python¦/usr/bin/python2.7;¦npm¦install;¦chown¦-R¦app:app¦/app/ :: Dependencies_operation,()
+cmd,/sbin/my_init
+/app/ :: workdir_operation,()
+RELEASE:0.1.7 :: env_operation,()
+from,phusion/passenger-nodejs
+echo ¦mkdir¦-p /etc/service/app/; ( echo "#!/bin/bash"; echo "#"; echo "set -e -o nounset"; echo ""; echo ""; echo "# Environment variables"; echo "#"; echo "export PORT=\\${PORT_HAPI:-3003}"; echo "export AUTH_CONTROL=https://auth:\\${PORT_AUTH_C... :: Filesystem_operation,()

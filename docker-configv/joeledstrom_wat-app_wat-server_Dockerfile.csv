@@ -1,0 +1,11 @@
+/go/src/github.com/joeledstrom/wat-app :: workdir_operation,()
+go ¦build :: Build_Execute_operation,()
+wat-server :: workdir_operation,()
+wat-serverwat-server :: copy_operation,()
+mkdir ¦-p¦/go/src/github.com/joeledstrom/wat-app/vendor :: Filesystem_operation,()
+wat-apiwat-api :: copy_operation,()
+from,golang:1.8
+go ¦get¦-u¦github.com/kardianos/govendor :: Build_Execute_operation,()
+govendor ¦sync :: Other_operation,()
+entrypoint,./wat-server
+vendor/vendor.jsonvendor :: copy_operation,()

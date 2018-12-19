@@ -1,0 +1,13 @@
+root :: user_operation,()
+jenkins_gitconfig/var/jenkins_home/.gitconfig :: copy_operation,()
+from,jenkins:1.651
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+jenkins :: user_operation,()
+entrypoint,usermod¦-g¦$(stat¦-c¦"%g"¦/var/run/docker.sock)¦jenkins¦&&export¦GCLOUD_PROJECT=$(gcloud¦info¦--format¦json¦|¦jq¦--raw-output¦.config.project)¦&&gosu¦jenkins¦envsubst¦<¦/tmp/scm-sync-configuration.xml.template¦>¦/var/jenkins_home/scm-sync-configur...
+apt-get ¦update :: Dependencies_operation,()
+curl ¦https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-116.0.0-linux-x86_64.tar.gz¦|¦tar¦zx¦-C¦/opt/¦&&/opt/google-cloud-sdk/install.sh¦--quiet¦--usage-reporting¦false¦--command-completion¦false¦--path-update¦false¦--a... :: Dependencies_operation,()
+chmod ¦755¦/usr/bin/gosu :: Permissions_operation,()
+/usr/local/bin/install-plugins.sh ¦git¦greenballs¦scm-sync-configuration :: Other_operation,()
+https://github.com/tianon/gosu/releases/download/1.5/gosu-amd64/usr/bin/gosu :: add_operation,()
+scm-sync-configuration.xml.template/tmp/scm-sync-configuration.xml.template :: copy_operation,()
+apt-get ¦install¦-y¦git¦gettext¦jq¦docker.io :: Dependencies_operation,()

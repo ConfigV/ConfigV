@@ -1,0 +1,7 @@
+entrypoint,dnsmasq¦-k
+etc_hosts_to_add/etc/dnsmasq.d/added_hosts :: copy_operation,()
+echo ¦echo¦"conf-dir=/etc/dnsmasq.d/,*.conf" >> /etc/dnsmasq.conf :: Filesystem_operation,()
+expose,53 53
+from,andyshinn/dnsmasq
+mkdir ¦/etc/dnsmasq.d :: Filesystem_operation,()
+echo ¦echo¦"addn-hosts=/etc/dnsmasq.d/added_hosts" >> /etc/dnsmasq.d/custom.conf :: Filesystem_operation,()

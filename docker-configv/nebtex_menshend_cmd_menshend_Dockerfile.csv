@@ -1,0 +1,13 @@
+apk ¦add¦--no-cache¦ca-certificates¦wget¦su-exec\\ :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+dist/menshend_linux_amd64/bin/menshend :: add_operation,()
+menshend.yml/etc/menshend.yml :: add_operation,()
+ln ¦-s¦/lib/libc.musl-x86_64.so.1¦/lib64/ld-linux-x86-64.so.2 :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/dumb-init :: Permissions_operation,()
+from,alpine:3.5
+adduser ¦-S¦-G¦menshend¦menshend :: Permissions_operation,()
+MENSHEND_CONFIG:/etc/menshend.yml :: env_operation,()
+mkdir ¦/lib64 :: Filesystem_operation,()
+entrypoint,menshend¦server¦-config
+wget ¦-O¦/usr/local/bin/dumb-init¦https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 :: Dependencies_operation,()
+addgroup ¦menshend :: Permissions_operation,()

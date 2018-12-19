@@ -1,0 +1,10 @@
+/tmp/orcas :: workdir_operation,()
+build.xml. :: copy_operation,()
+mkdir ¦/tmp/orcas :: Filesystem_operation,()
+wget ¦-Nnv¦https://github.com/opitzconsulting/orcas/archive/master.zip :: Dependencies_operation,()
+ORCAS_PREBUILDFILE_NOEXTENSIONS=/opt/orcas/orcas-master/prebuildfile_noextensions.zip: :: env_operation,()
+from,orcas_runtime
+unzip ¦master.zip¦-d¦/opt/orcas :: Filesystem_operation,()
+ORCAS_CORE=/opt/orcas/orcas-master/orcas_core: :: env_operation,()
+ORCAS_PREBUILDFILE_DOMAINEXTENSION=/opt/orcas/orcas-master/prebuildfile_domainextension.zip: :: env_operation,()
+ant  :: Other_operation,()

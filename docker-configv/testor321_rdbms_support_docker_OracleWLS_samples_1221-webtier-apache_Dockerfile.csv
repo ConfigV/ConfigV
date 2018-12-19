@@ -1,0 +1,8 @@
+rm ¦/root/$PLUGIN_PKG¦/root/weblogic.conf :: Filesystem_operation,()
+from,httpd:2.4
+$PLUGIN_PKG/root/ :: copy_operation,()
+cat ¦/root/weblogic.conf¦>>¦/usr/local/apache2/conf/httpd.conf :: Filesystem_operation,()
+PLUGIN_PKG="WLSPlugin12.2.1-Apache2.2-Apache2.4-Linux_x86_64-12.2.1.0.0.zip":PLUGIN_HOME="/root" :: env_operation,()
+unzip ¦/root/$PLUGIN_PKG¦-d¦$PLUGIN_HOME :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦unzip :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+ln ¦-s¦/var/run/secrets/pulp/pulp-config/server.conf¦/etc/pulp/server.conf :: Filesystem_operation,()
+ln ¦-s¦/var/run/secrets/pulp/pulp-config/rsa.key¦/etc/pki/pulp/rsa.key :: Filesystem_operation,()
+setup.sh/setup.sh :: add_operation,()
+dnf ¦clean¦all :: Dependencies_operation,()
+ln ¦-s¦/var/run/secrets/pulp/pulp-config/rsa_pub.key¦/etc/pki/pulp/rsa_pub.key :: Filesystem_operation,()
+dnf ¦update¦-y :: Dependencies_operation,()
+rm ¦/etc/pki/pulp/rsa* :: Filesystem_operation,()
+dnf ¦install¦-y¦pulp-rpm-plugins¦pulp-docker-plugins¦pulp-ostree-plugins¦pulp-puppet-plugins¦pulp-python-plugins¦python-qpid¦python-qpid-qmf¦qpid-tools¦python-gofer-qpid :: Dependencies_operation,()
+from,fedora/apache
+rm ¦/etc/pulp/server.conf :: Filesystem_operation,()

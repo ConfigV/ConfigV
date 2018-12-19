@@ -1,0 +1,9 @@
+./build/tmp/build :: add_operation,()
+entrypoint,/run.sh
+expose,80
+chmod ¦+x¦/tmp/build/build.sh :: Permissions_operation,()
+/tmp/build/build.sh  :: Other_operation,()
+/var/www :: volume_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,simpledrupalcloud/base-image
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()

@@ -1,0 +1,12 @@
+/var/log/nginx :: volume_operation,()
+run.sh/etc/nginx/run.sh :: add_operation,()
+echo ¦add-apt-repository¦-y ppa:nginx/stable && apt-get update && apt-get install -y nano && apt-get install -y nginx && rm -rf /var/lib/apt/lists/* && echo "\\ndaemon off;" >> /etc/nginx/nginx.conf && chown -R www-data:www-data /var/lib/nginx :: Filesystem_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+cmd,sh¦./run.sh
+/etc/nginx/certs :: volume_operation,()
+/etc/nginx :: workdir_operation,()
+from,dockerfile/ubuntu
+/etc/nginx/sites-enabled :: volume_operation,()
+/var/www/html :: volume_operation,()
+expose,443
+nginx-config/etc/nginx/sites-available/default :: add_operation,()

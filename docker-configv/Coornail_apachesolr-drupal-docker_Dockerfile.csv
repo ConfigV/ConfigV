@@ -1,0 +1,13 @@
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+expose,89838983
+wget ¦-nv¦--output-document=/opt/$SOLR.tgz¦http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/$SOLR_VERSION/$SOLR.tgz :: Dependencies_operation,()
+tar ¦-C¦/opt¦--extract¦--file¦/opt/$SOLR.tgz :: Filesystem_operation,()
+SOLR:solr-$SOLR_VERSION :: env_operation,()
+rm ¦/opt/$SOLR.tgz :: Filesystem_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+ln ¦-s¦/opt/$SOLR¦/opt/solr :: Filesystem_operation,()
+cmd,/bin/bash¦-c¦/opt/solr/bin/solr -f
+SOLR_VERSION:4.10.2 :: env_operation,()
+from,dockerfile/java:openjdk-7-jdk
+apt-get ¦update¦&&\\ :: Dependencies_operation,()
+apt-get ¦-y¦install¦lsof¦curl¦procps :: Dependencies_operation,()

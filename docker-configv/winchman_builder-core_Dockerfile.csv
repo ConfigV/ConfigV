@@ -1,0 +1,11 @@
+expose,5000
+./app/src/github.com/modcloth/docker-builder :: add_operation,()
+GOPATH:/app :: env_operation,()
+entrypoint,/app/bin/docker-builder
+ssh-keyscan ¦github.com¦>¦/etc/ssh/ssh_known_hosts :: Other_operation,()
+make ¦test :: Build_Execute_operation,()
+from,quay.io/modcloth/docker-builder-base:latest
+cmd,-h
+/app/src/github.com/modcloth/docker-builder :: workdir_operation,()
+touch ¦Makefile :: Filesystem_operation,()
+git ¦checkout¦evolving-the-server :: Dependencies_operation,()

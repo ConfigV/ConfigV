@@ -1,0 +1,15 @@
+chown ¦rustbuild:rustbuild¦/buildslave :: Permissions_operation,()
+rustbuild :: user_operation,()
+pip ¦install¦buildbot-slave :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦g++-multilib¦make¦cmake¦xz-utils¦git¦python-dev¦python-pip¦stunnel :: Dependencies_operation,()
+groupadd ¦-r¦rustbuild :: Permissions_operation,()
+sh ¦build-musl.sh :: Build_Execute_operation,()
+from,ubuntu:14.04
+/build :: workdir_operation,()
+build-musl.shbuild-musl.sh :: copy_operation,()
+mkdir ¦/buildslave :: Filesystem_operation,()
+useradd ¦-r¦-g¦rustbuild¦rustbuild :: Permissions_operation,()
+start-docker-slave.shstart-docker-slave.sh :: copy_operation,()
+/buildslave :: workdir_operation,()
+entrypoint,sh¦start-docker-slave.sh
+apt-get ¦update :: Dependencies_operation,()

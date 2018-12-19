@@ -1,0 +1,9 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+cmd,stress¦-m¦2
+entrypoint,/entrypoint.sh
+apt-get ¦-y¦install¦openssh-server¦stress¦htop¦¦iotop¦¦bwm-ng¦passwd¦byobu¦psmisc¦memcached¦;¦apt-get¦clean¦all :: Dependencies_operation,()
+authorized_keys/authorized_keys :: copy_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+from,ubuntu:16.04
+sed ¦-i¦s/PasswordAuthentication\\¦yes/PasswordAuthentication\\¦no/g¦/etc/ssh/sshd_config :: Filesystem_operation,()
+expose,11211

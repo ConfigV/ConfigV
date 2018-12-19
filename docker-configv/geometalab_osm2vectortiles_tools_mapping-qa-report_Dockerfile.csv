@@ -1,0 +1,11 @@
+./usr/src/app :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦postgresql-client :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+go ¦install¦github.com/lukasmartinelli/pgclimb :: Build_Execute_operation,()
+cmd,./export-mapping-report.sh
+/usr/src/app :: workdir_operation,()
+/data :: volume_operation,()
+EXPORT_DIR="/data": :: env_operation,()
+go ¦get¦github.com/lukasmartinelli/pgclimb :: Build_Execute_operation,()
+from,golang:1.5

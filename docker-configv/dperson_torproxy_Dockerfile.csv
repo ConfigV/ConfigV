@@ -1,0 +1,10 @@
+echo ¦sed¦-i 's|localhost:8118|0.0.0.0:8118|' /etc/privoxy/config && sed -i 's|^logdir /var/log/privoxy|logdir /dev|' /etc/privoxy/config && sed -i 's|^logfile logfile|logfile stdout|' /etc/privoxy/config && sed -i '/forward *localhost\\//a forwa... :: Filesystem_operation,()
+TERM=dumb ¦apt-get¦clean :: Other_operation,()
+entrypoint,torproxy.sh
+/var/lib/tor :: volume_operation,()
+from,ubuntu@trusty
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/* :: Filesystem_operation,()
+TERM=dumb ¦apt-get¦install¦-qqy¦--no-install-recommends¦tor¦privoxy :: Other_operation,()
+torproxy.sh/usr/bin/ :: copy_operation,()
+expose,1080 8118
+TERM=dumb ¦apt-get¦update¦-qq :: Other_operation,()

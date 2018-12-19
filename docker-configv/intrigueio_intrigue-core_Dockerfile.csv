@@ -1,0 +1,18 @@
+BUNDLE_JOBS=12: :: env_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+make ¦-j¦3 :: Build_Execute_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+/ :: workdir_operation,()
+make ¦install :: Build_Execute_operation,()
+cmd,foreman¦start
+apt-get ¦-y¦install¦ruby2.2¦ruby2.2-dev¦libxml2-dev¦libxslt-dev¦zmap¦nmap¦sudo¦default-jre¦libsqlite3-dev¦git¦gcc¦g++¦make¦libpcap-dev¦zlib1g-dev¦curl¦libcurl4-openssl-dev¦libpq-dev¦postgresql-server-dev-all :: Dependencies_operation,()
+/usr/share :: workdir_operation,()
+git ¦clone¦https://github.com/robertdavidgraham/masscan :: Dependencies_operation,()
+/app :: workdir_operation,()
+bundle ¦install¦--system :: Dependencies_operation,()
+/usr/share/masscan :: workdir_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-add-repository ¦ppa:brightbox/ruby-ng :: Other_operation,()
+./app :: add_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+from,ubuntu:14.04

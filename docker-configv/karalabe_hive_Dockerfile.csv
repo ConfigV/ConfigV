@@ -1,0 +1,15 @@
+go ¦install :: Build_Execute_operation,()
+*.go$GOPATH/src/github.com/karalabe/hive/ :: add_operation,()
+.$GOPATH/src/github.com/karalabe/hive :: add_operation,()
+$GOPATH/src/github.com/karalabe/hive :: workdir_operation,()
+PATH:$GOPATH/bin:$PATH :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cd ¦$GOPATH/src/github.com/karalabe/hive :: Filesystem_operation,()
+echo ¦echo¦'#!/bin/sh' > $GOPATH/bin/hive.sh && echo 'set -e' >> $GOPATH/bin/hive.sh && \\ :: Filesystem_operation,()
+apk ¦add¦--update¦go :: Dependencies_operation,()
+from,docker@dind
+internal$GOPATH/src/github.com/karalabe/hive/internal :: add_operation,()
+entrypoint,hive.sh
+go ¦install¦./... :: Build_Execute_operation,()
+GOPATH:/gopath :: env_operation,()
+vendor$GOPATH/src/github.com/karalabe/hive/vendor :: add_operation,()

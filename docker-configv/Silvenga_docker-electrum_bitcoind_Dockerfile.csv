@@ -1,0 +1,21 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+cd ¦/bitcoind :: Filesystem_operation,()
+rm ¦-f¦-r¦/bitcoind/bitcoin-0.10.2 :: Filesystem_operation,()
+cmd,/bin/bash¦/bitcoind.sh
+rpcpassword:rpcpassword :: env_operation,()
+expose,8333
+apt-get ¦-y¦install¦¦make¦¦g++¦¦python-leveldb¦¦libboost-all-dev¦¦libssl-dev¦¦libdb++-dev¦¦pkg-config¦¦wget¦¦bsdmainutils :: Dependencies_operation,()
+echo ¦echo¦version 1 :: Filesystem_operation,()
+strip ¦src/bitcoind¦src/bitcoin-cli¦src/bitcoin-tx :: Other_operation,()
+tar ¦xfz¦bitcoin-0.10.2.tar.gz :: Filesystem_operation,()
+rm ¦-f¦bitcoin-0.10.2.tar.gz :: Filesystem_operation,()
+cd ¦/bitcoind/bitcoin-0.10.2 :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rpcuser:rpcuser :: env_operation,()
+./configure ¦--disable-wallet¦--without-miniupnpc :: Build_Execute_operation,()
+wget ¦https://bitcoin.org/bin/bitcoin-core-0.10.2/bitcoin-0.10.2.tar.gz :: Dependencies_operation,()
+mkdir ¦-p¦/bitcoind/data :: Filesystem_operation,()
+cp ¦-a¦src/bitcoind¦src/bitcoin-cli¦src/bitcoin-tx¦/bitcoind :: Filesystem_operation,()
+bitcoind.sh/bitcoind.sh :: copy_operation,()
+make ¦-j`nproc` :: Build_Execute_operation,()
+from,ubuntu@trusty

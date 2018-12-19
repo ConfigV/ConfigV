@@ -1,0 +1,8 @@
+cat ¦/build/etc/supervisord-mysql.conf¦>>¦/etc/supervisor/conf.d/supervisord.conf :: Filesystem_operation,()
+./build :: add_operation,()
+apt-get ¦-qqy¦install¦--no-install-recommends¦mysql-server :: Dependencies_operation,()
+/build/bin/add-mysql-user.sh ¦camunda¦camunda :: Other_operation,()
+from,camunda/camunda-docker-ci-base
+apt-get ¦-qq¦update :: Dependencies_operation,()
+expose,3306
+apt-get ¦-qq¦clean :: Dependencies_operation,()

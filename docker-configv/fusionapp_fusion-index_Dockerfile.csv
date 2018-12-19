@@ -1,0 +1,10 @@
+from,fusionapp/base
+entrypoint,/appenv/bin/axiomatic¦-d¦/db/fusion-index.axiom
+/appenv/bin/trial ¦--temp-directory=/tmp/_trial_temp¦--reporter=text¦fusion_index :: Other_operation,()
+wheelhouse/wheelhouse :: copy_operation,()
+rm ¦-rf¦/tmp/_trial_temp :: Filesystem_operation,()
+cmd,start¦--pidfile¦¦--nodaemon
+expose,8443
+/appenv/bin/pip ¦install¦--no-cache-dir¦--no-index¦-f¦/wheelhouse¦-r¦/application/requirements.txt¦fusion-index :: Other_operation,()
+"/db" :: workdir_operation,()
+requirements.txt/application/requirements.txt :: copy_operation,()

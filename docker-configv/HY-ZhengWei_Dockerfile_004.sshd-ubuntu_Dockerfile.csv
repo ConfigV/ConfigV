@@ -1,0 +1,8 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+echo ¦echo¦"PermitRootLogin yes" >> /etc/ssh/sshd_config :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+sed ¦-i¦'s/^PermitRootLogin/#PermitRootLogin/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+expose,22
+from,hyzhengwei/jdk-ubuntu
+echo ¦echo¦"root:root" | chpasswd :: Filesystem_operation,()

@@ -1,0 +1,19 @@
+/srv/salt :: volume_operation,()
+from,debian@jessie
+etc/minion/etc/salt/minion :: copy_operation,()
+apt-get ¦-yqq¦purge :: Dependencies_operation,()
+etc/reactor/etc/salt/master.d/reactor :: copy_operation,()
+etc/master/etc/salt/master :: copy_operation,()
+start.sh/start.sh :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-qq :: Other_operation,()
+/var/cache/salt :: volume_operation,()
+/var/logs/salt :: volume_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+/etc/salt :: volume_operation,()
+echo ¦echo¦"deb http://repo.saltstack.com/apt/debian/8/amd64/latest jessie main" | tee /etc/apt/sources.list.d/saltstack.list && wget -q -O- "https://repo.saltstack.com/apt/debian/8/amd64/latest/SALTSTACK-GPG-KEY.pub" | apt-key add - && DEBIAN_F... :: Filesystem_operation,()
+cmd,bash¦start.sh
+REFRESHED_AT:2015-12-11 :: env_operation,()
+expose,4505 4506 8080 8081
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yqq¦wget¦curl¦dnsutils¦python-pip¦python-dev¦python-apt¦software-properties-common¦dmidecode :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

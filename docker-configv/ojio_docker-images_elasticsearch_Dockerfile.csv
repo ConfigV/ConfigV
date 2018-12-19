@@ -1,0 +1,9 @@
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+cmd,/usr/share/elasticsearch/bin/elasticsearch
+/usr/share/elasticsearch/bin/plugin ¦-url¦http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip¦-install¦elasticsearch/kibana3 :: Other_operation,()
+rpm ¦--import¦http://packages.elasticsearch.org/GPG-KEY-elasticsearch :: Dependencies_operation,()
+from,wellsie/centos7-openjdk:1.7.0
+/usr/share/elasticsearch/bin/plugin ¦-install¦lmenezes/elasticsearch-kopf :: Other_operation,()
+yum ¦-y¦install¦elasticsearch-1.1.1 :: Dependencies_operation,()
+yum.repos.d/elasticsearch.repo/etc/yum.repos.d/elasticsearch.repo :: copy_operation,()
+expose,9200

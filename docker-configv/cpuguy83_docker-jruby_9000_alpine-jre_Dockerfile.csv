@@ -1,0 +1,14 @@
+cmd,irb
+apk ¦add¦--no-cache¦bash¦libc6-compat¦tar¦curl :: Dependencies_operation,()
+JRUBY_VERSION:9.1.2.0 :: env_operation,()
+PATH:$BUNDLE_BIN:$PATH :: env_operation,()
+mkdir ¦-p¦"$GEM_HOME"¦"$BUNDLE_BIN" :: Filesystem_operation,()
+GEM_HOME:/usr/local/bundle :: env_operation,()
+JRUBY_SHA256:60598a465883ab4c933f805de4a7f280052bddc793b95735465619c03ca43f35 :: env_operation,()
+chmod ¦777¦"$GEM_HOME"¦"$BUNDLE_BIN" :: Permissions_operation,()
+from,java:8.0
+PATH:/opt/jruby/bin:$PATH :: env_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+BUNDLE_PATH="$GEM_HOME":BUNDLE_BIN="$GEM_HOME/bin" :: env_operation,()
+echo ¦mkdir¦-p /opt/jruby && curl -fSL https://s3.amazonaws.com/jruby.org/downloads/${JRUBY_VERSION}/jruby-bin-${JRUBY_VERSION}.tar.gz -o /tmp/jruby.tar.gz && echo "$JRUBY_SHA256 */tmp/jruby.tar.gz" | sha256sum -c - && tar -zx --strip-components... :: Filesystem_operation,()
+echo ¦mkdir¦-p /opt/jruby/etc && { echo 'install: --no-document'; echo 'update: --no-document'; } >> /opt/jruby/etc/gemrc :: Filesystem_operation,()

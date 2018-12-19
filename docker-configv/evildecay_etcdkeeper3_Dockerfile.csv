@@ -1,0 +1,11 @@
+etcdkeeper3/etcdkeeper3 :: add_operation,()
+--from=builder. :: copy_operation,()
+./go/src/github.com/evildecay/etcdkeeper3 :: add_operation,()
+dep ¦ensure¦-update :: Other_operation,()
+cmd,./etcdkeeper3.bin
+apk ¦add¦-U¦git :: Dependencies_operation,()
+cd ¦/go/src/github.com/evildecay/etcdkeeper3 :: Filesystem_operation,()
+go ¦build¦-o¦etcdkeeper3.bin¦httpserver3.go :: Build_Execute_operation,()
+/etcdkeeper3 :: workdir_operation,()
+from,alpine:3.6
+go ¦get¦github.com/golang/dep/... :: Build_Execute_operation,()

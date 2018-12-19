@@ -1,0 +1,16 @@
+start_workbench.sh$JBOSS_HOME/bin/start_workbench.sh :: add_operation,()
+application-users.properties$JBOSS_HOME/standalone/configuration/application-users.properties :: add_operation,()
+cmd,./start_workbench.sh
+JAVA_OPTS:-XX:MaxPermSize=256m :: env_operation,()
+jboss :: user_operation,()
+touch ¦$JBOSS_HOME/standalone/deployments/jbpm-workbench.war.dodeploy :: Filesystem_operation,()
+from,jboss/wildfly:10.0.0.Final
+application-roles.properties$JBOSS_HOME/standalone/configuration/application-roles.properties :: add_operation,()
+JBOSS_BIND_ADDRESS:0.0.0.0 :: env_operation,()
+root :: user_operation,()
+chmod ¦+x¦$JBOSS_HOME/bin/start_workbench.sh :: Permissions_operation,()
+$JBOSS_HOME/bin/ :: workdir_operation,()
+add-login-module.cli/tmp/add-login-module.cli :: add_operation,()
+deployable/jbpm-workbench.war$JBOSS_HOME/standalone/deployments/jbpm-workbench.war :: add_operation,()
+SERVER_CONFIG:standalone.xml :: env_operation,()
+$JBOSS_HOME/bin/jboss-cli.sh ¦--file=/tmp/add-login-module.cli :: Other_operation,()

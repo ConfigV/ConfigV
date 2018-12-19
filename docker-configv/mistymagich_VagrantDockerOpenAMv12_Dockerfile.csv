@@ -1,0 +1,18 @@
+yum ¦update¦-y :: Dependencies_operation,()
+echo ¦echo¦'nameserver 8.8.8.8' >> /etc/resolv.dnsmasq.conf :: Filesystem_operation,()
+unzip ¦/tmp/openam.zip :: Filesystem_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+echo ¦echo¦'resolv-file=/etc/resolv.dnsmasq.conf' >> /etc/dnsmasq.conf :: Filesystem_operation,()
+yum ¦install¦-y¦dnsmasq¦unzip¦tomcat¦java-1.7.0-openjdk-devel :: Dependencies_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+curl ¦-sS¦http://maven.forgerock.org/repo/releases/org/forgerock/openam/openam-distribution-kit/12.0.0/openam-distribution-kit-12.0.0.zip¦>¦/tmp/openam.zip :: Dependencies_operation,()
+echo ¦echo¦'listen-address=127.0.0.1' >> /etc/dnsmasq.conf :: Filesystem_operation,()
+cp ¦/openam/OpenAM-12.0.0.war¦/var/lib/tomcat/webapps/openam.war :: Filesystem_operation,()
+chmod ¦a+x¦/entrypoint.sh :: Permissions_operation,()
+echo ¦echo¦'nameserver 8.8.4.4' >> /etc/resolv.dnsmasq.conf :: Filesystem_operation,()
+echo ¦echo¦'conf-dir=/etc/dnsmasq.d' >> /etc/dnsmasq.conf :: Filesystem_operation,()
+echo ¦echo¦'user=root' >> /etc/dnsmasq.conf :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+expose,8080
+echo ¦echo¦'address="/openam.example.com/127.0.0.1"' >> /etc/dnsmasq.d/0hosts :: Filesystem_operation,()

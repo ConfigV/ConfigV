@@ -1,0 +1,12 @@
+cmd,xvfb-run¦--server-args="-screen¦0¦800x600x24"¦npm¦start
+RENDERER_ACCESS_KEY=changeme:CONCURRENCY=1 :: env_operation,()
+.fonts.conf/root :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'s/main/main¦contrib/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+npm ¦install¦--production :: Dependencies_operation,()
+expose,3000
+from,node@slim
+apt-get ¦install¦-y¦xvfb¦libgtk2.0-0¦ttf-mscorefonts-installer¦libnotify4¦libgconf2-4¦libnss3 :: Dependencies_operation,()
+./app :: copy_operation,()
+/app :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()

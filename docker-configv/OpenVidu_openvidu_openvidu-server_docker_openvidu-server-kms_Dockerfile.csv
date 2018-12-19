@@ -1,0 +1,12 @@
+cmd,/usr/bin/supervisord
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+kms.sh/kms.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openjdk-8-jdk :: Dependencies_operation,()
+echo ¦echo¦"deb http://ubuntu.kurento.org xenial kms6" | tee /etc/apt/sources.list.d/kurento.list && apt-key adv --keyserver keyserver.ubuntu.com --recv 2F819BC0 && apt-get update && apt-get -y dist-upgrade && apt-get -y install kurento-media-se... :: Filesystem_operation,()
+from,ubuntu:16.04
+expose,9091
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+openvidu-server.jaropenvidu-server.jar :: copy_operation,()
+apt-get ¦install¦-y¦supervisor :: Dependencies_operation,()

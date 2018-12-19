@@ -1,0 +1,14 @@
+LANG='en_US.UTF-8':LC_ALL='en_US.UTF-8' :: env_operation,()
+add-apt-repository ¦ppa:chazomaticus/minit :: Dependencies_operation,()
+chmod ¦a+rw¦/home/docker/.config/MusicBrainz :: Permissions_operation,()
+shutdown/etc/minit/shutdown :: copy_operation,()
+Picard.conf/home/docker/.config/MusicBrainz/Picard.conf :: copy_operation,()
+mkdir ¦-p¦/usr/lib/picard/contrib/plugins :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+add-apt-repository ¦ppa:musicbrainz-developers/stable :: Dependencies_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+startup/etc/minit/startup :: copy_operation,()
+apt-get ¦install¦-y¦minit¦gosu¦gksu¦curl¦vim¦less¦git¦ssh¦rsync¦picard¦libchromaprint-tools¦python-rgain¦vorbisgain¦flac¦wavpack :: Dependencies_operation,()
+entrypoint,/sbin/minit
+from,ubuntu@latest

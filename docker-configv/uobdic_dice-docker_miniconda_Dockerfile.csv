@@ -1,0 +1,17 @@
+yum ¦install¦-y¦curl¦grep¦sed¦gcc :: Dependencies_operation,()
+LANG:C.UTF-8 :: env_operation,()
+conda ¦install¦-q¦-c¦https://conda.anaconda.org/nlesc¦root¦rootpy :: Dependencies_operation,()
+conda ¦install¦anaconda-client :: Dependencies_operation,()
+cmd,/bin/bash
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh :: Filesystem_operation,()
+/opt/conda/bin/conda ¦install¦--yes¦conda==3.19.0 :: Other_operation,()
+.*\\  :: Other_operation,()
+PATH:/opt/conda/bin:$PATH :: env_operation,()
+yum ¦install¦-y¦wget¦bzip2¦ca-certificates¦libglib2.0-0¦libxext6¦libsm6¦libxrender1¦git¦tar¦build-essentials¦which :: Dependencies_operation,()
+wget ¦--quiet¦https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh¦&&\\ :: Dependencies_operation,()
+source ¦activate¦ntuple :: Environment_operation,()
+entrypoint,/usr/bin/tini¦--
+from,kreczko/centos6
+yum ¦update¦-y :: Dependencies_operation,()
+conda ¦create¦-q¦-n¦ntuple¦python=2.7¦nose¦pytest¦flake8¦gcc :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

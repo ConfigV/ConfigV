@@ -1,0 +1,23 @@
+/data/db :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+MONGO_VERSION:3.1.6 :: env_operation,()
+set ¦-x :: Environment_operation,()
+mv ¦/etc/mongod.conf¦/etc/mongod.conf.orig :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+gpg ¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B42F6819007F00F88E364FD4036A9C25BF357DD4 :: Other_operation,()
+dpkg ¦--print-architecture :: Dependencies_operation,()
+chown ¦-R¦mongodb:mongodb¦/data/db :: Permissions_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-y¦¦mongodb-org-unstable=$MONGO_VERSION¦¦mongodb-org-unstable-server=$MONGO_VERSION¦¦mongodb-org-unstable-shell=$MONGO_VERSION¦¦mongodb-org-unstable-mongos=$MONGO_VERSION¦¦mongodb-org-unstable-tools=$MONGO_VERSION :: Dependencies_operation,()
+cmd,mongod
+rm ¦-rf¦/var/lib/mongodb :: Filesystem_operation,()
+expose,27017
+from,debian@wheezy
+entrypoint,/entrypoint.sh
+apt-get ¦install¦-y¦--no-install-recommends¦¦ca-certificates¦curl¦¦numactl :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦492EAFE8CD016A07919F1D2B9ECBEC467F0CEB10 :: Dependencies_operation,()
+groupadd ¦-r¦mongodb :: Permissions_operation,()
+useradd ¦-r¦-g¦mongodb¦mongodb :: Permissions_operation,()
+MONGO_MAJOR:3.1 :: env_operation,()
+echo ¦echo¦"deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/$MONGO_MAJOR main" > /etc/apt/sources.list.d/mongodb-org.list :: Filesystem_operation,()

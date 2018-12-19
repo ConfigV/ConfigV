@@ -1,0 +1,20 @@
+pip3 ¦install¦. :: Dependencies_operation,()
+django-admin.py ¦startproject¦--template=/src/conf/project_template¦djproject¦/opt :: Other_operation,()
+/opt/media/ :: volume_operation,()
+/src :: workdir_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+/opt :: workdir_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+apt-get ¦--yes¦update :: Dependencies_operation,()
+python3 ¦./manage.py¦collectstatic¦--no-input :: Build_Execute_operation,()
+LC_ALL=en_US.UTF-8: :: env_operation,()
+LANG=en_US.UTF-8: :: env_operation,()
+entrypoint,/usr/bin/gunicorn3¦--name¦django-demo¦--bind¦0.0.0.0:10080¦--workers¦3¦--pythonpath¦/opt¦--log-level¦info¦--access-logfile¦-¦--error-logfile¦-¦djproject.wsgi:application
+apt-get ¦--yes¦--no-install-recommends¦install¦gunicorn3¦python3¦python3-setuptools¦python3-wheel¦python3-pip¦python3-pillow :: Dependencies_operation,()
+PYTHONPATH=/opt: :: env_operation,()
+from,ubuntu:16.04
+/opt/djproject :: volume_operation,()
+./src :: add_operation,()
+expose,10080
+LANGUAGE=en_US.UTF-8: :: env_operation,()
+python3 ¦./manage.py¦migrate :: Build_Execute_operation,()

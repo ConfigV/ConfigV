@@ -1,0 +1,7 @@
+*.jar/hygieia/ :: copy_operation,()
+from,docker.io/java:openjdk-8-jdk
+/hygieia/logs :: volume_operation,()
+mkdir ¦/hygieia :: Filesystem_operation,()
+/hygieia :: workdir_operation,()
+artifactory-properties-builder.sh/hygieia/ :: copy_operation,()
+cmd,./artifactory-properties-builder.sh¦&&¦java¦-jar¦artifactory-artifact-collector*.jar¦--spring.config.location=/hygieia/hygieia-artifactory-artifact-collector.properties

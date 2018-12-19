@@ -1,0 +1,11 @@
+/tmp :: volume_operation,()
+systemctl ¦mask¦systemd-remount-fs.service¦dev-hugepages.mount¦sys-fs-fuse-connections.mount¦systemd-logind.service¦getty.target¦console-getty.service :: Other_operation,()
+cmd,/usr/sbin/init
+cp ¦/usr/lib/systemd/system/dbus.service¦/etc/systemd/system/ :: Filesystem_operation,()
+/sys/fs/cgroup :: volume_operation,()
+yum ¦-y¦update;¦yum¦-y¦clean¦all :: Dependencies_operation,()
+/run :: volume_operation,()
+RUNyum -y update; yum -y clean all :: onbuild_operation,()
+sed ¦-i¦'s/OOMScoreAdjust=-900//'¦/etc/systemd/system/dbus.service :: Filesystem_operation,()
+from,fedora@latest
+container=docker: :: env_operation,()

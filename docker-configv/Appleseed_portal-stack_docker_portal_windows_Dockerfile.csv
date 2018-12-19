@@ -1,0 +1,11 @@
+MD ¦C:\\\\Appleseed :: Other_operation,()
+expose,80
+https://github.com/Appleseed/portal/releases/download/v1.1.0.0/Appleseed.Portal.1.1.0.0.zipc:\\\\Appleseed :: add_operation,()
+New-Website ¦-Name¦'Appleseed.Portal'¦-Port¦80¦-PhysicalPath¦'c:\\Appleseed\\Portal'¦-ApplicationPool¦'.NET¦v4.5' :: Other_operation,()
+C:\\\\Appleseed :: workdir_operation,()
+Install-WindowsFeature ¦NET-Framework-45-ASPNET¦;¦Install-WindowsFeature¦Web-Asp-Net45 :: Other_operation,()
+cmd,Write-Host¦IIS¦Started...¦;¦while¦($true)¦{¦Start-Sleep¦-Seconds¦3600¦}
+Remove-WebSite ¦-Name¦'Default¦Web¦Site' :: Other_operation,()
+rm ¦c:\\\\Appleseed\\\\Appleseed.Portal.1.1.0.0.zip :: Filesystem_operation,()
+powershell ¦-executionpolicy¦bypass¦-Command¦"expand-archive¦-Path¦'c:\\\\Appleseed\\\\Appleseed.Portal.1.1.0.0.zip'¦-DestinationPath¦'c:\\\\Appleseed\\\\Portal'" :: Other_operation,()
+from,microsoft/iis

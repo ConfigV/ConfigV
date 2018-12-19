@@ -1,0 +1,9 @@
+from,ubuntu:14.04
+nginx-1.8.0.tar.gznginx-1.8.0.tar.gz :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦make¦gcc¦zlib1g¦zlib1g-dev¦libpcre3¦libpcre3-dev¦&&\\ :: Other_operation,()
+nginx.confnginx.conf :: copy_operation,()
+expose,80 443
+sed ¦-i¦"s/archive\\.ubuntu\\.com/mirrors\\.163\\.com/g"¦/etc/apt/sources.list :: Filesystem_operation,()
+cmd,./usr/local/program/nginx/sbin/nginx¦-g¦daemon off;
+/usr/local/program/nginx/html :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()

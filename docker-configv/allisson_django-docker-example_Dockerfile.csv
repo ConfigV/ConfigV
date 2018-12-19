@@ -1,0 +1,17 @@
+myblog/deploy/myblog :: add_operation,()
+mkdir ¦/deploy/ :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,8000
+pip ¦install¦-r¦requirments.txt :: Dependencies_operation,()
+python ¦manage.py¦collectstatic¦--noinput :: Build_Execute_operation,()
+python ¦manage.py¦syncdb¦--noinput :: Build_Execute_operation,()
+apt-get ¦install¦-y¦python-psycopg2¦python-imaging¦python-pip¦supervisor :: Dependencies_operation,()
+python ¦manage.py¦migrate¦--noinput :: Build_Execute_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,/usr/bin/supervisord
+INITRD:No :: env_operation,()
+cd ¦/deploy/myblog :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,allisson/docker-ubuntu:latest
+apt-get ¦update :: Dependencies_operation,()

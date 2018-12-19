@@ -1,0 +1,17 @@
+mv ¦/tmp/activator-1.2.10¦/opt/typesafe-activator :: Filesystem_operation,()
+curl ¦http://downloads.typesafe.com/typesafe-activator/1.2.10/$ACTIVATOR.zip¦>¦/tmp/$ACTIVATOR.zip :: Dependencies_operation,()
+rm ¦-f¦/tmp/$ACTIVATOR.zip :: Filesystem_operation,()
+ACTIVATOR:typesafe-activator-1.2.10 :: env_operation,()
+/root/.ivy2 :: volume_operation,()
+expose,9000 5005 9999
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections :: Filesystem_operation,()
+apt-get ¦install¦-y¦software-properties-common¦python-software-properties¦tree¦curl :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:webupd8team/java :: Dependencies_operation,()
+from,ubuntu:14.04
+/root/.sbt :: volume_operation,()
+/opt/debiki/server/ :: workdir_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections :: Filesystem_operation,()
+unzip ¦/tmp/$ACTIVATOR.zip¦-d¦/tmp/ :: Filesystem_operation,()
+apt-get ¦install¦-y¦oracle-java8-installer :: Dependencies_operation,()
+apt-get ¦install¦-y¦unzip¦postgresql-client :: Dependencies_operation,()

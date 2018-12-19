@@ -1,0 +1,16 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+git ¦init¦--bare :: Dependencies_operation,()
+mkdir ¦-p¦/var/lock/apache2¦/var/run/apache2¦/var/run/sshd¦/var/log/supervisor :: Filesystem_operation,()
+rm ¦-r¦/app/* :: Filesystem_operation,()
+./post-receive/git/website.git/hooks/post-receive :: copy_operation,()
+/root/.ssh :: volume_operation,()
+/git/website.git :: workdir_operation,()
+mkdir ¦/git :: Filesystem_operation,()
+apt-get ¦install¦-y¦git¦ssh¦supervisor :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,tutum/apache-php
+cmd,/usr/bin/supervisord
+mkdir ¦/git/website.git :: Filesystem_operation,()
+chmod ¦+x¦/git/website.git/hooks/post-receive :: Permissions_operation,()
+cd ¦/git/website.git :: Filesystem_operation,()
+expose,22 80

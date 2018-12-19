@@ -1,0 +1,17 @@
+APACHE_DOCUMENTROOT:/var/www :: env_operation,()
+APACHE_SERVERADMIN:admin@localhost :: env_operation,()
+./start_apache.sh/home/start_apache.sh :: add_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+from,docker-registry:5000/ubuntu:base
+APACHE_SERVERNAME:localhost :: env_operation,()
+expose,880
+./conf/ports.conf/etc/apache2/ :: add_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦install¦-y¦apache2 :: Dependencies_operation,()
+APACHE_SERVERALIAS:docker.localhost :: env_operation,()
+ln ¦-s¦/etc/apache2/sites-available/virgeo_resource.conf¦/etc/apache2/sites-enabled/ :: Filesystem_operation,()
+./conf/virgeo_resource.conf/etc/apache2/sites-available/ :: add_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_RUN_DIR:/var/run/apache2 :: env_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()

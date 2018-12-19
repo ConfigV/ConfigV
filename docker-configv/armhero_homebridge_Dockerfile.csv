@@ -1,0 +1,10 @@
+adduser ¦-u¦${UID}¦-h¦/opt/homebridge¦-H¦-G¦homebridge¦-s¦/bin/bash¦-D¦homebridge :: Permissions_operation,()
+chmod ¦+x¦/usr/local/bin/run-container.sh :: Permissions_operation,()
+npm ¦install¦-g¦homebridge :: Dependencies_operation,()
+root/ :: copy_operation,()
+entrypoint,/sbin/tini¦--
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,armhero/nodejs
+cmd,/usr/local/bin/run-container.sh
+addgroup ¦-g¦${GID}¦homebridge :: Permissions_operation,()
+apk ¦add¦--update¦bash¦tini :: Dependencies_operation,()

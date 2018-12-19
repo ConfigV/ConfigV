@@ -1,0 +1,10 @@
+from,xdevelsistemas/debian-env:latest
+expose,27017
+chown ¦mongodb.mongodb¦/var/opt/mongodb :: Permissions_operation,()
+cmd,/usr/bin/mongod¦--dbpath¦/var/opt/mongodb
+mongodb :: user_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦mongodb-server :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+//var/opt/mongodb :: volume_operation,()
+mkdir ¦-p¦/var/opt/mongodb :: Filesystem_operation,()

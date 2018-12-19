@@ -1,0 +1,10 @@
+from,ubuntu@trusty
+http_proxy:http://web-proxy.houston.hp.com:8080 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"export http_proxy=$http_proxy" >> /root/.bashrc && echo "export https_proxy=$http_proxy" >> /root/.bashrc && echo "export HTTP_PROXY=$http_proxy" >> /root/.bashrc && echo "export HTTPS_PROXY=$http_proxy" >> /root/.bashrc :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦language-pack-en :: Dependencies_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+echo ¦echo¦'Acquire::http::Proxy "http://web-proxy.houston.hp.com:8080";' >> /etc/apt/apt.conf :: Filesystem_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦tmux¦unzip¦zip¦elinks¦git¦vim¦build-essential¦man :: Dependencies_operation,()

@@ -1,0 +1,18 @@
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+wget ¦http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.1/sbt-launch.jar :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sbt ¦update :: Other_operation,()
+expose,7203
+server.properties/opt/kafka_2.9.2-0.8.1/config/server.properties :: add_operation,()
+/opt/kafka_2.9.2-0.8.1 :: workdir_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+wget ¦-O¦-¦http://apache.mirror.gtcomm.net/kafka/0.8.1/kafka_2.9.2-0.8.1.tgz¦|¦tar¦xzf¦-¦-C¦/opt :: Dependencies_operation,()
+sbt ¦package :: Other_operation,()
+from,ubuntu
+cmd,bash¦run.sh
+cd ¦/opt/kafka_2.9.2-0.8.1 :: Filesystem_operation,()
+chmod ¦u+x¦sbt :: Permissions_operation,()
+cd ¦/usr/local/bin :: Filesystem_operation,()
+sbt.sh/usr/local/bin/sbt :: add_operation,()
+run.sh/opt/kafka_2.9.2-0.8.1/ :: add_operation,()

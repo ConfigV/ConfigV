@@ -1,0 +1,13 @@
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,init.sh
+from,armhf/ubuntu
+expose,8112
+DELUGE_GROUP:delugegroup :: env_operation,()
+apt-get ¦install¦-qy¦deluged¦deluge-web¦supervisor :: Dependencies_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+init.sh/usr/local/bin/init.sh :: copy_operation,()
+DELUGE_USER:delugeuser :: env_operation,()
+/var/lib/deluge :: volume_operation,()
+chmod ¦+x¦/usr/local/bin/init.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()

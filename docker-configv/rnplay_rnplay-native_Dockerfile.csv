@@ -1,0 +1,20 @@
+mkdir ¦-p¦/app :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+package.json/tmp/package.json :: add_operation,()
+/tmp/watchman :: workdir_operation,()
+cmd,node_modules/react-native/packager/packager.sh
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+mkdir ¦-p¦/usr/local/var/run/watchman/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦software-properties-common¦git-core¦build-essential¦automake¦unzip¦python-dev¦python-setuptools :: Dependencies_operation,()
+from,node:5.7
+/app :: workdir_operation,()
+npm ¦install¦||¦true :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+git ¦clone¦-b¦v4.5.0¦https://github.com/facebook/watchman.git¦/tmp/watchman :: Dependencies_operation,()
+expose,8081
+cp ¦-a¦/tmp/node_modules¦/app/ :: Filesystem_operation,()
+./autogen.sh  :: Other_operation,()

@@ -1,0 +1,13 @@
+chown ¦-R¦mysql:mysql¦/dbdata* :: Permissions_operation,()
+./config_mariadb.sh/config_mariadb.sh :: add_operation,()
+./supervisord.conf/etc/supervisord.conf :: add_operation,()
+from,uhurunet/fedora21
+./start.sh/start.sh :: add_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()
+chmod ¦755¦/config_mariadb.sh :: Permissions_operation,()
+ln ¦-s¦/dbdata¦/var/lib/mysql :: Filesystem_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+expose,3306
+mkdir ¦/dbdata :: Filesystem_operation,()
+cmd,/bin/bash
+yum ¦-y¦install¦mariadb-server¦bind-utils¦mlocate¦pwgen¦supervisor¦psmisc¦net-tools¦hostname¦community-mysql :: Dependencies_operation,()

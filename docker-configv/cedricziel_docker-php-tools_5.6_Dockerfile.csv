@@ -1,0 +1,12 @@
+apt-get ¦update¦-qq :: Dependencies_operation,()
+echo ¦yes¦| pecl install xdebug && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini :: Filesystem_operation,()
+PATH:/opt/bin:$PATH :: env_operation,()
+CLOUDSDK_CORE_DISABLE_PROMPTS:1 :: env_operation,()
+apt-get ¦install¦-y¦-qq¦git¦wget¦pandoc¦ant¦ant-contrib¦ant-optional¦texlive-fonts-recommended¦libxslt-dev¦libzip-dev¦texlive-latex-recommended¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev :: Dependencies_operation,()
+docker-php-ext-enable ¦xdebug :: Other_operation,()
+nproc  :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦echo¦"deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | tee /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && apt-get update -qq && apt-get instal... :: Filesystem_operation,()
+echo ¦mkdir¦-p /opt/composer && mkdir -p /opt/bin && cd /opt/composer && php -r "copy('https://composer.github.io/installer.sig', 'composer-installer.sig');" && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php -r ... :: Filesystem_operation,()
+from,php:5.6
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()

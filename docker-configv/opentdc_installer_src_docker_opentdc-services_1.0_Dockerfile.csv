@@ -1,0 +1,22 @@
+/root/opt/opentdc/apache-tomee-jaxrs-1.7.1/temp :: volume_operation,()
+files/opentdc-services-test.war$HOME/opt/opentdc/apache-tomee-jaxrs-1.7.1/webapps/ :: copy_operation,()
+tar ¦xf¦apache-tomee-1.7.1-jaxrs.tar.gz :: Filesystem_operation,()
+cmd,cd¦/root/opt/opentdc/apache-tomee-jaxrs-1.7.1;./bin/catalina.sh¦run
+/root/opt/opentdc/apache-tomee-jaxrs-1.7.1/work :: volume_operation,()
+echo ¦echo¦"<VirtualHost *:80>" > /etc/apache2/sites-available/000-default.conf && echo " ServerAdmin webmaster@localhost" >> /etc/apache2/sites-available/000-default.conf && echo " DocumentRoot /var/www/html" >> /etc/apache2/sites-available/000... :: Filesystem_operation,()
+chmod ¦a+x¦/docker-entrypoint.sh :: Permissions_operation,()
+expose,80 8001 8009
+from,dockerfile/java:openjdk-7-jdk
+/root/opt/opentdc/apache-tomee-jaxrs-1.7.1/logs :: volume_operation,()
+./docker-entrypoint.sh/ :: copy_operation,()
+ls ¦-al¦$HOME/opt/opentdc :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦$HOME/opt/opentdc :: Filesystem_operation,()
+rm ¦apache-tomee-1.7.1-jaxrs.tar.gz :: Filesystem_operation,()
+mkdir ¦--parents¦$HOME/opt/opentdc :: Filesystem_operation,()
+files/apache-tomee-1.7.1-jaxrs.tar.gz$HOME/opt/opentdc/ :: copy_operation,()
+entrypoint,/docker-entrypoint.sh
+VERSION:1.0.0 :: env_operation,()
+PLATFORM:jre-1.7 :: env_operation,()
+apt-get ¦install¦-y¦ant¦apache2¦libapache2-mod-jk¦nullmailer :: Dependencies_operation,()
+HOME:/root :: env_operation,()

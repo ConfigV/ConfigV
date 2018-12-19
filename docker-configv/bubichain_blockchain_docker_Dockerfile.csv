@@ -1,0 +1,12 @@
+postgres-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+chmod ¦777¦/bubi-entrypoint.sh :: Permissions_operation,()
+from,postgres@latest
+chmod ¦777¦/docker-entrypoint.sh :: Permissions_operation,()
+expose,19333
+POSTGRES_PASSWORD:root :: env_operation,()
+blockchain$BUBI_HOME :: add_operation,()
+PATH:$PATH:$BUBI_HOME/bin :: env_operation,()
+BUBI_HOME:/usr/blockchain :: env_operation,()
+entrypoint,/bubi-entrypoint.sh
+mkdir ¦-p¦$BUBI_HOME :: Filesystem_operation,()
+bubi-entrypoint.sh/bubi-entrypoint.sh :: copy_operation,()

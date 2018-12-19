@@ -1,0 +1,9 @@
+from,centos:7.3
+yum ¦-y¦install¦postgresql95-server.x86_64¦postgresql95-contrib.x86_64¦#¦create¦directories¦for¦data :: Dependencies_operation,()
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+yum ¦-y¦install¦https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-3.noarch.rpm :: Dependencies_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()

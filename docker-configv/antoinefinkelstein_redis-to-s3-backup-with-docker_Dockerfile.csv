@@ -1,0 +1,14 @@
+startup.sh/startup.sh :: add_operation,()
+chmod ¦+x¦/startup.sh :: Permissions_operation,()
+apt-get ¦install¦-y¦ssh :: Dependencies_operation,()
+apt-get ¦install¦-y¦s3cmd :: Dependencies_operation,()
+cmd,/startup.sh
+from,ubuntu:14.1
+wget ¦-O/etc/apt/sources.list.d/s3tools.list¦http://s3tools.org/repo/deb-all/stable/s3tools.list :: Dependencies_operation,()
+touch ¦~/.ssh/id_rsa :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦~/.ssh :: Filesystem_operation,()
+chmod ¦600¦~/.ssh/id_rsa.pub :: Permissions_operation,()
+wget ¦-O-¦-q¦http://s3tools.org/repo/deb-all/stable/s3tools.key¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+touch ¦~/.ssh/id_rsa.pub :: Filesystem_operation,()
+chmod ¦600¦~/.ssh/id_rsa :: Permissions_operation,()

@@ -1,0 +1,8 @@
+expose,8080
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/app.jar
+sh ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+SPRING_PROFILES_ACTIVE:docker :: env_operation,()
+/tmp :: volume_operation,()
+/ :: workdir_operation,()
+from,elderbyte/docker-alpine-jdk8-ffmpeg:latest
+vidada-server-*-exec.jarapp.jar :: add_operation,()

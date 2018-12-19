@@ -1,0 +1,16 @@
+apt-get ¦update :: Dependencies_operation,()
+VERSION=0.12.0: :: env_operation,()
+/opt/maxwell :: workdir_operation,()
+MYSQL_USER=root: :: env_operation,()
+LOG_LEVEL=WARN: :: env_operation,()
+/opt/maxwell/${VERSION} :: workdir_operation,()
+MYSQL_PORT=3306: :: env_operation,()
+KAFKA_PORT=9092: :: env_operation,()
+mkdir ¦/opt/maxwell :: Filesystem_operation,()
+from,jacobat/ruby:2.1.5-3
+apt-get ¦install¦-y¦openjdk-7-jre¦curl :: Dependencies_operation,()
+MYSQL_HOST=127.0.0.1: :: env_operation,()
+curl ¦-sLo¦-¦https://github.com/zendesk/maxwell/releases/download/v${VERSION}/maxwell-${VERSION}.tar.gz¦|¦tar¦zxvf¦- :: Dependencies_operation,()
+KAFKA_HOST=127.0.0.1: :: env_operation,()
+mv ¦maxwell-${VERSION}¦${VERSION} :: Filesystem_operation,()
+cmd,bin/maxwell¦--user=$MYSQL_USER¦--password=$MYSQL_PASSWORD¦--host=$MYSQL_HOST¦--port=$MYSQL_PORT¦--producer=kafka¦--kafka.bootstrap.servers=$KAFKA_HOST:$KAFKA_PORT¦--log_level=$LOG_LEVEL

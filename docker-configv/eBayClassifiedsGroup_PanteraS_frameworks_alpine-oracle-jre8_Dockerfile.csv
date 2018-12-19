@@ -1,0 +1,7 @@
+echo ¦echo¦'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf :: Filesystem_operation,()
+JAVA_HOME:/usr/jre1.8.0_51 :: env_operation,()
+IMAGE:panteras/alpine-oracle-jre8 :: env_operation,()
+curl ¦--location¦--retry¦3¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie;"¦"http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jre-8u51-linux-x64.tar.gz"¦|¦gunzip¦|¦tar¦x¦-C¦/usr/ :: Dependencies_operation,()
+PATH:${PATH}:${JAVA_HOME}/bin :: env_operation,()
+ln ¦-s¦$JAVA_HOME¦/usr/java :: Filesystem_operation,()
+rm ¦-rf¦$JAVA_HOME/man :: Filesystem_operation,()

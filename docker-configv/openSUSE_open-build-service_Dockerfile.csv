@@ -1,0 +1,11 @@
+from,openbuildservice/base
+zypper ¦-n¦install¦--no-recommends¦--replacefiles¦#¦as¦search¦daemon :: Other_operation,()
+rm ¦-rf¦/var/cache/zypp/* :: Filesystem_operation,()
+frontend :: user_operation,()
+bundle ¦config¦build.nokogiri¦--use-system-libraries;¦bundle¦install :: Dependencies_operation,()
+CONTAINER_USERID :: arg_operation,()
+src/api/Gemfile/obs/src/api/Gemfile :: add_operation,()
+cmd,foreman¦start¦-f¦Procfile
+src/api/Gemfile.lock/obs/src/api/Gemfile.lock :: add_operation,()
+ln ¦-sf¦/usr/bin/ruby.ruby2.4¦/home/frontend/bin/ruby :: Filesystem_operation,()
+/obs/src/api :: workdir_operation,()

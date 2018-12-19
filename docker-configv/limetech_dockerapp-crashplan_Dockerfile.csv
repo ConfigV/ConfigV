@@ -1,0 +1,11 @@
+install.sh/tmp/ :: copy_operation,()
+chmod ¦+x¦/tmp/install.sh :: Permissions_operation,()
+/data :: volume_operation,()
+config.sh/etc/my_init.d/00_config.sh :: copy_operation,()
+crashplan.sh/etc/service/crashplan/run :: copy_operation,()
+rm ¦/tmp/install.sh :: Filesystem_operation,()
+from,hurricane/dockergui:xvnc
+APP_NAME="CrashPlanDesktop":WIDTH=900 :: env_operation,()
+/tmp/install.sh  :: Other_operation,()
+cmd,/sbin/my_init
+expose,4242 8080

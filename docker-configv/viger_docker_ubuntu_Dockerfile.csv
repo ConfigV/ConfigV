@@ -1,0 +1,23 @@
+expose,22 80 3306
+cd ¦/root :: Filesystem_operation,()
+wget ¦http://cn2.php.net/distributions/php-5.6.30.tar.gz :: Dependencies_operation,()
+from,daocloud.io/library/ubuntu:zesty-20170411
+cd ¦php-5.6.30 :: Filesystem_operation,()
+cp ¦/etc/php56/php-fpm.conf.default¦/etc/php56/php-fpm.conf :: Filesystem_operation,()
+cp ¦php.ini-development¦/etc/php56/php.ini¦# :: Filesystem_operation,()
+tar ¦xvfz¦php-5.6.30.tar.gz :: Filesystem_operation,()
+make ¦install¦# :: Build_Execute_operation,()
+make  :: Build_Execute_operation,()
+entrypoint,/etc/init.d/start
+mkdir ¦/etc/php56/conf.d :: Filesystem_operation,()
+nginx/./etc/nginx/. :: add_operation,()
+start/etc/init.d/start :: add_operation,()
+'./configure' ¦'--srcdir=../php-5.6.30'¦'--config-cache'¦'--prefix=/usr'¦'--sysconfdir=/etc/php56'¦'--localstatedir=/var'¦'--libdir=/usr/lib/php56'¦'--datarootdir=/usr/share/php56'¦'--datadir=/usr/share/php56'¦'--program-suffix=56'¦'--with-layout=GNU'¦'-... :: Other_operation,()
+ssh/./etc/ssh/. :: add_operation,()
+rm ¦-rf¦/root/php-5.6.30* :: Filesystem_operation,()
+mysql/./etc/mysql/. :: add_operation,()
+echo ¦chmod¦a+x /etc/init.d/start && echo -e "__SSH_LOGIN_INFO__" > /etc/motd :: Filesystem_operation,()
+mkdir ¦/etc/php56/fpm.d :: Filesystem_operation,()
+echo ¦cd¦/root && wget http://pecl.php.net/get/redis-3.1.2.tgz && tar xvfz redis-3.1.2.tgz && cd redis-3.1.2 && /usr/bin/phpize56 && ./configure --with-php-config=/usr/bin/php-config56 && make && make install && echo "extension = redis.so" > /et... :: Filesystem_operation,()
+php56/./etc/php56/. :: add_operation,()
+echo ¦echo¦"nameserver 61.139.2.69\\nnameserver 114.114.114.114" > /etc/resolv.conf && sed -i "s/archive\\.ubuntu/mirrors\\.163/g" /etc/apt/sources.list && apt-get update && apt-get install -y openssh-server gcc g++ cmake make autoconf nginx tzdata... :: Filesystem_operation,()

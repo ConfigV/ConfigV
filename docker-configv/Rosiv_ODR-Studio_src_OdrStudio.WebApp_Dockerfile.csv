@@ -1,0 +1,10 @@
+from,microsoft/aspnet:1.0.0-rc1-update1
+apt-get ¦install¦-qqy¦sqlite3¦libsqlite3-dev :: Dependencies_operation,()
+entrypoint,dnx¦-p¦project.json¦web
+/app :: workdir_operation,()
+./app :: copy_operation,()
+expose,5000
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+dnu ¦restore :: Other_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+printf ¦"deb¦http://ftp.us.debian.org/debian¦jessie¦main\\n"¦>>¦/etc/apt/sources.list :: Other_operation,()

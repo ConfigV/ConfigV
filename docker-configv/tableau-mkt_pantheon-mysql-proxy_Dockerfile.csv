@@ -1,0 +1,18 @@
+curl ¦https://github.com/pantheon-systems/terminus/archive/master.tar.gz¦-L¦-o¦/tmp/terminus.tar.gz :: Dependencies_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+terminus_auth.lua/opt/auth.lua :: add_operation,()
+run/opt/run :: add_operation,()
+chmod ¦u+x¦/opt/run :: Permissions_operation,()
+PANTHEON_EMAIL=test@example.com: :: env_operation,()
+PANTHEON_SITE=example: :: env_operation,()
+PROXY_DB_PW=change-me-pw-for-proxy: :: env_operation,()
+PANTHEON_PASS=batteryhorsestaple: :: env_operation,()
+echo ¦mkdir¦$HOME/.drush && tar -zxvf /tmp/drush.tar.gz -C $HOME && tar -zxvf /tmp/terminus.tar.gz -C $HOME/.drush && ln -s $HOME/drush-6.6.0/drush /usr/local/bin/drush && mkdir $HOME/.ssh && echo "StrictHostKeyChecking no" > $HOME/.ssh/config :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,/opt/run
+curl ¦https://github.com/drush-ops/drush/archive/6.6.0.tar.gz¦-L¦-o¦/tmp/drush.tar.gz :: Dependencies_operation,()
+PROXY_DB_UN=pantheon_proxy: :: env_operation,()
+PANTHEON_ENV=test: :: env_operation,()
+from,pataquets/mysql-proxy
+apt-get ¦-qqy¦upgrade :: Dependencies_operation,()
+apt-get ¦-qqy¦install¦--no-install-recommends¦curl¦openssh-client¦php5-cli¦php5-common¦php5-curl :: Dependencies_operation,()

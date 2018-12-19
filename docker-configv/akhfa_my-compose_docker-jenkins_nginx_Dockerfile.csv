@@ -1,0 +1,9 @@
+echo ¦apt-key¦adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list && apt-get update && apt-get install --no-inst... :: Filesystem_operation,()
+NGINX_VERSION:1.11.8-1~jessie :: env_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+from,debian@jessie
+expose,80 443
+config/sites.conf/etc/nginx/conf.d :: copy_operation,()
+sed ¦-i¦"s/JENKINS_HOST/jenkins/g"¦/etc/nginx/conf.d/sites.conf :: Filesystem_operation,()
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()

@@ -1,0 +1,9 @@
+buildDeps="libssl-dev ¦libsasl2-dev" :: Other_operation,()
+apt-get ¦install¦-y¦$buildDeps¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,nachinius/php56-apache-nodejs
+apt-get ¦update :: Dependencies_operation,()
+set ¦-x :: Environment_operation,()
+echo ¦echo¦"extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini :: Filesystem_operation,()
+pecl ¦install¦mongodb :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

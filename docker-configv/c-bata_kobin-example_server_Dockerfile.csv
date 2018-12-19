@@ -1,0 +1,14 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+requirements/app/requirements :: add_operation,()
+./manage.py/app/manage.py :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+./public/app/public :: add_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦git¦gcc¦libpq-dev :: Dependencies_operation,()
+./templates/app/templates :: add_operation,()
+pip ¦install¦-c¦/app/requirements/constraints.txt¦-r¦/app/requirements/docker.txt :: Dependencies_operation,()
+./app/app/app :: add_operation,()
+cmd,gunicorn¦-w¦1¦-b¦:80¦app:app
+expose,80
+from,python:3.6
+/app :: workdir_operation,()

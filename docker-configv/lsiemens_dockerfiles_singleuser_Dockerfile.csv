@@ -1,0 +1,20 @@
+pip3 ¦install¦--upgrade¦pip :: Dependencies_operation,()
+pip3 ¦install¦git+git://github.com/jupyterhub/jupyterhub :: Dependencies_operation,()
+jupyterhub-singleuser/usr/local/bin/jupyterhub-singleuser :: copy_operation,()
+/home/nugrid :: workdir_operation,()
+singleuser.sh/srv/singleuser/singleuser.sh :: copy_operation,()
+pip3 ¦install¦ipython :: Dependencies_operation,()
+useradd ¦-d¦/home/nugrid¦-m¦-c¦""¦nugrid :: Permissions_operation,()
+from,ubuntu@latest
+cmd,sh¦/srv/singleuser/singleuser.sh
+HOME:/home/nugrid :: env_operation,()
+apt-get ¦--no-install-recommends¦install¦--yes¦python3¦python3-pip¦git¦npm¦nodejs-legacy :: Dependencies_operation,()
+chown ¦-R¦nugrid:nugrid¦/home/nugrid :: Permissions_operation,()
+chmod ¦755¦/usr/local/bin/jupyterhub-singleuser :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+pip3 ¦install¦notebook :: Dependencies_operation,()
+nugrid :: user_operation,()
+expose,8888
+apt-get ¦update :: Dependencies_operation,()
+npm ¦install¦-g¦configurable-http-proxy :: Dependencies_operation,()
+pip3 ¦install¦setuptools :: Dependencies_operation,()

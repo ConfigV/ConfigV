@@ -1,0 +1,20 @@
+from,debezium/jdk8:8u72
+mkdir ¦$KAFKA_HOME/logs :: Filesystem_operation,()
+KAFKA_VERSION=0.9.0.1:SCALA_VERSION=2.11 :: env_operation,()
+$KAFKA_HOME :: workdir_operation,()
+./docker-entrypoint.sh/ :: copy_operation,()
+/kafka/config :: volume_operation,()
+expose,9092
+./log4j.properties$KAFKA_HOME/config/log4j.properties :: copy_operation,()
+/kafka/logs :: volume_operation,()
+root :: user_operation,()
+groupadd ¦-r¦kafka¦-g¦1001 :: Permissions_operation,()
+cmd,start
+mkdir ¦$KAFKA_HOME/data :: Filesystem_operation,()
+echo ¦echo¦"$MD5HASH /tmp/kafka.tgz" | md5sum -c - &&\\ :: Filesystem_operation,()
+kafka :: user_operation,()
+chmod ¦755¦$KAFKA_HOME :: Permissions_operation,()
+/kafka/data :: volume_operation,()
+useradd ¦-u¦1001¦-r¦-g¦kafka¦-m¦-d¦$KAFKA_HOME¦-s¦/sbin/nologin¦-c¦"Kafka¦user"¦kafka :: Permissions_operation,()
+curl ¦--stderr¦/dev/null¦https://www.apache.org/dyn/closer.cgi\\?as_json\\=1¦|¦sed¦-rn¦'s/.*"preferred":.*"(.* :: Dependencies_operation,()
+entrypoint,/docker-entrypoint.sh

@@ -1,0 +1,13 @@
+STUNNEL_SHA256:0ee64774d7a720f3ffd129b08557ee0882704c7f65b859c40e315a175b68a6fd :: env_operation,()
+CFG_FILE:$STUNNEL_CONF/stunnel.conf :: env_operation,()
+STUNNEL_URL:https://www.stunnel.org/downloads/stunnel-$STUNNEL_VER.tar.gz :: env_operation,()
+./stunnel.conf$STUNNEL_CONF/stunnel.conf :: add_operation,()
+STUNNEL_VER:5.32 :: env_operation,()
+BUILD_DEPS:curl :: env_operation,()
+cmd,stunnel¦$CFG_FILE
+STUNNEL_CONF:/usr/local/etc/stunnel/stunnel.conf :: env_operation,()
+STUNNEL_DEPS:openssl :: env_operation,()
+echo ¦set¦-xe && apk update && apk add $STUNNEL_DEPS $BUILD_DEPS && mkdir $STUNNEL_TEMP && cd $STUNNEL_TEMP && curl -sSL $STUNNEL_URL -o $STUNNEL_FILE && echo "$STUNNEL_SHA256 $STUNNEL_FILE" | sha256sum -c && tar -xf $STUNNEL_FILE --strip 1 && .... :: Filesystem_operation,()
+STUNNEL_TEMP:stunnel-$STUNNEL_VER-build :: env_operation,()
+STUNNEL_FILE:stunnel-$STUNNEL_VER.tar.gz :: env_operation,()
+from,alpine@latest

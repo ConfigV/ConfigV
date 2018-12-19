@@ -1,0 +1,11 @@
+./docker-latest/usr/local/bin/docker :: add_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,ubuntu
+echo ¦echo¦deb http://archive.ubuntu.com/ubuntu precise universe > /etc/apt/sources.list.d/universe.list :: Filesystem_operation,()
+apt-get ¦install¦-qqy¦golang¦git :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦python-software-properties :: Dependencies_operation,()
+add-apt-repository ¦ppa:duh/golang :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦iptables¦ca-certificates¦lxc :: Dependencies_operation,()
+/var/lib/docker :: volume_operation,()
+cmd,/opt/docker-testing-container/inttest_in_docker.sh
+chmod ¦+x¦/usr/local/bin/docker :: Permissions_operation,()

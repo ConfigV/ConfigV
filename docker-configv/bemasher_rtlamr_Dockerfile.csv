@@ -1,0 +1,12 @@
+curl ¦-s¦https://storage.googleapis.com/golang/go1.3.linux-amd64.tar.gz¦|¦tar¦-v¦-C¦/usr/local¦-xz :: Dependencies_operation,()
+GOROOT:/usr/local/go :: env_operation,()
+cmd,rtlamr
+apt-get ¦update :: Dependencies_operation,()
+PATH:$PATH:$GOROOT/bin :: env_operation,()
+GOPATH:/go :: env_operation,()
+go ¦test¦-v¦./... :: Build_Execute_operation,()
+go ¦get¦-v¦github.com/bemasher/rtlamr :: Build_Execute_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦git-core¦bzr¦mercurial¦curl¦ca-certificates¦build-essential¦libfftw3-dev :: Dependencies_operation,()
+PATH:$PATH:$GOPATH/bin :: env_operation,()
+/go/src/ :: workdir_operation,()
+from,ubuntu:14.04

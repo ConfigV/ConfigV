@@ -1,0 +1,11 @@
+expose,80 22
+NGINX_VERSION:1.9.0-1~jessie :: env_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+cmd,supervisord
+apt-key ¦adv¦--keyserver¦hkp://pgp.mit.edu:80¦--recv-keys¦573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 :: Dependencies_operation,()
+echo ¦echo¦"deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+touch ¦/etc/supervisor/conf.d/supervisord.conf :: Filesystem_operation,()
+from,php@fpm
+apt-get ¦install¦-y¦ca-certificates¦nginx=${NGINX_VERSION}¦supervisor :: Dependencies_operation,()

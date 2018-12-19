@@ -1,0 +1,9 @@
+from,debian@wheezy
+mkdir ¦-p¦/var/citac/cache :: Filesystem_operation,()
+chmod ¦0777¦/var/citac/cache :: Permissions_operation,()
+run-squid.sh/opt/run-squid.sh :: copy_operation,()
+squid.conf/etc/squid3/squid.conf :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦squid3 :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦/opt/run-squid.sh :: Permissions_operation,()
+cmd,/opt/run-squid.sh

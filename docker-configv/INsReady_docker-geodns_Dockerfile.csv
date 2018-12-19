@@ -1,0 +1,21 @@
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/dns :: Filesystem_operation,()
+$GOPATH/src/github.com/abh/geodns :: workdir_operation,()
+expose,8053
+go ¦get¦-t :: Build_Execute_operation,()
+gzip ¦-d¦GeoLiteCity.dat.gz :: Other_operation,()
+wget ¦http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz :: Dependencies_operation,()
+gzip ¦-d¦GeoIP.dat.gz :: Other_operation,()
+gzip ¦-d¦GeoIPASNum.dat.gz :: Other_operation,()
+apt-get ¦install¦-y¦libgeoip-dev¦pkg-config :: Dependencies_operation,()
+wget ¦http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNum.dat.gz :: Dependencies_operation,()
+cd ¦$GOPATH/src/github.com/abh/geodns :: Filesystem_operation,()
+wget ¦http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz :: Dependencies_operation,()
+go ¦get¦github.com/abh/geodns :: Build_Execute_operation,()
+from,golang:1.5
+cd ¦/usr/share/GeoIP :: Filesystem_operation,()
+cmd,./geodns¦-config="/dns"
+rm ¦-f¦* :: Filesystem_operation,()
+mv ¦GeoLiteCity.dat¦GeoIPCity.dat :: Filesystem_operation,()
+go ¦test :: Build_Execute_operation,()
+go ¦build :: Build_Execute_operation,()

@@ -1,0 +1,11 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+cmd,/bin/bash
+apt-get ¦-y¦install¦curl¦net-tools¦unzip¦wget :: Dependencies_operation,()
+mkdir ¦/opt/consul/ :: Filesystem_operation,()
+expose,8300 8301 8302 8400 8500 8600
+mv ¦./consul¦/usr/bin/ :: Filesystem_operation,()
+rm ¦/tmp/0.2.0_linux_amd64.zip :: Filesystem_operation,()
+from,ubuntu:13.1
+unzip ¦/tmp/0.2.0_linux_amd64.zip :: Filesystem_operation,()
+wget ¦-O¦/tmp/0.2.0_linux_amd64.zip¦https://dl.bintray.com/mitchellh/consul/0.2.0_linux_amd64.zip :: Dependencies_operation,()
+chmod ¦750¦./consul :: Permissions_operation,()

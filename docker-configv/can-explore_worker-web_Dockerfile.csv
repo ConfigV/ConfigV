@@ -1,0 +1,9 @@
+bundle ¦install¦--jobs¦20¦--retry¦3¦--standalone¦--clean¦--without¦development¦test :: Dependencies_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+Gemfile./ :: copy_operation,()
+gem ¦install¦bundler¦--no-ri¦--no-rdoc :: Dependencies_operation,()
+from,ruby:2.2
+/app :: workdir_operation,()
+./app :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()

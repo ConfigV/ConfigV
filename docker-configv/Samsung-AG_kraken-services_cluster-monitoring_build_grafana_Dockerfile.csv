@@ -1,0 +1,28 @@
+cmd,-p¦8080¦-c¦/opt/grafana/config.js.tmpl=/opt/grafana/config.js¦-s¦/db/=${INFLUXDB_PROTO}://${INFLUXDB_HOST}:${INFLUXDB_PORT}/db/
+mv ¦/opt/grafana-${GRAFANA_VERSION}¦/opt/grafana :: Filesystem_operation,()
+from,gliderlabs/alpine:3.1
+expose,8080
+curl ¦-L¦http://grafanarel.s3.amazonaws.com/grafana-${GRAFANA_VERSION}.tar.gz¦|¦tar¦xzv¦-C¦/opt :: Dependencies_operation,()
+chown ¦nobody:nobody¦/opt/grafana/ :: Permissions_operation,()
+GRAFANA_DEFAULT_DASHBOARD:/dashboard/file/kraken.json :: env_operation,()
+entrypoint,/kuisp
+INFLUXDB_EXTERNAL_URL:/db/ :: env_operation,()
+curl ¦-L¦https://github.com/jimmidyson/kuisp/releases/download/v${KUISP_VERSION}/kuisp-${KUISP_VERSION}-linux-amd64.tar.gz¦|¦tar¦xzv :: Dependencies_operation,()
+INFLUXDB_HOST:influxdb :: env_operation,()
+INFLUXDB_NAME:k8s :: env_operation,()
+apk-install ¦ca-certificates¦curl¦tar :: Dependencies_operation,()
+GRAFANA_DB_NAME:grafana :: env_operation,()
+KUISP_VERSION:0.11 :: env_operation,()
+mkdir ¦/opt :: Filesystem_operation,()
+INFLUXDB_PASSWORD:root :: env_operation,()
+chmod ¦a+r¦/opt/grafana/config.js.tmpl :: Permissions_operation,()
+GRAFANA_VERSION:1.9.1 :: env_operation,()
+dashboards/*/opt/grafana/app/dashboards/ :: copy_operation,()
+chmod ¦a+r¦/opt/grafana/app/dashboards/*.json :: Permissions_operation,()
+INFLUXDB_PORT:8086 :: env_operation,()
+config.js.tmpl/opt/grafana/config.js.tmpl :: copy_operation,()
+INFLUXDB_USER:root :: env_operation,()
+nobody :: user_operation,()
+/opt/grafana/ :: workdir_operation,()
+INFLUXDB_PROTO:http :: env_operation,()
+apk ¦del¦curl¦tar :: Dependencies_operation,()

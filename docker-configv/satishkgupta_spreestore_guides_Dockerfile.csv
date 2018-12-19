@@ -1,0 +1,12 @@
+/var/www :: workdir_operation,()
+bundle ¦exec¦nanoc¦compile :: Dependencies_operation,()
+echo ¦rm¦-rf html && mv /guides/output html && rm -rf /guides && echo "\\ndaemon off;" >> /etc/nginx/nginx.conf && echo "\\nerror_log /dev/stdout info;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+cmd,nginx
+Gemfile*/guides/ :: add_operation,()
+./guides :: add_operation,()
+bundle ¦install¦--without¦development¦test :: Dependencies_operation,()
+expose,80
+from,rlister/ruby:2.1.5
+/guides :: workdir_operation,()
+apt-get ¦install¦-y¦nginx-light :: Dependencies_operation,()

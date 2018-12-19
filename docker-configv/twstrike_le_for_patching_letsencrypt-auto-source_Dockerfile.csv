@@ -1,0 +1,15 @@
+mkdir ¦-p¦/home/lea/letsencrypt/letsencrypt :: Filesystem_operation,()
+/home/lea :: workdir_operation,()
+./tests/certs/ca/my-root-ca.crt.pem/usr/local/share/ca-certificates/ :: copy_operation,()
+useradd ¦--create-home¦--home-dir¦/home/lea¦--shell¦/bin/bash¦--groups¦sudo¦--uid¦1000¦lea :: Permissions_operation,()
+update-ca-certificates  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+adduser ¦lea¦sudo :: Permissions_operation,()
+ALL\\(:ALL\\  :: Other_operation,()
+from,ubuntu@trusty
+apt-get ¦-q¦-y¦install¦python-pip :: Dependencies_operation,()
+./home/lea/letsencrypt/letsencrypt-auto-source :: copy_operation,()
+cmd,nosetests¦-s¦letsencrypt/letsencrypt-auto-source/tests
+lea :: user_operation,()
+pip ¦install¦nose :: Dependencies_operation,()

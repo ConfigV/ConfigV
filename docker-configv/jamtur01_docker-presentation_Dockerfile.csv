@@ -1,0 +1,13 @@
+/opt/presentation :: workdir_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+git ¦clone¦https://github.com/hakimel/reveal.js.git¦presentation :: Dependencies_operation,()
+apt-get ¦-qqy¦install¦git¦nodejs¦npm :: Dependencies_operation,()
+from,ubuntu:14.04
+/opt :: workdir_operation,()
+apt-get ¦-qqy¦update :: Dependencies_operation,()
+npm ¦install¦-g¦grunt-cli :: Dependencies_operation,()
+/opt/presentation/wetty :: workdir_operation,()
+sed ¦-i¦s/default.css/docker.css/¦index.html :: Filesystem_operation,()
+docker.css/opt/presentation/css/theme/docker.css :: add_operation,()
+git ¦clone¦https://github.com/krishnasrinivas/wetty :: Dependencies_operation,()

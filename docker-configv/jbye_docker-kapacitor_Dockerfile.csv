@@ -1,0 +1,19 @@
+KAPACITOR_VERSION:0.2.0-1 :: env_operation,()
+INFLUXDB_URL:http://localhost:8086 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+wget ¦https://s3.amazonaws.com/influxdb/kapacitor_${KAPACITOR_VERSION}_amd64.deb :: Dependencies_operation,()
+run.sh/run.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,9092
+kapacitor.conf/etc/kapacitor/kapacitor.conf :: copy_operation,()
+dpkg ¦-i¦kapacitor_${KAPACITOR_VERSION}_amd64.deb :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦kapacitor_${KAPACITOR_VERSION}_amd64.deb :: Filesystem_operation,()
+HOSTNAME:localhost :: env_operation,()
+from,debian@jessie
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+/etc/kapacitor :: volume_operation,()
+/data :: volume_operation,()
+cmd,/run.sh

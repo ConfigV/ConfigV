@@ -1,0 +1,23 @@
+curl ¦-o¦/usr/local/bin/ecs-cli¦https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest :: Dependencies_operation,()
+wget ¦--no-check-certificate¦--directory-prefix=/tmp/¦https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip :: Dependencies_operation,()
+chown ¦-R¦$CONTAINER_UID:$CONTAINER_GID¦$SCRIPT_HOME :: Permissions_operation,()
+PATH:/opt/google-cloud-sdk/bin:$PATH :: env_operation,()
+entrypoint,/opt/cloud/docker-entrypoint.sh
+AWS_ACCESS_KEY_ID=: :: env_operation,()
+jobberd :: user_operation,()
+pip ¦install¦awscli :: Dependencies_operation,()
+mkdir ¦-p¦$SCRIPT_HOME :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/ecs-cli :: Permissions_operation,()
+gcloud ¦--quiet¦components¦update¦app¦preview¦alpha¦beta¦app-engine-java¦app-engine-python¦kubectl¦bq¦core¦gsutil¦gcloud :: Other_operation,()
+AWS_DEFAULT_REGION=: :: env_operation,()
+AWS_SECRET_ACCESS_KEY=: :: env_operation,()
+cmd,jobberd
+from,blacklabelops/jobber
+imagescripts/opt/cloud :: copy_operation,()
+AWS_CLUSTER=: :: env_operation,()
+SCRIPT_HOME=/opt/cloud: :: env_operation,()
+root :: user_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+mkdir ¦-p¦/opt/gcloud :: Filesystem_operation,()
+unzip ¦/tmp/google-cloud-sdk.zip¦-d¦/opt/ :: Filesystem_operation,()
+/opt/google-cloud-sdk/install.sh ¦--usage-reporting=true¦--path-update=true¦--bash-completion=true¦--rc-path=/opt/gcloud/.bashrc¦--disable-installation-options :: Other_operation,()

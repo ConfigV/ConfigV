@@ -1,0 +1,21 @@
+/usr/bin/composer ¦install :: Other_operation,()
+apt-get ¦install¦-y¦apache2 :: Dependencies_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+rm ¦-rf¦/var/www :: Filesystem_operation,()
+apt-get ¦install¦-y¦php5¦libapache2-mod-php5 :: Dependencies_operation,()
+/data :: volume_operation,()
+./var/www :: add_operation,()
+mv ¦composer.phar¦/usr/bin/composer :: Filesystem_operation,()
+cmd,service¦apache2¦start¦&&¦rethinkdb¦--bind¦all
+/etc/init.d/apache2 ¦restart¦&&\\ :: Other_operation,()
+apache.conf/etc/apache2/sites-available/000-default.conf :: add_operation,()
+echo ¦echo¦"deb http://download.rethinkdb.com/apt `lsb_release -cs` main" > /etc/apt/sources.list.d/rethinkdb.list && wget -O- http://download.rethinkdb.com/apt/pubkey.gpg | apt-key add - && apt-get update && apt-get install -y rethinkdb && rm -... :: Filesystem_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+chown ¦-R¦www-data:www-data¦/var/www :: Permissions_operation,()
+cd ¦/var/www/ :: Filesystem_operation,()
+apt-get ¦install¦-y¦php5-xdebug :: Dependencies_operation,()
+apt-get ¦install¦-y¦php5-curl :: Dependencies_operation,()
+/data :: workdir_operation,()
+expose,29015
+from,dockerfile/ubuntu
+apt-get ¦update :: Dependencies_operation,()

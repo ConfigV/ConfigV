@@ -1,0 +1,21 @@
+apt-get ¦clean :: Dependencies_operation,()
+ln ¦-s¦/srv/subversion/etc/websvn-config.php¦/etc/websvn/config.php :: Filesystem_operation,()
+000-default.conf/etc/apache2/sites-available/ :: copy_operation,()
+echo ¦echo¦"umask 002" >> /etc/apache2/envvars :: Filesystem_operation,()
+echo ¦echo¦"Listen 8081" > /etc/apache2/ports.conf :: Filesystem_operation,()
+sed ¦-i¦'s/www-data/svn-data/g'¦/etc/apache2/envvars :: Filesystem_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+from,debian@jessie
+sed ¦-i¦'s/^LogLevel¦warn/LogLevel¦crit/g'¦/etc/apache2/apache2.conf :: Filesystem_operation,()
+mod_auth_remote.so/usr/lib/apache2/modules/ :: copy_operation,()
+rm ¦/etc/apache2/conf-enabled/other-vhosts-access-log.conf :: Filesystem_operation,()
+expose,8081
+echo ¦echo¦"LoadModule auth_remote_module /usr/lib/apache2/modules/mod_auth_remote.so" > /etc/apache2/mods-available/auth_remote.load :: Filesystem_operation,()
+mv ¦/etc/websvn/config.php¦/etc/websvn/config.php~ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+ln ¦-s¦../mods-available/auth_remote.load¦/etc/apache2/mods-enabled/ :: Filesystem_operation,()
+useradd ¦-u¦41011¦-g¦41011¦svn-data :: Permissions_operation,()
+apt-get ¦install¦-y¦apache2-mpm-prefork¦libapache2-mod-svn¦websvn :: Dependencies_operation,()
+groupadd ¦-g¦41011¦svn-data :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"ServerName 127.0.0.1" >> /etc/apache2/apache2.conf :: Filesystem_operation,()

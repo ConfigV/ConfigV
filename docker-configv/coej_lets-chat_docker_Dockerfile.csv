@@ -1,0 +1,14 @@
+from,node:0.12
+tar ¦-xzvf¦master.tar.gz&&¦cp¦-a¦lets-chat-master/.¦.&&¦rm¦-rf¦lets-chat-master :: Filesystem_operation,()
+cmd,npm¦start
+groupadd ¦-r¦node&&¦useradd¦-r¦-g¦node¦node&&¦chown¦node:node¦uploads :: Permissions_operation,()
+node :: user_operation,()
+expose,8080 5222
+PKG_JSON_URL=https://raw.githubusercontent.com/sdelements/lets-chat/master/package.json:TAR_GZ_URL=https://github.com/sdelements/lets-chat/archive/master.tar.gz :: env_operation,()
+$TAR_GZ_URL./master.tar.gz :: add_operation,()
+/usr/src/app :: workdir_operation,()
+LCB_DATABASE_URI=mongodb://mongo/letschat:LCB_HTTP_HOST=0.0.0.0 :: env_operation,()
+$PKG_JSON_URL./package.json :: add_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+/usr/src/app/uploads :: volume_operation,()
+set ¦-x&&¦apt-get¦update&&¦apt-get¦install¦-y¦$BUILD_DEPS¦--no-install-recommends&&¦rm¦-rf¦/var/lib/apt/lists/*&&¦npm¦install¦--production&&¦npm¦install¦$LCB_PLUGINS&&¦npm¦dedupe&&¦npm¦cache¦clean&&¦rm¦-rf¦/tmp/npm*&&¦apt-get¦purge¦-y¦--auto-re... :: Environment_operation,()

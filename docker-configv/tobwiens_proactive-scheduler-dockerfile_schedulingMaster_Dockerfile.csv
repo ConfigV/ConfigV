@@ -1,0 +1,10 @@
+/bin/bash ¦-c¦apt-get update && apt-get install git -y :: Build_Execute_operation,()
+/bin/bash ¦-c¦./gradlew dist :: Build_Execute_operation,()
+expose,8080
+/bin/bash ¦-c¦ git clone https://github.com/ow2-proactive/scheduling.git :: Build_Execute_operation,()
+entrypoint,/data/scheduling/bin/proactive-server¦-ln¦0¦-Dproactive.useIPaddress=true
+/data/scheduling :: workdir_operation,()
+/data :: workdir_operation,()
+PROACTIVE_HOME:/data/scheduling :: env_operation,()
+from,java:8.0
+/bin/bash ¦-c¦mkdir /data &&mkdir /data/tmp :: Build_Execute_operation,()

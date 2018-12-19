@@ -1,0 +1,10 @@
+./install.sh/tmp/ :: add_operation,()
+entrypoint,/opt/ccu-historian/start.sh
+expose,80 2011
+from,nathonfowlie/centos-jre
+/opt/ccu-historian/config :: volume_operation,()
+/tmp :: workdir_operation,()
+./start.sh/tmp/ :: add_operation,()
+bash ¦-el¦/tmp/install.sh¦2>/var/log/install_error.log :: Build_Execute_operation,()
+CONFIG_TYPE=CCU2: :: env_operation,()
+/database :: volume_operation,()

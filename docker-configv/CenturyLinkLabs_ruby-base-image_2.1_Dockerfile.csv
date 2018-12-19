@@ -1,0 +1,17 @@
+gem ¦install¦--no-document¦bundler :: Dependencies_operation,()
+mkdir ¦-p¦/tmp/ruby :: Filesystem_operation,()
+curl ¦-L¦"http://cache.ruby-lang.org/pub/ruby/$RUBY_MAJOR/ruby-$RUBY_VERSION.tar.bz2"¦|¦tar¦-xjC¦/tmp/ruby¦--strip-components=1 :: Dependencies_operation,()
+from,debian@wheezy
+make  :: Build_Execute_operation,()
+gem ¦update¦--system :: Dependencies_operation,()
+rm ¦-r¦/tmp/ruby :: Filesystem_operation,()
+cd ¦/tmp/ruby :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦build-essential¦curl¦libffi-dev¦libgdbm-dev¦libncurses-dev¦libreadline6-dev¦libssl-dev¦libyaml-dev¦zlib1g-dev :: Other_operation,()
+make ¦install :: Build_Execute_operation,()
+RUBY_MAJOR:2.1 :: env_operation,()
+RUBY_VERSION:2.1.2 :: env_operation,()
+echo ¦echo¦'gem: --no-document' >> /.gemrc :: Filesystem_operation,()
+./configure ¦--disable-install-doc :: Build_Execute_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,irb
+apt-get ¦update :: Dependencies_operation,()

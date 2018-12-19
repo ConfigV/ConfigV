@@ -1,0 +1,11 @@
+from,debian@jessie
+postgres :: user_operation,()
+expose,5432
+chown ¦postgres:postgres¦/etc/postgresql/$VERSION/main/pg_hba.conf :: Permissions_operation,()
+cmd,/usr/lib/postgresql/${VERSION}/bin/postgres¦-c¦config_file=/etc/postgresql/$VERSION/main/postgresql.conf
+VERSION=9.4: :: env_operation,()
+apt-get ¦-y¦install¦postgresql :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+conf/pg_hba.conf/etc/postgresql/$VERSION/main/ :: copy_operation,()
+PGDATA=/var/lib/postgresql/$VERSION/main: :: env_operation,()

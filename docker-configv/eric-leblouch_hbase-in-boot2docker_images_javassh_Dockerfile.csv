@@ -1,0 +1,9 @@
+expose,22
+cat ¦/root/.ssh/id_dsa.pub¦>>¦/root/.ssh/authorized_keys :: Filesystem_operation,()
+mkdir ¦/root/.ssh :: Filesystem_operation,()
+chmod ¦go-rwx¦/root/.ssh/id_dsa :: Permissions_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+apt-get ¦-y¦-q¦install¦ssh¦rsync :: Dependencies_operation,()
+ssh-keygen ¦-t¦dsa¦-P¦''¦-f¦/root/.ssh/id_dsa :: Other_operation,()
+chmod ¦go-rwx¦/root/.ssh/authorized_keys :: Permissions_operation,()

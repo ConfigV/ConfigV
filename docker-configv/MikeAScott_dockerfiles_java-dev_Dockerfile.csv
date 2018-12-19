@@ -1,0 +1,8 @@
+echo ¦adduser¦--disabled-password --gecos "Developer" developer --ingroup users && adduser developer sudo && echo "developer:developer" | chpasswd :: Filesystem_operation,()
+chmod ¦+x¦/root/init-user.sh :: Permissions_operation,()
+entrypoint,/root/init-user.sh¦developer
+mkdir ¦-p¦/data/projects :: Filesystem_operation,()
+init-user.sh/root/ :: copy_operation,()
+chown ¦-R¦developer:users¦/data/projects :: Permissions_operation,()
+cmd,tail¦-f¦/home/developer/.vnc/*.log
+/data/projects :: workdir_operation,()

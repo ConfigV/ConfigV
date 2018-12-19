@@ -1,0 +1,16 @@
+yum ¦clean¦all :: Dependencies_operation,()
+echo ¦echo¦"Release version of WMCore 1.0.21.patch1" :: Filesystem_operation,()
+yum ¦-y¦install¦cern-get-sso-cookie :: Dependencies_operation,()
+/home/dmwm :: workdir_operation,()
+mkdir ¦certs :: Filesystem_operation,()
+sh ¦ContainerScripts/installCMSBot.sh :: Build_Execute_operation,()
+useradd ¦-ms¦/bin/bash¦dmwm :: Permissions_operation,()
+mkdir ¦ContainerScripts :: Filesystem_operation,()
+from,gitlab-registry.cern.ch/cmsdocks/dmwm:cms_grid
+entrypoint,/bin/bash
+echo ¦echo¦"Updating the base system - 2016-11-17" :: Filesystem_operation,()
+ContainerScripts/home/dmwm/ContainerScripts :: copy_operation,()
+mkdir ¦artifacts :: Filesystem_operation,()
+HOME:/home/dmwm :: env_operation,()
+DMWM_ARCH:slc6_amd64_gcc493 :: env_operation,()
+dmwm :: user_operation,()

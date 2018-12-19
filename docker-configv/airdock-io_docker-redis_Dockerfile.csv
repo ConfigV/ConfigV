@@ -1,0 +1,7 @@
+/data :: workdir_operation,()
+expose,6379
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦echo¦"deb http://http.debian.net/debian wheezy-backports main contrib non-free" > /etc/apt/sources.list.d/backports.list && apt-get update -qq && apt-get install --no-install-recommends -y -t wheezy-backports redis-server && sed -i 's/^\\(d... :: Filesystem_operation,()
+from,airdock/base:latest
+/data :: volume_operation,()
+cmd,/usr/bin/redis-server¦/etc/redis/redis.conf

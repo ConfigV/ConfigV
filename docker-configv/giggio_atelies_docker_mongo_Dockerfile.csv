@@ -1,0 +1,10 @@
+docker-entrypoint.sh/entrypoint.sh :: add_operation,()
+from,giggio/node-base
+/data/db :: volume_operation,()
+entrypoint,/entrypoint.sh
+groupadd ¦-r¦mongodb :: Permissions_operation,()
+useradd ¦-r¦-g¦mongodb¦mongodb :: Permissions_operation,()
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+expose,27017
+cmd,mongod
+curl ¦-o¦/usr/local/bin/gosu¦-SL¦'https://github.com/tianon/gosu/releases/download/1.1/gosu' :: Dependencies_operation,()

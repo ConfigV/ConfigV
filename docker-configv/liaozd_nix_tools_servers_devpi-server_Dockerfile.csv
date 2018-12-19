@@ -1,0 +1,9 @@
+/data :: volume_operation,()
+pip ¦install¦"devpi-client==3.0.0"¦"devpi-web==3.2.0"¦"devpi-server==4.3.0" :: Dependencies_operation,()
+expose,8080
+from,python:2.7
+entrypoint,/docker-entrypoint.sh
+cmd,devpi
+/data :: workdir_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+HOME:/data :: env_operation,()

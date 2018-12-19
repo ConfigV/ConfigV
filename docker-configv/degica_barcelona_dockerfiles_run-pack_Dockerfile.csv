@@ -1,0 +1,16 @@
+cd ¦$GOPATH/src/app :: Filesystem_operation,()
+mkdir ¦-p¦$GOBIN :: Filesystem_operation,()
+cmd,/bin/true
+from,alpine:3.4
+mkdir ¦/barcelona :: Filesystem_operation,()
+go ¦build¦-o¦/barcelona/barcelona-run¦--ldflags¦'-linkmode¦external¦-extldflags¦"-static"' :: Build_Execute_operation,()
+apk ¦del¦--purge¦go¦curl¦git¦gcc¦libc-dev :: Dependencies_operation,()
+GOPATH:/.go :: env_operation,()
+PATH=$GOBIN:$PATH: :: env_operation,()
+rm ¦-rf¦/.go :: Filesystem_operation,()
+apk ¦add¦--no-cache¦go¦curl¦git¦gcc¦libc-dev :: Dependencies_operation,()
+glide ¦install :: Other_operation,()
+GOBIN:$GOPATH/bin :: env_operation,()
+/barcelona :: volume_operation,()
+curl ¦https://glide.sh/get¦|¦sh :: Dependencies_operation,()
+./.go/src/app :: add_operation,()

@@ -1,0 +1,13 @@
+from,golang@latest
+go ¦get¦gopkg.in/mgo.v2 :: Build_Execute_operation,()
+use_proxy=on: :: env_operation,()
+./go/src/github.com/pascallimeux/urmmongo :: copy_operation,()
+cp ¦/go/src/github.com/pascallimeux/urmmongo/server/config/config4docker.json¦/go/bin/config.json :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/github.com/pascallimeux :: Filesystem_operation,()
+mkdir ¦/var/log/mhealth-urm-mongo/ :: Filesystem_operation,()
+entrypoint,/go/bin/server¦/go/bin/config.json
+expose,8088
+go ¦get¦github.com/gorilla/mux :: Build_Execute_operation,()
+go ¦install¦github.com/pascallimeux/urmmongo/server :: Build_Execute_operation,()
+http_proxy=http://10.193.21.110:8080: :: env_operation,()
+https_proxy=http://10.193.21.110:8080: :: env_operation,()

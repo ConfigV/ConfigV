@@ -1,0 +1,18 @@
+GOPATH:/go :: env_operation,()
+godep ¦restore :: Dependencies_operation,()
+cmd,$PROJ_NAME¦--version
+apt-get ¦update :: Dependencies_operation,()
+go ¦install :: Build_Execute_operation,()
+uname ¦-m :: Other_operation,()
+bitrise ¦setup¦--minimal :: Other_operation,()
+PATH:/go/bin:$PATH :: env_operation,()
+mkdir ¦-p¦/go/src¦/go/bin :: Filesystem_operation,()
+./go/src/github.com/bitrise-io/$PROJ_NAME :: copy_operation,()
+/go/src/github.com/bitrise-io/$PROJ_NAME :: workdir_operation,()
+go ¦get¦-u¦github.com/tools/godep :: Build_Execute_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦git¦mercurial¦curl¦rsync¦ruby :: Other_operation,()
+chmod ¦-R¦777¦/go :: Permissions_operation,()
+mkdir ¦-p¦/go/src/github.com/bitrise-io/$PROJ_NAME :: Filesystem_operation,()
+PROJ_NAME:envman :: env_operation,()
+from,golang:1.5
+chmod ¦+x¦/usr/local/bin/bitrise :: Permissions_operation,()

@@ -1,0 +1,12 @@
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+/app :: workdir_operation,()
+from,python:3.6
+ln ¦-s¦/usr/lib/libmagic.so.1¦/usr/lib/libmagic.so :: Filesystem_operation,()
+/etc/wypok :: workdir_operation,()
+requirements.txt. :: copy_operation,()
+gunicorn.conf.py. :: copy_operation,()
+repositories/etc/apk/repositories :: add_operation,()
+cmd,gunicorn¦-c¦/etc/wypok/gunicorn.conf.py¦wypok.wsgi
+apk ¦update :: Dependencies_operation,()
+apk ¦add¦postgresql-dev¦gcc¦python3-dev¦musl-dev¦freetype-dev¦libmagic¦lcms2-dev¦libjpeg-turbo-dev¦libwebp-dev¦openjpeg-dev¦tiff-dev¦zlib-dev :: Dependencies_operation,()

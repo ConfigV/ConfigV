@@ -1,0 +1,18 @@
+/home/ftpusers/ftp :: volume_operation,()
+chown ¦ftpuser:ftpgroup¦/home/ftpusers :: Permissions_operation,()
+ftpuser :: user_operation,()
+apt-get ¦install¦-y¦python¦python-dev¦python-pip¦vim :: Dependencies_operation,()
+mkdir ¦-p¦/home/ftpusers/ftp/img :: Filesystem_operation,()
+mkdir ¦-p¦/home/ftpusers/ftp/build :: Filesystem_operation,()
+pip ¦install¦pyinotify :: Dependencies_operation,()
+from,ubuntu:14.04
+/home/ftpusers :: workdir_operation,()
+useradd ¦-g¦ftpgroup¦-d¦/home/ftpusers¦-s¦/etc¦ftpuser :: Permissions_operation,()
+/tmp :: volume_operation,()
+monitorfs.py/home/ftpusers/monitorfs.py :: copy_operation,()
+entrypoint,python¦monitorfs.py
+mkdir ¦-p¦/home/ftpusers :: Filesystem_operation,()
+groupadd ¦ftpgroup :: Permissions_operation,()
+pip ¦install¦redis :: Dependencies_operation,()
+mkdir ¦-p¦/home/ftpusers/ftp :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

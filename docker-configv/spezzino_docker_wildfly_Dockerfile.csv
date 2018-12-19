@@ -1,0 +1,13 @@
+curl ¦-O¦https://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz :: Dependencies_operation,()
+cd ¦$HOME :: Filesystem_operation,()
+sha1sum ¦wildfly-$WILDFLY_VERSION.tar.gz¦|¦grep¦$WILDFLY_SHA1 :: Other_operation,()
+LAUNCH_JBOSS_IN_BACKGROUND:true :: env_operation,()
+WILDFLY_VERSION:10.1.0.Final :: env_operation,()
+from,jboss/base-jdk:8
+expose,9990
+WILDFLY_SHA1:9ee3c0255e2e6007d502223916cefad2a1a5e333 :: env_operation,()
+rm ¦wildfly-$WILDFLY_VERSION.tar.gz :: Filesystem_operation,()
+mv ¦$HOME/wildfly-$WILDFLY_VERSION¦$JBOSS_HOME :: Filesystem_operation,()
+cmd,/opt/jboss/wildfly/bin/standalone.sh¦-b¦0.0.0.0¦-bmanagement¦0.0.0.0
+JBOSS_HOME:/opt/jboss/wildfly :: env_operation,()
+tar ¦xf¦wildfly-$WILDFLY_VERSION.tar.gz :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+git ¦clone¦https://github.com/edenhill/librdkafka :: Dependencies_operation,()
+echo ¦cd¦librdkafka && git checkout tags/v0.9.2 && ./configure && echo '' >> config.h && echo '#define WITH_SSL 1' >> config.h && echo '#define WITH_SASL 1' >> config.h && make && make install :: Filesystem_operation,()
+git ¦clone¦https://github.com/edenhill/kafkacat :: Dependencies_operation,()
+LD_LIBRARY_PATH:/usr/local/lib :: env_operation,()
+from,ubuntu@xenial
+git ¦checkout¦tags/1.3.0 :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+./configure  :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦kafkacat :: Filesystem_operation,()
+apt-get ¦install¦-y¦build-essential¦python¦curl¦git¦openssl¦zlib1g-dev¦libssl-dev¦libsasl2-dev :: Dependencies_operation,()
+entrypoint,kafkacat
+make ¦install :: Build_Execute_operation,()

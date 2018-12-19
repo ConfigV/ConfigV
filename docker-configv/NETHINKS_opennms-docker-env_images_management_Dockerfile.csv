@@ -1,0 +1,16 @@
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+from,centos:7.3
+managerscripts/*/opt/managerscripts/ :: copy_operation,()
+tar ¦--strip-components=1¦-xvzf¦docker-17.03.1-ce.tgz¦-C¦/usr/local/bin :: Filesystem_operation,()
+curl ¦-fsSLO¦https://get.docker.com/builds/Linux/x86_64/docker-17.03.1-ce.tgz :: Dependencies_operation,()
+ssh-keygen ¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key¦-N¦'' :: Other_operation,()
+mkdir ¦-p¦/data/container/etc :: Filesystem_operation,()
+yum ¦install¦-y¦openssh-server.x86_64¦less.x86_64¦net-snmp-utils.x86_64¦bind-utils.x86_64¦telnet.x86_64¦tcpdump.x86_64¦openssl.x86_64¦traceroute.x86_64¦samba-client.x86_64¦openssh-clients.x86_64¦cronie.x86_64 :: Dependencies_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+rm ¦/docker-17.03.1-ce.tgz :: Filesystem_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+mkdir ¦-p¦/data/container/initflags¦#¦default¦settings¦in¦sshd_config :: Filesystem_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+mkdir ¦-p¦/data/container/tmp :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+from,ubuntu@trusty
+apt-get ¦install¦-y¦-q¦mongodb-org :: Dependencies_operation,()
+entrypoint,/usr/bin/mongod¦-f¦/etc/mongod.conf
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/private/var/ :: Filesystem_operation,()
+./mongo_keyfile.pem/private/var/mongo_keyfile.pem :: add_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦7F0CEB10 :: Dependencies_operation,()
+./mongod.conf/etc/mongod.conf :: add_operation,()

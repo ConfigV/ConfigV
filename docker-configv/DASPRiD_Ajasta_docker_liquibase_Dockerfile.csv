@@ -1,0 +1,13 @@
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦libmysql-java :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+tar ¦-xzf¦/tmp/liquibase-bin.tar.gz¦-C¦/opt/liquibase :: Filesystem_operation,()
+wget ¦-q¦--no-check-certificate¦${LIQUIBASE_URL}¦-O¦/tmp/liquibase-bin.tar.gz :: Dependencies_operation,()
+mkdir ¦-p¦/opt/liquibase :: Filesystem_operation,()
+from,java:7.0
+chmod ¦+x¦/opt/liquibase/liquibase :: Permissions_operation,()
+LIQUIBASE_URL=https://github.com/liquibase/liquibase/releases/download/liquibase-parent-3.5.1/liquibase-3.5.1-bin.tar.gz: :: env_operation,()
+entrypoint,/entrypoint.sh
+ln ¦-s¦/opt/liquibase/liquibase¦/usr/local/bin/ :: Filesystem_operation,()

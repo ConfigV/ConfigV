@@ -1,0 +1,11 @@
+expose,80
+wget ¦https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php¦-O¦/srv/index.php :: Dependencies_operation,()
+from,alpine@edge
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+srv :: workdir_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦del¦wget¦ca-certificates :: Dependencies_operation,()
+ADMINER_VERSION=4.2.5: :: env_operation,()
+cmd,/usr/bin/php¦-S¦0.0.0.0:80
+apk ¦add¦wget¦ca-certificates¦php5¦php5-mysql :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()

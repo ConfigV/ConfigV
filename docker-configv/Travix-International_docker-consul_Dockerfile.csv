@@ -1,0 +1,12 @@
+entrypoint,/opt/consul/consul¦agent¦-server¦-config-dir=/config
+expose,8300 8301 8301 8302 8302 8400 8500 8600 8600
+CONSUL_VERSION=0.6.4: :: env_operation,()
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+rm ¦-f¦consul.zip :: Filesystem_operation,()
+curl ¦-fSL¦"https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip"¦-o¦consul.zip :: Dependencies_operation,()
+mkdir ¦-p¦/opt/consul¦/data :: Filesystem_operation,()
+from,travix/base-alpine:latest
+DNS_RESOLVES=consul:DNS_PORT=8600 :: env_operation,()
+apk ¦--update¦add¦curl¦unzip :: Dependencies_operation,()
+unzip ¦consul.zip¦-d¦/opt/consul :: Filesystem_operation,()
+./config/config/ :: copy_operation,()

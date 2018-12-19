@@ -1,0 +1,15 @@
+cd ¦/tmp :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+$APK ¦add¦$DEPS :: Other_operation,()
+dockmaster/app :: add_operation,()
+make ¦install :: Build_Execute_operation,()
+DEPS="build-base:zlib-dev :: env_operation,()
+git ¦clone¦https://github.com/edenhill/librdkafka.git¦. :: Dependencies_operation,()
+rm ¦-rf¦/tmp :: Filesystem_operation,()
+$APK ¦del¦$DEPS :: Other_operation,()
+from,tcaxias/python
+pip ¦install¦$PYPI :: Dependencies_operation,()
+/app :: workdir_operation,()
+cd ¦/app :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+cmd,python3¦dockmaster

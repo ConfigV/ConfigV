@@ -1,0 +1,12 @@
+from,ubuntu:14.04
+expose,80
+apt-get ¦update¦-qq :: Dependencies_operation,()
+ln ¦-s¦"/etc/nginx/sites-available/example.com"¦"/etc/nginx/sites-enabled/example.com" :: Filesystem_operation,()
+adduser ¦www :: Permissions_operation,()
+apt-get ¦dist-upgrade¦-yqq :: Dependencies_operation,()
+mkdir ¦/usr/share/nginx/logs/¦-p :: Filesystem_operation,()
+entrypoint,"/usr/sbin/nginx"
+cmd,-c¦/etc/nginx/nginx.conf
+./server-configs-nginx/etc/nginx :: add_operation,()
+apt-get ¦install¦nginx¦-yqq :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()

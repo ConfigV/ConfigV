@@ -1,0 +1,13 @@
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+add-apt-repository ¦-y¦ppa:nginx/stable :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/run_client :: Permissions_operation,()
+/etc/nginx :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/etc/nginx/sites-enabled :: volume_operation,()
+cmd,run_client
+expose,5000
+run_client/usr/local/bin/run_client :: add_operation,()
+from,local/base
+/data :: volume_operation,()
+/var/log/nginx :: volume_operation,()
+apt-get ¦install¦-y¦git¦nginx :: Dependencies_operation,()

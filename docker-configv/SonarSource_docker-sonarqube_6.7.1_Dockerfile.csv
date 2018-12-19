@@ -1,0 +1,11 @@
+$SONARQUBE_HOME :: workdir_operation,()
+run.sh$SONARQUBE_HOME/bin/ :: copy_operation,()
+from,openjdk:8.0
+"$SONARQUBE_HOME/data" :: volume_operation,()
+useradd ¦-r¦-g¦sonarqube¦sonarqube :: Permissions_operation,()
+expose,9000
+entrypoint,./bin/run.sh
+SONAR_VERSION=6.7.1:SONARQUBE_HOME=/opt/sonarqube :: env_operation,()
+mktemp ¦-d :: Other_operation,()
+groupadd ¦-r¦sonarqube :: Permissions_operation,()
+set ¦-x :: Environment_operation,()

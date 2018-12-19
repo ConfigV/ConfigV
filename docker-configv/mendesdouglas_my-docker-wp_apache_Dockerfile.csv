@@ -1,0 +1,19 @@
+apt-get ¦install¦-y¦libpng12-dev¦libjpeg-dev :: Dependencies_operation,()
+WORDPRESS_UPSTREAM_VERSION:4.2.3 :: env_operation,()
+from,php:5.6
+apt-get ¦install¦-y¦unzip¦rsync :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+WORDPRESS_VERSION:4.2.3 :: env_operation,()
+/var/www/html :: volume_operation,()
+cmd,apache2-foreground
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+WORDPRESS_SHA1:5a77cc0d0399c4e058d1f1e4a628b951f523042e :: env_operation,()
+entrypoint,/entrypoint.sh
+echo ¦curl¦-o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_UPSTREAM_VERSION}.tar.gz && echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - && tar -xzf wordpress.tar.gz -C /usr/src/ && rm wordpress.tar.gz && chown -R www-d... :: Filesystem_operation,()
+echo ¦touch¦/usr/local/etc/php/conf.d/upload-limit.ini && echo "upload_max_filesize = 32M" >> /usr/local/etc/php/conf.d/upload-limit.ini && echo "post_max_size = 32M" >> /usr/local/etc/php/conf.d/upload-limit.ini :: Filesystem_operation,()
+docker-php-ext-install ¦mysqli :: Other_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+a2enmod ¦rewrite¦expires¦headers :: Other_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()

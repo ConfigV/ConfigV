@@ -1,0 +1,11 @@
+./ssmtp/revaliases/etc/ssmtp/revaliases :: add_operation,()
+./cron.d/daily/etc/cron.d/componette-daily :: add_operation,()
+./entrypoint.sh/entrypoint.sh :: add_operation,()
+./php-fpm.conf/etc/php7/fpm/php-fpm.conf :: add_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+./ssmtp/ssmtp.conf/etc/ssmtp/ssmtp.conf :: add_operation,()
+from,dockette/php:7-fpm
+./cron.d/hourly/etc/cron.d/componette-hourly :: add_operation,()
+./cron.d/weekly/etc/cron.d/componette-weekly :: add_operation,()
+cmd,/entrypoint.sh
+echo ¦apt-get¦update && apt-get install -y rsyslog cron ssmtp && echo "cron.* /var/log/cron.log" >> /etc/rsyslog.conf && apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /var/lib/log/* /tmp/* /var/... :: Filesystem_operation,()

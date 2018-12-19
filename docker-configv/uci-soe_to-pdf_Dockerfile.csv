@@ -1,0 +1,18 @@
+from,ubuntu:14.04
+/usr/src/app :: workdir_operation,()
+expose,8080
+curl ¦-sL¦https://deb.nodesource.com/setup_4.x¦|¦bash :: Dependencies_operation,()
+npm ¦install¦--global¦npm :: Dependencies_operation,()
+cmd,npm¦start
+wget ¦https://bitbucket.org/wkhtmltopdf/wkhtmltopdf/downloads/wkhtmltox-0.13.0-alpha-7b36694_linux-trusty-amd64.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦build-essential¦wget :: Dependencies_operation,()
+sed ¦'s/main$/main¦universe/'¦-i¦/etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+package.json/usr/src/app/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦install¦-y¦xorg¦libssl-dev¦libxrender-dev¦gdebi¦xvfb¦libicu52¦xfonts-75dpi :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dpkg ¦-i¦wkhtmltox-0.13.0-alpha-7b36694_linux-trusty-amd64.deb :: Dependencies_operation,()
+apt-get ¦-f¦install :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()

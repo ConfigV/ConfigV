@@ -1,0 +1,15 @@
+/input-data :: volume_operation,()
+from,alpine:3.2
+expose,1099 60000
+unzip ¦-oq¦"/tmp/dependencies/JMeterPlugins-*.zip"¦-d¦$JMETER_HOME :: Filesystem_operation,()
+echo ¦echo¦"ipv6" >> /etc/modules :: Filesystem_operation,()
+entrypoint,/var/lib/apache-jmeter-3.1/bin/jmeter-server
+echo ¦echo¦"http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && apk add --update curl openjdk8 tar unzip bash && rm -rf /var/cache/apk/* :: Filesystem_operation,()
+rm ¦-rf¦/tmp/dependencies :: Filesystem_operation,()
+JMETER_HOME:/var/lib/apache-jmeter-${JMETER_VERSION} :: env_operation,()
+JMETER_BIN:$JMETER_HOME/bin :: env_operation,()
+dependencies/tmp/dependencies :: copy_operation,()
+PATH:$PATH:$JMETER_BIN :: env_operation,()
+JMETER_VERSION:3.1 :: env_operation,()
+tar ¦-xzf¦/tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz¦-C¦/var/lib :: Filesystem_operation,()
+jmeter.properties/var/lib/apache-jmeter-$JMETER_VERSION/bin/ :: add_operation,()

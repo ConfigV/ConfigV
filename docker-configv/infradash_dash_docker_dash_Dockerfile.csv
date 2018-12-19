@@ -1,0 +1,13 @@
+mkdir ¦-p¦/etc/ssl/certs :: Filesystem_operation,()
+ca-certificates.crt/etc/ssl/certs/ :: copy_operation,()
+/var/run/dash :: volume_operation,()
+entrypoint,dash¦-logtostderr¦-ui_docroot=/var/www
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+/var/log/dash :: volume_operation,()
+from,ubuntu:14.04
+/var/run/dash :: workdir_operation,()
+expose,25657 25658
+dash/usr/bin/ :: copy_operation,()
+mkdir ¦-p¦/var/run/dash/ :: Filesystem_operation,()
+mkdir ¦-p¦/var/log/dash/ :: Filesystem_operation,()
+www/var/www/ :: copy_operation,()

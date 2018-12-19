@@ -1,0 +1,11 @@
+cmd,python¦server.py
+cp ¦config.default¦config :: Filesystem_operation,()
+python ¦test_db_data.py :: Build_Execute_operation,()
+from,python:2.7
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+sed ¦-i :: Filesystem_operation,()
+chown ¦-R¦:0¦data :: Permissions_operation,()
+openssl ¦req¦-x509¦-sha256¦-nodes¦-newkey¦rsa:2048¦-days¦365¦-keyout :: Other_operation,()
+chmod ¦-R¦775¦data :: Permissions_operation,()
+chmod ¦g+s¦data :: Permissions_operation,()
+sed ¦-i¦'s/https/http/i'¦config :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+/etc/nginx/certs :: volume_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+cmd,nginx
+from,ubuntu:14.04
+/var/log/nginx :: volume_operation,()
+echo ¦add-apt-repository¦-y ppa:nginx/stable && apt-get update && apt-get install -y nginx=${NGINX_VERSION} && echo "\\ndaemon off;" >> /etc/nginx/nginx.conf && chown -R www-data:www-data /var/lib/nginx && apt-get clean && rm -rf /var/lib/apt/lis... :: Filesystem_operation,()
+NGINX_VERSION:1.7.9 :: env_operation,()
+/var/www :: volume_operation,()
+expose,8080 443443
+/etc/nginx/sites-enabled :: volume_operation,()

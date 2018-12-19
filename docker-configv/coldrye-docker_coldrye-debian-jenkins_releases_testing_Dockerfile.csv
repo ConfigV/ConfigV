@@ -1,0 +1,10 @@
+$STORAGE_DIR :: volume_operation,()
+echo ¦test¦-z "$FEATURE_VERSION" && echo "FEATURE_VERSION missing" && exit 1 || true :: Filesystem_operation,()
+echo ¦test¦-z "$STORAGE_DIR" && echo "STORAGE_DIR missing" && exit 1 || true :: Filesystem_operation,()
+etc/default/jetty/etc/default/ :: add_operation,()
+echo ¦test¦-z "$DEPLOY_DIR" && echo "DEPLOY_DIR missing" && exit 1 || true :: Filesystem_operation,()
+set ¦-x :: Environment_operation,()
+mkdir ¦-p¦$STORAGE_DIR :: Filesystem_operation,()
+from,coldrye/debian-jetty:9-3-9-testing-latest
+conf/jenkins.xml$DEPLOY_DIR/webapps/ :: add_operation,()
+curl ¦-fSL¦https://updates.jenkins-ci.org/download/war/$FEATURE_VERSION/jenkins.war¦-o¦$DEPLOY_DIR/webapps/jenkins.war :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+apt-get ¦update¦-y :: Dependencies_operation,()
+from,ubuntu
+chmod ¦+x¦/usr/local/bin/run :: Permissions_operation,()
+run.sh/usr/local/bin/run :: add_operation,()
+cmd,/usr/local/bin/run
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦install¦curl¦sudo¦openjdk-7-jre-headless :: Dependencies_operation,()
+/usr/share/elasticsearch/bin/plugin ¦--url¦file:///nvdriver-1.0.0-SNAPSHOT.zip¦--install¦nvdriver :: Other_operation,()
+nvdriver-1.0.0-SNAPSHOT.zip/ :: add_operation,()
+/var/lib/elasticsearch :: volume_operation,()
+curl ¦http://packages.elasticsearch.org/GPG-KEY-elasticsearch¦|¦apt-key¦add¦- :: Dependencies_operation,()
+expose,9200 9300
+apt-get ¦install¦-y¦elasticsearch :: Dependencies_operation,()
+echo ¦echo¦"deb http://packages.elasticsearch.org/elasticsearch/1.2/debian stable main" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

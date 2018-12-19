@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+/data :: workdir_operation,()
+mkdir ¦-p¦/home :: Filesystem_operation,()
+exec ¦$SHELL :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦wget¦curl¦build-essential¦autoconf¦git¦libreadline-dev :: Other_operation,()
+PATH:/home/.phpenv/bin:/home/.phpenv/shims:$PATH :: env_operation,()
+git ¦clone¦git://github.com/phpenv/phpenv.git¦/home/.phpenv :: Dependencies_operation,()
+git ¦reset¦--hard¦origin/master :: Dependencies_operation,()
+./bin/phpenv ¦rehash :: Other_operation,()
+cmd,php¦phpenv
+echo ¦echo¦"\\ndeb-src http://http.debian.net/debian wheezy main" >> /etc/apt/sources.list && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y build-dep php5 :: Filesystem_operation,()
+from,debian@wheezy
+cd ¦/home/.phpenv :: Filesystem_operation,()

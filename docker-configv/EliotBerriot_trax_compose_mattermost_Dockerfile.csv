@@ -1,0 +1,17 @@
+MYSQL_ROOT_PASSWORD=mostest: :: env_operation,()
+/mm :: workdir_operation,()
+MYSQL_DATABASE=mattermost_test: :: env_operation,()
+/mm/mattermost-data :: volume_operation,()
+https://releases.mattermost.com/3.5.1/mattermost-team-3.5.1-linux-amd64.tar.gz. :: add_operation,()
+MYSQL_PASSWORD=mostest: :: env_operation,()
+mkdir ¦/mm/mattermost-data :: Filesystem_operation,()
+config_docker.json./mattermost/config/config_docker.json :: add_operation,()
+from,mysql:5.7
+docker-entry.sh. :: add_operation,()
+entrypoint,./docker-entry.sh
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦./docker-entry.sh :: Permissions_operation,()
+apt-get ¦install¦-y¦ca-certificates :: Dependencies_operation,()
+expose,8065
+tar ¦-zxvf¦./mattermost-team-3.5.1-linux-amd64.tar.gz :: Filesystem_operation,()
+MYSQL_USER=mmuser: :: env_operation,()

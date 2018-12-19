@@ -1,0 +1,14 @@
+./configs/000-default.conf/etc/httpd/sites-available/000-default.conf :: add_operation,()
+expose,80
+rm ¦wordpress.tar.gz :: Filesystem_operation,()
+wordpress_url:https://wordpress.org/wordpress-3.0.tar.gz :: env_operation,()
+chown ¦apache¦/var/www/html¦-R :: Permissions_operation,()
+rpm ¦--rebuilddb :: Dependencies_operation,()
+cmd,httpd¦-DFOREGROUND
+./configs/wp-config.php/var/www/html/wp-config.php :: copy_operation,()
+from,centos:7.0
+./configs/httpd.conf/etc/httpd/conf/httpd.conf :: add_operation,()
+yum ¦-y¦install¦httpd¦php¦php-mysql¦curl :: Dependencies_operation,()
+cp ¦-r¦wordpress/*¦/var/www/html :: Filesystem_operation,()
+curl ¦$wordpress_url¦>¦wordpress.tar.gz :: Dependencies_operation,()
+tar ¦xzf¦wordpress.tar.gz¦-C¦/ :: Filesystem_operation,()

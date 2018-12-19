@@ -1,0 +1,13 @@
+HADOOP_HOME:/opt/hadoop :: env_operation,()
+HADOOP_VERSION:2.7.1 :: env_operation,()
+set ¦-x :: Environment_operation,()
+entrypoint,/sbin/entrypoint.sh
+./fs/ :: copy_operation,()
+curl ¦-#¦http://apache-mirror.rbc.ru/pub/apache/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz¦|¦tar¦-xz¦-C¦${HADOOP_PREFIX}¦--strip-components=1 :: Dependencies_operation,()
+HADOOP_PREFIX:$HADOOP_HOME :: env_operation,()
+"${HADOOP_HOME}" :: workdir_operation,()
+from,daunnc/geodocker-zookeeper:latest
+HADOOP_CONF_DIR:$HADOOP_PREFIX/etc/hadoop :: env_operation,()
+/data/hdfs :: volume_operation,()
+mkdir ¦-p¦$HADOOP_PREFIX :: Filesystem_operation,()
+PATH:$PATH:$HADOOP_PREFIX/bin:$HADOOP_PREFIX/sbin :: env_operation,()

@@ -1,0 +1,16 @@
+root :: user_operation,()
+git ¦clone¦https://github.com/TFaga/lynx.git¦&&cd¦lynx :: Dependencies_operation,()
+module.xml$JBOSS_HOME/modules/org/postgresql/main :: add_operation,()
+rm ¦-rf¦$JBOSS_HOME/standalone/configuration/standalone_xml_history/current :: Filesystem_operation,()
+KEYCLOAK_VERSION:1.9.3.Final :: env_operation,()
+configure.cli$JBOSS_HOME/bin :: add_operation,()
+$JBOSS_HOME/bin/jboss-cli.sh ¦--file=$JBOSS_HOME/bin/configure.cli :: Other_operation,()
+mvn ¦install :: Dependencies_operation,()
+https://jdbc.postgresql.org/download/postgresql-9.4-1206-jdbc42.jar/opt/jboss/wildfly/modules/org/postgresql/main :: add_operation,()
+jboss :: user_operation,()
+cd ¦..¦&&git¦clone¦https://github.com/cen1/cross.build.git¦&&cd¦cross.build/core¦&&mvn¦package¦&&cp¦ear/target/cross-build-ear-0.0.1-SNAPSHOT.ear¦$JBOSS_HOME/standalone/deployments¦&&wget¦-P¦$JBOSS_HOME¦http://downloads.jboss.org/keycloak/1.9.... :: Filesystem_operation,()
+yum ¦install¦-y¦git¦&&yum¦install¦-y¦wget¦&&yum¦install¦-y¦unzip¦&&wget¦http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo¦-O¦/etc/yum.repos.d/epel-apache-maven.repo¦&&sed¦-i¦s/\\$releasever/6/g¦/etc/yum.repos.d/epel-a... :: Dependencies_operation,()
+ls ¦-la¦/opt/jboss/wildfly/modules/org/postgresql/main :: Filesystem_operation,()
+chown ¦-R¦jboss:jboss¦/opt/jboss/wildfly/modules :: Permissions_operation,()
+cmd,/opt/jboss/wildfly/bin/standalone.sh¦-c¦standalone-full.xml¦-b¦0.0.0.0¦-bmanagement¦0.0.0.0
+from,jboss/wildfly:10.0.0.Final

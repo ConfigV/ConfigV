@@ -1,0 +1,9 @@
+alternatives ¦--set¦hive-conf¦/etc/hive/conf.docker :: Other_operation,()
+yum ¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦hive-server2;¦yum¦clean¦all :: Dependencies_operation,()
+from,whlee21/centos6-cdh5-base
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+./supervisord.conf/etc/ :: add_operation,()
+./conf/etc/hive/conf.docker :: add_operation,()
+cmd,/usr/bin/supervisord
+expose,22
+alternatives ¦--install¦/etc/hive/conf¦hive-conf¦/etc/hive/conf.docker¦50 :: Other_operation,()

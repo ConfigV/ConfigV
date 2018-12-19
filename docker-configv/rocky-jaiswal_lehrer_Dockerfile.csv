@@ -1,0 +1,15 @@
+mkdir ¦/home/app/lehrer :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/home/app/lehrer :: workdir_operation,()
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+cmd,/sbin/my_init
+from,phusion/passenger-ruby22:0.9.17
+./app-env.conf/etc/nginx/main.d/app-env.conf :: add_operation,()
+bundle ¦install¦--binstubs¦--deployment¦--without¦test¦development :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+./webapp.conf/etc/nginx/sites-enabled/lehrer_webapp.conf :: add_operation,()
+rm ¦-f¦/etc/service/nginx/down :: Filesystem_operation,()
+expose,80
+HOME:/root :: env_operation,()
+./home/app/lehrer :: add_operation,()
+chown ¦-R¦app:app¦/home/app :: Permissions_operation,()

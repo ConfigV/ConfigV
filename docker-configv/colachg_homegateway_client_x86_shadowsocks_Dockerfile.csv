@@ -1,0 +1,13 @@
+expose,8388 8388
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦autoconf¦build-base¦curl¦libev-dev¦libtool¦linux-headers¦udns-dev¦libsodium-dev¦mbedtls-dev¦pcre-dev¦tar¦udns-dev :: Dependencies_operation,()
+./configure ¦--prefix=/usr¦--disable-documentation :: Build_Execute_operation,()
+from,alpine:3.5
+curl ¦-sSL¦$SS_URL¦|¦tar¦xz¦--strip¦1 :: Dependencies_operation,()
+cmd,-c¦shadowsocks.json
+entrypoint,/usr/bin/ss-redir
+cd ¦..¦&& :: Filesystem_operation,()
+/shadowsocks :: workdir_operation,()
+make ¦install :: Build_Execute_operation,()
+nobody :: user_operation,()
+set ¦-ex :: Environment_operation,()
+cd ¦/tmp :: Filesystem_operation,()

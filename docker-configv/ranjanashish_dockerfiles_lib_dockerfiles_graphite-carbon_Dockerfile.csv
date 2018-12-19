@@ -1,0 +1,12 @@
+files/storage-aggregation.conf/etc/carbon/ :: add_operation,()
+/var/lib/graphite/whisper :: volume_operation,()
+from,debian@jessie
+echo ¦echo¦'graphite-carbon graphite-carbon/postrm_remove_databases boolean false' | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦-y¦install¦graphite-carbon¦supervisor :: Dependencies_operation,()
+cmd,service¦supervisor¦start
+files/storage-schemas.conf/etc/carbon/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,2003 2004 7002
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+files/supervisord.conf/etc/supervisor/conf.d/ :: add_operation,()
+echo ¦echo¦'debconf debconf/frontend select Dialog' | debconf-set-selections :: Filesystem_operation,()

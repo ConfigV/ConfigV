@@ -1,0 +1,15 @@
+/ :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends\\ :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+start.sh/start.sh :: add_operation,()
+cmd,bash¦/start.sh
+git ¦clone¦https://github.com/rohe/oictest¦/opt/oictest/src/oictest :: Dependencies_operation,()
+mkdir ¦/opt/oictest/src :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+requirements.txt/opt/oictest/requirements.txt :: add_operation,()
+from,itsdirg/dirg_base
+apt-get ¦clean :: Dependencies_operation,()
+pip ¦install¦-r¦/opt/oictest/requirements.txt :: Dependencies_operation,()
+/opt/oictest/etc :: volume_operation,()
+pip ¦install¦-e¦/opt/oictest/src/oictest :: Dependencies_operation,()

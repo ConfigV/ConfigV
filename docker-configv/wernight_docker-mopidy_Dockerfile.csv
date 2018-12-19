@@ -1,0 +1,18 @@
+https://bootstrap.pypa.io/get-pip.py/tmp/get-pip.py :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mopidy :: user_operation,()
+pip ¦install¦-U¦six :: Dependencies_operation,()
+mkdir ¦-p¦~/.config/mopidy :: Filesystem_operation,()
+expose,6680
+pip ¦install¦Mopidy-Moped¦Mopidy-GMusic¦Mopidy-YouTube :: Dependencies_operation,()
+https://apt.mopidy.com/mopidy.gpg/tmp/mopidy.gpg :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+entrypoint,/usr/bin/mopidy
+mopidy.conf/var/lib/mopidy/.config/mopidy/mopidy.conf :: add_operation,()
+python ¦/tmp/get-pip.py :: Build_Execute_operation,()
+/var/lib/mopidy/media :: volume_operation,()
+https://apt.mopidy.com/mopidy.list/etc/apt/sources.list.d/mopidy.list :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦mopidy¦mopidy-soundcloud¦mopidy-spotify :: Other_operation,()
+apt-key ¦add¦/tmp/mopidy.gpg :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,debian@wheezy

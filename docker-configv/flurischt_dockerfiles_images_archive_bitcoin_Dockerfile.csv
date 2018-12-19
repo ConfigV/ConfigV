@@ -1,0 +1,13 @@
+expose,8333
+BITCOIN_CORE_VERSION:0.13.2 :: env_operation,()
+chmod ¦644¦bitcoin.tar.gz :: Permissions_operation,()
+/home/bitcoind/.bitcoin :: volume_operation,()
+SHA256:29215a7fe7430224da52fc257686d2d387546eb8acd573a949128696e8761149 :: env_operation,()
+bitcoind :: user_operation,()
+/home/bitcoind :: workdir_operation,()
+echo ¦echo¦$SHA256 bitcoin.tar.gz | sha256sum -c - :: Filesystem_operation,()
+useradd ¦-ms¦/bin/bash¦bitcoind :: Permissions_operation,()
+cmd,/home/bitcoind/bin/bitcoind
+from,ubuntu@xenial
+tar ¦xzf¦bitcoin.tar.gz¦--strip-components=1 :: Filesystem_operation,()
+https://bitcoin.org/bin/bitcoin-core-${BITCOIN_CORE_VERSION}/bitcoin-${BITCOIN_CORE_VERSION}-x86_64-linux-gnu.tar.gzbitcoin.tar.gz :: add_operation,()

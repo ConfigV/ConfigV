@@ -1,0 +1,20 @@
+from,ruby:2.3
+gem ¦install¦jekyll :: Dependencies_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+GEM_HOME:$HOME/.gems :: env_operation,()
+gem ¦install¦jekyll-angular :: Dependencies_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+mkdir ¦$HOME/.gems :: Filesystem_operation,()
+useradd ¦-g¦dev¦-u¦1000¦dev :: Permissions_operation,()
+groupadd ¦-r¦dev :: Permissions_operation,()
+mkdir ¦-p¦/home/dev :: Filesystem_operation,()
+GEM_PATH:$HOME/.gems :: env_operation,()
+expose,4242
+chown ¦dev:dev¦/home/dev :: Permissions_operation,()
+cmd,--help
+dev :: user_operation,()
+$HOME/website :: workdir_operation,()
+$HOME/website :: volume_operation,()
+PATH:$PATH:$GEM_HOME/bin :: env_operation,()
+HOME:/home/dev :: env_operation,()
+entrypoint,jekyll

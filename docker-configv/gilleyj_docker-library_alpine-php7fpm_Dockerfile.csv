@@ -1,0 +1,16 @@
+from,alpine@edge
+ln ¦-s¦/usr/bin/php7¦/usr/bin/php :: Filesystem_operation,()
+container_confs/ :: copy_operation,()
+chown ¦-R¦www-data:www-data¦/run/php¦/webroot :: Permissions_operation,()
+entrypoint,/entrypoint.sh
+mkdir ¦-p¦/run/php¦/run/supervisord¦/webroot :: Filesystem_operation,()
+sed ¦-i¦-e¦'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g'¦/etc/php7/php.ini :: Filesystem_operation,()
+set ¦-x¦;¦addgroup¦-g¦82¦-S¦www-data¦;¦adduser¦-u¦82¦-D¦-S¦-G¦www-data¦www-data :: Environment_operation,()
+echo ¦echo¦"http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories :: Filesystem_operation,()
+cmd,php
+expose,9000
+exit ¦0¦;¦exit¦1 :: Other_operation,()
+chmod ¦-R¦ug+rw¦/webroot :: Permissions_operation,()
+sed ¦-i¦-e¦'s/display_errors¦=¦Off/display_errors¦=¦On/g'¦/etc/php7/php.ini :: Filesystem_operation,()
+apk ¦--update¦--no-cache¦add¦--virtual¦.base_package¦bash¦ca-certificates¦curl¦--virtual¦.php_service¦¦supervisor¦¦mysql-client¦¦php7¦¦php7-bcmath¦¦php7-bz2¦¦php7-ctype¦¦php7-curl¦¦php7-dom¦¦php7-fpm¦¦php7-gd¦¦php7-gettext¦¦php7-gmp¦¦php7-iconv... :: Dependencies_operation,()
+sed ¦-i¦-e¦'s/;error_log¦=¦php_errors.log/error_log¦=/proc\\/self\\/fd\\/1/g'¦/etc/php7/php.ini :: Filesystem_operation,()

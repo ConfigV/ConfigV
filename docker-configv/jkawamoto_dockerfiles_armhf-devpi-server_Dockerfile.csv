@@ -1,0 +1,16 @@
+entrypoint,bash¦/root/entrypoint.sh
+pip3 ¦install¦-q¦-U¦pip¦devpi-server :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/ :: Filesystem_operation,()
+echo ¦if¦[ -n "$APT_PROXY" ]; then echo "Set apt proxy: $APT_PROXY"; echo "Acquire::http { Proxy"$APT_PROXY\\"; };" >> /etc/apt/apt.conf.d/01proxy; fi :: Filesystem_operation,()
+TERM:vt100 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,colinhuang/ubuntu-novnc-armhf
+PORT:3141 :: env_operation,()
+echo ¦if¦[ -n "$PIP_PROXY" ]; then echo "Set pip proxy: $PIP_PROXY"; IPPORT=${PIP_PROXY#*//}; mkdir -p ~/.pip/; echo "[global]\\nindex-url=$PIP_PROXY/root/pypi\\ntrusted-host=${IPPORT%:*}" >> ~/.pip/pip.conf; cat ~/.pip/pip.conf; fi :: Filesystem_operation,()
+expose,3141
+apt-get ¦install¦-y¦--no-install-recommends¦python3-pip :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/var/cache/devpi :: volume_operation,()
+entrypoint.sh/root :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()

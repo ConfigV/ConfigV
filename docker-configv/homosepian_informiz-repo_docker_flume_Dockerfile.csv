@@ -1,0 +1,9 @@
+cmd,flume-ng¦agent¦-c¦/opt/flume/conf¦-f¦/var/tmp/flume.conf¦-n¦iz¦-Dflume.root.logger=INFO,console
+flume.conf/var/tmp/flume.conf :: add_operation,()
+expose,44444
+wget ¦-qO-¦https://archive.apache.org/dist/flume/stable/apache-flume-1.6.0-bin.tar.gz¦|¦tar¦zxvf¦-¦-C¦/opt/flume¦--strip¦1 :: Dependencies_operation,()
+build/iz-flume-es-1.0-SNAPSHOT.jar/opt/flume/lib/iz-flume-es-1.0-SNAPSHOT.jar :: add_operation,()
+PATH:/opt/flume/bin:$PATH :: env_operation,()
+mkdir ¦/opt/flume :: Filesystem_operation,()
+build/elasticsearch-sink2-assembly-1.0.jar/opt/flume/lib/elasticsearch-sink2-assembly-1.0.jar :: add_operation,()
+from,java:8.0

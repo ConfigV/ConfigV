@@ -1,0 +1,11 @@
+https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz/tmp/ :: add_operation,()
+from,alpine@edge
+expose,8890
+tar ¦xzf¦/tmp/s6-overlay-amd64.tar.gz¦-C¦/ :: Filesystem_operation,()
+rootfs/ :: copy_operation,()
+rm ¦-rf¦/tmp/s6-overlay-amd64.tar.gz :: Filesystem_operation,()
+cmd,smf-spf¦-c¦/etc/smf-spf.conf
+echo ¦echo¦"@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk add --update --no-cache rsyslog libspf2 libmilter@testing && rm -rf /var/cache/apk/* :: Filesystem_operation,()
+chmod ¦+x¦/etc/services.d/*/run :: Permissions_operation,()
+S6_KEEP_ENV=1: :: env_operation,()
+entrypoint,/init

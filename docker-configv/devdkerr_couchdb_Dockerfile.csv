@@ -1,0 +1,18 @@
+expose,2812 5984
+rm ¦-rf¦/tmp/*¦/var/lib/apt/lists/*¦/var/tmp/* :: Filesystem_operation,()
+/usr/local/var/lib/couchdb :: volume_operation,()
+python ¦update_couchdb_cfg.py¦/etc/couchdb/default.ini :: Build_Execute_operation,()
+cmd,/usr/bin/supervisord
+supervisord.conf/etc/supervisord.conf :: copy_operation,()
+apt-get ¦install¦-qq¦-y¦couchdb :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/var/run/couchdb :: Filesystem_operation,()
+monitrc/etc/monit/monitrc :: copy_operation,()
+update_couchdb_cfg.py/tmp/update_couchdb_cfg.py :: copy_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+chown ¦root:root¦/etc/monit/monitrc :: Permissions_operation,()
+ERL_FLAGS:+A :: env_operation,()
+apt-get ¦install¦-qq¦-y¦curl¦monit¦python-software-properties¦software-properties-common¦supervisor :: Dependencies_operation,()
+from,ubuntu@trusty
+chmod ¦700¦/etc/monit/monitrc :: Permissions_operation,()
+add-apt-repository ¦-y¦ppa:couchdb/stable :: Dependencies_operation,()

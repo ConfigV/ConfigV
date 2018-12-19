@@ -1,0 +1,13 @@
+.$DISTRIBUTION_DIR :: copy_operation,()
+make ¦PREFIX=/go¦clean¦binaries :: Build_Execute_operation,()
+from,golang:1.7
+cmd,serve¦/etc/docker/registry/config.yml
+$DISTRIBUTION_DIR :: workdir_operation,()
+cmd/registry/config-dev.yml/etc/docker/registry/config.yml :: copy_operation,()
+/var/lib/registry :: volume_operation,()
+set ¦-ex :: Environment_operation,()
+expose,5000
+DOCKER_BUILDTAGS:include_oss :: env_operation,()
+DISTRIBUTION_DIR:/go/src/github.com/docker/distribution :: env_operation,()
+entrypoint,registry
+apk ¦add¦--no-cache¦make¦git :: Dependencies_operation,()

@@ -1,0 +1,9 @@
+cmd,nginx¦-g¦daemon off;
+rm ¦/etc/nginx/conf.d/* :: Filesystem_operation,()
+mkdir ¦-p¦/var/www/letsencrypt :: Filesystem_operation,()
+entrypoint,/docker-entrypoint.sh
+from,nginx@latest
+nginx//etc/nginx/ :: copy_operation,()
+/var/www :: volume_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+/etc/nginx :: volume_operation,()

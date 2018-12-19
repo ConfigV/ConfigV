@@ -1,0 +1,8 @@
+debconf-set-selections ¦/etc/debconf_preseed :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive:LANG=en_US.UTF-8 :: env_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+apt-get ¦install¦-y¦locales¦curl :: Dependencies_operation,()
+from,debian@jessie
+cmd,/bin/bash
+./debconf_preseed/etc/debconf_preseed :: add_operation,()

@@ -1,0 +1,14 @@
+chmod ¦755¦$DEBEZIUM_HOME :: Permissions_operation,()
+./docker-entrypoint.sh/ :: copy_operation,()
+debezium-services-dist.tar.gz$DEBEZIUM_HOME :: add_operation,()
+root :: user_operation,()
+useradd ¦-u¦1001¦-r¦-g¦debezium¦-m¦-d¦$DEBEZIUM_HOME¦-s¦/sbin/nologin¦-c¦"Debezium¦user"¦debezium :: Permissions_operation,()
+groupadd ¦-r¦debezium¦-g¦1001 :: Permissions_operation,()
+cmd,start
+$DEBEZIUM_HOME :: workdir_operation,()
+debezium :: user_operation,()
+/debezium/data :: volume_operation,()
+DEBEZIUM_HOME=/debezium: :: env_operation,()
+from,jboss/base-jdk:8
+entrypoint,/docker-entrypoint.sh
+/debezium/logs :: volume_operation,()

@@ -1,0 +1,7 @@
+deb/workspace/dcevm-7-jdk :: add_operation,()
+find ¦./dcevm-7-jdk¦-name¦libjvm.so¦-exec¦cp¦dcevm/hotspot/build/product/libjvm.so¦{}; :: Filesystem_operation,()
+cp ¦-r¦jdk7/build/linux-amd64/j2sdk-server-image/*¦dcevm-7-jdk/usr/lib/jvm/java-7-dcevm-amd64/ :: Filesystem_operation,()
+dpkg-deb ¦-b¦dcevm-7-jdk¦dcevm-7-jdk_7u60b09-1.0_amd64.deb :: Other_operation,()
+from,gmatheu/dcevm-base
+cmd,/workspace/build.sh
+/workspace :: workdir_operation,()

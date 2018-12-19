@@ -1,0 +1,16 @@
+locale-gen ¦zh_TW.UTF-8 :: Other_operation,()
+HOME:/root :: env_operation,()
+from,phusion/baseimage:0.9.12
+apt-get ¦update¦-y :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/default-java :: env_operation,()
+LANG:zh_TW.UTF-8 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+GROOVY_HOME:/usr/bin/groovy :: env_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+PATH:$PATH:$JAVA_HOME/bin:$GROOVY_HOME/bin:$GRADLE_HOME/bin :: env_operation,()
+apt-get ¦install¦-y¦openjdk-7-jdk¦gradle¦curl¦wget¦python¦git¦unzip :: Dependencies_operation,()
+cmd,/sbin/my_init
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/usr/sbin/enable_insecure_key  :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+GRADLE_HOME:/usr/bin/gradle :: env_operation,()

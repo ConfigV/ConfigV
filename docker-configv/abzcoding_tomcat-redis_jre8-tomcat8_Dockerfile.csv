@@ -1,0 +1,14 @@
+REDIS_PORT:6379 :: env_operation,()
+cmd,/run-with-redis.sh
+run.sh/run.sh :: copy_operation,()
+setenv.sh/usr/local/tomcat/bin/setenv.sh :: copy_operation,()
+rm ¦-rf¦/usr/local/tomcat/webapps/* :: Filesystem_operation,()
+REDIS_HOST:redis :: env_operation,()
+run-with-redis.sh/run-with-redis.sh :: copy_operation,()
+chmod ¦+x¦/*.sh :: Permissions_operation,()
+redis-store-1.3.0.BUILD-SNAPSHOT.jar/usr/local/tomcat/lib/redis-store-1.3.0.BUILD-SNAPSHOT.jar :: copy_operation,()
+wget ¦-q¦http://central.maven.org/maven2/redis/clients/jedis/2.5.2/jedis-2.5.2.jar :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/tomcat/bin/setenv.sh :: Permissions_operation,()
+wget ¦-q¦http://central.maven.org/maven2/org/apache/commons/commons-pool2/2.2/commons-pool2-2.2.jar :: Dependencies_operation,()
+cd ¦/usr/local/tomcat/lib :: Filesystem_operation,()
+from,tomcat:8.0

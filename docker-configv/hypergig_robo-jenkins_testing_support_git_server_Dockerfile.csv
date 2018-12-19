@@ -1,0 +1,13 @@
+git ¦checkout¦--progress¦--detach :: Dependencies_operation,()
+git ¦config¦--global¦user.email¦"robo-jenkins@robo-jenkins.foo" :: Dependencies_operation,()
+git ¦init :: Dependencies_operation,()
+apk ¦add¦--no-cache¦git-daemon :: Dependencies_operation,()
+etc/etc :: copy_operation,()
+git ¦commit¦-v¦-m¦'first¦commit' :: Dependencies_operation,()
+/etc/git/test_repo_1 :: workdir_operation,()
+git ¦config¦--global¦user.name¦"robo-jenkins" :: Dependencies_operation,()
+entrypoint,git¦daemon¦--base-path=/etc/git¦--export-all¦--reuseaddr¦--reuseaddr¦--informative-errors¦--verbose¦--enable=receive-pack
+expose,9418
+from,alpine
+git ¦add¦-v¦--all :: Dependencies_operation,()
+git ¦--version :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+root :: user_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+mkdir ¦-p¦/opt/src/ :: Filesystem_operation,()
+echo ¦echo¦'PATH=/opt/sourceryg++-2016.05/bin:$PATH' >> /home/user/.bashrc :: Filesystem_operation,()
+curl ¦-q¦https://sourcery.mentor.com/public/gnu_toolchain/mips-sde-elf/mips-2016.05-7-mips-sde-elf-i686-pc-linux-gnu.tar.bz2¦2>/dev/null¦|¦tar¦xCjf¦/opt¦- :: Dependencies_operation,()
+user :: user_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦autoclean¦-y :: Dependencies_operation,()
+from,camino.azurecr.io/eclipse/cpp_gcc
+apt-get ¦install¦-y¦libc6:i386¦libncurses5:i386¦libstdc++6:i386 :: Dependencies_operation,()
+curl ¦-q¦https://sourcery.mentor.com/public/gnu_toolchain/mips-sde-elf/mips-2016.05-7-mips-sde-elf.src.tar.bz2¦2>/dev/null¦>¦/opt/src/gcc.src.tar.bz2 :: Dependencies_operation,()
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦libav-tools¦ncftp :: Dependencies_operation,()
+set ¦-ex :: Environment_operation,()
+crontab/cron/crontab :: copy_operation,()
+DOCKER_CHANNEL:stable :: env_operation,()
+curl ¦-fL¦"https://download.docker.com/linux/static/${DOCKER_CHANNEL}/`uname¦-m`/docker-${DOCKER_VERSION}.tgz"¦-o¦docker.tgz :: Dependencies_operation,()
+docker ¦-v :: Other_operation,()
+from,hamiltont/docker-cron
+tar ¦--extract¦--file¦docker.tgz¦--strip-components¦1¦--directory¦/usr/local/bin :: Filesystem_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+DOCKER_VERSION:17.03.0-ce :: env_operation,()
+rm ¦docker.tgz :: Filesystem_operation,()

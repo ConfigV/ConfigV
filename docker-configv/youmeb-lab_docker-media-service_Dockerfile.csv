@@ -1,0 +1,16 @@
+expose,80
+TMPDIR:/app/tmp :: env_operation,()
+unzip ¦master.zip :: Filesystem_operation,()
+/app :: workdir_operation,()
+mv ¦./media-service-master¦/app :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl¦lsb-release¦libgsf-1-dev¦unzip :: Dependencies_operation,()
+curl ¦-s¦https://raw.githubusercontent.com/lovell/sharp/master/preinstall.sh¦|¦bash :: Dependencies_operation,()
+cd ¦/app :: Filesystem_operation,()
+cmd,node¦--harmony¦app¦--config¦./config.default
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+rm ¦master.zip :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,node:0.11
+curl ¦-LOk¦https://github.com/youmeb-lab/media-service/archive/master.zip :: Dependencies_operation,()
+npm ¦i :: Dependencies_operation,()
+mkdir ¦tmp¦log¦medias :: Filesystem_operation,()

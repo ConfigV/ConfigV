@@ -1,0 +1,12 @@
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu:12.04
+cmd,service¦nginx¦start
+mkdir ¦-p¦/etc/nginx/logs :: Filesystem_operation,()
+expose,443
+ssl.crt/etc/nginx/ssl/ :: add_operation,()
+sed ¦-i¦s/main/'main¦universe'/¦/etc/apt/sources.list :: Filesystem_operation,()
+rm ¦-v¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+./nginx.conf/etc/nginx/ :: add_operation,()
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+ssl.key/etc/nginx/ssl/ :: add_operation,()

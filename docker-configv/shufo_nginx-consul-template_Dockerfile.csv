@@ -1,0 +1,16 @@
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦u+x¦/startup.sh :: Permissions_operation,()
+chmod ¦u+x¦/usr/local/bin/jq :: Permissions_operation,()
+curl ¦-SL¦http://stedolan.github.io/jq/download/linux64/jq¦>¦/usr/local/bin/jq :: Dependencies_operation,()
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+startup.sh/ :: add_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦curl :: Dependencies_operation,()
+/ :: workdir_operation,()
+chmod ¦u+x¦/consul_config.sh :: Permissions_operation,()
+expose,80 443
+nginx.conf.ctmpl/etc/nginx/nginx.conf.ctmpl :: add_operation,()
+rm ¦-v¦/etc/nginx/conf.d/* :: Filesystem_operation,()
+curl ¦-SL¦https://github.com/hashicorp/consul-template/releases/download/v0.10.0/consul-template_0.10.0_linux_amd64.tar.gz¦|¦tar¦-xvzC¦/usr/local/bin¦--strip-components¦1 :: Dependencies_operation,()
+cmd,/startup.sh
+from,nginx@latest
+chmod ¦u+x¦/restart.sh :: Permissions_operation,()

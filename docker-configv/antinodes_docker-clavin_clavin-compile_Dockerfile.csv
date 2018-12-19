@@ -1,0 +1,10 @@
+wget ¦-q¦http://download.geonames.org/export/dump/allCountries.zip :: Dependencies_operation,()
+/clavin :: workdir_operation,()
+MAVEN_OPTS="-Xmx2048M" ¦mvn¦exec:java¦-Dexec.mainClass="com.bericotech.clavin.WorkflowDemo" :: Other_operation,()
+mvn ¦compile :: Dependencies_operation,()
+unzip ¦allCountries.zip :: Filesystem_operation,()
+MAVEN_OPTS="-Xmx2048M" ¦mvn¦exec:java¦-Dexec.mainClass="com.bericotech.clavin.index.IndexDirectoryBuilder" :: Other_operation,()
+from,tutum/tomcat:7.0
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/Berico-Technologies/CLAVIN.git¦/clavin :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦maven :: Dependencies_operation,()

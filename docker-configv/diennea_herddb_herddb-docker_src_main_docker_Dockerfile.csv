@@ -1,0 +1,10 @@
+/herddb-${project.version}.zip// :: add_operation,()
+${HERDDB_DIR} :: workdir_operation,()
+rm ¦herddb-${project.version}.zip :: Filesystem_operation,()
+*/local/ :: copy_operation,()
+from,java
+/bin/sh ¦/local/build.sh :: Other_operation,()
+mv ¦herddb-*¦${HERDDB_DIR} :: Filesystem_operation,()
+unzip ¦-q¦herddb-${project.version}.zip :: Filesystem_operation,()
+entrypoint,/herddb/bin/service¦server¦console¦--use-env
+JAVA_HOME:/usr :: env_operation,()

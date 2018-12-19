@@ -1,0 +1,10 @@
+from,ubuntu:14.04
+rm ¦-rf¦/tmp/logstash.deb¦/tmp/logstash-contrib.deb :: Filesystem_operation,()
+wget ¦https://download.elasticsearch.org/logstash/logstash/packages/debian/logstash-contrib_1.4.2-1-efd53ef_all.deb¦-O¦/tmp/logstash-contrib.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+wget ¦https://download.elasticsearch.org/logstash/logstash/packages/debian/logstash_1.4.2-1-2c0f5a1_all.deb¦-O¦/tmp/logstash.deb :: Dependencies_operation,()
+expose,5000
+dpkg ¦-i¦/tmp/logstash.deb¦;¦dpkg¦-i¦/tmp/logstash-contrib.deb¦;¦apt-get¦update :: Dependencies_operation,()
+entrypoint,/opt/logstash/bin/logstash¦-f¦/etc/logstash.conf
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-f¦-y¦install :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+cd ¦/splay/src/external_libs/lua-5.1.4/ :: Filesystem_operation,()
+make ¦linux :: Build_Execute_operation,()
+from,ubuntu:14.04
+expose,22000
+cd ¦/splay/src/daemon/ :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+. ¦~/.bashrc :: Other_operation,()
+echo ¦echo¦"SPLAY_CPATH=\\"$HOME/local/lualibs/clib/?.so\\""  >> ~/.bashrc :: Filesystem_operation,()
+echo ¦echo¦"LUA_CPATH=\\"$SPLAY_CPATH;$DEFAULT_LUA_CPATH\\""   >> ~/.bashrc :: Filesystem_operation,()
+cmd,echo success¦/splay
+/splay/src/install.sh  :: Other_operation,()
+echo ¦echo¦"LUA_PATH=\\"$SPLAY_PATH;$DEFAULT_LUA_PATH\\""    >> ~/.bashrc :: Filesystem_operation,()
+echo ¦echo¦"SPLAY_PATH=\\"$HOME/local/lualibs/lib/?.lua\\""   >> ~/.bashrc :: Filesystem_operation,()
+echo ¦echo¦"export LUA_PATH LUA_CPATH"       >> ~/.bashrc :: Filesystem_operation,()
+splay/src/splay/src :: copy_operation,()

@@ -1,0 +1,9 @@
+from,raimille1/spark-cassandra:centos-jdk-8
+SCALA_HOME:/opt/scala :: env_operation,()
+rm ¦-rf¦scala-2.11.7.rpm :: Filesystem_operation,()
+curl ¦-O¦http://downloads.typesafe.com/scala/2.11.7/scala-2.11.7.rpm :: Dependencies_operation,()
+cmd,bash
+yum ¦install¦-y¦sbt¦git :: Dependencies_operation,()
+root :: user_operation,()
+rpm ¦-ivh¦scala-2.11.7.rpm :: Dependencies_operation,()
+curl ¦https://bintray.com/sbt/rpm/rpm¦|¦tee¦/etc/yum.repos.d/bintray-sbt-rpm.repo :: Dependencies_operation,()

@@ -1,0 +1,8 @@
+entrypoint,haveged
+apt-get ¦clean :: Dependencies_operation,()
+from,debian@jessie
+apt-get ¦install¦-yq¦rng-tools¦haveged :: Dependencies_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+echo ¦echo¦'HRNGDEVICE=/dev/urandom'>> /etc/default/rng-tools :: Filesystem_operation,()
+cmd,-F¦-v 1
+apt-get ¦update :: Dependencies_operation,()

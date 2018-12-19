@@ -1,0 +1,12 @@
+start-postamt.sh/srv/postamt/bin/start-postamt.sh :: add_operation,()
+expose,993
+PATH:/srv/postamt/bin:/usr/bin:/bin:/usr/local/bin:/sbin:/usr/local/sbin:/usr/sbin :: env_operation,()
+ansible/srv/postamt/ :: add_operation,()
+DB:/srv/postamt/data/mail.sqlite :: env_operation,()
+create.sql/srv/postamt/create.sql :: add_operation,()
+admin.sh/srv/postamt/bin/admin.sh :: add_operation,()
+from,ansible/ubuntu14.04-ansible:devel
+/srv/postamt :: workdir_operation,()
+admin.py/srv/postamt/bin/admin.py :: add_operation,()
+entrypoint,start-postamt.sh
+ansible-playbook ¦site.yml¦-c¦local¦-vv :: Other_operation,()

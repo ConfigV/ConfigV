@@ -1,0 +1,15 @@
+/data/tmp/studio :: workdir_operation,()
+/bin/bash ¦-c¦apt-get update && apt-get install git -y :: Build_Execute_operation,()
+/bin/bash ¦-c¦./gradlew dist :: Build_Execute_operation,()
+expose,8080
+/bin/bash ¦-c¦ git clone https://github.com/ow2-proactive/scheduling.git :: Build_Execute_operation,()
+entrypoint,/data/scheduling/bin/proactive-server¦-ln¦0¦-Dproactive.useIPaddress=true
+/data/tmp :: workdir_operation,()
+/bin/bash ¦-c¦git clone https://github.com/ow2-proactive/scheduling-portal.git &&cd scheduling-portal &&./gradlew war &&mv scheduler-portal/build/libs/scheduler-portal-*.war /data/scheduling/dist/war/scheduler.war &&mv rm-portal/build/libs/rm-portal-... :: Build_Execute_operation,()
+/data :: workdir_operation,()
+/data/scheduling :: workdir_operation,()
+PROACTIVE_HOME:/data/scheduling :: env_operation,()
+from,java:8.0
+/bin/bash ¦-c¦mkdir dist/war/studio &&mkdir dist/war/rm &&mkdir dist/war/scheduler :: Build_Execute_operation,()
+/bin/bash ¦-c¦git clone https://github.com/ow2-proactive/studio.git &&mv studio/app/* /data/scheduling/dist/war/studio/ &&rm -rf /data/tmp/studio :: Build_Execute_operation,()
+/bin/bash ¦-c¦mkdir /data &&mkdir /data/tmp :: Build_Execute_operation,()

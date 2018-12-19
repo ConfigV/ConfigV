@@ -1,0 +1,20 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+USER:root :: env_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+PASSWORD:docker :: env_operation,()
+$USERHOME/node :: workdir_operation,()
+NAME:docker :: env_operation,()
+from,ubuntu:16.04
+PORT:80 :: env_operation,()
+npm ¦install :: Dependencies_operation,()
+cmd,nodejs¦app.js¦$NAME¦$PASSWORD¦|¦tee¦app.log
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+node$USERHOME/node :: copy_operation,()
+expose,80
+USERHOME:/root :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦r-base¦curl :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦nodejs :: Dependencies_operation,()
+npm ¦root¦-g :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_6.x¦|¦bash¦- :: Dependencies_operation,()

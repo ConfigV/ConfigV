@@ -1,0 +1,13 @@
+/datasets :: workdir_operation,()
+from,phusion/baseimage:0.9.19
+apt-get ¦install¦-y¦wget¦unzip¦graphviz¦build-essential :: Dependencies_operation,()
+make ¦all :: Build_Execute_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦snap-master :: Filesystem_operation,()
+cmd,/sbin/init
+rm ¦master.zip :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/datasets :: volume_operation,()
+unzip ¦master.zip :: Filesystem_operation,()
+wget ¦https://github.com/snap-stanford/snap/archive/master.zip :: Dependencies_operation,()

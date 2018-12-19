@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/etc/apache2/sites-enabled/*default* :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+C_ALL=C ¦DEBIAN_FRONTEND=noninteractive¦apt-get¦install¦-y¦ldap-account-manager :: Other_operation,()
+apache2.sh/etc/service/apache2/run :: add_operation,()
+from,debian@jessie
+expose,80
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+HOME:/root :: env_operation,()
+cp ¦-r¦/var/lib/ldap-account-manager/config¦/opt/lam :: Filesystem_operation,()
+mkdir ¦-p¦/etc/service/apache2 :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()

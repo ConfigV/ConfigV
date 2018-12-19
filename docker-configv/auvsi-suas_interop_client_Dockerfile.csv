@@ -1,0 +1,14 @@
+source ¦/interop/client/venv2/bin/activate :: Environment_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+requirements.txtrequirements.txt :: copy_operation,()
+source ¦/interop/client/venv3/bin/activate :: Environment_operation,()
+cmd,bash¦--init-file¦configure.sh
+.. :: copy_operation,()
+bash ¦-c¦"virtualenv¦--system-site-packages¦-p¦/usr/bin/python2¦/interop/client/venv2 :: Build_Execute_operation,()
+deactivate"  :: Other_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+sudo ¦apt-get¦-qq¦install¦-y¦python¦python-nose¦python-pip¦python-pyproj¦python-virtualenv¦python3¦python3-nose¦python3-pip¦python3-pyproj :: Other_operation,()
+sudo ¦apt-get¦-qq¦update :: Other_operation,()
+from,ubuntu:14.04
+bash ¦-c¦"virtualenv¦--system-site-packages¦-p¦/usr/bin/python3¦/interop/client/venv3 :: Build_Execute_operation,()
+/interop/client :: workdir_operation,()

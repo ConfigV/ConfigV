@@ -1,0 +1,13 @@
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+mkdir ¦-p¦/etc/mqtt-proxy :: Filesystem_operation,()
+etc/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+apt-get ¦-qy¦update :: Dependencies_operation,()
+go ¦get¦-v :: Build_Execute_operation,()
+date ¦+%Y%m%d-%H:%M:%S :: Other_operation,()
+/go/src/github.com/ninjablocks/mqtt-proxy :: workdir_operation,()
+expose,6300
+apt-get ¦-qy¦install¦vim-common¦gcc¦mercurial¦bzr¦supervisor :: Dependencies_operation,()
+./go/src/github.com/ninjablocks/mqtt-proxy :: add_operation,()
+etc/config.toml/etc/mqtt-proxy/config.toml :: copy_operation,()
+cmd,/usr/bin/supervisord
+from,golang:1.4

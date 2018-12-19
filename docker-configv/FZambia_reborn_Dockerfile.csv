@@ -1,0 +1,15 @@
+mkdir ¦/db :: Filesystem_operation,()
+from,python:3.6
+/static :: volume_operation,()
+/server :: workdir_operation,()
+apt-get ¦install¦-y¦cron :: Dependencies_operation,()
+./server/server/ :: add_operation,()
+./deploy/crond//etc/cron.d/ :: add_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+cmd,/etc/init.d/cron¦start¦&&¦uwsgi¦--ini¦uwsgi.ini
+mkdir ¦/server :: Filesystem_operation,()
+./server/requirements.txt/server/ :: add_operation,()
+chmod ¦+x¦/etc/cron.d/reborn :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/server/manage.py ¦collectstatic¦--noinput :: Other_operation,()

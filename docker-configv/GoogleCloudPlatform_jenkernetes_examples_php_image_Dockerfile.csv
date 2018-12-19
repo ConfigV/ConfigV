@@ -1,0 +1,11 @@
+chmod ¦+x¦phpunit.phar :: Permissions_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+swarm-client.jar/lib/ :: add_operation,()
+apt-get ¦-y¦install¦git¦openjdk-7-jre¦openjdk-7-jdk¦wget :: Dependencies_operation,()
+from,php:5.5
+mv ¦phpunit.phar¦/usr/local/bin/phpunit :: Filesystem_operation,()
+entrypoint,java¦-jar¦/lib/swarm-client.jar¦-disableSslVerification¦-master¦http://jenkins:8080¦-labels¦php-slave
+apt-get ¦clean :: Dependencies_operation,()
+wget ¦https://phar.phpunit.de/phpunit-old.phar¦-O¦phpunit.phar :: Dependencies_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()

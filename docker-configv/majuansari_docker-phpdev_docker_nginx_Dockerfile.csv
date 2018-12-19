@@ -1,0 +1,11 @@
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+rm ¦/etc/nginx/sites-available/default :: Filesystem_operation,()
+from,phusion/baseimage:latest
+apt-get ¦-y¦install¦nginx :: Dependencies_operation,()
+cmd,nginx
+expose,81 443
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+./conf/nginx.conf/etc/nginx/ :: add_operation,()
+sites/*.conf/etc/nginx/sites-available/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"upstream php-upstream { server ${PHP_UPSTREAM}; }" > /etc/nginx/conf.d/upstream.conf :: Filesystem_operation,()

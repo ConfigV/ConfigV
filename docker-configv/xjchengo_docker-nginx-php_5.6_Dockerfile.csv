@@ -1,0 +1,26 @@
+composer ¦global¦require¦xjchen/alauda:*@dev :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+echo ¦echo¦"deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦hkp://pgp.mit.edu:80¦--recv-keys¦573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+cmd,supervisord
+from,php:5.6
+docker-php-ext-install ¦mcrypt :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+PATH:/root/.composer/vendor/bin:$PATH :: env_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+/var/www :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦install¦-y¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev :: Dependencies_operation,()
+NGINX_VERSION:1.9.0-1~jessie :: env_operation,()
+docker-php-ext-install ¦pdo_mysql :: Other_operation,()
+config/root/server_config :: copy_operation,()
+expose,80 22
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-y¦ca-certificates¦curl¦git¦nginx=${NGINX_VERSION}¦openssh-server¦redir¦socat¦supervisor¦unzip¦vim :: Dependencies_operation,()
+sources.list/etc/apt/sources.list :: copy_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()
+docker-php-ext-install ¦mbstring :: Other_operation,()

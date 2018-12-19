@@ -1,0 +1,15 @@
+/ :: workdir_operation,()
+go ¦clean :: Build_Execute_operation,()
+from,golang:1.9
+rm ¦-rf¦/go/pkg :: Filesystem_operation,()
+set ¦-ex :: Environment_operation,()
+/go/src/github.com/muthu-r/horcrux :: workdir_operation,()
+apk ¦add¦--no-cache¦--virtual¦.build_deps¦gcc¦libc-dev¦git¦make :: Dependencies_operation,()
+/go/src/github.com/muthu-r/horcrux/horcrux-dv :: workdir_operation,()
+apk ¦add¦--no-cache¦--virtual¦fuse :: Dependencies_operation,()
+cmd,/horcrux-dv
+go ¦get :: Build_Execute_operation,()
+rm ¦-rf¦/go/src :: Filesystem_operation,()
+apk ¦del¦.build_deps :: Dependencies_operation,()
+./go/src/github.com/muthu-r/horcrux :: copy_operation,()
+go ¦install¦--ldflags¦'-extldflafs¦"-static"' :: Build_Execute_operation,()

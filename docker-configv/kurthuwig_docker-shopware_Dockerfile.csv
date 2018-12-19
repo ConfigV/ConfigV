@@ -1,0 +1,23 @@
+files/install_4.3.2_e6d1f12c47e61fa1c10893665234cf13b6b3e9f0.zip/tmp/shopware.zip :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/var/cache/apt/* :: Filesystem_operation,()
+ln ¦-s¦/etc/phpmyadmin/apache.conf¦/etc/apache2/conf-enabled/phpmyadmin.conf :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+tar ¦xvjfC¦/tmp/ioncube.tar.bz2¦/tmp/ :: Filesystem_operation,()
+rm ¦-rf¦/tmp/ioncube :: Filesystem_operation,()
+files/apache-shopware.conf/etc/apache2/sites-available/000-default.conf :: copy_operation,()
+from,ubuntu@trusty
+sed ¦--in-place¦"s/^upload_max_filesize.*$/upload_max_filesize¦=¦10M/"¦/etc/php5/apache2/php.ini :: Filesystem_operation,()
+rm ¦/tmp/ioncube.tar.bz2 :: Filesystem_operation,()
+files/00-ioncube.ini/etc/php5/cli/conf.d/00-ioncube.ini :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommends¦apache2-utils¦php5-apcu¦php5-cli¦php5-curl¦php5-gd¦php5-mcrypt¦phpmyadmin¦unzip :: Other_operation,()
+expose,80
+files/entrypoint.sh/entrypoint.sh :: copy_operation,()
+files/00-ioncube.ini/etc/php5/apache2/conf.d/00-ioncube.ini :: copy_operation,()
+php5enmod ¦mcrypt :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+files/ioncube_loaders_lin_x86-64.tar.bz2/tmp/ioncube.tar.bz2 :: copy_operation,()
+mkdir ¦-p¦/usr/local/ioncube :: Filesystem_operation,()
+cp ¦/tmp/ioncube/ioncube_loader_lin_5.5.so¦/usr/local/ioncube :: Filesystem_operation,()
+/var/www/html :: volume_operation,()
+files/disable-advanced-usage.php/etc/phpmyadmin/conf.d/disable-advanced-usage.php :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

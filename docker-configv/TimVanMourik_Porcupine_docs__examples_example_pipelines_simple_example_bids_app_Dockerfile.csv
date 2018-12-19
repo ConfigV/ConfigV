@@ -1,0 +1,17 @@
+entrypoint,/porcupine/startup.sh
+conda ¦clean¦--all¦-y :: Dependencies_operation,()
+porcupine_generated_workflow.py/run.py :: add_operation,()
+pip ¦install¦nipype¦boto :: Dependencies_operation,()
+conda ¦install¦-y¦numpy=1.12.0¦scipy=0.18.1¦scikit-learn=0.18.1¦matplotlib=2.0.0¦pandas=0.19.2¦libxml2=2.9.4¦libxslt=1.1.29\\ :: Dependencies_operation,()
+from,timvanmourik/porcupine
+curl ¦-sSLO¦https://repo.continuum.io/miniconda/Miniconda3-4.3.11-Linux-x86_64.sh :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+FSLDIR=/opt/fsl:PATH=/opt/fsl/bin:$PATH :: env_operation,()
+echo ¦echo¦'export PATH=/usr/local/miniconda/bin:$PATH' >> /etc/profile :: Filesystem_operation,()
+conda ¦install¦-y¦mkl=2017.0.1¦mkl-service :: Dependencies_operation,()
+apt-get ¦install¦-y¦graphviz :: Dependencies_operation,()
+bash ¦Miniconda3-4.3.11-Linux-x86_64.sh¦-b¦-p¦/usr/local/miniconda :: Build_Execute_operation,()
+chmod ¦+x¦/usr/local/miniconda/bin/* :: Permissions_operation,()
+cmd,python¦/run.py
+rm ¦Miniconda3-4.3.11-Linux-x86_64.sh :: Filesystem_operation,()
+PATH=/usr/local/miniconda/bin:$PATH:LANG=C.UTF-8 :: env_operation,()

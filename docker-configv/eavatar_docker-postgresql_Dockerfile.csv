@@ -1,0 +1,16 @@
+mkdir ¦-p¦/etc/service/postgresql :: Filesystem_operation,()
+postgresql-run.sh/etc/service/postgresql/run :: add_operation,()
+/var/lib/postgresql :: volume_operation,()
+chmod ¦a+x¦/*.sh :: Permissions_operation,()
+chown ¦-R¦postgres:postgres¦/var/lib/postgresql :: Permissions_operation,()
+chown ¦-R¦postgres:postgres¦/var/log/postgresql :: Permissions_operation,()
+mkdir ¦-p¦-m¦0700¦/var/lib/postgresql :: Filesystem_operation,()
+from,eavatar/basebox
+overlayfs.tar/ :: add_operation,()
+chmod ¦a+w¦/tmp :: Permissions_operation,()
+expose,5432
+echo ¦echo¦postgres:x:107: >> /etc/group :: Filesystem_operation,()
+mkdir ¦-p¦-m¦0700¦/var/log/postgresql :: Filesystem_operation,()
+echo ¦echo¦postgres:x:102:107:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash >> /etc/passwd :: Filesystem_operation,()
+/var/lib/postgresql :: workdir_operation,()
+chmod ¦a+x¦/etc/service/postgresql/run :: Permissions_operation,()

@@ -1,0 +1,9 @@
+a2enmod ¦rewrite¦headers¦proxy¦proxy_http¦proxy_wstunnel :: Other_operation,()
+from,dockerage/apache:latest
+apt-get ¦-y¦install¦pkg-config¦libcurl3¦liblasso3 :: Dependencies_operation,()
+./ssl/etc/apache2/ssl :: add_operation,()
+./mellon/etc/apache2/mellon :: add_operation,()
+DEBIAN_PRIORITY=critical: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg ¦-i¦/tmp/libapache2-mod-auth-mellon_0.10.0-1_amd64.deb :: Dependencies_operation,()
+./libapache2-mod-auth-mellon_0.10.0-1_amd64.deb/tmp/libapache2-mod-auth-mellon_0.10.0-1_amd64.deb :: add_operation,()

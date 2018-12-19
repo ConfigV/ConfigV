@@ -1,0 +1,7 @@
+echo ¦echo¦"root:changeme" | chpasswd :: Filesystem_operation,()
+entrypoint,/usr/sbin/sshd¦-D
+from,centos@latest
+yum ¦install¦-y¦openssh-server :: Dependencies_operation,()
+container:docker :: env_operation,()
+expose,22
+yum ¦update¦-y;¦yum¦clean¦all :: Dependencies_operation,()

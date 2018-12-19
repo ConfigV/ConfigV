@@ -1,0 +1,12 @@
+apk ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/$NAME :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--update¦bash¦git¦openssh¦python¦build-base¦cairo-dev :: Dependencies_operation,()
+NAME:prep-app :: env_operation,()
+package.json/usr/src/$NAME/ :: copy_operation,()
+cmd,npm¦start
+/usr/src/$NAME :: workdir_operation,()
+./usr/src/$NAME :: copy_operation,()
+from,mhart/alpine-node:6.2
+expose,3000

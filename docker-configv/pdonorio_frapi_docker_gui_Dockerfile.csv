@@ -1,0 +1,8 @@
+from,dockerfile/ubuntu
+/etc/nginx/sites-enabled :: volume_operation,()
+ln ¦-s¦/opt/app¦/var/www/html/app :: Filesystem_operation,()
+/var/log/nginx :: volume_operation,()
+expose,80
+/etc/nginx/conf.d :: volume_operation,()
+/etc/nginx/certs :: volume_operation,()
+echo ¦add-apt-repository¦-y ppa:nginx/stable && apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/* && echo "\\ndaemon off;" >> /etc/nginx/nginx.conf && chown -R www-data:www-data /var/lib/nginx :: Filesystem_operation,()

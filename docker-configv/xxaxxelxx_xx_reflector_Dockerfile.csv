@@ -1,0 +1,10 @@
+from,debian@jessie
+TERM=xterm: :: env_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+apt-get ¦-qq¦-y¦update :: Dependencies_operation,()
+lighttpd.conf/etc/lighttpd/lighttpd.conf :: copy_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦mc :: Dependencies_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-qqy¦lighttpd :: Dependencies_operation,()

@@ -1,0 +1,8 @@
+dnf ¦-y¦update :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+chmod ¦777¦docker-entrypoint.sh :: Permissions_operation,()
+entrypoint,/tmp/docker-entrypoint.sh
+dnf ¦-y¦install¦frama-c :: Dependencies_operation,()
+from,fedora
+./docker-entrypoint.sh/tmp :: copy_operation,()
+dnf ¦clean¦all :: Dependencies_operation,()

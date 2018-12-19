@@ -1,0 +1,10 @@
+tar ¦-xvf¦OpenDDS-3.5.tar.gz¦-C¦/opt :: Filesystem_operation,()
+PATH:$PATH:$DDS_ROOT/bin :: env_operation,()
+DDS_ROOT:/opt/DDS :: env_operation,()
+wget ¦http://download.ociweb.com/OpenDDS/OpenDDS-3.5.tar.gz :: Dependencies_operation,()
+cd ¦$DDS_ROOT;make :: Filesystem_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+apt-get ¦install¦perl¦-y :: Dependencies_operation,()
+$DDS_ROOT/bin/auto_run_tests.pl  :: Other_operation,()
+LD_LIBRARY_PATH:$ACE_ROOT/lib:$DDS_ROOT/lib :: env_operation,()
+from,oci/TAO

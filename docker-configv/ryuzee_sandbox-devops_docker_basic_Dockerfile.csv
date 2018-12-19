@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦openssh-server¦apache2¦supervisor :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+expose,22 80
+from,ubuntu:12.04
+echo ¦echo¦'root:root' |chpasswd :: Filesystem_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+mkdir ¦-p¦/var/lock/apache2 :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+./logs :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()

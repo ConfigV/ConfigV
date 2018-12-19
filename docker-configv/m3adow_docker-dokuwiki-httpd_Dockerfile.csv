@@ -1,0 +1,18 @@
+cmd,/usr/local/bin/apache2-foreground
+chown ¦-R¦www-data:www-data¦/var/www/html/??* :: Permissions_operation,()
+/var/www/html/data/media_meta/ :: volume_operation,()
+/var/www/html/data/media_attic/ :: volume_operation,()
+apt-get ¦install¦--auto-remove¦-y¦sudo :: Dependencies_operation,()
+/var/www/html/data/pages/ :: volume_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/usr/local/bin/change_uid_www.sh
+apt-get ¦update :: Dependencies_operation,()
+/var/www/html/data/attic/ :: volume_operation,()
+/var/www/html/conf/ :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,php@apache
+/var/www/html/data/media/ :: volume_operation,()
+curl ¦http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz¦|¦tar¦xzvf¦-¦--strip¦1 :: Dependencies_operation,()
+/var/www/html/data/meta/ :: volume_operation,()
+./change_uid_www.sh/usr/local/bin/ :: add_operation,()
+expose,80 443

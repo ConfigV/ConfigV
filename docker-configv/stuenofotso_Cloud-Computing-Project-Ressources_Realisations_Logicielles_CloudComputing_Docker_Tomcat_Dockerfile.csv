@@ -1,0 +1,9 @@
+from,ubuntu
+cd ¦/tmp/&&¦apt-get¦-y¦install¦curl&&¦curl¦-L¦"https://drive.google.com/uc?export=download&id=0B5agoNPmSuBzUzNmUERXazZTb0U"¦>¦Annuaire.war&&¦mv¦-f¦server.xml¦/var/lib/tomcat7/conf/&&¦mv¦-f¦tomcat7¦/etc/default/&&¦mv¦-f¦Annuaire.war¦/var/lib/to... :: Filesystem_operation,()
+config_files/tmp/ :: add_operation,()
+apt-get ¦install¦-y¦tomcat7&&¦rm¦-R¦-f¦/tmp/ :: Dependencies_operation,()
+expose,8080
+apt-get ¦-y¦install¦libtomcat7-java :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/tmp/tomcat.sh
+apt-get ¦-y¦install¦libmysql-java&&¦ln¦-sf¦/usr/share/java/mysql.jar¦/usr/share/tomcat7/lib/mysql.jar :: Dependencies_operation,()

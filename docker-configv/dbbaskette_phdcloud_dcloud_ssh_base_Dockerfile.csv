@@ -1,0 +1,8 @@
+echo ¦echo¦root:changeme | chpasswd :: Filesystem_operation,()
+sed ¦-ri¦'s/UsePAM¦yes/UsePAM¦no/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+sed ¦-ri¦'s/GSSAPIAuthentication¦yes/GSSAPIAuthentication¦no/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+yum ¦-y¦install¦vim¦||¦yum¦-y¦install¦vim :: Dependencies_operation,()
+echo ¦echo¦'NETWORKING=yes' > /etc/sysconfig/network :: Filesystem_operation,()
+echo ¦echo¦-e 'LANG="en_US.UTF-8"\\nSYSFONT="latarcyrheb-sun16"' >> /etc/sysconfig/i18n :: Filesystem_operation,()
+from,centos:6.0
+yum ¦-y¦install¦openssh-server¦openssh-clients :: Dependencies_operation,()

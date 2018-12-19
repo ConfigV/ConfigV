@@ -1,0 +1,12 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qy¦ffmpeg :: Other_operation,()
+mkdir ¦build :: Filesystem_operation,()
+cd ¦build :: Filesystem_operation,()
+git ¦clone¦https://github.com/TadasBaltrusaitis/OpenFace.git :: Dependencies_operation,()
+cmake ¦-D¦CMAKE_BUILD_TYPE=RELEASE¦.. :: Build_Execute_operation,()
+from,idinteraction/opencv3base
+apt-get ¦update¦-q :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+resources/Makefile$IDI_HOME :: copy_operation,()
+cd ¦OpenFace :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qy¦build-essential¦cmake¦libopenblas-dev¦liblapack-dev¦git¦libgtk2.0-dev¦pkg-config¦libavcodec-dev¦libavformat-dev¦libswscale-dev¦python-dev¦python-numpy¦libtbb2¦libtbb-dev¦libjpeg-dev¦libpng-dev¦libtiff-dev¦libjasper-dev¦... :: Other_operation,()
+entrypoint,/bin/bash

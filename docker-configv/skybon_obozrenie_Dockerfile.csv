@@ -1,0 +1,15 @@
+/usr/src/app :: workdir_operation,()
+./usr/src/app :: add_operation,()
+ln ¦-sf¦/usr/bin/quakestat¦/usr/bin/qstat :: Filesystem_operation,()
+obozrenie :: user_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+apt ¦install¦-y¦python3-pip¦python3-gi¦gir1.2-gtk-3.0¦gir1.2-gdkpixbuf-2.0¦gnome-icon-theme¦gnome-icon-theme-symbolic¦geoip-database¦qstat :: Dependencies_operation,()
+HOME:/home/obozrenie :: env_operation,()
+locale-gen ¦ru_RU.UTF-8 :: Other_operation,()
+echo ¦export¦uid=1000 gid=1000 && mkdir -p /home/obozrenie && echo "obozrenie:x:${uid}:${gid}:obozrenie,,,:/home/obozrenie:/bin/bash" >> /etc/passwd && echo "obozrenie:x:${uid}:" >> /etc/group && mkdir -p /etc/sudoers.d && echo "obozrenie ALL=(A... :: Filesystem_operation,()
+entrypoint,/usr/src/app/obozrenie-gtk
+dpkg-reconfigure ¦locales :: Other_operation,()
+from,ubuntu:15.1
+/usr/src/app/compile_translations.sh  :: Other_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+apt ¦update :: Dependencies_operation,()

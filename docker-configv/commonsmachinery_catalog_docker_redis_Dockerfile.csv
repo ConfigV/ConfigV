@@ -1,0 +1,13 @@
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+run.sh/run.sh :: add_operation,()
+apt-get ¦install¦-y¦redis-server :: Dependencies_operation,()
+expose,6379
+apt-get ¦update :: Dependencies_operation,()
+from,dockerfile/ubuntu
+chmod ¦755¦/run.sh :: Permissions_operation,()
+add-apt-repository ¦-y¦ppa:chris-lea/redis-server :: Dependencies_operation,()
+redis.conf/etc/redis/redis.conf :: add_operation,()
+/tmp :: workdir_operation,()
+entrypoint,/run.sh
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()

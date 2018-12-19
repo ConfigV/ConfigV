@@ -1,0 +1,8 @@
+from,google/golang:stable
+.$APP_DIR :: add_operation,()
+entrypoint,/vicus
+APP_DIR:$GOPATH/src/github.com/jketcham/vicus :: env_operation,()
+cd ¦$APP_DIR :: Filesystem_operation,()
+CGO_ENABLED=0 ¦go¦install¦-a¦std :: Other_operation,()
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()
+CGO_ENABLED=0 ¦godep¦go¦build¦-o¦/vicus¦-ldflags¦'-d¦-w¦-s' :: Other_operation,()

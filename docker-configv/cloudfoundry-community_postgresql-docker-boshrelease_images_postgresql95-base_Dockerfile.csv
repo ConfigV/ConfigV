@@ -1,0 +1,11 @@
+entrypoint,/scripts/run.sh
+/data :: volume_operation,()
+echo ¦DEBIAN_FRONTEND=noninteractive¦wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main ${PG_VERSION}" > /etc/apt/sources.list.d/pgdg.list &... :: Filesystem_operation,()
+from,frodenas/ubuntu
+http://stedolan.github.io/jq/download/linux64/jq/usr/bin/ :: add_operation,()
+touch ¦/.firstrun :: Filesystem_operation,()
+chmod ¦775¦/usr/bin/jq :: Permissions_operation,()
+expose,5432
+scripts/scripts :: add_operation,()
+PG_VERSION=9.5: :: env_operation,()
+chmod ¦+x¦/scripts/*.sh :: Permissions_operation,()

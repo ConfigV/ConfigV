@@ -1,0 +1,8 @@
+plexwatch.cron/etc/cron.d/plexwatch :: add_operation,()
+from,flxel/base:latest
+apt-get ¦-y¦install¦libwww-perl¦libxml-simple-perl¦libtime-duration-perl¦libtime-modules-perl¦libdbd-sqlite3-perl¦perl-doc¦libjson-perl¦php5-cli¦php5-sqlite¦php5-curl¦php5-json :: Dependencies_operation,()
+curl ¦-Lo¦/opt/plexWatch/plexWatch.pl¦https://raw.github.com/ljunkie/plexWatch/master/plexWatch.pl :: Dependencies_operation,()
+curl ¦-Lo¦/opt/plexWatch/config.pl¦https://raw.github.com/ljunkie/plexWatch/master/config.pl-dist :: Dependencies_operation,()
+mkdir ¦-p¦/opt/plexWatch/ :: Filesystem_operation,()
+expose,80
+git ¦clone¦https://github.com/ecleese/plexWatchWeb.git¦/opt/plexWatchWeb :: Dependencies_operation,()

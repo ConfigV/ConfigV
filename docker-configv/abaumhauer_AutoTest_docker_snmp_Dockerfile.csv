@@ -1,0 +1,13 @@
+VERSION=5.7.3: :: env_operation,()
+dnf ¦-y¦clean¦all¦; :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+snmp.conf/usr/local/etc/snmp/ :: copy_operation,()
+dnf ¦-y¦install¦file :: Dependencies_operation,()
+/var/tmp/net-snmp-$VERSION :: workdir_operation,()
+mibs//usr/local/share/snmp/mibs/ :: copy_operation,()
+from,abaumhauer/cpanm:latest
+rm ¦-rf¦/var/tmp/net-snmp-$VERSION :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+entrypoint,/bin/bash
+./configure ¦--disable-manuals¦--with-default-snmp-version="2"¦--with-sys-contact="GNOC@interactivedata.com"¦--with-sys-location="docker"¦--with-logfile="/var/log/snmpd.log"¦--with-persistent-directory="/var/net-snmp" :: Build_Execute_operation,()
+net-snmp-$VERSION/./net-snmp-$VERSION/ :: copy_operation,()

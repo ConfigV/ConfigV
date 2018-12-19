@@ -1,0 +1,9 @@
+/etc/haproxy :: workdir_operation,()
+haproxy.cfg/etc/haproxy/haproxy.cfg :: add_operation,()
+haproxy.cfg.erb/etc/haproxy/haproxy.cfg.erb :: add_operation,()
+rm ¦/var/run/haproxy.pid :: Filesystem_operation,()
+/etc/haproxy :: volume_operation,()
+start.bash/haproxy-start :: add_operation,()
+from,dockerfile/ubuntu
+echo ¦export¦DEBIAN_FRONTEND=noninteractive && echo "#!/bin/sh\\nexit 0" > /usr/sbin/policy-rc.d && sed -i 's/^#(.*-backports\\s\\)/\\1/g' /etc/apt/sources.list && apt-get update && apt-get install -y inotify-tools haproxy=1.5.3-1~ubuntu14.04.1 && s... :: Filesystem_operation,()
+cmd,bash¦/haproxy-start

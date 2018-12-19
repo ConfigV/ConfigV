@@ -1,0 +1,15 @@
+from,golang:1.4
+git ¦checkout¦v1.3.1 :: Dependencies_operation,()
+./configure  :: Build_Execute_operation,()
+mkdir ¦-p¦$GOPATH/src/github.com/stealthly/ :: Filesystem_operation,()
+cd ¦$GOPATH/src/github.com/stealthly :: Filesystem_operation,()
+cp ¦$GOPATH/src/github.com/stealthly/go_kafka_client/syslog/syslog¦/usr/bin/syslogproducer :: Filesystem_operation,()
+cd ¦gpm :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+gpm ¦install :: Other_operation,()
+cd ¦$GOPATH/src/github.com/stealthly/go_kafka_client/syslog :: Filesystem_operation,()
+cd ¦go_kafka_client :: Filesystem_operation,()
+git ¦clone¦https://github.com/stealthly/go_kafka_client.git :: Dependencies_operation,()
+go ¦build :: Build_Execute_operation,()
+git ¦clone¦https://github.com/pote/gpm.git :: Dependencies_operation,()
+entrypoint,syslogproducer

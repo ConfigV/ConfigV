@@ -1,0 +1,14 @@
+from,google/debian:wheezy
+apt-get ¦install¦--no-install-recommends¦-y¦-q¦ca-certificates :: Dependencies_operation,()
+./app/ :: add_operation,()
+pip ¦install¦-r¦./app/requirements.txt :: Dependencies_operation,()
+expose,8080
+./app/ :: workdir_operation,()
+apt-get ¦-y¦-q¦upgrade :: Dependencies_operation,()
+apt-get ¦install¦-y¦py$ :: Dependencies_operation,()
+entrypoint,python¦main.py
+apt-get ¦install¦-y¦python :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦fortunes¦libespeak-dev :: Dependencies_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

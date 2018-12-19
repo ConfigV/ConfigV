@@ -1,0 +1,18 @@
+/mail_settings :: volume_operation,()
+chmod ¦755¦/boot :: Permissions_operation,()
+boot/ :: copy_operation,()
+AMAVIS=true: :: env_operation,()
+su ¦-¦amavis¦-s¦/bin/bash :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+from,ubuntu:14.1
+./config/amavis-content_filter_mode/etc/amavis/conf.d/15-content_filter_mode :: copy_operation,()
+entrypoint,./boot;¦service¦rsyslog¦start;¦amavisd¦foreground
+razor-admin ¦-create :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦amavisd-new¦spamassassin¦libnet-dns-perl¦libmail-spf-perl¦pyzor¦razor :: Dependencies_operation,()
+pyzor ¦discover :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+razor-admin ¦-register :: Other_operation,()
+locale-gen ¦en_GB¦en_GB.UTF-8 :: Other_operation,()

@@ -1,0 +1,11 @@
+dnf ¦install¦-y¦tar¦make¦glibc-static¦gcc¦iproute :: Dependencies_operation,()
+mkdir ¦-p¦/etc/service :: Filesystem_operation,()
+runit_bootstrap.sh/usr/local/bin/ :: add_operation,()
+package/install  :: Other_operation,()
+chmod ¦+x¦/usr/local/bin/runit_bootstrap.sh :: Permissions_operation,()
+curl ¦-L¦http://smarden.org/runit/runit-2.1.2.tar.gz¦|¦tar¦xzpC¦/package/ :: Dependencies_operation,()
+from,fedora:22.0
+dnf ¦erase¦-y¦tar¦make¦gcc :: Dependencies_operation,()
+cd ¦/package/admin/runit-2.1.2 :: Filesystem_operation,()
+cmd,/usr/local/bin/runit_bootstrap.sh
+mkdir ¦/package :: Filesystem_operation,()

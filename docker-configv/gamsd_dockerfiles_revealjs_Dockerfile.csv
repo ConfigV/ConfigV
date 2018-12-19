@@ -1,0 +1,13 @@
+npm ¦install¦-g¦grunt-cli :: Dependencies_operation,()
+/revealjs :: workdir_operation,()
+sed ¦-i¦Gruntfile.js¦-e¦'s/port:¦port,/port:¦port,¦hostname:¦"",/' :: Filesystem_operation,()
+expose,8000
+tar ¦xzf¦3.2.0.tar.gz :: Filesystem_operation,()
+ADD. /revealjs/talks :: onbuild_operation,()
+cmd,grunt¦serve
+mkdir ¦-p¦/revealjs/talks :: Filesystem_operation,()
+wget ¦https://github.com/hakimel/reveal.js/archive/3.2.0.tar.gz :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+from,node
+mv ¦/reveal.js-3.2.0¦/revealjs :: Filesystem_operation,()
+/revealjs/talks/ :: volume_operation,()

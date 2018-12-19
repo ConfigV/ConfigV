@@ -1,0 +1,12 @@
+requirements.txt/tmp/requirements.txt :: add_operation,()
+./srv/jupyterhub :: add_operation,()
+mkdir ¦-p¦/srv/ :: Filesystem_operation,()
+/srv/jupyterhub/ :: workdir_operation,()
+pip3 ¦install¦-r¦/tmp/requirements.txt :: Dependencies_operation,()
+npm ¦install¦-g¦configurable-http-proxy :: Dependencies_operation,()
+expose,8000
+pip3 ¦install¦. :: Dependencies_operation,()
+ADDjupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py :: onbuild_operation,()
+from,jupyter/notebook
+cmd,jupyterhub¦-f¦/srv/jupyterhub/jupyterhub_config.py
+/srv/ :: workdir_operation,()

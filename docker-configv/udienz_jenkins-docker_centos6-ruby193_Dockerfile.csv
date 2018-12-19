@@ -1,0 +1,12 @@
+echo ¦echo¦"export PATH=$PATH:/usr/local/rvm/gems/ruby-1.9.3-p551/bin" > /etc/profile.d/ruby.sh && echo "export PATH=$PATH:/usr/local/rvm/gems/ruby-1.9.3-p551/bin" >> /etc/bashrc :: Filesystem_operation,()
+gpg2 ¦--keyserver¦hkp://keys.gnupg.net¦--recv-keys¦409B6B1796C275462A1703113804BB82D39DC0E3¦&&curl¦-L¦get.rvm.io¦|¦bash¦-s¦stable :: Other_operation,()
+/bin/bash ¦-l¦-c¦"gem¦install¦bundler" :: Build_Execute_operation,()
+/bin/bash ¦-l¦-c¦"source¦/etc/profile.d/rvm.sh;¦rvm¦requirements" :: Build_Execute_operation,()
+yum ¦install¦-y¦curl¦which¦bash-completion :: Dependencies_operation,()
+from,udienz/jenkins-docker:centos6
+expose,22
+yum ¦update¦-y :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"source¦/etc/profile.d/rvm.sh;¦rvm¦install¦1.9.3-p551" :: Build_Execute_operation,()
+/bin/bash ¦-l¦-c¦"source¦/etc/profile.d/rvm.sh;¦rvm¦use¦1.9.3-p551¦--default" :: Build_Execute_operation,()
+echo ¦echo¦"gem: --no-ri --no-rdoc" > ~/.gemrc :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

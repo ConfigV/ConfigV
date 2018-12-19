@@ -1,0 +1,12 @@
+wget ¦https://storage.googleapis.com/golang/go1.6.3.linux-amd64.tar.gz :: Dependencies_operation,()
+rm ¦-f¦go1.6.3.linux-amd64.tar.gz :: Filesystem_operation,()
+PATH:/usr/local/go/bin:$PATH:/go/bin :: env_operation,()
+apt-get ¦--assume-yes¦upgrade :: Dependencies_operation,()
+apt-get ¦--assume-yes¦install¦build-essential¦reprepro¦rsync¦wget¦zip¦git¦bzr¦mercurial :: Dependencies_operation,()
+tar ¦-C¦/usr/local¦-xf¦go1.6.3.linux-amd64.tar.gz :: Filesystem_operation,()
+cmd,build¦ubuntu-yakkety
+entrypoint,pacur
+apt-get ¦--assume-yes¦update :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+go ¦get¦github.com/pacur/pacur :: Build_Execute_operation,()
+from,ubuntu@yakkety

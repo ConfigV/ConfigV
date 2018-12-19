@@ -1,0 +1,10 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦mysql-client :: Other_operation,()
+https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini/tini :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+composer ¦global¦require¦drush/drush:7.*¦--prefer-dist :: Dependencies_operation,()
+TINI_VERSION:v0.14.0 :: env_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,nascom/php:5.3-composer
+entrypoint,/tini¦--¦drush

@@ -1,0 +1,14 @@
+git ¦config¦--global¦url."https://github.com/".insteadOf¦"ssh://git@github.com/" :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+./vendor/vendor :: add_operation,()
+unzip ¦terraform.zip¦-d¦/usr/local/bin :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/module :: workdir_operation,()
+TERRAFORM_VERSION=0.8.8: :: env_operation,()
+rm ¦-f¦terraform.zip :: Filesystem_operation,()
+BUNDLE_GEMFILE:/vendor/Gemfile :: env_operation,()
+bundle ¦install :: Dependencies_operation,()
+entrypoint,bundle¦exec
+curl ¦-Ls¦https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip¦-o¦terraform.zip :: Dependencies_operation,()
+apk ¦add¦curl¦make¦bash¦gcc¦build-base¦abuild¦binutils¦git¦openssh :: Dependencies_operation,()
+from,uzyexe/serverspec:2.37.2

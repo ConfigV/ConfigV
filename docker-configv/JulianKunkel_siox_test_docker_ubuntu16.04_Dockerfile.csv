@@ -1,0 +1,6 @@
+from,ubuntu:16.04
+/data :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦postgresql¦libpq-dev :: Dependencies_operation,()
+echo ¦/etc/init.d/postgresql¦start; sleep 5; /etc/init.d/postgresql status ; su - postgres -c "createuser root -d" ; su - postgres -c "echo CREATE DATABASE ROOT OWNER ROOT | psql" :: Filesystem_operation,()
+apt-get ¦install¦-y¦libopenmpi-dev¦openmpi-bin¦mpich¦git¦cmake¦pkg-config¦gcc-5¦gcc-4.8¦nano¦wget :: Dependencies_operation,()

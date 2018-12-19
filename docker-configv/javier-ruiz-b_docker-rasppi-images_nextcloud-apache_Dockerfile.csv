@@ -1,0 +1,23 @@
+000-default.conf/etc/apache2/sites-available/ :: copy_operation,()
+tar ¦xfj¦latest-11.tar.bz2¦-C¦/var/www :: Filesystem_operation,()
+cmd,/bin/bash¦-x¦/tmp/entrypoint.sh
+apt-get ¦install¦-y¦--no-install-recommends¦¦¦¦¦apache2¦¦¦¦libapache2-mod-php5¦¦¦¦php5¦¦¦¦php5-gd¦¦¦¦php5-json¦¦¦¦php5-mysql¦¦¦¦php5-curl¦¦¦¦php5-intl¦¦¦¦php5-mcrypt¦¦¦¦php5-ldap¦¦¦¦php5-imap¦¦¦¦php5-gmp¦¦¦¦curl¦¦¦¦wget¦¦¦¦openssl¦php5-imagick¦bzip... :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+echo ¦echo¦mariadb-server-10.0 mysql-server/root_password password $DBPASS | debconf-set-selections && echo mariadb-server-10.0 mysql-server/root_password_again password $DBPASS | debconf-set-selections :: Filesystem_operation,()
+rm ¦latest-11.tar.bz2.sha512 :: Filesystem_operation,()
+install.sh/tmp/ :: copy_operation,()
+entrypoint.sh/tmp/ :: copy_operation,()
+from,debian@jessie
+expose,80 443
+wget ¦--no-check-certificate¦https://download.nextcloud.com/server/releases/latest-11.tar.bz2 :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦mariadb-server¦-o¦pkg::Options::="--force-confdef"¦-o¦pkg::Options::="--force-confold"¦--fix-missing :: Dependencies_operation,()
+DBPASS=$DBPASS: :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦debconf-utils :: Dependencies_operation,()
+wget ¦--no-check-certificate¦https://download.nextcloud.com/server/releases/latest-11.tar.bz2.sha512 :: Dependencies_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+shasum ¦-a¦512¦-¦<¦latest-11.tar.bz2.sha512¦<¦latest-11.tar.bz2 :: Other_operation,()
+nextcloud.conf/etc/apache2/sites-available/ :: copy_operation,()
+/bin/bash ¦-x¦./install.sh :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦-t¦jessie-backports¦python-certbot-apache :: Dependencies_operation,()
+echo ¦echo¦'deb http://ftp.debian.org/debian jessie-backports main' | tee /etc/apt/sources.list.d/backports.list :: Filesystem_operation,()

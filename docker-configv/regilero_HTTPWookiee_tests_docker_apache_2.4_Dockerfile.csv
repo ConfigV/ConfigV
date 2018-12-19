@@ -1,0 +1,10 @@
+conf/extra/httpd-default.conf/usr/local/apache2/conf/extra/httpd-default.conf :: copy_operation,()
+conf/extra/httpd-vhosts.conf/usr/local/apache2/conf/extra/httpd-vhosts.conf :: copy_operation,()
+from,httpd:2.4
+expose,80
+/usr/local/apache2/htdocs/ :: volume_operation,()
+chown ¦-R¦www-data¦/usr/local/apache2/htdocs/* :: Permissions_operation,()
+conf/httpd.conf/usr/local/apache2/conf/httpd.conf :: copy_operation,()
+conf/extra/httpd-mpm.conf/usr/local/apache2/conf/extra/httpd-mpm.conf :: copy_operation,()
+static//usr/local/apache2/htdocs/ :: copy_operation,()
+cmd,httpd-foreground

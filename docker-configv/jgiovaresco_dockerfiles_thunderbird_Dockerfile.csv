@@ -1,0 +1,12 @@
+curl ¦-sSL¦"http://releases.mozilla.org/pub/thunderbird/releases/${THUNDERBIRD_VERSION}/linux-x86_64/${LANG}/thunderbird-${THUNDERBIRD_VERSION}.tar.bz2"¦-o¦/tmp/thunderbird.tar.bz2 :: Dependencies_operation,()
+ln ¦-s¦/opt/thunderbird/thunderbird¦/usr/bin/thunderbird :: Filesystem_operation,()
+entrypoint,/usr/bin/thunderbird
+apt-get ¦-y¦install¦¦bzip2¦¦ca-certificates¦¦curl¦¦tar¦¦hicolor-icon-theme¦¦libasound2¦¦libdbus-glib-1-2¦¦libfreetype6¦¦libfontconfig¦¦libgl1-mesa-dri¦¦libgl1-mesa-glx¦¦libgtk2.0-0¦¦libxcomposite1¦¦libxrender1¦¦libxt6¦¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/opt/thunderbird :: Filesystem_operation,()
+from,jgiovaresco/debian-with-dockerize:latest
+LANG:en-US :: env_operation,()
+THUNDERBIRD_VERSION:38.3.0 :: env_operation,()
+tar ¦-xjf¦/tmp/thunderbird.tar.bz2¦-C¦/opt/thunderbird¦--strip-components¦1 :: Filesystem_operation,()
+rm ¦/tmp/thunderbird.tar.bz2* :: Filesystem_operation,()

@@ -1,0 +1,11 @@
+cmd,--help
+echo ¦echo¦"memory_limit=1024M" > /usr/local/etc/php/conf.d/memory-limit.ini :: Filesystem_operation,()
+/data :: volume_operation,()
+/data/www :: workdir_operation,()
+docker-php-ext-install ¦zip¦mcrypt¦mbstring¦pdo_mysql :: Other_operation,()
+entrypoint,php¦artisan
+php ¦--version :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/data/www :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦zlib1g-dev¦libmcrypt-dev¦--no-install-recommends :: Other_operation,()
+from,php:5.6

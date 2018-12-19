@@ -1,0 +1,21 @@
+./entrypoint.sh/ :: copy_operation,()
+dpkg ¦--force-depends¦-i¦odoo.deb :: Dependencies_operation,()
+./openerp-server.conf/etc/odoo/ :: copy_operation,()
+mkdir ¦-p¦/mnt/extra-addons :: Filesystem_operation,()
+ODOO_VERSION:9.0 :: env_operation,()
+cmd,openerp-server
+expose,8069 8071
+apt-get ¦update :: Dependencies_operation,()
+/mnt/extra-addons :: volume_operation,()
+odoo :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦odoo.deb :: Filesystem_operation,()
+chown ¦-R¦odoo¦/mnt/extra-addons :: Permissions_operation,()
+/var/lib/odoo :: volume_operation,()
+ODOO_RELEASE:20160923 :: env_operation,()
+apt-get ¦-y¦install¦-f¦--no-install-recommends :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+OPENERP_SERVER:/etc/odoo/openerp-server.conf :: env_operation,()
+from,ubuntu@xenial
+chown ¦odoo¦/etc/odoo/openerp-server.conf :: Permissions_operation,()
+set ¦-x;¦curl¦-o¦odoo.deb¦-SL¦http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}c.${ODOO_RELEASE}_all.deb :: Environment_operation,()
+echo ¦set¦-x; apt-get update && apt-get install -y --no-install-recommends ca-certificates curl node-less node-clean-css python-pyinotify python-renderpm python-support && curl -o wkhtmltox.deb -SL http://nightly.odoo.com/extra/wkhtmltox-0.12.1.... :: Filesystem_operation,()

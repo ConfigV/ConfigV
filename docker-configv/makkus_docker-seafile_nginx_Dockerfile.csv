@@ -1,0 +1,14 @@
+sites-enabled/etc/nginx/sites-enabled :: add_operation,()
+cmd,nginx
+chown ¦-R¦www-data:www-data¦/var/lib/nginx :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+conf.d/etc/nginx/conf.d :: add_operation,()
+from,phusion/baseimage:0.9.16
+/etc/nginx :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦nginx¦zile¦python-flup :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:nginx/stable :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+certs/etc/nginx/certs :: add_operation,()
+expose,443
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()

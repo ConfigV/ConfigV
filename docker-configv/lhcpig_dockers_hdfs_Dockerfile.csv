@@ -1,0 +1,22 @@
+from,openjdk@latest
+apt-get ¦clean :: Dependencies_operation,()
+hdfs ¦namenode¦-format :: Other_operation,()
+PATH:$PATH:${HADOOP_HOME}/sbin/:${HADOOP_HOME}/bin :: env_operation,()
+hdfs-site.xml${HADOOP_CONF_DIR} :: add_operation,()
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦"export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh :: Filesystem_operation,()
+core-site.xml${HADOOP_CONF_DIR} :: add_operation,()
+HADOOP_CONF_DIR="${HADOOP_HOME}/etc/hadoop": :: env_operation,()
+chmod ¦0600¦~/.ssh/authorized_keys :: Permissions_operation,()
+HADOOP_HOME:/hadoop-2.7.3 :: env_operation,()
+ssh-keygen ¦-t¦rsa¦-P¦''¦-f¦~/.ssh/id_rsa :: Other_operation,()
+cat ¦~/.ssh/id_rsa.pub¦>>¦~/.ssh/authorized_keys :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+sources.list/etc/apt :: add_operation,()
+HADOOP_LIBEXEC_DIR="${HADOOP_HOME}/libexec": :: env_operation,()
+tar ¦zxvf¦hadoop.tar.gz :: Filesystem_operation,()
+wget ¦http://10.9.24.170/hadoop.tar.gz :: Dependencies_operation,()
+expose,50070 9000
+rm ¦-rf¦hadoop.tar.gz :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()

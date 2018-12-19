@@ -1,0 +1,10 @@
+etc/supervisord.conf/etc/supervisord.conf :: add_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+yum ¦install¦-y¦/tmp/yum-cache/supervisor/supervisor-3.0* :: Dependencies_operation,()
+yum-cache/supervisor/tmp/yum-cache/supervisor :: add_operation,()
+root/bin/supervisor_daemonize.sh/root/bin/supervisor_daemonize.sh :: add_operation,()
+rm ¦-rf¦/tmp/yum-cache/supervisor :: Filesystem_operation,()
+from,qnib/fd20
+echo ¦echo¦"3.0" > /usr/lib/python2.7/site-packages/supervisor/version.txt :: Filesystem_operation,()
+yum ¦install¦-y¦python-meld3¦python-setuptools :: Dependencies_operation,()
+sed ¦-i¦-e¦'s/nodaemon=false/nodaemon=true/'¦/etc/supervisord.conf :: Filesystem_operation,()

@@ -1,0 +1,7 @@
+expose,80
+from,debian@wheezy
+deps=' ¦¦socat¦';¦set¦-x;¦apt-get¦update :: Other_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦$deps :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦-o¦APT::AutoRemove::RecommendsImportant=false¦-o¦APT::AutoRemove::SuggestsImportant=false :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-q¦-y¦software-properties-common :: Other_operation,()
+echo ¦echo¦oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-add-repository¦ppa:webupd8team/java¦-y :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-f¦/opt/jira-home/.jira-home.lock :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦oracle-java7-installer¦-y :: Other_operation,()
+from,phusion/baseimage:0.9.8
+cmd,/opt/jira/bin/start-jira.sh¦-fg
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-q¦-y¦python-software-properties :: Other_operation,()
+apt-get ¦install¦-q¦-y¦git-core :: Dependencies_operation,()
+expose,8080
+install-jira.sh/root/ :: add_operation,()
+/opt/jira-home :: workdir_operation,()
+mkdir ¦/srv/www :: Filesystem_operation,()
+/root/install-jira.sh  :: Other_operation,()

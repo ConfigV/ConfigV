@@ -1,0 +1,11 @@
+apt-get ¦--yes¦update :: Dependencies_operation,()
+apt-get ¦--yes¦--no-install-recommends¦--no-install-suggests¦install¦texlive¦texlive-lang-english¦texlive-lang-german¦texlive-latex-base¦texlive-latex-recommended¦texlive-latex-extra :: Dependencies_operation,()
+apt-get ¦--yes¦dist-upgrade :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/src :: volume_operation,()
+from,ubuntu:15.04
+cmd,pdflatex¦/src/document.tex
+/src :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦--yes¦install¦texlive-xetex¦texlive-luatex :: Dependencies_operation,()

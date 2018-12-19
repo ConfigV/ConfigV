@@ -1,0 +1,8 @@
+pip ¦install¦gsutil :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--update¦python¦py-pip¦py-cffi¦py-cryptography :: Dependencies_operation,()
+apk ¦add¦--virtual¦build-deps¦gcc¦libffi-dev¦python-dev¦linux-headers¦musl-dev¦openssl-dev :: Dependencies_operation,()
+from,alpine
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+apk ¦del¦build-deps :: Dependencies_operation,()
+cmd,gsutil
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

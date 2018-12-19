@@ -1,0 +1,16 @@
+openblas.conf/etc/ld.so.conf.d/openblas.conf :: add_operation,()
+SCALA_VERSION:2.11.6 :: env_operation,()
+echo ¦curl¦-fsL http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && echo >> /root/.bashrc && echo 'export PATH=~/scala-$SCALA_VERSION/bin:$PATH' >> /root/.bashrc :: Filesystem_operation,()
+cmd,sbt¦run
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-L¦-o¦sbt-$SBT_VERSION.deb¦http://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb :: Dependencies_operation,()
+apt-get ¦install¦sbt :: Dependencies_operation,()
+sbt ¦sbtVersion :: Other_operation,()
+SBT_VERSION:0.13.15 :: env_operation,()
+touch ¦/usr/lib/jvm/java-8-openjdk-amd64/release :: Filesystem_operation,()
+from,picoded/ubuntu-openjdk-8-jdk
+dpkg ¦-i¦sbt-$SBT_VERSION.deb :: Dependencies_operation,()
+bash ¦build_openblas.sh :: Build_Execute_operation,()
+./workspace :: add_operation,()
+rm ¦sbt-$SBT_VERSION.deb :: Filesystem_operation,()
+build_openblas.shbuild_openblas.sh :: add_operation,()

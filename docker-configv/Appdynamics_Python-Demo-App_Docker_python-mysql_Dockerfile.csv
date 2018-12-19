@@ -1,0 +1,7 @@
+sed ¦-i¦'/^bind-address/c\\bind-address=0.0.0.0'¦/etc/mysql/my.cnf :: Filesystem_operation,()
+chown ¦-R¦root.root¦/root/ :: Permissions_operation,()
+/startup.sh/root/ :: add_operation,()
+chmod ¦777¦/root/startup.sh :: Permissions_operation,()
+from,appdynamics/python-base
+cmd,/root/startup.sh¦&&¦tail¦-F¦/var/log/mysql/error.log
+expose,22

@@ -1,0 +1,13 @@
+git ¦clone¦https://github.com/gofed/gofed :: Dependencies_operation,()
+cmd,gofed
+cd ¦gofed :: Filesystem_operation,()
+dnf ¦clean¦all :: Dependencies_operation,()
+cd ¦/home/gofed :: Filesystem_operation,()
+useradd ¦gofed :: Permissions_operation,()
+dnf ¦install¦-y¦git¦python-pip¦graphviz¦koji¦rpm-build¦rpmdevtools :: Dependencies_operation,()
+from,fedora:23.0
+echo ¦cd¦/home/gofed/gofed && echo "alias gofed=$(realpath ./hack/gofed.sh)" >> ~/.bashrc :: Filesystem_operation,()
+Name:gofed :: label_operation,()
+./hack/prep.sh  :: Other_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+Version:v1.0.1 :: label_operation,()

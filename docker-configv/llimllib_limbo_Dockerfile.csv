@@ -1,0 +1,11 @@
+curl ¦"https://bootstrap.pypa.io/get-pip.py"¦|¦python3 :: Dependencies_operation,()
+from,gliderlabs/alpine:3.3
+ln ¦-s¦/usr/bin/python3¦/usr/bin/python :: Filesystem_operation,()
+PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin :: env_operation,()
+/app :: workdir_operation,()
+pip ¦install¦--upgrade¦pip¦setuptools :: Dependencies_operation,()
+pip ¦install¦-e¦. :: Dependencies_operation,()
+cmd,/app/bin/kube-limbo
+mkdir ¦-p¦/opt¦/app :: Filesystem_operation,()
+./app :: add_operation,()
+apk-install ¦python3¦python3-dev¦vim¦bash¦curl :: Dependencies_operation,()

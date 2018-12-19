@@ -1,0 +1,22 @@
+launch.bash/opt/launch.bash :: add_operation,()
+cmd,web
+from,ubuntu:14.04
+expose,3000
+USE_ENV:true :: env_operation,()
+RUBY_VERSION:2.1.4 :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦zlib1g-dev¦libssl-dev¦libreadline-dev¦libyaml-dev¦libxml2¦libxml2-dev¦libxslt-dev¦libcurl4-openssl-dev :: Other_operation,()
+PATH=/opt/ruby/bin:$PATH ¦bundle¦exec¦rake¦assets:precompile :: Other_operation,()
+/opt/ruby/bin/bundle ¦install¦--deployment :: Other_operation,()
+git ¦clone¦https://github.com/sstephenson/ruby-build.git¦/usr/local/ruby-build :: Dependencies_operation,()
+/opt/errbit/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/usr/local/ruby-build/bin/ruby-build ¦$RUBY_VERSION¦/opt/ruby :: Other_operation,()
+errbit :: user_operation,()
+entrypoint,/opt/launch.bash
+PORT:3000 :: env_operation,()
+git ¦clone¦--branch¦'v0.5.0'¦https://github.com/errbit/errbit.git¦/opt/errbit/app :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦build-essential¦curl¦git :: Other_operation,()
+/usr/sbin/useradd ¦--create-home¦--home-dir¦/opt/errbit¦--shell¦/bin/bash¦errbit :: Other_operation,()
+/opt/ruby/bin/gem ¦install¦bundler :: Other_operation,()
+RAILS_ENV:production :: env_operation,()
+RACK_ENV:production :: env_operation,()

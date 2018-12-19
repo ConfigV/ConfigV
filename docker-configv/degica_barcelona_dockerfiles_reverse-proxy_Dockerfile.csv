@@ -1,0 +1,10 @@
+entrypoint,/entrypoint
+mkdir ¦-p¦/etc/nginx/certs :: Filesystem_operation,()
+from,nginx@stable
+apt-get ¦install¦-q¦-y¦ruby :: Dependencies_operation,()
+templates/templates :: add_operation,()
+render_template.rb/render_template.rb :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint/entrypoint :: copy_operation,()
+gem ¦install¦aws-sdk :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

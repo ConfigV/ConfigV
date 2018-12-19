@@ -1,0 +1,11 @@
+expose,2181 2888 3888
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+cmd,start-foreground
+apt-get ¦install¦-y¦unzip¦openjdk-6-jre-headless¦wget :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦-xzf¦/opt/zookeeper-3.4.6.tar.gz¦-C¦/opt :: Filesystem_operation,()
+entrypoint,/opt/zookeeper-3.4.6/bin/zkServer.sh
+JAVA_HOME:/usr/lib/jvm/java-6-openjdk-amd64 :: env_operation,()
+from,ubuntu
+wget ¦-q¦-O¦/opt/zookeeper-3.4.6.tar.gz¦http://apache.mirrors.pair.com/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz :: Dependencies_operation,()
+cp ¦/opt/zookeeper-3.4.6/conf/zoo_sample.cfg¦/opt/zookeeper-3.4.6/conf/zoo.cfg :: Filesystem_operation,()

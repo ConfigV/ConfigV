@@ -1,0 +1,18 @@
+expose,3000
+dnf ¦-y¦--exclude=perl*¦install¦expat-devel¦libdb-devel¦ncurses-devel¦readline-devel¦postgresql-devel :: Dependencies_operation,()
+.htpasswd$APP_HOME/ :: copy_operation,()
+entrypoint,/usr/bin/perl¦-Ilib
+$LOGDIR :: volume_operation,()
+dnf ¦-y¦clean¦all :: Dependencies_operation,()
+cmd,script/autotest_server.pl
+etc$APP_HOME/etc/ :: copy_operation,()
+LOGDIR:$APP_HOME/logs :: env_operation,()
+/usr/bin/cpanm ¦-n¦Term::ReadLine::Gnu¦Term::ReadKey¦Log::Log4perl::Catalyst¦Catalyst::Plugin::SmartURI¦Catalyst::Plugin::Session::Store::File¦Graph¦Graph::Easy¦List::Compare¦List::Uniq¦RPC::XML::Client¦Catalyst::View::JSON¦Params::Coerce¦Cache::Memory¦JS... :: Other_operation,()
+lib$APP_HOME/lib/ :: copy_operation,()
+APP_HOME:/opt/app :: env_operation,()
+$APP_HOME :: workdir_operation,()
+script$APP_HOME/script/ :: copy_operation,()
+rm ¦-rf¦/root/.cpanm/work/* :: Filesystem_operation,()
+root$APP_HOME/root/ :: copy_operation,()
+RAPIDAPP_ISSUE99_IGNORE:1 :: env_operation,()
+from,abaumhauer/rapidapp:latest

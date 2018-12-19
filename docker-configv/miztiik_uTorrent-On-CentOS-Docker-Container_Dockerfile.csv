@@ -1,0 +1,12 @@
+entrypoint,/opt/utorrent/utserver¦-settingspath¦/opt/utorrent/¦-configfile
+yum ¦-y¦install¦wget¦tar¦glibc¦libgcc¦openssl098e;¦ln¦-s¦/usr/lib64/libssl.so.0.9.8e¦/usr/lib64/libssl.so.0.9.8;¦ln¦-s¦/usr/lib64/libcrypto.so.0.9.8e¦/usr/lib64/libcrypto.so.0.9.8 :: Dependencies_operation,()
+expose,2891 8085
+from,centos:6.6
+yum ¦clean¦all :: Dependencies_operation,()
+tar ¦zxvf¦/opt/utorrent/utorrent-server-3.0-ubuntu-10.10-27079.x64.tar.gz :: Filesystem_operation,()
+cd ¦/opt/utorrent;¦wget¦http://download.utorrent.com/linux/utorrent-server-3.0-ubuntu-10.10-27079.x64.tar.gz :: Filesystem_operation,()
+cmd,/opt/utorrent/utserver.conf¦&
+mv ¦/opt/utorrent/utorrent-server-v3_0/*¦/opt/utorrent/ :: Filesystem_operation,()
+rm ¦-rf¦/opt/utorrent/utorrent-server-3.0-ubuntu-10.10-27079.x64.tar.gz¦/opt/utorrent/utorrent-server-v3_0 :: Filesystem_operation,()
+mkdir ¦-p¦/opt/utorrent :: Filesystem_operation,()
+utserver.conf/opt/utorrent/utserver.conf :: add_operation,()

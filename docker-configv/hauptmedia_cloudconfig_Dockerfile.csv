@@ -1,0 +1,23 @@
+rm ¦-rf¦/var/lib/{apt,dpkg,cache,log}/ :: Filesystem_operation,()
+apt-get ¦clean¦autoclean :: Dependencies_operation,()
+rm ¦-rf¦/var/www :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦install¦-y¦cpio¦squashfs-tools¦curl¦apache2¦php5¦php5-curl¦bzip2 :: Dependencies_operation,()
+cp ¦/tmp/squashfs-root/bin/coreos-cloudinit¦/usr/local/bin :: Filesystem_operation,()
+COREOS_CHANNEL_ID=alpha: :: env_operation,()
+a2enmod ¦php5 :: Other_operation,()
+COREOS_VERSION_ID=current: :: env_operation,()
+from,debian@jessie
+expose,80
+apt-get ¦update¦-qq :: Dependencies_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+COREOS_BASE_URL="http://${COREOS_CHANNEL_ID}.release.core-os.net/amd64-usr": :: env_operation,()
+COREOS_IMAGE_URL="${COREOS_BASE_URL}/${COREOS_VERSION_ID}/${COREOS_IMAGE_NAME}": :: env_operation,()
+/var/log/apache2 :: volume_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-L¦--silent¦${COREOS_IMAGE_URL}¦|¦zcat¦|¦cpio¦-iv :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+unsquashfs ¦usr.squashfs :: Other_operation,()
+COREOS_IMAGE_NAME="coreos_production_pxe_image.cpio.gz": :: env_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+apt-get ¦autoremove¦--yes :: Dependencies_operation,()

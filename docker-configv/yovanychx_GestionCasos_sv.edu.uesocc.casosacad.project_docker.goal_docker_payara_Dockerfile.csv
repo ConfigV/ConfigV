@@ -1,0 +1,10 @@
+JDBCL_PKG=mysql-connector-java-5.0.8.zip: :: env_operation,()
+/wait-for-it.sh./ :: copy_operation,()
+/opt/payara41/bin/asadmin ¦start-domain :: Other_operation,()
+/target/sv.edu.uesocc.casosacad.project-ear-1.0-SNAPSHOT.ear/opt/payara41/glassfish/domains/domain1/autodeploy/CasosAcadUesTPIApp.ear :: add_operation,()
+from,payara/server-full
+wget ¦--quiet¦--no-check-certificate¦$JDBC_URL :: Dependencies_operation,()
+unzip ¦-o¦$JDBCL_PKG¦&&cp¦mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar¦/opt/payara41/glassfish/lib/ :: Filesystem_operation,()
+/opt/payara41/bin/asadmin ¦restart-domain¦&&/opt/payara41/bin/asadmin¦create-jdbc-connection-pool¦--datasourceclassname=com.mysql.jdbc.jdbc2.optional.MysqlDataSource¦--restype=javax.sql.DataSource¦--property='user=root:password=12345:url="jdbc:mysql://172.17.0.2:330... :: Other_operation,()
+psw.txt/psw.txt :: add_operation,()
+JDBC_URL=https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.0.8.zip: :: env_operation,()

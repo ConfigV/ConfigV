@@ -1,0 +1,10 @@
+expose,3000
+/src :: workdir_operation,()
+yum ¦install¦-y¦npm :: Dependencies_operation,()
+cmd,app.js
+NODE_ENV:docker :: env_operation,()
+rpm ¦-Uvh¦http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+entrypoint,node
+./src :: copy_operation,()
+from,centos:6.0

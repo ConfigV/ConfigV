@@ -1,0 +1,15 @@
+./kafka-supervisor.conf/etc/supervisor/conf.d/kafka-supervisor.conf :: add_operation,()
+cp ¦/opt/kafka/config/server.properties¦/opt/kafka/config/server.properties.orig :: Filesystem_operation,()
+KAFKA_VERSION:0.8.2.1 :: env_operation,()
+./download-kafka.sh/tmp/download-kafka.sh :: add_operation,()
+from,samsara/base-image:latest
+./configure-and-start.sh/configure-and-start.sh :: add_operation,()
+/data :: volume_operation,()
+KAFKA_HOME:/opt/kafka :: env_operation,()
+./server.properties.tmpl/opt/kafka/config/server.properties.tmpl :: add_operation,()
+/logs :: volume_operation,()
+SCALA_VERSION:2.10 :: env_operation,()
+./kafka-statsd-metrics2-0.4.0-SNP.jar/opt/kafka/libs/kafka-statsd-metrics2-0.4.0-SNP.jar :: add_operation,()
+/tmp/download-kafka.sh  :: Other_operation,()
+cmd,/usr/bin/supervisord¦-c¦/etc/supervisor/supervisord.conf
+rm ¦-f¦/tmp/download-kafka.sh :: Filesystem_operation,()

@@ -1,0 +1,14 @@
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/bin/bash¦-c
+/data :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦php7.0-mysql :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+/data :: volume_operation,()
+apt-get ¦install¦-y¦php7.0-mcrypt :: Dependencies_operation,()
+apt-get ¦install¦-y¦php7.0-mbstring :: Dependencies_operation,()
+apt-get ¦install¦-y¦php7.0-curl :: Dependencies_operation,()
+from,chekote/php:7-cli
+apt-get ¦clean :: Dependencies_operation,()

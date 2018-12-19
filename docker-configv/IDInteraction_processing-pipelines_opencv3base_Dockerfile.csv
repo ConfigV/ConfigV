@@ -1,0 +1,15 @@
+cd ¦opencv-3.2.0/build/ :: Filesystem_operation,()
+entrypoint,/bin/bash
+unzip ¦opencv.zip :: Filesystem_operation,()
+wget ¦-O¦opencv.zip¦https://github.com/opencv/opencv/archive/3.2.0.zip :: Dependencies_operation,()
+cd ¦./opencv-3.2.0/ :: Filesystem_operation,()
+cd ¦build¦&&cmake¦-D¦CMAKE_BUILD_TYPE=RELEASE¦-D¦CMAKE_INSTALL_PREFIX=/usr/local¦-D¦INSTALL_PYTHON_EXAMPLES=ON¦-D¦INSTALL_C_EXAMPLES=ON¦-D¦OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-3.2.0/modules¦-D¦PYTHON_EXECUTABLE=/usr/bin/python¦-D¦BUI... :: Filesystem_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+make ¦-j4 :: Build_Execute_operation,()
+unzip ¦opencvcontrib.zip :: Filesystem_operation,()
+from,idinteraction/base:3.0
+wget ¦-O¦opencvcontrib.zip¦https://github.com/opencv/opencv_contrib/archive/3.2.0.zip :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+ldconfig  :: Other_operation,()
+mkdir ¦build :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qy¦build-essential¦cmake¦pkg-config¦libjpeg8-dev¦libtiff5-dev¦libjasper-dev¦libpng12-dev¦libavcodec-dev¦libavformat-dev¦libswscale-dev¦libv4l-devlibxvidcore-dev¦libx264-dev¦libgtk-3-devlibatlas-base-dev¦gfortranpython2.7-d... :: Other_operation,()

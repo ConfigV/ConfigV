@@ -1,0 +1,16 @@
+cmd,/bin/bash¦/run.sh
+dpkg-reconfigure ¦-f¦noninteractive¦tzdata :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+from,ubuntu:16.04
+run.sh/run.sh :: copy_operation,()
+mkdir ¦-p¦/secure/postfix :: Filesystem_operation,()
+ln ¦-fs¦/usr/share/zoneinfo/Europe/Brussels¦/etc/localtime :: Filesystem_operation,()
+expose,587
+usermod ¦-G¦vmail¦postfix :: Permissions_operation,()
+useradd ¦-m¦-d¦/vmail¦-u¦3001¦-g¦3001¦-s¦/sbin/nologin¦vmail :: Permissions_operation,()
+touch ¦/secure/postfix/vmaps¦/secure/postfix/vhosts :: Filesystem_operation,()
+chmod ¦755¦/vmail :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+groupadd ¦-g¦3001¦vmail :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦rsyslog¦postfix¦mailutils :: Other_operation,()

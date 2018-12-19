@@ -1,0 +1,7 @@
+from,jenkins:2.19
+echo ¦apk¦add --no-cache docker sudo && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()
+root :: user_operation,()
+JAVA_OPTS="-Djenkins.install.runSetupWizard=false":GIT_COMMITTER_NAME="robo-jenkins" :: env_operation,()
+jenkins :: user_operation,()
+usr/usr :: copy_operation,()
+/usr/local/bin/install-plugins.sh ¦job-dsl¦git¦cloudbees-folder¦startup-trigger-plugin :: Other_operation,()

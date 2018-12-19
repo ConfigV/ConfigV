@@ -1,0 +1,14 @@
+crontab ¦-u¦www-data¦/crontab :: Other_operation,()
+cron  :: Other_operation,()
+apt-get ¦install¦-y¦php7.0-fpm¦php7.0-mcrypt¦php7.0-zip¦php7.0-curl¦php7.0-cli¦php7.0-mysql¦php7.0-gd¦php7.0-xsl¦php7.0-json¦php7.0-intl¦php-pear¦php7.0-dev¦php7.0-common¦php7.0-mbstring¦php-soap :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+./crontab/ :: copy_operation,()
+from,nginx@latest
+./entrypoint.sh/ :: add_operation,()
+./auth.json/root/.composer/ :: copy_operation,()
+cmd,service¦nginx¦restart
+apt-get ¦update :: Dependencies_operation,()
+./default.conf/etc/nginx/conf.d/ :: copy_operation,()
+apt-get ¦install¦-y¦git¦cron¦libfreetype6-dev¦libicu-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libxslt1-dev¦libjpeg-dev¦libcurl3¦curl¦nano :: Dependencies_operation,()
+./nginx.conf/etc/nginx/ :: copy_operation,()
+./magento.ini/usr/local/etc/php/conf.d/ :: copy_operation,()

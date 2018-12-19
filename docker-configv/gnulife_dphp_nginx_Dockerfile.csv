@@ -1,0 +1,17 @@
+apk ¦update :: Dependencies_operation,()
+TIMEZONE:Asia/Shanghai :: env_operation,()
+conf/vhosts.conf/etc/nginx/conf.d/ :: copy_operation,()
+apk ¦add¦nginx :: Dependencies_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦tzdata :: Dependencies_operation,()
+mkdir ¦/run/nginx :: Filesystem_operation,()
+mkdir ¦-p¦/usr/share/nginx/html :: Filesystem_operation,()
+sed ¦-i¦'s/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/'¦/etc/apk/repositories :: Filesystem_operation,()
+from,alpine@latest
+mkdir ¦/apps :: Filesystem_operation,()
+entrypoint,nginx¦-g¦daemon off;
+/apps/ :: volume_operation,()
+ln ¦-snf¦/usr/share/zoneinfo/$TIMEZONE¦/etc/localtime :: Filesystem_operation,()
+conf/nginx.conf/etc/nginx/ :: copy_operation,()
+expose,80
+echo ¦echo¦$TIMEZONE > /etc/timezone :: Filesystem_operation,()

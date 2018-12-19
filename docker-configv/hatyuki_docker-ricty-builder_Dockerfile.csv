@@ -1,0 +1,13 @@
+/ricty/fonts :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+find ¦/var/log¦-type¦f¦|¦while¦read¦f;¦do¦:>¦$f;¦done; :: Filesystem_operation,()
+PATH:/ricty/bin:$PATH :: env_operation,()
+apt-get ¦install¦--yes¦--no-install-recommends¦ca-certificates¦fontforge¦git-core¦unzip¦wget :: Dependencies_operation,()
+entrypoint,ricty-build
+cmd,/bin/bash
+/ricty :: workdir_operation,()
+files/ricty-build.sh/ricty/bin/ricty-build :: copy_operation,()
+find ¦/var/lib/apt¦-type¦f¦-exec¦rm¦-f¦{}; :: Filesystem_operation,()
+find ¦/var/cache¦-type¦f¦-exec¦rm¦-f¦{}; :: Filesystem_operation,()
+from,debian@latest
+mkdir ¦-p¦/ricty/bin :: Filesystem_operation,()

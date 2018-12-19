@@ -1,0 +1,9 @@
+create_rabbitmq_config.sh/ :: copy_operation,()
+sh ¦/create_rabbitmq_config.sh :: Build_Execute_operation,()
+service ¦rabbitmq-server¦start :: Build_Execute_operation,()
+rabbitmq.key/etc/rabbitmq/ :: copy_operation,()
+service ¦rabbitmq-server¦stop :: Build_Execute_operation,()
+rabbitmq.config/etc/rabbitmq/rabbitmq.config :: copy_operation,()
+from,rabbitmq
+ca.crt/etc/rabbitmq/ :: copy_operation,()
+rabbitmq.crt/etc/rabbitmq/ :: copy_operation,()

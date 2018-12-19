@@ -1,0 +1,18 @@
+from,ubuntu@latest
+RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static:RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup :: env_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+apt-add-repository ¦ppa:fish-shell/release-2 :: Other_operation,()
+curl ¦https://sh.rustup.rs¦-sSf¦|¦sh¦-y :: Dependencies_operation,()
+SRC_DIR_KCOV=~/kcov-src:URL_GIT_KCOV=https://github.com/SimonKagstrom/kcov.git :: env_operation,()
+make  :: Build_Execute_operation,()
+git ¦clone¦$URL_GIT_KCOV¦$SRC_DIR_KCOV;¦cd¦$SRC_DIR_KCOV;¦#¦default¦to¦latest¦tagged¦version :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cargo ¦install¦cargo-kcov :: Other_operation,()
+apt-get ¦install¦-y¦fish¦git¦cmake¦cmake-data¦binutils-dev¦libiberty-dev¦g++¦python-minimal¦libdw-dev¦libelf-dev¦wget¦curl¦libcurl4-openssl-dev¦zlib1g¦zlib1g-dev :: Dependencies_operation,()
+config.fish/root/.config/fish/config.fish :: copy_operation,()
+cd ¦$SRC_DIR_KCOV :: Filesystem_operation,()
+cmake ¦.. :: Build_Execute_operation,()
+entrypoint,/usr/bin/fish
+mkdir ¦build :: Filesystem_operation,()
+cd ¦build :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()

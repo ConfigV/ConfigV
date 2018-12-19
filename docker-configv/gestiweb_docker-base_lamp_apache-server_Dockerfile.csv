@@ -1,0 +1,13 @@
+extra_software/phpmyadmin/var/www/html/phpmyadmin :: add_operation,()
+configure_container.sh/configure_container.sh :: copy_operation,()
+a2ensite ¦001-site.conf :: Other_operation,()
+from,gestiweb/apache-server:upgrade
+a2enmod ¦actions¦proxy_fcgi :: Other_operation,()
+com.gestiweb.docker.image-name:apache-server:dev :: label_operation,()
+config/phpmyadmin/config.inc.php/var/www/html/phpmyadmin :: copy_operation,()
+cmd,/start_container.sh
+001-site.conf/etc/apache2/sites-available :: copy_operation,()
+start_container.sh/start_container.sh :: copy_operation,()
+expose,80
+a2dissite ¦000-default.conf :: Other_operation,()
+/configure_container.sh  :: Other_operation,()

@@ -1,0 +1,7 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦apt-cacher :: Dependencies_operation,()
+sed ¦-i¦'s/#allowed_hosts¦=/allowed_hosts¦=/'¦/etc/apt-cacher/apt-cacher.conf :: Filesystem_operation,()
+/var/cache/apt-cacher :: volume_operation,()
+cmd,chmod¦777¦/var/cache/apt-cacher¦&&¦/etc/init.d/apt-cacher¦start¦&&¦tail¦-f¦/var/log/apt-cacher/*
+from,ubuntu:14.04
+expose,3142

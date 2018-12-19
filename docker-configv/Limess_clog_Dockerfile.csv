@@ -1,0 +1,20 @@
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/opt/iojs :: Filesystem_operation,()
+PATH:$PATH:/opt/iojs/bin :: env_operation,()
+npm ¦install¦-g¦npm@$NPM_VERSION :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()
+tar ¦xfJ¦/opt/iojs-v$IOJS_VERSION-linux-x64.tar.xz¦--strip-components=1¦-C¦/opt/iojs :: Filesystem_operation,()
+echo ¦MODULES="local"¦&& echo prefix = ~/$MODULES >> ~/.npmrc && echo "export PATH=\\$HOME/$MODULES/bin:\\$PATH" >> ~/.bashrc && . ~/.bashrc && mkdir ~/$MODULES :: Filesystem_operation,()
+rm ¦/opt/iojs-v$IOJS_VERSION-linux-x64.tar.xz :: Filesystem_operation,()
+IOJS_VERSION:2.3.3 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+./home/node :: copy_operation,()
+cmd,start
+apt-get ¦install¦-y¦build-essential¦tar¦wget :: Dependencies_operation,()
+entrypoint,iojs
+from,debian:8.1
+expose,5000
+apt-get ¦clean :: Dependencies_operation,()
+node :: user_operation,()
+wget ¦-P¦/opt¦https://iojs.org/dist/v$IOJS_VERSION/iojs-v$IOJS_VERSION-linux-x64.tar.xz :: Dependencies_operation,()
+NPM_VERSION:2.13.0 :: env_operation,()

@@ -1,0 +1,14 @@
+from,nginx
+/usr/share/nginx/hexo :: workdir_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup¦|¦bash¦- :: Dependencies_operation,()
+cmd,hexo¦generate¦&&¦nginx¦-g¦"daemon¦off;"
+git ¦clone¦https://github.com/iissnan/hexo-theme-next¦themes/next :: Dependencies_operation,()
+HEXO_VERSION:3.1.1 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/usr/share/nginx/hexo :: volume_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦git¦nodejs :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+hexo ¦init¦/usr/share/nginx/hexo :: Other_operation,()
+npm ¦install¦-g¦hexo@${HEXO_VERSION} :: Dependencies_operation,()
+default.conf/etc/nginx/conf.d/default.conf :: add_operation,()

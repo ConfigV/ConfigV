@@ -1,0 +1,15 @@
+stack.yaml/src-boot/stack.yaml :: copy_operation,()
+/opt/todo :: workdir_operation,()
+expose,3001
+cmd,/root/.local/bin/todo¦serve
+todo.cabal/src-boot/ :: copy_operation,()
+/root :: workdir_operation,()
+PATH:"$PATH:/root/.local/bin" :: env_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+rm ¦-rf¦/opt/todo/ :: Filesystem_operation,()
+from,filopodia/minidebhs:lts-8.5
+stack ¦install¦-j2¦lucid¦postgresql-simple¦typed-process¦scotty-cookie¦microlens-platform¦wreq¦blaze-html :: Other_operation,()
+cd ¦/src-boot :: Filesystem_operation,()
+./opt/todo :: copy_operation,()
+stack ¦build¦-j¦4¦--dependencies-only :: Other_operation,()
+stack ¦install¦-j2¦todo:exe:todo :: Other_operation,()

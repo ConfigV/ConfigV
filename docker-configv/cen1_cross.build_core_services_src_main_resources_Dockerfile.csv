@@ -1,0 +1,7 @@
+cmd,/usr/sbin/sshd¦-D
+from,ubuntu:14.04
+NOTVISIBLE:"in :: env_operation,()
+expose,22
+echo ¦apt-get¦update &&apt-get install -y openssh-server &&apt-get -y install default-jre &&apt-get -y install git &&mkdir /var/run/sshd &&useradd -m crossbuild && echo "crossbuild:crossbuild" | chpasswd && adduser crossbuild sudo &&mkdir /home/... :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()

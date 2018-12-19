@@ -1,0 +1,8 @@
+echo ¦mkdir¦~jenkins/.ssh && chmod 700 ~jenkins/.ssh && echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF9I3Zhl0oY1c0V7+GGMXEfQ0LzKQoxb9yKyGp2z0YgAD2KvzLmPGgFHBcVmut/QtW4URHUzPWpBPQS/ZxJlmHiKQxIJZxV3w8QT2unc2oQ8ykTSUrZo8suOGPyaa2LVNWn1pP3tIKC9Aerg+... :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+from,centos:5.0
+yum ¦install¦--nogpg¦-y¦sudo¦epel-release¦openssh-server¦git¦unzip¦lsof¦java-1.7.0-openjdk-headless :: Dependencies_operation,()
+expose,22
+echo ¦echo¦"Defaults:jenkins !requiretty" >> /etc/sudoers && echo 'jenkins ALL=NOPASSWD: ALL' > /etc/sudoers :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+echo ¦sed¦-i 's|session required pam_loginuid.so|session optional pam_loginuid.so|g' /etc/pam.d/sshd && mkdir -p /var/run/sshd && useradd -u 1000 -m --home-dir /var/lib/jenkins -s /bin/bash jenkins && echo "jenkins:jenkins" | chpasswd :: Filesystem_operation,()

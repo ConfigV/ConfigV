@@ -1,0 +1,10 @@
+./mongodb-linux-x86_64-amazon-3.4.2.tgz./ :: add_operation,()
+/data :: volume_operation,()
+/config :: volume_operation,()
+/opt :: workdir_operation,()
+entrypoint,/opt/mongodb/bin/mongod
+/var/log :: volume_operation,()
+cmd,--config¦/config/mongod.conf
+ls ¦./ :: Filesystem_operation,()
+from,centos:7.0
+mv ¦mongodb-linux-x86_64-amazon-3.4.2¦mongodb :: Filesystem_operation,()

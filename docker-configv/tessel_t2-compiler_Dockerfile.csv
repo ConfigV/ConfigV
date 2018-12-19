@@ -1,0 +1,13 @@
+apt-get ¦install¦-y¦git¦python¦build-essential :: Dependencies_operation,()
+./compile-docker.sh/root/ :: copy_operation,()
+apt-get ¦install¦-y¦emdebian-archive-keyring :: Dependencies_operation,()
+entrypoint,/root/compile-docker.sh
+curl ¦https://nodejs.org/dist/v4.2.1/node-v${NODE_VERSION}-linux-x64.tar.gz¦|¦tar¦-xz :: Dependencies_operation,()
+DOCKER_FILE_VERSION:0.0.1 :: env_operation,()
+PATH:$PATH:/root/node-v${NODE_VERSION}-linux-x64/bin/ :: env_operation,()
+cmd,--help
+/root/ :: workdir_operation,()
+node-gyp ¦install¦$NODE_VERSION :: Other_operation,()
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+npm ¦install¦-g¦pre-gypify¦node-pre-gyp¦node-gyp :: Dependencies_operation,()
+NODE_VERSION:4.2.1 :: env_operation,()

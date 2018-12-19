@@ -1,0 +1,10 @@
+entrypoint,/bin/ash
+from,anapsix/alpine-java:8u121b13_jdk
+states.xlsx/talend/in :: copy_operation,()
+rm ¦"${job_parent_dir}/${job_tgz}" :: Filesystem_operation,()
+mkdir ¦-p¦/talend/log :: Filesystem_operation,()
+"http://192.168.99.1:8081/nexus/service/local/repositories/snapshots/content/${job_group}/${job_version}/${job_tgz}""${job_parent_dir}/" :: add_operation,()
+mkdir ¦-p¦/talend/amc :: Filesystem_operation,()
+tar ¦xzvpf¦"${job_parent_dir}/${job_tgz}"¦-C¦"${job_parent_dir}" :: Filesystem_operation,()
+mkdir ¦-p¦/talend/in :: Filesystem_operation,()
+mkdir ¦-p¦/talend/out :: Filesystem_operation,()

@@ -1,0 +1,15 @@
+/carelink :: workdir_operation,()
+./common/setup_dnsmasq. :: copy_operation,()
+entrypoint,"./entry"
+apt-get ¦install¦-y¦curl¦python-pip¦libxml2-devlibxslt-dev¦python3-dev¦libxslt1-dev¦zlib1g-dev¦python3-lxml¦libpython3-dev¦python-dev¦libpython-dev :: Dependencies_operation,()
+from,ubuntu:14.04
+./cgm/entry. :: copy_operation,()
+./cgm/sync_sensor.py. :: copy_operation,()
+mkdir ¦/carelink :: Filesystem_operation,()
+pip ¦install¦lxml :: Dependencies_operation,()
+./setup_dnsmasq  :: Other_operation,()
+mkdir ¦-p¦/etc/consul.d :: Filesystem_operation,()
+./cgm/Carelink.py. :: copy_operation,()
+pip ¦install¦pymongo :: Dependencies_operation,()
+./common/consul. :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

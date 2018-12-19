@@ -1,0 +1,13 @@
+chown ¦texmaker:texmaker¦/home/texmaker :: Permissions_operation,()
+apt-get ¦autoclean¦-y :: Dependencies_operation,()
+from,debian@jessie
+useradd ¦texmaker :: Permissions_operation,()
+mkdir ¦/home/texmaker :: Filesystem_operation,()
+texmaker :: user_operation,()
+/home/texmaker :: workdir_operation,()
+sed ¦-i¦'s/main/main¦contrib¦non-free/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+entrypoint,texmaker
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦libgl1-mesa-dri¦libgl1-mesa-glx¦texmaker¦texlive-generic-recommended¦texlive-latex-recommended¦texlive-fonts-recommended¦texlive-extra-utils¦texlive-font-utils¦texlive-xetex¦texlive-luatex¦fonts-lmodern¦f... :: Dependencies_operation,()

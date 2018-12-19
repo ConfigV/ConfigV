@@ -1,0 +1,15 @@
+apt-get ¦autoclean¦-y :: Dependencies_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+lualatex :: user_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦texlive¦texlive-generic-recommended¦texlive-latex-recommended¦texlive-fonts-recommended¦texlive-extra-utils¦texlive-font-utils¦texlive-xetex¦texlive-luatex¦fonts-lmodern¦fonts-font-awesome :: Dependencies_operation,()
+from,debian@jessie
+useradd ¦lualatex :: Permissions_operation,()
+sed ¦-i¦'s/main/main¦contrib¦non-free/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+chown ¦lualatex:lualatex¦/home/lualatex :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,lualatex
+apt-get ¦clean¦-y :: Dependencies_operation,()
+/data :: workdir_operation,()
+chown ¦lualatex:lualatex¦/data :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/home/lualatex :: Filesystem_operation,()

@@ -1,0 +1,22 @@
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+chmod ¦0700¦$HOME/.ssh :: Permissions_operation,()
+chown ¦-R¦jenkins:jenkins¦$HOME/.ssh :: Permissions_operation,()
+JAVA_HOME:/usr/java/default :: env_operation,()
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦en_US.UTF-8 :: Other_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+ssh-keygen ¦-q¦-N¦""¦-t¦dsa¦-f¦/etc/ssh/ssh_host_dsa_key :: Other_operation,()
+cmd,/usr/sbin/sshd¦-D
+ssh-keygen ¦-q¦-N¦""¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key :: Other_operation,()
+rpm ¦-Uvh¦jdk-7-linux-x64.rpm :: Dependencies_operation,()
+rm ¦jdk-7-linux-x64.rpm :: Filesystem_operation,()
+wget ¦--no-cookies¦--no-check-certificate¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦"http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm"¦-O¦jdk-7-linux-x64.rpm :: Dependencies_operation,()
+yum ¦reinstall¦-y¦glibc-common :: Dependencies_operation,()
+chmod ¦0400¦$HOME/.ssh/authorized_keys :: Permissions_operation,()
+id_rsa.pub$HOME/.ssh/authorized_keys :: add_operation,()
+REFRESHED_AT:2014-08-18 :: env_operation,()
+from,centos:6.0
+HOME:/home/jenkins :: env_operation,()
+yum ¦install¦-y¦openssh-server¦curl¦wget :: Dependencies_operation,()
+mkdir ¦$HOME/.ssh :: Filesystem_operation,()
+expose,22
+adduser ¦-m¦jenkins :: Permissions_operation,()

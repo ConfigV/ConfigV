@@ -1,0 +1,13 @@
+apt-get ¦install¦build-essential¦-y¦--force-yes :: Dependencies_operation,()
+ANDROID_NDK_HOME:/opt/android-ndk :: env_operation,()
+mv ¦/tmp/android-ndk-$ANDROID_NDK_VERSION¦/opt/android-ndk :: Filesystem_operation,()
+chmod ¦a+x¦/tmp/android-ndk.bin :: Permissions_operation,()
+/tmp/android-ndk.bin  :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,fourgeo/android-sdk:latest
+cd ¦/tmp :: Filesystem_operation,()
+rm ¦-rf¦/tmp/android-ndk* :: Filesystem_operation,()
+/opt/workspace :: workdir_operation,()
+ANDROID_NDK_VERSION:r10e :: env_operation,()
+PATH:${PATH}:${ANDROID_NDK_HOME} :: env_operation,()
+wget ¦-q¦http://dl.google.com/android/ndk/android-ndk-$ANDROID_NDK_VERSION-linux-x86_64.bin¦--output-document=/tmp/android-ndk.bin :: Dependencies_operation,()

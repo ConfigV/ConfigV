@@ -1,0 +1,11 @@
+rm ¦-f¦jdk-8u112-linux-x64.rpm :: Filesystem_operation,()
+from,centos:7.3
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+yum ¦-y¦install¦psmisc.x86_64¦#¦install¦Apache¦Cassandra :: Dependencies_operation,()
+curl ¦-fsSLO¦-H¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.rpm :: Dependencies_operation,()
+yum ¦-y¦install¦jdk-8u112-linux-x64.rpm :: Dependencies_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()

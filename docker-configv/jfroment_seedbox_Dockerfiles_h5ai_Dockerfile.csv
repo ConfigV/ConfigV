@@ -1,0 +1,15 @@
+cmd,supervisord¦-c¦/etc/supervisor/conf.d/supervisord.conf
+apt-get ¦update :: Dependencies_operation,()
+unzip ¦h5ai-$H5AI_VERSION.zip¦-d¦/usr/share/h5ai :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦nginx¦php5-fpm¦supervisor¦wget¦unzip¦patch¦acl¦libav-tools¦imagemagick¦graphicsmagick¦zip¦unzip¦php5-gd :: Dependencies_operation,()
+class-setup.php.patchclass-setup.php.patch :: copy_operation,()
+rm ¦class-setup.php.patch :: Filesystem_operation,()
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+HTTPD_USER:www-data :: env_operation,()
+wget ¦http://release.larsjung.de/h5ai/h5ai-$H5AI_VERSION.zip :: Dependencies_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+H5AI_VERSION:0.29.0 :: env_operation,()
+from,ubuntu:14.04
+expose,12333
+patch ¦-p1¦-u¦-d¦/usr/share/h5ai/_h5ai/private/php/core/¦-i¦/class-setup.php.patch :: Other_operation,()

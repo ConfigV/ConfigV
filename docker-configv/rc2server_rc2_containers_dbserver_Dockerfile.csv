@@ -1,0 +1,13 @@
+apt-key ¦adv¦--keyserver¦hkp://p80.pool.sks-keyservers.net:80¦--recv-keys¦B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 :: Dependencies_operation,()
+expose,5432
+rc2.sql/tmp/rc2.sql :: copy_operation,()
+postgres :: user_operation,()
+/tmp/buildpg.sh ¦$pgversion¦$deploytype :: Other_operation,()
+cmd,var/lib/postgresql/runpg.sh
+testData.sql/tmp/testData.sql :: copy_operation,()
+from,library/ubuntu:xenial
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+buildpg.sh/tmp/buildpg.sh :: copy_operation,()
+pg_hba.conf/etc/postgresql/${pgversion}/main/pg_hba.conf :: copy_operation,()
+apt-get ¦install¦-y¦python-software-properties¦software-properties-common¦postgresql-${pgversion}¦postgresql-client-${pgversion}¦postgresql-contrib-${pgversion} :: Dependencies_operation,()

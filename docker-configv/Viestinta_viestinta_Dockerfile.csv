@@ -1,0 +1,11 @@
+from,registry.viestinta.eu/viestinta:bare
+APP_DIR=/srv/app: :: env_operation,()
+npm ¦install¦webpack¦-g :: Dependencies_operation,()
+expose,8000
+webpack  :: Other_operation,()
+cmd,npm¦start
+package.json$APP_DIR/package.json :: copy_operation,()
+npm ¦install¦--silent :: Dependencies_operation,()
+mkdir ¦-p¦$APP_DIR :: Filesystem_operation,()
+.$APP_DIR :: copy_operation,()
+$APP_DIR :: workdir_operation,()

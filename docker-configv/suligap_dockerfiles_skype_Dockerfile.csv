@@ -1,0 +1,10 @@
+apt-get ¦install¦-fy :: Dependencies_operation,()
+from,debian@latest
+curl ¦http://download.skype.com/linux/skype-debian_4.3.0.37-1_i386.deb¦>¦/tmp/skype.deb :: Dependencies_operation,()
+entrypoint,/run-skype
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦--no-install-recommends :: Dependencies_operation,()
+run/run-skype :: copy_operation,()
+dpkg ¦--force-depends¦-i¦/tmp/skype.deb :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦/run-skype :: Permissions_operation,()

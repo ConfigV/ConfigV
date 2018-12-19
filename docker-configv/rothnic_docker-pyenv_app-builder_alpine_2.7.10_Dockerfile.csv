@@ -1,0 +1,9 @@
+entrypoint,pip¦wheel¦.¦-r¦requirements.txt¦-r¦dev-requirements.txt
+PIP_WHEEL_DIR=/wheelhouse: :: env_operation,()
+pip ¦install¦wheel :: Dependencies_operation,()
+/app :: workdir_operation,()
+PIP_FIND_LINKS=/wheelhouse: :: env_operation,()
+WHEELHOUSE=/wheelhouse: :: env_operation,()
+/app :: volume_operation,()
+./app :: add_operation,()
+from,rothnic/pyenv:alpine-build-deps-latest

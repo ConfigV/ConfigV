@@ -1,0 +1,12 @@
+cmd,/bin/bash¦/src/startup.sh
+./src :: add_operation,()
+echo ¦echo¦"startup=1" >> /etc/default/monit :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu saucy main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦monit¦openssh-server¦pwgen¦curl¦rfc5766-turn-server¦#libcurses-ui-perl¦sysv-rc-conf :: Dependencies_operation,()
+expose,3478 22
+sed ¦-ri¦'s/#UsePAM¦no/UsePAM¦no/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+from,stackbrew/ubuntu:13.10
+sed ¦-ri¦'s/UsePAM¦yes/#UsePAM¦yes/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()

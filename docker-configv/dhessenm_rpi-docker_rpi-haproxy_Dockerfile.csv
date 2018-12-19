@@ -1,0 +1,8 @@
+from,resin/rpi-raspbian:wheezy
+/haproxy-override :: volume_operation,()
+expose,80 443
+haproxy.cfg/etc/haproxy/haproxy.cfg :: add_operation,()
+/etc/haproxy :: workdir_operation,()
+cmd,bash¦/haproxy-start
+.*-backports\\s\\  :: Other_operation,()
+start.bash/haproxy-start :: add_operation,()

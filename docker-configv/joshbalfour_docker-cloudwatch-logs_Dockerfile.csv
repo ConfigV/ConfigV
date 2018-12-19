@@ -1,0 +1,16 @@
+curl ¦https://bootstrap.pypa.io/get-pip.py¦-O :: Dependencies_operation,()
+pip ¦uninstall¦setuptools¦pip¦-y :: Dependencies_operation,()
+mkdir ¦/var/awslogs/state :: Filesystem_operation,()
+AWS_REGION=us-east-1:LOG_FILE=/aws.conf :: env_operation,()
+mkdir ¦/var/awslogs/etc/config :: Filesystem_operation,()
+from,alpine
+apk ¦add¦--no-cache¦python¦curl :: Dependencies_operation,()
+rm ¦-rf¦get-pip.py¦/var/cache/apk/*¦/root/.cache/*¦/usr/share/terminfo :: Filesystem_operation,()
+apk ¦--purge¦-v¦del¦curl :: Dependencies_operation,()
+mkdir ¦/var/awslogs :: Filesystem_operation,()
+cmd,/bin/sh¦boot.sh
+pip ¦install¦awscli-cwlogs :: Dependencies_operation,()
+boot.sh./boot.sh :: add_operation,()
+mkdir ¦/var/awslogs/etc :: Filesystem_operation,()
+python ¦get-pip.py¦'pip<7.0.0'¦--no-wheel :: Build_Execute_operation,()
+apk ¦update :: Dependencies_operation,()

@@ -1,0 +1,22 @@
+from,centos@latest
+luarocks ¦install¦vanilla :: Other_operation,()
+gmake ¦install :: Other_operation,()
+vanilla ¦new¦vdemo :: Other_operation,()
+expose,7200
+cd ¦luarocks-2.2.2 :: Filesystem_operation,()
+cd ¦ngx_openresty-1.9.3.1 :: Filesystem_operation,()
+make ¦build :: Build_Execute_operation,()
+yum ¦install¦-y¦automake¦autoconf¦libtool¦make¦gcc¦wget¦lua-devel¦git¦unzip¦readline-devel¦pcre-devel¦openssl-devel :: Dependencies_operation,()
+gmake  :: Other_operation,()
+wget ¦https://openresty.org/download/ngx_openresty-1.9.3.1.tar.gz :: Dependencies_operation,()
+wget ¦https://github.com/keplerproject/luarocks/archive/v2.2.2.tar.gz :: Dependencies_operation,()
+tar ¦zxf¦v2.2.2.tar.gz :: Filesystem_operation,()
+yum ¦-y¦install¦supervisor :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+tar ¦zxf¦ngx_openresty-1.9.3.1.tar.gz :: Filesystem_operation,()
+ln ¦-sf¦/usr/local/openresty/nginx/sbin/nginx¦/usr/bin/nginx :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+./supervisord.conf/etc/ :: add_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+yum ¦localinstall¦http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm¦-y :: Dependencies_operation,()

@@ -1,0 +1,17 @@
+curl ¦https://drupalconsole.com/installer¦-L¦-o¦drupal.phar :: Dependencies_operation,()
+rebuild.sh/root/scripts/rebuild.sh :: copy_operation,()
+entrypoint,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+from,drush/drush
+chmod ¦+x¦/root/scripts/init.sh :: Permissions_operation,()
+run-tests.sh/root/scripts/run-tests.sh :: copy_operation,()
+chmod ¦+x¦/root/scripts/rebuild.sh :: Permissions_operation,()
+chmod ¦+x¦/root/scripts/run-tests.sh :: Permissions_operation,()
+cmd,-n
+chmod ¦+x¦drupal.phar :: Permissions_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+init.sh/root/scripts/init.sh :: copy_operation,()
+apt-get ¦-yq¦install¦supervisor :: Dependencies_operation,()
+phpunit.sh/root/scripts/phpunit.sh :: copy_operation,()
+mv ¦drupal.phar¦/usr/bin/drupal :: Filesystem_operation,()
+chmod ¦+x¦/root/scripts/phpunit.sh :: Permissions_operation,()

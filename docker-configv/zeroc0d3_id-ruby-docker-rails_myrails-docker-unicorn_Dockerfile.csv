@@ -1,0 +1,6 @@
+config/nginx/production.conf/etc/nginx/sites-enabled/default :: add_operation,()
+GEM_HOME:/ruby_gems/2.4.1 :: env_operation,()
+expose,80
+from,zeroc0d3/nginx-unicorn-rails:1.10.3-2.4.1
+cmd,gem¦install¦foreman¦&&¦bundle¦install¦&&¦bundle¦exec¦rake¦assets:precompile¦&&¦foreman¦start¦-f¦Procfile
+PATH:/ruby_gems/2.4.1/bin:$PATH :: env_operation,()

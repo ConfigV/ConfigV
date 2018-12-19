@@ -1,0 +1,9 @@
+/var/lib/mysql :: volume_operation,()
+expose,3306
+cd ¦/work/repos :: Filesystem_operation,()
+from,yafraorg/docker-arm-yafrabase
+apk ¦update¦&&apk¦upgrade¦&&apk¦add¦--update¦git :: Dependencies_operation,()
+git ¦clone¦https://github.com/yafraorg/yafra-database.git :: Dependencies_operation,()
+mkdir ¦-p¦/work/repos :: Filesystem_operation,()
+/work/repos/yafra-database :: workdir_operation,()
+cmd,mysqld_safe

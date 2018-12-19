@@ -1,0 +1,9 @@
+apk ¦update :: Dependencies_operation,()
+apk-install ¦openssh-client :: Dependencies_operation,()
+ambassador :: user_operation,()
+install ¦0500¦-o¦ambassador¦-d¦/keys :: Build_Execute_operation,()
+entrypoint,ambassador
+ambassador/bin/ambassador :: copy_operation,()
+adduser ¦-D¦ambassador :: Permissions_operation,()
+ssh_config/etc/ssh/ssh_config :: add_operation,()
+from,gliderlabs/alpine:3.1

@@ -1,0 +1,10 @@
+haproxy.cfg.tmpl./ :: add_operation,()
+from,asteris/consul-template:latest
+echo ¦echo¦http://dl-4.alpinelinux.org/alpine/edge/main > /tmp/new_repo :: Filesystem_operation,()
+/consul-template :: workdir_operation,()
+chmod ¦+x¦/tmp/run.sh :: Permissions_operation,()
+expose,80
+apk ¦add¦--repositories-file¦/tmp/new_repo¦haproxy¦openssl-dev :: Dependencies_operation,()
+run.sh/tmp/ :: add_operation,()
+entrypoint,/tmp/run.sh
+apk ¦update¦--repositories-file¦/tmp/new_repo :: Dependencies_operation,()

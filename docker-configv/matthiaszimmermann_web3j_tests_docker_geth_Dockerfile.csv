@@ -1,0 +1,28 @@
+GOROOT=/usr/local/go: :: env_operation,()
+GOLANG_DOWNLOAD_SHA256:2e4dd6c44f0693bef4e7b46cc701513d74c3cc44f2419bf519d7868b12931ac3 :: env_operation,()
+cp ¦worker.go¦go-ethereum/miner :: Filesystem_operation,()
+LocalGenesis.json/ :: copy_operation,()
+entrypoint,/geth
+LocalPassword.txt/ :: copy_operation,()
+make ¦geth :: Build_Execute_operation,()
+/geth ¦--password¦LocalPassword.txt¦account¦new¦>>¦GethInit.txt :: Other_operation,()
+GOLANG_DOWNLOAD_URL:https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz :: env_operation,()
+from,ubuntu:14.04
+echo ¦curl¦-fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz && echo "$GOLANG_DOWNLOAD_SHA256 golang.tar.gz" | sha256sum -c - && tar -C /usr/local -xzf golang.tar.gz && rm golang.tar.gz :: Filesystem_operation,()
+PATH=${PATH}:${GOROOT}/bin:${GOPATH}/bin: :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦git¦make¦gcc¦libc6-dev¦curl¦ca-certificates :: Dependencies_operation,()
+git ¦clone¦--depth¦1¦https://github.com/ethereum/go-ethereum :: Dependencies_operation,()
+expose,30303
+echo ¦echo¦"nameserver 8.8.8.8" >> /etc/resolv.conf :: Filesystem_operation,()
+cp ¦block_validator.go¦go-ethereum/core :: Filesystem_operation,()
+mkdir ¦/root/.ethash :: Filesystem_operation,()
+apt-get ¦upgrade¦-q¦-y :: Dependencies_operation,()
+block_validator.go/ :: copy_operation,()
+GOPATH=/go: :: env_operation,()
+/geth ¦makedag¦0¦/root/.ethash :: Other_operation,()
+cd ¦go-ethereum :: Filesystem_operation,()
+/geth ¦init¦LocalGenesis.json¦>¦GethInit.txt :: Other_operation,()
+cmd,--password¦LocalPassword.txt¦--unlock¦0¦--mine¦--rpc¦--rpcaddr¦'0.0.0.0'¦--nodiscover¦--maxpeers¦0
+worker.go/ :: copy_operation,()
+GOLANG_VERSION:1.7.5 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,8 @@
+expose,443 8080
+echo ¦addgroup¦-S haproxy && adduser -S -G haproxy haproxy && apk add --update curl haproxy && curl -o /tmp/consul_template.zip -sSL "https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VER... :: Filesystem_operation,()
+entrypoint,tini¦--
+/config :: volume_operation,()
+CONSUL_TEMPLATE_VERSION=0.13.0: :: env_operation,()
+from,jgeiger/alpine
+/tmp :: workdir_operation,()
+cmd,consul-template¦-config=/config/haproxy.json

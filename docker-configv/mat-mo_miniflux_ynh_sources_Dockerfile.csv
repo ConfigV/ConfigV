@@ -1,0 +1,20 @@
+chown ¦-R¦www-data:www-data¦/var/www :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+scripts/docker/lighttpd.conf/etc/lighttpd/lighttpd.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+unzip ¦miniflux.zip¦-d¦/var/www :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+rm ¦/etc/lighttpd/lighttpd.conf :: Filesystem_operation,()
+chmod ¦+x¦/var/www/data :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-r¦/var/www/miniflux-master :: Filesystem_operation,()
+cd ¦/root :: Filesystem_operation,()
+wget ¦https://github.com/fguillot/miniflux/archive/master.zip¦-O¦miniflux.zip :: Dependencies_operation,()
+rm ¦miniflux.zip :: Filesystem_operation,()
+rm ¦-r¦/var/www/html :: Filesystem_operation,()
+from,debian@jessie
+expose,80
+mv ¦/var/www/miniflux-master/*¦/var/www/ :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦install¦lighttpd¦php5-common¦php5-cgi¦php5-sqlite¦php-xml-parser¦php5¦unzip¦wget :: Dependencies_operation,()
+cmd,/usr/sbin/lighttpd¦-D¦-f¦/etc/lighttpd/lighttpd.conf

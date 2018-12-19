@@ -1,0 +1,9 @@
+from,ruby:2.1
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cmd,bundle¦install¦&&¦bundle¦exec¦jekyll¦serve¦--baseurl¦'/adop-docker-compose'¦--host=0.0.0.0¦--source¦"${JEKYLL_SOURCE}"¦--destination¦"${JEKYLL_DEST}"¦2>&1
+bundle ¦config¦build.nokogiri¦--use-system-libraries :: Dependencies_operation,()
+expose,4000
+mkdir ¦-p¦/site/ :: Filesystem_operation,()
+/site :: workdir_operation,()
+JEKYLL_SOURCE=".":JEKYLL_DEST="${JEKYLL_SOURCE}/_site" :: env_operation,()
+apk ¦add¦--update¦build-base¦libxml2-dev¦libxslt-dev¦nodejs¦git :: Dependencies_operation,()

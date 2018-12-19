@@ -1,0 +1,6 @@
+cmd,cp¦/etc/hostname¦/usr/share/nginx/html/index.html¦&&¦service¦sshd¦restart¦&&¦service¦nginx¦restart¦&&¦consul¦agent¦-data-dir=/var/tmp/consul/¦-join=consul.service.$DC.consul¦-dc=$DC¦-ui-dir=/usr/local/ui/disk/¦-config-dir=/usr/local/consul-ch...
+nginx.conf/ :: add_operation,()
+expose,80
+mv ¦nginx.conf¦/etc/nginx/ :: Filesystem_operation,()
+check_web.json/usr/local/consul-checks :: add_operation,()
+from,kikitux/oracle6-nginx-consul:latest

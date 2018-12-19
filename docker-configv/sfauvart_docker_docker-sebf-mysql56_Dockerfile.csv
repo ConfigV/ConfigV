@@ -1,0 +1,19 @@
+MYSQL_USER:admin :: env_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+MYSQLD_OPTION:--innodb_file_per_table :: env_operation,()
+/etc/mysql :: volume_operation,()
+create_mysql_admin_user.sh/create_mysql_admin_user.sh :: add_operation,()
+cmd,/run.sh
+from,ubuntu@trusty
+apt-get ¦-yq¦install¦mysql-server-5.6¦pwgen :: Dependencies_operation,()
+MYSQL_PASS:**Random** :: env_operation,()
+mysqld_charset.cnf/etc/mysql/conf.d/mysqld_charset.cnf :: add_operation,()
+run.sh/run.sh :: add_operation,()
+rm ¦-rf¦/var/lib/mysql/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+import_sql.sh/import_sql.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+my.cnf/etc/mysql/conf.d/my.cnf :: add_operation,()

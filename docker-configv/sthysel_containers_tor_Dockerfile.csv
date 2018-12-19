@@ -1,0 +1,16 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/local/bin/Browser/start-tor-browser
+TOR_VERSION:4.5.1 :: env_operation,()
+HOME:/home/user :: env_operation,()
+$HOME :: workdir_operation,()
+entrypoint,/bin/bash
+from,debian@jessie
+REFRESHED_AT:2015-05-20 :: env_operation,()
+apt-get ¦install¦-y¦ca-certificates¦curl¦libasound2¦libdbus-glib-1-2¦libgtk2.0-0¦libxrender1¦libxt6¦xz-utils :: Dependencies_operation,()
+user :: user_operation,()
+useradd ¦--create-home¦--home-dir¦$HOME¦user :: Permissions_operation,()
+curl ¦-sSL¦"https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-browser-linux64-${TOR_VERSION}_en-US.tar.xz"¦|¦tar¦-v¦-C¦/usr/local/bin¦-xJ¦--strip-components¦1 :: Dependencies_operation,()
+local.conf/etc/fonts/local.conf :: copy_operation,()
+LANG:C.UTF-8 :: env_operation,()
+chown ¦-R¦user:user¦$HOME :: Permissions_operation,()

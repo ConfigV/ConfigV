@@ -1,0 +1,9 @@
+/var/www/site :: workdir_operation,()
+/cache :: volume_operation,()
+entrypoint,/usr/local/bin/composer¦--ignore-platform-reqs¦--no-interaction
+curl ¦-k¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+from,alpine/php-fpm
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦del¦curl :: Dependencies_operation,()
+/var/www/site :: volume_operation,()
+COMPOSER_CACHE_DIR=/cache: :: env_operation,()

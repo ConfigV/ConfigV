@@ -1,0 +1,13 @@
+sudo ¦apt-get¦update :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+sudo ¦dpkg-reconfigure¦locales :: Other_operation,()
+sudo ¦locale-gen¦C.UTF-8 :: Other_operation,()
+LANG:ko_KR.UTF-8 :: env_operation,()
+LANGUAGE:ko_KR.UTF-8 :: env_operation,()
+/work/ :: workdir_operation,()
+LC_ALL:C.UTF-8 :: env_operation,()
+from,strongloop/node
+echo ¦echo¦'ko_KR.UTF-8 UTF-8' | sudo tee --append /etc/locale.gen :: Filesystem_operation,()
+sudo ¦locale-gen :: Other_operation,()
+sudo ¦apt-get¦install¦-y¦locales :: Other_operation,()
+sudo ¦/usr/sbin/update-locale¦LANG=C.UTF-8 :: Other_operation,()

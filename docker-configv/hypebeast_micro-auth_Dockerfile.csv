@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦libssl-dev :: Dependencies_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+./server/app :: add_operation,()
+LAPIS_OPENRESTY:"/usr/local/openresty/bin/openresty" :: env_operation,()
+cmd,server¦production
+entrypoint,/usr/local/openresty/luajit/bin/lapis
+expose,8080
+/usr/local/openresty/luajit/bin/luarocks ¦install¦lapis :: Other_operation,()
+from,openresty/openresty:xenial
+/app :: workdir_operation,()

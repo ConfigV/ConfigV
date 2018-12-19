@@ -1,0 +1,10 @@
+unzip ¦artifactory.zip :: Filesystem_operation,()
+from,ubuntu@latest
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list && apt-get update && apt-get install -y openjdk-7-jre-headless unzip :: Filesystem_operation,()
+expose,8081
+rm ¦-f¦artifactory.zip :: Filesystem_operation,()
+sed ¦-i¦-e¦'s/Xmx2g/Xmx512m/g'¦artifactory-*/bin/artifactory.default :: Filesystem_operation,()
+entrypoint,artifactory-*/bin/artifactory.sh
+echo ¦mkdir¦-p /etc/apt/apt.conf.d/ && echo "Acquire::http { Proxy"http://${DOCKER_HOST}:3142\\"; };" >> /etc/apt/apt.conf.d/01proxy :: Filesystem_operation,()
+http://dl.bintray.com/content/jfrog/artifactory/artifactory-3.4.0.zip?directartifactory.zip :: add_operation,()
+DOCKER_HOST:192.168.0.65 :: env_operation,()

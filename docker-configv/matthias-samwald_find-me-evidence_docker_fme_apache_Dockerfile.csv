@@ -1,0 +1,15 @@
+SOLR:solr-$SOLR_VERSION :: env_operation,()
+from,ubuntu@trusty
+rm ¦/opt/v$FME_VERSION.tar.gz :: Filesystem_operation,()
+expose,80
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+cp ¦-r¦/opt/$FME/www/*¦/var/www/html/¦&&\\ :: Filesystem_operation,()
+FME:find-me-evidence-$FME_VERSION :: env_operation,()
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+SOLR_VERSION:4.10.4 :: env_operation,()
+wget ¦-nv¦--output-document=/opt/v$FME_VERSION.tar.gz¦https://github.com/matthias-samwald/find-me-evidence/archive/v$FME_VERSION.tar.gz :: Dependencies_operation,()
+FME_VERSION:1.1 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦-C¦/opt¦--extract¦--file¦/opt/v$FME_VERSION.tar.gz :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-yq¦install¦php5¦curl¦wget¦unzip¦default-jdk¦php5-curl :: Other_operation,()
+config.php/var/www/html/config.php :: copy_operation,()

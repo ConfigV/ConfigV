@@ -1,0 +1,11 @@
+apt-get ¦install¦puppet-agent :: Dependencies_operation,()
+/root :: workdir_operation,()
+from,ubuntu@xenial
+entrypoint,/bin/bash
+DEBIAN_FRONTEND:"noninteractive" :: env_operation,()
+apt-get ¦install¦wget¦vim-tiny¦git¦-y¦-qq :: Dependencies_operation,()
+echo ¦echo¦'PATH="/opt/puppetlabs/puppet/bin/:$PATH"' >> /etc/bash.bashrc :: Filesystem_operation,()
+. ¦/etc/lsb-release :: Other_operation,()
+apt-get ¦dist-upgrade¦-y¦-qq :: Dependencies_operation,()
+wget  :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

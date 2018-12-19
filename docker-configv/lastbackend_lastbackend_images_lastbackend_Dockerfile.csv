@@ -1,0 +1,20 @@
+godep ¦restore :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+PATH=$PATH:$GOROOT/bin:$GOPATH/bin:/usr/local/bin: :: env_operation,()
+/go/bin :: workdir_operation,()
+apk ¦add¦--update¦--no-cache¦ca-certificates :: Dependencies_operation,()
+./go/src/github.com/lastbackend/lastbackend :: add_operation,()
+rm ¦-rf¦/go/pkg :: Filesystem_operation,()
+apk ¦add¦--update¦--no-cache¦--virtual¦build-dependencies¦git¦go¦gcc¦alpine-sdk :: Dependencies_operation,()
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()
+GOROOT=/usr/lib/go: :: env_operation,()
+cmd,/usr/local/bin/lastbackend¦daemon¦-c¦/etc/lastbackend/config.yml
+expose,2967
+/go/src/github.com/lastbackend/lastbackend :: workdir_operation,()
+make ¦install :: Build_Execute_operation,()
+GOPATH=/go: :: env_operation,()
+apk ¦del¦--purge¦build-dependencies :: Dependencies_operation,()
+rm ¦-rf¦/go/src :: Filesystem_operation,()
+make ¦build :: Build_Execute_operation,()
+from,alpine:3.4
+GOBIN=/go/bin: :: env_operation,()

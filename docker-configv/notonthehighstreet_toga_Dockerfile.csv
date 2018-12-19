@@ -1,0 +1,10 @@
+from,mhart/alpine-node:latest
+apk ¦add¦--update¦git¦openssh¦python¦python-dev¦build-base :: Dependencies_operation,()
+expose,8080
+npm ¦install¦--production :: Dependencies_operation,()
+NODE_ENV=production: :: env_operation,()
+.$HOME/ :: copy_operation,()
+package.json$HOME/ :: copy_operation,()
+cmd,npm¦start¦--¦--config¦'./app/config/dockerOverrides.json'
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+ln ¦-sfn¦/config/newrelic.js¦$HOME/newrelic.js :: Filesystem_operation,()

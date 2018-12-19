@@ -1,0 +1,9 @@
+wget ¦http://download.teamviewer.com/download/teamviewer_linux.deb¦-O¦/tmp/teamviewer_linux.deb :: Dependencies_operation,()
+USER:hybris :: env_operation,()
+echo ¦dpkg¦--add-architecture i386 && apt-get -q update && apt-get -q upgrade -y && apt-get -q install -y adduser libasound2:i386 libc6:i386 libfreetype6:i386 libgcc1:i386 libsm6:i386 libxdamage1:i386 libxext6:i386 libxfixes3:i386 libxrandr2:i38... :: Filesystem_operation,()
+hybris :: user_operation,()
+adduser ¦--disabled-password¦--gecos¦hybris¦hybris :: Permissions_operation,()
+DISPLAY::0.0 :: env_operation,()
+cmd,sudo¦service¦teamviewerd¦start¦&&¦teamviewer
+from,debian@sid
+dpkg ¦-i¦/tmp/teamviewer_linux.deb :: Dependencies_operation,()

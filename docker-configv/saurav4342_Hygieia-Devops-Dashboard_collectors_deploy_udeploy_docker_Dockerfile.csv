@@ -1,0 +1,7 @@
+/hygieia/logs :: volume_operation,()
+*.jar/hygieia/ :: copy_operation,()
+from,docker.io/java:openjdk-8-jdk
+udeploy-properties-builder.sh/hygieia/ :: copy_operation,()
+mkdir ¦/hygieia :: Filesystem_operation,()
+/hygieia :: workdir_operation,()
+cmd,./udeploy-properties-builder.sh¦&&¦java¦-jar¦udeploy-deployment-collector*.jar¦--spring.config.location=/hygieia/hygieia-udeploy-deployment-collector.properties

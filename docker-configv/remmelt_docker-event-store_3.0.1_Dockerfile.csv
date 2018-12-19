@@ -1,0 +1,17 @@
+EVENT_STORE_DIR:/var/eventstore :: env_operation,()
+/logs :: volume_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,debian@sid
+entrypoint,./run-node.sh¦--db¦/db¦--log¦/logs¦--ext-ip=0.0.0.0¦--http-prefixes=http://*:2113/
+expose,1113 2113
+mkdir ¦-p¦$EVENT_STORE_DIR :: Filesystem_operation,()
+wget ¦-qO-¦http://download.geteventstore.com/binaries/$EVENT_STORE_VERSION.tar.gz¦|¦tar¦zx :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+$EVENT_STORE_DIR :: workdir_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+apt-get ¦install¦-yqq¦wget :: Dependencies_operation,()
+apt-get ¦install¦-yqq¦mono-complete :: Dependencies_operation,()
+/db :: volume_operation,()
+EVENT_STORE_VERSION:EventStore-OSS-Linux-v3.0.1 :: env_operation,()
+$EVENT_STORE_DIR/$EVENT_STORE_VERSION :: workdir_operation,()
+sed ¦-i¦'s/##/#/'¦run-node.sh :: Filesystem_operation,()

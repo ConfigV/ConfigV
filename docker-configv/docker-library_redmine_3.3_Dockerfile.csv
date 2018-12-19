@@ -1,0 +1,19 @@
+expose,3000
+TINI_VERSION:v0.9.0 :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦imagemagick¦¦libmysqlclient18¦¦libpq5¦¦libsqlite3-0¦¦\\ :: Dependencies_operation,()
+useradd ¦-r¦-g¦redmine¦redmine :: Permissions_operation,()
+echo ¦curl¦-fSL "http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz" -o redmine.tar.gz && echo "$REDMINE_DOWNLOAD_MD5 redmine.tar.gz" | md5sum -c - && tar -xvf redmine.tar.gz --strip-components=1 && rm redmine.tar.gz files/delete.... :: Filesystem_operation,()
+entrypoint,/docker-entrypoint.sh
+/usr/src/redmine :: workdir_operation,()
+buildDeps='\\  :: Other_operation,()
+cmd,rails¦server¦-b¦0.0.0.0
+from,ruby:2.2
+apt-get ¦update :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+groupadd ¦-r¦redmine :: Permissions_operation,()
+GOSU_VERSION:1.7 :: env_operation,()
+RAILS_ENV:production :: env_operation,()
+REDMINE_DOWNLOAD_MD5:0c0abb2d4efde455c3505d8caf01cb2d :: env_operation,()
+/usr/src/redmine/files :: volume_operation,()
+mktemp ¦-d :: Other_operation,()
+REDMINE_VERSION:3.3.0 :: env_operation,()

@@ -1,0 +1,11 @@
+mkdir ¦/opt/nagios-api :: Filesystem_operation,()
+from,ubuntu:16.04
+cd ¦/opt :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/opt/env/bin/pip ¦install¦diesel :: Other_operation,()
+apt-get ¦install¦python-virtualenv¦libffi-dev¦python-dev¦python-pip¦python-setuptools¦openssl¦libssl-dev¦-y :: Dependencies_operation,()
+expose,8080
+cmd,/opt/env/bin/python¦/opt/nagios-api/nagios-api¦-p¦8080¦-s¦/opt/status.dat¦-c¦/opt/nagios.cmd¦-l¦/opt/nagios.log¦-q
+virtualenv ¦env :: Environment_operation,()
+/opt/env/bin/pip ¦install¦requests :: Other_operation,()
+./opt/nagios-api :: copy_operation,()

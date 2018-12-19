@@ -1,0 +1,12 @@
+sh ¦/armitage/package.sh :: Build_Execute_operation,()
+git ¦clone¦https://github.com/Sliim/armitage¦/armitage :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦clean;¦apt-get¦autoclean;¦apt-get¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/armitage :: workdir_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+cmd,0.0.0.0¦55551¦msf¦teamserver-password¦55553
+from,openjdk:8.0
+teamserver/armitage/teamserver :: copy_operation,()
+entrypoint,/armitage/teamserver
+apt-get ¦install¦-y¦git-core¦ant¦zip :: Dependencies_operation,()

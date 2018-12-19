@@ -1,0 +1,10 @@
+from,alpine@latest
+sshd_config/etc/ssh/sshd_config :: add_operation,()
+/host_keys :: volume_operation,()
+/user_keys :: volume_operation,()
+mkdir ¦/etc/ssh/keys :: Filesystem_operation,()
+run.sh/usr/local/bin/ :: add_operation,()
+apk ¦add¦--no-cache¦openssh :: Dependencies_operation,()
+/data :: volume_operation,()
+cmd,run.sh
+expose,22

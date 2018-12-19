@@ -1,0 +1,19 @@
+X11_USER:xclient :: env_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+/home/${X11_USER} :: workdir_operation,()
+./x11-src :: add_operation,()
+expose,5900
+apt-get ¦install¦-y¦lxde-core¦lxterminal¦xvfb¦x11vnc¦sudo :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+REFRESHED_APT_AT:2015-01-15 :: env_operation,()
+RESOLUTION:1280x1024x16 :: env_operation,()
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+apt-get ¦install¦-y¦firefox¦xterm :: Dependencies_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu:14.04
+chmod ¦-R¦a=rX¦/x11-src :: Permissions_operation,()
+localedef ¦-v¦-c¦-i¦en_US¦-f¦UTF-8¦en_US.UTF-8¦||¦: :: Other_operation,()
+entrypoint,/bin/bash¦/x11-src/startup.sh
+apt-get ¦clean :: Dependencies_operation,()
+cmd,/usr/bin/lxterminal
+apt-get ¦update¦-y :: Dependencies_operation,()

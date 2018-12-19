@@ -1,0 +1,17 @@
+from,ubuntu:16.04
+mkdir ¦-p¦/home/develop/workspace :: Filesystem_operation,()
+apt-get ¦install¦-y¦libgtk2.0-0¦libcanberra-gtk-module :: Dependencies_operation,()
+run/usr/local/bin/eclipse :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦chmod¦+x /usr/local/bin/eclipse && mkdir -p /home/developer && echo "developer:x:1000:1000:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && echo "developer:x:1000:" >> /etc/group && chown developer:developer -R /home/developer :: Filesystem_operation,()
+HOME:/home/developer :: env_operation,()
+/home/developer :: workdir_operation,()
+apt-get ¦install¦-y¦g++¦libboost-all-dev¦build-essential :: Dependencies_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+developer :: user_operation,()
+wget ¦http://ftp.fau.de/eclipse/technology/epp/downloads/release/neon/3/eclipse-cpp-neon-3-linux-gtk-x86_64.tar.gz¦-O¦/tmp/eclipse.tar.gz¦-q :: Dependencies_operation,()
+tar ¦-xf¦/tmp/eclipse.tar.gz¦-C¦/opt :: Filesystem_operation,()
+rm ¦/tmp/eclipse.tar.gz :: Filesystem_operation,()
+cmd,/usr/local/bin/eclipse
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+apt-get ¦install¦-y¦default-jre¦libxext-dev¦libxrender-dev¦libxtst-dev :: Dependencies_operation,()

@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+letsencryptauth.conf/etc/nginx/snippets/letsencryptauth.conf :: copy_operation,()
+/etc/nginx/dhparam :: volume_operation,()
+runtimeDeps='inotify-tools'  :: Other_operation,()
+from,nginx@stable
+entrypoint.sh/ :: copy_operation,()
+sslconfig.conf/etc/nginx/snippets/sslconfig.conf :: copy_operation,()
+apt-get ¦install¦-y¦$runtimeDeps¦--no-install-recommends :: Dependencies_operation,()
+entrypoint,/entrypoint.sh

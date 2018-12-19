@@ -1,0 +1,12 @@
+expose,80
+cmd,go¦run¦server.go¦-port=":80"
+echo ¦echo¦'deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/' >> /etc/apt/sources.list && apt-key adv --keyserver keys.gnupg.net --recv-key 381BA480 && apt-get update && apt-get install -y r-base :: Filesystem_operation,()
+/go/src/github.com/fjukstad/kvik/r/examples :: workdir_operation,()
+mkdir ¦-p¦/go/src/github.com/fjukstad :: Filesystem_operation,()
+"jsonlite", ¦repos="http://cran.rstudio.org" :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦wget¦gcc¦gfortran¦libreadline-dev¦perl¦vim¦libxml2-dev¦xpdf¦libcurl4-openssl-dev¦libssl-dev :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+from,golang:1.6
+go ¦get¦github.com/gorilla/mux :: Build_Execute_operation,()
+/go/src/github.com/fjukstad/kvik :: volume_operation,()

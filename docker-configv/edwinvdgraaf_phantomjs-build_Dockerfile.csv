@@ -1,0 +1,11 @@
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+echo ¦cd¦/tmp && echo "$PHANTOMJS_DOWNLOAD_SHA256 *phantomjs-2.0.0-source.zip" | sha256sum -c - && unzip phantomjs-2.0.0-source.zip && rm -f phantomjs-2.0.0-source.zip && cd phantomjs-* && ./build.sh --confirm && cp bin/phantomjs /usr/local/bin/... :: Filesystem_operation,()
+apt-get ¦-y¦install¦build-essential¦zlib1g-dev¦libssl-dev¦libreadline6-dev¦libyaml-dev¦git¦python-software-properties :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦cd¦/tmp && echo "$RUBY_DOWNLOAD_SHA256 *ruby-2.2.3.tar.gz" | sha256sum -c - && tar -xzf ruby-2.2.3.tar.gz && cd ruby-2.2.3 && ./configure && make && make install && cd .. && rm -rf ruby-2.2.3 && rm -f ruby-2.2.3.tar.gz :: Filesystem_operation,()
+https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.0.0-source.zip/tmp/ :: add_operation,()
+RUBY_DOWNLOAD_SHA256:df795f2f99860745a416092a4004b016ccf77e8b82dec956b120f18bdc71edce :: env_operation,()
+from,ubuntu:14.04
+PHANTOMJS_DOWNLOAD_SHA256:cc81249eaa059cc138414390cade9cb6509b9d6fa0df16f4f43de70b174b3bfe :: env_operation,()
+https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz/tmp/ :: add_operation,()
+apt-get ¦-y¦install¦g++¦flex¦bison¦gperf¦perl¦libsqlite3-dev¦libfontconfig1-dev¦libicu-dev¦libfreetype6¦libpng-dev¦libjpeg-dev¦python¦libx11-dev¦libxext-dev¦unzip :: Dependencies_operation,()

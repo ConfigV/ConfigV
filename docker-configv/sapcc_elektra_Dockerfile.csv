@@ -1,0 +1,17 @@
+Gemfile./ :: add_operation,()
+apk ¦--no-cache¦add¦git¦curl¦tzdata¦nodejs¦postgresql-client :: Dependencies_operation,()
+/home/app/webapp :: workdir_operation,()
+script/organize_plugins_gemspecs  :: Other_operation,()
+bundle ¦install¦--without¦development :: Dependencies_operation,()
+bin/rake ¦assets:precompile :: Other_operation,()
+cmd,script/start.sh
+rm ¦-rf¦tmp/cache/assets :: Filesystem_operation,()
+script/organize_plugins_gemspecsscript/ :: add_operation,()
+curl ¦-L¦-o¦/usr/bin/dumb-init¦https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 :: Dependencies_operation,()
+RAILS_ENV=production: :: env_operation,()
+entrypoint,dumb-init¦-c¦--
+./home/app/webapp :: add_operation,()
+from,ruby:2.3
+plugins/*/*.gemspectmp/plugins/ :: add_operation,()
+dumb-init ¦-V :: Other_operation,()
+chmod ¦+x¦/usr/bin/dumb-init :: Permissions_operation,()

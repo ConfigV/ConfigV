@@ -1,0 +1,11 @@
+from,debian@sid
+FACTORIO_HOME=/home/factorio: :: env_operation,()
+FACTORIO_USER=factorio: :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+$FACTORIO_HOME :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+apt-get ¦install¦-y¦libasound2¦libx11-6¦libxcursor1¦libxinerama1¦libxrandr2¦libxi6¦libglu1-mesa :: Dependencies_operation,()

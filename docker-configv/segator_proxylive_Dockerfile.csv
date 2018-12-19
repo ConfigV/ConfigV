@@ -1,0 +1,12 @@
+yum ¦install¦-y¦curl;¦yum¦upgrade¦-y;¦yum¦update¦-y;¦yum¦clean¦all :: Dependencies_operation,()
+from,jrottenberg/ffmpeg:2.4.3
+JAVA_HOME:/usr/java/default :: env_operation,()
+rpm ¦-i¦jdk-$JDK_VERSION-linux-x64.rpm;¦rm¦-f¦jdk-$JDK_VERSION-linux-x64.rpm;¦yum¦clean¦all :: Dependencies_operation,()
+entrypoint,java¦-jar¦/app/proxyLive.jar
+curl ¦-LO¦"http://download.oracle.com/otn-pub/java/jdk/$JDK_VERSION-$JDK_BUILD_VERSION/jdk-$JDK_VERSION-linux-x64.rpm"¦-H¦'Cookie:¦oraclelicense=accept-securebackup-cookie' :: Dependencies_operation,()
+proxyLive.jar/app/proxyLive.jar :: add_operation,()
+application.yml/app/application.yml :: add_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+JDK_BUILD_VERSION:b13 :: env_operation,()
+JDK_VERSION:8u31 :: env_operation,()

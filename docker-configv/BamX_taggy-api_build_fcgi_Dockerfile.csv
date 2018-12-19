@@ -1,0 +1,23 @@
+expose,80
+nginx.conf/etc/nginx/nginx.conf.pre :: copy_operation,()
+apt-get ¦-y¦purge¦git :: Dependencies_operation,()
+/var/log/fcgi :: volume_operation,()
+from,phusion/baseimage:0.9.17
+src :: volume_operation,()
+rm ¦-rf¦fastcgipp¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init¦--¦/start.sh
+data :: volume_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+ln ¦-s¦/usr/local/lib/libfastcgipp.so.2.0.0¦/usr/lib/libfastcgipp.so.2 :: Filesystem_operation,()
+./bootstrap  :: Other_operation,()
+apt-get ¦install¦-y¦git¦nginx-light¦automake¦libtool¦doxygen¦build-essential¦libboost-dev¦libboost-date-time-dev¦libboost-system-dev¦libboost-thread-dev¦libboost-iostreams-dev¦libfcgi-dev¦spawn-fcgi :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+start.sh/ :: copy_operation,()
+cd ¦.. :: Filesystem_operation,()
+cd ¦fastcgipp :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+FCGI_LIBS="-lfastcgipp:-lboost_thread :: env_operation,()
+git ¦clone¦https://github.com/BamX/fastcgipp.git :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+chmod ¦+x¦start.sh :: Permissions_operation,()

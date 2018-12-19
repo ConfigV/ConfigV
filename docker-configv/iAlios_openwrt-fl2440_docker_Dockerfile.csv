@@ -1,0 +1,11 @@
+apt-get ¦update¦-q :: Dependencies_operation,()
+/home/builder :: workdir_operation,()
+apt-get ¦upgrade¦--yes¦--force-yes :: Dependencies_operation,()
+HOME:/home/builder :: env_operation,()
+builder :: user_operation,()
+mkdir ¦/home/builder :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,ubuntu:14.04
+useradd ¦--home-dir¦/home/builder¦--shell¦/bin/bash¦--no-create-home¦-p¦builder¦builder :: Permissions_operation,()
+apt ¦-y¦install¦build-essential¦git¦subversion¦quilt¦gawk¦unzip¦python¦wget¦zlib1g-dev¦libncurses5-dev¦fakeroot¦ca-certificates¦openssh-server¦vim :: Dependencies_operation,()
+./git-shell.sh/home/buidler/ :: add_operation,()

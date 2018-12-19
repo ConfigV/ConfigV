@@ -1,0 +1,8 @@
+LOCAL_USER=nginx: :: env_operation,()
+resources/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+$WORKDIR :: workdir_operation,()
+from,vwiart/debian:1.0.0
+resources/startup.sh/startup.sh :: add_operation,()
+LOCAL_GROUP=nginx: :: env_operation,()
+cmd,sh¦-c¦/startup.sh

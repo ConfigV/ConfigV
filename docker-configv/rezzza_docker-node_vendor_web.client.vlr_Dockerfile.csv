@@ -1,0 +1,10 @@
+npm ¦config¦set¦spin=false :: Dependencies_operation,()
+rm ¦-rf¦/usr/share/man¦/tmp/*¦/var/cache/apk/* :: Filesystem_operation,()
+expose,3000
+from,rezzza/docker-node:latest
+apk ¦add¦--virtual¦.build-app-deps¦curl¦bash¦git¦make¦automake¦autoconf¦nasm¦gcc¦g++¦binutils-gold¦libgcc¦libstdc++¦python¦libmcrypt-dev¦libpng-dev¦libpng¦libjpeg-turbo-dev¦jpeg-dev :: Dependencies_operation,()
+cmd,node
+apk ¦add¦--virtual¦.run-deps¦libmcrypt :: Dependencies_operation,()
+npm ¦config¦set¦loglevel=http :: Dependencies_operation,()
+npm ¦install¦-g¦gulp@3.9.1 :: Dependencies_operation,()
+apk ¦upgrade¦--update-cache :: Dependencies_operation,()

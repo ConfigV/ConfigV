@@ -1,0 +1,15 @@
+wget ¦http://dl.bintray.com/sbt/debian/sbt-${sbt_version}.deb¦-O¦/tmp/sbt.deb :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦maven :: Dependencies_operation,()
+expose,22
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+adduser ¦jenkins :: Permissions_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+dpkg ¦-i¦/tmp/sbt.deb :: Dependencies_operation,()
+sbt_version:0.13.7 :: env_operation,()
+from,ubuntu@latest
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+rm ¦-f¦/tmp/sbt.deb :: Filesystem_operation,()

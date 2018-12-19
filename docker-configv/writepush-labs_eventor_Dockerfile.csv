@@ -1,0 +1,19 @@
+/writepush-labs :: workdir_operation,()
+GOLANG_VERSION:1.7.5 :: env_operation,()
+GOLANG_SRC_URL:https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz :: env_operation,()
+mkdir ¦-p¦"$GOPATH/src"¦"$GOPATH/bin" :: Filesystem_operation,()
+GOPATH:/go :: env_operation,()
+set ¦-ex :: Environment_operation,()
+EVENTOR_SRC_URL:https://github.com/writepush-labs/eventor/archive/$EVENTOR_VERSION.tar.gz :: env_operation,()
+PATH:$GOPATH/bin:/usr/local/go/bin:$PATH :: env_operation,()
+https://raw.githubusercontent.com/docker-library/golang/master/1.7/alpine/17847.patch/ :: add_operation,()
+EVENTOR_BUILD_PATH:/go/src/github.com/writepush-labs :: env_operation,()
+CGO_ENABLED:1 :: env_operation,()
+GOLANG_SRC_SHA256:4e834513a2079f8cbbd357502cccaac9507fd00a1efe672375798858ff291815 :: env_operation,()
+expose,9400
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦¦bash¦¦gcc¦¦musl-dev¦¦openssl¦¦go¦¦git¦¦glide¦\\ :: Dependencies_operation,()
+https://raw.githubusercontent.com/docker-library/golang/master/1.7/alpine/no-pic.patch/ :: add_operation,()
+from,alpine:3.5
+chmod ¦-R¦777¦"$GOPATH" :: Permissions_operation,()
+entrypoint,./eventor
+apk ¦add¦--no-cache¦ca-certificates :: Dependencies_operation,()

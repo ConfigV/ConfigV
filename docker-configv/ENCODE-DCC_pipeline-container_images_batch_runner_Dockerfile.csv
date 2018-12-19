@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦build-essential¦python3-{pip,dev,cffi}¦libffi-dev¦libssl-dev¦moreutils :: Dependencies_operation,()
+useradd ¦--no-log-init¦-r¦-m¦-d¦/home/encode/¦-g¦encode¦encode :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/home/encode :: workdir_operation,()
+/pipeline-container :: copy_operation,()
+from,ubuntu:14.04
+pip ¦install¦aegea :: Dependencies_operation,()
+mkdir ¦pipeline-container :: Filesystem_operation,()
+encode :: user_operation,()
+groupadd ¦-r¦encode :: Permissions_operation,()
+pip ¦install¦cwlref-runner :: Dependencies_operation,()
+entrypoint,python¦/image_software/pipeline-container/src/encode_post_map.py

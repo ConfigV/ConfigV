@@ -1,0 +1,18 @@
+expose,443
+rm ¦-rf¦luarocks-2.2.0 :: Filesystem_operation,()
+chmod ¦+x¦/etc/service/nginx/run :: Permissions_operation,()
+make ¦install :: Build_Execute_operation,()
+wget ¦http://luarocks.org/releases/luarocks-2.2.0.tar.gz :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-f¦luarocks-2.2.0.tar.gz :: Filesystem_operation,()
+from,phusion/baseimage
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+cd ¦luarocks-2.2.0 :: Filesystem_operation,()
+mkdir ¦-p¦/etc/service/nginx :: Filesystem_operation,()
+./nginx.sh/etc/service/nginx/run :: add_operation,()
+apt-get ¦install¦-y¦build-essential¦curl¦git¦unzip¦libreadline-dev¦libncurses5-dev¦libpcre3-dev¦libssl-dev¦luajit¦lua5.1¦liblua5.1-0-dev¦nano¦perl¦wget¦nginx-extras :: Dependencies_operation,()
+make ¦build :: Build_Execute_operation,()
+tar ¦-xzvf¦luarocks-2.2.0.tar.gz :: Filesystem_operation,()
+make ¦clean :: Build_Execute_operation,()

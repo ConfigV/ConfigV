@@ -1,0 +1,10 @@
+echo ¦echo¦"export GOPATH=/home/nate/go\\nexport PATH=\\$PATH:/usr/local/go/bin:\\$GOPATH/bin\\n" > /etc/profile.d/go.sh :: Filesystem_operation,()
+curl ¦https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz¦|¦tar¦-C¦/usr/local¦-xzf¦- :: Dependencies_operation,()
+apt-get ¦install¦gcc¦-y :: Dependencies_operation,()
+for ¦platform¦in¦$GOLANG_CROSSPLATFORMS;¦do¦GOOS=${platform%/*}¦GOARCH=${platform##*/}¦./make.bash¦--no-clean¦2>&1;¦done :: Other_operation,()
+from,nate/devbase
+GOARM:5 :: env_operation,()
+cd ¦/usr/local/go/src :: Filesystem_operation,()
+PATH:$PATH:/usr/local/go/bin :: env_operation,()
+set ¦-ex :: Environment_operation,()
+GOLANG_CROSSPLATFORMS:darwin/amd64 :: env_operation,()

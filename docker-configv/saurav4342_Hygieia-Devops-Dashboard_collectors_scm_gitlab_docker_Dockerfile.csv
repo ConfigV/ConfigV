@@ -1,0 +1,7 @@
+from,docker.io/java:openjdk-8-jdk
+*.jar/hygieia/ :: copy_operation,()
+/hygieia/logs :: volume_operation,()
+application.properties/hygieia/ :: copy_operation,()
+/hygieia :: workdir_operation,()
+mkdir ¦/hygieia :: Filesystem_operation,()
+cmd,java¦-jar¦gitlab-git-collector*.jar¦--spring.config.location=/hygieia/application.properties

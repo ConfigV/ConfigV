@@ -1,0 +1,13 @@
+MONGO_MAJOR:3.0 :: env_operation,()
+echo ¦mkdir¦-p /etc/service/mongod/; SCRIPT=/etc/service/mongod/run; ( echo "#!/bin/bash"; echo ""; echo "set -e -o nounset";  echo "";  echo "";  echo "# Environment variables";  echo "#";  echo "RAM_REDUCE=\\${RAM_REDUCE:-no}";  echo "";  echo ... :: Filesystem_operation,()
+echo ¦apt-key¦adv --keyserver ha.pool.sks-keyservers.net --recv-keys 492EAFE8CD016A07919F1D2B9ECBEC467F0CEB10;  echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/$MONGO_MAJOR multiverse" > /etc/apt/sources.list.d/mongodb-org.list :: Filesystem_operation,()
+from,phusion/baseimage
+groupadd ¦-r¦mongodb;¦¦useradd¦-r¦-g¦mongodb¦mongodb :: Permissions_operation,()
+/data/db :: volume_operation,()
+apt-get ¦update;¦¦apt-get¦install¦-y¦--no-install-recommends¦¦¦ca-certificates;¦¦rm¦-rf¦/var/lib/apt/lists/* :: Dependencies_operation,()
+echo ¦SCRIPT=/db_maintenance.sh;¦( echo "#!/bin/bash"; echo ""; echo "";  echo "# Wait for mongo to start"; echo "#"; echo "while [$( pgrep -c mongod ) -eq 0 ]"; echo "do";  echo " sleep 60";  echo "done"; echo "sleep 5";  echo "";  echo "";  ec... :: Filesystem_operation,()
+MONGO_VERSION:3.0.7 :: env_operation,()
+mkdir ¦-p¦/data/db;¦¦chown¦-R¦mongodb:mongodb¦/data/db :: Filesystem_operation,()
+apt-get ¦update;¦¦apt-get¦install¦-y¦¦¦mongodb-org=$MONGO_VERSION¦¦¦mongodb-org-server=$MONGO_VERSION¦¦¦mongodb-org-shell=$MONGO_VERSION¦¦¦mongodb-org-mongos=$MONGO_VERSION¦¦¦mongodb-org-tools=$MONGO_VERSION;¦¦rm¦-rf¦/var/lib/apt/lists/*¦¦¦/var/lib... :: Dependencies_operation,()
+RELEASE:0.1.2 :: env_operation,()
+expose,27017

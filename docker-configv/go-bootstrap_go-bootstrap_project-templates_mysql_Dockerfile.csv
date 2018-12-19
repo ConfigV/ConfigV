@@ -1,0 +1,12 @@
+HTTP_ADDR:8888 :: env_operation,()
+expose,8888
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()
+./go/src/$GO_BOOTSTRAP_REPO_NAME/$GO_BOOTSTRAP_REPO_USER/$GO_BOOTSTRAP_PROJECT_NAME :: add_operation,()
+cmd,./$GO_BOOTSTRAP_PROJECT_NAME
+from,golang
+/go/src/$GO_BOOTSTRAP_REPO_NAME/$GO_BOOTSTRAP_REPO_USER/$GO_BOOTSTRAP_PROJECT_NAME :: workdir_operation,()
+USER:$GO_BOOTSTRAP_CURRENT_USER :: env_operation,()
+HTTP_DRAIN_INTERVAL:1s :: env_operation,()
+COOKIE_SECRET:$GO_BOOTSTRAP_COOKIE_SECRET :: env_operation,()
+godep ¦go¦build :: Dependencies_operation,()
+DSN:$GO_BOOTSTRAP_MYSQL_DSN :: env_operation,()

@@ -1,0 +1,14 @@
+mkdir ¦/opt/ansible/ :: Filesystem_operation,()
+git ¦clone¦http://github.com/ansible/ansible.git¦/opt/ansible/ansible :: Dependencies_operation,()
+source ¦/opt/ansible/ansible/hacking/env-setup :: Environment_operation,()
+ANSIBLE_LIBRARY:/opt/ansible/ansible/library :: env_operation,()
+cmd,/bin/bash
+mkdir ¦/etc/ansible/ :: Filesystem_operation,()
+rpm ¦-qa¦"*-devel" :: Dependencies_operation,()
+echo ¦echo¦-e '[local]\\nlocalhost\\n' > /etc/ansible/hosts :: Filesystem_operation,()
+git ¦submodule¦update¦--init :: Dependencies_operation,()
+PYTHONPATH:/opt/ansible/ansible/lib :: env_operation,()
+/opt/ansible/ansible :: workdir_operation,()
+XDG_CACHE_HOME:/tmp/ :: env_operation,()
+PATH:/opt/ansible/ansible/bin:/bin:/usr/bin:/sbin:/usr/sbin :: env_operation,()
+from,centos:7.0

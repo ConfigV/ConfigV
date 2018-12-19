@@ -1,0 +1,11 @@
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦-O¦https://bootstrap.pypa.io/get-pip.py :: Dependencies_operation,()
+python ¦get-pip.py :: Build_Execute_operation,()
+pip ¦--no-cache-dir¦install¦http://ci.tensorflow.org/view/Nightly/job/nightly-matrix-cpu/TF_BUILD_CONTAINER_TYPE=CPU,TF_BUILD_IS_OPT=OPT,TF_BUILD_IS_PIP=PIP,TF_BUILD_PYTHON_VERSION=PYTHON2,label=cpu-slave/lastSuccessfulBuild/artifact/pip_test/w... :: Dependencies_operation,()
+from,ubuntu:14.04
+entrypoint,/var/tf-k8s/server/grpc_tensorflow_server.py
+apt-get ¦install¦-y¦curl¦python-numpy¦python-pip :: Dependencies_operation,()
+./var/tf-k8s :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦get-pip.py :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

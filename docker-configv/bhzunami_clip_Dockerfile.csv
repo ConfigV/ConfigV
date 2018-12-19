@@ -1,0 +1,13 @@
+scipoptsuite-3.2.1.tgz/root :: add_operation,()
+make ¦-j6¦install¦INSTALLDIR="../../usr/local" :: Build_Execute_operation,()
+/root/PySCIPOpt :: workdir_operation,()
+/root/scipoptsuite-3.2.1 :: workdir_operation,()
+make ¦-j6 :: Build_Execute_operation,()
+env ¦SCIPOPTDIR=/root/scipoptsuite-3.2.1¦python3¦setup.py¦install :: Other_operation,()
+make ¦-j6¦SHARED=true¦GMP=false¦READLINE=false¦scipoptlib :: Build_Execute_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦libgmp3-dev¦zlib1g-dev¦libreadline-dev¦python3¦cython3¦libncurses5-dev¦git :: Dependencies_operation,()
+git ¦clone¦https://github.com/SCIP-Interfaces/PySCIPOpt.git :: Dependencies_operation,()
+from,ubuntu
+/root/ :: workdir_operation,()

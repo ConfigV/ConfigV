@@ -1,0 +1,13 @@
+bundle ¦exec¦rake¦assets:precompile :: Dependencies_operation,()
+git ¦clone¦https://github.com/breunigs/keks.git¦. :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs¦--no-install-recommends :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+expose,3000
+apt-get ¦install¦-y¦qt5-default¦libqt5webkit5-dev¦postgresql-client¦sqlite3¦graphviz¦libxml2-dev¦libxslt-dev¦--no-install-recommends :: Dependencies_operation,()
+echo ¦echo¦"GIT_REVISION='$(git rev-parse HEAD)'" > config/initializers/git_revision.rb :: Filesystem_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,bundle¦exec¦rails¦server¦-b¦0.0.0.0
+from,ruby:2.1
+apt-get ¦update :: Dependencies_operation,()
+bundle ¦install¦--deployment¦--without¦development :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+RUN_ENV:" :: env_operation,()
+from,ruflin/elastica-dev-base
+ELASTICA_DEV:true :: env_operation,()
+entrypoint,/entrypoint.sh
+composer ¦dump-autoload :: Dependencies_operation,()
+PROXY_HOST:nginx :: env_operation,()
+test/elastica/test :: copy_operation,()
+mkdir ¦-p¦./build/code-browser¦./build/docs¦./build/logs¦./build/pdepend¦./build/coverage :: Filesystem_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+Makefile/elastica/ :: copy_operation,()
+ES_HOST:elasticsearch :: env_operation,()
+version_compare(PHP_VERSION, ¦"5.5.0",¦">=" :: Other_operation,()
+lib/elastica/lib :: copy_operation,()
+/elastica :: workdir_operation,()
+composer.json/elastica/ :: copy_operation,()

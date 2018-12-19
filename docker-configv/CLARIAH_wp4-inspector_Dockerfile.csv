@@ -1,0 +1,13 @@
+cp ¦${INSPECTOR_APP}/app/config_template.py¦${CONFIG_FILE} :: Filesystem_operation,()
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+CONFIG_FILE=${INSPECTOR_APP}/app/config.py: :: env_operation,()
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()
+from,python:2.7
+INSPECTOR_APP="/usr/local/inspector": :: env_operation,()
+cmd,app:start
+./requirements.txt/requirements.txt :: copy_operation,()
+${INSPECTOR_APP} :: workdir_operation,()
+./src${INSPECTOR_APP} :: copy_operation,()
+entrypoint,/sbin/entrypoint.sh
+expose,5500

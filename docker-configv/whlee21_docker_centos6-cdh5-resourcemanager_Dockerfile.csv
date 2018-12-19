@@ -1,0 +1,11 @@
+cmd,node-init.sh¦&&¦"/usr/bin/supervisord"
+./supervisord.conf/etc/ :: add_operation,()
+yum ¦--disablerepo=cloudera-cdh5¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦hadoop-yarn-resourcemanager¦hadoop-hdfs¦hadoop-mapreduce;¦yum¦clean¦all :: Dependencies_operation,()
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+local-cdh5.repo/etc/yum.repos.d/local-cdh5.repo :: add_operation,()
+chmod ¦+x¦/usr/local/bin/node-init.sh :: Permissions_operation,()
+./run-yarn-examples.sh/root/run-yarn-examples.sh :: add_operation,()
+./node-init.sh/usr/local/bin/node-init.sh :: add_operation,()
+chmod ¦+x¦/root/run-yarn-examples.sh :: Permissions_operation,()
+expose,22 8032 8030 8031 8033 8088
+from,whlee21/centos6-cdh5-base

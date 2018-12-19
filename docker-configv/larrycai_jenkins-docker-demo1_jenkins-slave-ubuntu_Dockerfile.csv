@@ -1,0 +1,17 @@
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+from,ubuntu:14.04
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+chown ¦-R¦jenkins:jenkins¦$HOME/.ssh :: Permissions_operation,()
+chmod ¦0700¦$HOME/.ssh :: Permissions_operation,()
+HOME:/home/jenkins :: env_operation,()
+mkdir ¦$HOME/.ssh :: Filesystem_operation,()
+id_rsa.pub$HOME/.ssh/authorized_keys :: add_operation,()
+REFRESHED_AT:2014-08-18 :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦openjdk-7-jdk :: Dependencies_operation,()
+adduser ¦--quiet¦jenkins :: Permissions_operation,()
+expose,22
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+chmod ¦0660¦$HOME/.ssh/authorized_keys :: Permissions_operation,()

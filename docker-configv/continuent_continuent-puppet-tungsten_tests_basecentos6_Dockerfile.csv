@@ -1,0 +1,10 @@
+rpm ¦--import¦https://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs :: Dependencies_operation,()
+puppet ¦module¦install¦continuent-tungsten :: Dependencies_operation,()
+rpm ¦-ivh¦http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm :: Dependencies_operation,()
+mkdir ¦-p¦/etc/puppet/modules :: Filesystem_operation,()
+rpm ¦-i¦http://mirror.bytemark.co.uk/fedora/epel/6/i386/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+git ¦clone¦https://github.com/narmitag/continuent-puppet-tungsten.git¦/etc/puppet/modules/tungsten :: Dependencies_operation,()
+rm ¦-rf¦/etc/puppet/modules/tungsten :: Filesystem_operation,()
+yum ¦-y¦install¦puppet¦git¦tar¦openssh-server :: Dependencies_operation,()
+from,centos:6.0
+puppet ¦module¦install¦puppetlabs-mysql :: Dependencies_operation,()

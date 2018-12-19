@@ -1,0 +1,21 @@
+SITE_DIR:opsweekly :: env_operation,()
+chmod ¦+x¦$HOME_DIR/opsweekly.sh :: Permissions_operation,()
+sudo ¦a2enconf¦servername :: Other_operation,()
+sudo ¦a2ensite¦000-default :: Other_operation,()
+sudo ¦apt-get¦update :: Other_operation,()
+sudo ¦apt-get¦-y¦install¦php5-mysql¦php5-curl¦git :: Other_operation,()
+entrypoint,./opsweekly.sh
+HOME_DIR:/home/ :: env_operation,()
+git ¦clone¦https://github.com/aasokan/opsweekly.git¦$SRC_DIR :: Dependencies_operation,()
+sudo ¦cp¦$HOME_DIR/000-default.conf¦/etc/apache2/sites-available/ :: Other_operation,()
+mkdir ¦-p¦$SRC_DIR :: Filesystem_operation,()
+SRC_DIR:$HOME_DIR/$SITE_DIR :: env_operation,()
+mkdir ¦-p¦$HOME_DIR/apache :: Filesystem_operation,()
+config/*$HOME_DIR :: add_operation,()
+from,ubuntu@latest
+expose,80
+$HOME_DIR :: workdir_operation,()
+sudo ¦apt-get¦-y¦install¦php5-common¦libapache2-mod-php5¦php5-cli :: Other_operation,()
+opsweekly.sh$HOME_DIR :: add_operation,()
+ln ¦-s¦$SRC_DIR¦/var/www/ :: Filesystem_operation,()
+sudo ¦cp¦$HOME_DIR/servername.conf¦/etc/apache2/conf-available/ :: Other_operation,()

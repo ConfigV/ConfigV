@@ -1,0 +1,11 @@
+/tmp :: workdir_operation,()
+rm ¦-f¦/tmp/btsync*¦/tmp/LICENSE.* :: Filesystem_operation,()
+from,busybox:14.04
+btsync.json/etc/btsync.json :: add_operation,()
+expose,3000 8888
+cmd,btsync¦--nodaemon¦--config¦/etc/btsync.json
+tar ¦zxf¦btsync_x64.tar.gz :: Filesystem_operation,()
+cp ¦btsync¦/bin :: Filesystem_operation,()
+wget ¦-O¦btsync_x64.tar.gz¦http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable :: Dependencies_operation,()
+chown ¦root:root¦/bin/btsync :: Permissions_operation,()
+mkdir ¦-p¦/mnt/.sync :: Filesystem_operation,()

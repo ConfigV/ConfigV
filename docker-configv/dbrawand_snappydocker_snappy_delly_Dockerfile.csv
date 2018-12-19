@@ -1,0 +1,9 @@
+wget ¦--no-verbose¦-O¦/usr/local/pipeline/delly/delly¦https://github.com/tobiasrausch/delly/releases/download/v0.6.3/delly_v0.6.3_linux_x86_64bit :: Dependencies_operation,()
+ln ¦-s¦/usr/local/pipeline/delly/delly¦/usr/local/bin/ :: Filesystem_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/delly :: Permissions_operation,()
+from,viapath/snappy_ngstools
+HOME:/root :: env_operation,()
+mkdir ¦-p¦/usr/local/pipeline/delly/ :: Filesystem_operation,()
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/delly'¦/home/snappy/.bashrc :: Filesystem_operation,()
+cmd,/bin/bash

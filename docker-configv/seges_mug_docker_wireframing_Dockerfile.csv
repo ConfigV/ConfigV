@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+echo ¦export¦uid=1000 gid=1000 && mkdir -p /home/developer && echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && echo "developer:x:${uid}:" >> /etc/group && echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/s... :: Filesystem_operation,()
+init.sh/home/developer/bin/ :: add_operation,()
+HOME:/home/developer :: env_operation,()
+cd ¦/home/developer :: Filesystem_operation,()
+cmd,/home/developer/bin/init.sh
+apt-get ¦install¦-y¦firefox :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+from,ubuntu
+developer :: user_operation,()
+wget ¦https://evoluspencil.googlecode.com/files/Pencil-2.0-5-fx.xpi :: Dependencies_operation,()

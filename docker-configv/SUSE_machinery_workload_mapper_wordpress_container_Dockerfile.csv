@@ -1,0 +1,12 @@
+apache2/wordpress_vhost.conf/etc/apache2/vhosts.d/ :: add_operation,()
+touch ¦/etc/apache2/sysconfig.d/include.conf :: Filesystem_operation,()
+echo ¦echo¦"LoadModule php5_module /usr/lib64/apache2/mod_php5.so" >> /etc/apache2/sysconfig.d/loadmodule.conf :: Filesystem_operation,()
+zypper ¦-n¦--gpg-auto-import-keys¦update :: Other_operation,()
+apache2/listen.conf/etc/apache2/listen.conf :: add_operation,()
+zypper ¦-n¦--gpg-auto-import-keys¦install¦apache2-develmariadb-clientlibmysqlclient-develphp5php5-mcryptphp5-gdphp5-mysqlapache2-mod_php5which :: Other_operation,()
+/srv/www/wordpress :: workdir_operation,()
+echo ¦echo¦"variables_order = 'GPCSE'" >> /etc/php5/cli/php.ini :: Filesystem_operation,()
+./data/srv/www/wordpress :: add_operation,()
+from,opensuse:13.2
+mkdir ¦/srv/www/wordpress :: Filesystem_operation,()
+zypper ¦-n¦--gpg-auto-import-keys¦refresh :: Other_operation,()

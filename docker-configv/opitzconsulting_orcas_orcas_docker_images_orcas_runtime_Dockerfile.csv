@@ -1,0 +1,10 @@
+wget ¦-Nnv¦http://services.gradle.org/distributions/gradle-${gradle_version}-all.zip :: Dependencies_operation,()
+ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe: :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+ln ¦-sfn¦gradle-${gradle_version}¦/opt/gradle/latest :: Filesystem_operation,()
+from,wnameless/oracle-xe-11g
+PATH=$PATH:$GRADLE_HOME/bin:$ORACLE_HOME/bin: :: env_operation,()
+gradle_version=2.1: :: env_operation,()
+unzip ¦gradle-${gradle_version}-all.zip¦-d¦/opt/gradle :: Filesystem_operation,()
+apt-get ¦install¦-y¦ant¦ant-contrib¦default-jdk¦unzip :: Dependencies_operation,()
+GRADLE_HOME=/opt/gradle/latest: :: env_operation,()

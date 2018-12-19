@@ -1,0 +1,17 @@
+SPARK_VERSION:2.0.2 :: env_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+wget ¦http://repo1.maven.org/maven2/org/apache/spark/spark-streaming-kafka-0-10-assembly_${SCALA_VERSION}/${SPARK_VERSION}/spark-streaming-kafka-0-10-assembly_${SCALA_VERSION}-${SPARK_VERSION}.jar :: Dependencies_operation,()
+rm ¦spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz :: Filesystem_operation,()
+from,ubuntu
+expose,7077
+ln ¦-s¦spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}¦spark :: Filesystem_operation,()
+wget ¦http://d3kbcqa49mib13.cloudfront.net/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz :: Dependencies_operation,()
+cd ¦/usr/local :: Filesystem_operation,()
+mv ¦spark-streaming-kafka-0-10-assembly_${SCALA_VERSION}-${SPARK_VERSION}.jar¦/usr/local/spark/jars :: Filesystem_operation,()
+tar ¦-xvzf¦spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz¦-C¦/usr/local :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+SCALA_VERSION:2.11 :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦openjdk-8-jre-headless :: Dependencies_operation,()
+HADOOP_VERSION:2.7 :: env_operation,()
+SPARK_HOME:/usr/local/spark :: env_operation,()

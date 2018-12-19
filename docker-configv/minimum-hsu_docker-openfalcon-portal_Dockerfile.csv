@@ -1,0 +1,11 @@
+cmd,./run.sh
+from,ubuntu:14.04
+$PACKFILE$PACKDIR/ :: copy_operation,()
+$CONFIGFILE$CONFIGDIR/ :: copy_operation,()
+/root :: workdir_operation,()
+run.sh./ :: copy_operation,()
+apt-get ¦install¦-y¦python-virtualenv¦python-dev¦python-mysqldb :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦run.sh :: Permissions_operation,()
+expose,5050
+WORKDIR=/home/portal:PACKDIR=/package :: env_operation,()

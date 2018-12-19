@@ -1,0 +1,23 @@
+mkdir ¦/myr :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+/etc/nginx/sites-enabled :: volume_operation,()
+echo ¦add-apt-repository¦-y ppa:nginx/stable && apt-get install -y nginx && rm -rf /var/lib/apt/lists/* && echo "\\ndaemon off;" >> /etc/nginx/nginx.conf && chown -R www-data:www-data /var/lib/nginx :: Filesystem_operation,()
+touch ¦/myr/tenant_conf.default.yml :: Filesystem_operation,()
+apt-get ¦install¦-qqy¦python-software-properties¦software-properties-common :: Dependencies_operation,()
+echo ¦echo¦'root:verysecure' | chpasswd :: Filesystem_operation,()
+expose,22
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+chmod ¦+x¦/kamino :: Permissions_operation,()
+./config.cfg/config.cfg :: add_operation,()
+https://github.com/mzdravkov/kamino/blob/master/kamino?raw=true/kamino :: add_operation,()
+cmd,/dockerstart
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+chmod ¦+x¦/dockerstart :: Permissions_operation,()
+./dockerstart/dockerstart :: add_operation,()
+/var/log/nginx :: volume_operation,()
+mkdir ¦/myr/plugins :: Filesystem_operation,()
+mkdir ¦/myr/configs :: Filesystem_operation,()
+/etc/nginx/certs :: volume_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+from,dind

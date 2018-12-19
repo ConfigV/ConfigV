@@ -1,0 +1,8 @@
+mkdir ¦/web :: Filesystem_operation,()
+entrypoint,/usr/local/bin/run_nginx
+nginx.conf/etc/nginx/conf.d/ :: copy_operation,()
+run_nginx/usr/local/bin/run_nginx :: copy_operation,()
+/web :: volume_operation,()
+cmd,nginx¦-g¦daemon off;
+from,nginx@latest
+rm ¦-f¦/etc/nginx/conf.d/* :: Filesystem_operation,()

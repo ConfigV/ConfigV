@@ -1,0 +1,22 @@
+mkdir ¦-p¦/root/debbuild/fuse :: Filesystem_operation,()
+expose,6800
+dpkg ¦-i¦/root/debbuild/fuse.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦ceph-mds :: Dependencies_operation,()
+/ :: workdir_operation,()
+rm ¦*.deb :: Filesystem_operation,()
+echo ¦["echo",¦"fuse hold", "|" ,"dpkg", "--set-selections"] :: Filesystem_operation,()
+dpkg-deb ¦-X¦fuse*.deb¦build :: Other_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+from,ulexus/ceph-base
+/etc/ceph :: volume_operation,()
+dpkg-deb ¦-e¦fuse*.deb¦build/DEBIAN :: Other_operation,()
+apt-get ¦install¦-y¦--force-yes¦libfuse2¦apt-utils :: Dependencies_operation,()
+apt-get ¦download¦-y¦fuse :: Dependencies_operation,()
+fuse-control/root/debbuild/fuse/build/DEBIAN/control :: add_operation,()
+entrypoint.sh/usr/local/bin/entrypoint.sh :: add_operation,()
+fuse-postinst/root/debbuild/fuse/build/DEBIAN/postinst :: add_operation,()
+/root/debbuild/fuse :: workdir_operation,()
+chmod ¦+x¦/usr/local/bin/entrypoint.sh :: Permissions_operation,()
+/root/debbuild/fuse/build :: workdir_operation,()
+dpkg-deb ¦-b¦/root/debbuild/fuse/build¦/root/debbuild/fuse.deb :: Other_operation,()
+/var/lib/ceph :: volume_operation,()

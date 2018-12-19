@@ -1,0 +1,12 @@
+entrypoint,tini¦--¦/entrypoint.sh
+sed ¦'/^logfile/d'¦-i¦/etc/redis.conf :: Filesystem_operation,()
+/var/lib/redis :: volume_operation,()
+expose,6379
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cmd,redis-server¦/etc/redis.conf
+sed ¦'s/bind¦127.0.0.1/bind¦0.0.0.0/'¦-i¦/etc/redis.conf :: Filesystem_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+from,jgeiger/alpine
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apk ¦add¦--update¦redis :: Dependencies_operation,()
+sed ¦'s/daemonize¦yes/daemonize¦no/'¦-i¦/etc/redis.conf :: Filesystem_operation,()

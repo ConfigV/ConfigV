@@ -1,0 +1,15 @@
+cmd,/run.sh
+run.sh/ :: copy_operation,()
+/data :: volume_operation,()
+elasticsearch.yml/elasticsearch-1.5.2/config/elasticsearch.yml :: copy_operation,()
+tar ¦xf¦elasticsearch-1.5.2.tar.gz :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+elasticsearch_logging_discovery/ :: copy_operation,()
+expose,9200 9300
+curl ¦-O¦https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.5.2.tar.gz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦elasticsearch-1.5.2.tar.gz :: Filesystem_operation,()
+from,java:7.0

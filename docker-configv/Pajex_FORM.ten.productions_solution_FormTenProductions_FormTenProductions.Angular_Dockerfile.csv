@@ -1,0 +1,10 @@
+entrypoint,dotnet¦run¦--server.urls¦http://0.0.0.0:5000
+expose,5000
+/app :: workdir_operation,()
+project.json. :: copy_operation,()
+from,microsoft/dotnet:latest
+./app :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦nodejs¦nodejs-legacy :: Dependencies_operation,()
+dotnet ¦restore :: Other_operation,()
+dotnet ¦build :: Other_operation,()

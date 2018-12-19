@@ -1,0 +1,7 @@
+block-store.ymlblock-store.yml :: add_operation,()
+target/appsensor-block-store-2.2.0.jarapp.jar :: add_operation,()
+APPSENSOR_WEB_SOCKET_HOST_URL=ws://localhost:8085/dashboard: :: env_operation,()
+/tmp :: volume_operation,()
+bash ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+from,anapsix/alpine-java
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/app.jar¦server¦block-store.yml

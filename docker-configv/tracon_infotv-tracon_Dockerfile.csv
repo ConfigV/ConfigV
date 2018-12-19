@@ -1,0 +1,13 @@
+env ¦DEBUG=1¦python¦manage.py¦collectstatic¦--noinput :: Other_operation,()
+cmd,python¦manage.py¦runserver¦0.0.0.0:8000
+requirements.txt/usr/src/app/infokala-tracon/ :: copy_operation,()
+infokala :: user_operation,()
+pip ¦install¦--no-cache-dir¦-r¦requirements.txt¦-r¦requirements-production.txt¦-e¦../infokala :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+/usr/src/app/infokala-tracon :: workdir_operation,()
+apt-get ¦-y¦install¦nodejs :: Dependencies_operation,()
+python ¦-m¦compileall¦-q¦. :: Build_Execute_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_6.x¦|¦bash¦- :: Dependencies_operation,()
+expose,8000
+./usr/src/app/infokala-tracon :: copy_operation,()
+from,python:2.7

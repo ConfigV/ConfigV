@@ -1,0 +1,10 @@
+from,viapath/snappy_base
+sed ¦-i¦'$aCLASSPATH=.:$CLASSPATH:/usr/local/pipeline/FastQC/jbzip2-0.9.jar:/usr/local/pipeline/FastQC/sam-1.103.jar'¦/home/snappy/.bashrc :: Filesystem_operation,()
+unzip ¦/tmp/fastqc_v0.11.2.zip¦-d¦/usr/local/pipeline/ :: Filesystem_operation,()
+rm ¦-rvf¦/tmp/* :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+cmd,/bin/bash
+wget ¦--no-verbose¦-O¦/tmp/fastqc_v0.11.2.zip¦http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip :: Dependencies_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/FastQC :: Permissions_operation,()
+chmod ¦755¦/usr/local/pipeline/FastQC/fastqc :: Permissions_operation,()

@@ -1,0 +1,23 @@
+rpm ¦-Uvh¦http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦nginx :: Dependencies_operation,()
+rm ¦-rf¦/etc/nginx/*.d¦/etc/nginx/*_params :: Filesystem_operation,()
+yum ¦install¦-y¦php-bcmath¦php-intl¦php-mbstring¦php-opcache¦php-pecl-apc¦php-pecl-memcache¦php-pecl-redis :: Dependencies_operation,()
+usermod ¦--uid¦80¦--home¦/data/www¦--gid¦80¦--login¦www¦--shell¦/bin/bash¦--comment¦www¦nginx :: Permissions_operation,()
+yum-config-manager ¦-q¦--enable¦remi :: Other_operation,()
+yum ¦install¦-y¦yum-utils¦epel-release¦python-setuptools¦inotify-tools¦unzip¦sendmail¦tar¦mysql¦sudo :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+rpm ¦-Uvh¦http://rpms.famillecollet.com/enterprise/remi-release-7.rpm :: Dependencies_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+groupmod ¦--gid¦80¦--new-name¦www¦nginx :: Other_operation,()
+yum ¦install¦-y¦php-fpm :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+yum ¦install¦-y¦php-mysqlnd¦php-mysqli¦php-gd¦php-mcrypt¦php-zip¦php-xml¦php-iconv¦php-curl¦php-soap¦php-simplexml¦php-pdo¦php-dom¦php-cli :: Dependencies_operation,()
+container-files/ :: add_operation,()
+entrypoint,/config/bootstrap.sh
+/data :: volume_operation,()
+yum-config-manager ¦-q¦--enable¦remi-php55 :: Other_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+chown ¦-R¦www:www¦/var/lib/nginx :: Permissions_operation,()
+expose,80 443
+find ¦/config¦|grep¦.sh¦|xargs¦chmod¦+x :: Filesystem_operation,()

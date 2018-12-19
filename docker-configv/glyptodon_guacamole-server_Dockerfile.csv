@@ -1,0 +1,10 @@
+src/guacd-docker/bin/opt/guacd/bin/ :: copy_operation,()
+yum ¦-y¦install¦$BUILD_DEPENDENCIES :: Dependencies_operation,()
+/opt/guacd/bin/build-guacd.sh ¦"$BUILD_DIR" :: Other_operation,()
+expose,4822
+rm ¦-Rf¦"$BUILD_DIR" :: Filesystem_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+cmd,/usr/local/sbin/guacd¦-b¦0.0.0.0¦-f
+yum ¦-y¦autoremove¦$BUILD_DEPENDENCIES :: Dependencies_operation,()
+."$BUILD_DIR" :: copy_operation,()

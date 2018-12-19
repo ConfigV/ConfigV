@@ -1,0 +1,8 @@
+PATH:$PATH:$SPARK_HOME/bin :: env_operation,()
+SPARK_BINARY_RELEASE:1.1.0-bin-cdh4 :: env_operation,()
+from,errordeveloper/oracle-jdk
+entrypoint,/bin/bash
+$SPARK_HOME :: workdir_operation,()
+opkg-install ¦bash :: Other_operation,()
+SPARK_HOME:/usr/spark-$SPARK_BINARY_RELEASE :: env_operation,()
+curl ¦--silent¦--location¦--retry¦3¦--insecure¦https://d3kbcqa49mib13.cloudfront.net/spark-$SPARK_BINARY_RELEASE.tgz¦|¦gunzip¦|¦tar¦x¦-C¦/usr/ :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+COMPOSER_ALLOW_SUPERUSER:1 :: env_operation,()
+echo ¦curl¦-s -f -L -o /tmp/installer.php https://raw.githubusercontent.com/composer/getcomposer.org/b107d959a5924af895807021fcef4ffec5a76aa9/web/installer && php -r " $signature = '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd58647... :: Filesystem_operation,()
+docker-php-ext-install ¦zip :: Other_operation,()
+COMPOSER_VERSION:1.6.1 :: env_operation,()
+cmd,composer
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+from,php:7.0
+apk ¦--no-cache¦add¦curl¦git¦subversion¦openssh¦openssl¦mercurial¦tini¦bash¦zlib-dev :: Dependencies_operation,()
+echo ¦echo¦"memory_limit=-1" > "$PHP_INI_DIR/conf.d/memory-limit.ini" && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "$PHP_INI_DIR/conf.d/date_timezone.ini" :: Filesystem_operation,()
+COMPOSER_HOME:/tmp :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+/app :: workdir_operation,()

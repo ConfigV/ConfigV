@@ -1,0 +1,12 @@
+echo ¦echo¦'cgi.fix_pathinfo = 0;' >> /etc/php.ini :: Filesystem_operation,()
+sed ¦-i¦"s/;date.timezone¦=.*/date.timezone¦=¦UTC/"¦/etc/php.ini :: Filesystem_operation,()
+expose,9000
+yum-config-manager ¦--add-repo¦http://rpms.famillecollet.com/enterprise/remi.repo :: Other_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+entrypoint,/usr/sbin/php-fpm¦--nodaemonize
+yum ¦-y¦--enablerepo=remi-php70¦--enablerepo=remi¦install¦php-fpm¦php-mbstring¦php-imap¦php-soap¦gd-last¦php-gd¦ImageMagick¦php-xml¦php-mysqlnd¦php-process¦php-cli¦php-pear¦php-bcmath¦php-intl :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/composer :: Permissions_operation,()
+www.conf/etc/php-fpm.d/www.conf :: add_operation,()
+from,centos6/base
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

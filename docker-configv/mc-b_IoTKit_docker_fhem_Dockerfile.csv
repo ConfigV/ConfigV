@@ -1,0 +1,12 @@
+apt-get ¦-y¦--force-yes¦install¦libalgorithm-merge-perl¦libclass-isa-perl¦libcommon-sense-perl¦libdpkg-perl¦liberror-perl¦libfile-copy-recursive-perl¦libfile-fcntllock-perl¦libio-socket-ip-perl¦libjson-perl¦libjson-xs-perl¦libmail-sendmail-perl¦lib... :: Dependencies_operation,()
+echo ¦echo¦Europe/Zurich > /etc/timezone && dpkg-reconfigure tzdata :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+entrypoint,cd¦/opt/fhem¦&&¦perl¦fhem.pl¦fhem.cfg
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦--force-yes¦install¦wget¦apt-transport-https :: Dependencies_operation,()
+wget ¦http://fhem.de/fhem-5.6.deb¦-O¦/opt/fhem.deb :: Dependencies_operation,()
+echo ¦echo¦'attr global nofork 1\\n' >> /opt/fhem/fhem.cfg :: Filesystem_operation,()
+/opt/fhem :: volume_operation,()
+expose,8083
+from,ubuntu@latest
+dpkg ¦-i¦/opt/fhem.deb :: Dependencies_operation,()

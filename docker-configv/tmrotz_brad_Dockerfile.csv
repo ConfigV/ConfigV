@@ -1,0 +1,15 @@
+groupadd ¦-r¦node&&¦useradd¦-r¦-m¦-g¦node¦node :: Permissions_operation,()
+rm ¦-rf¦/usr/src/app/node_modules :: Filesystem_operation,()
+PORT:3000 :: env_operation,()
+npm ¦install :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+./usr/src/app/ :: copy_operation,()
+chown ¦-R¦node:node¦/usr/src/app :: Permissions_operation,()
+from,node:0.1
+/usr/src/app :: workdir_operation,()
+expose,3000
+DB_PORT_27017_TCP_ADDR:db :: env_operation,()
+node :: user_operation,()
+touch ¦/home/node/.mean :: Filesystem_operation,()
+npm ¦install¦-g¦mean-cli¦bower¦gulp :: Dependencies_operation,()
+cmd,npm¦start

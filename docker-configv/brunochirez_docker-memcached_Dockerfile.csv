@@ -1,0 +1,10 @@
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,gliderlabs/alpine:3.3
+MEMCACHE_VERSION:1.4.25 :: env_operation,()
+memcache :: user_operation,()
+expose,11211
+getent ¦group¦memcache¦||¦addgroup¦memcache :: Other_operation,()
+getent ¦passwd¦memcache¦||¦adduser¦-D¦-H¦-G¦memcache¦memcache :: Other_operation,()
+ALPINE_MEMCACHE_VERSION:1.4.25-r0 :: env_operation,()
+apk ¦--update¦add¦memcached=${ALPINE_MEMCACHE_VERSION} :: Dependencies_operation,()
+entrypoint,memcached

@@ -1,0 +1,22 @@
+mkdir ¦-p¦/usr/local/solr :: Filesystem_operation,()
+./create_core.sh/create_core.sh :: copy_operation,()
+SOLR_HOME:/var/solr :: env_operation,()
+./config/log4j.properties/usr/local/solr/server/resources/log4j.properties :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,8983
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+./run.sh/run.sh :: copy_operation,()
+SOLR:solr-$SOLR_VERSION :: env_operation,()
+echo ¦echo¦Europe/Brussels > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata :: Filesystem_operation,()
+./config/config :: add_operation,()
+SOLR_VERSION:5.5.3 :: env_operation,()
+entrypoint,/run.sh
+tar ¦xvf¦/tmp/$SOLR.tgz¦-C¦/usr/local/solr¦--strip-components¦1 :: Filesystem_operation,()
+from,debian@jessie
+$SOLR_USER :: user_operation,()
+apt-get ¦install¦-y¦wget¦locales¦unzip¦openjdk-7-jre :: Dependencies_operation,()
+echo ¦locale-gen¦nl_BE.UTF-8 && echo 'LANG="nl_BE.UTF-8"' > /etc/default/locale :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+SOLR_USER:solr :: env_operation,()
+wget ¦--progress=bar:force¦https://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz¦-O¦/tmp/$SOLR.tgz :: Dependencies_operation,()

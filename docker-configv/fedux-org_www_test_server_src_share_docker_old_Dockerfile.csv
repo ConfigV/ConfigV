@@ -1,0 +1,11 @@
+cmd,/opt/test_server/bin/test_server.sh
+RAILS_ENV:production :: env_operation,()
+./opt/test_server/ :: add_operation,()
+from,feduxorg/centos-rails
+yum ¦install¦-y¦file-libs :: Dependencies_operation,()
+bundle ¦install :: Dependencies_operation,()
+/opt/test_server :: workdir_operation,()
+mkdir ¦-p¦/opt/test_server/ :: Filesystem_operation,()
+bundle ¦exec¦rake¦assets:precompile :: Dependencies_operation,()
+/opt/test_server/tmp/ :: volume_operation,()
+expose,80

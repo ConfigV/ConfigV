@@ -1,0 +1,12 @@
+from,debian@jessie
+curl ¦-Lo¦/usr/local/bin/docker-compose¦https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-Linux-x86_64 :: Dependencies_operation,()
+DOCKER_VERSION:1.8.3 :: env_operation,()
+DOCKER_COMPOSE_VERSION=1.5.2: :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦docker :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦a+x¦/usr/bin/docker :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦a+x¦/usr/local/bin/docker-compose :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-so¦/usr/bin/docker¦https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION} :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+from,ubuntu:12.04
+rm ¦0.5.0.zip :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦nodejs¦-y :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+wget ¦https://github.com/node-red/node-red/archive/0.5.0.zip :: Dependencies_operation,()
+unzip ¦0.5.0.zip¦-d¦/opt :: Filesystem_operation,()
+apt-get ¦install¦python-software-properties¦python¦g++¦make¦software-properties-common¦wget¦unzip¦-y :: Dependencies_operation,()
+cd ¦/opt/node-red-0.5.0 :: Filesystem_operation,()
+sed ¦-i¦s/main/'main¦universe'/¦/etc/apt/sources.list :: Filesystem_operation,()
+npm ¦install¦--production :: Dependencies_operation,()
+add-apt-repository ¦ppa:chris-lea/node.js¦-y :: Dependencies_operation,()

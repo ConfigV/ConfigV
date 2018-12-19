@@ -1,0 +1,9 @@
+from,django:1.8
+/usr/src/app :: workdir_operation,()
+expose,8000
+cmd,runserver¦0.0.0.0:8000
+pip ¦install¦-r¦/tmp/requirements.txt :: Dependencies_operation,()
+entrypoint,python¦manage.py
+requirements.txt/tmp/ :: copy_operation,()
+/usr/src/app :: volume_operation,()
+rm ¦-f¦/tmp/requirements.txt :: Filesystem_operation,()

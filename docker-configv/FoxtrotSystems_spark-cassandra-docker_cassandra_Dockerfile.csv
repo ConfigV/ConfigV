@@ -1,0 +1,11 @@
+ln ¦-s¦/usr/local/datastax-agent-5.2.2¦/usr/local/datastax-agent :: Filesystem_operation,()
+src/supervisord.conf/etc/supervisord.conf :: add_operation,()
+cmd,start
+from,cassandra:2.1
+root :: user_operation,()
+src/start.sh/usr/local/bin/start :: add_operation,()
+sed ¦-ri¦'/CASSANDRA-7254/,+5d'¦/usr/sbin/cassandra :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,22 8012 61621
+apt-get ¦install¦-y¦supervisor¦curl¦sysstat :: Dependencies_operation,()
+curl ¦-L¦http://downloads.datastax.com/community/datastax-agent-5.2.2.tar.gz¦|¦tar¦xz¦-C¦/usr/local :: Dependencies_operation,()

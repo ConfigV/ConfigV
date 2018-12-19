@@ -1,0 +1,10 @@
+pacman ¦-Syu¦--noconfirm¦yaourt :: Filesystem_operation,()
+from,base/archlinux
+su ¦builder¦-c¦"yaourt¦-Sy¦--noconfirm¦mpich" :: Other_operation,()
+pacman ¦-Syu¦--noconfirm¦--needed¦base-devel¦wget :: Filesystem_operation,()
+echo ¦echo¦"%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()
+yaourt.repo/tmp/ :: copy_operation,()
+pacman-key ¦--refresh-keys :: Other_operation,()
+useradd ¦-G¦wheel¦builder¦||¦true :: Permissions_operation,()
+cat ¦/tmp/yaourt.repo¦>>¦/etc/pacman.conf :: Filesystem_operation,()
+pacman-db-upgrade  :: Other_operation,()

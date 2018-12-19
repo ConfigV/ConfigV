@@ -1,0 +1,14 @@
+chmod ¦+x¦/usr/local/bin/docker :: Permissions_operation,()
+cmd,jobberd
+apk ¦add¦--update¦gpgme¦curl¦py-pip :: Dependencies_operation,()
+pip ¦install¦docker-compose¦docker-cloud :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+root :: user_operation,()
+# ¦Cleanup :: Other_operation,()
+imagescripts/opt/cloud :: copy_operation,()
+entrypoint,/opt/cloud/docker-entrypoint.sh
+curl ¦-fSL¦"https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION"¦-o¦/usr/local/bin/docker :: Dependencies_operation,()
+from,blacklabelops/jobber:alpine
+curl ¦-L¦https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-`uname¦-s`-`uname¦-m`¦>/usr/local/bin/docker-machine :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/docker-machine :: Permissions_operation,()
+DOCKER_VERSION=1.10.1: :: env_operation,()

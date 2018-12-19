@@ -1,0 +1,14 @@
+echo ¦echo¦"Subsonic StandAlone Docker Image (v5.2)" :: Filesystem_operation,()
+wget ¦-qO-¦http://downloads.sourceforge.net/project/subsonic/subsonic/5.2/subsonic-5.2-standalone.tar.gz¦|¦tar¦xvz¦-C¦/opt/subsonic :: Dependencies_operation,()
+from,ubuntu:14.04
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+mkdir ¦-p¦/opt/subsonic :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/subsonic :: volume_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+apt-get ¦install¦openjdk-7-jre-headless¦wget¦-y :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+cmd,/bin/bash¦-c¦"export¦LANG=en_US.UTF-8¦&&¦/opt/subsonic/subsonic.sh¦&&¦/bin/bash"
+/var/music :: volume_operation,()
+expose,4040

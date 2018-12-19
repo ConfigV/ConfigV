@@ -1,0 +1,20 @@
+apt-get ¦install¦-yqq¦software-properties-common¦git¦gitk¦git-gui¦nano¦ansible¦libgcc1¦libc6¦libuuid1¦libice6¦libsm6¦libstdc++6¦libx11-6¦libxau6¦libxcb1¦libxcursor1¦libxdmcp6¦libxext6¦libxfixes3¦libxinerama1¦libxrender1¦zlib1g¦x11vnc¦xvfb¦iceweasel... :: Dependencies_operation,()
+apt.sources.list/etc/apt/sources.list :: copy_operation,()
+start_container.sh/start_container.sh :: copy_operation,()
+com.gestiweb.docker.image-name:eneboo-client:dev :: label_operation,()
+mv ¦eneboo-build-2.4.5*¦/opt/ :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+unlink ¦eneboo-build-2.4.5.1-rc6-linux64-quick.tar.bz2 :: Other_operation,()
+apt-get ¦dist-upgrade¦-yqq :: Dependencies_operation,()
+apt.preferences.conf/etc/apt/preferences :: copy_operation,()
+wget ¦http://www.eneboo.org/pub/contrib/2.4.5.1-rc6/eneboo-build-2.4.5.1-rc6-linux64-quick.tar.bz2 :: Dependencies_operation,()
+apt.sources.x2go.list/etc/apt/sources.list.d/x2go.list :: copy_operation,()
+apt-get ¦install¦x2go-keyring¦-y¦--force-yes :: Dependencies_operation,()
+from,gestiweb/debian-jessie:upgrade
+ln ¦-s¦/opt/eneboo-build-2.4.5.1_rc6-linux64-quick/bin/eneboo¦/usr/local/bin/eneboo :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/start_container.sh
+apt-get ¦update¦-y¦-qq :: Dependencies_operation,()
+tar ¦jxf¦eneboo-build-2.4.5.1-rc6-linux64-quick.tar.bz2 :: Filesystem_operation,()
+adduser ¦gestiweb¦--disabled-password¦-q¦--gecos¦"" :: Permissions_operation,()
+expose,22

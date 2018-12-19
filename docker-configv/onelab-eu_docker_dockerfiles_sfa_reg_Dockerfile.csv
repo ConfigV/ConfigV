@@ -1,0 +1,21 @@
+apt-get ¦-y¦install¦python¦postgresql¦git¦python-psycopg2¦python-sqlalchemy¦python-migrate¦uuid-runtime¦python-openssl¦python-m2crypto¦python-dateutil¦python-lxml¦python-libxslt1¦python-zsi¦xmlsec1¦python-pip :: Dependencies_operation,()
+cp ¦/root/docker/registry.sfa_config¦/etc/sfa/sfa_config :: Filesystem_operation,()
+/root/docker/ :: volume_operation,()
+mkdir ¦/var/myslice/ :: Filesystem_operation,()
+cd ¦/root/sfa :: Filesystem_operation,()
+/var/myslice :: volume_operation,()
+python ¦setup.py¦install¦--install-scripts=/usr/bin :: Build_Execute_operation,()
+make ¦version :: Build_Execute_operation,()
+/etc/sfa/root_certificate :: volume_operation,()
+from,ubuntu:14.04
+/var/log/ :: volume_operation,()
+git ¦clone¦git://git.onelab.eu/sfa.git :: Dependencies_operation,()
+pip ¦install¦xmlbuilder :: Dependencies_operation,()
+expose,60806080
+ssh-keygen ¦-f¦/var/myslice/myslice¦-t¦rsa¦-N¦'' :: Other_operation,()
+chmod ¦+x¦docker/registry_init.sh :: Permissions_operation,()
+entrypoint,sh¦/root/docker/sfa_start.sh
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/onelab-eu/docker.git :: Dependencies_operation,()
+cd ¦/root/ :: Filesystem_operation,()
+chmod ¦+x¦docker/sfa_start.sh :: Permissions_operation,()

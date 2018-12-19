@@ -1,0 +1,9 @@
+ENTRYPOINT.sh/ENTRYPOINT.sh :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+entrypoint,/ENTRYPOINT.sh
+chmod ¦+x¦fly_linux_amd64 :: Permissions_operation,()
+from,alpine:3.6
+mv ¦fly_linux_amd64¦/usr/local/bin/fly :: Filesystem_operation,()
+cmd,--version
+apk ¦--update¦add¦jq¦bash¦git¦curl¦tree¦openssh-client¦openssl :: Dependencies_operation,()
+wget ¦https://github.com/concourse/concourse/releases/download/v2.7.0/fly_linux_amd64 :: Dependencies_operation,()

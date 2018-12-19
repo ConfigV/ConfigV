@@ -1,0 +1,11 @@
+set ¦-x :: Environment_operation,()
+testing/environments/docker/logstash/pki/tls/certs/logstash.crt/etc/pki/tls/certs/logstash.crt :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+set ¦-x¦go¦get¦github.com/pierrre/gotestcover¦github.com/tsg/goautotest¦golang.org/x/tools/cmd/vet :: Environment_operation,()
+from,golang:1.6
+mkdir ¦-p¦/etc/pki/tls/certs :: Filesystem_operation,()
+./go/src/github.com/elastic/beats/ :: copy_operation,()
+GO15VENDOREXPERIMENT=1: :: env_operation,()
+libbeat/scripts/docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦netcat :: Dependencies_operation,()

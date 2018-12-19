@@ -1,0 +1,15 @@
+cmd,./run.sh
+mkdir ¦-p¦/public :: Filesystem_operation,()
+package.json/app/package.json :: copy_operation,()
+chown ¦-R¦app:app¦. :: Permissions_operation,()
+expose,8080
+/app :: workdir_operation,()
+./app :: copy_operation,()
+useradd ¦-d¦/app¦app :: Permissions_operation,()
+chown ¦app:app¦/public :: Permissions_operation,()
+app :: user_operation,()
+root :: user_operation,()
+assets/app/assets :: copy_operation,()
+npm ¦install :: Dependencies_operation,()
+npm ¦run¦hof-transpile :: Dependencies_operation,()
+from,vaijab/nodejs:0.12.7

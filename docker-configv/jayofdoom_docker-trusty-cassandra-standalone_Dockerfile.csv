@@ -1,0 +1,15 @@
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+echo ¦echo¦"oracle-java7-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections :: Filesystem_operation,()
+expose,9160
+apt-get ¦-y¦install¦oracle-java7-installer¦oracle-java7-set-default :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:webupd8team/java :: Dependencies_operation,()
+src/launch_cass.sh/launch_cass.sh :: add_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-oracle :: env_operation,()
+echo ¦echo¦-e "[program:cassandra]\\ncommand=/bin/sh /etc/init.d/cassandra start" > /etc/supervisor/conf.d/cassandra.conf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://debian.datastax.com/community stable main" > /etc/apt/sources.list.d/cassandra.list :: Filesystem_operation,()
+cmd,/bin/sh¦-e¦/launch_cass.sh
+from,jayofdoom/docker-ubuntu-14.04
+ln ¦-s¦/usr/share/java/jna.jar¦/usr/share/cassandra/lib :: Filesystem_operation,()
+src/supervisord.conf/etc/supervisor/supervisord.conf :: add_operation,()
+apt-get ¦install¦-y¦libjna-java¦dsc20¦python-cql¦supervisor :: Dependencies_operation,()

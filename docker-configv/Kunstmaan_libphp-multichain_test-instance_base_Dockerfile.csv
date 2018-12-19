@@ -1,0 +1,15 @@
+apt-get ¦install¦-q¦-y¦wget¦curl :: Dependencies_operation,()
+mv ¦multichaind¦multichain-cli¦multichain-util¦/usr/local/bin :: Filesystem_operation,()
+from,ubuntu@xenial
+apt-get ¦clean :: Dependencies_operation,()
+wget ¦http://www.multichain.com/download/multichain-1.0-alpha-27.tar.gz :: Dependencies_operation,()
+cd ¦multichain-1.0-alpha-27 :: Filesystem_operation,()
+apt-get ¦dist-upgrade¦-q¦-y :: Dependencies_operation,()
+cmd,/bin/bash
+apt-get ¦upgrade¦-q¦-y :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-Rf¦multichain* :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+tar ¦-xvzf¦multichain-1.0-alpha-27.tar.gz :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,20 @@
+apt-get ¦install¦-y¦openjdk-7-jdk :: Dependencies_operation,()
+config/elasticsearch.yml/elasticsearch/config/elasticsearch.yml :: add_operation,()
+from,ruby:2.1
+cmd,rails¦server¦-b¦0.0.0.0
+GemfileGemfile :: copy_operation,()
+npm ¦install¦-g¦bower :: Dependencies_operation,()
+wget ¦https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.3.1/elasticsearch-2.3.1.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦wget¦nodejs¦npm¦nodejs-legacy¦mysql-client¦vim¦python-software-properties¦debconf-utils¦software-properties-common¦apt-utils :: Dependencies_operation,()
+./myapp :: add_operation,()
+/myapp :: workdir_operation,()
+bundle ¦install :: Dependencies_operation,()
+mkdir ¦/myapp :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+npm ¦install¦-g¦phantomjs-prebuilt :: Dependencies_operation,()
+expose,9300
+dpkg ¦-i¦elasticsearch-2.3.1.deb :: Dependencies_operation,()
+service ¦elasticsearch¦start :: Build_Execute_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+Gemfile.lockGemfile.lock :: copy_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()

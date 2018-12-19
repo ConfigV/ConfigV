@@ -1,0 +1,10 @@
+config-supervisord.sh/usr/bin/config-supervisord.sh :: add_operation,()
+from,ziyunhx/base
+echo ¦echo¦[supervisord] | tee -a /etc/supervisor/supervisord.conf ; echo nodaemon=true | tee -a /etc/supervisor/supervisord.conf :: Filesystem_operation,()
+storm.yaml$STORM_HOME/conf/storm.yaml :: add_operation,()
+STORM_HOME:/opt/apache-storm-0.9.5 :: env_operation,()
+cluster.xml$STORM_HOME/logback/cluster.xml :: add_operation,()
+ln ¦-s¦$STORM_HOME/bin/storm¦/usr/bin/storm :: Filesystem_operation,()
+start-supervisor.sh/usr/bin/start-supervisor.sh :: add_operation,()
+wget ¦-q¦-O¦-¦http://apache.fayea.com/storm/apache-storm-0.9.5/apache-storm-0.9.5.tar.gz¦|¦tar¦-xzf¦-¦-C¦/opt :: Dependencies_operation,()
+groupadd ¦storm;¦useradd¦--gid¦storm¦--home-dir¦/home/storm¦--create-home¦--shell¦/bin/bash¦storm;¦chown¦-R¦storm:storm¦$STORM_HOME;¦mkdir¦/var/log/storm¦;¦chown¦-R¦storm:storm¦/var/log/storm :: Permissions_operation,()

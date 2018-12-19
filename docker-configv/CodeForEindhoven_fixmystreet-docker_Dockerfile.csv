@@ -1,0 +1,20 @@
+ruby ¦-rubygems¦-e¦'puts¦Gem.user_dir' :: Other_operation,()
+pgpass/root/.pgpass :: add_operation,()
+/fixmystreet :: workdir_operation,()
+xargs ¦-a¦conf/packages.ubuntu-precise¦apt-get¦install¦-y¦-q :: Other_operation,()
+chmod ¦+x¦/tmp/install-database.sh :: Permissions_operation,()
+cmd,/bin/bash
+entrypoint,script/fixmystreet_app_server.pl¦-d¦--fork
+from,ubuntu:14.04
+locale-gen ¦en_US.utf8 :: Other_operation,()
+expose,3000
+bin/make_css  :: Other_operation,()
+install-database.sh/tmp/install-database.sh :: add_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+bin/install_perl_modules  :: Other_operation,()
+LANG:nl_NL.UTF-8 :: env_operation,()
+gem ¦install¦--user-install¦--no-ri¦--no-rdoc¦bundler :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦-q¦git :: Other_operation,()
+cachebuster=b953b35 ¦git¦clone¦--recursive¦https://github.com/mysociety/fixmystreet.git :: Other_operation,()
+general.yml/fixmystreet/conf/general.yml :: add_operation,()
+chmod ¦0600¦/root/.pgpass :: Permissions_operation,()

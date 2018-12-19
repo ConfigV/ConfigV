@@ -1,0 +1,15 @@
+cmd,/usr/sbin/sshd¦-D
+from,debian@jessie
+locale-gen  :: Other_operation,()
+expose,22 25 80 443 587 993 1194 1936
+echo ¦echo¦'root:root' | chpasswd :: Filesystem_operation,()
+apt-get ¦install¦-y¦less¦vim¦nano¦htop¦curl¦rsync¦screen¦openssh-server¦python :: Dependencies_operation,()
+NOTVISIBLE:"in :: env_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦locales :: Dependencies_operation,()
+locale ¦-a :: Other_operation,()
+echo ¦echo¦"en_US.UTF-8 UTF-8" > /etc/locale.gen :: Filesystem_operation,()

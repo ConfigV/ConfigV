@@ -1,0 +1,14 @@
+find ¦.¦-type¦f¦-exec¦touch¦{}¦";" :: Filesystem_operation,()
+sudo ¦apt-get¦update :: Other_operation,()
+git ¦submodule¦update :: Dependencies_operation,()
+tests/deterministic_signature_test  :: Other_operation,()
+git ¦submodule¦init :: Dependencies_operation,()
+sudo ¦apt-get¦-y¦install¦cmake¦libreadline-dev¦uuid-dev¦zip¦python-dev :: Other_operation,()
+/home/myvbo/cloudwallets/bitshares :: workdir_operation,()
+cmd,-conf=/coin/bitshares/bitshares.conf¦-datadir=/coin/bitshares
+./home/myvbo/cloudwallets/bitshares :: add_operation,()
+cmake ¦. :: Build_Execute_operation,()
+entrypoint,/home/myvbo/cloudwallets/bitshares/programs/client/bitshares_client
+make  :: Build_Execute_operation,()
+expose,3000
+from,myvbo/cloudserver-53.154

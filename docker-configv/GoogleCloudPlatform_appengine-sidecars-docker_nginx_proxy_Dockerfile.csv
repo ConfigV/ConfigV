@@ -1,0 +1,16 @@
+static.conf/var/lib/nginx/optional/static.conf :: add_operation,()
+entrypoint,/var/lib/nginx/bin/start_nginx.sh
+apt-get ¦install¦-y¦nginx-full :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+proxy_pass.inc/var/lib/nginx/inc/proxy_pass.inc :: add_operation,()
+from,gcr.io/google_appengine/base
+expose,8090
+mkdir ¦-p¦/var/lib/nginx/optional :: Filesystem_operation,()
+rm ¦/var/lib/apt/lists/*_* :: Filesystem_operation,()
+mkdir ¦-p¦/var/lib/nginx/extra :: Filesystem_operation,()
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+mkdir ¦-p¦/var/lib/nginx/bin :: Filesystem_operation,()
+mkdir ¦-p¦/var/lib/nginx/inc :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+start_nginx.sh/var/lib/nginx/bin/start_nginx.sh :: add_operation,()
+rm ¦/etc/nginx/nginx.conf :: Filesystem_operation,()

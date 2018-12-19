@@ -1,0 +1,7 @@
+GARAGE_PROVIDES:hhvm :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://dl.hhvm.com/ubuntu $(/var/garage/base-release) main" > /etc/apt/sources.list.d/hhvm.list &&\\ :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+from,garage/base
+apt-get ¦clean :: Dependencies_operation,()

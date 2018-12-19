@@ -1,0 +1,15 @@
+rm ¦/usr/local/openkm-tomcat-bundle.zip :: Filesystem_operation,()
+from,dockerfile/ubuntu
+cmd,/usr/local/tomcat/bin/catalina.sh¦run
+ln ¦-s¦$CATALINA_HOME¦/opt/openkm :: Filesystem_operation,()
+ORACLE_JAVA_HOME:/usr/lib/jvm/java-7-oracle/ :: env_operation,()
+apt-get ¦-y¦install¦libreoffice¦imagemagick¦swftools¦liblog4j1.2-java¦libgnumail-java¦ant¦curl¦unzip¦sudo¦tar :: Dependencies_operation,()
+JAVA_HOME:/usr/local/java :: env_operation,()
+ln ¦-s¦$ORACLE_JAVA_HOME¦$JAVA_HOME :: Filesystem_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && add-apt-repository -y ppa:webupd8team/java && apt-get update &&... :: Filesystem_operation,()
+CATALINA_HOME:/usr/local/tomcat :: env_operation,()
+TOMCAT_VERSION:7.0.54 :: env_operation,()
+unzip ¦/usr/local/openkm-tomcat-bundle.zip¦-d¦/usr/local/ :: Filesystem_operation,()
+PATH:$PATH:$CATALINA_HOME/bin :: env_operation,()
+curl ¦-L¦https://downloads.sourceforge.net/project/openkm/6.3.2/openkm-6.3.2-community-tomcat-bundle.zip¦-o¦/usr/local/openkm-tomcat-bundle.zip :: Dependencies_operation,()
+expose,8080 2002

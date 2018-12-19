@@ -1,0 +1,10 @@
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+./jumpserver :: copy_operation,()
+/jumpserver :: workdir_operation,()
+apk ¦add¦--update¦openssh¦sshpass¦python¦py-mysqldb¦py-psutil¦py-crypto :: Dependencies_operation,()
+cmd,/run.sh
+from,alpine
+/data :: volume_operation,()
+expose,80 22
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+python ¦/jumpserver/install/docker/get-pip.py :: Build_Execute_operation,()

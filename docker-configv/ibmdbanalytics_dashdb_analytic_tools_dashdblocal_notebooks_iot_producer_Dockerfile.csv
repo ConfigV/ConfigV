@@ -1,0 +1,16 @@
+/producer :: workdir_operation,()
+start.sh/usr/local/bin :: copy_operation,()
+ln ¦-s¦zookeeper-*¦zookeeper :: Filesystem_operation,()
+yum ¦install¦-y¦java-1.8.0-openjdk-headless¦curl :: Dependencies_operation,()
+cmd,1000
+ln ¦-s¦kafka_*¦kafka :: Filesystem_operation,()
+from,centos:7.0
+entrypoint,start.sh
+ZOOKEEPER_VERSION:3.4.8 :: env_operation,()
+curl ¦-S¦http://www-eu.apache.org/dist/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz¦|¦tar¦-xz :: Dependencies_operation,()
+curl ¦-S¦http://www-eu.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_2.11-${KAFKA_VERSION}.tgz¦|¦tar¦-xz :: Dependencies_operation,()
+chmod ¦a+rx¦/usr/local/bin/start.sh :: Permissions_operation,()
+KAFKA_VERSION:0.10.1.0 :: env_operation,()
+PATH=$PATH:$JAVA_HOME/bin:/producer/kafka/bin: :: env_operation,()
+zoo.cfgzookeeper/conf :: copy_operation,()
+JAVA_HOME=/etc/alternatives/jre: :: env_operation,()

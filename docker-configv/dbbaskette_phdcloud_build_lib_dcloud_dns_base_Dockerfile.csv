@@ -1,0 +1,4 @@
+mkdir ¦-p¦/etc/dcloud/dnsmasq :: Filesystem_operation,()
+from,dcloud/ssh-base:0.2
+yum ¦-y¦install¦dnsmasq :: Dependencies_operation,()
+sed ¦-i¦'s/OPTIONS=.*/OPTIONS=\\"-s¦$DOMAIN_SUFFIX¦--addn-hosts/etc\\/dcloud\\/dnsmasq\\/hosts\\"/'¦/etc/init.d/dnsmasq :: Filesystem_operation,()

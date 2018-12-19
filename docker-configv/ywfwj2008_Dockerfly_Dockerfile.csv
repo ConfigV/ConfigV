@@ -1,0 +1,10 @@
+mkdir ¦/dockerfly :: Filesystem_operation,()
+chmod ¦+x¦/dockerfly/start.sh :: Permissions_operation,()
+.//dockerfly/ :: copy_operation,()
+echo ¦echo¦"#!/bin/sh" :: Filesystem_operation,()
+from,nimmis/alpine-java
+entrypoint,/bin/sh¦/dockerfly/start.sh
+echo ¦echo¦"http://mirrors.aliyun.com/alpine/v3.5/main" > /etc/apk/repositories :: Filesystem_operation,()
+/dockerfly :: workdir_operation,()
+apk ¦--no-cache¦add¦socat :: Dependencies_operation,()
+expose,28083

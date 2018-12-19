@@ -1,0 +1,9 @@
+cmd,/bin/bash¦-c¦/launch.sh
+echo ¦wget¦-O - http://debian.neo4j.org/neotechnology.gpg.key | apt-key add - && echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list && apt-get update ; apt-get install neo4j -y :: Filesystem_operation,()
+echo ¦chmod¦+x /launch.sh && apt-get clean && echo "remote_shell_host=0.0.0.0" >> /var/lib/neo4j/conf/neo4j.properties :: Filesystem_operation,()
+launch.sh/ :: add_operation,()
+/var/lib/neo4j/data :: volume_operation,()
+expose,1337
+/ :: workdir_operation,()
+from,java:8.0
+sed ¦-i.bak¦"s|dbms.security.auth_enabled=true|dbms.security.auth_enabled=false|"¦/var/lib/neo4j/conf/neo4j-server.properties :: Filesystem_operation,()

@@ -1,0 +1,15 @@
+cat ¦/var/lib/zookeeper/myid :: Filesystem_operation,()
+mv ¦-f¦/etc/zookeeper/conf/zoo.cfg¦/etc/zookeeper/conf/zoo.cfg.org :: Filesystem_operation,()
+./supervisord.conf/etc/ :: add_operation,()
+service ¦zookeeper-server¦init :: Build_Execute_operation,()
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+local-cdh5.repo/etc/yum.repos.d/local-cdh5.repo :: add_operation,()
+expose,22 2181 2888 3888
+chown ¦zookeeper:zookeeper¦/var/lib/zookeeper/myid :: Permissions_operation,()
+./zoo.cfg/etc/zookeeper/conf/ :: add_operation,()
+yum ¦--disablerepo=cloudera-cdh5¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦zookeeper-server :: Dependencies_operation,()
+mkdir ¦-p¦/var/lib/zookeeper :: Filesystem_operation,()
+echo ¦echo¦"1" > /var/lib/zookeeper/myid :: Filesystem_operation,()
+chown ¦-R¦zookeeper¦/var/lib/zookeeper/ :: Permissions_operation,()
+cmd,echo¦"${ZOO_NODE_NUM}"¦>¦/var/lib/zookeeper/myid¦&&¦"/usr/bin/supervisord"
+from,whlee21/centos6-cdh5-base

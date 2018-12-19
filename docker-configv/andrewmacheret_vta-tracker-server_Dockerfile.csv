@@ -1,0 +1,20 @@
+echo ¦echo¦mysql-server mysql-server/root_password_again password strangehat | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦install¦-y¦python-bs4 :: Dependencies_operation,()
+./home/noder/gtfs :: add_operation,()
+useradd ¦-m¦-s¦/usr/bin/false¦noder :: Permissions_operation,()
+echo ¦echo¦mysql-server mysql-server/root_password password strangehat | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦install¦-y¦mysql-server :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦unzip¦dos2unix :: Dependencies_operation,()
+usermod ¦-d¦/var/lib/mysql/¦mysql :: Permissions_operation,()
+MYSQL_PWD:strangehat :: env_operation,()
+from,ubuntu@latest
+cmd,service¦mysql¦start¦&&¦/usr/bin/nodejs¦/home/noder/gtfs/gtfs-server.js
+cp ¦mysql.properties.example¦mysql.properties :: Filesystem_operation,()
+chmod ¦600¦mysql.properties :: Permissions_operation,()
+/home/noder/gtfs :: workdir_operation,()
+service ¦mysql¦start :: Build_Execute_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs¦npm :: Dependencies_operation,()
+sed ¦-i''¦'s/password=/authentication_string=/g'¦/usr/share/mysql/debian-start.inc.sh :: Filesystem_operation,()
+expose,3002
+mysql ¦-sNe¦"\\ :: Other_operation,()

@@ -1,0 +1,13 @@
+sbt ¦stage :: Other_operation,()
+/src/planty-worklogs/planty-worklogs-common :: workdir_operation,()
+sbt ¦publishLocal :: Other_operation,()
+.//src/planty-worklogs/ :: add_operation,()
+sbt ¦sbt-version :: Other_operation,()
+SBT_VERSION:0.13.8 :: env_operation,()
+/src/planty-worklogs/planty-cats-view :: workdir_operation,()
+/src/planty-worklogs/planty-jira-view :: workdir_operation,()
+dpkg ¦-i¦sbt-$SBT_VERSION.deb :: Dependencies_operation,()
+from,java:8.0
+wget ¦https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb :: Dependencies_operation,()
+cmd,target/universal/stage/bin/planty-worklogs-web
+/src/planty-worklogs/planty-worklogs-web :: workdir_operation,()

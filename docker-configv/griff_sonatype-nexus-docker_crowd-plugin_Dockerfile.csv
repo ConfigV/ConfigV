@@ -1,0 +1,15 @@
+chmod ¦a+x¦/opt/start.sh :: Permissions_operation,()
+start.sh/opt/start.sh :: add_operation,()
+CROWD_SERVER_PROTO:http :: env_operation,()
+nexus :: user_operation,()
+unzip ¦/tmp/nexus-crowd-plugin.zip¦-d¦/opt/sonatype-work/nexus/plugin-repository :: Filesystem_operation,()
+mkdir ¦-p¦/opt/sonatype-work/nexus/conf¦/opt/sonatype-work/nexus/plugin-repository :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-q¦-y¦unzip :: Other_operation,()
+wget ¦--no-verbose¦-O¦/tmp/nexus-crowd-plugin.zip¦https://github.com/PatrickRoumanoff/nexus-crowd-plugin/wiki/nexus-crowd-plugin-2.0.7-bundle.zip :: Dependencies_operation,()
+chown ¦-R¦nexus:nexus¦/opt/sonatype-work :: Permissions_operation,()
+CROWD_APP_NAME:nexus :: env_operation,()
+from,griff/sonatype-nexus
+root :: user_operation,()
+CROWD_LINK_ENV:CROWD_PORT :: env_operation,()
+cmd,/opt/start.sh
+CROWD_SERVER_PATH:/crowd/ :: env_operation,()

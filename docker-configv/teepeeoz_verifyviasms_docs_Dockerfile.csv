@@ -1,0 +1,17 @@
+TWILIO_TOKEN=: :: env_operation,()
+cd ¦/var/www/html :: Filesystem_operation,()
+TWILIO_NUMBER=: :: env_operation,()
+unzip ¦/var/www/html/bootstrap.zip :: Filesystem_operation,()
+wget ¦-O¦/var/www/html/settings.php¦https://raw.githubusercontent.com/teepeeoz/verifyviasms/master/web/settings.php :: Dependencies_operation,()
+wget ¦https://raw.githubusercontent.com/teepeeoz/verifyviasms/master/docs/bootstrap.zip :: Dependencies_operation,()
+from,nimmis/apache-php5
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+wget ¦-O¦/var/www/html/index.php¦https://raw.githubusercontent.com/teepeeoz/verifyviasms/master/web/index.php :: Dependencies_operation,()
+chown ¦www-data:www-data¦/opt/www.data :: Permissions_operation,()
+composer ¦require¦twilio/sdk:5.6.0 :: Dependencies_operation,()
+expose,443
+TWILIO_SID=: :: env_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+mkdir ¦-p¦/opt/www.data :: Filesystem_operation,()
+rm ¦/var/www/html/index.html :: Filesystem_operation,()
+rm ¦/var/www/html/bootstrap.zip :: Filesystem_operation,()

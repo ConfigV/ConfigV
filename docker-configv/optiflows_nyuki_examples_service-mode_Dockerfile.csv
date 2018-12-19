@@ -1,0 +1,11 @@
+curl ¦https://bootstrap.pypa.io/get-pip.py¦|¦python3 :: Dependencies_operation,()
+from,alpine:3.5
+${WORKSPACE} :: workdir_operation,()
+cmd,python3¦worker.py
+WORKSPACE:/home :: env_operation,()
+pip ¦install¦-e¦git+git://github.com/optiflows/nyuki@master#egg=nyuki :: Dependencies_operation,()
+././ :: copy_operation,()
+apk ¦del¦build-deps :: Dependencies_operation,()
+apk ¦add¦--update¦python3¦curl :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/*¦$HOME/.cache :: Filesystem_operation,()
+apk ¦add¦--virtual¦build-deps¦python3-dev¦make¦g++¦git :: Dependencies_operation,()

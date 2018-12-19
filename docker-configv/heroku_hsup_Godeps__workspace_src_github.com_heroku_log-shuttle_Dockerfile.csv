@@ -1,0 +1,7 @@
+./go/src/github.com/heroku/log-shuttle :: copy_operation,()
+GOPATH=/go: :: env_operation,()
+from,gliderlabs/alpine:3.1
+apk ¦del¦go :: Dependencies_operation,()
+go ¦get¦github.com/heroku/log-shuttle/cmd/log-shuttle :: Build_Execute_operation,()
+entrypoint,/go/bin/log-shuttle
+apk-install ¦go :: Dependencies_operation,()

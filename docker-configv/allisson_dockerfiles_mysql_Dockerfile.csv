@@ -1,0 +1,23 @@
+INITRD:No :: env_operation,()
+cmd,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+expose,22 3306
+dpkg-divert ¦--divert¦/usr/bin/ischroot.debianutils¦--rename¦/usr/bin/ischroot :: Other_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+/bin/sh ¦/tmp/set-mysql-password.sh :: Other_operation,()
+apt-get ¦install¦-y¦openssh-server¦mysql-server¦supervisor :: Dependencies_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu@latest
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+policy-rc.d/usr/sbin/policy-rc.d :: add_operation,()
+25norecommends/etc/apt/apt.conf.d/25norecommends :: add_operation,()
+echo ¦echo¦"root:root" | chpasswd :: Filesystem_operation,()
+source.list/etc/apt/sources.list :: add_operation,()
+set-mysql-password.sh/tmp/set-mysql-password.sh :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+ln ¦-s¦/bin/true¦/usr/bin/ischroot :: Filesystem_operation,()

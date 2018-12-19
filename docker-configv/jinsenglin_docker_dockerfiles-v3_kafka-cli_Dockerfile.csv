@@ -1,0 +1,10 @@
+ln ¦-s¦/kafka_2.11-0.11.0.0¦/kafka :: Filesystem_operation,()
+entrypoint,/ENTRYPOINT.sh
+rm ¦kafka_2.11-0.11.0.0.tgz :: Filesystem_operation,()
+cmd,--version
+tar ¦-zxf¦kafka_2.11-0.11.0.0.tgz :: Filesystem_operation,()
+ENTRYPOINT.sh/ENTRYPOINT.sh :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+wget ¦http://ftp.mirror.tw/pub/apache/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz :: Dependencies_operation,()
+data/data :: copy_operation,()
+from,jimlintw/base:jdk-alpine

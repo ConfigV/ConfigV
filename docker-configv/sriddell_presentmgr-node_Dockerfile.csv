@@ -1,0 +1,16 @@
+nvm ¦alias¦default¦v0.11.12 :: Dependencies_operation,()
+apt-get ¦-y¦install¦git :: Dependencies_operation,()
+git ¦clone¦https://github.com/sriddell/presentmgr-node.git :: Dependencies_operation,()
+expose,3000
+presentmgr-node :: workdir_operation,()
+git ¦clone¦https://github.com/creationix/nvm.git¦/.nvm :: Dependencies_operation,()
+ln ¦-s¦/.nvm/v0.11.12/bin/node¦/usr/bin/node :: Filesystem_operation,()
+entrypoint,git¦pull¦&&¦npm¦start
+cd ¦presentmgr-node;¦npm¦install :: Filesystem_operation,()
+/bin/bash ¦-c¦'.¦/.nvm/nvm.sh :: Build_Execute_operation,()
+from,ubuntu:12.04
+ln ¦-s¦/.nvm/v0.11.12/bin/npm¦/usr/bin/npm' :: Filesystem_operation,()
+nvm ¦install¦v0.11.12 :: Dependencies_operation,()
+echo ¦echo¦". /.nvm/nvm.sh" >> /etc/bash.bashrc :: Filesystem_operation,()
+apt-get ¦-y¦install¦build-essential¦libssl-dev¦curl :: Dependencies_operation,()
+nvm ¦use¦v0.11.12 :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+cmd,0.0.0.0:4545
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+expose,4545
+from,mjdsys/ubuntu-saucy-i386
+apt-get ¦install¦-y¦python-pip :: Dependencies_operation,()
+./code/ :: add_operation,()
+/code :: workdir_operation,()
+mkdir ¦/code :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+python ¦manage.py¦migrate :: Build_Execute_operation,()
+entrypoint,python¦manage.py¦runserver
+apt-get ¦install¦-y¦sqlite3 :: Dependencies_operation,()

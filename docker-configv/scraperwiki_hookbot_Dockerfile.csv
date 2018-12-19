@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+from,golang:1.4
+apt-get ¦install¦-y¦upx :: Dependencies_operation,()
+cmd,hookbot
+./go/src/github.com/scraperwiki/hookbot :: copy_operation,()
+go ¦install¦-a¦-installsuffix=static¦std :: Build_Execute_operation,()
+go ¦install¦-installsuffix=static¦-v¦github.com/scraperwiki/hookbot :: Build_Execute_operation,()
+goupx ¦/go/bin/hookbot :: Other_operation,()
+CGO_ENABLED:0 :: env_operation,()
+expose,8080
+go ¦get¦github.com/pwaller/goupx¦¦¦github.com/skelterjohn/rerun¦¦¦golang.org/x/net/websocket :: Build_Execute_operation,()

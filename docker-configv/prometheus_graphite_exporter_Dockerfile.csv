@@ -1,0 +1,14 @@
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,alpine:3.1
+expose,9108 9109
+apk ¦add¦--update¦-t¦build-deps¦go¦git¦mercurial :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+apk ¦add¦-u¦musl :: Dependencies_operation,()
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()
+go ¦get¦-d :: Build_Execute_operation,()
+go ¦build¦-o¦/bin/graphite_exporter :: Build_Execute_operation,()
+cd ¦/go/src/github.com/prometheus/graphite_exporter :: Filesystem_operation,()
+rm ¦-rf¦/go :: Filesystem_operation,()
+entrypoint,/bin/graphite_exporter¦-logtostderr
+apk ¦del¦--purge¦build-deps :: Dependencies_operation,()
+./go/src/github.com/prometheus/graphite_exporter :: copy_operation,()

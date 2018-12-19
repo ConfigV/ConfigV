@@ -1,0 +1,9 @@
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+./supervisord.conf/etc/ :: add_operation,()
+cmd,node-init.sh¦&&¦"/usr/bin/supervisord"
+yum ¦--disablerepo=cloudera-cdh5¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦hadoop-hdfs-namenode¦hadoop-hdfs-zkfc :: Dependencies_operation,()
+from,whlee21/centos6-cdh5-base
+chmod ¦+x¦/usr/local/bin/node-init.sh :: Permissions_operation,()
+local-cdh5.repo/etc/yum.repos.d/local-cdh5.repo :: add_operation,()
+expose,22 8020 50070
+node-init.sh/usr/local/bin/node-init.sh :: add_operation,()

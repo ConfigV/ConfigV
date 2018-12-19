@@ -1,0 +1,18 @@
+facerec_service.py/root/facerec_service.py :: copy_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+cd ¦~ :: Filesystem_operation,()
+cmd,cd¦/root/¦&&¦python3¦facerec_service.py
+from,python:3.4
+apt-get ¦clean :: Dependencies_operation,()
+pip3 ¦install¦flask :: Dependencies_operation,()
+python3 ¦setup.py¦install :: Build_Execute_operation,()
+mkdir ¦-p¦dlib :: Filesystem_operation,()
+git ¦clone¦https://github.com/ageitgey/face_recognition.git¦face_recognition/ :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦--fix-missing¦build-essential¦cmake¦gfortran¦git¦wget¦curl¦graphicsmagick¦libgraphicsmagick1-dev¦libatlas-dev¦libavcodec-dev¦libavformat-dev¦libboost-all-dev¦libgtk2.0-dev¦libjpeg-dev¦liblapack-dev¦libswscale-dev¦pkg-config¦pyth... :: Dependencies_operation,()
+cd ¦face_recognition/ :: Filesystem_operation,()
+git ¦checkout¦tags/v0.1.12 :: Dependencies_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+git ¦clone¦-b¦'v19.4'¦--single-branch¦https://github.com/davisking/dlib.git¦dlib/ :: Dependencies_operation,()
+cd ¦dlib/¦&& :: Filesystem_operation,()
+mkdir ¦-p¦face_recognition :: Filesystem_operation,()

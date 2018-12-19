@@ -1,0 +1,14 @@
+expose,2181
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+wget ¦-q¦-O¦-¦http://apache.mirrors.pair.com/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz¦|¦tar¦-xzf¦-¦-C¦/opt :: Dependencies_operation,()
+/tmp/zookeeper :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,start-foreground
+mv ¦/opt/zookeeper-3.4.6¦/opt/zookeeper :: Filesystem_operation,()
+entrypoint,/opt/zookeeper/bin/zkServer.sh
+mkdir ¦-p¦/tmp/zookeeper :: Filesystem_operation,()
+conf/zoo.cfg/opt/zookeeper/conf/zoo.cfg :: add_operation,()
+from,debian@jessie
+/opt/zookeeper/conf :: volume_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()
+/opt/zookeeper :: workdir_operation,()

@@ -1,0 +1,15 @@
+mv ¦kura_1.4.0-SNAPSHOT_intel-edison*.zip¦/opt :: Filesystem_operation,()
+cd ¦/opt/kura/kura/ :: Filesystem_operation,()
+/opt/kura_1.4.0-SNAPSHOT_intel-edison :: workdir_operation,()
+cd ¦/opt/kura/kura/distrib/target :: Filesystem_operation,()
+mvn ¦-Dmaven.test.skip=true¦-f¦manifest_pom.xml¦clean¦install :: Dependencies_operation,()
+from,ubuntu@latest
+apt-get ¦install¦-y¦openjdk-7-jdk¦wget¦maven¦git¦curl¦dos2unix¦zip :: Dependencies_operation,()
+expose,8080 1883 5683
+unzip ¦kura_1.4.0-SNAPSHOT_intel-edison.zip :: Filesystem_operation,()
+mvn ¦clean¦install :: Dependencies_operation,()
+git ¦clone¦-b¦develop¦https://github.com/eclipse/kura.git :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/opt/kura/target-platform :: Filesystem_operation,()
+cd ¦/opt :: Filesystem_operation,()
+mvn ¦-Dmaven.test.skip=true¦-f¦pom_pom.xml¦-Pweb¦clean¦install :: Dependencies_operation,()

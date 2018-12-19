@@ -1,0 +1,12 @@
+from,nginx:1.8
+www.confwww.conf :: copy_operation,()
+startstart :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦php5¦php5-fpm¦php5-gd¦php5-ldap¦php-pear¦php5-mysql¦php5-mcrypt¦php5-xcache¦php5-xmlrpc¦&&\\ :: Other_operation,()
+chmod ¦+x¦start :: Permissions_operation,()
+nginx.confnginx.conf :: copy_operation,()
+expose,80 443
+app//app :: copy_operation,()
+cmd,/start
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦/app/init.sh :: Permissions_operation,()
+sed ¦-i¦"s/mirrors\\.163\\.com/mirrors\\.aliyun\\.com/g"¦/etc/apt/sources.list :: Filesystem_operation,()

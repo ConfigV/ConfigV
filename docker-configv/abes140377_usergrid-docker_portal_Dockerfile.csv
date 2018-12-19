@@ -1,0 +1,7 @@
+/var/log/nginx :: volume_operation,()
+expose,80
+/etc/nginx/conf.d :: volume_operation,()
+cmd,/root/run.sh
+/etc/nginx/sites-enabled :: volume_operation,()
+run.sh/root/run.sh :: copy_operation,()
+echo ¦apt-get¦update && echo "+++ install nginx" && apt-get install -y nginx && chown -R www-data:www-data /var/lib/nginx && rm -rf /var/www/html/* && echo "++ build usergrid portal" && apt-get install -y npm git-core nodejs-legacy phantomjs && ... :: Filesystem_operation,()

@@ -1,0 +1,12 @@
+make ¦install :: Build_Execute_operation,()
+cd ¦$GOPATH/src/$REPOSITORY :: Filesystem_operation,()
+mkdir ¦-p¦$LOGDIR :: Filesystem_operation,()
+WORKDIR:/vuls :: env_operation,()
+$WORKDIR :: workdir_operation,()
+from,golang@latest
+cmd,--help
+LOGDIR:/var/log/vuls :: env_operation,()
+PWD:$WORKDIR :: env_operation,()
+REPOSITORY:github.com/kotakanbe/goval-dictionary :: env_operation,()
+git ¦clone¦https://$REPOSITORY.git¦$GOPATH/src/$REPOSITORY :: Dependencies_operation,()
+entrypoint,goval-dictionary

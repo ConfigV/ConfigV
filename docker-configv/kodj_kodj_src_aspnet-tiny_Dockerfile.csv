@@ -1,0 +1,13 @@
+apk ¦update :: Dependencies_operation,()
+DNX_USER_HOME:/opt/DNX_BRANCH :: env_operation,()
+from,iron/base
+DNX_VERSION:1.0.0-rc1-update1 :: env_operation,()
+apk ¦add¦unzip¦curl¦gettext :: Dependencies_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+PATH:$PATH:$DNX_USER_HOME/runtimes/default/bin :: env_operation,()
+DNX_RUNTIME_ID:ironbase :: env_operation,()
+echo ¦echo¦'@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories :: Filesystem_operation,()
+echo ¦echo¦'@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories :: Filesystem_operation,()
+apk ¦add¦--update¦bash :: Dependencies_operation,()
+echo ¦echo¦'@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories :: Filesystem_operation,()

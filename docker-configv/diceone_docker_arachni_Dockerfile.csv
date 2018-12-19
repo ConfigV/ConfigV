@@ -1,0 +1,15 @@
+yum ¦-y¦update :: Dependencies_operation,()
+from,centos@latest
+cmd,bin/arachni_web
+/arachni :: workdir_operation,()
+mv ¦arachni*¦arachni :: Filesystem_operation,()
+PKG_VER:1.1-0.5.7-linux-x86_64 :: env_operation,()
+/arachni/system/arachni-ui-web/db :: volume_operation,()
+PKG_FILE:${PKG_NAME}-${PKG_VER}.tar.gz :: env_operation,()
+PKG_NAME:arachni :: env_operation,()
+yum ¦install¦-y¦wget¦tar :: Dependencies_operation,()
+tar ¦-xvzf¦/${PKG_FILE}¦-C¦/ :: Filesystem_operation,()
+PKG_URL:http://downloads.arachni-scanner.com/${PKG_FILE} :: env_operation,()
+expose,9292
+wget ¦-P¦/¦${PKG_URL} :: Dependencies_operation,()
+rm ¦-f¦/${PKG_FILE} :: Filesystem_operation,()

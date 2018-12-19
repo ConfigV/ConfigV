@@ -1,0 +1,19 @@
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦¦gcc¦¦libc-dev¦¦linux-headers :: Dependencies_operation,()
+pip ¦install¦-r¦requirements-main.txt :: Dependencies_operation,()
+setup.cfg/project/ :: copy_operation,()
+tests/project/tests/ :: copy_operation,()
+ci_testing_python/project/ci_testing_python :: copy_operation,()
+README.rst/project/ :: copy_operation,()
+requirements/requirements-main.txt/project/ :: copy_operation,()
+expose,5000 9090 9191
+pip ¦install¦-r¦requirements-dev.txt :: Dependencies_operation,()
+/project :: workdir_operation,()
+requirements/requirements-dev.txt/project/ :: copy_operation,()
+from,python:3.6
+setup.py/project/ :: copy_operation,()
+cmd,docker-entrypoint.sh
+addgroup ¦-S¦uwsgi :: Permissions_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+adduser ¦-S¦-g¦uwsgi¦uwsgi :: Permissions_operation,()
+apk ¦del¦.build-deps :: Dependencies_operation,()
+set ¦-e :: Environment_operation,()

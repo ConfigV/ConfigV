@@ -1,0 +1,16 @@
+entrypoint,docker-entrypoint.sh
+ln ¦-s¦usr/local/bin/docker-entrypoint.sh¦/entrypoint.sh¦#¦backwards¦compat :: Filesystem_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+echo ¦set¦-x && curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz" && echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - && tar -xzf wordpress.tar.gz -C /usr/src/ && rm wordpress.tar.gz && chown -R w... :: Filesystem_operation,()
+WORDPRESS_SHA1:027e065d30a64720624a7404a1820e6c6fff1202 :: env_operation,()
+docker-php-ext-install ¦gd¦mysqli¦opcache :: Other_operation,()
+cmd,apache2-foreground
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/var/www/html :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+a2enmod ¦rewrite¦expires :: Other_operation,()
+WORDPRESS_VERSION:4.6.1 :: env_operation,()
+from,php:5.6
+apt-get ¦install¦-y¦libpng12-dev¦libjpeg-dev :: Dependencies_operation,()
+echo ¦{¦ echo 'opcache.memory_consumption=128';  echo 'opcache.interned_strings_buffer=8';  echo 'opcache.max_accelerated_files=4000';  echo 'opcache.revalidate_freq=2';  echo 'opcache.fast_shutdown=1';  echo 'opcache.enable_cli=1'; } > /usr/loc... :: Filesystem_operation,()

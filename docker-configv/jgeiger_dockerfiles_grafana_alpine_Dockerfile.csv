@@ -1,0 +1,16 @@
+GRAFANA_VERSION=grafana-3.0.0-pre1:GLIBC_VERSION=2.23-r1 :: env_operation,()
+cmd,grafana-server¦-config¦/config/grafana.ini
+chown ¦grafana:grafana¦/data :: Permissions_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+GRAFANA_FILE=${GRAFANA_VERSION}.linux-x64:GLIBC_FILE=glibc-${GLIBC_VERSION}.apk :: env_operation,()
+echo ¦addgroup¦-S grafana && adduser -S -G grafana grafana && echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && apk add --update curl openssl && curl -Ls https://github.com/andyshinn/alpine-pkg-glibc/releases... :: Filesystem_operation,()
+entrypoint,tini¦--¦/entrypoint.sh
+mkdir ¦/config :: Filesystem_operation,()
+/usr/local/$GRAFANA_VERSION :: workdir_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+chown ¦grafana:grafana¦/config :: Permissions_operation,()
+expose,3000
+./config/config/ :: copy_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+from,jgeiger/alpine
+/tmp :: workdir_operation,()

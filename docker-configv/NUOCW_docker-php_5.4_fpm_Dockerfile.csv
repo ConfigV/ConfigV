@@ -1,0 +1,15 @@
+cmd,php-fpm
+gpg ¦--keyserver¦pgp.mit.edu¦--recv-keys¦F38252826ACD957EF380D39F2F7956BC5DA04B5D :: Other_operation,()
+PHP_EXTRA_CONFIGURE_ARGS:--enable-fpm :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦ca-certificates¦curl¦libxml2¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+php-fpm.conf/usr/local/etc/ :: copy_operation,()
+docker-php-ext-*/usr/local/bin/ :: copy_operation,()
+PHP_VERSION:5.4.34 :: env_operation,()
+expose,9000
+from,debian@jessie
+/var/www/html :: workdir_operation,()
+PHP_INI_DIR:/usr/local/etc/php :: env_operation,()
+apt-get ¦install¦-y¦autoconf¦gcc¦make¦pkg-config¦--no-install-recommends :: Dependencies_operation,()
+mkdir ¦-p¦$PHP_INI_DIR/conf.d :: Filesystem_operation,()

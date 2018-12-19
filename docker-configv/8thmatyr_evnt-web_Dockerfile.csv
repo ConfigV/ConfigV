@@ -1,0 +1,12 @@
+cmd,--help
+from,debian@jessie
+add-apt-repository ¦ppa:rethinkdb/ppa :: Dependencies_operation,()
+expose,28015 29015 8080
+/data :: workdir_operation,()
+/rethinkdb :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/rethinkdb :: volume_operation,()
+apt-get ¦install¦-y¦rethinkdb :: Dependencies_operation,()
+entrypoint,/usr/bin/rethinkdb
+add-apt-repository/usr/sbin/add-apt-repository :: add_operation,()
+add-apt-repository ¦-y¦ppa:rethinkdb/ppa :: Dependencies_operation,()

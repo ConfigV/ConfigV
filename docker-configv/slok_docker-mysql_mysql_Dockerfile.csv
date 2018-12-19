@@ -1,0 +1,16 @@
+from,ubuntu:14.04
+cmd,/run.sh
+echo ¦echo¦"mysql-server mysql-server/root_password_again password " | debconf-set-selections :: Filesystem_operation,()
+expose,3306
+chmod ¦755¦/*.sh :: Permissions_operation,()
+create_first_admin_user.sh/create_first_admin_user.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+my.cnf/etc/mysql/conf.d/my.cnf :: add_operation,()
+/etc/mysqld :: volume_operation,()
+/var/run/mysqld :: volume_operation,()
+/var/log/mysql :: volume_operation,()
+run.sh/run.sh :: add_operation,()
+chmod ¦644¦/etc/mysql/conf.d/my.cnf :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦mysql-server :: Dependencies_operation,()
+echo ¦echo¦"mysql-server mysql-server/root_password password " | debconf-set-selections :: Filesystem_operation,()

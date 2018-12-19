@@ -1,0 +1,12 @@
+rootfs/ :: copy_operation,()
+expose,10024
+rm ¦-rf¦/tmp/s6-overlay-amd64.tar.gz :: Filesystem_operation,()
+S6_KEEP_ENV=1: :: env_operation,()
+chmod ¦+x¦/etc/services.d/*/run :: Permissions_operation,()
+entrypoint,/init
+chmod ¦444¦/usr/share/perl5/vendor_perl/IO/Socket/INET6.pm :: Permissions_operation,()
+from,alpine:3.4
+cmd,amavisd¦foreground
+https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz/tmp/ :: add_operation,()
+https://bitbucket.org/shlomif/perl-io-socket-inet6/raw/8c0bc129340e64e001b989de414cffd3dd1da882/modules/IO-Socket-INET6/lib/IO/Socket/INET6.pm/usr/share/perl5/vendor_perl/IO/Socket/INET6.pm :: add_operation,()
+tar ¦xzf¦/tmp/s6-overlay-amd64.tar.gz¦-C¦/ :: Filesystem_operation,()

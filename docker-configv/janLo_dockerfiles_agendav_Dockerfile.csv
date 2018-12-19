@@ -1,0 +1,18 @@
+cd ¦agendav/web :: Filesystem_operation,()
+expose,80
+apt-get ¦-y¦install¦--no-install-recommends¦¦php5-pgsql¦¦php5-mcrypt¦¦php5-curl :: Dependencies_operation,()
+curl ¦-s¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦remove¦--purge¦ca-certificates¦unzip¦git¦curl :: Dependencies_operation,()
+php ¦composer.phar¦install :: Other_operation,()
+a2dissite ¦000-default :: Other_operation,()
+agendav.conf/etc/apache2/sites-available/agendav.conf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦--no-install-recommends¦unzip¦curl¦git¦ca-certificates :: Dependencies_operation,()
+git ¦clone¦--branch¦develop¦https://github.com/adobo/agendav.git :: Dependencies_operation,()
+cd ¦/var/www :: Filesystem_operation,()
+a2ensite ¦agendav :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+from,janlo/apache_base
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦autoremove¦--purge :: Dependencies_operation,()

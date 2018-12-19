@@ -1,0 +1,18 @@
+git ¦clone¦https://github.com/taigaio/taiga-back.git¦/home/taiga/taiga-back :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+cd ¦/home/taiga :: Filesystem_operation,()
+git ¦clone¦https://github.com/taigaio/taiga-events.git¦taiga-events :: Dependencies_operation,()
+taiga :: user_operation,()
+cd ¦/home/taiga/taiga-events :: Filesystem_operation,()
+from,debian@jessie
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+docker-entrypoint.sh/entrypoint.sh :: add_operation,()
+git ¦checkout¦stable :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+cd ¦/home/taiga/taiga-front-dist :: Filesystem_operation,()
+cd ¦/home/taiga/taiga-back :: Filesystem_operation,()
+root :: user_operation,()
+useradd ¦-m¦-d¦/home/taiga¦-s¦/bin/bash¦taiga :: Permissions_operation,()
+mkvirtualenv ¦-p¦/usr/bin/python3.4¦taiga :: Other_operation,()
+DATA_DIR="/data": :: env_operation,()
+git ¦clone¦https://github.com/taigaio/taiga-front-dist.git¦taiga-front-dist :: Dependencies_operation,()

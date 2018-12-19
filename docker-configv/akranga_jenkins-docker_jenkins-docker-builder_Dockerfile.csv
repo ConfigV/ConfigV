@@ -1,0 +1,15 @@
+chmod ¦+x¦/usr/bin/docker :: Permissions_operation,()
+https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION/usr/bin/docker :: add_operation,()
+./start.sh/start-docker-builder.sh :: copy_operation,()
+DOCKER_VERSION:1.6.0 :: env_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+./wrapdocker/wrapdocker :: copy_operation,()
+chmod ¦+x¦/wrapdocker :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦+x¦/start-docker-builder.sh :: Permissions_operation,()
+from,akranga/jenkins-java-builder
+apt-get ¦install¦-qqy¦supervisor¦apt-transport-https¦ca-certificates¦lxc¦iptables¦aufs-tools¦cgroup-lite :: Dependencies_operation,()
+/var/lib/docker :: volume_operation,()
+./dmsetup/usr/local/bin/dmsetup :: copy_operation,()
+entrypoint,/start-docker-builder.sh
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

@@ -1,0 +1,17 @@
+expose,22
+echo ¦echo¦'UseDNS no' >> /etc/ssh/sshd_config :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦0755¦/var/run/sshd :: Permissions_operation,()
+chmod ¦0600¦/home/vagrant/.ssh/authorized_keys :: Permissions_operation,()
+cmd,/usr/sbin/sshd¦-D
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+chown ¦-R¦vagrant:vagrant¦/home/vagrant/.ssh :: Permissions_operation,()
+https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub/home/vagrant/.ssh/authorized_keys :: add_operation,()
+useradd ¦-c¦"Vagrant"¦-g¦vagrant¦-d¦/home/vagrant¦-m¦-s¦/bin/bash¦vagrant :: Permissions_operation,()
+from,debian@jessie
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦--no-install-recommends¦-yq¦sudo¦openssh-server¦python :: Other_operation,()
+echo ¦echo¦'vagrant:vagrant' | chpasswd :: Filesystem_operation,()
+chmod ¦0700¦/home/vagrant/.ssh :: Permissions_operation,()
+echo ¦echo¦'vagrant ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/vagrant :: Filesystem_operation,()
+groupadd ¦vagrant :: Permissions_operation,()

@@ -1,0 +1,6 @@
+adduser ¦--disabled-password¦--gecos¦""¦user :: Permissions_operation,()
+chown ¦user:user¦/home/user/.bashrc_browsing_history :: Permissions_operation,()
+TEST:test :: env_operation,()
+echo ¦echo¦"\\n" "# enable browsing history shell\\n" "if [ -f ~/.bashrc_browsing_history ]; then\\n" " . ~/.bashrc_browsing_history\\n" "fi\\n" >> /home/user/.bashrc :: Filesystem_operation,()
+from,ubuntu:14.04
+.bashrc_browsing_history/home/user/.bashrc_browsing_history :: copy_operation,()

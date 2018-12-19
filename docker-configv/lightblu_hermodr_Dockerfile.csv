@@ -1,0 +1,14 @@
+./opt/hermodr :: copy_operation,()
+from,library/haskell:7.10.3
+cabal ¦install¦--dependencies-only :: Dependencies_operation,()
+strip ¦dist/build/hermodr/hermodr :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cabal ¦sandbox¦init :: Dependencies_operation,()
+cabal ¦build :: Dependencies_operation,()
+cd ¦/opt/hermodr :: Filesystem_operation,()
+expose,8080
+/opt/hermodr :: workdir_operation,()
+HOME:/root :: env_operation,()
+cabal ¦update :: Dependencies_operation,()
+cmd,./run
+apt-get ¦install¦nano :: Dependencies_operation,()

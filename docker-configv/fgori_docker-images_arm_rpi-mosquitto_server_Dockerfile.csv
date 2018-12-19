@@ -1,0 +1,11 @@
+entrypoint.sh/usr/local/bin :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦nano¦mosquitto :: Dependencies_operation,()
+expose,1883
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,entrypoint.sh
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/entrypoint.sh :: Permissions_operation,()
+from,resin/rpi-raspbian

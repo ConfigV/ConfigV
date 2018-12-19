@@ -1,0 +1,16 @@
+apk ¦upgrade :: Dependencies_operation,()
+cmd,/bin/sh
+deluser.sh/tmp/ :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+rm ¦/tmp/deluser.sh :: Filesystem_operation,()
+mkdir ¦/usr/local/audit/¦-p :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+chmod ¦770¦/tmp/delbin.sh :: Permissions_operation,()
+sh ¦/tmp/deluser.sh :: Build_Execute_operation,()
+delbin.sh/tmp/ :: copy_operation,()
+sh ¦/tmp/audit.sh :: Build_Execute_operation,()
+audit.sh/tmp/ :: copy_operation,()
+chmod ¦770¦/tmp/audit.sh :: Permissions_operation,()
+from,gliderlabs/alpine:3.2
+chmod ¦770¦/tmp/deluser.sh :: Permissions_operation,()
+apk ¦add¦grep :: Dependencies_operation,()

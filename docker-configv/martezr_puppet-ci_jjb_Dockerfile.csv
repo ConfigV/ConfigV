@@ -1,0 +1,11 @@
+VERSION:1.4.0 :: env_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+pip ¦install¦pbr¦PyYAML¦python-jenkins¦jenkins-job-builder :: Dependencies_operation,()
+yum ¦-y¦install¦rubygems¦python-setuptools¦python-dev¦libyaml-dev¦git¦curl¦python-pip¦python-yaml :: Dependencies_operation,()
+cmd,/opt/puppetci/jjb_receive.rb
+from,centos:7.0
+mkdir ¦/opt/puppetci :: Filesystem_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+data/opt/puppetci :: copy_operation,()
+bundle ¦install :: Dependencies_operation,()
+/opt/puppetci :: workdir_operation,()

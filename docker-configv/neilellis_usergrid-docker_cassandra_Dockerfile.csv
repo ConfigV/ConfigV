@@ -1,0 +1,14 @@
+cassandra.yaml/etc/cassandra/cassandra.yaml :: copy_operation,()
+echo ¦echo¦'deb http://www.apache.org/dist/cassandra/debian 21x main' >> /etc/apt/sources.list.d/cassandra.list :: Filesystem_operation,()
+from,debian@jessie
+cmd,cassandra¦-f
+entrypoint,/docker-entrypoint.sh
+CASSANDRA_VERSION:2.1.9 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦514A2AD631A57A16DD0047EC749D6EEC0353B12C :: Dependencies_operation,()
+CASSANDRA_CONFIG:/etc/cassandra :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/lib/cassandra :: volume_operation,()
+apt-get ¦install¦-y¦cassandra="$CASSANDRA_VERSION" :: Dependencies_operation,()
+expose,7000 7001 7199 9042 9160
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()

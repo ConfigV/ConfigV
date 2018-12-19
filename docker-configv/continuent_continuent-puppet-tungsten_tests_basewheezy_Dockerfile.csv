@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/etc/puppet/modules/tungsten :: Filesystem_operation,()
+puppet ¦module¦install¦puppetlabs-mysql :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+puppet ¦module¦install¦continuent-tungsten :: Dependencies_operation,()
+mkdir ¦-p¦/etc/puppet/modules :: Filesystem_operation,()
+git ¦clone¦$WORKGIT¦/etc/puppet/modules/tungsten :: Dependencies_operation,()
+apt-get ¦install¦-y¦puppet¦git¦tar¦openssh-server¦wget :: Dependencies_operation,()
+from,debian@wheezy
+wget ¦--no-check-certificate¦https://apt.puppetlabs.com/puppetlabs-release-squeeze.deb :: Dependencies_operation,()
+dpkg ¦-i¦puppetlabs-release-squeeze.deb :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()

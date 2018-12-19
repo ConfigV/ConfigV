@@ -1,0 +1,15 @@
+apt-get ¦install¦-y¦apache2¦td-agent¦supervisor :: Dependencies_operation,()
+mkdir ¦/var/lock/apache2¦#¦fails¦to¦start¦without¦this¦line :: Filesystem_operation,()
+mkdir ¦/var/run/apache2¦#¦fails¦to¦start¦without¦this¦line :: Filesystem_operation,()
+echo ¦echo¦"deb http://packages.treasuredata.com/precise/ precise contrib" > /etc/apt/sources.list.d/treasure-data.list :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+LOG_AGGR_HOST1:log-aggr1.dev.docker :: env_operation,()
+apt-get ¦install¦-y¦apt-utils¦curl :: Dependencies_operation,()
+curl ¦http://packages.treasuredata.com/GPG-KEY-td-agent¦|¦apt-key¦add¦- :: Dependencies_operation,()
+cmd,/usr/bin/supervisord
+LOG_AGGR_HOST2:log-aggr2.dev.docker :: env_operation,()
+config/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+config/td-agent.conf/etc/td-agent/td-agent.conf :: add_operation,()
+from,ubuntu
+expose,80

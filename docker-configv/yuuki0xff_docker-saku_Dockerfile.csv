@@ -1,0 +1,18 @@
+ln ¦-s¦/srv/run¦. :: Filesystem_operation,()
+cmd,python3¦/opt/saku/saku.py
+/srv :: volume_operation,()
+useradd ¦saku :: Permissions_operation,()
+chown ¦saku:saku¦/srv :: Permissions_operation,()
+ln ¦-s¦/srv/cache¦. :: Filesystem_operation,()
+entrypoint/ :: add_operation,()
+git ¦clone¦--depth=1¦https://github.com/shingetsu/saku¦. :: Dependencies_operation,()
+mkdir ¦-p¦/opt/saku¦/srv :: Filesystem_operation,()
+mv ¦file¦file.original :: Filesystem_operation,()
+ln ¦-s¦/srv/log¦. :: Filesystem_operation,()
+set ¦-euv :: Environment_operation,()
+cd ¦/opt/saku :: Filesystem_operation,()
+entrypoint,/entrypoint
+ln ¦-s¦/srv/file¦. :: Filesystem_operation,()
+from,python:3.0
+saku :: user_operation,()
+expose,8000

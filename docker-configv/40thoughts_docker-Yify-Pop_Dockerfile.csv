@@ -1,0 +1,16 @@
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/yify-pop/yify-pop.git :: Dependencies_operation,()
+npm ¦-g¦install¦peerflix :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yq¦git¦nodejs¦npm :: Other_operation,()
+https://raw.githubusercontent.com/40thoughts/docker-Yify-Pop/master/.apps.conf/etc/supervisor/conf.d/yify-pop.conf :: add_operation,()
+npm ¦install :: Dependencies_operation,()
+apt-get ¦clean¦all :: Dependencies_operation,()
+expose,4000 8889 8890 8891 8892
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+from,crazybud/base-ubu-latest:latest
+cmd,/usr/bin/supervisord¦-c¦/etc/supervisor.conf¦-n
+apt-get ¦autoremove¦-qy :: Dependencies_operation,()
+npm ¦-g¦install¦geddy :: Dependencies_operation,()
+apt-get ¦purge¦npm¦git¦-qy :: Dependencies_operation,()
+/yify-pop :: workdir_operation,()

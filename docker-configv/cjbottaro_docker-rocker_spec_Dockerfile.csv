@@ -1,0 +1,15 @@
+/usr/local/elasticsearch :: volume_operation,()
+entrypoint,/usr/local/elasticsearch/bin/elasticsearch
+mkdir ¦/usr/local/elasticsearch :: Filesystem_operation,()
+elasticsearch-1.7.2.tar.gz/tmp/ :: copy_operation,()
+tar ¦xzf¦/tmp/elasticsearch-1.7.2.tar.gz¦-C¦/usr/local/elasticsearch¦--strip-components¦1 :: Filesystem_operation,()
+JAVA_HOME=/usr/local/jre: :: env_operation,()
+ln ¦-s¦/usr/local/elasticsearch/data/¦/var/data/elasticsearch :: Filesystem_operation,()
+mkdir ¦/var/data :: Filesystem_operation,()
+jre-8u60-linux-x64.gz/tmp/ :: copy_operation,()
+expose,9200
+elasticsearch.yml/usr/local/elasticsearch/config/ :: copy_operation,()
+ln ¦-s¦/usr/local/elasticsearch/logs/¦/var/log/elasticsearch :: Filesystem_operation,()
+tar ¦xzf¦/tmp/jre-8u60-linux-x64.gz¦-C¦/usr/local/jre¦--strip-components¦1 :: Filesystem_operation,()
+from,ubuntu:14.04
+mkdir ¦/usr/local/jre :: Filesystem_operation,()

@@ -1,0 +1,8 @@
+WILDFLY_VERSION:10.0.0.Final :: env_operation,()
+rm ¦wildfly-${WILDFLY_VERSION}.tar.gz :: Filesystem_operation,()
+WILDFLY_HOME:/opt/wildfly-${WILDFLY_VERSION} :: env_operation,()
+from,nukesz/java:latest
+wget ¦http://download.jboss.org/wildfly/${WILDFLY_VERSION}/wildfly-${WILDFLY_VERSION}.tar.gz :: Dependencies_operation,()
+tar ¦-zxvf¦wildfly-${WILDFLY_VERSION}.tar.gz¦-C¦/opt :: Filesystem_operation,()
+expose,8080
+entrypoint,${WILDFLY_HOME}/bin/standalone.sh¦-b=0.0.0.0

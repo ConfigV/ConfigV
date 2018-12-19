@@ -1,0 +1,8 @@
+cmd,clamd
+apt-get ¦-y¦install¦clamav-daemon :: Dependencies_operation,()
+conf/clamd.conf/etc/clamav/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+freshclam  :: Other_operation,()
+expose,3310
+from,debian@jessie

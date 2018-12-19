@@ -1,0 +1,13 @@
+apt-get ¦clean :: Dependencies_operation,()
+apt-key ¦add¦ACCC4CF8.asc :: Dependencies_operation,()
+curl ¦-s¦-O¦https://www.postgresql.org/media/keys/ACCC4CF8.asc :: Dependencies_operation,()
+HOME:/root :: env_operation,()
+apt-get ¦-yqq¦install¦mongodb-org-tools¦postgresql-client-9.3¦vim¦gnupg :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv¦7F0CEB10 :: Dependencies_operation,()
+echo ¦sh¦-c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" >> /etc/apt/sources.list.d/postgresql.list' :: Filesystem_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+cmd,/sbin/my_init
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list :: Filesystem_operation,()
+gem ¦install¦backup¦whenever :: Dependencies_operation,()
+from,phusion/passenger-ruby20

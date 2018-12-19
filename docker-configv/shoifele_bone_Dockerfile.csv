@@ -1,0 +1,13 @@
+cmd,bash
+apt-get ¦install¦-y¦--no-install-recommends¦locales;¦locale-gen; :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/*¦/build :: Filesystem_operation,()
+/opt/ :: workdir_operation,()
+apt-get ¦upgrade¦-y; :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦dialog¦less¦curl¦wget¦vim¦net-tools :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rootfs/ :: add_operation,()
+echo ¦echo¦"Europe/Berlin" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata; :: Filesystem_operation,()
+from,debian@jessie
+HOME:/root :: env_operation,()

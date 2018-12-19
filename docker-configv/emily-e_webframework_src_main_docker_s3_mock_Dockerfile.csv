@@ -1,0 +1,10 @@
+// :: copy_operation,()
+from,java:8.0
+expose,80 443 9191 9444
+apt-get ¦update :: Dependencies_operation,()
+/opt/s3ninja :: workdir_operation,()
+/opt/s3ninja/data :: volume_operation,()
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+cmd,/opt/s3ninja/sirius.sh¦start¦&&¦sleep¦5¦&&¦/usr/sbin/nginx
+rm ¦/opt/s3ninja-2.7-zip.zip :: Filesystem_operation,()
+unzip ¦/opt/s3ninja-2.7-zip.zip¦-d¦/opt/s3ninja/ :: Filesystem_operation,()

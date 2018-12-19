@@ -1,0 +1,11 @@
+from,python:3.5
+expose,9224
+zabbix_exporter :: user_operation,()
+/zabbix_exporter :: workdir_operation,()
+/zabbix_exporter :: volume_operation,()
+config-example.yml/zabbix_exporter/zabbix_exporter.yml :: copy_operation,()
+entrypoint,/usr/local/bin/zabbix_exporter
+cmd,--config=/zabbix_exporter/zabbix_exporter.yml¦--timeout=10
+groupadd ¦zabbix_exporter :: Permissions_operation,()
+useradd ¦--no-create-home¦--gid¦zabbix_exporter¦zabbix_exporter :: Permissions_operation,()
+pip ¦install¦https://github.com/Eksmo/zabbix-exporter/archive/39b007f1968731b13c652e59569c6f1550eabb84.zip#egg=zabbix_exporter :: Dependencies_operation,()

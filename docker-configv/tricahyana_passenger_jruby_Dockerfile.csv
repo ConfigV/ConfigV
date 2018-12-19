@@ -1,0 +1,15 @@
+cmd,bash¦-c¦"source¦/etc/apache2/envvars¦;¦¦service¦apache2¦restart¦;¦/usr/sbin/sshd¦-D"
+apache2.conf/ :: add_operation,()
+bash ¦-l¦-c¦"gem¦install¦passenger" :: Build_Execute_operation,()
+echo ¦echo¦"export PATH=$PATH:/usr/local/rvm/bin" >> ~/.profile :: Filesystem_operation,()
+bash ¦-l¦-c¦"gem¦install¦bundler" :: Build_Execute_operation,()
+from,tricahyana/httpd
+expose,22 80
+curl ¦-L¦https://get.rvm.io¦|¦bash¦-s¦stable :: Dependencies_operation,()
+gpg ¦--keyserver¦hkp://keys.gnupg.net¦--recv-keys¦409B6B1796C275462A1703113804BB82D39DC0E3 :: Other_operation,()
+printf\\n\\\\n\\\\n\\\\n ¦|¦bash¦-l¦-c¦"passenger-install-apache2-module" :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+bash ¦-l¦-c¦"rvm¦use¦jruby¦--default" :: Build_Execute_operation,()
+apt-get ¦-y¦install¦git-core¦curl¦zlib1g-dev¦build-essential¦libssl-dev¦libreadline-dev¦libyaml-dev¦libsqlite3-dev¦sqlite3¦libxml2-dev¦libxslt1-dev¦libcurl4-openssl-dev¦python-software-properties¦libffi-dev¦libgdbm-dev¦libncurses5-dev¦automake¦libt... :: Dependencies_operation,()
+cat ¦/apache2.conf¦>>¦/etc/apache2/apache2.conf :: Filesystem_operation,()
+/usr/local/rvm/bin/rvm ¦install¦jruby :: Other_operation,()

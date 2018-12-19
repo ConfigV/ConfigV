@@ -1,0 +1,9 @@
+from,dockerfile/java
+build.sbt/tmp/build/build.sbt :: add_operation,()
+expose,8080
+/opt/httpresolver :: workdir_operation,()
+wget ¦http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.2/sbt-launch.jar;¦java¦-XX:MaxPermSize=128m¦-jar¦sbt-launch.jar¦pack-archive;¦mkdir¦-p¦/opt/httpresolver;¦tar¦-xzv¦-C¦/opt/httpresolver¦--strip-components=1¦-f¦/t... :: Dependencies_operation,()
+project/plugins.sbt/tmp/build/project/plugins.sbt :: add_operation,()
+/tmp/build :: workdir_operation,()
+src/tmp/build/src :: add_operation,()
+entrypoint,/opt/httpresolver/bin/httpresolver

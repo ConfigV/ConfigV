@@ -1,0 +1,12 @@
+ln ¦-s¦/usr/share/maven/bin/mvn¦/usr/bin/mvn :: Filesystem_operation,()
+app :: workdir_operation,()
+apk ¦add¦--no-cache¦curl¦tar¦bash¦vim :: Dependencies_operation,()
+from,openjdk:8.0
+MAVEN_CONFIG:"$USER_HOME_DIR/.m2" :: env_operation,()
+tar ¦-xzf¦/tmp/apache-maven.tar.gz¦-C¦/usr/share/maven¦--strip-components=1 :: Filesystem_operation,()
+curl ¦-fsSL¦-o¦/tmp/apache-maven.tar.gz¦${BASE_URL}/apache-maven-$MAVEN_VERSION-bin.tar.gz :: Dependencies_operation,()
+USER_HOME_DIR="/root" :: arg_operation,()
+rm ¦-f¦/tmp/apache-maven.tar.gz :: Filesystem_operation,()
+cmd,mvn¦-DskipTests=true¦-Dembedmongo.skip¦install
+MAVEN_HOME:/usr/share/maven :: env_operation,()
+mkdir ¦-p¦/usr/share/maven¦/usr/share/maven/ref :: Filesystem_operation,()

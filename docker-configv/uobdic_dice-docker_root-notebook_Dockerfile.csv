@@ -1,0 +1,11 @@
+wget ¦https://root.cern.ch/download/root_v6.06.00.Linux-ubuntu14-x86_64-gcc4.8.tar.gz¦-O¦/opt/root.tar.gz :: Dependencies_operation,()
+jovyan :: user_operation,()
+pip ¦install¦metakernel :: Dependencies_operation,()
+ROOTSYS:/opt/root :: env_operation,()
+from,jupyter/datascience-notebook
+echo ¦echo¦'export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH' >> /etc/profile.d/root-cern.sh :: Filesystem_operation,()
+root :: user_operation,()
+cd ¦/opt;¦tar¦xzf¦root.tar.gz :: Filesystem_operation,()
+echo ¦echo¦'source $ROOTSYS/bin/thisroot.sh' > /etc/profile.d/root-cern.sh :: Filesystem_operation,()
+cp ¦-r¦$ROOTSYS/etc/notebook/kernels/root¦$CONDA_DIR/share/jupyter/kernels/ :: Filesystem_operation,()
+chmod ¦-R¦go+rx¦$CONDA_DIR/share/jupyter :: Permissions_operation,()

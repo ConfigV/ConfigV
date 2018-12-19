@@ -1,0 +1,13 @@
+chown ¦-R¦docker:docker¦$APP_HOME :: Permissions_operation,()
+mkdir ¦-p¦$APP_HOME/tmp/spec-results :: Filesystem_operation,()
+.$APP_HOME :: copy_operation,()
+bundle ¦install¦--quiet¦--jobs¦8 :: Dependencies_operation,()
+groupadd ¦-r¦docker :: Permissions_operation,()
+Gemfile$APP_HOME/ :: copy_operation,()
+APP_HOME:/usr/src/app :: env_operation,()
+mkdir ¦-p¦$APP_HOME :: Filesystem_operation,()
+root :: user_operation,()
+useradd ¦-r¦-g¦docker¦docker :: Permissions_operation,()
+docker :: user_operation,()
+from,ruby:2.3
+$APP_HOME :: workdir_operation,()

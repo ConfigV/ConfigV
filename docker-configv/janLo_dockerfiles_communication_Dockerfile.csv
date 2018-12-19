@@ -1,0 +1,11 @@
+entrypoint,/usr/bin/start-tmux
+/home/${USER} :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+USER:jan :: env_operation,()
+run/usr/bin/start-tmux :: add_operation,()
+${USER} :: user_operation,()
+attach/usr/bin/attach-tmux :: add_operation,()
+from,debian@stretch
+apt-get ¦clean :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦DEBIAN_NONINTERACTIVE_SEEN=true¦apt-get¦update :: Other_operation,()
+apt-get ¦-y¦install¦¦tmux¦¦irssi¦¦irssi-plugin-xmpp¦¦mutt-patched¦¦gnupg2¦¦gnupg¦¦zsh¦¦vim-nox¦¦vim-addon-manager¦¦vim-scripts¦¦ncurses-term¦¦w3m¦¦wget¦¦curl :: Dependencies_operation,()

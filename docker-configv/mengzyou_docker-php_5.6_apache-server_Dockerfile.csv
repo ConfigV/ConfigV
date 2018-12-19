@@ -1,0 +1,16 @@
+a2dismod ¦userdir :: Other_operation,()
+from,mengzyou/docker-opensuse-base:latest
+zypper ¦clean¦-a :: Other_operation,()
+zypper ¦-qn¦in¦-l¦--no-recommends¦apache2-$APACHE_VERSION¦apache2-mod_php5-$PHP_VERSION¦php5-$PHP_VERSION¦php5-ctype-$PHP_VERSION¦php5-dom-$PHP_VERSION¦php5-iconv-$PHP_VERSION¦php5-json-$PHP_VERSION¦php5-sqlite-$PHP_VERSION¦php5-tokenizer-$PHP_VER... :: Other_operation,()
+APACHE_VERSION:2.4.16 :: env_operation,()
+/srv/www/htdocs :: volume_operation,()
+files/index.php/srv/www/htdocs/index.php :: add_operation,()
+PHP_VERSION:5.6.9 :: env_operation,()
+expose,80
+zypper ¦-q¦ar¦-f¦-r¦http://download.opensuse.org/repositories/server:/php/openSUSE_13.2/server:php.repo :: Other_operation,()
+a2enmod ¦php5 :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+cmd,-DFOREGROUND
+zypper ¦-q¦ar¦-f¦-r¦http://download.opensuse.org/repositories/Apache/openSUSE_13.2/Apache.repo :: Other_operation,()
+entrypoint,start_apache2
+zypper ¦-qn¦--gpg-auto-import-keys¦ref :: Other_operation,()

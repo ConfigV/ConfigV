@@ -1,0 +1,7 @@
+expose,9100
+from,alpine@edge
+echo ¦echo¦"`sed 's,main,testing,' /etc/apk/repositories`" >> /etc/apk/repositories && apk add --update tor=0.2.6.10-r0 && rm -rf tor-0.2.6.10 /var/cache/apk/* :: Filesystem_operation,()
+HOME:/tmp :: env_operation,()
+entrypoint,tor¦-f¦/torrc
+torrc/torrc :: add_operation,()
+nobody :: user_operation,()

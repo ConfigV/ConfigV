@@ -1,0 +1,10 @@
+apt-get ¦-y¦install¦erlang :: Dependencies_operation,()
+from,debian@latest
+groupadd ¦-g¦1000¦erlang :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+erlang :: user_operation,()
+/var/www/ :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/www :: volume_operation,()
+cmd,erl
+useradd ¦-u¦1000¦-g¦erlang¦-d¦/var/www/¦erlang :: Permissions_operation,()

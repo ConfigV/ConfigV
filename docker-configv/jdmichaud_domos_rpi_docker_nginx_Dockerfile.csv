@@ -1,0 +1,23 @@
+echo ¦echo¦'export PS1="`echo $PS1 | sed s/@.h/@domos-nginx/g` "' >> /home/jedi/.profile :: Filesystem_operation,()
+chown ¦root:root¦/etc/ssl/private :: Permissions_operation,()
+openssl ¦req¦-x509¦-sha256¦-nodes¦-days¦365¦-newkey¦rsa:2048¦-keyout¦server-private.key¦-out¦server-certificate.csr¦-subj¦"/C=/ST=/L=/O=/OU=/CN=." :: Other_operation,()
+mv ¦server-certificate.csr¦/etc/ssl/certs/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/etc/ssl/ :: Filesystem_operation,()
+expose,443
+chmod ¦700¦server-private.key :: Permissions_operation,()
+root :: user_operation,()
+from,ubuntu
+chmod ¦700¦/etc/ssl/private :: Permissions_operation,()
+git ¦config¦--global¦user.email¦"jean.daniel.michaud@gmail.com" :: Dependencies_operation,()
+echo ¦useradd¦jedi --create-home --password jedi && echo "jedi:jedi" | chpasswd && adduser jedi sudo :: Filesystem_operation,()
+apt-get ¦install¦-y¦build-essential¦nano¦vim¦unzip¦curl¦git¦sudo¦nginx :: Dependencies_operation,()
+mkdir ¦-p¦/etc/ssl/private :: Filesystem_operation,()
+jedi :: user_operation,()
+git ¦config¦--global¦user.name¦"JD" :: Dependencies_operation,()
+sed ¦-i¦'s/#force_color_prompt=yes/force_color_prompt=yes/g'¦/home/jedi/.bashrc :: Filesystem_operation,()
+APPLICATION:domos-web-server :: env_operation,()
+mv ¦server-private.key¦/etc/ssl/private/ :: Filesystem_operation,()
+cmd,mkdir¦-p¦/tmp/nginx/log¦&&¦service¦nginx¦start
+mkdir ¦-p¦/etc/ssl/certs :: Filesystem_operation,()
+nginx.conf/etc/nginx/ :: add_operation,()

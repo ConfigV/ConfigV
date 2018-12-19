@@ -1,0 +1,7 @@
+/usr/src/app :: workdir_operation,()
+apt-get ¦install¦bazel :: Dependencies_operation,()
+from,openjdk:8.0
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+echo ¦echo¦"deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list && curl https://bazel.build/bazel-release.pub.gpg | apt-key add - :: Filesystem_operation,()

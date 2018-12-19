@@ -1,0 +1,8 @@
+container:docker :: env_operation,()
+rpm ¦-E¦%fedora :: Dependencies_operation,()
+yum ¦install¦-y¦openssh-server;¦yum¦clean¦all :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+expose,22
+yum ¦update¦-y;¦yum¦clean¦all :: Dependencies_operation,()
+from,fedora@latest
+entrypoint,/usr/sbin/sshd¦-D

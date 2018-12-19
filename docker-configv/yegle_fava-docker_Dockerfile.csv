@@ -1,0 +1,10 @@
+BEANCOUNT_INPUT_FILE:"" :: env_operation,()
+apk ¦add¦--update¦libxml2¦libxslt¦libxml2-dev¦libxslt-dev¦gcc¦musl-dev¦python3-dev :: Dependencies_operation,()
+cmd,fava¦$FAVA_OPTIONS¦$BEANCOUNT_INPUT_FILE
+python3 ¦-mpip¦install¦beancount-fava :: Build_Execute_operation,()
+apk ¦del¦libxml2-dev¦libxslt-dev¦gcc¦musl-dev¦python3-dev :: Dependencies_operation,()
+rm ¦-rf¦/root/.cache :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+python3 ¦-mpip¦uninstall¦--yes¦pip :: Build_Execute_operation,()
+from,python:3.5
+FAVA_OPTIONS:"-p :: env_operation,()

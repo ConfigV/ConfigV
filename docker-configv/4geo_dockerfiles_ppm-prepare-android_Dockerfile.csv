@@ -1,0 +1,8 @@
+groupadd ¦-g¦$gid¦developer :: Permissions_operation,()
+from,fourgeo/ionic-android:latest
+developer :: user_operation,()
+useradd ¦-u¦$uid¦-g¦$gid¦-m¦developer :: Permissions_operation,()
+HOME=/home/developer:PLATFORM=android :: env_operation,()
+chmod ¦755¦"${ANDROID_HOME}/tools/android" :: Permissions_operation,()
+$HOME/project :: workdir_operation,()
+cmd,phonegap-plugin-push

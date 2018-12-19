@@ -1,0 +1,10 @@
+./etc/ppp/pptpd-options/etc/ppp/pptpd-options :: copy_operation,()
+chmod ¦0700¦/entrypoint.sh :: Permissions_operation,()
+entrypoint,/entrypoint.sh
+from,ubuntu@latest
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+./etc/pptpd.conf/etc/pptpd.conf :: copy_operation,()
+apt-get ¦install¦-y¦pptpd¦iptables :: Dependencies_operation,()
+cmd,pptpd¦--fg
+apt-get ¦update :: Dependencies_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()

@@ -1,0 +1,13 @@
+git ¦clone¦https://github.com/chef/opscode-omnibus :: Dependencies_operation,()
+git ¦config¦--global¦user.name¦"Your¦Name" :: Dependencies_operation,()
+cd ¦/root/opscode-omnibus :: Filesystem_operation,()
+bundle ¦install¦--binstubs :: Dependencies_operation,()
+cd ¦/root :: Filesystem_operation,()
+erlang.rb/root/opscode-omnibus/config/software/erlang.rb :: copy_operation,()
+bin/omnibus ¦build¦chef-server¦-l¦debug :: Other_operation,()
+from,tibux/slackware-omnibus
+fix-configure.patch/root/opscode-omnibus/config/patches/erlang/fix-configure.patch :: copy_operation,()
+mkdir ¦-p¦/root/opscode-omnibus/config/patches/erlang :: Filesystem_operation,()
+libffi.rb/root/opscode-omnibus/config/software/libffi.rb :: copy_operation,()
+git ¦config¦--global¦user.email¦"you@example.com" :: Dependencies_operation,()
+bin/omnibus ¦clean¦chef-server¦--purge :: Other_operation,()

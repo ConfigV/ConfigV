@@ -1,0 +1,13 @@
+cmd,/sbin/my_init
+samba_setup.sh/etc/my_init.d/ :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦-p¦/etc/my_init.d :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦samba :: Dependencies_operation,()
+mkdir ¦/etc/service/samba :: Filesystem_operation,()
+from,phusion/baseimage:0.9.17
+/var/lib/samba :: volume_operation,()
+samba_finish.sh/etc/service/samba/finish :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+samba_run.sh/etc/service/samba/run :: copy_operation,()

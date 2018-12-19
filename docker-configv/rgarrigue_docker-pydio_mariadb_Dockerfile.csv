@@ -1,0 +1,10 @@
+./start.sh/start.sh :: add_operation,()
+cmd,/start.sh
+./my.cnf/etc/mysql/my.cnf :: add_operation,()
+/srv :: volume_operation,()
+apk ¦-U¦upgrade :: Dependencies_operation,()
+apk ¦--update¦ad¦mariadb¦mariadb-client :: Dependencies_operation,()
+rm ¦-rf¦/tmp/src¦/var/cache/apk/* :: Filesystem_operation,()
+chmod ¦u+x¦/start.sh :: Permissions_operation,()
+from,alpine@edge
+expose,3306

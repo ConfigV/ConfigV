@@ -1,0 +1,7 @@
+TZ=$TZ: :: env_operation,()
+mkdir ¦-p¦/var/log/grafana/ :: Filesystem_operation,()
+echo ¦echo¦$TZ | tee /etc/timezone :: Filesystem_operation,()
+dpkg-reconfigure ¦--frontend¦noninteractive¦tzdata :: Other_operation,()
+grafana.ini/etc/grafana/grafana.ini :: add_operation,()
+from,grafana/grafana
+chown ¦grafana:grafana¦/var/log/grafana/ :: Permissions_operation,()

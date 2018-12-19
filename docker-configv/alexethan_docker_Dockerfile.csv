@@ -1,0 +1,13 @@
+rpm ¦-Uvh¦http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm :: Dependencies_operation,()
+chmod ¦755¦/*.ssh :: Permissions_operation,()
+run.sh/run.sh :: add_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+from,centos:7.0
+default.conf/etc/nginx/conf.d/ :: add_operation,()
+./html/var/www/html :: add_operation,()
+cmd,/run.sh
+wget ¦-O¦/etc/yum.repos.d/CentOS-Base.repo¦http://mirrors.aliyun.com/repo/Centos-7.repo :: Dependencies_operation,()
+yum ¦install¦nginx¦-y :: Dependencies_operation,()
+yum ¦install¦php¦php-fpm¦-y :: Dependencies_operation,()
+expose,80
+yum ¦install¦php-gd¦php-ldap¦php-mbstring¦php-mysql¦php-odbc¦php-pdo¦php-pear¦php-soap¦php-xml¦-y :: Dependencies_operation,()

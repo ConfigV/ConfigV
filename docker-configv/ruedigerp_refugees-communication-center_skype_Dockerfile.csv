@@ -1,0 +1,10 @@
+from,refugees/base
+echo ¦bash¦-c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf' :: Filesystem_operation,()
+bash ¦-c¦'dpkg¦-i¦/tmp/skype-install.deb' :: Build_Execute_operation,()
+cmd,x11vnc¦-forever¦-usepw¦-create
+bash ¦-c¦'dpkg¦--add-architecture¦i386 :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,5900
+apt-get ¦install¦-y¦libc6:i386¦libqt4-dbus:i386¦libqt4-network:i386¦libqt4-xml:i386¦libqtcore4:i386¦libqtgui4:i386¦libqtwebkit4:i386¦libstdc++6:i386¦libx11-6:i386¦libxext6:i386¦libxss1:i386¦libxv1:i386¦libssl1.0.0:i386¦libpulse0:i386¦libasound2-plu... :: Dependencies_operation,()
+http://www.skype.com/go/getskype-linux-deb/tmp/skype-install.deb :: add_operation,()
+echo ¦bash¦-c 'echo "skype" >> /root/.bashrc' :: Filesystem_operation,()

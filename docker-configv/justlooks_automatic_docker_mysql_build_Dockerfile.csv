@@ -1,0 +1,9 @@
+expose,3306
+yum ¦install¦-y¦mysql¦mysql-server :: Dependencies_operation,()
+from,docker:5000/centos:centos65
+rm ¦/etc/yum.repos.d/* :: Filesystem_operation,()
+rm ¦/etc/my.cnf :: Filesystem_operation,()
+wget ¦-O-¦ftp://192.168.10.207/docker/mysql/my.cnf¦>¦/etc/my.cnf :: Dependencies_operation,()
+cmd,/bin/bash¦/opt/start.sh
+wget ¦-O-¦ftp://192.168.10.207/docker/mysql/start.sh¦>¦/opt/start.sh :: Dependencies_operation,()
+wget ¦-O-¦ftp://192.168.10.207/yum.repod/centos65.repo¦>¦/etc/yum.repos.d/centos65.repo :: Dependencies_operation,()

@@ -1,0 +1,20 @@
+from,ubuntu:14.04
+apt-get ¦install¦-y¦python-virtualenv¦python3-pip¦#¦to¦make¦builds¦faster :: Dependencies_operation,()
+pip ¦install¦-r¦requirements/local.txt :: Dependencies_operation,()
+entrypoint,/opt/asylum/docker-entrypoint.sh
+PYTHONUNBUFFERED:1 :: env_operation,()
+/opt/asylum :: workdir_operation,()
+project/opt/asylum/ :: copy_operation,()
+su ¦-c¦"psql¦-U¦postgres¦-d¦postgres¦-c"alter¦user¦asylum¦with¦password¦'asylum';\\""¦postgres :: Other_operation,()
+echo ¦service¦postgresql start; . venv/bin/activate && ./manage.py migrate && echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'nospamplz@hacklab.fi', 'admin')" | ./manage.py shell :: Filesystem_operation,()
+su ¦-c¦"createdb¦-E¦utf-8¦-T¦template0¦-O¦asylum¦asylum"¦postgres :: Other_operation,()
+expose,8000
+virtualenv ¦-p¦`which¦python3.4`¦venv :: Environment_operation,()
+. ¦venv/bin/activate :: Other_operation,()
+project/requirements.apt/opt/asylum/ :: copy_operation,()
+echo ¦echo¦"DATABASE_URL=postgres://asylum:asylum@localhost/asylum" > .env :: Filesystem_operation,()
+su ¦-c¦"createuser¦asylum"¦postgres :: Other_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦postgresql :: Dependencies_operation,()
+service ¦postgresql¦start :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()

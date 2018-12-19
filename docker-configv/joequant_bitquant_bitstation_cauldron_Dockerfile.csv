@@ -1,0 +1,8 @@
+/var/lib/machines :: volume_operation,()
+cmd,/home/user/git/bitquant/web/scripts/startup-all.sh
+from,mageia:6.0
+/sys/fs/cgroup :: volume_operation,()
+config-manager  :: Other_operation,()
+expose,80 443
+dnf ¦--setopt=install_weak_deps=False¦--allowerasing¦--best¦--nodocs¦-v¦-y¦install¦curl¦dnf¦python3 :: Dependencies_operation,()
+cd ¦/tmp¦;¦curl¦-O¦https://raw.githubusercontent.com/joequant/bitquant/master/bitstation/docker-setup.sh¦;¦chmod¦a+x¦docker-setup.sh¦;¦./docker-setup.sh¦;¦rm¦docker-setup.sh :: Filesystem_operation,()

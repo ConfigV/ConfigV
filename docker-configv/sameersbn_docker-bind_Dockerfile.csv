@@ -1,0 +1,19 @@
+apt-get ¦update¦#¦20140310 :: Dependencies_operation,()
+chmod ¦600¦/root/.ssh/authorized_keys :: Permissions_operation,()
+/app/setup/install  :: Other_operation,()
+sed ¦'s/main$/main¦universe/'¦-i¦/etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦vim¦curl¦wget¦sudo¦net-tools¦pwgen :: Dependencies_operation,()
+apt-get ¦install¦-y¦bind9¦perl¦libnet-ssleay-perl¦openssl¦¦¦libauthen-pam-perl¦libpam-runtime¦libio-pty-perl¦¦¦apt-show-versions¦python :: Dependencies_operation,()
+chmod ¦700¦/root/.ssh :: Permissions_operation,()
+entrypoint,/app/init
+apt-get ¦clean :: Dependencies_operation,()
+cmd,app:start
+chown ¦root:root¦-R¦/root/.ssh :: Permissions_operation,()
+authorized_keys/root/.ssh/ :: add_operation,()
+expose,22
+assets//app/ :: add_operation,()
+apt-get ¦install¦-y¦logrotate¦supervisor¦openssh-server :: Dependencies_operation,()
+chmod ¦755¦/app/init¦/app/setup/install :: Permissions_operation,()
+from,ubuntu:12.04
+mv ¦/app/.vimrc¦/app/.bash_aliases¦/root/ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

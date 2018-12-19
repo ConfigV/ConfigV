@@ -1,0 +1,13 @@
+chmod ¦755¦/home/cowrie/cowrie/start-docker.sh :: Permissions_operation,()
+root :: user_operation,()
+start-docker.sh/home/cowrie/cowrie/ :: copy_operation,()
+cowrie.cfg/home/cowrie/cowrie/ :: copy_operation,()
+from,gliderlabs/alpine
+cowrie :: user_operation,()
+entrypoint,/home/cowrie/cowrie/start-docker.sh
+git ¦clone¦https://github.com/micheloosterhof/cowrie.git¦/home/cowrie/cowrie :: Dependencies_operation,()
+adduser ¦-D¦-s¦/bin/sh¦cowrie¦cowrie :: Permissions_operation,()
+apk ¦--update¦add¦git¦python¦py-twisted¦py-zope-interface¦py-pip :: Dependencies_operation,()
+rm ¦-f¦/var/cache/apk/* :: Filesystem_operation,()
+pip ¦install¦pyasn1 :: Dependencies_operation,()
+expose,2222

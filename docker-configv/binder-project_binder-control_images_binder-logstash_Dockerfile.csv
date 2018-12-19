@@ -1,0 +1,15 @@
+from,ubuntu@latest
+chown ¦-R¦logstash:logstash¦/usr/share/logstash/config :: Permissions_operation,()
+/opt/logstash/bin/plugin ¦install¦logstash-output-elasticsearch :: Other_operation,()
+/opt/logstash/bin/plugin ¦install¦logstash-input-tcp :: Other_operation,()
+wget ¦-qO¦-¦https://packages.elastic.co/GPG-KEY-elasticsearch¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sudo ¦apt-get¦install¦-y¦wget¦openjdk-7-jre¦&&\\ :: Other_operation,()
+sudo ¦apt-get¦install¦-y¦logstash¦curl¦&&\\ :: Other_operation,()
+echo ¦echo¦"deb http://packages.elastic.co/logstash/2.1/debian stable main" | sudo tee -a /etc/apt/sources.list :: Filesystem_operation,()
+mkdir ¦-p¦/usr/share/logstash/config :: Filesystem_operation,()
+/opt/logstash/bin/plugin ¦install¦logstash-output-websocket_topics :: Other_operation,()
+root :: user_operation,()
+logstash :: user_operation,()
+cmd,/opt/logstash/bin/logstash¦-f¦/usr/share/logstash/config/*.conf
+echo ¦echo¦"blablaahd" :: Filesystem_operation,()

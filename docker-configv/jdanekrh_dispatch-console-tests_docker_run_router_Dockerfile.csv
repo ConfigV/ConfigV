@@ -1,0 +1,12 @@
+main/main/qpid-dispatch/build/qpid-dispatch_*.debqpid-dispatch.deb :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+dpkg ¦-i¦qpid-proton.deb¦qpid-dispatch.deb :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+main/main/qpid-proton/build/qpid-proton_*.debqpid-proton.deb :: copy_operation,()
+from,debian@stable
+apt-get ¦-y¦install¦cmake¦make¦libssl-dev¦libsasl2-2¦libsasl2-dev¦python-dev¦python-pkg-resources¦sasl2-bin¦uuid¦websockify :: Dependencies_operation,()
+echo ¦echo¦"websockify 5673 0.0.0.0:20009 & qdrouterd -c console.conf" > qdrouterd.sh :: Filesystem_operation,()
+cmd,bash¦qdrouterd.sh
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+console.conf./ :: copy_operation,()
+PYTHONPATH=/usr/lib/python2.7/site-packages: :: env_operation,()

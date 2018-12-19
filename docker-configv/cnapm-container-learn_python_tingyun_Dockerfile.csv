@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+TINGYUN_LICENSE_KEY:<%licenseKey%> :: env_operation,()
+TINGYUN_APP_NAME:ApplicationName :: env_operation,()
+mkdir ¦${TINGYUN_HOME} :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+TINGYUN_HOME:/tingyun :: env_operation,()
+python ¦${TINGYUN_HOME}/tingyun-agent-python-${TINGYUN_AGENT_VERSION}/setup.py¦install :: Build_Execute_operation,()
+wget ¦http://download.tingyun.com/agent/python/${TINGYUN_AGENT_VERSION}/tingyun-agent-python-${TINGYUN_AGENT_VERSION}.tar.gz :: Dependencies_operation,()
+from,python:2.7
+TINGYUN_AGENT_VERSION:0.7.7 :: env_operation,()
+tar ¦–zxf¦tingyun-agent-python-${TINGYUN_AGENT_VERSION}.tar.gz¦–C¦${TINGYUN_HOME} :: Filesystem_operation,()

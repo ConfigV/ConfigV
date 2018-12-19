@@ -1,0 +1,11 @@
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦apache2¦libapache2-mod-proxy-html :: Dependencies_operation,()
+public_html/var/www/html/ :: add_operation,()
+expose,80
+a2enmod ¦proxy :: Other_operation,()
+from,ubuntu:14.04
+entrypoint,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+000-default.conf/etc/apache2/sites-available :: add_operation,()
+a2enmod ¦proxy_http :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()

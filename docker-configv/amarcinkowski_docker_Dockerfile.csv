@@ -1,0 +1,22 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+mkdir ¦-p¦/home/vagrant/.ssh :: Filesystem_operation,()
+echo ¦echo¦-n 'vagrant:vagrant' | chpasswd :: Filesystem_operation,()
+cmd,/sbin/my_init
+expose,22
+apt-get ¦install¦-y¦openssh-server¦wget¦lsb-release¦sudo¦git :: Dependencies_operation,()
+echo ¦echo¦'vagrant ALL=NOPASSWD: ALL' >> /etc/sudoers.d/vagrant :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,phusion/baseimage
+/etc/my_init.d/00_regen_ssh_host_keys.sh  :: Other_operation,()
+rm ¦-f¦/etc/service/sshd/down :: Filesystem_operation,()
+chmod ¦0755¦/var/run/sshd :: Permissions_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kiv... :: Filesystem_operation,()
+mkdir ¦-p¦/etc/sudoers.d :: Filesystem_operation,()
+install ¦-b¦-m¦0440¦/dev/null¦/etc/sudoers.d/vagrant :: Build_Execute_operation,()
+/bin/bash ¦-c¦"source¦hospitalpage/scripts/install-server.sh" :: Build_Execute_operation,()
+useradd ¦--create-home¦-s¦/bin/bash¦vagrant :: Permissions_operation,()
+chown ¦-R¦vagrant:¦/home/vagrant/.ssh :: Permissions_operation,()
+/home/vagrant :: workdir_operation,()
+git ¦clone¦https://github.com/hospitalhub/hospitalpage :: Dependencies_operation,()

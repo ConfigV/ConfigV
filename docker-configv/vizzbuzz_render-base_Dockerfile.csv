@@ -1,0 +1,13 @@
+SLIMERJS_VERSION_F:0.9.4 :: env_operation,()
+chmod ¦755¦build*.sh :: Permissions_operation,()
+mkdir ¦-p¦/usr/share/fonts :: Filesystem_operation,()
+SUPPORT_SLIMERJS:no :: env_operation,()
+adduser ¦--disabled-password¦--gecos¦''¦app :: Permissions_operation,()
+./build_fonts.sh  :: Other_operation,()
+cmd,/sbin/my_init
+SLIMERJS_VERSION_M:0.9 :: env_operation,()
+from,phusion/baseimage:0.9.16
+./build_base.sh  :: Other_operation,()
+google-fonts.tar.gz/usr/share/fonts/ :: add_operation,()
+build_*.sh./ :: copy_operation,()
+ln ¦-s¦/home/app¦/app :: Filesystem_operation,()

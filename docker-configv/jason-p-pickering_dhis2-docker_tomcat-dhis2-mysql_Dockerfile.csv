@@ -1,0 +1,8 @@
+from,tomcat:7.0
+wget ¦--quiet¦--no-check-certificate¦-O¦-¦"http://ci.dhis2.org/job/dhis2-${DHIS2_VERSION}/lastSuccessfulBuild/artifact/dhis-2/dhis-web/dhis-web-portal/target/dhis.war"¦>¦/usr/local/tomcat/webapps/ROOT.war :: Dependencies_operation,()
+hibernate.properties/opt/dhis2/hibernate.properties :: copy_operation,()
+expose,8080
+/opt/dhis2/ :: volume_operation,()
+rm ¦-rf¦/usr/local/tomcat/webapps/ROOT :: Filesystem_operation,()
+mkdir ¦/opt/dhis2 :: Filesystem_operation,()
+DHIS2_VERSION:2.21 :: env_operation,()

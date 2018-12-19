@@ -1,0 +1,9 @@
+/opt/app/ :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦openjdk-7-jdk :: Dependencies_operation,()
+entrypoint,bin/cameoserver¦-Dconfig.file=conf/secret.conf
+./target/opt/app :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+expose,9000
+from,ubuntu@latest

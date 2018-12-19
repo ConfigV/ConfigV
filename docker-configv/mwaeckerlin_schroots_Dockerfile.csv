@@ -1,0 +1,11 @@
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦software-properties-common¦apt-transport-https :: Dependencies_operation,()
+echo ¦echo¦"/var/lib/jenkins /var/lib/jenkins none rw,bind 0 0" >> /etc/schroot/default/fstab :: Filesystem_operation,()
+cmd,sleep¦infinity
+from,ubuntu
+apt-add-repository ¦https://dev.marc.waeckerlin.org/repository :: Other_operation,()
+setup-susebootstrap.sh  :: Other_operation,()
+apt-get ¦install¦-y¦debian-chroots¦suse-chroots :: Dependencies_operation,()
+setup-debootstrap.sh  :: Other_operation,()
+wget ¦-O-¦https://dev.marc.waeckerlin.org/repository/PublicKey¦|¦apt-key¦add¦- :: Dependencies_operation,()
+/etc/schroot :: volume_operation,()

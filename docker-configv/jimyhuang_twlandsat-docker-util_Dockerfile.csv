@@ -1,0 +1,12 @@
+from,ubuntu@trusty
+python ¦setup.py¦install :: Build_Execute_operation,()
+pip ¦install¦-U¦git+git://github.com/developmentseed/landsat-util.git :: Dependencies_operation,()
+git ¦clone¦https://github.com/mapbox/mbutil.git :: Dependencies_operation,()
+/home :: workdir_operation,()
+apt-add-repository ¦ppa:ubuntugis/ubuntugis-unstable :: Other_operation,()
+apt-get ¦install¦-y¦git¦python-pip¦build-essential¦libssl-dev¦libffi-dev¦python-dev¦python-gdal¦libgdal1-dev¦gdal-bin¦imagemagick¦geotiff-bin¦otb-bin¦otb-bin-qt :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cd ¦mbutil :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦software-properties-common¦curl :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

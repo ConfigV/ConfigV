@@ -1,0 +1,27 @@
+SINUS_DIR:/opt/ts3soundboard :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+TS3_RUN:/tmp/teamspeak-client.run :: env_operation,()
+$SINUS_DIR :: workdir_operation,()
+rm ¦$SINUS_TAR :: Filesystem_operation,()
+wget ¦-O¦$SINUS_TAR¦http://frie.se/ts3bot/sinusbot-$SINUS_VERSION.tar.bz2 :: Dependencies_operation,()
+rm ¦$TS3_RUN :: Filesystem_operation,()
+entrypoint,xinit¦/opt/ts3soundboard/ts3bot¦--¦/usr/bin/Xvfb
+screen ¦-dmS¦installation¦sh¦-c¦"cd¦$SINUS_DIR;¦$TS3_RUN" :: Other_operation,()
+SINUS_TAR:/tmp/sinusbot.tar.bz2 :: env_operation,()
+cp ¦$SINUS_DIR/config.ini.dist¦$SINUS_DIR/config.ini :: Filesystem_operation,()
+TS3_VERSION:3.0.16 :: env_operation,()
+cp ¦$SINUS_DIR/plugin/libsoundbot_plugin.so¦$SINUS_DIR/TeamSpeak3-Client-linux_amd64/plugins :: Filesystem_operation,()
+tar ¦-xjf¦$SINUS_TAR¦-C¦$SINUS_DIR :: Filesystem_operation,()
+printf\\r  :: Other_operation,()
+SINUS_VERSION:0.9.8 :: env_operation,()
+from,ubuntu
+/opt/data :: volume_operation,()
+sleep ¦1 :: Other_operation,()
+apt-get ¦install¦-y¦x11vnc¦xinit¦xvfb¦libxcursor1¦ca-certificates¦bzip2 :: Dependencies_operation,()
+chmod ¦+x¦$TS3_RUN :: Permissions_operation,()
+expose,8087
+mkdir ¦-p¦$SINUS_DIR :: Filesystem_operation,()
+echo ¦echo¦DataDir ="/opt/data\\" >> $SINUS_DIR/config.ini :: Filesystem_operation,()
+cmd,:1¦-screen¦0¦800x600x16¦-ac
+screen ¦-S¦installation¦-p¦0¦-X¦stuff¦"q"¦#¦close¦license :: Other_operation,()
+wget ¦-O¦$TS3_RUN¦http://dl.4players.de/ts/releases/$TS3_VERSION/TeamSpeak3-Client-linux_amd64-$TS3_VERSION.run :: Dependencies_operation,()

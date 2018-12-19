@@ -1,0 +1,13 @@
+cmd,/usr/bin/supervisord
+ZOOKEEPER_CONF_DIR:$ZOOKEEPER_HOME/conf :: env_operation,()
+expose,2181 2182 2183
+from,hyzhengwei/sshd-ubuntu
+zookeeper.init.hosts.sh/usr/bin :: add_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+zookeeper-config$ZOOKEEPER_CONIFG_HY :: add_operation,()
+zookeeper.init.all.sh/usr/bin :: add_operation,()
+ZOOKEEPER_DATAS:/zookeeper_datas :: env_operation,()
+PATH:$ZOOKEEPER_HOME/bin:$PATH :: env_operation,()
+chmod ¦755¦/usr/bin/zookeeper.*.sh :: Permissions_operation,()
+ZOOKEEPER_CONIFG_HY:/zookeeper-config :: env_operation,()
+ZOOKEEPER_HOME:/zookeeper :: env_operation,()

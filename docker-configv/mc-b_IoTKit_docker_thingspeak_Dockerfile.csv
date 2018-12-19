@@ -1,0 +1,17 @@
+groupadd ¦-r¦thingspeak :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+start.sh/start.sh :: add_operation,()
+apt-get ¦install¦-y¦build-essential¦mysql-server¦mysql-client¦git¦curl :: Dependencies_operation,()
+from,ruby:2.1
+apt-get ¦update :: Dependencies_operation,()
+/opt/thingspeak :: workdir_operation,()
+chown ¦-R¦thingspeak¦/opt/thingspeak :: Permissions_operation,()
+entrypoint,/start.sh
+chmod ¦755¦/start.sh :: Permissions_operation,()
+git ¦clone¦https://github.com/iobridge/thingspeak.git :: Dependencies_operation,()
+bundle ¦install :: Dependencies_operation,()
+/opt/ :: workdir_operation,()
+cp ¦config/database.yml.example¦config/database.yml :: Filesystem_operation,()
+useradd ¦-r¦-g¦thingspeak¦thingspeak :: Permissions_operation,()
+expose,3000
+chgrp ¦-R¦thingspeak¦/opt/thingspeak :: Other_operation,()

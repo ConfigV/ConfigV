@@ -1,0 +1,9 @@
+/var/lib/gerrit/db :: volume_operation,()
+expose,29418 8080
+java ¦-jar¦/usr/local/libexec/gerrit.war¦init¦--batch¦-d¦/var/lib/gerrit :: Other_operation,()
+cmd,/usr/bin/java¦-jar¦/var/lib/gerrit/bin/gerrit.war¦daemon¦-d¦/var/lib/gerrit
+/var/lib/gerrit/logs :: volume_operation,()
+echo ¦echo¦0bc3781eaa98914b51fa77f58e0ec5ff79b3db0e86b55cca4422a65087d4b564 /usr/local/libexec/gerrit.war | sha256sum --check :: Filesystem_operation,()
+from,rohanpm/javabase:latest
+/var/lib/gerrit/git :: volume_operation,()
+curl ¦https://gerrit-releases.storage.googleapis.com/gerrit-2.9.1.war¦-o¦/usr/local/libexec/gerrit.war :: Dependencies_operation,()

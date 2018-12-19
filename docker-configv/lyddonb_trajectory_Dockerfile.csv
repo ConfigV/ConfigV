@@ -1,0 +1,21 @@
+GOROOT:/usr/local/go :: env_operation,()
+expose,1200
+/opt/go/src/github.com/lyddonb/trajectory :: workdir_operation,()
+./opt/go/src/github.com/lyddonb/trajectory :: add_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+GOPATH:/opt/go :: env_operation,()
+go ¦get¦github.com/garyburd/redigo/redis :: Build_Execute_operation,()
+PATH:$PATH:/opt/go/bin:/usr/local/go/bin :: env_operation,()
+wget ¦https://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz¦--no-check-certificate :: Dependencies_operation,()
+tar ¦-C¦/usr/local¦-xzf¦go1.2.1.linux-amd64.tar.gz :: Filesystem_operation,()
+GOBIN:/opt/go/bin :: env_operation,()
+apt-get ¦install¦-y¦make :: Dependencies_operation,()
+mkdir ¦-p¦/opt/go/trajectory/{bin,¦src,¦pkg} :: Filesystem_operation,()
+mkdir ¦-p¦/opt/go/trajectory/src/github.com/lyddonb :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,ubuntu
+entrypoint,/opt/trajectory/bin/trajectory
+go ¦install¦trajectory.go :: Build_Execute_operation,()

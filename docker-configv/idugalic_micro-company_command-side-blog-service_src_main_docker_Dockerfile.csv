@@ -1,0 +1,8 @@
+*.jar/app.jar :: add_operation,()
+bash ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+wait-for-it.sh/wait-for-it.sh :: add_operation,()
+expose,8080
+bash ¦-c¦'chmod¦777¦/wait-for-it.sh' :: Build_Execute_operation,()
+cmd,java¦-Dspring.profiles.active=docker¦-jar¦/app.jar
+from,java:8.0
+/tmp :: volume_operation,()

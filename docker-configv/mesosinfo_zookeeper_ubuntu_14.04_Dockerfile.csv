@@ -1,0 +1,16 @@
+mkdir ¦-p¦/tmp/zookeeper :: Filesystem_operation,()
+PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/zookeeper/bin :: env_operation,()
+from,ubuntu:14.04
+/opt/zookeeper :: workdir_operation,()
+wget ¦-q¦-O¦-¦http://apache.mirrors.pair.com/zookeeper/zookeeper-3.4.8/zookeeper-3.4.8.tar.gz¦|¦tar¦-xzf¦-¦-C¦/opt :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()
+chmod ¦777¦/opt/run.sh :: Permissions_operation,()
+/opt/zookeeper/conf :: volume_operation,()
+/tmp/zookeeper :: volume_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless :: Dependencies_operation,()
+cp ¦/opt/zookeeper/conf/zoo_sample.cfg¦/opt/zookeeper/conf/zoo.cfg :: Filesystem_operation,()
+cmd,/opt/run.sh
+mv ¦/opt/zookeeper-3.4.6¦/opt/zookeeper :: Filesystem_operation,()
+./run.sh/opt/run.sh :: add_operation,()
+expose,2181 2888 3888
+apt-get ¦update :: Dependencies_operation,()

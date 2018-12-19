@@ -1,0 +1,13 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+run.sh/run.sh :: add_operation,()
+PHP_POST_MAX_SIZE:10M :: env_operation,()
+supervisord-apache2.conf/etc/supervisor/conf.d/supervisord-apache2.conf :: add_operation,()
+phpinfo.php/var/www/html/phpinfo.php :: add_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+start-apache2.sh/start-apache2.sh :: add_operation,()
+from,resin/rpi-raspbian:stretch
+expose,80 443
+echo ¦apt-get¦update && apt-get -y install supervisor git apache2 libapache2-mod-php php-mysql pwgen php-mcrypt vim python-certbot-apache && echo "ServerName localhost" >> /etc/apache2/apache2.conf :: Filesystem_operation,()
+create_mysql_admin_user.sh/create_mysql_admin_user.sh :: add_operation,()
+cmd,/run.sh
+PHP_UPLOAD_MAX_FILESIZE:10M :: env_operation,()

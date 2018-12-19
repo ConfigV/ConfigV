@@ -1,0 +1,14 @@
+cp ¦/src/contrib/docker/entrypoint.sh¦/ :: Filesystem_operation,()
+cp ¦/src/cjdroute¦/usr/bin :: Filesystem_operation,()
+rm ¦-rf¦/src¦/var/cache/apk/* :: Filesystem_operation,()
+from,alpine:3.2
+/etc/cjdns :: volume_operation,()
+/src/do  :: Other_operation,()
+entrypoint,/entrypoint.sh
+cp ¦/src/makekeys¦/src/privatetopublic¦/src/makekeys¦/src/randombytes¦/src/sybilsim¦/usr/bin :: Filesystem_operation,()
+./src :: add_operation,()
+apk ¦del¦--purge¦python¦build-base¦linux-headers :: Dependencies_operation,()
+adduser ¦-D¦-h¦/etc/cjdns¦-u¦1000¦cjdns :: Permissions_operation,()
+apk ¦add¦--update¦nodejs¦bash¦python¦git¦build-base¦linux-headers :: Dependencies_operation,()
+cp ¦-r¦/src/tools/*¦/usr/bin :: Filesystem_operation,()
+rm ¦-rf¦/src/build_* :: Filesystem_operation,()

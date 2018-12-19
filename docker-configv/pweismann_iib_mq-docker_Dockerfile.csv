@@ -1,0 +1,22 @@
+iib_env.sh/usr/local/bin/ :: copy_operation,()
+sed ¦-e¦'s/^%sudo¦.*/%sudo¦ALL=NOPASSWD:ALL/g'¦-i¦/etc/sudoers :: Filesystem_operation,()
+iib-license-check.sh/usr/local/bin/ :: copy_operation,()
+curl ¦http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/integration/iib-10.0.0.0.tar.gz¦|¦tar¦zx¦--directory¦/opt/ibm¦--exclude='tools' :: Dependencies_operation,()
+iib_manage.sh/usr/local/bin/ :: copy_operation,()
+echo ¦echo¦"IIB_10:" > /etc/debian_chroot && touch /var/log/syslog && chown syslog:adm /var/log/syslog && chmod +x /tmp/kernel_settings.sh && /tmp/kernel_settings.sh :: Filesystem_operation,()
+kernel_settings.sh/tmp/ :: copy_operation,()
+from,ubuntu:14.04
+/var/mqm :: volume_operation,()
+apt-get ¦install¦-y¦curl¦bash¦bc¦rmp¦tar :: Dependencies_operation,()
+cat ¦/etc/sudoers¦>¦/tmp/sudoers :: Filesystem_operation,()
+entrypoint,iib_manage.sh¦mq.sh
+useradd ¦--create-home¦--home-dir¦/home/iibuser¦-G¦mqbrkrs,sudo¦iibuser :: Permissions_operation,()
+BASH_ENV=/usr/local/bin/iib_env.sh: :: env_operation,()
+echo ¦echo¦"#!/bin/bash" > /home/iibuser/.bash_profile && sed -e "$ a . /opt/ibm/iib-10.0.0.0/server/bin/mqsiprofile " -i /home/iibuser/.bash_profile :: Filesystem_operation,()
+expose,1414 4414 7800 9080
+export ¦DEBIAN_FRONTEND=noninteractive¦#¦The¦URL¦to¦download¦the¦MQ¦installer¦from¦in¦tar.gz¦format :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/opt/ibm :: Filesystem_operation,()
+chmod ¦a+rx¦/usr/local/bin/*.sh :: Permissions_operation,()
+/opt/ibm/iib-10.0.0.0/iib ¦make¦registry¦global¦accept¦license¦silently :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

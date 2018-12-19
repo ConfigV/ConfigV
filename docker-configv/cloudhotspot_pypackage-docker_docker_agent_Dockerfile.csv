@@ -1,0 +1,9 @@
+/ansible :: volume_operation,()
+apt-get ¦install¦-qy¦ansible :: Dependencies_operation,()
+apt-add-repository ¦-y¦ppa:ansible/ansible :: Other_operation,()
+apt-get ¦update¦-qy :: Dependencies_operation,()
+/ansible :: workdir_operation,()
+apt-get ¦install¦-qy¦software-properties-common :: Dependencies_operation,()
+from,ubuntu@trusty
+sed ¦-i¦"s/http:\\/\\/archive./http:\\/\\/nz.archive./g"¦/etc/apt/sources.list :: Filesystem_operation,()
+entrypoint,ansible-playbook

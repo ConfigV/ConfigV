@@ -1,0 +1,10 @@
+entrypoint,/entrypoint.sh
+cmd,apache2¦-DFOREGROUND
+from,wordpress@latest
+echo ¦touch¦/usr/local/etc/php/conf.d/upload-limit.ini && echo "upload_max_fileszie = 32M" >> /usr/local/etc/php/conf.d/upload-limit.ini :: Filesystem_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+a2enmod ¦expires¦headers :: Other_operation,()
+/var/www/html :: volume_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦unzip :: Dependencies_operation,()

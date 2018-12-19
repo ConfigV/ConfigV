@@ -1,0 +1,9 @@
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+expose,22 80
+echo ¦echo¦'root:secappdev' | chpasswd :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server¦apache2¦supervisor :: Dependencies_operation,()
+from,ubuntu:14.04
+mkdir ¦-p¦/var/lock/apache2¦/var/run/apache2¦/var/run/sshd¦/var/log/supervisor :: Filesystem_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()

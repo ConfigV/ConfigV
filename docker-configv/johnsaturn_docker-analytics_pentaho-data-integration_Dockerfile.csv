@@ -1,0 +1,13 @@
+/opt/pentaho/data-integration :: workdir_operation,()
+expose,8181
+. ¦/etc/environment :: Other_operation,()
+PENTAHO_HOME:/opt/pentaho :: env_operation,()
+pentaho :: user_operation,()
+mkdir ¦${PENTAHO_HOME};¦useradd¦-s¦/bin/bash¦-d¦${PENTAHO_HOME}¦pentaho;¦chown¦pentaho:pentaho¦${PENTAHO_HOME} :: Filesystem_operation,()
+from,java
+/usr/bin/wget ¦--progress=dot:giga¦http://downloads.sourceforge.net/project/pentaho/Data%20Integration/${PENTAHO_VERSION}/pdi-ce-${PENTAHO_TAG}.zip¦-O¦/tmp/pdi-ce-${PENTAHO_TAG}.zip;¦/usr/bin/unzip¦-q¦/tmp/pdi-ce-${PENTAHO_TAG}.zip¦-d¦$PENTAHO_HOME;¦rm¦/... :: Other_operation,()
+cmd,./run.sh
+slave_dyn.xml/opt/pentaho/data-integration/ :: copy_operation,()
+PENTAHO_TAG:6.0.1.0-386 :: env_operation,()
+PENTAHO_VERSION:6.0 :: env_operation,()
+scripts//opt/pentaho/data-integration/ :: copy_operation,()

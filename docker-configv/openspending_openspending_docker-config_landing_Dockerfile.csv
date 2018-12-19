@@ -1,0 +1,10 @@
+cmd,'nginx'
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+from,nginx@alpine
+update-ca-certificates  :: Other_operation,()
+default/etc/nginx/sites-enabled/default :: copy_operation,()
+git ¦clone¦http://github.com/openspending/landing.git¦app :: Dependencies_operation,()
+mime.types/etc/nginx/mime.types :: copy_operation,()
+expose,8000
+apk ¦add¦--update¦git :: Dependencies_operation,()
+rm ¦/etc/nginx/nginx.conf¦/etc/nginx/mime.types :: Filesystem_operation,()

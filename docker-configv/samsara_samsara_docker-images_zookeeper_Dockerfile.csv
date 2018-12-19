@@ -1,0 +1,10 @@
+./configure-and-start.sh/configure-and-start.sh :: add_operation,()
+ln ¦-fs¦/opt/zookeeper-*¦/opt/zookeeper :: Filesystem_operation,()
+ZK_VERSION:3.4.6 :: env_operation,()
+/logs :: volume_operation,()
+from,samsara/base-image-jdk7:u1410-j7u75
+/data :: volume_operation,()
+./zookeeper-supervisor.conf/etc/supervisor/conf.d/zookeeper-supervisor.conf :: add_operation,()
+curl ¦-sSL¦http://apache.mirrors.pair.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz¦|¦tar¦-xzf¦-¦-C¦/opt :: Dependencies_operation,()
+cmd,/configure-and-start.sh
+expose,2181 2888 3888

@@ -1,0 +1,20 @@
+apt-get ¦update :: Dependencies_operation,()
+cp ¦-R¦/build/overrides/.¦/¦||¦: :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/*¦/build :: Filesystem_operation,()
+/build/init/00_fixmount  :: Other_operation,()
+./build :: add_operation,()
+LANGUAGE:fr_FR.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cp ¦-R¦/build/init/.¦/etc/my_init.d/¦|| : :: Filesystem_operation,()
+cmd,/sbin/my_init
+apt-get ¦install¦-y¦php5¦mysql-client¦libapache2-mod-php5¦php5-mysql¦php5-gd¦php5-curl¦php5-common¦php5-cli¦php-apc¦php5-dev¦php-pear :: Dependencies_operation,()
+mkdir ¦-p¦/build :: Filesystem_operation,()
+update-locale ¦LANG=fr_FR.UTF-8 :: Other_operation,()
+expose,80
+/build/prepare_php.sh  :: Other_operation,()
+from,qqch/http:latest
+cp ¦-R¦/build/runit/.¦/etc/service/¦||¦: :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+LANG:fr_FR.UTF-8 :: env_operation,()
+LC_ALL:fr_FR.UTF-8 :: env_operation,()

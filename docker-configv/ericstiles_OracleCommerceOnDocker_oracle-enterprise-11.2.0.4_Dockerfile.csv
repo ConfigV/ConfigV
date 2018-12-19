@@ -1,0 +1,20 @@
+$LOCAL_TOOLS/p13390677_112040_Linux-x86-64_1of7.zip$BASE_TMP_INSTALL/p13390677_112040_Linux-x86-64_1of7.zip :: add_operation,()
+mkdir ¦$BASE_DIR :: Filesystem_operation,()
+unzip ¦-q¦$BASE_TMP_INSTALL/p13390677_112040_Linux-x86-64_1of7.zip¦-d¦$BASE_DIR :: Filesystem_operation,()
+yum ¦-y¦install¦unzip :: Dependencies_operation,()
+$LOCAL_TOOLS/p13390677_112040_Linux-x86-64_2of7.zip$BASE_TMP_INSTALL/p13390677_112040_Linux-x86-64_2of7.zip :: add_operation,()
+AUTHORIZED_KEYS:**None** :: env_operation,()
+BASE_TMP_INSTALL:/tmp :: env_operation,()
+LOCAL_SCRIPTS:scripts :: env_operation,()
+chmod ¦777¦$BASE_DIR :: Permissions_operation,()
+yum ¦-y¦install¦wget :: Dependencies_operation,()
+unzip ¦-q¦$BASE_TMP_INSTALL/p13390677_112040_Linux-x86-64_2of7.zip¦-d¦$BASE_DIR :: Filesystem_operation,()
+source ¦$BASE_TMP_INSTALL/modsudoers.sh :: Environment_operation,()
+LOCAL_TOOLS:tools :: env_operation,()
+BASE_DIR:/appl :: env_operation,()
+expose,8080
+rm ¦-rf¦$BASE_TMP_INSTALL/* :: Filesystem_operation,()
+cmd,/run.sh
+yum ¦-y¦install¦sudo :: Dependencies_operation,()
+from,tutum/centos:centos5
+$LOCAL_SCRIPTS/modsudoers.sh$BASE_TMP_INSTALL/modsudoers.sh :: add_operation,()

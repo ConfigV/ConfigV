@@ -1,0 +1,11 @@
+curl ¦-L¦-O¦https://storage.googleapis.com/kubernetes-release/release/v1.1.2/bin/linux/amd64/kubectl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./bin/kube-cloudwatch-node-metrics/usr/bin/ :: copy_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+mv ¦kubectl¦/usr/bin/ :: Filesystem_operation,()
+./start/ :: copy_operation,()
+from,debian@jessie
+apt-get ¦install¦-y¦curl¦bash¦jq :: Dependencies_operation,()
+chmod ¦0555¦/usr/bin/kubectl :: Permissions_operation,()
+chmod ¦0555¦/start :: Permissions_operation,()
+apt-get ¦clean¦-y¦all :: Dependencies_operation,()

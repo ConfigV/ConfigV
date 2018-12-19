@@ -1,0 +1,6 @@
+addgroup ¦couchdb¦-g¦109&&¦adduser¦-H¦-S¦-u¦105¦-G¦couchdb¦couchdb :: Permissions_operation,()
+cozy.ini/etc/couchdb/local.d/cozy.ini :: add_operation,()
+from,busybox
+/etc/cozy :: volume_operation,()
+echo ¦mkdir¦/etc/cozy&& mkdir -p /etc/couchdb/local.d&& chown -hR default /etc/cozy&& COUCH_LOGIN=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32}`;echo $COUCH_LOGIN > /etc/cozy/couchdb.login&& sed -ir "s/<login>/${COUCH_LOGIN}/g" /etc/couc... :: Filesystem_operation,()
+/etc/couchdb/local.d :: volume_operation,()

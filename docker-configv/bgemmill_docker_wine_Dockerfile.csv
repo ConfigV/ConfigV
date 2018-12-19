@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦wine1.8¦wine-mono4.5.6¦wine-gecko2.40¦wine-gecko2.40:i386¦xvfb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:ubuntu-wine/ppa :: Dependencies_operation,()
+while ¦pgrep¦-u¦`whoami`¦wineserver¦>¦/dev/null;¦do¦sleep¦1;¦done :: Other_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+from,ubuntu:14.04
+xvfb-run ¦wine¦"wineboot" :: Other_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()

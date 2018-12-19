@@ -1,0 +1,7 @@
+GITHUB_CHANGELOG_GENERATOR_VERSION:"1.14.3" :: env_operation,()
+echo ¦echo¦'gem: --no-document' > /etc/gemrc :: Filesystem_operation,()
+.github_changelog_generator/ :: copy_operation,()
+from,alpine:3.6
+cmd,github_changelog_generator¦--token¦$GITHUB_TOKEN
+apk ¦--no-cache¦add¦ruby¦ruby-json¦libstdc++¦tzdata¦bash¦ca-certificates :: Dependencies_operation,()
+gem ¦install¦github_changelog_generator¦--version¦$GITHUB_CHANGELOG_GENERATOR_VERSION :: Dependencies_operation,()

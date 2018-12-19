@@ -1,0 +1,22 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+wget ¦http://nodejs.org/dist/v0.10.26/node-v0.10.26.tar.gz :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦python¦wget :: Dependencies_operation,()
+./configure  :: Build_Execute_operation,()
+tar ¦-zxvf¦node-v0.10.26.tar.gz :: Filesystem_operation,()
+mkdir ¦-p¦/opt/app :: Filesystem_operation,()
+apt-get ¦remove¦-y¦build-essential¦python¦wget :: Dependencies_operation,()
+git ¦config¦--global¦url."https://".insteadOf¦git:// :: Dependencies_operation,()
+rm ¦-r¦node-v0.10.26 :: Filesystem_operation,()
+ADD./app /opt/app :: onbuild_operation,()
+make ¦install :: Build_Execute_operation,()
+RUNnpm install :: onbuild_operation,()
+node-v0.10.26 :: workdir_operation,()
+from,ubuntu
+/opt/app :: volume_operation,()
+rm ¦node-v0.10.26.tar.gz :: Filesystem_operation,()
+.. :: workdir_operation,()
+WORKDIR/opt/app :: onbuild_operation,()
+expose,8000
+make  :: Build_Execute_operation,()
+cmd,npm¦start

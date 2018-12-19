@@ -1,0 +1,13 @@
+/usr/src/hello-world-acceptance-tests :: workdir_operation,()
+mkdir ¦-p¦/usr/src/hello-world-acceptance-tests :: Filesystem_operation,()
+docker-php-ext-install ¦zip¦mbstring :: Other_operation,()
+rm ¦composer.phar :: Filesystem_operation,()
+apt-get ¦install¦-y¦zlib1g-dev¦git :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+php ¦composer.phar¦install¦--prefer-dist¦--no-scripts :: Other_operation,()
+cmd,./vendor/bin/behat
+from,php:5.6
+apt-get ¦update :: Dependencies_operation,()
+.. :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./composer.*./ :: copy_operation,()

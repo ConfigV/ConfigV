@@ -1,0 +1,11 @@
+from,alpine@latest
+gzip ¦-d¦shadowsocks-server-linux64-1.1.5.gz :: Other_operation,()
+mv ¦shadowsocks-server-linux64-1.1.5¦server :: Filesystem_operation,()
+chmod ¦+x¦server :: Permissions_operation,()
+apk ¦del¦wget¦gzip :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+entrypoint,/server¦-p¦3389¦-k¦iTimothy
+expose,3389
+wget ¦https://github.com/shadowsocks/shadowsocks-go/releases/download/1.1.5/shadowsocks-server-linux64-1.1.5.gz¦--no-check-certificate :: Dependencies_operation,()
+apk ¦--no-cache¦add¦wget¦gzip :: Dependencies_operation,()

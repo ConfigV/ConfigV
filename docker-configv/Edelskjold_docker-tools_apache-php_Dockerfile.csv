@@ -1,0 +1,17 @@
+www/var/www/site :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+apache-sites.conf/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+sed ¦-i¦"s/error_reporting¦=¦.*$/error_reporting¦=¦E_ERROR¦|¦E_WARNING¦|¦E_PARSE/"¦/etc/php5/apache2/php.ini :: Filesystem_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+a2enmod ¦php5 :: Other_operation,()
+from,ubuntu@latest
+expose,80
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+sed ¦-i¦"s/short_open_tag¦=¦Off/short_open_tag¦=¦On/"¦/etc/php5/apache2/php.ini :: Filesystem_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦mysql-client¦apache2¦libapache2-mod-php5¦php5-gd¦php-apc¦php5-curl¦curl¦lynx-cur¦php5-mysql¦php-pear :: Other_operation,()

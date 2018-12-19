@@ -1,0 +1,10 @@
+INFLUXDB_VERSION=influxdb-0.10.0-1:GLIBC_VERSION=2.23-r1 :: env_operation,()
+from,jgeiger/alpine
+/tmp :: workdir_operation,()
+cmd,influxd
+/var/lib/influxdb :: workdir_operation,()
+expose,8088 8091 8083 8086
+echo ¦addgroup¦-S influxdb && adduser -S -G influxdb influxdb && apk add --update curl openssl && curl -Ls https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/${GLIBC_FILE} > /tmp/${GLIBC_FILE} && apk add --allow-unt... :: Filesystem_operation,()
+entrypoint,tini¦--
+INFLUXDB_FILE=${INFLUXDB_VERSION}_linux_amd64:GLIBC_FILE=glibc-${GLIBC_VERSION}.apk :: env_operation,()
+influxdb :: user_operation,()

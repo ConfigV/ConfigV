@@ -1,0 +1,10 @@
+apt-get ¦purge :: Dependencies_operation,()
+supervisor.conf/etc/supervisor.conf :: add_operation,()
+apt-get ¦install¦-y¦ca-certificates¦locales¦wget¦tar¦vim¦iputils-ping¦supervisor¦--no-install-recommends :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+cmd,supervisord¦-c¦/etc/supervisor.conf
+from, resin/rpi-raspbian:wheezy
+locale-gen ¦en_EN.UTF-8 :: Other_operation,()
+mkdir ¦-p¦/etc/supervisor/conf.d :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

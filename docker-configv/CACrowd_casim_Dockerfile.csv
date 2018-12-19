@@ -1,0 +1,9 @@
+mvn ¦dependency:resolve :: Dependencies_operation,()
+src/code/src :: add_operation,()
+from,maven:3.2
+expose,9000
+mvn ¦-DskipTests=true¦assembly:single :: Dependencies_operation,()
+pom.xml/code/pom.xml :: add_operation,()
+mvn ¦test :: Dependencies_operation,()
+cmd,java¦-Xmx8G¦-cp¦target/casim-0.1-SNAPSHOT-jar-with-dependencies.jar¦org.cacrowd.casim.hybridsim.run.HybridsimServer
+/code :: workdir_operation,()

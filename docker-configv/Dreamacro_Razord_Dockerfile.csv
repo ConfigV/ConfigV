@@ -1,0 +1,10 @@
+cd ¦/opt/CTFd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+/opt/CTFd :: workdir_operation,()
+./prepare.sh  :: Other_operation,()
+git ¦clone¦https://github.com/isislab/CTFd.git¦/opt/CTFd :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦git¦gunicorn¦-y :: Dependencies_operation,()
+cmd,gunicorn¦--bind¦0.0.0.0:8000¦-w¦4¦CTFd:create_app()
+expose,8000

@@ -1,0 +1,15 @@
+entrypoint,/scripts/test_env
+"docker/test/scripts/""/scripts/" :: add_operation,()
+apt-get ¦-y¦install¦build-essential¦chrpath¦libssl-dev¦libxft-dev¦libfreetype6¦libfreetype6-dev¦libfontconfig1¦libfontconfig1-dev¦curl :: Dependencies_operation,()
+curl ¦-Ls¦https://bitbucket.org/ariya/phantomjs/downloads/${PHANTOM_JS}.tar.bz2¦|¦tar¦jxvf¦-¦--strip-components=2¦-C¦/usr/local/bin/¦${PHANTOM_JS}/bin/phantomjs :: Dependencies_operation,()
+sudo ¦-u¦huginn¦-H¦LC_ALL=en_US.UTF-8¦ON_HEROKU=true¦bundle¦install¦--with¦test¦development¦--path¦vendor/bundle¦-j¦4 :: Other_operation,()
+"docker/scripts/setup_env""/scripts/" :: add_operation,()
+PHANTOM_VERSION:"phantomjs-2.1.1" :: env_operation,()
+cmd,rake spec
+/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,huginn/huginn-single-process
+RAILS_ENV:test :: env_operation,()
+huginn :: user_operation,()
+chown ¦-R¦huginn:huginn¦/app :: Permissions_operation,()
+PHANTOM_JS:"${PHANTOM_VERSION}-linux-x86_64" :: env_operation,()

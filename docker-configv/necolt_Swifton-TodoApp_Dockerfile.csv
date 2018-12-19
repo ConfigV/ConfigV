@@ -1,0 +1,18 @@
+mkdir ¦-p¦/swifton :: Filesystem_operation,()
+SWIFT_VERSION:DEVELOPMENT-SNAPSHOT-2016-02-08-a :: env_operation,()
+swift ¦build¦--configuration¦release :: Other_operation,()
+from,ubuntu:14.04
+echo ¦SWIFT_ARCHIVE_NAME=swift-$SWIFT_VERSION-$SWIFT_PLATFORM¦&& SWIFT_URL=https://swift.org/builds/$SWIFT_BRANCH/$(echo "$SWIFT_PLATFORM" | tr -d .)/swift-$SWIFT_VERSION/$SWIFT_ARCHIVE_NAME.tar.gz && wget $SWIFT_URL && wget $SWIFT_URL.sig && gp... :: Filesystem_operation,()
+expose,8000
+./swifton :: add_operation,()
+SWIFT_PLATFORM:ubuntu14.04 :: env_operation,()
+apt-get ¦install¦-y¦build-essential¦wget¦clang¦libedit-dev¦python2.7¦python2.7-dev¦libicu52¦rsync¦libxml2¦git :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/swifton :: workdir_operation,()
+cmd,.build/release/Swifton-TodoApp
+apt-get ¦update :: Dependencies_operation,()
+PATH:/usr/bin:$PATH :: env_operation,()
+wget ¦-q¦-O¦-¦https://swift.org/keys/all-keys.asc¦|¦gpg¦--import¦- :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+gpg ¦--keyserver¦hkp://pool.sks-keyservers.net¦--refresh-keys¦Swift :: Other_operation,()
+SWIFT_BRANCH:development :: env_operation,()

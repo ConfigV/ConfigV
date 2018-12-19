@@ -1,0 +1,13 @@
+entrypoint,make¦test
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦ca-certificates¦nodejs¦npm¦make¦--no-install-recommends :: Dependencies_operation,()
+git ¦clone¦https://github.com/ethereum/rpc-tests :: Dependencies_operation,()
+/rpc-tests :: workdir_operation,()
+makechain.js/makechain.js :: add_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+nodejs ¦makechain.js :: Other_operation,()
+from,ubuntu:16.04
+git ¦submodule¦update¦--init :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+genesis.json/genesis.json :: add_operation,()
+cd ¦rpc-tests :: Filesystem_operation,()

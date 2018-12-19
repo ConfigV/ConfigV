@@ -1,0 +1,21 @@
+postgresql-start.sh/etc/supervisor/conf.d/postgresql-start.sh :: add_operation,()
+apt-get ¦install¦-y¦postgresql-9.4¦postgresql-contrib :: Dependencies_operation,()
+wget ¦--quiet¦-O¦-¦https://www.postgresql.org/media/keys/ACCC4CF8.asc¦|¦apt-key¦add¦- :: Dependencies_operation,()
+echo ¦echo¦'local all all peer' >> /etc/postgresql/9.4/main/pg_hba.conf :: Filesystem_operation,()
+chown ¦-R¦postgres:postgres¦/data/ :: Permissions_operation,()
+/etc/init.d/postgresql ¦start :: Other_operation,()
+/var/lib/pgsql :: volume_operation,()
+from,dianpou/ubuntu
+echo ¦echo¦'adminmap postgres postgres' >> /etc/postgresql/9.4/main/pg_ident.conf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+echo ¦echo¦"listen_addresses = '*'" >> /etc/postgresql/9.4/main/postgresql.conf :: Filesystem_operation,()
+expose,5432
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.4/main/pg_hba.conf :: Filesystem_operation,()
+chmod ¦+x¦/etc/supervisor/conf.d/postgresql-start.sh :: Permissions_operation,()
+postgresql.conf/etc/supervisor/conf.d/ :: add_operation,()
+/etc/postgresql :: workdir_operation,()
+/etc/postgresql :: volume_operation,()
+sed ¦-i¦-e"s/data_directory¦=.*$/data_directory¦=¦'\\/var\\/lib\\/pgsql'/"¦/etc/postgresql/9.4/main/postgresql.conf :: Filesystem_operation,()
+cmd,supervisord¦-n
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" >> /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()

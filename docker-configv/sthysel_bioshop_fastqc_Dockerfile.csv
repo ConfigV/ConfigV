@@ -1,0 +1,10 @@
+/fastqc :: workdir_operation,()
+FASTQC_ZIP:fastqc_v0.11.3.zip :: env_operation,()
+unzip ¦${FASTQC_ZIP} :: Filesystem_operation,()
+chmod ¦+x¦/fastqc/FastQC/fastqc :: Permissions_operation,()
+mkdir ¦/fastqc :: Filesystem_operation,()
+from,java:6.0
+wget ¦http://www.bioinformatics.babraham.ac.uk/projects/fastqc/${FASTQC_ZIP} :: Dependencies_operation,()
+REFRESHED_AT:2015-06-04 :: env_operation,()
+rm ¦${FASTQC_ZIP} :: Filesystem_operation,()
+cmd,/fastqc/FastQC/fastqc

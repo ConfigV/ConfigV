@@ -1,0 +1,13 @@
+configparse.py/usr/local/bin/ :: add_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+glance-start/usr/local/bin/ :: add_operation,()
+/var/lib/glance/images :: volume_operation,()
+cmd,glance-start
+pip ¦uninstall¦-y¦pbr :: Dependencies_operation,()
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+apt-get ¦install¦-y¦--force-yes¦glance :: Dependencies_operation,()
+/var/log/glance :: volume_operation,()
+chmod ¦+x¦/usr/local/bin/glance-start :: Permissions_operation,()
+from,shaddock/seed:ubuntu-mitaka
+expose,9292
+chmod ¦+x¦/usr/local/bin/configparse.py :: Permissions_operation,()

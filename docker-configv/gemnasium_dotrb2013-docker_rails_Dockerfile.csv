@@ -1,0 +1,21 @@
+mkdir ¦/var/run/redis :: Filesystem_operation,()
+unicorn.rb/rails/config/ :: add_operation,()
+chmod ¦+x¦/rails/start-production :: Permissions_operation,()
+start-production/rails/ :: add_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+database.yml/rails/config/ :: add_operation,()
+from,fcat/dotrb2013-rails-base
+apt-get ¦install¦-qy¦tmux :: Dependencies_operation,()
+Procfile-production/rails/ :: add_operation,()
+expose,80
+adduser ¦--disabled-password¦--home=/rails¦--gecos¦""¦rails :: Permissions_operation,()
+rm ¦/etc/nginx/sites-available/default :: Filesystem_operation,()
+railsapp/rails :: add_operation,()
+nginx.conf/etc/nginx/conf.d/rails.conf :: add_operation,()
+chown ¦-R¦rails:rails¦/rails :: Permissions_operation,()
+redis.conf/etc/redis/redis.conf :: add_operation,()
+cmd,"/rails/start-production"¦rails
+apt-get ¦install¦-qy¦postgresql-client-9.1 :: Dependencies_operation,()
+su ¦rails¦-c¦"/bin/sh¦/rails/bin/rails_setup.sh" :: Other_operation,()
+rails_setup.sh/rails/bin/ :: add_operation,()
+apt-get ¦install¦-qy¦git :: Dependencies_operation,()

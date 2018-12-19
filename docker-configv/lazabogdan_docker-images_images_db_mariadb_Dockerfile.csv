@@ -1,0 +1,18 @@
+from,debian@jessie
+MARIADB_USER:admin :: env_operation,()
+/etc/mysql :: volume_operation,()
+cmd,/run.sh
+chmod ¦775¦/*.sh :: Permissions_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+apt-get ¦update¦-y :: Dependencies_operation,()
+add-apt-repository ¦'deb¦http://mariadb.biz.net.id//repo/10.1/debian¦sid¦main' :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-software-properties¦software-properties-common :: Dependencies_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+create_admin_user.sh/create_admin_user.sh :: add_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+apt-key ¦adv¦--recv-keys¦--keyserver¦keyserver.ubuntu.com¦0xcbcb082a1bb943db :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦mariadb-server¦mariadb-client¦pwgen :: Other_operation,()
+TERM:dumb :: env_operation,()
+run.sh/run.sh :: add_operation,()
+sed ¦-i¦-r¦'s/bind-address.*$/bind-address¦=¦0.0.0.0/'¦/etc/mysql/my.cnf :: Filesystem_operation,()

@@ -1,0 +1,22 @@
+echo ¦echo¦"TODO: configure clustering if needed" :: Filesystem_operation,()
+NOTVISIBLE:"in :: env_operation,()
+from,ubuntu:14.04
+echo ¦echo¦"starting signaling plane" :: Filesystem_operation,()
+entrypoint,/usr/local/bin/fix_docker_on_openstack.sh¦|¦/usr/sbin/sshd¦-D
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦-q¦python-software-properties¦software-properties-common :: Other_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+fix_docker_on_openstack.sh/usr/local/bin/ :: add_operation,()
+git ¦clone¦http://80.96.122.50/frank.schulze/signaling-plane.git :: Dependencies_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦kurento-media-server¦-y :: Dependencies_operation,()
+cd ¦signaling-plane :: Filesystem_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+./compile_modules  :: Other_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/fix_docker_on_openstack.sh :: Permissions_operation,()
+add-apt-repository ¦ppa:kurento/kurento¦-y :: Dependencies_operation,()
+expose,22
+apt-get ¦install¦-q¦-y¦gradle¦zip¦unzip¦curl¦default-jdk¦wget¦git¦maven¦apache2 :: Dependencies_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()

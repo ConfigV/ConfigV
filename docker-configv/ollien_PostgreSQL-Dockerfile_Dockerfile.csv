@@ -1,0 +1,13 @@
+cmd,/root/cmd.sh
+apt-get ¦install¦-y¦postgresql-9.4 :: Dependencies_operation,()
+expose,5432
+apt-get ¦install¦-y¦wget¦vim¦sudo :: Dependencies_operation,()
+useradd ¦-r¦-g¦postgres¦postgres :: Permissions_operation,()
+groupadd ¦-r¦postgres :: Permissions_operation,()
+from,ubuntu@trusty
+chmod ¦+x¦/root/cmd.sh :: Permissions_operation,()
+wget ¦--quiet¦-O¦-¦https://www.postgresql.org/media/keys/ACCC4CF8.asc¦|¦apt-key¦add¦- :: Dependencies_operation,()
+mkdir ¦-p¦/etc/apt/sources.list.d/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd.sh/root/cmd.sh :: copy_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()

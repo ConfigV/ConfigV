@@ -1,0 +1,15 @@
+/tmp/cookiecutter :: workdir_operation,()
+apt-get ¦install¦-y¦python¦python-pip¦git :: Dependencies_operation,()
+chmod ¦+x¦/adama/adama/generator/generator.py :: Permissions_operation,()
+from,ubuntu
+python ¦setup.py¦install :: Build_Execute_operation,()
+pip ¦install¦cookiecutter¦click¦blessings¦flask :: Dependencies_operation,()
+/target :: workdir_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+entrypoint,/generator
+ln ¦-s¦/adama/adama/generator/generator.py¦/generator :: Filesystem_operation,()
+git ¦clone¦https://github.com/Arabidopsis-Information-Portal/adama.git :: Dependencies_operation,()
+/adama :: workdir_operation,()
+git ¦clone¦https://github.com/audreyr/cookiecutter.git :: Dependencies_operation,()
+/ :: workdir_operation,()

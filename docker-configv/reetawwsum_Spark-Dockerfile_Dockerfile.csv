@@ -1,0 +1,11 @@
+yarn-remote-client$SPARK_HOME/yarn-remote-client :: add_operation,()
+curl ¦http://d3kbcqa49mib13.cloudfront.net/spark-2.0.2-bin-hadoop2.7.tgz¦|¦tar¦-xz¦-C¦/usr/local :: Dependencies_operation,()
+PATH:$PATH:$SPARK_HOME/bin:$HADOOP_PREFIX/bin :: env_operation,()
+ln ¦-s¦/usr/local/spark-2.0.2-bin-hadoop2.7¦/usr/local/spark :: Filesystem_operation,()
+chown ¦root:root¦/usr/local/src/bootstrap.sh :: Permissions_operation,()
+bootstrap.sh/usr/local/src/bootstrap.sh :: add_operation,()
+from,reetawwsum/hadoop
+chmod ¦700¦/usr/local/src/bootstrap.sh :: Permissions_operation,()
+SPARK_HOME:/usr/local/spark :: env_operation,()
+entrypoint,/usr/local/src/bootstrap.sh
+mkdir ¦$SPARK_HOME/yarn-remote-client :: Filesystem_operation,()

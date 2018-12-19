@@ -1,0 +1,9 @@
+./conf${WON_CONFIG_DIR} :: add_operation,()
+./won-matcher-solr.jar/usr/src/matcher-solr/ :: add_operation,()
+/usr/src/matcher-solr/ :: workdir_operation,()
+mkdir ¦-p¦/usr/src/matcher-solr/monitoring/logs :: Filesystem_operation,()
+monitoring.output.dir=/usr/src/matcher-solr/monitoring/logs: :: env_operation,()
+LOGBACK_CONFIG=logback_info.xml: :: env_operation,()
+cmd,java¦-Dconfig.file=${WON_CONFIG_DIR}/matcher-solr/application.conf-DWON_CONFIG_DIR=${WON_CONFIG_DIR}/matcher-solr-Dlogback.configurationFile=${WON_CONFIG_DIR}/${LOGBACK_CONFIG}${JMEM_OPTS}${JMX_OPTS}-jar¦won-matcher-solr.jar
+from,openjdk:8.0
+WON_CONFIG_DIR=/usr/src/matcher-solr/conf: :: env_operation,()

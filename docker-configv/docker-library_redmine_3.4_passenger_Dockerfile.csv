@@ -1,0 +1,12 @@
+gem ¦install¦passenger¦--version¦"$PASSENGER_VERSION" :: Dependencies_operation,()
+passenger-config ¦install-agent :: Other_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦$buildDeps :: Dependencies_operation,()
+from,redmine:3.4
+passenger-config ¦download-nginx-engine :: Other_operation,()
+PASSENGER_VERSION:5.1.5 :: env_operation,()
+buildDeps=' ¦¦make¦' :: Other_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦$buildDeps :: Dependencies_operation,()
+cmd,passenger¦start
+set ¦-x :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

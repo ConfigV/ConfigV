@@ -1,0 +1,12 @@
+apt-get ¦clean :: Dependencies_operation,()
+./root :: add_operation,()
+HOME:/root :: env_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦EEA14886 :: Dependencies_operation,()
+echo ¦echo¦"deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list :: Filesystem_operation,()
+from,phusion/baseimage:0.9.13
+echo ¦echo¦"deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦oracle-java8-installer¦ca-certificates :: Dependencies_operation,()
+cmd,/sbin/my_init
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

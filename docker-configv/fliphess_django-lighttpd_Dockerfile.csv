@@ -1,0 +1,16 @@
+entrypoint,/entrypoint.sh
+virtualenv ¦/opt/django/.venv :: Environment_operation,()
+django :: user_operation,()
+groupadd ¦django :: Permissions_operation,()
+conf/entrypoint.sh/entrypoint.sh :: add_operation,()
+useradd ¦-Ms¦/bin/bash¦-g¦django¦-d¦/opt/django¦django :: Permissions_operation,()
+git ¦clone¦https://github.com/fliphess/django-lighttpd.git¦/opt/django :: Dependencies_operation,()
+apt-get ¦install¦-y¦lighttpd¦build-essential¦python¦python-dev¦virtualenv¦git :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦.¦/opt/django/.venv/bin/activate && pip install -r requirements.txt && ./manage.py migrate && echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'pass')" | python manage.py shell ... :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu:17.04
+chown ¦django:django¦/opt :: Permissions_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+/opt/django :: workdir_operation,()

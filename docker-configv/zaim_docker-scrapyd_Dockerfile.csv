@@ -1,0 +1,10 @@
+http://archive.scrapy.org/ubuntu/archive.key/tmp/scrapy.key :: add_operation,()
+from,ubuntu@precise
+apt-get ¦install¦-y¦scrapyd :: Dependencies_operation,()
+entrypoint,/usr/bin/scrapyd
+sed ¦-i.bak¦'s/main$/main¦universe/'¦/etc/apt/sources.list :: Filesystem_operation,()
+echo ¦echo¦"deb http://archive.scrapy.org/ubuntu precise main" > /etc/apt/sources.list.d/scrapy.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-key ¦add¦/tmp/scrapy.key :: Dependencies_operation,()
+expose,6800

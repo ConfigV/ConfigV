@@ -1,0 +1,12 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+expose,53 53 80
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-f¦/etc/powerdns/pdns.d/pdns.simplebind.conf :: Filesystem_operation,()
+apt-get ¦-yq¦autoremove :: Dependencies_operation,()
+apt-get ¦install¦-yq¦pdns-backend-pipe :: Dependencies_operation,()
+/data :: volume_operation,()
+cmd,/bin/bash
+apt-get ¦-yq¦upgrade :: Dependencies_operation,()
+from,debian@jessie

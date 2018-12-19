@@ -1,0 +1,10 @@
+SYNC_REPO_PLUGIN:airflow-plugin :: env_operation,()
+PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/google-cloud-sdk/bin/ :: env_operation,()
+SYNC_REPO_DAG:airflow-dag :: env_operation,()
+from,python:2.7
+cmd,rm¦-rf¦/home/airflow/dags¦&&¦mkdir¦-p¦/home/airflow/logs¦&&¦rm¦-rf¦/home/airflow/plugins¦&&¦mkdir¦-p¦/home/airflow/staging¦&&¦gcloud¦auth¦activate-service-account¦--key-file¦/secret/service-account.json¦&&¦gcloud¦source¦repos¦clone¦$SYNC_REPO...
+wget ¦https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-131.0.0-linux-x86_64.tar.gz :: Dependencies_operation,()
+rm ¦google-cloud-sdk-131.0.0-linux-x86_64.tar.gz :: Filesystem_operation,()
+SYNC_BRANCH:master :: env_operation,()
+SYNC_STAGING_BUCKET:gs://bucket/airflow/libs :: env_operation,()
+tar ¦xvf¦google-cloud-sdk-131.0.0-linux-x86_64.tar.gz :: Filesystem_operation,()

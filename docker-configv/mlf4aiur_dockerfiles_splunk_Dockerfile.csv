@@ -1,0 +1,12 @@
+/opt/splunk/var :: volume_operation,()
+apt-get ¦install¦-y¦-q¦--no-install-recommends¦wget¦procps :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/opt/splunk/etc :: volume_operation,()
+VERSION:6.2.4 :: env_operation,()
+cmd,/opt/splunk/bin/splunk¦start¦--accept-license¦--answer-yes¦--no-prompt¦--nodaemon
+from,debian@wheezy
+apt-get ¦clean :: Dependencies_operation,()
+expose,514
+BUILD:271043 :: env_operation,()
+wget ¦-O¦-¦http://download.splunk.com/products/splunk/releases/${VERSION}/splunk/linux/splunk-${VERSION}-${BUILD}-Linux-x86_64.tgz¦|¦tar¦xz¦-C¦/opt :: Dependencies_operation,()

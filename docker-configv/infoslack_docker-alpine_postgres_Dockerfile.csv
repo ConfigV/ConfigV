@@ -1,0 +1,18 @@
+docker-entrypoint.sh/ :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦del¦curl :: Dependencies_operation,()
+PATH:/usr/lib/postgresql/9.3/bin:$PATH :: env_operation,()
+from,alpine:3.1
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+chmod ¦+x¦docker-entrypoint.sh :: Permissions_operation,()
+/var/lib/postgresql/data :: volume_operation,()
+LANG:en_US.utf8 :: env_operation,()
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+curl ¦-o¦/usr/local/bin/gosu¦-SL¦"https://github.com/tianon/gosu/releases/download/1.2/gosu-amd64" :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/postgresql :: Filesystem_operation,()
+cmd,postgres
+apk ¦add¦--update¦postgresql¦curl :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+chown ¦-R¦postgres¦/var/run/postgresql :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh
+expose,5432

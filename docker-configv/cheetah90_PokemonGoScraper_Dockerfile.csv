@@ -1,0 +1,19 @@
+rm ¦-rf¦node_modules :: Filesystem_operation,()
+from,python:2.7
+expose,5000
+entrypoint,python¦./runserver.py¦--host¦0.0.0.0
+static/usr/src/app/static :: copy_operation,()
+apk ¦add¦--no-cache¦build-base :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+apk ¦del¦build-base :: Dependencies_operation,()
+apk ¦add¦--no-cache¦ca-certificates :: Dependencies_operation,()
+cmd,-h
+pip ¦install¦--no-cache-dir¦-r¦requirements.txt :: Dependencies_operation,()
+apk ¦add¦--no-cache¦bash¦git¦openssh :: Dependencies_operation,()
+apk ¦add¦--no-cache¦build-base¦nodejs :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+./usr/src/app/ :: copy_operation,()
+package.json/usr/src/app/ :: copy_operation,()
+requirements.txt/usr/src/app/ :: copy_operation,()
+npm ¦run¦build :: Dependencies_operation,()
+apk ¦del¦build-base¦nodejs :: Dependencies_operation,()

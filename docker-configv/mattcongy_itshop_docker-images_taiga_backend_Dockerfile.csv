@@ -1,0 +1,16 @@
+docker-settings.py/usr/src/app/taiga-back/settings/local.py :: copy_operation,()
+default.locale/etc/default/locale :: copy_operation,()
+from,python:3.4
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+expose,8000
+/taiga/static :: volume_operation,()
+locale ¦-a :: Other_operation,()
+/usr/src/app/taiga-back :: workdir_operation,()
+cmd,python¦manage.py¦runserver¦0.0.0.0:8000
+/taiga/media :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦locales¦-y :: Dependencies_operation,()
+locale.gen/etc/locale.gen :: copy_operation,()

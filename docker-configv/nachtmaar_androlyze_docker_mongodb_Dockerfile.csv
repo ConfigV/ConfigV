@@ -1,0 +1,11 @@
+mongodb.sh/etc/service/mongodb/run :: add_operation,()
+expose,27017
+mkdir ¦/etc/androlyze_init :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦mongodb¦#¦create¦ssl-cert¦group¦ssl-cert¦#¦and¦add¦mongodb¦to¦it :: Dependencies_operation,()
+mkdir ¦/etc/service/mongodb :: Filesystem_operation,()
+mongodb_init.sh/etc/androlyze_init/ :: add_operation,()
+from,nachtmaar/androlyze_base:latest
+apt-get ¦update :: Dependencies_operation,()
+usermod ¦-a¦-G¦ssl-cert¦mongodb :: Permissions_operation,()
+/data/db/ :: volume_operation,()
+cmd,/sbin/my_init

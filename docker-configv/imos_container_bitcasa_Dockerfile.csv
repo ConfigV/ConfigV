@@ -1,0 +1,11 @@
+cmd,bash¦/etc/run.sh
+echo ¦echo¦"deb http://dist.bitcasa.com/release/apt debian main" > /etc/apt/sources.list.d/bitcasa-release.list :: Filesystem_operation,()
+from,ubuntu:14.04
+useradd ¦--home-dir=/home/cloud-admin¦--create-home¦--uid=20601¦--user-group¦--shell=/bin/bash¦cloud-admin :: Permissions_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+expose,22
+wget ¦-O-¦http://dist.bitcasa.com/release/bitcasa-releases.gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦-y¦install¦openssh-server :: Dependencies_operation,()
+fakeroot ¦apt-get¦-y¦install¦bitcasa :: Other_operation,()
+config/run.sh/etc/run.sh :: add_operation,()
+apt-get ¦-y¦install¦wget¦uuid-runtime¦fakeroot :: Dependencies_operation,()

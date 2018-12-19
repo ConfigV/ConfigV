@@ -1,0 +1,8 @@
+hg ¦clone¦https://bitbucket.org/nikratio/python-llfuse :: Other_operation,()
+cmd,python¦setup.py¦build_cython¦&&¦sed¦-i¦'/__pyx_v_ret¦=¦readdir_r/i#pragma¦GCC¦diagnostic¦ignored¦"-Wdeprecated-declarations"'¦src/llfuse.c¦&&¦python¦setup.py¦build_ext¦--inplace¦&&¦python¦-m¦pytest¦test/¦&&¦python¦setup.py¦build_sphinx¦&&¦python¦...
+python-llfuse/ :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦fuse¦pkg-config¦libattr1-dev¦libfuse-dev¦mercurial :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+pip ¦install¦-U¦cython==0.24.1¦sphinx¦pytest¦pytest-catchlog :: Dependencies_operation,()
+from,szepeviktor/python:3.5.2-stretch

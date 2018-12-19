@@ -1,0 +1,16 @@
+apk ¦del¦build-dependencies :: Dependencies_operation,()
+cd ¦app :: Filesystem_operation,()
+apk ¦add¦--update¦python3¦git¦libpq :: Dependencies_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+update-ca-certificates  :: Other_operation,()
+from,gliderlabs/alpine:3.4
+pip3 ¦--version :: Dependencies_operation,()
+python3 ¦--version :: Build_Execute_operation,()
+pip3 ¦install¦gunicorn :: Dependencies_operation,()
+git ¦clone¦http://github.com/openspending/os-fdp-adapters.git¦app :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cmd,/startup.sh
+expose,8000
+wget ¦"https://bootstrap.pypa.io/get-pip.py"¦-O¦/dev/stdout¦|¦python3 :: Dependencies_operation,()
+apk ¦add¦--update¦--virtual=build-dependencies¦wget¦ca-certificates¦python3-dev¦build-base :: Dependencies_operation,()
+startup.sh/startup.sh :: add_operation,()

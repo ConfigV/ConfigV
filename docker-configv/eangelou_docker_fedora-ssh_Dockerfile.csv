@@ -1,0 +1,8 @@
+dnf ¦-y¦install¦openssh-server¦stress¦htop¦¦iotop¦¦bwm-ng¦passwd¦byobu¦psmisc¦;¦dnf¦clean¦all :: Dependencies_operation,()
+authorized_keys/authorized_keys :: copy_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+expose,22
+sed ¦-i¦s/PasswordAuthentication\\¦yes/PasswordAuthentication\\¦no/g¦/etc/ssh/sshd_config :: Filesystem_operation,()
+from,fedora
+cmd,/usr/sbin/sshd¦-D
+entrypoint,/entrypoint.sh

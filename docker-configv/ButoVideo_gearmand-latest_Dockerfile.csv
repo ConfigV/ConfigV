@@ -1,0 +1,16 @@
+/gearman :: volume_operation,()
+expose,4730
+/bin/touch ¦/gearman/gearmand.log¦/gearman/gearmand.sqlite :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,/usr/local/sbin/gearmand¦--verbose=NOTICE¦--job-retries=4¦--log-file=/gearman/gearmand.log¦--threads=8
+make  :: Build_Execute_operation,()
+from,ubuntu:14.04
+make ¦install :: Build_Execute_operation,()
+cd ¦/tmp/gearmand-1.1.12 :: Filesystem_operation,()
+gearmand-1.1.12.tar.gz/gearman/gearmand-1.1.12.tar.gz :: copy_operation,()
+apt-get ¦install¦-y¦build-essential¦binutils-doc¦software-properties-common¦libboost-all-dev¦gperf¦libevent-dev¦uuid-dev¦wget¦libmysqlclient-dev¦libmemcached-dev¦libsqlite3-dev¦libpq-dev¦libdrizzle-dev¦sqlite :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()
+tar ¦xzf¦/gearman/gearmand-1.1.12.tar.gz¦-C¦/tmp :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

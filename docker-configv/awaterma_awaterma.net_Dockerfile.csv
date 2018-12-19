@@ -1,0 +1,14 @@
+unzip ¦../awaterma.zip :: Filesystem_operation,()
+entrypoint,./start.sh
+cd ¦html :: Filesystem_operation,()
+adduser ¦--quiet¦--home¦/usr/share/awaterma.net¦worker :: Permissions_operation,()
+npm ¦install :: Dependencies_operation,()
+from,node
+apt-get ¦install¦-y¦unzip¦vim :: Dependencies_operation,()
+chown ¦-R¦worker:worker¦/usr/share/awaterma.net :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/usr/share/awaterma.net :: workdir_operation,()
+scripts/usr/share/awaterma.net :: add_operation,()
+mkdir ¦/usr/share/awaterma.net/html :: Filesystem_operation,()
+awaterma.zip/usr/share/awaterma.net/ :: add_operation,()
+worker :: user_operation,()

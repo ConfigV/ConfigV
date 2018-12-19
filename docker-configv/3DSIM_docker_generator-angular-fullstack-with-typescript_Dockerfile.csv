@@ -1,0 +1,12 @@
+from,node:0.12
+/usr/src/app :: workdir_operation,()
+RUNnpm install :: onbuild_operation,()
+cmd,grunt¦serve:dist
+COPYpackage.json /usr/src/app/ :: onbuild_operation,()
+npm ¦install¦-g¦grunt-cli :: Dependencies_operation,()
+RUNtsd reinstall --save :: onbuild_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+COPY. /usr/src/app :: onbuild_operation,()
+RUNbower install --allow-root :: onbuild_operation,()
+npm ¦install¦-g¦bower :: Dependencies_operation,()
+npm ¦install¦-g¦tsd :: Dependencies_operation,()

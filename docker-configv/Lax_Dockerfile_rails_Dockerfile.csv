@@ -1,0 +1,11 @@
+REFRESHED_AT:2017-01-25 :: env_operation,()
+/usr/src/app :: workdir_operation,()
+expose,3000
+Gemfile*./ :: copy_operation,()
+from,ruby
+bundle ¦install :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,rails¦server¦-b¦0.0.0.0
+.. :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦postgresql-client :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

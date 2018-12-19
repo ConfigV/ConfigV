@@ -1,0 +1,9 @@
+/builder :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/var/lib/apt¦/var/cache/apt :: Filesystem_operation,()
+root :: user_operation,()
+apt-get ¦install¦-q¦-y¦build-essential¦dh-autoreconf¦dh-make¦debhelper¦devscripts¦fakeroot¦lintian¦pbuilder¦libncurses5-dev¦pkg-config¦bison¦flex¦libcli-dev¦libgeoip-dev¦libnacl-dev¦zlib1g-dev¦libnl-genl-3-dev¦libpcap-dev¦libmaxminddb-dev :: Dependencies_operation,()
+mkdir ¦/builder :: Filesystem_operation,()
+from,ubuntu:14.04
+add-apt-repository ¦ppa:maxmind/ppa :: Dependencies_operation,()
+apt-get ¦install¦-q¦-y¦software-properties-common :: Dependencies_operation,()

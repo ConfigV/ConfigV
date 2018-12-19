@@ -1,0 +1,15 @@
+from,vizzbuzz/base-alpine
+AWS_SECRET_ACCESS_KEY:changeme :: env_operation,()
+apk ¦-Uuv¦add¦groff¦less¦haveged¦openssl¦python¦py-pip :: Dependencies_operation,()
+DEPLOY_ENV:dev :: env_operation,()
+AWS_ACCESS_KEY_ID:changeme :: env_operation,()
+chmod ¦755¦/run.sh :: Permissions_operation,()
+run.sh/run.sh :: copy_operation,()
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+/aws :: workdir_operation,()
+S3_BUCKET:changeme :: env_operation,()
+cmd,/run.sh
+mkdir ¦-p¦/aws :: Filesystem_operation,()
+apk ¦--purge¦-v¦del¦py-pip :: Dependencies_operation,()
+/conf :: volume_operation,()
+pip ¦install¦awscli :: Dependencies_operation,()

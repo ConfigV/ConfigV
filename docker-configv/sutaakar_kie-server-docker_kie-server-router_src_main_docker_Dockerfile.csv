@@ -1,0 +1,6 @@
+ROUTER_HOME=/opt/jboss:KIE_SERVER_ROUTER_REPO_DIR=/opt/jboss :: env_operation,()
+expose,9000
+deployable/kie-server-router.jar$ROUTER_HOME/kie-server-router.jar :: add_operation,()
+from,jboss/base-jdk:8
+$ROUTER_HOME :: workdir_operation,()
+cmd,sh¦-c¦java -jar -Dorg.kie.server.router.host=$HOSTNAME -Dorg.kie.server.router.port=9000 -Dorg.kie.server.router.repo=$KIE_SERVER_ROUTER_REPO_DIR $ROUTER_HOME/kie-server-router.jar

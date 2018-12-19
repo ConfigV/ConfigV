@@ -1,0 +1,18 @@
+LANG:C.UTF-8 :: env_operation,()
+apt-get ¦install¦-y¦python-qt4 :: Dependencies_operation,()
+expose,22 5000
+conda ¦install¦--yes¦basemap¦pyproj¦nose¦gdal :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦wget¦git¦gcc¦gdal-bin :: Dependencies_operation,()
+curl ¦-LO¦http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh :: Dependencies_operation,()
+conda ¦update¦-y¦conda :: Dependencies_operation,()
+conda ¦install¦--yes¦flask¦boto :: Dependencies_operation,()
+rm ¦Miniconda-latest-Linux-x86_64.sh :: Filesystem_operation,()
+PATH=/miniconda/bin:${PATH}: :: env_operation,()
+cmd,/bin/bash
+bash ¦Miniconda-latest-Linux-x86_64.sh¦-p¦/miniconda¦-b :: Build_Execute_operation,()
+git ¦clone¦https://github.com/ARM-DOE/pyart.git¦&&\\ :: Dependencies_operation,()
+from,ubuntu:14.04
+conda ¦install¦--yes¦numpy¦scipy¦matplotlib¦netcdf4 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+conda ¦install¦--yes¦-c¦http://conda.anaconda.org/jjhelmus¦trmm_rsl :: Dependencies_operation,()
+wget ¦http://github.com/mwkorver/eb-pyart-flask-sqs-worker/archive/master.zip¦-O¦temp.zip¦&&\\ :: Dependencies_operation,()

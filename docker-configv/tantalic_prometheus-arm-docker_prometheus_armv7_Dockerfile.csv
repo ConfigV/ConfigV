@@ -1,0 +1,11 @@
+download/console_libraries//etc/prometheus/ :: copy_operation,()
+expose,9090
+/prometheus :: volume_operation,()
+download/promtool/bin/promtool :: copy_operation,()
+from,scratch
+/prometheus :: workdir_operation,()
+cmd,-config.file=/etc/prometheus/prometheus.yml¦-storage.local.path=/prometheus¦-web.console.libraries=/etc/prometheus/console_libraries¦-web.console.templates=/etc/prometheus/consoles
+download/prometheus/bin/prometheus :: copy_operation,()
+download/prometheus.yml/etc/prometheus/prometheus.yml :: copy_operation,()
+entrypoint,/bin/prometheus
+download/consoles//etc/prometheus/ :: copy_operation,()

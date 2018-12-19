@@ -1,0 +1,13 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+deluge :: user_operation,()
+from,jgiovaresco/debian-with-dockerize:latest
+chown ¦deluge:downloads¦/var/log/deluge :: Permissions_operation,()
+/config :: volume_operation,()
+groupadd ¦--gid¦1002¦downloads :: Permissions_operation,()
+mkdir ¦/var/log/deluge :: Filesystem_operation,()
+useradd ¦--gid¦downloads¦deluge :: Permissions_operation,()
+web.conf/home/deluge/web.conf :: add_operation,()
+expose,8112
+apt-get ¦install¦-y¦--no-install-recommends¦deluge-web :: Dependencies_operation,()
+cmd,dockerize¦¦-template¦/home/deluge/web.conf:/config/web.conf¦¦-stdout¦/var/log/deluge/deluge.log¦¦deluge-web¦--config¦/config¦-l¦/var/log/deluge/deluge.log¦-L¦warning

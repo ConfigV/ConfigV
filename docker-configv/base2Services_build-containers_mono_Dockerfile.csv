@@ -1,0 +1,11 @@
+RUNxbuild /property:Configuration=Release /property:OutDir=/usr/src/app/build/ :: onbuild_operation,()
+apt-get ¦install¦-y¦¦python-pip¦--no-install-recommends :: Dependencies_operation,()
+pip ¦install¦awscli :: Dependencies_operation,()
+/usr/src/app/source :: workdir_operation,()
+WORKDIR/usr/src/app/build :: onbuild_operation,()
+apt-get ¦update :: Dependencies_operation,()
+COPY. /usr/src/app/source :: onbuild_operation,()
+RUNnuget restore -NonInteractive :: onbuild_operation,()
+from,mono:4.6
+mkdir ¦-p¦/usr/src/app/source¦/usr/src/app/build :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

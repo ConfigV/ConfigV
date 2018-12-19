@@ -1,0 +1,10 @@
+/home/$USER :: workdir_operation,()
+INSTALL_BASE:/usr/local/bin :: env_operation,()
+USER:monax :: env_operation,()
+TARGET:monax :: env_operation,()
+apk ¦add¦--no-cache¦bash¦coreutils¦curl¦git¦nodejs¦nodejs-npm¦jq :: Dependencies_operation,()
+./target/"$TARGET".dockerartefact$INSTALL_BASE/$TARGET :: copy_operation,()
+./monax-entrypoint.sh$INSTALL_BASE :: copy_operation,()
+MONAX_PATH:/home/$USER/.monax :: env_operation,()
+entrypoint,/usr/local/bin/monax-entrypoint.sh
+from,docker:17.06

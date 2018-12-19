@@ -1,0 +1,9 @@
+entrypoint.sh/ :: copy_operation,()
+PG_MAJOR:9.4 :: env_operation,()
+from,resin/rpi-raspbian:jessie-20160831
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦curl¦locales¦postgresql-common\\ :: Dependencies_operation,()
+expose,5432
+apt-get ¦update :: Dependencies_operation,()
+PATH:/usr/lib/postgresql/${PG_MAJOR}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin :: env_operation,()
+/var/lib/postgresql/data :: volume_operation,()

@@ -1,0 +1,9 @@
+entrypoint,/home/jenkins/alba/docker/docker-entrypoint.sh
+echo ¦echo¦"jenkins ALL=NOPASSWD: ALL" >/etc/sudoers.d/jenkins :: Filesystem_operation,()
+useradd ¦jenkins¦-u¦1500¦-g¦root :: Permissions_operation,()
+echo ¦echo¦"deb http://apt.openvstorage.org unstable main" > /etc/apt/sources.list.d/ovsaptrepo.list :: Filesystem_operation,()
+pip ¦install¦fabric¦junit-xml :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" > /etc/apt/sources.list.d/trusty-backports.list :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦--force-yes¦-y¦build-essential¦sudo¦python-dev¦python-pip¦wget¦gdebi-core :: Other_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,ubuntu:14.04

@@ -1,0 +1,5 @@
+from,jeethu/pypy:2.5.1
+RUNpip install -r /tmp/requirements.txt :: onbuild_operation,()
+COPYrequirements.txt /tmp/ :: onbuild_operation,()
+cmd,/usr/bin/supervisord
+set ¦-e;¦apt-get¦update;¦apt-get¦-yq¦install¦wget¦supervisor¦build-essential;¦cd¦/tmp/;¦wget¦--no-check-certificate¦-q¦https://bitbucket.org/pypy/pypy/downloads/pypy-2.5.1-linux64.tar.bz2;¦tar¦jxf¦pypy-2.5.1-linux64.tar.bz2;¦cp¦/tmp/pypy-2.5.1-... :: Environment_operation,()

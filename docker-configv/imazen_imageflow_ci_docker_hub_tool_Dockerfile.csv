@@ -1,0 +1,11 @@
+cd ¦.. :: Filesystem_operation,()
+rm ¦-rf¦nightly :: Filesystem_operation,()
+entrypoint,/home/imageflow/imageflow_tpol
+mkdir ¦nightly :: Filesystem_operation,()
+tar ¦xvzf¦ifs.tar.gz :: Filesystem_operation,()
+mv ¦./imageflow_tool¦../ :: Filesystem_operation,()
+wget ¦-nv¦-O¦ifs.tar.gz¦https://s3-us-west-1.amazonaws.com/imageflow-nightlies/commits/${SOURCE_COMMIT}/linux64_sandybridge_glibc223.tar.gz :: Dependencies_operation,()
+from,imazen/imageflow_base_os
+cd ¦nightly :: Filesystem_operation,()
+echo ¦if¦[ -z "${SOURCE_COMMIT}" ]; then echo "SOURCE_COMMIT not set; exiting" && exit 1; else echo "SOURCE_COMMIT=${SOURCE_COMMIT}"; fi && if [[ "${SOURCE_COMMIT}" -ne "${BASE_OS_SOURCE_COMMIT}"]]; then echo "Mismatched images! ${BASE_OS_SOURCE... :: Filesystem_operation,()
+cmd,help

@@ -1,0 +1,8 @@
+./mysqld_exporter-0.10.0.linux-amd64.tar.gz/opt :: add_operation,()
+./my.cnf/etc/my.cnf :: copy_operation,()
+yum ¦install¦-y¦/tmp/mysql*.rpm :: Dependencies_operation,()
+./entrypoint.sh/tmp :: copy_operation,()
+entrypoint,/tmp/entrypoint.sh
+from,localhost:5000/prometheus_agt:0.14.0
+chmod ¦u+x¦/tmp/entrypoint.sh :: Permissions_operation,()
+./mysql-community-*/tmp/ :: copy_operation,()

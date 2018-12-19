@@ -1,0 +1,17 @@
+wget ¦-O¦-¦http://dl.hhvm.com/conf/hhvm.gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+echo ¦echo¦deb http://dl.hhvm.com/ubuntu trusty main | tee /etc/apt/sources.list.d/hhvm.list :: Filesystem_operation,()
+/etc/nginx/sites-enabled :: volume_operation,()
+entrypoint,/usr/bin/supervisord
+expose,80 9000
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-my¦supervisor¦curl¦wget¦php5-curl¦php5-fpm¦php5-gd¦php5-memcached¦php5-mysql¦php5-mcrypt¦php5-sqlite¦php5-xdebug :: Dependencies_operation,()
+/var/www :: volume_operation,()
+from,tutum/nginx:latest
+mkdir ¦-p¦/etc/nginx :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/hhvm :: Filesystem_operation,()
+apt-get ¦install¦-y¦hhvm :: Dependencies_operation,()
+conf/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+conf/php.ini/etc/php5/fpm/conf.d/40-custom.ini :: copy_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/php5-fpm :: Filesystem_operation,()
+rm ¦-rf¦/etc/apt/sources.list.d/proposed.list :: Filesystem_operation,()

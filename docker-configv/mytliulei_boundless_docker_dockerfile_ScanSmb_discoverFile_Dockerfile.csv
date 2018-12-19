@@ -1,0 +1,16 @@
+from,ubuntu:14.04
+DiscoverFile.py/home/ftpusers/DiscoverFile.py :: copy_operation,()
+/home/ftpusers/ :: workdir_operation,()
+chown ¦ftpuser:crontab¦/var/spool/cron/crontabs/ftpuser :: Permissions_operation,()
+chown ¦ftpuser:ftpgroup¦/home/ftpusers :: Permissions_operation,()
+chmod ¦600¦/var/spool/cron/crontabs/ftpuser :: Permissions_operation,()
+ftpuser/var/spool/cron/crontabs/ftpuser :: copy_operation,()
+mkdir ¦-p¦/home/ftpusers :: Filesystem_operation,()
+groupadd ¦ftpgroup :: Permissions_operation,()
+pip ¦install¦redis :: Dependencies_operation,()
+cmd,cron¦-f
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦python¦python-pip¦vim :: Dependencies_operation,()
+chown ¦ftpuser:ftpgroup¦/home/ftpusers/DiscoverFile.py :: Permissions_operation,()
+pip ¦install¦pysmb :: Dependencies_operation,()
+useradd ¦-g¦ftpgroup¦-d¦/home/ftpusers¦-s¦/bin/bash¦ftpuser :: Permissions_operation,()

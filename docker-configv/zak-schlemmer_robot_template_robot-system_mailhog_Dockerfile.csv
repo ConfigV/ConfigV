@@ -1,0 +1,9 @@
+entrypoint,/go/bin/MailHog
+echo ¦echo¦"export TERM=xterm" >> /root/.bashrc :: Filesystem_operation,()
+echo ¦echo¦"alias ll='ls -la'" >> /root/.bashrc :: Filesystem_operation,()
+from,golang:1.4
+expose,1025 8025
+go ¦get¦github.com/mailhog/MailHog :: Build_Execute_operation,()
+apt ¦install¦-y¦telnet¦vim¦nano¦net-tools¦wget :: Dependencies_operation,()
+apt ¦update :: Dependencies_operation,()
+echo ¦echo¦"PS1='\\[\\e[31m\\]\\u\\[\\e[m\\]@\\h:\\w\\$ '" >> /root/.bashrc :: Filesystem_operation,()

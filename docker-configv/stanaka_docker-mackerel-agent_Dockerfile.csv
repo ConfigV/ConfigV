@@ -1,0 +1,11 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦mackerel-agent :: Dependencies_operation,()
+curl ¦-fsSL¦https://mackerel.io/assets/files/scripts/setup-apt.sh¦|¦sh :: Dependencies_operation,()
+echo ¦echo¦[plugin.metrics.docker] >> /etc/mackerel-agent/mackerel-agent.conf :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mackerel-plugin-docker.rb/mackerel-plugin-docker.rb :: copy_operation,()
+apt-get ¦-y¦install¦curl¦sudo¦ruby¦docker.io :: Dependencies_operation,()
+from,debian@jessie
+cmd,/usr/local/bin/mackerel-agent¦-apikey="${apikey}"
+echo ¦echo¦command ="ruby /mackerel-plugin-docker.rb\\" >> /etc/mackerel-agent/mackerel-agent.conf :: Filesystem_operation,()

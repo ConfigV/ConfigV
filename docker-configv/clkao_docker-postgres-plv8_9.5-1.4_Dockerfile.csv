@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+PLV8_BRANCH:r1.4 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+cd ¦/tmp/plv8 :: Filesystem_operation,()
+make ¦all¦install :: Build_Execute_operation,()
+from,postgres:9.5
+git ¦clone¦-b¦$PLV8_BRANCH¦https://github.com/plv8/plv8.git :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦libv8-dev¦git-core¦postgresql-server-dev-$PG_MAJOR :: Dependencies_operation,()

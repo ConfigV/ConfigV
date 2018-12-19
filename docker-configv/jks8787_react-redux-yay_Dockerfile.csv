@@ -1,0 +1,9 @@
+DIR=/opt/este:PORT=8000 :: env_operation,()
+entrypoint,npm
+cmd,start
+from,mhart/alpine-node:5.5.0
+.$DIR :: copy_operation,()
+package.json${DIR}/ :: copy_operation,()
+$DIR :: workdir_operation,()
+npm ¦run¦build¦--¦-p :: Dependencies_operation,()
+echo ¦apk¦add --update python python-dev build-base && echo "# SUPPRESS WARNING" > ${DIR}/README.md && cd ${DIR} && npm install && apk del python python-dev build-base && rm -rf /etc/ssl /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.n... :: Filesystem_operation,()

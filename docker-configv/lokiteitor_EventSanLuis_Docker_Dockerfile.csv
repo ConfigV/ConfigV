@@ -1,0 +1,13 @@
+apt-get ¦-y¦install¦curl :: Dependencies_operation,()
+php5enmod ¦mcrypt :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+nproc  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦php5-mcrypt¦php5-mysql :: Dependencies_operation,()
+chown ¦www-data:www-data¦-R¦/var/www/html :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,8080
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+from,php@apache

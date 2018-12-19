@@ -1,0 +1,9 @@
+expose,8000 8001
+apt-get ¦-q¦upgrade¦-y :: Dependencies_operation,()
+mkdir ¦/media/data :: Filesystem_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+unzip ¦/tmp/limbomedia-1.5-bin.zip¦-d¦/media :: Filesystem_operation,()
+from,debian@sid
+cmd,java¦-Dlm.dir.data=/media/data¦-Dlm.upnp.enabled=false¦-jar¦/media/limbomedia-1.5/limbomedia.jar
+apt-get ¦-q¦install¦-y¦ffmpeg¦imagemagick¦openjdk-7-jre-headless¦unzip :: Dependencies_operation,()
+http://limbomedia.net/files/limbomedia-1.5-bin.zip/tmp/ :: add_operation,()

@@ -1,0 +1,9 @@
+echo ¦echo¦'#!/bin/sh' > /usr/bin/ssserver && echo 'python /shadowsocks/shadowsocks/server.py "$@"' >> /usr/bin/ssserver && echo '#!/bin/sh' > /usr/bin/sslocal && echo 'python /shadowsocks/shadowsocks/local.py "$@"' >> /usr/bin/sslocal && chmod ... :: Filesystem_operation,()
+ln ¦-s¦/shadowsocks-2.9.1¦/shadowsocks :: Filesystem_operation,()
+rm ¦shadowsocks.tar.gz :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,hypriot/rpi-alpine-scratch:v3.4
+apk ¦add¦python¦openssl :: Dependencies_operation,()
+tar ¦-xzf¦shadowsocks.tar.gz :: Filesystem_operation,()
+wget ¦-O¦shadowsocks.tar.gz¦https://github.com/shadowsocks/shadowsocks/archive/2.9.1.tar.gz :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()

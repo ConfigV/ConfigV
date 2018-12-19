@@ -1,0 +1,11 @@
+cmd,/run.sh
+/data :: volume_operation,()
+wget ¦-O¦-¦"https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz"¦|¦tar¦xzf¦-¦-C¦/app¦--strip-components¦1 :: Dependencies_operation,()
+PATH:/bin:/usr/bin:/sbin:/usr/sbin:/app/bin :: env_operation,()
+elasticsearch.yml/app/config/elasticsearch.yml :: add_operation,()
+expose,9300
+/data :: workdir_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+ES_VERSION:1.0.2 :: env_operation,()
+run.sh/run.sh :: add_operation,()
+from,java:7.0

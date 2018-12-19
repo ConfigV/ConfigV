@@ -1,0 +1,15 @@
+/home/mitmproxy/.mitmproxy :: volume_operation,()
+apk ¦del¦--purge¦g++¦libffi-dev¦libxml2-dev¦libxslt-dev¦openssl-dev¦python-dev :: Dependencies_operation,()
+mitmproxy :: user_operation,()
+chmod ¦+x¦/usr/local/bin/xclip :: Permissions_operation,()
+LANG=en_US.UTF-8: :: env_operation,()
+mkdir ¦/home/mitmproxy/.mitmproxy :: Filesystem_operation,()
+pip ¦install¦mitmproxy :: Dependencies_operation,()
+adduser ¦-u¦7799¦-D¦mitmproxy :: Permissions_operation,()
+rm ¦-rf¦~/.cache/pip :: Filesystem_operation,()
+cmd,mitmproxy
+touch ¦/usr/local/bin/xclip :: Filesystem_operation,()
+wget ¦-qO-¦https://bootstrap.pypa.io/get-pip.py¦|¦python¦- :: Dependencies_operation,()
+expose,8080
+from,alpine:3.2
+apk ¦add¦--update¦g++¦libffi¦libffi-dev¦libxml2¦libxml2-dev¦libxslt¦libxslt-dev¦openssl¦openssl-dev¦py-pillow¦python¦python-dev :: Dependencies_operation,()

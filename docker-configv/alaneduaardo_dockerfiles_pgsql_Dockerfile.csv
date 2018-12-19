@@ -1,0 +1,14 @@
+pg_hba.conf/var/lib/pgsql/9.3/data/pg_hba.conf :: add_operation,()
+touch ¦/etc/sysconfig/network :: Filesystem_operation,()
+service ¦postgresql-9.3¦initdb :: Build_Execute_operation,()
+DB_PASSWORD:docker :: env_operation,()
+/var/lib/pgsql/9.3/data :: volume_operation,()
+postgresql.conf/var/lib/pgsql/9.3/data/postgresql.conf :: add_operation,()
+expose,5432
+ROLE:pgsql :: env_operation,()
+program-postgresql.conf/etc/supervisor.d/ :: add_operation,()
+echo ¦echo¦'HOSTNAME=db.postgresql' >> /etc/sysconfig/network :: Filesystem_operation,()
+rpm ¦-Uvh¦http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-centos93-9.3-1.noarch.rpm :: Dependencies_operation,()
+from,alaneduardo/base
+pg_ident.conf/var/lib/pgsql/9.3/data/pg_ident.conf :: add_operation,()
+yum ¦install¦-y¦postgresql93-server¦postgresql93-devel¦postgresql93-contrib :: Dependencies_operation,()

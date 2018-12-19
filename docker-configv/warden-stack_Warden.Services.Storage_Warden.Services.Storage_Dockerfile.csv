@@ -1,0 +1,9 @@
+from,microsoft/dotnet:latest
+/app :: workdir_operation,()
+./app :: copy_operation,()
+ASPNETCORE_URLS:http://*:5050 :: env_operation,()
+ASPNETCORE_ENVIRONMENT:docker :: env_operation,()
+dotnet ¦build :: Other_operation,()
+expose,5050
+dotnet ¦restore¦--source¦https://api.nuget.org/v3/index.json¦--source¦https://www.myget.org/F/warden/api/v3/index.json¦--no-cache :: Other_operation,()
+entrypoint,dotnet¦run

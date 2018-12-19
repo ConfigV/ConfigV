@@ -1,0 +1,11 @@
+curl ¦--silent¦--location¦--retry¦3¦--cacert¦/etc/ssl/certs/ca-certificates.crt¦"https://archive.apache.org/dist/tomcat/tomcat-7/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz"¦|¦gunzip¦|¦tar¦x¦-C¦/usr/ :: Dependencies_operation,()
+PATH:$PATH:$CATALINA_HOME/bin :: env_operation,()
+expose,8080
+apk ¦--update¦add¦curl¦ca-certificates :: Dependencies_operation,()
+TOMCAT_VERSION=7.0.67: :: env_operation,()
+from,netbisect/java:jre-8
+cmd,${CATALINA_HOME}/bin/catalina.sh¦run
+rm ¦-rf¦/usr/tomcat/webapps/examples¦/usr/tomcat/webapps/docs¦/usr/tomcat/webapps/ROOT :: Filesystem_operation,()
+CATALINA_HOME:/usr/tomcat :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+mv ¦/usr/apache-tomcat*¦/usr/tomcat :: Filesystem_operation,()

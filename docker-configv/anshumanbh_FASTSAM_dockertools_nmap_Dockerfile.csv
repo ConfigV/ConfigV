@@ -1,0 +1,12 @@
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+mkdir ¦/opt/secdevops :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+chmod ¦+x¦/opt/secdevops/* :: Permissions_operation,()
+PROJECT:123456 :: env_operation,()
+from,kalilinux/kali-linux-docker
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦"deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list &&echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list :: Filesystem_operation,()
+cmd,/opt/secdevops/nmapscan.sh
+nmap/scripts/*/opt/secdevops/ :: copy_operation,()
+apt-get ¦-y¦install¦nmap¦curl¦libdigest-hmac-perl¦libdigest-md5-file-perl¦libfindbin-libs-perl¦libmime-base64-urlsafe-perl¦libgetopt-long-descriptive-perl :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

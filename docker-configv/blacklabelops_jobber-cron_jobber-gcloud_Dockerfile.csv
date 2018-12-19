@@ -1,0 +1,14 @@
+apk ¦add¦--update¦gpgme¦wget¦unzip¦py-pip :: Dependencies_operation,()
+gcloud ¦--quiet¦components¦update¦alpha¦beta¦app-engine-java¦app-engine-python¦kubectl¦bq¦core¦gsutil¦gcloud :: Other_operation,()
+from,blacklabelops/jobber:alpine
+wget ¦--no-check-certificate¦--directory-prefix=/tmp/¦https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip :: Dependencies_operation,()
+PATH:/opt/google-cloud-sdk/bin:$PATH :: env_operation,()
+entrypoint,/opt/cloud/docker-entrypoint.sh
+imagescripts/opt/cloud :: copy_operation,()
+root :: user_operation,()
+# ¦Cleanup :: Other_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+mkdir ¦-p¦/opt/gcloud :: Filesystem_operation,()
+unzip ¦/tmp/google-cloud-sdk.zip¦-d¦/opt/ :: Filesystem_operation,()
+/opt/google-cloud-sdk/install.sh ¦--usage-reporting=true¦--path-update=true¦--bash-completion=true¦--rc-path=/opt/gcloud/.bashrc¦--disable-installation-options :: Other_operation,()
+cmd,jobberd

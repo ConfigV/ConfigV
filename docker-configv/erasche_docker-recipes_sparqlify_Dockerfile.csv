@@ -1,0 +1,15 @@
+mvn ¦assembly:assembly :: Dependencies_operation,()
+from,ubuntu:14.04
+expose,7531
+cd ¦/Sparqlify-sparqlify-parent-0.6.20/sparqlify-cli :: Filesystem_operation,()
+tar ¦xvfz¦/sparqlify.tar.gz :: Filesystem_operation,()
+startup.tmpl/ :: add_operation,()
+mvn ¦clean¦install :: Dependencies_operation,()
+tar ¦-C¦/usr/local/bin¦-xzvf¦dockerize-linux-amd64-v0.2.0.tar.gz :: Filesystem_operation,()
+cmd,dockerize¦-template¦/startup.tmpl:/startup.sh¦bash¦/startup.sh
+MAX_RESULT_SET_SIZE=10000:MAX_QUERY_EXEC_TIME=10 :: env_operation,()
+wget ¦https://github.com/jwilder/dockerize/releases/download/v0.2.0/dockerize-linux-amd64-v0.2.0.tar.gz :: Dependencies_operation,()
+cd ¦Sparqlify-sparqlify-parent-0.6.20 :: Filesystem_operation,()
+wget ¦https://github.com/AKSW/Sparqlify/archive/sparqlify-parent-0.6.20.tar.gz¦-O¦/sparqlify.tar.gz :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive:LANG=en_US.UTF-8 :: env_operation,()
+echo ¦apt-get¦-qq update && apt-get install --no-install-recommends -y locales wget && echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen en_US.UTF-8 && dpkg-reconfigure locales && apt-get install --no-install-recommends -y maven make ope... :: Filesystem_operation,()

@@ -1,0 +1,16 @@
+apk ¦add¦curl :: Dependencies_operation,()
+*.conf/etc/nginx/ :: add_operation,()
+apk ¦add¦nginx¦gettext :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+/etc/nginx/ssl :: volume_operation,()
+expose,443
+my-site.conf/etc/nginx/my-site.conf.default :: add_operation,()
+cmd,/opt/entrypoint.sh
+PROXY_HOST_NAME:localhost :: env_operation,()
+echo ¦echo¦"@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories :: Filesystem_operation,()
+/var/log/nginx :: volume_operation,()
+entrypoint.sh/opt/ :: add_operation,()
+curl ¦-o¦/usr/local/bin/gosu¦-sSL¦"https://github.com/tianon/gosu/releases/download/1.4/gosu-amd64" :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+from,gliderlabs/alpine:3.2

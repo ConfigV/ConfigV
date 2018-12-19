@@ -1,0 +1,20 @@
+https://dl.bintray.com/mitchellh/consul/0.5.0_web_ui.zip/tmp/webui.zip :: add_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+config/config/ :: add_operation,()
+https://dl.bintray.com/mitchellh/consul/0.5.0_linux_amd64.zip/tmp/consul.zip :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+launch.sh/bin/launch.sh :: add_operation,()
+entrypoint,/bin/launch.sh
+cd ¦/bin :: Filesystem_operation,()
+from,ubuntu:14.04
+/data :: volume_operation,()
+apt-get ¦install¦-y¦unzip¦openssl¦ca-certificates :: Dependencies_operation,()
+mv ¦dist¦/ui :: Filesystem_operation,()
+rm ¦/tmp/consul.zip :: Filesystem_operation,()
+unzip ¦/tmp/webui.zip :: Filesystem_operation,()
+ADDconfig /config/ :: onbuild_operation,()
+rm ¦/tmp/webui.zip :: Filesystem_operation,()
+expose,8300 8301 8301 8302 8302 8400 8500 53
+chmod ¦+x¦/bin/launch.sh :: Permissions_operation,()
+chmod ¦+x¦/bin/consul :: Permissions_operation,()
+unzip ¦/tmp/consul.zip :: Filesystem_operation,()

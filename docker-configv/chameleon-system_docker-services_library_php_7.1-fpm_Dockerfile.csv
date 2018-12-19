@@ -1,0 +1,19 @@
+entrypoint,/patchpanel.sh
+pecl ¦install¦imagick :: Dependencies_operation,()
+chmod ¦755¦/patchpanel.sh :: Permissions_operation,()
+config/patchpanel.sh/ :: copy_operation,()
+docker-php-ext-enable ¦imagick :: Other_operation,()
+config/php.ini/usr/local/etc/php/ :: copy_operation,()
+GOSU_VERSION:1.9 :: env_operation,()
+echo ¦pecl¦install xdebug && docker-php-ext-enable xdebug && echo "xdebug.max_nesting_level = 1000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ... :: Filesystem_operation,()
+nproc  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦version=$(php¦-r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp :: Filesystem_operation,()
+cmd,php-fpm
+/usr/local/apache2/htdocs/customer :: workdir_operation,()
+apt-get ¦install¦-y¦imagemagick¦libmagickwand-dev¦libmagickcore-dev¦jpegoptim¦optipng¦libcurl3-dev¦libicu-dev :: Dependencies_operation,()
+apt-get ¦install¦-y¦aspell¦aspell-de¦libmcrypt-dev¦libmemcached-dev¦zlib1g-dev¦git :: Dependencies_operation,()
+ln ¦-s¦/usr/local/bin/php¦/usr/bin/php :: Filesystem_operation,()
+mktemp ¦-d :: Other_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+from,php:7.1

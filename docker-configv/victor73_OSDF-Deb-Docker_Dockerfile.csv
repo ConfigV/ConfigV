@@ -1,0 +1,12 @@
+chown ¦-R¦osdf.osdf¦/build :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/usr/sbin/useradd ¦--home-dir¦/export/osdf¦-g¦osdf¦--shell¦/bin/bash¦osdf :: Other_operation,()
+apt-get ¦install¦-y¦software-properties-common¦git¦dh-make¦build-essential¦devscripts¦fakeroot¦debootstrap¦pbuilder¦subversion¦openjdk-7-jre¦ant :: Dependencies_operation,()
+osdf :: user_operation,()
+mkdir ¦/build :: Filesystem_operation,()
+/build/osdf :: workdir_operation,()
+git ¦clone¦http://github.com/IGS/OSDF¦osdf :: Dependencies_operation,()
+cmd,git¦pull¦&&/usr/bin/ant¦clean¦deb¦&&¦cp¦dist/*¦/export/
+/usr/sbin/groupadd ¦osdf :: Other_operation,()
+from,ubuntu@trusty
+/build :: workdir_operation,()

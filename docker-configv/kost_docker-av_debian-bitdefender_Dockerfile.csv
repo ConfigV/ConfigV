@@ -1,0 +1,7 @@
+/work :: workdir_operation,()
+echo ¦apt-get¦update && apt-get install -yq libc6-i386 wget && wget -O- -q http://download.bitdefender.com/repos/deb/bd.key.asc | apt-key add - && sh -c 'echo "deb http://download.bitdefender.com/repos/deb/ bitdefender non-free" >> /etc/apt/sour... :: Filesystem_operation,()
+echo ¦cat¦/opt/BitDefender-scanner/etc/bdscan.conf > /opt/BitDefender-scanner/etc/bdscan.conf.bak &&echo "LicenseAccepted = True" >> /opt/BitDefender-scanner/etc/bdscan.conf &&bdscan --update &&rm -rf /tmp/* /var/tmp/* &&mkdir /work :: Filesystem_operation,()
+from,debian@latest
+/work :: volume_operation,()
+entrypoint,bdscan
+cmd,--help

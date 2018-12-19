@@ -1,0 +1,18 @@
+apk ¦del¦go¦git :: Dependencies_operation,()
+GOPATH=/go: :: env_operation,()
+apk ¦add¦--update¦python-dev¦build-base¦linux-headers :: Dependencies_operation,()
+go ¦get¦github.com/etherapis/etherapis/demos/streamer :: Build_Execute_operation,()
+PATH=$GOPATH/bin:$PATH: :: env_operation,()
+apk ¦del¦python-dev¦build-base¦linux-headers :: Dependencies_operation,()
+go ¦get¦github.com/etherapis/etherapis/demos/geolookup :: Build_Execute_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+circus.inicircus.ini :: add_operation,()
+rm ¦-rf¦/var/cache/apk/*¦$GOPATH/src¦$GOPATH/pkg :: Filesystem_operation,()
+pip ¦install¦circus :: Dependencies_operation,()
+streamer ¦--init¦--root¦/demos/streamer/data :: Other_operation,()
+from,alpine:3.3
+apk ¦add¦--update¦python¦py-pip¦libstdc++ :: Dependencies_operation,()
+mkdir ¦-p¦/demos/geolookup/¦/demos/streamer/ :: Filesystem_operation,()
+expose,8081
+entrypoint,circusd¦circus.ini
+apk ¦add¦--update¦go¦git :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+expose,80
+apt-get ¦update¦-qq :: Dependencies_operation,()
+useradd ¦--home-dir=/home/cloud-admin¦--create-home¦--uid=20601¦--user-group¦--shell=/bin/bash¦cloud-admin :: Permissions_operation,()
+from,ubuntu:14.04
+mkdir ¦-p¦/usr/local/codebrowser/src¦/usr/local/codebrowser/bin :: Filesystem_operation,()
+cmd,bash¦/etc/run.sh
+make ¦-j¦8 :: Build_Execute_operation,()
+git ¦clone¦-b¦1.6¦--depth=1¦https://github.com/woboq/woboq_codebrowser.git¦/usr/local/codebrowser/src :: Dependencies_operation,()
+id ¦www-data¦2>/dev/null¦||¦useradd¦--shell=/sbin/nologin¦www-data :: Other_operation,()
+config/run.sh/etc/run.sh :: add_operation,()
+apt-get ¦-y¦install¦nginx¦cmake¦git¦clang¦llvm-dev¦libclang-dev :: Dependencies_operation,()
+cd ¦/usr/local/codebrowser/bin :: Filesystem_operation,()
+config/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+apt-get ¦-y¦install¦subversion :: Dependencies_operation,()
+cmake ¦-DLLVM_CONFIG_EXECUTABLE=/usr/bin/llvm-config¦-DCMAKE_CXX_COMPILER=/usr/bin/clang++¦-DCMAKE_EXPORT_COMPILE_COMMANDS=ON¦-DCMAKE_BUILD_TYPE=Release¦/usr/local/codebrowser/src :: Build_Execute_operation,()

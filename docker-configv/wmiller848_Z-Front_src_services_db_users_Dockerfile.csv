@@ -1,0 +1,10 @@
+from,fedora@latest
+chmod ¦755¦/scripts/* :: Permissions_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+yum ¦-y¦update :: Dependencies_operation,()
+scripts/scripts :: add_operation,()
+cmd,/bin/bash¦/scripts/start.sh
+yum ¦clean¦all :: Dependencies_operation,()
+/var/log/mysql :: volume_operation,()
+yum ¦-y¦install¦mariadb-server¦pwgen¦psmisc¦net-tools¦hostname :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+kibana-4.0.2-linux-x64.tar.gz/tmp/kibana-4.0.2-linux-x64.tar.gz :: copy_operation,()
+tar ¦xvf¦${KIBANA_VERSION}.tar :: Filesystem_operation,()
+mkdir ¦log :: Filesystem_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+cmd,/start.sh
+KIBANA_VERSION:kibana-4.0.2-linux-x64 :: env_operation,()
+from,debian
+expose,5601
+rm ¦-f¦${KIBANA_VERSION}.tar* :: Filesystem_operation,()
+mv ¦/tmp/${KIBANA_VERSION}¦/kibana :: Filesystem_operation,()
+gzip ¦-d¦${KIBANA_VERSION}.tar.gz :: Other_operation,()
+start.sh/start.sh :: add_operation,()

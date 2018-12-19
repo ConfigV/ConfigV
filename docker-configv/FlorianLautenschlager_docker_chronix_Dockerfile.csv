@@ -1,0 +1,12 @@
+rm ¦/opt/${CHRONIX}/chronix-solr-5.4.0/server/solr/chronix/data¦-r :: Filesystem_operation,()
+mkdir ¦${SOLR_INST_DIR} :: Filesystem_operation,()
+wget ¦-nv¦-P¦${SOLR_INST_DIR}¦https://github.com/ChronixDB/chronix.server/releases/download/v${CHRONIX_VERSION}/${CHRONIX}.zip :: Dependencies_operation,()
+misc/schema.xml/opt/${CHRONIX}/chronix-solr-5.4.0/server/solr/chronix/conf/schema.xml :: add_operation,()
+from,ubuntu
+unzip ¦${SOLR_INST_DIR}/${CHRONIX}.zip¦-d¦/opt/${CHRONIX} :: Filesystem_operation,()
+CHRONIX:chronix-${CHRONIX_VERSION} :: env_operation,()
+SOLR_INST_DIR:/opt/${CHRONIX} :: env_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+cmd,/opt/solr-5.2.1/bin/solr¦start¦-f
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && add-apt-repository -y ppa:webupd8team/java && apt-get update && apt-get install -y oracle-java8-installer && rm -rf /var/lib/apt/lists/... :: Filesystem_operation,()
+CHRONIX_VERSION:0.1.1 :: env_operation,()

@@ -1,0 +1,9 @@
+go ¦get¦github.com/sgotti/glide-vc :: Build_Execute_operation,()
+PATH:$GOPATH/bin:/usr/local/go/bin:$PATH :: env_operation,()
+go ¦get¦github.com/Masterminds/glide :: Build_Execute_operation,()
+chmod ¦-R¦777¦"$GOPATH" :: Permissions_operation,()
+apk ¦--no-cache¦--update¦add¦go¦git :: Dependencies_operation,()
+from,quay.io/monax/base:0.16
+mkdir ¦-p¦"$GOPATH/src"¦"$GOPATH/bin" :: Filesystem_operation,()
+GOPATH:/go :: env_operation,()
+apk ¦--no-cache¦--update¦add¦jq¦gmp-dev¦gcc¦musl-dev :: Dependencies_operation,()

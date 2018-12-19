@@ -1,0 +1,9 @@
+go ¦get :: Build_Execute_operation,()
+mkdir ¦/login/vendor :: Filesystem_operation,()
+CGO_ENABLED=0 ¦go¦build¦-a¦-installsuffix¦cgo¦-v¦-o¦loginservice.o¦LoginService.go :: Other_operation,()
+/login/loginservice/ :: workdir_operation,()
+loginservice.o/bin/loginservice :: copy_operation,()
+./src/github.com/e-gov/login//login/ :: copy_operation,()
+GOPATH=/login/vendor/: :: env_operation,()
+from,golang:1.6
+cmd,bin/loginservice

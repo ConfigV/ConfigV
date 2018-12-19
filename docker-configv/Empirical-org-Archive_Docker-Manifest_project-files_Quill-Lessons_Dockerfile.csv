@@ -1,0 +1,8 @@
+apt-get ¦update :: Dependencies_operation,()
+ADD. /usr/src/app :: onbuild_operation,()
+WORKDIR/usr/src/app :: onbuild_operation,()
+apt-get ¦install¦-y¦postgresql-client-9.3¦nodejs :: Dependencies_operation,()
+RUN[ ! -e Gemfile ] || bundle install --system :: onbuild_operation,()
+expose,3000
+cmd,rails¦s
+from,ruby@latest

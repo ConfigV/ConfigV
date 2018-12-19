@@ -1,0 +1,13 @@
+btsync.conf/etc/btsync.conf :: add_operation,()
+from,ubuntu:12.04
+start.sh/start.sh :: add_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+rm ¦btsync.tar.gz :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦-xzvf¦btsync.tar.gz :: Filesystem_operation,()
+expose,55555
+cmd,/start.sh
+curl ¦-o¦/usr/bin/btsync.tar.gz¦http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable :: Dependencies_operation,()
+cd ¦/usr/bin :: Filesystem_operation,()
+mkdir ¦/Sync :: Filesystem_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()

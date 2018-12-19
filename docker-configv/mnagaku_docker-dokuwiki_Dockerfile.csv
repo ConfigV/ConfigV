@@ -1,0 +1,8 @@
+expose,80
+from,ubuntu@trusty
+echo ¦echo¦"Asia/Tokyo" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 :: Filesystem_operation,()
+cmd,/usr/sbin/php5-fpm¦&&¦nginx¦&&¦sleep¦15m¦&&¦rm¦-f¦/var/www/dokuwiki/install.php¦;¦tail¦-f¦/dev/null
+LC_ALL:C :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+sed ¦-i".bak"¦-e¦'s/\\/\\/archive.ubuntu.com/\\/\\/ftp.jaist.ac.jp/g'¦/etc/apt/sources.list¦&&\\ :: Filesystem_operation,()

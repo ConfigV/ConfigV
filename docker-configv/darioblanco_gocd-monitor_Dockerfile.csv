@@ -1,0 +1,15 @@
+NPM_CONFIG_LOGLEVEL:warn :: env_operation,()
+entrypoint,npm¦start
+GOCD_PASSWORD:password :: env_operation,()
+git ¦clone¦https://github.com/karmats/gocd-monitor.git :: Dependencies_operation,()
+GOCD_MONITOR_POLLING_INTERVAL:30 :: env_operation,()
+"/gocd-monitor" :: workdir_operation,()
+app-config.js. :: add_operation,()
+from,node:7.2
+npm ¦install :: Dependencies_operation,()
+GOCD_SERVER_URL:https://ci.example.com :: env_operation,()
+GOCD_MONITOR_PORT:3000 :: env_operation,()
+apk ¦add¦--no-cache¦git :: Dependencies_operation,()
+GOCD_USER:admin :: env_operation,()
+GOCD_MONITOR_SWITCH_PAGES_INTERVAL:0 :: env_operation,()
+GOCD_MONITOR_DEVPORT:3001 :: env_operation,()

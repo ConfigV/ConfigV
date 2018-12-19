@@ -1,0 +1,20 @@
+/data :: workdir_operation,()
+unzip ¦consul_0.7.0_linux_amd64.zip :: Filesystem_operation,()
+logfile ¦.*\\ :: Other_operation,()
+expose,6379
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/bin/supervisord
+mkdir ¦-p¦/etc/consul.d :: Filesystem_operation,()
+start-consul-client.sh/usr/local/bin/start-consul-client.sh :: copy_operation,()
+apt-get ¦install¦-y¦wget¦unzip¦build-essential¦supervisor¦iproute2 :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+redis-consul.conf.json/etc/consul.d/redis-consul.conf.json :: copy_operation,()
+useradd ¦consul :: Permissions_operation,()
+from,ubuntu:16.04
+cp ¦-f¦consul¦/usr/local/bin :: Filesystem_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+/data :: volume_operation,()
+chown ¦-R¦consul:consul¦/data/consul :: Permissions_operation,()
+mkdir ¦-p¦/data/consul :: Filesystem_operation,()
+wget ¦https://releases.hashicorp.com/consul/0.7.0/consul_0.7.0_linux_amd64.zip :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()

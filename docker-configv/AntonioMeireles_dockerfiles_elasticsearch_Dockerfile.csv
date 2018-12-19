@@ -1,0 +1,15 @@
+from,quay.io/devops/jre
+${ES_HOME}/bin/plugin ¦--install¦${KP_URL}/${KP_VERSION}¦--verbose :: Other_operation,()
+elasticsearch.default.yml${ES_HOME}/config/elasticsearch.yml :: add_operation,()
+/data :: volume_operation,()
+boot.sh/bin/boot :: add_operation,()
+ES_HOME:/elasticsearch :: env_operation,()
+ES_VERSION:1.4.4 :: env_operation,()
+chmod ¦u+x¦/bin/boot :: Permissions_operation,()
+KP_VERSION:1.0.3 :: env_operation,()
+entrypoint,/bin/boot
+dll|winnt|x86-linux|solaris|ia64|freebsd|macosx  :: Other_operation,()
+expose,9200 9300
+KP_URL:io.fabric8/elasticsearch-cloud-kubernetes :: env_operation,()
+/data :: workdir_operation,()
+ES_URL:https://download.elasticsearch.org/elasticsearch/elasticsearch :: env_operation,()

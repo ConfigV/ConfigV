@@ -1,0 +1,10 @@
+sed ¦-i¦'s/ident/md5'¦/var/lib/pgsql/data/pg_hba.conf :: Filesystem_operation,()
+entrypoint,/etc/init.d/postgres¦start
+expose,5432
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+cp ¦/var/lib/pgsql/data/pg_hba.conf¦/var/lib/pgsql/data/pg_hba.conf.bak :: Filesystem_operation,()
+from,centos:7.0
+yum ¦-y¦install¦sudo¦epel-release¦sed :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦install¦postgresql-server¦postgresql¦postgresql-contrib¦postgresql-plperl :: Dependencies_operation,()
+postgresql-setup ¦initdb :: Other_operation,()

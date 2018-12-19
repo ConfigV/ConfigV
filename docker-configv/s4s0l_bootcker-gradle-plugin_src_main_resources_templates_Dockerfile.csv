@@ -1,0 +1,9 @@
+entrypoint.sh/entrypoint.sh :: add_operation,()
+${application_jar}/service/service.jar :: add_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+entrypoint,/entrypoint.sh
+JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom: :: env_operation,()
+expose,8080
+cmd,--server.port=8080
+from,frolvlad/alpine-oraclejdk8:slim
+/service :: workdir_operation,()

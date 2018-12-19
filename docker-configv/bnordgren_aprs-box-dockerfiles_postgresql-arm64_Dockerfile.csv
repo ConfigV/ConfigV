@@ -1,0 +1,23 @@
+chown ¦-R¦postgres¦/var/run/postgresql :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh
+expose,5432
+mkdir ¦-p¦/var/run/postgresql :: Filesystem_operation,()
+cmd,postgres
+PG_VERSION:9.4+165+deb8u1 :: env_operation,()
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦-A¦/usr/share/locale/locale.alias¦en_US.UTF-8 :: Other_operation,()
+create_main_cluster  :: Other_operation,()
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+LANG:en_US.utf8 :: env_operation,()
+PG_MAJOR:9.4 :: env_operation,()
+apt-get ¦install¦-y¦locales :: Dependencies_operation,()
+GOSU_VERSION:1.7 :: env_operation,()
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 :: Dependencies_operation,()
+/var/lib/postgresql/data :: volume_operation,()
+groupadd ¦-r¦postgres¦--gid=999 :: Permissions_operation,()
+useradd ¦-r¦-g¦postgres¦--uid=999¦postgres :: Permissions_operation,()
+mktemp ¦-d :: Other_operation,()
+from,aarch64/debian:jessie
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()

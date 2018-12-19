@@ -1,0 +1,16 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+cp ¦/usr/share/zoneinfo/Asia/Shanghai¦/etc/localtime :: Filesystem_operation,()
+root :: user_operation,()
+apt-get ¦install¦-y¦locales :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+from,ubuntu@wily
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,3306
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦-A¦/usr/share/locale/locale.alias¦en_US.UTF-8 :: Other_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+sed ¦-ri¦'s/archive.ubuntu.com/us.archive.ubuntu.com/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+LANG:en_US.utf8 :: env_operation,()
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+apt-get ¦-yqq¦purge :: Dependencies_operation,()
+mysql ¦-e¦"grant¦all¦privileges¦on¦*.*¦to¦'root'@'%'¦identified¦by¦'kakaogift';"¦&&\\ :: Other_operation,()
+cmd,tail -f /var/log/mysql/error.log

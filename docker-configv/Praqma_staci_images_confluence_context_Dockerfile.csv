@@ -1,0 +1,10 @@
+CONF_INSTALL:/opt/atlassian/confluence :: env_operation,()
+CONF_VERSION:@@VERSION@@ :: env_operation,()
+daemon:daemon :: user_operation,()
+expose,8090
+from,airdock/oracle-jdk:1.8
+${CONF_HOME} :: workdir_operation,()
+echo ¦set¦-x && apt-get update --quiet && apt-get install --quiet --yes --no-install-recommends libtcnative-1 xmlstarlet && apt-get clean && mkdir -p "${CONF_HOME}" && chmod -R 700 "${CONF_HOME}" && chown daemon:daemon "${CONF_HOME}" && mkdir -p... :: Filesystem_operation,()
+cmd,/opt/atlassian/confluence/bin/start-confluence.sh¦-fg
+CONF_HOME:/var/atlassian/confluence :: env_operation,()
+/var/atlassian/confluence :: volume_operation,()

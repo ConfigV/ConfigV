@@ -1,0 +1,10 @@
+yum ¦-y¦install¦rpm-build¦make¦git :: Dependencies_operation,()
+GOARCH:amd64 :: env_operation,()
+GOVERSION:1.6 :: env_operation,()
+tar ¦-C¦/usr/local¦-xzf¦go${GOVERSION}.${GOOS}-${GOARCH}.tar.gz :: Filesystem_operation,()
+curl ¦-sO¦https://storage.googleapis.com/golang/go${GOVERSION}.${GOOS}-${GOARCH}.tar.gz :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+rm ¦go${GOVERSION}.${GOOS}-${GOARCH}.tar.gz :: Filesystem_operation,()
+PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin:/go/bin :: env_operation,()
+from,centos:7.0
+GOOS:linux :: env_operation,()

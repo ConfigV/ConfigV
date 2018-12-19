@@ -1,0 +1,13 @@
+/data :: volume_operation,()
+nginx-1.11.12 :: workdir_operation,()
+entrypoint,/opt/nginx/sbin/nginx
+yum ¦-y¦update :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+make  :: Build_Execute_operation,()
+./configure ¦--prefix=/opt/nginx¦--with-http_ssl_module¦--with-pcre :: Build_Execute_operation,()
+tar ¦-zxvf¦nginx-1.11.12.tar.gz :: Filesystem_operation,()
+yum ¦-y¦install¦gcc¦make¦pcre-devel¦zlib-devel¦openssl-devel :: Dependencies_operation,()
+cmd,-g¦daemon off;
+make ¦install :: Build_Execute_operation,()
+from,centos
+https://nginx.org/download/nginx-1.11.12.tar.gz. :: add_operation,()

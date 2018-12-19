@@ -1,0 +1,16 @@
+cmd,nginx
+/doc :: workdir_operation,()
+echo ¦{¦echo '#! /bin/sh'; echo 'exec java -jar /opt/plantuml.jar "$@"'; } > /usr/bin/plantuml && chmod +x /usr/bin/plantuml :: Filesystem_operation,()
+{ ¦cd¦/opt;¦wget¦http://sourceforge.net/projects/plantuml/files/plantuml.8007.jar/download¦-O¦plantuml.jar;¦wget¦http://sourceforge.net/projects/ditaa/files/latest/download¦-O¦ditaa.zip;¦unzip¦ditaa.zip :: Other_operation,()
+expose,80
+/tmp :: workdir_operation,()
+echo ¦{¦echo '#! /bin/sh'; echo 'exec java -jar /opt/ditaa.jar "$@"'; } > /usr/bin/ditaa && chmod +x /usr/bin/ditaa :: Filesystem_operation,()
+{ ¦git¦clone¦https://github.com/w-vi/sphinx-ditaa;¦cd¦sphinx-ditaa;¦python¦setup.py¦install;¦} :: Other_operation,()
+pip ¦install¦-q¦sphinx¦sphinx_rtd_theme¦numpydoc¦sphinxcontrib-plantuml¦sphinxcontrib-actdiag¦sphinxcontrib-blockdiag¦sphinxcontrib-nwdiag¦sphinxcontrib-seqdiag :: Dependencies_operation,()
+mv ¦ditaa*.jar¦ditaa.jar;¦} :: Filesystem_operation,()
+echo ¦{¦echo; echo '# stay in the foreground so Docker has a process to track'; echo 'daemon off;'; } >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+/doc :: volume_operation,()
+from,canercandan/python3-base
+echo ¦{¦echo 'server {'; echo 'server_name localhost;'; echo 'listen 80 default_server;'; echo 'charset utf-8;'; echo 'root /doc;'; echo '}'; } > /etc/nginx/sites-enabled/default :: Filesystem_operation,()
+apt-get ¦-qqy¦install¦python3-numpy¦python3-matplotlib¦ipython3¦nginx-extras¦git¦curl¦openjdk-7-jre-headless¦wget¦unzip :: Dependencies_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+expose,21 22
+wget ¦-pO-¦https://api.github.com/repos/$ANSIBLE_REPO/tarball/$ANSIBLE_RELEASE¦|¦tar¦xvz¦--strip-components=1 :: Dependencies_operation,()
+ansible/ansible :: add_operation,()
+run.sh/usr/bin/run.sh :: add_operation,()
+chmod ¦755¦/usr/bin/run.sh :: Permissions_operation,()
+ansible-playbook ¦/ansible/provision.yml¦--tags=proftpd¦--skip-tags=proftpd_apt¦-c¦local¦--extra-vars¦proftpd_generate_ssh_key="true"¦--extra-vars¦proftpd_use_sftp="true" :: Other_operation,()
+chown ¦$GALAXY_UID:$GALAXY_GID¦/usr/bin/run.sh :: Permissions_operation,()
+GALAXY_USER=galaxyGALAXY_UID=1450GALAXY_GID=1450: :: env_operation,()
+ansible_path.py/usr/bin/ansible_path.py :: add_operation,()
+cmd,/usr/bin/run.sh
+mkdir ¦-p¦/ansible/galaxyprojectdotorg.galaxyextras :: Filesystem_operation,()
+from,ubuntu:14.04
+cd ¦/ansible/galaxyprojectdotorg.galaxyextras :: Filesystem_operation,()

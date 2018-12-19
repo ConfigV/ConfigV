@@ -1,0 +1,7 @@
+./gopath/src/app/ :: add_operation,()
+go ¦get¦-d¦github.com/docker/docker/... :: Build_Execute_operation,()
+go ¦get¦-ldflags¦"-X¦main.Version¦`cat¦VERSION`¦-X¦main.Build¦`date¦-u¦+%Y%m%d%H%M%S`"¦app :: Build_Execute_operation,()
+/gopath/src/app :: workdir_operation,()
+expose,8000
+entrypoint,/gopath/bin/app
+from,google/golang:1.3

@@ -1,0 +1,12 @@
+echo ¦echo¦"FIXME" :: Filesystem_operation,()
+/usr/local/sbin/builder-enter  :: Other_operation,()
+from,scaleway/docker:1.8.2
+echo ¦echo¦"Installing Golang 1.4" && cd /tmp && curl -O https://storage.googleapis.com/golang/go1.4.2.src.tar.gz && echo '460caac03379f746c473814a65223397e9c9a2f6 go1.4.2.src.tar.gz' | sha1sum -c && tar -C /usr/local -xzf go1.4.2.src.tar.gz && ... :: Filesystem_operation,()
+echo ¦echo¦"Configure environment" && mkdir -p /go/src /go/bin && chmod -R 777 /go && echo export GOROOT=${GOROOT} > /etc/profile.d/golang.sh && echo export GOPATH=${GOPATH} >> /etc/profile.d/golang.sh && echo export PATH=\\${PATH}:\\${GOROOT}/bin... :: Filesystem_operation,()
+go ¦get¦github.com/moul/ssh2docker/... :: Build_Execute_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦-y¦-q¦--no-install-recommends¦curl¦gcc¦ca-certificates¦libc6-dev¦git¦mercurial :: Dependencies_operation,()
+/usr/local/sbin/builder-leave  :: Other_operation,()
+GOARCH=arm:GOOS=linux :: env_operation,()
+PATH=${PATH}:${GOROOT}/bin:${GOPATH}/bin: :: env_operation,()

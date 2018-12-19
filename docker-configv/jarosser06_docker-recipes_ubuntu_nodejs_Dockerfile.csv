@@ -1,0 +1,13 @@
+from,ubuntu:14.04
+nodejs_version:0.10.28 :: env_operation,()
+nodejs_url:http://nodejs.org/dist :: env_operation,()
+make  :: Build_Execute_operation,()
+rm ¦/tmp/node-v${nodejs_version}.tar.gz :: Filesystem_operation,()
+tar ¦-xf¦/tmp/node-v${nodejs_version}.tar.gz¦-C¦/tmp/ :: Filesystem_operation,()
+cd ¦/tmp/node-v${nodejs_version} :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+rm ¦-rf¦/tmp/node-v${nodejs_version} :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦${nodejs_url}/v${nodejs_version}/node-v${nodejs_version}.tar.gz¦-P¦/tmp/ :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-get ¦install¦-y¦wget¦build-essential¦python :: Dependencies_operation,()

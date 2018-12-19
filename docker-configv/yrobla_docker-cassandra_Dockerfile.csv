@@ -1,0 +1,17 @@
+apt-key ¦add¦/tmp/datastax_key :: Dependencies_operation,()
+datastax_key/tmp/datastax_key :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,dockerfile/java:oracle-java7
+rm ¦-f¦/etc/security/limits.d/cassandra.conf :: Filesystem_operation,()
+entrypoint,cassandra-clusternode
+root :: user_operation,()
+echo ¦echo¦"deb http://debian.datastax.com/community stable main" > /etc/apt/sources.list.d/datastax.list :: Filesystem_operation,()
+/usr/local/bin/config-cassandra-base  :: Other_operation,()
+scripts/cassandra-clusternode.sh/usr/local/bin/cassandra-clusternode :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+CASSANDRA_CONFIG:/etc/cassandra :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦cassandra=2.0.10¦dsc20=2.0.10-1 :: Dependencies_operation,()
+scripts/config-cassandra-base.sh/usr/local/bin/config-cassandra-base :: add_operation,()
+expose,7199 7000 7001 9160 9042 22 8012 61621
+ln ¦-s¦-f¦/bin/true¦/usr/bin/chfn :: Filesystem_operation,()

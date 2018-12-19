@@ -1,0 +1,13 @@
+cmd,/usr/bin/supervisord
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+STATIC_INDEX:0 :: env_operation,()
+./app/app :: copy_operation,()
+STATIC_URL:/static :: env_operation,()
+UWSGI_INI:/app/uwsgi.ini :: env_operation,()
+STATIC_PATH:/app/static :: env_operation,()
+NGINX_MAX_UPLOAD:0 :: env_operation,()
+/app :: workdir_operation,()
+pip ¦install¦flask :: Dependencies_operation,()
+from,tiangolo/uwsgi-nginx:python3.5
+entrypoint,/entrypoint.sh

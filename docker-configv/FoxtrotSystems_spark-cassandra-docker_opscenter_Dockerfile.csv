@@ -1,0 +1,11 @@
+from,raimille1/spark-cassandra:centos-jdk-8
+src/supervisord.conf/etc/supervisord.conf :: add_operation,()
+OPSCENTER_PACKAGE:opscenter-5.2.2 :: env_operation,()
+expose,8888 61620 50031
+yum ¦install¦-y¦openssh-clients :: Dependencies_operation,()
+cmd,start
+root :: user_operation,()
+ln ¦-s¦/usr/local/$OPSCENTER_PACKAGE¦$OPSCENTER_HOME :: Filesystem_operation,()
+src/start.sh/usr/local/bin/start :: add_operation,()
+OPSCENTER_HOME:usr/local/opscenter :: env_operation,()
+curl ¦-L¦http://downloads.datastax.com/community/$OPSCENTER_PACKAGE.tar.gz¦|¦tar¦-xz¦-C¦/usr/local :: Dependencies_operation,()

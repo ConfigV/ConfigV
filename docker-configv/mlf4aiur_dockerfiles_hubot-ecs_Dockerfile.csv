@@ -1,0 +1,20 @@
+build.on:$built_on :: label_operation,()
+mkdir ¦-p¦/root/mybot/bin¦/root/.config/configstore/¦/root/node_modules :: Filesystem_operation,()
+npm ¦install¦-g¦yo¦generator-hubot :: Dependencies_operation,()
+https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest/usr/local/bin/ecs-cli :: add_operation,()
+from,alpine@latest
+chmod ¦+x¦/usr/local/bin/ecs-cli :: Permissions_operation,()
+npm ¦install¦-g¦npm :: Dependencies_operation,()
+yes ¦|¦yo¦hubot¦--name="Hubot"¦--description="hubot"¦--adapter="slack" :: Other_operation,()
+sed ¦-i¦'1a\\¦"hubot-ecs",'¦/root/mybot/external-scripts.json :: Filesystem_operation,()
+/root/mybot :: workdir_operation,()
+chmod ¦-R¦g+rwx¦/root/ :: Permissions_operation,()
+npm ¦install¦hubot-ecs¦--save :: Dependencies_operation,()
+find ¦/usr/lib/node_modules/npm¦-name¦test¦-o¦-name¦.bin¦-type¦d¦|¦xargs¦rm¦-rf :: Filesystem_operation,()
+entrypoint,/sbin/tini¦--
+/root/mybot :: volume_operation,()
+update-ca-certificates  :: Other_operation,()
+cmd,/root/mybot/bin/hubot¦--adapter¦slack
+apk ¦add¦--update¦--repository¦https://dl-cdn.alpinelinux.org/alpine/edge/community/¦nodejs¦tini¦ca-certificates :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/cache/apk/* :: Filesystem_operation,()
+rm ¦-rf¦/tmp/*¦/usr/lib/node_modules/npm/man¦/usr/lib/node_modules/npm/doc/usr/lib/node_modules/npm/html¦/root/node_modules¦/root/mybot/hubot-scripts.json :: Filesystem_operation,()

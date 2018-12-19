@@ -1,0 +1,23 @@
+echo ¦echo¦${REPO_CLONE_URL} :: Filesystem_operation,()
+from,ubuntu:14.04
+REPO_CLONE_URL:${REPO_CLONE_URL} :: env_operation,()
+swift ¦build :: Other_operation,()
+cmd,.build/debug/App
+SWIFT_PLATFORM:ubuntu14.04 :: env_operation,()
+${USERNAME} :: user_operation,()
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+/vapor/swift-on-ecs/demo/example :: workdir_operation,()
+chmod ¦-R¦o+r¦/usr/lib/swift/CoreFoundation :: Permissions_operation,()
+SWIFT_VERSION:${SWIFT_VERSION} :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦${REPO_CLONE_URL} :: Dependencies_operation,()
+USERNAME:vapor :: env_operation,()
+gpg ¦--keyserver¦hkp://pool.sks-keyservers.net¦--refresh-keys¦Swift :: Other_operation,()
+/vapor :: workdir_operation,()
+apt-get ¦install¦-y¦build-essential¦wget¦clang¦libedit-dev¦python2.7¦python2.7-dev¦libicu52¦rsync¦libxml2¦git¦awscli :: Dependencies_operation,()
+echo ¦SWIFT_ARCHIVE_NAME=swift-$SWIFT_VERSION-$SWIFT_PLATFORM¦&& SWIFT_URL=https://swift.org/builds/$SWIFT_BRANCH/$(echo "$SWIFT_PLATFORM" | tr -d .)/swift-$SWIFT_VERSION/$SWIFT_ARCHIVE_NAME.tar.gz && wget -q $SWIFT_URL && wget -q $SWIFT_URL.sig... :: Filesystem_operation,()
+SWIFT_BRANCH:development :: env_operation,()
+PATH:/usr/bin:$PATH :: env_operation,()
+wget ¦-q¦-O¦-¦https://swift.org/keys/all-keys.asc¦|¦gpg¦--import¦- :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

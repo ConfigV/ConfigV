@@ -1,0 +1,12 @@
+HOME=/home/app: :: env_operation,()
+app :: user_operation,()
+npm ¦cache¦clean :: Dependencies_operation,()
+root :: user_operation,()
+$HOME/web :: workdir_operation,()
+useradd ¦--user-group¦--create-home¦--shell¦/bin/false¦app :: Permissions_operation,()
+.$HOME/web :: copy_operation,()
+npm ¦install¦--silent¦--progress=false :: Dependencies_operation,()
+package.json$HOME/web/ :: copy_operation,()
+chown ¦-R¦app:app¦$HOME/* :: Permissions_operation,()
+from,node:6.7
+cmd,npm¦start

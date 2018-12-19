@@ -1,0 +1,8 @@
+COPYGemfile /usr/src/app/ :: onbuild_operation,()
+/usr/src/app :: workdir_operation,()
+from,rubinius:2.4
+bundle ¦config¦--global¦frozen¦1 :: Dependencies_operation,()
+COPYGemfile.lock /usr/src/app/ :: onbuild_operation,()
+COPY. /usr/src/app :: onbuild_operation,()
+RUNbundle install :: onbuild_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()

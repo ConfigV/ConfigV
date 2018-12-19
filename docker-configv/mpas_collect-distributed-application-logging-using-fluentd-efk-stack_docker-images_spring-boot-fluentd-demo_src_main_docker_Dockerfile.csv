@@ -1,0 +1,8 @@
+expose,8080
+/app :: workdir_operation,()
+/app/docker-entrypoint.shdocker-entrypoint.sh :: copy_operation,()
+/app/application.jarapplication.jar :: copy_operation,()
+from,java:8.0
+mkdir ¦-p¦/app :: Filesystem_operation,()
+cmd,./docker-entrypoint.sh
+chmod ¦+x¦docker-entrypoint.sh :: Permissions_operation,()

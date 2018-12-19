@@ -1,0 +1,10 @@
+mosquitto.conf/mqtt/config/mosquitto.conf :: copy_operation,()
+/mqtt/log :: volume_operation,()
+/mqtt/config :: volume_operation,()
+/mqtt/data :: volume_operation,()
+expose,1883
+apt-get ¦update :: Dependencies_operation,()
+adduser ¦--system¦--disabled-password¦--disabled-login¦mosquitto :: Permissions_operation,()
+entrypoint,/usr/sbin/mosquitto¦-c¦/mqtt/config/mosquitto.conf
+from,ubuntu@latest
+apt-get ¦install¦-y¦mosquitto¦mosquitto-clients :: Dependencies_operation,()

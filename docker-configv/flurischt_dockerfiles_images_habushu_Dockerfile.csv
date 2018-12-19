@@ -1,0 +1,17 @@
+cmd,/home/habushu/habushu/venv/bin/gunicorn¦-w¦2¦-b¦0.0.0.0:5000¦--chdir¦/home/habushu/habushu¦habushu:app
+conf/habushu.cfg/home/habushu/habushu/ :: add_operation,()
+/bin/bash ¦-c¦"cd¦habushu :: Build_Execute_operation,()
+$username :: user_operation,()
+git ¦clone¦https://github.com/flurischt/habushu.git :: Dependencies_operation,()
+expose,5000
+uid:1000 :: env_operation,()
+from,ubuntu@xenial
+pip ¦install¦-r¦requirements.txt" :: Dependencies_operation,()
+source ¦venv/bin/activate :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/home/habushu :: workdir_operation,()
+virtualenv ¦venv :: Environment_operation,()
+apt-get ¦install¦-y¦git¦python¦virtualenv :: Dependencies_operation,()
+useradd ¦-d¦"/home/$username"¦-u¦$uid¦-m¦-s¦/bin/bash¦$username :: Permissions_operation,()
+username:habushu :: env_operation,()
+root :: user_operation,()

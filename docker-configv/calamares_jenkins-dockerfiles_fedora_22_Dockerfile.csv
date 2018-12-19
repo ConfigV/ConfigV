@@ -1,0 +1,11 @@
+cmd,/usr/sbin/sshd¦-D
+yum ¦-y¦install¦java-1.8.0-openjdk¦sudo¦cmake¦extra-cmake-modules¦qt5-qtbase-devel¦qt5-qtbase-gui¦qt5-qtbase-common¦qt5-qtsvg-devel¦qt5-qtquickcontrols¦qt5-qtdeclarative-devel¦qt5-qttools-common¦qt5-qttools-devel¦qt5-qtwebkit-devel¦kf5-ki18n-de... :: Dependencies_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+sed ¦-i¦-e¦"s/UsePAM¦yes/UsePAM¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+useradd ¦-m¦-s¦/bin/bash¦jenkins :: Permissions_operation,()
+echo ¦echo¦"jenkins ALL=(ALL) NOPASSWD: /usr/bin/yum" > /etc/sudoers.d/jenkins :: Filesystem_operation,()
+ssh-keygen ¦-A :: Other_operation,()
+from,fedora:22.0
+expose,22
+yum ¦-y¦groupinstall¦"Development¦Tools"¦"Development¦Libraries";¦yum¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+puppet ¦module¦install¦nibalizer/puppetboard :: Dependencies_operation,()
+puppet ¦module¦install¦puppetlabs/apache :: Dependencies_operation,()
+expose,80
+from,jumanjiman/puppetagent
+chown ¦-R¦puppet:puppet¦/var/lib/puppet/ssl :: Permissions_operation,()
+start.sh/usr/local/sbin/start.sh :: add_operation,()
+puppet ¦apply¦/tmp/install.pp :: Dependencies_operation,()
+install.pp/tmp/install.pp :: add_operation,()
+cmd,/usr/local/sbin/start.sh
+puppet ¦module¦install¦puppetlabs/inifile :: Dependencies_operation,()
+mkdir ¦-p¦/etc/puppetboard/private;¦cp¦/var/lib/puppet/ssl/private_keys/puppetboard.inf.ise.com.pem¦/etc/puppetboard/private/;¦cp¦/var/lib/puppet/ssl/certs/puppetboard.inf.ise.com.pem¦/etc/puppetboard/;¦cp¦/var/lib/puppet/ssl/certs/ca.pem¦/etc/pu... :: Filesystem_operation,()
+ssl/var/lib/puppet/ssl :: add_operation,()

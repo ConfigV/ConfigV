@@ -1,0 +1,10 @@
+wget ¦https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz :: Dependencies_operation,()
+echo ¦echo¦"[info] ============= install elasticsearch ${ELASTICSEARCH_VERSION} =============" :: Filesystem_operation,()
+cmd,elasticsearch-5.5.1/bin/elasticsearch
+tar ¦-xzf¦elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz :: Filesystem_operation,()
+echo ¦echo¦"[info] ============= start elasticsearch ${ELASTICSEARCH_VERSION} =============" :: Filesystem_operation,()
+ELASTICSEARCH_VERSION:5.5.1 :: env_operation,()
+from,openjdk:8.0
+expose,9200
+mkdir ¦-p¦/elasticsearch :: Filesystem_operation,()
+sha1sum ¦elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz :: Other_operation,()

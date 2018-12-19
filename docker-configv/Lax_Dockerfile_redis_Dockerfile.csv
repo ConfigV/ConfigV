@@ -1,0 +1,10 @@
+/redis-data :: volume_operation,()
+yum ¦-q¦makecache :: Dependencies_operation,()
+yum ¦-q¦install¦redis¦-y :: Dependencies_operation,()
+from,centos:7.0
+expose,6379
+cmd,--dir¦/redis-data
+yum ¦localinstall¦-y¦http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm :: Dependencies_operation,()
+REFRESHED_AT:2014-10-24 :: env_operation,()
+entrypoint,/usr/bin/redis-server
+mkdir ¦-p¦/redis-data :: Filesystem_operation,()

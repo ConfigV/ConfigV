@@ -1,0 +1,10 @@
+rm ¦cslang-cli-with-content.tar.gzip :: Filesystem_operation,()
+mkdir ¦-p¦/usr/cslang :: Filesystem_operation,()
+wget ¦"https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.6/cslang-cli-with-content.tar.gzip" :: Dependencies_operation,()
+from,java:7.0
+/usr/cslang/cslang-cli/bin/ :: workdir_operation,()
+useradd ¦-r¦-g¦cslang¦cslang :: Permissions_operation,()
+entrypoint,sh¦cslang
+cd ¦/usr/cslang :: Filesystem_operation,()
+groupadd ¦-r¦cslang :: Permissions_operation,()
+tar ¦xvf¦cslang-cli-with-content.tar.gzip :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+yum ¦-y¦--setopt=tsflags=nodocs¦update :: Dependencies_operation,()
+entrypoint,redis-server¦/etc/redis.conf
+from,centos:7.0
+expose,6379
+yum ¦clean¦all :: Dependencies_operation,()
+redis.conf/etc/redis.conf :: add_operation,()
+yum ¦-y¦--setopt=tsflags=nodocs¦install¦epel-release :: Dependencies_operation,()
+yum ¦-y¦--setopt=tsflags=nodocs¦install¦redis :: Dependencies_operation,()
+mkdir ¦/data;¦chmod¦777¦/data :: Filesystem_operation,()
+997 :: user_operation,()

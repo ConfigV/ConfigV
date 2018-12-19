@@ -1,0 +1,20 @@
+make ¦install :: Build_Execute_operation,()
+tar ¦xvzf¦siege-$SIEGE_VERSION.tar.gz :: Filesystem_operation,()
+cd ¦/ :: Filesystem_operation,()
+entrypoint,siege
+SIEGE_VERSION=${SIEGE_VERSION:-3.1.4}: :: env_operation,()
+apt-get ¦purge¦-y¦wget¦make :: Dependencies_operation,()
+SIEGE_URL=http://download.joedog.org/siege/siege-$SIEGE_VERSION.tar.gz: :: env_operation,()
+siege.conf/root/.siege/siege.conf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./configure ¦--with-ssl=$SSL_PATH :: Build_Execute_operation,()
+rm ¦siege-$SIEGE_VERSION*¦-r :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+wget ¦$SIEGE_URL :: Dependencies_operation,()
+urls.txt/urls.txt :: copy_operation,()
+mkdir ¦-p¦/root/.siege :: Filesystem_operation,()
+SSL_PATH=${SSL_PATH:-/usr/lib/x86_64-linux-gnu}: :: env_operation,()
+apt-get ¦install¦-y¦libssl1.0.0¦libssl-dev¦zlib1g-dev¦wget¦make :: Dependencies_operation,()
+cd ¦siege-$SIEGE_VERSION :: Filesystem_operation,()
+cmd,--help
+from,ubuntu@latest

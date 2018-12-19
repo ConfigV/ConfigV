@@ -1,0 +1,15 @@
+apt-get ¦install¦-y¦wget¦curl :: Dependencies_operation,()
+./supervisord.conf/etc/supervisor/supervisord.conf :: add_operation,()
+apt-get ¦install¦-y¦supervisor :: Dependencies_operation,()
+rm ¦-f¦/tmp/java.tgz :: Filesystem_operation,()
+cmd,/bin/bash
+mkdir ¦-p¦/usr/lib/jvm :: Filesystem_operation,()
+/logs :: volume_operation,()
+wget ¦-nv¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦$SJDK7¦-O¦/tmp/java.tgz :: Dependencies_operation,()
+tar ¦zxvf¦/tmp/java.tgz¦-C¦/usr/lib/jvm :: Filesystem_operation,()
+echo ¦update-alternatives¦--install /usr/bin/javac javac /usr/lib/jvm/*/bin/javac 1 && update-alternatives --install /usr/bin/java java /usr/lib/jvm/*/bin/java 1 && update-alternatives --install /usr/bin/keytool keytool /usr/lib/jvm/*/bin/keytoo... :: Filesystem_operation,()
+SJDK8:http://download.oracle.com/otn-pub/java/jdk/8u40-b26/jdk-8u40-linux-x64.tar.gz :: env_operation,()
+SJDK7:http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.tar.gz :: env_operation,()
+cp ¦/etc/supervisor/supervisord.conf¦/etc/supervisor/supervisord.conf.orig :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu:14.1

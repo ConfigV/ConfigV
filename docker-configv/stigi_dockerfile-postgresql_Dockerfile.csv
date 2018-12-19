@@ -1,0 +1,16 @@
+dockyard ¦install¦postgresql¦9.2.4 :: Other_operation,()
+curl ¦-o¦/usr/local/bin/dockyard¦https://raw.github.com/dynport/dockyard/master/dockyard :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦curl :: Other_operation,()
+chmod ¦0755¦/start :: Permissions_operation,()
+USERNAME:docker :: env_operation,()
+expose,5432
+start/start :: add_operation,()
+useradd ¦postgres :: Permissions_operation,()
+chmod ¦0755¦/usr/local/bin/dockyard :: Permissions_operation,()
+echo ¦echo¦"deb ftp://mirror.hetzner.de/ubuntu/packages quantal main restricted universe multiverse" > /etc/apt/sources.list :: Filesystem_operation,()
+postgresql.conf/etc/postgresql/9.2/main/ :: add_operation,()
+pg_hba.conf/etc/postgresql/9.2/main/ :: add_operation,()
+pg_ident.conf/etc/postgresql/9.2/main/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/start
+PASS:d0cker :: env_operation,()

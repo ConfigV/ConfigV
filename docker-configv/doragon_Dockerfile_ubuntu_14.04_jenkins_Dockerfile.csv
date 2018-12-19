@@ -1,0 +1,10 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-key ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+wget ¦-q¦-O¦-¦http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦sh¦-c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' :: Filesystem_operation,()
+expose,22 8080
+from,koide/base_ubuntu1404
+apt-get ¦install¦-y¦jenkins :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

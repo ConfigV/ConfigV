@@ -1,0 +1,17 @@
+USER:root :: env_operation,()
+git ¦clone¦https://github.com/BLLIP/bllip-parser.git :: Dependencies_operation,()
+from,dockerfile/ubuntu-desktop
+./setup.py ¦install :: Other_operation,()
+cd ¦bllip-parser :: Filesystem_operation,()
+userfiles/root :: copy_operation,()
+apt ¦update :: Dependencies_operation,()
+cmd,/bin/bash¦-login
+easy_install ¦pip :: Dependencies_operation,()
+pip ¦install¦-U¦nltk :: Dependencies_operation,()
+pip ¦install¦-U¦numpy :: Dependencies_operation,()
+HOME:/root :: env_operation,()
+expose,5901
+apt-get ¦-y¦install¦lynx¦firefox¦¦python-setuptools¦python-dev¦python-tk¦¦swig¦flex¦libboost-dev :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+/root :: workdir_operation,()
+DISPLAY::1 :: env_operation,()

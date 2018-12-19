@@ -1,0 +1,18 @@
+from,ubuntu
+configure-spark-jars.shconfigure-spark-jars.sh :: add_operation,()
+startup.sh/startup.sh :: add_operation,()
+/usr/local/hadoop :: workdir_operation,()
+tar ¦xvf¦spark-1.3.0-bin-hadoop2.4.tgz :: Filesystem_operation,()
+mv ¦spark-1.3.0-bin-hadoop2.4¦/usr/local/spark :: Filesystem_operation,()
+echo ¦¦echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_CONF_DIR/hadoop-env.sh && echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_CONF_DIR/yarn-env.sh :: Filesystem_operation,()
+cmd,/startup.sh
+/tmp :: workdir_operation,()
+tar ¦-xzf¦hadoop-2.6.0.tar.gz¦-C¦/usr/local/ :: Filesystem_operation,()
+spark-defaults.conf/usr/local/spark/conf/spark-defaults.conf :: add_operation,()
+hadoop_conf/*$HADOOP_CONF_DIR/ :: copy_operation,()
+mv ¦/usr/local/hadoop-2.6.0¦/usr/local/hadoop :: Filesystem_operation,()
+:HADOOP_PREFIX=/usr/local/hadoop :: env_operation,()
+echo ¦apt-get¦update && apt-get upgrade -y && apt-get install -y wget git && apt-get install -y software-properties-common python-software-properties && add-apt-repository ppa:webupd8team/java && echo oracle-java8-installer shared/accepted-oracl... :: Filesystem_operation,()
+wget ¦http://d3kbcqa49mib13.cloudfront.net/spark-1.3.0-bin-hadoop2.4.tgz :: Dependencies_operation,()
+/usr/local/spark :: workdir_operation,()
+rm ¦hadoop-2.6.0.tar.gz :: Filesystem_operation,()

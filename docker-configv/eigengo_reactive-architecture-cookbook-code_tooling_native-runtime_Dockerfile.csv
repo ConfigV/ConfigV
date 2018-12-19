@@ -1,0 +1,12 @@
+CUDA_VERSION:8.0 :: env_operation,()
+echo ¦echo¦"/usr/local/cuda/lib64" >> /etc/ld.so.conf.d/cuda.conf && ldconfig :: Filesystem_operation,()
+CUDA_PKG_VERSION:8-0=8.0.44-1 :: env_operation,()
+LD_LIBRARY_PATH:/usr/local/nvidia/lib:/usr/local/nvidia/lib64 :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦cuda-nvrtc-$CUDA_PKG_VERSION¦cuda-nvgraph-$CUDA_PKG_VERSION¦cuda-cusolver-$CUDA_PKG_VERSION¦cuda-cublas-$CUDA_PKG_VERSION¦cuda-cufft-$CUDA_PKG_VERSION¦cuda-curand-$CUDA_PKG_VERSION¦cuda-cusparse-$CUDA_PKG... :: Dependencies_operation,()
+PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH} :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+ln ¦-s¦cuda-$CUDA_VERSION¦/usr/local/cuda :: Filesystem_operation,()
+from,ubuntu:16.04
+echo ¦NVIDIA_GPGKEY_SUM=d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5¦&& NVIDIA_GPGKEY_FPR=ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80 && apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604... :: Filesystem_operation,()
+echo ¦echo¦"/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf :: Filesystem_operation,()

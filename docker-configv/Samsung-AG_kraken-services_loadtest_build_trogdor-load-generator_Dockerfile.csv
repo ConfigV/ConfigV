@@ -1,0 +1,14 @@
+entrypoint,locust
+INFLUXDB_NAME:k8s :: env_operation,()
+INFLUXDB_PASSWORD:root :: env_operation,()
+apt-get ¦install¦-y¦build-essential¦--no-install-recommends :: Dependencies_operation,()
+INFLUXDB_USER:root :: env_operation,()
+scripts/scripts :: copy_operation,()
+INFLUXDB_PORT:8086 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦build-essential :: Dependencies_operation,()
+from,python:2.7
+pip ¦install¦--upgrade¦influxdb :: Dependencies_operation,()
+ulimit ¦-c¦-m¦-s¦-t¦unlimited :: Other_operation,()
+pip ¦install¦locustio¦pyzmq¦influxdb :: Dependencies_operation,()
+INFLUXDB_HOST:influxdb :: env_operation,()

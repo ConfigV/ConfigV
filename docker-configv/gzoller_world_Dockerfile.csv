@@ -1,0 +1,9 @@
+sed ¦'s/^bind_ip/#bind_ip/'¦-i¦/etc/mongodb.conf :: Filesystem_operation,()
+expose,27017
+from,rabbitmq
+cmd,start
+rabbitmq-plugins ¦enable¦rabbitmq_management :: Other_operation,()
+apt-get ¦-y¦install¦mongodb :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/start :: Permissions_operation,()
+bin/start/usr/local/bin/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()

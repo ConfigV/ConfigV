@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+set ¦-x :: Environment_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦ca-certificates¦curl¦numactl :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+MONGO_MAJOR:3.0 :: env_operation,()
+MONGO_VERSION:3.0.6 :: env_operation,()
+from,debian@jessie
+rm ¦-rf¦/var/lib/mongodb :: Filesystem_operation,()
+USER:petru :: env_operation,()
+echo ¦echo¦"deb http://repo.mongodb.org/apt/debian wheezy/mongodb-org/$MONGO_MAJOR main" > /etc/apt/sources.list.d/mongodb-org.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦--force-yes¦mongodb-org-shell=$MONGO_VERSION¦mongodb-org-tools=$MONGO_VERSION :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦492EAFE8CD016A07919F1D2B9ECBEC467F0CEB10 :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

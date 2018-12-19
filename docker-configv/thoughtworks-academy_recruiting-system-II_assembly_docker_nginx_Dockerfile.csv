@@ -1,0 +1,10 @@
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+echo ¦echo¦"deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list :: Filesystem_operation,()
+from,ubuntu:14.04
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦hkp://pgp.mit.edu:80¦--recv-keys¦573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+NGINX_VERSION:1.9.9-1~trusty :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦ca-certificates¦nginx=${NGINX_VERSION} :: Dependencies_operation,()

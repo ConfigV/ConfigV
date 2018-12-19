@@ -1,0 +1,17 @@
+agent.json/config/ :: add_operation,()
+cmd,agent¦-server¦-config-dir=/config
+GLIBC_VERSION:"2.23-r1" :: env_operation,()
+DNS_PORT:8600 :: env_operation,()
+apk ¦--update¦add¦curl¦ca-certificates :: Dependencies_operation,()
+echo ¦echo¦"${CONSUL_SHA256} /tmp/consul.zip" > /tmp/consul.sha256 && sha256sum -c /tmp/consul.sha256 && cd /bin && unzip /tmp/consul.zip && chmod +x /bin/consul && rm /tmp/consul.zip :: Filesystem_operation,()
+apk ¦add¦--allow-untrusted¦/tmp/glibc-${GLIBC_VERSION}.apk :: Dependencies_operation,()
+CONSUL_SHA256:abdf0e1856292468e2c9971420d73b805e93888e006c76324ae39416edcf0627 :: env_operation,()
+entrypoint,/bin/consul
+https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip/tmp/consul.zip :: add_operation,()
+DNS_RESOLVES:consul :: env_operation,()
+server.json/config/ :: add_operation,()
+expose,8300 8301 8301 8302 8302 8400 8500 8600 8600
+curl ¦-Ls¦https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk¦>¦/tmp/glibc-${GLIBC_VERSION}.apk :: Dependencies_operation,()
+rm ¦-rf¦/tmp/glibc-${GLIBC_VERSION}.apk¦/var/cache/apk/* :: Filesystem_operation,()
+from,mswtf/base-image:3.4
+CONSUL_VERSION:0.6.4 :: env_operation,()

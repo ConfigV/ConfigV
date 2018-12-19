@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+/sidecar/ :: copy_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+expose,6666
+mvn ¦clean¦package :: Dependencies_operation,()
+cmd,pm2¦start¦test.js¦&&¦mvn¦spring-boot:run¦-DskipTests=true¦-Dspring.profiles.active=docker
+from,jamesdbloom/docker-java8-maven
+sidecar :: workdir_operation,()
+update-alternatives ¦--install¦/usr/bin/node¦node¦/usr/bin/nodejs¦10 :: Other_operation,()
+apt-get ¦install¦-y¦nodejs¦npm :: Dependencies_operation,()
+npm ¦install¦pm2¦-g :: Dependencies_operation,()

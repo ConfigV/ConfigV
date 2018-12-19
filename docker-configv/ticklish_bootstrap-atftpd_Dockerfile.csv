@@ -1,0 +1,13 @@
+apt-get ¦-y¦install¦wget¦syslinux¦atftpd¦wget :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+mkdir ¦-p¦/tftpboot/pxelinux.cfg :: Filesystem_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/*¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tftpboot :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+wget ¦http://alpha.release.core-os.net/amd64-usr/current/coreos_production_pxe_image.cpio.gz :: Dependencies_operation,()
+from,ubuntu:14.1
+wget ¦http://alpha.release.core-os.net/amd64-usr/current/coreos_production_pxe.vmlinuz :: Dependencies_operation,()
+ls ¦-lhart¦/tftpboot/ :: Filesystem_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+cp ¦/usr/lib/syslinux/modules/efi64/menu.c32¦/tftpboot :: Filesystem_operation,()

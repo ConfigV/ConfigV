@@ -1,0 +1,11 @@
+chmod ¦-R¦775¦/opt/gearman :: Permissions_operation,()
+from,centos:6.8
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+chown ¦-R¦gearmand¦/opt/gearman :: Permissions_operation,()
+cmd,/opt/gearman/scripts/run.sh
+./scripts/opt/gearman/scripts :: copy_operation,()
+/opt/gearman :: workdir_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦install¦gearmand.x86_64¦libgearman.x86_64¦libgearman-devel.x86_64 :: Dependencies_operation,()
+mkdir ¦-p¦/opt/gearman/scripts :: Filesystem_operation,()

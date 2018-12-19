@@ -1,0 +1,11 @@
+apk ¦update :: Dependencies_operation,()
+TIMEZONE:Asia/Shanghai :: env_operation,()
+cmd,sh
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦tzdata :: Dependencies_operation,()
+echo ¦echo¦'@testing http://mirrors.ustc.edu.cn/alpine/edge/testing' >> /etc/apk/repositories :: Filesystem_operation,()
+echo ¦echo¦'@community http://mirrors.ustc.edu.cn/alpine/edge/community' >> /etc/apk/repositories :: Filesystem_operation,()
+from,alpine@latest
+echo ¦echo¦$TIMEZONE > /etc/timezone :: Filesystem_operation,()
+echo ¦echo¦'http://mirrors.ustc.edu.cn/alpine/v3.4/main' > /etc/apk/repositories :: Filesystem_operation,()
+ln ¦-snf¦/usr/share/zoneinfo/$TIMEZONE¦/etc/localtime :: Filesystem_operation,()

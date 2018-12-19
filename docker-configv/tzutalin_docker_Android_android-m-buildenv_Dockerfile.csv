@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+curl ¦https://storage.googleapis.com/git-repo-downloads/repo¦>¦/usr/local/repo/bin/repo :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦openjdk-7-jdk¦git-core¦gnupg¦flex¦bison¦gperf¦build-essential¦zip¦curl¦zlib1g-dev¦gcc-multilib¦g++-multilib¦libc6-dev-i386¦lib32ncurses5-dev¦x11proto-core-dev¦libx11-dev¦lib32z-dev¦libgl1-mesa-dev¦libxml2-utils¦xsltproc¦unzip¦ma... :: Dependencies_operation,()
+mkdir ¦-p¦/usr/local/repo/bin :: Filesystem_operation,()
+add-apt-repository ¦ppa:openjdk-r/ppa¦-y :: Dependencies_operation,()
+from,ubuntu:16.04
+chmod ¦+x¦/usr/local/repo/bin/repo :: Permissions_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+PATH:/usr/local/repo/bin:$PATH :: env_operation,()

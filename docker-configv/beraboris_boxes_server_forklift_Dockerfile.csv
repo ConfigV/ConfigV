@@ -1,0 +1,14 @@
+lib/var/src/app/lib/ :: copy_operation,()
+bundle ¦install¦--system¦--without¦dev :: Dependencies_operation,()
+/var/src/media :: volume_operation,()
+bin/var/src/app/bin/ :: copy_operation,()
+cmd,bundle¦exec¦bin/forklift
+Gemfile.lock/var/src/app/ :: copy_operation,()
+pkg/boxes-commons.gem/var/src/gems/ :: copy_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+BOXES_MEDIA_ROOT:/var/src/media :: env_operation,()
+gem ¦install¦--no-rdoc¦--no-ri¦/var/src/gems/boxes-commons.gem :: Dependencies_operation,()
+BOXES_AMQP_URL:amqp://boxes:boxes@rabbitmq :: env_operation,()
+from,ruby:2.1
+/var/src/app :: workdir_operation,()
+Gemfile/var/src/app/ :: copy_operation,()

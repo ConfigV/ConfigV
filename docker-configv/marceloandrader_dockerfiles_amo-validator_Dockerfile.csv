@@ -1,0 +1,20 @@
+apt-get ¦install¦-y¦python :: Dependencies_operation,()
+cmd,-h
+/amo-validator :: workdir_operation,()
+/amo-validator/amo-validator :: workdir_operation,()
+curl ¦http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-trunk/jsshell-linux-x86_64.zip¦-o¦jsshell-linux-x86_64.zip :: Dependencies_operation,()
+git ¦clone¦--recursive¦git://github.com/mozilla/amo-validator.git :: Dependencies_operation,()
+apt-get ¦install¦-y¦autoconf2.13 :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-pip :: Dependencies_operation,()
+mkdir ¦/amo-validator :: Filesystem_operation,()
+apt-get ¦install¦-y¦python-dev :: Dependencies_operation,()
+SPIDERMONKEY_INSTALLATION:/amo-validator :: env_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦install¦-y¦unzip :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+rm ¦jsshell-linux-x86_64.zip :: Filesystem_operation,()
+entrypoint,/usr/bin/sudo¦./addon-validator
+apt-get ¦update¦-y :: Dependencies_operation,()
+unzip ¦jsshell-linux-x86_64.zip :: Filesystem_operation,()
+from,ubuntu:14.04
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()

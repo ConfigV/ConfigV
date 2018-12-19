@@ -1,0 +1,14 @@
+expose,9000
+./app/ :: copy_operation,()
+https://github.com/jwilder/forego/releases/download/v0.16.1/forego/usr/local/bin/forego :: add_operation,()
+https://github.com/jwilder/docker-gen/releases/download/0.7.1/docker-gen-linux-amd64-0.7.1.tar.gz/tmp :: add_operation,()
+tar ¦-C¦/usr/local/bin¦-xvzf¦/tmp/docker-gen-linux-amd64-0.7.1.tar.gz :: Filesystem_operation,()
+cmd,forego¦start¦-r
+entrypoint,/app/docker-entrypoint.sh
+DOCKER_HOST:unix:///tmp/docker.sock :: env_operation,()
+DOCKER_GEN_VERSION:0.7.1 :: env_operation,()
+chmod ¦u+x¦/usr/local/bin/forego :: Permissions_operation,()
+from,haproxy:1.6
+touch ¦/var/run/haproxy.pid :: Filesystem_operation,()
+/app/ :: workdir_operation,()
+rm ¦/tmp/docker-gen-linux-amd64-0.7.1.tar.gz :: Filesystem_operation,()

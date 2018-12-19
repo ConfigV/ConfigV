@@ -1,0 +1,14 @@
+/var/lib/registry :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd/registry/config-dev.yml/etc/docker/registry/config.yml :: copy_operation,()
+from,golang:1.6
+cmd,serve¦/etc/docker/registry/config.yml
+$DISTRIBUTION_DIR :: workdir_operation,()
+apt-get ¦install¦-y¦apache2-utils :: Dependencies_operation,()
+.$DISTRIBUTION_DIR :: copy_operation,()
+make ¦PREFIX=/go¦clean¦binaries :: Build_Execute_operation,()
+entrypoint,registry
+DISTRIBUTION_DIR:/go/src/github.com/docker/distribution :: env_operation,()
+expose,5000
+DOCKER_BUILDTAGS:include_oss :: env_operation,()

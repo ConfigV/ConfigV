@@ -1,0 +1,9 @@
+run_as_diaspora.sh/tmp/run_as_diaspora.sh :: copy_operation,()
+rm ¦/tmp/run_as_diaspora.sh¦/tmp/database.yml¦/tmp/diaspora.yml :: Filesystem_operation,()
+from,debian@jessie
+su ¦-¦diaspora¦-c¦/tmp/run_as_diaspora.sh :: Other_operation,()
+diaspora.yml/tmp/diaspora.yml :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+adduser ¦--gecos¦""¦--disabled-login¦diaspora :: Permissions_operation,()
+database.yml/tmp/database.yml :: copy_operation,()
+apt-get ¦install¦-y¦build-essential¦libssl-dev¦libcurl4-openssl-dev¦libxml2-dev¦libxslt-dev¦imagemagick¦ghostscript¦git¦curl¦libpq-dev¦libmagickwand-dev¦redis-server¦nodejs¦gawk¦libreadline6-dev¦libyaml-dev¦libsqlite3-dev¦sqlite3¦autoconf¦libgdbm-d... :: Dependencies_operation,()

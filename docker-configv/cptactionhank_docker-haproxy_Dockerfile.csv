@@ -1,0 +1,7 @@
+/etc/haproxy :: volume_operation,()
+apt-get ¦-yqq¦install¦haproxy :: Dependencies_operation,()
+from,ubuntu@trusty
+cmd,haproxy¦-f¦/etc/haproxy/haproxy.cfg
+expose,80 443
+apt-get ¦update¦-qq :: Dependencies_operation,()
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv-keys 1C61B9CD && echo "deb http://ppa.launchpad.net/vbernat/haproxy-1.5/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/launchpad-vbernat-haproxy.list :: Filesystem_operation,()

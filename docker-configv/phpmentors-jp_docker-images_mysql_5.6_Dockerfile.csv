@@ -1,0 +1,8 @@
+cat ¦/tmp/configure-character-set-and-timezone.sh¦/entrypoint.sh¦|¦sed¦-e¦'s/^#!\\/bin\\/bash//'¦>¦/new-entrypoint.sh :: Filesystem_operation,()
+from,mysql:5.6
+cp ¦/new-entrypoint.sh¦/entrypoint.sh :: Filesystem_operation,()
+config/my.cnf/etc/mysql/my.cnf :: add_operation,()
+rm ¦/new-entrypoint.sh :: Filesystem_operation,()
+config/characterset.cnf/etc/mysql/conf.d/characterset.cnf :: add_operation,()
+bin/configure-character-set-and-timezone.sh/tmp/configure-character-set-and-timezone.sh :: add_operation,()
+sed ¦-i¦'1i¦#!/bin/bash'¦/new-entrypoint.sh :: Filesystem_operation,()

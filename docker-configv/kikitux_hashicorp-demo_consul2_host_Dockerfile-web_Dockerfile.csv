@@ -1,0 +1,8 @@
+nginx.conf/ :: add_operation,()
+from,kikitux/oracle6-consul:latest
+yum ¦localinstall¦-y¦http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+chkconfig ¦nginx¦on :: Other_operation,()
+expose,80
+yum ¦install¦-y¦nginx :: Dependencies_operation,()
+cp ¦nginx.conf¦/etc/ :: Filesystem_operation,()
+cmd,service¦sshd¦restart¦&&¦service¦nginx¦restart¦&&¦consul¦agent¦-data-dir=/var/tmp/consul/¦-join=$JOIN¦-dc=$DC

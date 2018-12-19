@@ -1,0 +1,16 @@
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+BaseHTTPServer.py/server/ :: add_operation,()
+yubiserve.pem/server/ :: add_operation,()
+from,alpine:3.1
+yubiserve.cfg/server/ :: add_operation,()
+expose,8000 8001
+yubiserve.png/server/ :: add_operation,()
+apk ¦add¦py-cffi¦py-cryptography¦py-mysqldb¦--update-cache¦--repository¦http://dl-3.alpinelinux.org/alpine/edge/testing/¦--allow-untrusted :: Dependencies_operation,()
+mkdir ¦/server :: Filesystem_operation,()
+yubikeys.sqlite/server/ :: add_operation,()
+apk ¦add¦--update¦py-crypto¦py-openssl¦python¦py-six :: Dependencies_operation,()
+yubiserve.py/server/ :: add_operation,()
+yubikeys.sqlite3/server/ :: add_operation,()
+cmd,./yubiserve.py
+/server :: workdir_operation,()
+dbconf.py/server/ :: add_operation,()

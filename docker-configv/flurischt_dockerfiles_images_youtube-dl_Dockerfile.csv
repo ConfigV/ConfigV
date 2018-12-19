@@ -1,0 +1,9 @@
+entrypoint,youtube-dl
+/tmp :: workdir_operation,()
+apk ¦add¦py-pip¦ca-certificates :: Dependencies_operation,()
+from,alpine@latest
+pip ¦install¦youtube-dl :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦update¦--repository¦$EDGE_REPOSITORY :: Dependencies_operation,()
+EDGE_REPOSITORY=http://dl-cdn.alpinelinux.org/alpine/edge/main: :: env_operation,()
+apk ¦add¦ffmpeg¦--repository¦$EDGE_REPOSITORY :: Dependencies_operation,()

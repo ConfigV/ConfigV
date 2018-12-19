@@ -1,0 +1,15 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+/opt/orientdb/backup :: volume_operation,()
+root :: user_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/orientechnologies/orientdb.git¦--single-branch¦--branch¦1.7.8 :: Dependencies_operation,()
+mv ¦/releases/orientdb-community-*¦/opt/orientdb :: Filesystem_operation,()
+expose,2480
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+cd  :: Filesystem_operation,()
+cd ¦orientdb :: Filesystem_operation,()
+apt-get ¦-y¦install¦supervisor :: Dependencies_operation,()
+cmd,/usr/bin/supervisord¦-c¦/etc/supervisor/conf.d/supervisord.conf
+apt-get ¦-y¦install¦openjdk-7-jdk¦git¦ant :: Dependencies_operation,()
+ant ¦clean¦installg :: Other_operation,()
+from,ubuntu

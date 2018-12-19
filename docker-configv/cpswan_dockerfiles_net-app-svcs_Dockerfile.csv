@@ -1,0 +1,22 @@
+./ssl.crt/etc/nginx/ssl/ :: add_operation,()
+./modsecurity.conf/etc/nginx/ :: add_operation,()
+cmd,/usr/bin/supervisord
+mv ¦/usr/sbin/nginx¦/usr/sbin/nginx.orig :: Filesystem_operation,()
+./supervisord.conf/etc/supervisor/conf.d/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,22 80 443 4433
+apt-get ¦install¦python-software-properties¦-y :: Dependencies_operation,()
+nginx/usr/sbin/ :: add_operation,()
+./haproxy.cfg/etc/haproxy/ :: add_operation,()
+from,ubuntu:12.04
+cd ¦/usr/src¦&&\\ :: Filesystem_operation,()
+add-apt-repository ¦ppa:vbernat/haproxy-1.5 :: Dependencies_operation,()
+./unicode.mapping/etc/nginx/ :: add_operation,()
+sed ¦-i¦s/main/'main¦universe'/¦/etc/apt/sources.list :: Filesystem_operation,()
+rm ¦-v¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+./nginx.conf/etc/nginx/ :: add_operation,()
+mkdir ¦-p¦/usr/share/nginx/logs/ :: Filesystem_operation,()
+chmod ¦+x¦/usr/sbin/nginx :: Permissions_operation,()
+apt-get ¦install¦-y¦nginx¦haproxy¦supervisor¦libapr1¦libaprutil1¦libcurl3¦liblua5.1¦wget¦vim¦rsyslog¦curl :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+./ssl.key/etc/nginx/ssl/ :: add_operation,()

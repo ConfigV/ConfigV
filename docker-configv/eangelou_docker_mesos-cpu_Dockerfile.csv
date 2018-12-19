@@ -1,0 +1,9 @@
+expose,11211
+from,ubuntu:16.04
+sed ¦-i¦s/PasswordAuthentication\\¦yes/PasswordAuthentication\\¦no/g¦/etc/ssh/sshd_config :: Filesystem_operation,()
+authorized_keys/authorized_keys :: copy_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦-y¦install¦openssh-server¦stress¦htop¦¦iotop¦¦bwm-ng¦passwd¦byobu¦psmisc¦memcached¦;¦apt-get¦clean¦all :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+cmd,stress¦-c¦2
+apt-get ¦-y¦update :: Dependencies_operation,()

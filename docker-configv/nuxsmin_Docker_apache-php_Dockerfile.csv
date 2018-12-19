@@ -1,0 +1,11 @@
+from,debian@jessie
+/var/www/html :: workdir_operation,()
+expose,80 443
+apt-get ¦-y¦install¦apache2¦libapache2-mod-php5¦php5¦php5-curl¦php5-mysqlnd :: Dependencies_operation,()
+entrypoint.sh/usr/local/sbin/ :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/usr/local/sbin/entrypoint.sh
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+chmod ¦755¦/usr/local/sbin/entrypoint.sh :: Permissions_operation,()

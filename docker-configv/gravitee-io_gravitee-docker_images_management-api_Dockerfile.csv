@@ -1,0 +1,13 @@
+/home/gravitee :: workdir_operation,()
+expose,8082
+cmd,/home/gravitee/bin/gravitee
+from,graviteeio/java:8u45
+rm ¦gravitee-management-standalone-1.0.0-SNAPSHOT.zip :: Filesystem_operation,()
+sed ¦-i¦s/"¦host:¦localhost"/"¦host:¦mongodb"/¦/home/gravitee/config/gravitee.yml :: Filesystem_operation,()
+wget ¦http://build.gravitee.io/jenkins/job/gravitee-management-rest-api/lastSuccessfulBuild/artifact/standalone/distribution/zip/target/gravitee-management-standalone-1.0.0-SNAPSHOT.zip :: Dependencies_operation,()
+groupadd ¦gravitee :: Permissions_operation,()
+echo ¦echo¦'root:gravitee' |chpasswd :: Filesystem_operation,()
+useradd ¦-s¦/bin/bash¦-m¦-g¦gravitee¦gravitee :: Permissions_operation,()
+unzip ¦gravitee-management-standalone-1.0.0-SNAPSHOT.zip :: Filesystem_operation,()
+echo ¦echo¦'gravitee:gravitee' |chpasswd :: Filesystem_operation,()
+/home/gravitee/log :: volume_operation,()

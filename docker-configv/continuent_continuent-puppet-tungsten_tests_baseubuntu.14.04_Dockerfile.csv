@@ -1,0 +1,9 @@
+mkdir ¦-p¦/etc/puppet/modules :: Filesystem_operation,()
+from,ubuntu:14.04
+puppet ¦module¦install¦continuent-tungsten :: Dependencies_operation,()
+git ¦clone¦$WORKGIT/etc/puppet/modules/tungsten :: Dependencies_operation,()
+apt-get ¦install¦-y¦puppet¦git¦tar¦openssh-server¦wget :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+rm ¦-rf¦/etc/puppet/modules/tungsten :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+puppet ¦module¦install¦puppetlabs-mysql :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+rm ¦citusdb-4.0.0-1.amd64.deb :: Filesystem_operation,()
+wget ¦http://packages.citusdata.com/readline-6.0/citusdb-4.0.0-1.amd64.deb :: Dependencies_operation,()
+apt-get ¦-y¦remove¦wget :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,xdevelsistemas/debian-env:latest
+cd ¦/root :: Filesystem_operation,()
+dpkg ¦--install¦citusdb-4.0.0-1.amd64.deb :: Dependencies_operation,()
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,5432
+apt-get ¦autoclean¦-y :: Dependencies_operation,()

@@ -1,0 +1,11 @@
+yum-config-manager ¦--add-repo¦http://rpms.famillecollet.com/enterprise/remi.repo :: Other_operation,()
+entrypoint,/usr/sbin/php-fpm¦--nodaemonize
+from,centos:6.0
+yum ¦-y¦--enablerepo=remi-php56¦--enablerepo=remi¦install¦php-fpm¦php-mbstring¦php-imap¦php-soap¦gd-last¦php-gd¦ImageMagick¦php-xml¦php-mysql¦php-process¦php-cli¦php-pear¦php-bcmath¦php-intl :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+www.conf/etc/php-fpm.d/www.conf :: add_operation,()
+sed ¦-i¦"s/;date.timezone¦=.*/date.timezone¦=¦UTC/"¦/etc/php.ini :: Filesystem_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦'cgi.fix_pathinfo = 0;' >> /etc/php.ini :: Filesystem_operation,()
+expose,9000
+yum ¦-y¦install¦wget¦yum-utils¦curl :: Dependencies_operation,()

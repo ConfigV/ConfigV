@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+wget ¦https://github.com/yiisoft/yii/releases/download/1.1.16/yii-1.1.16.bca042.tar.gz :: Dependencies_operation,()
+mv ¦yii-1.1/framework¦framework :: Filesystem_operation,()
+from,php:5.6
+a2enmod ¦rewrite :: Other_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+rm ¦-Rf¦yii-1.1 :: Filesystem_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()
+apt-get ¦install¦-y¦wget¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev :: Dependencies_operation,()
+rm ¦-f¦yii-1.1.16.bca042.tar.gz :: Filesystem_operation,()
+tar ¦-xf¦yii-1.1.16.bca042.tar.gz¦-C¦yii-1.1 :: Filesystem_operation,()
+docker-php-ext-install ¦iconv¦mcrypt¦pdo¦pdo_mysql¦exif :: Other_operation,()

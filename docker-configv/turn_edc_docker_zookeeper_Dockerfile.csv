@@ -1,0 +1,14 @@
+/opt/zookeeper :: workdir_operation,()
+entrypoint,/opt/zookeeper/bin/zkServer.sh
+opt/zookeeper/conf :: volume_operation,()
+mkdir ¦/tmp/zookeeper :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+mv ¦/opt/zookeeper-$VERSION¦/opt/zookeeper :: Filesystem_operation,()
+cmd,start-foreground
+curl ¦$MIRROR/zookeeper/zookeeper-$VERSION/zookeeper-$VERSION.tar.gz¦|¦tar¦xz :: Dependencies_operation,()
+cd ¦/opt :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cp ¦/opt/zookeeper/conf/zoo_sample.cfg¦/opt/zookeeper/conf/zoo.cfg :: Filesystem_operation,()
+/tmp/zookeeper :: volume_operation,()
+from,java:8.0
+expose,2181

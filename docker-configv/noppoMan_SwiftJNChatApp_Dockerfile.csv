@@ -1,0 +1,13 @@
+apt-get ¦install¦-y¦clang¦libicu-dev¦uuid-dev¦git¦libxml2-dev¦libxslt1-dev¦python-dev¦libcurl4-openssl-dev¦wget :: Dependencies_operation,()
+cmd,./.build/debug/SwiftJNChatApp
+tar ¦-zxf¦$SWIFTFILE.tar.gz :: Filesystem_operation,()
+git ¦clone¦https://github.com/noppoMan/SwiftJNChatApp.git :: Dependencies_operation,()
+SWIFTFILE="swift-$SWIFT_VERSION-RELEASE-ubuntu14.04": :: env_operation,()
+swift ¦--version :: Other_operation,()
+from,ubuntu:14.04
+PATH:$PWD/$SWIFTFILE/usr/bin:"${PATH}" :: env_operation,()
+cd ¦SwiftJNChatApp :: Filesystem_operation,()
+SWIFT_VERSION="3.0.1": :: env_operation,()
+wget ¦https://swift.org/builds/swift-$SWIFT_VERSION-release/ubuntu1404/swift-$SWIFT_VERSION-RELEASE/$SWIFTFILE.tar.gz :: Dependencies_operation,()
+swift ¦build :: Other_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()

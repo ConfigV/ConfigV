@@ -1,0 +1,11 @@
+apt-key ¦adv¦--recv-keys¦--keyserver¦hkp://keyserver.ubuntu.com:80¦0x5a16e7281be7a449 :: Dependencies_operation,()
+/srv :: workdir_operation,()
+apt-get ¦install¦-y¦hhvm :: Dependencies_operation,()
+echo ¦echo¦deb http://dl.hhvm.com/debian wheezy main | tee /etc/apt/sources.list.d/hhvm.list :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+entrypoint,hhvm¦/usr/local/bin/composer
+from,debian@wheezy
+apt-get ¦install¦-y¦-qq¦git¦curl¦wget¦apt-utils :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

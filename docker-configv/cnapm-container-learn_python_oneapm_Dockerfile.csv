@@ -1,0 +1,12 @@
+cmd,/setenv.sh
+from,python:2.7
+expose,8000
+BLUEWARE_CONFIG_FILE:/OneAPM/blueware.ini :: env_operation,()
+setenv.sh/setenv.sh :: add_operation,()
+ONEAPM_HOME:/OneAPM :: env_operation,()
+pip ¦install¦-i¦http://pypi.oneapm.com/simple¦--upgrade¦blueware¦--trusted-host¦pypi.oneapm.com :: Dependencies_operation,()
+chmod ¦+x¦/setenv.sh :: Permissions_operation,()
+example/*/OneAPM/ :: add_operation,()
+ONEAPM_LICENSE_KEY:<%licenseKey%> :: env_operation,()
+ONEAPM_APP_NAME:ApplicationName :: env_operation,()
+mkdir ¦${ONEAPM_HOME} :: Filesystem_operation,()

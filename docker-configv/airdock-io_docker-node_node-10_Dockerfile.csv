@@ -1,0 +1,9 @@
+/root/post-install  :: Other_operation,()
+from,airdock/base:latest
+expose,80 443
+cmd,--version
+curl ¦-sL¦https://deb.nodesource.com/setup_0.10¦|¦bash¦- :: Dependencies_operation,()
+/srv/node :: workdir_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+entrypoint,node
+/srv/node :: volume_operation,()

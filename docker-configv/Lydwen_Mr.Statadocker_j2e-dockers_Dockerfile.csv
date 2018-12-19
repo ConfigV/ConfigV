@@ -1,0 +1,17 @@
+for ¦key¦in¦¦05AB33110949707C93A279E3D3EFE6B686867BA6¦¦07E48665A34DCAFAE522E5E6266191C37C037D42¦¦47309207D818FFD8DCD3F83F1931D684307A10A5¦¦541FBE7D8F78B25E055DDEE13C370389288584E7¦¦61B832AC2F1C5A90F0F9B00A1C506407564C17A3¦¦713DA88BE50911535FE71... :: Other_operation,()
+CATALINA_HOME:/usr/local/tomcat :: env_operation,()
+TOMCAT_MAJOR:7 :: env_operation,()
+set ¦-x¦\\ :: Environment_operation,()
+mkdir ¦-p¦"$CATALINA_HOME" :: Filesystem_operation,()
+expose,8080
+$CATALINA_HOME :: workdir_operation,()
+echo ¦set¦-e && nativeLines="$(catalina.sh configtest 2>&1)" && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" && nativeLines="$(echo "$nativeLines" | sort -u)" && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apach... :: Filesystem_operation,()
+set ¦-ex :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+TOMCAT_VERSION:7.0.69 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦libapr1 :: Dependencies_operation,()
+from,java:8.0
+cmd,catalina.sh¦run
+PATH:$CATALINA_HOME/bin:$PATH :: env_operation,()
+TOMCAT_TGZ_URL:https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz :: env_operation,()

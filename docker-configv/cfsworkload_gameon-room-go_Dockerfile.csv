@@ -1,0 +1,11 @@
+./*.go$GOPATH/src/gameon-room-go/ :: copy_operation,()
+./container-startup.sh/usr/bin/container-startup.sh :: copy_operation,()
+cd ¦$GOPATH/src/gameon-room-go :: Filesystem_operation,()
+entrypoint,/bin/bash¦/usr/bin/container-startup.sh
+go ¦install :: Build_Execute_operation,()
+$GOPATH/gameon-room-go/src :: workdir_operation,()
+cd ¦$GOPATH :: Filesystem_operation,()
+from,golang:1.5
+go ¦get¦github.com/gorilla/websocket :: Build_Execute_operation,()
+expose,3000
+mkdir ¦-p¦$GOPATH/src/gameon-room-go :: Filesystem_operation,()

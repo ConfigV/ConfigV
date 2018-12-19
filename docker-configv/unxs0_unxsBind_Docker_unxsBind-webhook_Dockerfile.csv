@@ -1,0 +1,14 @@
+yum ¦-y¦install¦httpd;¦systemctl¦enable¦httpd.service :: Dependencies_operation,()
+sed ¦-i¦-e¦'s/^Listen¦80/#Listen¦80/g'¦/etc/httpd/conf/httpd.conf :: Filesystem_operation,()
+systemctl ¦enable¦httpd.service :: Other_operation,()
+mkdir ¦-p¦/var/www/unxs/logs :: Filesystem_operation,()
+mkdir ¦/home/unxs :: Filesystem_operation,()
+yum ¦-y¦install¦git¦gcc¦make¦mysql-devel¦openssl-devel :: Dependencies_operation,()
+container:docker :: env_operation,()
+yum ¦-y¦install¦bind-utils :: Dependencies_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+webhook.httpd.conf/etc/httpd/conf.d/ :: copy_operation,()
+from,centos:7.0
+mkdir ¦-p¦/var/www/unxs/html :: Filesystem_operation,()
+cmd,/usr/sbin/init
+/sys/fs/cgroup :: volume_operation,()

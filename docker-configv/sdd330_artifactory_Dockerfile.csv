@@ -1,0 +1,10 @@
+unzip ¦artifactory.zip :: Filesystem_operation,()
+expose,8081
+http://dl.bintray.com/content/jfrog/artifactory/artifactory-${ARTIFACTORY_VERSION}.zip?directartifactory.zip :: add_operation,()
+ARTIFACTORY_VERSION:3.7.0 :: env_operation,()
+from,sdd330/maven-oraclejdk
+ARTIFACTORY_HOME:/artifactory-${ARTIFACTORY_VERSION} :: env_operation,()
+/artifactory-${ARTIFACTORY_VERSION}/etc :: volume_operation,()
+/artifactory-${ARTIFACTORY_VERSION} :: workdir_operation,()
+sed ¦-i¦-e¦'s/Xmx2g/Xmx512m/g'¦artifactory-*/bin/artifactory.default :: Filesystem_operation,()
+entrypoint,/artifactory-${ARTIFACTORY_VERSION}/bin/artifactory.sh

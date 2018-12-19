@@ -1,0 +1,15 @@
+sed ¦-i¦'s|listen.*=.*|listen=127.0.0.1:9000|'¦/etc/php5/fpm/pool.d/www.conf;\\ :: Filesystem_operation,()
+/etc/init.d/mysql ¦start;\\ :: Other_operation,()
+from,ubuntu:13.1
+shell/run_all_servers.sh/ :: add_operation,()
+cmd,sh¦/run_all_servers.sh
+nginx/default/etc/nginx/sites-available/default :: add_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive;\\ :: Environment_operation,()
+NGINXCONFFILE=/etc/nginx/nginx.conf;\\  :: Other_operation,()
+mkdir ¦-p¦/var/www/wordpress;\\ :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦keys.gnupg.net¦--recv-keys¦1C4CBDCDCD2EFD2A;\\ :: Dependencies_operation,()
+curl ¦-L¦https://raw.github.com/wp-cli/builds/gh-pages/phar/wp-cli.phar¦>¦wp-cli.phar;\\ :: Dependencies_operation,()
+cat ¦/proc/mounts¦>¦/etc/mtab :: Filesystem_operation,()
+mkdir ¦/var/run/sshd;\\ :: Filesystem_operation,()
+expose,80 22
+echo ¦echo¦"deb mirror://mirrors.ubuntu.com/mirrors.txt saucy main restricted universe multiverse" > /etc/apt/sources.list;\\ :: Filesystem_operation,()

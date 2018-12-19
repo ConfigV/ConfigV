@@ -1,0 +1,10 @@
+ANDROID_HOME:/usr/local/android-sdk-linux :: env_operation,()
+ANDROID_SDK_COMPONENTS:"platform-tools,build-tools-25.0.2,android-25,extra-android-m2repository,extra-google-m2repository" :: env_operation,()
+from,accenture/adop-jenkins-slave:0.1.4
+yum ¦-y¦install¦tar¦curl :: Dependencies_operation,()
+curl ¦-L¦"${ANDROID_SDK_URL}"¦|¦tar¦--no-same-owner¦-xz¦-C¦/usr/local :: Dependencies_operation,()
+ANDROID_SDK:/usr/local/android-sdk-linux :: env_operation,()
+TERM:dumb :: env_operation,()
+ANDROID_SDK_URL:https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz :: env_operation,()
+echo ¦echo¦y | android update sdk --no-ui --all --filter "$ANDROID_SDK_COMPONENTS" :: Filesystem_operation,()
+PATH:${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:$PATH :: env_operation,()

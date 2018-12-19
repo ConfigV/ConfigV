@@ -1,0 +1,10 @@
+cmd,/usr/bin/php¦-S¦0.0.0.0:8000¦-t¦/var/www/html
+curl ¦-L¦http://downloads.sourceforge.net/project/phpmyadmin/phpMyAdmin/${PHPMYADMIN_VERSION}/phpMyAdmin-${PHPMYADMIN_VERSION}-all-languages.tar.bz2¦|¦tar¦-C¦/var/www/html¦--strip-components¦1¦-jxf¦- :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+www-data :: user_operation,()
+from,debian@jessie
+mkdir ¦-p¦/var/www/html :: Filesystem_operation,()
+PHPMYADMIN_VERSION:4.4.8 :: env_operation,()
+apt-get ¦install¦-y¦curl¦bzip2¦php5-cli¦php5-intl¦php-apc¦php5-gd¦php5-mysqlnd¦php5-mcrypt¦php-http-request2 :: Dependencies_operation,()
+expose,8000
+config.inc.php/var/www/html/config.inc.php :: copy_operation,()

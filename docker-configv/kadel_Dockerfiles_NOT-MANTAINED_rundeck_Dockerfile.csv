@@ -1,0 +1,11 @@
+apt-get ¦-y¦install¦wget¦default-jre :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+run.sh/run.sh :: add_operation,()
+wget ¦http://dl.bintray.com/rundeck/rundeck-maven/rundeck-launcher-$RUNDECK_VERSION.jar :: Dependencies_operation,()
+RUNDECK_VERSION:2.3.1 :: env_operation,()
+mkdir ¦$RDECK_BASE :: Filesystem_operation,()
+RDECK_BASE:/opt/rundeck :: env_operation,()
+expose,4440
+entrypoint,/run.sh
+from,debian@wheezy
+/opt/rundeck :: workdir_operation,()

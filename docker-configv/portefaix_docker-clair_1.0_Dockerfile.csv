@@ -1,0 +1,20 @@
+CLAIR_VERSION:v0.0.1 :: env_operation,()
+from,portefaix/base:3.2
+mkdir ¦/db :: Filesystem_operation,()
+git ¦clone¦https://github.com/coreos/clair.git¦-b¦${CLAIR_VERSION} :: Dependencies_operation,()
+cp ¦/go/bin/clair¦/ :: Filesystem_operation,()
+mv ¦src¦vendor :: Filesystem_operation,()
+mkdir ¦src :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/github.com/coreos :: Filesystem_operation,()
+rm ¦-rf¦/go¦/tmp/*¦/var/cache/apk/*¦/root/.n* :: Filesystem_operation,()
+cmd,/clair
+GO15VENDOREXPERIMENT:1 :: env_operation,()
+GOPATH=/go:/go/src/github.com/coreos/clair/vendor ¦go¦install¦-v :: Other_operation,()
+expose,6060 6061
+apk ¦add¦--update¦build-base¦go¦git¦mercurial¦bzr :: Dependencies_operation,()
+cd ¦/go/src/github.com/coreos :: Filesystem_operation,()
+/db :: volume_operation,()
+apk ¦del¦--purge¦build-base¦nodejs¦go¦git¦mercurial :: Dependencies_operation,()
+mv ¦vendor/*¦src/ :: Filesystem_operation,()
+GOPATH:/go :: env_operation,()
+cd ¦clair :: Filesystem_operation,()

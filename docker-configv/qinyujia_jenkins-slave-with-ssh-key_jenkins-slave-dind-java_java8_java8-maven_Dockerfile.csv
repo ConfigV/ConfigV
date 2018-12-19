@@ -1,0 +1,8 @@
+ln ¦-s¦/usr/share/maven/bin/mvn¦/usr/bin/mvn :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+MAVEN_HOME:/usr/share/maven :: env_operation,()
+from,registry.aliyuncs.com/ringtail/jenkins-dind-slave-java:0.1
+MAVEN_VERSION:3.3.9 :: env_operation,()
+/root/.m2 :: volume_operation,()
+mkdir ¦-p¦/usr/share/maven :: Filesystem_operation,()
+curl ¦-fsSL¦http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz¦|¦tar¦-xzC¦/usr/share/maven¦--strip-components=1 :: Dependencies_operation,()

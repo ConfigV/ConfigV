@@ -1,0 +1,13 @@
+rm ¦-rf¦/opt/tomcat/webapps/* :: Filesystem_operation,()
+mv ¦/opt/apache-tomcat-${TOMCAT_VERSION}¦/opt/tomcat :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦--quiet¦--no-cookies¦http://archive.apache.org/dist/tomcat/tomcat-8/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz¦-O¦/tmp/catalina.tar.gz :: Dependencies_operation,()
+CATALINA_HOME:/opt/tomcat :: env_operation,()
+cmd,/opt/tomcat/bin/catalina.sh¦start¦&&¦tail¦-f¦/opt/tomcat/logs/catalina.out
+from,damm/java8
+tar ¦xzf¦/tmp/catalina.tar.gz¦-C¦/opt :: Filesystem_operation,()
+rm ¦/tmp/catalina.tar.gz :: Filesystem_operation,()
+ROOT.war/opt/tomcat/webapps/ :: add_operation,()
+TOMCAT_VERSION:8.0.21 :: env_operation,()
+PATH:$PATH:$CATALINA_HOME/bin :: env_operation,()
+expose,8080

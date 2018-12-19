@@ -1,0 +1,17 @@
+mkdir ¦flash_player :: Filesystem_operation,()
+wget ¦http://fpdownload.macromedia.com/get/flashplayer/pdc/11.2.202.635/install_flash_player_11_linux.x86_64.tar.gz :: Dependencies_operation,()
+vnc.sh/opt/ :: copy_operation,()
+expose,5901
+mkdir ¦-p¦~/.mozilla/plugins/ :: Filesystem_operation,()
+VNC_PW=xiaosong: :: env_operation,()
+from,centos:6.0
+rm ¦-rf¦flash_player¦install_flash_player_11_linux.x86_64.tar.gz :: Filesystem_operation,()
+tar ¦zxvf¦install_flash_player_11_linux.x86_64.tar.gz¦-C¦flash_player :: Filesystem_operation,()
+cp ¦flash_player/libflashplayer.so¦~/.mozilla/plugins/ :: Filesystem_operation,()
+mkdir ¦/root/.vnc/ :: Filesystem_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦-y¦groupinstall¦xfce :: Dependencies_operation,()
+entrypoint,/opt/vnc.sh
+xstartup/root/.vnc/ :: copy_operation,()
+yum ¦-y¦install¦wget¦vim¦tigervnc-server¦epel-release¦firefox :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

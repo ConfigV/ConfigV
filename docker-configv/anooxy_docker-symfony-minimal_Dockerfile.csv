@@ -1,0 +1,10 @@
+cmd,-D¦FOREGROUND
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php;\\ :: Dependencies_operation,()
+vhost.conf/etc/httpd/conf.d/vhost.conf :: copy_operation,()
+from,centos:7.0
+pecl ¦install¦apc¦;\\ :: Dependencies_operation,()
+sed ¦-i¦"s/;date.timezone¦=/date.timezone¦=¦UTC/"¦/etc/php.ini :: Filesystem_operation,()
+yum ¦install¦-y¦httpd¦php¦php-cli¦php-intl¦php-pdo¦php-xml¦php-mbstring¦php-pear¦php-devel¦httpd-devel¦pcre-devel¦gcc¦make¦git :: Dependencies_operation,()
+/var/www/project :: workdir_operation,()
+entrypoint,/usr/sbin/httpd
+expose,80

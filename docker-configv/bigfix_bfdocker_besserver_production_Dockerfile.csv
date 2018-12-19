@@ -1,0 +1,11 @@
+./bes-install*.rsp/ :: copy_operation,()
+./license/license.*/license/ :: copy_operation,()
+from,ibmcom/db2express-c
+BES_VERSION=9.2.6.94: :: env_operation,()
+chmod ¦u+x¦/bes-install.sh¦/bes-start.sh :: Permissions_operation,()
+./bes-start.sh/ :: copy_operation,()
+./bes-install.sh/ :: copy_operation,()
+yum ¦-y¦install¦libpng12.x86_64 :: Dependencies_operation,()
+mkdir ¦/license :: Filesystem_operation,()
+echo ¦echo¦$BES_VERSION | sed 's/\\([0-9]*\\)\\(\\.\\)\\([0-9]*\\)\\(.*\\)/http:\\/\\/software.bigfix.com\\/download\\/bes\\/\\1\\3\\/ServerInstaller_\\1\\2\\3\\4-rhe6.x86_64.tgz/g' | xargs curl > /ServerInstaller.tgz :: Filesystem_operation,()
+tar ¦-xzvf¦/ServerInstaller.tgz :: Filesystem_operation,()

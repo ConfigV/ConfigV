@@ -1,0 +1,10 @@
+entrypoint,Xvfb¦:1¦-screen¦0¦1024x768x24¦&¦cd¦$HOME¦&&¦DISPLAY=:1¦./eclipse/eclimd¦-b¦&&¦cd¦$HOME/src¦&&¦vim
+curl ¦http://ftp.fau.de/eclipse/technology/epp/downloads/release/mars/2/eclipse-java-mars-2-linux-gtk-x86_64.tar.gz¦|¦tar¦zx¦--directory¦$HOME :: Dependencies_operation,()
+rm ¦eclim_2.5.0.jar :: Filesystem_operation,()
+from,env/vim/base
+curl ¦-O¦http://heanet.dl.sourceforge.net/project/eclim/eclim/2.5.0/eclim_2.5.0.jar :: Dependencies_operation,()
+JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8: :: env_operation,()
+cd ¦$HOME :: Filesystem_operation,()
+sudo ¦apt-get¦install¦-y¦openjdk-8-jdk¦ant¦maven¦xvfb¦build-essential :: Other_operation,()
+java ¦-Dvim.files=$HOME/.vim¦-Declipse.home=$HOME/eclipse¦-jar¦eclim_2.5.0.jar¦install :: Other_operation,()
+home$HOME :: add_operation,()

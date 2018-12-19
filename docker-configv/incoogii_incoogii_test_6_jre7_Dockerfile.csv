@@ -1,0 +1,21 @@
+CATALINA_HOME:/usr/local/tomcat :: env_operation,()
+GPG_KEYS:05AB33110949707C93A279E3D3EFE6B686867BA6 :: env_operation,()
+TOMCAT_MAJOR:6 :: env_operation,()
+from,openjdk:7.0
+LD_LIBRARY_PATH:${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR :: env_operation,()
+set ¦-x¦\\ :: Environment_operation,()
+TOMCAT_ASC_URL:https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz.asc :: env_operation,()
+set ¦-ex;¦for¦key¦in¦$GPG_KEYS;¦do¦¦gpg¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦"$key";¦done :: Environment_operation,()
+mkdir ¦-p¦"$CATALINA_HOME" :: Filesystem_operation,()
+expose,8080
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+TOMCAT_TGZ_URL:https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz :: env_operation,()
+$CATALINA_HOME :: workdir_operation,()
+OPENSSL_VERSION:1.1.0e-1 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+TOMCAT_VERSION:6.0.51 :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦libapr1¦¦openssl="$OPENSSL_VERSION" :: Dependencies_operation,()
+TOMCAT_NATIVE_LIBDIR:$CATALINA_HOME/native-jni-lib :: env_operation,()
+echo ¦{¦ echo 'deb http://deb.debian.org/debian stretch main'; } > /etc/apt/sources.list.d/stretch.list && {  echo 'Package: *';  echo 'Pin: release n=stretch';  echo 'Pin-Priority: -10';  echo;  echo 'Package: openssl libssl*';  echo "Pin: vers... :: Filesystem_operation,()
+cmd,catalina.sh¦run
+PATH:$CATALINA_HOME/bin:$PATH :: env_operation,()

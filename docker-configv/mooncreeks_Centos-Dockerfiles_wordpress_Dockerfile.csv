@@ -1,0 +1,20 @@
+yum ¦-y¦install¦mariadb¦mariadb-server¦mariadb-client¦nginx¦php-fpm¦php-cli¦php-mysql¦php-gd¦php-imap¦php-ldap¦php-odbc¦php-pear¦php-xml¦php-xmlrpc¦php-magickwand¦php-magpierss¦php-mbstring¦php-mcrypt¦php-mssql¦php-shout¦php-snmp¦php-soap¦php-t... :: Dependencies_operation,()
+cmd,/bin/bash¦/start.sh
+tar ¦xvzf¦/wordpress.tar.gz :: Filesystem_operation,()
+mv ¦/wordpress/*¦/usr/share/nginx/html/. :: Filesystem_operation,()
+/usr/bin/easy_install ¦supervisor :: Other_operation,()
+./nginx-site.conf/nginx.conf :: add_operation,()
+mv ¦/nginx.conf¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+expose,22
+echo ¦echo¦%sudo ALL=NOPASSWD: ALL >> /etc/sudoers :: Filesystem_operation,()
+yum ¦-y¦install¦epel-release;¦yum¦clean¦all :: Dependencies_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+./start.sh/start.sh :: add_operation,()
+rm ¦-rf¦/usr/share/nginx/html/* :: Filesystem_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()
+./supervisord.conf/etc/supervisord.conf :: add_operation,()
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+http://wordpress.org/latest.tar.gz/wordpress.tar.gz :: add_operation,()
+from,centos:7.0
+/usr/bin/easy_install ¦supervisor-stdout :: Other_operation,()
+chown ¦-R¦apache:apache¦/usr/share/nginx/ :: Permissions_operation,()

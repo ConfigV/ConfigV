@@ -1,0 +1,14 @@
+/usr/share/dependency-check/data :: volume_operation,()
+wget ¦http://dl.bintray.com/jeremy-long/owasp/dependency-check-1.4.3-release.zip :: Dependencies_operation,()
+entrypoint,/usr/share/dependency-check/bin/dependency-check.sh¦--scan¦/src
+unzip ¦dependency-check-1.4.3-release.zip :: Filesystem_operation,()
+/report" :: volume_operation,()
+from,java:8.0
+mv ¦dependency-check¦/usr/share/ :: Filesystem_operation,()
+useradd ¦-ms¦/bin/bash¦dockeruser :: Permissions_operation,()
+"/src :: volume_operation,()
+chown ¦-R¦dockeruser:dockeruser¦/usr/share/dependency-check :: Permissions_operation,()
+mkdir ¦/report :: Filesystem_operation,()
+chown ¦-R¦dockeruser:dockeruser¦/report :: Permissions_operation,()
+dockeruser :: user_operation,()
+/report :: workdir_operation,()

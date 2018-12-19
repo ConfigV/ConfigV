@@ -1,0 +1,12 @@
+unzip ¦-d¦/usr/local/src¦/tmp/fastqc.zip :: Filesystem_operation,()
+apt-get ¦-y¦install¦unzip¦openjdk-8-jre¦perl :: Dependencies_operation,()
+http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip/tmp/fastqc.zip :: add_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,ubuntu
+rm ¦/tmp/fastqc.zip :: Filesystem_operation,()
+set ¦-e :: Environment_operation,()
+chmod ¦+x¦/usr/local/src/FastQC/fastqc :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,fastqc
+ln ¦-s¦/usr/local/src/FastQC/fastqc¦/usr/local/bin/fastqc :: Filesystem_operation,()

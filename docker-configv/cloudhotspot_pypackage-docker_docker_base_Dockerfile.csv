@@ -1,0 +1,8 @@
+apt-get ¦install¦-qyy¦-o¦APT::Install-Recommends=false¦-o¦APT::Install-Suggests=false¦python-virtualenv¦python¦libffi6¦openssl¦libpython2.7 :: Dependencies_operation,()
+virtualenv ¦/appenv :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,entrypoint.sh
+entrypoint.sh/usr/local/bin/entrypoint.sh :: add_operation,()
+sed ¦-i¦"s/http:\\/\\/archive./http:\\/\\/nz.archive./g"¦/etc/apt/sources.list :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/entrypoint.sh :: Permissions_operation,()
+from,ubuntu@trusty

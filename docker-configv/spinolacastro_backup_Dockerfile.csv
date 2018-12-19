@@ -1,0 +1,15 @@
+from,centos:7.0
+yum ¦install¦-y¦--setopt=tsflags=nodocs¦$INSTALL_PKGS :: Dependencies_operation,()
+mkdir ¦-p¦${HOME} :: Filesystem_operation,()
+cmd,run
+yum ¦install¦-y¦epel-release¦centos-release-scl :: Dependencies_operation,()
+entrypoint,container-entrypoint
+root/ :: add_operation,()
+chmod ¦777¦${HOME} :: Permissions_operation,()
+CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts:ENABLED_COLLECTIONS="rh-postgresql94 :: env_operation,()
+HOME=/data: :: env_operation,()
+1000 :: user_operation,()
+${HOME} :: volume_operation,()
+yum ¦clean¦all¦-y :: Dependencies_operation,()
+npm ¦install¦-g¦azure-cli :: Dependencies_operation,()
+INSTALL_PKGS="nodejs ¦npm¦mariadb¦rh-postgresql94¦rh-mongodb26-mongodb¦telnet" :: Other_operation,()

@@ -1,0 +1,16 @@
+gem ¦install¦--no-ri¦--no-rdoc¦bundler :: Dependencies_operation,()
+from,udienz/buildpack:centos7
+/tmp :: workdir_operation,()
+gem ¦update¦--system :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦"Defaults:jenkins !requiretty" >> /etc/sudoers && echo 'jenkins ALL=NOPASSWD: ALL' >> /etc/sudoers.d/jenkins && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config :: Filesystem_operation,()
+rm ¦-rf¦/tmp/ruby-install* :: Filesystem_operation,()
+ruby-install ¦--system¦--latest¦ruby :: Other_operation,()
+yum ¦install¦--nogpg¦-y¦openssh-server¦git¦unzip¦lsof¦java-1.7.0-openjdk-headless¦sudo¦epel-release¦subversion¦bzrtools¦mercurial¦cvs¦perl¦rubygems¦ruby¦ruby-devel¦rubygems :: Dependencies_operation,()
+expose,22
+cd ¦ruby-install-0.6.0 :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+echo ¦sed¦-i 's|session required pam_loginuid.so|session optional pam_loginuid.so|g' /etc/pam.d/sshd && mkdir -p /var/run/sshd && useradd -u 1000 -m --home-dir /home/jenkins -s /bin/bash jenkins && echo "jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+wget ¦-O¦ruby-install-0.6.0.tar.gz¦https://github.com/postmodern/ruby-install/archive/v0.6.0.tar.gz :: Dependencies_operation,()
+tar ¦xzf¦/tmp/ruby-install-0.6.0.tar.gz :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

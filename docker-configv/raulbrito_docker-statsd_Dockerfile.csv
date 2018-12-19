@@ -1,0 +1,16 @@
+cmd,/usr/bin/start-statsd.sh
+expose,5000 8125 2003 2004 7002
+assets/start-statsd.sh/usr/bin/start-statsd.sh :: add_operation,()
+apt-get ¦-y¦-qq¦install¦nodejs :: Dependencies_operation,()
+git ¦clone¦git://github.com/etsy/statsd.git¦/opt/statsd :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦install¦git :: Dependencies_operation,()
+assets/supervisor-statsd.conf/etc/supervisor/conf.d/graphite.conf :: add_operation,()
+apt-get ¦-y¦-qq¦install¦pkg-config¦make¦g++ :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦install¦python-software-properties :: Dependencies_operation,()
+assets/localConfig.js/opt/statsd/localConfig.js :: add_operation,()
+apt-get ¦-y¦-qq¦update :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦install¦screen :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/start-statsd.sh :: Permissions_operation,()
+apt-get ¦-y¦-qq¦install¦supervisor :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-add-repository ¦ppa:chris-lea/node.js :: Other_operation,()

@@ -1,0 +1,22 @@
+CONTENT_HOME:$PAPER_HOME/content :: env_operation,()
+$CONTENT_HOME :: volume_operation,()
+echo ¦curl¦-s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && echo 'deb https://deb.nodesource.com/node012 trusty main' > /etc/apt/sources.list.d/nodesource.list && echo 'deb-src https://deb.nodesource.com/node012 trusty ... :: Filesystem_operation,()
+$APPLICATION_HOME :: workdir_operation,()
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+paper-web.sh/etc/service/paper-web/run :: add_operation,()
+useradd ¦-d¦"$PAPER_HOME"¦-u¦1000¦-m¦-s¦/bin/bash¦paper :: Permissions_operation,()
+APPLICATION_HOME:$PAPER_HOME/pomegranate :: env_operation,()
+npm ¦-v :: Dependencies_operation,()
+cmd,/sbin/my_init
+mkdir ¦$APPLICATION_HOME :: Filesystem_operation,()
+node ¦-v :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦-y¦install¦build-essential¦python¦git¦curl :: Dependencies_operation,()
+npm ¦install¦pomegranate :: Dependencies_operation,()
+PAPER_HOME:/var/paper :: env_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chown ¦-R¦paper¦"$PAPER_HOME" :: Permissions_operation,()
+from,phusion/baseimage:0.9.16
+mkdir ¦/etc/service/paper-web :: Filesystem_operation,()

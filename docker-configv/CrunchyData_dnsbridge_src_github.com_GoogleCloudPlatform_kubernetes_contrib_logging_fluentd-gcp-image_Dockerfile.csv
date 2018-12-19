@@ -1,0 +1,11 @@
+from,ubuntu:14.04
+gsutil ¦cp¦gs://signals-agents/out_google_cloud.rb¦/etc/td-agent/plugin :: Other_operation,()
+entrypoint,/usr/sbin/td-agent
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦-q¦libcurl4-openssl-dev¦make :: Dependencies_operation,()
+sed ¦-i~¦-e¦'s/¦--use-v1-config//'¦/etc/init.d/td-agent :: Filesystem_operation,()
+ulimit ¦-n¦65536 :: Other_operation,()
+td-agent.conf/etc/td-agent/td-agent.conf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+/usr/bin/curl ¦-L¦http://toolbelt.treasuredata.com/sh/install-ubuntu-trusty-td-agent2.sh¦|¦sh :: Other_operation,()

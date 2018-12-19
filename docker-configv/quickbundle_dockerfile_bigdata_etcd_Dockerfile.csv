@@ -1,0 +1,10 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qy¦build-essential¦curl¦git :: Other_operation,()
+cd ¦/usr/local/go/src :: Filesystem_operation,()
+./build  :: Other_operation,()
+git ¦clone¦https://github.com/coreos/etcd¦/opt/etcd :: Dependencies_operation,()
+curl ¦-s¦https://storage.googleapis.com/golang/go1.2.2.src.tar.gz¦|¦tar¦-v¦-C¦/usr/local¦-xz :: Dependencies_operation,()
+cd ¦/opt/etcd :: Filesystem_operation,()
+from,mycrypt/debian
+./make.bash ¦--no-clean¦2>&1 :: Other_operation,()
+PATH:/usr/local/go/bin:$PATH :: env_operation,()
+expose,4001 7001

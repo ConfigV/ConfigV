@@ -1,0 +1,20 @@
+mv ¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/¦/srv/var/phantomjs :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+wget ¦-q¦--no-check-certificate¦-O¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2¦https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+mkdir ¦-p¦/srv/var :: Filesystem_operation,()
+entrypoint,"phantomjs"
+apt-get ¦clean¦all :: Dependencies_operation,()
+PHANTOMJS_VERSION:2.0.0 :: env_operation,()
+CASPERJS_VERSION_T:master :: env_operation,()
+from,ubuntu:12.04
+cmd,--help
+ln ¦-s¦/srv/var/casperjs/bin/casperjs¦/usr/bin/casperjs :: Filesystem_operation,()
+git ¦checkout¦$CASPERJS_VERSION_T :: Dependencies_operation,()
+rm ¦-f¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 :: Filesystem_operation,()
+git ¦clone¦https://github.com/n1k0/casperjs.git¦/srv/var/casperjs :: Dependencies_operation,()
+ln ¦-s¦/srv/var/phantomjs/bin/phantomjs¦/usr/bin/phantomjs :: Filesystem_operation,()
+apt-get ¦install¦-y¦vim¦git¦wget¦libfreetype6¦libfontconfig¦bzip2 :: Dependencies_operation,()
+tar ¦-xjf¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2¦-C¦/tmp :: Filesystem_operation,()
+cd ¦/srv/var/casperjs :: Filesystem_operation,()

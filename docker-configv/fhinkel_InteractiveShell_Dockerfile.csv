@@ -1,0 +1,21 @@
+expose,22
+chmod ¦755¦/home/m2user/.ssh :: Permissions_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+apt-get ¦install¦-y¦macaulay2 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦no/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-key ¦add¦Macaulay2-key :: Dependencies_operation,()
+id_rsa.pub/home/m2user/.ssh/authorized_keys :: copy_operation,()
+chmod ¦644¦/home/m2user/.ssh/authorized_keys :: Permissions_operation,()
+cmd,/usr/sbin/sshd¦-D
+mkdir ¦/home/m2user/.ssh :: Filesystem_operation,()
+apt-get ¦install¦-y¦openssh-server¦wget :: Dependencies_operation,()
+echo ¦echo¦"deb http://www.math.uiuc.edu/Macaulay2/Repositories/Ubuntu trusty main" >> /etc/apt/sources.list :: Filesystem_operation,()
+NOTVISIBLE:"in :: env_operation,()
+chown ¦-R¦m2user:m2user¦/home/m2user/.ssh :: Permissions_operation,()
+from,ubuntu:14.04
+wget ¦http://www.math.uiuc.edu/Macaulay2/PublicKeys/Macaulay2-key :: Dependencies_operation,()
+useradd ¦-m¦-d¦/home/m2user¦m2user :: Permissions_operation,()

@@ -1,0 +1,22 @@
+rm ¦-rf¦kinova-ros/jaco_driver :: Filesystem_operation,()
+GRASPIT:/graspit_home :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/ :: Filesystem_operation,()
+bin/bash ¦-c¦"cd¦/catkin_ws/src :: Other_operation,()
+echo ¦bin/bash¦-c "source /.bashrc && echo $CATKIN_SHELL && cd /catkin_ws && catkin_make && catkin_make install" :: Filesystem_operation,()
+rm ¦-rf¦kinova-ros/jaco_model" :: Filesystem_operation,()
+bin/bash ¦-c¦"source¦.bashrc" :: Other_operation,()
+rm ¦-rf¦kinova-ros/jaco_demo :: Filesystem_operation,()
+./entrypoint/ :: copy_operation,()
+apt-get ¦install¦-y¦libsoqt4-dev¦libcoin80-dev¦libqt4-dev¦libblas-dev¦liblapack-dev¦libqhull-dev :: Dependencies_operation,()
+bin/bash ¦-c¦"mkdir¦-p¦/graspit_home" :: Other_operation,()
+entrypoint,/entrypoint
+git ¦clone¦https://github.com/JenniferBuehler/jb-ros-packs.git" :: Dependencies_operation,()
+apt-get ¦install¦-y¦ros-indigo-control-msgs¦ros-indigo-laser-filters¦ros-indigo-openni-launch :: Dependencies_operation,()
+apt-get ¦install¦-y¦ros-indigo-eigen-conversions¦ros-indigo-household-objects-database¦ros-indigo-household-objects-database-msgs¦ros-indigo-manipulation-msgs¦ros-indigo-object-recognition-msgs¦ros-indigo-roslint :: Dependencies_operation,()
+bin/bash ¦-c¦"rm¦-rf¦/catkin_ws/src/jb-ros-packs" :: Other_operation,()
+cmd,bash¦-l
+from,jenniferbuehler/ros-indigo-full-catkin
+git ¦clone¦https://github.com/Kinovarobotics/kinova-ros.git :: Dependencies_operation,()
+PATH:${PATH}:/catkin_ws/install/lib/ :: env_operation,()
+git ¦clone¦https://github.com/JenniferBuehler/graspit.git" :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+expose,8000
+/app :: workdir_operation,()
+./app :: copy_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+from,ubuntu@latest
+update-alternatives ¦--install¦/usr/bin/python¦python¦/usr/bin/python3.5¦2 :: Other_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+cmd,python3¦manage.py¦runserver
+./requirements.txt/app/requirements.txt :: copy_operation,()
+update-alternatives ¦--install¦/usr/bin/python¦python¦/usr/bin/python2.7¦1 :: Other_operation,()
+apt-get ¦install¦-y¦python-pip¦python-dev¦python3-pip :: Dependencies_operation,()
+update-alternatives ¦--set¦python¦/usr/bin/python3.5 :: Other_operation,()

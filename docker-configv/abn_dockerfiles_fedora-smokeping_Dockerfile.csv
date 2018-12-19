@@ -1,0 +1,10 @@
+/var/run/smokeping/config :: volume_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+cmd,/usr/bin/supervisord¦-n
+yum ¦-y¦update :: Dependencies_operation,()
+assets/supervisord.conf/etc/supervisord.conf :: add_operation,()
+mkdir ¦-p¦/var/run/smokeping/config :: Filesystem_operation,()
+expose,80
+from,fedora@latest
+echo ¦yum¦-y install httpd echoping fping sendmail smokeping :: Filesystem_operation,()
+yum ¦-y¦install¦deltarpm¦supervisor :: Dependencies_operation,()

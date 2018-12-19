@@ -1,0 +1,9 @@
+$REPO_ROOT :: workdir_operation,()
+$GOPATH :: workdir_operation,()
+.$REPO_ROOT :: copy_operation,()
+from,arukasio/arukas:dev
+godep ¦restore :: Dependencies_operation,()
+ARUKAS_DEV=1 ¦scripts/build.sh :: Other_operation,()
+entrypoint,bin/arukas
+REPO_ROOT:$GOPATH/src/github.com/arukasio/cli :: env_operation,()
+go ¦list¦./...|¦grep¦-v¦vendor :: Build_Execute_operation,()

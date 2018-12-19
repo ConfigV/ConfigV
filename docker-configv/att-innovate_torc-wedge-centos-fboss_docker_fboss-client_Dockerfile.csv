@@ -1,0 +1,11 @@
+sed ¦-i¦-e¦'s/^from¦fboss.agent/from¦fboss.ctrl/'¦$FBOSS/fboss/agent/tools/fboss_route.py :: Filesystem_operation,()
+FBOSS_IF=$FBOSS/fboss/agent/if/gen-py: :: env_operation,()
+FBOSS=/fboss: :: env_operation,()
+PYTHONPATH=$FBOSS_IF/neteng/:$FBOSS/external/fbthrift/thrift/lib/py:$FBOSS_IF/:$FBOSS/external/fbthrift/thrift/lib/py: :: env_operation,()
+entrypoint,python¦/fboss/fboss/agent/tools/fboss_route.py
+sed ¦-i¦-e¦'s/^namespace¦cpp2¦facebook.fboss/#namespace¦cpp2¦facebook.fboss/'¦$FBOSS/fboss/agent/if/*.thrift :: Filesystem_operation,()
+echo ¦cd¦$FBOSS/fboss/agent/if && for p in *.thrift; do thrift -I $FBOSS -r --gen py $p; echo $p done; done :: Filesystem_operation,()
+from,ubuntu:14.04
+apt-get ¦-y¦install¦python-ipaddr¦python-thrift¦thrift-compiler¦git :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+git ¦clone¦https://github.com/neuhausler/fboss.git :: Dependencies_operation,()

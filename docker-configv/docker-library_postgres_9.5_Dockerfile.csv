@@ -1,0 +1,25 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+PATH:/usr/lib/postgresql/$PG_MAJOR/bin:$PATH :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+echo ¦echo¦'deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 :: Dependencies_operation,()
+apt-get ¦install¦-y¦locales :: Dependencies_operation,()
+dpkg ¦--print-architecture :: Dependencies_operation,()
+/var/lib/postgresql/data :: volume_operation,()
+gpg ¦--keyserver¦pool.sks-keyservers.net¦--recv-keys¦B42F6819007F00F88E364FD4036A9C25BF357DD4 :: Other_operation,()
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+LANG:en_US.utf8 :: env_operation,()
+groupadd ¦-r¦postgres :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh
+expose,5432
+useradd ¦-r¦-g¦postgres¦postgres :: Permissions_operation,()
+chown ¦-R¦postgres¦/var/run/postgresql :: Permissions_operation,()
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦-A¦/usr/share/locale/locale.alias¦en_US.UTF-8 :: Other_operation,()
+create_main_cluster  :: Other_operation,()
+PG_MAJOR:9.5 :: env_operation,()
+PG_VERSION:9.5~alpha1-1.pgdg70+1 :: env_operation,()
+from,debian@wheezy
+mkdir ¦-p¦/var/run/postgresql :: Filesystem_operation,()
+cmd,postgres

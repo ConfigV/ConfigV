@@ -1,0 +1,12 @@
+./cn\\=config/olcDatabase\\=\\{2\\}bdb.ldif/etc/openldap/slapd.d/cn\\=config/olcDatabase\\=\\{2\\}bdb.ldif :: add_operation,()
+./nagios.ldif/tmp/nagios.ldif :: add_operation,()
+/root/ :: workdir_operation,()
+ldapadd ¦-f¦/tmp/users.ldif¦-D¦cn=Manager,dc=nagios,dc=local¦-w¦welcome :: Other_operation,()
+entrypoint,/usr/sbin/slapd
+ldapadd ¦-f¦/tmp/nagios.ldif¦-D¦cn=Manager,dc=nagios,dc=local¦-w¦welcome :: Other_operation,()
+yum ¦-y¦install¦openldap¦openldap-clients¦openldap-servers :: Dependencies_operation,()
+./cn\\=config/olcDatabase\\=\\{1\\}monitor.ldif/etc/openldap/slapd.d/cn\\=config/olcDatabase\\=\\{1\\}monitor.ldif :: add_operation,()
+expose,389
+service ¦slapd¦start :: Build_Execute_operation,()
+./users.ldif/tmp/users.ldif :: add_operation,()
+from,sreinhardt/centos-6-x86_64:latest

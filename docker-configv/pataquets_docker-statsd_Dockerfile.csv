@@ -1,0 +1,12 @@
+entrypoint,node¦stats.js¦config.js
+from,pataquets/nodejs
+/statsd :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cp ¦-v¦exampleConfig.js¦config.js :: Filesystem_operation,()
+expose,8126
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦--single-branch¦--branch¦master¦https://github.com/etsy/statsd.git :: Dependencies_operation,()
+cd ¦/statsd :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+sed ¦-i¦'s/graphite.example.com/graphite/'¦config.js :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommends¦git :: Other_operation,()

@@ -1,0 +1,14 @@
+scripts$HOME/scripts :: copy_operation,()
+USERNAME=rundeck:HOME=/home/rundeck :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+$USERNAME :: user_operation,()
+sudo ¦chmod¦-R¦a+x¦$HOME/scripts/* :: Other_operation,()
+mkdir ¦-p¦$HOME/resources :: Filesystem_operation,()
+$HOME/resources :: volume_operation,()
+mkdir ¦-p¦$HOME/scripts :: Filesystem_operation,()
+apt-get ¦-y¦install¦sudo¦unzip¦curl¦iputils-ping¦xmlstarlet¦ssh :: Dependencies_operation,()
+sudo ¦mkdir¦/var/run/sshd :: Other_operation,()
+RUNDECK_NODE :: arg_operation,()
+from,ubuntu:16.04
+$HOME :: workdir_operation,()
+cmd,$HOME/scripts/run.sh

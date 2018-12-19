@@ -1,0 +1,13 @@
+cd ¦bllip-parser :: Filesystem_operation,()
+wget ¦https://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/source/SRPMS/l/liblbfgs-1.10-4.fc22.src.rpm :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+git ¦clone¦https://github.com/BLLIP/bllip-parser.git :: Dependencies_operation,()
+from,centos:6.0
+rpmbuild ¦--rebuild¦--clean¦liblbfgs-1.10-4.fc22.src.rpm :: Other_operation,()
+/home :: workdir_operation,()
+cmd,/bin/bash
+yum ¦-y¦update :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+rpm ¦-i¦`find¦~/rpmbuild/RPMS¦-name¦"liblbfgs*rpm"` :: Dependencies_operation,()
+yum ¦-y¦install¦wget¦which¦git¦rpm-build¦tar¦¦gcc¦gcc-c++¦make¦flex¦libtool¦aclocal¦autoheader¦automake¦autoconf¦¦boost-devel :: Dependencies_operation,()
+make  :: Build_Execute_operation,()

@@ -1,0 +1,17 @@
+--from=build-deps/app/public/favicon.ico :: copy_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦vim¦curl¦gnupg2 :: Dependencies_operation,()
+./app :: copy_operation,()
+expose,35268
+./package.json/app/ :: copy_operation,()
+cmd,nginx¦-g¦'daemon¦off;'
+npm ¦run¦build :: Dependencies_operation,()
+from,nginx:1.13
+./nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+--from=build-deps/app/public/dist :: copy_operation,()
+/app/ :: workdir_operation,()
+--from=build-deps/app/public/img :: copy_operation,()
+--from=build-deps/app/public/index.html :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+--from=build-deps/app/public/libs :: copy_operation,()
+npm ¦install :: Dependencies_operation,()

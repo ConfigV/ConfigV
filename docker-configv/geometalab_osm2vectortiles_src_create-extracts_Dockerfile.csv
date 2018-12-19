@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/ :: Filesystem_operation,()
+from,node:5.0
+WORLD_MBTILES=/data/export/world.mbtiles:PATCH_MBTILES=/data/export/world_z0-z5.mbtiles :: env_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+./usr/src/app/ :: copy_operation,()
+/data/export :: volume_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦sqlite3¦bc¦s3cmd :: Dependencies_operation,()
+cmd,./create-extracts.sh
+/usr/src/app :: workdir_operation,()
+npm ¦install¦-g¦tilelive@5.12.x¦mapnik@3.5.x¦mbtiles@0.8.x¦tilelive-tmsource@0.4.x¦tilelive-vector@3.9.x¦tilelive-bridge@2.3.x¦tilelive-mapnik@0.6.x :: Dependencies_operation,()
+npm ¦-g¦outdated¦|¦grep¦-v¦npm :: Dependencies_operation,()

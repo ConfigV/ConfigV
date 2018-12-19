@@ -1,0 +1,11 @@
+./bootstrap.sh  :: Other_operation,()
+ln ¦-s¦/usr/bin/cmake28¦/usr/bin/cmake :: Filesystem_operation,()
+tar ¦xvfj¦boost_1_60_0.tar.bz2 :: Filesystem_operation,()
+wget ¦http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.bz2¦--no-check-certificate :: Dependencies_operation,()
+cd ¦../ :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+rm ¦-rf¦boost_1_60_0¦boost_1_60_0.tar.bz2 :: Filesystem_operation,()
+cd ¦boost_1_60_0 :: Filesystem_operation,()
+from,quay.io/pypa/manylinux1_x86_64
+yum ¦-y¦install¦zlib-devel¦bzip2-devel¦snappy-devel¦python-devel :: Dependencies_operation,()
+./b2 ¦install¦-j¦8 :: Other_operation,()

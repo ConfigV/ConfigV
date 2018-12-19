@@ -1,0 +1,19 @@
+rm ¦tomcat.tar.gz* :: Filesystem_operation,()
+CATALINA_HOME:/usr/local/tomcat :: env_operation,()
+TOMCAT_MAJOR:7 :: env_operation,()
+gpg ¦--batch¦--verify¦tomcat.tar.gz.asc¦tomcat.tar.gz :: Other_operation,()
+expose,8080
+curl ¦-fSL¦"$TOMCAT_TGZ_URL.asc"¦-o¦tomcat.tar.gz.asc :: Dependencies_operation,()
+mkdir ¦-p¦"$CATALINA_HOME" :: Filesystem_operation,()
+tar ¦-xvf¦tomcat.tar.gz¦--strip-components=1 :: Filesystem_operation,()
+rm ¦bin/*.bat :: Filesystem_operation,()
+TOMCAT_VERSION:7.0.68 :: env_operation,()
+$CATALINA_HOME :: workdir_operation,()
+set ¦-ex :: Environment_operation,()
+set ¦-x :: Environment_operation,()
+for ¦key¦in¦05AB33110949707C93A279E3D3EFE6B686867BA6¦07E48665A34DCAFAE522E5E6266191C37C037D42¦47309207D818FFD8DCD3F83F1931D684307A10A5¦541FBE7D8F78B25E055DDEE13C370389288584E7¦61B832AC2F1C5A90F0F9B00A1C506407564C17A3¦713DA88BE50911535FE716F5208... :: Other_operation,()
+curl ¦-fSL¦"$TOMCAT_TGZ_URL"¦-o¦tomcat.tar.gz :: Dependencies_operation,()
+cmd,catalina.sh¦run
+PATH:$CATALINA_HOME/bin:$PATH :: env_operation,()
+TOMCAT_TGZ_URL:https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz :: env_operation,()
+from,java:7.0

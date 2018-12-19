@@ -1,0 +1,16 @@
+rm ¦/usr/sbin/policy-rc.d :: Filesystem_operation,()
+LANGUAGE:en_US.UTF-8 :: env_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+apt-get ¦-qy¦install¦language-pack-en :: Dependencies_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+echo ¦echo¦"#!/bin/sh\\nexit 101" > /usr/sbin/policy-rc.d; chmod +x /usr/sbin/policy-rc.d :: Filesystem_operation,()
+cmd,/start¦postgres
+start/ :: add_operation,()
+chmod ¦+x¦/start :: Permissions_operation,()
+from,ubuntu
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦-q¦postgresql-9.1¦postgresql-contrib-9.1 :: Other_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+rm ¦-rf¦/var/lib/postgresql/9.1/main/ :: Filesystem_operation,()
+postgresql.conf/etc/postgresql/9.1/main/ :: add_operation,()
+expose,5432

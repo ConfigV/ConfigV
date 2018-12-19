@@ -1,0 +1,11 @@
+buildDeps=" ¦¦¦libmemcached-dev¦¦¦¦libz-dev¦¦¦¦libpq-dev¦¦¦¦libjpeg-dev¦¦¦¦libpng12-dev¦¦¦¦libfreetype6-dev¦¦¦¦libmcrypt-dev¦" :: Other_operation,()
+rm ¦-rf¦/tmp/pear¦¦\\ :: Filesystem_operation,()
+from,php:7.0
+docker-php-ext-enable ¦memcached :: Other_operation,()
+apt-get ¦install¦-y¦zip¦bzip2¦wget¦tar¦$buildDeps¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+docker-php-ext-install ¦mcrypt¦zip¦pdo_mysql¦opcache :: Other_operation,()
+doNotUninstall=" ¦libmemcached11¦libmemcachedutil2¦¦¦¦libfreetype6¦¦¦¦libhashkit2¦¦¦¦libjpeg62-turbo¦¦¦¦libmcrypt4¦¦¦¦libpng12-0¦¦¦¦libpq5¦" :: Other_operation,()
+apt-get ¦update¦-yqq :: Dependencies_operation,()
+pecl ¦install¦memcached :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦¦¦¦¦--enable-gd-native-ttf¦¦¦¦¦--with-jpeg-dir=/usr/lib¦¦¦¦¦--with-freetype-dir=/usr/include/freetype2 :: Other_operation,()

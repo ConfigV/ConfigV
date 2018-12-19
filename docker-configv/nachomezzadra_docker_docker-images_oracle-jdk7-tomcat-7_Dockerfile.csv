@@ -1,0 +1,14 @@
+wget ¦http://apache.xfree.com.ar/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz :: Dependencies_operation,()
+cmd,/opt/tomcat7/bin/catalina.sh¦run
+expose,8080
+/bin/mv ¦apache-tomcat-$TOMCAT_VERSION¦/opt/tomcat7 :: Other_operation,()
+/bin/chown ¦-Rf¦tomcat.tomcat¦/opt/tomcat7 :: Other_operation,()
+TOMCAT_VERSION=7.0.64: :: env_operation,()
+yum ¦install¦-y¦wget :: Dependencies_operation,()
+/bin/tar ¦xvf¦apache-tomcat-$TOMCAT_VERSION.tar.gz :: Other_operation,()
+from,centos6/jdk7
+/usr/sbin/useradd ¦-r¦-g¦tomcat¦tomcat :: Other_operation,()
+yum ¦install¦-y¦tar :: Dependencies_operation,()
+/usr/sbin/groupadd ¦-r¦tomcat :: Other_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+/bin/chmod ¦-R¦755¦/opt/tomcat7 :: Other_operation,()

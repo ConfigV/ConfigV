@@ -1,0 +1,11 @@
+cmd,/snowplow-enrich-collector¦--config¦/etc/snowplow/enrich.conf¦--enrichments¦${ENRICHMENTS}¦--resolver¦${RESOLVER}
+ENRICHMENTS:"" :: env_operation,()
+.${WORKDIR} :: copy_operation,()
+from,fcomb/jre8-sbt-alpine:v2.11_0.13
+snowplow :: user_operation,()
+adduser ¦-D¦-g¦''¦-h¦/app¦-H¦snowplow :: Permissions_operation,()
+root :: user_operation,()
+/ :: workdir_operation,()
+RESOLVER:"" :: env_operation,()
+WORKDIR:/home/java/project :: env_operation,()
+${WORKDIR} :: workdir_operation,()

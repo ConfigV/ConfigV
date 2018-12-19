@@ -1,0 +1,6 @@
+wget ¦-q¦-O¦cepheus-cep.jar¦"https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=com.orange.cepheus&a=cepheus-cep&v=$CEPHEUS_VERSION" :: Dependencies_operation,()
+CEPHEUS_VERSION:LATEST :: env_operation,()
+expose,8080
+/opt/cepheus :: workdir_operation,()
+entrypoint,java¦-jar¦cepheus-cep.jar
+from,java:8.0

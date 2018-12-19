@@ -1,0 +1,8 @@
+LANG:C.UTF-8 :: env_operation,()
+from,alpine:3.3
+JAVA_ALPINE_VERSION:7.91.2.6.3-r1 :: env_operation,()
+JAVA_HOME:/usr/lib/jvm/java-1.7-openjdk/jre :: env_operation,()
+echo ¦{¦ echo '#!/bin/sh';  echo 'set -e';  echo;  echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; } > /usr/local/bin/docker-java-home && chmod +x /usr/local/bin/docker-java-home :: Filesystem_operation,()
+docker-java-home  :: Other_operation,()
+JAVA_VERSION:7u91 :: env_operation,()
+PATH:$PATH:$JAVA_HOME/bin :: env_operation,()

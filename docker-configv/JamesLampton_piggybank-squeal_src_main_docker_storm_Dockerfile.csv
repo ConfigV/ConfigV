@@ -1,0 +1,12 @@
+supervisor.d/*.ini/etc/supervisor.d/ :: add_operation,()
+entrypoint,/usr/bin/supervisord¦-n
+yum ¦install¦-y¦http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦java-1.8.0-openjdk¦tar¦supervisor :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+mv ¦/opt/apache-storm-$STORM_VERSION¦/opt/storm :: Filesystem_operation,()
+apache-storm-$STORM_VERSION.tar.gz/opt/ :: add_operation,()
+from,centos:6.0
+expose,6627
+echo ¦echo¦'storm.zookeeper.servers: ["zookeeper"]' >> /opt/storm/conf/storm.yaml :: Filesystem_operation,()
+cat ¦/etc/supervisor.d/*.ini¦>>¦/etc/supervisord.conf :: Filesystem_operation,()
+STORM_VERSION:0.9.3 :: env_operation,()

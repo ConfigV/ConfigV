@@ -1,0 +1,11 @@
+cmd,/usr/sbin/apt-cacher-ng¦ForeGround=1¦Port=3142¦CacheDir=/var/cache/apt-cacher-ng
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦autoremove¦-y :: Other_operation,()
+expose,3142
+echo ¦ln¦-sf /dev/stdout /var/log/apt-cacher-ng/apt-cacher.out && ln -sf /dev/stderr /var/log/apt-cacher-ng/apt-cacher.err && echo 'http://archive.ubuntu.com/ubuntu/' > /etc/apt-cacher-ng/backends_ubuntu && echo 'http://ports.ubuntu.com/' > /etc... :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yy¦-q¦--no-install-recommends¦apt-cacher-ng :: Other_operation,()
+/var/cache/apt-cacher-ng :: volume_operation,()
+from,BASEIMAGE
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦upgrade¦-y :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦clean :: Other_operation,()

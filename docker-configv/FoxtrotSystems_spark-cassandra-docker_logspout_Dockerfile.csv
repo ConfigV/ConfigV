@@ -1,0 +1,10 @@
+chmod ¦644¦/etc/ssl/certs/ca-certificates.crt :: Permissions_operation,()
+rm ¦papertrail-bundle.pem :: Filesystem_operation,()
+curl ¦https://papertrailapp.com/tools/papertrail-bundle.pem¦>¦papertrail-bundle.pem :: Dependencies_operation,()
+cp ¦papertrail-bundle.pem¦/etc/ssl/certs/ca-certificates.crt :: Filesystem_operation,()
+cp ¦papertrail-bundle.pem¦/etc/ssl/ca-bundle.pem :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,gliderlabs/logspout:master
+apk ¦add¦curl :: Dependencies_operation,()
+chmod ¦644¦/etc/ssl/ca-bundle.pem :: Permissions_operation,()

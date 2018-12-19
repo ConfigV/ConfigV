@@ -1,0 +1,15 @@
+apk ¦add¦openssl :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+/voldemort/ :: workdir_operation,()
+cmd,./bin/voldemort-server.sh
+wget ¦https://github.com/voldemort/voldemort/archive/$VOLDEMORT_VERSION.zip :: Dependencies_operation,()
+mv ¦voldemort-*¦voldemort :: Filesystem_operation,()
+update-ca-certificates  :: Other_operation,()
+expose,6666 6667 8081
+unzip ¦$VOLDEMORT_VERSION.zip :: Filesystem_operation,()
+apk ¦add¦--update¦bash :: Dependencies_operation,()
+VOLDEMORT_HOME:/voldemort/config/single_node_cluster :: env_operation,()
+./gradlew ¦clean¦build¦-x¦test :: Other_operation,()
+VOLDEMORT_VERSION=release-1.10.23-cutoff: :: env_operation,()
+from,lwieske/java-8:jdk-8u112-slim
+apk ¦add¦ca-certificates¦wget :: Dependencies_operation,()

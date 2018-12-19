@@ -1,0 +1,13 @@
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin/¦--filename=composer :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/tini :: Permissions_operation,()
+from,php:7.0
+apt-get ¦update :: Dependencies_operation,()
+set ¦-x :: Environment_operation,()
+git ¦clone¦https://github.com/etsy/phan¦/opt/phan :: Dependencies_operation,()
+entrypoint,tini¦/opt/phan/phan¦--
+curl ¦-fSL¦"https://github.com/krallin/tini/releases/download/v0.5.0/tini"¦-o¦/usr/local/bin/tini :: Dependencies_operation,()
+docker-php-ext-install ¦zip¦mbstring :: Other_operation,()
+echo ¦git¦clone https://github.com/nikic/php-ast.git /tmp/php-ast && cd /tmp/php-ast && phpize && ./configure && make install && echo extension=ast.so > /usr/local/etc/php/conf.d/ast.ini :: Filesystem_operation,()
+composer ¦install :: Dependencies_operation,()
+cd ¦/opt/phan :: Filesystem_operation,()
+apt-get ¦install¦-y¦zlib1g-dev¦git¦libzmq3¦libzmq3-dev :: Dependencies_operation,()

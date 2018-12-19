@@ -1,0 +1,14 @@
+cmd,devpi-server¦--host¦0.0.0.0¦--port¦3141
+/data :: volume_operation,()
+pip ¦install¦-r¦/requirements.txt :: Dependencies_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+entrypoint,/tini¦--
+./tini/ :: copy_operation,()
+/data :: workdir_operation,()
+addgroup ¦--system¦--gid¦1000¦devpi :: Permissions_operation,()
+devpi :: user_operation,()
+./requirements.txt/ :: copy_operation,()
+HOME:/data :: env_operation,()
+from,python:3.5
+expose,3141
+adduser ¦--disabled-login¦--system¦--uid¦1000¦--home¦/data¦--shell¦/sbin/nologin¦--group¦devpi :: Permissions_operation,()

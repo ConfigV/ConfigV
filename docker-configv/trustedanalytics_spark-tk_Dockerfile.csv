@@ -1,0 +1,20 @@
+cmd,python
+wget ¦-nv¦http://archive.apache.org/dist/spark/spark-1.5.0/spark-1.5.0-bin-hadoop2.6.tgz :: Dependencies_operation,()
+expose,8080
+python ¦get-pip.py :: Build_Execute_operation,()
+SPARK_HOME:/usr/src/app/spark :: env_operation,()
+apt-get ¦-q¦install¦-y¦build-essential¦bzip2¦gcc¦gfortran¦python-qt4¦python-dev¦wget¦zip¦unzip;¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+rm ¦spark-1.5.0-bin-hadoop2.6.tgz :: Filesystem_operation,()
+from,maven:3.3
+tar ¦xzf¦spark-1.5.0-bin-hadoop2.6.tgz :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+PYTHONPATH:/usr/src/app/spark-tk/python :: env_operation,()
+/usr/src/app/spark-tk :: workdir_operation,()
+wget ¦-nv¦https://bootstrap.pypa.io/get-pip.py :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+mv ¦spark-1.5.0-bin-hadoop2.6¦spark :: Filesystem_operation,()
+./spark-tk/ :: copy_operation,()
+pip ¦install¦-r¦python/requirements.txt :: Dependencies_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app/spark-tk :: Filesystem_operation,()
+mvn ¦clean¦install¦-q :: Dependencies_operation,()

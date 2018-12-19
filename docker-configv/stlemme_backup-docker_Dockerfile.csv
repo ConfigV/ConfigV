@@ -1,0 +1,16 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/bootstrap.sh
+BKP_CONTENT:/content-storage :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yq¦curl :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦$BKP_CONTENT¦$BKP_STORAGE :: Filesystem_operation,()
+bootstrap.sh/bootstrap.sh :: add_operation,()
+BKP_SNAPSHOT:"bkp.snapshot" :: env_operation,()
+BKP_PREFIX:"bkp" :: env_operation,()
+from,ubuntu:14.04
+BKP_STORAGE:/backup-storage :: env_operation,()
+$BKP_CONTENT :: volume_operation,()
+$BKP_STORAGE :: volume_operation,()
+BKP_LOCATION:"" :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,incremental

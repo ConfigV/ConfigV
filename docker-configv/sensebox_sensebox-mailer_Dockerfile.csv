@@ -1,0 +1,12 @@
+from,golang:1.6
+cmd,/sensebox-mailer/sensebox-mailer
+mv ¦/sensebox-mailer/bin/sensebox-mailer¦/sensebox-mailer :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+go ¦get¦github.com/constabulary/gb/... :: Build_Execute_operation,()
+/sensebox-mailer :: workdir_operation,()
+./sensebox-mailer :: copy_operation,()
+gb ¦build¦-ldflags¦"-s¦-w"¦all :: Other_operation,()
+apk ¦del¦git :: Dependencies_operation,()
+rm ¦-rf¦/sensebox-mailer/bin¦/sensebox-mailer/src¦/sensebox-mailer/pkg¦/sensebox-mailer/vendor :: Filesystem_operation,()
+rm ¦-rf¦/go :: Filesystem_operation,()
+apk ¦add¦--update¦git :: Dependencies_operation,()

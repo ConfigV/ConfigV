@@ -1,0 +1,9 @@
+from,alpine:3.2
+/tmp/ :: workdir_operation,()
+./config.json/tmp/shadowsocks-config.json :: copy_operation,()
+http://dl.chenyufei.info/shadowsocks/1.1.4/shadowsocks-server-linux64-1.1.4.gz/tmp/shadowsocks-server.gz :: add_operation,()
+/tmp/shadowsocks-config.json :: volume_operation,()
+gzip ¦-d¦shadowsocks-server :: Other_operation,()
+cmd,/tmp/shadowsocks-server¦-c¦/tmp/shadowsocks-config.json
+chmod ¦+x¦./shadowsocks-server :: Permissions_operation,()
+expose,8388

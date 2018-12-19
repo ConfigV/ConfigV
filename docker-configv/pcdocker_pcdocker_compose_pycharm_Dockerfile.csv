@@ -1,0 +1,14 @@
+from,pcdocker_django
+PASS_ENCRYPTED:false :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+SFTP_USER:docker :: env_operation,()
+entrypoint/ :: copy_operation,()
+ln ¦-s¦/usr/local/bin/python¦/usr/bin/python :: Filesystem_operation,()
+entrypoint,/entrypoint
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦python-pip¦python-setuptools¦python3-pip¦python3-setuptools¦openssh-server :: Other_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+expose,8000
+sshd_config/etc/ssh/sshd_config :: copy_operation,()
+SFTP_PASS:changeme :: env_operation,()
+.ssh_keys_to_docker/id_rsa.pub/ssh_id_rsa.pub :: add_operation,()

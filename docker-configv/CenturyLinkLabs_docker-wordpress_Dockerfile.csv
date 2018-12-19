@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-fr¦/app :: Filesystem_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+apt-get ¦-y¦install¦mysql-client :: Dependencies_operation,()
+run.shrun.sh :: add_operation,()
+expose,80
+chmod ¦644¦/app/wp-config.php :: Permissions_operation,()
+cmd,/run.sh
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦upgrade :: Other_operation,()
+wp-config.php/app/wp-config.php :: add_operation,()
+git ¦clone¦https://github.com/WordPress/WordPress.git¦/app :: Dependencies_operation,()
+from,centurylinklabs/apache-php:latest
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦supervisor¦pwgen :: Other_operation,()

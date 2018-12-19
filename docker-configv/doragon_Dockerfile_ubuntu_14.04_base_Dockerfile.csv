@@ -1,0 +1,10 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+HOME:/root :: env_operation,()
+./id_rsa.pub/tmp/your_key :: add_operation,()
+from,phusion/baseimage:0.9.15
+chmod ¦600¦/root/.ssh/authorized_keys :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cat ¦/tmp/your_key¦>>¦/root/.ssh/authorized_keys :: Filesystem_operation,()
+USERNAME:ubuntu :: env_operation,()
+/etc/my_init.d/00_regen_ssh_host_keys.sh  :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

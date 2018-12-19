@@ -1,0 +1,18 @@
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+TWEETS_BASE_URL=http://bop.worldmap.harvard.edu/bopws/tweets/: :: env_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦install¦-y¦gnupg :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+npm ¦run¦deploy :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+./usr/src/app/ :: copy_operation,()
+COPY. /usr/src/app/ :: onbuild_operation,()
+/usr/src/app/ :: workdir_operation,()
+apt-get ¦install¦-y¦bzip2 :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+CSV_DOCS_LIMIT=10000: :: env_operation,()
+from,nginx@stable
+expose,80
+curl ¦-sL¦https://deb.nodesource.com/setup_6.x¦|¦bash¦- :: Dependencies_operation,()
+HEATMAP_FACET_LIMIT=10000: :: env_operation,()

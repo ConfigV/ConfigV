@@ -1,0 +1,8 @@
+expose,9002
+/setup :: workdir_operation,()
+./setup :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+from,artbio/galaxy-kickstart-base:ff5fb361875a1220ae3880412083c5cef4a8f1b1
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+ansible-playbook ¦-i¦extra-files/artimed/artimed_inventory.yml¦-c¦local¦galaxy.yml :: Other_operation,()

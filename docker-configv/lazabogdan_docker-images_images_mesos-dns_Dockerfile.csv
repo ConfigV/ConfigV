@@ -1,0 +1,12 @@
+go.sh/build/ :: copy_operation,()
+entrypoint,/mesos-dns
+/build/go.sh  :: Other_operation,()
+from,debian@jessie
+expose,53
+apt-get ¦-y¦update :: Dependencies_operation,()
+rm ¦-rf¦/build/ :: Filesystem_operation,()
+chmod ¦+x¦/build/go.sh :: Permissions_operation,()
+apt-get ¦-y¦install¦git :: Dependencies_operation,()
+apt-get ¦-y¦install¦golang-go :: Dependencies_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+mkdir ¦-p¦/build/ :: Filesystem_operation,()

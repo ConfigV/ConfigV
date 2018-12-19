@@ -1,0 +1,19 @@
+rabbit_addresses:10.1.42.1 :: env_operation,()
+rabbit_username:guest :: env_operation,()
+from,centos:6.0
+entrypoint,python¦-u¦setup.py
+wget ¦http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+mkdir ¦/minestack :: Filesystem_operation,()
+rpm ¦-Uvh¦jdk-8u25-linux-x64.rpm :: Dependencies_operation,()
+wget ¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦http://download.oracle.com/otn-pub/java/jdk/8u25-b17/jdk-8u25-linux-x64.rpm :: Dependencies_operation,()
+pip ¦install¦pymongo :: Dependencies_operation,()
+setup.py/minestack/setup.py :: add_operation,()
+/minestack :: workdir_operation,()
+expose,25565
+rabbit_password:guest :: env_operation,()
+mongo_addresses:10.1.42.1 :: env_operation,()
+server_id:NULL :: env_operation,()
+yum ¦-y¦install¦wget¦gcc¦openssl¦openssl-devel :: Dependencies_operation,()
+mongo_database:minestack :: env_operation,()
+rpm ¦-Uvh¦epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+yum ¦-y¦install¦python-pip¦gcc¦python-devel :: Dependencies_operation,()

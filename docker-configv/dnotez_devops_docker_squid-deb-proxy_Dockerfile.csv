@@ -1,0 +1,13 @@
+ln ¦-sf¦/dev/stdout¦/var/log/squid-deb-proxy/access.log :: Filesystem_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦squid-deb-proxy¦squid-deb-proxy-client¦avahi-daemon¦avahi-utils :: Dependencies_operation,()
+expose,5353
+start.sh/start.sh :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+ln ¦-sf¦/cachedir¦/var/cache/squid-deb-proxy :: Filesystem_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/squid-deb-proxy/store.log :: Filesystem_operation,()
+/cachedir :: volume_operation,()
+extra-sources.acl/etc/squid-deb-proxy/mirror-dstdomain.acl.d/20-extra-sources.acl :: add_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/squid-deb-proxy/cache.log :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/start.sh

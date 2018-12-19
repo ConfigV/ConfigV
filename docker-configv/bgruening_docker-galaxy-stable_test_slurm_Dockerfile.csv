@@ -1,0 +1,17 @@
+munge.conf/etc/default/munge :: add_operation,()
+supervisor_slurm.conf/etc/supervisor/conf.d/slurm.conf :: add_operation,()
+/export/ :: volume_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+service ¦munge¦stop :: Build_Execute_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+adduser ¦galaxy¦&&\\ :: Permissions_operation,()
+startup.sh/usr/bin/startup.sh :: add_operation,()
+chmod ¦+x¦/usr/bin/startup.sh :: Permissions_operation,()
+SLURM_USER_NAME=galaxy:SLURM_UID=1450 :: env_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,ubuntu:14.04
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+configure_slurm.py/usr/local/bin/configure_slurm.py :: add_operation,()
+service ¦munge¦start :: Build_Execute_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦slurm-llnl¦slurm-llnl-torque¦slurm-drmaa-dev¦python-virtualenv¦python-pip¦python-psutil¦supervisor :: Dependencies_operation,()
+cmd,/usr/bin/startup.sh

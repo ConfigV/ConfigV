@@ -1,0 +1,10 @@
+mv ¦/opt/kibana/config/kibana.yml¦/opt/kibana/config/kibana.yml.orig :: Filesystem_operation,()
+./kibana.yml.tmpl/opt/kibana/config/kibana.yml.tmpl :: add_operation,()
+from,samsara/base-image-jdk8:u1410-j8u40
+./configure-and-start.sh/configure-and-start.sh :: add_operation,()
+curl ¦-sSL¦"https://download.elasticsearch.org/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz"¦|¦tar¦-zxvf¦-¦-C¦/opt :: Dependencies_operation,()
+./kibana-supervisor.conf/etc/supervisor/conf.d/kibana-supervisor.conf :: add_operation,()
+export ¦KIBANA_VERSION=4.0.1 :: Environment_operation,()
+cmd,/configure-and-start.sh
+ln ¦-s¦/opt/kibana-*¦/opt/kibana :: Filesystem_operation,()
+expose,8000 15000

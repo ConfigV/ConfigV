@@ -1,0 +1,12 @@
+mkdir ¦-p¦/home/git/.ssh :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+expose,22
+apt-get ¦-y¦install¦openssh-server :: Dependencies_operation,()
+sed ¦-i¦s#/home/git:/bin/false#/home/git:/bin/bash#¦/etc/passwd :: Filesystem_operation,()
+echo ¦echo¦'git:password' | chpasswd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+apt-get ¦-y¦install¦git :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+adduser ¦--system¦git :: Permissions_operation,()
+from,debian:8.1
+mkdir ¦-p¦/repos :: Filesystem_operation,()

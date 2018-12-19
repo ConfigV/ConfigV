@@ -1,0 +1,12 @@
+from,python:3.4
+useradd ¦curator :: Permissions_operation,()
+/home/curator :: workdir_operation,()
+mkdir ¦-p¦/home/curator :: Filesystem_operation,()
+CURATOR_VERSION=3.2.3: :: env_operation,()
+CERTIFI_VERSION=2015.4.28: :: env_operation,()
+pip ¦install¦elasticsearch-curator==${CURATOR_VERSION} :: Dependencies_operation,()
+chown ¦-R¦curator:curator¦/home/curator :: Permissions_operation,()
+./home/curator :: copy_operation,()
+curator :: user_operation,()
+entrypoint,/home/curator/entrypoint.sh
+pip ¦install¦certifi==${CERTIFI_VERSION} :: Dependencies_operation,()

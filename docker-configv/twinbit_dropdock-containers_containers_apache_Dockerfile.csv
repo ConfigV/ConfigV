@@ -1,0 +1,16 @@
+from,ubuntu:14.04
+entrypoint,/opt/bin/apache-start.sh
+/data :: volume_operation,()
+expose,80
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦apache2¦bindfs :: Dependencies_operation,()
+chmod ¦+x¦/opt/bin/apache-start.sh :: Permissions_operation,()
+mkdir ¦-p¦/data/var/log/apache2 :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chown ¦-R¦www-data:www-data¦/data/var/www :: Permissions_operation,()
+scripts/apache-start.sh/opt/bin/apache-start.sh :: copy_operation,()
+/opt/bin :: workdir_operation,()
+conf/default-vhost/etc/apache2/sites-enabled/000-default.conf :: copy_operation,()
+mkdir ¦-p¦/data/var/www :: Filesystem_operation,()
+mkdir ¦-p¦/var/lock/apache2 :: Filesystem_operation,()
+a2enmod ¦rewrite¦proxy_fcgi :: Other_operation,()

@@ -1,0 +1,15 @@
+echo ¦mkdir¦-p $CROWD_INSTALL && curl -o $CROWD_INSTALL/atlassian-crowd.tar.gz -SL "https://www.atlassian.com/software/crowd/downloads/binary/atlassian-crowd-$CROWD_VERSION.tar.gz" && tar xf $CROWD_INSTALL/atlassian-crowd.tar.gz -C $CROWD_INSTAL... :: Filesystem_operation,()
+CROWD_HOME:/var/atlassian/crowd :: env_operation,()
+useradd ¦-u¦1000¦-ms¦/bin/bash¦atlassian :: Permissions_operation,()
+CROWD_VERSION:2.8.3 :: env_operation,()
+sed ¦-ri¦"s/-Xms128m/-Xms${Xms}/"¦$CROWD_INSTALL/apache-tomcat/bin/setenv.sh :: Filesystem_operation,()
+expose,8095
+sed ¦-ri¦"s/-Xmx512m/-Xmx${Xmx}/"¦$CROWD_INSTALL/apache-tomcat/bin/setenv.sh :: Filesystem_operation,()
+from,staci/base:0.1
+echo ¦echo¦"atlassian:praqma" | chpasswd :: Filesystem_operation,()
+/var/atlassian/crowd :: volume_operation,()
+cmd,/opt/atlassian/crowd/apache-tomcat/bin/catalina.sh¦run
+Xmx:1024m :: env_operation,()
+curl ¦-Ls¦"http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.36.tar.gz"¦|¦tar¦-xz¦--directory¦"${CROWD_INSTALL}/apache-tomcat/lib/"¦--strip-components=1¦--no-same-owner :: Dependencies_operation,()
+Xms:512m :: env_operation,()
+CROWD_INSTALL:/opt/atlassian/crowd :: env_operation,()

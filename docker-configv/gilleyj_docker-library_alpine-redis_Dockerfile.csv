@@ -1,0 +1,14 @@
+/data :: volume_operation,()
+from,alpine:3.4
+entrypoint,/entrypoint.sh
+mkdir ¦/data :: Filesystem_operation,()
+apk ¦--update¦--no-cache¦add¦--virtual¦.base_package¦bash¦ca-certificates¦--virtual¦.redis_service¦redis :: Dependencies_operation,()
+container_confs/ :: copy_operation,()
+cmd,redis
+/data :: workdir_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+expose,6379
+LINK_PATH:/0 :: env_operation,()
+chown ¦nobody:nobody¦/data :: Permissions_operation,()
+LINK_PASSWORD:password :: env_operation,()
+LINK_SCHEME:redis :: env_operation,()

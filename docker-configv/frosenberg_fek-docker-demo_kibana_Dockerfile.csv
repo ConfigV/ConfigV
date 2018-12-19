@@ -1,0 +1,15 @@
+apt-get ¦update¦-y :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/run :: Permissions_operation,()
+expose,80
+run.sh/usr/local/bin/run :: add_operation,()
+apt-get ¦install¦-y¦wget¦nginx-full :: Dependencies_operation,()
+from,ubuntu
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+cmd,/usr/local/bin/run
+wget ¦--no-check-certificate¦https://download.elasticsearch.org/kibana/kibana/kibana-3.1.0.tar.gz¦-O¦pkg.tar.gz :: Dependencies_operation,()
+tar ¦zxf¦pkg.tar.gz :: Filesystem_operation,()
+cp ¦-rf¦./*¦/usr/share/nginx/html/ :: Filesystem_operation,()
+cd ¦kibana-* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()

@@ -1,0 +1,12 @@
+wat-apiwat-api :: copy_operation,()
+from,golang:1.8
+mkdir ¦-p¦/go/src/github.com/joeledstrom/wat-app/vendor :: Filesystem_operation,()
+wat-clientwat-client :: copy_operation,()
+vendor/vendor.jsonvendor :: copy_operation,()
+wat-client-api-libwat-client-api-lib :: copy_operation,()
+go ¦get¦-u¦github.com/kardianos/govendor :: Build_Execute_operation,()
+govendor ¦sync :: Other_operation,()
+cmd,./wat-client
+wat-client :: workdir_operation,()
+go ¦build :: Build_Execute_operation,()
+/go/src/github.com/joeledstrom/wat-app :: workdir_operation,()

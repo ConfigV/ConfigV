@@ -1,0 +1,13 @@
+cmd,apachectl¦-D¦FOREGROUND
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦-y¦install¦apache2¦apache2-threaded-dev :: Dependencies_operation,()
+from,ubuntu@latest
+expose,80
+mkdir ¦-p¦/usr/lib/cgi-bin :: Filesystem_operation,()
+base/var/www/html/base :: add_operation,()
+index.html/var/www/html/index.html :: copy_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+a2enmod ¦cgi :: Other_operation,()
+echo ¦echo¦"ServerName localhost" >> /etc/apache2/apache2.conf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+squidGuard.conf/etc/squidguard/squidGuard.conf :: copy_operation,()
+wpad.dat/var/www/html/wpad.dat :: copy_operation,()
+apt-get ¦install¦-y¦squidguard¦apache2 :: Dependencies_operation,()
+from,squid_proxy
+echo ¦sudo¦echo 'AddType application/x-ns-proxy-autoconfig .dat' >> /etc/apache2/httpd.conf :: Filesystem_operation,()
+cmd,/startSquidGuard
+sudo ¦chmod¦a+x¦/startSquidGuard :: Other_operation,()
+echo ¦wget¦http://www.shallalist.de/Downloads/shallalist.tar.gz && tar -xzf shallalist.tar.gz -C /var/lib/squidguard/db && rm shallalist.tar.gz && chown proxy:proxy /var/lib/squidguard/db -R && echo "redirect_program /usr/bin/squidGuard -c /etc/... :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+sudo ¦-u¦proxy¦squidGuard¦-C¦all :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/var/spool/squid3 :: volume_operation,()
+startSquidGuard/startSquidGuard :: copy_operation,()
+expose,3128 80
+block.html/var/www/html/block.html :: copy_operation,()

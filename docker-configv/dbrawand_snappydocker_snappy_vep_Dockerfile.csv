@@ -1,0 +1,17 @@
+wget ¦-c¦https://github.com/Ensembl/ensembl-tools/archive/release/84.zip :: Dependencies_operation,()
+HOME:/home/vagrant :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,viapath/snappy_ngstools:flatdog
+PERL_MM_USE_DEFAULT=1: :: env_operation,()
+PATH:/usr/local/pipeline/ensembl-tools-release-84/scripts/variant_effect_predictor/htslib:$PATH :: env_operation,()
+Grantham.pm${HOME}/.vep/Plugins :: add_operation,()
+PERL5LIB:/usr/local/pipeline/ensembl-tools-release-84/scripts/variant_effect_predictor:$PERL5LIB :: env_operation,()
+rm ¦84.zip :: Filesystem_operation,()
+mkdir ¦-p¦/home/vagrant/work :: Filesystem_operation,()
+perl ¦INSTALL.pl¦--AUTO¦ap¦--PLUGINS¦all¦--NO_HTSLIB :: Other_operation,()
+cpan ¦-i¦Archive::Extract¦DBI¦CGI¦Archive::Zip¦File::Copy::Recursive¦JSON¦Sereal :: Other_operation,()
+cd ¦/usr/local/pipeline :: Filesystem_operation,()
+cd ¦/usr/local/pipeline/ensembl-tools-release-84/scripts/variant_effect_predictor :: Filesystem_operation,()
+cmd,/bin/bash
+unzip ¦84.zip :: Filesystem_operation,()
+CACHEDIR:${HOME}/work/vep :: env_operation,()

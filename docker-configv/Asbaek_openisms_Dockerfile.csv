@@ -1,0 +1,12 @@
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+mkdir ¦/srv/openisms :: Filesystem_operation,()
+entrypoint,/usr/bin/python¦openisms.py
+apt-get ¦install¦-y¦python-pip :: Dependencies_operation,()
+/srv/openisms :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./srv/openisms/ :: add_operation,()
+HOSTNAME=0.0.0.0: :: env_operation,()
+pip ¦install¦flask :: Dependencies_operation,()
+expose,5000
+assessments :: volume_operation,()
+from,ubuntu@latest

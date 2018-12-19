@@ -1,0 +1,16 @@
+echo ¦wget¦-N $CB_RELEASE_URL/$CB_VERSION/$CB_PACKAGE && echo "$CB_SHA256 $CB_PACKAGE" | sha256sum -c - && dpkg -i ./$CB_PACKAGE && rm -f ./$CB_PACKAGE :: Filesystem_operation,()
+cmd,couchbase-server
+groupadd ¦-g¦1000¦couchbase :: Permissions_operation,()
+scripts/entrypoint.sh/ :: copy_operation,()
+from,ubuntu:14.04
+entrypoint,/entrypoint.sh
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+CB_VERSION=4.1.0-dp:CB_RELEASE_URL=http://packages.couchbase.com/releases :: env_operation,()
+apt-get ¦install¦-yq¦runit¦wget¦python-httplib2¦net-tools¦vim :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,8091 8092 8093 11207 11210 11211 18091 18092
+/opt/couchbase/var :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+useradd ¦couchbase¦-u¦1000¦-g¦couchbase¦-M :: Permissions_operation,()
+scripts/run/etc/service/couchbase-server/run :: copy_operation,()

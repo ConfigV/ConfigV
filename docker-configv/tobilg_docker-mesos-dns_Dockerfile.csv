@@ -1,0 +1,11 @@
+install.sh. :: add_operation,()
+chmod ¦+x¦install.sh :: Permissions_operation,()
+MESOS_DNS_FILENAME:mesos-dns-v$MESOS_DNS_VERSION-linux-amd64 :: env_operation,()
+chmod ¦+x¦bootstrap.sh :: Permissions_operation,()
+from,sillelien/base-alpine:0.10
+bootstrap.sh. :: add_operation,()
+/config.json$MESOS_DNS_PATH/config.json :: add_operation,()
+entrypoint,./bootstrap.sh
+./install.sh  :: Other_operation,()
+MESOS_DNS_VERSION:0.3.0 :: env_operation,()
+MESOS_DNS_PATH:/usr/local/mesos-dns :: env_operation,()

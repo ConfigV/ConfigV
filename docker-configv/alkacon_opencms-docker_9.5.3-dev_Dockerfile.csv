@@ -1,0 +1,19 @@
+java ¦-classpath¦"${OPENCMS_HOME}/WEB-INF/lib/*:${OPENCMS_HOME}/WEB-INF/classes:/usr/share/tomcat8/lib/*"¦org.opencms.setup.CmsAutoSetup¦-path¦${CONFIG_FILE} :: Other_operation,()
+rm ¦-rf¦/opencms.war¦/opencms-*.sh¦${CONFIG_FILE}¦/config :: Filesystem_operation,()
+expose,22
+cmd,/root/opencms-run.sh
+from,java:8.0
+mkdir ¦${OPENCMS_HOME} :: Filesystem_operation,()
+unzip ¦-q¦-d¦${OPENCMS_HOME}¦/opencms.war :: Filesystem_operation,()
+mv ¦/opencms-run.sh¦/root/ :: Filesystem_operation,()
+ROOT_PWD=mypassword:DEBIAN_FRONTEND=noninteractive :: env_operation,()
+rm ¦-rf¦${WEBAPPS_HOME}/ROOT :: Filesystem_operation,()
+resources/ :: copy_operation,()
+bash ¦/opencms-postinstall.sh :: Build_Execute_operation,()
+bash ¦/opencms-create-properties.sh :: Build_Execute_operation,()
+chmod ¦+x¦/opencms-*.sh :: Permissions_operation,()
+OPENCMS_URL:http://www.opencms.org/downloads/opencms/opencms-9.5.3.zip :: env_operation,()
+apt-get ¦update¦&& :: Dependencies_operation,()
+chown ¦-R¦tomcat8:tomcat8¦${OPENCMS_HOME} :: Permissions_operation,()
+bash ¦/opencms-fetch.sh :: Build_Execute_operation,()
+bash ¦/opencms-preinstall.sh :: Build_Execute_operation,()

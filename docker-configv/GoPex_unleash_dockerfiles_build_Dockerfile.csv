@@ -1,0 +1,12 @@
+REFRESHED_AT:2016-03-05 :: env_operation,()
+PACKAGE:github.com/GoPeX/unleash :: env_operation,()
+CGO_ENABLED="${CGO_ENABLED:-0}" ¦go¦build¦-a¦--installsuffix¦cgo¦--ldflags="${LDFLAGS:--s}"¦-o¦$GOPATH/bin/unleash¦$PACKAGE_DIR/main/server.go :: Other_operation,()
+mkdir ¦-p¦$PACKAGE_DIR :: Filesystem_operation,()
+goupx ¦$GOPATH/bin/unleash :: Other_operation,()
+apt-get ¦install¦-yqq¦upx-ucl¦git :: Dependencies_operation,()
+PACKAGE_DIR:/go/src/$PACKAGE :: env_operation,()
+go ¦get¦github.com/pwaller/goupx :: Build_Execute_operation,()
+.$PACKAGE_DIR/. :: copy_operation,()
+apt-get ¦update¦-yqq :: Dependencies_operation,()
+from,golang:1.6
+go ¦get¦-t¦-d¦-v¦$PACKAGE/... :: Build_Execute_operation,()

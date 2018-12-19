@@ -1,0 +1,19 @@
+example-config.php/etc/davical/config_real.php :: copy_operation,()
+/etc/davical :: volume_operation,()
+a2dissite ¦000-default :: Other_operation,()
+DAVICAL_DB_PASS:XXX :: env_operation,()
+a2ensite ¦davical :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦--no-install-recommends¦¦apache2¦¦libapache2-mod-php5¦¦davical :: Dependencies_operation,()
+DAVICAL_DB_USER:davical_app :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+DAVICAL_DB_ADMIN:davical_dba :: env_operation,()
+davical.conf/etc/apache2/sites-available/davical.conf :: copy_operation,()
+DAVICAL_DB_NAME:davical :: env_operation,()
+a2enmod ¦php5 :: Other_operation,()
+from,debian@jessie
+expose,80
+run/usr/local/bin/run_container :: copy_operation,()
+entrypoint,/usr/local/bin/run_container
+apt-get ¦clean :: Dependencies_operation,()
+DAVICAL_SERVER_NAME:example.com :: env_operation,()

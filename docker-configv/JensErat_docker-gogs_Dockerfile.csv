@@ -1,0 +1,13 @@
+/opt/gogs/custom :: volume_operation,()
+echo ¦apt-get¦update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ` # Fetch gogs ` curl ca-certificates unzip openssh-server ` # gogs dependencies as listed in Debian package ` mysql-common libpq5 libsqlite3-0 ope... :: Filesystem_operation,()
+cmd,/opt/run.sh
+from,debian:8.0
+expose,22 3000
+run.sh/opt/ :: copy_operation,()
+/opt/gogs/data :: volume_operation,()
+/srv :: volume_operation,()
+/opt/gogs :: workdir_operation,()
+supervisord.conf/etc/supervisor/ :: copy_operation,()
+VERSION=0.6.1:SHA256SUM=ab4d8341d1c14e753914b68b3ec0c9b169c361123dcef541ff34444b1e54812b :: env_operation,()
+for ¦i¦in¦`find¦/¦-perm¦+6000¦-type¦f¦2>/dev/null`;¦do¦chmod¦a-s¦$i;¦done :: Other_operation,()
+/etc/ssh :: volume_operation,()

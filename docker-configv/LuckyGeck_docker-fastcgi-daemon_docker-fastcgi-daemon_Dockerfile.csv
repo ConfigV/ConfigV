@@ -1,0 +1,17 @@
+data :: volume_operation,()
+cmd,fastcgi-daemon2¦--config=fastcgi.conf
+dpkg-buildpackage ¦-rfakeroot :: Other_operation,()
+mkdir ¦-p¦/tmp/build_fastcgi :: Filesystem_operation,()
+git ¦clone¦https://github.com/lmovsesjan/Fastcgi-Daemon.git :: Dependencies_operation,()
+apt-get ¦install¦-y¦autoconf-archive¦automake1.9¦autotools-dev¦build-essential¦debhelper¦git¦libboost-dev¦libboost-regex-dev¦libboost-thread-dev¦libfcgi-dev¦libssl-dev¦libtool¦libxml2-dev¦pkg-config :: Dependencies_operation,()
+FCGI_VERSION:2.10-26 :: env_operation,()
+from,ubuntu:14.04
+cd ¦/tmp/build_fastcgi :: Filesystem_operation,()
+"data" :: workdir_operation,()
+rm ¦-rf¦/tmp/build_fastcgi :: Filesystem_operation,()
+/tmp/fastcgi :: volume_operation,()
+sudo ¦dpkg¦-i¦./fastcgi-daemon2-init_${FCGI_VERSION}_amd64.deb¦./fastcgi-daemon2_${FCGI_VERSION}_amd64.deb¦./libfastcgi-daemon2-dev_${FCGI_VERSION}_amd64.deb¦./libfastcgi-daemon2_${FCGI_VERSION}_amd64.deb¦./libfastcgi2-syslog_${FCGI_VERSION}_amd... :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+cd ¦Fastcgi-Daemon :: Filesystem_operation,()

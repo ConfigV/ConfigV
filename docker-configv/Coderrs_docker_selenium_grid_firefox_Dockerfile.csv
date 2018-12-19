@@ -1,0 +1,13 @@
+cmd,/bin/bash¦/var/register-node.sh
+apt-get ¦install¦oracle-java7-installer¦-y :: Dependencies_operation,()
+chmod ¦755¦/var/register-node.sh :: Permissions_operation,()
+from,ubuntu
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+wget ¦http://selenium-release.storage.googleapis.com/${VERSION%.*}/selenium-server-standalone-${VERSION}.jar :: Dependencies_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections :: Filesystem_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections :: Filesystem_operation,()
+VERSION:2.44.0 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦firefox¦xvfb¦-y :: Dependencies_operation,()
+register-node.sh/var/register-node.sh :: add_operation,()
+add-apt-repository ¦ppa:webupd8team/java :: Dependencies_operation,()

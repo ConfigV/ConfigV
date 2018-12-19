@@ -1,0 +1,11 @@
+expose,5050
+pgadmin:pgadmin :: user_operation,()
+adduser ¦-D¦-S¦-h¦/pgadmin¦-s¦/sbin/nologin¦-u¦1000¦-G¦pgadmin¦pgadmin :: Permissions_operation,()
+cmd,python¦./usr/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py
+mkdir ¦-p¦/pgadmin/config¦/pgadmin/storage;¦chown¦-R¦1000:50¦/pgadmin :: Filesystem_operation,()
+LICENSE/usr/lib/python2.7/site-packages/pgadmin4/ :: copy_operation,()
+/pgadmin/ :: volume_operation,()
+from,hypriot/rpi-alpine
+echo ¦apk¦add --no-cache py-pip python python-dev alpine-sdk postgresql-dev && echo "https://ftp.postgresql.org/pub/pgadmin3/pgadmin4/v${PGADMIN_VERSION}/pip/pgadmin4-${PGADMIN_VERSION}-py2.py3-none-any.whl" > requirements.txt && pip install --u... :: Filesystem_operation,()
+PGADMIN_VERSION=1.3:PYTHONDONTWRITEBYTECODE=1 :: env_operation,()
+addgroup ¦-g¦50¦-S¦pgadmin :: Permissions_operation,()

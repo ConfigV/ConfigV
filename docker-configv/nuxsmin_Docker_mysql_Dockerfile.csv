@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+rm ¦-rf¦${MYSQL_DATA_DIR} :: Filesystem_operation,()
+cmd,/usr/bin/mysqld_safe
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦mysql-server :: Dependencies_operation,()
+entrypoint,/sbin/entrypoint.sh
+from,debian@jessie
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()
+expose,3306

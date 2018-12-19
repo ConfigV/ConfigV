@@ -1,0 +1,28 @@
+rm ¦-rf¦/var/lib/mysql :: Filesystem_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+./conf/my.cnf/usr/share/mysql/my-default.cnf :: copy_operation,()
+MYSQL_MAJOR:5.6 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+apt-get ¦install¦-y¦mysql-server-5.6 :: Dependencies_operation,()
+chown ¦-R¦mysql:mysql¦/var/lib/mysql¦/var/run/mysqld :: Permissions_operation,()
+MYSQL_DATADIR:'/var/lib/mysql' :: env_operation,()
+./bin/docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+echo ¦{¦ echo mysql-community-server mysql-community-server/data-dir select '';  echo mysql-community-server mysql-community-server/root-pass password '';  echo mysql-community-server mysql-community-server/re-root-pass password '';  echo mysql-... :: Filesystem_operation,()
+apt-get ¦install¦-y¦perl¦pwgen¦--no-install-recommends :: Dependencies_operation,()
+MYSQL_VERSION:5.6 :: env_operation,()
+mktemp ¦-d :: Other_operation,()
+cmd,mysqld
+from,ubuntu:16.04
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦A4A9406876FCBD3C456770C88C718D3B5072E1F5 :: Dependencies_operation,()
+chmod ¦777¦/var/run/mysqld :: Permissions_operation,()
+GOSU_VERSION:1.7 :: env_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+entrypoint,docker-entrypoint.sh
+mkdir ¦-p¦/var/lib/mysql¦/var/run/mysqld :: Filesystem_operation,()
+ln ¦-s¦usr/local/bin/docker-entrypoint.sh¦/docker-entrypoint.sh¦#¦backwards¦compat :: Filesystem_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty universe" > /etc/apt/sources.list.d/mysql.list :: Filesystem_operation,()

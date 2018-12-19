@@ -1,0 +1,13 @@
+entrypoint,/entrypoint.sh
+apt-get ¦install¦-y¦--no-install-recommends¦libmcrypt-dev :: Dependencies_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+set ¦-x;¦apt-get¦update :: Environment_operation,()
+docker-php-ext-install ¦mysql¦mcrypt¦pdo_mysql¦mysqli :: Other_operation,()
+ppma.php/usr/src/ppma/protected/config/ppma.php :: copy_operation,()
+from,php:5.0
+mv ¦/usr/src/ppma-$PPMA_VERSION¦/usr/src/ppma :: Filesystem_operation,()
+tar ¦-xf¦/tmp/ppma-$PPMA_VERSION.tar.gz¦-C¦/usr/src :: Filesystem_operation,()
+cmd,apache2-foreground
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+set ¦-x;¦curl¦-L¦http://sourceforge.net/projects/ppma/files/0.5.1/ppma-$PPMA_VERSION.tar.gz/download¦>¦/tmp/ppma-$PPMA_VERSION.tar.gz :: Environment_operation,()
+PPMA_VERSION:0.5.1 :: env_operation,()

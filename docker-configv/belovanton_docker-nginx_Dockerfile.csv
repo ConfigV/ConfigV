@@ -1,0 +1,19 @@
+apt-get ¦update¦-y :: Dependencies_operation,()
+/config/supervisor/supervisord.conf/etc/supervisord.conf :: add_operation,()
+NGINX_VERSION:1.9.5 :: env_operation,()
+NPS_VERSION:1.9.32.10 :: env_operation,()
+sed ¦-i¦'s|://.*\\..*\\.com|://ru.archive.ubuntu.com|'¦/etc/apt/sources.list¦&&\\ :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦755¦/scripts/*.sh :: Permissions_operation,()
+apt-get ¦-y¦install¦python-setuptools¦ca-certificates¦curl¦¦wget¦pkg-config¦&&\\ :: Dependencies_operation,()
+/scripts/scripts :: add_operation,()
+from,ubuntu@latest
+expose,80
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/config/config :: add_operation,()
+sources.list/etc/apt/sources.list :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦dist-upgrade¦-y :: Other_operation,()
+/usr/bin/easy_install ¦supervisor¦&&\\ :: Other_operation,()
+/var/www :: volume_operation,()
+apt-get ¦-y¦install¦¦python¦python-pip¦python-dev¦nginx-extras¦libfreetype6¦libfontconfig1¦build-essential¦zlib1g-dev¦libpcre3¦libpcre3-dev¦unzip¦libssl-dev¦&&\\ :: Dependencies_operation,()
+cmd,/bin/bash¦/scripts/start.sh

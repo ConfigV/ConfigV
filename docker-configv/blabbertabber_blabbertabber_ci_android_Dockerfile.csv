@@ -1,0 +1,7 @@
+ANDROID_HOME=/opt/android: :: env_operation,()
+ANDROID_SDK_URI=http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz: :: env_operation,()
+from,cunnie/java
+mkdir ¦-p¦/opt/workspace :: Filesystem_operation,()
+repo_path=https://raw.githubusercontent.com/blabbertabber/blabbertabber/develop/: :: env_operation,()
+/opt/workspace :: workdir_operation,()
+mkdir ¦$ANDROID_HOME;¦cd¦$ANDROID_HOME;¦mkdir¦-p¦gradle/wrapper¦app;¦for¦file¦in¦gradlew¦gradle/wrapper/gradle-wrapper.jar¦gradle/wrapper/gradle-wrapper.properties¦app/build.gradle¦build.gradle¦settings.gradle;¦do¦curl¦-L¦${repo_path}/${file}¦-o¦... :: Filesystem_operation,()

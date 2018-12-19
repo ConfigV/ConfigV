@@ -1,0 +1,11 @@
+zz-magento.ini/etc/php5/cli/conf.d/zz-magento.ini :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦https://files.magerun.net/n98-magerun.phar :: Dependencies_operation,()
+mv ¦./n98-magerun.phar¦/usr/local/bin/magerun :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/magerun :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,pinedamg/apache-php
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦+x¦./n98-magerun.phar :: Permissions_operation,()

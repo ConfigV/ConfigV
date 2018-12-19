@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+add-apt-repository ¦multiverse :: Dependencies_operation,()
+cmd,bash
+apt-get ¦install¦-y¦curl¦vim¦gedit¦ssh¦rsync¦retroarch¦libretro-*¦libcg¦libcggl¦kodi :: Dependencies_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+add-apt-repository ¦-y¦ppa:team-xbmc/ppa :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:libretro/stable :: Dependencies_operation,()
+from,ubuntu@latest
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+entrypoint.sh/usr/local/bin/entrypoint.sh :: copy_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+add-apt-repository ¦universe :: Dependencies_operation,()

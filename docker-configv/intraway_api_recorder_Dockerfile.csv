@@ -1,0 +1,18 @@
+from,alpine:3.4
+org.label-schema.vcs-ref:$BUILD_VCS_REF :: label_operation,()
+/gopath/src/app :: workdir_operation,()
+go ¦get :: Build_Execute_operation,()
+cp ¦app¦/app/api_recorder :: Filesystem_operation,()
+rm ¦-rf¦/gopath :: Filesystem_operation,()
+/app :: workdir_operation,()
+apk ¦del¦git¦go¦g++ :: Dependencies_operation,()
+org.label-schema.version:$BUILD_VERSION :: label_operation,()
+com.microscaling.license:GPL-3.0 :: label_operation,()
+apk ¦add¦--no-cache¦git¦go¦g++ :: Dependencies_operation,()
+go ¦build :: Build_Execute_operation,()
+entrypoint,/app/init.sh
+GOROOT=/usr/lib/go:GOPATH=/gopath :: env_operation,()
+docker/app :: add_operation,()
+./gopath/src/app :: add_operation,()
+org.label-schema.build-date:$BUILD_DATE :: label_operation,()
+org.label-schema.vcs-url:https://github.com/intraway/api_recorder.git :: label_operation,()

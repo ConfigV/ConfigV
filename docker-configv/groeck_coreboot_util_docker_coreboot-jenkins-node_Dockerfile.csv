@@ -1,0 +1,23 @@
+apt-get ¦-y¦install¦curl¦p7zip-full¦unrar-free¦libusb-1.0-0-dev¦pkg-config¦libreadline-dev¦libglib2.0-dev¦subversion¦libpci-dev¦libusb-dev¦libftdi-dev¦lua5.3¦liblua5.3-dev¦ccache¦openjdk-8-jre-headless¦openssh-server¦libssl-dev¦vim-common¦libgmp-de... :: Dependencies_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+from,coreboot/coreboot-sdk:1.37
+root :: user_operation,()
+chmod ¦0700¦/home/coreboot/.ssh :: Permissions_operation,()
+chown ¦coreboot¦/home/coreboot/.ccache :: Permissions_operation,()
+chown ¦root¦/usr/sbin/encapsulate :: Permissions_operation,()
+expose,49151
+chmod ¦+s¦/usr/sbin/encapsulate :: Permissions_operation,()
+mkdir ¦-p¦/home/coreboot/.ssh :: Filesystem_operation,()
+mkdir ¦/home/coreboot/.ccache :: Filesystem_operation,()
+chown ¦-R¦coreboot¦/home/coreboot/.ssh :: Permissions_operation,()
+chmod ¦0755¦/var/run/sshd :: Permissions_operation,()
+https://raw.githubusercontent.com/pgeorgi/encapsulate/master/encapsulate.c/tmp/encapsulate.c :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mount ¦|grep¦"on¦/dev¦type¦tmpfs"¦>¦/dev/null¦||¦exit¦1 :: Other_operation,()
+chmod ¦0600¦/home/coreboot/.ssh/authorized_keys :: Permissions_operation,()
+/data/cache :: volume_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+PATH:$PATH:/usr/sbin :: env_operation,()
+gcc ¦-o¦/usr/sbin/encapsulate¦/tmp/encapsulate.c :: Other_operation,()
+entrypoint,mkdir¦/dev/cb-build¦&&¦chown¦coreboot¦/dev/cb-build¦&&¦/usr/sbin/sshd¦-p¦49151¦-D
+authorized_keys/home/coreboot/.ssh/authorized_keys :: copy_operation,()

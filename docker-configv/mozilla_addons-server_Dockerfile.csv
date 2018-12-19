@@ -1,0 +1,9 @@
+/code :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦--no-deps¦--exists-action=w¦--download-cache=/tmp/pip-cache¦-r¦requirements/dev.txt¦--find-links¦https://pyrepo.addons.mozilla.org/¦--src=/pip-src/ :: Dependencies_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+./code :: add_operation,()
+make ¦update_assets :: Build_Execute_operation,()
+apt-get ¦install¦-y¦python-dev¦python-virtualenv¦libxml2-dev¦libxslt1-dev¦libmysqlclient-dev¦memcached¦libssl-dev¦swig¦openssl¦curl¦libjpeg-dev¦zlib1g-dev¦libsasl2-dev¦nodejs¦npm¦mysql-client :: Dependencies_operation,()
+pip ¦install¦--no-deps¦--exists-action=w¦--download-cache=/tmp/pip-cache¦-r¦requirements/docs.txt¦--find-links¦https://pyrepo.addons.mozilla.org/¦--src=/pip-src/ :: Dependencies_operation,()
+from,python:2.7

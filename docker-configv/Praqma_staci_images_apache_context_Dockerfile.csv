@@ -1,0 +1,18 @@
+apt-get ¦-y¦install¦apache2 :: Dependencies_operation,()
+from,staci/base:0.1
+a2enmod ¦proxy :: Other_operation,()
+expose,80
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+apt-get ¦update¦-y :: Dependencies_operation,()
+echo ¦echo¦"ServerName home.softica.dk" > /etc/apache2/conf-available/servername.conf :: Filesystem_operation,()
+/bin/ln ¦-sf¦../mods-available/ssl.conf¦/etc/apache2/mods-enabled/ :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/bin/ln ¦-sf¦../sites-available/default-ssl¦/etc/apache2/sites-enabled/001-default-ssl :: Other_operation,()
+ln ¦-s¦/etc/apache2/conf-available/servername.conf¦/etc/apache2/conf-enabled :: Filesystem_operation,()
+/bin/ln ¦-sf¦../mods-available/ssl.load¦/etc/apache2/mods-enabled/ :: Other_operation,()
+a2ensite ¦default-ssl :: Other_operation,()
+setup.sh/tmp/setup.sh :: copy_operation,()
+a2enmod ¦proxy_http :: Other_operation,()
+index.html/var/www/html/index.html :: copy_operation,()
+a2enmod ¦socache_shmcb :: Other_operation,()
+/tmp/setup.sh  :: Other_operation,()

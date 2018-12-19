@@ -1,0 +1,9 @@
+http://archive.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz/opt/maven.tar.gz :: add_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+from,ubuntu:14.04
+tar ¦-xvf¦/opt/maven.tar.gz¦-C¦/opt :: Filesystem_operation,()
+ln ¦-s¦/opt/maven/bin/mvn¦/usr/bin/mvn :: Filesystem_operation,()
+mv ¦/opt/apache-maven-3.3.3¦/opt/maven :: Filesystem_operation,()
+MAVEN_HOME:/opt/maven :: env_operation,()
+echo ¦apt-get¦update -y && apt-get install software-properties-common -y && add-apt-repository ppa:webupd8team/java -y && apt-get update -y && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections &... :: Filesystem_operation,()
+rm ¦/opt/maven.tar.gz :: Filesystem_operation,()

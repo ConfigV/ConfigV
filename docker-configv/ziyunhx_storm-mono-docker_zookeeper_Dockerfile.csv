@@ -1,0 +1,12 @@
+start-zk.sh/usr/bin/start-zk.sh :: add_operation,()
+/opt/zookeeper-3.4.6/conf :: volume_operation,()
+sed ¦-i¦"s|/tmp/zookeeper|$ZK_HOME/data|g"¦$ZK_HOME/conf/zoo.cfg;¦mkdir¦$ZK_HOME/data :: Filesystem_operation,()
+from,ziyunhx/base
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()
+ZK_HOME:/opt/zookeeper-3.4.6 :: env_operation,()
+mv ¦/opt/zookeeper-3.4.6/conf/zoo_sample.cfg¦/opt/zookeeper-3.4.6/conf/zoo.cfg :: Filesystem_operation,()
+wget ¦-q¦-O¦-¦http://mirror.vorboss.net/apache/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz¦|¦tar¦-xzf¦-¦-C¦/opt :: Dependencies_operation,()
+/opt/zookeeper-3.4.6/data :: volume_operation,()
+/opt/zookeeper-3.4.6 :: workdir_operation,()
+cmd,/usr/sbin/sshd¦&&¦start-zk.sh
+expose,2181 2888 3888

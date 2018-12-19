@@ -1,0 +1,12 @@
+from,alpine:3.2
+/etc/nginx/certs :: volume_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+cmd,nginx
+/var/log/nginx :: volume_operation,()
+expose,443
+apk ¦add¦--update¦nginx :: Dependencies_operation,()
+/var/www/html :: volume_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+/etc/nginx :: workdir_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/etc/nginx/sites-enabled :: volume_operation,()

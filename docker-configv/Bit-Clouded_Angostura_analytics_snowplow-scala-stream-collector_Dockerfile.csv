@@ -1,0 +1,12 @@
+from,openjdk:8.0
+cmod ¦+x¦./init-cmd.sh :: Other_operation,()
+SSSC_VERSION:0.9.0 :: env_operation,()
+/snowplow :: workdir_operation,()
+SSSC_JAR:snowplow-stream-collector-$SSSC_VERSION :: env_operation,()
+./config.hocon./ :: add_operation,()
+mkdir ¦-p¦/snowplow :: Filesystem_operation,()
+./init-cmd.sh./ :: add_operation,()
+cmd,./init-cmd.sh
+http://dl.bintray.com/snowplow/snowplow-generic/$SSSC_ZIP./ :: add_operation,()
+SSSC_ZIP:snowplow_scala_stream_collector_$SSSC_VERSION.zip :: env_operation,()
+unzip ¦./$SSSC_ZIP :: Filesystem_operation,()

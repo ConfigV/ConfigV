@@ -1,0 +1,7 @@
+from,debian@latest
+cmd,/usr/sbin/sshd¦-D
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update¦&&\\¦apt-get¦install¦-y¦openssh-server :: Dependencies_operation,()
+expose,22
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

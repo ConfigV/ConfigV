@@ -1,0 +1,17 @@
+apt-get ¦-qq¦-y¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+TERM=xterm: :: env_operation,()
+chown ¦-R¦www-data¦/etc/lighttpd :: Permissions_operation,()
+from,debian@jessie
+expose,81
+*.php/var/www/html/ :: copy_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦clean :: Dependencies_operation,()
+lighttpd.conf/etc/lighttpd/lighttpd.conf :: copy_operation,()
+apt-get ¦install¦-qqy¦php5-cgi :: Dependencies_operation,()
+chown ¦-R¦www-data¦/var/www/html :: Permissions_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-qqy¦lighttpd :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦mc¦sqlite :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦php5-sqlite :: Dependencies_operation,()
+UPDATEPASSWORD="my-_-password": :: env_operation,()

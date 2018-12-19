@@ -1,0 +1,11 @@
+rm ¦-f¦go1.8.src.tar.gz :: Filesystem_operation,()
+from,fedora:25.0
+cmd,build¦fedora-25
+PATH:/usr/local/go/bin:$PATH:/go/bin :: env_operation,()
+wget ¦https://storage.googleapis.com/golang/go1.8.src.tar.gz :: Dependencies_operation,()
+entrypoint,pacur
+GOPATH:/go :: env_operation,()
+yum ¦-y¦install¦tar¦expect¦gpg¦rpm-build¦rpm-sign¦openssl¦createrepo¦rsync¦make¦automake¦gcc¦wget¦zip¦git¦bzr¦mercurial :: Dependencies_operation,()
+go ¦get¦github.com/pacur/pacur :: Build_Execute_operation,()
+yum ¦-y¦upgrade :: Dependencies_operation,()
+tar ¦-C¦/usr/local¦-xf¦go1.8.src.tar.gz :: Filesystem_operation,()

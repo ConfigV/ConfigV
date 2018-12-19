@@ -1,0 +1,8 @@
+unzip ¦keycloak-jetty93-adapter-dist-2.3.0.Final.zip :: Filesystem_operation,()
+./target/gui-serverbackend.war$JETTY_BASE/webapps/ROOT.war :: add_operation,()
+from,jetty
+cd ¦$JETTY_BASE :: Filesystem_operation,()
+rm ¦-f¦keycloak-jetty93-adapter-dist-2.3.0.Final.zip :: Filesystem_operation,()
+java ¦-jar¦$JETTY_HOME/start.jar¦--add-to-startd=keycloak :: Other_operation,()
+cd ¦$JETTY_HOME :: Filesystem_operation,()
+curl ¦-O¦https://downloads.jboss.org/keycloak/2.3.0.Final/adapters/keycloak-oidc/keycloak-jetty93-adapter-dist-2.3.0.Final.zip :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+apt-get ¦install¦-y¦locales :: Dependencies_operation,()
+echo ¦apt-key¦adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && echo "deb http://nginx.org/packages/mainline/ubuntu/ wily nginx" > /etc/apt/sources.list.d/nginx.list && apt-get update && apt-get install... :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦ca-certificates¦wget¦apt-transport-https¦curl¦vim¦build-essential :: Other_operation,()
+sed ¦-ri¦'s/archive.ubuntu.com/cn.archive.ubuntu.com/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦apt-utils :: Other_operation,()
+from,ubuntu@wily
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦-A¦/usr/share/locale/locale.alias¦en_US.UTF-8 :: Other_operation,()
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+LANG:en_US.utf8 :: env_operation,()
+expose,80 443

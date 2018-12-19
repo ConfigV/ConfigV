@@ -1,0 +1,15 @@
+/usr/sbin/a2enmod ¦ssl :: Other_operation,()
+/usr/sbin/a2dismod ¦'mpm_*' :: Other_operation,()
+/usr/sbin/a2enmod ¦php7.0 :: Other_operation,()
+/usr/sbin/a2enmod ¦mpm_prefork :: Other_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+from,ubuntu:16.1
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/usr/sbin/a2ensite ¦default-ssl :: Other_operation,()
+apt-get ¦-y¦install¦apache2¦php7.0¦libapache2-mod-php¦php-mysql :: Dependencies_operation,()
+expose,443

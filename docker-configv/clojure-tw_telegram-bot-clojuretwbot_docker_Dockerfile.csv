@@ -1,0 +1,15 @@
+TZ="/usr/share/zoneinfo/Asia/Taipei": :: env_operation,()
+apt-get ¦install¦wget¦curl¦tzdata¦ca-certificates¦openssh-server¦sqlite3¦git¦build-essential¦-y :: Dependencies_operation,()
+entrypoint,/sbin/entrypoint.sh
+chmod ¦+x¦/usr/bin/lein :: Permissions_operation,()
+/data :: workdir_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+curl ¦-O¦https://raw.githubusercontent.com/rednoah/java-installer/master/release/get-java.sh :: Dependencies_operation,()
+wget ¦-q¦-O¦/usr/bin/lein¦https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein :: Dependencies_operation,()
+LEIN_ROOT=1: :: env_operation,()
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+from,resin/armv7hf-debian
+sh ¦get-java.sh¦install :: Build_Execute_operation,()
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()

@@ -1,0 +1,18 @@
+expose,9000
+ln ¦-s¦/etc/php/7.1/mods-available/php.ini¦/etc/php/7.1/fpm/conf.d/90-php.ini :: Filesystem_operation,()
+cmd,php-fpm7.1
+./conf/www.conf/etc/php/7.1/fpm/pool.d/www.conf :: copy_operation,()
+rm ¦-rfv¦/tmp/*¦/var/lib/apt/lists/*¦/var/tmp/* :: Filesystem_operation,()
+./conf/php.ini/etc/php/7.1/mods-available/php.ini :: copy_operation,()
+LANGUAGE:en_US:en :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+/var/www/ :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+mkdir ¦-p¦/run/php :: Filesystem_operation,()
+root :: user_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+from,ubuntu:16.04
+ln ¦-s¦/etc/php/7.1/mods-available/php.ini¦/etc/php/7.1/cli/conf.d/90-php.ini :: Filesystem_operation,()

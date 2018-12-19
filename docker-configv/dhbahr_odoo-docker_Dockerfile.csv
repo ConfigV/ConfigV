@@ -1,0 +1,19 @@
+set ¦-x;¦curl¦-o¦odoo.deb¦-SL¦http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦odoo.deb :: Filesystem_operation,()
+odoo :: user_operation,()
+/mnt/extra-addons :: volume_operation,()
+cmd,openerp-server
+expose,8069 8071
+apt-get ¦update :: Dependencies_operation,()
+./openerp-server.conf/etc/odoo/ :: copy_operation,()
+./entrypoint.sh/ :: copy_operation,()
+dpkg ¦--force-depends¦-i¦odoo.deb :: Dependencies_operation,()
+chown ¦odoo¦/etc/odoo/openerp-server.conf :: Permissions_operation,()
+ODOO_VERSION:8.0 :: env_operation,()
+entrypoint,/entrypoint.sh
+OPENERP_SERVER:/etc/odoo/openerp-server.conf :: env_operation,()
+ODOO_RELEASE:20150401 :: env_operation,()
+apt-get ¦-y¦install¦-f¦--no-install-recommends :: Dependencies_operation,()
+from,debian@jessie
+/var/lib/odoo :: volume_operation,()
+echo ¦set¦-x; apt-get update && apt-get install -y --no-install-recommends ca-certificates curl nodejs npm python-support python-pyinotify && npm install -g less less-plugin-clean-css && ln -s /usr/bin/nodejs /usr/bin/node && curl -o wkhtmltox.d... :: Filesystem_operation,()

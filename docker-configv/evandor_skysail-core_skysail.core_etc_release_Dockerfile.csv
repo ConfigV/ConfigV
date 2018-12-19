@@ -1,0 +1,13 @@
+skysail :: user_operation,()
+expose,9102
+echo ¦echo¦"executing 'useradd -d /home/skysail -m -s /bin/bash skysail'" :: Filesystem_operation,()
+useradd ¦-d¦/home/skysail¦-m¦-s¦/bin/bash¦skysail :: Permissions_operation,()
+core.int.jar/home/skysail/products/demo/core.int.jar :: copy_operation,()
+echo ¦echo¦"creating /home/skysail/products/demo" :: Filesystem_operation,()
+/home/skysail :: workdir_operation,()
+config//home/skysail/products/demo/config/ :: copy_operation,()
+/home/skysail/products/demo :: workdir_operation,()
+from,java
+cmd,java¦-jar¦/home/skysail/products/demo/core.int.jar
+HOME:/home/skysail :: env_operation,()
+mkdir ¦-p¦/home/skysail/products/demo/plugins :: Filesystem_operation,()

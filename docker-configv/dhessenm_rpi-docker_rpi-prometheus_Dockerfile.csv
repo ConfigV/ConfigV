@@ -1,0 +1,20 @@
+mv ¦./promtool¦/usr/bin/ :: Filesystem_operation,()
+mv ¦./consoles¦/usr/share/prometheus/ :: Filesystem_operation,()
+apt-get ¦install¦-qy¦curl¦ca-certificates :: Dependencies_operation,()
+mkdir ¦-p¦/usr/share/prometheus :: Filesystem_operation,()
+entrypoint,/usr/bin/prometheus
+/root/ :: workdir_operation,()
+from,resin/rpi-raspbian:latest
+ln ¦-s¦/usr/share/prometheus/console_libraries¦/etc/prometheus/ :: Filesystem_operation,()
+mkdir ¦-p¦/etc/prometheus :: Filesystem_operation,()
+mv ¦./console_libraries¦/usr/share/prometheus/ :: Filesystem_operation,()
+expose,9090
+mkdir ¦/root/prometheus :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦prometheus-linux-arm-nightly.tar.gz :: Filesystem_operation,()
+cmd,-config.file=/etc/prometheus/prometheus.yml¦-storage.local.path=/prometheus¦-web.console.libraries=/usr/share/prometheus/console_libraries¦-web.console.templates=/usr/share/prometheus/consoles
+/prometheus :: workdir_operation,()
+curl ¦-sSLO¦https://s3-eu-west-1.amazonaws.com/downloads.robustperception.io/prometheus/prometheus-linux-arm-nightly.tar.gz :: Dependencies_operation,()
+tar ¦-xvf¦prometheus-linux-arm-nightly.tar.gz¦-C¦/root/prometheus/¦--strip-components=1 :: Filesystem_operation,()
+mv ¦./prometheus¦/usr/bin/ :: Filesystem_operation,()
+/prometheus :: volume_operation,()

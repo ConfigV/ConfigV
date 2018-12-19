@@ -1,0 +1,17 @@
+/run :: volume_operation,()
+container:docker :: env_operation,()
+/sys/fs/cgroup :: volume_operation,()
+/var/www/html/wordpress :: workdir_operation,()
+from,fedora
+systemctl ¦mask¦systemd-remount-fs.service¦dev-hugepages.mount¦sys-fs-fuse-connections.mount¦systemd-logind.service¦getty.target¦console-getty.service :: Other_operation,()
+cmd,/usr/sbin/init
+/tmp :: volume_operation,()
+config.patch/ :: add_operation,()
+expose,80
+systemctl ¦enable¦httpd.service :: Other_operation,()
+curl ¦-O¦https://wordpress.org/latest.tar.gz :: Dependencies_operation,()
+yum ¦-y¦install¦httpd¦php¦php-common¦php-mysql¦tar¦patch;¦yum¦clean¦all :: Dependencies_operation,()
+tar ¦-xvzf¦latest.tar.gz¦-C¦/var/www/html :: Filesystem_operation,()
+cp ¦wp-config-sample.php¦wp-config.php;¦patch¦wp-config.php¦<¦/config.patch :: Filesystem_operation,()
+wordpress.conf/etc/httpd/conf.d/wordpress.conf :: add_operation,()
+cp ¦/usr/lib/systemd/system/dbus.service¦/etc/systemd/system/;¦sed¦-i¦'s/OOMScoreAdjust=-900//'¦/etc/systemd/system/dbus.service :: Filesystem_operation,()

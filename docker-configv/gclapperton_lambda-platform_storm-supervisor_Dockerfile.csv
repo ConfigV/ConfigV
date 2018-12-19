@@ -1,0 +1,13 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+apt-get ¦install¦-y¦openjdk-6-jre-headless¦supervisor¦wget :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+run.sh/opt/storm/ :: add_operation,()
+expose,6700 6701 6702 6703
+mkdir ¦/opt/storm :: Filesystem_operation,()
+cmd,bash¦run.sh
+/opt/storm :: workdir_operation,()
+storm.yaml/opt/storm/conf/ :: add_operation,()
+from,ubuntu
+wget ¦-O¦-¦http://mirror.its.dal.ca/apache/incubator/storm/apache-storm-0.9.1-incubating/apache-storm-0.9.1-incubating.tar.gz¦|¦tar¦xzf¦-¦-C¦/opt/storm¦--strip-components¦1 :: Dependencies_operation,()

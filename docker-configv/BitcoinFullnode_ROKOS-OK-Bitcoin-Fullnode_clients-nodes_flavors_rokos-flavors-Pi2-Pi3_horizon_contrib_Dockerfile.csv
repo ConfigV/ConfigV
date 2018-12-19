@@ -1,0 +1,20 @@
+contrib/docker_start.sh/docker_start.sh :: add_operation,()
+apt-get ¦install¦-y¦software-properties-common¦python-software-properties :: Dependencies_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+chmod ¦+x¦/docker_start.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+LANGUAGE:C :: env_operation,()
+apt-get ¦install¦-y¦wget¦unzip :: Dependencies_operation,()
+cmd,/docker_start.sh
+from,phusion/baseimage
+echo ¦echo¦'nxt.allowedBotHosts=*' >> /nxt/conf/nxt.properties :: Filesystem_operation,()
+cd ¦/nxt;¦./compile.sh :: Filesystem_operation,()
+./nxt :: add_operation,()
+echo ¦echo¦'nxt.apiServerHost=0.0.0.0' >> /nxt/conf/nxt.properties :: Filesystem_operation,()
+LANG:C.UTF-8 :: env_operation,()
+LC_ALL:C.UTF-8 :: env_operation,()
+sed ¦'s/main$/main¦universe/'¦-i¦/etc/apt/sources.list :: Filesystem_operation,()
+add-apt-repository ¦ppa:webupd8team/java¦-y :: Dependencies_operation,()
+expose,7874 7876
+apt-get ¦install¦-y¦oracle-java8-installer :: Dependencies_operation,()
+mkdir ¦/nxt :: Filesystem_operation,()

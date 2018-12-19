@@ -1,0 +1,9 @@
+from,centos:7.0
+yum ¦install¦-y¦java-1.8.0-openjdk¦java-1.8.0-openjdk-devel :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+/tmp :: volume_operation,()
+target/che-starter-1.0-SNAPSHOT.jarapp.jar :: add_operation,()
+expose,10000
+bash ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/app.jar
+JAVA_HOME:/etc/alternatives/jre :: env_operation,()

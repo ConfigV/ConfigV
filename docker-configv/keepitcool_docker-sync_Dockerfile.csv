@@ -1,0 +1,7 @@
+UNISON_PORT=9010: :: env_operation,()
+UNISON_WORKING_DIR=/data: :: env_operation,()
+output/alpine/unison/bin/unison :: copy_operation,()
+from,alpine:3.4
+cmd,/bin/sh¦-c¦cd ${UNISON_WORKING_DIR} && unison -socket ${UNISON_PORT}
+$UNISON_WORKING_DIR :: volume_operation,()
+/ :: workdir_operation,()

@@ -1,0 +1,15 @@
+npm ¦install¦/tmp/statsd-elasticsearch.tgz;¦rm¦/tmp/statsd-elasticsearch.tgz :: Dependencies_operation,()
+./config.js/app/ :: add_operation,()
+expose,8125 8126
+/app :: workdir_operation,()
+apt-get ¦update;¦DEBIAN_FRONTEND=noninteractive¦apt-get¦install¦-q¦-y¦python-minimal¦build-essential :: Dependencies_operation,()
+http://nodejs.org/dist/v0.12.1/node-v0.12.1-linux-x64.tar.gz/tmp/node.tgz :: add_operation,()
+https://github.com/etsy/statsd/archive/v0.7.2.tar.gz/tmp/statsd.tgz :: add_operation,()
+cd ¦/tmp;¦tar¦xzf¦/tmp/node.tgz;¦mv¦/tmp/node-v0.12.1-linux-x64/bin/*¦/usr/local/bin/;¦mv¦/tmp/node-v0.12.1-linux-x64/include/*¦/usr/local/include/;¦mv¦/tmp/node-v0.12.1-linux-x64/lib/*¦/usr/local/lib/;¦rm¦/tmp/node.tgz :: Filesystem_operation,()
+cmd,$(npm¦bin)/statsd¦/app/config.js
+from,quay.io/assemblyline/ubuntu:14.04.2
+mkdir ¦-p¦/app :: Filesystem_operation,()
+https://github.com/markkimsal/statsd-elasticsearch-backend/archive/0.4.2.tar.gz/tmp/statsd-elasticsearch.tgz :: add_operation,()
+npm ¦install¦/tmp/statsd.tgz;¦rm¦/tmp/statsd.tgz :: Dependencies_operation,()
+apt-get ¦remove¦-qy¦--purge¦binutils¦build-essential¦bzip2¦cpp¦cpp-4.8¦dpkg-dev¦fakeroot¦file¦g++¦g++-4.8¦gcc¦gcc-4.8¦libalgorithm-diff-perl¦libalgorithm-diff-xs-perl¦libalgorithm-merge-perl¦libarchive-extract-perl¦libasan0¦libatomic1¦libc-dev-bin¦... :: Dependencies_operation,()
+apt-get ¦-qy¦autoremove;¦apt-get¦-qy¦autoclean :: Dependencies_operation,()

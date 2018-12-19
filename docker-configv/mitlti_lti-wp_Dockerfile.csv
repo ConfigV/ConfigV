@@ -1,0 +1,16 @@
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+expose,22
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+a2ensite ¦lti-wp :: Other_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+adduser ¦me¦sudo :: Permissions_operation,()
+su ¦-¦me¦-c¦'git¦clone¦https://github.com/mitlti/lti-wp¦/home/me/lti-wp' :: Other_operation,()
+cp ¦/home/me/lti-wp/apache-dev.conf¦/etc/apache2/sites-available/lti-wp :: Filesystem_operation,()
+a2dissite ¦000-default :: Other_operation,()
+cmd,/usr/sbin/sshd¦-D
+apt-get ¦install¦-y¦apache2¦libapache2-mod-fcgid¦git¦make¦gcc¦autoconf¦libtool¦automake :: Dependencies_operation,()
+echo ¦echo¦'me:me' | chpasswd :: Filesystem_operation,()
+adduser ¦me :: Permissions_operation,()
+echo ¦echo¦'root:root' | chpasswd :: Filesystem_operation,()
+from,ubuntu

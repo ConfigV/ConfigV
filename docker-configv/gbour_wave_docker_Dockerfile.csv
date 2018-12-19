@@ -1,0 +1,11 @@
+from,correl/erlang
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦git¦¦lua-redis¦redis-server¦redis-tools¦supervisor :: Other_operation,()
+rm ¦-Rf¦/opt/wave :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-qq :: Other_operation,()
+./rebar ¦prepare-deps :: Other_operation,()
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+entrypoint,/usr/bin/supervisord
+git ¦clone¦https://github.com/gbour/wave.git¦/opt/wave :: Dependencies_operation,()
+expose,1883 6379
+cd ¦/opt/wave :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()

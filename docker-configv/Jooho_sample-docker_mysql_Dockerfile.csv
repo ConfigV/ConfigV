@@ -1,0 +1,23 @@
+yum ¦install¦-y¦java-1.7.0-openjdk :: Dependencies_operation,()
+yum ¦install¦-y¦unzip :: Dependencies_operation,()
+from,docker-registry:5000/rhel65-base
+rhel.repo/etc/yum.repo.d/ :: add_operation,()
+echo ¦echo¦'root:redhat' | chpasswd :: Filesystem_operation,()
+rpm ¦-ivh¦/etc/yum.repos.d/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦openssh-clients :: Dependencies_operation,()
+yum ¦install¦-y¦openssh-server :: Dependencies_operation,()
+env_vm.sh/home/ :: add_operation,()
+mysql_conf.sql/home/ :: add_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+cat ¦/home/supervisord.conf¦>¦/etc/supervisord.conf :: Filesystem_operation,()
+yum ¦install¦-y¦mysql-server :: Dependencies_operation,()
+yum ¦install¦-y¦supervisor :: Dependencies_operation,()
+cmd,/bin/bash¦/home/env_vm.sh
+test_data.sql/home/ :: add_operation,()
+cat ¦/home/bashrc¦>>¦/etc/profile :: Filesystem_operation,()
+/home/ :: workdir_operation,()
+expose,22 3306
+epel-release-6-8.noarch.rpm/etc/yum.repos.d/ :: add_operation,()
+supervisord.conf/home/supervisord.conf :: add_operation,()
+docker-env.sh/home/ :: add_operation,()
+bashrc/home/bashrc :: add_operation,()

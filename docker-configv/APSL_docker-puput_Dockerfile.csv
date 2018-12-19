@@ -1,0 +1,11 @@
+./app :: copy_operation,()
+/app :: workdir_operation,()
+from,python:3.4
+expose,8000
+conf/uwsgi.ini/uwsgi.ini :: copy_operation,()
+pip ¦install¦-r¦/requirements.txt :: Dependencies_operation,()
+python ¦manage.py¦collectstatic¦--noinput :: Build_Execute_operation,()
+/media :: volume_operation,()
+requirements.txt/requirements.txt :: copy_operation,()
+cmd,uwsgi¦--ini=/uwsgi.ini
+pip ¦install¦uwsgi :: Dependencies_operation,()

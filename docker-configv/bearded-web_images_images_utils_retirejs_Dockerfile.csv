@@ -1,0 +1,9 @@
+VERSION:0.0.1 :: env_operation,()
+/home/app/scripts/retirejs/phantomjs/ :: workdir_operation,()
+from,barbudo/phantomjs
+mv ¦./retire.js-master¦./retirejs :: Filesystem_operation,()
+app :: user_operation,()
+curl ¦-sSL¦https://github.com/SLonoed/retire.js/archive/master.tar.gz¦|¦tar¦xz :: Dependencies_operation,()
+entrypoint,phantomjs¦--load-images=false¦./scan.js
+/home/app/scripts :: workdir_operation,()
+mkdir ¦~/scripts :: Filesystem_operation,()

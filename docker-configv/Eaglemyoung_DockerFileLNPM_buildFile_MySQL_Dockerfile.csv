@@ -1,0 +1,14 @@
+my.cnf/my.cnf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,mysqld
+mysqld.cnf/etc/mysql/my.cnf :: copy_operation,()
+apt-get ¦install¦-y¦mysql-server¦mysql-client :: Dependencies_operation,()
+echo ¦echo¦'mysql-server mysql-server/root_password password 12345678' | debconf-set-selections && echo 'mysql-server mysql-server/root_password_again password 12345678' | debconf-set-selections :: Filesystem_operation,()
+entrypoint,docker-entrypoint.sh
+usermod ¦-d¦/var/lib/mysql/¦mysql :: Permissions_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+chmod ¦+x¦/usr/local/bin/docker-entrypoint.sh :: Permissions_operation,()
+ln ¦-s¦usr/local/bin/docker-entrypoint.sh¦/entrypoint.sh :: Filesystem_operation,()
+from,debian@testing
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin  :: Other_operation,()
+expose,3306

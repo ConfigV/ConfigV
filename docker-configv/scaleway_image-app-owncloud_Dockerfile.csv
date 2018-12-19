@@ -1,0 +1,12 @@
+apt-get ¦clean :: Dependencies_operation,()
+from,armbuild/ocs-distrib-ubuntu:trusty
+chown ¦-R¦www-data:www-data¦/etc/owncloud :: Permissions_operation,()
+/usr/local/sbin/builder-leave  :: Other_operation,()
+apt-get ¦install¦-y¦-q¦mysql-server¦pwgen :: Dependencies_operation,()
+./patches/etc//etc/ :: add_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦-q¦owncloud :: Dependencies_operation,()
+/usr/local/sbin/builder-enter  :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+apt-get ¦-q¦upgrade :: Dependencies_operation,()
+./patches/usr/local//usr/local/ :: add_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()

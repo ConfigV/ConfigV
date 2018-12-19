@@ -1,0 +1,15 @@
+make  :: Build_Execute_operation,()
+git ¦clone¦git://github.com/JuliaLang/julia.git¦/src/julia :: Dependencies_operation,()
+from,centos@latest
+gmake ¦install :: Other_operation,()
+./bootstrap  :: Other_operation,()
+wget ¦http://www.cmake.org/files/v3.0/cmake-3.0.0.tar.gz :: Dependencies_operation,()
+cmd,/bin/bash
+mkdir ¦-p¦/src/ :: Filesystem_operation,()
+cmake-3.0.0 :: workdir_operation,()
+tar ¦-zxvf¦cmake-3.0.0.tar.gz :: Filesystem_operation,()
+gmake  :: Other_operation,()
+/src/ :: workdir_operation,()
+git ¦checkout¦release-0.3 :: Dependencies_operation,()
+/src/julia/ :: workdir_operation,()
+yum ¦-y¦install¦autoconf¦automake¦bzip2¦gcc¦gcc-c++¦gcc-gfortran¦git¦m4¦make¦patch¦perl¦tar¦wget :: Dependencies_operation,()

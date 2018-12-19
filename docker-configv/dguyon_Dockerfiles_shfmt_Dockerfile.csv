@@ -1,0 +1,11 @@
+apk ¦del¦.build-deps :: Dependencies_operation,()
+go ¦build¦-o¦/usr/bin/shfmt¦. :: Build_Execute_operation,()
+entrypoint,shfmt
+PATH:/go/bin:/usr/local/go/bin:$PATH :: env_operation,()
+rm ¦-rf¦/go :: Filesystem_operation,()
+apk ¦add¦--no-cache¦--update¦--virtual¦.build-deps¦go¦git :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+cd ¦/go/src/github.com/mvdan/sh/cmd/shfmt :: Filesystem_operation,()
+from,golang:1.7
+cmd,-h
+go ¦get¦-u¦github.com/mvdan/sh/cmd/shfmt :: Build_Execute_operation,()

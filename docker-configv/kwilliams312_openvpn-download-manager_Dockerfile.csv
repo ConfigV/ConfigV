@@ -1,0 +1,21 @@
+rm ¦-rf¦dumb-init_*.deb :: Filesystem_operation,()
+apt-get ¦install¦-y¦transmission-cli¦transmission-common¦transmission-daemon :: Dependencies_operation,()
+apt-get ¦install¦-y¦openvpn¦curl¦rar¦unrar¦zip¦unzip¦wget :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+groupmod ¦-g¦1000¦users :: Other_operation,()
+dpkg ¦-i¦dumb-init_*.deb :: Dependencies_operation,()
+/config :: volume_operation,()
+expose,9091
+from,ubuntu:14.04
+cmd,dumb-init¦/etc/openvpn/start.sh
+usermod ¦-G¦users¦abc :: Permissions_operation,()
+add-apt-repository ¦ppa:transmissionbt/ppa :: Dependencies_operation,()
+curl ¦-sLO¦https://github.com/Yelp/dumb-init/releases/download/v1.0.1/dumb-init_1.0.1_amd64.deb :: Dependencies_operation,()
+transmission//etc/transmission/ :: add_operation,()
+add-apt-repository ¦multiverse :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+useradd ¦-u¦911¦-U¦-d¦/config¦-s¦/bin/false¦abc :: Permissions_operation,()
+openvpn//etc/openvpn/ :: add_operation,()
+apt-get ¦-y¦install¦software-properties-common :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-L¦https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz¦|¦tar¦-C¦/usr/local/bin¦-xzv :: Dependencies_operation,()

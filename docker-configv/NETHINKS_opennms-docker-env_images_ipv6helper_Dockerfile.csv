@@ -1,0 +1,9 @@
+from,centos:7.3
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+yum ¦-y¦install¦iptables.x86_64 :: Dependencies_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()

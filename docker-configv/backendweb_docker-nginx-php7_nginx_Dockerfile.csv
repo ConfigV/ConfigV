@@ -1,0 +1,11 @@
+from,debian@jessie
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+echo ¦echo¦"upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf :: Filesystem_operation,()
+cmd,nginx
+nginx.conf/etc/nginx/ :: add_operation,()
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ln ¦-s¦/etc/nginx/sites-available/symfony.conf¦/etc/nginx/sites-enabled/symfony :: Filesystem_operation,()
+symfony.conf/etc/nginx/sites-available/ :: add_operation,()
+expose,443
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()

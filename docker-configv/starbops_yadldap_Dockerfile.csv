@@ -1,0 +1,22 @@
+expose,636
+cat ¦/tmp/key.pub¦>>¦/root/.ssh/authorized_keys :: Filesystem_operation,()
+/build/install  :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+useradd ¦-r¦-g¦openldap¦openldap :: Permissions_operation,()
+LDAP_ORGANIZATION:Example :: env_operation,()
+LC_ALL=C ¦DEBIAN_FRONTEND=noninteractive¦apt-get¦install¦-y¦slapd¦ldap-utils¦gnutls-bin¦ldapscripts¦ntp :: Other_operation,()
+./build :: copy_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+rm ¦-f¦/tmp/key.pub :: Filesystem_operation,()
+cmd,/sbin/my_init
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/var/lib/ldap :: volume_operation,()
+LDAP_ADMIN_PASSWORD:admin :: env_operation,()
+groupadd ¦-r¦openldap :: Permissions_operation,()
+/etc/my_init.d/00_regen_ssh_host_keys.sh  :: Other_operation,()
+/etc/ldap/slapd.d :: volume_operation,()
+rm ¦-f¦/etc/service/sshd/down :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/ldap¦/etc/ldap/slapd.d :: Filesystem_operation,()
+from,phusion/baseimage:0.9.16
+key.pub/tmp/key.pub :: add_operation,()
+LDAP_DOMAIN:example.com :: env_operation,()

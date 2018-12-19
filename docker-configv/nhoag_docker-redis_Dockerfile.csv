@@ -1,0 +1,11 @@
+expose,6379
+logfile ¦.*\\ :: Other_operation,()
+/data :: workdir_operation,()
+REDIS_ARCHIVE:${REDIS_DIR}.tar.gz :: env_operation,()
+REDIS_URL:http://download.redis.io/releases/${REDIS_ARCHIVE} :: env_operation,()
+cmd,redis-server¦/etc/redis/redis.conf
+REDIS_VERSION:2.8.19 :: env_operation,()
+/data :: volume_operation,()
+from,ubuntu:14.04
+/tmp :: workdir_operation,()
+REDIS_DIR:redis-${REDIS_VERSION} :: env_operation,()

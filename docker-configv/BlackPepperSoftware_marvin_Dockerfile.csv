@@ -1,0 +1,16 @@
+/usr/local :: workdir_operation,()
+unzip ¦-q¦master.zip :: Filesystem_operation,()
+pluginspython-rtmbot/plugins :: add_operation,()
+run.shpython-rtmbot/ :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,google/python
+entrypoint,/usr/local/python-rtmbot/run.sh
+rtmbot.confpython-rtmbot/ :: add_operation,()
+chmod ¦+x¦python-rtmbot/run.sh :: Permissions_operation,()
+apt-get ¦-y¦install¦unzip :: Dependencies_operation,()
+rm ¦master.zip :: Filesystem_operation,()
+https://github.com/slackhq/python-rtmbot/archive/master.zip/usr/local/ :: add_operation,()
+pip ¦install¦-r¦python-rtmbot/requirements.txt :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+pip ¦install¦-r¦python-rtmbot/plugins/requirements.txt :: Dependencies_operation,()
+mv ¦python-rtmbot-master¦python-rtmbot :: Filesystem_operation,()

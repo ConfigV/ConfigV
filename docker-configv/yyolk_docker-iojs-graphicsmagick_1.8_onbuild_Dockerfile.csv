@@ -1,0 +1,7 @@
+COPY. /usr/src/app :: onbuild_operation,()
+from,iojs:1.8
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+COPYpackage.json /usr/src/app/ :: onbuild_operation,()
+RUNnpm install :: onbuild_operation,()
+cmd,npm¦start

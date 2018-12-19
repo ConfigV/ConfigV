@@ -1,0 +1,11 @@
+$BP :: workdir_operation,()
+buffalo ¦new¦hello_world :: Other_operation,()
+mkdir ¦-p¦$BP :: Filesystem_operation,()
+go ¦get¦-v¦-t¦./... :: Build_Execute_operation,()
+BP=$GOPATH/src/github.com/markbates/buffalo: :: env_operation,()
+go ¦install¦./buffalo :: Build_Execute_operation,()
+from,golang
+./hello_world :: workdir_operation,()
+.. :: add_operation,()
+$GOPATH/src/ :: workdir_operation,()
+go ¦test¦-v¦./... :: Build_Execute_operation,()

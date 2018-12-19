@@ -1,0 +1,14 @@
+from,ubuntu@latest
+entrypoint,/sbin/minit
+startup/etc/minit/startup :: copy_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoremove¦-yq :: Dependencies_operation,()
+apt-get ¦autoclean¦-yq :: Dependencies_operation,()
+shutdown/etc/minit/shutdown :: copy_operation,()
+apt-get ¦purge¦-yq¦software-properties-common :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,443
+add-apt-repository ¦ppa:chazomaticus/minit :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommends¦minit¦sslh¦iproute2 :: Other_operation,()

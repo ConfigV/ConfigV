@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,./h2o¦-c
+cmake ¦. :: Build_Execute_operation,()
+git ¦clone¦https://github.com/h2o/h2o :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+make ¦h2o :: Build_Execute_operation,()
+apt-get ¦install¦-y¦cmake :: Dependencies_operation,()
+git ¦submodule¦update¦--init¦--recursive :: Dependencies_operation,()
+/h2o :: workdir_operation,()
+cd ¦h2o :: Filesystem_operation,()

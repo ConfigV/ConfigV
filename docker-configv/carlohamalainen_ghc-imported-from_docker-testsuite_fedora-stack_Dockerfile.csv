@@ -1,0 +1,12 @@
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+stack ¦haddock :: Other_operation,()
+cmd,/bin/bash
+/opt :: workdir_operation,()
+/opt/ghc-imported-from :: workdir_operation,()
+from,fedora
+dnf ¦-y¦install¦stack¦wget¦git¦cabal-install¦zlib-devel :: Dependencies_operation,()
+git ¦clone¦https://github.com/carlohamalainen/ghc-imported-from.git¦/opt/ghc-imported-from :: Dependencies_operation,()
+curl ¦-sSL¦https://s3.amazonaws.com/download.fpcomplete.com/fedora/23/fpco.repo¦|¦tee¦/etc/yum.repos.d/fpco.repo :: Dependencies_operation,()
+stack ¦test :: Other_operation,()
+stack ¦setup :: Other_operation,()
+stack ¦build :: Other_operation,()

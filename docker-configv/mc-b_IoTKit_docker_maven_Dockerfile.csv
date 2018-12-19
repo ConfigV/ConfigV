@@ -1,0 +1,23 @@
+/var/www/html/download :: volume_operation,()
+/var/workspace :: volume_operation,()
+mkdir ¦-p¦$JENKINS_HOME/jobs/leshan :: Filesystem_operation,()
+entrypoint,cd¦/opt/jenkins¦&&¦java¦-jar¦./jenkins.war
+mkdir ¦/opt/jenkins :: Filesystem_operation,()
+from,ubuntu@latest
+wget ¦http://mirrors.jenkins-ci.org/war/latest/jenkins.war¦-O¦/opt/jenkins/jenkins.war :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦openjdk-7-jdk¦maven¦git :: Dependencies_operation,()
+leshan.xml$JENKINS_HOME/jobs/leshan/config.xml :: copy_operation,()
+useradd ¦-d¦"$JENKINS_HOME"¦-u¦1000¦-m¦-s¦/bin/bash¦jenkins :: Permissions_operation,()
+openhab2.xml$JENKINS_HOME/jobs/openhab2/config.xml :: copy_operation,()
+mkdir ¦-p¦$JENKINS_HOME/workspace/leshan :: Filesystem_operation,()
+chown ¦-R¦jenkins:jenkins¦/var/workspace¦/var/www/html/download :: Permissions_operation,()
+expose,8080
+jenkins :: user_operation,()
+DEPLOY_DIR=/var/www/html/download/: :: env_operation,()
+mkdir ¦-p¦$JENKINS_HOME/jobs/openhab2 :: Filesystem_operation,()
+mkdir ¦-p¦$JENKINS_HOME/workspace/openhab2 :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chown ¦jenkins:jenkins¦/opt :: Permissions_operation,()
+/var/workspace :: workdir_operation,()
+JENKINS_HOME:/var/jenkins :: env_operation,()
+root :: user_operation,()

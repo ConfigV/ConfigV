@@ -1,0 +1,13 @@
+cd ¦/bin :: Filesystem_operation,()
+chmod ¦+x¦/bin/nomad :: Permissions_operation,()
+NOMAD_VERSION:0.5.6 :: env_operation,()
+apk ¦add¦--allow-untrusted¦/tmp/glibc-2.21-r2.apk :: Dependencies_operation,()
+unzip ¦/tmp/nomad.zip :: Filesystem_operation,()
+rm ¦-rf¦/tmp/glibc-2.21-r2.apk¦/var/cache/apk/* :: Filesystem_operation,()
+entrypoint,/bin/nomad
+from,alpine@latest
+https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VERSION}_linux_amd64.zip/tmp/nomad.zip :: add_operation,()
+curl ¦-Ls¦https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.21-r2/glibc-2.21-r2.apk¦>¦/tmp/glibc-2.21-r2.apk :: Dependencies_operation,()
+expose,4648
+apk ¦--update¦add¦curl¦ca-certificates :: Dependencies_operation,()
+rm ¦/tmp/nomad.zip :: Filesystem_operation,()

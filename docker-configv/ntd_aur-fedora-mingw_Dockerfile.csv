@@ -1,0 +1,18 @@
+/home/user/pkg :: volume_operation,()
+USER:user :: env_operation,()
+/home/user/src :: volume_operation,()
+pacman ¦-S¦--noconfirm¦base-devel¦yaourt :: Filesystem_operation,()
+sudo ¦chown¦-R¦user:users¦aur :: Other_operation,()
+sudo ¦rm¦-fr¦aur/*/*.pkg.tar.xz¦aur/*/src¦aur/*/pkg :: Other_operation,()
+"$USER" :: user_operation,()
+"/home/$USER" :: workdir_operation,()
+cmd,aur/build-all¦i686¦&&¦aur/build-all¦x86_64;¦tail¦-f¦/dev/null
+docker/pacman.conf/etc/pacman.conf :: add_operation,()
+TERM:xterm :: env_operation,()
+from,base/archlinux
+yaourt ¦-S¦--noconfirm¦glib2¦cmake¦scons¦nasm¦python¦python2¦intltool¦xorg-util-macros¦gtk-doc¦indent¦gtk-update-icon-cache¦wine¦mingw-w64-gcc¦mingw-w64-binutils¦mingw-w64-tools :: Other_operation,()
+mkdir ¦src/¦pkg/ :: Filesystem_operation,()
+docker/mirrorlist/etc/pacman.d/mirrorlist :: add_operation,()
+auraur :: add_operation,()
+pacman ¦-Syu¦--noconfirm :: Filesystem_operation,()
+yaourt ¦-Syua :: Other_operation,()

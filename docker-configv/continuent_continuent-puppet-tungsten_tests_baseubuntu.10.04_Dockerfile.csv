@@ -1,0 +1,13 @@
+puppet ¦module¦install¦continuent-tungsten :: Dependencies_operation,()
+from,ubuntu:10.04
+mkdir ¦-p¦/etc/puppet/modules :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦update;apt-get¦-y¦install¦wget¦python-software-properties :: Dependencies_operation,()
+git ¦clone¦https://github.com/narmitag/continuent-puppet-tungsten.git¦/etc/puppet/modules/tungsten :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/etc/puppet/modules/tungsten :: Filesystem_operation,()
+dpkg ¦-i¦puppetlabs-release-lucid.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦puppet¦git-core¦tar¦openssh-server¦wget :: Dependencies_operation,()
+add-apt-repository ¦ppa:pdoes/ppa :: Dependencies_operation,()
+wget ¦--no-check-certificate¦https://apt.puppetlabs.com/puppetlabs-release-lucid.deb :: Dependencies_operation,()
+puppet ¦module¦install¦puppetlabs-mysql :: Dependencies_operation,()

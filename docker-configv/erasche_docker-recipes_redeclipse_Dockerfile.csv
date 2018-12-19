@@ -1,0 +1,18 @@
+./server.conf/redeclipse.tmpl :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+tar ¦-C¦/usr/local/bin¦-xzvf¦dockerize-linux-amd64-v0.2.0.tar.gz :: Filesystem_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+mkdir ¦-p¦/redeclipse/.redeclipse/ :: Filesystem_operation,()
+wget ¦https://github.com/jwilder/dockerize/releases/download/v0.2.0/dockerize-linux-amd64-v0.2.0.tar.gz :: Dependencies_operation,()
+git ¦checkout¦v1.5.3 :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+/redeclipse :: workdir_operation,()
+make  :: Build_Execute_operation,()
+git ¦clone¦--recursive¦https://github.com/red-eclipse/base¦/redeclipse :: Dependencies_operation,()
+adduser ¦--home¦/redeclipse¦redeclipse :: Permissions_operation,()
+redeclipse :: user_operation,()
+chown ¦redeclipse:¦-R¦/redeclipse :: Permissions_operation,()
+cd ¦src :: Filesystem_operation,()
+cmd,dockerize¦-template¦/redeclipse.tmpl:/redeclipse/.redeclipse/servinit.cfg¦/redeclipse/redeclipse_server.sh
+apt-get ¦install¦--no-install-recommends¦-y¦build-essential¦libsdl1.2-dev¦zlib1g-dev¦libsdl-mixer1.2-dev¦libsdl-image1.2-dev¦git¦curl¦wget¦ca-certificates¦build-essential :: Dependencies_operation,()
+from,ubuntu:14.04

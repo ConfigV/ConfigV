@@ -1,0 +1,14 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,jeanparpaillon/erlang-mini
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+git ¦clone¦https://github.com/erocci/erocci.git :: Dependencies_operation,()
+apt-get ¦-y¦install¦--no-install-recommends¦git¦build-essential¦pkg-config¦ca-certificates¦libxml2-dev :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+occi.xml/tmp/occi.xml :: add_operation,()
+cmd,/root/run.sh
+./bootstrap  :: Other_operation,()
+cd ¦erocci :: Filesystem_operation,()
+expose,80
+sys.config/tmp/sys.config :: add_operation,()
+run.sh/root/run.sh :: add_operation,()

@@ -1,0 +1,16 @@
+JBOSS_HOME:/opt/wildfly :: env_operation,()
+from,piranha/java8
+chown ¦-R¦wildfly:wildfly¦/opt/wildfly* :: Permissions_operation,()
+cd ¦/opt :: Filesystem_operation,()
+useradd ¦-u¦431¦-r¦-g¦wildfly¦-d¦/opt/wildfly¦-s¦/bin/false¦-c¦"WildFly¦user"¦wildfly :: Permissions_operation,()
+rm ¦wildfly-core-$WILDFLY_VERSION.zip :: Filesystem_operation,()
+cmd,/opt/wildfly/bin/standalone.sh¦-b¦0.0.0.0¦-bmanagement¦0.0.0.0
+expose,8080 9990
+groupadd ¦-r¦wildfly¦-g¦433 :: Permissions_operation,()
+WILDFLY_VERSION:8.2.0.Final :: env_operation,()
+ln ¦-s¦/opt/wildfly-$WILDFLY_VERSION¦/opt/wildfly :: Filesystem_operation,()
+wildfly :: user_operation,()
+wget ¦http://download.jboss.org/wildfly/$WILDFLY_VERSION/core/wildfly-core-$WILDFLY_VERSION.zip :: Dependencies_operation,()
+./res/welcome-content/opt/wildfly/welcome-content :: copy_operation,()
+./res/apps/*/opt/wildfly/standalone/deployments :: copy_operation,()
+unzip ¦wildfly-core-$WILDFLY_VERSION.zip :: Filesystem_operation,()

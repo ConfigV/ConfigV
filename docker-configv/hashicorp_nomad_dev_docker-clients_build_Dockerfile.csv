@@ -1,0 +1,16 @@
+entrypoint,/usr/local/bin/start.sh
+NOMAD_VERSION:0.7.0-beta1 :: env_operation,()
+mkdir ¦-p¦/nomad/data :: Filesystem_operation,()
+expose,4646 4647 4648
+adduser ¦-S¦-G¦nomad¦nomad :: Permissions_operation,()
+from,alpine:3.6
+GLIBC_VERSION:"2.25-r0" :: env_operation,()
+NOMAD_SHA256:174794d96d2617252875e2e2ff9e496120acc4a97be54965c324b9a5d11b37ab :: env_operation,()
+GOSU_VERSION:1.10 :: env_operation,()
+addgroup ¦nomad :: Permissions_operation,()
+start.sh/usr/local/bin/start.sh :: add_operation,()
+mktemp ¦-d :: Other_operation,()
+chown ¦-R¦nomad:nomad¦/nomad :: Permissions_operation,()
+mkdir ¦-p¦/etc/nomad :: Filesystem_operation,()
+DUMB_INIT_VERSION:1.2.0 :: env_operation,()
+nomad/bin/nomad :: copy_operation,()

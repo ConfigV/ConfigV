@@ -1,0 +1,16 @@
+rootfs/ :: add_operation,()
+apk ¦del¦build-base¦git¦go :: Dependencies_operation,()
+WATCHTOWER_REPO:https://${WATCHTOWER_PATH}.git :: env_operation,()
+GOPATH:/usr:/usr/src/${WATCHTOWER_PATH}/Godeps/_workspace :: env_operation,()
+rm ¦-r¦/usr/src/* :: Filesystem_operation,()
+cmd,/usr/bin/s6-svscan¦/etc/s6
+git ¦clone¦-b¦${WATCHTOWER_BRANCH}¦${WATCHTOWER_REPO}¦${GOPATH}/src/${WATCHTOWER_PATH} :: Dependencies_operation,()
+/root :: workdir_operation,()
+apk ¦add¦build-base¦git¦go :: Dependencies_operation,()
+go ¦install¦${WATCHTOWER_PATH} :: Build_Execute_operation,()
+go ¦get¦${WATCHTOWER_PATH}/... :: Build_Execute_operation,()
+WATCHTOWER_PATH:github.com/CenturyLinkLabs/watchtower :: env_operation,()
+from,webhippie/alpine:latest
+WATCHTOWER_BRANCH:master :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()

@@ -1,0 +1,16 @@
+rm ¦/harden.sh :: Filesystem_operation,()
+/harden.sh  :: Other_operation,()
+rootfs.tar.gz/ :: add_operation,()
+harden.sh/harden.sh :: add_operation,()
+adduser ¦-D¦dev :: Permissions_operation,()
+ssh-keygen ¦-A :: Other_operation,()
+from,scratch
+chmod ¦700¦/home/dev/.ssh :: Permissions_operation,()
+chmod ¦700¦/harden.sh :: Permissions_operation,()
+echo ¦echo¦"PermitRootLogin no" >> /etc/ssh/sshd_config && echo "PasswordAuthentication no" >> /etc/ssh/sshd_config && echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config && echo "Port 9022" >> /etc/ssh/sshd_config :: Filesystem_operation,()
+mkdir ¦/home/dev/.ssh :: Filesystem_operation,()
+chown ¦dev:nogroup¦/home/dev/.ssh :: Permissions_operation,()
+dev :: user_operation,()
+passwd ¦-d¦dev :: Other_operation,()
+cmd,/usr/sbin/sshd¦-D
+apk ¦--update¦add¦openssh :: Dependencies_operation,()

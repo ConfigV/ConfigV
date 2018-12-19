@@ -1,0 +1,13 @@
+ldconfig  :: Other_operation,()
+wget ¦-q¦http://artfiles.org/apache.org/kafka/0.9.0.0/kafka_2.11-0.9.0.0.tgz¦-O¦/tmp/kafka_2.11-0.9.0.0.tgz :: Dependencies_operation,()
+apt-get ¦install¦-y¦syslog-ng :: Dependencies_operation,()
+entrypoint,/usr/sbin/syslog-ng¦-F
+expose,6514
+openjdk-libjvm.conf/etc/ld.so.conf.d/openjdk-libjvm.conf :: add_operation,()
+from,debian@latest
+echo ¦echo¦'deb http://download.opensuse.org/repositories/home:/laszlo_budai:/syslog-ng/Debian_8.0 ./' | tee --append /etc/apt/sources.list.d/syslog-ng-obs.list :: Filesystem_operation,()
+tar ¦xfz¦/tmp/kafka_2.11-0.9.0.0.tgz¦-C¦/opt :: Filesystem_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+ln ¦-s¦/opt/kafka_2.11-0.9.0.0¦/opt/kafka :: Filesystem_operation,()
+wget ¦-qO¦-¦http://download.opensuse.org/repositories/home:/laszlo_budai:/syslog-ng/Debian_8.0/Release.key¦|¦apt-key¦add¦- :: Dependencies_operation,()

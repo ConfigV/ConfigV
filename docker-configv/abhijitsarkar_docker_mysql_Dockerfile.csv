@@ -1,0 +1,19 @@
+useradd ¦-M¦-g¦dev¦mysql :: Permissions_operation,()
+expose,3306
+rm ¦-f¦/tmp/my.cnf.patch :: Filesystem_operation,()
+apt-get ¦-y¦install¦lsb-release :: Dependencies_operation,()
+./world.sql/usr/local/share/mysql/world.sql :: add_operation,()
+patch ¦-d¦/etc/mysql¦-p0¦-u¦<¦/tmp/my.cnf.patch :: Other_operation,()
+chmod ¦+x¦$INIT_SCRIPT :: Permissions_operation,()
+$DATADIR :: volume_operation,()
+./mysqld.conf/etc/supervisor/conf.d/ :: add_operation,()
+entrypoint,/usr/sbin/init.sh
+./my.cnf.patch/tmp/my.cnf.patch :: add_operation,()
+echo ¦echo¦"mysql-community-server mysql-community-server/root-pass password ''" | debconf-set-selections && echo "mysql-community-server mysql-community-server/re-root-pass password ''" | debconf-set-selections && apt-get install -y mysql-serve... :: Filesystem_operation,()
+from,abhijitsarkar/docker:debian-supervisor
+DATADIR=/var/lib/mysql:INIT_SCRIPT=/usr/sbin/init.sh :: env_operation,()
+cmd,/usr/local/share/mysql/world.sql
+./init.sh$INIT_SCRIPT :: add_operation,()
+getent ¦group¦dev¦||¦groupadd¦dev :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦apt-key¦adv --keyserver ha.pool.sks-keyservers.net --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5 && echo "deb http://repo.mysql.com/apt/debian/ $(lsb_release -sc) mysql-5.7" > /etc/apt/sources.list.d/mysql.list && apt-get update && ... :: Filesystem_operation,()

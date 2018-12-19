@@ -1,0 +1,17 @@
+cmd,./dist/build/ot-demo/ot-demo
+./backends/haskell/ot-demo.cabal/opt/ot-demo/backends/haskell/ot-demo.cabal :: add_operation,()
+from,haskell:7.8
+/opt/ot-demo/backends/haskell :: workdir_operation,()
+wget ¦--no-check-certificate¦http://github.com/ocharles/engine.io/archive/variadic-on.tar.gz :: Dependencies_operation,()
+cabal ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+./public/opt/ot-demo/public :: add_operation,()
+cd ¦/opt/ot-demo/backends/haskell :: Filesystem_operation,()
+tar ¦xvzf¦variadic-on.tar.gz :: Filesystem_operation,()
+cabal ¦sandbox¦add-source¦/opt/engine.io/socket-io :: Dependencies_operation,()
+./backends/haskell/opt/ot-demo/backends/haskell :: add_operation,()
+cabal ¦install¦--only-dependencies :: Dependencies_operation,()
+cd ¦/opt :: Filesystem_operation,()
+cabal ¦sandbox¦init :: Dependencies_operation,()
+cabal ¦build :: Dependencies_operation,()
+mv ¦engine.io-variadic-on¦engine.io :: Filesystem_operation,()

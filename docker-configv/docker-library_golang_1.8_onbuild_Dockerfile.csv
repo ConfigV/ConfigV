@@ -1,0 +1,7 @@
+cmd,go-wrapper¦run
+mkdir ¦-p¦/go/src/app :: Filesystem_operation,()
+from,golang:1.8
+RUNgo-wrapper download :: onbuild_operation,()
+/go/src/app :: workdir_operation,()
+COPY. /go/src/app :: onbuild_operation,()
+RUNgo-wrapper install :: onbuild_operation,()

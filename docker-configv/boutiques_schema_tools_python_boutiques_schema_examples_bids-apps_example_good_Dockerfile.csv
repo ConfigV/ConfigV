@@ -1,0 +1,10 @@
+run.py/run.py :: copy_operation,()
+apt-get ¦install¦-y¦python3¦python3-pip :: Dependencies_operation,()
+entrypoint,/run.py
+apt-get ¦update :: Dependencies_operation,()
+pip3 ¦install¦nibabel :: Dependencies_operation,()
+version/version :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦remove¦-y¦python3-pip :: Dependencies_operation,()
+PYTHONPATH="": :: env_operation,()
+from,bids/base_fsl

@@ -1,0 +1,9 @@
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+from,java:8.0
+TOOL_VERSION:0.1 :: env_operation,()
+/ :: workdir_operation,()
+https://github.com/topicus-ini/mssqldestroyer/releases/download/$TOOL_VERSION/mssqldestroyer-$TOOL_VERSION-jar-with-dependencies.jar/mssqldestroyer-$TOOL_VERSION.jar :: add_operation,()
+chmod ¦+x¦/docker-entrypoint.sh :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh
+/logs :: volume_operation,()
+log4j.properties/log4j.properties :: copy_operation,()

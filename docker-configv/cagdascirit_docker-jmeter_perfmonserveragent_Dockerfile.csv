@@ -1,0 +1,18 @@
+PATH=${SERVER_AGENT_HOME}:${PATH}: :: env_operation,()
+mv ¦${SERVER_AGENT_HOME}/lib/libsigar-amd64-linux.so¦${SERVER_AGENT_HOME}/lib/libsigar-amd64-linux :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+SERVER_AGENT_HOME=/usr/local/ServerAgent-${SERVER_AGENT_VERSION}: :: env_operation,()
+apt-get ¦-y¦install¦wget¦unzip :: Dependencies_operation,()
+cmd,--sysinfo
+from,cirit/oracle-java:latest
+SERVER_AGENT_VERSION=2.2.1: :: env_operation,()
+wget ¦http://jmeter-plugins.org/downloads/file/ServerAgent-${SERVER_AGENT_VERSION}.zip :: Dependencies_operation,()
+apt-get ¦-y¦remove¦wget¦unzip :: Dependencies_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+expose,4444
+apt-get ¦-y¦--purge¦autoremove :: Dependencies_operation,()
+unzip ¦ServerAgent-${SERVER_AGENT_VERSION}.zip¦-d¦/usr/local/ServerAgent-${SERVER_AGENT_VERSION} :: Filesystem_operation,()
+mv ¦${SERVER_AGENT_HOME}/lib/libsigar-amd64-linux¦${SERVER_AGENT_HOME}/lib/libsigar-amd64-linux.so :: Filesystem_operation,()
+rm ¦-rf¦ServerAgent-${SERVER_AGENT_VERSION}.zip¦¦¦${SERVER_AGENT_HOME}/startAgent.bat¦¦¦${SERVER_AGENT_HOME}/lib/*.dylib¦¦¦${SERVER_AGENT_HOME}/lib/*.dll¦¦¦${SERVER_AGENT_HOME}/lib/*.lib¦¦¦${SERVER_AGENT_HOME}/lib/*.sl¦¦¦${SERVER_AGENT_HOME}/l... :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+entrypoint,startAgent.sh

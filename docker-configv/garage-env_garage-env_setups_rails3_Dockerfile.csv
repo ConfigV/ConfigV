@@ -1,0 +1,12 @@
+GARAGE_PROVIDES:rails :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/var/garage/install ¦git¦build-essential¦libxml2-dev¦libxslt1-dev¦libsqlite3-dev¦zlib1g-dev :: Other_operation,()
+gem ¦update¦--prerelease :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+echo ¦echo¦"source 'http://rubygems.org'\\n gem 'rails', '~> 3'" > /tmp/Gemfile &&\\ :: Filesystem_operation,()
+from,garage/ruby20
+gem ¦cleanup :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/var/garage/install ¦nodejs :: Other_operation,()
+expose,3000

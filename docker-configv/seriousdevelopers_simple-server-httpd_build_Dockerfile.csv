@@ -1,0 +1,10 @@
+/app :: workdir_operation,()
+cmd,npm¦start
+BUILD:${arg_build:-unknown_from_env} :: env_operation,()
+./index.js/app :: add_operation,()
+./package.json/app :: add_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+NODE_ENV:development :: env_operation,()
+expose,3000 3000
+from,node:6.2
+npm ¦install :: Dependencies_operation,()

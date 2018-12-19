@@ -1,0 +1,8 @@
+gem ¦install¦--no-rdoc¦--no-ri¦travis :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/local/bin/travis
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/project :: workdir_operation,()
+mkdir ¦/project :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦ruby-full¦make¦git¦g++¦--no-install-recommends :: Other_operation,()
+from,debian@jessie

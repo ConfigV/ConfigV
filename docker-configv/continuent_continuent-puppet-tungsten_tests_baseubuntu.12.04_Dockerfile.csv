@@ -1,0 +1,12 @@
+git ¦clone¦https://github.com/narmitag/continuent-puppet-tungsten.git¦/etc/puppet/modules/tungsten :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦install¦-y¦puppet¦git¦tar¦openssh-server¦wget :: Dependencies_operation,()
+mkdir ¦-p¦/etc/puppet/modules :: Filesystem_operation,()
+apt-get ¦update;apt-get¦-y¦install¦wget :: Dependencies_operation,()
+puppet ¦module¦install¦continuent-tungsten :: Dependencies_operation,()
+from,ubuntu:12.04
+wget ¦--no-check-certificate¦https://apt.puppetlabs.com/puppetlabs-release-precise.deb :: Dependencies_operation,()
+puppet ¦module¦install¦puppetlabs-mysql :: Dependencies_operation,()
+rm ¦-rf¦/etc/puppet/modules/tungsten :: Filesystem_operation,()
+dpkg ¦-i¦puppetlabs-release-precise.deb :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

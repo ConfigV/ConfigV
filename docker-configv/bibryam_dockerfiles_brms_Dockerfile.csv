@@ -1,0 +1,12 @@
+rm ¦$HOME/$BRMS_VERSION :: Filesystem_operation,()
+JAVA_OPTS:-XX:MaxPermSize=256m :: env_operation,()
+from,bibryam/eap:latest
+$EAP_HOME/bin/add-user.sh ¦-u¦'admin'¦-p¦'pa$word1'¦-ro¦'admin' :: Other_operation,()
+jboss :: user_operation,()
+BRMS_VERSION:jboss-brms-6.1.0.GA-deployable-eap6.x.zip :: env_operation,()
+expose,8001
+cmd,./standalone.sh¦-b=0.0.0.0¦--server-config=standalone-full.xml¦-bmanagement=0.0.0.0¦-Dorg.uberfire.nio.git.ssh.host=0.0.0.0
+brms//opt/jboss :: add_operation,()
+unzip ¦-q¦-o¦-d¦$HOME/¦$HOME/$BRMS_VERSION :: Filesystem_operation,()
+$EAP_HOME/bin/add-user.sh ¦-a¦-u¦'brmsAdmin'¦-p¦'pa$word1'¦-ro¦'admin,analyst' :: Other_operation,()
+$EAP_HOME/bin/ :: workdir_operation,()

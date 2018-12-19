@@ -1,0 +1,9 @@
+from,centos:7.0
+/data :: workdir_operation,()
+./src :: copy_operation,()
+/data :: volume_operation,()
+expose,2222
+yum ¦update :: Dependencies_operation,()
+yum ¦install¦-y¦¦epel-release¦¦nodejs¦¦npm¦¦redis¦¦rethinkdb :: Dependencies_operation,()
+cd ¦/src;¦npm¦install :: Filesystem_operation,()
+cmd,node¦/src/app.js

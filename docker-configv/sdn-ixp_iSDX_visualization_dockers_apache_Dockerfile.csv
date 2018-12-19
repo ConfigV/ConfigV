@@ -1,0 +1,14 @@
+apache_default/etc/apache2/sites-available/000-default.conf :: copy_operation,()
+expose,80
+chmod ¦+x¦/usr/local/bin/run :: Permissions_operation,()
+from,ubuntu:14.04
+web-interface/var/www :: add_operation,()
+chmod ¦-R¦755¦/var/www :: Permissions_operation,()
+ps ¦-elf :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/www :: volume_operation,()
+apt-get ¦install¦-y¦apache2¦php5¦php5-cli¦libapache2-mod-php5¦php5-gd¦php5-json¦php5-ldap¦php5-mysql¦php5-pgsql :: Dependencies_operation,()
+ls ¦-al¦/var/www/* :: Filesystem_operation,()
+run/usr/local/bin/run :: copy_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+cmd,/usr/local/bin/run

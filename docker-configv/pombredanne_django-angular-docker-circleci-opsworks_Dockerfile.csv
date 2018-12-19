@@ -1,0 +1,13 @@
+echo ¦echo¦'OK, thanks' > /var/www/html/health.html :: Filesystem_operation,()
+pip3 ¦install¦-r¦requirements/base.txt¦-r¦requirements/test.txt :: Dependencies_operation,()
+a2ensite ¦000-review :: Other_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+apt-get ¦install¦-y¦apache2¦libapache2-mod-wsgi-py3¦python3.4¦python3-pip¦python3-psycopg2 :: Dependencies_operation,()
+expose,80
+apache.vhost/etc/apache2/sites-available/000-review.conf :: copy_operation,()
+from,ubuntu@trusty
+a2enmod ¦wsgi :: Other_operation,()
+review/srv/review :: copy_operation,()
+/srv/review :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+a2dissite ¦000-default :: Other_operation,()

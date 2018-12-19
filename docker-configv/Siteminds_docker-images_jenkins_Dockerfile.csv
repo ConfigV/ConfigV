@@ -1,0 +1,15 @@
+expose,50000
+jenkinsdocker.sh/usr/local/bin/jenkinsdocker.sh :: add_operation,()
+echo ¦echo¦"deb http://get.docker.com/ubuntu docker main" > /etc/apt/sources.list.d/docker.list :: Filesystem_operation,()
+LAST_UPDATED:20150303_1422 :: env_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦git¦lxc¦curl¦lxc-docker¦ca-certificates¦iptables :: Dependencies_operation,()
+plugins.txt/usr/share/jenkins/plugins.txt :: copy_operation,()
+root :: user_operation,()
+from,jenkins
+apt-get ¦install¦-qqy¦curl :: Dependencies_operation,()
+/usr/local/bin/plugins.sh ¦/usr/share/jenkins/plugins.txt :: Other_operation,()
+entrypoint,/usr/local/bin/jenkinsdocker.sh
+curl ¦-s¦https://get.docker.com/gpg¦|¦apt-key¦add¦- :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/jenkinsdocker.sh :: Permissions_operation,()
+/var/lib/docker :: volume_operation,()

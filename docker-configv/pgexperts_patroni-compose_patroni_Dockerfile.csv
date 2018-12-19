@@ -1,0 +1,21 @@
+chown ¦postgres:postgres¦-R¦/patroni/¦/data/¦/pgpass¦/var/log/etcd.*¦/patroni/postgres.yml :: Permissions_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+PATH:/usr/lib/postgresql/${PGVERSION}/bin:$PATH :: env_operation,()
+PGVERSION:9.4 :: env_operation,()
+touch ¦/var/log/etcd.log¦/var/log/etcd.err¦/pgpass¦/patroni/postgres.yml :: Filesystem_operation,()
+patroni//patroni :: add_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+entrypoint,/bin/bash¦/entrypoint.sh
+expose,4001 5432 2380
+ETCDVERSION:2.0.13 :: env_operation,()
+mkdir ¦/data/ :: Filesystem_operation,()
+apt-get ¦install¦curl¦-y :: Dependencies_operation,()
+curl ¦https://www.postgresql.org/media/keys/ACCC4CF8.asc¦|¦apt-key¦add¦- :: Dependencies_operation,()
+docker/entrypoint.sh/entrypoint.sh :: add_operation,()
+patroni.py/patroni.py :: add_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦python¦python-psycopg2¦python-yaml¦python-requests¦python-boto¦postgresql-${PGVERSION}¦python-dnspython¦python-kazoo¦python-pip¦-y :: Dependencies_operation,()
+pip ¦install¦python-etcd :: Dependencies_operation,()
+postgres :: user_operation,()
+curl ¦-L¦https://github.com/coreos/etcd/releases/download/v${ETCDVERSION}/etcd-v${ETCDVERSION}-linux-amd64.tar.gz¦|¦tar¦xz¦-C¦/bin¦--strip=1¦--wildcards¦--no-anchored¦etcd¦etcdctl :: Dependencies_operation,()
+from,ubuntu:14.04

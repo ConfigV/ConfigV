@@ -1,0 +1,6 @@
+from,golang@alpine
+$GOPATH/src/$pkg :: workdir_operation,()
+cmd,echo¦"This¦the¦make¦file¦to¦build¦releases.";¦exit¦1
+.$GOPATH/src/$pkg :: copy_operation,()
+apk ¦add¦--no-cache¦ca-certificates :: Dependencies_operation,()
+go ¦list¦$pkg/...¦|¦grep¦-v¦/vendor/ :: Build_Execute_operation,()

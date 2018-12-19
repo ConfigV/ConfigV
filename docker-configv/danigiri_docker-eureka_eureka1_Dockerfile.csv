@@ -1,0 +1,15 @@
+entrypoint,/opt/tomcat/bin/catalina.sh
+from,jeanblanchard/tomcat:8
+expose,8080
+curl ¦http://repo1.maven.org/maven2/com/netflix/blitz4j/blitz4j/1.36.1/blitz4j-1.36.1.jar¦-o¦/opt/tomcat/webapps/eureka/WEB-INF/lib/blitz4j-1.36.1.jar :: Dependencies_operation,()
+wget ¦-q¦http://repo1.maven.org/maven2/com/netflix/eureka/eureka-server/${EUREKA_VERSION}/eureka-server-${EUREKA_VERSION}.war :: Dependencies_operation,()
+cd ¦eureka :: Filesystem_operation,()
+config.properties/opt/tomcat/webapps/eureka/WEB-INF/classes/config.properties :: add_operation,()
+cmd,run
+cd ¦/opt/tomcat/webapps :: Filesystem_operation,()
+eureka-client-test.properties/opt/tomcat/webapps/eureka/WEB-INF/classes/eureka-client-test.properties :: add_operation,()
+jar ¦xf¦eureka-server-${EUREKA_VERSION}.war :: Other_operation,()
+rm ¦eureka-server-${EUREKA_VERSION}.war :: Filesystem_operation,()
+mkdir ¦eureka :: Filesystem_operation,()
+eureka-server-test.properties/opt/tomcat/webapps/eureka/WEB-INF/classes/eureka-server-test.properties :: add_operation,()
+EUREKA_VERSION:1.3.5 :: env_operation,()

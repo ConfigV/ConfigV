@@ -1,0 +1,14 @@
+entrypoint.sh/usr/local/bin/entrypoint.sh :: add_operation,()
+append-persistence.sh/usr/local/bin/append-persistence.sh :: add_operation,()
+from,openjdk:8.0
+adduser ¦-S¦reaper¦reaper :: Permissions_operation,()
+chown ¦reaper:reaper¦/etc/cassandra-reaper.yml¦/var/lib/cassandra-reaper¦/usr/local/bin/entrypoint.sh¦/usr/local/bin/append-persistence.sh :: Permissions_operation,()
+/var/lib/cassandra-reaper :: volume_operation,()
+cmd,cassandra-reaper
+${SHADED_JAR}/usr/local/lib/cassandra-reaper.jar :: add_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+apk ¦add¦--no-cache¦'su-exec>=0.2' :: Dependencies_operation,()
+chmod ¦u+x¦/usr/local/bin/entrypoint.sh¦/usr/local/bin/append-persistence.sh :: Permissions_operation,()
+cassandra-reaper.yml/etc/cassandra-reaper.yml :: add_operation,()
+addgroup ¦-S¦reaper :: Permissions_operation,()
+mkdir ¦-p¦/var/lib/cassandra-reaper :: Filesystem_operation,()

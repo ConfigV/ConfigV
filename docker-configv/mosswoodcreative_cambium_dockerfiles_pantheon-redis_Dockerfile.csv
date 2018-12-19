@@ -1,0 +1,13 @@
+rm ¦-rf¦/var/lib/log/* :: Filesystem_operation,()
+from,kalabox/hipache:v0.10.0
+expose,8161
+apt-get ¦-y¦autoclean :: Dependencies_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+cmd,/usr/bin/redis-server¦/root/redis.conf
+rm ¦-rf¦/var/lib/apt/* :: Filesystem_operation,()
+rm ¦-rf¦/src/* :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+./redis.conf/root/redis.conf :: copy_operation,()
+rm ¦-rf¦/var/lib/cache/* :: Filesystem_operation,()
+rm ¦-rf :: Filesystem_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()

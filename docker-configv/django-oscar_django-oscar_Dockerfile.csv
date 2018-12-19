@@ -1,0 +1,15 @@
+pip ¦install¦-r¦/requirements.txt :: Dependencies_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+cmd,/app/sites/sandbox/deploy/run_uwsgi.sh
+django :: user_operation,()
+/app :: workdir_operation,()
+./app :: copy_operation,()
+chown ¦-R¦django¦/app :: Permissions_operation,()
+from,python:2.7
+groupadd ¦-r¦django :: Permissions_operation,()
+./requirements.txt/requirements.txt :: copy_operation,()
+cp ¦--remove-destination¦/app/src/oscar/static/oscar/img/image_not_found.jpg¦/app/sites/sandbox/public/media/ :: Filesystem_operation,()
+chmod ¦+x¦/app/sites/sandbox/deploy/run_uwsgi.sh :: Permissions_operation,()
+make ¦build_sandbox :: Build_Execute_operation,()
+make ¦install :: Build_Execute_operation,()
+useradd ¦-r¦-g¦django¦django :: Permissions_operation,()

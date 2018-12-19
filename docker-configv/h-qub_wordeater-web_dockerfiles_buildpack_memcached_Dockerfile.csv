@@ -1,0 +1,11 @@
+MEMCACHED_VERSION:1.4.25 :: env_operation,()
+useradd ¦-r¦-g¦memcache¦memcache :: Permissions_operation,()
+echo ¦buildDeps='curl¦gcc libc6-dev libevent-dev make perl' && set -x && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* && curl -SL "http://memcached.org/files/memcached-$MEMCACHED_VERSION.... :: Filesystem_operation,()
+cmd,memcached
+apt-get ¦update :: Dependencies_operation,()
+MEMCACHED_SHA1:7fd0ba9283c61204f196638ecf2e9295688b2314 :: env_operation,()
+from,docker-registry.ussc.ru/debian:8
+memcache :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦libevent-2.0-5 :: Dependencies_operation,()
+groupadd ¦-r¦memcache :: Permissions_operation,()

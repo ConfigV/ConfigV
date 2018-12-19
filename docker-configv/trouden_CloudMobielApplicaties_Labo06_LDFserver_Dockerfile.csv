@@ -1,0 +1,11 @@
+expose,3000
+.${dir} :: add_operation,()
+cmd,--help
+mkdir ¦-p¦/var/www/ldf-server :: Filesystem_operation,()
+cd ¦Server.js :: Filesystem_operation,()
+cd ¦${dir} :: Filesystem_operation,()
+/var/www/ldf-server/Server.js :: workdir_operation,()
+from,node@latest
+entrypoint,node¦bin/ldf-server
+dir:/var/www/ldf-server :: env_operation,()
+npm ¦install :: Dependencies_operation,()

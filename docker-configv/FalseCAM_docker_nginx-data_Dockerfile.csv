@@ -1,0 +1,13 @@
+/etc/nginx/certs :: volume_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+conf/ldapadmin.conf/etc/nginx/conf.d/ldapadmin.conf :: copy_operation,()
+conf/gitlab.conf/etc/nginx/conf.d/gitlab.conf :: copy_operation,()
+conf/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+entrypoint,hostname
+yum ¦-y¦install¦openssl :: Dependencies_operation,()
+conf/ldapaccountmanager.conf/etc/nginx/conf.d/ldapaccountmanager.conf :: copy_operation,()
+conf/jenkins.conf/etc/nginx/conf.d/jenkins.conf :: copy_operation,()
+from,centos:7.0
+openssl ¦req¦-x509¦-nodes¦-sha384¦-days¦3650¦-newkey¦rsa:4096¦-subj¦"/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN=*"¦-keyout¦/etc/nginx/certs/server.key¦-out¦/etc/nginx/certs/server.crt :: Other_operation,()
+mkdir ¦-p¦/etc/nginx/conf.d/ :: Filesystem_operation,()
+mkdir ¦-p¦/etc/nginx/certs/ :: Filesystem_operation,()

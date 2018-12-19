@@ -1,0 +1,13 @@
+JIRA_HOME:/var/atlassian/jira :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+"docker-entrypoint.sh""/" :: copy_operation,()
+expose,8080
+echo ¦set¦-x && apt-get update --quiet && apt-get install --quiet --yes --no-install-recommends libtcnative-1 xmlstarlet && apt-get clean && mkdir -p "${JIRA_HOME}" && mkdir -p "${JIRA_HOME}/caches/indexes" && chmod -R 700 "${JIRA_HOME}" && chow... :: Filesystem_operation,()
+JIRA_INSTALL:/opt/atlassian/jira :: env_operation,()
+daemon:daemon :: user_operation,()
+JIRA_VERSION:7.1.9 :: env_operation,()
+from,java:8.0
+/opt/atlassian/jira/logs :: volume_operation,()
+/var/atlassian/jira :: workdir_operation,()
+/var/atlassian/jira :: volume_operation,()
+cmd,/opt/atlassian/jira/bin/catalina.sh¦run

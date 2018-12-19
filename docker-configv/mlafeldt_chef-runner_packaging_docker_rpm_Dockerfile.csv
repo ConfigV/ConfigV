@@ -1,0 +1,12 @@
+REFRESHED_AT:2015-02-02 :: env_operation,()
+echo ¦echo¦"gem: --no-ri --no-rdoc" >/etc/gemrc :: Filesystem_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+from,centos:7.0
+/data :: workdir_operation,()
+PATH=$PATH:/usr/local/go/bin: :: env_operation,()
+curl ¦-Ls¦https://storage.googleapis.com/golang/go1.4.1.linux-amd64.tar.gz¦|¦tar¦-C¦/usr/local¦-xz :: Dependencies_operation,()
+gem ¦install¦fpm-cookery¦-v¦0.25.0 :: Dependencies_operation,()
+cmd,fpm-cook¦package¦--debug¦--no-deps¦--tmp-root¦/tmp¦recipe.rb
+/data :: volume_operation,()
+yum ¦install¦-y¦curl¦gcc¦git¦make¦rpm-build¦ruby¦ruby-devel¦tar :: Dependencies_operation,()
+gem ¦install¦fpm¦-v¦1.3.3 :: Dependencies_operation,()

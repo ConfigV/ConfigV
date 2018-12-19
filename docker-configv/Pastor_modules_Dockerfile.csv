@@ -1,0 +1,20 @@
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+mkdir ¦build :: Filesystem_operation,()
+cd ¦build :: Filesystem_operation,()
+git ¦clone¦https://github.com/alacarte-maps/alacarte.git :: Dependencies_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+cd ¦~/src :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+make  :: Build_Execute_operation,()
+mkdir ¦~/src :: Filesystem_operation,()
+apt-get ¦install¦-y¦software-properties-common¦python-software-properties¦openssh-server :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦-qq¦cmake¦g++-4.8¦libboost1.55-all-dev¦libboost-log1.55-dev¦libcairo2-dev¦libpng12-dev¦asciidoc¦git :: Dependencies_operation,()
+echo ¦echo¦'root:root' | chpasswd :: Filesystem_operation,()
+cd ¦alacarte :: Filesystem_operation,()
+cmake ¦..¦-DBUILD_TESTING=NO¦-DCMAKE_BUILD_TYPE=Release :: Build_Execute_operation,()
+from,ubuntu:14.04
+NOTVISIBLE:"in :: env_operation,()
+expose,22 80 8080 443 3000

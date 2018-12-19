@@ -1,0 +1,11 @@
+afpd.sh/usr/bin :: copy_operation,()
+expose,139 445 137 548
+export ¦DEBIAN_FRONTEND=noninteractive¦&&\\ :: Environment_operation,()
+NETATALK_VERSION=3.1.9: :: env_operation,()
+entrypoint,/usr/bin/afpd.sh
+netatalk-3.1.9 :: workdir_operation,()
+DEPS="build-essential:libevent-dev :: env_operation,()
+from,debian@jessie
+afp.conf/etc :: copy_operation,()
+/shares :: volume_operation,()
+./configure ¦--prefix=/usr¦--sysconfdir=/etc¦--with-init-style=debian-systemd¦--without-libevent¦--without-tdb¦--with-cracklib¦--enable-krbV-uam¦--with-pam-confdir=/etc/pam.d¦--with-dbus-sysconf-dir=/etc/dbus-1/system.d¦--with-tracker-pkgconfig-version... :: Build_Execute_operation,()

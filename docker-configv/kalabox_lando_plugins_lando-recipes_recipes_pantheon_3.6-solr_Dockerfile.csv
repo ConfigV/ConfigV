@@ -1,0 +1,12 @@
+echo ¦apt-get¦update && apt-get install -y && apt-get -y install curl incron tomcat7 tomcat7-admin libtcnative-1 unzip && cd /tmp && curl -Lk "https://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/apache-solr-${SOLR_VERSION}.tgz" | tar -zv... :: Filesystem_operation,()
+./solr.xml/usr/share/solr/solr.xml :: copy_operation,()
+./web.xml/etc/tomcat7/web.xml :: copy_operation,()
+./server.xml/etc/tomcat7/server.xml :: copy_operation,()
+./index/usr/share/solr/web/index :: copy_operation,()
+./index.xml/etc/tomcat7/Catalina/localhost/sites#self#environments#lando.xml :: copy_operation,()
+expose,449
+cmd,/bin/bash¦/start.sh
+SOLR_VERSION:3.6.2 :: env_operation,()
+./start.sh/start.sh :: copy_operation,()
+from,debian@jessie
+./solrconfig.xml/usr/share/solr/conf/solrconfig.xml :: copy_operation,()

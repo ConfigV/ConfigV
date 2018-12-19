@@ -1,0 +1,9 @@
+from,centos:7.0
+ssh-keygen ¦-q¦-N¦""¦-t¦dsa¦-f¦/etc/ssh/ssh_host_ecdsa_key :: Other_operation,()
+https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub/root/.ssh/authorized_keys :: add_operation,()
+rm ¦-f¦/etc/ssh/ssh_host_ecdsa_key¦/etc/ssh/ssh_host_rsa_key :: Filesystem_operation,()
+expose,22
+yum ¦-y¦update;¦yum¦-y¦install¦openssh-server :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D
+ssh-keygen ¦-q¦-N¦""¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key :: Other_operation,()
+sed ¦-i¦"s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()

@@ -1,0 +1,17 @@
+Gemfile/var/www/ :: add_operation,()
+chown ¦-R¦web:web¦/var/bundle :: Permissions_operation,()
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+adduser ¦web¦--shell¦/bin/bash¦--disabled-password¦--gecos¦"" :: Permissions_operation,()
+Gemfile.lock/var/www/ :: add_operation,()
+./var/www :: add_operation,()
+PORT:5000 :: env_operation,()
+chown ¦-R¦web:web¦/var/www :: Permissions_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup¦|¦sudo¦bash¦-¦&&apt-get¦-qqy¦install¦nodejs¦-y;apt-get¦clean¦-y;apt-get¦autoremove¦-y :: Dependencies_operation,()
+cmd,bundle¦exec¦foreman¦start
+mkdir ¦-p¦/var/bundle :: Filesystem_operation,()
+web :: user_operation,()
+apt-get ¦-qq¦update;\\ :: Dependencies_operation,()
+su ¦web¦-c¦"bundle¦config¦--global¦path¦/var/bundle" :: Other_operation,()
+su ¦web¦-c¦"bundle¦install" :: Other_operation,()
+from,lookitsatravis/ruby:2.2.3
+/var/www :: workdir_operation,()

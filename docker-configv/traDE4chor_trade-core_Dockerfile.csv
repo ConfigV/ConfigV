@@ -1,0 +1,18 @@
+expose,8081
+apt-get ¦-y¦update :: Dependencies_operation,()
+${TRADE_HOME} :: workdir_operation,()
+rm ¦-r¦~/.gradle :: Filesystem_operation,()
+chmod ¦-R¦a+x¦${TRADE_HOME}/bin/* :: Permissions_operation,()
+PATH:${PATH}:${TRADE_HOME}/bin:${JAVA_HOME}/bin :: env_operation,()
+from,openjdk:8.0
+/src :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+./gradlew ¦check :: Other_operation,()
+tar ¦-xf¦/src/build/distributions/traDE-all-${TRADE_VERSION}.tar¦-C¦/opt :: Filesystem_operation,()
+TRADE_VERSION:1.0-SNAPSHOT :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+entrypoint,traDE
+ln ¦-s¦/opt/traDE-all-${TRADE_VERSION}¦${TRADE_HOME} :: Filesystem_operation,()
+rm ¦-r¦/src :: Filesystem_operation,()
+./src :: copy_operation,()
+TRADE_HOME:/opt/trade :: env_operation,()

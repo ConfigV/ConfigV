@@ -1,0 +1,9 @@
+/target :: workdir_operation,()
+pom.xml. :: copy_operation,()
+mvn ¦-B¦-f¦pom.xml¦-s¦/usr/share/maven/ref/settings-docker.xml¦dependency:resolve :: Dependencies_operation,()
+cmd,java --add-modules java.se.ee -jar /target/mocksumma.jar 'http://0.0.0.0:56808/mediehub/search/services/SearchWS'
+/usr/src/app :: workdir_operation,()
+mvn ¦-B¦-s¦/usr/share/maven/ref/settings-docker.xml¦package¦-DskipTests :: Dependencies_operation,()
+from,openjdk:9.0
+.. :: copy_operation,()
+--from=app/target/mocksumma.jar :: copy_operation,()

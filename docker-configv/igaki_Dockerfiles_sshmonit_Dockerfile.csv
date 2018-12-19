@@ -1,0 +1,19 @@
+./monit.conf/etc/ :: add_operation,()
+yum ¦install¦-y¦passwd :: Dependencies_operation,()
+sed ¦-i¦-e¦"s/#MaxStartups¦10:30:100/MaxStartups¦10:30:100/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+expose,8001
+cmd,/usr/bin/monit¦-I¦-c¦/etc/monit.conf
+./sshd_monit.conf/etc/monit/conf.d/ :: add_operation,()
+sed ¦-i¦-e¦"s/##PermitRootLogin¦yes/PermitRootLogin¦yes/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+cp ¦-p¦/usr/share/zoneinfo/Japan¦/etc/localtime :: Filesystem_operation,()
+/etc/init.d/sshd ¦start :: Other_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+sed ¦-i¦-e¦"s/#Port¦22/Port¦22/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+yum ¦install¦-y¦http://pkgs.repoforge.org/monit/monit-5.5-1.el6.rf.x86_64.rpm :: Dependencies_operation,()
+from,centos:6.4
+echo ¦echo¦sshd:all >> /etc/hosts.allow :: Filesystem_operation,()
+yum ¦install¦-y¦openssh-server :: Dependencies_operation,()
+chown ¦root:root¦-R¦/etc/monit*;chmod¦700¦/etc/monit.conf :: Permissions_operation,()
+sed ¦-i¦-e¦"s/UsePAM¦yes/#UsePAM¦yes/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+sed ¦-i¦-e¦"s/#UsePAM¦no/UsePAM¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+echo ¦echo¦"NETWORKING=yes" > /etc/sysconfig/network :: Filesystem_operation,()

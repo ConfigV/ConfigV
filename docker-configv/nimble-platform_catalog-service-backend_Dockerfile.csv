@@ -1,0 +1,10 @@
+echo ¦echo¦"database.type = postgres" >> $CONF_PATH :: Filesystem_operation,()
+dirname ¦$CONF_PATH :: Other_operation,()
+./docker/tomcat-users.xml/usr/local/tomcat/conf/ :: add_operation,()
+CONF_PATH:/var/lib/marmotta/system-config.properties :: env_operation,()
+echo ¦echo¦"database.password = $DB_PASS" >> $CONF_PATH :: Filesystem_operation,()
+echo ¦echo¦"database.url = jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME?prepareThreshold=3" >> $CONF_PATH :: Filesystem_operation,()
+echo ¦echo¦"security.enabled = false" > $CONF_PATH :: Filesystem_operation,()
+./webapp/target/catalog-service.war/usr/share/marmotta/marmotta.war :: copy_operation,()
+from,tomcat:7.0
+./docker/marmotta.xml/usr/local/tomcat/conf/Catalina/localhost/ :: copy_operation,()

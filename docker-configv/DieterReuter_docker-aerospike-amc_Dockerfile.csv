@@ -1,0 +1,10 @@
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu/ trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+wget ¦-O¦amc.deb¦http://www.aerospike.com/download/amc/3.4.5/artifact/ubuntu12 :: Dependencies_operation,()
+apt-get ¦-yy¦install¦build-essential¦python-dev¦python-pip¦man :: Dependencies_operation,()
+dpkg ¦-i¦amc.deb :: Dependencies_operation,()
+apt-get ¦-yy¦update :: Dependencies_operation,()
+rm ¦amc.deb :: Filesystem_operation,()
+from,ubuntu:14.04
+expose,8081
+apt-get ¦-yy¦upgrade :: Dependencies_operation,()
+cmd,/opt/amc/bin/start_amc_cron.sh

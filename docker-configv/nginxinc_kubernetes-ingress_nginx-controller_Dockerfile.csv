@@ -1,0 +1,8 @@
+nginx/ingress.tmpl/ :: copy_operation,()
+cmd,/nginx-ingress
+NGINX_VERSION:1.9.10-1~trusty :: env_operation,()
+echo ¦apt-key¦adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list && apt-get update && apt-get install -y ca-cer... :: Filesystem_operation,()
+from,ubuntu:14.04
+expose,80 443
+rm ¦/etc/nginx/conf.d/* :: Filesystem_operation,()
+nginx-ingress/ :: copy_operation,()

@@ -1,0 +1,13 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/var/www :: workdir_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,bash¦start.sh
+REFRESHED_AT:2015-12-11 :: env_operation,()
+/var/www :: volume_operation,()
+apt-get ¦-yqq¦purge :: Dependencies_operation,()
+from,debian@jessie
+echo ¦DEBIAN_FRONTEND=noninteractive¦apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get upgrade -yqq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq wget curl python g++ make checkinstall fakeroot && src=$(mktemp -d) && cd $src ... :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update;¦apt-get¦upgrade¦-y :: Other_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+start.sh/start.sh :: copy_operation,()
+expose,8080

@@ -1,0 +1,13 @@
+echo ¦cd¦/tmp && wget http://nodejs.org/dist/node-latest.tar.gz && tar xvzf node-latest.tar.gz && rm -f node-latest.tar.gz && cd node-v* && ./configure && CXX="g++ -Wno-unused-local-typedefs" make && CXX="g++ -Wno-unused-local-typedefs" make ins... :: Filesystem_operation,()
+echo ¦wget¦-qO - https://www.rabbitmq.com/rabbitmq-signing-key-public.asc | apt-key add - && echo "deb http://www.rabbitmq.com/debian/ testing main" > /etc/apt/sources.list.d/rabbitmq.list && apt-get update && DEBIAN_FRONTEND=noninteractive apt-... :: Filesystem_operation,()
+RABBITMQ_MNESIA_BASE:/data/mnesia :: env_operation,()
+/data/log :: volume_operation,()
+from,dockerfile/python
+echo ¦apt-key¦adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' > /etc/apt/sources.list.d/mongodb.list && apt-get update && apt-get install -y mongodb-o... :: Filesystem_operation,()
+RABBITMQ_LOG_BASE:/data/log :: env_operation,()
+bin/rabbitmq-start/usr/local/bin/ :: add_operation,()
+/data/mnesia :: volume_operation,()
+/data :: workdir_operation,()
+logfile ¦.*\\ :: Other_operation,()
+expose,6379
+cmd,bash¦rabbitmq-start¦mongod¦redis-server¦/etc/redis/redis.conf

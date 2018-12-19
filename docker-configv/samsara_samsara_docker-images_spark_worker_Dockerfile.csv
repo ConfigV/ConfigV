@@ -1,0 +1,13 @@
+./spark-starter.sh/opt/spark/spark-starter.sh :: add_operation,()
+/logs :: volume_operation,()
+SPARK_HOME:/opt/spark :: env_operation,()
+/data :: volume_operation,()
+./spark-worker-supervisor.conf/etc/supervisor/conf.d/spark-worker-supervisor.conf :: add_operation,()
+./configure-and-start.sh/configure-and-start.sh :: add_operation,()
+SPARK_VERSION:1.4.1 :: env_operation,()
+ln ¦-fs¦/opt/spark-*¦/opt/spark :: Filesystem_operation,()
+from,samsara/base-image-jdk8:u1410-j8u40
+expose,7077 7078 8080 8081 15000
+cmd,/configure-and-start.sh
+./spark-env.sh.tmpl/opt/spark/conf/spark-env.sh.tmpl :: add_operation,()
+curl ¦-sSL¦"http://apache.mirrors.pair.com/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop2.6.tgz"¦|¦tar¦-zxvf¦-¦-C¦/opt :: Dependencies_operation,()

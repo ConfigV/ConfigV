@@ -1,0 +1,18 @@
+cp ¦-r¦/app/limesurvey/application/config¦/app/limesurvey/application/config-sample :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,/run.sh
+rm ¦-rf¦/app :: Filesystem_operation,()
+expose,80 3306
+tar ¦-C¦/app¦-xvjf¦/app/limesurvey.tar.bz2 :: Filesystem_operation,()
+curl ¦-L¦-o¦/app/limesurvey.tar.bz2¦https://www.limesurvey.org/en/stable-release?download=1378:limesurvey206plus-build151018tarbz2 :: Dependencies_operation,()
+apache_default/etc/apache2/sites-available/000-default.conf :: copy_operation,()
+run.sh/run.sh :: copy_operation,()
+chown ¦www-data:www-data¦/var/lib/php5 :: Permissions_operation,()
+apt-get ¦upgrade¦-q¦-y¦; :: Dependencies_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+php5enmod ¦imap :: Other_operation,()
+chown ¦-R¦www-data:www-data¦/app :: Permissions_operation,()
+rm ¦/app/limesurvey.tar.bz2 :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,tutum/apache-php
+apt-get ¦install¦-q¦-y¦curl¦php5-gd¦php5-ldap¦php5-imap :: Dependencies_operation,()

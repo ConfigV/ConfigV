@@ -1,0 +1,17 @@
+HAWTIO_VERSION:1.4.65 :: env_operation,()
+chmod ¦+x¦/main/apache-tomcat-$TOMCAT_VERSION/bin/*.sh :: Permissions_operation,()
+/main :: workdir_operation,()
+echo ¦echo¦"bash /main/apache-tomcat-$TOMCAT_VERSION/bin/catalina.sh run" > tomcat.sh :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦apache-tomcat-$TOMCAT_VERSION.zip :: Filesystem_operation,()
+TOMCAT_VERSION:8.0.36 :: env_operation,()
+mkdir ¦/main :: Filesystem_operation,()
+unzip ¦apache-tomcat-$TOMCAT_VERSION.zip :: Filesystem_operation,()
+main/main/qpid-dispatch/console/hawtio/target/dispatch-hawtio-console-*.war/main/apache-tomcat-$TOMCAT_VERSION/webapps/dispatch-hawtio-console.war :: copy_operation,()
+apt-get ¦-y¦install¦openjdk-7-jre-headless¦unzip¦wget :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,debian@stable
+wget ¦http://mirror.hosting90.cz/apache/tomcat/tomcat-8/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.zip :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+https://oss.sonatype.org/content/repositories/public/io/hawt/hawtio-default/$HAWTIO_VERSION/hawtio-default-$HAWTIO_VERSION.war/main/apache-tomcat-$TOMCAT_VERSION/webapps/hawtio.war :: add_operation,()
+cmd,bash¦tomcat.sh

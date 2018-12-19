@@ -1,0 +1,16 @@
+apt-key ¦adv¦--keyserver¦pgp.mit.edu¦--recv-keys¦573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 :: Dependencies_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+telosyssaasfront/etc/nginx/sites-available/telosyssaasfront :: add_operation,()
+sudo ¦service¦nginx¦restart :: Other_operation,()
+sudo ¦rm¦/etc/nginx/sites-enabled/default :: Other_operation,()
+/var/cache/nginx :: volume_operation,()
+dist/public/opt/telosyssaasfront :: add_operation,()
+sudo ¦ln¦-s¦/etc/nginx/sites-available/telosyssaasfront¦/etc/nginx/sites-enabled/telosyssaasfront :: Other_operation,()
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+echo ¦echo¦"deb http://nginx.org/packages/mainline/debian/ wheezy nginx" >> /etc/apt/sources.list :: Filesystem_operation,()
+sudo ¦apt-get¦install¦-y¦nginx :: Other_operation,()
+from,ubuntu:14.04
+sudo ¦chown¦-R¦www-data:www-data¦/opt/telosyssaasfront :: Other_operation,()
+sudo ¦chmod¦755¦/opt/telosyssaasfront :: Other_operation,()
+cmd,nginx¦-g¦daemon off;
+expose,80 443

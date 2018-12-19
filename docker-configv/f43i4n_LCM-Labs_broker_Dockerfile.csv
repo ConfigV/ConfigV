@@ -1,0 +1,15 @@
+routes :: workdir_operation,()
+/root :: workdir_operation,()
+mvn ¦package :: Dependencies_operation,()
+cmd,bin/activemq¦console¦xbean:../conf/activemq-demo.xml
+gpg ¦--import¦KEYS :: Other_operation,()
+confconf :: copy_operation,()
+tar ¦-xzf¦apache-activemq-5.14.1-bin.tar.gz :: Filesystem_operation,()
+curl ¦-o¦apache-activemq-5.14.1-bin.tar.gz¦-L¦'http://www.apache.org/dyn/closer.cgi?filename=/activemq/5.14.1/apache-activemq-5.14.1-bin.tar.gz&action=download' :: Dependencies_operation,()
+from,maven
+KEYS. :: copy_operation,()
+apache-activemq-5.14.1-bin.tar.gz.asc. :: copy_operation,()
+gpg ¦--verify¦apache-activemq-5.14.1-bin.tar.gz.asc :: Other_operation,()
+routesroutes :: copy_operation,()
+/root/apache-activemq-5.14.1 :: workdir_operation,()
+cp ¦target/*.jar¦../apache-activemq-5.14.1/lib/ :: Filesystem_operation,()

@@ -1,0 +1,22 @@
+/data :: volume_operation,()
+tar ¦zxf¦node-v0.10.30.tar.gz :: Filesystem_operation,()
+yum ¦-y¦groupinstall¦"Development¦Tools" :: Dependencies_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+expose,9000
+yum ¦-y¦install¦mongodb-org :: Dependencies_operation,()
+yum ¦-y¦install¦ImageMagick-c++¦ImageMagick-c++-devel :: Dependencies_operation,()
+npm ¦install¦-g¦xpush¦forever :: Dependencies_operation,()
+cmd,mongod
+wget ¦http://nodejs.org/dist/v0.10.30/node-v0.10.30.tar.gz :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+cd ¦node-v0.10.30 :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+./configure  :: Build_Execute_operation,()
+forever ¦start¦./bin/xpush¦--config¦./config-blank.json¦--port¦8000¦--data¦/data¦--session :: Other_operation,()
+cd ¦/usr/local/lib/node_modules/xpush :: Filesystem_operation,()
+yum ¦-y¦install¦wget :: Dependencies_operation,()
+/data :: workdir_operation,()
+forever ¦start¦./bin/xpush¦--config¦./config-blank.json¦--port¦9000¦--data¦/data :: Other_operation,()
+logfile ¦.*\\ :: Other_operation,()
+from,centos:6.0
+make ¦install :: Build_Execute_operation,()

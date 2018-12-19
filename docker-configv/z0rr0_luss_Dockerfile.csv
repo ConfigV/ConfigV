@@ -1,0 +1,14 @@
+/data/conf/ :: volume_operation,()
+from,ubuntu@latest
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+templates/templates :: add_operation,()
+/data :: workdir_operation,()
+expose,20080
+luss/bin/luss :: add_operation,()
+entrypoint,/bin/luss
+/data/luss/ :: volume_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦-y¦install¦ca-certificates :: Dependencies_operation,()
+chmod ¦0755¦/bin/luss :: Permissions_operation,()
+cmd,-config¦/data/conf/luss.json

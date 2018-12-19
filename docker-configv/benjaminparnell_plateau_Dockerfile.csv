@@ -1,0 +1,13 @@
+./var/application/plateau :: add_operation,()
+apt-get ¦-y¦update¦--fix-missing :: Dependencies_operation,()
+apt-get ¦-y¦install¦curl :: Dependencies_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+expose,9001
+apt-get ¦-y¦clean :: Dependencies_operation,()
+nave ¦usemain¦6 :: Other_operation,()
+mkdir ¦-p¦/var/application/plateau :: Filesystem_operation,()
+chmod ¦a+x¦/usr/local/bin/nave" :: Permissions_operation,()
+sh ¦-c¦"curl¦-fsSL¦https://raw.githubusercontent.com/isaacs/nave/master/nave.sh¦>¦/usr/local/bin/nave :: Build_Execute_operation,()
+from,ubuntu:14.04
+/var/application/plateau :: workdir_operation,()
+mkdir ¦-p¦/var/data/plateau :: Filesystem_operation,()

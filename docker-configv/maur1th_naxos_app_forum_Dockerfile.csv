@@ -1,0 +1,15 @@
+chown ¦-R¦app:app¦$HOME/* :: Permissions_operation,()
+.$HOME :: copy_operation,()
+expose,5000
+pip3 ¦install¦--no-cache-dir¦-r¦requirements.txt :: Dependencies_operation,()
+from,python:3.6
+cmd,gunicorn¦naxos.wsgi:application¦-w¦$WORKERS¦-b¦:5000
+apk ¦del¦.build-deps :: Dependencies_operation,()
+pip3 ¦install¦--upgrade¦--no-cache-dir¦pip :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦build-base¦postgresql-dev¦libmemcached-dev¦libjpeg-turbo-dev¦libwebp-dev¦zlib-dev¦cyrus-sasl-dev :: Dependencies_operation,()
+HOME=/app:WORKERS=2 :: env_operation,()
+$HOME :: workdir_operation,()
+apk ¦add¦--no-cache¦libpq¦libmemcached¦libjpeg-turbo :: Dependencies_operation,()
+adduser ¦-D¦-s¦/bin/false¦app :: Permissions_operation,()
+app :: user_operation,()
+set ¦-ex :: Environment_operation,()

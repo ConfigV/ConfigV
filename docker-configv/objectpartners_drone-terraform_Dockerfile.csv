@@ -1,0 +1,10 @@
+/terraform :: workdir_operation,()
+/ :: workdir_operation,()
+entrypoint,/bin/drone-terraform
+unzip ¦terraform.zip :: Filesystem_operation,()
+apk-install ¦ca-certificates :: Dependencies_operation,()
+mkdir ¦/terraform :: Filesystem_operation,()
+from,gliderlabs/alpine:3.2
+PATH:/terraform:$PATH :: env_operation,()
+drone-terraform/bin/ :: add_operation,()
+https://releases.hashicorp.com/terraform/0.6.6/terraform_0.6.6_linux_amd64.zipterraform.zip :: add_operation,()

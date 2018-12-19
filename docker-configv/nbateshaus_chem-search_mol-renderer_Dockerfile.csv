@@ -1,0 +1,14 @@
+PATH:/opt/conda/bin:$PATH :: env_operation,()
+entrypoint,/opt/conda/bin/gunicorn¦--bind=0.0.0.0:8000
+conda ¦install¦-y¦rdkit¦gunicorn¦flask¦cairo¦cffi :: Dependencies_operation,()
+cmd,wsgi:app
+./src :: copy_operation,()
+conda ¦config¦--add¦channels¦https://conda.binstar.org/greglandrum :: Dependencies_operation,()
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && wget --quiet https://repo.continuum.io/miniconda/Miniconda3-3.19.0-Linux-x86_64.sh && /bin/bash /Miniconda3-3.19.0-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda3-3.19.... :: Filesystem_operation,()
+"/src" :: workdir_operation,()
+expose,8000
+LANG:C.UTF-8 :: env_operation,()
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦bzip2¦ca-certificates¦libc6¦libglib2.0¦libxext6¦libsm6¦libxrender1¦git¦curl¦grep¦sed¦dpkg¦libcairo2 :: Dependencies_operation,()
+from,debian@jessie
+.*\\  :: Other_operation,()

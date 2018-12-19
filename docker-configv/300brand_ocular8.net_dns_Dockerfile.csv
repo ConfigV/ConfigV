@@ -1,0 +1,15 @@
+sed ¦'s/main$/main¦universe/'¦-i¦/etc/apt/sources.list :: Filesystem_operation,()
+chown ¦bind:bind¦/etc/bind/named.conf.local :: Permissions_operation,()
+from,ubuntu@latest
+expose,53
+chown ¦bind:bind¦/etc/bind/named.conf.options :: Permissions_operation,()
+cmd,/usr/sbin/named¦-c¦/etc/bind/named.conf¦-f
+20.168.192.IN-ADDR.ARPA/etc/bind/20.168.192.IN-ADDR.ARPA :: add_operation,()
+named.conf.options/etc/bind/named.conf.options :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+db.ocular8.net/etc/bind/db.ocular8.net :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦bind9 :: Dependencies_operation,()
+echo ¦echo¦'Acquire::http { Proxy "http://192.168.20.21:3142"; };' >> /etc/apt/apt.conf.d/01proxy :: Filesystem_operation,()
+chown ¦bind:bind¦/etc/bind/db.ocular8.net :: Permissions_operation,()
+named.conf.local/etc/bind/named.conf.local :: add_operation,()

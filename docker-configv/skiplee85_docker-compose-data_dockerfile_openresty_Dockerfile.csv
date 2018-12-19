@@ -1,0 +1,14 @@
+sed ¦-i¦'s/http:\\/\\/archive.ubuntu.com\\/ubuntu\\//http:\\/\\/mirrors.aliyun.com\\/ubuntu\\//g'¦/etc/apt/sources.list :: Filesystem_operation,()
+chmod ¦755¦/docker-entrypoint.sh :: Permissions_operation,()
+protobuf.lua/usr/local/openresty/lualib/ :: copy_operation,()
+entrypoint,/docker-entrypoint.sh
+ln ¦-s¦/usr/local/openresty/nginx/sbin/nginx¦/usr/bin/nginx :: Filesystem_operation,()
+libljson.so/usr/local/openresty/lualib/ :: copy_operation,()
+protobuf.so/usr/local/openresty/lualib/ :: copy_operation,()
+from,openresty/openresty:trusty
+json_decoder.lua/usr/local/openresty/lualib/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommendsredis-serverlibmagickwand-devmemcached :: Other_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+localtime/etc/localtime :: copy_operation,()
+/usr/local/openresty/ :: workdir_operation,()

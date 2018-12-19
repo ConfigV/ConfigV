@@ -1,0 +1,15 @@
+apk ¦add¦--no-cache¦'su-exec>=0.2'¦bash :: Dependencies_operation,()
+set ¦-ex;¦\\ :: Environment_operation,()
+cmd,elasticsearch
+/usr/share/elasticsearch :: workdir_operation,()
+PATH:/usr/share/elasticsearch/bin:$PATH :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+ELASTICSEARCH_VERSION:5.1.1 :: env_operation,()
+from,openjdk:8.0
+addgroup ¦-S¦elasticsearch :: Permissions_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+expose,9200 9300
+config./config :: copy_operation,()
+GPG_KEY:46095ACC8548582C1A2699A9D27D666CD88E42B4 :: env_operation,()
+/usr/share/elasticsearch/data :: volume_operation,()
+adduser ¦-S¦-G¦elasticsearch¦elasticsearch :: Permissions_operation,()

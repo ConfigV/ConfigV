@@ -1,0 +1,14 @@
+CFGFILE:/etc/sockd.conf :: env_operation,()
+DANTE_MD5:68c2ce12119e12cea11a90c7a80efa8f :: env_operation,()
+expose,1080
+cmd,sockd¦-f¦$CFGFILE¦-p¦$PIDFILE¦-N¦$WORKERS
+WORKERS:10 :: env_operation,()
+sockd.conf/etc/sockd.conf :: add_operation,()
+DANTE_TEMP:dante :: env_operation,()
+echo ¦set¦-xe && apt-get update && apt-get install -y $DANTE_DEPS && mkdir $DANTE_TEMP && cd $DANTE_TEMP && curl -sSL $DANTE_URL -o $DANTE_FILE && echo "$DANTE_MD5 $DANTE_FILE" | md5sum -c && tar xzf $DANTE_FILE --strip 1 && ./configure && make ... :: Filesystem_operation,()
+DANTE_URL:https://www.inet.no/dante/files/dante-$DANTE_VER.tar.gz :: env_operation,()
+PIDFILE:/tmp/sockd.pid :: env_operation,()
+DANTE_FILE:dante.tar.gz :: env_operation,()
+DANTE_VER:1.4.1 :: env_operation,()
+DANTE_DEPS:build-essential :: env_operation,()
+from,debian@jessie

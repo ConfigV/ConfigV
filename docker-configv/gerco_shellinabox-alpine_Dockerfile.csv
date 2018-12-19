@@ -1,0 +1,8 @@
+from,alpine:3.2
+apk ¦--update¦add¦openssh :: Dependencies_operation,()
+echo ¦echo¦-e "root:shellboxuser" | chpasswd :: Filesystem_operation,()
+expose,4200
+echo ¦echo¦-e "shellboxuser\\nshellboxuser" | adduser -s /bin/sh shellboxuser :: Filesystem_operation,()
+cmd,shellinaboxd¦-s¦/:LOGIN¦--disable-ssl
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+shellinabox.tar.gz/ :: add_operation,()

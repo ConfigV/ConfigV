@@ -1,0 +1,9 @@
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+add-apt-repository ¦ppa:paparazzi-uav/ppa :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init
+apt-get ¦update :: Dependencies_operation,()
+from,phusion/baseimage:0.9.16
+apt-get ¦install¦-y¦gcc-arm-none-eabi¦libcanberra-gtk-module¦paparazzi-dev¦paparazzi-jsbsim¦x11-apps :: Dependencies_operation,()

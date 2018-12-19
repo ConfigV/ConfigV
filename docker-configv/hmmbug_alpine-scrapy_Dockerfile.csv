@@ -1,0 +1,14 @@
+apk ¦add¦--no-cache¦${RUNTIME_PACKAGES}¦${BUILD_PACKAGES} :: Dependencies_operation,()
+RUNTIME_PACKAGES:python :: env_operation,()
+cmd,scrapyd
+rm ¦-rf¦/root/.cache :: Filesystem_operation,()
+BUILD_PACKAGES:build-base :: env_operation,()
+pip ¦install¦-U¦pip :: Dependencies_operation,()
+apk ¦del¦${BUILD_PACKAGES} :: Dependencies_operation,()
+pip ¦install¦git+https://github.com/scrapy/scrapy.git¦git+https://github.com/scrapy/scrapyd.git¦git+https://github.com/scrapy/scrapyd-client.git¦git+https://github.com/scrapinghub/scrapy-splash.git¦https://dev.mysql.com/get/Downloads/Connector-... :: Dependencies_operation,()
+LIBRARY_PATH=/lib:/usr/lib: :: env_operation,()
+expose,6800
+/var/log/scrapyd :: volume_operation,()
+from,alpine:3.4
+curl ¦-sSL¦https://github.com/scrapy/scrapy/raw/master/extras/scrapy_bash_completion¦>>¦/root/.bashrc :: Dependencies_operation,()
+./scrapyd.conf/etc/scrapyd/ :: add_operation,()

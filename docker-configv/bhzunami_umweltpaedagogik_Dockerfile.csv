@@ -1,0 +1,18 @@
+.//rails :: add_operation,()
+/rails :: workdir_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"bundle¦install" :: Build_Execute_operation,()
+apt-get ¦install¦-qy¦curl :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+/bin/bash ¦-l¦-c¦"gem¦install¦bundler¦--no-ri¦--no-rdoc" :: Build_Execute_operation,()
+config/container/nginx-sites.conf/etc/nginx/sites-enabled/default :: add_operation,()
+from,ubuntu
+config/container/start-server.sh/usr/bin/start-server :: add_operation,()
+/bin/bash ¦-l¦-c¦"rvm¦requirements" :: Build_Execute_operation,()
+expose,80
+apt-get ¦install¦-qy¦nginx :: Dependencies_operation,()
+entrypoint,/usr/bin/start-server
+curl ¦-sSL¦https://get.rvm.io¦|¦bash¦-s¦stable :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"rvm¦install¦2.1.0" :: Build_Execute_operation,()
+apt-get ¦install¦-qy¦nodejs :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/start-server :: Permissions_operation,()

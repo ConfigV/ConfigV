@@ -1,0 +1,14 @@
+/var/www/html :: volume_operation,()
+chown ¦-R¦www-data:www-data¦/usr/src/wordpress :: Permissions_operation,()
+cmd,apache2-foreground
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+from,php:5.6
+a2enmod ¦rewrite :: Other_operation,()
+apt-get ¦install¦-y¦libpng12-dev¦libjpeg-dev :: Dependencies_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+docker-php-ext-install ¦mysqli :: Other_operation,()
+./wordpress/usr/src/ :: copy_operation,()
+entrypoint,/entrypoint.sh

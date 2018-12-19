@@ -1,0 +1,11 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+curl ¦-s¦-o¦/tmp/influxdb_latest_amd64.deb¦https://s3.amazonaws.com/influxdb/influxdb_${INFLUXDB_VERSION}_amd64.deb :: Dependencies_operation,()
+INFLUXDB_VERSION:0.10.0-1 :: env_operation,()
+/misc/influxdb.config/etc/influxdb/influxdb.config :: add_operation,()
+dpkg ¦-i¦/tmp/influxdb_latest_amd64.deb :: Dependencies_operation,()
+rm ¦/tmp/influxdb_latest_amd64.deb :: Filesystem_operation,()
+/data :: volume_operation,()
+from,ubuntu
+service ¦influxdb¦start :: Build_Execute_operation,()
+tail ¦-f¦/var/log/influxdb/influxd.log :: Other_operation,()
+expose,8086

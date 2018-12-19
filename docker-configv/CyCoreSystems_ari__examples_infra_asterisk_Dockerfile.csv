@@ -1,0 +1,10 @@
+cmd,/usr/sbin/asterisk¦-vf
+from,debian:8.0
+./configure; ¦make;¦make¦install;¦make¦samples :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/asterisk-14.0.0-rc1 :: workdir_operation,()
+extensions.conf/etc/asterisk/extensions.conf :: copy_operation,()
+apt-get ¦install¦-y¦build-essential¦openssl¦libxml2-dev¦libncurses5-dev¦uuid-dev¦sqlite3¦libsqlite3-dev¦pkg-config¦curl¦libjansson-dev :: Dependencies_operation,()
+http.conf/etc/asterisk/http.conf :: copy_operation,()
+curl ¦-s¦http://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-14.0.0-rc1.tar.gz¦|¦tar¦xz :: Dependencies_operation,()
+ari.conf/etc/asterisk/ari.conf :: copy_operation,()

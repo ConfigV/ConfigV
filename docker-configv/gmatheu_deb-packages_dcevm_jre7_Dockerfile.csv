@@ -1,0 +1,7 @@
+from,gmatheu/dcevm-base
+/workspace :: workdir_operation,()
+find ¦./dcevm-7-jre¦-name¦libjvm.diz¦-delete :: Filesystem_operation,()
+find ¦./dcevm-7-jre¦-name¦libjvm.so¦-exec¦cp¦dcevm/hotspot/build/product/libjvm.so¦{}; :: Filesystem_operation,()
+echo ¦cp¦-nr jdk7/build/linux-amd64/j2re-image/* dcevm-7-jre/usr/lib/jvm/java-7-dcevm-amd64/jre || echo "SHOULD SOLVE DANGLING LINKS ISSUE" :: Filesystem_operation,()
+deb/workspace/dcevm-7-jre :: add_operation,()
+dpkg-deb ¦-b¦dcevm-7-jre¦dcevm-7-jre_7u60b09-1.0_amd64.deb :: Other_operation,()

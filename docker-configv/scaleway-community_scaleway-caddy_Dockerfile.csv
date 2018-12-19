@@ -1,0 +1,12 @@
+patches/etc//etc :: add_operation,()
+echo ¦echo¦"session required pam_limits.so" >> /etc/pam.d/su :: Filesystem_operation,()
+from,scaleway/golang:latest
+/usr/local/sbin/builder-enter  :: Other_operation,()
+/usr/local/sbin/builder-leave  :: Other_operation,()
+useradd ¦-M¦caddy¦||¦true :: Permissions_operation,()
+update-rc.d ¦caddy¦defaults :: Other_operation,()
+CADDY_VERSION:v0.7.6 :: env_operation,()
+mkdir ¦-p¦/var/www/caddy/ :: Filesystem_operation,()
+echo ¦echo¦"caddy hard nofile 4096" > /etc/security/limits.d/90-nofile.conf :: Filesystem_operation,()
+echo ¦echo¦"Hello from caddy" > /var/www/caddy/index.html :: Filesystem_operation,()
+echo ¦echo¦"caddy soft nofile 4096" >> /etc/security/limits.d/90-nofile.conf :: Filesystem_operation,()

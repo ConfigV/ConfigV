@@ -1,0 +1,20 @@
+http://gerrit-releases.storage.googleapis.com/gerrit-2.9.3.war$GERRIT_WAR :: add_operation,()
+cmd,/sbin/my_init
+root :: user_operation,()
+run_gerrit.sh/etc/my_init.d/run_gerrit.sh :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+mkdir ¦-p¦/etc/my_init.d :: Filesystem_operation,()
+java ¦-jar¦$GERRIT_WAR¦init¦--batch¦-d¦$GERRIT_ROOT :: Other_operation,()
+/etc/my_init.d/00_regen_ssh_host_keys.sh  :: Other_operation,()
+GERRIT_WAR:/home/gerrit/gerrit.war :: env_operation,()
+GERRIT_ROOT:/home/gerrit/gerrit :: env_operation,()
+gerrit :: user_operation,()
+GERRIT_USER:gerrit :: env_operation,()
+expose,8080 29418
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦git-core :: Dependencies_operation,()
+GERRIT_HOME:/home/gerrit :: env_operation,()
+mkdir ¦-p¦$GERRIT_HOME :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+from,phusion/baseimage:0.9.15

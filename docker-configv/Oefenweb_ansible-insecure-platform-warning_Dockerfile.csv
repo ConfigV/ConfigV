@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦$HOME/.cache :: Filesystem_operation,()
+curl ¦-sL¦https://bootstrap.pypa.io/get-pip.py¦|¦python¦- :: Dependencies_operation,()
+./etc/ansible/roles/ansible-role :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦python-minimal¦python-dev¦curl :: Other_operation,()
+ansible-playbook ¦-i¦tests/inventory¦tests/test.yml¦--connection=local¦-vv :: Other_operation,()
+from,ubuntu:16.04
+/etc/ansible/roles/ansible-role :: workdir_operation,()
+pip ¦install¦ansible==2.3.2.0 :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦gcc¦libffi-dev¦libssl-dev :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()

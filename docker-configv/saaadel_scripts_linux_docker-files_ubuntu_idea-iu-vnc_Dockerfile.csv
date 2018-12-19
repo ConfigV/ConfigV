@@ -1,0 +1,14 @@
+from,ubuntu@latest
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/intellij-idea-iu.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+entrypoint,/usr/bin/vncserver¦-fg
+/mnt/docker-volume :: volume_operation,()
+expose,5901
+io.openshift.expose-services:5901:tcp :: label_operation,()
+user :: user_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/tigervnc-server.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/gradle.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/maven.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/yum/clean-update-install.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/yum/nodejs.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/oracle-java.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+echo ¦.¦/etc/profile.d/java-env.sh && . /etc/profile.d/maven-env.sh && . /etc/profile.d/gradle-env.sh && . /etc/profile.d/idea-env.sh && sed -e 's!^.*gnome-session!\\. /etc/profile\\.d/java-env\\.sh\\n\\0!' -i /home/user/.vnc/xstartup && sed -e 's!^.... :: Filesystem_operation,()

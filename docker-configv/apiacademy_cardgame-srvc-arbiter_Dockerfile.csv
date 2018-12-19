@@ -1,0 +1,9 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+runit/etc/service/node-app :: copy_operation,()
+cmd,/sbin/my_init
+chmod ¦-R¦755¦/etc/service/node-app :: Permissions_operation,()
+from,phusion/passenger-nodejs:latest
+apt-get ¦clean :: Dependencies_operation,()
+.//opt/application :: copy_operation,()
+expose,3000
+HOME:/opt/application :: env_operation,()

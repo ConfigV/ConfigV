@@ -1,0 +1,13 @@
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+git ¦submodule¦update¦--init :: Dependencies_operation,()
+git ¦checkout¦develop :: Dependencies_operation,()
+install ¦programs/client/bitshares_client¦/usr/bin/keyid :: Build_Execute_operation,()
+cmake ¦. :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,keyid
+apt-get ¦-y¦install¦git¦cmake¦g++¦libz-dev¦libboost-all-dev¦libssl-dev¦libreadline-dev¦libdb++-dev :: Dependencies_operation,()
+from,ubuntu:14.04
+make ¦-j`grep¦^processor¦/proc/cpuinfo¦|¦wc¦-l` :: Build_Execute_operation,()
+cd ¦src :: Filesystem_operation,()
+git ¦clone¦https://github.com/keyid/keyid¦src :: Dependencies_operation,()

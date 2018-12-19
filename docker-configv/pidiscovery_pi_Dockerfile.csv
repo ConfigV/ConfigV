@@ -1,0 +1,13 @@
+pacman ¦-Syu¦--noconfirm¦gcc¦make¦autoconf¦automake¦cmake¦ninja¦boost¦libtool¦git :: Filesystem_operation,()
+entrypoint,/launch
+/bitshares-2 :: workdir_operation,()
+docker/default_config.ini/default_config.ini :: add_operation,()
+mkdir ¦/data_dir :: Filesystem_operation,()
+/data_dir :: volume_operation,()
+expose,8090 9090
+ninja ¦witness_node¦||¦ninja¦-j¦1¦witness_node :: Other_operation,()
+./bitshares-2 :: add_operation,()
+cmake ¦-G¦Ninja¦-DCMAKE_BUILD_TYPE=Release¦. :: Build_Execute_operation,()
+from,l3iggs/archlinux:latest
+docker/launch/launch :: add_operation,()
+chmod ¦a+x¦/launch :: Permissions_operation,()

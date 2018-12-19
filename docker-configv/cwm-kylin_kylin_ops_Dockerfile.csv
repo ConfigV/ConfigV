@@ -1,0 +1,10 @@
+expose,80 22
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+./kylin_ops :: copy_operation,()
+apk ¦add¦--update¦openssh¦sshpass¦python¦py-mysqldb¦py-psutil¦py-crypto :: Dependencies_operation,()
+cmd,/run.sh
+from,alpine
+/data :: volume_operation,()
+python ¦/kylin_ops/install/docker/get-pip.py :: Build_Execute_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/kylin_ops :: workdir_operation,()

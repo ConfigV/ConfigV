@@ -1,0 +1,9 @@
+./deploy/gunicorn_config.py./ :: copy_operation,()
+cat ¦docker_packages.txt¦|¦xargs¦apt-get¦install¦-y :: Filesystem_operation,()
+mkdir ¦-p¦/phovea/app¦/phovea/run :: Filesystem_operation,()
+/phovea :: workdir_operation,()
+../app/ :: copy_operation,()
+./deploy/supervisord.conf/etc/supervisor/conf.d/phovea_service.conf :: copy_operation,()
+from,skiftcreative/supervisor:2.7
+expose,9000
+requirements*.txt./ :: copy_operation,()

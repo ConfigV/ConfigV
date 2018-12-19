@@ -1,0 +1,14 @@
+ln ¦-s¦/usr/local/pipeline/wham/bin/WHAM-GRAPHENING¦/usr/local/bin/ :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+cd ¦/usr/local/pipeline/ :: Filesystem_operation,()
+git ¦clone¦--recursive¦https://github.com/zeeev/wham.git :: Dependencies_operation,()
+mkdir ¦-p¦/usr/local/pipeline/ :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+cmd,/bin/bash
+cd ¦/usr/local/pipeline/wham :: Filesystem_operation,()
+pip ¦install¦-U¦numpy¦scipy¦scikit-learn¦argparse :: Dependencies_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+from,viapath/snappy_ngstools:flatdog
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/wham/bin'¦/home/snappy/.bashrc :: Filesystem_operation,()
+ln ¦-s¦/usr/local/pipeline/wham/bin/WHAM-BAM¦/usr/local/bin/ :: Filesystem_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/wham :: Permissions_operation,()

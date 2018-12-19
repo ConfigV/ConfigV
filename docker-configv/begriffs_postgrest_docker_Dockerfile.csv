@@ -1,0 +1,12 @@
+apt-get ¦clean :: Dependencies_operation,()
+cmd,exec¦postgrest¦/etc/postgrest.conf
+from,debian@jessie
+wget ¦http://github.com/begriffs/postgrest/releases/download/v${POSTGREST_VERSION}/postgrest-${POSTGREST_VERSION}-ubuntu.tar.xz :: Dependencies_operation,()
+POSTGREST_VERSION:0.4.0.0 :: env_operation,()
+expose,3000
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+tar ¦--xz¦-xvf¦postgrest-${POSTGREST_VERSION}-ubuntu.tar.xz :: Filesystem_operation,()
+mv ¦postgrest¦/usr/local/bin/postgrest :: Filesystem_operation,()
+rm ¦postgrest-${POSTGREST_VERSION}-ubuntu.tar.xz :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦tar¦xz-utils¦wget¦libpq-dev :: Dependencies_operation,()

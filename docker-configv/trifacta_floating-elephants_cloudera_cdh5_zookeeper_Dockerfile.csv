@@ -1,0 +1,9 @@
+cmd,/opt/zookeeper/start.sh
+service ¦zookeeper-server¦init :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,trifacta/ubuntu-cdh5-base
+expose,2181
+start.sh/opt/zookeeper/ :: copy_operation,()
+chown ¦-R¦zookeeper¦/var/lib/zookeeper/ :: Permissions_operation,()
+mkdir ¦-p¦/var/lib/zookeeper :: Filesystem_operation,()
+apt-get ¦install¦-y¦zookeeper-server :: Dependencies_operation,()

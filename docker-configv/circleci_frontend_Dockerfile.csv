@@ -1,0 +1,20 @@
+.bowerrc/frontend/.bowerrc :: add_operation,()
+entrypoint,/docker-entrypoint.sh
+curl ¦--silent¦--location¦https://deb.nodesource.com/setup_0.12¦|¦bash¦- :: Dependencies_operation,()
+/frontend :: workdir_operation,()
+./frontend :: add_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: add_operation,()
+echo ¦echo¦"\\ :: Filesystem_operation,()
+bower.json/frontend/bower.json :: add_operation,()
+lein ¦cljsbuild¦once¦dev :: Dependencies_operation,()
+apt-get ¦install¦-y¦haproxy¦nodejs¦bzip2¦build-essential :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+project.clj/frontend/project.clj :: add_operation,()
+cmd,start
+from,clojure@latest
+expose,13000 17888 13449
+apt-get ¦update :: Dependencies_operation,()
+package.json/frontend/package.json :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+lein ¦deps :: Dependencies_operation,()
+node_modules/.bin/bower ¦--allow-root¦install :: Other_operation,()

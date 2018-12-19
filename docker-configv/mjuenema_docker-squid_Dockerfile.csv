@@ -1,0 +1,11 @@
+cmd,/run_squid
+yum ¦-y¦install¦squid :: Dependencies_operation,()
+echo ¦[¦"$http_proxy" == "" ] || echo "never_direct allow all" >> /etc/squid/squid.conf :: Filesystem_operation,()
+echo ¦[¦"$http_proxy" == "" ] || echo "proxy=$http_proxy" >> /etc/yum.conf :: Filesystem_operation,()
+echo ¦[¦"$http_proxy" == "" ] || echo "cache_peer `echo $http_proxy | gawk 'match($0, /http:\\/\\/([^:]+):([0-9]+)/, a) { print a[1] }'` parent `echo $http_proxy | gawk 'match($0, /http:\\/\\/([^:]+):([0-9]+)/, a) { print a[2] }'` 0 no-query no-dige... :: Filesystem_operation,()
+root :: user_operation,()
+squid.conf/etc/squid/squid.conf :: copy_operation,()
+from,centos:7.0
+yum ¦-y¦install¦http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el7.rf.x86_64.rpm :: Dependencies_operation,()
+run_squid/run_squid :: copy_operation,()
+yum ¦-y¦install¦https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm :: Dependencies_operation,()

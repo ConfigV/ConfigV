@@ -1,0 +1,13 @@
+from,debian:8.0
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-L¦https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION¦}/docker-compose-`uname¦-s`-`uname¦-m`¦>/usr/local/bin/docker-compose¦;¦chmod¦+x¦/usr/local/bin/docker-compose :: Dependencies_operation,()
+LICENSE/etc/LICENSE.compose :: add_operation,()
+DOCKER_COMPOSE_VERSION:1.1.0 :: env_operation,()
+docker-compose/scripts/docker-compose :: add_operation,()
+rm ¦-rf¦/var/lib/{apt,dpkg,cache,log}/ :: Filesystem_operation,()
+/project :: workdir_operation,()
+apt-get ¦clean¦autoclean :: Dependencies_operation,()
+entrypoint,/usr/local/bin/docker-compose
+install/scripts/install :: add_operation,()

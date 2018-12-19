@@ -1,0 +1,19 @@
+from,centos:6.0
+Centos-Source.repo/etc/yum.repos.d/Centos-Source.repo :: add_operation,()
+tar ¦xf¦/tmp/hbase.tar.gz¦-C¦/usr/lib/ :: Filesystem_operation,()
+yum ¦install¦-y¦bzip2¦curl¦java-1.7.0-openjdk-devel¦tar¦vim¦wget :: Dependencies_operation,()
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/java-1.7.0 :: env_operation,()
+mkdir ¦/hadoop :: Filesystem_operation,()
+hbase-site.xml/usr/lib/hbase/conf/hbase-site.xml :: add_operation,()
+expose,16030
+cmd,$HBASE_HOME/bin/run-hbase.sh
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+run-hbase.sh/usr/lib/hbase/bin/run-hbase.sh :: add_operation,()
+HBASE_HOME:/usr/lib/hbase :: env_operation,()
+ln ¦-sf¦/usr/lib/hbase-0.98.9-hadoop1¦/usr/lib/hbase :: Filesystem_operation,()
+mkdir ¦/hadoop/hbase :: Filesystem_operation,()
+mkdir ¦/hadoop/zookeeper :: Filesystem_operation,()
+wget ¦-nv¦-O¦/tmp/hbase.tar.gz¦http://apache.cs.utah.edu/hbase/hbase-0.98.9/hbase-0.98.9-hadoop1-bin.tar.gz :: Dependencies_operation,()
+PATH:$JAVA_HOME/bin:$HBASE_HOME/bin:$PATH :: env_operation,()

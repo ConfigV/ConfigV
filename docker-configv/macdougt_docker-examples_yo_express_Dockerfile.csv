@@ -1,0 +1,22 @@
+cmd,grunt
+apt-get ¦install¦-y¦¦mlocate¦¦build-essential¦¦npm¦¦git¦¦git-core¦¦openssl¦¦libssl-dev¦¦¦curl¦¦expect :: Dependencies_operation,()
+echo ¦echo¦"yeoman ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers :: Filesystem_operation,()
+npm ¦install¦-g¦yo :: Dependencies_operation,()
+from,ubuntu@latest
+mkdir ¦/tmp/test1 :: Filesystem_operation,()
+npm ¦install¦-g¦grunt-cli :: Dependencies_operation,()
+.bashrc~/.bashrc :: add_operation,()
+expose,3000
+/bin/sh ¦-c¦'cd¦/tmp/test1;npm¦install¦generator-express' :: Other_operation,()
+root :: user_operation,()
+yoExpress.exp/tmp/test1/ :: copy_operation,()
+chmod ¦777¦yoExpress.exp :: Permissions_operation,()
+yeoman :: user_operation,()
+/bin/sh ¦-c¦'expect¦yoExpress.exp' :: Other_operation,()
+"/tmp/test1" :: workdir_operation,()
+n ¦stable :: Other_operation,()
+npm ¦install¦-g¦n :: Dependencies_operation,()
+chown ¦yeoman¦yoExpress.exp :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+adduser ¦--disabled-password¦--gecos¦""¦yeoman :: Permissions_operation,()
+npm ¦install¦-g¦bower :: Dependencies_operation,()

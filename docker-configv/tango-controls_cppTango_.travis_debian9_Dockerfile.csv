@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦build-essential¦cmake :: Dependencies_operation,()
+tango :: user_operation,()
+apt-get ¦install¦-y¦omniidl¦libomniorb4-dev¦libcos4-dev¦libomnithread3-dev¦libzmq3-dev :: Dependencies_operation,()
+groupadd ¦-g¦"$APP_GID"¦tango :: Permissions_operation,()
+/home/tango :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,debian@stretch
+useradd ¦-u¦"$APP_UID"¦-g¦"$APP_GID"¦-ms¦/bin/bash¦tango :: Permissions_operation,()
+apt-get ¦install¦-y¦apt-utils :: Dependencies_operation,()
+PKG_CONFIG_PATH=/home/tango/lib/pkgconfig: :: env_operation,()

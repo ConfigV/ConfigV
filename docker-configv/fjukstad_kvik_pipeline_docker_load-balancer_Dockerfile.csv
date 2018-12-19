@@ -1,0 +1,14 @@
+rm ¦-rf¦/etc/apache2/sites-enabled/000-default.conf :: Filesystem_operation,()
+load-balancer.conf/etc/apache2/sites-enabled/load-balancer.conf :: add_operation,()
+a2enmod ¦proxy_http :: Other_operation,()
+expose,8004
+a2enmod ¦lbmethod_byrequests :: Other_operation,()
+a2enmod ¦proxy_balancer :: Other_operation,()
+a2enmod ¦headers :: Other_operation,()
+apt-get ¦install¦-y¦apache2¦apache2-utils¦libapache2-mod-proxy-html¦libxml2-dev¦iptables¦git¦vim¦wget¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/etc/apache2/sites-available/000-default.conf :: Filesystem_operation,()
+load-balancer.conf/etc/apache2/sites-available/load-balancer.conf :: add_operation,()
+a2enmod ¦proxy :: Other_operation,()
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+from,ubuntu@latest

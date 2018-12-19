@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦rtmpdump¦libav-tools¦libavcodec-extra-54¦swftools :: Dependencies_operation,()
+git ¦clone¦--depth¦1¦https://github.com/cnosuke/radicorder.git :: Dependencies_operation,()
+mkdir ¦-p¦/gems¦/app¦/app/tmp :: Filesystem_operation,()
+dummy/tmp/ :: copy_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,bundle¦exec¦ruby¦app.rb
+Gemfile/app/ :: copy_operation,()
+env/app/.env :: add_operation,()
+from,cnosuke/ruby22-base
+cd ¦/gems :: Filesystem_operation,()
+/app :: workdir_operation,()
+cd ¦/app :: Filesystem_operation,()
+bundle ¦install :: Dependencies_operation,()

@@ -1,0 +1,11 @@
+expose,8080
+wget ¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦http://download.oracle.com/otn-pub/java/jdk/8u141-b15/336fa29ff2bb4ef291e347e091f7f4a7/jdk-8u141-linux-x64.tar.gz :: Dependencies_operation,()
+unzip ¦ontop_jetty.zip :: Filesystem_operation,()
+ontop-jetty-bundle-1.18.1.zip/ontop_jetty.zip :: copy_operation,()
+mv ¦jetty-distribution-9.4.6.v20170531/¦ontop_jetty/ :: Filesystem_operation,()
+from,datafairifier/baseimage
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦/etc/service/ontop_jetty/run :: Permissions_operation,()
+apt-get ¦install¦-y¦wget¦unzip :: Dependencies_operation,()
+run/etc/service/ontop_jetty/ :: copy_operation,()
+tar ¦-xzvf¦jdk-8u141-linux-x64.tar.gz :: Filesystem_operation,()

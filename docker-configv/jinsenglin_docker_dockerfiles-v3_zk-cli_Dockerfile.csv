@@ -1,0 +1,12 @@
+rm ¦zookeeper-3.4.10.tar.gz :: Filesystem_operation,()
+cmd,--version
+ln ¦-s¦/data/conf¦/zookeeper/conf :: Filesystem_operation,()
+ln ¦-s¦/zookeeper-3.4.10¦/zookeeper :: Filesystem_operation,()
+entrypoint,/ENTRYPOINT.sh
+rm ¦-rf¦/var/cache/apk/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+data/data :: copy_operation,()
+from,jimlintw/base:jdk-alpine
+rm ¦-rf¦/zookeeper/conf :: Filesystem_operation,()
+tar ¦-zxf¦zookeeper-3.4.10.tar.gz :: Filesystem_operation,()
+ENTRYPOINT.sh/ENTRYPOINT.sh :: copy_operation,()
+wget ¦http://apache.stu.edu.tw/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz :: Dependencies_operation,()

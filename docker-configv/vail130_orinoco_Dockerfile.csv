@@ -1,0 +1,11 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,golang:1.8
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦libyaml-dev :: Dependencies_operation,()
+touch ¦Makefile :: Filesystem_operation,()
+./go/src/github.com/vail130/orinoco/ :: copy_operation,()
+make ¦configure¦build :: Build_Execute_operation,()
+PATH:/go/src/github.com/vail130/orinoco/bin:$PATH :: env_operation,()
+mkdir ¦-p¦/go/src/github.com/vail130/orinoco :: Filesystem_operation,()
+/go/src/github.com/vail130/orinoco :: workdir_operation,()
+GIT_COMMIT:${GIT_COMMIT} :: env_operation,()

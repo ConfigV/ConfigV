@@ -1,0 +1,11 @@
+from,alpine@edge
+adduser ¦-D¦-h¦/var/ftp¦-u¦5000¦-G¦ftpusers¦ftpusers :: Permissions_operation,()
+addgroup ¦ftpusers :: Permissions_operation,()
+cmd,"pure-ftpd¦-14ABEH¦-p¦33000:35000¦-O¦clf:/dev/stdout¦-l¦puredb:/etc/pure-ftpd/pureftpd.pdb"
+TERM=xterm: :: env_operation,()
+touch ¦/etc/pure-ftp/.passwd :: Filesystem_operation,()
+apk ¦add¦--update-cache¦--repository¦http://dl-3.alpinelinux.org/alpine/edge/testing/¦pure-ftpd :: Dependencies_operation,()
+chown ¦-hR¦ftpusers:ftpusers¦/var/ftp :: Permissions_operation,()
+mkdir ¦-p¦/var/ftp :: Filesystem_operation,()
+pure-pw ¦mkdb¦/etc/pure-ftp/pureftpd.pdb¦-f¦/etc/pure-ftp/.passwd :: Other_operation,()
+mkdir ¦-p¦/etc/pure-ftp :: Filesystem_operation,()

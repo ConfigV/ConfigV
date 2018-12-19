@@ -1,0 +1,15 @@
+apk ¦update :: Dependencies_operation,()
+APP_DIR:/app :: env_operation,()
+from,php:5.6
+git ¦clone¦https://github.com/zserge/jsmn :: Dependencies_operation,()
+git ¦clone¦--single-branch¦-b¦combo¦https://github.com/ppicazo/srf-ip-conn-srv.git :: Dependencies_operation,()
+mkdir ¦$APP_DIR :: Filesystem_operation,()
+cmd,docker-start.sh
+$APP_DIR/srf-ip-conn-srv/build :: workdir_operation,()
+expose,65100
+apk ¦add¦g++¦gcc¦make¦cmake¦git¦bash :: Dependencies_operation,()
+$APP_DIR :: workdir_operation,()
+git ¦clone¦https://github.com/sharkrf/srf-ip-conn :: Dependencies_operation,()
+SRF_IP_CONN_PATH=$APP_DIR/srf-ip-conn ¦JSMN_PATH=$APP_DIR/jsmn¦./build-release.sh :: Other_operation,()
+docker-start.sh/usr/local/bin/ :: copy_operation,()
+cp ¦$APP_DIR/srf-ip-conn-srv/dashboard/config-example.inc.php¦$APP_DIR/srf-ip-conn-srv/dashboard/config.inc.php :: Filesystem_operation,()

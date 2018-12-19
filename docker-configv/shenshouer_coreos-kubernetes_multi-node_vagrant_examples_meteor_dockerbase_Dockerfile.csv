@@ -1,0 +1,9 @@
+entrypoint,MONGO_URL=mongodb://$MONGO_SERVICE_HOST:$MONGO_SERVICE_PORT¦/usr/local/bin/node¦main.js
+RUN(cd programs/server && npm install) :: onbuild_operation,()
+WORKDIR/app/bundle :: onbuild_operation,()
+RUNcurl https://install.meteor.com/ | sh && meteor build ../app --directory --architecture os.linux.x86_64 && rm -rf /appsrc :: onbuild_operation,()
+COPY. /appsrc :: onbuild_operation,()
+PORT:8080 :: env_operation,()
+expose,8080
+WORKDIR/appsrc :: onbuild_operation,()
+from,node:0.1

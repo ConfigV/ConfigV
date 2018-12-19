@@ -1,0 +1,21 @@
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+config/proxy.conf/usr/local/etc/php-fpm.d/ :: copy_operation,()
+mktemp ¦-d :: Other_operation,()
+ln ¦-s¦/usr/local/bin/php¦/usr/bin/php :: Filesystem_operation,()
+cmd,php-fpm
+pecl ¦install¦xdebug-2.6.0alpha1 :: Dependencies_operation,()
+/usr/local/apache2/htdocs/customer :: workdir_operation,()
+nproc  :: Other_operation,()
+echo ¦version=$(php¦-r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-enable ¦xdebug :: Other_operation,()
+config/php.ini/usr/local/etc/php/ :: copy_operation,()
+apt-get ¦install¦-y¦aspell¦aspell-de¦freetds-dev¦libmemcached-dev¦libtidy-dev¦zlib1g-dev¦git :: Dependencies_operation,()
+config/patchpanel.sh/ :: copy_operation,()
+chmod ¦755¦/patchpanel.sh :: Permissions_operation,()
+from,php:7.2
+apt-get ¦install¦-y¦imagemagick¦libmagickwand-dev¦libmagickcore-dev¦jpegoptim¦optipng¦pngquant¦libcurl3-dev¦libicu-dev :: Dependencies_operation,()
+docker-php-ext-enable ¦imagick :: Other_operation,()
+entrypoint,/patchpanel.sh
+GOSU_VERSION:1.10 :: env_operation,()
+pecl ¦install¦imagick :: Dependencies_operation,()

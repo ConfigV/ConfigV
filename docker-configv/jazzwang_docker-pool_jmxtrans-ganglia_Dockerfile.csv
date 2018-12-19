@@ -1,0 +1,11 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦-q¦--no-install-recommends¦install¦wget¦vim¦net-tools¦openjdk-7-jre-headless¦ganglia-monitor¦rrdtool¦gmetad¦ganglia-webfrontend :: Other_operation,()
+from,debian@latest
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+wget ¦http://central.maven.org/maven2/org/jmxtrans/jmxtrans/259/jmxtrans-259.deb :: Dependencies_operation,()
+dpkg ¦-i¦jmxtrans-259.deb :: Dependencies_operation,()
+sed ¦-i¦'s#httpredir.debian.org#free.nchc.org.tw#g'¦/etc/apt/sources.list :: Filesystem_operation,()
+cp ¦/etc/ganglia-webfrontend/apache.conf¦/etc/apache2/sites-enabled/ganglia.conf :: Filesystem_operation,()
+apt-get ¦-y¦autoremove¦--purge :: Dependencies_operation,()
+export ¦TERM=xterm :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

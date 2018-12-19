@@ -1,0 +1,22 @@
+echo ¦set¦-xe && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && sed -i -e 's/# '$LANG' UTF-8/'$LANG' UTF-8/' /etc/locale.gen && locale-gen && update-locale LANG=$LANG && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && ... :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+/var/log/nginx :: volume_operation,()
+LANG=fr_FR.UTF-8: :: env_operation,()
+conf/nginx/nginx.conf/usr/local/etc/nginx/ :: copy_operation,()
+TZ=Europe/Paris: :: env_operation,()
+NGINX_CLIENT_MAX_BODY_SIZE=100m: :: env_operation,()
+mkdir ¦-p¦/usr/local/etc/nginx :: Filesystem_operation,()
+mkdir ¦-p¦/etc/nginx/conf.d :: Filesystem_operation,()
+/*.sh/ :: copy_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/nginx :: Filesystem_operation,()
+chmod ¦700¦/*.sh :: Permissions_operation,()
+from,nginx@latest
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+LC_ALL=fr_FR.UTF-8: :: env_operation,()
+entrypoint,/my-entrypoint.sh
+set ¦-xe :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+LANGUAGE=fr_FR.UTF-8: :: env_operation,()
+rm ¦-rf¦/etc/nginx/conf.d/default.conf :: Filesystem_operation,()
+apt-get ¦install¦-y¦locales :: Dependencies_operation,()

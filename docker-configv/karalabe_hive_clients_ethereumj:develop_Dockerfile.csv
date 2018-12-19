@@ -1,0 +1,9 @@
+apk ¦add¦--update¦bash¦jq :: Dependencies_operation,()
+echo ¦apk¦add --update git jq && git clone -b develop https://github.com/ether-camp/ethereum-harmony.git && git clone -b develop https://github.com/ethereum/ethereumj.git && (cd ethereum-harmony && echo "{}" | jq ".+ {\\"repo\\":\\"$(git config --g... :: Filesystem_operation,()
+harmony.sh/harmony.sh :: add_operation,()
+from,alpine@latest
+echo ¦apk¦upgrade --update && apk add --update libstdc++ curl ca-certificates bash && for pkg in glibc-${GLIBC_VERSION} glibc-bin-${GLIBC_VERSION} glibc-i18n-${GLIBC_VERSION}; do curl -sSL https://github.com/andyshinn/alpine-pkg-glibc/releases/d... :: Filesystem_operation,()
+expose,8545 8546 30303
+JAVA_VERSION_MAJOR=8:JAVA_VERSION_MINOR=152 :: env_operation,()
+chmod ¦+x¦/harmony.sh :: Permissions_operation,()
+entrypoint,/harmony.sh

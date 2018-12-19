@@ -1,0 +1,13 @@
+TERM:xterm :: env_operation,()
+from,ubuntu:14.04
+easy_install ¦pip :: Dependencies_operation,()
+git ¦apply¦/tmp/rethinkdb.patch :: Dependencies_operation,()
+expose,5000
+rethinkdb.patch/tmp/rethinkdb.patch :: add_operation,()
+apt-get ¦install¦-y¦curl¦apache2-utils¦git :: Dependencies_operation,()
+cd ¦/usr/local/lib/python2.7/dist-packages :: Filesystem_operation,()
+requirements.txt/requirements.txt :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-setuptools :: Dependencies_operation,()
+cat ¦/requirements.txt¦|¦xargs¦-n¦1¦-L¦1¦pip¦install :: Filesystem_operation,()

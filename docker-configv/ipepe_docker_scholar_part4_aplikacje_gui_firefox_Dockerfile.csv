@@ -1,0 +1,7 @@
+from,ubuntu:14.04
+cmd,/usr/bin/firefox
+developer :: user_operation,()
+apt-get ¦install¦-y¦firefox :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦export¦uid=1000 gid=1000 && mkdir -p /home/developer && echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && echo "developer:x:${uid}:" >> /etc/group && echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/s... :: Filesystem_operation,()
+HOME:/home/developer :: env_operation,()

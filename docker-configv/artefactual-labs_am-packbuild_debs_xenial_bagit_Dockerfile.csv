@@ -1,0 +1,9 @@
+cd ¦/debbuild :: Filesystem_operation,()
+from,ubuntu@xenial
+apt-get ¦install¦-y¦dpkg-dev¦git¦build-essential¦wget¦debhelper¦devscripts¦equivs¦quilt :: Dependencies_operation,()
+git ¦clone¦$GIT_URL :: Dependencies_operation,()
+git ¦checkout¦$GIT_BRANCH :: Dependencies_operation,()
+mkdir ¦-p¦/debbuild/ :: Filesystem_operation,()
+cd ¦$PACKAGE :: Filesystem_operation,()
+debian/debbuild/$PACKAGE/debian :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()

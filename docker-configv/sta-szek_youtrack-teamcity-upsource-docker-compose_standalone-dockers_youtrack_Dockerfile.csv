@@ -1,0 +1,17 @@
+rm ¦-rf¦internal/java/windows-amd64 :: Filesystem_operation,()
+rm ¦-rf¦youtrack-${YOUTRACK_VERSION} :: Filesystem_operation,()
+rm ¦-f¦youtrack.zip :: Filesystem_operation,()
+unzip ¦-q¦youtrack.zip :: Filesystem_operation,()
+bin/youtrack.sh ¦configure¦--backups-dir¦${HOME}/backups¦--data-dir¦${HOME}/data¦--logs-dir¦${HOME}/logs¦--temp-dir¦${HOME}/temp¦--listen-port¦${PORT}¦--base-url¦${BASE_URL} :: Other_operation,()
+mv ¦youtrack-${YOUTRACK_VERSION}/*¦. :: Filesystem_operation,()
+curl ¦--location¦"https://download.jetbrains.com/charisma/youtrack-${YOUTRACK_VERSION}.zip"¦>¦youtrack.zip :: Dependencies_operation,()
+rm ¦-rf¦internal/java/linux-x64/man :: Filesystem_operation,()
+rm ¦-rf¦internal/java/mac-x64 :: Filesystem_operation,()
+PORT=80: :: env_operation,()
+mkdir ¦backups¦data¦logs¦conf¦temp :: Filesystem_operation,()
+cmd,/bin/bash¦/youtrack/bin/youtrack.sh¦run¦--no-browser
+USER_ID=2000 :: arg_operation,()
+/youtrack :: workdir_operation,()
+USER_NAME=jetbrains :: arg_operation,()
+${USER_NAME} :: user_operation,()
+from,openjdk@latest

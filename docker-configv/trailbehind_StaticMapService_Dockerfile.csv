@@ -1,0 +1,13 @@
+python ¦/depends/get-pip.py¦virtualenv; :: Build_Execute_operation,()
+virtualenv ¦--system-site-packages¦/opt/ve/deploy;¦/opt/ve/deploy/bin/pip¦install¦-r¦/depends/requirements.txt :: Environment_operation,()
+.docker/nginx/opt/nginx :: add_operation,()
+.docker/supervisor/opt/supervisor :: add_operation,()
+.docker/bin/opt/bin/deploy :: add_operation,()
+from,ubuntu:14.04
+staticMaps/opt/apps/staticMaps :: add_operation,()
+expose,8000
+.docker/rsyslog.conf/etc/rsyslog.conf :: add_operation,()
+.docker/depends/depends :: add_operation,()
+cmd,/opt/bin/deploy/run_supervisord.sh¦web
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C; echo "deb http://ppa.launchpad.net/nginx/development/ubuntu trusty main" > /etc/apt/sources.list.d/nginx.list; apt-get update; apt-get install -q -y supervisor nginx python... :: Filesystem_operation,()
+useradd ¦deploy :: Permissions_operation,()

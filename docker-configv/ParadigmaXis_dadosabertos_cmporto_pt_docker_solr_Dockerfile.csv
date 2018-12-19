@@ -1,0 +1,15 @@
+expose,8983
+chmod ¦+x¦/usr/local/bin/start.bash :: Permissions_operation,()
+SOLR_VERSION:4.10.2 :: env_operation,()
+mkdir ¦-p¦/opt/solr :: Filesystem_operation,()
+from,centos:7.0
+./start.bash/usr/local/bin/ :: add_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+yum ¦-y¦install¦java¦tar :: Dependencies_operation,()
+http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz/opt/$SOLR.tgz :: add_operation,()
+/opt/solr/example :: workdir_operation,()
+cmd,start.bash
+CKAN_VERSION:2.3 :: env_operation,()
+SOLR:solr-$SOLR_VERSION :: env_operation,()
+tar ¦zxf¦/opt/$SOLR.tgz¦-C¦/opt/solr¦--strip-components¦1 :: Filesystem_operation,()
+SOLR_HOME:/opt/solr/example/solr :: env_operation,()

@@ -1,0 +1,9 @@
+curl ¦-L¦https://github.com/jwilder/dockerize/releases/download/v0.2.0/dockerize-linux-amd64-v0.2.0.tar.gz¦|¦tar¦-C¦/usr/local/bin¦-xzv :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+TRANSMISSION_PORT=9091: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,dockerize¦-template¦/etc/nginx/nginx.tmpl:/etc/nginx/nginx.conf¦nginx¦-g¦daemon off;
+apt-get ¦clean :: Dependencies_operation,()
+nginx.tmpl/etc/nginx/nginx.tmpl :: copy_operation,()
+from,nginx

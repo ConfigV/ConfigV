@@ -1,0 +1,13 @@
+npm ¦install¦-g¦thelounge@${LOUNGE_VERSION} :: Dependencies_operation,()
+npm ¦cache¦clean :: Dependencies_operation,()
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+NODE_ENV:production :: env_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+LOUNGE_HOME:"/home/lounge/data" :: env_operation,()
+mkdir ¦-p¦"${LOUNGE_HOME}" :: Filesystem_operation,()
+yum ¦install¦-y¦nodejs¦npm :: Dependencies_operation,()
+entrypoint,lounge
+LOUNGE_VERSION:v2.3.0-rc.2 :: env_operation,()
+PORT:9000 :: env_operation,()
+"${LOUNGE_HOME}" :: volume_operation,()

@@ -1,0 +1,10 @@
+root :: user_operation,()
+chmod ¦+x¦/start-kubernetes-builder.sh :: Permissions_operation,()
+KUBEERNETES_VERSION:1.0.6 :: env_operation,()
+https://storage.googleapis.com/kubernetes-release/release/v$KUBEERNETES_VERSION/bin/linux/amd64/kubectl/usr/bin/kubectl :: add_operation,()
+start-kubernetes-builder.sh/start-kubernetes-builder.sh :: copy_operation,()
+entrypoint,/start-kubernetes-builder.sh
+KUBERNETES_USER:admin :: env_operation,()
+from,akranga/jenkins-java-builder
+chmod ¦+x¦/usr/bin/kubectl :: Permissions_operation,()
+KUBERNETES_SECRETS:/etc/secrets/kube :: env_operation,()

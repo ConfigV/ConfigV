@@ -1,0 +1,13 @@
+entrypoint,/bin/bash
+bash ¦./bootstrap.sh :: Build_Execute_operation,()
+apk ¦add¦--update¦bash :: Dependencies_operation,()
+from,alpine:3.3
+$HOME/ :: workdir_operation,()
+curl ¦https://codeload.github.com/edenhill/kafkacat/tar.gz/master¦|¦tar¦xzf¦- :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+ln ¦-s¦/kafkacat-master/kafkacat¦/bin/kafkacat :: Filesystem_operation,()
+apk ¦add¦--update¦alpine-sdk¦bash¦python¦cmake :: Dependencies_operation,()
+chmod ¦+x¦/root/yesbench.sh :: Permissions_operation,()
+yesbench.sh/root/ :: copy_operation,()
+root :: user_operation,()
+cd ¦kafkacat-* :: Filesystem_operation,()

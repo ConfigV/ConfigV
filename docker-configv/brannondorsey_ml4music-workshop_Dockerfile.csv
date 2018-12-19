@@ -1,0 +1,20 @@
+/root :: workdir_operation,()
+setup_wavenet_venv.sh/root/ml4music-workshop/tensorflow-wavenet/setup_wavenet_venv.sh :: copy_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+/root/ml4music-workshop/midi-rnn :: workdir_operation,()
+pip ¦install¦virtualenv :: Dependencies_operation,()
+cmd,tensorboard¦--port¦7006¦--logdir¦/root/ml4music-workshop/char-rnn-tensorflow/logs¦&>¦/dev/null¦&&¦tensorboard¦--port¦7007¦--logdir¦/root/ml4music-workshop/midi-rnn/experiments¦&>¦/dev/null¦&&¦bash
+from,nvidia/cuda:8.0-devel-ubuntu16.04
+/root/ml4music-workshop :: workdir_operation,()
+git ¦clone¦https://github.com/brannondorsey/ml4music-workshop.git :: Dependencies_operation,()
+git ¦submodule¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦python¦python-pip :: Dependencies_operation,()
+/root/ml4music-workshop/tensorflow-wavenet/setup_wavenet_venv.sh  :: Other_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+virtualenv ¦venv :: Environment_operation,()
+/root/ml4music-workshop/tensorflow-wavenet :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦setup_wavenet_venv.sh :: Filesystem_operation,()
+pip ¦install¦tensorflow==1.0.1 :: Dependencies_operation,()
+expose,7007
+git ¦submodule¦init :: Dependencies_operation,()

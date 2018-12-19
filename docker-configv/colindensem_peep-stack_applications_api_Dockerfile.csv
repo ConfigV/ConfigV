@@ -1,0 +1,15 @@
+mix ¦archive.install¦https://github.com/phoenixframework/phoenix/releases/download/v1.0.2/phoenix_new-1.0.2.ez :: Other_operation,()
+cmd,/app/start.sh
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mix ¦local.rebar¦--force :: Other_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_0.12¦|¦bash¦- :: Dependencies_operation,()
+/app :: workdir_operation,()
+./app :: add_operation,()
+apt-get ¦install¦-y¦curl¦inotify-tools¦postgresql-client :: Dependencies_operation,()
+from,colindensem/elixir
+mix ¦hex.info :: Other_operation,()
+mix ¦local.hex¦--force :: Other_operation,()

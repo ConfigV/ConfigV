@@ -1,0 +1,8 @@
+/var/www/magento :: volume_operation,()
+cmd,run.sh
+from,cweagans/bg-sync:latest
+SYNC_MAX_INOTIFY_WATCHES=64000: :: env_operation,()
+magento//var/www/magento/ :: copy_operation,()
+run.sh/usr/local/bin :: copy_operation,()
+chown ¦-R¦33:33¦/var/www/magento :: Permissions_operation,()
+SYNC_SOURCE=/var/www/magento/: :: env_operation,()

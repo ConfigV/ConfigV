@@ -1,0 +1,10 @@
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+/reports :: volume_operation,()
+./build :: copy_operation,()
+bundle ¦update :: Dependencies_operation,()
+from,sczizzo/trusty-tool:latest
+touch ¦.docker :: Filesystem_operation,()
+mkdir ¦-p¦/reports/test¦#&&¦mv¦doc¦/reports :: Filesystem_operation,()
+mv ¦test/reports/*¦/reports/test :: Filesystem_operation,()
+bundle ¦exec¦rake¦wipe¦#&&¦bundle¦exec¦rake¦yard :: Dependencies_operation,()
+cd ¦/build :: Filesystem_operation,()

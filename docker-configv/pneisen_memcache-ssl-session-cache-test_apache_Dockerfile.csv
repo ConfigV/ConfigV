@@ -1,0 +1,19 @@
+000-default.conf/etc/apache2/sites-available/000-default.conf :: copy_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦-y¦apache2¦supervisor :: Dependencies_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+expose,80 443
+default-ssl.conf/etc/apache2/sites-available/default-ssl.conf :: copy_operation,()
+mkdir ¦/etc/apache2/ssl :: Filesystem_operation,()
+ssl.conf/etc/apache2/mods-available/ssl.conf :: copy_operation,()
+a2enmod ¦socache_memcache :: Other_operation,()
+a2enmod ¦status :: Other_operation,()
+a2ensite ¦default-ssl.conf :: Other_operation,()
+apache.crt/etc/apache2/ssl/apache.crt :: copy_operation,()
+cmd,usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/var/lock/apache2¦/var/run/apache2¦/var/log/supervisor :: Filesystem_operation,()
+a2enmod ¦ssl :: Other_operation,()
+apache.key/etc/apache2/ssl/apache.key :: copy_operation,()
+index.html/var/www/html/index.html :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

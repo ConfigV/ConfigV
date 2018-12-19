@@ -1,0 +1,16 @@
+from,debian@jessie
+git ¦checkout¦ad32549c452963b8854951d6783f4736c0f7c5d5 :: Dependencies_operation,()
+.*\\  :: Other_operation,()
+/docs :: workdir_operation,()
+MAINTAINERS/docs/sources/humans.txt :: copy_operation,()
+expose,8000
+echo ¦VERSION=$(cat¦VERSION) && MAJOR_MINOR="${VERSION%.*}" && for i in $(seq $MAJOR_MINOR -0.1 1.0); do  echo "<li><a class='version' href='/v$i'>Version v$i</a></li>"; done > sources/versions.html_fragment && GIT_BRANCH=$(cat GIT_BRANCH) && GI... :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./setup.py ¦install :: Other_operation,()
+./docs :: copy_operation,()
+cd ¦mkdocs/ :: Filesystem_operation,()
+git ¦clone¦-b¦docker-markdown-merge¦https://github.com/SvenDowideit/mkdocs :: Dependencies_operation,()
+cmd,mkdocs¦serve
+pip ¦install¦awscli==1.4.4¦pyopenssl==0.12 :: Dependencies_operation,()
+apt-get ¦install¦-y¦¦gettext¦¦git¦¦libssl-dev¦¦make¦¦python-dev¦¦python-pip¦¦python-setuptools¦¦vim-tiny :: Dependencies_operation,()
+pip ¦install¦mkdocs :: Dependencies_operation,()

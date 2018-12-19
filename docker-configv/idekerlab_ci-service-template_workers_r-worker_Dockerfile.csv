@@ -1,0 +1,10 @@
+mkdir ¦/workers :: Filesystem_operation,()
+/workers :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,bioconductor/release_core
+additional_install.R/tmp/ :: add_operation,()
+./workers :: add_operation,()
+R ¦-f¦/tmp/additional_install.R :: Other_operation,()
+apt-get ¦install¦-y¦libzmq3¦libzmq3-dev :: Dependencies_operation,()
+entrypoint,/workers/run.sh
+expose,5556 5557 5558 8888

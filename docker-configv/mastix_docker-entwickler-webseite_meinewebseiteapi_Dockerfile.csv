@@ -1,0 +1,15 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+chmod ¦-R¦+x¦/var/www/html/ :: Permissions_operation,()
+from,docker_ubuntubase
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs¦python¦libkrb5-dev :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/pm2 :: Filesystem_operation,()
+cmd,/var/www/html/build_and_run.sh
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/local/bin/node :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+npm ¦install¦-g¦gulp¦pm2 :: Dependencies_operation,()
+mkdir ¦-p¦/var/www/html :: Filesystem_operation,()
+/var/www/html :: workdir_operation,()
+wget ¦-qO-¦https://deb.nodesource.com/setup_4.x¦|¦bash¦- :: Dependencies_operation,()

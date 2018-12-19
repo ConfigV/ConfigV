@@ -1,0 +1,12 @@
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+./frameworks/drupal8/docker-resources/resources :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+drush ¦dl¦devel¦-y :: Other_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+cp ¦-r¦sites/default¦/sites-default :: Filesystem_operation,()
+ln ¦-s¦/root/.composer/vendor/drush/drush/drush¦/bin/drush :: Filesystem_operation,()
+expose,80
+apt-get ¦install¦-y¦mysql-client :: Dependencies_operation,()
+from,drupal:8.2
+composer ¦global¦require¦drush/drush:8 :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+entrypoint,/sbin/entrypoint.sh
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+${DATA_DIR} :: volume_operation,()
+BIND_USER=bind:BIND_VERSION=1:9.9.5 :: env_operation,()
+apt-get ¦-y¦install¦wget¦apt-transport-https :: Dependencies_operation,()
+expose,53 53 10000
+from,kprpi
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+cmd,/usr/sbin/named
+echo ¦rm¦-rf /etc/apt/apt.conf.d/docker-gzip-indexes && wget http://www.webmin.com/jcameron-key.asc -qO - | apt-key add - && echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list && apt-get update && DE... :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()

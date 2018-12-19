@@ -1,0 +1,13 @@
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+echo ¦echo¦'cd ${VESTA}/bin && v-change-user-password admin ${ADMIN_PASSWORD}' >> /root/start.sh;echo 'cd ${VESTA}/bin && v-change-sys-hostname ${HOSTNAME}' >> /root/start.sh;echo 'cd /etc/init.d/ && ./vesta start' >> /root/start.sh;echo 'cd /et... :: Filesystem_operation,()
+yes ¦|¦bash¦vst-install.sh¦--nginx¦no¦--apache¦no¦--phpfpm¦no¦--named¦yes¦--remi¦no¦--vsftpd¦no¦--proftpd¦no¦--iptables¦no¦--fail2ban¦no¦--quota¦no¦--exim¦no¦--dovecot¦no¦--spamassassin¦no¦--clamav¦no¦--mysql¦no¦--postgresql¦no¦--hostname¦local... :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦/root/start.sh :: Permissions_operation,()
+VESTA:/usr/local/vesta :: env_operation,()
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦install¦git¦unzip¦nano¦wget¦curl :: Dependencies_operation,()
+curl ¦-O¦http://vestacp.com/pub/vst-install.sh :: Dependencies_operation,()
+TERM:xterm :: env_operation,()
+from,ubuntu:14.04
+cmd,/bin/bash¦/root/start.sh

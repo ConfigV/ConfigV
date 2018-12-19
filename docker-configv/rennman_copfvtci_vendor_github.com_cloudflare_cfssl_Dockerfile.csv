@@ -1,0 +1,11 @@
+go ¦install¦./cmd/... :: Build_Execute_operation,()
+cp ¦-R¦/go/src/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust¦/etc/cfssl :: Filesystem_operation,()
+cmd,--help
+rice ¦embed-go¦-i=./cli/serve :: Other_operation,()
+entrypoint,cfssl
+from,golang:1.6
+/go/src/github.com/cloudflare/cfssl :: workdir_operation,()
+USER:root :: env_operation,()
+go ¦get¦github.com/GeertJohan/go.rice/rice :: Build_Execute_operation,()
+.. :: copy_operation,()
+expose,8888

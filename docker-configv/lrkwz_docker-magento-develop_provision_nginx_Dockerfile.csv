@@ -1,0 +1,15 @@
+cmd,nginx
+/etc/nginx/snippets :: volume_operation,()
+echo ¦echo¦"upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf :: Filesystem_operation,()
+from,debian@jessie
+snippets/max_expires.conf/etc/nginx/conf.d :: copy_operation,()
+ln ¦-s¦/etc/nginx/sites-available/magento.conf¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+nginx.conf/etc/nginx/ :: add_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-f¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+echo ¦echo¦"deb http://nginx.org/packages/ubuntu/ trusty nginx" > /etc/apt/sources.list.d/nginx.list && echo "deb-src http://nginx.org/packages/ubuntu/ trusty nginx" >> /etc/apt/sources.list.d/nginx.list && curl -o nginx_signing.key http://nginx... :: Filesystem_operation,()
+magento.conf/etc/nginx/sites-available/ :: add_operation,()
+mkdir ¦-p¦/etc/nginx/sites-enabled :: Filesystem_operation,()
+expose,443

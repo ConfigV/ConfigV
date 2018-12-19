@@ -1,0 +1,16 @@
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦admin:admin | chpasswd :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+./telnet/passwd/etc/ :: copy_operation,()
+mv ¦/etc/securetty¦/etc/securetty.bak :: Filesystem_operation,()
+expose,22 23
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+apt-get ¦install¦-y¦libc6:i386¦libncurses5:i386¦libstdc++6:i386¦tcpdump¦telnetd¦telnet¦xinetd¦openssh-server :: Dependencies_operation,()
+echo ¦echo¦"root:123456" | chpasswd :: Filesystem_operation,()
+from,ubuntu:14.04
+./telnet/telnet/etc/xinetd.d/ :: copy_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+useradd ¦admin¦-g¦root :: Permissions_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+./telnet/xinetd.conf/etc/ :: copy_operation,()

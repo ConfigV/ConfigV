@@ -1,0 +1,11 @@
+/source :: workdir_operation,()
+entrypoint,/.cabal/bin/pandoc
+from,ubuntu
+cmd,--help
+cabal ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+mkdir ¦-p¦/source :: Filesystem_operation,()
+apt-get ¦install¦-y¦texlive-latex-base¦texlive-xetex¦latex-xcolor¦texlive-math-extra¦texlive-latex-extra¦texlive-fonts-extra¦lmodern¦biblatex¦curl¦wget¦git¦fontconfig¦make :: Dependencies_operation,()
+apt-get ¦install¦-y¦haskell-platform :: Dependencies_operation,()
+cabal ¦install¦pandoc :: Dependencies_operation,()

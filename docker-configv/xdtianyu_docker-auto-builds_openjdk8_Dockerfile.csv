@@ -1,0 +1,13 @@
+chmod ¦+x¦/opt/* :: Permissions_operation,()
+chown ¦runner¦/home/runner/.android :: Permissions_operation,()
+wget ¦https://gist.githubusercontent.com/xdtianyu/39588ca066360ad7d3e471c126c13538/raw/setup-android-sdk.sh¦-O¦/opt/setup-android-sdk.sh :: Dependencies_operation,()
+usermod ¦-a¦-G¦sudo¦runner :: Permissions_operation,()
+mkdir ¦-p¦/home/runner/.android :: Filesystem_operation,()
+wget ¦https://gist.githubusercontent.com/xdtianyu/39588ca066360ad7d3e471c126c13538/raw/setup-android-ndk.sh¦-O¦/opt/setup-android-ndk.sh :: Dependencies_operation,()
+chown ¦runner¦/builds :: Permissions_operation,()
+runner :: user_operation,()
+mkdir ¦-p¦/builds :: Filesystem_operation,()
+addgroup ¦-q¦--gid¦119¦runner :: Permissions_operation,()
+chown ¦runner¦/opt :: Permissions_operation,()
+adduser ¦--quiet¦--uid¦113¦--gid¦119¦--disabled-password¦--gecos¦"Runner"¦runner :: Permissions_operation,()
+from,openjdk:8.0

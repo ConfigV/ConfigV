@@ -1,0 +1,10 @@
+/var/log/arangodb :: volume_operation,()
+/etc/arangodb :: volume_operation,()
+expose,8529
+scripts/scripts :: add_operation,()
+chmod ¦+x¦/scripts/*.sh :: Permissions_operation,()
+touch ¦/.firstrun :: Filesystem_operation,()
+from,frodenas/ubuntu
+echo ¦DEBIAN_FRONTEND=noninteractive¦&& cd /tmp && wget https://www.arangodb.org/repositories/arangodb2/xUbuntu_14.04/Release.key && apt-key add - < Release.key && echo 'deb https://www.arangodb.org/repositories/arangodb2/xUbuntu_14.04/ /' >> /e... :: Filesystem_operation,()
+entrypoint,/scripts/run.sh
+/data :: volume_operation,()

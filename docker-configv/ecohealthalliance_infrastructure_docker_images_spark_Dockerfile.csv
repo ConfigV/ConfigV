@@ -1,0 +1,12 @@
+cmd,/spark-2.0.1-bin-hadoop2.7/sbin/start-master.sh
+apt-get ¦clean¦all :: Dependencies_operation,()
+from,ubuntu:16.04
+rm ¦/bin/sh :: Filesystem_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦lsb-release¦&&\\ :: Dependencies_operation,()
+TERM="xterm": :: env_operation,()
+http://d3kbcqa49mib13.cloudfront.net/spark-2.0.1-bin-hadoop2.7.tgz ¦&&\\ :: Other_operation,()
+expose,8081
+apt-get ¦install¦-y¦vim¦wget¦openjdk-9-jre :: Dependencies_operation,()
+ln ¦-s¦/bin/bash¦/bin/sh :: Filesystem_operation,()

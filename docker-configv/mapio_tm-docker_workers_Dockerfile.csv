@@ -1,0 +1,9 @@
+expose,8000
+from,dockerfile/nodejs
+esame :: user_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-oracle :: env_operation,()
+HOME:/home/esame :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+npm ¦install¦-g¦codebox :: Dependencies_operation,()
+entrypoint,codebox
+echo ¦echo¦oracle-java7-installer shared/accepted-oracle-license-v1-1 select true  | debconf-set-selections && add-apt-repository -y ppa:webupd8team/java && apt-get update && apt-get install -y oracle-java7-installer && rm -rf /var/lib/apt/lists... :: Filesystem_operation,()

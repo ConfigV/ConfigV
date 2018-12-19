@@ -1,0 +1,12 @@
+cmd,bash
+curl ¦http://nodejs.org/dist/node-latest.tar.gz¦|¦tar¦xz¦--strip-components=1 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦cd¦/tmp && rm -rf /tmp/node* && npm install -g npm && echo -e '\\n# Node.js\\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc :: Filesystem_operation,()
+/data :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+mkdir ¦-p¦/tmp/node :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+CXX="g++ ¦-Wno-unused-local-typedefs"¦make :: Other_operation,()
+cd ¦/tmp/node :: Filesystem_operation,()
+CXX="g++ ¦-Wno-unused-local-typedefs"¦make¦install :: Other_operation,()

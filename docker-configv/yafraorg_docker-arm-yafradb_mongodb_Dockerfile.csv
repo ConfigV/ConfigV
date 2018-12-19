@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoremove¦-yq :: Dependencies_operation,()
+mkdir ¦-p¦/work/repos :: Filesystem_operation,()
+from,mongo@latest
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦clean¦all :: Dependencies_operation,()
+git ¦clone¦https://github.com/yafraorg/yafra-database.git :: Dependencies_operation,()
+mkdir ¦-p¦/work/yafra-runtime :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦git :: Other_operation,()
+cd ¦/work/repos :: Filesystem_operation,()
+/data :: volume_operation,()
+echo ¦echo¦"auth = true" >> /etc/mongod.conf :: Filesystem_operation,()

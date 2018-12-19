@@ -1,0 +1,10 @@
+pip ¦install¦--no-cache-dir¦-r¦/tmp/requirements.txt¦-r¦/tmp/dev-requirements.txt¦-r¦/tmp/test-requirements.txt :: Dependencies_operation,()
+${VICTIMS_BASE_DIR} :: volume_operation,()
+cmd,python¦-m¦victims.web
+from,alpine@latest
+PYTHONPATH=${APP_SRC}: :: env_operation,()
+apk ¦--update¦--no-cache¦add¦python¦python-dev¦py2-pip¦py-cffi¦g++ :: Dependencies_operation,()
+install ¦-d¦${VICTIMS_BASE_DIR}¦${APP_SRC} :: Build_Execute_operation,()
+APP_SRC=/opt/source:VICTIMS_BASE_DIR=/var/run/victims :: env_operation,()
+${APP_SRC} :: workdir_operation,()
+*requirements.txt/tmp/ :: add_operation,()

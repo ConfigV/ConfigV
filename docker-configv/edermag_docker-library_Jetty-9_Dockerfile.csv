@@ -1,0 +1,11 @@
+rm ¦-rf¦/opt/jetty/webapps.demo¦/opt/jetty/start.d/*-demo.ini :: Filesystem_operation,()
+mv ¦/opt/jetty-distribution-$JETTY_VERSION¦/opt/jetty :: Filesystem_operation,()
+$JETTY_TGZ_URL/opt/jetty.tar.gz :: add_operation,()
+JETTY_HOME:/opt/jetty :: env_operation,()
+tar ¦-xvf¦/opt/jetty.tar.gz¦-C¦/opt :: Filesystem_operation,()
+expose,8088
+echo ¦echo¦$JETTY_TGZ_URL :: Filesystem_operation,()
+JETTY_VERSION:9.3.0.v20150612 :: env_operation,()
+rm ¦/opt/jetty.tar.gz :: Filesystem_operation,()
+from,edermag/ubuntu-java-8-dev
+JETTY_TGZ_URL:http://mirror.cc.vt.edu/pub/eclipse/jetty/$JETTY_VERSION/dist/jetty-distribution-$JETTY_VERSION.tar.gz :: env_operation,()

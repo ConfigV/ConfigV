@@ -1,0 +1,15 @@
+go ¦install¦-v¦./... :: Build_Execute_operation,()
+go ¦get¦code.google.com/p/go.tools/cmd/cover :: Build_Execute_operation,()
+./go/src/github.com/docker/libcontainer :: copy_operation,()
+mkdir ¦/busybox :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦gcc :: Dependencies_operation,()
+curl ¦-sSL¦https://raw.githubusercontent.com/docker/docker/master/hack/dind¦-o¦/dind :: Dependencies_operation,()
+from,crosbymichael/golang
+/go/src/github.com/docker/libcontainer :: workdir_operation,()
+curl ¦-sSL¦'https://github.com/jpetazzo/docker-busybox/raw/buildroot-2014.02/rootfs.tar'¦|¦tar¦-xC¦/busybox :: Dependencies_operation,()
+chmod ¦+x¦/dind :: Permissions_operation,()
+cp ¦sample_configs/minimal.json¦/busybox/container.json :: Filesystem_operation,()
+go ¦get¦-d¦-v¦./... :: Build_Execute_operation,()
+cmd,go¦test¦-cover¦./...
+entrypoint,/dind

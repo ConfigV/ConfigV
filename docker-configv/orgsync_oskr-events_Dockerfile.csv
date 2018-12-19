@@ -1,0 +1,13 @@
+/opt/oskr-events :: workdir_operation,()
+cp ¦/code/target/oskr-events.jar¦/opt/oskr-events/ :: Filesystem_operation,()
+rm ¦-Rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/*¦/root/.m2¦/code :: Filesystem_operation,()
+from,quay.io/orgsync/java:1.8.0_66-b17
+./code/ :: copy_operation,()
+apt-get ¦remove¦--purge¦-y¦maven :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+/code :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/opt/oskr-events :: Filesystem_operation,()
+apt-get ¦install¦-y¦maven :: Dependencies_operation,()
+mvn ¦package¦-DskipTests :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

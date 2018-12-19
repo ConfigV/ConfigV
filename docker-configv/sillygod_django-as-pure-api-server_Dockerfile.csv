@@ -1,0 +1,16 @@
+entrypoint,/app/compose/entrypoint.sh
+pip ¦install¦-r¦requirements/dev.txt :: Dependencies_operation,()
+./app/ :: add_operation,()
+useradd ¦-ms¦/bin/bash¦jing :: Permissions_operation,()
+/app :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,uwsgi --ini core/wsgi/uwsgi.ini
+expose,8000
+python ¦manage.py¦collectstatic¦--noinput :: Build_Execute_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+from,python:3.5
+PORT:8000 :: env_operation,()
+apt-get ¦install¦-y¦apt-transport-https :: Dependencies_operation,()
+mkdir ¦app :: Filesystem_operation,()
+pip ¦install¦uwsgi :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

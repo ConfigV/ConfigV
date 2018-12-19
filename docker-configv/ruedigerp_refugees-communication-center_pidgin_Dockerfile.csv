@@ -1,0 +1,8 @@
+from,refugees/base
+echo ¦bash¦-c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf' :: Filesystem_operation,()
+echo ¦bash¦-c 'echo "pidgin" >> /root/.bashrc' :: Filesystem_operation,()
+cmd,x11vnc¦-forever¦-usepw¦-create
+expose,5900
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦pidgin¦pidgin-openpgp¦pidgin-otr¦pidgin-twitter :: Dependencies_operation,()

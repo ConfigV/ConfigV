@@ -1,0 +1,20 @@
+entrypoint,liberty-run
+JAVA_HOME:/opt/ibm/java :: env_operation,()
+rm ¦-rf¦/opt/ibm/wlp/usr/servers/.classCache :: Filesystem_operation,()
+JRE_VERSION:1.7.1.1 :: env_operation,()
+PATH:/opt/ibm/wlp/bin:$PATH :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+liberty-run/opt/ibm/wlp/bin/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/opt/ibm/wlp/bin/server ¦create :: Other_operation,()
+cmd,/opt/ibm/wlp/bin/server¦run¦defaultServer
+PATH:$JAVA_HOME/jre/bin:$PATH :: env_operation,()
+expose,9443
+LIBERTY_VERSION:2015.2.0_0 :: env_operation,()
+server.xml/opt/ibm/wlp/usr/servers/defaultServer/ :: copy_operation,()
+view-wlp-license/opt/ibm/docker/licenses/ :: copy_operation,()
+view-jre-license/opt/ibm/docker/licenses/ :: copy_operation,()
+from,ubuntu:14.04
+license-check/opt/ibm/docker/ :: copy_operation,()
+wget ¦-q¦-O¦-¦https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/index.yml¦|¦sed¦-n¦'/'$LIBERTY_VERSION'/{n;p}'¦|¦sed¦-n¦'s/\\s*uri:\\s//p' :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+cmd,/usr/share/oauth2_proxy/oauth2_proxy¦/tmp/oauth2/config/oauth2_proxy.cfg¦/tmp/oauth2/output/oauth2_proxy.log
+from,ubuntu:14.04
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+mkdir ¦/tmp/oauth2 :: Filesystem_operation,()
+oauth2_proxy/usr/share/oauth2_proxy :: copy_operation,()
+echo ¦echo¦"export LANG=en_US.utf8" >> ~/.bashrc :: Filesystem_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+entrypoint,/usr/share/oauth2_proxy/oauth2_proxy.py
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+echo ¦echo¦"export LANGUAGE=en_US.utf8" >> ~/.bashrc :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"export LC_ALL=en_US.utf8" >> ~/.bashrc :: Filesystem_operation,()
+locale-gen ¦"en_US.UTF-8" :: Other_operation,()
+apt-get ¦install¦-y¦python-software-properties :: Dependencies_operation,()

@@ -1,0 +1,8 @@
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu:14.04
+./sources.list/etc/apt/sources.list :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦/etc/apt/sources.list :: Filesystem_operation,()

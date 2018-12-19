@@ -1,0 +1,12 @@
+wget ¦-O¦/opt/vcpe-hub.zip¦"https://github.com/vcpe-io/vcpe-hub/archive/master.zip"¦--no-check-certificate :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+cmd,node¦./remote-ryu/remote-ryu.js
+/opt/ryu :: workdir_operation,()
+cd ¦/opt/ryu/remote-ryu :: Filesystem_operation,()
+unzip ¦-q¦/opt/vcpe-hub.zip¦-d¦/opt :: Filesystem_operation,()
+from,linton/docker-ryu
+npm ¦install :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_4.x¦|¦bash¦- :: Dependencies_operation,()
+remote-ryu/opt/ryu/remote-ryu :: add_operation,()
+rm ¦-rf¦/opt/vcpe-hub.zip :: Filesystem_operation,()
+mv ¦/opt/vcpe-hub-master¦/opt/ryu :: Filesystem_operation,()

@@ -1,0 +1,17 @@
+TEAMCITY_DATA_PATH=/var/lib/teamcity:TEAMCITY_HOME=/opt/lib/teamcity :: env_operation,()
+echo ¦echo¦'we are running some # of cool things' :: Filesystem_operation,()
+rm ¦-fr¦${TEAMCITY_HOME}/buildAgent :: Filesystem_operation,()
+rm ¦-rf¦/Teamcity-${TEAMCITY_VERSION}.tar.gz :: Filesystem_operation,()
+rm ¦-fr¦/opt/lib/TeamCity :: Filesystem_operation,()
+from,avinb/jre8-32:latest
+${TEAMCITY_HOME} :: workdir_operation,()
+starteam130-resources.jar/opt/lib/teamcity/webapps/ROOT/WEB-INF/lib/ :: add_operation,()
+cmd,/opt/lib/teamcity/bin/teamcity-server.sh¦run
+mv ¦/opt/lib/TeamCity/*¦${TEAMCITY_HOME} :: Filesystem_operation,()
+${TEAMCITY_LOGS} :: volume_operation,()
+dpkg ¦--print-architecture :: Dependencies_operation,()
+expose,8111
+starteam130.jar/opt/lib/teamcity/webapps/ROOT/WEB-INF/lib/ :: add_operation,()
+entrypoint,/teamcity-entry.sh
+chmod ¦+x¦/teamcity-entry.sh :: Permissions_operation,()
+./teamcity-entry.sh/ :: copy_operation,()

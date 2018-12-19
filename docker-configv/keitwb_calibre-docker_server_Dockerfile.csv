@@ -1,0 +1,12 @@
+chown ¦calibre:calibre¦/var/log/calibre.log :: Permissions_operation,()
+chmod ¦+x¦/opt/install-calibre.sh :: Permissions_operation,()
+entrypoint,/opt/run-server.sh
+chmod ¦+x¦/opt/run-server.sh :: Permissions_operation,()
+install-calibre.sh/opt/install-calibre.sh :: add_operation,()
+touch ¦/var/log/calibre.log :: Filesystem_operation,()
+/calibre-library :: volume_operation,()
+run-server.sh/opt/run-server.sh :: add_operation,()
+expose,8080
+from,keitwb/calibre-base
+calibre :: user_operation,()
+/opt/install-calibre.sh  :: Other_operation,()

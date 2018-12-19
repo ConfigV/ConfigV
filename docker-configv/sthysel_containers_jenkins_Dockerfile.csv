@@ -1,0 +1,17 @@
+curl ¦https://get.docker.com/gpg¦|¦apt-key¦add¦- :: Dependencies_operation,()
+entrypoint,/usr/local/bin/docker_jenkins.sh
+echo ¦echo¦deb http://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list :: Filesystem_operation,()
+REFRESHED_AT:2015-02-05 :: env_operation,()
+from,ubuntu:14.04
+expose,8080
+JENKINS_MIRROR:http://mirrors.jenkins-ci.org :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+for ¦plugin¦in¦git¦git-client¦chucknorris¦greenballs¦scm-api¦ws-cleanup;¦do¦curl¦-sf¦-L¦${JENKINS_MIRROR}/plugins/${plugin}/latest/${plugin}.hpi¦-o¦${JENKINS_HOME}/plugins/${plugin}.hpi;¦done :: Other_operation,()
+/var/lib/docker :: volume_operation,()
+curl ¦-sf¦-L¦${JENKINS_MIRROR}/war-stable/latest/jenkins.war¦-o¦/jenkins/jenkins.war :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦install¦-y¦ca-certificates¦iptables¦lxc¦lxc-docker¦openjdk-6-jdk¦git-core :: Dependencies_operation,()
+./docker_jenkins.sh/usr/local/bin/docker_jenkins.sh :: add_operation,()
+chmod ¦+x¦/usr/local/bin/docker_jenkins.sh :: Permissions_operation,()
+JENKINS_HOME:/jenkins/data/ :: env_operation,()
+mkdir ¦-p¦${JENKINS_HOME}/plugins :: Filesystem_operation,()

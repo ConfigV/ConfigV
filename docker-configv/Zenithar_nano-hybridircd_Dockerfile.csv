@@ -1,0 +1,23 @@
+adduser ¦-G¦ircd¦-D¦ircd :: Permissions_operation,()
+apk ¦del¦--purge¦build-deps :: Dependencies_operation,()
+from,alpine@edge
+wget ¦http://prdownloads.sourceforge.net/ircd-hybrid/ircd-hybrid-8.2.7.tgz :: Dependencies_operation,()
+ircd :: user_operation,()
+/var/log/ircd :: volume_operation,()
+/src :: workdir_operation,()
+./configure ¦--prefix="/opt/ircd"¦--enable-openssl :: Build_Execute_operation,()
+make  :: Build_Execute_operation,()
+apk ¦add¦-u¦musl :: Dependencies_operation,()
+chown ¦-R¦ircd:ircd¦/opt/ircd :: Permissions_operation,()
+tar ¦zxvf¦ircd-hybrid-8.2.7.tgz :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cd ¦/src/ircd-hybrid-8.2.7 :: Filesystem_operation,()
+apk ¦add¦--update¦-t¦build-deps¦make¦gcc¦g++¦git¦wget¦bison¦openssl-dev :: Dependencies_operation,()
+./config/opt/ircd/etc :: add_operation,()
+cmd,-foreground
+rm ¦-Rf¦/src :: Filesystem_operation,()
+addgroup ¦ircd :: Permissions_operation,()
+/opt/ircd :: workdir_operation,()
+entrypoint,/opt/ircd/bin/ircd
+make ¦install :: Build_Execute_operation,()
+expose,6667

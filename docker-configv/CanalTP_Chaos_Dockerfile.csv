@@ -1,0 +1,22 @@
+cmd,/run.sh
+tar ¦-xf¦/tmp/protobuf-2.6.1.tar.gz¦-C¦/var/lib/ :: Filesystem_operation,()
+expose,80
+LANG:fr_FR.UTF-8 :: env_operation,()
+make  :: Build_Execute_operation,()
+pip ¦install¦-q¦honcho :: Dependencies_operation,()
+wget ¦-qP¦/tmp¦https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-yq¦install¦curl¦python2.7¦python2.7-dev¦python-pip¦git¦libpq-dev¦wget¦netcat :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+pip ¦install¦-qr¦/tmp/requirements.txt :: Dependencies_operation,()
+docker/run.sh/run.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/var/lib/protobuf-2.6.1 :: Filesystem_operation,()
+chmod ¦755¦/run.sh :: Permissions_operation,()
+requirements.txt/tmp/requirements.txt :: add_operation,()
+locales  :: Other_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+ldconfig  :: Other_operation,()
+from,debian:7.8
+locale-gen ¦fr_FR.UTF-8 :: Other_operation,()

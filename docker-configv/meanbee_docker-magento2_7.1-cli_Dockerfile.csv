@@ -1,0 +1,20 @@
+docker-php-ext-install ¦gd¦intl¦mbstring¦mcrypt¦pdo_mysql¦xsl¦zip¦soap :: Other_operation,()
+etc/php-xdebug.ini/usr/local/etc/php/conf.d/zz-xdebug-settings.ini :: add_operation,()
+PHP_ENABLE_XDEBUG:false :: env_operation,()
+etc/php-fpm.conf/usr/local/etc/ :: add_operation,()
+DEBUG:false :: env_operation,()
+bin/*/usr/local/bin/ :: add_operation,()
+cmd,php-fpm¦-F
+MAGENTO_RUN_MODE:developer :: env_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include :: Other_operation,()
+from,php:7.1
+/roor/.composer/cache :: volume_operation,()
+etc/mail.ini/usr/local/etc/php/conf.d/zz-mail.ini :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pecl ¦install¦-o¦-f¦xdebug-2.4.0 :: Dependencies_operation,()
+etc/php.ini/usr/local/etc/php/conf.d/zz-magento.ini :: add_operation,()
+entrypoint,/usr/local/bin/docker-environment
+UPDATE_UID_GID:false :: env_operation,()
+PHP_MEMORY_LIMIT:2G :: env_operation,()
+MAGENTO_ROOT:/var/www/magento :: env_operation,()
+apt-get ¦install¦-y¦cron¦libfreetype6-dev¦libicu-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev¦libxslt1-dev¦sendmail-bin¦sendmail :: Dependencies_operation,()

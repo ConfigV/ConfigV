@@ -1,0 +1,12 @@
+from,ubuntu@trusty
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+apt-add-repository ¦-y¦ppa:richi-paraeasy/ppa :: Other_operation,()
+localedef ¦-v¦-c¦-i¦en_US¦-f¦UTF-8¦en_US.UTF-8¦||¦true :: Other_operation,()
+apt-get ¦install¦-y¦flugbuch2 :: Dependencies_operation,()
+apt-add-repository ¦-y¦ppa:pgquiles/wt :: Other_operation,()
+entrypoint,/sbin/init
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦deb http://archive.ubuntu.com/ubuntu trusty universe multiverse >> /etc/apt/sources.list :: Filesystem_operation,()
+expose,443
+echo ¦echo¦"Europe/Berlin" > /etc/timezone :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

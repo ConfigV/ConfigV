@@ -1,0 +1,11 @@
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦install¦wget¦curl¦telnet¦mc¦yum-utils¦net-tools¦python-setuptools¦subversion¦git :: Dependencies_operation,()
+wget ¦https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm :: Dependencies_operation,()
+TERM:xterm :: env_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+rpm ¦-ivh¦epel-release-latest-7.noarch.rpm :: Dependencies_operation,()
+mc_ini/root/.mc/ini :: copy_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+yum-config-manager ¦--enable¦epel :: Other_operation,()
+mkdir ¦-p¦/root/.mc :: Filesystem_operation,()

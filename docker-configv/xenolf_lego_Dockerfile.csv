@@ -1,0 +1,12 @@
+./go/src/github.com/xenolf/lego :: copy_operation,()
+rm ¦-rf¦/go :: Filesystem_operation,()
+cd ¦/go/src/github.com/xenolf/lego :: Filesystem_operation,()
+from,alpine:3.3
+go ¦build¦-o¦/usr/bin/lego¦. :: Build_Execute_operation,()
+apk ¦add¦ca-certificates¦go¦git :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+apk ¦del¦ca-certificates¦go¦git :: Dependencies_operation,()
+entrypoint,/usr/bin/lego
+go ¦get¦./... :: Build_Execute_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

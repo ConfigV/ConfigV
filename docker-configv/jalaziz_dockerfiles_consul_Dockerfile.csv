@@ -1,0 +1,16 @@
+mv ¦dist¦/ui :: Filesystem_operation,()
+/data :: volume_operation,()
+/config :: volume_operation,()
+rm ¦-f¦${CONSUL_VERSION}_web_ui.zip :: Filesystem_operation,()
+mv ¦consul¦/usr/local/bin/ :: Filesystem_operation,()
+from,alpine@edge
+CONSUL_VERSION:0.5.2 :: env_operation,()
+entrypoint,/usr/local/bin/consul
+GOMAXPROCS:2 :: env_operation,()
+wget ¦https://dl.bintray.com/mitchellh/consul/${CONSUL_VERSION}_web_ui.zip :: Dependencies_operation,()
+unzip ¦${CONSUL_VERSION}_web_ui.zip :: Filesystem_operation,()
+cmd,agent¦--data-dir=/data¦--config-dir=/config¦--ui-dir=/ui
+rm ¦-f¦${CONSUL_VERSION}_linux_amd64.zip :: Filesystem_operation,()
+wget ¦https://dl.bintray.com/mitchellh/consul/${CONSUL_VERSION}_linux_amd64.zip :: Dependencies_operation,()
+unzip ¦${CONSUL_VERSION}_linux_amd64.zip :: Filesystem_operation,()
+expose,8300 8301 8301 8302 8302 8400 8500 8600 8600

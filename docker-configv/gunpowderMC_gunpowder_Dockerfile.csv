@@ -1,0 +1,18 @@
+cmd,/usr/bin/node¦/app/index.js
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+from,ubuntu:16.04
+apt-get ¦-y¦install¦curl :: Dependencies_operation,()
+apt-get ¦-y¦install¦default-jre :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+1000 :: user_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chown ¦1000:1000¦/app¦-R :: Permissions_operation,()
+/workdir :: workdir_operation,()
+cd ¦/app;¦npm¦install :: Filesystem_operation,()
+package.json/app/ :: add_operation,()
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+mkdir ¦-p¦/workdir¦/app :: Filesystem_operation,()
+./app :: add_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_7.x¦|¦bash¦- :: Dependencies_operation,()
+apt-get ¦-y¦install¦nodejs :: Dependencies_operation,()

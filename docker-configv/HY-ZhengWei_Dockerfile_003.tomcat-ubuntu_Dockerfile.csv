@@ -1,0 +1,10 @@
+CATALINA_BASE:/apache-tomcat-7.0.77 :: env_operation,()
+PATH:$PATH:$TOMCAT_HOME/lib:$TOMCAT_HOME/bin :: env_operation,()
+$TOMCAT_HOME :: workdir_operation,()
+entrypoint,$TOMCAT_HOME/bin/startup.sh¦&&¦tail¦-f¦1000¦$TOMCAT_HOME/logs/catalina.out
+chmod ¦-R¦755¦$TOMCAT_HOME/bin :: Permissions_operation,()
+CATALINA_HOME:/apache-tomcat-7.0.77 :: env_operation,()
+TOMCAT_HOME:/apache-tomcat-7.0.77 :: env_operation,()
+http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.77/bin/apache-tomcat-7.0.77.tar.gz/ :: add_operation,()
+from,hyzhengwei/jdk-ubuntu
+expose,8080

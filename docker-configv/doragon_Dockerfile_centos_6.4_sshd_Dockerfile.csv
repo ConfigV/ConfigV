@@ -1,0 +1,15 @@
+echo ¦echo¦>> /etc/sudoers :: Filesystem_operation,()
+/usr/bin/ssh-keygen ¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key¦-C¦''¦-N¦'' :: Other_operation,()
+from,centos:6.4
+echo ¦echo¦"koide ALL=(ALL) ALL" >> /etc/sudoers :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+sed ¦-ri¦'s/UsePAM¦yes/#UsePAM¦yes/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+adduser ¦koide :: Permissions_operation,()
+touch ¦/etc/sysconfig/network :: Filesystem_operation,()
+sed ¦-ri¦'s/#UsePAM¦no/UsePAM¦no/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+echo ¦echo¦pass | passwd koide --stdin :: Filesystem_operation,()
+mkdir ¦/home/koide/.ssh/ :: Filesystem_operation,()
+expose,22
+/usr/bin/ssh-keygen ¦-t¦dsa¦-f¦/etc/ssh/ssh_host_dsa_key¦-C¦''¦-N¦'' :: Other_operation,()
+yum ¦-y¦install¦passwd¦sudo :: Dependencies_operation,()
+yum ¦-y¦install¦openssh-server¦openssh-clients :: Dependencies_operation,()

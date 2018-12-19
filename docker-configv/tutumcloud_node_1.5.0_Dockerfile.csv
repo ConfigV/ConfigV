@@ -1,0 +1,13 @@
+chmod ¦+x¦/usr/lib/tutum/docker :: Permissions_operation,()
+DOCKER_VERSION=1.5.0:GPG_KEY_ID=A87A2270 :: env_operation,()
+run.sh/ :: add_operation,()
+expose,2375
+ln ¦-s¦/usr/lib/tutum/docker¦/usr/bin/docker :: Filesystem_operation,()
+entrypoint,/run.sh
+from,jpetazzo/dind:latest
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦tutum-agent :: Other_operation,()
+https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION/usr/lib/tutum/docker :: add_operation,()
+gpg ¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_ID :: Other_operation,()
+echo ¦echo¦deb [arch=amd64] $TUTUM_REPO tutum main > /etc/apt/sources.list.d/tutum.list :: Filesystem_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_ID :: Dependencies_operation,()

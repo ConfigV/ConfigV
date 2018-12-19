@@ -1,0 +1,14 @@
+cmd,rpmbuild¦-ta¦$DIR*.tar.gz
+useradd ¦-m¦rpmbuilder :: Permissions_operation,()
+DIR:pdsh :: env_operation,()
+git ¦clone¦$URL :: Dependencies_operation,()
+URL:https://code.google.com/p/pdsh/ :: env_operation,()
+/home/rpmbuilder/rpmbuild/RPMS :: volume_operation,()
+mkdir ¦-p¦rpmbuild/RPMS/ :: Filesystem_operation,()
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+from,centos
+rpmbuilder :: user_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦git¦gcc¦make¦rpm-build¦readline-devel¦ncurses-devel¦pam-devel :: Dependencies_operation,()
+s/^Version: /Version: $VERSION/g ¦s/^Release: /Release: $RELEASE/g :: Other_operation,()
+/home/rpmbuilder :: workdir_operation,()

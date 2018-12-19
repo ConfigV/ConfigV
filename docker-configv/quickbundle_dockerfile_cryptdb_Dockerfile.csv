@@ -1,0 +1,21 @@
+expose,22 3306 3307
+MYSQL_PASSWORD:letmein :: env_operation,()
+echo ¦echo¦'root:root' |chpasswd :: Filesystem_operation,()
+chmod ¦755¦/root/cryptdb.sh :: Permissions_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+cryptdb.sh/root/cryptdb.sh :: add_operation,()
+ln ¦-s¦/root/cryptdb.sh¦/usr/bin/cryptdb.sh :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦mysql-server :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+apt-get ¦install¦-y¦sudo¦ruby :: Dependencies_operation,()
+/root/cryptdb :: workdir_operation,()
+cmd,/usr/sbin/sshd¦-D
+echo ¦/usr/sbin/mysqld¦& sleep 10s && echo "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'letmein' WITH GRANT OPTION; FLUSH PRIVILEGES" | mysql -uroot -pletmein :: Filesystem_operation,()
+from,debian@wheezy
+cryptdb/root/cryptdb :: add_operation,()
+ruby ¦scripts/install.rb¦. :: Other_operation,()
+echo ¦echo¦"mysql-server mysql-server/root_password_again password $MYSQL_PASSWORD" | debconf-set-selections :: Filesystem_operation,()
+echo ¦echo¦"mysql-server mysql-server/root_password password $MYSQL_PASSWORD" | debconf-set-selections :: Filesystem_operation,()
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+echo ¦echo¦"EDBDIR=/root/cryptdb" >> /etc/environment :: Filesystem_operation,()

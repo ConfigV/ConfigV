@@ -1,0 +1,13 @@
+cmd,php-fpm
+./src/*${PHP_CONFIGURE_DIR}/../php-ext/ :: copy_operation,()
+$PHP_DIR :: workdir_operation,()
+PATH:$PHP_DIR/bin:$PHP_DIR/sbin:$PATH :: env_operation,()
+PHP_CONFIGURE_DIR:$PHP_CONFIGURE_DIR :: env_operation,()
+from,my-ubuntu:14.04
+apt ¦update :: Dependencies_operation,()
+PHP_PROCESSES_NUM:$PHP_PROCESSES_NUM :: env_operation,()
+PHP_INI_DIR="${PHP_DIR}/conf"  :: Other_operation,()
+PHP_FILENAME="php-${PHP_VERSION}.tar.xz"  :: Other_operation,()
+/bin/bash ¦${PHP_CONFIGURE_DIR}/../php-ext/php-ext.sh :: Build_Execute_operation,()
+buildDeps=" ¦¦libxml2-dev¦¦xz-utils¦" :: Other_operation,()
+apt ¦install¦-y¦¦#¦persistent¦/¦runtime¦deps :: Dependencies_operation,()

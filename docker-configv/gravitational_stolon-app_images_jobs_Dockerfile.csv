@@ -1,0 +1,5 @@
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+echo ¦echo¦"deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list && apt-get update && apt-get install -qq -y s3cmd -t jessie-backports && apt-get clean && rm -rf /var/lib/apt/lists/* ~/.bashrc /usr/sha... :: Filesystem_operation,()
+entrypoint,dumb-init¦/entrypoint.sh
+entrypoint.sh/ :: add_operation,()
+from,quay.io/gravitational/debian-grande:0.0.1

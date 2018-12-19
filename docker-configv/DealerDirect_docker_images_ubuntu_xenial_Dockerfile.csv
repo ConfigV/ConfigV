@@ -1,0 +1,16 @@
+cmd,/lib/systemd/systemd
+bash ¦/tmp/systemd.sh :: Build_Execute_operation,()
+bash ¦/tmp/shared/scripts/install-upgrade-apt-packages.sh :: Build_Execute_operation,()
+bash ¦/tmp/shared/scripts/install-git-crypt.sh :: Build_Execute_operation,()
+INSTALL_APT:"sudo :: env_operation,()
+files/ubuntu/xenial/sources.list/etc/apt/sources.list :: add_operation,()
+INSTALL_APT_BUILD_DEPS:"build-essential :: env_operation,()
+from,ubuntu@xenial
+files/shared/scripts/*.sh/tmp/shared/scripts/ :: add_operation,()
+files/shared/ssh/*/root/.ssh/ :: add_operation,()
+/run :: volume_operation,()
+/run/lock :: volume_operation,()
+files/ubuntu/xenial/systemd.sh/tmp/ :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/sys/fs/cgroup :: volume_operation,()
+bash ¦/tmp/shared/scripts/cleanup.sh :: Build_Execute_operation,()

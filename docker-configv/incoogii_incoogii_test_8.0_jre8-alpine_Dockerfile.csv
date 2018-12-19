@@ -1,0 +1,18 @@
+LD_LIBRARY_PATH:${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR :: env_operation,()
+set ¦-x¦\\ :: Environment_operation,()
+TOMCAT_ASC_URL:https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz.asc :: env_operation,()
+from,openjdk:8.0
+set ¦-ex;¦for¦key¦in¦$GPG_KEYS;¦do¦¦gpg¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦"$key";¦done :: Environment_operation,()
+expose,8080
+mkdir ¦-p¦"$CATALINA_HOME" :: Filesystem_operation,()
+CATALINA_HOME:/usr/local/tomcat :: env_operation,()
+GPG_KEYS:05AB33110949707C93A279E3D3EFE6B686867BA6 :: env_operation,()
+TOMCAT_MAJOR:8 :: env_operation,()
+TOMCAT_NATIVE_LIBDIR:$CATALINA_HOME/native-jni-lib :: env_operation,()
+cmd,catalina.sh¦run
+PATH:$CATALINA_HOME/bin:$PATH :: env_operation,()
+TOMCAT_VERSION:8.0.43 :: env_operation,()
+TOMCAT_TGZ_URL:https://www.apache.org/dyn/closer.cgi?action=download&filename=tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz :: env_operation,()
+$CATALINA_HOME :: workdir_operation,()
+echo ¦set¦-e && nativeLines="$(catalina.sh configtest 2>&1)" && nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" && nativeLines="$(echo "$nativeLines" | sort -u)" && if ! echo "$nativeLines" | grep 'INFO: Loaded APR based Apach... :: Filesystem_operation,()
+apk ¦add¦--no-cache¦gnupg :: Dependencies_operation,()

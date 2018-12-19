@@ -1,0 +1,19 @@
+cd ¦/ :: Filesystem_operation,()
+gunzip ¦/$ES_PKG_NAME.tar.gz :: Other_operation,()
+rm ¦-f¦/tmp/jre.tar :: Filesystem_operation,()
+tar ¦xf¦/tmp/jre.tar :: Filesystem_operation,()
+cmd,/elasticsearch/bin/elasticsearch
+opkg-install ¦wget :: Other_operation,()
+expose,9200 9300
+ln ¦-sf¦/lib/libpthread-2.18.so¦/lib/libpthread.so.0 :: Filesystem_operation,()
+ln ¦-s¦/opt/jre1.8.0_40/bin/java¦/usr/bin/java :: Filesystem_operation,()
+cd ¦/opt :: Filesystem_operation,()
+rm ¦-f¦/$ES_PKG_NAME.tar.gz :: Filesystem_operation,()
+mv ¦/$ES_PKG_NAME¦/elasticsearch :: Filesystem_operation,()
+ES_PKG_NAME:elasticsearch-1.5.0 :: env_operation,()
+wget ¦--no-check-certificate¦--no-cookies¦https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz :: Dependencies_operation,()
+/data :: volume_operation,()
+wget ¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦-O¦/tmp/jre.tar.gz¦http://download.oracle.com/otn-pub/java/jdk/8u40-b26/jre-8u40-linux-x64.tar.gz :: Dependencies_operation,()
+tar ¦xf¦/$ES_PKG_NAME.tar :: Filesystem_operation,()
+from,progrium/busybox
+gunzip ¦/tmp/jre.tar.gz :: Other_operation,()

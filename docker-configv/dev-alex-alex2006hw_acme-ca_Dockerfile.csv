@@ -1,0 +1,14 @@
+go ¦get¦bitbucket.org/liamstask/goose/cmd/goose :: Build_Execute_operation,()
+go ¦get¦github.com/jsha/listenbuddy :: Build_Execute_operation,()
+go ¦get¦-v¦github.com/golang/lint/golint :: Build_Execute_operation,()
+from,golang:1.5
+/go/src/github.com/letsencrypt/boulder :: workdir_operation,()
+GOPATH:/go/src/github.com/letsencrypt/boulder/Godeps/_workspace:$GOPATH :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+BOULDER_CONFIG:/go/src/github.com/letsencrypt/boulder/test/boulder-config.json :: env_operation,()
+expose,4000
+apt-get ¦install¦-y¦libltdl-dev¦mariadb-client-core-10.0¦nodejs¦rsyslog¦--no-install-recommends :: Dependencies_operation,()
+entrypoint,./test/entrypoint.sh
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+./go/src/github.com/letsencrypt/boulder :: copy_operation,()
+cmd,./start.py

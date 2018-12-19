@@ -1,0 +1,22 @@
+echo ¦echo¦"deb-src http://httpredir.debian.org/debian jessie main" >> /etc/apt/sources.list :: Filesystem_operation,()
+chown ¦jenkins.jenkins¦/home/jenkins/.ssh :: Permissions_operation,()
+mkdir ¦-p¦/tmp :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦'jenkins:1234' | chpasswd #changeme :: Filesystem_operation,()
+chown ¦jenkins.jenkins¦/srv/jenkins :: Permissions_operation,()
+apt-get ¦-y¦build-dep¦qtbase5-dev :: Dependencies_operation,()
+mkdir ¦-p¦/srv/jenkins :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/home/jenkins/.ssh :: Filesystem_operation,()
+from,debian@stable
+mkdir ¦-p¦/home/jenkins/scripts :: Filesystem_operation,()
+chown ¦jenkins.jenkins¦/home/jenkins/scripts :: Permissions_operation,()
+dpkg-reconfigure ¦openssh-server :: Other_operation,()
+chown ¦jenkins.jenkins¦/tmp :: Permissions_operation,()
+useradd ¦-m¦-u¦1000¦-g¦1000¦-d¦/home/jenkins¦jenkins :: Permissions_operation,()
+sed ¦s,exit\\¦101,exit\\¦0,¦/usr/sbin/policy-rc.d¦-i :: Filesystem_operation,()
+groupadd ¦-g¦1000¦jenkins :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦openssh-server¦ssh¦wget¦¦openjdk-7-jdk¦git :: Other_operation,()
+expose,22

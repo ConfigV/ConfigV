@@ -1,0 +1,16 @@
+/go/src :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦sh¦-c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" && mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim && git clone https://gi... :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦zsh¦vim-nox¦silversearcher-ag¦curl¦nginx¦locales¦sudo :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;¦-c¦/etc/nginx/nginx.conf
+SHELL=/usr/bin/zsh: :: env_operation,()
+echo ¦chsh¦--shell /bin/zsh && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && groupadd --gid 1000 docker && useradd --gid 1000 --uid 1000 --create-home docker && echo "docker ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/user && chmod 0... :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+TERM=xterm-256color: :: env_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+entrypoint,/usr/local/bin/dumb-init¦--
+from,golang:1.8
+docker :: user_operation,()

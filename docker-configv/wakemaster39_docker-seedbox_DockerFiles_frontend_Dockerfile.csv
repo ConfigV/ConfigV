@@ -1,0 +1,12 @@
+USERNAME=user:PASSWORD=hunter2 :: env_operation,()
+from,wakemaster39/seedbox:base
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+nginx.conf/etc/nginx/ :: copy_operation,()
+cmd,/start
+apt-get ¦update :: Dependencies_operation,()
+start/ :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/config :: volume_operation,()
+ssl-gen/usr/local/bin :: copy_operation,()
+expose,80 443
+apt-get ¦install¦--no-install-recommends¦-y¦apache2-utils :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+REDIS_HOST:redis :: env_operation,()
+C_FORCE_ROOT=true: :: env_operation,()
+REDIS_DATABASE:0 :: env_operation,()
+/code :: workdir_operation,()
+dnf ¦install¦-y¦python3-celery :: Dependencies_operation,()
+REDIS_PORT:6379 :: env_operation,()
+ /code :: volume_operation,()
+cmd,/usr/bin/celery-3¦-A¦tasks¦worker¦-l¦INFO¦--broker=redis://$REDIS_HOST:$REDIS_PORT/$REDIS_DATABASE¦--workdir=/code
+from,pixeldragon/fedora:24
+mkdir ¦-p¦/config¦/data¦/log¦/code :: Filesystem_operation,()

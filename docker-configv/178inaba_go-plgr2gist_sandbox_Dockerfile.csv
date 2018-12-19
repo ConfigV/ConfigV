@@ -1,0 +1,21 @@
+fake_fs.lst/usr/local/go/ :: add_operation,()
+find ¦$GOPATH/src/code.google.com/p/go-tour/¦-name¦*.go :: Filesystem_operation,()
+cd ¦/usr/local/bin :: Filesystem_operation,()
+go ¦install¦sandbox :: Build_Execute_operation,()
+./go/src/sandbox/ :: add_operation,()
+from,golang:1.5
+apt-get ¦install¦-yq¦--no-install-recommends¦patch :: Dependencies_operation,()
+curl ¦https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz¦|¦tar¦-xz¦-C¦/root :: Dependencies_operation,()
+GOOS=nacl ¦GOARCH=amd64p32¦go¦get¦golang.org/x/tour/pic¦golang.org/x/tour/reader¦golang.org/x/tour/tree¦golang.org/x/tour/wc :: Other_operation,()
+enable-fake-time.patch/usr/local/go/ :: add_operation,()
+expose,8080
+go ¦run¦misc/nacl/mkzip.go¦-p¦syscall¦fake_fs.lst¦src/syscall/fstest_nacl.go :: Build_Execute_operation,()
+cd ¦/usr/local/go :: Filesystem_operation,()
+mv ¦/root/go¦/root/go1.4 :: Filesystem_operation,()
+entrypoint,/go/bin/sandbox
+apt-get ¦update :: Dependencies_operation,()
+GOOS=nacl ¦GOARCH=amd64p32¦./make.bash¦--no-clean :: Other_operation,()
+chmod ¦0755¦sel_ldr_x86_64 :: Permissions_operation,()
+patch ¦/usr/local/go/src/runtime/rt0_nacl_amd64p32.s¦/usr/local/go/enable-fake-time.patch :: Other_operation,()
+cd ¦/usr/local/go/src :: Filesystem_operation,()
+curl ¦-s¦-O¦https://storage.googleapis.com/gobuilder/sel_ldr_x86_64 :: Dependencies_operation,()

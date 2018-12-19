@@ -1,0 +1,12 @@
+apk ¦add¦--update¦-t¦build-deps¦go¦git¦mercurial :: Dependencies_operation,()
+rm ¦-rf¦$GOPATH :: Filesystem_operation,()
+GOPATH:/go :: env_operation,()
+APPPATH:$GOPATH/src/github.com/lovoo/nats_exporter :: env_operation,()
+go ¦build¦-o¦/nats_exporter :: Build_Execute_operation,()
+expose,9118
+apk ¦del¦--purge¦build-deps¦git¦mercurial :: Dependencies_operation,()
+.$APPPATH :: copy_operation,()
+entrypoint,/nats_exporter
+from,alpine@latest
+cd ¦$APPPATH :: Filesystem_operation,()
+go ¦get¦-d :: Build_Execute_operation,()

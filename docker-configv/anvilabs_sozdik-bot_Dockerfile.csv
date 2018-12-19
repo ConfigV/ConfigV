@@ -1,0 +1,11 @@
+NPM_CONFIG_LOGLEVEL:warn :: env_operation,()
+mkdir ¦-p¦${appDir} :: Filesystem_operation,()
+npm ¦i¦--production :: Dependencies_operation,()
+expose,8080
+npm ¦i¦-g¦pm2 :: Dependencies_operation,()
+${appDir} :: workdir_operation,()
+package.json./ :: add_operation,()
+appDir:/opt/app :: env_operation,()
+cmd,pm2¦start¦pm2.json¦--no-daemon
+from,node@latest
+../ :: add_operation,()

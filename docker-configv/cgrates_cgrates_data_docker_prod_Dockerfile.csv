@@ -1,0 +1,15 @@
+apt-get ¦update;¦apt-get¦-y¦install¦cgrates :: Dependencies_operation,()
+cd ¦/etc/apt/sources.list.d/;¦wget¦http://apt.itsyscom.com/conf/cgrates.apt.list :: Filesystem_operation,()
+apt-get ¦update;¦apt-get¦-y¦install¦freeswitch-meta-vanilla¦freeswitch-mod-json-cdr :: Dependencies_operation,()
+start.sh/root/start.sh :: add_operation,()
+apt-get ¦-y¦install¦git¦redis-server¦mysql-server¦python-mysqldb¦wget :: Dependencies_operation,()
+gpg ¦-a¦--export¦D76EDC7725E010CF¦|¦apt-key¦add¦- :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+my.cnf/my.cnf :: add_operation,()
+cmd,/root/start.sh
+cd ¦/etc/apt/sources.list.d/;¦wget¦http://apt.itsyscom.com/conf/freeswitch.apt.list :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+wget ¦-O¦-¦http://apt.itsyscom.com/conf/cgrates.gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+gpg ¦--keyserver¦pool.sks-keyservers.net¦--recv-key¦D76EDC7725E010CF :: Other_operation,()
+from,debian@latest
+apt-get ¦clean :: Dependencies_operation,()

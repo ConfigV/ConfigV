@@ -1,0 +1,14 @@
+expose,80
+passenger-install-nginx-module ¦--auto¦--auto-download¦--languages¦ruby :: Other_operation,()
+tar ¦-xzvf¦ruby-2.2.3.tar.gz :: Filesystem_operation,()
+./app :: add_operation,()
+from,ubuntu
+cd ¦ruby-2.2.3/ :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+gem ¦install¦bundler¦passenger¦--no-ri¦--no-rdoc :: Dependencies_operation,()
+./configure  :: Build_Execute_operation,()
+apt-get ¦install¦-qq¦-y¦git-core¦curl¦zlib1g-dev¦build-essential¦libssl-dev¦libreadline-dev¦libyaml-dev¦libsqlite3-dev¦sqlite3¦libxml2-dev¦libxslt1-dev¦libcurl4-openssl-dev¦python-software-properties¦libffi-dev¦wget :: Dependencies_operation,()
+wget ¦http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()

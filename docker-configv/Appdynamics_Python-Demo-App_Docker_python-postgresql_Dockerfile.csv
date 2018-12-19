@@ -1,0 +1,7 @@
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+/etc/init.d/postgresql ¦start¦&&\\ :: Other_operation,()
+cmd,service¦postgresql¦start¦&&¦tail¦-F¦/var/log/postgresql/postgresql-9.3-main.log
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+postgres :: user_operation,()
+from,appdynamics/python-base
+expose,22

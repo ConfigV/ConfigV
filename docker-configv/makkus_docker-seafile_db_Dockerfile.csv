@@ -1,0 +1,13 @@
+create_mariadb_admin_user.sh/create_mariadb_admin_user.sh :: add_operation,()
+/etc/mysql :: volume_operation,()
+cmd,/run.sh
+from,ubuntu@trusty
+chmod ¦775¦/*.sh :: Permissions_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+echo ¦apt-key¦adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && echo 'deb http://mirrors.syringanetworks.net/mariadb/repo/10.1/ubuntu trusty main' >> /etc/apt/sources.list && echo 'deb-src http://mirrors.syringanetw... :: Filesystem_operation,()
+TERM:dumb :: env_operation,()
+run.sh/run.sh :: add_operation,()
+prepare-volumes.sh/tmp/prepare-volumes.sh :: add_operation,()
+/tmp/prepare-volumes.sh  :: Other_operation,()
+sed ¦-i¦-r¦'s/bind-address.*$/bind-address¦=¦0.0.0.0/'¦/etc/mysql/my.cnf :: Filesystem_operation,()

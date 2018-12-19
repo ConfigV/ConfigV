@@ -1,0 +1,7 @@
+CASSANDRA_HOME=/usr/local/apache-cassandra-${CASSANDRA_VERSION}:CASSANDRA_CONF=/etc/cassandra :: env_operation,()
+files/ :: add_operation,()
+from,gcr.io/google_containers/ubuntu-slim:0.9
+/$CASSANDRA_DATA :: volume_operation,()
+cmd,/sbin/dumb-init¦/bin/bash¦/run.sh
+echo ¦set¦-e && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && apt-get update && apt-get -qq -y --force-yes install --no-install-recommends openjdk-8-jre-headless libjemalloc1 localepurge wget && mirror_url=$( ... :: Filesystem_operation,()
+expose,7000 7001 7199 9042 9160

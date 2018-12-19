@@ -1,0 +1,11 @@
+wget ¦http://rpms.famillecollet.com/enterprise/remi-release-6.rpm :: Dependencies_operation,()
+./opt/emc/scaleio/siinstall/ :: add_operation,()
+entrypoint,/start.sh
+expose,7072
+rpm ¦-Uvh¦remi-release-6*.rpm¦epel-release-6*.rpm :: Dependencies_operation,()
+yum ¦-y¦install¦bash-completion :: Dependencies_operation,()
+yum ¦-y¦install¦tar¦wget¦numactl¦libaio¦mutt¦python¦python-paramiko¦java-1.6.0-openjdk¦vi¦which :: Dependencies_operation,()
+wget ¦http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+from,centos:6.0
+echo ¦printf¦"#!/bin/shn\\umount /dev/shmn\\mount -t tmpfs -o rw,nosuid,nodev,noexec,relatime,size=524288k shm /dev/shmn\\rpm -qa | egrep -i 'ecs|scaleio'n\\test=\\$?n\\if ((\\$test != 0 )); thenn\\ rpm -Uvh /opt/emc/scaleio/siinstall/EMC-ScaleIO-mdm-*.... :: Filesystem_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()

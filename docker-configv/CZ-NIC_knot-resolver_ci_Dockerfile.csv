@@ -1,0 +1,14 @@
+make  :: Build_Execute_operation,()
+/root :: workdir_operation,()
+cmd,/bin/bash
+apt-get ¦update¦-qq :: Dependencies_operation,()
+autoreconf ¦-if :: Other_operation,()
+apt-get ¦upgrade¦-y¦-qqq :: Dependencies_operation,()
+git ¦clone¦https://gitlab.labs.nic.cz/knot/knot-dns.git¦/tmp/knot :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+ldconfig  :: Other_operation,()
+cd ¦/tmp/knot :: Filesystem_operation,()
+apt-get ¦install¦-y¦-qqq¦make¦cmake¦pkg-config¦git¦build-essential¦bsdmainutils¦libtool¦autoconf¦make¦pkg-config¦liburcu-dev¦libgnutls28-dev¦libedit-dev¦liblmdb-dev¦libcap-ng-dev¦libsystemd-dev¦libidn11-dev¦protobuf-c-compiler¦libfstrm-dev¦pkg-conf... :: Dependencies_operation,()
+from,debian@stable
+apt-get ¦install¦-y¦-qqq¦apt-utils :: Dependencies_operation,()
+./configure  :: Build_Execute_operation,()

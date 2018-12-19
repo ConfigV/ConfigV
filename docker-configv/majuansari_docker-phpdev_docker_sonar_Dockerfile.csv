@@ -1,0 +1,12 @@
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rfv¦/tmp/*¦/var/lib/apt/lists/*¦/var/tmp/* :: Filesystem_operation,()
+$SONARQUBE_HOME/data :: volume_operation,()
+$SONARQUBE_HOME :: workdir_operation,()
+entrypoint,./bin/run.sh
+expose,9000
+from,java:8.0
+$SONARQUBE_HOME/extensions :: volume_operation,()
+SONAR_VERSION=5.6.1:SONARQUBE_HOME=/opt/sonarqube :: env_operation,()
+root :: user_operation,()
+./bin/run.sh$SONARQUBE_HOME/bin/ :: copy_operation,()
+set ¦-x :: Environment_operation,()

@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦--no-install-recommends¦¦¦ca-certificates¦¦¦vim¦git¦libcgi-pm-perl¦libjson-perl :: Dependencies_operation,()
+from,httpd:2.4
+expose,80
+echo ¦git¦clone https://github.com/usiusi360/vulsrepo.git && echo "LoadModule cgid_module modules/mod_cgid.so" >> $HTTPD_PREFIX/conf/httpd.conf && echo "<Directory"$HTTPD_PREFIX/htdocs/vulsrepo/dist/cgi\\">" >> $HTTPD_PREFIX/conf/httpd.conf && ec... :: Filesystem_operation,()
+/vuls :: volume_operation,()
+HTTPD_PREFIX:/usr/local/apache2 :: env_operation,()
+${HTTPD_PREFIX}/htdocs :: workdir_operation,()
+cmd,httpd-foreground
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

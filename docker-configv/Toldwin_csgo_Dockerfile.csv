@@ -1,0 +1,18 @@
+mkdir ¦/steamcmd :: Filesystem_operation,()
+from,ubuntu
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+server.cfg/steamcmd/csgoserver/csgo/cfg/server.cfg :: add_operation,()
+cmd,./srcds_run¦-game¦csgo¦-console¦-usercon¦+game_type¦$GAME_TYPE¦+game_mode¦$GAME_MODE¦+mapgroup¦$MAP_GROUP¦+map¦$START_MAP
+tar ¦-xvzf¦steamcmd_linux.tar.gz :: Filesystem_operation,()
+/steamcmd/steamcmd.sh ¦+login¦anonymous¦+force_install_dir¦/steamcmd/csgoserver¦+app_update¦740¦validate¦+quit :: Other_operation,()
+GAME_MODE:1 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦lib32gcc1 :: Dependencies_operation,()
+/steamcmd/csgoserver :: workdir_operation,()
+expose,27015
+cd ¦/steamcmd :: Filesystem_operation,()
+START_MAP:de_dust2 :: env_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()
+MAP_GROUP:mg_active :: env_operation,()
+wget ¦http://media.steampowered.com/installer/steamcmd_linux.tar.gz :: Dependencies_operation,()
+GAME_TYPE:0 :: env_operation,()

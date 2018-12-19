@@ -1,0 +1,12 @@
+cd ¦disque :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+expose,7711
+from,quay.io/hirokazumiyaji/debian
+cmd,/usr/local/bin/disque
+git ¦clone¦https://github.com/antirez/disque.git :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦-q¦git¦make¦ca-certificates :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/*¦/tmp/* :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+make ¦-j2 :: Build_Execute_operation,()

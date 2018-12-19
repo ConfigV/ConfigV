@@ -1,0 +1,9 @@
+MOUNTPOINT:/mnt/nfs :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦-U¦add¦nfs-utils :: Dependencies_operation,()
+cmd,/bin/sh
+entrypoint.sh/entrypoint.sh :: add_operation,()
+from,alpine
+FSTYPE:nfs4 :: env_operation,()
+MOUNTOPTIONS:nfsvers=4 :: env_operation,()
+entrypoint,/entrypoint.sh

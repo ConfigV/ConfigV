@@ -1,0 +1,12 @@
+apt-get ¦update¦-qq :: Dependencies_operation,()
+gem ¦install¦rails¦-v¦'4.2.0'¦--no-ri¦--no-rdoc :: Dependencies_operation,()
+/src :: workdir_operation,()
+bundle ¦install :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦libpq-dev :: Dependencies_operation,()
+entrypoint,/docker-entrypoint.sh
+Gemfile/src/Gemfile :: add_operation,()
+from,ruby:2.2
+rails ¦new¦.¦--force¦--database=postgresql¦--skip-bundle :: Other_operation,()
+./docker-entrypoint.sh/ :: copy_operation,()
+database.yml/src/config/database.yml :: add_operation,()
+mkdir ¦/src :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+cmd,./run.py
+load_sql.py/crmapi/load_sql.py :: copy_operation,()
+/crmapi :: workdir_operation,()
+/crmapi/load_sql.py  :: Other_operation,()
+run.py/crmapi/run.py :: copy_operation,()
+apk ¦add¦--no-cache¦--update¦python3 :: Dependencies_operation,()
+APP_PORT=80: :: env_operation,()
+from,alpine
+mkdir ¦/crmapi :: Filesystem_operation,()
+APP_DEBUG=0: :: env_operation,()
+crmapi/crmapi/crmapi :: copy_operation,()
+mv ¦sql.db¦/crmapi/sql.db :: Filesystem_operation,()
+pip3 ¦install¦flask :: Dependencies_operation,()

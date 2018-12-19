@@ -1,0 +1,12 @@
+rm ¦epel.rpm :: Filesystem_operation,()
+rpm ¦-ivh¦epel.rpm :: Dependencies_operation,()
+GENESIS_DIR:/genesis :: env_operation,()
+/output :: volume_operation,()
+/genesis :: workdir_operation,()
+yum ¦install¦-y¦livecd-tools¦createrepo¦curl¦rpm-build :: Dependencies_operation,()
+./genesis :: copy_operation,()
+from,centos:6.0
+curl ¦-o¦epel.rpm¦https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+cmd,/genesis/docker-entrypoint.sh
+OUTPUT_DIR:/output :: env_operation,()

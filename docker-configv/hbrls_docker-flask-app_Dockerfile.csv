@@ -1,0 +1,23 @@
+supervisord//etc/supervisor/conf.d/ :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦build-essential¦cron¦curl¦git¦htop¦libxml2¦logrotate¦lsb-release¦man¦sgml-base¦software-properties-common¦ssl-cert¦sudo¦unzip¦vim¦wget¦xml-core :: Other_operation,()
+expose,443
+pip ¦install¦-r¦requirements.txt¦-i¦http://mirrors.aliyun.com/pypi/simple/ :: Dependencies_operation,()
+from,ubuntu:12.04
+locale-gen ¦zh_CN.UTF-8 :: Other_operation,()
+.*multiverse$\\  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/www/app :: volume_operation,()
+www//var/www/ :: copy_operation,()
+pip ¦install¦uwsgi¦-i¦http://mirrors.aliyun.com/pypi/simple/ :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/var/log/supervisor :: volume_operation,()
+requirements.txt/ :: copy_operation,()
+rm ¦/etc/nginx/sites-enabled/* :: Filesystem_operation,()
+nginx//etc/nginx/sites-enabled/ :: copy_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+update-locale ¦LANG=en_US.UTF-8 :: Other_operation,()
+apt-get ¦install¦-y¦python¦python-dev¦python-pip¦python-virtualenv¦libmysqlclient-dev¦libpcre3¦libpcre3-dev¦python-software-properties :: Dependencies_operation,()
+echo ¦add-apt-repository¦-y ppa:nginx/stable && apt-get update && apt-get install -y nginx && echo "\\ndaemon off;" >> /etc/nginx/nginx.conf && chown -R www-data:www-data /var/lib/nginx :: Filesystem_operation,()
+mkdir ¦-p¦/var/www/app :: Filesystem_operation,()
+chown ¦-R¦www-data:www-data¦/var/www/ :: Permissions_operation,()
+cmd,supervisord¦-c¦/etc/supervisor/supervisord.conf

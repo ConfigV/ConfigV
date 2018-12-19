@@ -1,0 +1,20 @@
+init.bash/init.bash :: copy_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+sed ¦-i¦"s/mirrorlist=/#mirrorlist=/"¦/etc/yum.repos.d/epel.repo :: Filesystem_operation,()
+/var/ossec/data :: volume_operation,()
+useradd ¦-u¦1000¦-g¦1000¦ossec :: Permissions_operation,()
+/init.bash  :: Other_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+entrypoint,/tmp/run.sh
+ossec.conf/var/ossec/ossec.conf :: copy_operation,()
+data_dirs.env/data_dirs.env :: copy_operation,()
+local_rules.xml/var/ossec/ruleset/rules/local_rules.xml :: copy_operation,()
+groupadd ¦-g¦1000¦ossec :: Permissions_operation,()
+expose,55000 1514 1515 514
+filebeat.yml/etc/filebeat/ :: copy_operation,()
+curl ¦-L¦-O¦https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.4.2-x86_64.rpm¦&&\\ :: Dependencies_operation,()
+sed ¦-i¦"s/#baseurl=/baseurl=/"¦/etc/yum.repos.d/epel.repo :: Filesystem_operation,()
+run.sh/tmp/run.sh :: copy_operation,()
+yum ¦-y¦install¦openssl¦postfix¦mailx¦cyrus-sasl¦cyrus-sasl-plain¦wazuh-manager¦wazuh-api&&¦yum¦clean¦all :: Dependencies_operation,()
+wazuh.repo/etc/yum.repos.d/wazuh.repo :: copy_operation,()
+from,centos:7.0

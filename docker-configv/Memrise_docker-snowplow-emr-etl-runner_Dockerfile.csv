@@ -1,0 +1,18 @@
+curl ¦-L¦https://get.rvm.io¦|¦bash¦-s¦stable :: Dependencies_operation,()
+gpg ¦--keyserver¦hkp://keys.gnupg.net¦--recv-keys¦409B6B1796C275462A1703113804BB82D39DC0E3 :: Other_operation,()
+from,java:7.0
+/bin/bash ¦-l¦-c¦"gem¦install¦bundler¦--no-ri¦--no-rdoc" :: Build_Execute_operation,()
+git ¦checkout¦feature/r66-master :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"rvm¦install¦1.9.3¦--default" :: Build_Execute_operation,()
+/bin/bash ¦-l¦-c¦"bundle¦install¦--deployment" :: Build_Execute_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+git ¦clone¦git://github.com/snowplow/snowplow.git :: Dependencies_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+3-enrich/emr-etl-runner :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+snowplow :: workdir_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦install¦-y¦build-essential¦bison¦openssl¦libreadline5¦libreadline-dev¦curl¦git-core¦zlib1g¦zlib1g-dev¦libssl-dev¦libxslt-dev¦libxml2-dev¦libpq-dev¦subversion¦autoconf :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"rvm¦requirements" :: Build_Execute_operation,()
+entrypoint.sh/ :: copy_operation,()
+/bin/bash ¦-l¦-c¦"bundle¦exec¦bin/snowplow-emr-etl-runner¦--version" :: Build_Execute_operation,()

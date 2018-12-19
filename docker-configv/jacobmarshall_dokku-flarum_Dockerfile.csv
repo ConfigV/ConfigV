@@ -1,0 +1,13 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦unzip¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev :: Other_operation,()
+from,php:5.5
+docker-php-ext-install ¦mbstring¦pdo_mysql :: Other_operation,()
+https://github.com/flarum/flarum/releases/download/v0.1.0-beta.2/flarum-0.1.0-beta.2.zip/flarum.zip :: add_operation,()
+chown ¦-R¦www-data:www-data¦/var/www/html :: Permissions_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()
+config.php/var/www/html/config.php :: add_operation,()
+docker-php-ext-install ¦iconv¦mcrypt :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+unzip ¦/flarum.zip¦-d¦/var/www/html :: Filesystem_operation,()
+a2enmod ¦rewrite :: Other_operation,()

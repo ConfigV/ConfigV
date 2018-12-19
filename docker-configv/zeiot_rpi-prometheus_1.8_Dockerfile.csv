@@ -1,0 +1,15 @@
+expose,9090
+cmd,-config.file=/etc/prometheus/prometheus.yml¦-storage.local.path=/prometheus¦-web.console.libraries=/usr/share/prometheus/console_libraries¦-web.console.templates=/usr/share/prometheus/consoles
+cp ¦/usr/share/prometheus/promtool¦/usr/bin/promtool :: Filesystem_operation,()
+/prometheus :: volume_operation,()
+https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VERSION}/prometheus-${PROMETHEUS_VERSION}.linux-armv7.tar.gz/prometheus.tar.gz :: add_operation,()
+tar ¦-xf¦/prometheus.tar.gz :: Filesystem_operation,()
+mv ¦prometheus-${PROMETHEUS_VERSION}.linux-armv7¦/usr/share/prometheus :: Filesystem_operation,()
+PROMETHEUS_VERSION:1.8.0 :: env_operation,()
+ln ¦-s¦/usr/share/prometheus/prometheus.yml¦/etc/prometheus/prometheus.yml :: Filesystem_operation,()
+entrypoint,/usr/bin/prometheus
+rm ¦/prometheus.tar.gz :: Filesystem_operation,()
+cp ¦/usr/share/prometheus/prometheus¦/usr/bin/prometheus :: Filesystem_operation,()
+from,resin/armv7hf-debian:stretch
+mkdir ¦/etc/prometheus :: Filesystem_operation,()
+ln ¦-s¦/usr/share/prometheus/console_libraries¦/usr/share/prometheus/consoles/ :: Filesystem_operation,()

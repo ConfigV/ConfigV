@@ -1,0 +1,10 @@
+APP_HOME:/opt/geminabox :: env_operation,()
+cmd,bundle¦exec¦rackup¦--host¦0.0.0.0¦--port¦9292
+mkdir ¦-p¦$APP_HOME :: Filesystem_operation,()
+expose,9292
+artifacts$APP_HOME :: copy_operation,()
+$APP_HOME :: workdir_operation,()
+from,ruby:2.2
+bundle ¦install :: Dependencies_operation,()
+RUBYGEMS_PROXY=true: :: env_operation,()
+$APP_HOME/data :: volume_operation,()

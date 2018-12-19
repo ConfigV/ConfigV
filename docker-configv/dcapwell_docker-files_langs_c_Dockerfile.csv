@@ -1,0 +1,13 @@
+tar ¦-xjvf¦valgrind-3.10.0.tar.bz2 :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦vim¦man¦man-pages¦tree :: Dependencies_operation,()
+yum ¦groupinstall¦-y¦"development¦tools" :: Dependencies_operation,()
+from,centos:6.0
+sed ¦-i¦'/excludedocs/d'¦/etc/rpm/macros.imgcreate :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+cd ¦/root :: Filesystem_operation,()
+cd ¦valgrind-3.10.0 :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+curl ¦-O¦'http://valgrind.org/downloads/valgrind-3.10.0.tar.bz2' :: Dependencies_operation,()
+sed ¦-i¦'/nodocs/d'¦/etc/yum.conf :: Filesystem_operation,()

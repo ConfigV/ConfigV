@@ -1,0 +1,8 @@
+apt-get ¦update :: Dependencies_operation,()
+from,tomcat:7.0
+expose,8080
+tomcat-users.xml${CATALINA_HOME}/conf/ :: add_operation,()
+cmd,exec¦${CATALINA_HOME}/bin/catalina.sh¦run
+rm ¦-r¦${CATALINA_HOME}/webapps/ROOT¦${CATALINA_HOME}/webapps/docs¦${CATALINA_HOME}/webapps/examples¦${CATALINA_HOME}/webapps/host-manager :: Filesystem_operation,()
+apt-get ¦install¦-y¦libmysql-java :: Dependencies_operation,()
+cp ¦/usr/share/java/mysql-connector-java.jar¦${CATALINA_HOME}/lib :: Filesystem_operation,()

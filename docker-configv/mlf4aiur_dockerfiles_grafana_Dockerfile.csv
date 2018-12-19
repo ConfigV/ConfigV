@@ -1,0 +1,16 @@
+GF_SECURITY_ADMIN_PASSWORD:admin :: env_operation,()
+expose,3000
+apt-get ¦install¦-y¦-q¦--no-install-recommends¦wget¦ca-certificates :: Dependencies_operation,()
+/opt/grafana/data :: volume_operation,()
+rm ¦/grafana.tar.gz :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,debian@wheezy
+mkdir ¦-p¦/opt/grafana :: Filesystem_operation,()
+tar ¦zxf¦/grafana.tar.gz¦-C¦/opt/grafana¦--strip-components¦1 :: Filesystem_operation,()
+cmd,/opt/grafana/bin/grafana-server¦--config=/opt/grafana/conf/defaults.ini
+apt-get ¦update :: Dependencies_operation,()
+/opt/grafana/ :: workdir_operation,()
+/opt/grafana/conf :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+wget ¦-q¦https://grafanarel.s3.amazonaws.com/builds/grafana-latest.linux-x64.tar.gz¦-O¦/grafana.tar.gz :: Dependencies_operation,()

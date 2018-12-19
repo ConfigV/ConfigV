@@ -1,0 +1,10 @@
+HOME:/home/$USER :: env_operation,()
+SHELL:/bin/zsh :: env_operation,()
+$HOME :: workdir_operation,()
+from,gliderlabs/alpine:3.3
+TERM:xterm-256colors :: env_operation,()
+git ¦clone¦https://github.com/neovim/libvterm¦&&\\ :: Dependencies_operation,()
+entrypoint,zsh¦-c¦STOW_INSTALL=\\¦; [[ -f $STOW_INSTALL ]] && bash $STOW_INSTALL &>/dev/null; zsh -i
+apk ¦--no-cache¦add¦autoconf¦automake¦build-base¦cmake¦curl¦g++¦git¦libtool¦linux-headers¦openssl-dev¦python-dev¦py-pip¦python3-dev¦sudo¦tmux¦unzip¦zsh¦&&\\ :: Dependencies_operation,()
+$USER :: user_operation,()
+USER:user :: env_operation,()

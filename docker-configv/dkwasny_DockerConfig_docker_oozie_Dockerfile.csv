@@ -1,0 +1,9 @@
+files/oozie-site.xml/etc/oozie/conf/ :: copy_operation,()
+unzip ¦-d¦/usr/lib/oozie/libext/¦/usr/lib/oozie/libext/ext-2.2.zip :: Filesystem_operation,()
+/usr/lib/oozie/tomcat-deployment.sh  :: Other_operation,()
+CATALINA_OPTS=-Xmx256m: :: env_operation,()
+yum ¦-y¦install¦mysql-connector-java¦unzip¦oozie :: Dependencies_operation,()
+cmd,/usr/lib/oozie/bin/oozied.sh¦run
+ln ¦-s¦/usr/share/java/mysql-connector-java.jar¦/usr/lib/oozie/lib/ :: Filesystem_operation,()
+http://archive.cloudera.com/gplextras/misc/ext-2.2.zip/usr/lib/oozie/libext/ :: add_operation,()
+from,dkwasny/hadoop-base

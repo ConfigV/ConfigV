@@ -1,0 +1,13 @@
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+html//var/www/html/ :: add_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+expose,80
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+sudo ¦apt-get¦clean :: Other_operation,()
+sudo ¦apt-get¦update :: Other_operation,()
+from,trusty
+DEBIAN_FRONTEND=noninteractive ¦sudo¦-E¦apt-get¦install¦-y¦php5¦apache2 :: Other_operation,()
+rm ¦/var/www/html/index.html :: Filesystem_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()

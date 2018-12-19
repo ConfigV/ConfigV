@@ -1,0 +1,21 @@
+chmod ¦+x¦/usr/local/bin/dind :: Permissions_operation,()
+entrypoint,/usr/local/bin/dind¦/run.sh
+mkdir ¦-p¦/usr/lib/dockercloud/ :: Filesystem_operation,()
+run.sh/ :: add_operation,()
+expose,2375
+https://files.cloud.docker.com/packages/docker/docker-$DOCKER_VERSION.tgz/tmp/ :: add_operation,()
+DOCKER_VERSION=1.11.2-cs5:NGROK_VERSION=1.7 :: env_operation,()
+from,ubuntu@trusty
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦dockercloud-agent :: Other_operation,()
+https://raw.githubusercontent.com/docker/docker/${DIND_COMMIT}/hack/dind/usr/local/bin/dind :: add_operation,()
+gpg ¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_ID :: Other_operation,()
+https://files.cloud.docker.com/packages/ngrok/ngrok-$NGROK_VERSION.tgz/tmp/ :: add_operation,()
+echo ¦echo¦deb [arch=amd64] $REPO dockercloud main > /etc/apt/sources.list.d/dockercloud.list :: Filesystem_operation,()
+tar ¦zxf¦/tmp/docker-$DOCKER_VERSION.tgz¦-C¦/usr/bin/¦--strip-components¦1 :: Filesystem_operation,()
+apt-get ¦install¦-yq¦iptables¦apt-transport-https¦ca-certificates :: Dependencies_operation,()
+/var/lib/docker :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_PACKAGE_ID :: Dependencies_operation,()
+tar ¦zxf¦/tmp/ngrok-$NGROK_VERSION.tgz¦-C¦/usr/lib/dockercloud/¦--strip-components¦1 :: Filesystem_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+DIND_COMMIT=b8bed8832b77a478360ae946a69dab5e922b194e: :: env_operation,()

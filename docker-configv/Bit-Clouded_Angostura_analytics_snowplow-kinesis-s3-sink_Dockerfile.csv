@@ -1,0 +1,10 @@
+unzip ¦$SKS_ZIP :: Filesystem_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+/snowplow :: workdir_operation,()
+from,openjdk:8.0
+SKS_VERSION:0.4.0 :: env_operation,()
+http://dl.bintray.com/snowplow/snowplow-generic/$SKS_ZIP./ :: add_operation,()
+SKS_ZIP:kinesis_s3_$SKS_VERSION.zip :: env_operation,()
+SKS_JAR:snowplow-kinesis-s3-$SKS_VERSION :: env_operation,()
+apt-get ¦install¦-qqy¦lzop¦liblzo2-dev :: Dependencies_operation,()
+mkdir ¦/snowplow :: Filesystem_operation,()

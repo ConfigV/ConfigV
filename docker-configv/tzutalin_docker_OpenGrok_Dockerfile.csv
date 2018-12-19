@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦pkg-config¦python-software-properties¦unzip¦wget¦zip¦python-pip¦--no-install-recommends :: Dependencies_operation,()
+exec.sh/var/opt/exec.sh :: add_operation,()
+PATH="/opengrok/bin:${PATH}": :: env_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+pip ¦install¦py-task-scheduler :: Dependencies_operation,()
+entrypoint,/var/opt/exec.sh
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+pip ¦install¦-U¦setuptools :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+opengrok_task.yaml/var/opt/opengrok_task.yaml :: add_operation,()
+from,itszero/opengrok
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,14 @@
+entrypoint,/entrypoint.sh
+apt-get ¦install¦-y¦libpng12-dev¦libjpeg-dev¦zip¦unzip :: Dependencies_operation,()
+echo ¦curl¦-o modx.zip -SL http://modx.com/download/direct/modx-${MODX_VERSION}.zip && echo "$MODX_SHA1 *modx.zip" | sha1sum -c - && unzip modx.zip -d /usr/src && mv /usr/src/modx-${MODX-VERSION} /usr/src/modx && find /usr/src/modx -name 'ht.acc... :: Filesystem_operation,()
+MODX_VERSION:2.4.3 :: env_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+docker-php-ext-install ¦gd¦mysqli :: Other_operation,()
+from,php:5.6
+a2enmod ¦rewrite :: Other_operation,()
+cmd,apache2-foreground
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+MODX_SHA1:0 :: env_operation,()
+/var/www/html :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()

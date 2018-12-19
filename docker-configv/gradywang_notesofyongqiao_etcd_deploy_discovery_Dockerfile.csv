@@ -1,0 +1,11 @@
+./root/discovery.etcd.io :: add_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git-core¦golang :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+go ¦run¦third_party.go¦install¦code.google.com/p/rsc/devweb :: Build_Execute_operation,()
+from,ubuntu:14.04
+cmd,GOPATH="${PWD}/third_party"¦PATH="${PATH}:${PWD}"¦./bin/devweb¦-addr=":8087"¦github.com/coreos/discovery.etcd.io/dev
+/root/discovery.etcd.io :: workdir_operation,()
+expose,8087

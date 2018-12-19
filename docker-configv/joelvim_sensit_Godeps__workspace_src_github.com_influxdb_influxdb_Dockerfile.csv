@@ -1,0 +1,9 @@
+/data :: volume_operation,()
+PATH=/app:$PATH: :: env_operation,()
+influxd/app/ :: copy_operation,()
+from,busybox:14.04
+/app :: workdir_operation,()
+sed ¦-i¦'s/dir¦=¦"\\/.*influxdb/dir¦=¦"\\/data/'¦/etc/influxdb.toml :: Filesystem_operation,()
+influxd ¦config¦>¦/etc/influxdb.toml :: Other_operation,()
+expose,8083 8086 8086 8088 2003 4242 25826
+entrypoint,influxd¦--config¦/etc/influxdb.toml

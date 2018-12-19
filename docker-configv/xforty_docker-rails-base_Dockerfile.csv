@@ -1,0 +1,8 @@
+from,phusion/passenger-ruby18
+cmd,/sbin/my_init
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦libsqlite3-dev¦libmysqlclient-dev¦python¦libxslt-dev¦libxml2-dev :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-qq :: Other_operation,()
+ln ¦-s¦/home/app/www/docker/common/init.sh¦/etc/my_init.d/app_init.sh :: Filesystem_operation,()
+rm ¦-f¦/etc/service/nginx/down :: Filesystem_operation,()

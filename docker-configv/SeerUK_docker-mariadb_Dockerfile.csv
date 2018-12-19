@@ -1,0 +1,12 @@
+MARIADB_PASS:docker :: env_operation,()
+./docker-entrypoint.sh/ :: copy_operation,()
+cmd,mysqld
+TERM:dumb :: env_operation,()
+MARIADB_USER:docker :: env_operation,()
+bind-address|log  :: Other_operation,()
+from,ubuntu@trusty
+MARIADB_DATABASE:docker :: env_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+entrypoint,/docker-entrypoint.sh
+echo ¦useradd¦-u 1000 -m -s /bin/bash mysql && apt-get install -y software-properties-common && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && add-apt-repository 'deb [arch=amd64,i386] http://mirrors.core... :: Filesystem_operation,()

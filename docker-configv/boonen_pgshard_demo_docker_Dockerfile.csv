@@ -1,0 +1,23 @@
+curl ¦-o¦/usr/local/bin/gosu¦-sSL¦"https://github.com/tianon/gosu/releases/download/1.2/gosu-amd64" :: Dependencies_operation,()
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+echo ¦echo¦"@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories :: Filesystem_operation,()
+LANG:en_US.utf8 :: env_operation,()
+apk ¦add¦curl¦git¦alpine-sdk¦"postgresql@edge>9.4"¦"postgresql-contrib@edge>9.4"¦"postgresql-dev@edge>9.4" :: Dependencies_operation,()
+cd ¦pg_shard :: Filesystem_operation,()
+entrypoint,/docker-entrypoint.sh
+expose,5432
+cmd,postgres
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+mkdir ¦-p¦/tmp/build :: Filesystem_operation,()
+cd ¦/tmp/build :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+from,gliderlabs/alpine:3.2
+git ¦clone¦https://github.com/citusdata/pg_shard.git :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+export ¦PATH=/usr/local/pgsql/bin/:$PATH :: Environment_operation,()
+/var/lib/postgresql/data :: volume_operation,()
+apk ¦remove¦alpine-sdk :: Dependencies_operation,()

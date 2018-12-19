@@ -1,0 +1,16 @@
+/ :: workdir_operation,()
+make ¦install :: Build_Execute_operation,()
+entrypoint/ :: add_operation,()
+cmd,-h
+BASEDIR:/tmp/shadowsocks-libev :: env_operation,()
+./configure  :: Build_Execute_operation,()
+apt-get ¦install¦-y¦$DEPENDENCIES :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+$BASEDIR :: workdir_operation,()
+git ¦clone¦https://github.com/shadowsocks/shadowsocks-libev.git¦$BASEDIR :: Dependencies_operation,()
+rm ¦-rf¦$BASEDIR/shadowsocks-libev\\ :: Filesystem_operation,()
+DEPENDENCIES:git-core :: env_operation,()
+make  :: Build_Execute_operation,()
+PORT:8338 :: env_operation,()
+entrypoint,/entrypoint
+from,ubuntu@latest

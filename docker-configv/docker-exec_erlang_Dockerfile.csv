@@ -1,0 +1,8 @@
+/tmp/dexec/build :: volume_operation,()
+apt-get ¦update¦-y¦-qq :: Dependencies_operation,()
+image-common/tmp/dexec/image-common :: add_operation,()
+from,debian:8.0
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,/tmp/dexec/image-common/dexec-script.sh¦escript
+apt-get ¦install¦-y¦patch¦erlang :: Dependencies_operation,()

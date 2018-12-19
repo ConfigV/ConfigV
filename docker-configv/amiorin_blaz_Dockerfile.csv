@@ -1,0 +1,10 @@
+apk ¦add¦--no-cache¦python3 :: Dependencies_operation,()
+/ :: workdir_operation,()
+apk ¦del¦build-dependencies :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--virtual=build-dependencies¦wget¦ca-certificates :: Dependencies_operation,()
+rm ¦-rf¦/app :: Filesystem_operation,()
+from,alpine
+python3 ¦setup.py¦install :: Build_Execute_operation,()
+wget ¦"https://bootstrap.pypa.io/get-pip.py"¦-O¦/dev/stdout¦|¦python3 :: Dependencies_operation,()
+./app :: copy_operation,()
+/app :: workdir_operation,()

@@ -1,0 +1,12 @@
+make ¦ARCH=arm¦prefix=/musl-arm¦install¦-j4 :: Build_Execute_operation,()
+make ¦install¦-j4 :: Build_Execute_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gcc¦make¦libc6-dev¦git¦curl¦ca-certificates¦gcc-arm-linux-gnueabihf¦qemu-user :: Dependencies_operation,()
+from,ubuntu:17.1
+rm ¦-rf¦kernel-headers-3.12.6-5 :: Filesystem_operation,()
+curl ¦https://www.musl-libc.org/releases/musl-1.1.16.tar.gz¦|¦tar¦xzf¦- :: Dependencies_operation,()
+curl ¦-L¦https://github.com/sabotage-linux/kernel-headers/archive/v3.12.6-5.tar.gz¦|¦tar¦xzf¦- :: Dependencies_operation,()
+cd ¦kernel-headers-3.12.6-5 :: Filesystem_operation,()
+CC=arm-linux-gnueabihf-gcc ¦CFLAGS="-march=armv6¦-marm"¦./configure¦--prefix=/musl-arm¦--enable-wrapper=yes :: Other_operation,()
+cd ¦.. :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/musl-1.1.16 :: workdir_operation,()

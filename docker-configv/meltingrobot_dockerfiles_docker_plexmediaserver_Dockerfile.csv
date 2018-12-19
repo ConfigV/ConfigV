@@ -1,0 +1,11 @@
+echo ¦echo¦"[PlexRepo]" > /etc/yum.repos.d/plex.repo :: Filesystem_operation,()
+from,fedora@latest
+dnf ¦-y¦install¦plexmediaserver :: Dependencies_operation,()
+echo ¦echo¦"enabled=1" >> /etc/yum.repos.d/plex.repo :: Filesystem_operation,()
+echo ¦echo¦"gpgkey=https://downloads.plex.tv/plex-keys/PlexSign.key" >> /etc/yum.repos.d/plex.repo :: Filesystem_operation,()
+dnf ¦-y¦update :: Dependencies_operation,()
+expose,32400 3005 8324 32469 1900 32410 32412 32413 32414
+echo ¦echo¦"baseurl=https://downloads.plex.tv/repo/rpm/x86_64/" >> /etc/yum.repos.d/plex.repo :: Filesystem_operation,()
+cmd,/bin/bash¦-c¦PLEX_MEDIA_SERVER_HOME=/usr/lib/plexmediaserver LD_LIBRARY_PATH=/usr/lib/plexmediaserver /usr/lib/plexmediaserver/Plex\\ Media\\ Server
+echo ¦echo¦"name=PlexRepo" >> /etc/yum.repos.d/plex.repo :: Filesystem_operation,()
+echo ¦echo¦"gpgcheck=1" >> /etc/yum.repos.d/plex.repo :: Filesystem_operation,()

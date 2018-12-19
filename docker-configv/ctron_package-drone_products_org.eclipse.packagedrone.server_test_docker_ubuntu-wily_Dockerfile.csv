@@ -1,0 +1,9 @@
+apt-get ¦update¦;¦apt-get¦-y¦install¦openjdk-8-jre-headless :: Dependencies_operation,()
+expose,8080
+apt-get ¦update¦;¦apt-get¦-y¦install¦software-properties-common¦dpkg¦gdebi-core :: Dependencies_operation,()
+org.eclipse.packagedrone.server.deborg.eclipse.packagedrone.server.deb :: copy_operation,()
+cmd,/usr/lib/package-drone-server/instance/server
+from,ubuntu:15.1
+add-apt-repository ¦"deb¦http://archive.ubuntu.com/ubuntu/¦wily¦universe¦multiverse"¦;¦add-apt-repository¦"deb¦http://archive.ubuntu.com/ubuntu/¦wily-updates¦universe¦multiverse" :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+gdebi ¦-n¦org.eclipse.packagedrone.server.deb :: Other_operation,()

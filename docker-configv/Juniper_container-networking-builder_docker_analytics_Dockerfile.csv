@@ -1,0 +1,9 @@
+apt-get ¦download¦contrail-analytics :: Dependencies_operation,()
+apt-cache ¦depends¦contrail-analytics¦|¦egrep¦-v¦"supervisor|<.*>"¦|¦grep¦Depends¦|¦sed¦"s/.*ends:\\¦//"¦|¦tr¦'\\n'¦'¦' :: Other_operation,()
+from,ubuntu:14.04
+rm ¦-f¦/var/lib/dpkg/info/contrail-analytics.postinst :: Filesystem_operation,()
+dpkg ¦--unpack¦contrail-analytics*.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦software-properties-common¦curl¦patch :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-add-repository ¦-y¦ppa:opencontrail :: Other_operation,()
+apt-add-repository ¦-y¦ppa:opencontrail/r2.20 :: Other_operation,()

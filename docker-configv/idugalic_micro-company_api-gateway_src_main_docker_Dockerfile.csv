@@ -1,0 +1,6 @@
+from,java:8.0
+/tmp :: volume_operation,()
+expose,9000
+*.jar/app.jar :: add_operation,()
+bash ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+entrypoint,java¦-Dspring.profiles.active=docker¦-jar¦/app.jar

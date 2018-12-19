@@ -1,0 +1,11 @@
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+expose,4505 4506
+yum ¦update¦-y :: Dependencies_operation,()
+cmd,-l¦info
+entrypoint,salt-master
+yum ¦install¦-y¦https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦sudo¦git¦salt-master¦salt-minion :: Dependencies_operation,()
+/var/cache/salt :: volume_operation,()
+/var/logs/salt :: volume_operation,()
+yum ¦install¦-y¦yum¦install¦epel-release :: Dependencies_operation,()

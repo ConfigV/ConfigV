@@ -1,0 +1,11 @@
+entrypoint,/usr/bin/chronos
+echo ¦echo¦"deb http://repos.mesosphere.io/debian wheezy main" > /etc/apt/sources.list.d/mesosphere.list :: Filesystem_operation,()
+from,debian
+apt-get ¦update :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv¦E56151BF :: Dependencies_operation,()
+expose,8080
+rm ¦/etc/mesos/zk :: Filesystem_operation,()
+rm ¦/etc/chronos/conf/http_port :: Filesystem_operation,()
+DEB_VERSION_MESOS:0.21.1-1.2.debian77 :: env_operation,()
+apt-get ¦-f¦-y¦install¦chronos=$DEB_VERSION_CHRONOS¦mesos=$DEB_VERSION_MESOS :: Dependencies_operation,()
+DEB_VERSION_CHRONOS:2.3.2-0.1.20150207000917.debian77 :: env_operation,()

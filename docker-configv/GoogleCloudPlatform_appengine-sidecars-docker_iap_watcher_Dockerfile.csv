@@ -1,0 +1,16 @@
+apt-get ¦install¦-y¦--no-install-recommends¦python¦python-pip¦cron :: Dependencies_operation,()
+iap_watcher.py. :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"15 */12 * * * curl 'https://www.gstatic.com/iap/verify/public_key-jwk' > /iap_watcher/iap_verify_keys.txt" >> .tmp_cron :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+rm ¦.tmp_cron :: Filesystem_operation,()
+pip ¦install¦google-compute-engine :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦"https://www.gstatic.com/iap/verify/public_key-jwk"¦>¦/iap_watcher/iap_verify_keys.txt :: Dependencies_operation,()
+mkdir ¦/iap_watcher :: Filesystem_operation,()
+/home/vmagent/iap_watcher :: workdir_operation,()
+entrypoint,./iap_watcher.py¦--iap_metadata_key=AEF_IAP_state¦--output_state_file=/iap_watcher/state.json
+from,gcr.io/google_appengine/debian8
+mkdir ¦-p¦/home/vmagent/iap_watcher :: Filesystem_operation,()
+/iap_watcher :: volume_operation,()
+crontab ¦.tmp_cron :: Other_operation,()

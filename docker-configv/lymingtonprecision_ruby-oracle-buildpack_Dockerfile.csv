@@ -1,0 +1,9 @@
+apt-get ¦clean :: Dependencies_operation,()
+PORT:5000 :: env_operation,()
+from,ubuntu:14.04
+ADD. /src :: onbuild_operation,()
+rm ¦-rf¦/build/resources :: Filesystem_operation,()
+./build//build :: add_operation,()
+RUNbash /build/bin/compile :: onbuild_operation,()
+LC_ALL=C ¦DEBIAN_FRONTEND=noninteractive¦bash¦/build/bin/prepare :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

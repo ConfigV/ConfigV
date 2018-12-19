@@ -1,0 +1,12 @@
+unzip ¦web2py.zip :: Filesystem_operation,()
+curl ¦-o¦web2py.zip¦https://codeload.github.com/web2py/web2py/zip/R-2.9.11 :: Dependencies_operation,()
+cp ¦/home/web2py/applications/eden/private/templates/000_config.py¦/home/web2py/applications/eden/models/000_config.py :: Filesystem_operation,()
+sed ¦-i¦'s|EDITING_CONFIG_FILE¦=¦False|EDITING_CONFIG_FILE¦=¦True|'¦/home/web2py/applications/eden/models/000_config.py :: Filesystem_operation,()
+./home/web2py/applications/eden :: add_operation,()
+rm ¦web2py.zip :: Filesystem_operation,()
+mv ¦web2py-R-2.9.11¦/home/web2py :: Filesystem_operation,()
+from,ubuntu:14.1
+apt-get ¦install¦-y¦build-essential¦unzip¦curl¦python-pip¦python-dev¦python-matplotlib¦python-lxml¦python-numpy¦python-dateutil¦python-gdal¦python-yaml¦python-serial¦python-xlwt¦python-shapely¦python-pil¦python-gdal¦python-reportlab¦python-reportla... :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦selenium\\>=2.23.0¦sunburnt\\>=0.6¦TwitterSearch\\>=0.78.4¦requests\\>=2.3.0 :: Dependencies_operation,()
+cmd,python¦/home/web2py/web2py.py¦-i¦0.0.0.0¦-p¦8000¦-a¦eden

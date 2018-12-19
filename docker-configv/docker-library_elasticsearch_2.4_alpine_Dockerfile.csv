@@ -1,0 +1,16 @@
+docker-entrypoint.sh/ :: copy_operation,()
+ELASTICSEARCH_TARBALL="https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-2.4.2.tar.gz":ELASTICSEARCH_TARBALL_ASC="https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-2.4.2.tar.gz.asc" :: env_operation,()
+expose,9200 9300
+ELASTICSEARCH_VERSION:2.4.2 :: env_operation,()
+/usr/share/elasticsearch/data :: volume_operation,()
+GPG_KEY:46095ACC8548582C1A2699A9D27D666CD88E42B4 :: env_operation,()
+config./config :: copy_operation,()
+adduser ¦-S¦-G¦elasticsearch¦elasticsearch :: Permissions_operation,()
+set ¦-ex;¦\\ :: Environment_operation,()
+apk ¦add¦--no-cache¦'su-exec>=0.2'¦bash :: Dependencies_operation,()
+PATH:/usr/share/elasticsearch/bin:$PATH :: env_operation,()
+cmd,elasticsearch
+/usr/share/elasticsearch :: workdir_operation,()
+from,openjdk:8.0
+addgroup ¦-S¦elasticsearch :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh

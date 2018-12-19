@@ -1,0 +1,9 @@
+HOME=/home/app: :: env_operation,()
+adduser ¦-S¦-g¦app¦app :: Permissions_operation,()
+apk ¦add¦--no-cache¦'su-exec>=0.2' :: Dependencies_operation,()
+addgroup ¦-S¦app :: Permissions_operation,()
+$HOME/api :: workdir_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+entrypoint,docker-entrypoint.sh
+from,node:7.6
+cmd,npm¦start

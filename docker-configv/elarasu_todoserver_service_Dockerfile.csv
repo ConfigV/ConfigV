@@ -1,0 +1,9 @@
+conf/circus/conf.d/todoserver.conf/etc/circus/conf.d/todoserver.conf :: add_operation,()
+from,openmason/fleet-nginx:latest
+mkdir ¦/deploy :: Filesystem_operation,()
+./deploy/ :: add_operation,()
+/deploy :: workdir_operation,()
+echo ¦echo¦'root:test123' | chpasswd :: Filesystem_operation,()
+conf/nginx/etc/nginx/sites-enabled :: add_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+apt-get ¦update;¦apt-get¦install¦-yq¦libpq-dev¦postgresql-client-common¦postgresql-client-9.3¦libffi-dev¦binutils¦libproj-dev¦gdal-bin¦libgeoip1¦python-gdal; :: Dependencies_operation,()

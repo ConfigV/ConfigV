@@ -1,0 +1,10 @@
+tar ¦xzf¦/tmp/teeproxy-master.tar.gz¦-C¦/tmp :: Filesystem_operation,()
+mv ¦teeproxy-master¦/usr/local/bin/teeproxy :: Filesystem_operation,()
+go ¦build :: Build_Execute_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+wget ¦-q¦-O¦/tmp/teeproxy-master.tar.gz¦https://github.com/chrislusf/teeproxy/archive/master.tar.gz :: Dependencies_operation,()
+apk ¦add¦--update¦go :: Dependencies_operation,()
+from,jalaziz/base:alpine
+cd ¦/tmp/teeproxy-master :: Filesystem_operation,()
+entrypoint,/usr/local/bin/teeproxy
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()

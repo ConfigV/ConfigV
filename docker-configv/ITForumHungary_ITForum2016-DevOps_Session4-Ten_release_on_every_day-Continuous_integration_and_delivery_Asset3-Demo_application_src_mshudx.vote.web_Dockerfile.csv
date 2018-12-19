@@ -1,0 +1,9 @@
+entrypoint,dotnet¦mshudx.vote.web.dll
+expose,5000
+from,microsoft/aspnetcore:1.0.1
+curl ¦-sL¦https://deb.nodesource.com/setup_6.x¦|¦bash¦- :: Dependencies_operation,()
+/app :: workdir_operation,()
+$source. :: copy_operation,()
+NUGET_XMLDOC_MODE:skip :: env_operation,()
+ASPNETCORE_URLS:http://*:5000 :: env_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()

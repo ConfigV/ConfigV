@@ -1,0 +1,10 @@
+wget ¦https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.3.2/elasticsearch-analysis-ik-5.3.2.zip¦-O¦analysis-ik.zip :: Dependencies_operation,()
+rm ¦analysis-ik.zip :: Filesystem_operation,()
+mkdir ¦plugins/analysis-pinyin :: Filesystem_operation,()
+wget ¦https://github.com/medcl/elasticsearch-analysis-pinyin/releases/download/v5.3.2/elasticsearch-analysis-pinyin-5.3.2.zip¦-O¦analysis-pinyin.zip :: Dependencies_operation,()
+mkdir ¦plugins/analysis-ik :: Filesystem_operation,()
+from,docker.elastic.co/elasticsearch/elasticsearch:5.3.2
+rm ¦analysis-pinyin.zip :: Filesystem_operation,()
+expose,9200 9300
+unzip ¦analysis-ik.zip¦-d¦plugins/analysis-ik :: Filesystem_operation,()
+unzip ¦analysis-pinyin.zip¦-d¦plugins/analysis-pinyin :: Filesystem_operation,()

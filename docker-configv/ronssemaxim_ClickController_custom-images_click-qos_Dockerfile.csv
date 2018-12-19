@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦net-tools¦nano¦iputils-ping¦openssh-server¦slurm¦htop¦netsniff-ng :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+echo ¦echo¦'root:root' | chpasswd :: Filesystem_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+expose,22
+fillInClickVariables.sh/usr/src/app/ :: copy_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+from,ronssemaxim/fastclick
+cmd,service¦ssh¦restart¦&&¦bash¦fillInClickVariables.sh¦click.click¦filledIn.click¦--start-click¦--print¦--verbose
+click.click/usr/src/app/ :: copy_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

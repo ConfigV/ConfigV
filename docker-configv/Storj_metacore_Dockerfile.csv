@@ -1,0 +1,14 @@
+/metacore/ :: workdir_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+from,ubuntu:14.04
+python3 ¦setup.py¦install :: Build_Execute_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦python3-pip :: Dependencies_operation,()
+./metacore/ :: add_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+python3 ¦setup.py¦test :: Build_Execute_operation,()
+start.sh/start.sh :: add_operation,()
+root :: user_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+entrypoint,//start.sh

@@ -1,0 +1,12 @@
+/opt/anon :: workdir_operation,()
+anonuser :: user_operation,()
+git ¦clone¦https://github.com/edsu/anon.git :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+echo ¦groupadd¦-r anonuser -g 433 && adduser --uid 431 --system --gid 433 --home /opt/anon --shell /sbin/nologin anonuser && adduser anonuser sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+/opt/anon/anon :: workdir_operation,()
+from,node@wheezy
+chown ¦-R¦anonuser:anonuser¦. :: Permissions_operation,()
+entrypoint,/opt/anon/anon/run.sh
+npm ¦install¦-g¦coffee-script :: Dependencies_operation,()
+run.sh./run.sh :: copy_operation,()
+chmod ¦755¦./run.sh :: Permissions_operation,()

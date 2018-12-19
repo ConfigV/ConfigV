@@ -1,0 +1,9 @@
+from,alpine:3.2
+cmd,wrapdocker
+apk ¦add¦--update¦iptables¦ca-certificates¦lxc¦e2fsprogs :: Dependencies_operation,()
+https://get.docker.com/builds/Linux/x86_64/docker-latest/usr/local/bin/docker :: add_operation,()
+./wrapdocker/usr/local/bin/wrapdocker :: add_operation,()
+chmod ¦+x¦/usr/local/bin/dmsetup¦/usr/local/bin/docker¦/usr/local/bin/wrapdocker :: Permissions_operation,()
+./dmsetup/usr/local/bin/dmsetup :: add_operation,()
+/var/lib/docker :: volume_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

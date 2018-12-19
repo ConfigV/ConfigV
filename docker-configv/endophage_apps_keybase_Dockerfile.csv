@@ -1,0 +1,11 @@
+curl ¦-O¦https://dist.keybase.io/linux/deb/keybase-latest-amd64.deb :: Dependencies_operation,()
+adduser ¦--disabled-login¦--home¦$HOME¦--gecos¦""¦keybase :: Permissions_operation,()
+HOME:/home/keybase :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦¦apt-transport-https¦¦ca-certificates¦¦curl :: Dependencies_operation,()
+from,ubuntu:16.04
+$HOME :: workdir_operation,()
+dpkg ¦-i¦keybase-latest-amd64.deb :: Dependencies_operation,()
+chown ¦-R¦keybase:keybase¦$HOME :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,keybase
+keybase :: user_operation,()

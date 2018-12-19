@@ -1,0 +1,8 @@
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+entrypoint,/usr/bin/pgcli
+pip ¦install¦pgcli :: Dependencies_operation,()
+apk ¦add¦--no-cache¦python2¦libevent¦libpq :: Dependencies_operation,()
+from,alpine@edge
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦python2-dev¦postgresql-dev¦libevent-dev¦musl-dev¦gcc :: Dependencies_operation,()
+apk ¦del¦.build-deps :: Dependencies_operation,()
+python ¦-m¦ensurepip :: Build_Execute_operation,()

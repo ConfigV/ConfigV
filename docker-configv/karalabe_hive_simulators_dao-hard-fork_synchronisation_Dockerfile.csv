@@ -1,0 +1,14 @@
+entrypoint,/simulator.sh
+from,alpine:3.3
+HIVE_FORK_DAO_BLOCK:128 :: env_operation,()
+simulator.sh/simulator.sh :: add_operation,()
+mkdir ¦/blocks :: Filesystem_operation,()
+expose,30303 30304 30305
+genesis.json/genesis.json :: add_operation,()
+nofork-chain.rlp.tar.xz/ :: add_operation,()
+apk ¦add¦--update¦bash¦curl¦jq :: Dependencies_operation,()
+chmod ¦+x¦/simulator.sh :: Permissions_operation,()
+cd ¦go-ethereum :: Filesystem_operation,()
+profork-chain.rlp.tar.xz/ :: add_operation,()
+touch ¦chain.rlp :: Filesystem_operation,()
+make ¦all :: Build_Execute_operation,()

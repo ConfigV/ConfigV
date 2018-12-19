@@ -1,0 +1,13 @@
+expose,3310
+tar ¦xzf¦/tmp/s6-overlay-amd64.tar.gz¦-C¦/ :: Filesystem_operation,()
+https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz/tmp/ :: add_operation,()
+from,alpine:3.4
+apk ¦add¦--update¦--no-cache¦clamav=0.99.2-r1¦clamav-libunrar=0.99.2-r1 :: Dependencies_operation,()
+entrypoint,/init
+S6_KEEP_ENV=1: :: env_operation,()
+chmod ¦+x¦/etc/services.d/*/run :: Permissions_operation,()
+rm ¦-rf¦/tmp/s6-overlay-amd64.tar.gz :: Filesystem_operation,()
+rootfs/ :: copy_operation,()
+freshclam ¦--log=/dev/null :: Other_operation,()
+cmd,/usr/sbin/clamd
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

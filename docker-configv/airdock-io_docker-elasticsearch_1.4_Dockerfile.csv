@@ -1,0 +1,8 @@
+cmd,tini¦-g¦--¦gosu¦elasticsearch:elasticsearch¦/usr/share/elasticsearch/bin/elasticsearch¦--default.config¦/etc/elasticsearch/elasticsearch.yml
+ELASTICSEARCH_VERSION:1.4.5 :: env_operation,()
+echo ¦apt-get¦update -qq && apt-get install -y --no-install-recommends ca-certificates && curl https://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add - && echo 'deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stabl... :: Filesystem_operation,()
+/var/log/elasticsearch :: volume_operation,()
+expose,9200 9300
+config/*.yml/tmp/ :: add_operation,()
+/var/lib/elasticsearch :: volume_operation,()
+from,airdock/oracle-jdk:1.8

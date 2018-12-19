@@ -1,0 +1,10 @@
+ln ¦--symbolic¦--force¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+from,ubuntu@trusty
+entrypoint,nginx
+expose,80
+ln ¦--symbolic¦--force¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+apt-get ¦install¦--yes¦nginx :: Dependencies_operation,()
+cmd,-g¦daemon off;
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦--recursive¦--force¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

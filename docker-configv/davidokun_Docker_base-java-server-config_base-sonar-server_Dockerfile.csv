@@ -1,0 +1,10 @@
+unzip ¦sonarqube-${SONAR_VERSION}.zip :: Filesystem_operation,()
+from,david/centos7-base-java-8-server
+mkdir ¦/usr/local/sonar :: Filesystem_operation,()
+COBERTURA_VERSION=1.6.3: :: env_operation,()
+wget ¦https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-${SONAR_VERSION}.zip :: Dependencies_operation,()
+mv ¦sonarqube-${SONAR_VERSION}¦/usr/local/sonar/ :: Filesystem_operation,()
+rm ¦sonarqube-${SONAR_VERSION}.zip :: Filesystem_operation,()
+mv ¦sonar-cobertura-plugin-${COBERTURA_VERSION}.jar¦/usr/local/sonar/sonarqube-${SONAR_VERSION}/extensions/plugins/ :: Filesystem_operation,()
+SONAR_VERSION=5.1.2: :: env_operation,()
+wget ¦http://downloads.sonarsource.com/plugins/org/codehaus/sonar-plugins/sonar-cobertura-plugin/${COBERTURA_VERSION}/sonar-cobertura-plugin-${COBERTURA_VERSION}.jar :: Dependencies_operation,()

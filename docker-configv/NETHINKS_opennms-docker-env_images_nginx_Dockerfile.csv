@@ -1,0 +1,9 @@
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+files/nginx.repo/etc/yum.repos.d/ :: copy_operation,()
+from,centos:7.3
+scripts/*/opt/containerscripts/ :: copy_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+yum ¦-y¦install¦nginx-1.10.2-1.el7.ngx¦#¦create¦directories¦and¦links :: Dependencies_operation,()

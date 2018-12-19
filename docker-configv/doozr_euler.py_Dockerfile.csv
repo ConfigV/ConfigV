@@ -1,0 +1,13 @@
+.//euler/ :: copy_operation,()
+apk ¦--update¦add¦--no-cache¦python3 :: Dependencies_operation,()
+rm ¦-f¦/var/cache/apk/APKINDEX* :: Filesystem_operation,()
+mkdir ¦/euler :: Filesystem_operation,()
+cmd,nosetests
+/euler :: workdir_operation,()
+python3 ¦-m¦ensurepip :: Build_Execute_operation,()
+rm ¦-r¦/root/.cache :: Filesystem_operation,()
+requirements.txt/euler :: copy_operation,()
+from,alpine:3.4
+pip3 ¦install¦--upgrade¦pip¦setuptools :: Dependencies_operation,()
+rm ¦-r¦/usr/lib/python*/ensurepip :: Filesystem_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()

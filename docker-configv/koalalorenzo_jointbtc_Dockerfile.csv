@@ -1,0 +1,14 @@
+GENERATE_WALLET=True: :: env_operation,()
+DJANGO_SETTINGS_MODULE=jointbtc.settings.docker: :: env_operation,()
+requirements.txt/tmp/requirements.txt :: add_operation,()
+rm ¦-rf¦staticfiles/* :: Filesystem_operation,()
+/code :: workdir_operation,()
+mkdir ¦/code :: Filesystem_operation,()
+cmd,python¦manage.py¦runserver¦0.0.0.0:8000
+pip ¦install¦-r¦/tmp/requirements.txt :: Dependencies_operation,()
+from,python:2.7
+expose,8000
+./code :: add_operation,()
+python ¦manage.py¦collectstatic¦--noinput :: Build_Execute_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+BLOCKCHAIN_API_CODE="": :: env_operation,()

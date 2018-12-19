@@ -1,0 +1,15 @@
+PYLEARN2_DATA_PATH:$HOME/.data/lisa/data :: env_operation,()
+apt-get ¦install¦-y¦python¦wget¦vim¦git :: Dependencies_operation,()
+HOME:/home/huge:/pylearn2/pylearn2/scripts :: env_operation,()
+huge :: user_operation,()
+$HOME/pylearn2 :: workdir_operation,()
+$HOME :: workdir_operation,()
+apt-get ¦install¦-y¦make¦bc¦libprotobuf-dev¦libleveldb-dev¦libsnappy-dev¦libopencv-dev¦libboost-all-dev¦libhdf5-serial-dev¦libblas-dev¦libatlas-base-dev¦libgflags-dev¦libgoogle-glog-dev¦liblmdb-dev¦protobuf-compiler¦libsvm-dev¦libsvm3¦libsvm-toolse... :: Dependencies_operation,()
+entrypoint,/bin/bash
+sudo ¦python¦setup.py¦develop :: Other_operation,()
+from,ubuntu:14.04
+echo ¦adduser¦--disabled-password --gecos '' huge && adduser huge sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/lisa-lab/pylearn2.git :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-setuptools¦python-pip¦python-dev¦python-numpy¦python-scipy¦python-yaml¦python-matplotlib¦liblapack-dev¦python-nose2¦cython :: Dependencies_operation,()
+sudo ¦pip¦install¦theano :: Other_operation,()

@@ -1,0 +1,10 @@
+expose,80 80
+from,golang
+cmd,-path=/blog.git¦-http=:80
+go ¦install¦github.com/ThatsMrTalbot/blog/cmd/blog :: Build_Execute_operation,()
+mkdir ¦/blog.git :: Filesystem_operation,()
+go ¦get¦github.com/ThatsMrTalbot/blog/cmd/blog/... :: Build_Execute_operation,()
+.$GOPATH/src/github.com/ThatsMrTalbot/blog :: copy_operation,()
+entrypoint,blog
+/blog.git :: volume_operation,()
+mkdir ¦-p¦$GOPATH/src/github.com/ThatsMrTalbot/blog :: Filesystem_operation,()

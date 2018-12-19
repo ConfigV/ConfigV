@@ -1,0 +1,9 @@
+entrypoint.sh/opt/entrypoint.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦golang :: Dependencies_operation,()
+mkdir ¦/opt/gopath :: Filesystem_operation,()
+export ¦GOPATH=/opt/gopath :: Environment_operation,()
+git ¦clone¦https://github.com/firatkucuk/kodayif.git¦/opt/kodayif :: Dependencies_operation,()
+go ¦get¦github.com/streadway/amqp :: Build_Execute_operation,()
+from,ubuntu:14.04
+cmd,/opt/entrypoint.sh

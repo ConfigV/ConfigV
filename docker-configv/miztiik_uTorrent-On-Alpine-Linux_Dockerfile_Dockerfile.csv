@@ -1,0 +1,7 @@
+ln ¦-s¦/usr/lib/libssl.so.1.0.0¦/usr/lib/libssl.so.0.9.8 :: Filesystem_operation,()
+from,alpine@latest
+cmd,/opt/utorrent/utserver.conf¦&
+ln ¦-s¦/usr/lib/libcrypto.so.1.0.0¦/usr/lib/libcrypto.so.0.9.8 :: Filesystem_operation,()
+echo ¦apk¦add --update curl wget tar libgcc openssl && curl -o glibc-2.21-r2.apk "https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk" && apk add --allow-untrust... :: Filesystem_operation,()
+entrypoint,/opt/utorrent/utserver¦-settingspath¦/opt/utorrent/¦-configfile
+expose,2891 8085

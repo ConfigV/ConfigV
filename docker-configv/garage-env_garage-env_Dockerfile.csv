@@ -1,0 +1,11 @@
+apt-get ¦clean :: Dependencies_operation,()
+/garage :: volume_operation,()
+from,stackbrew/ubuntu:saucy
+groupadd ¦--gid¦9999¦garage¦&&\\ :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+garage/var/garage/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/var/garage/info¦--help
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+chgrp ¦-R¦garage¦/var/garage :: Other_operation,()
+/garage :: workdir_operation,()

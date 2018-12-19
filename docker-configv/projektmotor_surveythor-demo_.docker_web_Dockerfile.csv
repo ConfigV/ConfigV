@@ -1,0 +1,12 @@
+nproc  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦libicu-dev¦libzip-dev¦libjpeg-dev¦libpng-dev¦git-core¦php5-sqlite¦php5-intl¦php5-mysql¦php5-curl¦php5-dev¦acl¦mysql-client :: Dependencies_operation,()
+from,php:5.6
+/init-container.sh  :: Other_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()
+./init-container.sh/init-container.sh :: copy_operation,()
+./init-project.sh/init-project.sh :: copy_operation,()
+/var/www/html :: workdir_operation,()
+expose,80
+docker-php-ext-configure ¦gd¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+./var/www/html :: copy_operation,()

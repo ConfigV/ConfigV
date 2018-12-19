@@ -1,0 +1,20 @@
+wget ¦http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key¦-O¦archive.key :: Dependencies_operation,()
+conf/hdfs-site.xml/etc/hadoop/conf/hdfs-site.xml :: copy_operation,()
+conf/core-site.xml/etc/hadoop/conf/core-site.xml :: copy_operation,()
+conf/hadoop-env.sh/etc/hadoop/conf/hadoop-env.sh :: copy_operation,()
+conf/cloudera.list/etc/apt/sources.list.d/cloudera.list :: copy_operation,()
+conf/cloudera.pref/etc/apt/preferences.d/cloudera.pref :: copy_operation,()
+conf/mapred-site.xml/etc/hadoop/conf/mapred-site.xml :: copy_operation,()
+sudo ¦-u¦hdfs¦hdfs¦namenode¦-format :: Other_operation,()
+conf/python.list/etc/apt/sources.list.d/python.list :: copy_operation,()
+from,nimmis/java:oracle-7-jdk
+conf/yarn-site.xml/etc/hadoop/conf/yarn-site.xml :: copy_operation,()
+sudo ¦apt-key¦add¦archive.key :: Other_operation,()
+sudo ¦apt-get¦install¦-y¦hadoop-conf-pseudo :: Other_operation,()
+sudo ¦apt-get¦update :: Other_operation,()
+/ :: workdir_operation,()
+sudo ¦apt-get¦install¦-y¦zookeeper-server :: Other_operation,()
+conf/run-hadoop.sh/usr/bin/run-hadoop.sh :: copy_operation,()
+expose,9999
+cmd,/usr/bin/run-hadoop.sh
+chmod ¦+x¦/usr/bin/run-hadoop.sh :: Permissions_operation,()

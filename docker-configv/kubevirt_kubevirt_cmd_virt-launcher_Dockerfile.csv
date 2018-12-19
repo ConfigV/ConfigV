@@ -1,0 +1,9 @@
+yum ¦-y¦install¦libvirt-client :: Dependencies_operation,()
+from,centos:7.2
+entrypoint,/virt-launcher
+virt-launcher/virt-launcher :: copy_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦localinstall¦http://resources.ovirt.org/pub/yum-repo/ovirt-release40.rpm :: Dependencies_operation,()
+cmd,--domain-path=/domain.xml¦--libvirt-uri=qemu:///system
+yum ¦-y¦install¦qemu-img-ev¦qemu-kvm-ev¦qemu-kvm-tools-ev¦qemu-system-x86 :: Dependencies_operation,()
+yum ¦-y¦localinstall¦https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm :: Dependencies_operation,()

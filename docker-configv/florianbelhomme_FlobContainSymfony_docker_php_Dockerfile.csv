@@ -1,0 +1,20 @@
+buildDeps=" ¦zlib1g-dev¦" :: Other_operation,()
+php.ini$PHP_INI_DIR/conf.d/z_docker.ini :: copy_operation,()
+a2ensite ¦docker :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+vhost.conf/etc/apache2/sites-available/docker.conf :: copy_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦-o¦APT::AutoRemove::RecommendsImportant=false¦-o¦APT::AutoRemove::SuggestsImportant=false¦$buildDeps :: Dependencies_operation,()
+from,php:7.1
+a2enmod ¦rewrite :: Other_operation,()
+entrypoint,launcher
+/www :: workdir_operation,()
+service ¦apache2¦restart :: Build_Execute_operation,()
+chmod ¦+x¦/usr/local/bin/launcher :: Permissions_operation,()
+mkdir ¦-p¦/www/web :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦$buildDeps¦ssl-cert :: Dependencies_operation,()
+cmd,apache2-foreground
+a2dissite ¦000-default :: Other_operation,()
+launcher.sh/usr/local/bin/launcher :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-install ¦opcache¦zip¦pdo_mysql :: Other_operation,()

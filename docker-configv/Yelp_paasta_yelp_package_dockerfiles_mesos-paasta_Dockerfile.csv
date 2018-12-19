@@ -1,0 +1,13 @@
+./start.sh/start.sh :: add_operation,()
+./mesos_rsa.pub/root/.ssh/authorized_keys :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,examplecluster_mesosbase
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+./mesos_rsa/root/.ssh/id_rsa :: add_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+chmod ¦600¦/root/.ssh/id_rsa :: Permissions_operation,()
+./cron.d/etc/cron.d :: add_operation,()
+mkdir ¦-p¦/root/.ssh :: Filesystem_operation,()
+mkdir ¦-p¦/var/log/paasta_logs :: Filesystem_operation,()
+apt-get ¦-y¦install¦python-tox¦python-setuptools¦python-dev¦libyaml-dev¦openssh-server :: Dependencies_operation,()
+chmod ¦700¦/root/.ssh :: Permissions_operation,()

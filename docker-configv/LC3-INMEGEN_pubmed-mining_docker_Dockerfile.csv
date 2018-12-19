@@ -1,0 +1,11 @@
+git ¦clone¦https://github.com/LC3-INMEGEN/pubmed-mining.git :: Dependencies_operation,()
+/galaxy :: workdir_operation,()
+/galaxy/config :: workdir_operation,()
+ln ¦-s¦../../pubmed-mining/pubmedmining_tools.xml¦. :: Filesystem_operation,()
+pip ¦install¦-r¦~/pubmed-mining/requirements.txt :: Dependencies_operation,()
+ln ¦-s¦../../pubmed-mining/¦. :: Filesystem_operation,()
+tool_config_file ¦=¦config/tool_conf.xml.sample,config/pubmedmining_tools.xml :: Other_operation,()
+cmd,/usr/bin/startup
+from,bgruening/galaxy-stable
+expose,8800
+/galaxy/tools :: workdir_operation,()

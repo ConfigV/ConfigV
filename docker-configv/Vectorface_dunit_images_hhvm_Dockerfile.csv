@@ -1,0 +1,10 @@
+from,debian@wheezy
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+http://dl.hhvm.com/conf/hhvm.gpg.key/hhvm.gpg.key :: add_operation,()
+apt-key ¦add¦/hhvm.gpg.key :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://dl.hhvm.com/debian wheezy main" > /etc/apt/sources.list.d/hhvm.list :: Filesystem_operation,()
+apt-get ¦-y¦install¦$INSTALL_PACKAGES :: Dependencies_operation,()
+INSTALL_PACKAGES:hhvm :: env_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/hhvm.gpg.key :: Filesystem_operation,()

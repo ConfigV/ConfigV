@@ -1,0 +1,10 @@
+curl ¦-o¦/usr/local/go1.2.linux-amd64.tar.gz¦https://go.googlecode.com/files/go1.2.linux-amd64.tar.gz :: Dependencies_operation,()
+PATH:$PATH:/usr/local/go/bin :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+tar ¦-C¦/usr/local¦-xzf¦/usr/local/go1.2.linux-amd64.tar.gz :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦7F0CEB10 :: Dependencies_operation,()
+rm ¦/usr/local/go1.2.linux-amd64.tar.gz :: Filesystem_operation,()
+apt-get ¦install¦-y¦mongodb-10gen=2.4.9 :: Dependencies_operation,()
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list :: Filesystem_operation,()
+from,ubuntu

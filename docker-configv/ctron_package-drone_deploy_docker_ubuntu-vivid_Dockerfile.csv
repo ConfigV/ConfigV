@@ -1,0 +1,9 @@
+apt-get ¦update¦;¦apt-get¦-y¦install¦package-drone-server :: Dependencies_operation,()
+from,ubuntu:15.04
+add-apt-repository ¦"deb¦http://de.archive.ubuntu.com/ubuntu/¦utopic¦universe¦multiverse"¦;¦add-apt-repository¦"deb¦http://de.archive.ubuntu.com/ubuntu/¦utopic-updates¦universe¦multiverse" :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update¦;¦apt-get¦-y¦install¦openjdk-8-jre-headless :: Dependencies_operation,()
+echo ¦apt-key¦adv --keyserver hkp://keys.gnupg.net --recv-keys 97A336A9320E6224 ; sh -c "echo deb http://repo.dentrassi.de/apt package-drone main > /etc/apt/sources.list.d/PackageDrone.list" :: Filesystem_operation,()
+cmd,/usr/lib/package-drone/instance/server
+apt-get ¦update¦;¦apt-get¦-y¦install¦software-properties-common¦dpkg :: Dependencies_operation,()
+expose,8080

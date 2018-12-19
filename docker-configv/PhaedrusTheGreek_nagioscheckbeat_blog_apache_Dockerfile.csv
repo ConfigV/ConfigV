@@ -1,0 +1,13 @@
+yum ¦clean¦all :: Dependencies_operation,()
+chmod ¦-v¦+x¦/run-httpd.sh :: Permissions_operation,()
+httpd.conf/etc/httpd/conf/httpd.conf :: copy_operation,()
+yum ¦-y¦install¦httpd¦epel-release :: Dependencies_operation,()
+rpm ¦-ivh¦https://github.com/PhaedrusTheGreek/nagioscheckbeat/blob/master/build/nagioscheckbeat-0.5.0-x86_64.rpm?raw=true :: Dependencies_operation,()
+check_apachestatus.pl/usr/lib64/nagios/plugins/check_apachestatus.pl :: copy_operation,()
+yum ¦-y¦install¦nagios-plugins-all¦perl-LWP-Protocol-https.noarch :: Dependencies_operation,()
+expose,80
+run-httpd.sh/run-httpd.sh :: add_operation,()
+Version:2.4.6-31 :: label_operation,()
+cmd,/run-httpd.sh
+yum ¦-y¦update :: Dependencies_operation,()
+from,centos@latest

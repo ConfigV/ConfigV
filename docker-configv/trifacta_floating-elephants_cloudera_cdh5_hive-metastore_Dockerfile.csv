@@ -1,0 +1,8 @@
+root :: user_operation,()
+from,trifacta/ubuntu-cdh5-base
+start.sh/opt/hadoop-docker/ :: copy_operation,()
+expose,9083
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦hive-metastore¦libmysql-java :: Dependencies_operation,()
+ln ¦-s¦/usr/share/java/mysql-connector-java.jar¦/usr/lib/hive/lib/mysql-connector-java.jar :: Filesystem_operation,()
+cmd,/opt/hadoop-docker/start.sh

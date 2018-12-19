@@ -1,0 +1,16 @@
+npm ¦install¦-g¦npm@"$NPM_VERSION" :: Dependencies_operation,()
+gpg ¦--verify¦SHASUMS256.txt.asc :: Other_operation,()
+curl ¦-SLO¦"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" :: Dependencies_operation,()
+curl ¦-SLO¦"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+cmd,node¦app.js
+./src :: copy_operation,()
+NODE_VERSION:0.12.5 :: env_operation,()
+NPM_VERSION:2.11.3 :: env_operation,()
+tar ¦-xzf¦"node-v$NODE_VERSION-linux-x64.tar.gz"¦-C¦/usr/local¦--strip-components=1 :: Filesystem_operation,()
+gpg ¦--keyserver¦pool.sks-keyservers.net¦--recv-keys¦7937DFD2AB06298B2293C3187D33FF9D0246406D¦114F43EE0176B71C7BC219DD50A3051F888C628D :: Other_operation,()
+grep ¦"¦node-v$NODE_VERSION-linux-x64.tar.gz\\$"¦SHASUMS256.txt.asc¦|¦sha256sum¦-c¦- :: Other_operation,()
+rm ¦"node-v$NODE_VERSION-linux-x64.tar.gz"¦SHASUMS256.txt.asc :: Filesystem_operation,()
+/src :: workdir_operation,()
+expose,8080
+npm ¦cache¦clear :: Dependencies_operation,()

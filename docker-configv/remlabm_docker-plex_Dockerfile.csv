@@ -1,0 +1,21 @@
+mkdir ¦/etc/service/plex :: Filesystem_operation,()
+chmod ¦+x¦/etc/service/plex/run :: Permissions_operation,()
+usermod ¦-g¦100¦plex :: Permissions_operation,()
+apt-get ¦install¦-qy¦gdebi-core¦wget :: Dependencies_operation,()
+from,phusion/baseimage:0.9.11
+HOME:/root :: env_operation,()
+firstrun.sh/etc/my_init.d/firstrun.sh :: add_operation,()
+plex.sh/etc/service/plex/run :: add_operation,()
+expose,32400
+/data :: volume_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦-p¦/etc/my_init.d :: Filesystem_operation,()
+gdebi ¦-n¦/tmp/plexmediaserver_0.9.9.13.525-197d5ed_amd64.deb :: Other_operation,()
+plexmediaserver/etc/default/plexmediaserver :: add_operation,()
+usermod ¦-u¦999¦plex :: Permissions_operation,()
+chmod ¦+x¦/etc/my_init.d/firstrun.sh :: Permissions_operation,()
+cmd,/sbin/my_init
+wget ¦-P¦/tmp¦http://downloads.plexapp.com/plex-media-server/0.9.9.13.525-197d5ed/plexmediaserver_0.9.9.13.525-197d5ed_amd64.deb :: Dependencies_operation,()
+rm ¦-f¦/tmp/plexmediaserver_0.9.9.13.525-197d5ed_amd64.deb :: Filesystem_operation,()
+echo ¦echo¦plexmediaserver_0.9.9.13.525-197d5ed_amd64.deb | awk -F_ '{print $2}' > /tmp/version :: Filesystem_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()

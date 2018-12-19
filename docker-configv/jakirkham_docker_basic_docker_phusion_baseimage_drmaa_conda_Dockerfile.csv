@@ -1,0 +1,11 @@
+cmd,/bin/bash
+miniconda/usr/share/miniconda :: add_operation,()
+SGE_CONFIG_DIR=/usr/share/gridengine:SGE_ROOT=/var/lib/gridengine :: env_operation,()
+entrypoint,/sbin/my_init¦--¦/usr/share/docker/entrypoint.sh
+from,phusion/baseimage:0.9.17
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+/usr/share/miniconda/install_miniconda.sh  :: Other_operation,()
+/usr/share/gridengine/install_ge.sh  :: Other_operation,()
+docker/usr/share/docker :: add_operation,()
+gridengine/usr/share/gridengine :: add_operation,()

@@ -1,0 +1,15 @@
+mv ¦./nginx/app¦/etc/nginx/sites-available/app :: Filesystem_operation,()
+./var/www :: add_operation,()
+/var/www/ :: volume_operation,()
+from,app_nginx
+mv ¦./nginx/nginx.conf¦/etc/nginx/conf/nginx.conf :: Filesystem_operation,()
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+rm ¦-rf¦./nginx/ :: Filesystem_operation,()
+grunt  :: Other_operation,()
+/var/ngx_pagespeed_cache :: volume_operation,()
+bower ¦install¦--allow-root :: Dependencies_operation,()
+/var/www :: workdir_operation,()
+ln ¦-s¦/etc/nginx/sites-available/app¦/etc/nginx/sites-enabled/app :: Filesystem_operation,()
+/etc/nginx/ssl :: volume_operation,()
+expose,443
+npm ¦install :: Dependencies_operation,()

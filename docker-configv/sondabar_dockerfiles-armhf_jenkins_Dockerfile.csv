@@ -1,0 +1,18 @@
+apt-get ¦update :: Dependencies_operation,()
+jenkins :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+mkdir ¦-p¦/usr/share/jenkins/ref/init.groovy.d :: Filesystem_operation,()
+chown ¦-R¦jenkins¦"$JENKINS_HOME"¦/usr/share/jenkins/ref :: Permissions_operation,()
+from,sondabar/armhf-java
+curl ¦-L¦http://mirrors.jenkins-ci.org/war/1.602/jenkins.war¦-o¦/usr/share/jenkins/jenkins.war :: Dependencies_operation,()
+/var/jenkins_home :: volume_operation,()
+JENKINS_VERSION:1.602 :: env_operation,()
+JENKINS_UC:https://updates.jenkins-ci.org :: env_operation,()
+JENKINS_HOME:/var/jenkins_home :: env_operation,()
+apt-get ¦install¦-y¦wget¦git¦curl¦zip :: Dependencies_operation,()
+expose,50000
+jenkins.sh/usr/local/bin/jenkins.sh :: copy_operation,()
+plugins.sh/usr/local/bin/plugins.sh :: copy_operation,()
+entrypoint,/usr/local/bin/jenkins.sh
+useradd ¦-d¦"$JENKINS_HOME"¦-u¦1000¦-m¦-s¦/bin/bash¦jenkins :: Permissions_operation,()
+init.groovy/usr/share/jenkins/ref/init.groovy.d/tcp-slave-angent-port.groovy :: copy_operation,()

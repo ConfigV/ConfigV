@@ -1,0 +1,13 @@
+/tmp :: workdir_operation,()
+apt-get ¦install¦-y¦postgresql-9.3 :: Dependencies_operation,()
+echo ¦echo¦"data_directory = '/data/postgres/db'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+echo ¦echo¦"logging_collector = on" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+expose,5432
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+echo ¦echo¦"log_directory = '/data/postgres/log'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+from,ubuntu
+apt-get ¦-y¦update :: Dependencies_operation,()
+entrypoint,/run.sh
+echo ¦echo¦"listen_addresses = '*'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+run.sh/run.sh :: add_operation,()
+chmod ¦755¦/run.sh :: Permissions_operation,()

@@ -1,0 +1,16 @@
+git ¦clone¦https://github.com/letsencrypt/letsencrypt :: Dependencies_operation,()
+DOMAINS:"" :: env_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦install¦-y¦git¦python3-pip :: Dependencies_operation,()
+from,ubuntu@latest
+/opt :: workdir_operation,()
+HTTP_PORT:"80" :: env_operation,()
+/opt/letsencrypt/letsencrypt-auto ¦-t¦-vvv¦--debug¦--help :: Other_operation,()
+start.sh/start.sh :: add_operation,()
+TERM:"xterm" :: env_operation,()
+expose,443
+HTTPS_PORT:"443" :: env_operation,()
+renew.sh/renew.sh :: add_operation,()
+cmd,/start.sh
+/etc/ssl/private :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()

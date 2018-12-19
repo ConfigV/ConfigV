@@ -1,0 +1,12 @@
+crails :: user_operation,()
+apt-get ¦-y¦remove¦wget¦cmake¦scons¦build-essential¦libbz2-dev¦libssl-dev¦git :: Dependencies_operation,()
+rm ¦-Rf¦/usr/include/boost :: Filesystem_operation,()
+rm ¦-Rf¦/usr/share/crails¦/usr/bin/crails :: Filesystem_operation,()
+rm ¦-Rf¦/usr/include/crails :: Filesystem_operation,()
+CRAILS_PORT=8080: :: env_operation,()
+from,crails/base-dock
+expose,8080
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+cmd,build/server¦-p¦$CRAILS_PORT¦-h¦0.0.0.0
+rm ¦-Rf¦/usr/include/mongo :: Filesystem_operation,()
+/home/crails/crails-app :: workdir_operation,()

@@ -1,0 +1,10 @@
+entrypoint,/usr/sbin/sshd¦-D
+ssh-keygen ¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key¦-N¦'' :: Other_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+./start.sh  :: Other_operation,()
+expose,22
+./start.sh/start.sh :: add_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+yum ¦install¦-y¦openssh-server¦passwd;¦yum¦clean¦all :: Dependencies_operation,()
+from,centos:7.0

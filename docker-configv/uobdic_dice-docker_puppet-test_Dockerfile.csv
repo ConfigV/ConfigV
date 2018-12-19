@@ -1,0 +1,13 @@
+from,centos:6.0
+gpg2 ¦--keyserver¦hkp://keys.gnupg.net¦--recv-keys¦409B6B1796C275462A1703113804BB82D39DC0E3 :: Other_operation,()
+/bin/bash ¦-l¦-c¦"rvm¦install¦1.9.3" :: Build_Execute_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"gem¦install¦r10k" :: Build_Execute_operation,()
+yum ¦install¦-y¦patch¦¦¦¦libyaml-devel¦¦¦¦glibc-headers¦¦¦¦autoconf¦¦¦¦gcc-c++¦¦¦¦glibc-devel¦¦¦¦patch¦¦¦¦readline-devel¦¦¦¦zlib-devel¦¦¦¦libffi-devel¦¦¦¦openssl-devel¦¦¦¦bzip2¦¦¦¦automake¦¦¦¦libtool¦¦¦¦bison¦¦¦¦sqlite-devel¦¦¦¦which :: Dependencies_operation,()
+yum ¦install¦-y¦tar :: Dependencies_operation,()
+puppet ¦--version :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+yum ¦-y¦install¦puppet¦tar¦git :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"curl¦-L¦get.rvm.io¦|¦bash¦-s¦stable" :: Build_Execute_operation,()
+rpm ¦--import¦https://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs :: Dependencies_operation,()
+rpm ¦-ivh¦http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm :: Dependencies_operation,()

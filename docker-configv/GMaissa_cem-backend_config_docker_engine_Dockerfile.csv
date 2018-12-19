@@ -1,0 +1,15 @@
+sed ¦-i¦'/^listen¦/c¦listen¦=¦0.0.0.0:9000'¦/etc/php/7.1/fpm/pool.d/www.conf :: Filesystem_operation,()
+from,ubuntu:16.1
+DEBIAN_FRONTEND=noninteractive ¦add-apt-repository¦ppa:ondrej/php :: Other_operation,()
+sed ¦-i¦'/^pid¦/c¦pid¦=¦/var/run/php-fpm.pid'¦/etc/php/7.1/fpm/php-fpm.conf :: Filesystem_operation,()
+apt-get ¦install¦-y¦apt-utils¦ca-certificates¦openssh-server¦sudo¦unzip¦strace¦tree¦vim¦htop¦imagemagick¦gzip¦libxml2¦curl¦git-core¦wget¦software-properties-common :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+sed ¦-i¦'/daemonize¦/c¦daemonize¦=¦no'¦/etc/php/7.1/fpm/php-fpm.conf :: Filesystem_operation,()
+apt-get ¦install¦--force-yes¦-y¦php7.1¦php7.1-cli¦php7.1-curl¦php7.1-intl¦php7.1-common¦php7.1-mcrypt¦php7.1-mysql¦php7.1-xsl¦php7.1-gd¦php7.1-memcached¦php7.1-fpm :: Dependencies_operation,()
+sed ¦-i¦'s/^listen.allowed_clients/;listen.allowed_clients/'¦/etc/php/7.1/fpm/pool.d/www.conf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/var/www/html/project :: volume_operation,()
+/var/www/html/project :: workdir_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+cmd,php-fpm7.1¦-F

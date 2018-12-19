@@ -1,0 +1,11 @@
+yum ¦-y¦update;¦yum¦clean¦all; :: Dependencies_operation,()
+sshd/etc/pam.d/sshd :: add_operation,()
+cmd,/usr/sbin/init
+expose,22
+authorized_keys/home/user/.ssh/authorized_keys :: add_operation,()
+yum ¦-y¦install¦openssh-server;¦yum¦clean¦all;systemctl¦enable¦sshd;useradd¦-G¦wheel¦user; :: Dependencies_operation,()
+/sys/fs/cgroup :: volume_operation,()
+from,fedora
+chown ¦-R¦user:user¦/home/user/.ssh;chmod¦700¦/home/user/.ssh;chmod¦600¦/home/user/.ssh/authorized_keys; :: Permissions_operation,()
+container:docker :: env_operation,()
+sudoers/etc/sudoers :: add_operation,()

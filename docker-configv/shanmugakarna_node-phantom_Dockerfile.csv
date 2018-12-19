@@ -1,0 +1,10 @@
+phantomjs/phantomjs-$PHANTOMJS_VERSION/usr/local/bin/phantomjs :: add_operation,()
+cmd,bash
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦nodejs¦-y :: Dependencies_operation,()
+apt-get ¦install¦libfontconfig1¦curl¦ca-certificates¦-y¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+npm ¦install¦-g¦npm :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_6.x¦|¦bash¦- :: Dependencies_operation,()
+PHANTOMJS_VERSION:$PHANTOMJS_VERSION :: env_operation,()
+from,debian@jessie

@@ -1,0 +1,13 @@
+./config/etc/murmur :: copy_operation,()
+MURMUR_VERSION=1.2.19: :: env_operation,()
+from,alpine:3.5
+/data/ :: volume_operation,()
+chown ¦-R¦murmur:nobody¦/var/run/murmur¦/etc/murmur :: Permissions_operation,()
+wget ¦https://github.com/mumble-voip/mumble/releases/download/${MURMUR_VERSION}/murmur-static_x86-${MURMUR_VERSION}.tar.bz2¦-O¦-¦|\\ :: Dependencies_operation,()
+mkdir ¦/data¦/opt¦/var/run/murmur :: Filesystem_operation,()
+entrypoint,docker-entrypoint.sh
+apk ¦--no-cache¦add¦pwgen¦libressl :: Dependencies_operation,()
+adduser ¦-SDH¦murmur :: Permissions_operation,()
+expose,64738 64738
+./docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+/etc/murmur :: workdir_operation,()

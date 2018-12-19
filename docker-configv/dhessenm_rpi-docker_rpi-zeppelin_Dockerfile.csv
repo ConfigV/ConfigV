@@ -1,0 +1,18 @@
+from,resin/rpi-raspbian:jessie
+curl ¦$ZEPPELIN_URL¦|¦tar¦xfz¦- :: Dependencies_operation,()
+useradd ¦--home¦$ZEPPELIN_DIR¦--shell¦/bin/bash¦zeppelin :: Permissions_operation,()
+cp ¦-r¦zeppelin-$ZEPPELIN_VERSION-bin-all/*¦$ZEPPELIN_DIR :: Filesystem_operation,()
+ZEPPELIN_VERSION:0.7.1 :: env_operation,()
+chmod ¦777¦/docker-entrypoint.sh :: Permissions_operation,()
+scripts/docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+$ZEPPELIN_DIR :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦$ZEPPELIN_DIR :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+ZEPPELIN_DIR:/opt/zeppelin :: env_operation,()
+chown ¦zeppelin:zeppelin¦-R¦$ZEPPELIN_DIR :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh
+ZEPPELIN_URL:http://apache.mirror.iphh.net/zeppelin/zeppelin-$ZEPPELIN_VERSION/zeppelin-$ZEPPELIN_VERSION-bin-all.tgz :: env_operation,()
+expose,8080
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+apt-get ¦install¦-y¦default-jdk¦curl :: Dependencies_operation,()

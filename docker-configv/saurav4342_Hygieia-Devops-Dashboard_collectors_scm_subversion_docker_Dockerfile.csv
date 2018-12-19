@@ -1,0 +1,7 @@
+mkdir ¦/hygieia :: Filesystem_operation,()
+/hygieia :: workdir_operation,()
+*.jar/hygieia/ :: copy_operation,()
+from,docker.io/java:openjdk-8-jdk
+/hygieia/logs :: volume_operation,()
+subversion-properties-builder.sh/hygieia/ :: copy_operation,()
+cmd,./subversion-properties-builder.sh¦&&¦java¦-jar¦subversion-collector*.jar¦--spring.config.location=/hygieia/hygieia-subversion-collector.properties

@@ -1,0 +1,18 @@
+M2_REPO:/opt/matterhorn/.m2/repository :: env_operation,()
+apt-get ¦install¦-y¦wget¦git¦build-essential¦openjdk-7-jdk¦maven2¦gstreamer0.10-plugins-base¦gstreamer0.10-plugins-good¦libglib2.0-dev :: Dependencies_operation,()
+/opt/matterhorn :: workdir_operation,()
+wget ¦http://bitbucket.org/opencast-community/matterhorn/get/1.4.4.tar.gz :: Dependencies_operation,()
+expose,8080
+JAVA_OPTS:-Xms1024m :: env_operation,()
+cmd,/opt/matterhorn/1.4.4/bin/start_matterhorn.sh
+from,ubuntu@trusty
+tar ¦zxvf¦1.4.4.tar.gz :: Filesystem_operation,()
+useradd ¦-m¦-d¦/opt/matterhorn¦-r¦matterhorn :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/opt/matterhorn/felix :: workdir_operation,()
+MAVEN_OPTS='-Xms256m ¦-Xmx960m¦-XX:PermSize=64m¦-XX:MaxPermSize=256m'¦mvn¦clean¦install¦-DdeployTo=/opt/matterhorn/1.4.4 :: Other_operation,()
+mv ¦opencast-community-matterhorn-*¦1.4.4 :: Filesystem_operation,()
+FELIX_HOME:/opt/matterhorn/1.4.4 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ln ¦-s¦1.4.4¦felix :: Filesystem_operation,()
+matterhorn :: user_operation,()

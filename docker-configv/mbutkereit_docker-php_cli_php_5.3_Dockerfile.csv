@@ -1,0 +1,14 @@
+set ¦-xe :: Environment_operation,()
+apt-get ¦install¦-y¦ca-certificates¦curl¦libpcre3¦librecode0¦libsqlite3-0¦libxml2¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,php¦-a
+PHP_VERSION:5.3.29 :: env_operation,()
+for ¦key¦in¦$GPG_KEYS;¦do¦¦gpg¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦"$key";¦done :: Other_operation,()
+GPG_KEYS:0B96609E270F565C13292B24C13C70B87267B52D :: env_operation,()
+docker-php-ext-*/usr/local/bin/ :: copy_operation,()
+apt-get ¦install¦-y¦autoconf¦file¦g++¦gcc¦libc-dev¦make¦pkg-config¦re2c¦--no-install-recommends :: Dependencies_operation,()
+PHP_INI_DIR:/usr/local/etc/php :: env_operation,()
+from,debian@wheezy
+mkdir ¦-p¦$PHP_INI_DIR/conf.d :: Filesystem_operation,()
+apt-get ¦install¦-y¦procps¦--no-install-recommends :: Dependencies_operation,()

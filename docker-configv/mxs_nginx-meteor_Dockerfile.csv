@@ -1,0 +1,8 @@
+from,nginx
+METEOR_RELEASE:1.1.0.2 :: env_operation,()
+ln ¦-s¦~/.meteor/packages/meteor-tool/*/mt-os.linux.x86_64/dev_bundle/bin/node¦/usr/bin/ :: Filesystem_operation,()
+curl ¦https://install.meteor.com/¦2>/dev/null¦|¦sed¦'s/^RELEASE/#RELEASE/'|¦RELEASE=$METEOR_RELEASE¦sh :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦ca-certificates¦¦curl¦¦git¦¦vim¦¦supervisor :: Dependencies_operation,()
+PORT:3000 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

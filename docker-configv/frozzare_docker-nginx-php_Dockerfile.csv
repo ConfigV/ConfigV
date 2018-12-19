@@ -1,0 +1,15 @@
+apt-key ¦adv¦--recv-keys¦--keyserver¦keyserver.ubuntu.com¦4F4EA0AAE5267A6C :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+sites-enabled//etc/nginx/sites-enabled/ :: add_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+expose,80
+apt-get ¦-y¦install¦¦¦¦python-setuptools¦curl¦¦¦¦php5-fpm¦php5-mysql¦php5-mcrypt¦php5-gd¦php5-curl¦php-pear¦php-apc¦¦¦¦php5-json¦nginx :: Dependencies_operation,()
+from,ubuntu@trusty
+easy_install ¦supervisor :: Dependencies_operation,()
+app//app/ :: add_operation,()
+echo ¦echo¦"cgi.fix_pathinfo = 0;" >> /etc/php5/fpm/php.ini :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,supervisord¦-n¦-c¦/etc/supervisord.conf
+add-apt-repository ¦-y¦ppa:nginx/stable :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

@@ -1,0 +1,12 @@
+/data :: volume_operation,()
+from,ubuntu@trusty
+kill.py/open-lambda/kill.py :: copy_operation,()
+apt-get ¦install¦-y¦docker.io¦python¦netcat¦wget¦curl :: Dependencies_operation,()
+cmd,python¦/open-lambda/startup.py
+apt-get ¦update¦-y :: Dependencies_operation,()
+bin/open-lambda/bin :: copy_operation,()
+wget ¦-qO-¦http://download.rethinkdb.com/apt/pubkey.gpg¦|¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+startup.py/open-lambda/startup.py :: copy_operation,()
+echo ¦echo¦"deb http://download.rethinkdb.com/apt trusty main" > /etc/apt/sources.list.d/rethinkdb.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦rethinkdb :: Dependencies_operation,()

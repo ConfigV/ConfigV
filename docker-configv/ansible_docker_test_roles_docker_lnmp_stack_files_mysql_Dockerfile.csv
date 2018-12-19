@@ -1,0 +1,14 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦install¦mysql-server :: Dependencies_operation,()
+cmd,/home/setup.sh
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+build/setup.sh/home/setup.sh :: add_operation,()
+/var/lib/mysql :: workdir_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+echo ¦echo¦"mysql-server mysql-server/root_password_again password root" | debconf-set-selections :: Filesystem_operation,()
+echo ¦echo¦"mysql-server mysql-server/root_password password root" | debconf-set-selections :: Filesystem_operation,()
+conf/my.cnf/etc/mysql/my.cnf :: add_operation,()
+from,ubuntu:14.04
+chmod ¦+x¦/home/setup.sh :: Permissions_operation,()

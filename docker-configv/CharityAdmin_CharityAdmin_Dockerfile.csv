@@ -1,0 +1,21 @@
+apt-get ¦clean :: Dependencies_operation,()
+chown ¦-R¦webapp:webapp¦/srv/paws :: Permissions_operation,()
+expose,8080 1717
+webapp :: user_operation,()
+/srv/paws/src :: workdir_operation,()
+useradd ¦-r¦-g¦webapp¦-d¦/srv/paws¦webapp :: Permissions_operation,()
+apt-get ¦install¦-y¦python-setuptools¦build-essential¦python-dev¦openssl¦libreadline6¦libreadline6-dev¦libxml2-dev¦libxslt-dev¦libpq-dev¦curl¦zlib1g¦zlib1g-dev¦libssl-dev :: Dependencies_operation,()
+easy_install ¦pip :: Dependencies_operation,()
+groupadd ¦-r¦webapp :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+pip ¦install¦--user¦-r¦requirements.txt¦uwsgi==2.0.13 :: Dependencies_operation,()
+requirements.txtrequirements.txt :: copy_operation,()
+root :: user_operation,()
+/srv/paws/logs :: volume_operation,()
+from,phusion/baseimage:0.9.18
+cmd,/sbin/my_init
+localedef ¦-c¦-i¦en_US¦-f¦UTF-8¦en_US.UTF-8 :: Other_operation,()
+LANG="en_US.UTF-8":LANGUAGE="en_US:en" :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/srv/paws/{src,logs,static} :: Filesystem_operation,()
+apt-get ¦upgrade¦-y¦-o¦Dpkg::Options::="--force-confold" :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+mkdir ¦-p¦/go/src¦/go/bin :: Filesystem_operation,()
+go ¦get¦-u¦github.com/tools/godep :: Build_Execute_operation,()
+./go/src/github.com/bitrise-io/$PROJ_NAME :: copy_operation,()
+/go/src/github.com/bitrise-io/$PROJ_NAME :: workdir_operation,()
+PATH:/go/bin:$PATH :: env_operation,()
+mkdir ¦-p¦/go/src/github.com/bitrise-io/$PROJ_NAME :: Filesystem_operation,()
+from,golang:1.5
+chmod ¦-R¦777¦/go :: Permissions_operation,()
+godep ¦restore :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,$PROJ_NAME¦--version
+GOPATH:/go :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦curl¦git¦mercurial¦rsync¦ruby :: Other_operation,()
+go ¦install :: Build_Execute_operation,()
+PROJ_NAME:bitrise-yml-converter :: env_operation,()

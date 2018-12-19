@@ -1,0 +1,9 @@
+apk ¦update :: Dependencies_operation,()
+METRICBEAT_VERSION=5.0.0-alpha4: :: env_operation,()
+cmd,/metricbeat/start.sh
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/metricbeat :: workdir_operation,()
+apk ¦add¦ca-certificates¦curl :: Dependencies_operation,()
+files/. :: add_operation,()
+bin/metricbeat/bin/ :: add_operation,()
+from,alpine:3.4

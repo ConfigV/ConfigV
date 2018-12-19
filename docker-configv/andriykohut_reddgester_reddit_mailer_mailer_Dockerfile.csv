@@ -1,0 +1,8 @@
+cmd,nameko¦run¦mailer¦--config=mailer.yaml
+./app/ :: copy_operation,()
+expose,8000
+/app :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gcc¦libc6-dev¦netcat :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦-r¦/app/requirements.txt :: Dependencies_operation,()
+from,python:3.5

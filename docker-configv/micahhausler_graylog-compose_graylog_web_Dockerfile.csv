@@ -1,0 +1,13 @@
+cmd,/opt/graylog/bin/graylog-web-interface¦-Dhttps.port=9443
+apt-get ¦-y¦install¦curl¦dnsutils¦git¦htop¦jq¦less¦man¦net-tools¦ntp¦openjdk-7-jdk¦pwgen¦tzdata¦unzip¦vim¦vim-common¦wget¦zip :: Dependencies_operation,()
+expose,9443
+tar ¦xfz¦graylog-web-interface-1.1.4.tgz :: Filesystem_operation,()
+from,debian@jessie
+cd ¦/opt/ :: Filesystem_operation,()
+rm ¦graylog-web-interface-1.1.4.tgz :: Filesystem_operation,()
+https://packages.graylog2.org/releases/graylog2-web-interface/graylog-web-interface-1.1.4.tgz/opt/ :: add_operation,()
+/opt/graylog :: workdir_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mv ¦graylog-web-interface-1.1.4¦graylog :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

@@ -1,0 +1,11 @@
+fedora.repo/etc/yum.repos.d/fedora.repo :: add_operation,()
+run.sh/run.sh :: add_operation,()
+from,fedora
+dnf ¦-y¦install¦community-mysql-server¦community-mysql :: Dependencies_operation,()
+setup.sql/setup.sql :: add_operation,()
+chown ¦-R¦mysql:mysql¦/var/lib/mysql :: Permissions_operation,()
+fedora-updates.repo/etc/yum.repos.d/fedora-updates.repo :: add_operation,()
+chmod ¦755¦/*.sh¦/*.sql :: Permissions_operation,()
+mysql_install_db  :: Other_operation,()
+expose,3306
+entrypoint,/run.sh

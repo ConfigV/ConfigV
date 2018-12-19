@@ -1,0 +1,8 @@
+expose,8080
+./go/src/github.com/chloearianne/protestpulse :: add_operation,()
+go ¦install¦github.com/chloearianne/protestpulse :: Build_Execute_operation,()
+entrypoint,/go/bin/protestpulse
+from,golang:1.7
+TZ=America/Los_Angeles: :: env_operation,()
+/go/src/github.com/chloearianne/protestpulse :: workdir_operation,()
+echo ¦ln¦-snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone :: Filesystem_operation,()

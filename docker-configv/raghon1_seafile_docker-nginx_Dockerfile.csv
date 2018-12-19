@@ -1,0 +1,12 @@
+restart_nginx/etc/my_init.d/z_restart_nginx :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+crontab/etc/cron.d/monitor_nginx :: copy_operation,()
+entrypoint,/sbin/my_init
+run_nginx.sh/etc/service/nginx/run :: copy_operation,()
+mkdir ¦/etc/service/nginx :: Filesystem_operation,()
+/var/log/nginx :: volume_operation,()
+expose,80 443
+/etc/nginx/ :: volume_operation,()
+from, phusion/baseimage
+autostart:true :: env_operation,()
+apt-get ¦install¦-yq¦nginx¦python-flup :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+from,dock0/arch
+pacman ¦-Suy¦extra/nginx¦extra/vim¦extra/php-fpm¦core/net-tools¦--noconfirm :: Filesystem_operation,()
+mkdir ¦/etc/nginx/conf.d :: Filesystem_operation,()
+index.php/opt/www/index.php :: add_operation,()
+php.conf/etc/nginx/conf.d/php.conf :: add_operation,()
+/bin/sh ¦-c¦php-fpm¦-F :: Other_operation,()
+www.conf/etc/php/php-fpm.d/www.conf :: add_operation,()
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+expose,80
+chown ¦-R¦http:http¦/opt/www :: Permissions_operation,()
+entrypoint,nginx¦-g¦daemon off;
+mkdir ¦/opt/www :: Filesystem_operation,()

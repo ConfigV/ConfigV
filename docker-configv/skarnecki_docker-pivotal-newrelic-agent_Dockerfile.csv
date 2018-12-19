@@ -1,0 +1,11 @@
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+newrelic_pivotal_agent/opt/newrelic_pivotal_agent :: copy_operation,()
+mkdir ¦/opt :: Filesystem_operation,()
+/opt/newrelic_pivotal_agent :: workdir_operation,()
+entrypoint,./entry.sh
+apk ¦add¦bash¦$BUILD_PACKAGES :: Dependencies_operation,()
+apk ¦add¦ruby¦ruby-io-console¦ruby-bundler :: Dependencies_operation,()
+BUILD_PACKAGES:curl-dev :: env_operation,()
+from,alpine:3.2
+bundle ¦install :: Dependencies_operation,()

@@ -1,0 +1,9 @@
+adduser ¦user¦sudo :: Permissions_operation,()
+from,ubuntu
+su ¦-¦user¦-c¦'bash¦bootstrap' :: Other_operation,()
+adduser ¦--disabled-password¦--gecos=',,,,'¦user :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦--yes¦curl¦sudo :: Dependencies_operation,()
+chmod ¦0440¦/etc/sudoers.d/user :: Permissions_operation,()
+bootstrap/home/user/bootstrap :: add_operation,()
+echo ¦echo¦'user ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/user :: Filesystem_operation,()

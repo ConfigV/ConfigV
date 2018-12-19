@@ -1,0 +1,10 @@
+expose,80
+https://curl.haxx.se/ca/cacert.pem/etc/ssl/certs/ca-certificates.crt :: add_operation,()
+CONTENT_SERVER_PROTOCOL=tcp: :: env_operation,()
+CONTENT_SERVER_VAR_DIR=/var/lib/contentserver: :: env_operation,()
+$CONTENT_SERVER_VAR_DIR :: volume_operation,()
+bin/contentserver-linux-amd64/usr/sbin/contentserver :: copy_operation,()
+CONTENT_SERVER_LOG_LEVEL=error: :: env_operation,()
+from,scratch
+CONTENT_SERVER_ADDR=0.0.0.0:80: :: env_operation,()
+entrypoint,/usr/sbin/contentserver

@@ -1,0 +1,11 @@
+cmd,/usr/sbin/sshd¦-D
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦install¦-qq¦openssh-server¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+useradd ¦jenkins :: Permissions_operation,()
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+expose,22
+from,ubuntu:12.04
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+wget ¦-O¦/tmp/swarm.jar¦http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/1.22/swarm-client-1.22-jar-with-dependencies.jar :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

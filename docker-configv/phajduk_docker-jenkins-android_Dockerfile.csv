@@ -1,0 +1,8 @@
+JENKINS_OPTS="--logfile=/var/log/jenkins/jenkins.log": :: env_operation,()
+root :: user_operation,()
+plugins.txt/usr/share/jenkins/plugins.txt :: copy_operation,()
+from,jenkins
+jenkins :: user_operation,()
+chown ¦-R¦jenkins:jenkins¦/var/log/jenkins :: Permissions_operation,()
+/usr/local/bin/plugins.sh ¦/usr/share/jenkins/plugins.txt :: Other_operation,()
+mkdir ¦/var/log/jenkins :: Filesystem_operation,()

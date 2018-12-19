@@ -1,0 +1,15 @@
+mkdir ¦-p¦$GOROOT :: Filesystem_operation,()
+addgroup ¦developer¦-g¦1000 :: Permissions_operation,()
+chown ¦1000:1000¦-R¦$HOME :: Permissions_operation,()
+HOME="/home/developer":GOROOT="/usr/lib/go" :: env_operation,()
+chown ¦1000:1000¦-R¦$GOROOT :: Permissions_operation,()
+/code :: workdir_operation,()
+set ¦-x :: Environment_operation,()
+apk-install ¦bash¦build-base¦bzr¦curl¦git¦mercurial¦python¦bash-completion :: Dependencies_operation,()
+mkdir ¦-p¦$GOPATH :: Filesystem_operation,()
+chown ¦1000:1000¦-R¦$GOPATH :: Permissions_operation,()
+echo ¦set¦-x && mkdir -p $HOME/bin && echo 'source /etc/profile.d/bash_completion.sh' >> $HOME/.bashrc && echo "alias ll='ls -lah'" >> $HOME/.bashrc && curl -L https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz | tar xz -C $(dirnam... :: Filesystem_operation,()
+from,gliderlabs/alpine:3.2
+developer :: user_operation,()
+cmd,/bin/bash
+adduser ¦-u¦1000¦-D¦-s¦/bin/bash¦-G¦developer¦developer :: Permissions_operation,()

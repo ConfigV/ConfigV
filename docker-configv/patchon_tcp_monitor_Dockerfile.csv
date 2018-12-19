@@ -1,0 +1,11 @@
+cd ¦~/rpmbuild/SOURCES/ :: Filesystem_operation,()
+from,fedora@latest
+yum-builddep ¦-y¦~/rpmbuild/SPECS/tcp_monitor.spec :: Other_operation,()
+rpmbuild ¦-ba¦~/rpmbuild/SPECS/tcp_monitor.spec :: Other_operation,()
+wget ¦https://github.com/patchon/tcp_monitor/archive/tcp_monitor-1.5.tar.gz :: Dependencies_operation,()
+yum ¦install¦-y¦fedora-packager¦wget :: Dependencies_operation,()
+rpmdev-setuptree  :: Other_operation,()
+wget ¦https://raw.githubusercontent.com/patchon/tcp_monitor/master/tcp_monitor.spec :: Dependencies_operation,()
+cd ¦~/rpmbuild/SPECS/ :: Filesystem_operation,()
+yum ¦install¦-y¦/root/rpmbuild/RPMS/noarch/tcp_monitor-1.5-1.fc21.noarch.rpm :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()

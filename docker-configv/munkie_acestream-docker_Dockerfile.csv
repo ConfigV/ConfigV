@@ -1,0 +1,17 @@
+apt-get ¦clean¦autoclean :: Dependencies_operation,()
+uid:1000 :: env_operation,()
+apt-get ¦install¦-y¦wget¦python-minimal¦python-setuptools¦supervisor¦net-tools :: Dependencies_operation,()
+acestream.conf/etc/supervisor/conf.d/acestream.conf :: copy_operation,()
+rm ¦-rf¦/var/lib/apt¦/var/lib/dpkg¦/var/lib/cache¦/var/lib/log :: Filesystem_operation,()
+gid:1000 :: env_operation,()
+entrypoint,/root/start.sh
+apt-get ¦-y¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+echo ¦echo¦"deb http://repo.acestream.org/ubuntu/ precise main" > /etc/apt/sources.list.d/acestream.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦acestream-full :: Dependencies_operation,()
+adduser ¦--disabled-password¦--gecos¦""¦ace :: Permissions_operation,()
+start.sh/root/ :: copy_operation,()
+from,ubuntu:12.04
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+chmod ¦+x¦/root/start.sh :: Permissions_operation,()
+wget ¦-O¦-¦http://repo.acestream.org/keys/acestream.public.key¦|¦apt-key¦add¦- :: Dependencies_operation,()

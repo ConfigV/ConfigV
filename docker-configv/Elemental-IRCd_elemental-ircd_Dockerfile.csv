@@ -1,0 +1,15 @@
+apt-get ¦update :: Dependencies_operation,()
+./home/ircd/src :: add_operation,()
+mkdir ¦/home/ircd/src :: Filesystem_operation,()
+cd ¦/home/ircd/src;¦./configure¦--prefix=/home/ircd/run¦;¦make¦;¦make¦install :: Filesystem_operation,()
+chmod ¦777¦/home/ircd/src :: Permissions_operation,()
+expose,6667
+from,ubuntu:14.04
+cmd,/home/ircd/run/bin/ircd¦-foreground
+adduser ¦--system¦--home¦/home/ircd¦ircd :: Permissions_operation,()
+doc/example.conf/home/ircd//run/etc/ircd.conf :: add_operation,()
+ircd :: user_operation,()
+apt-get ¦-yq¦install¦build-essential¦autoconf¦libssl-dev :: Dependencies_operation,()
+apt-get ¦-yq¦install¦flex¦bison :: Dependencies_operation,()
+chmod ¦-R¦777¦/home/ircd/run :: Permissions_operation,()
+apt-get ¦upgrade¦-yq¦#¦08-02-14 :: Dependencies_operation,()

@@ -1,0 +1,20 @@
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./configure ¦--prefix=/opt/openresty¦--with-http_gunzip_module¦--with-luajit¦--with-http_stub_status_module¦--with-http_ssl_module :: Build_Execute_operation,()
+from,3scale/base:precise
+apt-get ¦-q¦-y¦update :: Dependencies_operation,()
+wget ¦-nv¦http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.gz¦-O¦/root/ngx_openresty-$OPENRESTY_VERSION.tar.gz :: Dependencies_operation,()
+cd ¦/root/ngx_openresty-$OPENRESTY_VERSION/ :: Filesystem_operation,()
+nginx.conf/opt/openresty/nginx/conf/nginx.conf :: add_operation,()
+apt-get ¦-q¦-y¦install¦redis-server¦cron¦luarocks¦supervisor¦logrotate¦make¦build-essential¦libpcre3-dev¦libssl-dev¦wget :: Dependencies_operation,()
+rm ¦-rf¦/root/ngx_openresty-$OPENRESTY_VERSION* :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-add-repository ¦-y¦ppa:chris-lea/redis-server :: Other_operation,()
+./var/www :: add_operation,()
+expose,80
+apt-get ¦-q¦-y¦clean :: Dependencies_operation,()
+/opt/openresty/nginx :: workdir_operation,()
+make  :: Build_Execute_operation,()
+OPENRESTY_VERSION:1.5.12.1 :: env_operation,()
+apt-get ¦-q¦-y¦install¦software-properties-common¦python-software-properties :: Dependencies_operation,()
+tar ¦-xzf¦/root/ngx_openresty-$OPENRESTY_VERSION.tar.gz¦-C¦/root/ :: Filesystem_operation,()
+cmd,sbin/nginx -c conf/nginx.conf

@@ -1,0 +1,13 @@
+wget ¦https://cmake.org/files/v3.0/cmake-3.0.0-1-src.tar.bz2 :: Dependencies_operation,()
+tar ¦xzf¦mongo-c-driver-1.5.0.tar.gz :: Filesystem_operation,()
+tar ¦-xf¦cmake-3.0.0-1-src.tar.bz2 :: Filesystem_operation,()
+wget ¦https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz :: Dependencies_operation,()
+yum ¦install¦-y¦mpich¦openmpi¦git¦pkg-config¦nano¦gcc¦wget¦bzip2¦patch¦gcc-c++¦make¦mpich-devel¦openmpi-devel¦openssl-devel¦cyrus-sasl-devel :: Dependencies_operation,()
+echo ¦echo¦-e "[mongodb-org-2.6]\\nname=MongoDB 2.6 Repository\\nbaseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/\\ngpgcheck=0\\nenabled=1" > /etc/yum.repos.d/mongodb-org-3.2.repo :: Filesystem_operation,()
+cd ¦mongo-c-driver-1.5.0¦;¦./configure¦;¦make¦-j¦4¦install :: Filesystem_operation,()
+/data :: workdir_operation,()
+bash ¦-c¦"./cmake-3.0.0-1.sh¦all¦;¦cd¦cmake-3.0.0/.build :: Build_Execute_operation,()
+from,centos:7.0
+yum ¦install¦-y¦postgresql-server¦postgresql-devel :: Dependencies_operation,()
+yum ¦install¦-y¦mongodb-org :: Dependencies_operation,()
+make ¦install" :: Build_Execute_operation,()

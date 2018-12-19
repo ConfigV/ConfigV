@@ -1,0 +1,7 @@
+from,timvanmourik/porcupine
+FSLDIR=/opt/fsl:PATH=/opt/fsl/bin:$PATH :: env_operation,()
+echo ¦apt-get¦update -qq && apt-get install -yq --no-install-recommends ed gsl-bin libglu1-mesa-dev libglib2.0-0 libglw1-mesa libgomp1 libjpeg62 libxm4 netpbm tcsh xfonts-base xvfb && libs_path=/usr/lib/x86_64-linux-gnu && if [ -f $libs_path/lib... :: Filesystem_operation,()
+echo ¦echo¦"Downloading ANTs ..." && curl -sSL --retry 5 https://dl.dropbox.com/s/2f4sui1z6lcgyek/ANTs-Linux-centos5_x86_64-v2.2.0-0740f91.tar.gz | tar zx -C /opt :: Filesystem_operation,()
+entrypoint,/porcupine/startup.sh
+PATH=/opt/afni:$PATH: :: env_operation,()
+ANTSPATH=/opt/ants:PATH=/opt/ants:$PATH :: env_operation,()

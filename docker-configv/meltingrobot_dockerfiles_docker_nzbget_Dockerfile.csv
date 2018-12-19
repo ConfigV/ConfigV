@@ -1,0 +1,9 @@
+dnf ¦-y¦update :: Dependencies_operation,()
+wget ¦https://nzbget.net/download/nzbget-latest-bin-linux.run :: Dependencies_operation,()
+chmod ¦+x¦nzbget-latest-bin-linux.run :: Permissions_operation,()
+cmd,/bin/bash¦-c¦/opt/nzbget/nzbget -s
+from,fedora@latest
+expose,6789
+dnf ¦-y¦install¦wget :: Dependencies_operation,()
+/opt/nzbget :: volume_operation,()
+sh ¦nzbget-latest-bin-linux.run¦--destdir¦/opt/nzbget :: Build_Execute_operation,()

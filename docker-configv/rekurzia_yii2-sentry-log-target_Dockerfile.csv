@@ -1,0 +1,9 @@
+/root :: workdir_operation,()
+apt-get ¦install¦unzip¦git¦libmcrypt-dev¦--no-install-recommends¦-y :: Dependencies_operation,()
+from,php:7.0
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+mkdir ¦-p¦/code :: Filesystem_operation,()
+/code :: workdir_operation,()
+docker-php-ext-install ¦mcrypt :: Other_operation,()

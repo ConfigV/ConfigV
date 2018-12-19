@@ -1,0 +1,18 @@
+chown ¦-R¦user:user¦$HOME :: Permissions_operation,()
+user :: user_operation,()
+DEBIAN_FRONTEND=noninteractive ¦dpkg¦-i¦/tmp/hubic.deb :: Other_operation,()
+cmd,/usr/lib/hubic/hubic-service
+useradd ¦--create-home¦--home-dir¦$HOME¦user :: Permissions_operation,()
+HUBIC_PACKAGE_URL:http://mir7.ovh.net/ovh-applications/hubic/hubiC-Linux/${HUBIC_VERSION}/hubiC-Linux-${HUBIC_VERSION}.${HUBIC_VERSION_MINOR}-linux.deb :: env_operation,()
+/hubiC :: volume_operation,()
+HUBIC_VERSION_MINOR:53 :: env_operation,()
+mkdir ¦$HOME/.config :: Filesystem_operation,()
+HOME:/home/user :: env_operation,()
+$HOME :: workdir_operation,()
+HUBIC_VERSION:2.1.0 :: env_operation,()
+from,jgiovaresco/debian-with-dockerize:latest
+rm ¦-v¦/tmp/hubic.deb :: Filesystem_operation,()
+apt-get ¦-y¦install¦¦ca-certificates¦¦curl¦¦dbus¦¦mono-runtime¦¦libmono-sqlite4.0-cil¦¦libmono-system-core4.0-cil¦¦libmono-system-data4.0-cil¦¦libmono-system-data-datasetextensions4.0-cil¦¦libmono-system-drawing4.0-cil¦¦libmono-system-runtime-seria... :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-sSL¦${HUBIC_PACKAGE_URL}¦-o¦/tmp/hubic.deb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

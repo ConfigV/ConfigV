@@ -1,0 +1,12 @@
+/config :: workdir_operation,()
+VAULT_FILE=vault_${VAULT_VERSION}_linux_amd64.zip: :: env_operation,()
+entrypoint,tini¦--¦/entrypoint.sh
+expose,8200
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+./config/config/ :: copy_operation,()
+VAULT_VERSION=0.5.0: :: env_operation,()
+echo ¦addgroup¦-S vault && adduser -S -G vault vault && apk add --update curl && curl -o $VAULT_FILE -sSL https://releases.hashicorp.com/vault/$VAULT_VERSION/$VAULT_FILE && unzip $VAULT_FILE && mv vault /usr/local/bin/ && echo 'hosts: files mdns... :: Filesystem_operation,()
+cmd,vault¦server¦-config=/config/server.hcl
+from,jgeiger/alpine
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+/config :: volume_operation,()

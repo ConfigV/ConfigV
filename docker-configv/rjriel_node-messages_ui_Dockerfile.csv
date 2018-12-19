@@ -1,0 +1,10 @@
+mkdir ¦/src :: Filesystem_operation,()
+from,node@argon
+curl ¦-L¦--insecure¦https://github.com/rjriel/node-messages/archive/master.tar.gz¦|¦tar¦zx :: Dependencies_operation,()
+rm ¦-rf¦node-messages-master :: Filesystem_operation,()
+echo ¦echo¦"http://rjriel-api.elasticbeanstalk.com/messages/" > /src/ui/endpoint.config # replace the URI in this line with the REST API endpoint (must have a trailing '/') :: Filesystem_operation,()
+expose,8080
+mv ¦node-messages-master/*¦. :: Filesystem_operation,()
+cd ¦/src :: Filesystem_operation,()
+cmd,http-server¦/src/ui/
+npm ¦install¦-g¦http-server :: Dependencies_operation,()

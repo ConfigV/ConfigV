@@ -1,0 +1,19 @@
+useradd ¦-r¦-g¦mailtest¦--uid=998¦mailtest :: Permissions_operation,()
+/var/smtp :: volume_operation,()
+// :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦postfix¦nginx¦rsyslog¦supervisor :: Dependencies_operation,()
+groupadd ¦-r¦mailtest¦--gid=998 :: Permissions_operation,()
+postmap ¦/etc/postfix/virtual_mailboxes :: Other_operation,()
+useradd ¦-r¦-g¦postfix¦--uid=999¦postfix :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chown ¦mailtest¦-R¦/var/smtp/ :: Permissions_operation,()
+postmap ¦/etc/postfix/destinations :: Other_operation,()
+/var/spool/postfix :: volume_operation,()
+groupadd ¦-r¦postfix¦--gid=999 :: Permissions_operation,()
+chgrp ¦mailtest¦-R¦/var/smtp/ :: Other_operation,()
+chmod ¦+x¦/var/smtp/mail.sh :: Permissions_operation,()
+expose,25 80
+cmd,/usr/bin/supervisord¦-c¦/etc/supervisor/conf.d/supervisord.conf
+cp ¦/etc/services¦/var/spool/postfix/etc/services :: Filesystem_operation,()
+from,debian@jessie

@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+apt-get ¦install¦-y¦rabbitmq-server :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()
+wget ¦-O-¦https://www.rabbitmq.com/rabbitmq-release-signing-key.asc¦|¦apt-key¦add¦- :: Dependencies_operation,()
+expose,15672
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+echo ¦echo¦'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.list.d/rabbitmq.list :: Filesystem_operation,()
+LANG=C.UTF-8 ¦add-apt-repository¦ppa:ondrej/php5-5.6 :: Other_operation,()
+TERM:dumb :: env_operation,()
+cmd,rabbitmq-server

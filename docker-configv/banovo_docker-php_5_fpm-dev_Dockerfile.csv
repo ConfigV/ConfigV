@@ -1,0 +1,7 @@
+cmd,php-fpm
+COMPOSER_HOME:/root/composer :: env_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+from,banovo/php:5-fpm
+expose,9000
+/var/www/html :: workdir_operation,()
+php ¦-d¦memory_limit=-1¦/usr/local/bin/composer¦global¦require¦phpunit/phpunit¦4.5.* :: Other_operation,()

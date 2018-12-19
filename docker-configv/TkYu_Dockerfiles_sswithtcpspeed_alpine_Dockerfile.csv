@@ -1,0 +1,22 @@
+cd ¦/tmp :: Filesystem_operation,()
+cd ¦/xs :: Filesystem_operation,()
+unzip ¦xsocks_server.zip :: Filesystem_operation,()
+set ¦-ex :: Environment_operation,()
+mkdir ¦/xs :: Filesystem_operation,()
+XS_PORT:130 :: env_operation,()
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦asciidoc¦autoconf¦build-base¦git¦libtool¦linux-headers¦openssl-dev¦pcre-dev¦tar¦xmlto :: Dependencies_operation,()
+rm ¦-rf¦/tmp :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+rm ¦-f¦xsocks_server.zip :: Filesystem_operation,()
+entrypoint/ :: add_operation,()
+cmd,-h
+root :: user_operation,()
+cd ¦..¦&& :: Filesystem_operation,()
+wget ¦-O¦xsocks_server.zip¦http://www.tcpspeed.com/tcpspeed/tcpspeed_server.zip :: Dependencies_operation,()
+chmod ¦+x¦/entrypoint :: Permissions_operation,()
+entrypoint,/entrypoint
+apk ¦add¦openrc¦libpcap¦iptables¦--no-cache :: Dependencies_operation,()
+git ¦clone¦$SS_URL¦/tmp :: Dependencies_operation,()
+SS_PORT:8388 :: env_operation,()
+from,anapsix/alpine-java
+./configure ¦--prefix=/usr¦--disable-documentation :: Build_Execute_operation,()

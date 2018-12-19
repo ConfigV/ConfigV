@@ -1,0 +1,15 @@
+TERM:linux :: env_operation,()
+INITRD:No :: env_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+LANGUAGE:en_US.UTF-8 :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+root :: user_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦set¦-x && apt-get update -qq && apt-get install -y apt-utils curl locales && apt-get install -y --no-install-recommends ca-certificates wget && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen && locale-gen && update-lo... :: Filesystem_operation,()
+from,debian@jessie
+cmd,/bin/bash¦-l
+LC_MESSAGES:en_US.UTF-8 :: env_operation,()
+asset/*/root/ :: add_operation,()
+LC_CTYPE:en_US.UTF-8 :: env_operation,()
+/root :: workdir_operation,()
+GOSU_VERSION:1.9 :: env_operation,()

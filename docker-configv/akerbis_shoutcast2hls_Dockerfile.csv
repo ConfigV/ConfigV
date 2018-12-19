@@ -1,0 +1,15 @@
+/tmp :: workdir_operation,()
+tar ¦xvf¦libav-11.4.tar.gz :: Filesystem_operation,()
+cmd,bash¦/entrypoint.sh
+make  :: Build_Execute_operation,()
+shoutcast2hls.sh/ :: add_operation,()
+cd ¦/tmp/libav-11.4 :: Filesystem_operation,()
+rootfs/ :: add_operation,()
+./configure ¦--disable-avplay¦--disable-avserver¦--enable-libfdk-aac¦--enable-libmp3lame¦--enable-nonfree :: Build_Execute_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+https://www.libav.org/releases/libav-11.4.tar.gz/tmp/ :: add_operation,()
+universe\\  :: Other_operation,()
+apt-get ¦-y¦install¦build-essential¦pkg-config¦yasm¦nginx¦libfdk-aac0¦libfdk-aac-dev¦libmp3lame0¦libmp3lame-dev :: Dependencies_operation,()
+from,ubuntu:15.04
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+zoo.cfg/opt/zookeeper-3.4.6/conf/zoo.cfg :: add_operation,()
+from,ubuntu
+/opt/zookeeper-3.4.6 :: workdir_operation,()
+cmd,bin/zkServer.sh¦start-foreground
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+expose,2181
+wget ¦-O¦-¦http://apache.marz.ca/zookeeper/stable/zookeeper-3.4.6.tar.gz¦|¦tar¦xzf¦-¦-C¦/opt :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

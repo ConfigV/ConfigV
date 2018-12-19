@@ -1,0 +1,17 @@
+SKIN='-L:default' :: env_operation,()
+from,tomcat:8.0
+apt-get ¦install¦-y¦exuberant-ctags¦git¦inotify-tools :: Dependencies_operation,()
+run.sh/usr/local/bin/run :: add_operation,()
+mv ¦$OPENGROK_TOMCAT_BASE/webapps/source.war¦$OPENGROK_TOMCAT_BASE/webapps/ROOT.war :: Filesystem_operation,()
+OPENGROK_INSTANCE_BASE:/var/opengrok :: env_operation,()
+expose,8080
+OPENGROK_TOMCAT_BASE:/usr/local/tomcat :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/opengrok/bin/OpenGrok ¦update :: Other_operation,()
+/var/opengrok/bin/OpenGrok ¦deploy :: Other_operation,()
+cmd,/usr/local/bin/run
+rm ¦-rf¦$OPENGROK_TOMCAT_BASE/webapps/ROOT :: Filesystem_operation,()
+mkdir ¦-p¦/var/opengrok/src¦/var/opengrok/data :: Filesystem_operation,()
+OPENGROK_WEBAPP_CONTEXT:/ :: env_operation,()
+wget ¦-O¦-¦https://java.net/projects/opengrok/downloads/download/opengrok-0.12.1.5.tar.gz¦|¦tar¦xvzf¦-¦--directory=/var/opengrok¦--strip-components=1 :: Dependencies_operation,()
+SRC_ROOT:$OPENGROK_INSTANCE_BASE/src :: env_operation,()

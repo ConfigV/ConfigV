@@ -1,0 +1,19 @@
+apt-get ¦-y¦install¦libmp3lame-dev :: Dependencies_operation,()
+entrypoint,/ffmpeg_sources/bin/ffmpeg
+/ffmpeg_sources :: workdir_operation,()
+make ¦distclean :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/ffmpeg_sources :: Filesystem_operation,()
+hash ¦-r :: Other_operation,()
+PKG_CONFIG_PATH:"/ffmpeg_sources/ffmpeg_build/lib/pkgconfig" :: env_operation,()
+apt-get ¦-y¦--force-yes¦install¦autoconf¦automake¦build-essential¦libass-dev¦libfreetype6-dev¦libsdl1.2-dev¦libtheora-dev¦libtool¦libva-dev¦libvdpau-dev¦libvorbis-dev¦libxcb1-dev¦libxcb-shm0-dev¦libxcb-xfixes0-dev¦pkg-config¦texinfo¦zlib1g-dev :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+/ffmpeg_sources/ffmpeg :: workdir_operation,()
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+from,ubuntu
+cmd,--help
+tar ¦xjvf¦ffmpeg-snapshot.tar.bz2 :: Filesystem_operation,()
+wget ¦http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 :: Dependencies_operation,()
+apt-get ¦-y¦install¦yasm :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+PATH:"$HOME/bin:$PATH" :: env_operation,()

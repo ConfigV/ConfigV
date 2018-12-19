@@ -1,0 +1,12 @@
+apk ¦add¦--update¦bash¦openssh¦rsync¦runit@testing :: Dependencies_operation,()
+sshkey.pub/home/${USERNAME}/.ssh/id_rsa.pub :: copy_operation,()
+expose,22
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+USERNAME :: arg_operation,()
+echo ¦echo¦"@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories :: Filesystem_operation,()
+from,alpine:3.3
+sshd_config/etc/ssh/sshd_config :: copy_operation,()
+sshkey/home/${USERNAME}/.ssh/id_rsa :: copy_operation,()
+cmd,runsvdir¦/etc/service
+service/etc/service/ :: copy_operation,()
+rsyncd.conf/etc/rsyncd.conf :: copy_operation,()

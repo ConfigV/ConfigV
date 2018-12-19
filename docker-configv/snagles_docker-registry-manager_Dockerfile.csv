@@ -1,0 +1,10 @@
+go ¦get¦-v¦-d¦./... :: Build_Execute_operation,()
+go ¦build :: Build_Execute_operation,()
+cmd,$GOPATH/src/github.com/stefannaglee/docker-registry-manager¦-verbosity¦$VERBOSITY¦$REGISTRYARGS
+go ¦get¦-v¦github.com/smartystreets/goconvey :: Build_Execute_operation,()
+$GOPATH/src/github.com/stefannaglee/docker-registry-manager/ :: workdir_operation,()
+VERBOSITY:5 :: env_operation,()
+from,golang@alpine
+./go/src/github.com/stefannaglee/docker-registry-manager/ :: add_operation,()
+cd ¦app/ :: Filesystem_operation,()
+apk ¦add¦--no-cache¦git :: Dependencies_operation,()

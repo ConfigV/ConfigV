@@ -1,0 +1,8 @@
+cmd,/app/run.sh
+from,openjdk:8.0
+./play/target/universal/stage/app :: copy_operation,()
+expose,9000
+chmod ¦+x¦/app/run.sh¦/app/healthcheck.sh :: Permissions_operation,()
+SERVER_HTTP_PORT=9000:SESSION_TTL_MILLIS=900000 :: env_operation,()
+./docker/copy/ :: copy_operation,()
+healthcheck,/app/healthcheck.sh--interval=5m --timeout=3s

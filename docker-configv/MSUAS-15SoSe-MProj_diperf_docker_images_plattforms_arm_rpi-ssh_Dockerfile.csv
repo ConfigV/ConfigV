@@ -1,0 +1,13 @@
+expose,22
+mkdir ¦-p¦/etc/supervisor/conf.d :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦echo¦'root:salGMgeMQvNKU' | chpasswd -e :: Filesystem_operation,()
+sshd.conf/etc/supervisor/conf.d/sshd.conf :: add_operation,()
+apt-get ¦install¦-y¦ca-certificates¦locales¦wget¦tar¦vim¦iputils-ping¦openssh-server¦supervisor¦--no-install-recommends :: Dependencies_operation,()
+apt-get ¦purge :: Dependencies_operation,()
+supervisor.conf/etc/supervisor.conf :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+from, resin/rpi-raspbian:wheezy
+cmd,supervisord¦-c¦/etc/supervisor.conf
+locale-gen ¦en_EN.UTF-8 :: Other_operation,()

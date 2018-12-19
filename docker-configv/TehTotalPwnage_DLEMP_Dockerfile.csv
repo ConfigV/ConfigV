@@ -1,0 +1,13 @@
+echo ¦echo¦'mysql-server-5.6 mysql-server/root_password password root' | debconf-set-selections && echo 'mysql-server-5.6 mysql-server/root_password_again password root' | debconf-set-selections && apt-get install -y mysql-server php5-mysql :: Filesystem_operation,()
+entrypoint,lemp
+apt-get ¦install¦-y¦php5-fpm :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+mkdir ¦-p¦/srv/logs/ :: Filesystem_operation,()
+from,debian@jessie
+expose,80
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+cmd,start
+lemp.sh/usr/local/bin/lemp :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+git ¦clone¦$REPO¦/srv/www/ :: Dependencies_operation,()

@@ -1,0 +1,11 @@
+chown ¦-R¦docker.docker¦/messages :: Permissions_operation,()
+from,ruby:2.2
+mkdir ¦-p¦/messages/sms :: Filesystem_operation,()
+docker :: user_operation,()
+cmd,/app/bin/fake-twilio-server
+expose,4444
+useradd ¦docker :: Permissions_operation,()
+gem ¦install¦/app/fake-twilio.gem :: Dependencies_operation,()
+bin/app/bin :: copy_operation,()
+PREFIX=/messages: :: env_operation,()
+fake-twilio-*.gem/app/fake-twilio.gem :: copy_operation,()

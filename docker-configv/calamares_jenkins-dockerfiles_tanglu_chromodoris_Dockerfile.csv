@@ -1,0 +1,13 @@
+expose,22
+adduser ¦--quiet¦jenkins :: Permissions_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+echo ¦echo¦"jenkins ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/jenkins :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D
+apt-get ¦-y¦install¦build-essential¦openjdk-8-jdk¦sudo¦openssh-client¦openssh-server :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦-y¦install¦konsole¦cppcheck¦transifex-client¦git :: Dependencies_operation,()
+from,tanglu@chromodoris
+apt-get ¦-y¦install¦cmake¦debhelper¦extra-cmake-modules¦gettext¦libatasmart-dev¦libboost-python-dev¦libkf5config-dev¦libkf5coreaddons-dev¦libkf5i18n-dev¦libkf5solid-dev¦libparted-dev¦libpolkit-qt5-1-dev¦libqt5svg5-dev¦libyaml-cpp-dev¦os-prober¦pkg-... :: Dependencies_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()

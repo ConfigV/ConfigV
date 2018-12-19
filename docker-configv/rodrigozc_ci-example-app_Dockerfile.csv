@@ -1,0 +1,8 @@
+*.jarapp.jar :: add_operation,()
+from,frolvlad/alpine-oraclejdk8:slim
+sh ¦-c¦'touch¦app.jar' :: Build_Execute_operation,()
+/app/logs :: volume_operation,()
+/app :: workdir_operation,()
+expose,8080
+application.propertiesapplication.properties :: add_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦app.jar

@@ -1,0 +1,6 @@
+yum ¦-y¦install¦sudo¦rpm-build¦java-1.8.0-openjdk-headless¦maven :: Dependencies_operation,()
+sed ¦-i¦'s/requiretty/!requiretty/'¦/etc/sudoers :: Filesystem_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+cmd,/usr/bin/mvn¦-f¦workspace/pom.xml¦clean¦package¦-P¦package-rpm
+root :: user_operation,()

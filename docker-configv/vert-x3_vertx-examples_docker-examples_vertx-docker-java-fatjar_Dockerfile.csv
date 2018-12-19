@@ -1,0 +1,8 @@
+from,java:8.0
+VERTICLE_FILE:hello-verticle-fatjar-3.0.0-SNAPSHOT-fat.jar :: env_operation,()
+$VERTICLE_HOME :: workdir_operation,()
+target/$VERTICLE_FILE$VERTICLE_HOME/ :: copy_operation,()
+cmd,java -jar $VERTICLE_FILE
+expose,8080
+VERTICLE_HOME:/usr/verticles :: env_operation,()
+entrypoint,sh¦-c

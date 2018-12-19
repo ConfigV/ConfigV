@@ -1,0 +1,11 @@
+config/patchpanel.sh/usr/local/bin/ :: copy_operation,()
+expose,80
+from,httpd:2.4
+rm ¦-f¦mod-pagespeed-*.deb :: Filesystem_operation,()
+cmd,patchpanel.sh
+wget ¦https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb :: Dependencies_operation,()
+config/sites-enabled/vhost.conf/usr/local/apache2/conf/extra/sites-enabled/vhost.conf :: copy_operation,()
+dpkg ¦-i¦mod-pagespeed-*.deb :: Dependencies_operation,()
+config/httpd.conf/usr/local/apache2/conf/httpd.conf :: copy_operation,()
+apt ¦install¦-y¦wget¦apache2.2-common¦apache2-bin :: Dependencies_operation,()
+apt ¦update :: Dependencies_operation,()

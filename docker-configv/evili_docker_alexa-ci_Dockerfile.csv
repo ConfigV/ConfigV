@@ -1,0 +1,13 @@
+dnf ¦install¦-y¦xorg-x11-server-Xvfb :: Dependencies_operation,()
+curl ¦-o¦/tmp/geckodriver.tgz¦-L¦https://github.com/mozilla/geckodriver/releases/download/${GECKO_VERSION}/geckodriver-${GECKO_VERSION}-linux64.tar.gz :: Dependencies_operation,()
+dnf ¦install¦-y¦./pgdg.rpm :: Dependencies_operation,()
+dnf ¦upgrade¦-y :: Dependencies_operation,()
+from,fedora@latest
+chmod ¦+x¦geckodriver :: Permissions_operation,()
+tar ¦-xvf¦/tmp/geckodriver.tgz¦geckodriver :: Filesystem_operation,()
+PATH:/usr/pgsql-${PG_VERSION}/bin:${PATH} :: env_operation,()
+dnf ¦install¦-y¦python3-virtualenv¦python2-virtualenv¦tigervnc-server¦firefox¦wget¦openssh-clients¦gcc¦openldap-devel¦openldap-clients¦redhat-rpm-config¦inkscape¦poppler-utils¦tar¦openssh-clients¦git-core¦tar¦cmake¦make¦gcc-c++¦python-rosdep¦py... :: Dependencies_operation,()
+mv ¦geckodriver¦/usr/local/bin/ :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+curl ¦-o¦pgdg.rpm¦-L¦http://yum.postgresql.org/${PG_VERSION}/fedora/fedora-${OS_VERSION}-x86_64/pgdg-fedora${PG_NODOT}-${PG_VERSION}-${PG_MINOR}.noarch.rpm :: Dependencies_operation,()
+OS_VERSION=25:GECKO_VERSION=v0.15.0\\ :: env_operation,()

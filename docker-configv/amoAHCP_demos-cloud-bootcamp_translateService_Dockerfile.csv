@@ -1,0 +1,8 @@
+from,maven:3.3
+/usr/src/app :: workdir_operation,()
+src/main/resources/optionalconfig.json/conf/ :: add_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+./usr/src/app :: copy_operation,()
+expose,9090
+cmd,java¦-jar¦/usr/src/app/target/translateService-fat.jar¦-conf¦/conf/optionalconfig.json
+ADD. /usr/src/app :: onbuild_operation,()

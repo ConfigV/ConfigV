@@ -1,0 +1,12 @@
+RUN/usr/bin/rm -f /etc/openldap/slapd.d /var/lib/ldap :: onbuild_operation,()
+expose,389 636
+RUN/usr/bin/slapcat -f slapd-conf/slapd.conf -F /etc/openldap/slapd.d :: onbuild_operation,()
+/var/lib/ldap :: volume_operation,()
+RUN/usr/bin/mkdir -pv /etc/openldap/slapd.d /var/lib/ldap :: onbuild_operation,()
+/usr/bin/dnf ¦upgrade :: Other_operation,()
+ADDslapd-conf slapd-conf :: onbuild_operation,()
+from,fedora@latest
+/usr/bin/dnf ¦check-update :: Other_operation,()
+RUN/usr/bin/chown -R ldap:ldap /etc/openldap/slapd.d /var/lib/ldap :: onbuild_operation,()
+/usr/bin/dnf ¦install¦-y¦openldap-clients¦openldap-servers¦smbldap-tools :: Other_operation,()
+RUN/usr/bin/chmod -R u=rwX,go= /etc/openldap/slapd.d /var/lib/ldap :: onbuild_operation,()

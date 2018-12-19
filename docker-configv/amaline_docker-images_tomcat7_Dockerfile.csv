@@ -1,0 +1,9 @@
+expose,8080
+ADDtomcat7.default /etc/default/tomcat7 :: onbuild_operation,()
+apt-get ¦-y¦install¦tomcat7 :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/tomcat7/webapps/ROOT :: Filesystem_operation,()
+from,jdk7-oracle:7.0
+chown ¦-R¦tomcat7:tomcat7¦/usr/share/tomcat7 :: Permissions_operation,()
+tomcat.sv.conf/etc/supervisor/conf.d/ :: add_operation,()
+ADDssl/server.xml /etc/tomcat7/server.xml :: onbuild_operation,()
+ADDssl/keystore.jks /etc/tomcat7/keystore.jks :: onbuild_operation,()

@@ -1,0 +1,9 @@
+from,vertx/vertx3
+$VERTICLE_FILE$VERTICLE_HOME/ :: copy_operation,()
+$VERTICLE_HOME :: workdir_operation,()
+entrypoint,sh¦-c
+VERTICLE_NAME:io.vertx.sample.hello.HelloVerticle :: env_operation,()
+VERTICLE_FILE:target/hello-verticle-3.0.0-SNAPSHOT.jar :: env_operation,()
+expose,8080
+VERTICLE_HOME:/usr/verticles :: env_operation,()
+cmd,vertx run $VERTICLE_NAME -cp $VERTICLE_HOME/*

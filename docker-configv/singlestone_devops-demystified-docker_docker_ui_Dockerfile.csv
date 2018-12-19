@@ -1,0 +1,12 @@
+a2dissite ¦000-default :: Other_operation,()
+a2enmod ¦headers :: Other_operation,()
+a2ensite ¦devops-demystified :: Other_operation,()
+ln ¦-s¦/build/dist/ui¦/app :: Filesystem_operation,()
+./apache.conf/etc/apache2/sites-available/devops-demystified.conf :: copy_operation,()
+a2enmod ¦proxy_http :: Other_operation,()
+REFRESHED_AT:2015-05-20 :: env_operation,()
+from,ubuntu@latest
+a2enmod ¦userdir :: Other_operation,()
+cmd,apache2ctl¦-D¦FOREGROUND
+apt-get ¦-yq¦install¦apache2 :: Dependencies_operation,()
+apt-get ¦-yq¦update :: Dependencies_operation,()

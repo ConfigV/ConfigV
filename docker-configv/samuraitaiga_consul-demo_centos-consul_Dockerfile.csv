@@ -1,0 +1,12 @@
+chmod ¦755¦consul :: Permissions_operation,()
+wget ¦https://dl.bintray.com/mitchellh/consul/0.5.0_linux_amd64.zip :: Dependencies_operation,()
+unzip ¦0.5.0_linux_amd64.zip :: Filesystem_operation,()
+/root :: workdir_operation,()
+rm ¦-rf¦./* :: Filesystem_operation,()
+mv ¦dist¦/opt/ :: Filesystem_operation,()
+unzip ¦0.5.0_web_ui.zip :: Filesystem_operation,()
+yum ¦install¦-y¦wget¦unzip¦dnsmasq :: Dependencies_operation,()
+wget ¦https://dl.bintray.com/mitchellh/consul/0.5.0_web_ui.zip :: Dependencies_operation,()
+cp ¦consul¦/usr/local/bin :: Filesystem_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()

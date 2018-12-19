@@ -1,0 +1,13 @@
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+apt-get ¦install¦-y¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev¦libbz2-dev¦php-pear¦curl¦git¦unzip :: Dependencies_operation,()
+from,php:5.6
+docker-php-ext-install ¦iconv¦mcrypt :: Other_operation,()
+echo ¦curl¦-o mautic.zip -SL https://s3.amazonaws.com/mautic/releases/${MAUTIC_VERSION}.zip && echo "$MAUTIC_SHA1 *mautic.zip" | sha1sum -c - && unzip mautic.zip -d /var/www/html && rm mautic.zip && chown -R www-data:www-data /var/www/html :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+COMPOSER_HOME:/root/composer :: env_operation,()
+MAUTIC_VERSION:1.2.4 :: env_operation,()
+MAUTIC_SHA1:f0f89343f9ce67b6b4cafb44fd7b15f325ed726f :: env_operation,()
+echo ¦echo¦"memory_limit=1024M" > /usr/local/etc/php/conf.d/memory-limit.ini :: Filesystem_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()
+docker-php-ext-install ¦zip¦bz2¦iconv¦mcrypt¦mbstring¦mysql¦pdo_mysql :: Other_operation,()

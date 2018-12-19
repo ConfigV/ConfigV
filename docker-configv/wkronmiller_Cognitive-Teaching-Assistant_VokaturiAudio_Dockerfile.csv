@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+rabbitport:5672 :: env_operation,()
+pwd  :: Other_operation,()
+entrypoint,./main.py¦rabbit¦${rabbitport}
+from,python:2.0
+.${pydir} :: add_operation,()
+pydir:/usr/src/app :: env_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+cd ¦${vokaturidir} :: Filesystem_operation,()
+apt-get ¦install¦-y¦portaudio19-dev :: Dependencies_operation,()
+mkdir ¦-p¦${pydir} :: Filesystem_operation,()
+vokaturidir:${pydir}/VokaturiAudio :: env_operation,()
+${vokaturidir}/lib :: workdir_operation,()

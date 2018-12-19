@@ -1,0 +1,21 @@
+$GALAXY_ROOT :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦cabextract¦build-essential¦curl¦git¦m4¦ruby¦texinfo¦libbz2-dev¦libcurl4-openssl-dev¦libxml2-dev¦libexpat-dev¦libncurses-dev¦zlib1g-dev¦libreadline-dev :: Dependencies_operation,()
+expose,80 21 8800 9009
+galaxy :: user_operation,()
+/data/ :: volume_operation,()
+GALAXY_CONFIG_BRAND="Omicron:(simple)" :: env_operation,()
+cmd,/usr/bin/startup
+apt-get ¦clean :: Dependencies_operation,()
+from,bgruening/galaxy-stable
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+*.ga/tmp/ :: copy_operation,()
+/export/ :: volume_operation,()
+/var/lib/docker :: volume_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+import_workflow.sh/usr/bin/import-workflow :: copy_operation,()
+import-workflow ¦/tmp/*.ga :: Other_operation,()
+apt-get ¦purge¦-y¦software-properties-common :: Dependencies_operation,()
+root :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+add-tool-shed ¦--url¦'http://testtoolshed.g2.bx.psu.edu/'¦--name¦'Test¦Tool¦Shed' :: Other_operation,()
+install-repository ¦"--url¦http://testtoolshed.g2.bx.psu.edu/¦-o¦galaxyp¦--name¦myrimatch"¦"--url¦http://testtoolshed.g2.bx.psu.edu/¦-o¦galaxyp¦--name¦idpqonvert"¦"--url¦http://testtoolshed.g2.bx.psu.edu/¦-o¦galaxyp¦--name¦idpassemble"¦"--url¦http://testtools... :: Other_operation,()

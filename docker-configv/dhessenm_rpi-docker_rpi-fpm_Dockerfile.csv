@@ -1,0 +1,7 @@
+from,resin/rpi-raspbian:stretch
+expose,9000
+apt-get ¦install¦-y¦php-mysql¦php-fpm¦libjpeg-dev¦libpng-dev¦php-mysql¦pwgen¦vim\\ :: Dependencies_operation,()
+cmd,php-fpm7.0¦--force-stderr¦--nodaemonize¦--fpm-config¦/etc/php/7.0/fpm/php-fpm.conf
+sed ¦-i¦'s/^listen¦=¦.*/listen¦=¦9000/g'¦/etc/php/7.0/fpm/pool.d/www.conf :: Filesystem_operation,()
+mkdir ¦/run/php :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

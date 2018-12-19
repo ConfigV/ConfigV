@@ -1,0 +1,9 @@
+entrypoint,/usr/bin/tini¦--
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && wget --quiet https://repo.continuum.io/archive/Anaconda3-4.3.1-Linux-x86_64.sh -O ~/anaconda.sh && /bin/bash ~/anaconda.sh -b -p /opt/conda && rm ~/anaconda.sh :: Filesystem_operation,()
+PATH:/opt/conda/bin:$PATH :: env_operation,()
+.*\\  :: Other_operation,()
+cmd,/bin/bash
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦bzip2¦ca-certificates¦libglib2.0-0¦libxext6¦libsm6¦libxrender1¦git¦mercurial¦subversion :: Dependencies_operation,()
+LANG=C.UTF-8:LC_ALL=C.UTF-8 :: env_operation,()
+from,node:6.0

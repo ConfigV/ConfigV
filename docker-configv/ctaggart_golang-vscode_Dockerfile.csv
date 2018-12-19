@@ -1,0 +1,11 @@
+/root :: workdir_operation,()
+from,golang@latest
+cmd,/bin/bash
+root/root :: copy_operation,()
+cd ¦/root :: Filesystem_operation,()
+./install-apt-packages.sh  :: Other_operation,()
+cp ¦install-vscode-extension*.sh¦/home/vscode/ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+chown ¦vscode:vscode¦/home/vscode/install-vscode-extension*.sh :: Permissions_operation,()
+useradd ¦-m¦vscode¦-s¦/bin/bash :: Permissions_operation,()
+su ¦vscode¦-c¦/home/vscode/install-vscode-extensions.sh :: Other_operation,()

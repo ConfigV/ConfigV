@@ -1,0 +1,9 @@
+LANG:C.UTF-8 :: env_operation,()
+cmd,/bin/bash
+conda ¦config¦--add¦channels¦https://conda.anaconda.org/NLeSC :: Dependencies_operation,()
+PATH:/opt/conda/bin:$PATH :: env_operation,()
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && wget --quiet https://repo.continuum.io/miniconda/Miniconda-3.16.0-Linux-x86_64.sh && /bin/bash /Miniconda-3.16.0-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda-3.16.0-L... :: Filesystem_operation,()
+conda ¦create¦--name=analysis¦root=6¦python=2¦root_pandas¦rootpy¦gcc¦cmake¦scikit-learn :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦wget¦git¦sudo¦bzip2¦HEP_OSlibs_SL6¦e2fsprogs :: Dependencies_operation,()
+from,kreczko/centos6

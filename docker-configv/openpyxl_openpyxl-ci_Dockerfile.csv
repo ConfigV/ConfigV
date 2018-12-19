@@ -1,0 +1,14 @@
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yqq¦software-properties-common¦python-software-properties :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/tools/clean-launch.sh
+https://bootstrap.pypa.io/get-pip.py/tmp/get-pip.py :: add_operation,()
+pip ¦install¦tox :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yqq¦libxml2-dev¦libxslt1-dev¦python2.6¦python2.6-dev¦python2.7¦python2.7-dev¦python3.2¦python3.2-dev¦python3.3¦python3.3-dev¦python3.4¦python3.4-dev :: Other_operation,()
+cmd,tox
+from,ubuntu:14.04
+/source :: workdir_operation,()
+python ¦/tmp/get-pip.py :: Build_Execute_operation,()
+add-apt-repository ¦-y¦ppa:fkrull/deadsnakes :: Dependencies_operation,()
+clean-launch.sh/tools/clean-launch.sh :: add_operation,()
+/source :: volume_operation,()

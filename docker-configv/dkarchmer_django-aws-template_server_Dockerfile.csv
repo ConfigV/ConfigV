@@ -1,0 +1,23 @@
+mkdir ¦/var/app :: Filesystem_operation,()
+apt-get ¦install¦-y¦postgresql-client¦libpq-dev¦supervisor¦elasticsearch :: Dependencies_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+requirements.txt/var/app/requirements.txt :: copy_operation,()
+apps/var/app/apps :: copy_operation,()
+C_FORCE_ROOT:1 :: env_operation,()
+adduser ¦--disabled-password¦--gecos¦''¦myuser :: Permissions_operation,()
+.*env/var/app/ :: copy_operation,()
+expose,8080
+from,python:3.4
+runserver.sh/var/app/runserver.sh :: add_operation,()
+runtest.sh/var/app/runtest.sh :: add_operation,()
+config/var/app/config :: copy_operation,()
+/var/app :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,/var/app/runserver.sh
+locale/var/app/locale :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦-U¦pip :: Dependencies_operation,()
+mkdir ¦/var/app/logs :: Filesystem_operation,()
+pip ¦install¦gunicorn :: Dependencies_operation,()
+manage.py/var/app/manage.py :: copy_operation,()

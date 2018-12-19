@@ -1,0 +1,14 @@
+AMQ_VERSION:5.14.1 :: env_operation,()
+wget ¦-O¦-¦https://archive.apache.org/dist/activemq/${AMQ_VERSION}/apache-activemq-${AMQ_VERSION}-bin.tar.gz¦|¦tar¦zxf¦-¦-C¦/opt/ :: Dependencies_operation,()
+mv ¦/opt/apache-activemq-${AMQ_VERSION}/¦/opt/apache-activemq/ :: Filesystem_operation,()
+expose,1883 5672 8161 61613 61614 61616
+chown ¦activemq¦-R¦/opt/apache-activemq :: Permissions_operation,()
+entrypoint,/bin/sh¦-c¦/opt/apache-activemq/bin/activemq console
+from,java:8.0
+env.add/ :: add_operation,()
+activemq :: user_operation,()
+mkdir ¦/opt/apache-activemq-${AMQ_VERSION}/data/kahadb¦-p :: Filesystem_operation,()
+cat ¦/env.add¦>>/opt/apache-activemq/bin/env :: Filesystem_operation,()
+useradd ¦activemq :: Permissions_operation,()
+echo ¦echo¦'' >>/opt/apache-activemq/bin/env :: Filesystem_operation,()
+/opt/apache-activemq/data/kahadb :: volume_operation,()

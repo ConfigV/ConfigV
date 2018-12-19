@@ -1,0 +1,20 @@
+wget ¦https://github.com/Microsoft/malmo/releases/download/$MALMO_VERSION/Malmo-$MALMO_VERSION-Linux-Ubuntu-16.04-64bit_withBoost.zip :: Dependencies_operation,()
+run.sh/root/ :: copy_operation,()
+./gradlew ¦build :: Other_operation,()
+./gradlew ¦setupDecompWorkspace :: Other_operation,()
+chmod ¦+x¦/root/run.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦mkdir¦~/.gradle && echo 'org.gradle.daemon=true\\n' > ~/.gradle/gradle.properties :: Filesystem_operation,()
+mv ¦Malmo-$MALMO_VERSION-Linux-Ubuntu-16.04-64bit_withBoost¦Malmo :: Filesystem_operation,()
+from,ubuntu:16.04
+rm ¦Malmo-$MALMO_VERSION-Linux-Ubuntu-16.04-64bit_withBoost.zip :: Filesystem_operation,()
+unzip ¦Malmo-$MALMO_VERSION-Linux-Ubuntu-16.04-64bit_withBoost.zip :: Filesystem_operation,()
+expose,10000
+MALMO_VERSION:0.21.0 :: env_operation,()
+/root/Malmo/Minecraft :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦openjdk-8-jdk¦libxerces-c3.1¦libav-tools¦wget¦unzip¦xvfb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/var/cache/apt/archives/* :: Filesystem_operation,()
+MALMO_XSD_PATH:/root/Malmo/Schemas :: env_operation,()
+options.txt/root/Malmo/Minecraft/run :: copy_operation,()
+entrypoint,/root/run.sh¦/root/Malmo/Minecraft/launchClient.sh
+/root :: workdir_operation,()

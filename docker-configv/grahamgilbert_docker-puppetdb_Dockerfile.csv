@@ -1,0 +1,14 @@
+Puppetfile/ :: add_operation,()
+puppet ¦apply¦--modulepath=/modules¦puppetdb.pp :: Dependencies_operation,()
+cmd,/usr/lib/jvm/java-7-openjdk-amd64/bin/java¦-cp¦/usr/share/puppetdb/puppetdb.jar¦clojure.main¦-m¦com.puppetlabs.puppetdb.core¦services¦-c¦/etc/puppetdb/conf.d
+puppetdb.pp/ :: add_operation,()
+dpkg ¦-i¦puppetlabs-release-pc1-trusty.deb :: Dependencies_operation,()
+librarian-puppet ¦install :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"gem: --no-ri --no-rdoc" > ~/.gemrc :: Filesystem_operation,()
+wget ¦https://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb :: Dependencies_operation,()
+gem ¦install¦--no-rdoc¦--no-ri¦librarian-puppet :: Dependencies_operation,()
+expose,8080 8081 8082
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦-y¦install¦puppet¦ruby¦ruby-dev¦build-essential¦git :: Dependencies_operation,()

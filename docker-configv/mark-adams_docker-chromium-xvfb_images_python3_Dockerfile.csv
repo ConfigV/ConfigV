@@ -1,0 +1,11 @@
+rm ¦"chromedriver_linux64.zip" :: Filesystem_operation,()
+cmd,py.test
+unzip ¦"chromedriver_linux64.zip"¦-d¦/usr/local/bin :: Filesystem_operation,()
+CHROMEDRIVER_VERSION:2.14 :: env_operation,()
+from,markadams/chromium-xvfb
+curl ¦-SLO¦"https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦python3¦python3-pip¦curl¦unzip¦libgconf-2-4 :: Dependencies_operation,()
+ADD. /app :: onbuild_operation,()
+RUNpip3 install -r requirements.txt :: onbuild_operation,()
+pip3 ¦install¦pytest¦selenium :: Dependencies_operation,()

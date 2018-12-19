@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+google-fluentd.conf/etc/google-fluentd/google-fluentd.conf :: copy_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-s¦https://storage.googleapis.com/signals-agents/logging/google-fluentd-install.sh¦|¦sudo¦bash :: Dependencies_operation,()
+/usr/sbin/google-fluentd-gem ¦install¦fluent-plugin-record-reformer :: Other_operation,()
+/usr/sbin/google-fluentd-gem ¦update¦fluent-plugin-google-cloud :: Other_operation,()
+cmd,/usr/sbin/google-fluentd¦"$FLUENTD_ARGS"¦>¦/var/log/google-fluentd.log
+from,ubuntu:14.04
+apt-get ¦clean :: Dependencies_operation,()

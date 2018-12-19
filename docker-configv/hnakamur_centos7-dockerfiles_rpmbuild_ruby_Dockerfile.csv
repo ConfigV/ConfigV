@@ -1,0 +1,14 @@
+/data :: volume_operation,()
+yum ¦install¦-y¦gcc¦make¦rpmdevtools¦openssl-devel¦gdbm-devel¦compat-db47¦readline-devel¦ncurses-devel¦tcl-devel¦byacc¦libyaml-devel¦libffi-devel :: Dependencies_operation,()
+cmd,sh¦-c¦cp ~mockbuild/rpmbuild/RPMS/x86_64/*.rpm ~mockbuild/rpmbuild/SRPMS/*.rpm /data/
+mockbuild :: user_operation,()
+curl ¦https://raw.githubusercontent.com/hansode/ruby-2.1.x-rpm/master/ruby21x.spec¦|¦sed¦'/^%define¦rubyver/s/2\\.1\\.2/'${RUBY_VERSION}'/;s/db4-devel/compat-db47/'¦>¦~/rpmbuild/SPECS/ruby.spec :: Dependencies_operation,()
+RUBY_VERSION:2.1.4 :: env_operation,()
+curl ¦-o¦~/rpmbuild/SOURCES/ruby-${RUBY_VERSION}.tar.gz¦http://cache.ruby-lang.org/pub/ruby/2.1/ruby-${RUBY_VERSION}.tar.gz :: Dependencies_operation,()
+from,centos:7.0
+mkdir ¦-p¦/usr/share/info :: Filesystem_operation,()
+useradd ¦mockbuild :: Permissions_operation,()
+root :: user_operation,()
+cd ¦~/rpmbuild/SRPMS :: Filesystem_operation,()
+rpmdev-setuptree  :: Other_operation,()
+rpmbuild ¦-ba¦~/rpmbuild/SPECS/ruby.spec :: Other_operation,()

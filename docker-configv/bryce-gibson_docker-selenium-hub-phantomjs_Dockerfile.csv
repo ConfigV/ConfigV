@@ -1,0 +1,12 @@
+expose,4444
+SELENIUM_MINOR_VERSION:2 :: env_operation,()
+cd ¦/opt/¦;¦tar¦xvjf¦/tmp/phantomjs.tar.bz2¦; :: Filesystem_operation,()
+SELENIUM_VERSION:2.42 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+cmd,java¦-jar¦/opt/selenium-server-standalone.jar¦-role¦hub¦&¦while¦!¦nc¦-vz¦localhost¦4444;¦do¦sleep¦1;¦done;¦/usr/bin/phantomjs¦--webdriver=5555¦--webdriver-selenium-grid-hub=http://localhost:4444
+ln ¦-s¦/opt/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs¦/usr/bin/phantomjs :: Filesystem_operation,()
+from,ubuntu:14.04
+curl ¦http://selenium-release.storage.googleapis.com/${SELENIUM_VERSION}/selenium-server-standalone-${SELENIUM_VERSION}.${SELENIUM_MINOR_VERSION}.jar¦-o¦/opt/selenium-server-standalone.jar :: Dependencies_operation,()
+PHANTOMJS_VERSION:1.9.7 :: env_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦fontconfig¦curl :: Dependencies_operation,()

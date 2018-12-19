@@ -1,0 +1,11 @@
+PATH:$PATH:$GOROOT/bin:$GOPATH/bin :: env_operation,()
+yum ¦install¦-y¦hg¦golang¦golang-pkg-darwin¦golang-pkg-windows :: Dependencies_operation,()
+from,openshift/origin-base
+OS_VERSION_FILE:/go/src/github.com/openshift/origin/os-version-defs :: env_operation,()
+cmd,tar¦mxzf¦-¦&&¦hack/build-cross.sh
+/go/src/github.com/openshift/origin :: workdir_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+touch ¦/os-build-image :: Filesystem_operation,()
+go ¦get¦code.google.com/p/go.tools/cmd/cover¦github.com/tools/godep :: Build_Execute_operation,()
+GOARM:5 :: env_operation,()

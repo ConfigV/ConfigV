@@ -1,0 +1,9 @@
+./code/ :: add_operation,()
+/code :: workdir_operation,()
+mkdir ¦/code :: Filesystem_operation,()
+SECRET_KEY=unset ¦./manage.py¦collectstatic¦--no-input :: Other_operation,()
+from,python:2.7
+requirements.txt/code/ :: add_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+cmd,gunicorn¦{{¦project_name¦}}.wsgi¦-b¦0.0.0.0:8000¦--log-file¦-¦--access-logfile¦-¦-k¦eventlet¦--workers¦4¦--worker-connections¦5

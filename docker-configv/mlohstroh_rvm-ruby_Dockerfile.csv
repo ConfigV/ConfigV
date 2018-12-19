@@ -1,0 +1,10 @@
+root :: user_operation,()
+apt-get ¦install¦-y¦autoconf¦bison¦build-essential¦libssl-dev¦libyaml-dev¦libreadline6-dev¦zlib1g-dev¦libncurses5-dev¦libffi-dev¦libgdbm3¦libgdbm-dev¦curl :: Dependencies_operation,()
+echo ¦echo¦"playful ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()
+command ¦curl¦-sSL¦https://rvm.io/mpapis.asc¦|¦gpg¦--import¦- :: Other_operation,()
+useradd ¦-m¦playful¦-G¦sudo,staff :: Permissions_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+PATH:/home/playful/.rvm/bin:/home/playful/.rvm/rubies/ruby2.2.3/bin:$PATH :: env_operation,()
+playful :: user_operation,()
+sudo ¦curl¦-sSL¦https://get.rvm.io¦|¦bash¦-s¦stable¦--ruby=2.2.3¦--gems=bundler :: Other_operation,()
+from,ubuntu:14.04

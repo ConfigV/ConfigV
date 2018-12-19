@@ -1,0 +1,15 @@
+from,ubuntu:14.04
+expose,9080 9443
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+cmd,/opt/ibm/wlp/bin/server¦run¦defaultServer
+PATH:$JAVA_HOME/jre/bin:$PATH :: env_operation,()
+server.xml/opt/ibm/wlp/usr/servers/defaultServer/ :: copy_operation,()
+rm ¦/tmp/855*-wlp*runtime-archive.jar :: Filesystem_operation,()
+java ¦-jar¦/tmp/855*-wlp*runtime-archive.jar¦--acceptLicense¦/opt/ibm :: Other_operation,()
+PATH:/opt/ibm/wlp/bin:$PATH :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/opt/ibm/wlp/bin/server ¦create :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦-q¦<User¦Credential>¦<URL>//home/test/LibertyCore/855*-wlp*runtime-archive.jar¦-O¦/tmp/855*-wlp*runtime-archive.jar :: Dependencies_operation,()
+rm ¦-rf¦/opt/ibm/wlp/usr/servers/.classCache :: Filesystem_operation,()
+JAVA_HOME:/opt/ibm/java :: env_operation,()

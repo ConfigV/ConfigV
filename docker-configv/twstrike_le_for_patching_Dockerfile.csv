@@ -1,0 +1,12 @@
+from,ubuntu@trusty
+git ¦clone¦https://github.com/letsencrypt/lets-encrypt-preview.git :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/opt/lets-encrypt-preview :: workdir_operation,()
+./venv/bin/python ¦setup.py¦install :: Other_operation,()
+apt-get ¦-y¦install¦python¦python-setuptools¦python-virtualenv¦python-dev¦gcc¦swig¦dialog¦libaugeas0¦libssl-dev¦libffi-dev¦ca-certificates¦git :: Dependencies_operation,()
+cd ¦/opt :: Filesystem_operation,()
+virtualenv ¦--no-site-packages¦-p¦python2¦venv :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,./venv/bin/letsencrypt¦--text
+expose,443
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

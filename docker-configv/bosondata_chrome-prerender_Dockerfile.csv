@@ -1,0 +1,8 @@
+expose,3000
+from,ubuntu:16.04
+LC_ALL=C.UTF-8: :: env_operation,()
+rm ¦-rf¦/var/lib/apt/list/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+LANG=C.UTF-8: :: env_operation,()
+echo ¦echo¦'deb http://ppa.launchpad.net/fkrull/deadsnakes/ubuntu xenial main' > /etc/apt/sources.list.d/fkrull-ubuntu-deadsnakes-xenial.list && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DB82666C && apt-get update && DEBIAN_FRONTE... :: Filesystem_operation,()
+entrypoint,/usr/local/bin/prerender
+python3.6 ¦-m¦pip¦install¦-U¦prerender¦diskcache¦minio :: Other_operation,()

@@ -1,0 +1,8 @@
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/etc/nginx :: workdir_operation,()
+collected_static/usr/share/nginx/html :: copy_operation,()
+expose,80
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+from,ubuntu@trusty
+cmd,/usr/sbin/nginx¦-c¦/etc/nginx/nginx.conf

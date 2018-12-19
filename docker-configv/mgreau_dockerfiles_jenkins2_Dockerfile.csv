@@ -1,0 +1,12 @@
+JAVA_OPTS="-Djenkins.install.runSetupWizard=false": :: env_operation,()
+chmod ¦0600¦/usr/share/jenkins/ref/.ssh/* :: Permissions_operation,()
+entrypoint,/usr/local/bin/jenkins.sh
+from,jenkins:2.19
+chown ¦-R¦jenkins:jenkins¦/usr/share/jenkins/ref :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+config//usr/share/jenkins/ref/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/usr/local/bin/plugins.sh ¦/usr/share/jenkins/plugins.txt :: Other_operation,()
+apt-get ¦install¦-y¦git¦gettext¦jq :: Dependencies_operation,()
+plugins.txt/usr/share/jenkins/plugins.txt :: copy_operation,()
+root :: user_operation,()

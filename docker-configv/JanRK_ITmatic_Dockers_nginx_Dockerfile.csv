@@ -1,0 +1,10 @@
+expose,443
+/etc/nginx/sites-enabled :: volume_operation,()
+/etc/nginx :: workdir_operation,()
+/var/www/html :: volume_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+/etc/nginx/certs :: volume_operation,()
+echo ¦wget¦-O - http://nginx.org/keys/nginx_signing.key | sudo apt-key add - && sh -c "echo 'deb http://nginx.org/packages/debian/ jessie nginx' >> /etc/apt/sources.list.d/nginx.list" && sh -c "echo 'deb-src http://nginx.org/packages/debian/ jes... :: Filesystem_operation,()
+from,debian@jessie
+/var/log/nginx :: volume_operation,()
+cmd,nginx

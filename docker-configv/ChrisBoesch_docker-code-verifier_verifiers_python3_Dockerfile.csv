@@ -1,0 +1,9 @@
+cmd,bash
+apt-get ¦install¦-y¦--no-install-recommends¦¦make :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/app :: workdir_operation,()
+./app :: copy_operation,()
+from,python:3.4
+entrypoint,/app/entrypoint.sh
+python3 ¦-m¦compileall¦. :: Build_Execute_operation,()

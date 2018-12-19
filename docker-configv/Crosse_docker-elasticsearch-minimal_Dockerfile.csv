@@ -1,0 +1,9 @@
+curl ¦-Lo¦-¦"${ES_URL}"¦|¦tar¦xzf¦-¦-C¦/opt/elasticsearch¦--strip-components=1 :: Dependencies_operation,()
+entrypoint,/docker-entrypoint.sh
+ES_VERSION=1.7.2: :: env_operation,()
+ES_URL="https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz": :: env_operation,()
+/opt/elasticsearch/data :: volume_operation,()
+from,crosse3/alpine-base
+apk ¦add¦--update¦curl¦ca-certificates¦tar :: Dependencies_operation,()
+./docker-entrypoint.sh/ :: copy_operation,()
+chmod ¦+x¦/docker-entrypoint.sh :: Permissions_operation,()

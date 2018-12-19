@@ -1,0 +1,10 @@
+./srv/carina-jupyterhub :: add_operation,()
+from,jupyter/jupyterhub:latest
+/srv/carina-jupyterhub :: workdir_operation,()
+/srv/dockerspawner :: workdir_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+templates/login.html/usr/local/share/jupyter/hub/templates/login.html :: add_operation,()
+/srv/ :: workdir_operation,()
+git ¦clone¦--depth¦1¦https://github.com/jupyter/dockerspawner.git :: Dependencies_operation,()
+pip3 ¦install¦. :: Dependencies_operation,()
+python3 ¦setup.py¦install :: Build_Execute_operation,()

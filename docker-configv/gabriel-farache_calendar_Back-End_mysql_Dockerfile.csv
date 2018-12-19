@@ -1,0 +1,17 @@
+./httpd.conf/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+mkdir ¦-p¦/pechbusque-calendar/back-end :: Filesystem_operation,()
+/pechbusque-calendar/back-end :: workdir_operation,()
+./pechbusque-calendar/back-end :: add_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+from,php:5.5
+cmd,./generateCertificates.sh¦&&¦./dockerBackEndRunScript.sh¦&&¦apache2¦-D¦FOREGROUND
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+expose,80
+a2enmod ¦rewrite :: Other_operation,()
+a2enmod ¦headers :: Other_operation,()
+echo ¦apt-get¦update -y && apt-get install -y libssl-dev openssl ssmtp rsyslog && pecl install mongo && apt-get purge -y --auto-remove libssl-dev && echo sendmail_path=/usr/sbin/ssmtp -t >> /usr/local/etc/php/php.ini &&\\ :: Filesystem_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+chmod ¦a+x¦generateCertificates.sh :: Permissions_operation,()
+a2enmod ¦ssl :: Other_operation,()

@@ -1,0 +1,15 @@
+pi.php/var/www/pi.php :: add_operation,()
+from,jimt/ubuntu:12.04
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+/bin/cp ¦/usr/share/nginx/www/index.html¦/usr/share/nginx/www/50x.html¦/var/www :: Other_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+sed ¦-i¦-e¦"s/;cgi.fix_pathinfo\\s*=\\s*1/cgi.fix_pathinfo=0/g"¦/etc/php5/fpm/php.ini :: Filesystem_operation,()
+entrypoint,"/usr/bin/supervisord"
+apt-get ¦install¦-y¦nginx¦php5-fpm¦php-apc¦php-pear¦php5-imagick¦php5-curl¦php5-gd¦php5-gmp¦php5-mysql¦php5-memcache¦php5-mcrypt¦php5-pspell¦php5-ps¦php5-tidy¦php5-imap¦nullmailer¦supervisor :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+php.timezone.ini/etc/php5/fpm/conf.d/php.timezone.ini :: add_operation,()
+nginx-default/etc/nginx/sites-available/default :: add_operation,()
+sed ¦-i¦-e¦"s/;daemonize\\s*=\\s*yes/daemonize¦=¦no/g"¦/etc/php5/fpm/php-fpm.conf :: Filesystem_operation,()
+expose,80

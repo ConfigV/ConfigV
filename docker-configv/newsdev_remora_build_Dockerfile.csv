@@ -1,0 +1,8 @@
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+wget ¦https://github.com/newsdev/remora/releases/download/v$REMORA_VERSION/remora :: Dependencies_operation,()
+apk ¦add¦--update¦openssl :: Dependencies_operation,()
+REMORA_VERSION=0.0.1: :: env_operation,()
+cd ¦/usr/local/bin :: Filesystem_operation,()
+from,alpine
+chmod ¦+x¦remora :: Permissions_operation,()
+entrypoint,remora

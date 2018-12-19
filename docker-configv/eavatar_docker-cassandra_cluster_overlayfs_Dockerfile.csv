@@ -1,0 +1,9 @@
+mkdir ¦-p¦opt/cassandra;¦wget¦-O¦-¦http://www.us.apache.org/dist/cassandra/2.1.2/apache-cassandra-2.1.2-bin.tar.gz¦|¦tar¦xzf¦-¦--strip-components=1¦-C¦"opt/cassandra"; :: Filesystem_operation,()
+/dist :: workdir_operation,()
+chown ¦-R¦ava:ava¦/dist/opt/cassandra¦&&\\ :: Permissions_operation,()
+from,eavatar/builder
+mkdir ¦-p¦/dist/opt/cassandra/logs¦/dist/opt/cassandra/data¦/dist/data/cassandra :: Filesystem_operation,()
+mkdir ¦-p¦/dist/etc/security/limits.d :: Filesystem_operation,()
+rm ¦-rf¦/dist/opt/cassandra/javadoc :: Filesystem_operation,()
+limits.conf/dist/etc/security/ :: add_operation,()
+tar ¦cf¦/overlayfs.tar¦. :: Filesystem_operation,()

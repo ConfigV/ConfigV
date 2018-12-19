@@ -1,0 +1,10 @@
+apt ¦update :: Dependencies_operation,()
+cmd,/etc/init.d/apt-cacher-ng¦start¦&&¦tail¦-f¦/var/log/apt-cacher-ng/*
+from,ubuntu:16.04
+apt-get ¦clean¦-q :: Dependencies_operation,()
+apt ¦install¦-y¦--no-install-recommends¦apt-cacher-ng :: Dependencies_operation,()
+chown ¦root:106¦/var/cache/apt-cacher-ng :: Permissions_operation,()
+/var/cache/apt-cacher-ng :: volume_operation,()
+rm ¦-Rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,3142
+mkdir ¦-p¦-m¦0775¦/var/cache/apt-cacher-ng :: Filesystem_operation,()

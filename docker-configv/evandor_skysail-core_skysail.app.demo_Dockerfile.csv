@@ -1,0 +1,13 @@
+from,java
+/home/skysail/products/demo :: workdir_operation,()
+cmd,java¦-jar¦/home/skysail/products/demo/skysail.app.demo.jar
+etc/docker/start.sh/home/skysail/products/demo/start.sh :: copy_operation,()
+HOME:/home/skysail :: env_operation,()
+echo ¦echo¦"copying generated/skysail.app.demo.jar /home/skysail/products/demo/skysail.app.demo.jar" :: Filesystem_operation,()
+echo ¦echo¦"executing 'useradd -d /home/skysail -m -s /bin/bash skysail'" :: Filesystem_operation,()
+mkdir ¦-p¦/home/skysail/products/demo :: Filesystem_operation,()
+useradd ¦-d¦/home/skysail¦-m¦-s¦/bin/bash¦skysail :: Permissions_operation,()
+skysail :: user_operation,()
+/home/skysail :: workdir_operation,()
+generated/skysail.app.demo.jar/home/skysail/products/demo/skysail.app.demo.jar :: copy_operation,()
+echo ¦echo¦"creating /home/skysail/products/demo" :: Filesystem_operation,()

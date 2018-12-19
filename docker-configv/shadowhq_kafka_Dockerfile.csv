@@ -1,0 +1,15 @@
+tar ¦xfz¦/tmp/kafka_2.10.0-0.8.2.1.tgz¦-C¦/opt :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦zookeeper¦wget¦supervisor¦dnsutils¦vim¦tree :: Dependencies_operation,()
+supervisor/zookeeper.conf/etc/supervisor/conf.d/zookeeper.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦-q¦http://mirror.sdunix.com/apache/kafka/0.8.2.1/kafka_2.10-0.8.2.1.tgz¦-O¦/tmp/kafka_2.10.0-0.8.2.1.tgz :: Dependencies_operation,()
+rm ¦/tmp/kafka_2.10.0-0.8.2.1.tgz :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+scripts/start-kafka.sh/usr/bin/start-kafka.sh :: add_operation,()
+KAFKA_HOME:/opt/kafka_2.10-0.8.2.1 :: env_operation,()
+supervisor/kafka.conf/etc/supervisor/conf.d/kafka.conf :: add_operation,()
+cmd,supervisord¦-n
+expose,2181 9092
+config/server.properties$KAFKA_HOME/config/server.properties :: add_operation,()
+from,cogniteev/oracle-java:java7

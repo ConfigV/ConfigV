@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+wget ¦-O¦ruby-install-0.4.3.tar.gz¦https://github.com/postmodern/ruby-install/archive/v0.4.3.tar.gz :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qq¦-y¦build-essential¦curl¦git¦git-core¦libreadline-dev¦libsqlite3-dev¦libssl-dev¦libyaml-dev¦libxml2-dev¦libxslt1-dev¦sqlite3¦wget¦zlib1g-dev :: Other_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+tar ¦-xzvf¦ruby-install-0.4.3.tar.gz :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+cd ¦ruby-install-0.4.3/ :: Filesystem_operation,()
+from,ubuntu:14.04
+PATH:/opt/rubies/ruby-2.2.3/bin:$PATH :: env_operation,()
+echo ¦echo¦"gem: --no-document" > ~/.gemrc :: Filesystem_operation,()
+ruby-install ¦ruby¦2.2.3 :: Other_operation,()

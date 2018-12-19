@@ -1,0 +1,14 @@
+echo ¦sh¦-c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' :: Filesystem_operation,()
+apt-get ¦install¦-y¦google-chrome-stable :: Dependencies_operation,()
+wget ¦-q¦-O¦-¦https://dl.google.com/linux/linux_signing_key.pub¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+from,ubuntu:14.04
+export ¦uid=500¦gid=500 :: Environment_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+HOME:/home/chrome :: env_operation,()
+chmod ¦0440¦/etc/sudoers.d/chrome :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+chrome :: user_operation,()
+cmd,/usr/bin/google-chrome
+apt-get ¦update :: Dependencies_operation,()
+adduser ¦--disabled-password¦--gecos¦"Chrome¦User"¦--uid¦500¦chrome :: Permissions_operation,()
+echo ¦echo¦"chrome ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/chrome :: Filesystem_operation,()

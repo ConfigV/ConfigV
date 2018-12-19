@@ -1,0 +1,8 @@
+/data :: volume_operation,()
+tar ¦xvfz¦/tmp/dynamodb_local_latest.tar.gz¦-C¦/app/ :: Filesystem_operation,()
+/app :: workdir_operation,()
+http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz/tmp/dynamodb_local_latest.tar.gz :: add_operation,()
+expose,8000
+from,java@jre
+mkdir ¦-p¦/app :: Filesystem_operation,()
+cmd,java¦-Djava.library.path=./DynamoDBLocal_lib¦-jar¦DynamoDBLocal.jar¦-dbPath¦/data

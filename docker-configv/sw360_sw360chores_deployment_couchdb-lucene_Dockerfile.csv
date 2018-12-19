@@ -1,0 +1,11 @@
+_purge="apt-get:purge :: env_operation,()
+/couchdb-lucene :: workdir_operation,()
+_install="apt-get:install :: env_operation,()
+from,debian@jessie
+expose,5985
+cmd,/couchdb-lucene/bin/run
+_cleanup="eval:apt-get :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+_update="apt-get:update" :: env_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+docker-entrypoint.sh/usr/local/bin/entrypoint.sh :: copy_operation,()

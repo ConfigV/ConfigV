@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+cmd,php5-fpm¦-F
+ln ¦-s¦/etc/php/mods-available/devstack.ini¦/etc/php5/fpm/conf.d/999-devstack.ini :: Filesystem_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/var/lib/log/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+from,dockette/php:5.6
+fpm/php-fpm.conf/etc/php5/fpm/php-fpm.conf :: add_operation,()
+apt-get ¦install¦-y¦php5-fpm :: Dependencies_operation,()
+apt-get ¦autoclean¦-y :: Dependencies_operation,()

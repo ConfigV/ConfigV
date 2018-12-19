@@ -1,0 +1,12 @@
+from,ubuntu:14.04
+/deps/libzeep :: workdir_operation,()
+apt-get ¦install¦-y¦git¦g++¦libboost-all-dev¦libbz2-dev¦doxygen¦xsltproc¦docbook¦docbook-xsl¦docbook-xml¦autoconf¦automake¦autotools-dev :: Dependencies_operation,()
+make ¦;¦make¦install¦;¦ldconfig :: Build_Execute_operation,()
+./app :: copy_operation,()
+/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/mhekkel/libzeep.git¦/deps/libzeep¦;\\ :: Dependencies_operation,()
+apt-get ¦install¦-y¦make¦rsync¦wget :: Dependencies_operation,()
+mkdir ¦-p¦/deps :: Filesystem_operation,()
+LDFLAGS\\  :: Other_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()

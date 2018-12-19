@@ -1,0 +1,10 @@
+apk ¦update :: Dependencies_operation,()
+index.js/opt/goodby/ :: copy_operation,()
+CONTAINERPILOT_VERSION:2.4.1 :: env_operation,()
+containerpilot.json/etc/containerpilot.json :: copy_operation,()
+apk ¦add¦curl :: Dependencies_operation,()
+expose,3002
+from,mhart/alpine-node:latest
+cmd,/bin/containerpilot¦node¦/opt/goodby/index.js
+echo ¦export¦CP_SHA1=198d96c8d7bfafb1ab6df96653c29701510b833c && curl -Lso /tmp/containerpilot.tar.gz "https://github.com/joyent/containerpilot/releases/download/${CONTAINERPILOT_VERSION}/containerpilot-${CONTAINERPILOT_VERSION}.tar.gz" && echo ... :: Filesystem_operation,()
+CONTAINERPILOT=file:///etc/containerpilot.json: :: env_operation,()

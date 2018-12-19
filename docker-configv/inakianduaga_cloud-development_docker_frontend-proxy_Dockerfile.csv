@@ -1,0 +1,23 @@
+add-apt-repository ¦-y¦ppa:nginx/stable :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦-y¦install¦software-properties-common :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+conf/supervisor//etc/supervisor/conf.d/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+conf/nginx/sites-available/default.conf/etc/nginx/sites-enabled/default :: copy_operation,()
+conf/nginx/location/etc/nginx/location :: copy_operation,()
+scripts//scripts/ :: add_operation,()
+from,ubuntu@trusty
+conf/nginx/common.conf/etc/nginx/common.conf :: copy_operation,()
+chown ¦-R¦www-data:www-data¦/var/lib/nginx :: Permissions_operation,()
+chmod ¦755¦/scripts/*.sh :: Permissions_operation,()
+conf/nginx/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+conf/nginx/directives/etc/nginx/directives :: copy_operation,()
+expose,80 443
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+cmd,/scripts/start.sh
+certs/etc/nginx :: copy_operation,()
+/etc/nginx/certs :: volume_operation,()
+echo ¦echo¦"\\ndaemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+apt-get ¦-y¦install¦wget¦curl¦supervisor :: Dependencies_operation,()

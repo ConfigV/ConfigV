@@ -1,0 +1,8 @@
+.//var/www/distribot :: add_operation,()
+/var/www/distribot :: workdir_operation,()
+from,ubuntu:14.04
+useradd ¦-d¦/home/ubuntu¦-m¦-s¦/bin/bash¦ubuntu :: Permissions_operation,()
+echo ¦echo¦"ubuntu:changeme" | chpasswd :: Filesystem_operation,()
+ubuntu :: user_operation,()
+echo ¦echo¦'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+sed ¦-i¦s#/home/ubuntu:/bin/false#/home/ubuntu:/bin/bash#¦/etc/passwd :: Filesystem_operation,()

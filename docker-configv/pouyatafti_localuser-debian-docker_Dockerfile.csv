@@ -1,0 +1,14 @@
+apt-get ¦install¦--no-install-recommends¦--no-install-suggests¦-y¦wget¦ca-certificates¦curl¦grep¦sed¦dpkg¦gnupg :: Dependencies_operation,()
+LOCAL_GID=1001: :: env_operation,()
+mktemp ¦-d :: Other_operation,()
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+chmod ¦755¦/docker-entrypoint.sh :: Permissions_operation,()
+LOCAL_UID=1001: :: env_operation,()
+LOCAL_GROUP=default: :: env_operation,()
+from,debian@jessie
+groupadd ¦default :: Permissions_operation,()
+entrypoint,/bin/tini¦--¦/docker-entrypoint.sh
+./docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+LOCAL_USER=default: :: env_operation,()
+LANG=C.UTF-8:LC_ALL=C.UTF-8 :: env_operation,()

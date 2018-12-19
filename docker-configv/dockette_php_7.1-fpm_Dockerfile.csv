@@ -1,0 +1,15 @@
+apt-get ¦update :: Dependencies_operation,()
+PHP_CGI_DIR=/etc/php/7.1/cgi/: :: env_operation,()
+PHP_FPM_DIR=/etc/php/7.1/fpm/: :: env_operation,()
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+conf.d/custom.ini${PHP_MODS_DIR}/custom.ini :: add_operation,()
+/srv :: workdir_operation,()
+PHP_MODS_DIR=/etc/php/7.1/mods-available: :: env_operation,()
+PHP_CGI_CONF_DIR=${PHP_CGI_DIR}/conf.d: :: env_operation,()
+cmd,php
+from,dockette/jessie
+PHP_FPM_CONF_DIR=${PHP_FPM_DIR}/conf.d: :: env_operation,()
+TZ=Europe/Prague: :: env_operation,()
+PHP_CLI_CONF_DIR=${PHP_CLI_DIR}/conf.d: :: env_operation,()
+PHP_CLI_DIR=/etc/php/7.1/cli/: :: env_operation,()
+# ¦DEPENDENCIES¦############################################################# :: Other_operation,()

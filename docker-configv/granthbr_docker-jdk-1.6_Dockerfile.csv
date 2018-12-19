@@ -1,0 +1,11 @@
+./scripts//opt/boomi/ :: add_operation,()
+apt-get ¦install¦-y¦python-software-properties :: Dependencies_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+update-alternatives ¦--display¦java :: Other_operation,()
+echo ¦echo¦oracle-java6-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+sh ¦/opt/boomi/chgJava.sh :: Build_Execute_operation,()
+add-apt-repository ¦-y¦ppa:webupd8team/java :: Dependencies_operation,()
+echo ¦echo¦export PATH=/usr/lib/jvm/java-6-oracle/jre/bin:$PATH >> /root/.profile :: Filesystem_operation,()
+chmod ¦775¦/opt/boomi/* :: Permissions_operation,()
+apt-get ¦-qqy¦install¦oracle-java6-installer :: Dependencies_operation,()
+from,ubuntu

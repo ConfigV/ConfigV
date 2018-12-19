@@ -1,0 +1,10 @@
+RELEASE:0.1.4 :: env_operation,()
+cmd,/sbin/my_init
+/app/ :: workdir_operation,()
+echo ¦SRV=rails;¦mkdir -p /etc/service/${SRV}/; ( echo "#!/bin/bash"; echo ""; echo ""; echo "# Set variables"; echo "#"; echo "DOCTOR_IDS=\\${DOCTOR_IDS:-cpsid}"; echo ""; echo ""; echo "# Populate providers.txt with DOCTOR_IDS"; echo "#"; echo ... :: Filesystem_operation,()
+git ¦clone¦https://github.com/pdcbc/gateway.git¦-b¦${RELEASE}¦.;¦mkdir¦-p¦./tmp/pids¦./util/files;¦gem¦install¦multipart-post;¦sed¦-i¦-e¦"s/localhost:27017/database:27017/"¦config/mongoid.yml;¦chown¦-R¦app:app¦/app/;¦/sbin/setuser¦app¦bundle¦in... :: Dependencies_operation,()
+from,phusion/passenger-ruby19
+echo ¦SRV=delayed_job;¦mkdir -p /etc/service/${SRV}/; ( echo "#!/bin/bash"; echo ""; echo ""; echo "# Start delayed job"; echo "#"; echo "cd /app/"; echo "/sbin/setuser app bundle exec /app/script/delayed_job stop > /dev/null"; echo "rm /app/tmp... :: Filesystem_operation,()
+apt-get ¦update;¦apt-get¦install¦-y¦autossh¦git;¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+adduser ¦--disabled-password¦--gecos¦''¦--home¦/home/autossh¦autossh;¦chown¦-R¦autossh:autossh¦/home/autossh :: Permissions_operation,()
+echo ¦SRV=autossh;¦mkdir -p /etc/service/${SRV}/; ( echo "#!/bin/bash"; echo ""; echo ""; echo "# Set variables"; echo "#"; echo "gID=\\${gID:-0}"; echo "IP_COMPOSER=\\${IP_COMPOSER:-142.104.128.120}"; echo "PORT_AUTOSSH=\\${PORT_AUTOSSH:-2774}"; e... :: Filesystem_operation,()

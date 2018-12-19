@@ -1,0 +1,15 @@
+apt-get ¦install¦-y¦build-essential¦git-core¦python3¦python3-pip¦python-dev¦libpq-dev¦postgresql-client-9.3¦libjpeg-dev¦binutils¦libproj-dev¦gdal-bin¦libxml2-dev¦libxslt1-dev¦zlib1g-dev¦libffi-dev¦libssl-dev¦ipython :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+chmod ¦+x¦/gunicorn.sh :: Permissions_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+./code :: copy_operation,()
+sed ¦-i¦'s/\\r//'¦/gunicorn.sh :: Filesystem_operation,()
+from,ubuntu:14.04
+./compose/django/production/gunicorn.sh/gunicorn.sh :: copy_operation,()
+pip3 ¦install¦-r¦/requirements/production.txt :: Dependencies_operation,()
+sed ¦-i¦'s/\\r//'¦/entrypoint.sh :: Filesystem_operation,()
+./requirements/requirements :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/code :: workdir_operation,()
+./compose/django/production/entrypoint.sh/entrypoint.sh :: copy_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()

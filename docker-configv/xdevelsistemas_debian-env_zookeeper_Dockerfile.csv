@@ -1,0 +1,12 @@
+entrypoint,/opt/zookeeper/bin/zkServer.sh
+mkdir ¦-p¦/tmp/zookeeper :: Filesystem_operation,()
+/opt/zookeeper/conf :: volume_operation,()
+/opt/zookeeper :: workdir_operation,()
+cp ¦/opt/zookeeper/conf/zoo_sample.cfg¦/opt/zookeeper/conf/zoo.cfg :: Filesystem_operation,()
+/tmp/zookeeper :: volume_operation,()
+wget ¦-q¦-O¦-¦http://apache.mirrors.pair.com/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz¦|¦tar¦-xzf¦-¦-C¦/opt :: Dependencies_operation,()
+from,xdevelsistemas/debian-env:node-env
+expose,2181 2888 3888
+mv ¦/opt/zookeeper-3.4.6¦/opt/zookeeper :: Filesystem_operation,()
+cmd,start-foreground
+JAVA_HOME:/usr/lib/jvm/java-7-oracle :: env_operation,()

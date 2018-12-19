@@ -1,0 +1,11 @@
+/data/log :: volume_operation,()
+from,shaddock/seed:latest
+RABBITMQ_MNESIA_BASE:/data/mnesia :: env_operation,()
+rabbitmq-start/usr/local/bin/ :: add_operation,()
+pacman ¦-Sy¦--noconfirm¦rabbitmq :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/rabbitmq-start :: Permissions_operation,()
+expose,15672
+/data :: workdir_operation,()
+/data/mnesia :: volume_operation,()
+cmd,rabbitmq-start
+RABBITMQ_LOG_BASE:/data/log :: env_operation,()

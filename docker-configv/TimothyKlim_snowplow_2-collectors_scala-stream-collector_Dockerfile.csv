@@ -1,0 +1,9 @@
+.${WORKDIR} :: copy_operation,()
+from,fcomb/jre8-sbt-alpine:v2.11_0.13
+expose,8080
+${WORKDIR} :: workdir_operation,()
+cmd,/snowplow-stream-collector¦--config¦/etc/snowplow/collector.conf
+WORKDIR:/home/java/project :: env_operation,()
+/ :: workdir_operation,()
+adduser ¦-D¦-g¦''¦-h¦/app¦-H¦snowplow :: Permissions_operation,()
+root :: user_operation,()

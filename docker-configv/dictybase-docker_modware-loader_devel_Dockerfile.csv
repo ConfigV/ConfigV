@@ -1,0 +1,6 @@
+echo ¦apt-get¦update && apt-get -y install alien libaio1 libdb-dev && mkdir -p /rpms && alien -i /rpms/*.rpm && echo '/usr/lib/oracle/11.2/client64/lib' > /etc/ld.so.conf.d/oracle.conf && echo 'export ORACLE_HOME=/usr/lib/oracle/11.2/client64' >... :: Filesystem_operation,()
+LD_LIBRARY_PATH:/usr/lib/oracle/11.2/client64/lib/ :: env_operation,()
+from,perl:5.2
+*.rpm/rpms/ :: copy_operation,()
+ORACLE_HOME:/usr/lib/oracle/11.2/client64/ :: env_operation,()
+cpanm ¦-n¦DBD::Oracle¦git://github.com/dictyBase/Modware-Loader.git@develop¦DBD::Pg¦Math::Base36¦String::CamelCase :: Other_operation,()

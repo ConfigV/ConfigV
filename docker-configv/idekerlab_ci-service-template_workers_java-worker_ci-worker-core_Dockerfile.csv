@@ -1,0 +1,23 @@
+./configure ¦--without-libsodium :: Build_Execute_operation,()
+git ¦clone¦https://github.com/zeromq/jzmq.git :: Dependencies_operation,()
+from,java:8.0
+apt-get ¦install¦-y¦build-essential¦wget¦git¦uuid-dev¦maven :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+ldconfig  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./worker :: copy_operation,()
+tar ¦xzvf¦zeromq-4.1.3.tar.gz :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+wget ¦http://download.zeromq.org/zeromq-4.1.3.tar.gz :: Dependencies_operation,()
+expose,5556 5557 5558
+/root/jzmq :: workdir_operation,()
+/root :: workdir_operation,()
+ln ¦-s¦/usr/bin/libtoolize¦/usr/bin/libtool :: Filesystem_operation,()
+mvn ¦clean¦compile¦assembly:single :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+mkdir ¦/worker :: Filesystem_operation,()
+/root/zeromq-4.1.3 :: workdir_operation,()
+cmd,./run.sh
+./autogen.sh  :: Other_operation,()
+apt-get ¦install¦-y¦libtool¦pkg-config¦autoconf¦automake :: Dependencies_operation,()
+/worker :: workdir_operation,()

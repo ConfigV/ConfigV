@@ -1,0 +1,12 @@
+.//go/src/github.com/freignat91/agrid :: copy_operation,()
+echo ¦echo¦"@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories :: Filesystem_operation,()
+GOPATH:/go :: env_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+PATH:$PATH:/go/bin :: env_operation,()
+cmd,/go/bin/server
+apk ¦update :: Dependencies_operation,()
+go ¦get¦-u¦github.com/Masterminds/glide/... :: Build_Execute_operation,()
+apk ¦-v¦add¦git¦make¦bash¦go@community¦musl-dev¦curl :: Dependencies_operation,()
+from,alpine:3.4
+go ¦version :: Build_Execute_operation,()
+echo ¦cd¦$GOPATH/src/github.com/freignat91/agrid && rm -f glide.lock && glide install && make install && echo agrid built && chmod +x $GOPATH/bin/* && cd $GOPATH && rm -rf $GOPATH/src && rm -rf /root/.glide :: Filesystem_operation,()

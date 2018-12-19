@@ -1,0 +1,13 @@
+from,kreczko/centos6
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦install¦traceroute¦net-tools¦ntp¦python-setuptools :: Dependencies_operation,()
+agent_configuration.conf/opt/perfsonar_ps/mesh_config/etc/agent_configuration.conf :: add_operation,()
+rpm ¦-hUv¦http://software.internet2.edu/rpms/el6/x86_64/main/RPMS/Internet2-repo-0.5-3.noarch.rpm :: Dependencies_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+ls_registration_daemon.conf/opt/perfsonar_ps/ls_registration_daemon/etc/ls_registration_daemon.conf :: add_operation,()
+rpm ¦-hUv¦https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+cmd,/usr/bin/supervisord¦-c¦/etc/supervisord.conf
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+sed ¦-i¦'s/<insert_hostname_here>/g/'¦#TODO :: Filesystem_operation,()
+yum ¦-y¦install¦perfSONAR_PS-Bundles-Level1¦perfSONAR_PS-Bundles-Level2 :: Dependencies_operation,()

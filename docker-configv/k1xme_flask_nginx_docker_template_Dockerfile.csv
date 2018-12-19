@@ -1,0 +1,17 @@
+pip ¦install¦gunicorn :: Dependencies_operation,()
+PAYPAL_MODE:sandbox :: env_operation,()
+apt-get ¦install¦-y¦libssl-dev¦libffi-dev :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦paypalrestsdk :: Dependencies_operation,()
+PAYMENT_SERVER_SECRET_KEY:doushidashabi :: env_operation,()
+/new_site :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+PAYPAL_CLIENT_ID:AQkquBDf1zctJOWGKWUEtKXm6qVhueUEMvXO_-MCI4DQQ4-LWvkDLIN2fGsd :: env_operation,()
+entrypoint,gunicorn¦-w¦GUNICORN_WORKER¦-b¦GUNICORN_BIND¦payment_server:app
+GUNICORN_WORKER:4 :: env_operation,()
+pip ¦install¦flask :: Dependencies_operation,()
+PAYMENT_SERVER_PORT:4567 :: env_operation,()
+PAYPAL_CLIENT_SECRET:EL1tVxAjhT7cJimnz5-Nsx9k2reTKSVfErNQF-CmrwJgxRtylkGTKlU4RvrX :: env_operation,()
+apt-get ¦install¦-y¦python2.7¦python-pip¦python-dev :: Dependencies_operation,()
+GUNICORN_ADDRESS:0.0.0.0:$PAYMENT_SERVER_PORT :: env_operation,()
+from,ubuntu:14.04

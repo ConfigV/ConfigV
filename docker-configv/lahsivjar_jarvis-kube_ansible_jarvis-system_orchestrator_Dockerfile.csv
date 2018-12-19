@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦gcc :: Dependencies_operation,()
+./usr/src/app :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,hypriot/rpi-python
+pip ¦install¦-r¦/usr/src/app/requirements.txt :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gcc :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+expose,8080
+cmd,python¦/usr/src/app/src/server.py

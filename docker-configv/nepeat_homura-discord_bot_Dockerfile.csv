@@ -1,0 +1,10 @@
+apk ¦del¦build-base¦opus-dev¦libffi-dev¦libsodium-dev :: Dependencies_operation,()
+cmd,python3¦nepeatbot
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦add¦--update¦build-base¦python3¦python3-dev¦libffi¦libffi-dev¦ca-certificates¦pkgconf :: Dependencies_operation,()
+SODIUM_INSTALL=system ¦pip3¦install¦-r¦/app/requirements.txt :: Other_operation,()
+requirements.txt/app/requirements.txt :: copy_operation,()
+/app :: workdir_operation,()
+from,alpine@edge
+./app :: copy_operation,()
+python3 ¦setup.py¦install :: Build_Execute_operation,()

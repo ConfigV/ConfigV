@@ -1,0 +1,13 @@
+jboss :: user_operation,()
+touch ¦$JBOSS_HOME/standalone/deployments/$KIE_CONTEXT_PATH.war.dodeploy :: Filesystem_operation,()
+from,jboss/wildfly:8.2.0.Final
+JBOSS_BIND_ADDRESS:0.0.0.0 :: env_operation,()
+KIE_VERSION:0.3.4.Final :: env_operation,()
+KIE_CLASSIFIER:wildfly8 :: env_operation,()
+JAVA_OPTS:-XX:MaxPermSize=256m :: env_operation,()
+KIE_REPOSITORY:https://repository.jboss.org/nexus/content/groups/public-jboss :: env_operation,()
+curl ¦-o¦$HOME/$KIE_CONTEXT_PATH.war¦$KIE_REPOSITORY/org/dashbuilder/dashbuilder-distros/$KIE_VERSION/dashbuilder-distros-$KIE_VERSION-$KIE_CLASSIFIER.war¦&&unzip¦-q¦$HOME/$KIE_CONTEXT_PATH.war¦-d¦$JBOSS_HOME/standalone/deployments/$KIE_CONTEXT_... :: Dependencies_operation,()
+KIE_CONTEXT_PATH:dashbuilder :: env_operation,()
+rm ¦-rf¦$HOME/$KIE_CONTEXT_PATH.war :: Filesystem_operation,()
+$JBOSS_HOME/bin/ :: workdir_operation,()
+expose,8001

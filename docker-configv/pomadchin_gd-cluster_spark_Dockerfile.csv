@@ -1,0 +1,12 @@
+mkdir ¦-p¦$SPARK_HOME¦$SPARK_CONF_DIR :: Filesystem_operation,()
+"${SPARK_HOME}" :: workdir_operation,()
+SPARK_HOME:/opt/spark :: env_operation,()
+PATH:$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin :: env_operation,()
+./fs/ :: copy_operation,()
+entrypoint,/sbin/entrypoint.sh
+from,daunnc/geodocker-hadoop-base:latest
+/data/spark :: volume_operation,()
+set ¦-x :: Environment_operation,()
+mkdir ¦-p¦/data/spark :: Filesystem_operation,()
+curl ¦-#¦http://d3kbcqa49mib13.cloudfront.net/spark-1.6.1-bin-hadoop2.6.tgz¦|¦tar¦-xz¦-C¦${SPARK_HOME}¦--strip-components=1 :: Dependencies_operation,()
+SPARK_CONF_DIR:$SPARK_HOME/conf :: env_operation,()

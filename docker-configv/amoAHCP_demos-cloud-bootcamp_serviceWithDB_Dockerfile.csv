@@ -1,0 +1,8 @@
+httpPort:8181 :: env_operation,()
+from,maven:3.3
+/usr/src/app :: workdir_operation,()
+cluster/cluster.xml/cluster/ :: add_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+./usr/src/app :: copy_operation,()
+cmd,java¦-jar¦/usr/src/app/target/frontend-verticle-1.0-SNAPSHOT-fat.jar¦-cluster¦-cp¦/cluster/
+ADD. /usr/src/app :: onbuild_operation,()

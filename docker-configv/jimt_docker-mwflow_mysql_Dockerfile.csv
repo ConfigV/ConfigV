@@ -1,0 +1,10 @@
+from,jimt/sshd
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+entrypoint,/bin/bash¦/opt/startup.sh
+expose,3306
+apt-get ¦clean :: Dependencies_operation,()
+startup.sh/opt/startup.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦mysql-server-5.5 :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

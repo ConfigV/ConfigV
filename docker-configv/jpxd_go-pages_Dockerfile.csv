@@ -1,0 +1,15 @@
+entrypoint,/app/main
+apt-get ¦install¦git :: Dependencies_operation,()
+go ¦get¦. :: Build_Execute_operation,()
+expose,8080
+mkdir ¦-p¦files :: Filesystem_operation,()
+go ¦build¦-o¦main¦. :: Build_Execute_operation,()
+./app/ :: add_operation,()
+GOPATH:/app :: env_operation,()
+from,golang@latest
+/app :: workdir_operation,()
+git ¦config¦--global¦user.email¦"system@dockercontainer" :: Dependencies_operation,()
+git ¦config¦--global¦user.name¦"system" :: Dependencies_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+git ¦init¦files :: Dependencies_operation,()
+GOBIN:$GOPATH/bin :: env_operation,()

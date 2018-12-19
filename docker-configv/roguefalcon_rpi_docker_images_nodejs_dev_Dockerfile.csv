@@ -1,0 +1,20 @@
+cmd,/tmp/start.sh
+pam_ldap.conf/etc/pam_ldap.conf :: copy_operation,()
+main.js/tmp/main.js :: copy_operation,()
+start.sh/tmp/start.sh :: copy_operation,()
+ldap.conf/etc/ldap/ldap.conf :: copy_operation,()
+motd/etc/motd :: copy_operation,()
+from,kprpi
+sudoers/etc/sudoers :: copy_operation,()
+issue.net/etc/issue.net :: copy_operation,()
+sshd_config/etc/ssh/sshd_config :: copy_operation,()
+nslcd.conf/etc/nslcd.conf :: copy_operation,()
+useradd ¦-m¦-p¦paUD.XF6AT3SA¦-s¦/bin/bash¦kp :: Permissions_operation,()
+chmod ¦600¦/etc/nslcd.conf :: Permissions_operation,()
+pam-auth-update ¦--force :: Other_operation,()
+common-session/etc/pam.d/common-session :: copy_operation,()
+nsswitch.conf/etc/nsswitch.conf :: copy_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦-y¦install¦build-essential¦openssh-server¦git¦libpam-ldapd¦libnss-ldapd¦nscd¦nodejs :: Dependencies_operation,()
+expose,22
+chmod ¦u+x¦/tmp/start.sh :: Permissions_operation,()

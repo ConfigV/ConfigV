@@ -1,0 +1,10 @@
+apk ¦update :: Dependencies_operation,()
+./entrypoint.sh/entrypoint.sh :: add_operation,()
+rm ¦-r¦/var/cache/ :: Filesystem_operation,()
+from,alpine:3.2
+entrypoint,/entrypoint.sh
+expose,3306
+TERM="xterm": :: env_operation,()
+apk ¦add¦socat¦curl¦mysql-client :: Dependencies_operation,()
+./json.sh/usr/bin/json :: add_operation,()
+"/config" :: volume_operation,()

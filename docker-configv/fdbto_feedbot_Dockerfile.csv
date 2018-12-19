@@ -1,0 +1,15 @@
+entrypoint,bin/start.sh
+RACK_ENV:production :: env_operation,()
+RAILS_ENV:production :: env_operation,()
+SECRET_KEY_BASE:7a2d358205ceb39544e2fbb869258d40099075825ed08004afe5d7d9eb4792d5d7f05960c02fa3b7949137365aa0e8c9114b8818de474c21bbda7a82f67c3cc6 :: env_operation,()
+GemfileGemfile :: copy_operation,()
+../ :: copy_operation,()
+bundle ¦exec¦rake¦assets:precompile¦ON_DOCKER_BUILD=1 :: Dependencies_operation,()
+from,ruby:2.4
+mkdir ¦/app :: Filesystem_operation,()
+/app :: workdir_operation,()
+/tmp :: workdir_operation,()
+echo ¦echo¦"@edge https://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && BUILD_DEPS=" postgresql-dev libxml2-dev libxslt-dev build-base" && apk -U upgrade && apk add $BUILD_DEPS nodejs@edge nodejs-npm@edge cyrus-sasl-dev linux-... :: Filesystem_operation,()
+expose,3000
+Gemfile.lockGemfile.lock :: copy_operation,()
+RAILS_SERVE_STATIC_FILES:1 :: env_operation,()

@@ -1,0 +1,16 @@
+SOLR_VERSION:4.2.1 :: env_operation,()
+chown ¦-R¦solr¦/opt/solr/example :: Permissions_operation,()
+LANGUAGE:en_GB:en :: env_operation,()
+expose,8080
+/opt/solr/example :: workdir_operation,()
+LC_ALL:en_GB.UTF-8 :: env_operation,()
+solr :: user_operation,()
+cmd,/etc/solr/run.sh
+mkdir ¦-p¦/etc/solr/log¦&&\\ :: Filesystem_operation,()
+from,java:8.0
+files//etc/solr/main/conf/ :: add_operation,()
+mv ¦/etc/solr/main/conf/solr.xml¦/etc/solr¦&&\\ :: Filesystem_operation,()
+echo ¦echo¦"en_GB.UTF-8 UTF-8\\nen_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && dpkg-reconfigure -f noninteractive locales && echo "LANG=en_GB.UTF-8" > /etc/default/locale && echo "Europe/London" > /etc/timezone && dpkg-reconfigure -f nonin... :: Filesystem_operation,()
+apt-get ¦update¦&&\\ :: Dependencies_operation,()
+wget ¦-O¦solr.tar.gz¦http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz¦&&\\ :: Dependencies_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()

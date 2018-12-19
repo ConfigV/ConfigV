@@ -1,0 +1,9 @@
+cmd,app:start
+entrypoint,/sbin/entrypoint.sh
+echo ¦echo¦'Acquire::HTTP::Proxy "http://172.17.42.1:3142";' >> /etc/apt/apt.conf.d/01proxy && echo 'Acquire::HTTPS::Proxy "false";' >> /etc/apt/apt.conf.d/01proxy :: Filesystem_operation,()
+setup.sh. :: copy_operation,()
+from,ubuntu:14.04
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+bash ¦./setup.sh :: Build_Execute_operation,()
+ARCHIVEBOT_USER="archivebot":RSYNC_URL="rsync://fos.textfiles.com/archivebot/" :: env_operation,()
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()

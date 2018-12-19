@@ -1,0 +1,16 @@
+cmd,/usr/bin/startup
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/startup :: Permissions_operation,()
+from,quay.io/bgruening/galaxy-base
+apt-get ¦purge¦-y¦software-properties-common :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-add-repository ¦-y¦ppa:galaxyproject/nginx :: Other_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+GALAXY_DESTINATIONS_DEFAULT=slurm_clusterUWSGI_PROCESSES=2UWSGI_THREADS=4USE_HTTPS=FalseUSE_HTTPS_LETSENCRYPT=FalseGALAXY_CONFIG_GALAXY_INFRASTRUCTURE_URL=localhostGALAXY_HANDLER_NUMPROCS=2: :: env_operation,()
+/export/ :: volume_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+/var/lib/docker :: volume_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦nginx-extras=1.4.6-1ubuntu3.4ppa1¦nginx-common=1.4.6-1ubuntu3.4ppa1¦supervisor :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦apt-transport-https¦software-properties-common¦wget :: Dependencies_operation,()

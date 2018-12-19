@@ -1,0 +1,14 @@
+GROOVY_VERSION=2.4.5: :: env_operation,()
+unzip ¦-d¦/opt/¦/tmp/apache-groovy-binary-${GROOVY_VERSION}.zip :: Filesystem_operation,()
+cmd,export¦JAVA_HOME=$JAVA_HOME¦&&¦export¦GROOVY_HOME=$GROOVY_HOME¦&&¦export¦PATH=$GROOVY_HOME/bin:$JAVA_HOME/bin:$PATH¦&&¦touch¦CHANGELOG.md¦&&¦groovy¦-DMILESTONE_VERSION=$MILESTONE_VERSION¦/githubChangelogGenerator.groovy
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64:GROOVY_HOME=/opt/groovy-${GROOVY_VERSION} :: env_operation,()
+/data :: volume_operation,()
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+wget ¦raw.githubusercontent.com/gravitee-io/jenkins-scripts/master/src/main/groovy/githubChangelogGenerator.groovy :: Dependencies_operation,()
+rm ¦/tmp/apache-groovy-binary-${GROOVY_VERSION}.zip :: Filesystem_operation,()
+from,java:8.0
+http://dl.bintray.com/groovy/maven/apache-groovy-binary-${GROOVY_VERSION}.zip/tmp/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/data :: workdir_operation,()

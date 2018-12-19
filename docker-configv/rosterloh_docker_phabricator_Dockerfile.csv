@@ -1,0 +1,19 @@
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+entrypoint,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦+x¦/opt/startup.sh :: Permissions_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+ulimit ¦-c¦10000 :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+./startup.sh/opt/startup.sh :: add_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+from,ubuntu@latest
+rm ¦-f¦/etc/apache2/sites-enabled/000-default :: Filesystem_operation,()
+ln ¦-s¦/etc/apache2/sites-available/phabricator.conf¦/etc/apache2/sites-enabled/phabricator.conf :: Filesystem_operation,()
+phabricator.conf/etc/apache2/sites-available/phabricator.conf :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦supervisor :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦mysql-client¦libmysqlclient-dev¦apache2¦dpkg-dev¦php5¦libapache2-mod-php5¦php5-mcrypt¦php5-mysql¦php5-gd¦php5-dev¦php5-curl¦php-apc¦php5-cli¦php5-json¦ssh¦wget :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+expose,80 22

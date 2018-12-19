@@ -1,0 +1,12 @@
+entrypoint,./scripts/entrypoint.sh
+.//kb/module :: copy_operation,()
+git ¦clone¦https://github.com/sychan/RRoller.git :: Dependencies_operation,()
+mkdir ¦-p¦/kb/module/work :: Filesystem_operation,()
+git ¦checkout¦master :: Dependencies_operation,()
+make ¦all :: Build_Execute_operation,()
+pip ¦install¦coverage :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+chmod ¦-R¦a+rw¦/kb/module :: Permissions_operation,()
+cd ¦RRoller :: Filesystem_operation,()
+from,kbase/kbase:sdkbase.latest
+/kb/module :: workdir_operation,()

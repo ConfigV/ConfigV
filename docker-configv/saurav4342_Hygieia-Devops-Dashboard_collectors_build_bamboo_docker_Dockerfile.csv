@@ -1,0 +1,7 @@
+/hygieia/logs :: volume_operation,()
+from,docker.io/java:openjdk-8-jdk
+*.jar/hygieia/ :: copy_operation,()
+bamboo-build-properties-builder.sh/hygieia/ :: copy_operation,()
+/hygieia :: workdir_operation,()
+mkdir ¦/hygieia :: Filesystem_operation,()
+cmd,./jenkins-build-properties-builder.sh¦&&¦java¦-jar¦bamboo-build-collector*.jar¦--spring.config.location=/hygieia/hygieia-bamboo-build-collector.properties

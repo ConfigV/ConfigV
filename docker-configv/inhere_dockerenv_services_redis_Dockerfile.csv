@@ -1,0 +1,7 @@
+/etc/redis :: volume_operation,()
+mkdir ¦/etc/redis :: Filesystem_operation,()
+from,redis
+mv ¦/etc/apt/sources.list¦/etc/apt/sources.list.bak :: Filesystem_operation,()
+data/resources/debian8.sources/etc/apt/sources.list :: add_operation,()
+/data :: volume_operation,()
+cmd,redis-server¦&& redis-server --port 6380 --slaveof 127.0.0.1 6379

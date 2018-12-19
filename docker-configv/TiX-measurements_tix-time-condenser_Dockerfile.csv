@@ -1,0 +1,13 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+/root/tix-time-condenser :: workdir_operation,()
+./root/tix-time-condenser :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+add-apt-repository ¦ppa:webupd8team/java :: Dependencies_operation,()
+from,ubuntu@xenial
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦¦¦software-properties-common¦¦¦curl :: Dependencies_operation,()
+apt-get ¦install¦-y¦oracle-java8-installer :: Dependencies_operation,()
+entrypoint,./run.sh
+mkdir ¦-p¦/root/tix-time-condenser :: Filesystem_operation,()
+apt-get ¦install¦-y¦oracle-java8-set-default :: Dependencies_operation,()

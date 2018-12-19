@@ -1,0 +1,17 @@
+zypper ¦clean¦--all :: Other_operation,()
+MYSQL_DATADIR:/var/lib/mysql :: env_operation,()
+MYSQL_INIT_FILE:/tmp/mysql_init.sql :: env_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+from,opensuse:13.2
+zypper ¦ar¦-f¦-r¦http://download.opensuse.org/repositories/server:/database/openSUSE_13.2/server:database.repo :: Other_operation,()
+MARIADB_MAJOR:10.0 :: env_operation,()
+mkdir ¦-p¦/var/lib/mysql :: Filesystem_operation,()
+zypper ¦-n¦in¦--no-recommends¦mariadb-$MARIADB_VERSION¦net-tools :: Other_operation,()
+MYSQL_ROOT_PASSWORD:mysecretpassword :: env_operation,()
+mkdir ¦-p¦/var/log/mysql :: Filesystem_operation,()
+zypper ¦-n¦--gpg-auto-import-keys¦ref :: Other_operation,()
+entrypoint,/db-init.sh
+scripts/db-init.sh/ :: copy_operation,()
+MARIADB_VERSION:10.0.17-1.2 :: env_operation,()
+chown ¦mysql:mysql¦/var/log/mysql :: Permissions_operation,()

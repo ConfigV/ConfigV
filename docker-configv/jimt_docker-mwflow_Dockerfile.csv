@@ -1,0 +1,13 @@
+expose,22
+from,ubuntu:12.04
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu/ precise-updates main\\n\\ :: Filesystem_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+startup.sh/opt/startup.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦openssh-server¦pwgen¦sudo¦vim-tiny :: Dependencies_operation,()
+apt-mark ¦hold¦initscripts¦udev¦plymouth¦mountall :: Other_operation,()
+entrypoint,/bin/bash¦/opt/startup.sh

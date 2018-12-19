@@ -1,0 +1,13 @@
+expose,5050
+mkdir ¦build :: Filesystem_operation,()
+/mesos/build :: workdir_operation,()
+apt-get ¦install¦-qqy¦tar¦wget¦git¦openjdk-8-jdk¦autoconf¦libtool¦build-essential¦python-dev¦python-six¦python-virtualenv¦libcurl4-nss-dev¦libsasl2-dev¦libsasl2-modules¦maven¦libapr1-dev¦libsvn-dev¦zlib1g-dev :: Dependencies_operation,()
+from,ubuntu:16.04
+rm ¦mesos-1.4.0.tar.gz :: Filesystem_operation,()
+wget ¦http://www.apache.org/dist/mesos/1.4.0/mesos-1.4.0.tar.gz :: Dependencies_operation,()
+../configure  :: Other_operation,()
+mkdir ¦/mesos :: Filesystem_operation,()
+apt-get ¦update¦-qqy :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+/mesos :: workdir_operation,()
+tar ¦-zxf¦mesos-1.4.0.tar.gz¦--strip-components=1 :: Filesystem_operation,()
