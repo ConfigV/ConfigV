@@ -46,9 +46,11 @@ instance Learnable R.IntRel Formula where
       rs' = M.unionsWith add rs
       merged = M.foldlWithKey combineFlips M.empty rs'
     --TODO def for when an eq rule has enough conf
-      validRule r = (gt r + lt r + eq r)>(intRelSupport $ thresholdSettings settings) &&  
-                    (gt r < (intRelConfidence $ thresholdSettings settings)) || 
-                    (lt r <= (intRelConfidence $ thresholdSettings settings))
+      validRule r = 
+        ( (gt r + eq r)>(intRelSupport $ thresholdSettings settings) || 
+          (lt r + eq r)>(intRelSupport $ thresholdSettings settings) ) &&  
+        ( (gt r < (intRelConfidence $ thresholdSettings settings)) || 
+          (lt r <= (intRelConfidence $ thresholdSettings settings)) )
     return $ M.filter validRule merged
  
   check _ r1 r2 = if
