@@ -16,11 +16,13 @@ main = do
   actualResults   <- readFile cachedRulesDefaultLoc
 
   if (takeWhile (not. isSpace) expectedResults) == actualResults
-    then return ()
+    then verify 
     else do
              putStrLn ("Generated unexpected rule set for CSV-Missing Test: \n\n"++ (actualResults))
              putStrLn ("expected rule set: \n\n"++ (expectedResults)) >> exitFailure
 
+verify = do
+  executeVerification verifyConfig { verifyTarget = "Datasets/benchmarks/MissingCSV" }
 
 settings = learnConfig {
         learnTarget = "Datasets/benchmarks/MissingCSV/"

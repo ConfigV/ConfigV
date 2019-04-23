@@ -85,6 +85,7 @@ calcThresholds settings thresholds = do
       , typeConfidence          = typeConfidence_P thresholds
       }
 
+
 defaultThresholds = let
     (intRelSupport,intRelConfidence) = 
       (1,0) :: (Int,Int) --min # evidenced file and max # contradictory files
@@ -93,18 +94,18 @@ defaultThresholds = let
       (1, 0) :: (Int,Int)
 
     (keywordCoorSupport, keywordCoorConfidence)  = 
-      (2,1) :: (Int,Int)
+      (1,0) :: (Int,Int)
     
     (keyValKeyCoorSupport, keyValKeyCoorConfidence)  = 
-      (2,0) :: (Int,Int) --(minTrue,maxFalse)
+      (1,0) :: (Int,Int) --(minTrue,maxFalse)
     trivEvidenceThreshold = 0
 
     (orderSupport, orderConfidence) = 
-      (2, 1) :: (Int,Int)
+      (1, 0) :: (Int,Int)
 
     -- TODO - can only be provided as Int for support and percent for confidence
     (typeSupport, typeConfidence) =
-     (15,2) ::(Int,Double)
+     (1, 0) ::(Int,Double)
 
   in RawThresholds {
         intRelSupport = intRelSupport
@@ -122,3 +123,19 @@ defaultThresholds = let
       , typeConfidence = typeConfidence
       }
 
+defaultPercentageThresholds = 
+ PercentageThresholds {
+        intRelSupport_P = 0.01
+      , intRelConfidence_P = 1
+      , fineGrainSupport_P = 0.01
+      , fineGrainConfidence_P = 1
+      , keywordCoorSupport_P = 0.01
+      , keywordCoorConfidence_P = 1 
+      , keyValKeyCoorSupport_P = 0.01
+      , keyValKeyCoorConfidence_P = 1 
+      , trivEvidenceThreshold_P = 0 
+      , orderSupport_P = 0.01
+      , orderConfidence_P = 1
+      , typeSupport_P = 2
+      , typeConfidence_P = 1
+      }

@@ -10,13 +10,16 @@ main = do
   G.setFileSystemEncoding utf8
   G.setForeignEncoding utf8  
  
-  executeLearning settings (Left csvThresholds)
+  executeLearning settings (Right pthresholds)
   actualResults   <- readFile cachedRulesDefaultLoc
-  return ()
 --  putStrLn actualResults
 
+  executeVerification verifyConfig { verifyTarget = "Datasets/rahul/ConfigVExperiments/exp2/test2/MS121_A2__10X_17_grch38_CTGCGGAAGTCGATAAx.csv" }
+ 
+  return ()
+
 settings = learnConfig {
-        learnTarget = "Datasets/rahul/ConfigVExperiments/exp2/test1/"
+        learnTarget = "Datasets/rahul/ConfigVExperiments/exp2/train/"
       , learnFileLimit = 999
       , enableMissing = True
       , enableCoarseGrain = True
@@ -24,13 +27,24 @@ settings = learnConfig {
       , verbose = True
       }
 
+pthresholds = defaultPercentageThresholds {
+        intRelSupport_P = 0.01
+      , intRelConfidence_P = 0.95
+      , fineGrainSupport_P = 0.01
+      , fineGrainConfidence_P = 0.95
+      , keywordCoorSupport_P = 0.01
+      , keywordCoorConfidence_P = 0.95
+      , orderSupport_P = 0.01
+      , orderConfidence_P = 0.95
+      }
+
 csvThresholds = defaultThresholds {
         keywordCoorSupport = 4
-      , keywordCoorConfidence = 0
+      , keywordCoorConfidence = 1
       , intRelSupport = 5
-      , intRelConfidence = 0
+      , intRelConfidence = 1
       , fineGrainSupport = 6
-      , fineGrainConfidence = 0
+      , fineGrainConfidence = 1
       }
 
 

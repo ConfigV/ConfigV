@@ -1,4 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE PartialTypeSignatures #-}
 module Checker where
 
 import Types.IR
@@ -8,30 +9,34 @@ import Types.Common
 
 import LearningEngine
 import Convert (convert)
+import Settings.Config
 
 import qualified Data.Map.Merge.Strict as M
 import qualified Data.Map.Strict as M
 import Data.Interned
 
 import qualified Data.Text as T
+import Utils
 
-verifyOn :: RuleSet -> ConfigFile Language -> ErrorReport
-verifyOn rs configFile  =
-  genErrReport configFile $ checkFile rs configFile
+verifyOn :: _ -> RuleSet -> ConfigFile Language -> ErrorReport
+verifyOn settings rs configFile  =
+  genErrReport configFile $ checkFile settings rs configFile
 
---traceMe = id
--- | fitler out the rules that won't be in the error report
-checkFile :: RuleSet -> ConfigFile Language -> RuleSet
-checkFile rs f =
+-- |  To find the rules a file f has violated, learn the rules with trivial thresholds on f, then take the set diff
+checkFile :: _ -> RuleSet -> ConfigFile Language -> RuleSet
+checkFile settings rs f =
    let
      keyCounts :: M.Map Keyword Int 
      keyCounts = foldl (\rs ir-> M.insertWith (+) (keyword ir) 1 rs) M.empty (convert f)
-     {-fRules = buildAllRelations keyCounts $ convert f --TODO what in gods name is this doing here?
+     configVconfig = ConfigVConfiguration { 
+                        optionsSettings = defaultCheckConfig, 
+                        thresholdSettings = defaultThresholds}
+     fRules = buildAllRelations configVconfig keyCounts $ convert f --TODO what in gods name is this doing here?
      fKs = map keyword $ convert f
      rs' = filterRules fKs rs
-     diff = ruleDiff rs' fRules --the difference between the two rule sets-}
+     diff = ruleDiff (traceMe rs') (traceMe fRules) --the difference between the two rule sets
    in
-     emptyRuleSet --diff
+     diff
 
 -- what is this doing? is this calculating support? no i dont think so, maybe this really is just the checking procdure - still not sure what is happenign here tho
 filterRules :: [Keyword] -> RuleSet -> RuleSet
