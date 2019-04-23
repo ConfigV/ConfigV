@@ -16,7 +16,7 @@ main = do
   putStrLn actualResults
 
 settings = learnConfig {
-        learnTarget = "antonDumpCSV"
+        learnTarget = "Datasets/antonDumpCSV"
       , enableMissing = True
       , verbose = True
       }

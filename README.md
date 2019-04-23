@@ -34,6 +34,10 @@ For usage on your own dataset, you can use the command line tool, in a similar w
 
 You can also use ConfigV as an API from a Haskell program. For an example of this usage, see how the command line tool is built in the ```Executables``` directory, or inspect some of the tests in the ```Tests``` directory.
 
+## Datasets
+
+Please feel free to add or modify datasets. All datasets should remain in the Datasets directory.
+
 # Helpful Tips
 
 ## Inspecting Rules

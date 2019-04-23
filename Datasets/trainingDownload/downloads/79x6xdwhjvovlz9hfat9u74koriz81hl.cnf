@@ -1,0 +1,82 @@
+[client]
+port		      = 3306
+socket		    = /tmp/mysql.sock
+[mysqld_safe]
+log-error=/opt/myrpm/logs/mysqld.log
+
+[mysqld]
+bind-address  =127.0.0.1
+port          = 3306
+user          = nobody
+socket        = /tmp/mysql.sock
+character-set-server = utf8
+pid-file      = /opt/myrpm/var/run/mysql.pid
+
+max_connections=200
+#skip-external-locking
+datadir       = /opt/myrpm/data
+#skip-locking
+thread_cache_size =16
+table_cache = 128
+
+key_buffer_size = 16M
+max_allowed_packet = 1M
+sort_buffer_size = 1M
+net_buffer_length = 8K
+read_buffer_size = 1M
+read_rnd_buffer_size = 1M
+query_cache_size = 1M
+
+log-bin=mysql-bin
+server-id	= 1
+slave-skip-errors=1007,1008,1053,1062,1213,1158,1159
+slave_net_timeout=60
+binlog-format=mixed
+binlog-ignore-db=mysql
+binlog-ignore-db=information_schema
+binlog-ignore-db=performance_schema
+binlog-ignore-db=phpmyadmin
+binlog-ignore-db=test
+auto_increment_offset = 1
+auto_increment_increment = 2
+delayed_insert_limit = 1000
+delayed_insert_timeout = 300
+delayed_queue_size = 5000
+
+myisam_sort_buffer_size = 8M
+concurrent_insert=ALWAYS
+
+#innodb_data_home_dir = /opt/myrpm/data/var/mysql/
+innodb_data_file_path = ibdata1:20M:autoextend
+#innodb_log_group_home_dir = /opt/myrpm/data/var/mysql/
+innodb_buffer_pool_size = 64M
+innodb_additional_mem_pool_size = 8M
+
+innodb_log_file_size = 16M 
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 0
+innodb_log_files_in_group = 2
+innodb_lock_wait_timeout = 50
+innodb_file_per_table = 1
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout

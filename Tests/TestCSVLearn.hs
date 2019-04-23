@@ -12,7 +12,7 @@ main = do
   G.setForeignEncoding utf8  
  
   executeLearning settings (Left csvThresholds)
-  expectedResults <- readFile "benchmarks/CSVTest/TestCSVLearn_results.json"
+  expectedResults <- readFile "Datasets/benchmarks/CSVTest/TestCSVLearn_results.json"
   actualResults   <- readFile cachedRulesDefaultLoc
 
   let trim = takeWhile (not. isSpace)
@@ -25,7 +25,7 @@ main = do
 
 
 settings = learnConfig {
-        learnTarget = "benchmarks/CSVTest/"
+        learnTarget = "Datasets/benchmarks/CSVTest/"
       , enableOrder = True
       , enableMissing = True
       , enableKeyvalkey = True

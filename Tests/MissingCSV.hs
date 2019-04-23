@@ -12,7 +12,7 @@ main = do
   G.setForeignEncoding utf8  
  
   executeLearning settings (Left csvThresholds)
-  expectedResults <- readFile "benchmarks/MissingCSV/Missing_results.json"
+  expectedResults <- readFile "Datasets/benchmarks/MissingCSV/Missing_results.json"
   actualResults   <- readFile cachedRulesDefaultLoc
 
   if (takeWhile (not. isSpace) expectedResults) == actualResults
@@ -23,7 +23,7 @@ main = do
 
 
 settings = learnConfig {
-        learnTarget = "benchmarks/MissingCSV/"
+        learnTarget = "Datasets/benchmarks/MissingCSV/"
       , enableMissing = True
       , verbose = True
       }

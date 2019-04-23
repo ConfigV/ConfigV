@@ -16,7 +16,7 @@ main = do
 --  putStrLn actualResults
 
 settings = learnConfig {
-        learnTarget = "docker-configv/"
+        learnTarget = "Datasets/docker-configv/"
       , enableMissing = True
       , enableOrder = True
       , verbose = True
