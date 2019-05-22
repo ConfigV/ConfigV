@@ -10,20 +10,22 @@ main = do
   G.setFileSystemEncoding utf8
   G.setForeignEncoding utf8  
  
-  executeLearning settings (Left csvThresholds)
+  executeLearning settings csvThresholds
   actualResults   <- readFile cachedRulesDefaultLoc
  
   putStrLn actualResults
 
 settings = learnConfig {
-        learnTarget = "Datasets/antonDumpCSV"
-      , enableMissing = True
+        learnTarget = "Datasets/antonDumpCSV/"
+      , enableMissing = False
+      , enableKeyvalkey = True
       , verbose = True
+      , learnFileLimit = 40
       }
 
-csvThresholds = defaultThresholds {
-        keywordCoorSupport = 10
-      , keywordCoorConfidence = 0
+csvThresholds = Left $ defaultThresholds {
+        keyValKeyCoorSupport = 4
+      , keyValKeyCoorConfidence = 0
       }
 
 

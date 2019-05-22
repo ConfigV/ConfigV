@@ -20,7 +20,7 @@ convert (filePath, textOfConfig, lang) =
     irRep = map (\(k,v)-> IRLine{keyword=(intern $ T.replace "_" "-" k),value=intern $ v}) noDups -- replace _ with - in keywords
   in
     if lang==CSV 
-    then map (\l -> let (k,v) = T.breakOn "," l in IRLine{keyword=intern k,value=intern $ T.tail v}) $ T.lines textOfConfig 
+    then map (\l -> let (k,v) = T.breakOn "," l in IRLine{keyword=intern k,value=intern v}) $ T.lines textOfConfig 
     else irRep
 
 --makeUniq :: Language -> [(Keyword,Val)] -> [(Keyword,Val)]
