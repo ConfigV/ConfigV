@@ -20,12 +20,12 @@ settings = learnConfig {
       , enableMissing = False
       , enableKeyvalkey = True
       , verbose = True
-      , learnFileLimit = 40
+      , learnFileLimit = 800
       }
 
 csvThresholds = Left $ defaultThresholds {
-        keyValKeyCoorSupport = 4
-      , keyValKeyCoorConfidence = 0
+        keyValKeyCoorSupport = 15
+      , keyValKeyCoorConfidence = 2
       }
 
 
