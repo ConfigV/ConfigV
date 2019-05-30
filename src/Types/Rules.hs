@@ -1,4 +1,3 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass#-}
 {-# LANGUAGE MultiParamTypeClasses #-} 
@@ -12,6 +11,8 @@ import Types.Common
 import Types.IR
 import Types.Errors
 import Types.Countable
+import Types.SMTRules
+import Types.Locatable
 
 import Prelude hiding (Ordering)
 import           Data.Aeson
@@ -24,6 +25,7 @@ import Settings.Config
 import qualified Data.Map.Strict as M
 
 import Control.DeepSeq
+
 -- | every instance of Learnable is a template of rules we can learn
 --   instance provided in the Learners dir
 class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
@@ -39,9 +41,6 @@ class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
   check :: a -> b -> b -> Maybe b
   -- | How to convert a rule to an error message
   toError :: IRConfigFile -> FilePath -> (a, b) -> Error
-
-class Locatable a where
-  keys :: a -> [Keyword]
 
 -- | A rule is the structure for tracking and merging evidence relations
 --   We need to track how much evidence we have for the rule, against the rule, and how often we have seen the rule
@@ -80,14 +79,6 @@ data KeywordCoor = KeywordCoor (Keyword,Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
 instance Locatable KeywordCoor where
   keys (KeywordCoor (k1,k2)) = [k1,k2]
-
-data SMTRule = SMTRule
-  { smt_irs :: [IRLine]
-  , smtFormula :: SMTFormula
-  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
-instance Locatable SMTRule where
-  keys (STRule {..}) = ks
-
 
 data KeyValKeyCoor = KeyValKeyCoor 
   { k1 :: Keyword

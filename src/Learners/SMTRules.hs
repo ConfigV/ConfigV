@@ -36,7 +36,7 @@ instance Learnable R.SMTRule Antirule where
       then Just $ embedAsTrueAntiRule potentialSMTRule
       else Nothing
     assignSMTs ps smtTemplate = mapMaybe (\p -> checkSMTRule $ toSMTRule smtTemplate p) ps 
-    smtTemplates = undefined -- TODO [...]
+    smtTemplates = terms3
    in
     return $ M.fromList $ concatMap (assignSMTs $ pairs f) smtTemplates
 
