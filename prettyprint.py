@@ -8,11 +8,11 @@ kvk = rules['keyvalkeyl']
 
 for r in kvk:
   cmd = "git grep " + (r[0]['k1']['uninternedText']) + " Datasets/antonDumpCSV/* | wc -l"
-  print (cmd)
-  print (commands.getstatusoutput(cmd))
-  print r[0]['k1']['uninternedText'] + " = " + r[0]['v1']['uninternedText']
-  print "     => " + r[0]['k2']['uninternedText']
-  print r[1] 
-  print
+  count = (commands.getstatusoutput(cmd)[1])
+  if (str(count) != str(r[1]['antiRuleData']['tru'])):
+    print count
+    print r[0]['k1']['uninternedText'] + " = " + r[0]['v1']['uninternedText']
+    print "     => " + r[0]['k2']['uninternedText']
+    print r[1] 
 
 

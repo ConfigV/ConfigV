@@ -24,8 +24,8 @@ settings = learnConfig {
       }
 
 csvThresholds = Left $ defaultThresholds {
-        keyValKeyCoorSupport = 15
-      , keyValKeyCoorConfidence = 2
+        keyValKeyCoorSupport = 14
+      , keyValKeyCoorConfidence = 3
       }
 
 
