@@ -6,3 +6,5 @@ import Learners.FineGrained()
 import Learners.KeywordCoor()
 import Learners.KeyValKeyCoor()
 import Learners.TypeErr()
+
+import Learners.SMTRules()

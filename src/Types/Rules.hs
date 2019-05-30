@@ -55,7 +55,7 @@ data RuleSet = RuleSet
   , order     :: RuleDataMap Ordering AntiRule
   , intRel    :: RuleDataMap IntRel Formula
   , fineInt   :: RuleDataMap FineGrained Formula
-  , smtRules  :: RuleDataMap SMTRule AntiRule
+  , smtRules  :: RuleDataMap SMTFormula AntiRule
   , typeErr   :: RuleDataMap TypeErr QType
   } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
