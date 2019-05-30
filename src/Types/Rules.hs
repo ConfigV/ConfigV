@@ -5,7 +5,10 @@
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE RecordWildCards #-} 
 
-module Types.Rules where
+module Types.Rules 
+  ( module Types.Rules
+  , module Types.SMTRules 
+  ) where
 
 import Types.Common
 import Types.IR

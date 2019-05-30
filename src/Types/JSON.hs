@@ -23,17 +23,20 @@ data RuleSetLists = RuleSetLists
   , typeErrl  :: [(TypeErr,QType)]
   , intRell  :: [(IntRel,Formula)]
   , finel  :: [(FineGrained,Formula)]
+  , smtRulesl  :: [(SMTFormula, AntiRule)]
   } deriving (Show, Generic, ToJSON, FromJSON)
 
 -- | TODO move this to learnRules?
 ruleSizes :: RuleSetLists -> String
-ruleSizes RuleSetLists{..} = 
-  "Order " ++ (show $ length orderl) ++ "\n" ++
-  "Missing: " ++ (show $ length missingl) ++"\n" ++
-  "KeyValKey: " ++ (show $ length keyvalkeyl) ++"\n" ++
-  "Type: " ++ (show $ length typeErrl) ++"\n" ++
-  "IntRel: " ++ (show $ length intRell) ++"\n" ++
-  "Finegrain: " ++ (show $ length finel)
+ruleSizes RuleSetLists{..} = unlines $ 
+  [ "Order " ++ (show $ length orderl) 
+  , "Missing: " ++ (show $ length missingl)
+  , "KeyValKey: " ++ (show $ length keyvalkeyl) 
+  , "Type: " ++ (show $ length typeErrl) 
+  , "IntRel: " ++ (show $ length intRell)
+  , "Finegrain: " ++ (show $ length finel)
+  , "SMT: " ++ (show $ length smtRulesl)
+  ]
 
 toLists :: RuleSet -> RuleSetLists
 toLists RuleSet{..}=
@@ -44,6 +47,7 @@ toLists RuleSet{..}=
     , typeErrl = M.toList typeErr
     , intRell = M.toList intRel
     , finel = M.toList fineInt
+    , smtRulesl = M.toList smtRules
     }
 
 fromLists :: RuleSetLists -> RuleSet
@@ -55,6 +59,7 @@ fromLists RuleSetLists{..}=
     , typeErr = M.fromList typeErrl
     , intRel = M.fromList intRell
     , fineInt = M.fromList finel
+    , smtRules = M.fromList smtRulesl
     }
 
 

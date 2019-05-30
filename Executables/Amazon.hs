@@ -17,15 +17,17 @@ main = do
 
 settings = learnConfig {
         learnTarget = "Datasets/antonDumpCSV/"
-      , enableMissing = False
+      , enableSMT = True
       , enableKeyvalkey = True
       , verbose = True
-      , learnFileLimit = 800
+      , learnFileLimit = 10
       }
 
 csvThresholds = Left $ defaultThresholds {
-        keyValKeyCoorSupport = 14
-      , keyValKeyCoorConfidence = 3
+        keywordCoorSupport = 3
+      , keywordCoorConfidence = 1
+      , keyValKeyCoorSupport = 4
+      , keyValKeyCoorConfidence = 1
       }
 
 

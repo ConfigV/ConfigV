@@ -54,7 +54,7 @@ class Countable a where
 -- this computation is handled seperatly, so when adding rules dont touch tot
 instance Countable AntiRule where
   add (AntiRule tru fls tot) (AntiRule tru' fls' tot') =
-    AntiRule (tru+tru') (fls+fls') (max tot tot')
+    AntiRule (tru+tru') (fls+fls') (tot+tot')
 
 -- used in KeyValKey, tot counts how many times k1 and v1 appear
 -- this computation is handled seperatly, so when adding rules dont touch tot

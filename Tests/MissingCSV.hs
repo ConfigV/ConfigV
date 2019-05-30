@@ -27,6 +27,7 @@ verify = do
 settings = learnConfig {
         learnTarget = "Datasets/benchmarks/MissingCSV/"
       , enableMissing = True
+      , enableSMT = True
       , verbose = True
       }
 

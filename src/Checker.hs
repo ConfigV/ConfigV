@@ -6,6 +6,7 @@ import Types.IR
 import Types.Rules
 import Types.Errors
 import Types.Common
+import Types.Locatable
 
 import LearningEngine
 import Convert (convert)
@@ -31,7 +32,7 @@ checkFile settings rs f =
      configVconfig = ConfigVConfiguration { 
                         optionsSettings = defaultCheckConfig, 
                         thresholdSettings = defaultThresholds}
-     fRules = buildAllRelations configVconfig keyCounts $ convert f --TODO what in gods name is this doing here?
+     fRules = buildAllRelations configVconfig $ convert f --TODO what in gods name is this doing here?
      fKs = map keyword $ convert f
      rs' = filterRules fKs rs
      diff = ruleDiff (traceMe rs') (traceMe fRules) --the difference between the two rule sets

@@ -44,6 +44,7 @@ instance Learnable SMTFormula AntiRule where
   merge rs = do
     settings <- ask
     let 
+      --TODO need specialized support and conf
       minTrue = keywordCoorSupport $ thresholdSettings settings
       maxFalse = keywordCoorConfidence $ thresholdSettings settings
       rsAdded = M.unionsWith add rs

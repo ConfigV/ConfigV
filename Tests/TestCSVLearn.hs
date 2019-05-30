@@ -31,6 +31,7 @@ settings = learnConfig {
       , enableKeyvalkey = True
       , enableCoarseGrain = True
       , enableFineGrain = True
+      , enableSMT = True
       , verbose = True
       }
 

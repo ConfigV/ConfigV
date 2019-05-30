@@ -38,6 +38,7 @@ resolveRules configVconfig rs = RuleSet
   , intRel    = applyThresholds "coarse grain" intRel
   , typeErr   = applyThresholds "type" typeErr
   , fineInt   = applyThresholds "fine grain" fineInt
+  , smtRules  = applyThresholds "smtRule" smtRules
   }
  where
   applyThresholds templateName classOfErr =
@@ -59,6 +60,7 @@ buildAllRelations configVconfig f = let
     , fineInt   = getRules enableFineGrain
     , typeErr   = getRules enableTypeRules
     , missing   = getRules enableMissing  
+    , smtRules  = getRules enableSMT
     }
 
 mapOverRuleSet :: (forall a. a -> a) -> RuleSet -> RuleSet

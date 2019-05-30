@@ -19,6 +19,7 @@ data Options
   , enableCoarseGrain :: Bool
   , enableFineGrain :: Bool 
   , enableTypeRules :: Bool
+  , enableSMT :: Bool
   , enableProbTypeInference :: Bool
   , cacheLocation :: FilePath
   , thresholdsPath :: FilePath
@@ -50,6 +51,7 @@ learnConfig = Learning {
   , enableCoarseGrain = False
   , enableFineGrain = False
   , enableTypeRules = False
+  , enableSMT = False
   , enableProbTypeInference = False
   , cacheLocation = cachedRulesDefaultLoc &= 
       help ("The location where the cache of learned rules wll be written. Default: "++ cachedRulesDefaultLoc) &= typFile
@@ -66,6 +68,7 @@ defaultCheckConfig = learnConfig {
   , enableCoarseGrain = True
   , enableFineGrain = True
   , enableTypeRules = True
+  , enableSMT = True
   , enableProbTypeInference = True
   , cacheLocation = cachedRulesDefaultLoc 
   } 

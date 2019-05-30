@@ -41,15 +41,14 @@ templatesArity3 = runOmega $ do
 antecedent :: SMTFormula -> Maybe SMTFormula
 antecedent = \case
    Implies s1 s2 -> Just s1
-   And s1 s2 -> error "must have implication at top level" --TODO enforece (with GADTs?)
    _ -> Nothing
 
 consequent :: SMTFormula -> SMTFormula
 consequent = \case
    Implies s1 s2 -> s2
-   And s1 s2 -> error "must have implication at top level"
    x -> x
 
+-- TODO must have implication at top level ; enforce with GADTs?
 -- TODO add IntRels
 data SMTFormula =
     And SMTFormula SMTFormula
