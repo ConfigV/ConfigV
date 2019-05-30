@@ -1,0 +1,16 @@
+from,ubuntu
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+mv ¦./kubectl¦/usr/local/bin/kubectl :: Filesystem_operation,()
+mkdir ¦$GOPATH :: Filesystem_operation,()
+apt-get ¦install¦-y¦golang¦git¦curl :: Dependencies_operation,()
+curl ¦-s¦https://storage.googleapis.com/kubernetes-release/release/stable.txt :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+go ¦get¦github.com/yudai/gotty :: Build_Execute_operation,()
+export ¦TERM=xterm :: Environment_operation,()
+alias ¦kc="kubectl" :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+PATH:$GOPATH/bin:$PATH :: env_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+chmod ¦755¦/entrypoint.sh :: Permissions_operation,()
+GOPATH:/usr/go :: env_operation,()
+chmod ¦+x¦./kubectl :: Permissions_operation,()

@@ -1,0 +1,17 @@
+apt-get ¦install¦-y¦-q¦apache2¦libapache2-mod-php5¦php5-cli¦php5-mysql¦mysql-server¦wget¦nano¦unzip¦git :: Dependencies_operation,()
+from,debian@squeeze
+apt-get ¦-y¦-q¦autoclean :: Dependencies_operation,()
+apt-get ¦-y¦-q¦autoremove :: Dependencies_operation,()
+wget ¦https://github.com/nicosomb/wp2pluxml/master.zip :: Dependencies_operation,()
+unzip ¦*.zip :: Filesystem_operation,()
+expose,443 80
+wget ¦http://telechargements.pluxml.org/download.php :: Dependencies_operation,()
+apt-get ¦upgrade¦-y¦-q :: Dependencies_operation,()
+mv ¦/var/www/wp2*¦/var/www/pluxml/wp2pluxml :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦dist-upgrade¦-y¦-q :: Dependencies_operation,()
+/var/www :: workdir_operation,()
+chown ¦www-data.www-data¦-R¦/var/www :: Permissions_operation,()
+cmd,/start.sh
+apt-get ¦update :: Dependencies_operation,()
+rm ¦*.zip :: Filesystem_operation,()

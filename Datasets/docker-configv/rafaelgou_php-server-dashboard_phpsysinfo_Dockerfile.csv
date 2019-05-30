@@ -1,0 +1,13 @@
+cmd,/usr/sbin/apache2¦-D¦FOREGROUND
+apt-get ¦update :: Dependencies_operation,()
+cat ¦/var/www/html/phpsysinfo/phpsysinfo.ini.new¦|¦sed¦'s/^LOAD_BAR=false/LOAD_BAR=true/'¦>/var/www/html/phpsysinfo/phpsysinfo.ini :: Filesystem_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+apt-get ¦install¦-y¦apache2¦php5¦git¦pciutils :: Dependencies_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+git ¦clone¦https://github.com/phpsysinfo/phpsysinfo.git¦/var/www/html/phpsysinfo :: Dependencies_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+expose,80
+from,ubuntu:14.04
+APACHE_PID_FILE:/var/run/apache2/apache2.pid :: env_operation,()

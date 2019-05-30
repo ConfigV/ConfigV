@@ -1,0 +1,11 @@
+apk ¦del¦build-dependencies :: Dependencies_operation,()
+cd ¦/usr/local/src/eschalot :: Filesystem_operation,()
+cp ¦*.txt¦/usr/local/lib/eschalot :: Filesystem_operation,()
+mkdir ¦-p¦/usr/local/src/eschalot¦/usr/local/lib/eschalot :: Filesystem_operation,()
+apk ¦add¦--virtual¦build-dependencies¦--no-cache¦openssl-dev¦gcc¦make¦musl-dev¦git¦binutils :: Dependencies_operation,()
+entrypoint,/usr/local/bin/eschalot
+make ¦clean¦all¦install :: Build_Execute_operation,()
+apk ¦add¦--no-cache¦openssl :: Dependencies_operation,()
+from,alpine:3.5
+git ¦clone¦https://github.com/ReclaimYourPrivacy/eschalot.git¦/usr/local/src/eschalot :: Dependencies_operation,()
+rm ¦-rf¦/usr/local/src/eschalot :: Filesystem_operation,()

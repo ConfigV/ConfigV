@@ -1,0 +1,19 @@
+apk ¦add¦--update¦ca-certificates :: Dependencies_operation,()
+curl ¦-o¦ui.zip¦https://releases.hashicorp.com/consul/${VERSION}/consul_${VERSION}_web_ui.zip :: Dependencies_operation,()
+mkdir ¦-p¦/ui :: Filesystem_operation,()
+VERSION:0.6.3 :: env_operation,()
+mv ¦*¦/ui :: Filesystem_operation,()
+https://releases.hashicorp.com/consul/${VERSION}/consul_${VERSION}_linux_amd64.zip/tmp/ :: add_operation,()
+from,gliderlabs/alpine:3.3
+rm ¦-rf¦consul_${VERSION}_linux_amd64.zip :: Filesystem_operation,()
+unzip ¦consul_${VERSION}_linux_amd64.zip :: Filesystem_operation,()
+cmd,agent¦-data-dir¦/data
+expose,8300 8301 8301 8302 8302 8400 8500 8600 8600
+cat ¦consul_${VERSION}_SHA256SUMS¦|¦grep¦linux_amd64¦|¦sha256sum¦-c :: Filesystem_operation,()
+mv ¦consul¦/bin/ :: Filesystem_operation,()
+rm ¦-rf¦/tmp/*¦/var/cache/apk/* :: Filesystem_operation,()
+unzip ¦ui.zip :: Filesystem_operation,()
+/data :: volume_operation,()
+entrypoint,/bin/consul
+https://releases.hashicorp.com/consul/${VERSION}/consul_${VERSION}_SHA256SUMS/tmp/ :: add_operation,()
+/tmp :: workdir_operation,()

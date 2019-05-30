@@ -1,0 +1,12 @@
+cp ¦/tmp/craftbukkit-*.jar¦/usr/local/lib/minecraft/craftbukkit.jar :: Filesystem_operation,()
+cp ¦/tmp/spigot-*.jar¦/usr/local/lib/minecraft/spigot.jar :: Filesystem_operation,()
+https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar/tmp/ :: add_operation,()
+from,java:8.0
+/minecraft :: volume_operation,()
+mkdir ¦-p¦/usr/local/lib/minecraft :: Filesystem_operation,()
+expose,25565
+/minecraft :: workdir_operation,()
+/tmp :: workdir_operation,()
+mkdir ¦-p¦/minecraft :: Filesystem_operation,()
+java ¦-jar¦BuildTools.jar¦--rev¦1.8.7 :: Other_operation,()
+cmd,java¦-Xms512M¦-Xmx1024M¦-XX:MaxPermSize=128M¦-jar¦/usr/local/lib/minecraft/spigot.jar

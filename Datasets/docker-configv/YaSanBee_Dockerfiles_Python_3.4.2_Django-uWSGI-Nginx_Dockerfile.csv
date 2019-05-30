@@ -1,0 +1,9 @@
+from,python:3.4
+RUNif [ -f ${DOCKER_HOME}/Project/requirements.txt ]; then pip install -r ${DOCKER_HOME}/Project/requirements.txt; fi :: onbuild_operation,()
+expose,80
+cmd,supervisord¦-n
+./Config/*${DOCKER_HOME}/Config :: add_operation,()
+DOCKER_HOME:/home/docker :: env_operation,()
+ADD. ${DOCKER_HOME}/Project :: onbuild_operation,()
+echo ¦sudo¦apt-key add ${DOCKER_HOME}/Config/nginx_signing.key && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list && echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list && apt... :: Filesystem_operation,()
+pip ¦install¦uwsgi :: Dependencies_operation,()

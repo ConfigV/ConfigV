@@ -1,0 +1,11 @@
+/home/test :: workdir_operation,()
+cmd,/home/test/.local/bin/bitnomon
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦--user¦--no-index¦-f¦bitnomon-*-bundle¦bitnomon :: Dependencies_operation,()
+from,debian:7.0
+QT_GRAPHICSSYSTEM=native: :: env_operation,()
+apt-get ¦install¦-y¦python-qt4¦python-numpy¦python-rrdtool¦python-pip :: Dependencies_operation,()
+bitnomon-*-bundle.tar/home/test/ :: add_operation,()
+test :: user_operation,()
+useradd ¦-m¦test :: Permissions_operation,()

@@ -1,0 +1,12 @@
+from,ceroic/docker-node:0.12.0
+expose,3000
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦561F9B9CAC40B2F7 :: Dependencies_operation,()
+apt-get ¦install¦-y¦passenger :: Dependencies_operation,()
+echo ¦echo¦"deb https://oss-binaries.phusionpassenger.com/apt/passenger wheezy main" >> /etc/apt/sources.list.d/passenger.list :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,passenger¦start
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦apt-transport-https¦ca-certificates :: Dependencies_operation,()
+chmod ¦600¦/etc/apt/sources.list.d/passenger.list :: Permissions_operation,()
+chown ¦root:¦/etc/apt/sources.list.d/passenger.list :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

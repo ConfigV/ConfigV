@@ -1,0 +1,17 @@
+python ¦setup.py¦install :: Build_Execute_operation,()
+/notebooks :: workdir_operation,()
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && wget --quiet https://repo.continuum.io/archive/Anaconda2-4.0.0-Linux-x86_64.sh && /bin/bash /Anaconda2-4.0.0-Linux-x86_64.sh -b -p /opt/conda && rm /Anaconda2-4.0.0-Linux... :: Filesystem_operation,()
+conda ¦install¦-y¦-c¦https://conda.anaconda.org/anaconda¦setuptools :: Dependencies_operation,()
+CURL_CA_BUNDLE:/etc/ssl/certs/ca-certificates.crt :: env_operation,()
+.*\\  :: Other_operation,()
+cmd,jupyter¦notebook
+cd ¦/opt/xgboost/python-package/ :: Filesystem_operation,()
+/notebooks :: volume_operation,()
+apt-get ¦install¦-y¦wget¦bzip2¦ca-certificates¦libglib2.0-0¦libxext6¦libsm6¦libxrender1¦mercurial¦subversion :: Dependencies_operation,()
+LANG:C.UTF-8 :: env_operation,()
+expose,8888
+echo ¦mkdir¦-p -m 700 /root/.jupyter/ && echo "c.NotebookApp.ip = '*'" >> /root/.jupyter/jupyter_notebook_config.py :: Filesystem_operation,()
+PATH:/opt/conda/bin:$PATH :: env_operation,()
+/ :: workdir_operation,()
+entrypoint,tini¦--
+from,rickyking/xgboost

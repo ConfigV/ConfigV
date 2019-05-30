@@ -1,0 +1,14 @@
+curl ¦-s¦ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_info.gz¦>¦/data/gene_info.gz :: Dependencies_operation,()
+curl ¦-s¦-L¦http://purl.obolibrary.org/obo/doid.obo¦|¦gzip¦>¦/data/doid.obo.gz :: Dependencies_operation,()
+cmd,-r¦/g2f/bin/app.psgi
+apt-get ¦update :: Dependencies_operation,()
+cpanm ¦Search::Elasticsearch :: Other_operation,()
+entrypoint,plackup
+apt-get ¦install¦-y¦curl¦perl¦perl-doc¦libdancer2-perl¦libjson-perl¦libbio-perl-perl¦cpanminus¦make¦gcc¦gzip :: Dependencies_operation,()
+/data :: volume_operation,()
+mkdir ¦-p¦/g2f :: Filesystem_operation,()
+from,debian@jessie
+./g2f/ :: copy_operation,()
+/g2f/bin/fetch_hgnc.pl ¦|¦gzip¦>¦/data/hgnc_mapping_file.tsv.gz :: Other_operation,()
+mkdir ¦-p¦/data :: Filesystem_operation,()
+expose,5000

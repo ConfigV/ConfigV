@@ -1,0 +1,18 @@
+JETSTREAM_ZKSERVER_PORT:2181 :: env_operation,()
+JETSTREAM_APP_NAME:${project_name} :: env_operation,()
+/opt/app :: workdir_operation,()
+JETSTREAM_CONFIG_VERSION:1.0 :: env_operation,()
+tar ¦-zxvf¦${project_name}-${project_version}-bin.tar.gz :: Filesystem_operation,()
+JETSTREAM_MONGOURL:mongo://mongoserver:27017/config :: env_operation,()
+PULSAR_KAFKA_BORKERS:kafkaserver:9092 :: env_operation,()
+target/${project_name}-${project_version}-bin.tar.gz/opt/app/${project_name}-${project_version}-bin.tar.gz :: copy_operation,()
+entrypoint,./start.sh
+/opt/app/jetstreamapp :: workdir_operation,()
+expose,9999
+from,java:7.0
+project_name:replay :: env_operation,()
+JETSTREAM_APP_JAR_NAME:${project_name}.jar :: env_operation,()
+JETSTREAM_ZKSERVER_HOST:zkserver :: env_operation,()
+PULSAR_KAFKA_ZK:kafkaserver:2181 :: env_operation,()
+ln ¦-s¦/opt/app/${project_name}-${project_version}¦jetstreamapp :: Filesystem_operation,()
+project_version:1.0-SNAPSHOT :: env_operation,()

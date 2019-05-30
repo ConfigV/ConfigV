@@ -1,0 +1,12 @@
+entrypoint,/entrypoint.sh
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦autoconf¦build-base¦git¦icu-dev¦python :: Dependencies_operation,()
+from,alpine
+apk ¦del¦.build-deps :: Dependencies_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+TG_BOT_API_KEY='':TG_GROUP_ID='' :: env_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+cd ¦$SRC_DIR :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+git ¦clone¦$GIT_URL :: Dependencies_operation,()
+set ¦-x :: Environment_operation,()
+apk ¦add¦--no-cache¦--virtual¦.run-deps¦nodejs :: Dependencies_operation,()

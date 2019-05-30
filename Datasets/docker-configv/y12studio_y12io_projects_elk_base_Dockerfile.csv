@@ -1,0 +1,17 @@
+apt-get ¦install¦-y¦curl¦wget¦git¦golang¦python :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+git ¦checkout¦v0.3.1 :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/usr/sbin/enable_insecure_key  :: Other_operation,()
+cmd,/sbin/my_init
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,phusion/baseimage:0.9.12
+HOME:/root :: env_operation,()
+locale-gen ¦zh_TW.UTF-8 :: Other_operation,()
+git ¦clone¦git://github.com/elasticsearch/logstash-forwarder.git¦/tmp/logstash-forwarder :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+go ¦build :: Build_Execute_operation,()
+cd ¦/tmp/logstash-forwarder :: Filesystem_operation,()
+mv ¦logstash-forwarder¦/opt/logstash-forwarder/bin/ :: Filesystem_operation,()
+LANG:zh_TW.UTF-8 :: env_operation,()
+mkdir ¦-p¦/opt/logstash-forwarder/bin/ :: Filesystem_operation,()

@@ -1,0 +1,23 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦incron¦tomcat7¦libtcnative-1¦tomcat7-admin :: Dependencies_operation,()
+mkdir ¦-p¦/usr/share/solr/lib :: Filesystem_operation,()
+mv ¦/tmp/apache-solr-3.6.2/example/solr¦/usr/share/solr :: Filesystem_operation,()
+./start.sh/start.sh :: copy_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+unzip ¦/tmp/apache-solr-3.6.2/example/webapps/solr.war¦-d¦/usr/share/solr/web :: Filesystem_operation,()
+mkdir ¦-p¦/usr/share/solr/data :: Filesystem_operation,()
+apt-get ¦-y¦autoclean :: Dependencies_operation,()
+cmd,/bin/bash¦/start.sh
+expose,449
+from,kalabox/debian:stable
+rm ¦-rf¦/var/lib/log/* :: Filesystem_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+./index/usr/share/solr/web/index :: copy_operation,()
+curl ¦-L¦"https://archive.apache.org/dist/lucene/solr/3.6.2/apache-solr-3.6.2.tgz"¦|¦tar¦-zvx :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+rm ¦-rf :: Filesystem_operation,()
+mkdir ¦-p¦/var/lib/tomcat7/temp :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/cache/* :: Filesystem_operation,()
+echo ¦chmod¦755 /start.sh && rm /etc/tomcat7/server.xml && ln -s /src/config/tomcat/server.xml /etc/tomcat7/server.xml && rm /etc/tomcat7/web.xml && ln -s /src/config/tomcat/web.xml /etc/tomcat7/web.xml && rm /usr/share/solr/solr.xml && ln -s /s... :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/* :: Filesystem_operation,()

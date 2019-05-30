@@ -1,0 +1,13 @@
+echo ¦echo¦cs_CZ.UTF-8 UTF-8 >> /etc/locale.gen :: Filesystem_operation,()
+docker-php-ext-install ¦gd¦mbstring¦pdo¦pdo_mysql¦zip¦exif¦soap\\ :: Other_operation,()
+from,php:5.6
+a2enmod ¦rewrite¦vhost_alias :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+entrypoint,/docker-entrypoint.sh
+apache2.conf/etc/apache2/apache2.conf :: copy_operation,()
+php.ini/usr/local/etc/php/conf.d/php.ini :: copy_operation,()
+apt-get ¦install¦-y¦locales¦php5-sqlite¦php5-mysql¦php5-memcache¦memcached¦php-gettext¦gettext¦libpng12-dev¦libjpeg-dev¦libpq-dev¦imagemagick¦libxml2-dev :: Dependencies_operation,()
+locale-gen  :: Other_operation,()

@@ -1,0 +1,10 @@
+dpkg ¦-i¦/tmp/dumb-init.deb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,BASEIMAGE
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+curl ¦-sSL¦-o¦/tmp/dumb-init.deb¦http://ftp.us.debian.org/debian/pool/main/d/dumb-init/dumb-init_1.2.0-1_DUMB_ARCH.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦diffutils¦--no-install-recommends :: Dependencies_operation,()
+cmd,/nginx-ingress-controller
+./ :: copy_operation,()
+entrypoint,/usr/bin/dumb-init
+rm ¦/tmp/dumb-init.deb :: Filesystem_operation,()

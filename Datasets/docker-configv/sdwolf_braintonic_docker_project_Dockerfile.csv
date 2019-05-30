@@ -1,0 +1,8 @@
+/work :: workdir_operation,()
+cmd,iex¦-S¦mix
+echo ¦DEBIAN_FRONTEND=noninteractive¦&& echo 'Giving notroot permissions to /work' && chown -R notroot:notroot /work && echo 'Installing mix packages as notroot' && runuser notroot -c " mix local.hex --force && mix local.rebar --force && cd /wor... :: Filesystem_operation,()
+HOST_USER_GID=1000 :: arg_operation,()
+HOST_USER_UID=1000 :: arg_operation,()
+from,elixir:1.2
+notroot :: user_operation,()
+mix.*/work/ :: add_operation,()

@@ -1,0 +1,12 @@
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+from,ubuntu
+/app :: volume_operation,()
+ln ¦-s¦/whippet-server/whippet-server¦/usr/local/bin/whippet-server :: Filesystem_operation,()
+expose,80
+cmd,whippet-server¦-i¦localhost¦-p¦80¦--show-wp-errors¦--siteurl=http://localhost¦/app
+/app :: workdir_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦wget :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦php5-cli¦php5-mysql :: Dependencies_operation,()
+./whippet-server :: add_operation,()

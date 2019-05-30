@@ -1,0 +1,10 @@
+.${WORKDIR} :: copy_operation,()
+from,fcomb/jre8-sbt-alpine
+cmd,${APP}/bin/start¦--config¦/etc/snowplow/storage.conf
+WORKDIR:/home/java/project :: env_operation,()
+${APP} :: workdir_operation,()
+${WORKDIR} :: workdir_operation,()
+root :: user_operation,()
+snowplow :: user_operation,()
+adduser ¦-D¦-g¦''¦-h¦/app¦-H¦snowplow :: Permissions_operation,()
+APP:/app :: env_operation,()

@@ -1,0 +1,17 @@
+rm ¦-f¦jupyter-scala-2.10 :: Filesystem_operation,()
+echo ¦{¦echo '#!/bin/bash'; echo 'set -e'; echo 'python3 /bootstrap.py'; echo 'jupyter notebook'; } > /entrypoint.sh && chmod +x /entrypoint.sh :: Filesystem_operation,()
+curl ¦-L¦-o¦jupyter-scala-2.10¦https://git.io/vzhR7 :: Dependencies_operation,()
+cmd,/entrypoint.sh
+pip3 ¦install¦jupyter¦click :: Dependencies_operation,()
+/notebooks :: volume_operation,()
+/notebooks :: workdir_operation,()
+NBCONFIG:/root/.jupyter/nbconfig :: env_operation,()
+echo ¦mkdir¦-p $NBCONFIG && { echo '{"CodeCell":{"cm_config":'; echo '{"indentUnit":2,"smartIndent":false}'; echo '}}'; } > /$NBCONFIG/notebook.json :: Filesystem_operation,()
+./jupyter-scala-2.10  :: Other_operation,()
+from,java:7.0
+chmod ¦+x¦jupyter-scala-2.10 :: Permissions_operation,()
+bootstrap.py/bootstrap.py :: copy_operation,()
+apt-get ¦install¦-y¦curl¦python3¦python3-pip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,8888

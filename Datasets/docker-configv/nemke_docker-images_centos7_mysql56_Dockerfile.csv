@@ -1,0 +1,11 @@
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+rpm ¦-Uvh¦http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+cmd,mysqld
+yum ¦-y¦install¦mysql-community-server :: Dependencies_operation,()
+my.cnf/etc/my.cnf :: add_operation,()
+from,centos7/base
+entrypoint,/entrypoint.sh
+/var/lib/mysql :: volume_operation,()
+expose,3306

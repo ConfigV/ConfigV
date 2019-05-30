@@ -1,0 +1,12 @@
+chown ¦mysql:mysql¦/tmp/mariadb-secure.sh :: Permissions_operation,()
+chmod ¦700¦/tmp/mariadb-secure.sh :: Permissions_operation,()
+cmd,/tmp/mariadb-run.sh
+chown ¦mysql:mysql¦/tmp/mariadb-run.sh :: Permissions_operation,()
+mysql :: user_operation,()
+files/mariadb-run.sh/tmp/ :: copy_operation,()
+files/mariadb-secure.sh/tmp/ :: copy_operation,()
+/tmp/mariadb-secure.sh  :: Other_operation,()
+from,dkwasny/base
+chmod ¦700¦/tmp/mariadb-run.sh :: Permissions_operation,()
+yum ¦-y¦install¦mariadb¦mariadb-server :: Dependencies_operation,()
+mysql_install_db  :: Other_operation,()

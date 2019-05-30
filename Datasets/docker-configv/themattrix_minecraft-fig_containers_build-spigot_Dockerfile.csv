@@ -1,0 +1,10 @@
+from,anapsix/alpine-java:jdk8
+cmd,bash¦/build.sh
+https://github.com/krallin/tini/releases/download/v0.8.4/tini/tini :: add_operation,()
+entrypoint,/tini¦--
+mkdir ¦/build :: Filesystem_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+build.sh/build.sh :: add_operation,()
+/build :: workdir_operation,()
+apk ¦--update¦add¦git :: Dependencies_operation,()
+/output :: volume_operation,()

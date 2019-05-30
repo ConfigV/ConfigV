@@ -1,0 +1,20 @@
+MYSQL_VERSION:5.6 :: env_operation,()
+cmd,mysqld
+PERCONA_XTRADB_VERSION:5.6 :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦perl¦--no-install-recommends :: Other_operation,()
+TERM:linux :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+apt-key ¦adv¦--keyserver¦keys.gnupg.net¦--recv-keys¦1C4CBDCDCD2EFD2A :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+/var/lib/mysql :: volume_operation,()
+expose,3306 4444 4567 4568
+echo ¦echo¦"deb http://repo.percona.com/apt trusty main" > /etc/apt/sources.list.d/percona.list :: Filesystem_operation,()
+cluster.cnf/etc/mysql/conf.d/cluster.cnf :: copy_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+echo ¦echo¦"deb-src http://repo.percona.com/apt trusty main" >> /etc/apt/sources.list.d/percona.list :: Filesystem_operation,()
+my.cnf/etc/mysql/my.cnf :: copy_operation,()
+from,ubuntu@trusty
+echo ¦{¦echo percona-server-server-5.6 percona-server-server/data-dir select ''; echo percona-server-server-5.6 percona-server-server/root_password password ''; } | debconf-set-selections && apt-get update && DEBIAN_FRONTEND=nointeractive apt-ge... :: Filesystem_operation,()

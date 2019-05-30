@@ -1,0 +1,12 @@
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+entrypoint,/usr/bin/firefox
+curl ¦-sSL¦"https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/${LANG}/firefox-${FIREFOX_VERSION}.tar.bz2"¦-o¦/tmp/firefox.tar.bz2 :: Dependencies_operation,()
+mkdir ¦-p¦/opt/firefox :: Filesystem_operation,()
+local.conf/etc/fonts/local.conf :: copy_operation,()
+ln ¦-s¦/opt/firefox/firefox¦/usr/bin/firefox :: Filesystem_operation,()
+echo ¦set¦-x && test -z ${http_proxy} || /bin/echo -e "Acquire::http::proxy"${http_proxy}\\";\\n" >>/etc/apt/apt.conf && test -z ${https_proxy} || /bin/echo -e "Acquire::https::proxy"${https_proxy}\\";\\n" >>/etc/apt/apt.conf && sed -i.bak 's/\\(debi... :: Filesystem_operation,()
+FIREFOX_VERSION:29.0 :: env_operation,()
+LANG:en-US :: env_operation,()
+rm ¦/tmp/firefox.tar.bz2* :: Filesystem_operation,()
+from,java:8.0
+tar ¦-xjf¦/tmp/firefox.tar.bz2¦-C¦/opt/firefox¦--strip-components¦1 :: Filesystem_operation,()

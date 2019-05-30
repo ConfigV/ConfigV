@@ -1,0 +1,12 @@
+https://raw.githubusercontent.com/packetbeat/packetbeat/master/packetbeat.template.json$HOME/ :: add_operation,()
+entrypoint,/bin/bash¦-c¦$HOME/setup.sh
+packetbeat-kibana$HOME/packetbeat-kibana :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦https://get.docker.io/builds/Linux/x86_64/docker-1.3.0¦-o¦/usr/local/bin/docker :: Dependencies_operation,()
+scripts/*$HOME/scripts/ :: add_operation,()
+chmod ¦+x¦/usr/local/bin/docker¦$HOME/setup.sh¦$HOME/scripts/* :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+HOME:/packetbeat-setup :: env_operation,()
+setup.sh$HOME/ :: add_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

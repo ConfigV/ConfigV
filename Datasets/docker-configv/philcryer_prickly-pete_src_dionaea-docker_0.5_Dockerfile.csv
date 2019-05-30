@@ -1,0 +1,15 @@
+cmd,/usr/bin/supervisord¦--nodaemon¦-c¦/etc/supervisor/supervisord.conf
+rm ¦-rf¦/opt/dionaea/etc/dionaea :: Filesystem_operation,()
+build.sh/build/bin/ :: copy_operation,()
+chown ¦-R¦dionaea:dionaea¦/opt/dionaea/var :: Permissions_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦p0f¦supervisor :: Dependencies_operation,()
+useradd ¦-m¦--uid¦1000¦--gid¦1000¦dionaea :: Permissions_operation,()
+conf/opt/dionaea/etc/dionaea :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+supervisor/*.conf/etc/supervisor/conf.d/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,21 42 69 80 135 443 445 1433 1723 1883 1900 3306 5060 5060 5061 11211
+/bin/bash ¦/build/bin/build.sh :: Build_Execute_operation,()
+from,ubuntu:16.04
+rm ¦-rf¦/build¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+groupadd ¦--gid¦1000¦dionaea :: Permissions_operation,()

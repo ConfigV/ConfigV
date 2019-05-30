@@ -1,0 +1,10 @@
+containers/varnish/dev.vcl/etc/varnish/ :: copy_operation,()
+! ¦dpkg¦-i¦/tmp/varnish.deb¦>¦/dev/null¦2>&1 :: Other_operation,()
+rm ¦/etc/varnish/default.vcl :: Filesystem_operation,()
+curl ¦https://repo.varnish-cache.org/pkg/5.0.0/varnish_5.0.0-1_amd64.deb¦>¦/tmp/varnish.deb :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦apt-transport-https :: Dependencies_operation,()
+apt-get ¦-f¦install¦-y :: Dependencies_operation,()
+dpkg ¦-i¦/tmp/varnish.deb :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/tmp/varnish.deb :: Filesystem_operation,()
+from,debian@jessie

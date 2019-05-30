@@ -1,0 +1,19 @@
+/etc/nginx/sites-available/ :: volume_operation,()
+/usr/bin/easy_install ¦supervisor :: Other_operation,()
+cmd,/bin/bash¦/start.sh
+sed ¦-i¦-e"s/keepalive_timeout¦2/keepalive_timeout¦2;\\n\\tclient_max_body_size¦100m/"¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+from,debian@latest
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+expose,80
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦install¦cron¦nginx¦python-setuptools¦python¦git :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+./nginx-host.conf/etc/nginx/sites-available/default :: add_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+sed ¦-i¦-e"s/keepalive_timeout\\s*65/keepalive_timeout¦2/"¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+/usr/bin/easy_install ¦supervisor-stdout :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./supervisord.conf/etc/supervisord.conf :: add_operation,()
+./start.sh/start.sh :: add_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()

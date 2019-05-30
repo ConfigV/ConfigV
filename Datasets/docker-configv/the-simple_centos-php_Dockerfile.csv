@@ -1,0 +1,8 @@
+expose,9000 9900
+from,centos:7.0
+./docker-entrypoint.sh/ :: copy_operation,()
+MAGE_ROOT=/var/www/html/magento:MAGE_CRON_EXPR="*/10 :: env_operation,()
+rpm ¦-Uvh¦https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm;rpm¦--import¦https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7;\\ :: Dependencies_operation,()
+/sys/fs/cgroup :: volume_operation,()
+cmd,/usr/sbin/init
+entrypoint,/docker-entrypoint.sh

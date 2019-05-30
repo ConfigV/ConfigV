@@ -1,0 +1,11 @@
+cmd,/usr/sbin/init
+postgresql.conf/var/lib/pgsql/data/postgresql.conf :: add_operation,()
+/sys/fs/cgroup :: volume_operation,()
+from,fedora
+container:docker :: env_operation,()
+sleep ¦10;su¦-¦postgres¦-c¦'createuser¦dockeruser';su¦-¦postgres¦-c¦'createdb¦dockerdb';su¦-¦postgres¦-c¦"psql¦-c"ALTER¦ROLE¦dockeruser¦WITH¦PASSWORD¦'password';\\"";su¦-¦postgres¦-c¦'/usr/bin/pg_ctl¦-D¦/var/lib/pgsql/data¦stop'; :: Other_operation,()
+chown ¦postgres:postgres¦/var/lib/pgsql/data/pg_hba.conf¦/var/lib/pgsql/data/postgresql.conf; :: Permissions_operation,()
+expose,5432
+yum ¦-y¦update;¦yum¦clean¦all; :: Dependencies_operation,()
+yum ¦-y¦install¦postgresql-server¦postgresql-contrib;¦yum¦clean¦all;systemctl¦enable¦postgresql.service;su¦-¦postgres¦-c¦'pg_ctl¦initdb';su¦-¦postgres¦-c¦'/usr/bin/pg_ctl¦-D¦/var/lib/pgsql/data¦start' :: Dependencies_operation,()
+pg_hba.conf/var/lib/pgsql/data/pg_hba.conf :: add_operation,()

@@ -1,0 +1,13 @@
+mv ¦serf¦/usr/bin/ :: Filesystem_operation,()
+expose,7946 7373
+https://dl.bintray.com/mitchellh/serf/0.5.0_linux_amd64.zipserf.zip :: add_operation,()
+/start-serf.sh/start-serf.sh :: add_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+/supervisord-serf.conf/etc/supervisor/conf.d/supervisord-serf.conf :: add_operation,()
+/run.sh/run.sh :: add_operation,()
+from,ubuntu@quantal
+cmd,/run.sh
+rm ¦serf.zip :: Filesystem_operation,()
+unzip ¦serf.zip :: Filesystem_operation,()
+apt-get ¦install¦-qy¦build-essential¦git¦supervisor¦unzip :: Dependencies_operation,()

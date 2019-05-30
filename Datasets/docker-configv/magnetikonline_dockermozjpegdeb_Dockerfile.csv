@@ -1,0 +1,17 @@
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/root/build :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦-y¦install¦autoconf¦checkinstall¦libtool¦make¦nasm¦unzip :: Dependencies_operation,()
+cmd,/bin/bash
+autoreconf ¦-fiv :: Other_operation,()
+from,ubuntu:14.04
+echo ¦echo¦"magnetikonline: mozjpeg v2.0.1" > description-pak && checkinstall -Dy --install=no --nodoc --pkgname=mozjpeg --pkgversion=2.0.1 make -i install :: Filesystem_operation,()
+mkdir ¦build :: Filesystem_operation,()
+https://github.com/mozilla/mozjpeg/archive/v2.0.1.zip/root/build/ :: add_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+/root/build/mozjpeg-2.0.1 :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/root/build/mozjpeg-2.0.1/build :: workdir_operation,()
+unzip ¦v2.0.1.zip :: Filesystem_operation,()
+../configure  :: Other_operation,()
+/root/build :: workdir_operation,()

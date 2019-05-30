@@ -1,0 +1,13 @@
+/hygieia :: workdir_operation,()
+mkdir ¦/hygieia :: Filesystem_operation,()
+expose,8080
+hygieia/hygieia :: copy_operation,()
+properties-builder.sh/hygieia/ :: copy_operation,()
+SPRING_DATA_MONGODB_HOST=10.0.1.1: :: env_operation,()
+SPRING_DATA_MONGODB_PORT=9999: :: env_operation,()
+/hygieia/logs :: volume_operation,()
+cmd,./properties-builder.sh¦&&\\
+SPRING_DATA_MONGODB_USERNAME=db: :: env_operation,()
+from,docker.io/java:openjdk-8-jdk
+SPRING_DATA_MONGODB_DATABASE=dashboard: :: env_operation,()
+SPRING_DATA_MONGODB_PASSWORD=dbpass: :: env_operation,()

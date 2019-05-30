@@ -1,0 +1,12 @@
+/var/lib/jenkins :: volume_operation,()
+echo ¦echo¦"deb http://pkg.jenkins-ci.org/debian binary/" > /etc/apt/sources.list.d/jenkins.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+mkdir ¦/etc/service/jenkins :: Filesystem_operation,()
+echo ¦echo¦"/var/lib/jenkins" > /etc/container_environment/JENKINS_HOME :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦jenkins :: Other_operation,()
+apt-get ¦-y¦install¦wget¦git :: Dependencies_operation,()
+wget ¦-q¦-O¦-¦http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+jenkins/run/etc/service/jenkins/run :: add_operation,()
+from,arbiterofcool/jdk8-baseimage-docker:0.1

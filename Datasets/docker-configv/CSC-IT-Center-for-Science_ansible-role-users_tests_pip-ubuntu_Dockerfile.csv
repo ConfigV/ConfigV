@@ -1,0 +1,21 @@
+apt-get ¦clean :: Dependencies_operation,()
+LC_ALL:C :: env_operation,()
+mkdir ¦/etc/ansible/ :: Filesystem_operation,()
+cmd,/bin/bash
+entrypoint,/lib/systemd/systemd
+apt-get ¦install¦systemd¦sudo :: Dependencies_operation,()
+mkdir ¦-p¦/etc/apt/sources.d/ :: Filesystem_operation,()
+from,ubuntu:16.04
+/sys/fs/cgroup :: volume_operation,()
+pip ¦install¦ansible :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦echo¦"deb mirror://mirrors.ubuntu.com/mirrors.txt wily main restricted universe multiversen\\deb mirror://mirrors.ubuntu.com/mirrors.txt wily-updates main restricted universe multiversen\\deb mirror://mirrors.ubuntu.com/mirrors.txt wily-back... :: Filesystem_operation,()
+systemctl ¦set-default¦multi-user.target :: Other_operation,()
+echo ¦echo¦'APT::Install-Recommends "0";n\\APT::Get::Assume-Yes "true";n\\APT::Get::force-yes "true";n\\APT::Install-Suggests "0";' > /etc/apt/apt.conf.d/01buildconfig :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/lib/systemd/system/sysinit.target.wants/;¦ls¦|¦grep¦-v¦systemd-tmpfiles-setup¦|¦xargs¦rm¦-f¦$1rm¦-f¦/lib/systemd/system/multi-user.target.wants/*;\\ :: Filesystem_operation,()
+.*multiverse$\\  :: Other_operation,()
+init:/lib/systemd/systemd :: env_operation,()
+container:docker :: env_operation,()
+echo ¦echo¦-e '[local]\\nlocalhost' > /etc/ansible/hosts :: Filesystem_operation,()

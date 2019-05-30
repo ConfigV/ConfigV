@@ -1,0 +1,13 @@
+from,whlee21/centos6-cdh5-base
+alternatives ¦--set¦hive-conf¦/etc/hive/conf.docker :: Other_operation,()
+./node-init.sh/usr/local/bin/node-init.sh :: add_operation,()
+expose,22 60000 60010
+cmd,node-init.sh¦&&¦/usr/bin/supervisord
+ln ¦-s¦/usr/share/java/mysql-connector-java.jar¦/usr/lib/hive/lib/mysql-connector-java.jar :: Filesystem_operation,()
+./profile.d/hive.sh/etc/profile.d/hive.sh :: add_operation,()
+chmod ¦+x¦/usr/local/bin/node-init.sh :: Permissions_operation,()
+./conf/etc/hive/conf.docker :: add_operation,()
+./supervisord.conf/etc/ :: add_operation,()
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+yum ¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦hive-metastore¦mysql-connector-java¦mysql;¦yum¦clean¦all :: Dependencies_operation,()
+alternatives ¦--install¦/etc/hive/conf¦hive-conf¦/etc/hive/conf.docker¦50 :: Other_operation,()

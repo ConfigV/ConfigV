@@ -1,0 +1,16 @@
+entrypoint,zsh
+yum ¦install¦-y¦python34¦python-pip :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+BUNDLER_VERSION:1.11 :: env_operation,()
+yum ¦install¦-y¦openssl-devel¦readline-devel¦zlib-devel :: Dependencies_operation,()
+yum ¦install¦-y¦git¦vim¦wget¦zsh :: Dependencies_operation,()
+pip ¦install¦awscli :: Dependencies_operation,()
+from,centos:7.0
+RUBY_VERSION:2.3.1 :: env_operation,()
+echo ¦git¦clone --depth=1 https://github.com/rbenv/rbenv.git /usr/local/rbenv &&git clone --depth=1 https://github.com/rbenv/ruby-build.git /usr/local/rbenv/plugins/ruby-build &&/usr/local/rbenv/plugins/ruby-build/install.sh &&echo 'eval "$(rben... :: Filesystem_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+/usr/src/app :: volume_operation,()
+PATH:/usr/local/rbenv/bin:$PATH :: env_operation,()
+yum ¦groupinstall¦-y¦development :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()

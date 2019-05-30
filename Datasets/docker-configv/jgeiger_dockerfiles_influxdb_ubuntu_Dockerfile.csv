@@ -1,0 +1,19 @@
+root :: user_operation,()
+wget ¦--quiet¦--output-document¦/usr/local/bin/gosu¦"https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+INFLUXDB_VERSION=influxdb_0.10.1-1: :: env_operation,()
+dpkg ¦-i¦${INFLUXDB_FILE} :: Dependencies_operation,()
+entrypoint,/tini¦--¦/entrypoint.sh
+apt-get ¦autoremove :: Dependencies_operation,()
+INFLUXDB_FILE=${INFLUXDB_VERSION}_amd64.deb: :: env_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+cmd,influxd
+from,jgeiger/ubuntu
+wget ¦--quiet¦https://s3.amazonaws.com/influxdb/${INFLUXDB_FILE} :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+/tmp :: workdir_operation,()
+/var/lib/influxdb :: workdir_operation,()
+expose,8088 8091 8083 8086
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦-qq¦-y¦update :: Dependencies_operation,()

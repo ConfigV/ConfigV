@@ -1,0 +1,11 @@
+apt-get ¦-y¦install¦wget¦libappindicator3-1 :: Dependencies_operation,()
+from,ubuntu:16.04
+rm ¦-rf¦/var/cache/apt/*¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦-f¦install :: Dependencies_operation,()
+entrypoint,/usr/bin/lantern¦--configdir=/root¦--headless=true¦--proxyall=true¦--startup=false¦--clear-proxy-settings=false¦--addr=0.0.0.0:3128¦--uiaddr=0.0.0.0:8080¦--socksaddr=0.0.0.0:1080
+apt-get ¦update :: Dependencies_operation,()
+dpkg ¦-i¦lantern-installer-beta-64-bit.deb :: Dependencies_operation,()
+wget ¦https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta-64-bit.deb :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/root :: workdir_operation,()
+rm ¦-rf¦lantern-installer-beta-64-bit.deb :: Filesystem_operation,()

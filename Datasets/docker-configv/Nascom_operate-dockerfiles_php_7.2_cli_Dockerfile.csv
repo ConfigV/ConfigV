@@ -1,0 +1,9 @@
+/app :: volume_operation,()
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+/app :: workdir_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+entrypoint,/tini¦--¦/run.sh
+TINI_VERSION:v0.14.0 :: env_operation,()
+run.sh/run.sh :: copy_operation,()
+https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini/tini :: add_operation,()
+from,nascom/php:7.2-base

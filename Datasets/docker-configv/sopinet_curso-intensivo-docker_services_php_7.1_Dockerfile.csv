@@ -1,0 +1,12 @@
+config/php.ini/etc/php/7.1/cli/conf.d/99-custom.ini :: copy_operation,()
+from,phusion/baseimage
+"/var/www" :: workdir_operation,()
+COMPOSER_ALLOW_SUPERUSER:1 :: env_operation,()
+mkdir ¦/etc/service/php-fpm :: Filesystem_operation,()
+echo ¦echo¦"deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" > /etc/apt/sources.list.d/ondrej-php.list && echo "deb http://ppa.launchpad.net/ondrej/php-qa/ubuntu xenial main" > /etc/apt/sources.list.d/ondrej-php-qa.list && apt-key adv... :: Filesystem_operation,()
+cmd,/sbin/my_init
+/listen = .*/c\\listen = [::]:9000 ¦/;access.log = .*/c\\access.log = /proc/self/fd/2¦/;clear_env = .*/c\\clear_env = no¦/;catch_workers_output = .*/c\\catch_workers_output = yes¦/pid = .*/c\\;pid = /run/php/php7.1-fpm.pid¦/;daemonize = .*/c\\daemonize = no¦/error_log = .*/c\\erro... :: Other_operation,()
+COMPOSER_HOME:/composer :: env_operation,()
+php-fpm.sh/etc/service/php-fpm/run :: add_operation,()
+expose,9000
+config/php.ini/etc/php/7.1/fpm/conf.d/99-custom.ini :: copy_operation,()

@@ -1,0 +1,10 @@
+expose,1521
+unzip ¦h2-$H2_RELEASE_DATE.zip :: Filesystem_operation,()
+rm ¦-f¦h2-$H2_RELEASE_DATE.zip :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+mv ¦h2¦/opt :: Filesystem_operation,()
+mkdir ¦-p¦/opt/h2-data :: Filesystem_operation,()
+wget ¦http://www.h2database.com/h2-$H2_RELEASE_DATE.zip :: Dependencies_operation,()
+H2_RELEASE_DATE=2015-10-11: :: env_operation,()
+cmd,java¦-cp¦/opt/h2/bin/h2*.jar¦org.h2.tools.Server¦-web¦-webAllowOthers¦-webPort¦80¦-tcp¦-tcpAllowOthers¦-tcpPort¦1521¦-baseDir¦/opt/h2-data
+from,java:8.0

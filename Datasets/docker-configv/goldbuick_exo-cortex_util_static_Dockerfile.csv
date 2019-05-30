@@ -1,0 +1,15 @@
+mime.types/etc/nginx/mime.types :: copy_operation,()
+default-ssl/etc/nginx/sites-available/default-ssl :: copy_operation,()
+from,alpine:3.2
+cmd,nginx¦-g¦daemon off;
+expose,80 443
+/var/nginx :: volume_operation,()
+mkdir ¦-p¦/tmp/nginx/client-body :: Filesystem_operation,()
+apk ¦add¦--update¦nginx :: Dependencies_operation,()
+index.html/var/www/index.html :: copy_operation,()
+mkdir ¦/tmp/nginx :: Filesystem_operation,()
+mkdir ¦/etc/nginx/ssl :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/etc/nginx :: workdir_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+default/etc/nginx/sites-enabled/default :: copy_operation,()

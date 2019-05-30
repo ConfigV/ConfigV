@@ -1,0 +1,21 @@
+cmd,java¦-jar¦start.jar
+mv ¦transmart-data-release-16.1¦transmart-data :: Filesystem_operation,()
+PGHOST=tmdb: :: env_operation,()
+from,openjdk:8.0
+make ¦-C¦solr¦solr-4.5.0.tgz :: Build_Execute_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦rsync¦patch¦php5-cli¦php5-json :: Dependencies_operation,()
+/transmart-data/solr :: volume_operation,()
+unzip ¦transmart-data-release-16.1.zip :: Filesystem_operation,()
+/transmart-data :: workdir_operation,()
+/transmart-data/solr :: workdir_operation,()
+expose,8983
+make ¦-C¦solr¦solr_home :: Build_Execute_operation,()
+PGPORT=5432: :: env_operation,()
+PGDATABASE=transmart: :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦curl¦unzip¦make :: Dependencies_operation,()
+rm ¦transmart-data-release-16.1.zip :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦curl¦unzip¦make¦rsync¦patch¦php5-cli¦php5-json :: Dependencies_operation,()
+curl ¦http://library.transmartfoundation.org/release/release16_1_0_artifacts/transmart-data-release-16.1.zip¦-o¦transmart-data-release-16.1.zip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+TABLESPACES=dummy: :: env_operation,()

@@ -1,0 +1,21 @@
+cmd,./run.sh
+expose,80
+timeout ¦-s9¦2m¦./installer :: Other_operation,()
+from,ubuntu@trusty
+OPT_MROOTPWD:CorrectHorseBatteryStaple42 :: env_operation,()
+/usr/local/omk :: workdir_operation,()
+OAEDOWNLOAD:http://dl-openaudit.opmantek.com/OAE-Linux-x86_64-release_$OAEVERSION.run :: env_operation,()
+/data/mysql :: volume_operation,()
+service ¦mysql¦start :: Build_Execute_operation,()
+run.shrun.sh :: copy_operation,()
+/tmp :: workdir_operation,()
+service ¦mysql¦stop :: Build_Execute_operation,()
+OAEVERSION:%VERSION% :: env_operation,()
+cd ¦/tmp/Open-AudIT* :: Filesystem_operation,()
+mv ¦/var/lib/mysql¦/var/lib/mysql-dist :: Filesystem_operation,()
+echo ¦curl¦"$OAEDOWNLOAD" -o /tmp/openaudit.run && (test -f /tmp/openaudit.run || echo "[[[ FILE DOESN'T EXIST ]]]") && chmod 755 /tmp/openaudit.run && /tmp/openaudit.run --check && /tmp/openaudit.run --noexec --keep && rm /tmp/openaudit.run :: Filesystem_operation,()
+echo ¦echo¦"mysql-server mysql-server/root_password password $OPT_MROOTPWD" | debconf-set-selections && echo "mysql-server mysql-server/root_password_again password $OPT_MROOTPWD" | debconf-set-selections && apt-get update && apt-get install -y ... :: Filesystem_operation,()
+which ¦nmap :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+chmod ¦755¦run.sh :: Permissions_operation,()
+mv ¦/usr/local/omk/conf¦/usr/local/omk/conf-dist :: Filesystem_operation,()

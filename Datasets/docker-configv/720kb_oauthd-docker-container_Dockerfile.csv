@@ -1,0 +1,8 @@
+apt-get ¦install¦-y¦wget¦curl¦python¦g++¦make¦checkinstall¦tcl :: Dependencies_operation,()
+echo ¦src=$(mktemp¦-d) && cd $src && wget -N http://nodejs.org/dist/node-latest.tar.gz && tar xzvf node-latest.tar.gz && cd node-v* && ./configure && checkinstall -y --install=no --pkgversion $(echo $(pwd) | sed -n -re's/.+node-v(.+)$/\\1/p') mak... :: Filesystem_operation,()
+npm ¦install¦-g¦forever¦oauthd :: Dependencies_operation,()
+pwd  :: Other_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+from,debian
+apt-get ¦update :: Dependencies_operation,()
+cmd,sh¦-c¦redis-server && oauthd config && oauthd start && tail -f /var/log/boot

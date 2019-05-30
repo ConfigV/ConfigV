@@ -1,0 +1,8 @@
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦install¦-y¦--force-yes¦openssh-server :: Dependencies_operation,()
+mkdir ¦/root/.ssh :: Filesystem_operation,()
+keys/blade.pub/root/.ssh/authorized_keys :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+set ¦-ex :: Environment_operation,()
+cmd,/usr/sbin/sshd¦-D
+from,ubuntu:14.04

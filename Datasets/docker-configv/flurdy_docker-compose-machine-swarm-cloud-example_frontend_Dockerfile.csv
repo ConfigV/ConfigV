@@ -1,0 +1,10 @@
+entrypoint,/var/local/application/target/universal/stage/bin/frontend
+repositories/root/.sbt/ :: add_operation,()
+./var/local/application :: add_operation,()
+from,flurdy/activator:latest
+expose,9999
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,"-Dconfig.file=/etc/opt/frontend/docker.conf"
+APPDIR:/var/local/application :: env_operation,()
+/var/local/application :: workdir_operation,()
+/usr/local/bin/activator ¦stage :: Other_operation,()

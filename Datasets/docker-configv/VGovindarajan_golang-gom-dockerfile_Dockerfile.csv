@@ -1,0 +1,9 @@
+./GomfileGomfile :: copy_operation,()
+entrypoint,/go/bin/Hello
+from,golang:1.5
+go ¦install¦Hello :: Build_Execute_operation,()
+/Hello//go/src/Hello/ :: copy_operation,()
+gom ¦install :: Other_operation,()
+cp ¦-r¦_vendor/*¦${GOPATH} :: Filesystem_operation,()
+PATH:/usr/local/go/bin:/go/bin:${PATH} :: env_operation,()
+go ¦get¦github.com/mattn/gom :: Build_Execute_operation,()

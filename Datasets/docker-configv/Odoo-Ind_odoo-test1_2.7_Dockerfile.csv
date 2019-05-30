@@ -1,0 +1,11 @@
+cmd,python2
+curl ¦-SL¦'https://bootstrap.pypa.io/get-pip.py'¦|¦python2 :: Dependencies_operation,()
+/usr/src/python :: workdir_operation,()
+pip ¦install¦virtualenv :: Dependencies_operation,()
+curl ¦-SL¦"https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"¦¦|¦tar¦-xJ¦--strip-components=1 :: Dependencies_operation,()
+apt-get ¦purge¦-y¦python¦python-minimal¦python2.7-minimal :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+nproc  :: Other_operation,()
+mkdir ¦/usr/src/python :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl¦procps :: Dependencies_operation,()
+PYTHON_VERSION:2.7.8 :: env_operation,()

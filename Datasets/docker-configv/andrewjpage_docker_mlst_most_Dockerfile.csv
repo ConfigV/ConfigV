@@ -1,0 +1,11 @@
+apt-get ¦install¦-y¦srst2¦libxml2-dev¦libxslt1-dev¦python-dev¦gcc¦make¦git¦bowtie2¦ncbi-blast+¦python-lxml¦emboss¦python-yaml¦python-numpy¦python-biopython¦wget :: Dependencies_operation,()
+PYTHONPATH:/MOST/modules:$PYTHONPATH :: env_operation,()
+/data :: workdir_operation,()
+git ¦clone¦https://github.com/phe-bioinformatics/MOST.git :: Dependencies_operation,()
+tar ¦xf¦0.1.18.tar.gz :: Filesystem_operation,()
+wget ¦https://github.com/samtools/samtools/archive/0.1.18.tar.gz :: Dependencies_operation,()
+cd ¦/samtools-0.1.18 :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,debian@testing
+PATH:/MOST:/samtools-0.1.18:$PATH :: env_operation,()

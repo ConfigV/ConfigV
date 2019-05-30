@@ -1,0 +1,14 @@
+"/var/lib/postgresql/data" :: volume_operation,()
+apk ¦update :: Dependencies_operation,()
+LANG:"en_US.utf8" :: env_operation,()
+PGDATA:"/var/lib/postgresql/data" :: env_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+cmd,postgres
+from,alpine@latest
+expose,5432
+mkdir ¦"/docker" :: Filesystem_operation,()
+apk ¦add¦"postgresql" :: Dependencies_operation,()
+"entrypoint.sh""/docker/entrypoint.sh" :: copy_operation,()
+apk ¦add¦"sudo"¦"sed"¦"bash" :: Dependencies_operation,()
+entrypoint,/docker/entrypoint.sh
+sed ¦-i¦"1s/^/Defaults¦!requiretty\\n/"¦"/etc/sudoers" :: Filesystem_operation,()

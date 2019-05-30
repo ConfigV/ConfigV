@@ -1,0 +1,12 @@
+apk ¦--update¦add¦openjdk8 :: Dependencies_operation,()
+apk ¦add¦--virtual¦build-dependencies¦maven¦curl :: Dependencies_operation,()
+apk ¦del¦build-dependencies :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()
+cd ¦/semafor-master :: Filesystem_operation,()
+curl ¦-L¦https://github.com/Noahs-ARK/semafor/archive/master.tar.gz¦|¦tar¦xz¦-C¦/ :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+export ¦JAVA_HOME=/usr/lib/jvm/default-jvm :: Environment_operation,()
+curl ¦-L¦http://www.ark.cs.cmu.edu/SEMAFOR/semafor_malt_model_20121129.tar.gz¦|¦tar¦xzv¦-C¦/models :: Dependencies_operation,()
+from,alpine:3.5
+mkdir ¦/models :: Filesystem_operation,()
+mvn ¦package :: Dependencies_operation,()

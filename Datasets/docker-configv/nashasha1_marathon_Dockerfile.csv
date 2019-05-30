@@ -1,0 +1,14 @@
+rm ¦mesos.deb :: Filesystem_operation,()
+curl ¦http://downloads.mesosphere.io/master/ubuntu/12.04/mesos_0.14.2_amd64.deb¦>¦mesos.deb :: Dependencies_operation,()
+./etc/marathon :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg ¦--install¦mesos.deb :: Dependencies_operation,()
+mvn3 ¦package :: Other_operation,()
+apt-get ¦install¦--assume-yes¦python-software-properties¦curl¦default-jdk :: Dependencies_operation,()
+expose,8080
+apt-get ¦install¦--assume-yes¦maven3 :: Dependencies_operation,()
+cd ¦/etc/marathon :: Filesystem_operation,()
+add-apt-repository ¦ppa:natecarlson/maven3 :: Dependencies_operation,()
+cmd,--help
+entrypoint,/etc/marathon/bin/start
+from,ubuntu

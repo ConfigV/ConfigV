@@ -1,0 +1,9 @@
+from,alpine:3.2
+expose,8080
+GOBIN:/oinker/bin :: env_operation,()
+PATH:$GOBIN:$PATH :: env_operation,()
+./templates/oinker/templates :: copy_operation,()
+/oinker :: workdir_operation,()
+./_output/bin/oinker/oinker/bin/oinker :: copy_operation,()
+entrypoint,oinker
+./assets/oinker/assets :: copy_operation,()

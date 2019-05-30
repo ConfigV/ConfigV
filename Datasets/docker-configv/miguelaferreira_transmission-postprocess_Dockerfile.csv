@@ -1,0 +1,23 @@
+apt-get ¦update :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+make ¦install-lib :: Build_Execute_operation,()
+tar ¦xzf¦unrarsrc-5.4.4.tar.gz :: Filesystem_operation,()
+make ¦-f¦makefile¦lib :: Build_Execute_operation,()
+torrent_external='': :: env_operation,()
+cmd,su¦--preserve-environment¦-l¦abc¦-c¦"UNRAR_LIB_PATH=/usr/lib/libunrar.so¦python¦trdone¦api¦-p¦8080¦-te¦${torrent_external}¦-ti¦${torrent_internal}"
+pgid='1000': :: env_operation,()
+wget ¦http://www.rarlab.com/rar/unrarsrc-5.4.4.tar.gz :: Dependencies_operation,()
+torrent_internal='': :: env_operation,()
+cd ¦unrar :: Filesystem_operation,()
+adduser ¦--home¦/trdone¦--disabled-password¦--uid¦${puid}¦--gid¦${pgid}¦--gecos¦"First¦Last,RoomNumber,WorkPhone,HomePhone"¦abc :: Permissions_operation,()
+expose,80
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+rm ¦-rf¦unrarsrc-5.4.4.tar.gz¦unrar :: Filesystem_operation,()
+chown ¦-R¦abc:abc¦/trdone :: Permissions_operation,()
+./trdone :: add_operation,()
+from,python:2.7
+/trdone :: workdir_operation,()
+apt-get ¦-q¦-y¦install¦build-essential :: Dependencies_operation,()
+puid='1000': :: env_operation,()
+apt-get ¦remove¦-y¦-q¦build-essential :: Dependencies_operation,()
+addgroup ¦--gid¦${pgid}¦abc :: Permissions_operation,()

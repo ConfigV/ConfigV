@@ -1,0 +1,12 @@
+glide ¦install :: Other_operation,()
+entrypoint,/usr/bin/ec2-opener
+apk ¦--update¦add¦tar¦git¦bash :: Dependencies_operation,()
+./go/src/github.com/slok/ec2-opener/ :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cmd,-h
+root :: user_operation,()
+/go/src/github.com/slok/ec2-opener/ :: workdir_operation,()
+mkdir ¦-p¦/go/src/github.com/slok/ec2-opener/ :: Filesystem_operation,()
+from,slok/ec2-opener_base
+go ¦get¦github.com/Masterminds/glide :: Build_Execute_operation,()
+go ¦build¦-o¦/usr/bin/ec2-opener¦./main.go :: Build_Execute_operation,()

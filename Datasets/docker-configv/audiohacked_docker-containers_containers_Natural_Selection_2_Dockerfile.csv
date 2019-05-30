@@ -1,0 +1,23 @@
+chmod ¦u+x¦steamcmd.sh :: Permissions_operation,()
+/home/steam/update.sh  :: Other_operation,()
+SERVER_NAME:HyperKineticNerd :: env_operation,()
+apt-get ¦install¦-y¦curl¦lib32stdc++6 :: Dependencies_operation,()
+/home/steam :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+update.sh/home/steam :: copy_operation,()
+cmd,/home/steam/start.sh
+useradd ¦-U¦-m¦steam :: Permissions_operation,()
+root :: user_operation,()
+cd ¦/home/steam/steamcmd :: Filesystem_operation,()
+curl ¦-O¦$BASE_URL :: Dependencies_operation,()
+/home/steam/steamcmd/steamcmd.sh ¦+exit :: Other_operation,()
+ADMIN_PASSWD:password1234 :: env_operation,()
+BASE_URL:https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz :: env_operation,()
+start.sh/home/steam :: copy_operation,()
+tar ¦-xvzf¦steamcmd_linux.tar.gz :: Filesystem_operation,()
+from,debian@wheezy
+mkdir ¦-p¦/home/steam/steamcmd :: Filesystem_operation,()
+chmod ¦u+x¦update.sh¦start.sh :: Permissions_operation,()
+chown ¦-R¦steam:steam¦/home/steam :: Permissions_operation,()
+steam :: user_operation,()
+expose,7777 27015 32330

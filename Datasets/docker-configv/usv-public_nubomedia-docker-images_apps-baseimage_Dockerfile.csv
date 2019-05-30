@@ -1,0 +1,12 @@
+wget ¦https://www.dropbox.com/s/5uu95vg6t0k1b92/logstash-forwarder.crt?dl=0¦-O¦/tmp/logstash-forwarder.crt :: Dependencies_operation,()
+apk ¦--update¦add¦openssl :: Dependencies_operation,()
+apk ¦--update¦add¦collectd :: Dependencies_operation,()
+mkdir ¦-p¦/etc/pki/tls/certs :: Filesystem_operation,()
+logstash-forwarder.conf/etc/logstash-forwarder.conf :: add_operation,()
+/var/cache/logstash-forwarder :: workdir_operation,()
+from,nubomedia/apps-baseimage:v1
+logstash-forwarder/usr/bin/logstash-forwarder :: copy_operation,()
+cp ¦/tmp/logstash-forwarder.crt¦/etc/pki/tls/certs/ :: Filesystem_operation,()
+entrypoint,/usr/bin/logstash-forwarder¦-config=/etc/logstash-forwarder.conf¦|¦/usr/sbin/collectd
+collectd.conf/etc/collectd/ :: add_operation,()
+chmod ¦+x¦/usr/bin/logstash-forwarder :: Permissions_operation,()

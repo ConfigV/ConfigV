@@ -1,0 +1,11 @@
+env ¦--unset=DEBIAN_FRONTEND :: Other_operation,()
+RUNecho -en "HEAD /\\n\\n\\n" | nc -q 1 -v `cat ${BUILD_HOST_FILE}` 3141 | grep Devpi && mkdir -p ${PIP_CONF_DIR} && (echo "[global]" > ${PIP_CONF_DIR}/pip.conf) && (echo "timeout = 60" >> ${PIP_CONF_DIR}/pip.conf) && (echo "index-url = http://$(... :: onbuild_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦ca-certificates¦apt-transport-https¦build-essential¦ctags¦lemon¦git¦net-tools :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+RUNecho "HEAD /" | nc -q -1 -n -v `cat ${BUILD_HOST_FILE}` 3128 | grep squid-deb-proxy && (echo "Acquire::http::Proxy"http://$(cat ${BUILD_HOST_FILE}):3128\\";" > ${APT_PROXY_CONF}) && (echo "Acquire::http::Proxy::ppa.launchpad.net DIRECT;" >> ... :: onbuild_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+REFRESHED_AT:2015-08-17.2 :: env_operation,()
+from,debian@jessie
+RUNnetstat -nr | grep '^0\\.0\\.0\\.0' | awk '{print $2}' > ${BUILD_HOST_FILE} :: onbuild_operation,()

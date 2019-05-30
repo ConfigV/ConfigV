@@ -1,0 +1,16 @@
+./requirements/base.txt/requirements/base.txt :: copy_operation,()
+sed ¦-i¦'s/\\r//'¦/entrypoint.sh :: Filesystem_operation,()
+./requirements/local.txt/requirements/local.txt :: copy_operation,()
+PYTHONDONTWRITEBYTECODE:1 :: env_operation,()
+./requirements.txt/requirements.txt :: copy_operation,()
+chmod ¦+x¦/start-dev.sh :: Permissions_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+entrypoint,/entrypoint.sh
+/app :: workdir_operation,()
+sed ¦-i¦'s/\\r//'¦/start-dev.sh :: Filesystem_operation,()
+from,python:3.6
+PYTHONUNBUFFERED:1 :: env_operation,()
+PYTHONPATH:src :: env_operation,()
+./compose/django/entrypoint.sh/entrypoint.sh :: copy_operation,()
+./compose/django/start-dev.sh/start-dev.sh :: copy_operation,()
+pip ¦install¦--no-cache-dir¦-r¦/requirements/local.txt :: Dependencies_operation,()

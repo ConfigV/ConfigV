@@ -1,0 +1,9 @@
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-yqq¦php5¦php5-fpm¦php5-gd¦php5-geoip¦php5-gnupg¦php5-imagick¦php5-imap¦php5-mcrypt¦php5-memcache¦php5-mysql¦php5-oauth¦php5-odbc¦php5-pgsql¦php5-redis¦php5-sasl¦php5-sqlite¦php5-xcache¦php5-xdebug¦php5-xmlrpc¦php5-xsl¦ssl-cert :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,/start_container.sh
+apt-get ¦update¦-y¦-qq :: Dependencies_operation,()
+expose,22
+from,gestiweb/debian-jessie:upgrade
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

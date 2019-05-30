@@ -1,0 +1,18 @@
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦-O¦https://bootstrap.pypa.io/get-pip.py :: Dependencies_operation,()
+python ¦get-pip.py :: Build_Execute_operation,()
+pip ¦--no-cache-dir¦install¦http://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl :: Dependencies_operation,()
+TENSORFLOW_VERSION:0.8.0 :: env_operation,()
+from,ubuntu:14.04
+python ¦-m¦ipykernel.kernelspec :: Build_Execute_operation,()
+jupyter_notebook_config.py/root/.jupyter/ :: copy_operation,()
+apt-get ¦install¦-y¦bc¦curl¦libfreetype6-dev¦libpng12-dev¦libzmq3-dev¦pkg-config¦python-numpy¦python-pip¦python-scipy :: Dependencies_operation,()
+run_jupyter.sh/ :: copy_operation,()
+cmd,/run_jupyter.sh
+"/notebooks" :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+notebooks/notebooks :: copy_operation,()
+rm ¦get-pip.py :: Filesystem_operation,()
+expose,8888
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+pip ¦--no-cache-dir¦install¦ipykernel¦jupyter¦matplotlib :: Dependencies_operation,()

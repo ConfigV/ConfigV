@@ -1,0 +1,12 @@
+rm ¦/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini :: Filesystem_operation,()
+from,php:7.1
+apk ¦del¦build-base¦autoconf :: Dependencies_operation,()
+pecl ¦install¦-o¦-f¦redis¦xdebug :: Dependencies_operation,()
+apk ¦upgrade¦--no-cache :: Dependencies_operation,()
+sed ¦-i¦'s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/'¦/etc/apk/repositories :: Filesystem_operation,()
+docker-php-ext-enable ¦redis¦xdebug :: Other_operation,()
+rm ¦-rf¦/tmp/pear :: Filesystem_operation,()
+/var/www :: workdir_operation,()
+apk ¦add¦--no-cache¦build-base¦autoconf¦libmcrypt-dev :: Dependencies_operation,()
+docker-php-ext-install ¦pdo_mysql¦mcrypt :: Other_operation,()
+apk ¦update¦--no-cache :: Dependencies_operation,()

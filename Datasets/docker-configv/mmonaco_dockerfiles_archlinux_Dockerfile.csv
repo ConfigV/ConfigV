@@ -1,0 +1,12 @@
+LANG=en_US.UTF-8: :: env_operation,()
+from,base/archlinux
+pacman ¦--noconfirm¦--needed¦-S¦base-devel¦bash-completion¦curl¦git¦iproute2¦man¦net-tools¦rsync¦tree¦vim-minimal¦wget :: Filesystem_operation,()
+pacman ¦--noconfirm¦-S¦archlinux-keyring :: Filesystem_operation,()
+pacman ¦--noconfirm¦-Suu :: Filesystem_operation,()
+yes ¦|¦pacman¦-Scc :: Other_operation,()
+pacman ¦--noconfirm¦-Sy :: Filesystem_operation,()
+/root :: workdir_operation,()
+bashrc/root/.bashrc :: add_operation,()
+pacman-db-upgrade  :: Other_operation,()
+TERM=xterm: :: env_operation,()
+cmd,/bin/bash

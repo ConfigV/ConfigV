@@ -1,0 +1,7 @@
+yum ¦-y¦install¦${PKG_JDK} :: Dependencies_operation,()
+echo ¦echo¦"JAVA_HOME=${JAVA_HOME}" >> /etc/environment :: Filesystem_operation,()
+from,cdelaitre/centos6
+PKG_JDK=java-1.7.0-openjdk-devel: :: env_operation,()
+alternatives ¦--install¦/usr/bin/java¦java¦${JAVA_HOME}/bin/java¦1 :: Other_operation,()
+alternatives ¦--install¦/usr/bin/javac¦javac¦${JAVA_HOME}/bin/javac¦1 :: Other_operation,()
+JAVA_HOME:/usr/lib/jvm/java-1.7.0-openjdk.x86_64 :: env_operation,()

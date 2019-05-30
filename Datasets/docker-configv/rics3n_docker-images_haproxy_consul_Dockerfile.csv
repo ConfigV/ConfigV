@@ -1,0 +1,16 @@
+mv ¦/bin/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64/consul-template¦/bin/consul-template :: Filesystem_operation,()
+startup.sh/startup.sh :: add_operation,()
+from,ubuntu:14.04
+ADDhaproxy.ctmpl /etc/haproxy/haproxy.ctmpl :: onbuild_operation,()
+/etc/haproxy :: workdir_operation,()
+cmd,/startup.sh
+https://github.com/hashicorp/consul-template/releases/download/v$CONSUL_TEMPLATE_VERSION/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tar.gz/tmp/consul-template.tgz :: add_operation,()
+CONSUL_TEMPLATE_VERSION:0.5.1 :: env_operation,()
+ADDhaproxy.cfg /etc/haproxy/haproxy.cfg :: onbuild_operation,()
+chmod ¦u+x¦/startup.sh :: Permissions_operation,()
+cd ¦/bin :: Filesystem_operation,()
+rmdir ¦/bin/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64 :: Other_operation,()
+expose,443
+gzip ¦-dc¦/tmp/consul-template.tgz¦|¦tar¦-xf¦- :: Other_operation,()
+rm ¦/tmp/consul-template.tgz :: Filesystem_operation,()
+.*-backports\\s\\  :: Other_operation,()

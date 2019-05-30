@@ -1,0 +1,13 @@
+from,php:5.6
+a2enmod ¦rewrite :: Other_operation,()
+a2ensite ¦apache :: Other_operation,()
+cmd,apache2-foreground
+apache.conf/etc/apache2/sites-available/apache.conf :: copy_operation,()
+echo ¦export¦VERSION=`php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;"` && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/${VERSION} && tar zxpf /tmp/blackfire-probe.tar.gz... :: Filesystem_operation,()
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+/app :: workdir_operation,()
+echo ¦buildDeps="¦build-essential libmcrypt-dev libgcrypt11-dev libpng12-dev libfreetype6-dev libjpeg62-turbo-dev libicu-dev zlib1g-dev libmemcached-dev " && apt-get update && apt-get install -y --no-install-recommends $buildDeps vim libicu52 li... :: Filesystem_operation,()
+/app :: volume_operation,()
+expose,80 443
+groupmod ¦-g¦1000¦www-data :: Other_operation,()
+php.ini/usr/local/etc/php/php.ini :: copy_operation,()

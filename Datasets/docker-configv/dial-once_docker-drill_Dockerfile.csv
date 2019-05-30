@@ -1,0 +1,13 @@
+from,java:7.0
+apk ¦del¦ca-certificates¦wget¦tar :: Dependencies_operation,()
+mkdir ¦-p¦/opt/drill :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+./drill-override.conf.tmpl/opt/drill/conf/drill-override.conf.tmpl :: copy_operation,()
+DRILL_VERSION=1.6.0: :: env_operation,()
+apk ¦add¦--no-cache¦ca-certificates¦wget¦tar¦bash :: Dependencies_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+DOCKERIZE_VERSION=0.2.0: :: env_operation,()
+cmd,dockerize¦-template¦/opt/drill/conf/drill-override.conf.tmpl:/opt/drill/conf/drill-override.conf¦/opt/drill/bin/drillbit.sh¦start¦&&¦tail¦-f¦/opt/drill/log/drillbit.out
+wget ¦-O¦-¦https://www.apache.org/dist/drill/drill-${DRILL_VERSION}/apache-drill-${DRILL_VERSION}.tar.gz¦|¦tar¦-xzf¦-¦--strip=1¦-C¦/opt/drill :: Dependencies_operation,()
+wget ¦-O¦-¦https://github.com/jwilder/dockerize/releases/download/v${DOCKERIZE_VERSION}/dockerize-linux-amd64-v${DOCKERIZE_VERSION}.tar.gz¦|¦tar¦-xzf¦-¦-C¦/usr/local/bin :: Dependencies_operation,()
+expose,8047 31010 31011 31012 46655

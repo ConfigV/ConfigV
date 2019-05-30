@@ -1,0 +1,18 @@
+expose,3001
+GOPATH:$PROJECT_PATH/.vendor:$GOPATH :: env_operation,()
+git ¦clone¦git@github.com:dorajistyle/goyangi.git :: Dependencies_operation,()
+gulp  :: Other_operation,()
+PROJECT_PATH:$USER_PATH/go-gin-canjs-i18n :: env_operation,()
+/go/src :: workdir_operation,()
+$PROJECT_PATH/frontend/canjs/compiler :: workdir_operation,()
+/usr/bin/mysqld_safe ¦&sleep¦10s¦&&mysql¦-uroot¦-e¦'create¦database¦goyangi_dev'¦&&goop¦exec¦go¦run¦migrate.go :: Other_operation,()
+echo ¦mkdir¦-p /root/.ssh && str="-----BEGIN RSA PRIVATE KEY-----\\n Your SSH Key-----END RSA PRIVATE KEY-----" && echo | sed "i$str" > /root/.ssh/id_rsa &&echo "ssh-rsa publickey" > /root/.ssh/id_rsa.pub &&chmod 600 /root/.ssh/id_rsa &&printf "H... :: Filesystem_operation,()
+goop ¦install :: Other_operation,()
+entrypoint,./run_server.sh
+$PROJECT_PATH/migrate :: workdir_operation,()
+PATH:$PROJECT_PATH/.vendor/bin:$PATH :: env_operation,()
+USER_PATH:/go/src/github.com/dorajistyle :: env_operation,()
+from,dorajistyle/golang-mysql-base
+$USER_PATH :: workdir_operation,()
+goop ¦exec¦go¦run¦goyangi.go¦init :: Other_operation,()
+$PROJECT_PATH :: workdir_operation,()

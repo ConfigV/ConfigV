@@ -1,0 +1,8 @@
+cp ¦/var/lib/neo4j/conf/neo4j-server.properties¦/var/lib/neo4j/conf/neo4j-server.properties.bak :: Filesystem_operation,()
+/bin/bash ¦-c¦unzip /tmp/neo4j-rdf-plugin-1.1.zip -d /var/lib/neo4j/plugins/rdf-plugin :: Build_Execute_operation,()
+echo ¦["/bin/bash",¦"-c", "echo 'org.neo4j.server.thirdparty_jaxrs_classes=ioinformatics.neo4j.rdf.plugin=/rdf' >> /var/lib/neo4j/conf/neo4j-server.properties"] :: Filesystem_operation,()
+/var/lib/neo4j/data :: volume_operation,()
+expose,1337
+from,tpires/neo4j
+sed ¦'s/dbms\\.security\\.auth\\_enabled=true/dbms\\.security\\.auth\\_enabled=false/g'¦/var/lib/neo4j/conf/neo4j-server.properties.bak¦>¦/var/lib/neo4j/conf/neo4j-server.properties :: Filesystem_operation,()
+http://maven.alexdeleon.name.s3.amazonaws.com/snapshot/io-informatics/neo4j-rdf-plugin/1.1/neo4j-rdf-plugin-1.1.zip/tmp/neo4j-rdf-plugin-1.1.zip :: add_operation,()

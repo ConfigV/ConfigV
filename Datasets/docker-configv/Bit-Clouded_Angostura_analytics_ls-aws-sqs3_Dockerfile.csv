@@ -1,0 +1,11 @@
+ls-aws-sqs3.conf./ :: add_operation,()
+s3.rb/opt/logstash/vendor/bundle/jruby/1.9/gems/logstash-input-s3-2.0.6/lib/logstash/inputs/ :: add_operation,()
+logstash-plugin ¦install¦--version¦2.0.6¦logstash-input-s3 :: Other_operation,()
+from,logstash:2.4
+entrypoint,./entrypoint.sh
+/bc/ :: workdir_operation,()
+chmod ¦+x¦./entrypoint.sh :: Permissions_operation,()
+logstash-plugin ¦install¦logstash-output-elasticsearch :: Other_operation,()
+logstash-plugin ¦install¦logstash-filter-fingerprint :: Other_operation,()
+entrypoint.sh./ :: add_operation,()
+mkdir ¦-p¦/bc/temp/ :: Filesystem_operation,()

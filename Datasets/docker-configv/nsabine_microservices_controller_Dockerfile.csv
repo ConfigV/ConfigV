@@ -1,0 +1,18 @@
+from,centos
+mkdir ¦-p¦${GOSRC} :: Filesystem_operation,()
+go ¦install :: Build_Execute_operation,()
+chmod ¦-R¦777¦${KITE_HOME} :: Permissions_operation,()
+mkdir ¦-p¦${KITE_HOME} :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+cmd,${KITE_HOME}/kite.sh
+chmod ¦+x¦${KITE_HOME}/kite.sh :: Permissions_operation,()
+KITE_HOME:/srv/kite :: env_operation,()
+GOPATH:/go :: env_operation,()
+GOSRC:${GOPATH}/src/microservice :: env_operation,()
+./*.go${GOSRC}/ :: add_operation,()
+yum ¦-y¦install¦golang-bin¦git¦openssl :: Dependencies_operation,()
+kite.sh${KITE_HOME}/kite.sh :: add_operation,()
+go ¦get¦github.com/bitly/go-nsq :: Build_Execute_operation,()
+expose,6001
+go ¦get¦github.com/koding/kite :: Build_Execute_operation,()
+${GOSRC} :: workdir_operation,()

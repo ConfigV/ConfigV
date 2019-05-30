@@ -1,0 +1,11 @@
+HELM_VERSION:2.1.0 :: env_operation,()
+chmod ¦+x¦/tiller :: Permissions_operation,()
+expose,44134
+./helm-v2.1.0-linux-arm.tar.gz/helm.tar.gz :: copy_operation,()
+mv ¦/usr/local/helm/tiller¦/tiller :: Filesystem_operation,()
+tar ¦-xzf¦/helm.tar.gz¦-C¦/usr/local/helm¦--strip-components=1 :: Filesystem_operation,()
+from,resin/armv7hf-debian:jessie
+mkdir ¦-p¦/usr/local/helm :: Filesystem_operation,()
+entrypoint,/tiller
+cmd,/tiller
+rm ¦-f¦/helm.tar.gz :: Filesystem_operation,()

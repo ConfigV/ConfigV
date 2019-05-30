@@ -1,0 +1,13 @@
+config${APPDIR}/config :: copy_operation,()
+root :: user_operation,()
+apt-get ¦install¦-y¦-q¦$buildReqs :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+apt-get ¦install¦-y¦-q¦$preReqs :: Dependencies_operation,()
+${APPDIR} :: workdir_operation,()
+buildReqs=' ¦python2.7-dev¦gcc¦g++¦' :: Other_operation,()
+expose,8000
+entrypoint,/docker-entrypoint.sh
+apt-get ¦update¦-y¦-q¦-q :: Dependencies_operation,()
+${APPUSER} :: user_operation,()
+from,solinea/gunicorn:19.3.0
+preReqs=' ¦libffi-dev¦libssl-dev¦libpq-dev¦git¦' :: Other_operation,()

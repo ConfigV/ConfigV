@@ -1,0 +1,13 @@
+apt-get ¦install¦-y¦less¦openjdk-7-jre-headless¦net-tools¦vim-tiny¦sudo¦openssh-server :: Dependencies_operation,()
+rm ¦/scala-$SCALA_VERSION.tgz :: Filesystem_operation,()
+SCALA_VERSION:2.10.4 :: env_operation,()
+SPARK_HOME:/opt/spark :: env_operation,()
+http://www.scala-lang.org/files/archive/scala-$SCALA_VERSION.tgz/ :: add_operation,()
+CDH_VERSION:cdh4 :: env_operation,()
+from,ubuntu@precise
+SCALA_HOME:/opt/scala-$SCALA_VERSION :: env_operation,()
+PATH:$SPARK_HOME:$SCALA_HOME/bin:$PATH :: env_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+cd ¦/opt :: Filesystem_operation,()
+tar ¦-xvf¦- :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+entrypoint,/srv/bamboo.sh
+cmd,server
+from,ubuntu@vivid
+${BAMBOO_HOME} :: volume_operation,()
+src/main/container/srv//srv/ :: copy_operation,()
+${BAMBOO_INSTALL} :: workdir_operation,()
+${BAMBOO_USER}:${BAMBOO_GROUP} :: user_operation,()
+expose,8085 54663
+find ¦/srv/¦-name¦"*.sh"¦|¦xargs¦chmod¦-v¦+x :: Filesystem_operation,()
+set ¦-x :: Environment_operation,()

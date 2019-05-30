@@ -1,0 +1,9 @@
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦'root:root' |chpasswd :: Filesystem_operation,()
+expose,22
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+sed ¦-ri¦'s/^PermitRootLogin\\s+.*/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+sed ¦-ri¦'s/UsePAM¦yes/#UsePAM¦yes/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+from,ubuntu:14.04

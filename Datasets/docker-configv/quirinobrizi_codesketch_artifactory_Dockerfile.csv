@@ -1,0 +1,7 @@
+LDAP_ADMIN_PASSWORD:"" :: env_operation,()
+LDAP_BASEDN:"dc=codesketch,dc=internal" :: env_operation,()
+entrypoint,/entrypoint¦${LDAP_BASEDN}¦${LDAP_ADMIN_PASSWORD}
+chmod ¦+x¦/entrypoint :: Permissions_operation,()
+from,jfrog-docker-reg2.bintray.io/jfrog/artifactory-oss:4.7.1
+./scripts/entrypoint/entrypoint :: copy_operation,()
+./templates/*/templates/ :: copy_operation,()

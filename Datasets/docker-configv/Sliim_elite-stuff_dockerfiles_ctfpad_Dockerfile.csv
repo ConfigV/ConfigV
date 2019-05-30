@@ -1,0 +1,16 @@
+chown ¦-R¦ctfpad¦/CTFPad :: Permissions_operation,()
+mkdir ¦uploads :: Filesystem_operation,()
+adduser ¦-D¦-h¦/CTFPad¦-H¦-g¦CTFPad¦ctfpad :: Permissions_operation,()
+apk ¦add¦--update¦openssl¦git¦sqlite¦curl :: Dependencies_operation,()
+git ¦clone¦https://github.com/StratumAuhuur/CTFPad¦/CTFPad :: Dependencies_operation,()
+expose,1234 1235
+from,node:6.0
+entrypoint,node¦main.js
+ctfpad :: user_operation,()
+bin/installDeps.sh  :: Other_operation,()
+/CTFPad/etherpad-lite :: workdir_operation,()
+settings.json:/CTFPad/etherpad-lite/settings.json :: volume_operation,()
+/CTFPad :: workdir_operation,()
+npm ¦install :: Dependencies_operation,()
+git ¦clone¦https://github.com/ether/etherpad-lite¦/CTFPad/etherpad-lite :: Dependencies_operation,()
+openssl ¦req¦-new¦-newkey¦rsa:4096¦-days¦365¦-nodes¦-x509¦-subj¦"/C=FR/ST=/L=/O=Lab/CN=pentest.lab"¦-keyout¦key.pem¦-out¦cert.pem :: Other_operation,()

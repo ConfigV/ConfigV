@@ -1,0 +1,17 @@
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+from,ubuntu:14.04
+./mp ¦setup :: Other_operation,()
+/root/.local/share/Mailpile :: volume_operation,()
+cmd,"dockerize"¦"/Mailpile/mp"¦"--www=0.0.0.0:33411"¦"--wait"
+apt-get ¦clean :: Dependencies_operation,()
+git ¦clone¦https://github.com/mailpile/Mailpile.git :: Dependencies_operation,()
+/Mailpile :: workdir_operation,()
+echo ¦echo¦"APT::Get::Assume-Yes true;" >>/etc/apt/apt.conf :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦curl¦unzip¦git¦make¦python-pip :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/dockerize :: Permissions_operation,()
+make ¦debian-dev :: Build_Execute_operation,()
+expose,33411
+tar ¦-C¦/usr/local/bin¦-xzvf¦dockerize-linux-amd64-v0.0.2.tar.gz :: Filesystem_operation,()
+wget ¦https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz :: Dependencies_operation,()
+/ :: workdir_operation,()

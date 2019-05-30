@@ -1,0 +1,11 @@
+/src/workspace :: workdir_operation,()
+./configure  :: Build_Execute_operation,()
+make ¦OPT_CFLAGS=-O2 :: Build_Execute_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-get ¦install¦-y¦build-essential¦libexpat-dev¦libgmp-dev¦libncurses-dev¦libssl-dev¦libpcap-dev¦byacc¦flex¦libreadline-dev¦python-dev¦python-pastedeploy¦python-paste¦python-twisted¦git :: Dependencies_operation,()
+from,ubuntu:14.04
+/src :: workdir_operation,()
+/src/lagopus :: workdir_operation,()
+apt-get ¦install¦-y¦tcpdump¦curl¦iperf :: Dependencies_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+git ¦clone¦https://github.com/lagopus/lagopus.git :: Dependencies_operation,()

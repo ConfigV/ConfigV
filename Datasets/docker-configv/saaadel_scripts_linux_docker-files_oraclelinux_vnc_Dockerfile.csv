@@ -1,0 +1,9 @@
+entrypoint,/usr/bin/vncserver¦-geometry¦1704x900¦-fg
+mkdir ¦/mnt/docker-volume :: Filesystem_operation,()
+from,oraclelinux@latest
+expose,5901 1521
+USER=user:HOME=/home/user :: env_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/tigervnc-server.sh¦|¦sh¦-x¦/dev/stdin :: Dependencies_operation,()
+user :: user_operation,()
+/mnt/docker-volume :: volume_operation,()
+io.openshift.expose-services:5901:tcp,1521:tcp :: label_operation,()

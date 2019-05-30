@@ -1,0 +1,11 @@
+chmod ¦+x¦/usr/local/bin/configparse.py :: Permissions_operation,()
+chmod ¦+x¦/usr/local/bin/manila-share-start :: Permissions_operation,()
+from,shaddock/seed:ubuntu-mitaka
+apt-get ¦install¦-y¦--force-yes¦manila-share¦python-pymysql¦lvm2¦nfs-kernel-server :: Dependencies_operation,()
+/var/log/manila :: volume_operation,()
+manila-share-start/usr/local/bin/ :: add_operation,()
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+pip ¦uninstall¦-y¦pbr :: Dependencies_operation,()
+cmd,manila-share-start
+configparse.py/usr/local/bin/ :: add_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()

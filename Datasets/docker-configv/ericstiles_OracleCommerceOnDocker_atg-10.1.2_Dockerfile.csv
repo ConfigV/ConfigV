@@ -1,0 +1,15 @@
+expose,22
+AUTHORIZED_KEYS:**None** :: env_operation,()
+unzip ¦$BASE_TMP_PACKAGE_INSTALL/V35852-01.zip¦-p¦$BASE_TMP_INSTALL :: Filesystem_operation,()
+LOCAL_SCRIPTS:scripts :: env_operation,()
+BASE_TMP_INSTALL:/tmp :: env_operation,()
+mkdir ¦-p¦$BASE_TMP_PACKAGE_INSTALL :: Filesystem_operation,()
+BASE_TMP_PACKAGE_INSTALL:$BASE_TMP_INSTALL/packages :: env_operation,()
+BASE_DIR:/appl :: env_operation,()
+LOCAL_TOOLS:tools :: env_operation,()
+mkdir ¦-p¦$SCRIPT_DIR :: Filesystem_operation,()
+$LOCAL_TOOLS/V35852-01.zip$BASE_TMP_PACKAGE_INSTALL/V35852-01.zip :: add_operation,()
+SCRIPT_DIR:/appl :: env_operation,()
+from,ets04uga/jboss:eap-5.1.2
+cmd,/run.sh
+chmod ¦-R¦755¦$SCRIPT_DIR :: Permissions_operation,()

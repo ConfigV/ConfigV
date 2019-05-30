@@ -1,0 +1,16 @@
+/ss :: volume_operation,()
+dpkg ¦-i¦shadowsocks-libev*.deb :: Dependencies_operation,()
+wget ¦https://github.com/shadowsocks/shadowsocks-libev/archive/master.zip :: Dependencies_operation,()
+ss-run.sh/usr/bin/ss-run.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/bin/ss-run.sh
+apt-get ¦install¦-y¦build-essential¦autoconf¦libtool¦libssl-dev¦gawk¦debhelper¦wget¦unzip¦privoxy¦squid3 :: Dependencies_operation,()
+squid.conf/etc/squid3/squid.conf :: add_operation,()
+cd ¦shadowsocks-libev-master/ :: Filesystem_operation,()
+ss-cron/etc/cron.d/ss-cron :: add_operation,()
+ss-rotate.sh/usr/bin/ss-rotate.sh :: add_operation,()
+unzip ¦master.zip :: Filesystem_operation,()
+echo ¦sed¦-i "s#^listen-address.*#listen-address 127.0.0.1:10002#" /etc/privoxy/config && echo 'forward-socks5 / 127.0.0.1:10001 .' >>/etc/privoxy/config :: Filesystem_operation,()
+cd  :: Filesystem_operation,()
+from,ubuntu:14.04
+dpkg-buildpackage ¦-us¦-uc :: Other_operation,()

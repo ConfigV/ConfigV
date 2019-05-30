@@ -1,0 +1,10 @@
+./catalog :: add_operation,()
+cd ¦/catalog;¦./setup_devenv.sh :: Filesystem_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦build-essential¦nodejs¦npm :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/catalog;¦git¦clean¦-fxd :: Filesystem_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦libzmq3-dev :: Dependencies_operation,()
+entrypoint,/catalog/docker/run.sh
+from,commonsmachinery/ubuntu
+cd ¦/catalog;¦make :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+cmd,/bin/sh¦/start.sh
+./start.sh/start.sh :: add_operation,()
+NGINX_VERSION:1.10.0-0ubuntu0.16.04.1 :: env_operation,()
+SMOKEPING_VERSION:2.6.11-2 :: env_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+echo ¦apt-get¦update && apt-get install --no-install-recommends --no-install-suggests -y nginx=${NGINX_VERSION} smokeping=${SMOKEPING_VERSION} fcgiwrap openssh-client curl vim fping echoping dnsutils sendmail && rm -rf /var/lib/apt/lists/* :: Filesystem_operation,()
+./conf/smokeping/etc/nginx/sites-available/smokeping :: add_operation,()
+expose,80 443
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+from,ubuntu@xenial

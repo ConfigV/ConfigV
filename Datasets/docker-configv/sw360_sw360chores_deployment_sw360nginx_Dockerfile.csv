@@ -1,0 +1,9 @@
+mkdir ¦-p¦$nginx_cert_dir :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+from,nginx
+chmod ¦+x¦/usr/local/bin/entrypoint.sh :: Permissions_operation,()
+openssl ¦req¦-newkey¦rsa:2048¦-nodes¦-keyout¦"$nginx_cert_dir/$nginx_key"¦-x509¦-days¦365¦-out¦"$nginx_cert_dir/$nginx_cert"¦-subj¦'/CN=sw360.localdomain' :: Other_operation,()
+expose,8443
+docker-entrypoint.sh/usr/local/bin/entrypoint.sh :: copy_operation,()
+nginx_cert_dir='/etc/nginx/certs' ¦nginx_key='nginx.key'¦nginx_cert='nginx.pem'¦set¦-x :: Other_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh

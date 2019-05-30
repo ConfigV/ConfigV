@@ -1,0 +1,11 @@
+$APP_DIR :: workdir_operation,()
+mkdir ¦-p¦$APP_DIR :: Filesystem_operation,()
+APP_DIR:/var/www/app :: env_operation,()
+from,debian@wheezy
+pip ¦install¦-r¦/tmp/requirements.txt :: Dependencies_operation,()
+RUNpip install -r $APP_DIR/requirements.txt :: onbuild_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦-q¦build-essential¦python-dev¦python-pip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+COPY. $APP_DIR/ :: onbuild_operation,()
+requirements.txt/tmp/ :: copy_operation,()

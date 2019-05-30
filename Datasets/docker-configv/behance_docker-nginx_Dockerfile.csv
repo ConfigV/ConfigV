@@ -1,0 +1,9 @@
+apt-get ¦-yq¦install¦openssl=1.0.1f-1ubuntu2.15¦ca-certificates=20141019ubuntu0.14.04.1¦software-properties-common¦nano :: Dependencies_operation,()
+add-apt-repository ¦ppa:nginx/stable¦-y :: Dependencies_operation,()
+apt-get ¦update¦-yq :: Dependencies_operation,()
+expose,80
+from,ubuntu:14.04
+./container/root/ :: copy_operation,()
+apt-get ¦install¦-yq¦nginx=1.8.0-1+trusty1 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/bin/bash¦/run.sh

@@ -1,0 +1,16 @@
+/etc/redis :: workdir_operation,()
+ln ¦-s¦/usr/local/src/redis-3.0.0/src/redis-benchmark¦/usr/local/bin/redis-benchmark :: Filesystem_operation,()
+wget ¦http://download.redis.io/releases/redis-3.0.0.tar.gz :: Dependencies_operation,()
+ln ¦-s¦/usr/local/src/redis-3.0.0/src/redis-server¦/usr/local/bin/redis-server :: Filesystem_operation,()
+make ¦MALLOC=jemalloc :: Build_Execute_operation,()
+from,hirokazumiyaji/ubuntu
+/var/log/redis :: workdir_operation,()
+cd ¦/usr/local/src :: Filesystem_operation,()
+ln ¦-s¦/usr/local/src/redis-3.0.0/src/redis-check-aof¦/usr/local/bin/redis-check-aof :: Filesystem_operation,()
+ln ¦-s¦/usr/local/src/redis-3.0.0/src/redis-check-dump¦/usr/local/bin/redis-check-dump :: Filesystem_operation,()
+cd ¦/usr/local/src/redis-3.0.0 :: Filesystem_operation,()
+tar ¦xvf¦redis-3.0.0.tar.gz :: Filesystem_operation,()
+redis.conf/etc/redis.conf :: add_operation,()
+cmd,/usr/local/bin/redis-server
+ln ¦-s¦/usr/local/src/redis-3.0.0/src/redis-cli¦/usr/local/bin/redis-cli :: Filesystem_operation,()
+expose,6379

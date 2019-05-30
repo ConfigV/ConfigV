@@ -1,0 +1,14 @@
+COPYGemfile.lock /usr/src/app/ :: onbuild_operation,()
+apt-get ¦install¦-y¦mysql-client¦postgresql-client¦sqlite3¦--no-install-recommends :: Dependencies_operation,()
+from,ruby:2.2
+apt-get ¦update :: Dependencies_operation,()
+COPY. /usr/src/app :: onbuild_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+RUNbundle install :: onbuild_operation,()
+cmd,unicorn_rails
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+COPYGemfile /usr/src/app/ :: onbuild_operation,()
+/usr/src/app :: workdir_operation,()
+expose,8080
+apt-get ¦install¦-y¦nodejs¦--no-install-recommends :: Dependencies_operation,()
+bundle ¦config¦--global¦frozen¦1 :: Dependencies_operation,()

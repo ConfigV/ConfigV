@@ -1,0 +1,11 @@
+cmd,echo¦-e¦Hello :)\\nThis is a minimal base image based on (semi) official debian:jessie docker image
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-qqy¦>¦/dev/null¦2>&1 :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qqy¦--no-install-recommends¦make¦locales¦procps¦gettext-base¦curl¦vim¦>¦/dev/null¦2>&1 :: Other_operation,()
+LC_ALL:C.UTF-8 :: env_operation,()
+from,debian@jessie
+rm ¦-rf¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦autoclean¦-qqy¦>¦/dev/null¦2>&1 :: Other_operation,()
+echo ¦echo¦"Etc/UTC" > /etc/timezone && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure -f noninteractive tzdata > /dev/null 2>&1 :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦autoremove¦-qqy¦>¦/dev/null¦2>&1 :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦dist-upgrade¦-qqy¦>¦/dev/null¦2>&1 :: Other_operation,()

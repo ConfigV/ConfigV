@@ -1,0 +1,16 @@
+DISPOSABLE_PKGS="bash:g++ :: env_operation,()
+from,alpine:3.3
+cd ¦/opt/project :: Filesystem_operation,()
+expose,80
+apk ¦update¦--no-cache :: Dependencies_operation,()
+rm ¦-r¦/var/www :: Filesystem_operation,()
+cmd,nginx
+apk ¦add¦$DISPOSABLE_PKGS¦nginx :: Dependencies_operation,()
+apk ¦del¦--purge¦$DISPOSABLE_PKGS :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()
+healthcheck,wget -sq http://localhost/--interval=15s --timeout=15s --retries=2
+rm ¦-rf¦/opt/project¦/tmp/*¦/var/cache/apk/*¦/usr/lib/node_modules¦/root/.npm¦/root/.node-gyp¦/root/.cache/* :: Filesystem_operation,()
+cp ¦app/config/nginx.conf¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+./bin/build  :: Other_operation,()
+./opt/project :: copy_operation,()
+mv ¦web¦/var/www :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+mkdir ¦out :: Filesystem_operation,()
+cmd,latexmk¦-outdir=out¦-bibtex¦-pdf¦-pvc¦$TEXFILE
+/root/out :: volume_operation,()
+http://www.iclr.cc/lib/exe/fetch.php?media=iclr2016:iclr2016_stylefiles_conference.zipiclrstyle.zip :: add_operation,()
+/root :: workdir_operation,()
+mv ¦iclr2016_stylefiles_conference/*¦. :: Filesystem_operation,()
+mkdir ¦aux :: Filesystem_operation,()
+TEXFILE:paper.tex :: env_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+unzip ¦iclrstyle.zip :: Filesystem_operation,()
+from,ontouchstart/texlive-full
+rm ¦-r¦iclr2016_stylefiles_conference :: Filesystem_operation,()

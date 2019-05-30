@@ -1,0 +1,13 @@
+ln ¦-s¦/opt/FastQC/fastqc¦/usr/local/bin/fastqc :: Filesystem_operation,()
+chmod ¦+x¦/opt/FastQC/fastqc :: Permissions_operation,()
+from,ubuntu:16.04
+unzip ¦fastqc_v0.11.5.zip :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦unzip :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦default-jre :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/local/bin/fastqc
+wget ¦http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip :: Dependencies_operation,()
+/root :: workdir_operation,()
+mv ¦FastQC/¦/opt/ :: Filesystem_operation,()
+cmd,--help

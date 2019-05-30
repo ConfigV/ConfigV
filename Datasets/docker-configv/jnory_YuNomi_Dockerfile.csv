@@ -1,0 +1,12 @@
+cd ¦hdf5-1.8.17 :: Filesystem_operation,()
+apk ¦--no-cache¦add¦cmake¦gcc¦g++¦make¦wget :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+cd ¦/ :: Filesystem_operation,()
+wget ¦http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.17.tar.gz :: Dependencies_operation,()
+PATH:$PATH:/opt/hdf5 :: env_operation,()
+/hdf5-1.8.17/configure ¦--enable-cxx¦--prefix=/opt/hdf5 :: Other_operation,()
+tar ¦zxf¦hdf5-1.8.17.tar.gz :: Filesystem_operation,()
+rm ¦hdf5-1.8.17.tar.gz :: Filesystem_operation,()
+rm ¦-r¦hdf5-1.8.17 :: Filesystem_operation,()
+from,alpine:3.4

@@ -1,0 +1,12 @@
+RUST_LOG:debug :: env_operation,()
+apk ¦add¦--update-cache¦--repository¦http://dl-3.alpinelinux.org/alpine/edge/testing/¦--allow-untrusted¦runit :: Dependencies_operation,()
+docker-srv/srv :: add_operation,()
+RUST_BACKTRACE:t :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,alpine:3.2
+apk ¦add¦-U¦bash¦xz¦inotify-tools :: Dependencies_operation,()
+log.toml/srv/log.toml :: add_operation,()
+cmd,runsv¦/srv
+/data :: volume_operation,()
+/srv :: workdir_operation,()
+target/x86_64-unknown-linux-musl/release/darwin-ingester/srv/bin/darwin-ingester :: add_operation,()

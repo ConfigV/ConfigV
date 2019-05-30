@@ -1,0 +1,10 @@
+CONFIG_TYPE=CCU2: :: env_operation,()
+/database :: volume_operation,()
+expose,80 2089 2099
+/tmp :: workdir_operation,()
+from,openjdk:8.0
+./start.sh/tmp/ :: add_operation,()
+bash ¦-el¦/tmp/install.sh¦https://github.com/mdzio/ccu-historian/releases/download/1.1.0/ccu-historian-1.1.0-bin.zip :: Build_Execute_operation,()
+/opt/ccu-historian/config :: volume_operation,()
+./install.sh/tmp/ :: add_operation,()
+entrypoint,/opt/ccu-historian/start.sh

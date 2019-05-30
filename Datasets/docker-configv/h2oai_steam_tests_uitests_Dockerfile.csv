@@ -1,0 +1,13 @@
+apt-get ¦install¦-y¦python¦python-pip¦curl¦unzip¦openjdk-8-jdk¦procps¦vim¦git :: Dependencies_operation,()
+/root/steam/tests/uitests :: workdir_operation,()
+/root :: workdir_operation,()
+git ¦clone¦https://github.com/h2oai/steam.git :: Dependencies_operation,()
+entrypoint,./run-basic.sh
+mv ¦chromedriver¦/usr/bin/chromedriver :: Filesystem_operation,()
+curl ¦-O¦http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip :: Dependencies_operation,()
+from,pl31/chrome
+/root/steam :: workdir_operation,()
+unzip ¦chromedriver_linux64.zip :: Filesystem_operation,()
+pip ¦install¦h2o¦selenium :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦checkout¦testing :: Dependencies_operation,()

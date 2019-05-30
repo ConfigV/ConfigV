@@ -1,0 +1,9 @@
+apt-get ¦install¦-y¦openjdk-6-jre¦wget :: Dependencies_operation,()
+expose,9200
+wget ¦https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.7.deb :: Dependencies_operation,()
+dpkg ¦-i¦elasticsearch-0.90.7.deb :: Dependencies_operation,()
+from,ubuntu:14.04
+rm ¦elasticsearch-0.90.7.deb :: Filesystem_operation,()
+cmd,/usr/share/elasticsearch/bin/elasticsearch¦-f¦-Des.http.port=9200¦-Des.cluster.name=testing
+apt-get ¦update :: Dependencies_operation,()
+UPDATED_AT:2014-11-17 :: env_operation,()

@@ -1,0 +1,13 @@
+cd ¦/ :: Filesystem_operation,()
+rm ¦elasticsearch-1.5.2.tar.gz :: Filesystem_operation,()
+elasticsearch_discovery/ :: copy_operation,()
+from,java:7.0
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+expose,9200 9300
+curl ¦-O¦https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.5.2.tar.gz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦xf¦elasticsearch-1.5.2.tar.gz :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,/run.sh
+run.sh/ :: copy_operation,()
+elasticsearch.yml/elasticsearch-1.5.2/config/elasticsearch.yml :: copy_operation,()

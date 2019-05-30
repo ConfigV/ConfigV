@@ -1,0 +1,19 @@
+apt-get ¦update :: Dependencies_operation,()
+add-apt-repository ¦ppa:libreoffice/libreoffice-4-4 :: Dependencies_operation,()
+expose,9123
+cd ¦/usr/local/src/ffmpeg-2.3.3;checkinstall¦--pkgname=ffmpeg¦--pkgversion="5:2.3.3"¦--backup=no¦--deldoc=yes¦--default :: Filesystem_operation,()
+apt-get ¦install¦software-properties-common :: Dependencies_operation,()
+echo ¦echo¦"deb http://ubuntu.bigbluebutton.org/trusty-1-0/ bigbluebutton-trusty main" | tee /etc/apt/sources.list.d/bigbluebutton.list :: Filesystem_operation,()
+cd ¦/usr/local/src/ffmpeg-2.3.3;./configure¦--enable-version3¦--enable-postproc¦--enable-libvorbis¦--enable-libvpx;make :: Filesystem_operation,()
+bbb-conf ¦--enablewebrtc;bbb-conf¦--clean :: Other_operation,()
+cd ¦/usr/local/src;wget¦"http://ffmpeg.org/releases/ffmpeg-2.3.3.tar.bz2";tar¦-xvjf¦ffmpeg-2.3.3.tar.bz2 :: Filesystem_operation,()
+cmd,/bin/bash¦-c¦/usr/bin/yum -y update;/usr/bin/yum -y install httpd fping;/usr/sbin/apachectl;/usr/sbin/postfix start;/usr/sbin/nagios /etc/nagios/nagios.cfg
+wget ¦http://ubuntu.bigbluebutton.org/bigbluebutton.asc¦-O-¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+/etc/httpd :: volume_operation,()
+echo ¦echo¦"deb http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦-y¦install¦bigbluebutton¦bbb-demo¦bbb-check :: Dependencies_operation,()
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+apt-get ¦-y¦install¦language-pack-en :: Dependencies_operation,()
+update-locale ¦LANG=en_US.UTF-8 :: Other_operation,()
+apt-get ¦-y¦install¦build-essential¦git-core¦checkinstall¦yasm¦texi2html¦libvorbis-dev¦libx11-dev¦libvpx-dev¦libxfixes-dev¦zlib1g-dev¦pkg-config¦netcat¦libncurses5-dev :: Dependencies_operation,()
+from,docker.io/ubuntu:14.04

@@ -1,0 +1,12 @@
+cmd,service mysql start
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦-y¦install¦mysql-server :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu:14.04
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+service ¦mysql¦start¦&&\\ :: Build_Execute_operation,()
+./sources.list/etc/apt/sources.list :: add_operation,()
+expose,3306

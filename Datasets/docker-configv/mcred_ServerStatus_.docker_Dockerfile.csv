@@ -1,0 +1,15 @@
+expose,80
+mv ¦composer.phar¦/usr/bin/composer :: Filesystem_operation,()
+wget ¦-O¦/etc/apt/trusted.gpg.d/php.gpg¦https://packages.sury.org/php/apt.gpg :: Dependencies_operation,()
+echo ¦echo¦"deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦apache2¦ant¦curl¦git :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-o¦installer.php¦https://getcomposer.org/installer :: Dependencies_operation,()
+./httpd.conf/etc/apache2/apache2.conf :: copy_operation,()
+php ¦-f¦installer.php :: Other_operation,()
+apt-get ¦install¦-y¦php7.1¦php7.1-common¦php7.1-cli¦php7.1-mysql¦php7.1-mbstring¦php7.1-mcrypt¦php7.1-xml¦php-xdebug¦php7.1-curl :: Dependencies_operation,()
+a2enmod ¦headers :: Other_operation,()
+chmod ¦+x¦/usr/bin/composer :: Permissions_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+from,debian:8.7
+apt-get ¦install¦-y¦apt-utils¦apt-transport-https¦lsb-release¦ca-certificates¦wget :: Dependencies_operation,()

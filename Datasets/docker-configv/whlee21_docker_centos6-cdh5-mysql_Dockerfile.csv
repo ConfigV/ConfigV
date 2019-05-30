@@ -1,0 +1,6 @@
+from,whlee21/centos6-cdh5-base
+expose,22 60000 60010
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+./supervisord.conf/etc/ :: add_operation,()
+yum ¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦mysql-server;¦yum¦clean¦all :: Dependencies_operation,()

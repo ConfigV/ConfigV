@@ -1,0 +1,12 @@
+run.py/usr/local/bin :: add_operation,()
+git ¦clone¦-b¦testnet_wip¦https://github.com/ulope/raiden.git¦/app :: Dependencies_operation,()
+entrypoint,/usr/local/bin/run.py
+pip ¦install¦-r¦/app/requirements.txt¦-e¦/app :: Dependencies_operation,()
+/app :: workdir_operation,()
+from,python:2.7
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+python ¦setup.py¦compile_contracts :: Build_Execute_operation,()
+apt ¦install¦-y¦build-essential¦curl¦git¦libffi-dev¦libgmp-dev¦libssl-dev¦libtool¦pkg-config :: Dependencies_operation,()
+apt ¦update :: Dependencies_operation,()
+curl ¦-L¦-o¦/usr/bin/solc¦https://github.com/ethereum/solidity/releases/download/v0.4.11/solc-static-linux :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/solc :: Permissions_operation,()

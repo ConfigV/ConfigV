@@ -1,0 +1,10 @@
+/produits/tomcat :: workdir_operation,()
+TOMCAT_VERSION=8.0.21: :: env_operation,()
+tomcat-users.xml/produits/tomcat/conf/ :: copy_operation,()
+expose,8080
+from,cdelaitre/openjdk8
+apache-tomcat-${TOMCAT_VERSION}.tar.gz/produits :: add_operation,()
+entrypoint,/produits/tomcat/bin/catalina.sh¦run
+mv ¦/produits/apache-tomcat-${TOMCAT_VERSION}¦/produits/tomcat :: Filesystem_operation,()
+mkdir ¦-p¦/produits :: Filesystem_operation,()
+echo ¦echo¦"CATALINA_HOME=/produits/tomcat" >> /etc/environment :: Filesystem_operation,()

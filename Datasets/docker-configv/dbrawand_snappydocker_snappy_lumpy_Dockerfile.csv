@@ -1,0 +1,14 @@
+mv ¦bin¦/usr/local/pipeline/lumpy-sv :: Filesystem_operation,()
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/lumpy-sv'¦/home/snappy/.bashrc :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+HOME:/root :: env_operation,()
+cmd,/bin/bash
+git ¦checkout¦0.2.11 :: Dependencies_operation,()
+git ¦clone¦--recursive¦https://github.com/arq5x/lumpy-sv.git :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/lumpy-sv :: Permissions_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+cd ¦lumpy-sv :: Filesystem_operation,()
+ln ¦-s¦/usr/local/pipeline/lumpy-sv/*¦/usr/local/bin/ :: Filesystem_operation,()
+from,viapath/snappy_ngstools

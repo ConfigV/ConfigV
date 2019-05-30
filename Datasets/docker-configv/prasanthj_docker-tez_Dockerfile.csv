@@ -1,0 +1,14 @@
+echo ¦echo¦'TEZ_CONF=/usr/local/hadoop/etc/hadoop' >> $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh :: Filesystem_operation,()
+$BOOTSTRAP  :: Other_operation,()
+$HADOOP_PREFIX/bin/hdfs ¦dfs¦-put¦/usr/local/tez-0.5.0¦/tez :: Other_operation,()
+echo ¦echo¦'TEZ_LIB=/usr/local/tez/lib/*' >> $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh :: Filesystem_operation,()
+$HADOOP_PREFIX/bin/hadoop ¦dfsadmin¦-safemode¦leave :: Other_operation,()
+cd ¦/usr/local :: Filesystem_operation,()
+from,prasanthj/hadoop-2.5.0
+echo ¦echo¦'TEZ_JARS=/usr/local/tez/*' >> $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh :: Filesystem_operation,()
+echo ¦echo¦'export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$TEZ_CONF:$TEZ_JARS:$TEZ_LIB' >> $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh :: Filesystem_operation,()
+mapred-site.xml$HADOOP_PREFIX/etc/hadoop/mapred-site.xml :: add_operation,()
+ln ¦-s¦tez-0.5.0¦tez :: Filesystem_operation,()
+cmd,/etc/bootstrap.sh¦-d
+curl ¦-s¦https://s3-eu-west-1.amazonaws.com/seq-tez/tez-0.5.0.tar.gz¦|¦tar¦-xz¦-C¦/usr/local/ :: Dependencies_operation,()
+tez-site.xml$HADOOP_PREFIX/etc/hadoop/tez-site.xml :: add_operation,()

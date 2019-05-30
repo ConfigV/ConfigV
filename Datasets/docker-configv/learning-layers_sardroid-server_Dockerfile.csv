@@ -1,0 +1,16 @@
+mkdir ¦/sardroid :: Filesystem_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_5.x¦|¦sudo¦-E¦bash¦- :: Dependencies_operation,()
+./sardroid :: add_operation,()
+/sardroid :: workdir_operation,()
+cmd,bash¦/sardroid/script/start-server.sh
+from,ubuntu:14.04
+expose,9000
+npm ¦run-script¦build :: Dependencies_operation,()
+npm ¦install¦-g¦babel-cli :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+curl ¦-SL¦https://github.com/melonmanchan/sardroid-server/tarball/master¦|¦tar¦-zxC¦/sardroid¦--strip-components=1 :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()

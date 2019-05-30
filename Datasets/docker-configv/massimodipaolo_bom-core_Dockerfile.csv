@@ -1,0 +1,9 @@
+ASPNETCORE_SERVER.URLS:http://*:80 :: env_operation,()
+expose,80
+/src/web :: workdir_operation,()
+project.json :: copy_operation,()
+entrypoint,dotnet¦out/web.dll
+.. :: copy_operation,()
+dotnet ¦restore :: Other_operation,()
+from,microsoft/dotnet
+dotnet ¦publish¦-c¦Release¦-o¦out :: Other_operation,()

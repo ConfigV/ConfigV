@@ -1,0 +1,14 @@
+/var/www/src :: workdir_operation,()
+package.json/var/www/src/ :: copy_operation,()
+index.html/var/www/public/ :: copy_operation,()
+devel :: user_operation,()
+mkdir ¦-p¦/var/www/src :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦sudo :: Dependencies_operation,()
+adduser ¦devel¦--home¦/home/devel¦--shell¦/bin/bash¦--disabled-password¦--gecos¦"" :: Permissions_operation,()
+expose,8000
+from,node:0.12
+chown ¦-R¦devel¦/var/www/ :: Permissions_operation,()
+cmd,npm¦start
+echo ¦echo¦"devel ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers :: Filesystem_operation,()
+mkdir ¦-p¦/var/www/public :: Filesystem_operation,()

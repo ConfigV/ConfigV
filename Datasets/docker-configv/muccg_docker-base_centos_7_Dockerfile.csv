@@ -1,0 +1,14 @@
+mkdir ¦/app :: Filesystem_operation,()
+yum ¦install¦-y¦epel-release¦http://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-14.ius.centos7.noarch.rpm¦http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm :: Dependencies_operation,()
+cmd,/bin/sh
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+chown ¦ccg-user:ccg-user¦/data :: Permissions_operation,()
+RUNcurl -v -I -H "HEAD /" `cat ${BUILD_HOST_FILE}`:3128 | grep squid-deb-proxy && (echo "proxy=http://$(cat ${BUILD_HOST_FILE}):3128" >> ${YUM_CONF}) || echo "No squid-deb-proxy detected on docker host" :: onbuild_operation,()
+groupadd ¦--gid¦1000¦ccg-user :: Permissions_operation,()
+useradd ¦--home-dir¦/data¦--no-create-home¦--system¦--uid¦1000¦--gid¦1000¦ccg-user :: Permissions_operation,()
+YUM_CONF:/etc/yum.conf :: env_operation,()
+RUNnetstat -nr | grep '^0\\.0\\.0\\.0' | awk '{print $2}' > ${BUILD_HOST_FILE} :: onbuild_operation,()
+HOME:/root :: env_operation,()
+BUILD_HOST_FILE:/data/build_host.txt :: env_operation,()
+mkdir ¦/data :: Filesystem_operation,()

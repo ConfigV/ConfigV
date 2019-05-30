@@ -1,0 +1,15 @@
+cmd,ipython¦notebook¦--ip¦0.0.0.0¦--no-browser
+apt-get ¦install¦-y¦libzmq3-dev¦libcurl4-openssl-dev :: Dependencies_operation,()
+apt-get ¦install¦-y¦python3¦python3-pip :: Dependencies_operation,()
+install.R/ :: add_operation,()
+PASSWORD:jupyter :: env_operation,()
+mkdir ¦workspace¦workspace/notebooks¦workspace/data :: Filesystem_operation,()
+echo ¦(echo¦"require(['base/js/namespace'], function (IPython) {" && echo " IPython._target = '_self';" && echo "});") > /root/.ipython/profile_default/static/custom/custom.js :: Filesystem_operation,()
+DIR:/workspace :: env_operation,()
+rm ¦install.R :: Filesystem_operation,()
+Rscript ¦install.R :: Other_operation,()
+expose,8888
+$DIR :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦(echo¦"c = get_config()" && echo "from IPython.lib import passwd" && echo "import os" && echo "c.NotebookApp.password = passwd(os.environ.get('PASSWORD', 'jupyter'))") > /root/.ipython/profile_default/ipython_notebook_config.py :: Filesystem_operation,()
+pip3 ¦install¦ipython¦pyzmq¦jinja2¦tornado¦jsonschema :: Dependencies_operation,()

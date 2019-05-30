@@ -1,0 +1,13 @@
+ADD.ruby-version /.ruby-version :: onbuild_operation,()
+chmod ¦+x¦/rubies/support/bin/* :: Permissions_operation,()
+WORKDIR/mnt/app :: onbuild_operation,()
+from,ubuntu@latest
+HOME:/settings :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦curl :: Other_operation,()
+support/rubies/support :: add_operation,()
+PATH:/rubies/current/bin:/rubies/support/bin:$PATH :: env_operation,()
+RUNinstall-ruby :: onbuild_operation,()
+BUILD_HOST:http://ruby.itri.ag :: env_operation,()
+ADD. /mnt/app :: onbuild_operation,()
+settings/settings :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()

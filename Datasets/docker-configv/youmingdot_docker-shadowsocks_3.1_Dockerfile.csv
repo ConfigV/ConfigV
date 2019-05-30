@@ -1,0 +1,24 @@
+rm ¦shadowsocks.tar.gz :: Filesystem_operation,()
+cd ¦/usr/src/shadowsocks :: Filesystem_operation,()
+wget ¦-O¦shadowsocks.tar.gz¦"https://github.com/shadowsocks/shadowsocks-libev/archive/$SHADOWSOCKS_VERSION.tar.gz" :: Dependencies_operation,()
+rm ¦-rf¦/usr/src/shadowsocks :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+groupadd ¦-r¦shadowsocks :: Permissions_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+entrypoint,docker-entrypoint.sh
+buildDeps="wget ¦autoconf¦make¦g++¦libssl-dev¦libpcre3-dev¦ca-certificates" :: Other_operation,()
+cmd,ss-server
+chmod ¦+x¦/usr/local/bin/docker-entrypoint.sh :: Permissions_operation,()
+from,debian@jessie
+apt-get ¦install¦-y¦--no-install-recommends¦pwgen¦build-essential¦libtool¦asciidoc¦xmlto¦$buildDeps :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦$buildDeps :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()
+tar ¦-xzf¦shadowsocks.tar.gz¦-C¦/usr/src/shadowsocks¦--strip-components=1 :: Filesystem_operation,()
+SHADOWSOCKS_VERSION:v3.1.0 :: env_operation,()
+mkdir ¦-p¦/usr/src/shadowsocks :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+useradd ¦-r¦-g¦shadowsocks¦shadowsocks :: Permissions_operation,()
+expose,8989
+apt-get ¦update :: Dependencies_operation,()

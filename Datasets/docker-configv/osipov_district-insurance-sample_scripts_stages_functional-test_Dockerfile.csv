@@ -1,0 +1,13 @@
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+from,registry-ice.ng.bluemix.net/et_demo_org/ice-pipeline-demo
+npm ¦install¦-g¦node-inspector :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+npm ¦install¦-g¦grunt-cli :: Dependencies_operation,()
+cat ¦/root/.ssh/id_rsa.pub¦>>¦/root/.ssh/authorized_keys :: Filesystem_operation,()
+apt-get ¦update&&¦apt-get¦install¦-y¦vim¦openssh-server¦supervisor :: Dependencies_operation,()
+scripts/stages/functional-test/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+id_rsa.pub/root/.ssh/ :: copy_operation,()
+npm ¦install :: Dependencies_operation,()
+cd ¦/hellonode :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+expose,5858 8090

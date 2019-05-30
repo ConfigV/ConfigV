@@ -1,0 +1,8 @@
+/opt2 :: workdir_operation,()
+mkdir ¦/opt2 :: Filesystem_operation,()
+from,ubuntu@latest
+apt-get ¦install¦-y¦--no-install-recommends¦curl¦ca-certificates¦#&&¦rm¦-rf¦/var/lib/apt/lists/* :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦purge¦openjdk-\\* :: Dependencies_operation,()
+sed ¦-i¦-e¦'s/exit¦101/exit¦0/g'¦/usr/sbin/policy-rc.d :: Filesystem_operation,()

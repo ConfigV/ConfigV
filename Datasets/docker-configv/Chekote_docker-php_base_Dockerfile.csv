@@ -1,0 +1,13 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦&& :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/bin/bash¦-c
+/data :: workdir_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+apt-get ¦install¦-y¦php7.0-cli :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,chekote/ubuntu:yakkety
+expose,9000
+/data :: volume_operation,()
+apt-get ¦install¦-y¦php7.0-fpm :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+chmod ¦755¦/usr/local/bin/fig :: Permissions_operation,()
+curl ¦--insecure¦-L¦${FIG_URL}/${FIG_VERSION}/${FIG_FILE}¦-o¦/usr/local/bin/fig :: Dependencies_operation,()
+entrypoint,fig
+apt-get ¦-y¦-qq¦--force-yes¦purge¦curl :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦--force-yes¦clean :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦--force-yes¦--no-install-recommends¦install¦curl :: Dependencies_operation,()
+FIG_URL:https://github.com/docker/fig/releases/download :: env_operation,()
+cmd,--help
+apt-get ¦-y¦-qq¦--force-yes¦update :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦--force-yes¦autoremove :: Dependencies_operation,()
+FIG_VERSION:1.0.0 :: env_operation,()
+FIG_FILE:fig-$(uname :: env_operation,()
+from,debian@wheezy

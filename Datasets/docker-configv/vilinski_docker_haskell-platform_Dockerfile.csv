@@ -1,0 +1,12 @@
+from,ubuntu:14.04
+haskell :: user_operation,()
+HOME:/home/haskell :: env_operation,()
+cabal ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦haskell-platform :: Dependencies_operation,()
+echo ¦echo¦"haskell ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/haskell && chmod 0440 /etc/sudoers.d/haskell :: Filesystem_operation,()
+useradd ¦-m¦-s¦/bin/bash¦haskell :: Permissions_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+cabal ¦install¦--global¦cabal-install :: Dependencies_operation,()
+PATH:~/.cabal/bin:.cabal-sandbox/bin:$PATH :: env_operation,()
+/home/haskell :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+curl ¦-o¦docker-gen.tar.gz¦-L¦$DOWNLOAD_URL :: Dependencies_operation,()
+rm ¦docker-gen.tar.gz :: Filesystem_operation,()
+from,debian@wheezy
+entrypoint,/usr/local/bin/docker-gen
+apt-get ¦clean¦-y :: Dependencies_operation,()
+DOWNLOAD_URL:https://github.com/jwilder/docker-gen/releases/download/$VERSION/docker-gen-linux-amd64-$VERSION.tar.gz :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦$deps :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+tar ¦-C¦/usr/local/bin¦-xvzf¦docker-gen.tar.gz :: Filesystem_operation,()
+DOCKER_HOST:unix:///var/run/docker.sock :: env_operation,()
+deps=' ¦¦curl¦ca-certificates¦';¦set¦-x;¦apt-get¦update :: Other_operation,()
+VERSION:0.3.9 :: env_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦-o¦APT::AutoRemove::RecommendsImportant=false¦-o¦APT::AutoRemove::SuggestsImportant=false¦$deps :: Dependencies_operation,()

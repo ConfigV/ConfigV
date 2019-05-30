@@ -1,0 +1,17 @@
+run.sh/run.sh :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+php5enmod ¦mcrypt :: Other_operation,()
+sed ¦-i¦"s/variables_order.*/variables_order¦="EGPCS\\"/g"¦/etc/php5/apache2/php.ini :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ln ¦-s¦/app¦/var/www/html :: Filesystem_operation,()
+apt-get ¦-yq¦install¦curl¦apache2¦mcrypt¦libapache2-mod-php5¦php5-mysql¦php5-gd¦php5-curl¦php-pear¦php5-intl¦php5-json¦php-soap¦php5-mongo¦php-mail¦php5-mcrypt¦php-apc :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+sample//app :: add_operation,()
+/app :: workdir_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+expose,80
+rm ¦-fr¦/var/www/html :: Filesystem_operation,()
+cmd,/run.sh
+from,ubuntu@trusty

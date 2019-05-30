@@ -1,0 +1,23 @@
+conda ¦install¦pip :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦bzip2¦ca-certificates¦libglib2.0-0¦libxext6¦libsm6¦libxrender1¦build-essential¦git :: Dependencies_operation,()
+pip ¦install¦-r¦/tmp/requirements.txt :: Dependencies_operation,()
+echo ¦echo¦"export PATH=/opt/conda/bin:$PATH" >> /etc/profile :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && wget --quiet https://repo.continuum.io/miniconda/Miniconda-3.10.1-Linux-x86_64.sh && /bin/bash /Miniconda-3.10.1-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda-3.10.1-L... :: Filesystem_operation,()
+expose,22
+requirements.txt/tmp/requirements.txt :: add_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+PATH:/opt/conda/bin:$PATH :: env_operation,()
+apt-get ¦install¦-y¦openssh-server¦sshpass :: Dependencies_operation,()
+git ¦config¦--global¦user.name¦"hubward-example" :: Dependencies_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+NOTVISIBLE:"in :: env_operation,()
+conda ¦install¦-y¦-c¦daler¦matplotlib¦pybedtools¦bedtools¦crossmap¦ucsc-bedtobigbed¦ucsc-bedgraphtobigwig¦ucsc-wigtobigwig¦ucsc-fetchchromsizes¦ucsc-bigbedtobed¦trackhub¦conda¦conda-build :: Dependencies_operation,()
+from,ubuntu:14.04
+git ¦config¦--global¦user.email¦"none@example.com" :: Dependencies_operation,()
+/opt/hubward :: workdir_operation,()
+conda ¦update¦conda :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦'root:hubward' | chpasswd :: Filesystem_operation,()

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE PartialTypeSignatures #-}
 {-# OPTIONS_GHC -fno-cse #-}
 module ConfigV (
   executeLearning,
@@ -18,8 +19,8 @@ import qualified Data.Text.IO          as T
 import Data.List
 
 import qualified LearningEngine
---import           Checker
---import           OutputPrinter
+import           Checker
+import           OutputPrinter
 import Utils
 
 import Types.Rules
@@ -50,16 +51,17 @@ executeLearning settings userThresholds = do
   B.writeFile (cacheLocation settings) $ A.encode learnedRules 
   putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
 
+executeVerification :: Options -> _
 executeVerification settings = do
-  (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)
+  rules <- (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)
   degrees <- ((M.fromList. fromJust. A.decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
   vFiles <- mapM T.readFile (vFilePaths settings) :: IO [T.Text]
   let vTargets = zip3 
                (vFilePaths settings) --the names of the files
                vFiles -- the file data
                (repeat $ language settings) :: [ConfigFile Language]
+  fitness <- runVerify settings rules degrees vTargets
   return ()
-  --fitness <- runVerify rules degrees vTargets
 
 
 gatherLearnTargets :: Options -> IO [ConfigFile Language]
@@ -78,22 +80,19 @@ gatherLearnTargets Learning{..} = do
 
 vFilePaths :: Options -> [FilePath]
 vFilePaths Verification{..} = 
-    map ((verifyTarget++"/")++) $ u $ listDirectory verifyTarget
-    --benchmarkFiles = map getFileName $ concat benchmarks --TODO unused atm
+    if '.' `elem` verifyTarget
+    then [verifyTarget]
+    else map ((verifyTarget++"/")++) $ u $ listDirectory verifyTarget
 
-runVerify ::  RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
-runVerify rules ds vTargets  = do  
-  print "Under construction"
-  return 0
-  {-
-  let errors = map (verifyOn rules) vTargets
+runVerify :: _ -> RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
+runVerify settings rules ds vTargets  = do  
+ 
+  let errors = map (verifyOn settings rules) vTargets
   fitnesses <- 
-    if False --Settings.benchmarks
-    then undefined --zipWithM reportBenchmarkPerformance Bench.benchmarks errors 
-    else mapM (reportUserPerformance ds) $ L.sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
-  printSummary errors fitnesses
-  return $ sum fitnesses
-  -}
+    mapM print $ sortOn (\(f,es) -> length es) (zip (map (\(x,y,z)->x) vTargets) errors) 
+  --printSummary errors fitnesses
+  return 0 -- $ sum fitnesses
+  
 
 -- | to check integrity of cache, rerun learning, even if useCache is on, and compare
 --   TODO, only allow this to run if useCache is on?

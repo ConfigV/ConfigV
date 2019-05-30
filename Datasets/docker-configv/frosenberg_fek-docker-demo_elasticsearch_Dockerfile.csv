@@ -1,0 +1,14 @@
+service ¦elasticsearch¦start :: Build_Execute_operation,()
+apt-get ¦install¦openjdk-7-jre-headless¦-y :: Dependencies_operation,()
+from,ubuntu:12.0
+expose,9300
+curl ¦-L¦http://github.com/elasticsearch/elasticsearch-servicewrapper/tarball/master¦|¦tar¦-xz :: Dependencies_operation,()
+apt-get ¦-y¦install¦wget¦curl :: Dependencies_operation,()
+/usr/local/share/elasticsearch/bin/service/elasticsearch ¦install :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦*servicewrapper*/service¦/usr/local/share/elasticsearch/bin/ :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+dpkg ¦-i¦elasticsearch-1.2.2.deb :: Dependencies_operation,()
+rm ¦-Rf¦*servicewrapper* :: Filesystem_operation,()
+wget ¦https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.2.deb :: Dependencies_operation,()
+ln ¦-s¦`readlink¦-f¦/usr/local/share/elasticsearch/bin/service/elasticsearch`¦/usr/local/bin/rcelasticsearch :: Filesystem_operation,()

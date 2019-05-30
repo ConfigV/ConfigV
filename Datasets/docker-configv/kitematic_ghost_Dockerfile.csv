@@ -1,0 +1,16 @@
+curl ¦-L¦-o¦ghost-latest.zip¦https://ghost.org/zip/ghost-latest.zip :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup¦|¦bash¦- :: Dependencies_operation,()
+/app/content :: volume_operation,()
+from,debian@wheezy
+unzip ¦ghost-latest.zip¦-d¦/app :: Filesystem_operation,()
+GHOST_URL:http://my-ghost-blog.com :: env_operation,()
+npm ¦install¦--production¦--prefix¦/app :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-f¦ghost-latest.zip :: Filesystem_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦-yq¦install¦curl¦unzip¦sqlite3¦libsqlite3-dev¦build-essential :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+config.example.js/app/ :: add_operation,()
+cmd,node¦/app/index.js
+expose,2368
+mkdir ¦-p¦/app :: Filesystem_operation,()

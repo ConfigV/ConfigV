@@ -1,0 +1,17 @@
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/lein :: Permissions_operation,()
+wget ¦https://raw.github.com/technomancy/leiningen/stable/bin/lein¦-O¦/usr/local/bin/lein :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦git¦wget¦unzip :: Dependencies_operation,()
+lein  :: Dependencies_operation,()
+LEIN_ROOT:yes :: env_operation,()
+.//twitter-collector :: add_operation,()
+cd ¦/twitter-collector :: Filesystem_operation,()
+expose,9095
+from,ubuntu@xenial
+export ¦HTTP_CLIENT="wget¦--no-check-certificate¦-O" :: Environment_operation,()
+./start-app/start-app :: add_operation,()
+cmd,/start-app
+lein ¦deps :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-openjdk-amd64 :: env_operation,()
+apt-get ¦-y¦install¦openjdk-8-jdk :: Dependencies_operation,()

@@ -1,0 +1,14 @@
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/run/nsd¦/var/lib/nsd/zones :: Filesystem_operation,()
+chown ¦nsd:nsd¦/run/nsd¦/var/lib/nsd/zones :: Permissions_operation,()
+from,debian@jessie
+cmd,/usr/sbin/nsd¦-d
+/etc/nsd :: volume_operation,()
+nsd.conf/etc/nsd/nsd.conf :: copy_operation,()
+entry.sh/ :: copy_operation,()
+apt-get ¦-y¦install¦vim¦nsd¦openssl :: Dependencies_operation,()
+groupadd ¦-g¦108¦nsd :: Permissions_operation,()
+/var/lib/nsd :: volume_operation,()
+entrypoint,/entry.sh
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

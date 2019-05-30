@@ -1,0 +1,16 @@
+wget ¦-qO-¦https://raw.githubusercontent.com/fpco/stackage/$BOOTSTRAP_COMMIT/debian-bootstrap.sh¦|¦bash :: Dependencies_operation,()
+LANG=C.UTF-8:LC_ALL=C.UTF-8 :: env_operation,()
+wget ¦-O-¦"https://github.com/fpco/pid1/releases/download/pid1%2F$PID1_VERSION/pid1-$PID1_VERSION-linux-x86_64.tar.gz"¦|¦tar¦xzf¦-¦-C¦/usr/local :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+ln ¦-s¦ghc¦/opt/ghc/$GHC_VERSION/share/doc/ghc-$GHC_VERSION :: Filesystem_operation,()
+find ¦.¦-type¦d¦-print0¦|sort¦-rz¦|xargs¦-0¦rmdir¦2>/dev/null¦||¦true :: Filesystem_operation,()
+cmd,bash
+find ¦.¦-type¦f¦-not¦-path¦'./snapshots/*/share/*'¦-exec¦rm¦'{}'; :: Filesystem_operation,()
+cd ¦$HOME/.stack :: Filesystem_operation,()
+from,ubuntu:16.04
+chown ¦root:root¦/usr/local/sbin :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chown ¦root:root¦/usr/local/sbin/pid1 :: Permissions_operation,()
+entrypoint,/usr/local/sbin/pid1
+stack ¦--system-ghc¦--resolver=$LTS_SLUG¦--local-bin-path=/usr/local/bin¦install¦cabal-install¦happy¦alex¦cpphs¦gtk2hs-buildtools¦hscolour :: Other_operation,()

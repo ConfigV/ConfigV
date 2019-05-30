@@ -1,0 +1,12 @@
+echo ¦sed¦'s/main$/main universe/' -i /etc/apt/sources.list && add-apt-repository ppa:webupd8team/java -y && apt-get update && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && apt-g... :: Filesystem_operation,()
+apt-get ¦install¦-y¦libgtk2.0-0¦libcanberra-gtk-module :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦build-essential¦make¦gdb :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+run/usr/local/bin/eclipse :: add_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+echo ¦wget¦http://mirror.onet.pl/pub/mirrors/eclipse//technology/epp/downloads/release/neon/3/eclipse-cpp-neon-3-linux-gtk-x86_64.tar.gz -O /tmp/eclipse.tar.gz -q && echo 'Installing eclipse' && tar -xf /tmp/eclipse.tar.gz -C /opt && rm /tmp/ecl... :: Filesystem_operation,()
+/home/guest :: workdir_operation,()
+cmd,/usr/local/bin/eclipse

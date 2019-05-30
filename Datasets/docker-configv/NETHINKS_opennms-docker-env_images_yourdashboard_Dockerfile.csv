@@ -1,0 +1,8 @@
+yum ¦-y¦install¦httpd.x86_64¦php.x86_64¦php-common.x86_64¦php-soap.x86_64¦#¦install¦yourDashboard¦software :: Dependencies_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+from,centos:7.3

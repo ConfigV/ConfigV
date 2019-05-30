@@ -1,0 +1,8 @@
+entrypoint,/bin/alertmanager
+/alertmanager :: workdir_operation,()
+cmd,-config.file=/etc/alertmanager/config.yml¦-storage.path=/alertmanager
+expose,9093
+download/alertmanager/bin/alertmanager :: copy_operation,()
+download/simple.yml/etc/alertmanager/config.yml :: copy_operation,()
+from,scratch
+/alertmanager :: volume_operation,()

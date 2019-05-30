@@ -1,0 +1,18 @@
+cmd,bitrise¦version
+$HOME/.bitrise/tools/stepman ¦setup¦-c¦https://github.com/bitrise-io/bitrise-steplib.git :: Other_operation,()
+from,golang:1.7
+go ¦install :: Build_Execute_operation,()
+bitrise ¦setup :: Other_operation,()
+GOPATH:/go :: env_operation,()
+PROJ_NAME:bitrise :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦-R¦777¦/go :: Permissions_operation,()
+mkdir ¦-p¦/go/src/github.com/bitrise-io/$PROJ_NAME :: Filesystem_operation,()
+go ¦get¦-u¦github.com/golang/lint/golint :: Build_Execute_operation,()
+go ¦get¦-u¦github.com/kisielk/errcheck :: Build_Execute_operation,()
+PATH:/go/bin:$PATH :: env_operation,()
+mkdir ¦-p¦/go/src¦/go/bin :: Filesystem_operation,()
+./go/src/github.com/bitrise-io/$PROJ_NAME :: copy_operation,()
+/go/src/github.com/bitrise-io/$PROJ_NAME :: workdir_operation,()
+go ¦get¦-u¦github.com/tools/godep :: Build_Execute_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦curl¦git¦mercurial¦rsync¦ruby¦sudo :: Other_operation,()

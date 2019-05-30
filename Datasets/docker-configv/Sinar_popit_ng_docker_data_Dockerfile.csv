@@ -1,0 +1,9 @@
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+from,alpine
+POPIT_DATA:/usr/src/app :: env_operation,()
+mkdir ¦-p¦$PGDATA :: Filesystem_operation,()
+cmd,"/bin/sh"
+/var/lib/postgresql/data :: volume_operation,()
+mkdir ¦-p¦$POPIT_DATA :: Filesystem_operation,()
+chown ¦-R¦postgres:postgres¦$PGDATA :: Permissions_operation,()
+/usr/src/app :: volume_operation,()

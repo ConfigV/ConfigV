@@ -1,0 +1,7 @@
+echo ¦mkdir¦-p /etc/service/app/; ( echo "#!/bin/bash"; echo "#"; echo "set -e -o nounset"; echo ""; echo ""; echo "# Set variables, exports for npm"; echo "#"; echo "export MAINPORT=\\${PORT_AUTH_M:-3005}"; echo "export CONTROLPORT=\\${PORT_AUTH_... :: Filesystem_operation,()
+RELEASE:0.1.2 :: env_operation,()
+apt-get ¦update;¦apt-get¦upgrade¦-y;¦apt-get¦install¦-y¦dacs¦git;¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+git ¦clone¦https://github.com/pdcbc/auth.git¦-b¦${RELEASE}¦.;¦npm¦install;¦mkdir¦-p¦/etc/dacs/;¦chown¦-R¦app:app¦/app/¦/etc/dacs/ :: Dependencies_operation,()
+/app/ :: workdir_operation,()
+cmd,/sbin/my_init
+from,phusion/passenger-nodejs

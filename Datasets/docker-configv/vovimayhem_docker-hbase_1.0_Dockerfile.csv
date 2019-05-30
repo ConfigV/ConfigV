@@ -1,0 +1,8 @@
+PATH:/hbase/bin:$JAVA_HOME/bin:$PATH :: env_operation,()
+/hbase :: workdir_operation,()
+expose,2181 60000 60010 60020 60030 9090
+echo ¦apt-get¦update && apt-get install -y supervisor --no-install-recommends && mkdir -p /hbase && curl -fSL -o hbase.tar.gz "http://apache.webxcreen.org/hbase/stable/hbase-$HBASE_VERSION-bin.tar.gz" && echo "$HBASE_DOWNLOAD_SHA256 *hbase.tar.g... :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64:HBASE_VERSION=1.0.1.1 :: env_operation,()
+from,java:8.0

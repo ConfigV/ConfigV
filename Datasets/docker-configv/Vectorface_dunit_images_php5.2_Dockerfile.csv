@@ -1,0 +1,9 @@
+from,debian@squeeze
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+INSTALL_PACKAGES:php5-cli :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.debian.org/debian lenny main contrib" >> /etc/apt/sources.list :: Filesystem_operation,()
+/php5.2.apt-preferences/etc/apt/preferences.d/preferences :: add_operation,()
+apt-get ¦-y¦install¦$INSTALL_PACKAGES :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()

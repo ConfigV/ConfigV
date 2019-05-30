@@ -1,0 +1,11 @@
+ln ¦-s¦/bin/bash¦/bin/sh :: Filesystem_operation,()
+cmd,/usr/bin/redis-server¦--port¦6369
+TERM="xterm": :: env_operation,()
+apt-get ¦install¦-y¦redis-server¦redis-tools :: Dependencies_operation,()
+apt-get ¦-y¦install¦lsb-release¦&&\\ :: Dependencies_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+expose,6379
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/bin/sh :: Filesystem_operation,()
+apt-get ¦clean¦all :: Dependencies_operation,()
+from,ubuntu:16.04

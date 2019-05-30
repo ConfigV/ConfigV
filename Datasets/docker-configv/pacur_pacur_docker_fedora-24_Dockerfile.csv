@@ -1,0 +1,11 @@
+wget ¦https://storage.googleapis.com/golang/go1.6.3.linux-amd64.tar.gz :: Dependencies_operation,()
+cmd,build¦fedora-24
+rm ¦-f¦go1.6.3.linux-amd64.tar.gz :: Filesystem_operation,()
+PATH:/usr/local/go/bin:$PATH:/go/bin :: env_operation,()
+entrypoint,pacur
+GOPATH:/go :: env_operation,()
+tar ¦-C¦/usr/local¦-xf¦go1.6.3.linux-amd64.tar.gz :: Filesystem_operation,()
+yum ¦-y¦upgrade :: Dependencies_operation,()
+from,fedora:24.0
+go ¦get¦github.com/pacur/pacur :: Build_Execute_operation,()
+yum ¦-y¦install¦tar¦expect¦gpg¦rpm-build¦rpm-sign¦openssl¦createrepo¦rsync¦make¦automake¦gcc¦wget¦zip¦git¦bzr¦mercurial :: Dependencies_operation,()

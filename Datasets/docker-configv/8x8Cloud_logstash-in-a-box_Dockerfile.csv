@@ -1,0 +1,14 @@
+curl ¦-Ls¦https://download.elastic.co/logstash/logstash/logstash-${LOGSTASH_VERSION}.tar.gz¦|¦tar¦-xz¦-C¦/usr/share :: Dependencies_operation,()
+cmd,logstash¦-f¦/config/logstash.conf
+from,frolvlad/alpine-oraclejdk8:slim
+LOGSTASH_VERSION=2.4.1:LOGSTASH_HOME=/usr/share/logstash :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+ln ¦-s¦/usr/share/logstash-$LOGSTASH_VERSION¦$LOGSTASH_HOME¦&& :: Filesystem_operation,()
+app/jetty-request-template.json${LOGSTASH_HOME}/bin :: copy_operation,()
+app/docker-entrypoint.sh/ :: copy_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+PATH=${PATH}:${LOGSTASH_HOME}/bin: :: env_operation,()
+apk ¦add¦--no-cache¦ca-certificates¦curl¦bash¦su-exec :: Dependencies_operation,()
+app/kibana-goodies${LOGSTASH_HOME}/bin/kibana-goodies :: copy_operation,()
+app/logstash.conf${LOGSTASH_HOME}/bin :: copy_operation,()
+apk ¦update :: Dependencies_operation,()

@@ -1,0 +1,21 @@
+from,debian@wheezy
+apt-get ¦-y¦install¦htop¦supervisor¦curl¦git¦mercurial¦lsof¦wget¦vim :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+misc/supervisor_conf.d/sshd.conf/etc/supervisor/conf.d/ :: add_operation,()
+wget ¦-O-¦https://download.newrelic.com/548C16BF.gpg¦|¦apt-key¦add¦- :: Dependencies_operation,()
+cmd,/startup.sh
+apt-get ¦-y¦update :: Dependencies_operation,()
+nrsysmond-config ¦--set¦license_key="NOLICENSEKEYNOLICENSEKEYNOLICENSEKEYNOLI" :: Other_operation,()
+echo ¦echo¦deb http://apt.newrelic.com/debian/ newrelic non-free >> /etc/apt/sources.list.d/newrelic.list :: Filesystem_operation,()
+apt-get ¦install¦newrelic-sysmond :: Dependencies_operation,()
+misc/supervisor_conf.d/newrelic.conf/etc/supervisor/conf.d/ :: add_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+expose,22
+sed ¦-i¦-e¦s/\\#PasswordAuthentication.*/PasswordAuthentication\\¦no/¦/etc/ssh/sshd_config :: Filesystem_operation,()
+misc/startup.sh/ :: add_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦-y¦install¦openssh-server :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+misc/newrelic.ini/ :: add_operation,()
+chmod ¦0755¦/var/run/sshd :: Permissions_operation,()
+chmod ¦755¦/startup.sh :: Permissions_operation,()

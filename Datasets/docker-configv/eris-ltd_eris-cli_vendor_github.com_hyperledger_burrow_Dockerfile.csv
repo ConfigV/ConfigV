@@ -1,0 +1,10 @@
+go ¦build¦--ldflags¦'-extldflags¦"-static"'¦-o¦$INSTALL_BASE/burrow-client :: Build_Execute_operation,()
+./glide.lock$REPO/ :: add_operation,()
+$REPO :: workdir_operation,()
+./glide.yaml$REPO/ :: add_operation,()
+REPO:$GOPATH/src/github.com/hyperledger/$TARGET :: env_operation,()
+TARGET:burrow :: env_operation,()
+from,quay.io/monax/build:0.16
+cd ¦$REPO/client/cmd/burrow-client :: Filesystem_operation,()
+glide ¦install :: Other_operation,()
+.$REPO/. :: copy_operation,()

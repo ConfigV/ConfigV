@@ -1,0 +1,9 @@
+expose,10001
+entrypoint,/go/bin/saamis
+/go/src/github.com/nstehr/saamisDB/membership :: workdir_operation,()
+go ¦get :: Build_Execute_operation,()
+go ¦install¦github.com/nstehr/saamisDB/cmd/saamis :: Build_Execute_operation,()
+./go/src/github.com/nstehr/saamisDB :: add_operation,()
+from,gcr.io/saamisdb/goandproto
+/go/src/github.com/nstehr/saamisDB :: workdir_operation,()
+protoc ¦--go_out=.¦*.proto :: Other_operation,()

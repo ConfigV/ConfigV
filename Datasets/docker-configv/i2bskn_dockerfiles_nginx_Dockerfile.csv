@@ -1,0 +1,15 @@
+nginx.conf/usr/local/nginx/conf/nginx.conf :: add_operation,()
+cmd,/bin/bash
+./configure ¦--prefix=/usr/local/nginx¦--with-http_ssl_module¦--with-http_gzip_static_module¦--with-http_stub_status_module :: Build_Execute_operation,()
+expose,80 443
+make  :: Build_Execute_operation,()
+tar ¦zxvf¦nginx-1.8.0.tar.gz :: Filesystem_operation,()
+conf.d/usr/local/nginx/conf/conf.d :: add_operation,()
+/usr/local/src :: workdir_operation,()
+wget ¦http://nginx.org/download/nginx-1.8.0.tar.gz :: Dependencies_operation,()
+/usr/local/src/nginx-1.8.0 :: workdir_operation,()
+yum ¦-y¦install¦wget¦tar¦openssl-devel¦pcre-devel¦gcc¦make;¦yum¦clean¦all :: Dependencies_operation,()
+rm ¦-f¦nginx-1.8.0.tar.gz :: Filesystem_operation,()
+from,centos:7.0
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()

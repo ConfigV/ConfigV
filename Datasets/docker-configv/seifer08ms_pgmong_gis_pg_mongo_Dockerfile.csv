@@ -1,0 +1,12 @@
+make ¦install :: Build_Execute_operation,()
+git ¦clone¦https://github.com/EnterpriseDB/mongo_fdw.git¦--depth=1 :: Dependencies_operation,()
+CPPFLAGS=-fPIC: :: env_operation,()
+apt-get ¦-y¦install¦git¦build-essential¦make¦postgresql-server-dev-9.6¦wget :: Dependencies_operation,()
+mkdir ¦-p¦/home/root :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦config¦--global¦http.sslverify¦false :: Dependencies_operation,()
+./autogen.sh ¦--with-legacy :: Other_operation,()
+cd ¦/home/root :: Filesystem_operation,()
+71-apt-cacher-ng/etc/apt/apt.conf.d/71-apt-cacher-ng :: add_operation,()
+from,mdillon/postgis:9.6
+cd ¦/home/root/mongo_fdw/ :: Filesystem_operation,()

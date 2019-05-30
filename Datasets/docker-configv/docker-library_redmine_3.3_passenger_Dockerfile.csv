@@ -1,0 +1,12 @@
+passenger-config ¦install-standalone-runtime :: Other_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦$buildDeps :: Dependencies_operation,()
+gem ¦install¦passenger¦--version¦"$PASSENGER_VERSION" :: Dependencies_operation,()
+passenger-config ¦install-agent :: Other_operation,()
+from,redmine:3.3
+apt-get ¦update :: Dependencies_operation,()
+cmd,passenger¦start
+set ¦-x :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+PASSENGER_VERSION:5.0.29 :: env_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦$buildDeps :: Dependencies_operation,()
+buildDeps=' ¦¦make¦' :: Other_operation,()

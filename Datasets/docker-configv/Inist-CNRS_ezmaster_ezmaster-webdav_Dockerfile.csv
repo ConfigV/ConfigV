@@ -1,0 +1,9 @@
+apt-get ¦install¦-yq¦--no-install-recommends¦nginx-extras¦gosu¦apache2-utils :: Dependencies_operation,()
+cmd,nginx¦-g¦daemon off;
+entrypoint.sh/ :: copy_operation,()
+chmod ¦go+rwX¦-R¦/var¦/run :: Permissions_operation,()
+entrypoint,/entrypoint.sh
+nginx.conf/etc/nginx/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu:16.04

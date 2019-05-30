@@ -1,0 +1,9 @@
+apt-get ¦install¦-y¦--no-install-recommends¦ansible :: Dependencies_operation,()
+apt-get ¦clean¦autoclean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/{apt,dpkg,cache,log}/ :: Filesystem_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦software-properties-common¦git-core¦composer¦php7.0-cli¦php7.0-mcrypt¦php7.0-mbstring :: Dependencies_operation,()
+apt-add-repository ¦-y¦ppa:ansible/ansible :: Other_operation,()
+from,ubuntu:16.04
+sed ¦-i¦"s/archive.ubuntu.com/id.archive.ubuntu.com/g"¦/etc/apt/sources.list :: Filesystem_operation,()

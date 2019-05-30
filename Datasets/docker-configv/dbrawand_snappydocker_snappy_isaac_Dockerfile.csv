@@ -1,0 +1,15 @@
+from,viapath/snappy_ngstools:flatdog
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/ivc/bin/configureWorkflow.pl :: Permissions_operation,()
+PERL5LIB=/usr/local/pipeline/ivc: :: env_operation,()
+apt-get ¦install¦-y¦rsync :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+./configure ¦--prefix=/usr/local/pipeline/ivc :: Build_Execute_operation,()
+rm ¦-rvf¦/tmp/* :: Filesystem_operation,()
+cd ¦/tmp/isaac_variant_caller-1.0.7 :: Filesystem_operation,()
+cmd,/bin/bash
+tar ¦xvfz¦/tmp/v1.0.7.tar.gz :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+wget ¦--no-verbose¦https://github.com/sequencing/isaac_variant_caller/archive/v1.0.7.tar.gz :: Dependencies_operation,()
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/ivc/bin'¦/home/snappy/.bashrc :: Filesystem_operation,()

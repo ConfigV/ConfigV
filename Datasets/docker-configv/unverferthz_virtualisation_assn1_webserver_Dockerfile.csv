@@ -1,0 +1,14 @@
+/var/www/html :: workdir_operation,()
+expose,80
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_RUN_DIR:/var/run/apache2 :: env_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+entrypoint,/usr/sbin/apache2
+from,ubuntu:14.04
+apt-get ¦install¦-yqq¦apache2 :: Dependencies_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦-yqq¦update :: Dependencies_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+mkdir ¦-p¦$APACHE_RUN_DIR¦$APACHE_LOCK_DIR¦$APACHE_LOG_DIR :: Filesystem_operation,()
+cmd,-D¦FOREGROUND

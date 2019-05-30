@@ -1,0 +1,13 @@
+curl ¦-L¦-O¦https://dl.bintray.com/mitchellh/serf/${SERF_VERSION}_linux_amd64.zip :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/supervisord/serf :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+unzip ¦${SERF_VERSION}_linux_amd64.zip :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦-q¦unzip :: Dependencies_operation,()
+chmod ¦+x¦serf :: Permissions_operation,()
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+from,quay.io/hirokazumiyaji/supervisord
+ADDserf.conf /etc/supervisord.d :: onbuild_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+mv ¦serf¦/usr/local/bin :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+SERF_VERSION:0.6.4 :: env_operation,()

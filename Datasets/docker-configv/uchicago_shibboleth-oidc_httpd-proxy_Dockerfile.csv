@@ -1,0 +1,10 @@
+httpd-foreground/usr/local/bin/ :: copy_operation,()
+from,centos:7.0
+cmd,httpd-foreground
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/httpd-foreground :: Permissions_operation,()
+etc-httpd//etc/httpd/ :: copy_operation,()
+yum ¦-y¦install¦httpd¦mod_ssl¦mod_ldap¦wget :: Dependencies_operation,()
+var-www-html//var/www/html/ :: copy_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+expose,80 443

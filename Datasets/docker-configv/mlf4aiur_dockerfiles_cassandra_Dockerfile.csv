@@ -1,0 +1,9 @@
+docker-entrypoint.sh/ :: copy_operation,()
+SEED_IP:127.0.0.1 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,java:8.0
+expose,7199 7000 7001 9160 9042
+echo ¦apt-get¦update && apt-get install -y -q --no-install-recommends curl && echo "deb http://debian.datastax.com/community stable main" > /etc/apt/sources.list.d/cassandra.sources.list && curl -s -L http://debian.datastax.com/debian/repo_key |... :: Filesystem_operation,()
+/var/lib/cassandra/ :: volume_operation,()
+entrypoint,/docker-entrypoint.sh
+cmd,/usr/sbin/cassandra¦-f

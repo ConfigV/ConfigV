@@ -1,0 +1,13 @@
+http://downloads.sourceforge.net/project/subsonic/subsonic/5.1/subsonic-5.1.deb/tmp/subsonic.deb :: add_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+cmd,/start.sh
+start.sh/start.sh :: add_operation,()
+rm ¦-rf¦/tmp/subsonic.deb :: Filesystem_operation,()
+sed ¦-i¦"s/SUBSONIC_HTTPS_PORT=0/SUBSONIC_HTTPS_PORT=4443/"¦/usr/share/subsonic/subsonic.sh :: Filesystem_operation,()
+sed ¦-i¦"s/¦>${LOG}¦2>&1¦&//"¦/usr/share/subsonic/subsonic.sh :: Filesystem_operation,()
+from,ubuntu@trusty
+/data :: volume_operation,()
+expose,4443
+apt-get ¦install¦-qy¦openjdk-7-jre-headless :: Dependencies_operation,()
+dpkg ¦-i¦/tmp/subsonic.deb :: Dependencies_operation,()

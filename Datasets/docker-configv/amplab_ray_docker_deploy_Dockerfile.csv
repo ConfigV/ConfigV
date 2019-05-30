@@ -1,0 +1,17 @@
+apt-get ¦-y¦install¦sudo :: Dependencies_operation,()
+ALL:ALL  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/amplab/ray :: Dependencies_operation,()
+./build.sh  :: Other_operation,()
+adduser ¦ray-user¦sudo :: Permissions_operation,()
+entrypoint,bash
+/home/ray-user :: workdir_operation,()
+adduser ¦--gecos¦--ingroup¦ray-user¦--disabled-login¦--gecos¦ray-user :: Permissions_operation,()
+apt-get ¦-y¦install¦apt-utils :: Dependencies_operation,()
+echo ¦echo¦'\\n# Ray environment\\nsource /home/ray-user/ray/setup-env.sh' >> /home/ray-user/.bashrc :: Filesystem_operation,()
+./setup.sh  :: Other_operation,()
+pip ¦install¦ipython¦typing¦funcsigs¦subprocess32¦protobuf==3.0.0a2¦colorama¦graphviz¦cloudpickle :: Dependencies_operation,()
+ray-user :: user_operation,()
+/home/ray-user/ray :: workdir_operation,()
+from,ubuntu@xenial
+apt-get ¦install¦-y¦git¦cmake¦build-essential¦autoconf¦curl¦libtool¦python-dev¦python-numpy¦python-pip¦libboost-all-dev¦unzip¦graphviz :: Dependencies_operation,()

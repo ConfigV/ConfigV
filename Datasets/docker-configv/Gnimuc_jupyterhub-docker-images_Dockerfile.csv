@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦git¦vim¦wget¦build-essential¦python-dev¦ca-certificates¦bzip2¦libsm6¦python3-pip¦npm¦nodejs-legacy :: Dependencies_operation,()
+git ¦clone¦https://github.com/jupyter/jupyterhub.git¦/root/jupyterhub :: Dependencies_operation,()
+from,debian@jessie
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+git ¦clone¦https://github.com/damianavila/RISE.git¦/root/RISE :: Dependencies_operation,()
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && /bin/bash /Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda3-lates... :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,8000
+pip ¦install¦. :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+npm ¦install¦-g¦configurable-http-proxy :: Dependencies_operation,()
+cd ¦/root/jupyterhub/ :: Filesystem_operation,()
+useradd ¦-m¦-s¦/bin/bash¦gnimuc :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

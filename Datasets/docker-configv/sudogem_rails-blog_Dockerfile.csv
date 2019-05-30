@@ -1,0 +1,12 @@
+bundle ¦install :: Dependencies_operation,()
+APP_HOME:/app/rails-blog :: env_operation,()
+.$APP_HOME :: add_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦nodejs :: Dependencies_operation,()
+mkdir ¦-p¦$APP_HOME :: Filesystem_operation,()
+test ¦-f¦$APP_HOME/tmp/pids/server.pid :: Other_operation,()
+rf ¦$APP_HOME/tmp/pids/server.pid;¦true :: Other_operation,()
+Gemfile*$APP_HOME/ :: add_operation,()
+from,ruby:2.3
+$APP_HOME :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

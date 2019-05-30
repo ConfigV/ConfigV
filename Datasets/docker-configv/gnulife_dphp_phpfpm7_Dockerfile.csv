@@ -1,0 +1,22 @@
+echo ¦echo¦'http://mirrors.ustc.edu.cn/alpine/v3.4/main' > /etc/apk/repositories :: Filesystem_operation,()
+ln ¦-snf¦/usr/share/zoneinfo/$TIMEZONE¦/etc/localtime :: Filesystem_operation,()
+apk ¦add¦php7@community¦php7-fpm@community¦php7-opcache@community¦php7-session@community¦php7-xml@community¦php7-ctype@community¦php7-gd@community¦php7-json@community¦php7-posix@community¦php7-curl@community¦php7-dom@community¦php7-pdo@communit... :: Dependencies_operation,()
+/apps :: volume_operation,()
+expose,9000
+chmod ¦777¦-R¦/var/log/ :: Permissions_operation,()
+echo ¦echo¦$TIMEZONE > /etc/timezone :: Filesystem_operation,()
+MAX_EXECUTION_TIME:600 :: env_operation,()
+/apps :: workdir_operation,()
+cmd,php-fpm7
+PHP_MAX_POST:100M :: env_operation,()
+from,alpine@latest
+PHP_MEMORY_LIMIT:512M :: env_operation,()
+echo ¦echo¦'@community http://mirrors.ustc.edu.cn/alpine/edge/community' >> /etc/apk/repositories :: Filesystem_operation,()
+echo ¦echo¦'@testing http://mirrors.ustc.edu.cn/alpine/edge/testing' >> /etc/apk/repositories :: Filesystem_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦tzdata :: Dependencies_operation,()
+sed ¦-i¦-e¦"s/;daemonize\\s*=\\s*yes/daemonize¦=¦no/g"¦/etc/php7/php-fpm.conf¦&&sed¦-i¦-e¦"s/listen\\s*=\\s*127.0.0.1:9000/listen¦=¦9000/g"¦/etc/php7/php-fpm.d/www.conf¦&&sed¦-i¦"s|date.timezone¦=.*|date.timezone¦=¦${TIMEZONE}|"¦/etc/php7/php.ini¦&... :: Filesystem_operation,()
+TIMEZONE:Asia/Shanghai :: env_operation,()
+MAX_UPLOAD:50M :: env_operation,()
+PHP_MAX_FILE_UPLOAD:200 :: env_operation,()
+apk ¦update :: Dependencies_operation,()

@@ -1,0 +1,7 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+sed ¦-i¦'s/zebra=no/zebra=yes/g'¦/etc/quagga/daemons :: Filesystem_operation,()
+entrypoint,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'s/bgpd=no/bgpd=yes/g'¦/etc/quagga/daemons :: Filesystem_operation,()
+apt-get ¦install¦-qy¦--no-install-recommends¦supervisor¦quagga¦telnet :: Dependencies_operation,()
+from,ubuntu:14.04

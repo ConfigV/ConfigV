@@ -1,0 +1,10 @@
+config/php.ini/etc/php/7.0/cli/conf.d/99-custom.ini :: copy_operation,()
+COMPOSER_ALLOW_SUPERUSER:1 :: env_operation,()
+config/php.ini/etc/php/7.0/fpm/conf.d/99-custom.ini :: copy_operation,()
+"/var/www" :: workdir_operation,()
+COMPOSER_HOME:/composer :: env_operation,()
+expose,9000
+from,debian@jessie
+echo ¦apt-get¦update && apt-get -y --no-install-recommends install curl git ca-certificates && echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list && curl -sS https://www.dotdeb.org/dotdeb.gpg | apt-key add - &... :: Filesystem_operation,()
+cmd,/usr/sbin/php-fpm7.0¦-F¦-O¦2>&1¦|¦sed¦-u¦'s,.*:"\\(.*\\)$,\\1,'|¦sed¦-u¦'s,"$,,'¦1>&1
+/listen = .*/c\\listen = [::]:9000 ¦/;access.log = .*/c\\access.log = /proc/self/fd/2¦/;clear_env = .*/c\\clear_env = no¦/;catch_workers_output = .*/c\\catch_workers_output = yes¦/pid = .*/c\\;pid = /run/php/php7.0-fpm.pid¦/;daemonize = .*/c\\daemonize = no¦/error_log = .*/c\\erro... :: Other_operation,()

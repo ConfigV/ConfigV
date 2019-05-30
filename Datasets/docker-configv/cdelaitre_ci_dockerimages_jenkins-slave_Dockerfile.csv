@@ -1,0 +1,11 @@
+cmd,/usr/sbin/sshd¦-D
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()
+from,java:8.0
+expose,22
+rm ¦-rf¦/var/cache/* :: Filesystem_operation,()
+adduser ¦--quiet¦jenkins :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server¦git :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

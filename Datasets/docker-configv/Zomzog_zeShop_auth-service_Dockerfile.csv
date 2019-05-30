@@ -1,0 +1,6 @@
+sh ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+JAVA_OPTS="": :: env_operation,()
+from,frolvlad/alpine-oraclejdk8:slim
+entrypoint,sh¦-c¦java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+/tmp :: volume_operation,()
+target/ze-shop-auth.jarapp.jar :: add_operation,()

@@ -1,0 +1,22 @@
+COMPOSER_VERSION:1.3.2 :: env_operation,()
+/app :: workdir_operation,()
+composer ¦install :: Dependencies_operation,()
+echo ¦echo¦"memory_limit=-1" > "$PHP_INI_DIR/conf.d/memory-limit.ini" && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "$PHP_INI_DIR/conf.d/date_timezone.ini" :: Filesystem_operation,()
+./app :: add_operation,()
+DB_NAME:formbuilder :: env_operation,()
+DB_HOST:localhost :: env_operation,()
+SECRET:randomstrings :: env_operation,()
+MAIL_HOST:127.0.0.1 :: env_operation,()
+DB_USER:formbuilder :: env_operation,()
+cp ¦app/config/parameters.yml.template¦app/config/parameters.yml :: Filesystem_operation,()
+COMPOSER_HOME:/composer :: env_operation,()
+MAIL_USER:null :: env_operation,()
+echo ¦curl¦-s -f -L -o /tmp/installer.php https://raw.githubusercontent.com/composer/getcomposer.org/5fd32f776359b8714e2647ab4cd8a7bed5f3714d/web/installer && php -r " $signature = '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f... :: Filesystem_operation,()
+from,php:5.6
+DB_PASSWORD:password :: env_operation,()
+DB_PORT:3306 :: env_operation,()
+apk ¦--no-cache¦add¦curl¦git :: Dependencies_operation,()
+COMPOSER_ALLOW_SUPERUSER:1 :: env_operation,()
+entrypoint,scripts/docker-entrypoint.sh
+cmd,php-fpm
+MAIL_PASSWORD:null :: env_operation,()

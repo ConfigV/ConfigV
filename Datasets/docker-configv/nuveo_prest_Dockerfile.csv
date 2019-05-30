@@ -1,0 +1,9 @@
+mkdir ¦-p¦/go/src/github.com/nuveo/prest :: Filesystem_operation,()
+/go/src/github.com/nuveo/prest :: workdir_operation,()
+apk ¦add¦curl¦git :: Dependencies_operation,()
+.//go/src/github.com/nuveo/prest :: copy_operation,()
+from,golang:1.7
+go ¦get¦-u¦github.com/kardianos/govendor :: Build_Execute_operation,()
+govendor ¦sync :: Other_operation,()
+apk ¦update :: Dependencies_operation,()
+cmd,go¦run¦main.go

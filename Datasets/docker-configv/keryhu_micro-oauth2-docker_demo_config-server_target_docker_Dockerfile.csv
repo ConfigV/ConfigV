@@ -1,0 +1,10 @@
+cmd,/app/runboot.sh
+/app :: workdir_operation,()
+chmod ¦a+x¦runboot.sh :: Permissions_operation,()
+runboot.sh/app/ :: copy_operation,()
+expose,8888
+mkdir ¦/app :: Filesystem_operation,()
+/tmp :: volume_operation,()
+bash ¦-c¦'touch¦/app/app.jar' :: Build_Execute_operation,()
+config-server-0.0.1-SNAPSHOT.jar/app/app.jar :: add_operation,()
+from,java:8.0

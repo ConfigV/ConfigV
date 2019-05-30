@@ -1,0 +1,17 @@
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-install ¦zip :: Other_operation,()
+composer.lock./ :: copy_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+pecl ¦install¦xdebug :: Dependencies_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+/opt/project :: workdir_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+composer ¦install¦--no-scripts¦--no-autoloader¦--prefer-dist :: Dependencies_operation,()
+/tmp/composerCache :: workdir_operation,()
+echo ¦echo¦"xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/pecl-xdebug.ini && echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/pecl-xdebug.ini && echo "xdebug.remote_connect_back=off" >> /usr/local/etc/php/conf.d/pecl-xdebug... :: Filesystem_operation,()
+apt-get ¦install¦-y¦zlib1g-dev¦git :: Dependencies_operation,()
+from,php:5.5
+echo ¦echo¦"zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so" > /usr/local/etc/php/conf.d/pecl-xdebug.ini :: Filesystem_operation,()
+composer.json./ :: copy_operation,()
+cmd,"/usr/local/bin/php"
+echo ¦echo¦"xdebug.remote_host="`/sbin/ip route | /usr/bin/awk '/default/ { print $3 }'` >> /usr/local/etc/php/conf.d/pecl-xdebug.ini :: Filesystem_operation,()

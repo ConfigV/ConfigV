@@ -1,0 +1,18 @@
+cmd,/transmart-data/R/root/lib/R/bin/R¦CMD¦Rserve.dbg¦--no-save¦--RS-conf¦/transmart-data/R/Rserv_nodaemon.conf
+from,debian@jessie
+apt-get ¦install¦-y¦libcairo-dev¦gfortran¦g++¦libreadline-dev¦libxt-dev¦libpango1.0-dev¦libprotoc-dev¦texlive-fonts-recommended¦tex-gyre¦liblz4-tool¦pv :: Dependencies_operation,()
+/transmart-data/R :: volume_operation,()
+/transmart-data :: workdir_operation,()
+expose,6311
+unzip ¦transmart-data-release-16.1.zip :: Filesystem_operation,()
+mv ¦transmart-data-release-16.1¦transmart-data :: Filesystem_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦curl¦unzip¦make¦g++ :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦http://library.transmartfoundation.org/release/release16_1_0_artifacts/transmart-data-release-16.1.zip¦-o¦transmart-data-release-16.1.zip :: Dependencies_operation,()
+TABLESPACES=dummy: :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦echo¦remote enable >> /transmart-data/R/Rserv_nodaemon.conf :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦curl¦unzip¦make :: Dependencies_operation,()
+make ¦-C¦R¦install_packages :: Build_Execute_operation,()
+rm ¦transmart-data-release-16.1.zip :: Filesystem_operation,()
+sed ¦-i¦s/deamon/daemon/¦/transmart-data/R/Rserv_nodaemon.conf :: Filesystem_operation,()

@@ -1,0 +1,11 @@
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+echo ¦echo¦deb http://dl.hhvm.com/debian wheezy main | tee /etc/apt/sources.list.d/hhvm.list :: Filesystem_operation,()
+supervisord.conf/etc/supervisor/conf.d/hhvm.conf :: add_operation,()
+php.ini/etc/php5/fpm/conf.d/40-custom.ini :: add_operation,()
+from,maxexcloo/nginx-php
+mkdir ¦-p¦/var/run/hhvm :: Filesystem_operation,()
+echo ¦echo¦deb http://packages.dotdeb.org wheezy all | tee /etc/apt/sources.list.d/lamp.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦php5-memcached¦hhvm :: Dependencies_operation,()
+expose,80 9000
+apt-get ¦update :: Dependencies_operation,()
+wget ¦-O¦-¦http://dl.hhvm.com/conf/hhvm.gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()

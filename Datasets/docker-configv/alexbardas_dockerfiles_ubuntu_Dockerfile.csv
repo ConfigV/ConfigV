@@ -1,0 +1,14 @@
+rm ¦-rf¦~/dotfiles/.git :: Filesystem_operation,()
+mkdir ¦-p¦~/dotfiles :: Filesystem_operation,()
+rm ¦-rf¦~/dotfiles¦~/bootstrap.sh :: Filesystem_operation,()
+cmd,bash
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/bin/sh :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl¦wget¦sed¦git¦vim¦htop¦silversearcher-ag :: Dependencies_operation,()
+~/bootstrap.sh  :: Other_operation,()
+HOME:/root :: env_operation,()
+ls ¦-ad¦~/dotfiles/{.,}*¦|¦tail¦-n¦+3¦|¦xargs¦-I¦{}¦cp¦-p¦{}¦~/ :: Filesystem_operation,()
+ln ¦-s¦/bin/bash¦/bin/sh :: Filesystem_operation,()
+from,ubuntu:14.04
+git ¦clone¦https://github.com/alexbardas/dotfiles.git¦~/dotfiles :: Dependencies_operation,()

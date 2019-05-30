@@ -1,0 +1,7 @@
+cmd,nginx¦-g¦daemon off;
+expose,80 443
+from,alpine:3.2
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+apk ¦add¦--update¦nginx :: Dependencies_operation,()

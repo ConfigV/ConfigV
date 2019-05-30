@@ -1,0 +1,10 @@
+apt-get ¦clean :: Dependencies_operation,()
+start/ :: copy_operation,()
+plexmediaserver/etc/default/plexmediaserver :: copy_operation,()
+dpkg ¦-i¦/tmp/plex.deb :: Dependencies_operation,()
+curl ¦-sL¦"$PLEX_DL"¦>¦/tmp/plex.deb :: Dependencies_operation,()
+from,kelvinchen/seedbox:base
+/config :: volume_operation,()
+expose,32400
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/start

@@ -1,0 +1,9 @@
+from,docker.it-consultis.com.cn/itc/buildpack-node:0.1.0
+$TINIFYD_PREFIX :: workdir_operation,()
+echo ¦echo¦$(whoami) :: Filesystem_operation,()
+rm ¦-rf¦.env¦node_modules/mmmagic/build :: Filesystem_operation,()
+./src$TINIFYD_PREFIX :: copy_operation,()
+chown ¦-R¦root:root¦$TINIFYD_PREFIX :: Permissions_operation,()
+node :: user_operation,()
+TINIFYD_PREFIX:/opt/tinifyd :: env_operation,()
+npm ¦--unsafe-perm¦rebuild :: Dependencies_operation,()

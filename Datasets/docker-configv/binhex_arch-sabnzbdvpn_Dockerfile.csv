@@ -1,0 +1,11 @@
+/data :: volume_operation,()
+cmd,supervisord¦-c¦/etc/supervisor.conf¦-n
+from,binhex/arch-base:2015031900
+expose,8090
+config/pia/*/home/nobody/ :: add_operation,()
+*.sh/root/ :: add_operation,()
+*.conf/etc/supervisor/conf.d/ :: add_operation,()
+chmod ¦+x¦/root/*.sh¦/home/nobody/*.sh :: Permissions_operation,()
+apps/nobody/*.sh/home/nobody/ :: add_operation,()
+apps/root/*.sh/root/ :: add_operation,()
+/bin/bash ¦/root/install.sh :: Build_Execute_operation,()

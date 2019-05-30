@@ -1,0 +1,9 @@
+entrypoint,mvn
+ln ¦-s¦/usr/apache-maven-$MVN_BINARY_RELEASE¦/usr/maven :: Filesystem_operation,()
+PATH:$PATH:$SPARK_HOME/bin:/usr/maven/bin/ :: env_operation,()
+curl ¦--silent¦--location¦--retry¦3¦http://mirror.vorboss.net/apache/maven/maven-3/$MVN_BINARY_RELEASE/binaries/apache-maven-$MVN_BINARY_RELEASE-bin.tar.gz¦|¦gunzip¦|¦tar¦x¦-C¦/usr/ :: Dependencies_operation,()
+MVN_BINARY_RELEASE:3.2.3 :: env_operation,()
+settings.xml/usr/maven/conf/ :: add_operation,()
+/io :: volume_operation,()
+/io :: workdir_operation,()
+from,errordeveloper/oracle-jdk

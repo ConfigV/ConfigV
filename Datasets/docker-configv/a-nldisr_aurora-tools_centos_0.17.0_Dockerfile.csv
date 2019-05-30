@@ -1,0 +1,11 @@
+clusters.json${HOME}/.aurora/clusters.json :: copy_operation,()
+yum ¦install¦-y¦https://bintray.com/apache/aurora/download_file?file_path=centos-7%2Faurora-tools-${AURORA_VERSION}.el7.centos.aurora.x86_64.rpm :: Dependencies_operation,()
+AT_UID:10141 :: env_operation,()
+from,centos@latest
+AURORA_VERSION:0.17.0-1 :: env_operation,()
+AT_USER:aurora :: env_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+${AT_USER} :: user_operation,()
+${HOME}/jobs :: workdir_operation,()
+HOME:/home/$AT_USER :: env_operation,()

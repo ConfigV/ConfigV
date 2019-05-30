@@ -1,0 +1,16 @@
+RELEASE:v1.6 :: env_operation,()
+weechat :: workdir_operation,()
+git ¦clone¦https://github.com/weechat/weechat.git :: Dependencies_operation,()
+weechat :: user_operation,()
+build :: workdir_operation,()
+yum ¦install¦-y¦gcc¦git¦cmake¦pkg-config¦libncurses-devel¦curl-devel¦zlib¦libgcrypt-devel¦gettext-devel¦gnutls-devel¦aspell¦aspell-devel¦ca-certificates¦perl-devel¦ruby-2.3¦ruby-devel¦ncurses-devel¦python-devel¦perl-ExtUtils-Embed :: Dependencies_operation,()
+from,centos:7.0
+make ¦install :: Build_Execute_operation,()
+INSTALL_PATH:/opt/weechat :: env_operation,()
+/home/weechat :: volume_operation,()
+mkdir ¦build :: Filesystem_operation,()
+adduser ¦weechat :: Permissions_operation,()
+entrypoint,/opt/weechat/bin/weechat
+git ¦checkout¦${RELEASE} :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+cmake ¦..¦-DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}¦-DWEECHAT_HOME=~ :: Build_Execute_operation,()

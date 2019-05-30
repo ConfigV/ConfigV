@@ -1,0 +1,10 @@
+from,phusion/baseimage:latest
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+PATH:/usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin :: env_operation,()
+/var/lib/beanstalkd/data :: volume_operation,()
+expose,11300
+cmd,/usr/bin/beanstalkd
+apt-get ¦install¦-y¦beanstalkd :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

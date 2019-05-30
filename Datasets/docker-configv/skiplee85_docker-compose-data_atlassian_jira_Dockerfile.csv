@@ -1,0 +1,15 @@
+apk ¦add¦ca-certificates¦wget¦curl¦openssh¦bash¦procps¦openssl¦perl¦ttf-dejavu¦tini¦libc6-compat :: Dependencies_operation,()
+expose,8080
+JIRA_HOME:/var/atlassian/application-data/jira :: env_operation,()
+from,openjdk:8.0
+mysql-connector-java-5.1.38-bin.jar${JIRA_INSTALL_DIR}/atlassian-jira/WEB-INF/lib/mysql-connector-java-5.1.38-bin.jar :: add_operation,()
+apk ¦update¦-qq :: Dependencies_operation,()
+atlassian-universal-plugin-manager-plugin-2.19.1.jar${JIRA_INSTALL_DIR}/atlassian-jira/WEB-INF/atlassian-bundled-plugins/atlassian-universal-plugin-manager-plugin-2.19.1.jar :: add_operation,()
+cmd,/opt/atlassian/jira/bin/start-jira.sh¦-fg
+entrypoint,/sbin/tini¦--
+JIRA_INSTALL_DIR:/opt/atlassian/jira :: env_operation,()
+$JIRA_HOME :: workdir_operation,()
+${JIRA_HOME} :: volume_operation,()
+update-ca-certificates  :: Other_operation,()
+rm ¦-rf¦/var/lib/{apt,dpkg,cache,log}/¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+atlassian-extras-2.2.2.jar${JIRA_INSTALL_DIR}/atlassian-jira/WEB-INF/lib/atlassian-extras-2.2.2.jar :: add_operation,()

@@ -1,0 +1,13 @@
+git ¦submodule¦update¦--init :: Dependencies_operation,()
+PYTHONPATH:/opt/ansible/ansible/lib :: env_operation,()
+/opt/ansible/ansible :: workdir_operation,()
+from,centos:6.6
+yum ¦clean¦all :: Dependencies_operation,()
+PATH:/opt/ansible/ansible/bin:/bin:/usr/bin:/sbin:/usr/sbin :: env_operation,()
+echo ¦echo¦'[local]\\nlocalhost\\n' > /etc/ansible/hosts :: Filesystem_operation,()
+ANSIBLE_LIBRARY:/opt/ansible/ansible/library :: env_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+git ¦clone¦http://github.com/ansible/ansible.git¦/opt/ansible/ansible :: Dependencies_operation,()
+yum ¦-y¦install¦PyYAML¦python-jinja2¦python-httplib2¦python-keyczar¦python-paramiko¦python-setuptools¦git¦python-pip :: Dependencies_operation,()
+mkdir ¦/opt/ansible/ :: Filesystem_operation,()
+mkdir ¦/etc/ansible/ :: Filesystem_operation,()

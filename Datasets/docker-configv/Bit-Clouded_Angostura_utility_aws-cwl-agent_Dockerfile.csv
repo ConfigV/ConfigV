@@ -1,0 +1,11 @@
+awslogs-agent-setup.py/home/local/ :: add_operation,()
+entrypoint,/home/local/entrypoint.sh
+service ¦awslogs¦stop :: Build_Execute_operation,()
+from,ubuntu:14.04
+/var/awslogs/state/ :: volume_operation,()
+rm ¦/home/local/awslogs-agent-setup.py :: Filesystem_operation,()
+rm ¦/var/log/awslogs.log :: Filesystem_operation,()
+rm ¦/var/awslogs/state/agent-state :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+python ¦/home/local/awslogs-agent-setup.py¦-r¦{{aws-region}}¦-c¦/home/local/default.conf¦-n :: Build_Execute_operation,()
+apt-get ¦install¦-y¦python :: Dependencies_operation,()

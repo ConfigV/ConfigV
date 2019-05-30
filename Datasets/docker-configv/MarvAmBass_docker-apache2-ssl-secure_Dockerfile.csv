@@ -1,0 +1,22 @@
+apt-get ¦update :: Dependencies_operation,()
+a2enmod ¦ssl :: Other_operation,()
+mkdir ¦-p¦/etc/apache2/external :: Filesystem_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+echo ¦echo¦"ServerTokens Prod" >> /etc/apache2/conf-enabled/security.conf :: Filesystem_operation,()
+expose,443
+a2enmod ¦headers :: Other_operation,()
+entrypoint.sh/opt/entrypoint.sh :: add_operation,()
+sed ¦-i¦'s/^ServerTokens/#ServerTokens/g'¦/etc/apache2/conf-enabled/security.conf :: Filesystem_operation,()
+echo ¦echo¦"SSLProtocol ALL -SSLv2 -SSLv3" >> /etc/apache2/apache2.conf :: Filesystem_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+apt-get ¦install¦-y¦apache2¦openssl :: Dependencies_operation,()
+entrypoint,/opt/entrypoint.sh
+sed ¦-i¦'s/^ServerSignature/#ServerSignature/g'¦/etc/apache2/conf-enabled/security.conf :: Filesystem_operation,()
+from,ubuntu:14.04
+rm ¦-rf¦/var/www/html/*;¦rm¦-rf¦/etc/apache2/sites-enabled/* :: Filesystem_operation,()
+echo ¦echo¦"ServerSignature Off" >> /etc/apache2/conf-enabled/security.conf :: Filesystem_operation,()
+chmod ¦a+x¦/opt/entrypoint.sh :: Permissions_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+000-default.conf/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+001-default-ssl.conf/etc/apache2/sites-enabled/001-default-ssl.conf :: add_operation,()

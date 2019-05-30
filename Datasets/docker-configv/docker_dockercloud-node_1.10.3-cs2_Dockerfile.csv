@@ -1,0 +1,19 @@
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_PACKAGE_ID :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+https://files.cloud.docker.com/packages/docker/docker-$DOCKER_VERSION/usr/lib/dockercloud/docker :: add_operation,()
+/var/lib/docker :: volume_operation,()
+DIND_COMMIT=b8bed8832b77a478360ae946a69dab5e922b194e: :: env_operation,()
+ln ¦-s¦/usr/lib/dockercloud/docker¦/usr/bin/docker :: Filesystem_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+echo ¦echo¦deb [arch=amd64] $REPO dockercloud main > /etc/apt/sources.list.d/dockercloud.list :: Filesystem_operation,()
+gpg ¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_ID :: Other_operation,()
+chmod ¦+x¦/usr/lib/dockercloud/docker :: Permissions_operation,()
+DOCKER_VERSION=1.10.3-cs2:GPG_KEY_ID=A87A2270 :: env_operation,()
+apt-get ¦install¦-yq¦iptables¦apt-transport-https¦ca-certificates :: Dependencies_operation,()
+https://raw.githubusercontent.com/docker/docker/${DIND_COMMIT}/hack/dind/usr/local/bin/dind :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦dockercloud-agent :: Other_operation,()
+from,ubuntu@trusty
+entrypoint,/usr/local/bin/dind¦/run.sh
+chmod ¦+x¦/usr/local/bin/dind :: Permissions_operation,()
+run.sh/ :: add_operation,()
+expose,2375

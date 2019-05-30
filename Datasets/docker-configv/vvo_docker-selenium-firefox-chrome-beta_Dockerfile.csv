@@ -1,0 +1,20 @@
+chown ¦chromeuser¦/home/chromeuser/chrome :: Permissions_operation,()
+cmd,sh¦/home/root/scripts/start.sh
+apt-get ¦install¦-y¦-q¦software-properties-common¦wget :: Dependencies_operation,()
+echo ¦echo¦"deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list :: Filesystem_operation,()
+chgrp ¦chromeuser¦/home/chromeuser/chrome :: Other_operation,()
+mkdir ¦-p¦/home/chromeuser/chrome :: Filesystem_operation,()
+apt-get ¦install¦-y¦-q¦xfonts-100dpi¦xfonts-75dpi¦xfonts-scalable¦xfonts-cyrillic :: Dependencies_operation,()
+mkdir ¦-p¦/usr/share/desktop-directories :: Filesystem_operation,()
+wget ¦-q¦-O¦-¦https://dl-ssl.google.com/linux/linux_signing_key.pub¦|¦apt-key¦add¦- :: Dependencies_operation,()
+from,stackbrew/ubuntu:saucy
+expose,4444 5999
+./scripts//home/root/scripts :: add_operation,()
+apt-get ¦install¦-y¦-q¦firefox¦google-chrome-beta¦openjdk-7-jre-headless¦nodejs :: Dependencies_operation,()
+npm ¦install¦-g¦selenium-standalone@2.38.0-2.7.0 :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:mozillateam/firefox-next :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:chris-lea/node.js :: Dependencies_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦-q¦x11vnc¦xvfb :: Dependencies_operation,()
+useradd ¦-d¦/home/chromeuser¦-m¦chromeuser :: Permissions_operation,()

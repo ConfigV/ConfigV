@@ -1,0 +1,13 @@
+DROOLS_VERSION:6.2.0.Final :: env_operation,()
+unzip ¦-q¦/opt/jboss/$DROOLS_CONTEXT_PATH.war¦-d¦/opt/jboss/wildfly/standalone/deployments/$DROOLS_CONTEXT_PATH.war :: Filesystem_operation,()
+rm ¦-rf¦/opt/jboss/$DROOLS_CONTEXT_PATH.war :: Filesystem_operation,()
+curl ¦-o¦/opt/jboss/$DROOLS_CONTEXT_PATH.war¦$KIE_REPOSITORY/org/kie/kie-server/$DROOLS_VERSION/kie-server-$DROOLS_VERSION-$DROOLS_CLASSIFIER.war :: Dependencies_operation,()
+DROOLS_CONTEXT_PATH:kie-server :: env_operation,()
+touch ¦/opt/jboss/wildfly/standalone/deployments/$DROOLS_CONTEXT_PATH.war.dodeploy :: Filesystem_operation,()
+jboss :: user_operation,()
+/opt/jboss/wildfly/bin/ :: workdir_operation,()
+cmd,./standalone.sh¦-b¦0.0.0.0¦--server-config=standalone-full.xml
+from,jboss/wildfly:8.1.0.Final
+DROOLS_CLASSIFIER:ee7 :: env_operation,()
+KIE_REPOSITORY:https://repository.jboss.org/nexus/content/groups/public-jboss/ :: env_operation,()
+JAVA_OPTS:-XX:MaxPermSize=256m :: env_operation,()

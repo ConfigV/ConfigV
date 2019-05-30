@@ -1,0 +1,18 @@
+settings/docker.pysettings/docker.py :: copy_operation,()
+./manage.py ¦collectstatic¦--noinput :: Other_operation,()
+chown ¦-R¦django:django¦/readthedocs.org-master :: Permissions_operation,()
+echo ¦echo¦nameserver 8.8.8.8 >> /etc/resolv.conf && echo nameserver 8.8.4.4 >> /etc/resolv.conf && apk add --update git gcc musl-dev python-dev zlib-dev libxslt-dev libxml2-dev && pip install --upgrade pip && pip install cython gunicorn && pip ... :: Filesystem_operation,()
+echo ¦echo¦"import docker" > settings/__init__.py :: Filesystem_operation,()
+expose,8000
+DJANGO_PASS:pass :: env_operation,()
+from,alpine:3.2
+django :: user_operation,()
+readthedocs :: workdir_operation,()
+DJANGO_SETTINGS_MODULE:settings.docker :: env_operation,()
+DJANGO_USER:root :: env_operation,()
+chmod ¦-R¦0770¦/readthedocs.org-master :: Permissions_operation,()
+migrate.expmigrate.exp :: copy_operation,()
+echo ¦echo¦nameserver 8.8.8.8 >> /etc/resolv.conf && echo nameserver 8.8.4.4 >> /etc/resolv.conf && apk add --update wget ca-certificates python libxslt expect && wget -nv -O rtfd.zip https://github.com/rtfd/readthedocs.org/archive/master.zip &&... :: Filesystem_operation,()
+entrypoint,./migrate.exp¦$DJANGO_USER¦$DJANGO_PASS¦&&¦gunicorn¦wsgi:application¦--name¦readthedocs¦--bind¦0.0.0.0:8000¦--workers¦3¦--log-level=info
+adduser ¦-D¦-H¦-g¦""¦django :: Permissions_operation,()
+readthedocs.org-master :: workdir_operation,()

@@ -1,0 +1,13 @@
+NEW_RELIC_VERSION:2.1.0.124 :: env_operation,()
+LOG_LEVEL:info :: env_operation,()
+LABELS:LABELS :: env_operation,()
+https://download.newrelic.com/server_monitor/release/newrelic-sysmond-${NEW_RELIC_VERSION}-linux.tar.gz/newrelic-sysmond.tar.gz :: add_operation,()
+mv ¦./scripts/nrsysmond-config¦/bin :: Filesystem_operation,()
+tar ¦xvfz¦/newrelic-sysmond.tar.gz :: Filesystem_operation,()
+mv ¦./nrsysmond.cfg¦/etc/ :: Filesystem_operation,()
+/newrelic-sysmond-${NEW_RELIC_VERSION}-linux :: workdir_operation,()
+rm ¦/newrelic-sysmond.tar.gz :: Filesystem_operation,()
+NEW_RELIC_LICENSE_KEY:YOUR_LICENSE_KEY :: env_operation,()
+CUSTOM_HOSTNAME:CUSTOM_HOSTNAME :: env_operation,()
+from,busybox:14.04
+mv ¦./daemon/nrsysmond.x64¦/bin/nrsysmond :: Filesystem_operation,()

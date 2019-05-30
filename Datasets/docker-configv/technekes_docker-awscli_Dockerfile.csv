@@ -1,0 +1,9 @@
+from,alpine@latest
+entrypoint,aws
+wget ¦"s3.amazonaws.com/aws-cli/awscli-bundle.zip"¦-O¦"awscli-bundle.zip" :: Dependencies_operation,()
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+rm ¦awscli-bundle.zip :: Filesystem_operation,()
+./awscli-bundle/install ¦-i¦/usr/local/aws¦-b¦/usr/local/bin/aws :: Other_operation,()
+unzip ¦awscli-bundle.zip :: Filesystem_operation,()
+rm ¦-rf¦awscli-bundle :: Filesystem_operation,()
+apk ¦add¦--update¦python :: Dependencies_operation,()

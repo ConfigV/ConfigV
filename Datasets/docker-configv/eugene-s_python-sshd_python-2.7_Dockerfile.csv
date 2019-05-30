@@ -1,0 +1,8 @@
+${SSH_SERVER_KEYS} :: volume_operation,()
+echo ¦apt-get¦-y update && apt-get -y install openssh-server && mkdir -p ${SSH_SERVER_KEYS} && echo "HostKey ${SSH_SERVER_KEYS}ssh_host_rsa_key" >> /etc/ssh/sshd_config && echo "HostKey ${SSH_SERVER_KEYS}ssh_host_dsa_key" >> /etc/ssh/sshd_config... :: Filesystem_operation,()
+expose,22
+cmd,/usr/sbin/sshd¦-D¦-e
+entrypoint.sh/root/ :: add_operation,()
+SSH_SERVER_KEYS:/etc/ssh/host_keys/ :: env_operation,()
+entrypoint,/root/entrypoint.sh
+from,python:2.7

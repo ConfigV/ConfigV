@@ -1,0 +1,13 @@
+from,centos
+yum ¦clean¦all :: Dependencies_operation,()
+shibboleth.repo/etc/yum.repos.d/shibboleth.repo :: copy_operation,()
+./configure  :: Build_Execute_operation,()
+container:docker :: env_operation,()
+cd ¦/opt/mech_saml_ec :: Filesystem_operation,()
+yum ¦-y¦install¦gcc¦gcc-c++¦git¦libcurl-devel¦libevent¦liblog4shib-devel¦liblog4shib1¦libsaml-devel¦libsaml7¦libtool¦libxerces-c-3_1¦libxerces-c-devel¦libxml-security-c-devel¦libxml-security-c16¦libxml2-devel¦libxmltooling-devel¦libxmltooling5¦... :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+.gss_saml_ec_cb_type/root/ :: copy_operation,()
+./autogen.sh  :: Other_operation,()
+MECH_SAML_EC_DEBUG:anyvalue :: env_operation,()
+git ¦clone¦https://github.com/jbasney/mech_saml_ec.git¦/opt/mech_saml_ec :: Dependencies_operation,()

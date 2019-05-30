@@ -1,0 +1,13 @@
+/workspace :: workdir_operation,()
+apk ¦add¦--update¦openssh¦git¦su-exec :: Dependencies_operation,()
+addgroup ¦pgb :: Permissions_operation,()
+adduser ¦-SD¦-G¦pgb¦pgb :: Permissions_operation,()
+npm ¦install¦cordova@6.5.0¦-g :: Dependencies_operation,()
+entrypoint,docker-entrypoint.sh
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+mkdir ¦/workspace :: Filesystem_operation,()
+/workspace :: volume_operation,()
+chown ¦pgb:pgb¦/workspace :: Permissions_operation,()
+CI=true: :: env_operation,()
+from,node:7.8
+ :: volume_operation,()

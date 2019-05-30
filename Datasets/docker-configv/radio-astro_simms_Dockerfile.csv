@@ -1,0 +1,8 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-pip¦python-casacore¦python-numpy :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cd ¦/tmp/simms :: Filesystem_operation,()
+./tmp/simms :: add_operation,()
+from,radioastro/casa:4.2
+python ¦setup.py¦install :: Build_Execute_operation,()
+entrypoint,/usr/local/bin/simms

@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+./build :: add_operation,()
+npm ¦install :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦git¦npm¦nodejs¦openjdk-7-jre :: Dependencies_operation,()
+/build :: workdir_operation,()
+from,ubuntu:14.04
+package.json/build/package.json :: add_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/local/bin/node :: Filesystem_operation,()
+cmd,./node_modules/gulp/bin/gulp.js¦serve

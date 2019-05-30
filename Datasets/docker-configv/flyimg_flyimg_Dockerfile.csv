@@ -1,0 +1,16 @@
+/var/www/html :: workdir_operation,()
+expose,80
+apt-get ¦-y¦install¦nginx¦supervisor :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"extension=/usr/lib/php/20151012/intl.so" > /usr/local/etc/php/conf.d/intl.ini && echo "zend_extension=/usr/lib/php/20151012/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini :: Filesystem_operation,()
+./var/www/html :: copy_operation,()
+chown ¦-R¦www-data:www-data¦var/¦web/uploads/ :: Permissions_operation,()
+docker/resources/etc//etc/ :: copy_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+echo ¦echo¦"deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.org.list && wget -O- http://www.dotdeb.org/dotdeb.gpg | a... :: Filesystem_operation,()
+chmod ¦777¦-R¦var/¦web/uploads/ :: Permissions_operation,()
+cmd,/usr/bin/supervisord
+from,sadokf/php7fpm_mozjpeg
+mkdir ¦-p¦var/cache/¦var/logs/¦var/sessions/¦web/uploads/.tmb :: Filesystem_operation,()
+apt-get ¦-y¦install¦php7.0-intl¦php-pear¦php7.0-imap¦php7.0-mcrypt¦php7.0-xdebug :: Dependencies_operation,()
+docker-php-ext-install ¦opcache :: Other_operation,()

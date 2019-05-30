@@ -1,0 +1,10 @@
+useradd ¦-p¦2/wyRd6y5MCUk¦-G¦sudo¦-Ums¦/bin/bash¦shared :: Permissions_operation,()
+from,moddus/mpich-arm-fortran:latest
+locale-gen ¦de_DE.UTF-8 :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦purge :: Dependencies_operation,()
+echo ¦echo¦"//10.0.0.1/shared  /home/shared cifs  username=shared,pass=shared,rw" >> /etc/fstab :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/mnt/nfs :: Filesystem_operation,()
+apt-get ¦install¦-y¦cmake¦ca-certificates¦nfs-common¦locales¦build-essential¦libpthread-stubs0-dev¦--no-install-recommends :: Dependencies_operation,()
+echo ¦echo¦"10.0.0.1:/nfs /mnt/nfs nfs4 rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab :: Filesystem_operation,()

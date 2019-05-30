@@ -1,0 +1,15 @@
+from,ubuntu@latest
+entrypoint,web-terminal¦--port¦3000
+expose,3000
+useradd ¦-d¦/home/guest¦-m¦-s¦/bin/bash¦guest :: Permissions_operation,()
+motd/etc/motd :: copy_operation,()
+chown ¦guest:guest¦/.bash_history :: Permissions_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_5.x¦|¦sudo¦-E¦bash¦- :: Dependencies_operation,()
+bash_history/.bash_history :: copy_operation,()
+guest :: user_operation,()
+/home/guest :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦--yes¦nodejs :: Dependencies_operation,()
+npm ¦install¦web-terminal¦-g :: Dependencies_operation,()
+apt-get ¦install¦-y¦npm¦curl¦mosquitto-clients¦wget¦mysql-client¦git¦build-essential :: Dependencies_operation,()
+echo ¦echo¦'guest:guest-' | chpasswd :: Filesystem_operation,()

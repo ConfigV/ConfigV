@@ -1,0 +1,12 @@
+mv ¦/tmp/indel_detection.release¦/usr/local/pipeline/soapindel :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+unzip ¦SOAPindel_20130918_2.1.7.17.zip :: Filesystem_operation,()
+cmd,/bin/bash
+wget ¦-c¦http://soap.genomics.org.cn/down/SOAPindel_20130918_2.1.7.17.zip :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+make ¦all :: Build_Execute_operation,()
+cd ¦/tmp/indel_detection.release :: Filesystem_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/soapindel :: Permissions_operation,()
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/soapindel'¦/home/snappy/.bashrc :: Filesystem_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+from,viapath/snappy_ngstools:flatdog

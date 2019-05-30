@@ -1,0 +1,10 @@
+expose,3306
+rm ¦-rf¦/var/lib/mysql/mysql :: Filesystem_operation,()
+/run/mysqld :: volume_operation,()
+apt-get ¦install¦-y¦mysql-server :: Dependencies_operation,()
+from,cedvan/ubuntu:14.04.20150206
+chmod ¦755¦/start :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+assets/start/start :: add_operation,()
+cmd,/start
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+mkdir ¦build :: Filesystem_operation,()
+from,ubuntu:16.04
+cmake ¦..¦-DBUILD_TESTS=ON :: Build_Execute_operation,()
+make ¦install :: Build_Execute_operation,()
+cd ¦build :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦cmake¦cmake-curses-gui¦git¦llvm-3.8-dev¦clang-3.8¦gcc¦g++¦libc6-dev¦curl¦ca-certificates¦build-essential :: Dependencies_operation,()
+make ¦-j¦8 :: Build_Execute_operation,()
+cd ¦cuda-on-cl :: Filesystem_operation,()
+git ¦clone¦--recursive¦https://github.com/hughperkins/cuda-on-cl :: Dependencies_operation,()

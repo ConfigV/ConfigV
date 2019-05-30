@@ -1,0 +1,12 @@
+from,gestiweb/debian-jessie:upgrade
+expose,22
+cmd,/start_container.sh
+apt-get ¦update¦-y¦-qq :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦-yqq¦software-properties-common¦git¦gitk¦git-gui¦nano¦ansible :: Dependencies_operation,()
+apt.sources.list/etc/apt/sources.list :: copy_operation,()
+start_container.sh/start_container.sh :: copy_operation,()
+com.gestiweb.docker.image-name:ansible-server:dev :: label_operation,()
+apt.preferences.conf/etc/apt/preferences :: copy_operation,()
+apt-get ¦dist-upgrade¦-yqq :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

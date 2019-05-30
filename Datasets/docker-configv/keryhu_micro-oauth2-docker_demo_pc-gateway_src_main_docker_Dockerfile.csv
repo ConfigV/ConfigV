@@ -1,0 +1,10 @@
+pc-gateway-0.0.1-SNAPSHOT.jar/app/app.jar :: add_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+/tmp :: volume_operation,()
+bash ¦-c¦'touch¦/app/app.jar' :: Build_Execute_operation,()
+from,java:8.0
+cmd,/app/runboot.sh
+chmod ¦a+x¦runboot.sh :: Permissions_operation,()
+/app :: workdir_operation,()
+expose,8080
+runboot.sh/app/ :: copy_operation,()

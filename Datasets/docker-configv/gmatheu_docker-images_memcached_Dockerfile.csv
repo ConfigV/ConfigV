@@ -1,0 +1,8 @@
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu@latest
+apt-get ¦install¦-y¦memcached :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+entrypoint,memcached¦-u¦daemon
+apt-get ¦update :: Dependencies_operation,()
+expose,11211
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()

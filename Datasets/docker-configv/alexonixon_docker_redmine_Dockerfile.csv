@@ -1,0 +1,15 @@
+assets/tools//usr/bin/ :: copy_operation,()
+${REDMINE_DATA_DIR} :: volume_operation,()
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()
+assets/runtime/${REDMINE_RUNTIME_DIR}/ :: copy_operation,()
+${REDMINE_INSTALL_DIR} :: workdir_operation,()
+assets/build/${REDMINE_BUILD_DIR}/ :: copy_operation,()
+expose,80 443
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list && apt-key adv --keyserver keyserver.ubuntu.com --... :: Filesystem_operation,()
+bash ¦${REDMINE_BUILD_DIR}/install.sh :: Build_Execute_operation,()
+entrypoint,/sbin/entrypoint.sh
+REDMINE_INSTALL_DIR="${REDMINE_HOME}/redmine":REDMINE_DATA_DIR="${REDMINE_HOME}/data" :: env_operation,()
+${REDMINE_LOG_DIR} :: volume_operation,()
+from,sameersbn/ubuntu:14.04.20160710
+cmd,app:start

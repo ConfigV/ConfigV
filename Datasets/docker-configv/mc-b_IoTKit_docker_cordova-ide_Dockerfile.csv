@@ -1,0 +1,13 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+from,marcel1691/cordova
+expose,8000 8080
+CODEBOX_PASSWORD:guest- :: env_operation,()
+CODEBOX_USERNAME:guest :: env_operation,()
+entrypoint,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+apt-get ¦install¦-y¦make¦g++¦python¦git¦curl¦supervisor :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup¦|¦sudo¦bash¦- :: Dependencies_operation,()
+npm ¦-g¦install¦codebox :: Dependencies_operation,()
+root :: user_operation,()
+/ :: workdir_operation,()

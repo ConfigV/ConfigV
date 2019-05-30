@@ -1,0 +1,16 @@
+/code :: workdir_operation,()
+mkdir ¦/code :: Filesystem_operation,()
+felix.cfg/etc/calico/felix.cfg :: add_operation,()
+ln ¦-s¦/code/calico-felix¦/usr/bin :: Filesystem_operation,()
+apk ¦--no-cache¦add¦wget¦ca-certificates¦libgcc :: Dependencies_operation,()
+bin/calico-felix/code :: add_operation,()
+apk ¦del¦wget :: Dependencies_operation,()
+wget ¦https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.23-r3/glibc-bin-2.23-r3.apk :: Dependencies_operation,()
+apk ¦--no-cache¦add¦ip6tables¦ipset¦iputils¦iproute2¦conntrack-tools :: Dependencies_operation,()
+from,alpine:3.4
+apk ¦add¦glibc-2.23-r3.apk¦glibc-bin-2.23-r3.apk :: Dependencies_operation,()
+rm ¦-f¦glibc-2.23-r3.apk¦glibc-bin-2.23-r3.apk :: Filesystem_operation,()
+wget ¦https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.23-r3/glibc-2.23-r3.apk :: Dependencies_operation,()
+cmd,calico-felix
+wget ¦-q¦-O¦/etc/apk/keys/sgerrand.rsa.pub¦https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub :: Dependencies_operation,()
+/usr/glibc-compat/sbin/ldconfig ¦/lib¦/usr/glibc/usr/lib :: Other_operation,()

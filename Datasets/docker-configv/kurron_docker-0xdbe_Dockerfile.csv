@@ -1,0 +1,16 @@
+apt-get ¦install¦-y¦build-essential¦autoconf¦automake :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+org.kurron.ide.name:CLion :: label_operation,()
+developer:developer :: user_operation,()
+/home/developer :: workdir_operation,()
+entrypoint,/opt/ide/bin/clion.sh
+CL_JDK=/usr/lib/jvm/oracle-jdk-8: :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+tar ¦zxvf¦/tmp/ide.tar.gz¦--strip-components=1¦-C¦/opt/ide :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦-p¦/opt/ide :: Filesystem_operation,()
+from,kurron/docker-jetbrains-base:latest
+http://download.jetbrains.com/cpp/clion-1.2.1.tar.gz/tmp/ide.tar.gz :: add_operation,()
+rm ¦/tmp/ide.tar.gz :: Filesystem_operation,()
+org.kurron.ide.version:1.2.1 :: label_operation,()

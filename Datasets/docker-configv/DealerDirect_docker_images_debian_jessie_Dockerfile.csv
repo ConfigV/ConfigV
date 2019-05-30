@@ -1,0 +1,18 @@
+files/shared/scripts/*.sh/tmp/shared/scripts/ :: add_operation,()
+files/debian/jessie/systemd.sh/tmp/ :: add_operation,()
+/run :: volume_operation,()
+/run/lock :: volume_operation,()
+files/shared/ssh/*/root/.ssh/ :: add_operation,()
+/tmp :: volume_operation,()
+bash ¦/tmp/shared/scripts/cleanup.sh :: Build_Execute_operation,()
+/sys/fs/cgroup :: volume_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,/lib/systemd/systemd
+INSTALL_APT_BACKPORTS:"initscripts :: env_operation,()
+from,debian@jessie
+files/debian/jessie/sources.list/etc/apt/sources.list :: add_operation,()
+bash ¦/tmp/shared/scripts/install-upgrade-apt-packages.sh :: Build_Execute_operation,()
+bash ¦/tmp/systemd.sh :: Build_Execute_operation,()
+INSTALL_APT_BUILD_DEPS:"build-essential :: env_operation,()
+INSTALL_APT:"sudo :: env_operation,()
+bash ¦/tmp/shared/scripts/install-git-crypt.sh :: Build_Execute_operation,()

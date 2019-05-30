@@ -1,0 +1,11 @@
+dnf ¦-y¦update :: Dependencies_operation,()
+make ¦static :: Build_Execute_operation,()
+cmd,/srv/spacewiki/manage.py¦runserver
+expose,5000
+requirements.txt/srv/spacewiki/requirements.txt :: copy_operation,()
+dnf ¦install¦-y¦gcc¦git¦python-devel¦gifsicle¦rubygem-sass¦uglify-js¦pngcrush¦make :: Dependencies_operation,()
+mkdir ¦-p¦/srv/spacewiki/ :: Filesystem_operation,()
+./srv/spacewiki/ :: add_operation,()
+from,fedora:22.0
+/srv/spacewiki/ :: workdir_operation,()
+pip ¦install¦-r¦/srv/spacewiki/requirements.txt :: Dependencies_operation,()

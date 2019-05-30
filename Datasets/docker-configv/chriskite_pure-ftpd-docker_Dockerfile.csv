@@ -1,0 +1,19 @@
+cmd,/sbin/my_init
+apt-get ¦-y¦install¦openbsd-inetd :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dpkg ¦-i¦/tmp/pure-ftpd/pure-ftpd-common*.deb :: Dependencies_operation,()
+dpkg-buildpackage ¦-b¦-uc :: Other_operation,()
+apt-get ¦-y¦--force-yes¦install¦dpkg-dev¦debhelper :: Dependencies_operation,()
+cd ¦/tmp/pure-ftpd/ :: Filesystem_operation,()
+from,phusion/baseimage:0.9.17
+setup-ftp.sh/tmp/ :: add_operation,()
+apt-get ¦-y¦build-dep¦pure-ftpd :: Dependencies_operation,()
+mkdir ¦/tmp/pure-ftpd/ :: Filesystem_operation,()
+dpkg ¦-i¦/tmp/pure-ftpd/pure-ftpd_*.deb :: Dependencies_operation,()
+expose,21
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-get ¦source¦pure-ftpd :: Dependencies_operation,()
+/tmp/setup-ftp.sh  :: Other_operation,()
+cd ¦pure-ftpd-* :: Filesystem_operation,()
+apt-mark ¦hold¦pure-ftpd¦pure-ftpd-common :: Other_operation,()
+sed ¦-i¦'/^optflags=/¦s/$/¦--without-capabilities/g'¦./debian/rules :: Filesystem_operation,()

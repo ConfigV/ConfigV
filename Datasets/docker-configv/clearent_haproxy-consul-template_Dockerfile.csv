@@ -1,0 +1,11 @@
+S6_VERSION="v1.17.2.0":CONSUL_TEMPLATE_VERSION="0.14.0" :: env_operation,()
+wget ¦-qO¦"/consul-template.zip"¦"https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip" :: Dependencies_operation,()
+haproxy//etc/services.d/haproxy/ :: copy_operation,()
+unzip ¦-qd¦"/usr/local/bin/"¦"/consul-template.zip" :: Filesystem_operation,()
+from,alpine:3.4
+apk ¦--no-cache¦add¦openssl¦haproxy :: Dependencies_operation,()
+00-init-consul-template.sh/etc/cont-init.d/ :: copy_operation,()
+rm ¦"/consul-template.zip" :: Filesystem_operation,()
+wget ¦-qO¦-¦https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz¦|¦tar¦-zxC¦/ :: Dependencies_operation,()
+consul-template//etc/services.d/consul-template/ :: copy_operation,()
+entrypoint,/init

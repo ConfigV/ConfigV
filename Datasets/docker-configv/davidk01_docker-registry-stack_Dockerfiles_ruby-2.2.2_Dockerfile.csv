@@ -1,0 +1,9 @@
+version=2.2.2:dir=ruby-2.2.2 :: env_operation,()
+from,centos:7.0
+wget ¦http://cache.ruby-lang.org/pub/ruby/2.2/${dir}.tar.gz :: Dependencies_operation,()
+pushd ¦ruby-${version};¦./configure¦--prefix=/opt/ruby-${version}¦--enable-load-relative¦--disable-install-capi¦--disable-debug¦--disable-dependency-tracking¦--disable-install-doc¦--enable-shared;¦make¦-j2;¦make¦install;¦popd; :: Other_operation,()
+yum ¦-y¦install¦wget¦tar :: Dependencies_operation,()
+yum ¦install¦-y¦openssl-devel¦libyaml-devel¦libffi-devel¦readline-devel¦zlib-devel¦gdbm-devel¦ncurses-devel :: Dependencies_operation,()
+tar ¦xf¦${dir}.tar.gz :: Filesystem_operation,()
+rm ¦-rf¦ruby-${version} :: Filesystem_operation,()
+yum ¦groupinstall¦-y¦"Development¦Tools"¦"Development¦Libraries" :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+rm ¦/var/tmp/phpmyadmin-config.sh :: Filesystem_operation,()
+config/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+bash ¦/var/tmp/phpmyadmin-config.sh¦>¦/etc/phpmyadmin/config.inc.php :: Build_Execute_operation,()
+config/php-fpm.conf/etc/php-fpm.conf :: add_operation,()
+config/phpmyadmin-config.sh/var/tmp/phpmyadmin-config.sh :: add_operation,()
+id ¦www-data¦2>/dev/null¦||¦useradd¦--shell=/sbin/nologin¦www-data :: Other_operation,()
+entrypoint,php5-fpm¦--fpm-config=/etc/php-fpm.conf¦&&¦nginx
+apt-get ¦-y¦install¦nginx¦phpmyadmin¦php5-fpm :: Dependencies_operation,()
+from,ubuntu:14.04
+expose,80
+apt-get ¦update¦-qq :: Dependencies_operation,()

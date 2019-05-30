@@ -1,0 +1,10 @@
+cmd,/usr/sbin/init
+from,centos
+container:docker :: env_operation,()
+rpm ¦-ivh¦jdk-8u51-linux-x64.rpm :: Dependencies_operation,()
+yum ¦-y¦update;¦yum¦clean¦all; :: Dependencies_operation,()
+rm ¦-rf¦jdk-8u51-linux-x64.rpm :: Filesystem_operation,()
+wget ¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-x64.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦wget¦tar¦zip :: Dependencies_operation,()
+JAVA_HOME:/usr/java/jdk1.8.0_45 :: env_operation,()
+yum ¦-y¦reinstall¦glibc-common :: Dependencies_operation,()

@@ -1,0 +1,6 @@
+root/ :: add_operation,()
+/data :: volume_operation,()
+REDIS_VERSION:redis-3.0.7 :: env_operation,()
+from,evild/alpine-base:1.0.0
+echo ¦apk¦--no-cache add wget build-base linux-headers && mkdir -p /tmp/src && cd /tmp/src && echo "e56b4b7e033ae8dbf311f9191cf6fdf3ae974d1c ${REDIS_VERSION}.tar.gz" > ${REDIS_VERSION}.tar.gz.sha1 :: Filesystem_operation,()
+expose,6379

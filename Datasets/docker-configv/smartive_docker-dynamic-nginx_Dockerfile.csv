@@ -1,0 +1,14 @@
+wget ¦https://github.com/kreuzwerker/envplate/releases/download/v0.0.7/ep-linux :: Dependencies_operation,()
+default//default/ :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦nginx¦wget :: Dependencies_operation,()
+startup.sh/startup.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf && chmod +x /startup.sh && mkdir /sites :: Filesystem_operation,()
+default_site/sites/default_site :: copy_operation,()
+mv ¦/ep-linux¦/ep :: Filesystem_operation,()
+cmd,/startup.sh
+chmod ¦+x¦/ep :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,ubuntu@latest
+expose,80 443

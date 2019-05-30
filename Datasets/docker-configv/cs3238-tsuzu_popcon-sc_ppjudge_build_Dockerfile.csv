@@ -1,0 +1,13 @@
+./build/ppjudge$GOPATH/bin/ppjudge :: copy_operation,()
+cd ¦$GOPATH/src/github.com/cs3238-tsuzu/ :: Filesystem_operation,()
+entrypoint,ppjudge
+$GOPATH/src/github.com/cs3238-tsuzu/popcon-sc/ppjudge :: workdir_operation,()
+git ¦clone¦-b¦$GIT_BRANCH¦https://github.com/cs3238-tsuzu/popcon-sc :: Dependencies_operation,()
+PPJUDGE_DOCKER=unix:///var/run/docker.sock: :: env_operation,()
+./$GOPATH/src/github.com/cs3238-tsuzu/popcon-sc/ppjudge :: copy_operation,()
+PPJUDGE_DOCKER_VER=v1.29: :: env_operation,()
+"/tmp" :: volume_operation,()
+from,golang@latest
+PPJUDGE_ON_DOCKER=1: :: env_operation,()
+mkdir ¦-p¦$GOPATH/src/github.com/cs3238-tsuzu/ :: Filesystem_operation,()
+PPJUDGE_CGROUP=/sys/fs/cgroup: :: env_operation,()

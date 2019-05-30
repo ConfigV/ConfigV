@@ -1,0 +1,21 @@
+groupadd ¦tomcat :: Permissions_operation,()
+cd ¦/opt;gunzip¦$JDK_VERSION.tar.gz :: Filesystem_operation,()
+src/main/settings/tomcat-users.xml/opt/tomcat7/conf/ :: copy_operation,()
+cd ¦/opt;wget¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦http://download.oracle.com/otn-pub/java/jdk/7u79-b15/$JDK_VERSION.tar.gz :: Filesystem_operation,()
+useradd ¦-s¦/bin/bash¦-g¦tomcat¦tomcat :: Permissions_operation,()
+yum ¦update¦--assumeyes¦--skip-broken :: Dependencies_operation,()
+TOMCAT_VERSION=7.0.72: :: env_operation,()
+expose,8080
+cd ¦/tmp;wget¦http://apache.xfree.com.ar/tomcat/tomcat-7/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz :: Filesystem_operation,()
+chown ¦-Rf¦tomcat.tomcat¦/opt/tomcat7 :: Permissions_operation,()
+cmd,/opt/tomcat7/bin/catalina.sh¦run
+alternatives ¦--install¦/usr/bin/java¦java¦/opt/$JDK_DIR/bin/java¦2 :: Other_operation,()
+cd ¦/opt;tar¦xvf¦$JDK_VERSION.tar :: Filesystem_operation,()
+JAVA_HOME:/opt/$JDK_DIR :: env_operation,()
+chmod ¦-R¦755¦/opt/tomcat7 :: Permissions_operation,()
+JDK_VERSION=jdk-7u79-linux-x64: :: env_operation,()
+cd ¦/tmp;gunzip¦apache-tomcat-$TOMCAT_VERSION.tar.gz :: Filesystem_operation,()
+cd ¦/tmp;tar¦xvf¦apache-tomcat-$TOMCAT_VERSION.tar :: Filesystem_operation,()
+from,centos:6.0
+cd ¦/tmp;mv¦apache-tomcat-$TOMCAT_VERSION¦/opt/tomcat7 :: Filesystem_operation,()
+JDK_DIR=jdk1.7.0_79: :: env_operation,()

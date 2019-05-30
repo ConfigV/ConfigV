@@ -1,0 +1,8 @@
+systemctl ¦enable¦docker :: Other_operation,()
+config/docker.repo/etc/yum.repos.d/docker.repo :: copy_operation,()
+from,library/centos:7
+yum ¦clean¦all :: Dependencies_operation,()
+expose,443
+cmd,/usr/sbin/init
+yum ¦-y¦install¦openssl¦systemd¦docker-engine :: Dependencies_operation,()
+/etc/letsencrypt/live :: volume_operation,()

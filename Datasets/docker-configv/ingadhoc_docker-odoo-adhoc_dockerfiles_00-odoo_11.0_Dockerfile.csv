@@ -1,0 +1,19 @@
+chown ¦odoo¦/etc/odoo/odoo.conf :: Permissions_operation,()
+ODOO_RELEASE:20171030 :: env_operation,()
+pip3 ¦install¦num2words :: Dependencies_operation,()
+chown ¦-R¦odoo¦/mnt/extra-addons :: Permissions_operation,()
+/mnt/extra-addons :: volume_operation,()
+ODOO_VERSION:11.0 :: env_operation,()
+odoo :: user_operation,()
+./entrypoint.sh/ :: copy_operation,()
+echo ¦set¦-x; apt-get update && apt-get install -y --no-install-recommends ca-certificates curl node-less python3-pip python3-setuptools python3-renderpm libssl1.0-dev xz-utils && curl -o wkhtmltox.tar.xz -SL https://github.com/wkhtmltopdf/wkhtm... :: Filesystem_operation,()
+mkdir ¦-p¦/mnt/extra-addons :: Filesystem_operation,()
+expose,8069 8071
+from,ubuntu:17.1
+./odoo.conf/etc/odoo/ :: copy_operation,()
+entrypoint,/entrypoint.sh
+echo ¦set¦-x; curl -o odoo.deb -SL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb && echo '63d3fd997c850b657b93fb9351624d88d45d1682 odoo.deb' | sha1sum -c - && dpkg --force-depends -i odoo.deb &&... :: Filesystem_operation,()
+LANG:C.UTF-8 :: env_operation,()
+cmd,odoo
+ODOO_RC:/etc/odoo/odoo.conf :: env_operation,()
+/var/lib/odoo :: volume_operation,()

@@ -1,0 +1,7 @@
+local-cdh5.repo/etc/yum.repos.d/local-cdh5.repo :: add_operation,()
+from,whlee21/centos6-cdh5-base
+expose,22 10020 19888
+yum ¦--disablerepo=cloudera-cdh5¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦hadoop-mapreduce-historyserver;¦yum¦clean¦all :: Dependencies_operation,()
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+./supervisord.conf/etc/ :: add_operation,()
+cmd,chown¦-R¦yarn:yarn¦/data/yarn¦&&¦"/usr/bin/supervisord"

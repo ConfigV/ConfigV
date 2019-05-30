@@ -1,0 +1,9 @@
+ln ¦-s¦$NEO4J_HOME¦/usr/neo4j :: Filesystem_operation,()
+expose,7474 1337
+NEO4J_HOME=/usr/neo4j-community-2.1.8: :: env_operation,()
+from,whisk/jre:8u45
+echo ¦chmod¦+x /launch.sh && echo "allow_store_upgrade=true" >> /usr/neo4j/conf/neo4j.properties && sed -i "s|#org.neo4j.server.webserver.address|org.neo4j.server.webserver.address|g" /usr/neo4j/conf/neo4j-server.properties :: Filesystem_operation,()
+curl ¦--silent¦--location¦--retry¦3¦"http://neo4j.com/artifact.php?name=neo4j-community-2.1.8-unix.tar.gz"¦|¦gunzip¦|¦tar¦x¦-C¦/usr/ :: Dependencies_operation,()
+cmd,/bin/bash¦-c¦/launch.sh
+/usr/neo4j/data/graph.db :: volume_operation,()
+launch.sh/ :: add_operation,()

@@ -1,0 +1,11 @@
+sed ¦-i¦'/^listen\\¦=\\¦127.0.0.1/c\\listen¦=¦9000'¦$PHPCONF :: Filesystem_operation,()
+echo ¦echo¦-e "\\ :: Filesystem_operation,()
+yum ¦install¦-y¦$PHP¦;¦yum¦clean¦all :: Dependencies_operation,()
+entrypoint,/usr/sbin/php-fpm¦-F
+PHPCONF:/etc/php-fpm.d/www.conf :: env_operation,()
+from,centos:7.0
+useradd ¦-u¦48¦-U¦--home¦/var/www¦-M¦--shell¦/sbin/nologin¦apache :: Permissions_operation,()
+PHP:'php56u :: env_operation,()
+REPO:'http://dl.iuscommunity.org/pub/ius/stable/CentOS/$releasever/$basearch/' :: env_operation,()
+expose,9000
+sed ¦-i¦'/^listen.allowed_clients/c\\listen.allowed_clients¦=¦'¦$PHPCONF :: Filesystem_operation,()

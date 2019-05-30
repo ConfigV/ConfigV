@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦docker.io¦wget :: Dependencies_operation,()
+wget ¦-O¦/tmp/drone.deb¦http://downloads.drone.io/master/drone.deb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦drone.deb :: Filesystem_operation,()
+dpkg ¦-i¦drone.deb :: Dependencies_operation,()
+cmd,droned
+from,ubuntu:14.04
+/app :: workdir_operation,()

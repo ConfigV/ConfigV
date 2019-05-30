@@ -1,0 +1,11 @@
+run/usr/local/bin/run :: add_operation,()
+apt-get ¦install¦-y¦mysql-server-5.5 :: Dependencies_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+from,ubuntu
+apt-get ¦update¦-qq :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/run :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,/var/local/bin/run
+chmod ¦664¦/etc/mysql/conf.d/my.cnf :: Permissions_operation,()
+my.cnf/etc/mysql/conf.d/my.cnf :: add_operation,()

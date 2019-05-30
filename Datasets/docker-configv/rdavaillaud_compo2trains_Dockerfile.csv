@@ -1,0 +1,12 @@
+echo ¦echo¦"docker" |passwd --stdin docker :: Filesystem_operation,()
+groupadd ¦-g¦$UIDGID¦docker :: Permissions_operation,()
+echo ¦echo¦"docker ALL=(ALL) ALL" >> /etc/sudoers :: Filesystem_operation,()
+useradd ¦-u¦$UIDGID¦-g¦$UIDGID¦docker :: Permissions_operation,()
+su ¦docker¦-c¦"/home/docker/start.sh" :: Other_operation,()
+cmd,/usr/bin/supervisord
+yum ¦update¦-y :: Dependencies_operation,()
+from,mattdm/fedora-small
+start.sh/home/docker/start.sh :: add_operation,()
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+yum ¦install¦-y¦sudo¦passwd¦openssh-server¦supervisor¦httpd¦php¦php-pdo¦php-pecl-apcu¦php-pecl-zendopcache¦php-pgsql¦postgresql-server :: Dependencies_operation,()
+UIDGID:1000 :: env_operation,()

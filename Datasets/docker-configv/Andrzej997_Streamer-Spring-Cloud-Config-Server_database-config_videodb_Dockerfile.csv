@@ -1,0 +1,17 @@
+postgres :: user_operation,()
+expose,5432
+/var/log/postgresql :: volume_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+/etc/postgresql :: volume_operation,()
+cmd,/usr/lib/postgresql/9.3/bin/postgres¦-D¦/var/lib/postgresql/9.3/main¦-c¦config_file=/etc/postgresql/9.3/main/postgresql.conf
+service ¦postgresql¦restart :: Build_Execute_operation,()
+from,ubuntu
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+/etc/init.d/postgresql ¦start¦&&\\ :: Other_operation,()
+apt-key ¦adv¦--keyserver¦hkp://p80.pool.sks-keyservers.net:80¦--recv-keys¦B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-software-properties¦software-properties-common¦postgresql-9.3¦postgresql-client-9.3¦postgresql-contrib-9.3 :: Dependencies_operation,()
+/var/lib/postgresql :: volume_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+sed ¦-i¦-e¦'s/peer/md5/g'¦/etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+Videodb_DDL.sql/etc/postgresql/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

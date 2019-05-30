@@ -1,0 +1,10 @@
+go ¦get¦github.com/pacur/pacur :: Build_Execute_operation,()
+wget ¦https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm :: Dependencies_operation,()
+cmd,centos
+yum ¦-y¦install¦wget :: Dependencies_operation,()
+from,centos:7.0
+yum ¦-y¦install¦make¦automake¦gcc¦wget¦zip¦git¦mercurial¦golang :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()
+PATH:$PATH:/go/bin :: env_operation,()
+entrypoint,pacur
+rpm ¦-i¦epel-release-latest-7.noarch.rpm :: Dependencies_operation,()

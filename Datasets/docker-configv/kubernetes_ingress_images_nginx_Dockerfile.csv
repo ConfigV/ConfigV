@@ -1,0 +1,8 @@
+build.sh/ :: copy_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+from,BASEIMAGE
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+/build.sh  :: Other_operation,()
+cmd,nginx¦-g¦daemon off;
+expose,80 443
+clean-install ¦bash :: Other_operation,()

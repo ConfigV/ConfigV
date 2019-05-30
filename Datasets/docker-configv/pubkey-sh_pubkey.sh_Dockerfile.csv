@@ -1,0 +1,14 @@
+/etc/letsencrypt :: volume_operation,()
+docker-site.tpl/etc/nginx/conf.d/ :: copy_operation,()
+/app :: workdir_operation,()
+apt-get ¦install¦-y¦composer¦git¦libsodium-dev¦nodejs-legacy¦npm¦php7.0-dev¦php7.0-sqlite¦sqlite3¦unzip :: Dependencies_operation,()
+composer ¦install :: Dependencies_operation,()
+bash ¦/app/schema/create.sh :: Build_Execute_operation,()
+from,clayfreeman/web
+app/app :: copy_operation,()
+rm ¦-rf¦composer.lock¦vendor :: Filesystem_operation,()
+cmd,bash¦/app/launch.sh
+echo ¦pecl¦install libsodium && echo "extension=libsodium.so" > /etc/php/7.0/mods-available/libsodium.ini && phpenmod libsodium :: Filesystem_operation,()
+rm ¦-rf¦public/resources :: Filesystem_operation,()
+bower ¦install¦--allow-root :: Dependencies_operation,()
+npm ¦install¦-g¦bower :: Dependencies_operation,()

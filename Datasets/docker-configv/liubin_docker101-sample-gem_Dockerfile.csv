@@ -1,0 +1,13 @@
+gem ¦install¦respec¦ci_reporter_rspec :: Dependencies_operation,()
+autoconf  :: Other_operation,()
+make  :: Build_Execute_operation,()
+rm ¦-rf¦/tmp/ruby-2.2.2* :: Filesystem_operation,()
+echo ¦echo¦'gem: --no-rdoc --no-ri' >> "$HOME/.gemrc" :: Filesystem_operation,()
+cd ¦ruby-2.2.2 :: Filesystem_operation,()
+from,centos:7.0
+./configure ¦--disable-install-doc :: Build_Execute_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+tar ¦zxvf¦ruby-2.2.2.tar.gz :: Filesystem_operation,()
+wget ¦http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.2.tar.gz :: Dependencies_operation,()
+yum ¦install¦-y¦wget¦tar¦gcc¦g++¦make¦automake¦autoconf¦curl-devel¦openssl-devel¦zlib-devel¦httpd-devel¦apr-devel¦apr-util-devel¦sqlite-devel :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()

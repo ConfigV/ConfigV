@@ -1,0 +1,12 @@
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+cmd,/bin/bash¦run.sh
+from,java:8.0
+apt-get ¦install¦-y¦jq :: Dependencies_operation,()
+chmod ¦+x¦run.sh :: Permissions_operation,()
+chmod ¦+x¦/usr/local/bin/kubectl :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦awscli :: Dependencies_operation,()
+curl ¦https://bootstrap.pypa.io/get-pip.py¦|¦python2.7 :: Dependencies_operation,()
+run.sh. :: copy_operation,()
+curl ¦"https://storage.googleapis.com/kubernetes-release/release/v${K8S_VERSION}/bin/linux/amd64/kubectl"¦-o¦/usr/local/bin/kubectl :: Dependencies_operation,()
+K8S_VERSION:1.3.2 :: env_operation,()

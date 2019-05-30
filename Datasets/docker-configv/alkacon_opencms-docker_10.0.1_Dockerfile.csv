@@ -1,0 +1,19 @@
+unzip ¦-q¦-d¦${OPENCMS_HOME_INSTALL}¦/artifacts/opencms.war :: Filesystem_operation,()
+resources/ :: copy_operation,()
+expose,8080
+apt-get ¦update¦&& :: Dependencies_operation,()
+bash ¦/root/opencms-create-properties.sh :: Build_Execute_operation,()
+chmod ¦-v¦+x¦/root/opencms-*.sh :: Permissions_operation,()
+java ¦-classpath¦"${OPENCMS_HOME_INSTALL}/WEB-INF/lib/*:${OPENCMS_HOME_INSTALL}/WEB-INF/classes:/usr/share/${TOMCAT}/lib/*"¦org.opencms.setup.CmsAutoSetup¦-path¦${CONFIG_FILE} :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive:TOMCAT=tomcat8 :: env_operation,()
+service ¦mysql¦start :: Build_Execute_operation,()
+bash ¦/root/download-artifacts.sh¦/config/artifacts.csv :: Build_Execute_operation,()
+mysqladmin ¦-u¦root¦--password=""¦password¦"admin" :: Other_operation,()
+bash ¦/root/setup-opencms-modules.sh¦/config/modules-apollo.ocsh :: Build_Execute_operation,()
+mkdir ¦-v¦-p¦${OPENCMS_HOME_INSTALL} :: Filesystem_operation,()
+cmd,/root/opencms-run.sh
+from,java:8.0
+bash ¦/root/process-script-dir.sh¦/root/postinstall :: Build_Execute_operation,()
+WEBAPPS_HOME=/var/lib/${TOMCAT}/webapps:WEBAPPS_HOME_INSTALL=/var/lib/${TOMCAT}/webapps-install :: env_operation,()
+rm ¦-v¦-rf¦${WEBAPPS_HOME} :: Filesystem_operation,()
+bash ¦/root/process-script-dir.sh¦/root/preinstall :: Build_Execute_operation,()

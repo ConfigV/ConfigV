@@ -1,0 +1,8 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦chromium¦chromium-l10n¦libcanberra-gtk-module¦libexif-dev¦libgl1-mesa-dri¦libgl1-mesa-glx¦libpango1.0-0¦libv4l-0¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+sed ¦-i.bak¦'s/sid¦main/sid¦main¦contrib¦non-free/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+etc/local.conf/etc/fonts/local.conf :: copy_operation,()
+cmd,--user-data-dir=/data¦--no-sandbox
+entrypoint,/usr/bin/chromium
+from,debian@sid

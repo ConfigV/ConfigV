@@ -1,0 +1,15 @@
+apt-get ¦update :: Dependencies_operation,()
+useradd ¦-m¦kitware :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦echo¦'root:kitware' | chpasswd :: Filesystem_operation,()
+from,gcc:5.1
+apt-get ¦install¦-y¦--no-install-recommends¦ca-certificates¦curl¦wget¦git¦openssh-client¦subversion¦autoconf¦build-essential¦imagemagick¦libbz2-dev¦libcurl4-openssl-dev¦libevent-dev¦libffi-dev¦libglib2.0-dev¦libjpeg-dev¦liblzma-dev¦libmagickcore-de... :: Dependencies_operation,()
+HOME:/home/kitware :: env_operation,()
+kitware :: user_operation,()
+/home/kitware :: workdir_operation,()
+curl ¦$GET_PIP_URL¦>¦/tmp/get-pip.py :: Dependencies_operation,()
+cmd,/bin/bash
+echo ¦echo¦'kitware:kitware' | chpasswd :: Filesystem_operation,()
+GET_PIP_URL=https://bootstrap.pypa.io/get-pip.py: :: env_operation,()
+python ¦/tmp/get-pip.py :: Build_Execute_operation,()
+python ¦-m¦pip¦install¦cmake :: Build_Execute_operation,()

@@ -1,0 +1,22 @@
+ZK_VERSION=zookeeper-3.4.8  :: Other_operation,()
+exhibitor.conf/opt/zookeeper/conf/ :: add_operation,()
+from,deploymentio/base
+ZK_FILE=${ZK_VERSION}.tar.gz  :: Other_operation,()
+curl ¦-L¦-o¦/tmp/${ZK_FILE}¦"http://apache.osuosl.org/zookeeper/${ZK_VERSION}/${ZK_FILE}" :: Dependencies_operation,()
+chmod ¦755¦/opt/zookeeper/bin/exhibitor.sh :: Permissions_operation,()
+mkdir ¦-p¦/var/log/exhibitor :: Filesystem_operation,()
+mkdir ¦-p¦/var/data/zookeeper/log :: Filesystem_operation,()
+chown ¦-R¦root:root¦/opt/zookeeper :: Permissions_operation,()
+entrypoint,/opt/zookeeper/bin/exhibitor.sh
+cd ¦/opt/zookeeper;¦rm¦-rf¦contrib¦dist-maven¦docs¦ivy*¦recipes¦src :: Filesystem_operation,()
+ls ¦target/exhibitor-*.jar¦|¦sed¦-e¦'s/target\\/\\(exhibitor-.*\\.jar\\ :: Filesystem_operation,()
+ln ¦-s¦/opt/${ZK_VERSION}¦/opt/zookeeper :: Filesystem_operation,()
+mkdir ¦-p¦/var/log/zookeeper :: Filesystem_operation,()
+tar ¦xzf¦/tmp/${ZK_FILE}¦-C¦/opt;¦rm¦/tmp/${ZK_FILE} :: Filesystem_operation,()
+exhibitor.sh/opt/zookeeper/bin/ :: add_operation,()
+DIO_ENVIRONMENT=:DIO_BASE_DOMAIN= :: env_operation,()
+mkdir ¦-p¦/var/data/exhibitor/index :: Filesystem_operation,()
+chmod ¦755¦/opt/zookeeper/bin/zookeeper-env.sh :: Permissions_operation,()
+zookeeper-env.sh/opt/zookeeper/conf/ :: add_operation,()
+expose,8080 2181 2888 3888
+mkdir ¦-p¦/var/data/zookeeper/data :: Filesystem_operation,()

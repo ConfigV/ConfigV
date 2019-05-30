@@ -1,0 +1,10 @@
+echo ¦echo¦"listen_addresses='*'" >> /var/lib/pgsql/data/postgresql.conf :: Filesystem_operation,()
+su ¦-¦postgres¦-c¦'/usr/pgsql-9.1/bin/initdb¦-D¦/var/lib/pgsql/data' :: Other_operation,()
+expose,5432
+from,cdelaitre/centos6
+yum ¦install¦-y¦postgresql91-server¦postgresql91-contrib :: Dependencies_operation,()
+yum ¦-y¦groupinstall¦"Development¦Tools" :: Dependencies_operation,()
+cmd,su¦-¦postgres¦-c¦'/usr/pgsql-9.1/bin/postgres¦-D¦/var/lib/pgsql/data'
+echo ¦echo¦"host all all 172.17.42.1/32 trust" >> /var/lib/pgsql/data/pg_hba.conf :: Filesystem_operation,()
+yum ¦-y¦install¦http://mirror.pnl.gov/epel/6/i386/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+rpm ¦-i¦http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-centos91-9.1-4.noarch.rpm :: Dependencies_operation,()

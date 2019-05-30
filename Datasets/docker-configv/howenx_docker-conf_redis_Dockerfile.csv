@@ -1,0 +1,13 @@
+mkdir ¦/data :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦ca-certificates¦¦wget¦¦vim :: Dependencies_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦redis-server :: Other_operation,()
+/data :: volume_operation,()
+cmd,redis-server¦/etc/redis/redis.conf
+cp ¦/usr/share/zoneinfo/Asia/Shanghai¦/etc/localtime :: Filesystem_operation,()
+from,ubuntu@wily
+/data :: workdir_operation,()
+expose,6379
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-ri¦'s/archive.ubuntu.com/cn.archive.ubuntu.com/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+sed ¦'s/^bind¦127.0.0.1/bind¦0.0.0.0/'¦-i¦/etc/redis/redis.conf :: Filesystem_operation,()

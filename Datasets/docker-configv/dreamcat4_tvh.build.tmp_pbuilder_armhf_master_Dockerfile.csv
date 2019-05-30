@@ -1,0 +1,10 @@
+git ¦pull :: Dependencies_operation,()
+mv ¦/build/*.deb¦/out :: Filesystem_operation,()
+tvh_branch="master": :: env_operation,()
+/build/tvheadend :: workdir_operation,()
+TVH_BUILD="sid:armhf" ¦./support/pbuilder :: Other_operation,()
+git ¦checkout¦"$tvh_branch" :: Dependencies_operation,()
+mv ¦/build/*.changes¦/out :: Filesystem_operation,()
+/out :: volume_operation,()
+rm ¦-rf¦/build :: Filesystem_operation,()
+from,dreamcat4/tvh.build.pbuilder.armhf

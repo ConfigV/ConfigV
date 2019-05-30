@@ -1,0 +1,16 @@
+https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2/tmp/ :: add_operation,()
+tar ¦-xvjf¦/tmp/firefox-${FIREFOX_VERSION}.tar.bz2¦-C¦/opt/ :: Filesystem_operation,()
+apt-get ¦install¦-q¦-y¦libdbus-glib-1-2 :: Dependencies_operation,()
+FIREFOX_VERSION:47.0.1 :: env_operation,()
+ln ¦-s¦/opt/firefox/firefox¦/usr/bin/firefox :: Filesystem_operation,()
+apt-get ¦-qqy¦--no-install-recommends¦install¦xvfb :: Dependencies_operation,()
+apt-get ¦update¦-qqy :: Dependencies_operation,()
+chmod ¦-R¦+x¦/opt/firefox/ :: Permissions_operation,()
+apt-get ¦-qqy¦--no-install-recommends¦install¦firefox :: Dependencies_operation,()
+chmod ¦755¦/var/selenium.node.register :: Permissions_operation,()
+SELENIUM_VERSION:2.53.1 :: env_operation,()
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+selenium.node.register/var/selenium.node.register :: add_operation,()
+from,selenium_grid/base:2.53.1
+cmd,/bin/bash¦/var/selenium.node.register
+apt-get ¦-qqy¦--no-install-recommends¦install¦bzip2vim&&¦rm¦-rf¦/var/lib/apt/lists/* :: Dependencies_operation,()

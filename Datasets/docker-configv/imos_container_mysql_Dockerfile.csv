@@ -1,0 +1,8 @@
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,ubuntu:14.04
+expose,3306
+cmd,mysqld_safe
+config/my.cnf/etc/mysql/my.cnf :: add_operation,()
+useradd ¦--shell=/sbin/nologin¦--uid=13306¦mysql :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦install¦mysql-client¦mysql-server :: Dependencies_operation,()

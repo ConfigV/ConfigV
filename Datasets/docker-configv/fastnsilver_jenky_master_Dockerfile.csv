@@ -1,0 +1,11 @@
+PATH=$ANSIBLE_HOME/bin:$PATH:PYTHONPATH=$ANSIBLE_HOME/lib:$PYTHONPATH :: env_operation,()
+from,jenkins:2.32
+cat ¦/usr/share/jenkins/plugins.txt¦|¦tr¦'\\n'¦'¦' :: Filesystem_operation,()
+echo ¦DEBIAN_FRONTEND=noninteractive¦apt-get install --no-install-recommends -qqy build-essential python-pip python-dev python-yaml libffi-dev libssl-dev libxml2-dev libxslt1-dev zlib1g-dev && pip install --upgrade wheel setuptools && pip instal... :: Filesystem_operation,()
+/var/run/docker.sock :: volume_operation,()
+/etc/ansible :: volume_operation,()
+lsb_release ¦-cs :: Other_operation,()
+root :: user_operation,()
+plugins.txt/usr/share/jenkins/plugins.txt :: copy_operation,()
+ANSIBLE_HOME=/opt/ansible: :: env_operation,()
+/var/jenkins_home :: volume_operation,()

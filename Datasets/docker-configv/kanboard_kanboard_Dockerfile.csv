@@ -1,0 +1,17 @@
+cd ¦/var/www :: Filesystem_operation,()
+git ¦clone¦https://github.com/fguillot/kanboard.git :: Dependencies_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+echo ¦echo¦"ServerName localhost" >> /etc/apache2/apache2.conf :: Filesystem_operation,()
+rm ¦-rf¦/var/www/html :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦apache2¦php5¦php5-sqlite¦git :: Dependencies_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+chown ¦-R¦www-data:www-data¦/var/www/html/data :: Permissions_operation,()
+from,ubuntu:14.04
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+mv ¦/var/www/kanboard¦/var/www/html :: Filesystem_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+expose,80

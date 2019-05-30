@@ -1,0 +1,10 @@
+from,alpine:3.7
+/app :: workdir_operation,()
+apk ¦add¦--no-cache¦--update¦curl¦bash¦build-base¦ca-certificates¦git¦bzip2-dev¦linux-headers¦ncurses-dev¦openssl¦openssl-dev¦readline-dev¦sqlite-dev :: Dependencies_operation,()
+./app :: add_operation,()
+PYENV_ROOT="/root/.pyenv": :: env_operation,()
+entrypoint,./docker/bin/entrypoint.sh
+update-ca-certificates  :: Other_operation,()
+PATH="$PYENV_ROOT/bin:$PATH": :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/app/docker/bin/install_python.sh ¦3.5.4¦3.6.4 :: Other_operation,()

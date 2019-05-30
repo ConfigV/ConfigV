@@ -1,0 +1,9 @@
+expose,11211
+cmd,memcached¦-t¦4¦-m¦4096¦-n¦550¦-u¦root
+from,ubuntu:16.04
+sed ¦-i¦s/PasswordAuthentication\\¦yes/PasswordAuthentication\\¦no/g¦/etc/ssh/sshd_config :: Filesystem_operation,()
+authorized_keys/authorized_keys :: copy_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦-y¦install¦openssh-server¦stress¦htop¦¦iotop¦¦bwm-ng¦passwd¦byobu¦psmisc¦memcached¦;¦apt-get¦clean¦all :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦-y¦update :: Dependencies_operation,()

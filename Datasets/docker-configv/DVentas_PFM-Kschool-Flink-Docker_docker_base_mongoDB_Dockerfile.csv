@@ -1,0 +1,15 @@
+echo ¦echo¦"mongodb-org-mongos hold" | dpkg --set-selections :: Filesystem_operation,()
+echo ¦echo¦"mongodb-org hold" | dpkg --set-selections :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'/bindIp:\\¦127\\.0\\.0\\.1/s/^/#/'¦/etc/mongod.conf :: Filesystem_operation,()
+echo ¦echo¦"deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.2.list :: Filesystem_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+expose,27017
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦EA312927 :: Dependencies_operation,()
+echo ¦echo¦"mongodb-org-tools hold" | dpkg --set-selections :: Filesystem_operation,()
+echo ¦echo¦"mongodb-org-shell hold" | dpkg --set-selections :: Filesystem_operation,()
+echo ¦echo¦"mongodb-org-server hold" | dpkg --set-selections :: Filesystem_operation,()
+from,baseubuntu
+apt-get ¦install¦-y¦--force-yes¦mongodb-org :: Dependencies_operation,()
+export ¦LC_ALL=C :: Environment_operation,()
+cmd,service¦ssh¦restart¦&&¦mongod¦-f¦/etc/mongod.conf

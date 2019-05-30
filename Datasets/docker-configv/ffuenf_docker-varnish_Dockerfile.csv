@@ -1,0 +1,21 @@
+entrypoint,/start.sh
+REFRESHED_AT:2015-12-05 :: env_operation,()
+VARNISH_ADMIN_PORT:6082 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove :: Dependencies_operation,()
+default.vcl.tmpl/etc/varnish/default.vcl.tmpl :: copy_operation,()
+VARNISH_PORT:6081 :: env_operation,()
+VARNISH_BACKEND_HOST:backendhost :: env_operation,()
+until ¦rm¦-rf¦/var/lib/apt/lists/*;¦do¦sleep¦1;¦done :: Other_operation,()
+VARNISH_BACKEND_PORT:8080 :: env_operation,()
+CACHE_SIZE:100M :: env_operation,()
+VARNISHD_PARAMS:-p :: env_operation,()
+/var/lib/varnish :: volume_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+substitute-env-vars.sh/bin/substitute-env-vars.sh :: copy_operation,()
+apt-get ¦install¦-qy¦varnish¦nano :: Dependencies_operation,()
+chmod ¦+x¦/bin/substitute-env-vars.sh :: Permissions_operation,()
+from,debian@latest
+expose,6082
+/etc/varnish :: volume_operation,()
+start.sh/start.sh :: copy_operation,()

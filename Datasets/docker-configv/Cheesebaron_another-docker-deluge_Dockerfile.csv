@@ -1,0 +1,16 @@
+apt-get ¦update¦-q :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+locale-gen ¦$LANG :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-qy¦software-properties-common :: Dependencies_operation,()
+apt-get ¦upgrade¦-qy :: Dependencies_operation,()
+from,ubuntu@latest
+apt-get ¦autoclean¦-y :: Dependencies_operation,()
+add-apt-repository ¦ppa:deluge-team/ppa¦-y :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-qy¦deluged¦deluge-web¦deluge-console :: Dependencies_operation,()
+expose,8112

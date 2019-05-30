@@ -1,0 +1,9 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+chmod ¦u+x¦/usr/local/bin/go-cron :: Permissions_operation,()
+curl ¦-L¦https://github.com/odise/go-cron/releases/download/v0.0.6/go-cron-linux.gz¦|¦zcat¦>¦/usr/local/bin/go-cron :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,go-cron¦@every 10s¦/bin/bash¦dl-and-convert.sh
+dl-and-convert.sh/ :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦jq¦ca-certificates¦unzip¦curl¦gdal-bin :: Dependencies_operation,()
+from,debian@jessie

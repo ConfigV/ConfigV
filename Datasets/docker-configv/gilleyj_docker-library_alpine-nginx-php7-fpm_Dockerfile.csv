@@ -1,0 +1,17 @@
+sed ¦-i¦-e¦'s/display_errors¦=¦Off/display_errors¦=¦On/g'¦/etc/php7/php.ini :: Filesystem_operation,()
+sed ¦-i¦-e¦'s/;error_log¦=¦php_errors.log/error_log¦=/proc\\/self\\/fd\\/1/g'¦/etc/php7/php.ini :: Filesystem_operation,()
+chown ¦-R¦nginx:www-data¦/run/nginx :: Permissions_operation,()
+container_confs/etc/bashrc/root/.bashrc :: copy_operation,()
+entrypoint,/entrypoint.sh
+from,alpine@edge
+ln ¦-s¦/usr/bin/php7¦/usr/bin/php :: Filesystem_operation,()
+container_confs/ :: copy_operation,()
+echo ¦echo¦"http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk --update --no-cache add ca-certificates  nginx  supervisor  nodejs  mysql-client  php7  php7-bcmath  php7-bz2  php7-ctype  php7-curl  php7-dom  php7-f... :: Filesystem_operation,()
+chown ¦-R¦www-data:www-data¦/run/php¦/webroot :: Permissions_operation,()
+expose,80 443
+chmod ¦-R¦ug+rw¦/webroot :: Permissions_operation,()
+mkdir ¦-p¦/run/php¦/run/nginx¦/run/supervisord :: Filesystem_operation,()
+exit ¦0¦;¦exit¦1 :: Other_operation,()
+cmd,nginx
+sed ¦-i¦-e¦'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g'¦/etc/php7/php.ini :: Filesystem_operation,()
+set ¦-x¦;¦addgroup¦-g¦82¦-S¦www-data¦;¦adduser¦-u¦82¦-D¦-S¦-G¦www-data¦www-data :: Environment_operation,()

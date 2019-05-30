@@ -1,0 +1,6 @@
+FTP_PATH:/home/ftpusers/ftpuser :: env_operation,()
+FTP_USER:ftpuser :: env_operation,()
+cmd,echo¦"$FTP_PASS\\n$FTP_PASS"¦|¦pure-pw¦useradd¦$FTP_USER¦-u¦ftpuser¦-d¦$FTP_PATH¦&&¦pure-pw¦mkdb¦&&¦/usr/sbin/pure-ftpd¦-c¦50¦-C¦10¦-l¦puredb:/etc/pure-ftpd/pureftpd.pdb¦-E¦-j¦-R¦-P¦$FTP_PUBLICHOST¦-p¦30000:30009
+FTP_PASS:password :: env_operation,()
+from,stilliard/pure-ftpd
+FTP_PUBLICHOST:localhost :: env_operation,()

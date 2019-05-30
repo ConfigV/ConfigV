@@ -1,0 +1,10 @@
+GRADLE_HOME:/usr/bin/gradle :: env_operation,()
+rm ¦gradle-${GRADLE_VERSION}-all.zip :: Filesystem_operation,()
+/usr/bin :: workdir_operation,()
+curl ¦-sLO¦https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip :: Dependencies_operation,()
+GRADLE_VERSION:2.6 :: env_operation,()
+PATH:$PATH:$GRADLE_HOME/bin :: env_operation,()
+from,registry.aliyuncs.com/ringtail/jenkins-dind-slave-java:0.1
+unzip ¦gradle-${GRADLE_VERSION}-all.zip :: Filesystem_operation,()
+ln ¦-s¦gradle-${GRADLE_VERSION}¦gradle :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D

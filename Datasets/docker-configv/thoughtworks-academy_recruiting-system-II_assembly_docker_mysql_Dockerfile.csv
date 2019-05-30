@@ -1,0 +1,15 @@
+entrypoint,/entrypoint.sh
+/var/lib/mysql :: volume_operation,()
+expose,3306
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+from,ubuntu:14.04
+MYSQL_VERSION:5.7.10-1ubuntu14.04 :: env_operation,()
+echo ¦echo¦"deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list :: Filesystem_operation,()
+echo ¦{¦ echo mysql-community-server mysql-community-server/data-dir select '';  echo mysql-community-server mysql-community-server/root-pass password '';  echo mysql-community-server mysql-community-server/re-root-pass password '';  echo mysql-... :: Filesystem_operation,()
+cmd,mysqld
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦A4A9406876FCBD3C456770C88C718D3B5072E1F5 :: Dependencies_operation,()
+MYSQL_MAJOR:5.7 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+echo ¦sed¦-Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf && echo 'skip-host-cache\\nskip-name-resolve' | awk '{ print } $1 == "[mysqld]" && c == 0 { c = 1; system("cat") }' /etc/mysql/my.cnf > /tmp/my.cnf && mv /tmp/my.cnf /etc/mysql/my.cnf :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

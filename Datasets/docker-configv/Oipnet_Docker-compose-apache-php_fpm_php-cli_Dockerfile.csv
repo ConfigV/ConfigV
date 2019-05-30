@@ -1,0 +1,11 @@
+/var/www :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-install ¦mbstring¦pdo_mysql¦mcrypt¦mysql :: Other_operation,()
+conf/www.conf/etc/php5/fpm/pool.d/www.conf :: add_operation,()
+/var/www :: workdir_operation,()
+entrypoint,php-fpm¦--nodaemonize
+conf/30-custom.ini/usr/local/etc/php/conf.d/30-custom.ini :: add_operation,()
+docker-php-ext-configure ¦intl :: Other_operation,()
+from,php:5.6
+apt-get ¦install¦-y¦zlib1g-dev¦libicu-dev¦g++¦libmcrypt-dev :: Dependencies_operation,()
+docker-php-ext-install ¦intl :: Other_operation,()

@@ -1,0 +1,11 @@
+apt-get ¦install¦-y¦make :: Dependencies_operation,()
+NOTVISIBLE:"in :: env_operation,()
+from,ubuntu:14.04
+wget ¦http://www.polymake.org/lib/exe/fetch.php/download/polymake-2.14.tar.bz2;\\ :: Dependencies_operation,()
+expose,22
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+apt-get ¦install¦-y¦openssh-server¦wget¦g++¦libboost-dev¦libgmp-dev¦libgmpxx4ldbl¦libmpfr-dev¦libperl-dev¦libsvn-perl¦libterm-readline-gnu-perl¦libxml-libxml-perl¦libxml-libxslt-perl¦libxml-perl¦libxml-writer-perl¦libxml2-dev¦w3c-dtd-xhtml¦xsltproc... :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦no/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()

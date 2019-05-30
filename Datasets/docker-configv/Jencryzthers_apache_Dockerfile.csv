@@ -1,0 +1,22 @@
+expose,443
+./install  :: Other_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+/bin/rm ¦-rf¦/tmp/cphalcon/ :: Other_operation,()
+/usr/bin/apt-get ¦-y¦purge¦git¦php5-dev¦libpcre3-dev¦gcc¦make :: Other_operation,()
+cd ¦cphalcon/build/ :: Filesystem_operation,()
+default/etc/apache2/sites-available/ :: add_operation,()
+/usr/sbin/php5enmod ¦phalcon :: Other_operation,()
+/usr/sbin/a2enmod ¦rewrite :: Other_operation,()
+/var/www/phalcon/public :: workdir_operation,()
+/usr/bin/git ¦clone¦git://github.com/phalcon/cphalcon.git :: Other_operation,()
+from,eboraas/apache-php:stable
+/tmp :: workdir_operation,()
+echo ¦/bin/echo¦'extension=phalcon.so' >/etc/php5/mods-available/phalcon.ini :: Filesystem_operation,()
+/usr/sbin/a2enmod ¦socache_shmcb¦||¦true :: Other_operation,()
+default-ssl/etc/apache2/sites-available/ :: add_operation,()
+apt-get ¦-y¦install¦git¦php5-dev¦libpcre3-dev¦gcc¦make :: Dependencies_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦/bin/echo¦'<html><body><h1>It works!</h1></body></html>' > /var/www/phalcon/public/index.html :: Filesystem_operation,()
+/usr/bin/apt-get ¦update :: Other_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND

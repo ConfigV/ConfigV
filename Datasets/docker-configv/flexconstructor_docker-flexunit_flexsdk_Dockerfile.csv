@@ -1,0 +1,16 @@
+wget ¦http://download.macromedia.com/get/flashplayer/updaters/11/playerglobal11_1.swc¦-O¦${FLEX_HOME}/frameworks/libs/player/11.1/playerglobal.swc :: Dependencies_operation,()
+ant ¦-f¦installer.xml¦-Dair.sdk.version=2.6¦-Djava.awt.headless=true¦-Dinput.air.download=y¦-Dinput.fontswf.download=y¦-Dinput.flash.download=y :: Other_operation,()
+cd ¦$FLEX_HOME :: Filesystem_operation,()
+wget ¦http://apache.cbox.biz/flex/4.15.0/binaries/apache-flex-sdk-${FLEX_SDK_VERSION}-bin.tar.gz :: Dependencies_operation,()
+apk ¦add¦--no-cache¦bash¦wget¦apache-ant¦rsync¦openssh :: Dependencies_operation,()
+${FLEX_HOME} :: volume_operation,()
+mkdir ¦-p¦/flex-sdk :: Filesystem_operation,()
+rm ¦apache-flex-sdk-${FLEX_SDK_VERSION}-bin.tar.gz :: Filesystem_operation,()
+FLEX_SDK_VERSION:4.15.0 :: env_operation,()
+FLEX_HOME:/flex-sdk/apache-flex-sdk-${FLEX_SDK_VERSION}-bin :: env_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+mkdir ¦-p¦${FLEX_HOME}/frameworks/libs/player/11.1 :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+cmd,bash
+from,java:8.0
+tar ¦zxvf¦apache-flex-sdk-${FLEX_SDK_VERSION}-bin.tar.gz¦-C¦/flex-sdk :: Filesystem_operation,()

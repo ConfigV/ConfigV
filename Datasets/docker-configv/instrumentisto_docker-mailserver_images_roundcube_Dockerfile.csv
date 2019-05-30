@@ -1,0 +1,10 @@
+chown ¦-R¦nobody:nobody¦/var/www :: Permissions_operation,()
+from,php:7.0
+docker-php-ext-install ¦opcache :: Other_operation,()
+entrypoint,/sbin/tini¦--
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+rootfs/ :: copy_operation,()
+rm ¦-rf¦/var/www/html :: Filesystem_operation,()
+apk ¦add¦--update¦--no-cache¦tini¦ca-certificates :: Dependencies_operation,()
+mv ¦/var/www/public_html¦/var/www/html :: Filesystem_operation,()
+cmd,php-fpm

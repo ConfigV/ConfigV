@@ -1,0 +1,13 @@
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./mesos_rsa.pub/root/.ssh/authorized_keys :: add_operation,()
+./start.sh/start.sh :: add_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+./mesos_rsa/root/.ssh/id_rsa :: add_operation,()
+from,examplecluster_trusty
+apt-get ¦install¦-y¦openssh-server¦docker.io¦curl¦vim :: Dependencies_operation,()
+mkdir ¦-p¦/root/.ssh :: Filesystem_operation,()
+chmod ¦600¦/root/.ssh/id_rsa :: Permissions_operation,()
+chmod ¦700¦/root/.ssh :: Permissions_operation,()
+./ssh_config/root/.ssh/config :: add_operation,()
+mkdir ¦-p¦/var/log/paasta_logs :: Filesystem_operation,()

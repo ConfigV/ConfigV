@@ -1,0 +1,7 @@
+expose,8080
+from,crosbymichael/golang
+go ¦get¦github.com/drone/drone-wall :: Build_Execute_operation,()
+apt-get ¦-y¦-qq¦--force-yes¦update :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦--force-yes¦install¦build-essential :: Dependencies_operation,()
+go ¦build¦github.com/drone/drone-wall :: Build_Execute_operation,()
+entrypoint,drone-wall¦--datasource¦/var/lib/drone/drone.sqlite¦--port¦:8080

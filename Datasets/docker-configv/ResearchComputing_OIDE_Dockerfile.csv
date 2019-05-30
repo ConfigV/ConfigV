@@ -1,0 +1,11 @@
+mkdir ¦-p¦/home/oide/.config/oide :: Filesystem_operation,()
+cmd,/usr/local/bin/oide
+chown ¦-R¦oide:oide¦/home/oide/.config/ :: Permissions_operation,()
+from,ubuntu:14.04
+pip ¦install¦oide :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦python-dev¦python-pip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"oide:oide" | chpasswd :: Filesystem_operation,()
+useradd ¦-m¦oide :: Permissions_operation,()
+"OIDE_SETTINGS=/home/oide/.config/oide/oide_settings.py": :: env_operation,()
+touch ¦/home/oide/.config/oide/oide_settings.py :: Filesystem_operation,()

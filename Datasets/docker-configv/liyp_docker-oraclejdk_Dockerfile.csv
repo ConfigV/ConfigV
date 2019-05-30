@@ -1,0 +1,12 @@
+rm ¦/tmp/* :: Filesystem_operation,()
+wget ¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie;"¦"http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION}u${JAVA_UPDATE}-b${JAVA_BUILD}/jdk-${JAVA_VERSION}u${JAVA_UPDATE}-linux-x64.tar.gz" :: Dependencies_operation,()
+apt-get ¦remove¦-y¦wget :: Dependencies_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+apt-get ¦-y¦autoclean :: Dependencies_operation,()
+tar ¦xzf¦"jdk-${JAVA_VERSION}u${JAVA_UPDATE}-linux-x64.tar.gz"¦-C¦/opt :: Filesystem_operation,()
+from,debian@jessie
+ln ¦-s¦"/opt/jdk1.${JAVA_VERSION}.0_${JAVA_UPDATE}"¦$JAVA_HOME :: Filesystem_operation,()
+JAVA_VERSION=7:JAVA_UPDATE=79 :: env_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+PATH=$JAVA_HOME/bin:$PATH: :: env_operation,()
+echo ¦echo¦"deb http://mirrors.163.com/debian/ jessie main non-free contrib" > /etc/apt/sources.list && apt-get update && apt-get -y upgrade && apt-get install -y wget :: Filesystem_operation,()

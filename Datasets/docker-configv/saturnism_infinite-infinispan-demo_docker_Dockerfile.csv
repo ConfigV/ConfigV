@@ -1,0 +1,10 @@
+from,jboss/infinispan-server:7.1.0.Final
+JMX_USERNAME=jmx: :: env_operation,()
+expose,7600 9990 8888 11222 57600
+standalone/configuration/*${INFINISPAN_SERVER_HOME}/standalone/configuration/ :: copy_operation,()
+chmod ¦+x¦${INFINISPAN_SERVER_HOME}/bin/*.sh :: Permissions_operation,()
+cmd,/opt/jboss/infinispan-server/bin/clustered.sh¦-c¦clustered-google.xml¦-b¦0.0.0.0
+modules/${INFINISPAN_SERVER_HOME}/modules/ :: copy_operation,()
+sed ¦-i¦'/<dependencies>/a¦<module¦name="org.jboss.kubeping"\\/>'¦${INFINISPAN_SERVER_HOME}/modules/system/layers/base/org/jboss/as/clustering/jgroups/main/module.xml :: Filesystem_operation,()
+sed ¦-i¦'/<dependencies>/a¦<module¦name="org.jboss.kubeping"\\/>'¦${INFINISPAN_SERVER_HOME}/modules/system/layers/base/org/jgroups/main/module.xml :: Filesystem_operation,()
+JMX_PASSWORD=jmx: :: env_operation,()

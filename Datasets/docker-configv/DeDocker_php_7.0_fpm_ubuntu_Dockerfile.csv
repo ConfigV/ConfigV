@@ -1,0 +1,16 @@
+LC_ALL=C.UTF-8 ¦add-apt-repository¦ppa:ondrej/php :: Other_operation,()
+/usr/src/app :: workdir_operation,()
+build/build :: copy_operation,()
+expose,9000
+cmd,php-fpm7.0
+apt-get ¦install¦-y¦--no-install-recommends¦apt-transport-https¦ca-certificates¦curl¦software-properties-common :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+/build/cleanup.sh  :: Other_operation,()
+from,ubuntu:16.04
+apt-get ¦remove¦--purge¦-y¦software-properties-common :: Dependencies_operation,()
+chown ¦www-data:www-data¦/run/php :: Permissions_operation,()
+mkdir ¦-p¦/run/php :: Filesystem_operation,()
+'composer-setup.php'  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+container/ :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦php7.0¦php7.0-fpm¦php7.0-bz2¦php7.0-curl¦php7.0-exif¦php7.0-iconv¦php7.0-mbstring¦php7.0-mcrypt¦php7.0-pdo¦php7.0-pdo-mysql¦php7.0-pdo-pgsql¦php7.0-json¦php7.0-phar¦php7.0-dom¦php7.0-gd¦php7.0-ctype¦git¦u... :: Dependencies_operation,()

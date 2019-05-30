@@ -1,0 +1,16 @@
+echo ¦mkdir¦/var/www && chown -R www-data:www-data /var/www && sed -i 's|www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin|www-data:x:33:33:www-data:/var/www:/bin/bash|' /etc/passwd && echo "www-data ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoer... :: Filesystem_operation,()
+cd ¦/var/www/devdocs :: Filesystem_operation,()
+cd ¦/var/www :: Filesystem_operation,()
+expose,9292
+gem ¦install¦bundle :: Dependencies_operation,()
+apt-get ¦-q¦install¦-y¦curl¦git¦nodejs¦sudo :: Dependencies_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+cmd,bash¦-c¦"source¦/var/www/.rvm/scripts/rvm¦&&¦cd¦/var/www/devdocs¦&&¦thor¦docs:download¦--all¦&&¦rackup"
+curl ¦-sSL¦https://get.rvm.io¦|¦bash¦-s¦stable¦--ruby=2.1.2 :: Dependencies_operation,()
+from,debian@sid
+git ¦clone¦https://github.com/Thibaut/devdocs.git¦/var/www/devdocs :: Dependencies_operation,()
+bash ¦-c¦"source¦/var/www/.rvm/scripts/rvm :: Build_Execute_operation,()
+bundle ¦install :: Dependencies_operation,()
+www-data :: user_operation,()
+thor ¦docs:download¦--all" :: Other_operation,()

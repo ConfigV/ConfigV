@@ -1,0 +1,17 @@
+apt-get ¦autoclean :: Dependencies_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦tightvncserver¦mate-core¦mate-desktop-environment¦mate-notification-daemon¦supervisor¦net-tools¦curl¦git¦pwgen :: Dependencies_operation,()
+git ¦clone¦https://github.com/novnc/noVNC.git¦$HOME/noVNC :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+rm ¦$HOME/ngrok/ngrok.zip :: Filesystem_operation,()
+cmd,/bin/bash¦/home/ubuntu/startup.sh
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,ubuntu:16.04
+HOME:/home/$USER :: env_operation,()
+https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip$HOME/ngrok/ngrok.zip :: add_operation,()
+supervisor.conf/etc/supervisor/conf.d/ :: copy_operation,()
+USER:ubuntu :: env_operation,()
+startup.sh$HOME :: copy_operation,()
+expose,6080 5901 4040
+unzip ¦-o¦$HOME/ngrok/ngrok.zip¦-d¦$HOME/ngrok :: Filesystem_operation,()

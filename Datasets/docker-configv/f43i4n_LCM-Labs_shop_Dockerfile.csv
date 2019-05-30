@@ -1,0 +1,11 @@
+sh ¦-c¦'touch¦/shop.jar' :: Build_Execute_operation,()
+from,maven:3.3
+/src/install/src :: copy_operation,()
+mvn ¦install :: Dependencies_operation,()
+expose,8080
+cd ¦/install/ :: Filesystem_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/shop.jar
+sh ¦-c¦'mv¦/install/target/shop-1.0.jar¦/shop.jar' :: Build_Execute_operation,()
+rm ¦-rf¦/install/ :: Filesystem_operation,()
+/pom.xml/install/pom.xml :: copy_operation,()
+/tmp :: volume_operation,()

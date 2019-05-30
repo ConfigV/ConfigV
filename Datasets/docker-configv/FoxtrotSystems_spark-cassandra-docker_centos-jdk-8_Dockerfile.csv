@@ -1,0 +1,9 @@
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+wget ¦--no-cookies¦--no-check-certificate¦--header¦"Cookie:¦gpw_e24=http%3A%2F%2Fwww.oracle.com%2F;¦oraclelicense=accept-securebackup-cookie"¦"http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-linux-x64.rpm" :: Dependencies_operation,()
+src/datastax.repo/etc/yum.repos.d/datastax.repo :: add_operation,()
+src/epel7.repo/etc/yum.repos.d/epel7.repo :: add_operation,()
+yum ¦localinstall¦-y¦jdk-8u65-linux-x64.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦wget¦curl¦tar¦supervisor¦sudo¦which¦hostname :: Dependencies_operation,()
+rm ¦-rf¦jdk-8u65-linux-x64.rpm :: Filesystem_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()

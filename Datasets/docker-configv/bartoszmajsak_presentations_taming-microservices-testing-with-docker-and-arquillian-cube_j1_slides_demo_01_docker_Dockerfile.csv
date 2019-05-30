@@ -1,0 +1,6 @@
+/usr/src/app :: workdir_operation,()
+expose,8082
+from,phusion/baseimage
+index.html/usr/src/app/ :: copy_operation,()
+cmd,while¦true;¦do¦{¦echo¦-e¦'HTTP/1.1¦200¦OK\\r\\n';¦cat¦index.html;¦}¦|¦nc¦-vv¦-l¦0.0.0.0¦8082;¦done
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()

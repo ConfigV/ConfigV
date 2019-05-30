@@ -1,0 +1,9 @@
+cmd,/opt/sublime_text/sublime_text¦-w
+curl ¦-sSL¦"http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3083_x64.tar.bz2"¦-o¦/tmp/sublime.tar.bz2 :: Dependencies_operation,()
+tar ¦-xjf¦/tmp/sublime.tar.bz2¦-C¦/opt/sublime_text¦--strip-components¦1 :: Filesystem_operation,()
+mkdir ¦-p¦/opt/sublime_text :: Filesystem_operation,()
+from,jgiovaresco/debian-with-dockerize:latest
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦¦bzip2¦¦ca-certificates¦¦curl¦¦git¦¦libglib2.0-0¦¦libx11-6¦¦libcairo2¦¦libpango-1.0-0¦¦libpangocairo-1.0-0¦¦libgtk2.0-0¦¦tar¦¦--no-install-recommends :: Dependencies_operation,()
+rm ¦/tmp/sublime.tar.bz2* :: Filesystem_operation,()

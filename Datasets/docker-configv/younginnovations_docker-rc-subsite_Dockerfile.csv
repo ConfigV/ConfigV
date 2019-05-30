@@ -1,0 +1,20 @@
+/var/www/html/site :: workdir_operation,()
+echo ¦echo¦"deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" > /etc/apt/sources.list.d/ondrej-php5-5_6-trusty.list :: Filesystem_operation,()
+ln ¦-s¦/etc/php5/mods-available/mcrypt.ini¦/etc/php5/cli/conf.d/20-mcrypt.ini :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦4F4EA0AAE5267A6C :: Dependencies_operation,()
+apt-get ¦install¦-y¦apache2¦php5¦php5-cli¦php5-curl¦php5-mcrypt¦php5-readline :: Dependencies_operation,()
+ln ¦-s¦/etc/php5/mods-available/mcrypt.ini¦/etc/php5/apache2/conf.d/20-mcrypt.ini :: Filesystem_operation,()
+from,ubuntu:14.04
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+expose,80
+php ¦composer.phar¦dump-autoload¦--optimize :: Other_operation,()
+a2enmod ¦php5 :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+git ¦clone¦https://github.com/younginnovations/resourcecontracts-rc-subsite¦site :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦git¦wget :: Dependencies_operation,()
+php ¦artisan¦migrate¦--force :: Other_operation,()
+/var/www/html/ :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-s¦http://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+conf/.env/var/www/html/site/.env :: add_operation,()
+php ¦composer.phar¦install¦--prefer-source :: Other_operation,()

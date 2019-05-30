@@ -1,0 +1,16 @@
+apt-get ¦purge¦-y¦--auto-remove¦g++¦gcc¦libc6-dev¦make¦git :: Dependencies_operation,()
+ln ¦-s¦/usr/lib/libgeos_c.so¦/usr/lib/libgeos.so :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+$GOPATH :: workdir_operation,()
+/data/cache :: volume_operation,()
+cmd,./import.sh
+go ¦get¦github.com/omniscale/imposm3 :: Build_Execute_operation,()
+go ¦install¦github.com/omniscale/imposm3 :: Build_Execute_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/data/import :: volume_operation,()
+from,golang:1.4
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+./usr/src/app/ :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+IMPORT_DATA_DIR=/data/import:IMPOSM_CACHE_DIR=/data/cache :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦libprotobuf-dev¦libleveldb-dev¦libgeos-dev¦--no-install-recommends :: Other_operation,()

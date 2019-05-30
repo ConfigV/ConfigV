@@ -1,0 +1,7 @@
+cmd,-p¦0.0.0.0:22¦-p¦0.0.0.0:80¦-p¦0.0.0.0:443¦--ssh¦ssh:22¦--http¦http:80¦--ssl¦ssl:443
+from,pataquets/ubuntu:trusty
+entrypoint,sslh¦-f
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦--no-install-recommends¦install¦sslh :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()

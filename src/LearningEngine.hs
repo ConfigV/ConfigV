@@ -1,5 +1,6 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE NoMonoPatBinds #-}
 
 module LearningEngine where
@@ -58,6 +59,13 @@ buildAllRelations configVconfig f = let
     , fineInt   = getRules enableFineGrain
     , typeErr   = getRules enableTypeRules
     , missing   = getRules enableMissing  
+    }
+
+mapOverRuleSet :: (forall a. a -> a) -> RuleSet -> RuleSet
+mapOverRuleSet f r = 
+  r {
+      order = f (order r)
+    , keyvalkey = f (keyvalkey r)
     }
 
 parRuleSet :: Strategy RuleSet

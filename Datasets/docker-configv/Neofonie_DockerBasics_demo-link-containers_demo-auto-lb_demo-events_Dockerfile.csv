@@ -1,0 +1,8 @@
+ln ¦-s¦/start.sh¦/usr/local/sbin/reload :: Filesystem_operation,()
+material/haproxy.cfg/usr/local/etc/haproxy/haproxy.cfg :: add_operation,()
+entrypoint,/start.sh
+apt-get ¦update¦&&\\ :: Dependencies_operation,()
+echo ¦echo¦"deb https://apt.dockerproject.org/repo debian-jessie main" >> /etc/apt/sources.list.d/docker.list &&\\ :: Filesystem_operation,()
+material/start.sh/ :: add_operation,()
+from,haproxy
+apt-get ¦purge¦docker.io*¦&&\\ :: Dependencies_operation,()

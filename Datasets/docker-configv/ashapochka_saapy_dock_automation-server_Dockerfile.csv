@@ -1,0 +1,13 @@
+from,jenkins
+root :: user_operation,()
+echo ¦echo¦"deb http://172.17.0.1:3142/apt.dockerproject.org/repo debian-jessie main" >> /etc/apt/sources.list.d/docker.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-yq¦--force-yes¦--no-install-recommends¦apt-utils¦apt-transport-https¦ca-certificates¦sudo :: Dependencies_operation,()
+apt-get ¦install¦-yq¦--force-yes¦--no-install-recommends¦docker-engine :: Dependencies_operation,()
+/usr/local/bin/install-plugins.sh ¦ssh-credentials¦mailer¦scm-api¦git-client¦git¦greenballs¦cloudbees-folder :: Other_operation,()
+jenkins :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦"jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦hkp://p80.pool.sks-keyservers.net:80¦--recv-keys¦58118E89F3A912897C070ADBF76221572C52609D :: Dependencies_operation,()
+./sources.list/etc/apt/ :: copy_operation,()

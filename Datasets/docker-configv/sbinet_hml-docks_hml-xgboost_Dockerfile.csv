@@ -1,0 +1,14 @@
+ln ¦-s¦/higgsml/data/training.csv¦. :: Filesystem_operation,()
+mkdir ¦-p¦$BUILD_DIR :: Filesystem_operation,()
+cd ¦$BUILD_DIR :: Filesystem_operation,()
+/higgsml/data :: workdir_operation,()
+from,higgsml/hml-base
+ln ¦-s¦/higgsml/data/test.csv¦. :: Filesystem_operation,()
+BUILD_DIR:/higgsml/code :: env_operation,()
+./higgsml-train ¦/higgsml/data/training.csv¦/higgsml/code/trained.dat :: Other_operation,()
+entrypoint,/bin/bash
+chmod ¦+x¦$BUILD_DIR/higgsml-* :: Permissions_operation,()
+git ¦clone¦git://github.com/hetong007/higgsml¦$BUILD_DIR :: Dependencies_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+./higgsml-build  :: Other_operation,()
+apt-get ¦install¦-y¦git¦make¦gcc¦g++¦python¦python-numpy¦python-scipy :: Dependencies_operation,()

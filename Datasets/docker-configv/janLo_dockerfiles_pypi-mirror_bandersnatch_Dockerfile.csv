@@ -1,0 +1,14 @@
+cmd,/usr/local/bin/run.sh
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+su ¦user¦-c¦"virtualenv¦./bandersnatch-env :: Other_operation,()
+chown ¦user:user¦/etc/bandersnatch.conf :: Permissions_operation,()
+/home/user :: workdir_operation,()
+run.sh/usr/local/bin/run.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+default.conf/etc/bandersnatch.conf :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+useradd ¦--uid¦1000¦--create-home¦--home-dir¦/home/user¦-g¦user¦user :: Permissions_operation,()
+/srv/pypi :: volume_operation,()
+from,debian@jessie
+apt-get ¦-y¦install¦--no-install-recommends¦virtualenv¦python-dev¦ca-certificates¦python-pip¦wget :: Dependencies_operation,()
+groupadd ¦user :: Permissions_operation,()

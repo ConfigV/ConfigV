@@ -1,0 +1,20 @@
+ln ¦-snf¦/usr/share/zoneinfo/$TIMEZONE¦/etc/localtime :: Filesystem_operation,()
+/apps :: volume_operation,()
+echo ¦echo¦$TIMEZONE > /etc/timezone :: Filesystem_operation,()
+expose,9000
+touch ¦/etc/php5/fpm.d/none.conf :: Filesystem_operation,()
+chmod ¦777¦-R¦/var/log/ :: Permissions_operation,()
+/apps :: workdir_operation,()
+sed ¦-i¦-e¦"s/;daemonize\\s*=\\s*yes/daemonize¦=¦no/g"¦/etc/php5/php-fpm.conf¦&&sed¦-i¦-e¦"s/listen\\s*=\\s*127.0.0.1:9000/listen¦=¦9000/g"¦/etc/php5/php-fpm.conf¦&&sed¦-i¦"s|date.timezone¦=.*|date.timezone¦=¦${TIMEZONE}|"¦/etc/php5/php.ini¦&&sed¦-... :: Filesystem_operation,()
+sed ¦-i¦'s/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/'¦/etc/apk/repositories :: Filesystem_operation,()
+PHP_MAX_POST:100M :: env_operation,()
+from,alpine@latest
+PHP_MEMORY_LIMIT:512M :: env_operation,()
+cmd,php-fpm
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦tzdata :: Dependencies_operation,()
+apk ¦add¦php5¦php5-fpm¦php5-opcache¦php5-intl¦php5-mcrypt¦php5-openssl¦php5-gmp¦php5-json¦php5-dom¦php5-pdo¦php5-zip¦php5-zlib¦php5-mysql¦php5-mysqli¦php5-bcmath¦php5-gd¦php5-xcache¦php5-pdo_mysql¦php5-gettext¦php5-xml¦php5-xmlreader¦php5-xmlrp... :: Dependencies_operation,()
+TIMEZONE:Asia/Shanghai :: env_operation,()
+MAX_UPLOAD:50M :: env_operation,()
+PHP_MAX_FILE_UPLOAD:200 :: env_operation,()
+apk ¦update :: Dependencies_operation,()

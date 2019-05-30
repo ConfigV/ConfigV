@@ -1,0 +1,10 @@
+chmod ¦+x¦/usr/local/bin/run_rabbit :: Permissions_operation,()
+run_rabbit/usr/local/bin/run_rabbit :: add_operation,()
+cmd,run_rabbit
+rabbitmq.config/etc/rabbitmq/rabbitmq.config :: add_operation,()
+from,local/base
+puppet ¦apply¦-e¦"class¦{'rabbitmq':¦service_manage¦=>¦false,¦port¦=>¦'5672',¦config_stomp¦=>¦true,¦stomp_port¦=>¦'61613',node_ip_address¦=>¦'0.0.0.0'}" :: Dependencies_operation,()
+expose,22 61613 5672
+rabbitmq-plugins ¦enable¦rabbitmq_stomp :: Other_operation,()
+vagrant:vagrant ¦|¦chpasswd :: Other_operation,()
+puppet ¦module¦install¦puppetlabs-rabbitmq :: Dependencies_operation,()

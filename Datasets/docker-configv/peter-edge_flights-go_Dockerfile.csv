@@ -1,0 +1,12 @@
+/go/src/go.pedge.io/flights :: workdir_operation,()
+ETC_DIR_PATH:/go/src/go.pedge.io/flights/etc :: env_operation,()
+GO15VENDOREXPERIMENT:1 :: env_operation,()
+chmod ¦+x¦/bin/docker :: Permissions_operation,()
+./go/src/go.pedge.io/flights/ :: add_operation,()
+curl ¦-sSL¦https://get.docker.com/builds/Linux/x86_64/docker-1.9.1¦>¦/bin/docker :: Dependencies_operation,()
+cmd,make¦docker-run-flights-dev-internal
+APP_NAME:flightsd :: env_operation,()
+from,golang:1.5
+mkdir ¦-p¦/go/src/go.pedge.io/flights :: Filesystem_operation,()
+expose,8080
+DISABLE_STDERR_LOG:1 :: env_operation,()

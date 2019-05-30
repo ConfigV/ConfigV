@@ -1,0 +1,6 @@
+expose,80 443
+cmd,nginx
+nginx.conf/etc/nginx/ :: add_operation,()
+echo ¦apk¦update && apk upgrade && apk add --no-cache bash && adduser -D -H -u 1000 -s /bin/bash www-data && rm /etc/nginx/conf.d/default.conf && echo "upstream php-upstream { server ${PHP_UPSTREAM}:9035; }" > /etc/nginx/conf.d/upstream.conf :: Filesystem_operation,()
+from,nginx@alpine
+sites/*.conf/etc/nginx/sites-available/ :: copy_operation,()

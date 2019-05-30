@@ -1,0 +1,10 @@
+/opt :: workdir_operation,()
+hadoop-configurator.sh. :: copy_operation,()
+rm ¦consul-template.zip :: Filesystem_operation,()
+update-ca-certificates  :: Other_operation,()
+mv ¦consul-template¦/usr/bin :: Filesystem_operation,()
+from,frolvlad/alpine-oraclejdk8:cleaned
+wget ¦https://releases.hashicorp.com/consul-template/0.16.0/consul-template_0.16.0_linux_amd64.zip¦-O¦consul-template.zip :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦add¦--update¦bash¦ca-certificates¦openssl¦jq :: Dependencies_operation,()
+unzip ¦consul-template.zip :: Filesystem_operation,()

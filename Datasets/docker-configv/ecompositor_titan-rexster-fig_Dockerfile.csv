@@ -1,0 +1,9 @@
+/opt/titan-0.5.1-hadoop2 :: workdir_operation,()
+expose,8184
+from,dockerfile/java:latest
+run.sh/opt/titan-0.5.1-hadoop2/ :: add_operation,()
+cmd,/bin/sh¦-e¦/opt/titan-0.5.1-hadoop2/run.sh
+rm ¦/opt/titan.zip :: Filesystem_operation,()
+curl ¦-o¦/opt/titan.zip¦http://s3.thinkaurelius.com/downloads/titan/titan-0.5.1-hadoop2.zip :: Dependencies_operation,()
+rexster-titan.xml.template/opt/titan-0.5.1-hadoop2/ :: add_operation,()
+unzip ¦/opt/titan.zip¦-d¦/opt/ :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+sed ¦-i¦'127,185s/###//'¦Misc/valgrind-python.supp :: Filesystem_operation,()
+sed ¦-i¦':a;N;$!ba;s/#define¦Py_USING_MEMORY_DEBUGGER\\n*\\//¦*\\/\\n#define¦Py_USING_MEMORY_DEBUGGER/'¦Objects/obmalloc.c :: Filesystem_operation,()
+./configure ¦--prefix=`pwd`¦--with-pydebug¦--with-valgrind :: Build_Execute_operation,()
+apt-get ¦-y¦install¦valgrind :: Dependencies_operation,()
+apt-get ¦-y¦build-dep¦python2.7 :: Dependencies_operation,()
+cmd,./python¦-c¦"print('hello¦valgrind')"
+python2.7-2.7.12 :: workdir_operation,()
+from,ubuntu:16.04
+apt-get ¦-y¦update :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦-y¦install¦build-essential :: Dependencies_operation,()
+apt-get ¦source¦python2.7 :: Dependencies_operation,()
+make  :: Build_Execute_operation,()

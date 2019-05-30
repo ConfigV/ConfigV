@@ -1,0 +1,12 @@
+make  :: Build_Execute_operation,()
+ldconfig;apt-get ¦clean;rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/*¦/src/knot-resolver :: Other_operation,()
+/root :: workdir_operation,()
+expose,53
+from,cznic/knot:latest
+ldconfig;rm ¦-rf¦/src/libuv :: Other_operation,()
+make ¦install :: Build_Execute_operation,()
+cmd,/usr/local/sbin/kresolved¦-a¦0.0.0.0#53
+mkdir ¦/src;git¦clone¦https://github.com/libuv/libuv.git¦/src/libuv;cd¦/src/libuv;sh¦autogen.sh :: Filesystem_operation,()
+make ¦check :: Build_Execute_operation,()
+./configure  :: Build_Execute_operation,()
+apt-get ¦-q¦-y¦update;apt-get¦install¦-q¦-ylibcmocka-dev;git¦clone¦https://gitlab.labs.nic.cz/knot/resolver.git¦/src/knot-resolver;cd¦/src/knot-resolver;autoreconf¦-if :: Dependencies_operation,()

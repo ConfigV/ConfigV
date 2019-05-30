@@ -1,0 +1,13 @@
+rm ¦-Rf¦/etc/nginx/sites-enabled/default¦/var/log/nginx¦/var/log/php5-fpm :: Filesystem_operation,()
+/log :: volume_operation,()
+from,stackbrew/ubuntu:saucy
+ln ¦-s¦/log/php5-fpm¦/var/log/php5-fpm :: Filesystem_operation,()
+apt-get ¦install¦-y¦nginx¦php5-fpm :: Dependencies_operation,()
+mkdir ¦-p¦/conf/nginx¦/log/nginx¦/log/php5-fpm :: Filesystem_operation,()
+ln ¦-s¦/log/nginx¦/var/log/nginx :: Filesystem_operation,()
+/conf :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'include /conf/nginx/*;' > /etc/nginx/conf.d/docker.conf :: Filesystem_operation,()
+apt-get ¦install¦-y¦php-pear¦php5-json¦php5-mysqlnd¦php5-gd :: Dependencies_operation,()
+cmd,php5-fpm¦-FR¦&¦nginx¦-g¦"daemonize¦off;"¦&¦wait
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()

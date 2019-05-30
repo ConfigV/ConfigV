@@ -1,0 +1,11 @@
+PROJECT_NAME:demo :: env_operation,()
+expose,80
+from,nginx@stable
+PROJECT_WEB_DIR:web :: env_operation,()
+PROJECT_INDEX_FILE:index.php :: env_operation,()
+cmd,/bin/bash¦/entrypoint.sh
+./php.conf/etc/nginx/conf.d/default.conf :: copy_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+/var/www :: volume_operation,()
+/var/www :: workdir_operation,()
+PROJECT_DEV_INDEX_FILE:index_dev.php :: env_operation,()

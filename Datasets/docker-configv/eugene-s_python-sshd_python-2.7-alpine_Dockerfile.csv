@@ -1,0 +1,10 @@
+VENV_PATH=/root/venv/: :: env_operation,()
+${PROJECT_PATH} :: workdir_operation,()
+PROJECT_PATH=/usr/src/python-app/: :: env_operation,()
+rootfs/ :: copy_operation,()
+expose,22
+pip ¦install¦virtualenv :: Dependencies_operation,()
+SSH_SERVER_KEYS=/etc/ssh/host_keys/: :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+from,python:2.7
+echo ¦apk¦update && apk add bash openssh && mkdir -p ${SSH_SERVER_KEYS} && mkdir ${PROJECT_PATH} && echo -e "HostKey ${SSH_SERVER_KEYS}ssh_host_rsa_key" >> /etc/ssh/sshd_config && echo -e "HostKey ${SSH_SERVER_KEYS}ssh_host_dsa_key" >> /etc/ssh/... :: Filesystem_operation,()

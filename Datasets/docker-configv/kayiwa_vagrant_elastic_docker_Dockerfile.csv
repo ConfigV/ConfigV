@@ -1,0 +1,11 @@
+bootstrap-nginx.sh/usr/local/bin/ :: copy_operation,()
+cmd,nginx
+from,ubuntu:14.04
+ln ¦-s¦/etc/nginx/sites-available/search/etc/nginx/sites-enabled/search :: Filesystem_operation,()
+apt-get ¦install¦nginx¦-y :: Dependencies_operation,()
+echo ¦rm¦-rf /var/lib/apt/lists/* &&echo "daemon off;" >> /etc/nginx/nginx.conf &&chown -R www-data:www-data /var/lib/nginx :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-f¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+expose,443
+search/etc/nginx/sites-available/ :: copy_operation,()
+chmod ¦+x¦/usr/local/bin/bootstrap-nginx.sh :: Permissions_operation,()

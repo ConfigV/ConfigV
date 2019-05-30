@@ -1,0 +1,17 @@
+apt-get ¦-y¦install¦nodejs :: Dependencies_operation,()
+mkdir ¦-p¦/srv/app :: Filesystem_operation,()
+add-apt-repository ¦-y¦ppa:chris-lea/node.js :: Dependencies_operation,()
+from,ubuntu:14.04
+expose,3000
+apt-get ¦-y¦install¦software-properties-common¦python-software-properties¦git¦build-essential :: Dependencies_operation,()
+cmd,npm¦start
+deployer :: user_operation,()
+/srv/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+useradd ¦deployer¦--create-home¦--home¦/srv/app¦--shell¦/usr/sbin/nologin :: Permissions_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cp ¦-a¦/tmp/node_modules¦/srv/app/ :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+package.json/tmp/package.json :: add_operation,()
+./srv/app :: add_operation,()

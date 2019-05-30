@@ -1,0 +1,16 @@
+APP_ROOT=/usr/src/app: :: env_operation,()
+expose,8080
+package.json$APP_ROOT :: copy_operation,()
+$APP_ROOT :: workdir_operation,()
+mkdir ¦$APP_ROOT :: Filesystem_operation,()
+cmd,npm¦start
+chown ¦-R¦app:app¦$APP_ROOT :: Permissions_operation,()
+from,node:7.2
+npm ¦install :: Dependencies_operation,()
+PORT=8080: :: env_operation,()
+useradd ¦--user-group¦--create-home¦--shell¦/bin/false¦app :: Permissions_operation,()
+npm ¦cache¦clean :: Dependencies_operation,()
+root :: user_operation,()
+.$APP_ROOT :: copy_operation,()
+npm ¦run¦build :: Dependencies_operation,()
+app :: user_operation,()

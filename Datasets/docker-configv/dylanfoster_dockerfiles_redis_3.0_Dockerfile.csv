@@ -1,0 +1,7 @@
+apk ¦--update¦add¦redis :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+expose,6379
+from,dylanfoster/alpine:3.2
+cmd,redis-server¦/etc/redis.conf
+sed ¦-i¦'s/#¦bind¦0.0.0.0/bind¦0.0.0.0/g'¦/etc/redis.conf :: Filesystem_operation,()
+sed ¦-i¦'s/daemonize¦yes/daemonize¦no/g'¦/etc/redis.conf :: Filesystem_operation,()

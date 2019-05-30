@@ -1,0 +1,9 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+from,azukiapp/ubuntu
+PG_VERSION:9.3.4 :: env_operation,()
+apt-get ¦install¦-y¦-qq¦libcurl4-openssl-dev¦libffi-dev¦libgdbm-dev¦libpq-dev¦libreadline6-dev¦libssl-dev¦libtool¦libxml2-dev¦libxslt-dev¦libyaml-dev¦software-properties-common¦zlib1g-dev¦mongodb¦mysql-client¦postgresql-client-$PG_MAJOR¦libmysqlcli... :: Dependencies_operation,()
+wget ¦-qO¦-¦http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc¦|¦apt-key¦add¦- :: Dependencies_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+PG_MAJOR:9.3 :: env_operation,()
+apt-get ¦clean¦-qq :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()

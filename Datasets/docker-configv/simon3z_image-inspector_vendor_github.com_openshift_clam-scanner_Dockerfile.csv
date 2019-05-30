@@ -1,0 +1,11 @@
+rm ¦-rf¦/go :: Filesystem_operation,()
+yum ¦install¦-y¦golang :: Dependencies_operation,()
+from,openshift/origin-base
+cd ¦/go/src/github.com/openshift/clam-scanner :: Filesystem_operation,()
+entrypoint,/bin/clam-scanner¦scan¦--path=/tmp/scan-data
+go ¦get¦github.com/golang/glog¦github.com/spf13/cobra¦github.com/spf13/pflag :: Build_Execute_operation,()
+go ¦install :: Build_Execute_operation,()
+mkdir ¦-p¦/run/clamd.scan¦/tmp/scan-data :: Filesystem_operation,()
+export ¦GOBIN=/bin¦GOPATH=/go :: Environment_operation,()
+./go/src/github.com/openshift/clam-scanner :: add_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

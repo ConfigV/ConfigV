@@ -1,0 +1,12 @@
+sed ¦-i¦'s@dbms.security.auth_enabled=true@dbms.security.auth_enabled=false@'¦/var/neo4j-enterprise-2.2.0/conf/neo4j-server.properties :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre :: Dependencies_operation,()
+sed ¦-i¦'s@#org.neo4j.server.webserver.address=0.0.0.0@org.neo4j.server.webserver.address=0.0.0.0@'¦/var/neo4j-enterprise-2.2.0/conf/neo4j-server.properties :: Filesystem_operation,()
+sed ¦-i¦'s@org.neo4j.server.webserver.https.enabled=true@org.neo4j.server.webserver.https.enabled=false@'¦/var/neo4j-enterprise-2.2.0/conf/neo4j-server.properties :: Filesystem_operation,()
+from,ubuntu:14.04
+chmod ¦+x¦/bin/start_neo4j.sh :: Permissions_operation,()
+./bin :: add_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+tar ¦-xvzf¦/var/neo4j-enterprise-2.2.0-unix.tar.gz¦-C¦/var :: Filesystem_operation,()
+sed ¦-i¦'s@#allow_store_upgrade=true@allow_store_upgrade=true@'¦/var/neo4j-community-2.2.0/conf/neo4j.properties :: Filesystem_operation,()
+wget ¦-O¦/var/neo4j-enterprise-2.2.0-unix.tar.gz¦http://dist.neo4j.org/neo4j-enterprise-2.2.0-unix.tar.gz :: Dependencies_operation,()

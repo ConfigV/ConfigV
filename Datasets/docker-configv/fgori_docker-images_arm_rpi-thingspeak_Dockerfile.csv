@@ -1,0 +1,18 @@
+apt-get ¦clean :: Dependencies_operation,()
+bundle ¦install :: Dependencies_operation,()
+useradd ¦-r¦-g¦thingspeak¦thingspeak :: Permissions_operation,()
+bundle ¦update¦eventmachine :: Dependencies_operation,()
+/opt/ :: workdir_operation,()
+database.ymlconfig/database.yml :: add_operation,()
+thingspeak :: user_operation,()
+chgrp ¦-R¦thingspeak¦/opt/thingspeak :: Other_operation,()
+expose,3000
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+groupadd ¦-r¦thingspeak :: Permissions_operation,()
+/opt/thingspeak :: workdir_operation,()
+chown ¦-R¦thingspeak¦/opt/thingspeak :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦libpq-dev¦git¦python-dev¦libyaml-dev¦libsqlite3-dev¦sqlite3¦libmysqlclient-dev :: Dependencies_operation,()
+git ¦clone¦https://github.com/iobridge/thingspeak.git :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,hypriot/rpi-ruby:2.2.2

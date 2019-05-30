@@ -1,0 +1,8 @@
+apt-get ¦-y¦install¦mysql-client :: Dependencies_operation,()
+apt-get ¦-y¦install¦openssh-server :: Dependencies_operation,()
+expose,22
+echo ¦curl¦-sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && ln -s /usr/local/bin/composer /usr/bin/composer && # echo "deb http://httpredir.debian.org/debian jessie main contrib" >> /etc/apt/sources.list... :: Filesystem_operation,()
+docker-php-ext-install ¦opcache :: Other_operation,()
+echo ¦yes¦| pecl install xdebug && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini && echo "xdebug.remo... :: Filesystem_operation,()
+from,drupal:7.43
+echo ¦apt-get¦-y install libz-dev libmemcached-dev libmemcached11 libmemcachedutil2 build-essential && pecl install memcached-2.2.0 && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini && apt-get remove -y build-essential li... :: Filesystem_operation,()

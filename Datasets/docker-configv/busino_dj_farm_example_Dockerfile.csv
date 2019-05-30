@@ -1,0 +1,8 @@
+/setup/farm :: workdir_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+apk ¦del¦.build-deps :: Dependencies_operation,()
+from,python:3.5
+apk ¦add¦--update¦--no-cache¦mariadb-client-libs :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦¦mariadb-dev¦¦gcc¦¦musl-dev :: Dependencies_operation,()
+./setup :: add_operation,()
+mkdir ¦/setup :: Filesystem_operation,()

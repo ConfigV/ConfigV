@@ -1,0 +1,8 @@
+from,gliderlabs/alpine:3.1
+entrypoint,lighttpd¦-D¦-f¦/etc/lighttpd/lighttpd.conf
+lighttpd.conf/etc/lighttpd/lighttpd.conf :: add_operation,()
+expose,80
+adduser ¦www-data¦-G¦www-data¦-H¦-s¦/bin/false¦-D :: Permissions_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/var/www :: volume_operation,()
+apk ¦add¦--update¦lighttpd :: Dependencies_operation,()

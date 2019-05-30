@@ -1,0 +1,16 @@
+/teamcity :: workdir_operation,()
+rm ¦-rf¦TeamCity :: Filesystem_operation,()
+curl ¦--location¦"https://download.jetbrains.com/teamcity/TeamCity-${TEAMCITY_VERSION}.tar.gz"¦>¦teamcity.tar.gz :: Dependencies_operation,()
+rm ¦-rf¦devPackage :: Filesystem_operation,()
+curl ¦--location¦"https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar"¦>¦data/lib/jdbc/postgresql-9.4.1212.jar :: Dependencies_operation,()
+mv ¦TeamCity/*¦. :: Filesystem_operation,()
+mkdir ¦backups¦data¦logs¦conf¦temp :: Filesystem_operation,()
+mkdir ¦-p¦data/lib/jdbc :: Filesystem_operation,()
+rm ¦-f¦teamcity.tar.gz :: Filesystem_operation,()
+USER_NAME=jetbrains :: arg_operation,()
+PORT=8111: :: env_operation,()
+${USER_NAME} :: user_operation,()
+tar ¦-xf¦teamcity.tar.gz :: Filesystem_operation,()
+from,openjdk@latest
+USER_ID=2000 :: arg_operation,()
+cmd,/bin/bash¦/teamcity/bin/teamcity-server.sh¦run

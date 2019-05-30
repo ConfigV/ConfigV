@@ -1,0 +1,14 @@
+cd ¦/root/nit :: Filesystem_operation,()
+./testfull.sh ¦||¦true :: Other_operation,()
+cd ¦/root/nit/tests :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+ccache ¦-C :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommends¦¦#¦Recomanded¦builds¦pakages :: Other_operation,()
+from,debian@jessie
+/root/nit :: workdir_operation,()
+git ¦clone¦https://github.com/nitlang/nit.git¦/root/nit :: Dependencies_operation,()
+rm ¦-rf¦out/¦alt/*.nit :: Filesystem_operation,()
+. ¦misc/nit_env.sh¦install¦#¦Clean¦and¦reduce¦size :: Other_operation,()
+entrypoint,bash
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommends¦¦#¦Packages¦needed¦for¦lib/ :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()

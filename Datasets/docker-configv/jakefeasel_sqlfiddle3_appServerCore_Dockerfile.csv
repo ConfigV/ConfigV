@@ -1,0 +1,16 @@
+VERTICLE_NAME:sqlfiddle.groovy :: env_operation,()
+from,vertx/vertx3:3.4.2
+cp ¦-R¦/tmp/target/docker¦$VERTICLE_HOME :: Filesystem_operation,()
+echo ¦echo¦"deb http://ftp.debian.org/debian jessie-backports main" | tee -a /etc/apt/sources.list :: Filesystem_operation,()
+entrypoint,sh¦-c
+VERTICLE_HOME:/usr/verticles :: env_operation,()
+cmd,vertx run $VERTICLE_NAME -cp $VERTICLE_HOME/*
+expose,5005
+cd ¦/tmp;¦mvn¦package :: Filesystem_operation,()
+pom.xml/tmp :: copy_operation,()
+apt-get ¦-t¦jessie-backports¦install¦--yes¦maven :: Dependencies_operation,()
+$VERTICLE_HOME :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+VERTX_HOME:/usr/local/vertx :: env_operation,()
+src/tmp/src :: copy_operation,()
+cp ¦-R¦$VERTICLE_HOME/lib/*¦$VERTX_HOME/lib :: Filesystem_operation,()

@@ -1,0 +1,22 @@
+apt-get ¦update :: Dependencies_operation,()
+my.cnf/etc/mysql/conf.d/my.cnf :: add_operation,()
+apt-get ¦install¦-y¦mysql-server-5.5¦pwgen :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+MYSQL_REPLICATION_USER:replication :: env_operation,()
+create_db.sh/create_db.sh :: add_operation,()
+create_slave.sh/create_slave.sh :: add_operation,()
+import_sql.sh/import_sql.sh :: add_operation,()
+run.sh/run.sh :: add_operation,()
+rm ¦-rf¦/var/lib/mysql/* :: Filesystem_operation,()
+MYSQL_DATABASE:icuisine :: env_operation,()
+MYSQL_SERVER_ID:1 :: env_operation,()
+from,ubuntu:12.04
+MYSQL_REPLICATION_PASS:**Random** :: env_operation,()
+MYSQL_PASS:**Random** :: env_operation,()
+mysqld_charset.cnf/etc/mysql/conf.d/mysqld_charset.cnf :: add_operation,()
+create_mysql_admin_user.sh/create_mysql_admin_user.sh :: add_operation,()
+cmd,/run.sh
+MYSQL_USER:admin :: env_operation,()
+expose,3306
+apt-get ¦clean :: Dependencies_operation,()

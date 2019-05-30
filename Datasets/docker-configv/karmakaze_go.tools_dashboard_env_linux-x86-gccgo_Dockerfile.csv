@@ -1,0 +1,11 @@
+make ¦-sj :: Build_Execute_operation,()
+from,gobuilders/linux-x86-base
+mkdir ¦binutils-objdir :: Filesystem_operation,()
+../$BINUTILS_VERSION/configure ¦--enable-gold¦--enable-plugins¦--prefix=/opt/gold :: Other_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦libgmp10-dev¦libmpc-dev¦libmpfr-dev :: Dependencies_operation,()
+curl ¦-s¦http://ftp.gnu.org/gnu/binutils/$BINUTILS_VERSION.tar.gz¦|¦tar¦x¦--no-same-owner¦-zv :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+make ¦install¦-sj :: Build_Execute_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦make¦g++¦flex¦bison :: Dependencies_operation,()
+cd ¦binutils-objdir :: Filesystem_operation,()
+BINUTILS_VERSION:binutils-2.24 :: env_operation,()

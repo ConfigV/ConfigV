@@ -1,0 +1,14 @@
+from,phusion/baseimage:0.9.19
+apt-get ¦install¦-y¦wget¦unzip¦build-essential¦libcilkrts5 :: Dependencies_operation,()
+wget ¦https://github.com/jshun/ligra/archive/master.zip :: Dependencies_operation,()
+/datasets :: workdir_operation,()
+cd ¦ligra-master/apps :: Filesystem_operation,()
+cmd,/sbin/init
+rm ¦master.zip :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+CILK:1 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/datasets :: volume_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+unzip ¦master.zip :: Filesystem_operation,()

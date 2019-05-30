@@ -1,0 +1,13 @@
+expose,54321
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦rsyslog¦opendmarc=1.3.0+dfsg-1 :: Other_operation,()
+S6_KEEP_ENV=1: :: env_operation,()
+chmod ¦+x¦/etc/services.d/*/run :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+entrypoint,/init
+rootfs/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,opendmarc¦-f
+rm ¦-rf¦/tmp/s6-overlay-amd64.tar.gz :: Filesystem_operation,()
+https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz/tmp/ :: add_operation,()
+tar ¦xzf¦/tmp/s6-overlay-amd64.tar.gz¦-C¦/ :: Filesystem_operation,()
+from,debian@jessie

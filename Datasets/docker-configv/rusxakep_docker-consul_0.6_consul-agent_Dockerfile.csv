@@ -1,0 +1,11 @@
+CONSUL_DNS_ENABLE_TRUNCATE:1 :: env_operation,()
+from,aggr/consul:0.6.4
+expose,8300 8301 8301 8302 8302 8400 8500 8600 8600
+CONSUL_LEAVE_ON_TERMINATE:1 :: env_operation,()
+CONSUL_DNS_ALLOW_STALE:1 :: env_operation,()
+CONSUL_DATA_DIR:/data :: env_operation,()
+CONSUL_DNS_MAX_STALE:1s :: env_operation,()
+CONSUL_CLIENT_ADDR:0.0.0.0 :: env_operation,()
+CONSUL_DISABLE_REMOTE_EXEC:1 :: env_operation,()
+/data :: volume_operation,()
+entrypoint,/bin/consul_launcher

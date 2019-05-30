@@ -1,0 +1,14 @@
+./tungsten.ini/etc/tungsten/tungsten.ini :: add_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+/usr/bin/ssh-keygen ¦-b¦1024¦-t¦dsa¦-f¦/etc/ssh/ssh_host_dsa_key :: Other_operation,()
+from,centos:6.0
+./start.sh/usr/bin/start.sh :: add_operation,()
+chmod ¦+x¦/usr/bin/start.sh :: Permissions_operation,()
+expose,7 22 2112 7800 7801 7802 7803 7804 7805 10000 10001 11999 12000 9999 3306 13306
+yum ¦-y¦install¦puppet¦git¦tar¦openssh-server :: Dependencies_operation,()
+rpm ¦-ivh¦http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm :: Dependencies_operation,()
+cmd,bash¦-C¦'/usr/bin/start.sh';'bash'
+/usr/bin/ssh-keygen ¦-b¦1024¦-t¦rsa¦-f¦/etc/ssh/ssh_host_key :: Other_operation,()
+rpm ¦--import¦https://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs :: Dependencies_operation,()
+/usr/bin/ssh-keygen ¦-b¦1024¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key :: Other_operation,()
+rpm ¦-i¦http://mirror.bytemark.co.uk/fedora/epel/6/i386/epel-release-6-8.noarch.rpm :: Dependencies_operation,()

@@ -1,0 +1,20 @@
+app/app :: add_operation,()
+apt-get ¦install¦-y¦curl¦git-core¦supervisor :: Dependencies_operation,()
+php/www.conf/etc/php5/fpm/pool.d/www.conf :: add_operation,()
+from,debian@jessie
+expose,80 443
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+apt-get ¦install¦-y¦php5-cli¦php5-curl¦php5-fpm¦php5-gd¦php5-intl¦php5-mcrypt¦php5-mysql :: Dependencies_operation,()
+cmd,/run.sh
+supervisor/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+echo ¦echo¦"deb http://nginx.org/packages/mainline/debian/ wheezy nginx" >> /etc/apt/sources.list :: Filesystem_operation,()
+/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+usermod ¦-u¦1000¦nginx :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+run.sh/run.sh :: add_operation,()
+apt-key ¦adv¦--keyserver¦pgp.mit.edu¦--recv-keys¦573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 :: Dependencies_operation,()
+nginx/default.conf/etc/nginx/conf.d/default.conf :: add_operation,()

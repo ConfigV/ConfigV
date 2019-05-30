@@ -1,0 +1,14 @@
+expose,3306
+files/ansible-no-privilege.yml/usr/local/src/ansible-wordpress/ansible/roles/common/meta/main.yml :: copy_operation,()
+files/ansible-hosts/etc/ansible/hosts :: copy_operation,()
+apt-get ¦install¦ansible¦python-apt¦-y :: Dependencies_operation,()
+apt-get ¦install¦software-properties-common¦-y :: Dependencies_operation,()
+ansible-playbook ¦site.yml¦-c¦local :: Other_operation,()
+cd ¦/usr/local/src/ :: Filesystem_operation,()
+from,ubuntu
+apt-get ¦install¦git¦-y :: Dependencies_operation,()
+cd ¦/usr/local/src/ansible-wordpress/ansible/ :: Filesystem_operation,()
+apt-add-repository ¦ppa:ansible/ansible :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ansible-galaxy ¦install¦-r¦/usr/local/src/ansible-wordpress/ansible/requirements.txt¦--force :: Other_operation,()
+git ¦clone¦https://github.com/darthwade/ansible-wordpress.git :: Dependencies_operation,()

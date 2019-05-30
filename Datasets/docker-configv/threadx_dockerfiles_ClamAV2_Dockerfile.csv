@@ -1,0 +1,16 @@
+apt-get ¦clean :: Dependencies_operation,()
+./queue_process.sh/queue_process.sh :: copy_operation,()
+apt-get ¦install¦-y¦clamav-daemon¦clamav-freshclam :: Dependencies_operation,()
+./start.sh/start.sh :: copy_operation,()
+from,ubuntu@trusty
+chmod ¦+x¦/clamav_daemon.sh¦/queue_process.sh¦/find_changes.sh¦/ssh_server.sh¦/start.sh :: Permissions_operation,()
+./ssh_server.sh/ssh_server.sh :: copy_operation,()
+expose,22
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+echo ¦echo¦'root:zadara' | chpasswd :: Filesystem_operation,()
+echo ¦apt-get¦update && apt-get install -y openssh-server && mkdir /var/run/sshd && sed -i 's/PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config && echo 'UseDNS no' >> /etc/ssh/sshd_config && sed 's@session\\s*required\\s*pam_loginuid.so... :: Filesystem_operation,()
+cmd,/start.sh
+./clamav_daemon.sh/clamav_daemon.sh :: copy_operation,()
+freshclam  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./find_changes.sh/find_changes.sh :: copy_operation,()

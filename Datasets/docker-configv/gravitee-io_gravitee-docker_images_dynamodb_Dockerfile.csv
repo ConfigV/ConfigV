@@ -1,0 +1,9 @@
+/var/lib/dynamodb :: volume_operation,()
+apk ¦add¦--update¦openssl :: Dependencies_operation,()
+from,graviteeio/java:8
+rm ¦-f¦/opt/dynamodb/dynamodb_local_latest.tar.gz :: Filesystem_operation,()
+/opt/dynamodb :: workdir_operation,()
+wget ¦-O¦/opt/dynamodb/dynamodb_local_latest.tar.gz¦https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz :: Dependencies_operation,()
+expose,8000
+tar ¦xfz¦/opt/dynamodb/dynamodb_local_latest.tar.gz :: Filesystem_operation,()
+cmd,java¦-Djava.library.path=./DynamoDBLocal_lib¦-jar¦DynamoDBLocal.jar¦-dbPath¦/var/lib/dynamodb¦-optimizeDbBeforeStartup¦-port¦8000

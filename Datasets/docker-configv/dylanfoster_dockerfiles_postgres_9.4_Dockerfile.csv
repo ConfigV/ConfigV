@@ -1,0 +1,13 @@
+cmd,gosu¦postgres¦postgres
+config/config :: copy_operation,()
+expose,5432
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+apk ¦--update¦add¦curl :: Dependencies_operation,()
+curl ¦-o¦/usr/local/bin/gosu¦-sSL¦"https://github.com/tianon/gosu/releases/download/1.2/gosu-amd64" :: Dependencies_operation,()
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+LANG:en_US.utf8 :: env_operation,()
+/var/lib/postgresql/data :: volume_operation,()
+from,dylanfoster/alpine:3.2
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦--update¦add¦postgresql :: Dependencies_operation,()
+apk ¦del¦curl :: Dependencies_operation,()

@@ -1,0 +1,9 @@
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cmd,sh
+curl ¦-fSL¦"https://raw.githubusercontent.com/umiddelb/armhf/master/bin/docker-1.8.3"¦-o¦/usr/local/bin/docker :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/docker :: Permissions_operation,()
+from,armbuild/alpine:3.2
+apk ¦add¦--update¦¦curl¦¦ca-certificates¦¦git¦¦openssh-client¦¦procps :: Dependencies_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+entrypoint,docker-entrypoint.sh
+DOCKER_VERSION:1.8.3 :: env_operation,()

@@ -1,0 +1,11 @@
+ln ¦-sfnv¦gradle-${GRADLE_VERSION}¦/opt/gradle/latest :: Filesystem_operation,()
+GRADLE_HOME:/opt/gradle/latest :: env_operation,()
+GRADLE_VERSION:2.12 :: env_operation,()
+wget ¦-N¦http://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip :: Dependencies_operation,()
+mkdir ¦/opt/gradle :: Filesystem_operation,()
+yum ¦-y¦install¦rpm-build¦make¦git¦java-1.8.0-openjdk-devel¦wget :: Dependencies_operation,()
+from,centos:7.0
+PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$GRADLE_HOME/bin :: env_operation,()
+unzip ¦-oq¦./gradle-${GRADLE_VERSION}-all.zip¦-d¦/opt/gradle :: Filesystem_operation,()
+rm ¦./gradle-${GRADLE_VERSION}-all.zip :: Filesystem_operation,()
+JAVA_HOME:/usr/lib/jvm/java-1.8.0-openjdk :: env_operation,()

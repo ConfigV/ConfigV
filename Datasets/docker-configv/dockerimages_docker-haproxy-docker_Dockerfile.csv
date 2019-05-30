@@ -1,0 +1,8 @@
+./docker/usr/bin/docker :: add_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,dockerimages/ubuntu-core:14.04
+./go/sbin/init :: add_operation,()
+chmod ¦+x¦/sbin/init :: Permissions_operation,()
+apt-get ¦-y¦install¦haproxy :: Dependencies_operation,()
+cat ¦/etc/default/haproxy :: Filesystem_operation,()
+cmd,/sbin/init

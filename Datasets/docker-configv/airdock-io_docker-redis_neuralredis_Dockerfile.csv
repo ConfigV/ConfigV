@@ -1,0 +1,7 @@
+expose,6379
+/var/lib/redis :: volume_operation,()
+cmd,tini¦-g¦--¦gosu¦redis:redis¦/usr/local/bin/redis-server¦/etc/redis/redis.conf
+from,airdock/base:jessie
+/var/log/redis :: volume_operation,()
+echo ¦apt-get¦update && apt-get install -y gcc make g++ build-essential libc6-dev tcl git && cd /tmp && mkdir -p /etc/redis /var/log/redis /var/lib/redis && git clone https://github.com/antirez/redis.git && cd redis && make && make install && cp... :: Filesystem_operation,()
+REDIS_VERSION:3.2.6 :: env_operation,()

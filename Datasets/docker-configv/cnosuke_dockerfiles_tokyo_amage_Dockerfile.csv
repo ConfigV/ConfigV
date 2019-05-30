@@ -1,0 +1,15 @@
+memcached.conf/etc/memcached.conf :: add_operation,()
+cmd,/app/run.sh
+unicorn.rb/app/unicorn.rb :: add_operation,()
+expose,8080
+cd ¦/app :: Filesystem_operation,()
+bundle ¦install :: Dependencies_operation,()
+mkdir ¦-p¦/app/tmp¦/app/log :: Filesystem_operation,()
+git ¦clone¦--depth¦1¦https://github.com/cnosuke/tokyo_amage.git¦/app :: Dependencies_operation,()
+run.sh/app/run.sh :: add_operation,()
+from,cnosuke/ruby22-base
+updateGit. :: copy_operation,()
+apt-get ¦install¦-y¦imagemagick¦libmagickwand-dev¦memcached :: Dependencies_operation,()
+echo ¦echo¦"gem 'unicorn'" >> /app/Gemfile :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

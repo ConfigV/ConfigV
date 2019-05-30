@@ -1,0 +1,9 @@
+./leader-election/scripts :: add_operation,()
+rm ¦-rf¦/var/cache/apk :: Filesystem_operation,()
+rm ¦-rf¦/tmp/etcd* :: Filesystem_operation,()
+mv ¦/tmp/etcd-v2.3.4-linux-amd64/etcdctl¦/usr/local/bin :: Filesystem_operation,()
+curl ¦-L¦https://github.com/coreos/etcd/releases/download/v2.3.4/etcd-v2.3.4-linux-amd64.tar.gz¦-o¦/tmp/etcd-v2.3.4-linux-amd64.tar.gz :: Dependencies_operation,()
+tar ¦xzvf¦/tmp/etcd-v2.3.4-linux-amd64.tar.gz¦-C¦/tmp :: Filesystem_operation,()
+cmd,/bin/true
+from,alpine
+apk ¦add¦--update¦bash¦jq¦curl¦postgresql :: Dependencies_operation,()

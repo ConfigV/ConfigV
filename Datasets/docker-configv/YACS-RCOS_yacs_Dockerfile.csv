@@ -1,0 +1,11 @@
+bundle ¦exec¦rake¦assets:precompile :: Dependencies_operation,()
+bundle ¦install :: Dependencies_operation,()
+apt-get ¦install¦-qq¦-y¦build-essential¦nodejs¦--fix-missing¦--no-install-recommends :: Dependencies_operation,()
+Gemfile$INSTALL_PATH :: copy_operation,()
+mkdir ¦-p¦$INSTALL_PATH :: Filesystem_operation,()
+.$INSTALL_PATH :: copy_operation,()
+INSTALL_PATH:/usr/src/app/ :: env_operation,()
+$INSTALL_PATH :: workdir_operation,()
+from,ruby:2.2
+apt-get ¦update :: Dependencies_operation,()
+"./:$INSTALL_PATH" :: volume_operation,()

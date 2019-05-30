@@ -1,0 +1,20 @@
+apt-get ¦clean :: Dependencies_operation,()
+JENKINS_SWARM_MIRROR:http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar :: env_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && apt-get update && DEBIAN_FRONTEND=nonintera... :: Filesystem_operation,()
+$JENKINS_SWARM_MIRROR$JENKINS_SWARM_PATH :: add_operation,()
+expose,50000
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+entrypoint,/start-java-builder.sh
+JENKINS_VERSION:1.609.3 :: env_operation,()
+JENKINS_HOME:/var/jenkins_home :: env_operation,()
+chmod ¦755¦/usr/share/jenkins :: Permissions_operation,()
+from,ubuntu@trusty
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+jenkins-cli-1.609.3.jar/jenkins-cli.jar :: copy_operation,()
+mkdir ¦-p¦/usr/share/jenkins :: Filesystem_operation,()
+/var/jenkins_home :: volume_operation,()
+chmod ¦+x¦/start-java-builder.sh :: Permissions_operation,()
+/var/jenkins_home :: workdir_operation,()
+JENKINS_SWARM_PATH:/usr/share/jenkins/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar :: env_operation,()
+start.sh/start-java-builder.sh :: copy_operation,()
+JENKINS_SWARM_VERSION:2.0 :: env_operation,()

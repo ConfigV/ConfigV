@@ -1,0 +1,13 @@
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+from,centos:6.0
+chmod ¦+x¦/etc/service/nginx/run :: Permissions_operation,()
+start.sh/etc/service/nginx/run :: add_operation,()
+yum ¦-y¦install¦nginx¦telnet :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+cmd,/etc/service/nginx/run
+nginx.repo/etc/yum.repos.d/nginx.repo :: add_operation,()
+mkdir ¦-p¦/etc/service/nginx :: Filesystem_operation,()
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+expose,80

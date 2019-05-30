@@ -1,0 +1,14 @@
+tar ¦-zxvf¦./*.tar.gz :: Filesystem_operation,()
+from,dennisseidel/iib-bestpractice-runtimes:10.0.0.7
+mkdir ¦-p¦/tmp/mq :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/tmp/mq/MQServer¦#¦Accept¦the¦MQ¦license :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦bash¦bc¦rpm¦tar :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,1414
+curl ¦-LO¦${MQ_URL} :: Dependencies_operation,()
+MQ_URL=http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev90_linux_x86-64.tar.gz: :: env_operation,()
+cd ¦/tmp/mq :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+MQ_PACKAGES="MQSeriesRuntime-*.rpm:MQSeriesClient-*.rpm" :: env_operation,()

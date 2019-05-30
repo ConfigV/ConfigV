@@ -1,0 +1,21 @@
+apt-get ¦-y¦install¦supervisor :: Dependencies_operation,()
+apt-get ¦-y¦install¦python-virtualenv :: Dependencies_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+apt-get ¦-y¦install¦nginx :: Dependencies_operation,()
+expose,80
+apt-get ¦-y¦install¦git :: Dependencies_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+apt-get ¦-y¦install¦python-dev¦build-essential :: Dependencies_operation,()
+cmd,/usr/bin/supervisord¦-n
+echo ¦echo¦"root:usermap" | chpasswd :: Filesystem_operation,()
+apt-get ¦-y¦purge¦build-essential :: Dependencies_operation,()
+/tmp/post-setup.sh  :: Other_operation,()
+pip ¦install¦uwsgi :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu:12.04
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+post-setup.sh/tmp/post-setup.sh :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+adduser ¦--home=/home/web¦--gecos¦'user_map'¦web :: Permissions_operation,()
+sources.list/etc/apt/sources.list :: add_operation,()

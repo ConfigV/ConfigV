@@ -1,0 +1,11 @@
+https://dl.gogs.io/${GOGS_BINARY}.tar.gz/tmp/${GOGS_BINARY}.tgz :: add_operation,()
+tar ¦xzf¦/tmp/${GOGS_BINARY}.tgz¦-C¦/tmp :: Filesystem_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+GOGS_BINARY:gogs_v${GOGS_VERSION}_linux_amd64 :: env_operation,()
+GOGS_VERSION:0.9.97 :: env_operation,()
+expose,3000
+from,picymru/base:latest
+entrypoint,/sbin/tini
+/app :: workdir_operation,()
+mv ¦/tmp/gogs/*¦/app :: Filesystem_operation,()
+cmd,/app/gogs¦web

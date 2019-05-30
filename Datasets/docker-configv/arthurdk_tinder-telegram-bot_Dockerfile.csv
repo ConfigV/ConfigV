@@ -1,0 +1,9 @@
+apk ¦add¦--no-cache¦git¦bash&&¦git¦clone¦https://github.com/charliewolf/pynder.git&&¦cd¦pynder :: Dependencies_operation,()
+entrypoint,/bin/sh¦$ROOT_FOLDER/docker/launch.sh
+ROOT_FOLDER:/tinder-bot :: env_operation,()
+PYTHONPATH:$ROOT_FOLDER/ :: env_operation,()
+python ¦setup.py¦install&&¦pip¦install¦-r¦$ROOT_FOLDER/requirements.txt :: Build_Execute_operation,()
+git ¦checkout¦$PYNDER_SAFE_COMMIT :: Dependencies_operation,()
+PYNDER_SAFE_COMMIT:d5389088d11ade0b5227b0c594695f19e7936399 :: env_operation,()
+./$ROOT_FOLDER :: add_operation,()
+from,jfloff/alpine-python:latest-slim

@@ -1,0 +1,9 @@
+yum ¦-y¦install¦openssh-server¦openssh-clients¦supervisor¦sudo¦;\\ :: Dependencies_operation,()
+expose,22
+cmd,supervisord¦-c¦/etc/supervisord.conf
+useradd ¦-m¦-p¦'$6$UFLdXsV4$hnP4J2l8w02eCoj7ogsQZ0wdEImAKtzIoQqmrNLEXkyI1UsuPPofdpf4DMViq4QPdFVOz0yekQ35lgaFUB6SF/'¦-s¦/bin/bash¦vagrant :: Permissions_operation,()
+sed ¦-i¦'/nodocs/d'¦/etc/yum.conf¦;¦yum¦-y¦install¦man-pages¦man-db¦epel-release¦;¦yum¦clean¦all :: Filesystem_operation,()
+from,centos@latest
+chown ¦-R¦vagrant:vagrant¦/home/vagrant;¦chmod¦600¦/home/vagrant/.ssh/authorized_keys :: Permissions_operation,()
+/usr/local/sbin/sshd_generate_keys  :: Other_operation,()
+assets/ :: copy_operation,()

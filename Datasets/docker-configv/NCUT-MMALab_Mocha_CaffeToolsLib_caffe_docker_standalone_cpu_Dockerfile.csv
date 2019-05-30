@@ -1,0 +1,13 @@
+PATH:$CAFFE_ROOT/build/tools:$PYCAFFE_ROOT:$PATH :: env_operation,()
+CLONE_TAG=master: :: env_operation,()
+nproc  :: Other_operation,()
+PYCAFFE_ROOT:$CAFFE_ROOT/python :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig :: Filesystem_operation,()
+/workspace :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+$CAFFE_ROOT :: workdir_operation,()
+CAFFE_ROOT=/opt/caffe: :: env_operation,()
+PYTHONPATH:$PYCAFFE_ROOT:$PYTHONPATH :: env_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦cmake¦git¦wget¦libatlas-base-dev¦libboost-all-dev¦libgflags-dev¦libgoogle-glog-dev¦libhdf5-serial-dev¦libleveldb-dev¦liblmdb-dev¦libopencv-dev¦libprotobuf-dev¦libsnappy-dev¦protobuf-compil... :: Dependencies_operation,()

@@ -1,0 +1,23 @@
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+sed ¦-i¦-e¦"s/;daemonize\\s*=\\s*yes/daemonize¦=¦no/g"¦/etc/php5/fpm/php-fpm.conf :: Filesystem_operation,()
+chmod ¦a+w¦/var/www/sites/default¦;¦mkdir¦/var/www/sites/default/files¦;¦chown¦-R¦www-data:www-data¦/var/www/ :: Permissions_operation,()
+from,ubuntu@latest
+expose,80
+rm ¦-rf¦/var/www/¦;¦cd¦/var¦;¦drush¦dl¦drupal¦;¦mv¦/var/drupal*/¦/var/www/ :: Filesystem_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu raring main restricted universe multiverse" > /etc/apt/sources.list :: Filesystem_operation,()
+./nginx-site.conf/etc/nginx/sites-available/default :: add_operation,()
+cmd,/bin/bash¦/start.sh
+/usr/bin/easy_install ¦supervisor :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+.*  :: Other_operation,()
+./start.sh/start.sh :: add_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()
+./supervisord.conf/etc/supervisord.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦"s/^bind-address/#bind-address/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦mysql-server¦mysql-client¦nginx¦php5-fpm¦php5-mysql¦php-apc¦pwgen¦python-setuptools¦curl¦git¦unzip :: Other_operation,()
+sed ¦-i¦-e"s/keepalive_timeout\\s*65/keepalive_timeout¦2/"¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦php5-curl¦php5-gd¦php5-intl¦php-pear¦php5-imap¦php5-memcache¦memcached¦drush¦mc :: Other_operation,()
+sed ¦-i¦-e¦"s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g"¦/etc/php5/fpm/php.ini :: Filesystem_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()

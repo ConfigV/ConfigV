@@ -1,0 +1,14 @@
+useradd ¦-m¦-s¦/bin/bash¦curry :: Permissions_operation,()
+apt-get ¦install¦-y¦build-essential¦haskell-platform¦libncurses-dev¦libpq-dev¦git :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+chown ¦-R¦curry¦/home/curry :: Permissions_operation,()
+curry :: user_operation,()
+/home/curry :: workdir_operation,()
+echo ¦echo¦"export PATH=\\$HOME/.cabal/bin:\\$PATH" >> ~/.bashrc :: Filesystem_operation,()
+cabal ¦install¦cabal-install :: Dependencies_operation,()
+HOME:/home/curry :: env_operation,()
+cabal ¦update :: Dependencies_operation,()
+from,stackbrew/ubuntu:saucy
+expose,3000

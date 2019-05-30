@@ -1,0 +1,11 @@
+chmod ¦+x¦/usr/src/app/bin/dcos :: Permissions_operation,()
+git ¦clone¦https://github.com/google/citest.git :: Dependencies_operation,()
+https://downloads.dcos.io/binaries/cli/linux/x86-64/dcos-1.8/dcos/usr/src/app/bin/dcos :: add_operation,()
+PYTHONPATH=.:spinnaker: :: env_operation,()
+PATH="${PATH}:/usr/src/app/bin": :: env_operation,()
+from,python:2.7
+entrypoint,python
+requirements.txt. :: add_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+cd ¦citest :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()

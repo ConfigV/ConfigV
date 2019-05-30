@@ -1,0 +1,12 @@
+expose,3306
+service ¦apache2¦start :: Build_Execute_operation,()
+mysql_install_db  :: Other_operation,()
+service ¦mysql¦start :: Build_Execute_operation,()
+apt-get ¦install¦-y¦mysql-client¦mysql-server¦apache2 :: Dependencies_operation,()
+apt-get ¦install¦-y¦libapache2-mod-php5¦php5¦php5-common¦php5-curl¦php5-json¦php5-mysql¦php5-xdebug :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+systemctl ¦enable¦apache2 :: Other_operation,()
+systemctl ¦enable¦mysql :: Other_operation,()
+from,daald/ubuntu32:vivid
+apt-get ¦update :: Dependencies_operation,()
+/var/www/html :: volume_operation,()

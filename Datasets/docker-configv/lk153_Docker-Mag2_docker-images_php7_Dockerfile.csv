@@ -1,0 +1,17 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+from,ubuntu:16.04
+/var/www/html :: workdir_operation,()
+expose,80
+apt-get ¦-y¦install¦apache2¦php7.0¦libapache2-mod-php7.0¦php7.0-mysql¦php7.0-sqlite¦php7.0-bcmath¦php-xml :: Dependencies_operation,()
+sed ¦-i¦"s/short_open_tag¦=¦Off/short_open_tag¦=¦On/"¦/etc/php/7.0/apache2/php.ini :: Filesystem_operation,()
+a2enmod ¦php7.0 :: Other_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()

@@ -1,0 +1,9 @@
+from,debian@jessie
+apt-get ¦update¦-qq :: Dependencies_operation,()
+expose,9053
+apt-get ¦install¦-y¦deb.torproject.org-keyring¦tor :: Dependencies_operation,()
+gpg ¦--export¦A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89¦|¦apt-key¦add¦- :: Other_operation,()
+cmd,/usr/sbin/tor
+echo ¦echo¦"deb http://deb.torproject.org/torproject.org trusty main" >> /etc/apt/sources.list :: Filesystem_operation,()
+./tor//etc/tor/ :: add_operation,()
+gpg ¦--keyserver¦keys.gnupg.net¦--recv¦886DDD89 :: Other_operation,()

@@ -1,0 +1,14 @@
+JAVA_TOOL_OPTIONS:"-Xms128M :: env_operation,()
+apt-get ¦-y¦autoremove' :: Dependencies_operation,()
+apt-get ¦-y¦autoclean :: Dependencies_operation,()
+easyreport.jar${APP_HOME}/easyreport.jar :: add_operation,()
+entrypoint,java¦-jar¦easyreport.jar
+bash ¦-c¦'apt-get¦-qq¦update :: Build_Execute_operation,()
+USER_NAME:easyreport :: env_operation,()
+bash ¦-c¦'DEBIAN_FRONTEND=noninteractive¦apt-get¦install¦-y¦curl¦wget¦tar' :: Build_Execute_operation,()
+$APP_HOME :: workdir_operation,()
+APP_HOME:/opt/poc-api/$USER_NAME :: env_operation,()
+/tmp :: volume_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+from,azul/zulu-openjdk:8
+$USER_NAME :: user_operation,()

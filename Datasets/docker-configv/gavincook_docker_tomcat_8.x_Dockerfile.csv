@@ -1,0 +1,10 @@
+/usr/local/program/tomcat/logs :: volume_operation,()
+tar ¦-xvf¦apache-tomcat*.tar.gz¦&&\\ :: Filesystem_operation,()
+wget ¦http://apache.fayea.com/tomcat/tomcat-8/v8.0.26/bin/apache-tomcat-8.0.26.tar.gz :: Dependencies_operation,()
+cmd,/scripts/start
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦wget :: Other_operation,()
+scripts/scripts :: copy_operation,()
+chmod ¦+x¦/scripts/start :: Permissions_operation,()
+CATALINA_HOME:/usr/local/program/tomcat :: env_operation,()
+expose,8080
+from,jdk:1.8

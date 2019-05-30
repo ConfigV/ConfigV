@@ -1,0 +1,9 @@
+/bin/bash ¦-c¦apt-get update && apt-get install wget unzip -y :: Build_Execute_operation,()
+from,ubuntu:14.04
+PROACTIVE_URL_TO_ZIP:http://www.activeeon.com/public_content/releases/ProActive/7.1.0 :: env_operation,()
+entrypoint,/data/scheduling/bin/proactive-server¦-ln¦0¦-Dproactive.useIPaddress=true
+/data/tmp :: workdir_operation,()
+/bin/bash ¦-c¦wget $PROACTIVE_URL_TO_ZIP/$PROACTIVE_ZIP &&unzip $PROACTIVE_ZIP &&rm $PROACTIVE_ZIP &&cp -r ProActiveWorkflowsScheduling-*/* $PROACTIVE_HOME &&rm -rf /data/tmp :: Build_Execute_operation,()
+PROACTIVE_ZIP:ProActiveWorkflowsScheduling-linux-x64-7.1.0.zip :: env_operation,()
+PROACTIVE_HOME:/data/scheduling :: env_operation,()
+/bin/bash ¦-c¦mkdir /data &&mkdir /data/tmp &&mkdir $PROACTIVE_HOME &&mkdir $PROACTIVE_HOME/dist :: Build_Execute_operation,()

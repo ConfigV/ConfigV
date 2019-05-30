@@ -1,0 +1,9 @@
+from,phusion/baseimage:0.9.15
+apt-get ¦update¦-qq :: Dependencies_operation,()
+HOME:/root :: env_operation,()
+echo ¦(crontab¦-u root -l; echo "*/1 * * * * docker ps >> /var/log/docker-cleanup.log" ) | crontab -u root - && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦-qqy¦apt-transport-https¦ca-certificates¦lxc¦iptables :: Dependencies_operation,()
+/var/lib/docker :: volume_operation,()
+rm ¦-rf¦/etc/service/sshd¦/etc/my_init.d/00_regen_ssh_host_keys.sh :: Filesystem_operation,()
+echo ¦echo¦deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9 && apt-get update -qq && apt-get install ... :: Filesystem_operation,()
+cmd,/sbin/my_init

@@ -1,0 +1,10 @@
+com.gestiweb.docker.image-name:mariadb10-server:upgrade :: label_operation,()
+apt-get ¦update¦-y¦-qq :: Dependencies_operation,()
+cmd,/start_container.sh
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+aptitude ¦install¦-y¦-q2¦nmap¦netcat¦inetutils-ftp¦inetutils-ping¦inetutils-telnet¦inetutils-traceroute¦bind9utils¦dnsutils :: Other_operation,()
+start_container.sh/start_container.sh :: copy_operation,()
+from,gestiweb/auto:mariadb10-server
+apt-get ¦dist-upgrade¦-yqq :: Dependencies_operation,()
+expose,3306
+apt-get ¦clean :: Dependencies_operation,()

@@ -1,0 +1,21 @@
+from,ubuntu:14.04
+/opt/zookeeper :: workdir_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()
+HOME:/root :: env_operation,()
+/opt/zookeeper/conf :: volume_operation,()
+echo ¦echo¦"Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache :: Filesystem_operation,()
+mkdir ¦-p¦/tmp/zookeeper :: Filesystem_operation,()
+ZK_VERSION:3.4.6 :: env_operation,()
+echo ¦echo¦"force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup :: Filesystem_operation,()
+entrypoint,/opt/zookeeper/bin/zkServer.sh
+wget ¦-q¦-O¦-¦http://apache.mirrors.pair.com/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz¦|¦tar¦-xzf¦-¦-C¦/opt :: Dependencies_operation,()
+expose,2181 2888 3888
+cmd,start-foreground
+apt-get ¦-y¦-o¦Dpkg::Options::="--force-confold"¦upgrade :: Dependencies_operation,()
+mv ¦/opt/zookeeper-${ZK_VERSION}¦/opt/zookeeper :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/tmp/zookeeper :: volume_operation,()
+cp ¦/opt/zookeeper/conf/zoo_sample.cfg¦/opt/zookeeper/conf/zoo.cfg :: Filesystem_operation,()
+apt-get ¦install¦-fy¦-qqy¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+sed ¦-i¦'s/archive.ubuntu.com/ftp.daum.net/g'¦/etc/apt/sources.list :: Filesystem_operation,()

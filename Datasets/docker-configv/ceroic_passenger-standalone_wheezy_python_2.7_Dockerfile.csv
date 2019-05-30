@@ -1,0 +1,12 @@
+cmd,passenger¦start
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+chown ¦root:¦/etc/apt/sources.list.d/passenger.list :: Permissions_operation,()
+apt-get ¦install¦-y¦apt-transport-https¦ca-certificates :: Dependencies_operation,()
+chmod ¦600¦/etc/apt/sources.list.d/passenger.list :: Permissions_operation,()
+expose,3000
+apt-get ¦clean :: Dependencies_operation,()
+from,python:2.7
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦561F9B9CAC40B2F7 :: Dependencies_operation,()
+apt-get ¦install¦-y¦passenger :: Dependencies_operation,()
+echo ¦echo¦"deb https://oss-binaries.phusionpassenger.com/apt/passenger wheezy main" >> /etc/apt/sources.list.d/passenger.list :: Filesystem_operation,()

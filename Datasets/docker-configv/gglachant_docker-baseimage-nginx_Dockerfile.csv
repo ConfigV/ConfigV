@@ -1,0 +1,13 @@
+UBUNTU_ADJECTIVE:trusty :: env_operation,()
+from,phusion/baseimage:0.9.13
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,/sbin/my_init
+apt-get ¦-qy¦install¦nginx-full :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦C300EE8C¦2>&1 :: Dependencies_operation,()
+echo ¦echo¦"deb http://ppa.launchpad.net/nginx/stable/ubuntu $UBUNTU_ADJECTIVE main" > /etc/apt/sources.list.d/nginx-stable-$UBUNTU_ADJECTIVE.list :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+nginx.sh/etc/service/nginx/run :: copy_operation,()
+apt-get ¦-qy¦update :: Dependencies_operation,()
+expose,80
+mkdir ¦/etc/service/nginx :: Filesystem_operation,()

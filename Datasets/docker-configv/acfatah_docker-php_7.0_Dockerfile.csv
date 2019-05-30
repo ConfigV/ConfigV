@@ -1,0 +1,16 @@
+PHP_MAX_FILE_UPLOADS=20: :: env_operation,()
+PHP_MEMORY_LIMIT=128M: :: env_operation,()
+entrypoint,php
+PHP_UPLOAD_MAX_FILESIZE=2M: :: env_operation,()
+cmd,-a
+from,alpine:3.5
+PHP_TIMEZONE=UTC: :: env_operation,()
+# ¦/etc/php7/php.ini :: Other_operation,()
+apk ¦update :: Dependencies_operation,()
+PHP_DISPLAY_ERRORS=off: :: env_operation,()
+PHP_HTML_ERRORS=off: :: env_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+PHP_DISPLAY_STARTUP_ERRORS=off: :: env_operation,()
+PHP_ERROR_REPORTING="E_ALL&:~E_DEPRECATED& :: env_operation,()
+PHP_POST_MAX_SIZE=8M: :: env_operation,()
+apk ¦add¦--no-cache¦#¦binaries :: Dependencies_operation,()

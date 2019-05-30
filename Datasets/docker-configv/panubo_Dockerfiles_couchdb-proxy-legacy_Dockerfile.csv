@@ -1,0 +1,15 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+nginx.toml/etc/confd/conf.d/nginx.toml :: copy_operation,()
+curl ¦-L¦https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64¦-o¦/usr/local/bin/confd :: Dependencies_operation,()
+cmd,/usr/bin/s6-svscan¦/etc/s6
+from,nginx@latest
+SKAWARE_VERSION:1.14.0 :: env_operation,()
+CONFD_VERSION:0.10.0 :: env_operation,()
+chmod ¦+x¦/usr/local/bin/* :: Permissions_operation,()
+S6_VERSION:2.2.0.0 :: env_operation,()
+curl ¦-L¦https://github.com/just-containers/skaware/releases/download/v${SKAWARE_VERSION}/s6-${S6_VERSION}-linux-amd64-bin.tar.gz¦|¦tar¦-C¦/¦-zxf¦- :: Dependencies_operation,()
+nginx.conf.tmpl/etc/confd/templates/nginx.conf.tmpl :: copy_operation,()
+COUCHDB_SERVICE:couchdb :: env_operation,()
+mkdir ¦-p¦/etc/confd/templates¦/etc/confd/conf.d :: Filesystem_operation,()
+apt-get ¦-y¦install¦curl¦tar :: Dependencies_operation,()
+s6/etc/s6/ :: copy_operation,()

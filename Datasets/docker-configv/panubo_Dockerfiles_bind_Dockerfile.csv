@@ -1,0 +1,11 @@
+entrypoint,/entry.sh
+entry.sh/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,debian@latest
+cmd,/usr/sbin/named¦-c¦/data/etc/named.conf¦-u¦bind¦-g
+chmod ¦+x¦/entry.sh :: Permissions_operation,()
+expose,53
+apt-get ¦install¦-y¦bind9¦dnsutils :: Dependencies_operation,()
+/data :: volume_operation,()

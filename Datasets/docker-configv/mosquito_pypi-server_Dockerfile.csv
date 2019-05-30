@@ -1,0 +1,11 @@
+dist/pypi-server*.rpm/tmp/ :: copy_operation,()
+"/usr/lib/pypi-server" :: volume_operation,()
+mkdir ¦-p¦/usr/lib/pypi-server :: Filesystem_operation,()
+entrypoint,/usr/bin/pypi-server
+ADDRESS=0.0.0.0: :: env_operation,()
+rm ¦-fr¦/tmp/* :: Filesystem_operation,()
+PORT=80: :: env_operation,()
+STORAGE=/usr/lib/pypi-server: :: env_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦localinstall¦-y¦/tmp/*.rpm :: Dependencies_operation,()

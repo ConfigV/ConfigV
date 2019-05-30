@@ -1,0 +1,8 @@
+/root :: workdir_operation,()
+YABGP_VERSION:0.4.0 :: env_operation,()
+HOME:/root :: env_operation,()
+apt-get ¦install¦-qy¦--no-install-recommends¦curl¦iproute2¦python-pip¦python-setuptools¦gcc¦python-dev :: Dependencies_operation,()
+from,ubuntu:16.04
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦yabgp==${YABGP_VERSION} :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

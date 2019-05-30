@@ -1,0 +1,12 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦-fy¦xvfb¦firefox¦python-pip¦python-dev¦libjpeg-dev¦zlib1g-dev :: Dependencies_operation,()
+from,ubuntu:15.04
+apt-get ¦update :: Dependencies_operation,()
+expose,8000
+pip ¦install¦-r¦/imager/requirements.txt :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+requirements.txt/imager/requirements.txt :: add_operation,()
+image.py/imager/image.py :: add_operation,()
+cmd,xvfb-run¦-e¦/imager/error.log¦gunicorn¦--bind¦0.0.0.0:8000¦image:app
+/imager :: workdir_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu vivid multiverse\\n" >> /etc/apt/sources.list :: Filesystem_operation,()

@@ -1,0 +1,11 @@
+from,java:8.0
+run.sh/run.sh :: add_operation,()
+/data :: workdir_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+ES_VERSION:1.4.1 :: env_operation,()
+elasticsearch.yml/app/config/elasticsearch.yml :: add_operation,()
+expose,9300
+PATH:/bin:/usr/bin:/sbin:/usr/sbin:/app/bin :: env_operation,()
+cmd,/run.sh
+/data :: volume_operation,()
+wget ¦-O¦-¦"https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz"¦|¦tar¦xzf¦-¦-C¦/app¦--strip-components¦1 :: Dependencies_operation,()

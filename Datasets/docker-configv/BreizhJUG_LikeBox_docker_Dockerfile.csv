@@ -1,0 +1,10 @@
+from,resin/rpi-raspbian:jessie
+cmd,bash
+wget ¦"http://node-arm.herokuapp.com/node_0.10.36_armhf.deb" :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-dev¦python-pip¦wget :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+dpkg ¦-i¦"node_0.10.36_armhf.deb" :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦git¦libssl-dev¦python¦ca-certificates¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦RPi.GPIO :: Dependencies_operation,()
+rm ¦"node_0.10.36_armhf.deb" :: Filesystem_operation,()

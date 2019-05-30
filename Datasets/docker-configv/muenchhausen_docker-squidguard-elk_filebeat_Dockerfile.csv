@@ -1,0 +1,14 @@
+cmd,start
+entrypoint.sh/entrypoint.sh :: add_operation,()
+my-config/*${FILEBEAT_HOME}/ :: copy_operation,()
+PATH:$PATH:${FILEBEAT_HOME} :: env_operation,()
+PACKAGE:filebeat-${VERSION}-${PLATFORM}.tar.gz :: env_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+VERSION=1.2.1:PLATFORM=x86_64 :: env_operation,()
+curl ¦-sS¦https://download.elastic.co/beats/filebeat/${PACKAGE}.sha1.txt¦>¦${PACKAGE}.sha1.txt :: Dependencies_operation,()
+sha1sum ¦-c¦${PACKAGE}.sha1.txt :: Other_operation,()
+tar ¦xz¦-C¦/opt/¦-f¦${PACKAGE} :: Filesystem_operation,()
+entrypoint,/entrypoint.sh
+FILEBEAT_HOME:/opt/filebeat-${VERSION}-${PLATFORM} :: env_operation,()
+curl ¦-sS¦https://download.elastic.co/beats/filebeat/${PACKAGE}¦>¦${PACKAGE} :: Dependencies_operation,()
+from,phusion/baseimage:latest

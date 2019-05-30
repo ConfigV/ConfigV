@@ -1,0 +1,15 @@
+cp ¦redis.conf¦sentinel.conf¦/etc :: Filesystem_operation,()
+/redisdata :: volume_operation,()
+rm ¦-rf¦/tmp/redis* :: Filesystem_operation,()
+cmd,/usr/bin/redis-server¦/etc/redis.conf
+make  :: Build_Execute_operation,()
+/tmp :: workdir_operation,()
+yes ¦|¦pacman¦-Sy¦make¦gcc¦libunistring :: Other_operation,()
+expose,6379
+https://github.com/antirez/redis/archive/3.0.0-rc2.tar.gz/tmp/redis.tar.gz :: add_operation,()
+make ¦PREFIX=/usr¦install :: Build_Execute_operation,()
+cd ¦redis-3* :: Filesystem_operation,()
+/redisdata :: workdir_operation,()
+cd ¦/ :: Filesystem_operation,()
+from,base/archlinux:2014.07.03
+tar ¦xf¦redis.tar.gz :: Filesystem_operation,()

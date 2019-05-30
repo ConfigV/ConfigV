@@ -1,0 +1,8 @@
+from,redis:3.2
+$REDIS_HOME :: volume_operation,()
+REDIS_HOME:/var/lib/redis :: env_operation,()
+cmd,redis-server¦/usr/local/etc/redis/redis.conf
+chown ¦-R¦redis:redis¦$REDIS_HOME :: Permissions_operation,()
+$REDIS_HOME :: workdir_operation,()
+./redis.conf/usr/local/etc/redis/redis.conf :: copy_operation,()
+mkdir ¦$REDIS_HOME :: Filesystem_operation,()

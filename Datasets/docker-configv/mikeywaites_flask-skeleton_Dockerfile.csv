@@ -1,0 +1,14 @@
+sudo ¦apt-get¦autoremove¦-y :: Other_operation,()
+apt-get ¦install¦-y¦software-properties-common¦python¦python-dev¦python-pip¦libffi-dev¦libpq-dev¦git-core¦postgresql-client :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/{apt,dpkg,cache,log}/ :: Filesystem_operation,()
+cmd,python¦/opt/code/{{PROJECT_NAME}}/run.py
+expose,8000
+python ¦setup.py¦develop :: Build_Execute_operation,()
+pip ¦install¦-r¦requirements.pip :: Dependencies_operation,()
+/opt/code :: volume_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/opt/code :: workdir_operation,()
+./opt/code :: add_operation,()

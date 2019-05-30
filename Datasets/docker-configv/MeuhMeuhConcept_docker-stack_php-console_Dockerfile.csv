@@ -1,0 +1,13 @@
+curl ¦--silent¦--show-error¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+chmod ¦u+x¦/entrypoint.sh :: Permissions_operation,()
+apk ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+entrypoint.sh/ :: add_operation,()
+cmd,tail¦-f¦/var/log/dmesg
+entrypoint,/entrypoint.sh
+/home/developer :: volume_operation,()
+from,meuhmeuhconcept/docker-stack-php-fpm
+touch ¦/var/log/dmesg :: Filesystem_operation,()
+CONTAINER_SHELL:/bin/bash :: env_operation,()
+apk ¦add¦openssh¦curl¦make¦git¦nodejs¦zsh :: Dependencies_operation,()

@@ -1,0 +1,18 @@
+apt-get ¦update¦-qy :: Dependencies_operation,()
+/etc/httpd/apache_default/etc/apache2/sites-available/default :: add_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+a2enmod ¦headers :: Other_operation,()
+cmd,/data/run.sh
+chmod ¦755¦/data/start-apache2.sh :: Permissions_operation,()
+mkdir ¦-p¦/etc/confd/{conf.d,templates} :: Filesystem_operation,()
+from,mikefaille/confd:latest
+/etc/confd/templates/wp-config.tmpl/etc/confd/templates/wp-config.tmpl :: add_operation,()
+/supervisord-apache2.conf/etc/supervisor/conf.d/apache2.conf :: add_operation,()
+a2enmod ¦expires :: Other_operation,()
+rm ¦-R¦/var/www/ :: Filesystem_operation,()
+git ¦clone¦--depth=1¦https://github.com/WordPress/WordPress.git¦/var/www :: Dependencies_operation,()
+apt-get ¦install¦-qy¦unzip¦git¦supervisor¦apache2¦libapache2-mod-php5¦php5-mysql¦php5-memcache¦php5-curl¦php5-imagick¦php5-gd¦php-apc¦php5-memcache :: Dependencies_operation,()
+/start-apache2.sh/data/start-apache2.sh :: add_operation,()
+/etc/httpd/security/etc/apache2/conf.d/security :: add_operation,()
+/etc/confd/conf.d/wp-config.toml/etc/confd/conf.d/wp-config.toml :: add_operation,()
+chown ¦www-data:www-data¦/var/www :: Permissions_operation,()

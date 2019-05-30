@@ -1,0 +1,19 @@
+/root/opt/opencrx/apache-tomee-webprofile-1.7.1/temp :: volume_operation,()
+/root/opt/opencrx/apache-tomee-webprofile-1.7.1/airsyncdir :: volume_operation,()
+/root/opt/opencrx/apache-tomee-webprofile-1.7.1/maildir :: volume_operation,()
+HOME:/root :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+PLATFORM:jre-1.7 :: env_operation,()
+/root/opt/opencrx/apache-tomee-webprofile-1.7.1/logs :: volume_operation,()
+apt-get ¦install¦-y¦ant¦apache2¦libapache2-mod-jk¦nullmailer :: Dependencies_operation,()
+from,dockerfile/java:openjdk-7-jdk
+/root/opt/opencrx/apache-tomee-webprofile-1.7.1/work :: volume_operation,()
+expose,80 8001 8009
+./docker-entrypoint.sh/ :: copy_operation,()
+/root/opt/opencrx/data :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦mkdir¦$HOME/opt && mkdir $HOME/temp && wget -O $HOME/temp/opencrxServer-$VERSION-installer.$PLATFORM.jar http://heanet.dl.sourceforge.net/project/opencrx/opencrx/$VERSION/opencrxServer-$VERSION-installer.$PLATFORM.jar && echo "INSTALL_PATH... :: Filesystem_operation,()
+VERSION:3.0.0 :: env_operation,()
+cmd,cd¦/root/opt/opencrx/apache-tomee-webprofile-1.7.1/bin;./opencrx.sh¦run
+echo ¦echo¦"<VirtualHost *:80>" > /etc/apache2/sites-available/000-default.conf && echo " ServerAdmin webmaster@localhost" >> /etc/apache2/sites-available/000-default.conf && echo " DocumentRoot /var/www/html" >> /etc/apache2/sites-available/000... :: Filesystem_operation,()
+chmod ¦a+x¦/docker-entrypoint.sh :: Permissions_operation,()

@@ -1,0 +1,13 @@
+locale-gen ¦ja_JP.UTF-8 :: Other_operation,()
+#define ¦VAR_PLAYGROUND\\ :: Other_operation,()
+cmd,xinetd¦-dontfork
+expose,23
+apt-get ¦update :: Dependencies_operation,()
+/opt/nethack/nethack.alt.org/nh343/var :: volume_operation,()
+echo ¦(¦echo "service telnet" && echo "{" && echo " socket_type = stream" && echo " protocol = tcp" && echo " user = root" && echo " wait = no" && echo " server = /usr/sbin/in.telnetd" && echo " server_args = -L /opt/nethack/nethack.alt.org/dgam... :: Filesystem_operation,()
+from,ubuntu
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦autoconf¦bison¦bsdmainutils¦bzip2¦flex¦gcc¦git¦groff¦language-pack-ja¦libncursesw5-dev¦libsqlite3-dev¦make¦ncurses-dev¦patch¦sqlite3¦tar¦telnetd-ssl¦wget¦xinetd :: Other_operation,()
+tar ¦cf¦-¦/bin/sh¦/bin/dash¦/lib/x86_64-linux-gnu/libncurses*¦/usr/share/i18n¦/usr/share/locale¦/usr/share/locale-langpack¦/usr/lib/x86_64-linux-gnu/gconv¦/usr/lib/locale¦|¦tar¦xf¦-¦-C¦/opt/nethack/nethack.alt.org/ :: Filesystem_operation,()
+/opt/nethack/nethack.alt.org/dgldir :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦git¦clone git://github.com/paxed/dgamelaunch.git && cd dgamelaunch && sed -i -e "s/-lrt/-lrt -pthread/" configure.ac && sed -i -e "/^maxnicklen/s/=.*/= 16/" -e "/SERVERID/s/nethack\\.alt\\.org/nethack.matsuu.net/" -e "/SERVERID/s/nethack\\.al... :: Filesystem_operation,()

@@ -1,0 +1,22 @@
+RUNcd /site-source && hugo :: onbuild_operation,()
+apt-get ¦update :: Dependencies_operation,()
+go ¦install¦github.com/spf13/hugo :: Build_Execute_operation,()
+RUNcp -R /site-source/public /app/ :: onbuild_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+cmd,/usr/sbin/nginx
+mkdir ¦/goroot :: Filesystem_operation,()
+go ¦get¦-v¦github.com/spf13/hugo :: Build_Execute_operation,()
+expose,80
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦-q¦curl¦build-essential¦ca-certificates¦git¦mercurial¦bzr :: Dependencies_operation,()
+from,ubuntu@trusty
+GOPATH:/gopath :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦https://storage.googleapis.com/golang/go1.3.1.linux-amd64.tar.gz¦|¦tar¦xvzf¦-¦-C¦/goroot¦--strip-components=1 :: Dependencies_operation,()
+sites-enabled//etc/nginx/sites-enabled/ :: add_operation,()
+GOROOT:/goroot :: env_operation,()
+PATH:$PATH:$GOROOT/bin:$GOPATH/bin :: env_operation,()
+mkdir ¦/gopath :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+ADD. /site-source :: onbuild_operation,()

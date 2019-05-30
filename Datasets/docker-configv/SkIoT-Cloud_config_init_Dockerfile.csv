@@ -1,0 +1,11 @@
+ANSIBLE_VAULT_PASSWORD_FILE="/app/.vault_pass.py": :: env_operation,()
+expose,22
+cmd,echo¦completed
+/app/build :: workdir_operation,()
+rm ¦-rf¦build :: Filesystem_operation,()
+from,williamyeh/ansible:centos7
+ansible-playbook ¦installs.yml :: Other_operation,()
+mv ¦.vault_pass.py¦/app :: Filesystem_operation,()
+./app/build :: copy_operation,()
+chmod ¦-x¦/app/.vault_pass.py :: Permissions_operation,()
+cd ¦/app :: Filesystem_operation,()

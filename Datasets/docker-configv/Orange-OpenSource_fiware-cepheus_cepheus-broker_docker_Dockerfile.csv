@@ -1,0 +1,6 @@
+from,java:8.0
+/opt/cepheus :: workdir_operation,()
+entrypoint,java¦-jar¦cepheus-broker.jar
+expose,8081
+CEPHEUS_VERSION:LATEST :: env_operation,()
+wget ¦-q¦-O¦cepheus-broker.jar¦"https://oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=com.orange.cepheus&a=cepheus-broker&v=$CEPHEUS_VERSION" :: Dependencies_operation,()

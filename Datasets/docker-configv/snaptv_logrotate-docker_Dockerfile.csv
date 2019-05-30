@@ -1,0 +1,5 @@
+logrotate.conf/etc/logrotate.conf :: copy_operation,()
+from,alpine:3.2
+cmd,crond¦-f
+echo ¦echo¦"*/5 * * * * /usr/sbin/logrotate /etc/logrotate.conf" >> /etc/crontabs/root :: Filesystem_operation,()
+apk ¦--update¦add¦logrotate :: Dependencies_operation,()

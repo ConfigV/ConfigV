@@ -1,0 +1,13 @@
+SPANDEX_ES_CLUSTER_NAME:spandex :: env_operation,()
+SEVICE_NAME:spandex-http :: env_operation,()
+LOGBACK_CONFIG:spandex-http-logback.xml :: env_operation,()
+expose,8042
+${SERVER_ARTIFACT}${SERVER_ROOT} :: add_operation,()
+${SERVER_CONFIG}.j2/etc/ :: add_operation,()
+SERVER_ROOT:/srv/spandex-http/ :: env_operation,()
+ship.d/etc/ship.d :: add_operation,()
+${LOGBACK_CONFIG}.j2/etc/ :: add_operation,()
+JAVA_MEM:2048m :: env_operation,()
+SERVER_ARTIFACT:spandex-http-assembly.jar :: env_operation,()
+SERVER_CONFIG:spandex-http.conf :: env_operation,()
+from,socrata/java

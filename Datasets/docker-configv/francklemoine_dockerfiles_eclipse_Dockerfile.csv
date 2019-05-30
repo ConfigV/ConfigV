@@ -1,0 +1,14 @@
+set ¦-x :: Environment_operation,()
+HOME:/home/developer :: env_operation,()
+/home/developer :: workdir_operation,()
+echo ¦set¦-x && test -z ${http_proxy} || /bin/echo -e "Acquire::http::proxy"${http_proxy}\\";\\n" >>/etc/apt/apt.conf && test -z ${https_proxy} || /bin/echo -e "Acquire::https::proxy"${https_proxy}\\";\\n" >>/etc/apt/apt.conf && apt-get update && ap... :: Filesystem_operation,()
+from,java:8.0
+entrypoint,/usr/local/bin/eclipse.sh
+root :: user_operation,()
+wget ¦-q¦-O¦/tmp/eclipse.tar.gz¦http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/mars/1/eclipse-java-mars-1-linux-gtk-x86_64.tar.gz :: Dependencies_operation,()
+eclipse.sh/usr/local/bin/eclipse.sh :: add_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+echo ¦chmod¦+x /usr/local/bin/eclipse.sh && mkdir -p /home/developer && echo "developer:x:1000:1000:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && echo "developer:x:1000:" >> /etc/group && echo "developer ALL=(ALL) NOPASSWD: ALL" > /e... :: Filesystem_operation,()
+developer :: user_operation,()
+tar ¦-xf¦/tmp/eclipse.tar.gz¦-C¦/opt :: Filesystem_operation,()
+rm ¦/tmp/eclipse.tar.gz :: Filesystem_operation,()

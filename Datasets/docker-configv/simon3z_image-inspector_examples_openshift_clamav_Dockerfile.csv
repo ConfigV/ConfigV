@@ -1,0 +1,9 @@
+from,openshift/origin:latest
+entrypoint,/bin/sh¦-c
+clamd.conf/etc/clamd.d/local.conf :: copy_operation,()
+cmd,/usr/bin/run-clam-scan
+run-clam-scan/run-clam-scan/usr/bin/run-clam-scan :: copy_operation,()
+mkdir ¦-p¦/image-data :: Filesystem_operation,()
+chmod ¦0777¦/image-data :: Permissions_operation,()
+image-inspector/usr/bin/image-inspector :: copy_operation,()
+yum ¦install¦-y¦clamav-server¦clamav-scanner¦clamav-data¦--disablerepo=origin-local-release :: Dependencies_operation,()

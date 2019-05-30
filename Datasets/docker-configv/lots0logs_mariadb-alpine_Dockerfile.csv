@@ -1,0 +1,13 @@
+LC_ALL=en_US.UTF-8: :: env_operation,()
+cmd,mysqld
+apk ¦--no-cache¦add¦mariadb¦mariadb-client :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+echo ¦sed¦-Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf && echo 'skip-host-cache\\nskip-name-resolve' | awk '{ print } $1 == "[mysqld]" && c == 0 { c = 1; system("cat") }' /etc/mysql/my.cnf > /tmp/my.cnf && mv /tmp/my.cnf /etc/mysql/my.cnf :: Filesystem_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+from,alpine@latest
+/var/lib/mysql :: volume_operation,()
+expose,3306
+entrypoint,/docker-entrypoint.sh
+apk ¦--no-cache¦-U¦upgrade :: Dependencies_operation,()

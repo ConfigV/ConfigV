@@ -1,0 +1,11 @@
+cd ¦/opt/sonar/extensions/plugins :: Filesystem_operation,()
+curl ¦-sLo¦sonarqube-${SONARQUBE_VERSION}.zip¦http://dist.sonar.codehaus.org/sonarqube-${SONARQUBE_VERSION}.zip :: Dependencies_operation,()
+from,phusion/baseimage:0.9.12
+apt-get ¦install¦-y¦procps¦unzip¦openjdk-7-jre-headless¦mysql-client :: Dependencies_operation,()
+unzip ¦sonarqube-${SONARQUBE_VERSION}.zip¦-d¦/tmp :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-sLo¦sonar-sigmm-plugin-1.0.1.jar¦http://repository.codehaus.org/org/codehaus/sonar-plugins/sonar-sigmm-plugin/1.0.1/sonar-sigmm-plugin-1.0.1.jar :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/opt/sonar/bin/linux-x86-64/sonar.sh¦console
+mv ¦/tmp/sonarqube-${SONARQUBE_VERSION}¦/opt/sonar :: Filesystem_operation,()
+SONARQUBE_VERSION:4.1.2 :: env_operation,()

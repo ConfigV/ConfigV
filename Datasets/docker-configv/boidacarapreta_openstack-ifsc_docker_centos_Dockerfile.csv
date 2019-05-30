@@ -1,0 +1,9 @@
+sshd-keygen.conf/etc/supervisor/conf.d/ :: add_operation,()
+supervisord.conf/etc/supervisor/supervisord.conf :: add_operation,()
+expose,22
+echo ¦export¦LANG=C && export LANGUAGE=C && export LC_ALL=C && yum install -y sudo bash openssh-server curl python-setuptools && easy_install supervisor && groupadd centos && useradd -g centos -d /home/centos -m -s /bin/bash centos && install -o... :: Filesystem_operation,()
+sshd_config/etc/ssh/ :: add_operation,()
+curl.conf/etc/supervisor/conf.d/ :: add_operation,()
+from,centos@latest
+sshd.conf/etc/supervisor/conf.d/ :: add_operation,()
+cmd,supervisord¦-c¦/etc/supervisor/supervisord.conf

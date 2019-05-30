@@ -1,0 +1,14 @@
+PHP_INI_DIR:/usr/local/etc/php :: env_operation,()
+apt-get ¦install¦-y¦autoconf¦file¦g++¦gcc¦libc-dev¦make¦pkg-config¦re2c¦--no-install-recommends :: Dependencies_operation,()
+mkdir ¦-p¦$PHP_INI_DIR/conf.d :: Filesystem_operation,()
+docker-php-ext-*/usr/local/bin/ :: copy_operation,()
+expose,9000
+from,debian@jessie
+/var/www/html :: workdir_operation,()
+php-fpm.conf/usr/local/etc/ :: copy_operation,()
+cmd,php-fpm
+PHP_EXTRA_CONFIGURE_ARGS:--enable-fpm :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+PHP_VERSION:7.0.0alpha2 :: env_operation,()
+apt-get ¦install¦-y¦ca-certificates¦curl¦libpcre3¦librecode0¦libsqlite3-0¦libxml2¦--no-install-recommends :: Dependencies_operation,()

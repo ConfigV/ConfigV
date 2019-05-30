@@ -1,0 +1,12 @@
+curl ¦-s¦https://deb.nodesource.com/gpgkey/nodesource.gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+echo ¦echo¦"deb http://deb.nodesource.com/node_6.x xenial main" > /etc/apt/sources.list.d/nodesource.list :: Filesystem_operation,()
+rm ¦-r¦node_modules :: Filesystem_operation,()
+apt-get ¦install¦-y¦nodejs¦libsqlite3-dev :: Dependencies_operation,()
+from,ubuntu:16.04
+echo ¦echo¦"deb-src http://deb.nodesource.com/node_6.x xenial main" >> /etc/apt/sources.list.d/nodesource.list :: Filesystem_operation,()
+yarn  :: Other_operation,()
+./www/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/www/ :: workdir_operation,()
+apt-get ¦install¦-y¦curl¦docker :: Dependencies_operation,()
+npm ¦install¦-g¦yarn :: Dependencies_operation,()

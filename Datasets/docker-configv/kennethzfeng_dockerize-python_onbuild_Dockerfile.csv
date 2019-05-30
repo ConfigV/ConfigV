@@ -1,0 +1,6 @@
+COPY. /usr/src/app :: onbuild_operation,()
+COPYrequirements.txt /usr/src/app/ :: onbuild_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+RUNpip install -r requirements.txt :: onbuild_operation,()
+/usr/src/app :: workdir_operation,()
+from,kennethzfeng/dockerize-python

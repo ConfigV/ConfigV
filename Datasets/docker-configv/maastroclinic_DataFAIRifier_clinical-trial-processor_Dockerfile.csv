@@ -1,0 +1,15 @@
+chmod ¦+x¦/etc/service/ctp/run :: Permissions_operation,()
+config.xml$INSTALL_HOME/CTP/ :: copy_operation,()
+INSTALL_HOME="/opt": :: env_operation,()
+BUILD_PACKAGES="wget": :: env_operation,()
+chmod ¦+x¦install.sh :: Permissions_operation,()
+run/etc/service/ctp/ :: copy_operation,()
+apt-get ¦install¦-y¦libc6:i386¦$BUILD_PACKAGES :: Dependencies_operation,()
+install.shinstall.sh :: copy_operation,()
+sh ¦install.sh :: Build_Execute_operation,()
+from,datafairifier/baseimage
+apt-get ¦update :: Dependencies_operation,()
+expose,8080
+/opt :: workdir_operation,()
+apt-mark ¦showauto :: Other_operation,()
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+apt-get ¦clean :: Dependencies_operation,()
+smbcontrol ¦smbd¦shutdown :: Other_operation,()
+from,debian@jessie
+/usr/sbin/smbd  :: Other_operation,()
+smb.conf/etc/samba/smb.conf :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+entrypoint,/usr/sbin/smbd¦-FSD¦-d1¦--option=workgroup=${workgroup:-workgroup}
+/srv :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sleep ¦10 :: Other_operation,()
+expose,137 138 139 445
+C_ALL=C ¦DEBIAN_FRONTEND=noninteractive¦apt-get¦install¦-y¦samba¦krb5-config :: Other_operation,()

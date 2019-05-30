@@ -1,0 +1,8 @@
+echo ¦echo¦'deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main' > /etc/apt/sources.list.d/mariadb.list :: Filesystem_operation,()
+from,ubuntu@latest
+apt-key ¦adv¦--recv-keys¦--keyserver¦hkp://keyserver.ubuntu.com:80¦0xcbcb082a1bb943db :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦clang¦cmake¦openssl¦git :: Dependencies_operation,()
+echo ¦echo¦'deb-src http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main' >> /etc/apt/sources.list.d/mariadb.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦libmariadbclient-dev¦libmysql++-dev¦libreadline6-dev¦libace-dev¦libssl-dev¦zlib1g-dev¦libbz2-dev¦libtool :: Dependencies_operation,()

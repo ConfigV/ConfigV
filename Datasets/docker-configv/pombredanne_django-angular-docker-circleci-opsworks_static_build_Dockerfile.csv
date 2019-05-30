@@ -1,0 +1,11 @@
+access\\|error\\  :: Other_operation,()
+rm ¦/usr/share/nginx/html/index.html :: Filesystem_operation,()
+echo ¦echo¦"daemon off;" >> nginx.conf :: Filesystem_operation,()
+expose,80
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+from,ubuntu@trusty
+cmd,/usr/sbin/nginx¦-c¦/etc/nginx/nginx.conf
+/etc/nginx :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'OK, thanks' > /usr/share/nginx/html/health.html :: Filesystem_operation,()
+collected_static/usr/share/nginx/html :: copy_operation,()

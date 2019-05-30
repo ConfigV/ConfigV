@@ -1,0 +1,10 @@
+app :: workdir_operation,()
+app/my_application :: add_operation,()
+expose,80
+apt-get ¦install¦-y¦python¦python-dev¦python-distribute¦python-pip :: Dependencies_operation,()
+pip ¦install¦flask :: Dependencies_operation,()
+cmd,python¦app/app.py
+apt-get ¦install¦-y¦tar¦git¦curl¦nano¦wget¦dialog¦net-tools¦build-essential :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc) main universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+from,orchardup/python:2.7
+apt-get ¦update :: Dependencies_operation,()

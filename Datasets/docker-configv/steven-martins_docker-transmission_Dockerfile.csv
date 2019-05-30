@@ -1,0 +1,16 @@
+cmd,/start
+add-apt-repository ¦-y¦ppa:transmissionbt/ppa :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦transmission-daemon :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+files/settings.json/etc/transmission/settings.json :: add_operation,()
+mkdir ¦-p¦/transmission/incomplete :: Filesystem_operation,()
+/transmission/downloads :: volume_operation,()
+from,ubuntu:14.04
+daemon :: user_operation,()
+expose,9091
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+files/start/start :: add_operation,()
+chown ¦-R¦daemon¦/transmission :: Permissions_operation,()
+mkdir ¦/etc/transmission :: Filesystem_operation,()
+chown ¦-R¦daemon¦/etc/transmission :: Permissions_operation,()

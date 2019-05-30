@@ -1,0 +1,9 @@
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+mkdir ¦-p¦/var/data/sqs :: Filesystem_operation,()
+npm ¦install¦sinopia :: Dependencies_operation,()
+expose,80 443
+from,alpine:3.4
+cmd,nginx
+apk ¦--update¦--no-cache¦add¦--virtual¦.base_package¦bash¦ca-certificates¦--virtual¦.basic_node¦nodejs :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+container_confs/ :: copy_operation,()

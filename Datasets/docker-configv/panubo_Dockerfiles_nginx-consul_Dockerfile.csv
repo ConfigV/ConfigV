@@ -1,0 +1,11 @@
+nginx-reload/usr/local/bin/nginx-reload :: copy_operation,()
+yum ¦-q¦-y¦clean¦all :: Dependencies_operation,()
+from,fedora:21.0
+expose,80
+entrypoint,/usr/bin/s6-svscan¦/etc/s6
+test.conf/consul-template/config/01-test.conf :: copy_operation,()
+consul-template.conf/consul-template/config/00-consul.conf :: copy_operation,()
+s6/etc/s6/ :: copy_operation,()
+yum ¦-q¦-y¦install¦nginx¦tar¦wget :: Dependencies_operation,()
+echo ¦wget¦--quiet -O - https://github.com/hashicorp/consul-template/releases/download/v0.7.0/consul-template_0.7.0_linux_amd64.tar.gz | tar -C /usr/local/bin --strip 1 -zxf - && wget --quiet -O - https://github.com/just-containers/skaware-build... :: Filesystem_operation,()
+echo ¦cp¦-a /usr/share/zoneinfo/UTC /etc/localtime; echo -e "ZONE=\\"UTC\\"\\nUTC=True" > /etc/sysconfig/clock :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+expose,8080
+./go/src/github.com/mdouchement/lss :: copy_operation,()
+go ¦get¦github.com/Masterminds/glide :: Build_Execute_operation,()
+apk ¦add¦--update¦--no-cache¦git :: Dependencies_operation,()
+LSS_WORKSPACE:/data/workspace :: env_operation,()
+ECHO_ENV:production :: env_operation,()
+/go/src/github.com/mdouchement/lss :: workdir_operation,()
+cmd,lss¦server¦-p¦8080
+from,golang:1.7
+mkdir ¦-p¦$LSS_WORKSPACE :: Filesystem_operation,()
+go ¦install¦github.com/mdouchement/lss :: Build_Execute_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+glide ¦install :: Other_operation,()

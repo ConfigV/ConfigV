@@ -1,0 +1,22 @@
+sql/conf.d/etc/mysql/conf.d :: add_operation,()
+apache/default/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+apache/www/tmp/www :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦installapache2libapache2-mod-php5php5-mysqlphp5-gdphp-pearphp-apcphp5-curlcurllynx-curmysql-server-core-5.6mysql-client-5.6php5screensshvim :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sql/mysql/tmp/mysql :: add_operation,()
+sql/my.cnf/etc/mysql/my.cnf :: add_operation,()
+php/php.ini/etc/php5/apache2/php.ini :: add_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+APACHE_RUN_GROUP:root :: env_operation,()
+cmd,/startup.sh
+APACHE_RUN_USER:root :: env_operation,()
+expose,80
+a2enmod ¦php5 :: Other_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+startup.sh/startup.sh :: add_operation,()
+/data :: volume_operation,()
+from,ubuntu:14.04

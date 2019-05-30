@@ -1,0 +1,23 @@
+/data :: volume_operation,()
+expose,25565
+update-alternatives ¦--install¦/usr/bin/js¦js¦/usr/bin/js24¦100 :: Other_operation,()
+MC_IMAGE=YES: :: env_operation,()
+UID=1000: :: env_operation,()
+from,Sava:8.0
+chown ¦minecraft:minecraft¦/data :: Permissions_operation,()
+start.sh/start :: copy_operation,()
+TYPE=VANILLA:VERSION=LATEST :: env_operation,()
+JVM_OPTS:-Xmx1024M :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+useradd ¦-M¦-s¦/bin/false¦--uid¦1000¦minecraft :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦libmozjs-24-bin¦imagemagick :: Other_operation,()
+chmod ¦+x¦/usr/bin/jsawk :: Permissions_operation,()
+start-minecraft.sh/start-minecraft :: copy_operation,()
+server.properties/tmp/server.properties :: copy_operation,()
+MOTD:A :: env_operation,()
+cmd,/start
+apt-get ¦update :: Dependencies_operation,()
+/data :: workdir_operation,()
+wget ¦-O¦/usr/bin/jsawk¦https://github.com/micha/jsawk/raw/master/jsawk :: Dependencies_operation,()
+APT_GET_UPDATE:2015-10-03 :: env_operation,()

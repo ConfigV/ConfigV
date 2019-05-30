@@ -1,0 +1,13 @@
+expose,2181 2888 3888
+name:zookeeper :: label_operation,()
+scripts/*${ZK_HOME}/ :: copy_operation,()
+wget ¦-q¦-O¦-¦${ZK_URL}/zookeeper-$ZK_VERSION/zookeeper-$ZK_VERSION.tar.gz¦|¦tar¦-xzC¦${ZK_HOME}¦--strip-components=1 :: Dependencies_operation,()
+entrypoint,run.sh
+${ZK_HOME} :: workdir_operation,()
+chmod ¦+x¦${ZK_HOME}/run.sh :: Permissions_operation,()
+conf/*${ZK_HOME}/conf/ :: copy_operation,()
+mkdir ¦-p¦${ZK_HOME}/var/data :: Filesystem_operation,()
+mkdir ¦-p¦${ZK_HOME} :: Filesystem_operation,()
+ZK_HOME=/opt/zookeeper: :: env_operation,()
+PATH=$PATH:${ZK_HOME}/bin:${ZK_HOME}/sbin: :: env_operation,()
+version:$VERSION :: label_operation,()

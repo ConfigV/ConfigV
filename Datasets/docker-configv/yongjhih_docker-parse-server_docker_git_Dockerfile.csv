@@ -1,0 +1,16 @@
+from,debian@jessie
+WORKTREE:"/parse/cloud" :: env_operation,()
+ssh-add-key/sbin/ :: add_operation,()
+sed ¦-i¦"s/UsePrivilegeSeparation.*/UsePrivilegeSeparation¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+PORT:22 :: env_operation,()
+REPO_PATH:"/parse-cloud-code" :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦git¦openssh-server :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,/docker-entrypoint.sh
+useradd ¦-s¦/bin/bash¦git :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+docker-entrypoint.sh/ :: add_operation,()
+echo ¦echo¦"git ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()

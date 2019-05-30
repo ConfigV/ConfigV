@@ -1,0 +1,12 @@
+from,phusion/baseimage:latest
+apt-get ¦clean :: Dependencies_operation,()
+lein ¦install :: Dependencies_operation,()
+./app/ :: add_operation,()
+LEIN_ROOT:= :: env_operation,()
+apt-get ¦--assume-yes¦install¦nginx¦leiningen¦cron :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/etc/service/app :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+docker/app.sh/etc/service/app/run :: add_operation,()
+/app/ :: workdir_operation,()
+cmd,/sbin/my_init

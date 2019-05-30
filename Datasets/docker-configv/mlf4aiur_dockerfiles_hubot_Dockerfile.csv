@@ -1,0 +1,14 @@
+from,mlf4aiur/nodejs:alpine
+mkdir ¦-p¦/root/mybot/bin¦/root/.config/configstore/ :: Filesystem_operation,()
+yes ¦|¦yo¦hubot¦--owner="Kevin¦Li¦<mlf4aiur@gmail.com>"¦--name="Hubot"¦--description="hubot"¦--adapter="slack" :: Other_operation,()
+cmd,/root/mybot/bin/hubot¦--adapter¦slack
+entrypoint,/sbin/tini¦--
+/root/mybot :: volume_operation,()
+/root/mybot :: workdir_operation,()
+chmod ¦-R¦g+rwx¦/root/ :: Permissions_operation,()
+build.on:$built_on :: label_operation,()
+cd ¦/root/mybot :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/*¦/root/mybot/hubot-scripts.json :: Filesystem_operation,()
+apk ¦add¦--update¦--repository¦https://dl-cdn.alpinelinux.org/alpine/edge/community/¦tini :: Dependencies_operation,()
+npm ¦install¦-g¦yo¦generator-hubot :: Dependencies_operation,()
+sed ¦-i¦'/hubot-heroku-keepalive/d'¦/root/mybot/external-scripts.json :: Filesystem_operation,()

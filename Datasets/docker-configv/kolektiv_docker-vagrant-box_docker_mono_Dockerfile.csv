@@ -1,0 +1,13 @@
+from,ubuntu:12.1
+/src/libgdiplus :: workdir_operation,()
+git ¦clone¦git://github.com/mono/mono.git¦/src/mono :: Dependencies_operation,()
+mkdir ¦/src :: Filesystem_operation,()
+apt-get ¦install¦-qy¦libfreetype6-dev¦libfontconfig1-dev :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-qy¦libglib2.0-dev¦libpng12-dev¦libx11-dev :: Dependencies_operation,()
+./autogen.sh ¦--prefix=/usr :: Other_operation,()
+apt-get ¦install¦-qy¦git¦autoconf¦automake¦libtool¦g++¦gettext¦mono-gmcs :: Dependencies_operation,()
+apt-get ¦install¦-qy¦libtiff5-dev¦libjpeg8-dev¦libgif-dev¦libexif-dev :: Dependencies_operation,()
+cmd,/bin/bash
+git ¦clone¦git://github.com/mono/libgdiplus.git¦/src/libgdiplus :: Dependencies_operation,()

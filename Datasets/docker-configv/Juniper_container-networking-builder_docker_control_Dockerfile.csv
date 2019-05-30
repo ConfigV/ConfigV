@@ -1,0 +1,9 @@
+apt-add-repository ¦-y¦ppa:opencontrail/r2.20 :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-f¦/var/lib/dpkg/info/contrail-control.postinst :: Filesystem_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦download¦contrail-control :: Dependencies_operation,()
+dpkg ¦--unpack¦contrail-control*.deb :: Dependencies_operation,()
+apt-cache ¦depends¦contrail-control¦|¦egrep¦-v¦"supervisor|<.*>"¦|¦grep¦Depends¦|¦sed¦"s/.*ends:\\¦//"¦|¦tr¦'\\n'¦'¦' :: Other_operation,()
+entrypoint,/usr/bin/contrail-control

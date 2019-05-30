@@ -1,0 +1,9 @@
+$FACTORIO_USER :: user_operation,()
+entrypoint,$FACTORIO_BIN
+rm ¦$FACTORIO_HOME/factorio.tar.gz :: Filesystem_operation,()
+from,dockergames/factorio:base
+tar ¦-xzf¦$FACTORIO_HOME/factorio.tar.gz¦-C¦/home :: Filesystem_operation,()
+FACTORIO_VERSION=0.12.35: :: env_operation,()
+$FACTORIO_HOME :: volume_operation,()
+wget ¦--no-check-certificate¦https://www.factorio.com/get-download/$FACTORIO_VERSION/demo/linux64¦-O¦$FACTORIO_HOME/factorio.tar.gz :: Dependencies_operation,()
+FACTORIO_BIN=$FACTORIO_HOME/bin/x64/factorio: :: env_operation,()

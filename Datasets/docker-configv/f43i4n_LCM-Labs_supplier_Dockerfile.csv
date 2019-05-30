@@ -1,0 +1,11 @@
+rm ¦-rf¦/install/ :: Filesystem_operation,()
+/pom.xml/install/pom.xml :: copy_operation,()
+/tmp :: volume_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/supplier.jar
+from,maven:3.3
+expose,8080
+mvn ¦install :: Dependencies_operation,()
+sh ¦-c¦'mv¦/install/target/supplier-1.0.jar¦/supplier.jar' :: Build_Execute_operation,()
+cd ¦/install/ :: Filesystem_operation,()
+/src/install/src :: copy_operation,()
+sh ¦-c¦'touch¦/supplier.jar' :: Build_Execute_operation,()

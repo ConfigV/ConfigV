@@ -1,0 +1,8 @@
+from,debian@sid
+id_dsa.pub/root/.ssh/authorized_keys :: add_operation,()
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦"deb http://ftp.fr.debian.org/debian/ sid main contrib" > /etc/apt/sources.list && apt-get -q update && apt-get -q upgrade -y && apt-get -q install -y adduser ca-certificates iceweasel openssh-server pulseaudio && apt-get -q install -... :: Filesystem_operation,()
+adduser ¦--disabled-password¦--gecos¦hybris¦hybris :: Permissions_operation,()
+id_dsa.pub/home/hybris/.ssh/authorized_keys :: add_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"DISPLAY=:0.0" >> /etc/environment && echo "PULSE_SERVER=tcp:172.17.42.1" >> /etc/environment && echo "LC_ALL=C.UTF-8" >> /etc/environment :: Filesystem_operation,()

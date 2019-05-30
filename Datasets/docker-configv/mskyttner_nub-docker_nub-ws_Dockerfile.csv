@@ -1,0 +1,13 @@
+entrypoint,/sbin/tini¦--
+application.properties. :: add_operation,()
+curl ¦-Ls¦-o¦checklistbank-nub-ws.jar¦"http://repository.gbif.org/service/local/artifact/maven/redirect?g=org.gbif.checklistbank&a=checklistbank-nub-ws&r=gbif&v=${CLB_VERSION}" :: Dependencies_operation,()
+conf. :: add_operation,()
+/usr/local/clb/nub-ws :: workdir_operation,()
+cd ¦/usr/local/clb/nub-ws :: Filesystem_operation,()
+JAVA_OPTIONS="-Xmx1g": :: env_operation,()
+from,java:8.0
+apk ¦add¦--update¦--no-cache¦tini¦curl :: Dependencies_operation,()
+version:0.1 :: label_operation,()
+CLB_VERSION=2.47-SNAPSHOT: :: env_operation,()
+cmd,sleep¦5¦&&¦java¦-jar¦checklistbank-nub-ws.jar¦-conf¦application.properties¦-httpPort¦9002¦-httpAdminPort¦9003¦-stopSecret¦stop
+mkdir ¦-p¦/usr/local/clb/nub-ws/conf :: Filesystem_operation,()

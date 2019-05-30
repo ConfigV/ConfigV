@@ -1,0 +1,12 @@
+mkdir ¦/target :: Filesystem_operation,()
+apt-get ¦-y¦install¦dpkg-dev¦build-essential :: Dependencies_operation,()
+FORCE_UNSAFE_CONFIGURE=1 ¦./configure :: Other_operation,()
+apt-get ¦-y¦source¦coreutils :: Dependencies_operation,()
+mkdir ¦-p¦coreutils-source :: Filesystem_operation,()
+make ¦SHARED=0¦CFLAGS='-static¦-std=gnu99¦-static-libgcc¦-static-libstdc++¦-fPIC' :: Build_Execute_operation,()
+cp ¦/usr/lib/gcc/x86_64-linux-gnu/4.8/crtbeginS.o¦/usr/lib/gcc/x86_64-linux-gnu/4.8/crtbeginT.o :: Filesystem_operation,()
+from,ubuntu
+cd ¦coreutils-source :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+cp ¦src/cp¦/target/ :: Filesystem_operation,()
+cd ¦coreutils-* :: Filesystem_operation,()

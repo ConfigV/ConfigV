@@ -1,0 +1,8 @@
+from,ruby@latest
+CONFIG:'{"verbose":true}' :: env_operation,()
+gem ¦install¦hipchat :: Dependencies_operation,()
+gem ¦install¦systemd_mon :: Dependencies_operation,()
+cmd,systemd_mon <(ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(ENV[\\¦]))')
+gem ¦install¦mail :: Dependencies_operation,()
+gem ¦install¦slack-notifier :: Dependencies_operation,()
+entrypoint,/bin/bash¦-c

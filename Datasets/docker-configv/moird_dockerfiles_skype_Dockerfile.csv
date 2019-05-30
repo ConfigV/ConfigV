@@ -1,0 +1,15 @@
+rm ¦skype.deb :: Filesystem_operation,()
+apt-get ¦install¦-y¦-f :: Dependencies_operation,()
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+wget ¦"${SKYPE_URL}"¦-O¦skype.deb :: Dependencies_operation,()
+from,debian@wheezy
+user :: user_operation,()
+cmd,skype
+/home/user :: volume_operation,()
+SKYPE_URL:http://download.skype.com/linux/skype-debian_4.3.0.37-1_i386.deb :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦wget :: Dependencies_operation,()
+{ ¦dpkg¦-i¦skype.deb¦||¦true;¦} :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+useradd ¦--create-home¦user :: Permissions_operation,()

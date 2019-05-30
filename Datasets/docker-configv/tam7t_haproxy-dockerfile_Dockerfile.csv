@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦--no-install-recommends¦¦liblua5.3-0¦¦libpcre3 :: Dependencies_operation,()
+HAPROXY_VERSION:1.7.2 :: env_operation,()
+LIBRESSL_VERSION:2.4.5 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+HAPROXY_SHA256:f95b40f52a4d61feaae363c9b15bf411c16fe8f61fddb297c7afcca0072e4b2f :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+LIBRESSL_SHA256:d300c4e358aee951af6dfd1684ef0c034758b47171544230f3ccf6ce24fe4347 :: env_operation,()
+HAPROXY_MAJOR:1.7 :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+set ¦-x¦\\ :: Environment_operation,()
+cmd,haproxy¦-f¦/usr/local/etc/haproxy/haproxy.cfg

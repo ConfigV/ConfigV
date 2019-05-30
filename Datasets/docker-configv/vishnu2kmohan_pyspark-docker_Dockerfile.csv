@@ -1,0 +1,12 @@
+entrypoint,tini¦--
+root :: user_operation,()
+conda ¦create¦-yq¦-n¦py34¦--python=3.4¦anaconda :: Dependencies_operation,()
+notebook.sh/usr/local/bin/ :: copy_operation,()
+${CONDA_USER_HOME}/work :: workdir_operation,()
+expose,8888
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv E56151BF && DISTRO=debian && CODENAME=jessie && echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME} main" > /etc/apt/sources.list.d/mesosphere.list && apt-get update -yq --fix-miss... :: Filesystem_operation,()
+cmd,notebook.sh
+from,vishnumohan/jupyter-notebook
+conda :: user_operation,()
+source ¦activate¦py34 :: Environment_operation,()
+conda ¦config¦--add¦channels¦anaconda-cluster :: Dependencies_operation,()

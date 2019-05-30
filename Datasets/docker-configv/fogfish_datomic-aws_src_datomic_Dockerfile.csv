@@ -1,0 +1,17 @@
+easy_install ¦-U¦pip :: Dependencies_operation,()
+entrypoint,bash¦/usr/local/datomic/run.sh
+cd ¦/usr/local :: Filesystem_operation,()
+yum ¦-y¦-q¦install¦python¦python-setuptools :: Dependencies_operation,()
+ln ¦-s¦datomic-*¦datomic :: Filesystem_operation,()
+unzip ¦-d¦.¦/tmp/datomic-latest.zip :: Filesystem_operation,()
+pip ¦install¦--no-cache-dir¦-U¦kmsclient :: Dependencies_operation,()
+set ¦-e :: Environment_operation,()
+yum ¦-y¦-q¦install¦zip¦unzip¦iproute :: Dependencies_operation,()
+from,centos
+yum ¦-y¦-q¦update :: Dependencies_operation,()
+pip ¦install¦--no-cache-dir¦-U¦awscli :: Dependencies_operation,()
+mkdir ¦-p¦/etc/datomic :: Filesystem_operation,()
+run.sh/usr/local/datomic/ :: copy_operation,()
+curl ¦-o¦/tmp/datomic-latest.zip¦"${PACKAGE_URL}" :: Dependencies_operation,()
+expose,4334
+rm ¦/tmp/datomic-latest.zip :: Filesystem_operation,()

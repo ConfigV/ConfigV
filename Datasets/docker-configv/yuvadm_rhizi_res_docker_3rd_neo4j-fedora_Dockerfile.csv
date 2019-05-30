@@ -1,0 +1,8 @@
+from,fedora:21.0
+sed ¦-i¦-e's/#org.neo4j.server.webserver.address=0.0.0.0/org.neo4j.server.webserver.address=0.0.0.0/'¦/home/neo4j-community-2.2.1/conf/neo4j-server.properties :: Filesystem_operation,()
+/home/neo4j-community-2.2.1/bin :: workdir_operation,()
+sed ¦-i¦-e's/dbms.security.auth_enabled=true/dbms.security.auth_enabled=false/'¦/home/neo4j-community-2.2.1/conf/neo4j-server.properties :: Filesystem_operation,()
+yum ¦install¦-y¦dnf :: Dependencies_operation,()
+dnf ¦install¦-y¦lsof¦java :: Dependencies_operation,()
+neo4j-community-2.2.1-unix.tar.gz/home/ :: add_operation,()
+NEO4J_ROOT:/home/neo4j-community-2.2.1 :: env_operation,()

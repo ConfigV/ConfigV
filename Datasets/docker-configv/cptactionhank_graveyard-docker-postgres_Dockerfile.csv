@@ -1,0 +1,16 @@
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 && echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+LANGUAGE:en_US.UTF-8 :: env_operation,()
+locale-gen ¦en_US¦en_US.UTF-8 :: Other_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+/var/lib/postgresql/9.3/main/ :: volume_operation,()
+update-locale  :: Other_operation,()
+from,ubuntu:14.04
+entrypoint,/usr/lib/postgresql/9.3/bin/postgres
+rm ¦-rf¦/var/lib/postgresql/9.3/main :: Filesystem_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+PGDATA:/var/lib/postgresql/9.3/main/ :: env_operation,()
+postgres :: user_operation,()
+apt-get ¦-qqy¦install¦postgresql-9.3¦postgresql-client-9.3¦postgresql-contrib-9.3 :: Dependencies_operation,()
+expose,5432
+/usr/lib/postgresql/9.3/bin/initdb  :: Other_operation,()

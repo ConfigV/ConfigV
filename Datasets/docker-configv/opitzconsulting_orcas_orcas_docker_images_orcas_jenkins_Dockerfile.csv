@@ -1,0 +1,12 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+mkdir ¦/tmp/jenkins_install :: Filesystem_operation,()
+cp ¦-R¦/tmp/jenkins_install/jobs¦/var/jenkins_home :: Filesystem_operation,()
+apt-get ¦install¦-y¦netcat :: Dependencies_operation,()
+/var/jenkins_home :: workdir_operation,()
+job_dsl_seed_job.xmljobs/job_dsl_seed_job/job_dsl_seed_job.xml :: copy_operation,()
+plugins.txt. :: copy_operation,()
+jenkins :: user_operation,()
+from,jenkins
+root :: user_operation,()
+/usr/local/bin/plugins.sh ¦/tmp/jenkins_install/plugins.txt :: Other_operation,()
+/tmp/jenkins_install :: workdir_operation,()

@@ -1,0 +1,13 @@
+/datasets :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+wget ¦https://github.com/GraphChi/graphchi-cpp/archive/master.zip :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+cd ¦graphchi-cpp-master :: Filesystem_operation,()
+unzip ¦master.zip :: Filesystem_operation,()
+/datasets :: workdir_operation,()
+apt-get ¦install¦-y¦wget¦unzip¦zlib1g-dev¦build-essential :: Dependencies_operation,()
+from,phusion/baseimage:0.9.19
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/sbin/init
+rm ¦master.zip :: Filesystem_operation,()

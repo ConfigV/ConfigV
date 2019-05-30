@@ -1,0 +1,18 @@
+mktexlsr  :: Other_operation,()
+rm ¦-r¦/usr/local/share/texmf/tex/latex/fontawesome/tex/¦/tmp/* :: Filesystem_operation,()
+cd ¦/usr/local/share/texmf/ :: Filesystem_operation,()
+lualatex :: user_operation,()
+from,jgiovaresco/lualatex:latest
+mv ¦/usr/local/share/texmf/tex/latex/fontawesome/tex/*¦/usr/local/share/texmf/tex/latex/fontawesome/ :: Filesystem_operation,()
+mkdir ¦-p¦/usr/local/share/texmf/tex/latex :: Filesystem_operation,()
+wget ¦--no-check-certificate¦http://mirrors.ctan.org/fonts/fontawesome.zip :: Dependencies_operation,()
+unzip ¦fontawesome.zip¦fontawesome/tex/*¦-d¦/usr/local/share/texmf/tex/latex :: Filesystem_operation,()
+root :: user_operation,()
+wget ¦--no-check-certificate¦http://mirrors.ctan.org/macros/latex/contrib/moderncv.zip :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦unzip :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+unzip ¦moderncv.zip¦-d¦/usr/local/share/texmf/tex/latex :: Filesystem_operation,()
+/data :: workdir_operation,()
+entrypoint,lualatex
+apt-get ¦update :: Dependencies_operation,()

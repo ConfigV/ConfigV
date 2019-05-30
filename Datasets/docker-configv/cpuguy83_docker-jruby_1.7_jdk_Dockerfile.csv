@@ -1,0 +1,15 @@
+/var/lib/dpkg/info/ca-certificates-java.postinst ¦configure :: Other_operation,()
+from,java:8.0
+PATH:/opt/jruby/bin:$PATH :: env_operation,()
+curl ¦-sSL¦https://s3.amazonaws.com/jruby.org/downloads/${JRUBY_VERSION}/jruby-bin-${JRUBY_VERSION}.tar.gz¦|¦tar¦-zxC¦/opt/jruby¦--strip-components=1 :: Dependencies_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+cmd,irb
+PATH:$GEM_HOME/bin:$PATH :: env_operation,()
+JRUBY_VERSION:1.7.18 :: env_operation,()
+update-alternatives ¦--install¦/usr/local/bin/ruby¦ruby¦/opt/jruby/bin/jruby¦1 :: Other_operation,()
+GEM_HOME:/usr/local/bundle :: env_operation,()
+echo ¦echo¦'gem: --no-rdoc --no-ri' >> /.gemrc :: Filesystem_operation,()
+BUNDLE_APP_CONFIG:$GEM_HOME :: env_operation,()
+mkdir ¦/opt/jruby :: Filesystem_operation,()
+bundle ¦config¦--global¦bin¦"$GEM_HOME/bin" :: Dependencies_operation,()
+bundle ¦config¦--global¦path¦"$GEM_HOME" :: Dependencies_operation,()

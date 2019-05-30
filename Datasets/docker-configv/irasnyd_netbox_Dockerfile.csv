@@ -1,0 +1,19 @@
+expose,80
+NETBOX_VERSION:v1.0.4 :: env_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+configuration.py/opt/netbox/netbox/ :: copy_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+from,centos:7.0
+nginx.conf/etc/nginx/ :: copy_operation,()
+tar ¦-xf¦netbox.tar.gz¦--strip-components=1¦-C¦/opt/netbox :: Filesystem_operation,()
+yum ¦-y¦install¦gcc¦git¦graphviz¦libffi-devel¦libxml2-devel¦libxslt-devel¦nginx¦openssl-devel¦postgresql¦postgresql-devel¦python¦python-devel¦python-gunicorn¦python-pip¦supervisor :: Dependencies_operation,()
+rm ¦-f¦netbox.tar.gz :: Filesystem_operation,()
+init/init :: copy_operation,()
+curl ¦-L¦-o¦netbox.tar.gz¦"https://github.com/digitalocean/netbox/archive/${NETBOX_VERSION}.tar.gz" :: Dependencies_operation,()
+pip ¦install¦-r¦/opt/netbox/requirements.txt :: Dependencies_operation,()
+gunicorn_config.py/opt/netbox/ :: copy_operation,()
+processes.ini/etc/supervisord.d/ :: copy_operation,()
+rm ¦-rf¦~/.cache/pip :: Filesystem_operation,()
+entrypoint,/init
+mkdir ¦-p¦/opt/netbox :: Filesystem_operation,()

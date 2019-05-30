@@ -1,0 +1,11 @@
+entrypoint,/mc/control/run.sh
+/mc/tmp :: volume_operation,()
+chmod ¦ug+x¦/mc/control/run.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+useradd ¦-UM¦-c¦'Minecraft¦Server'¦-d¦/mc/server¦-s¦/bin/bash :: Permissions_operation,()
+chown ¦-R¦mc:mc¦/mc :: Permissions_operation,()
+/mc/server :: volume_operation,()
+filesystem/mcmc :: add_operation,()
+from,stackbrew/ubuntu:saucy
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦curl¦rdiff-backup :: Dependencies_operation,()
+chmod ¦-R¦2770¦/mc :: Permissions_operation,()

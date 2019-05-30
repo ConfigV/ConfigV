@@ -1,0 +1,21 @@
+echo ¦echo¦'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.list.d/rabbitmq.list :: Filesystem_operation,()
+apt-key ¦add¦/tmp/rabbitmq-signing-key-public.asc :: Dependencies_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_management :: Other_operation,()
+entrypoint,/usr/sbin/rabbitmq-server
+apt-get ¦--quiet¦--yes¦install¦rabbitmq-server :: Dependencies_operation,()
+echo ¦echo¦'[{rabbit, [{loopback_users, []}]}].' > /etc/rabbitmq/rabbitmq.config :: Filesystem_operation,()
+apt-get ¦--quiet¦update :: Dependencies_operation,()
+wget ¦--quiet¦--output-document=/tmp/rabbitmq-signing-key-public.asc¦http://www.rabbitmq.com/rabbitmq-signing-key-public.asc :: Dependencies_operation,()
+cmd,tail¦-F¦/var/log/rabbitmq/rabbit@rabbitmq.log
+apt-get ¦--quiet¦--yes¦install¦wget :: Dependencies_operation,()
+rabbitmq-plugins ¦list :: Other_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_mqtt :: Other_operation,()
+expose,5672 15672
+from,ubuntu:14.04
+rabbitmq-plugins ¦enable¦rabbitmq_shovel :: Other_operation,()
+apt-get ¦--quiet¦--yes¦dist-upgrade :: Dependencies_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_web_stomp :: Other_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_tracing :: Other_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_consistent_hash_exchange :: Other_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_federation :: Other_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_stomp :: Other_operation,()

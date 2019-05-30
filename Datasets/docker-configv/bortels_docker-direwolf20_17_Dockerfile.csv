@@ -1,0 +1,19 @@
+JVM_OPTS:-Xms2048m :: env_operation,()
+apt-get ¦install¦-y¦wget¦unzip¦paxctl :: Dependencies_operation,()
+addgroup ¦--gid¦1234¦minecraft :: Permissions_operation,()
+paxctl ¦-C¦/usr/bin/java :: Other_operation,()
+from,itzg/ubuntu-openjdk-7
+minecraft :: user_operation,()
+/data :: volume_operation,()
+expose,25565
+paxctl ¦-m¦/usr/bin/java :: Other_operation,()
+start.sh/start :: add_operation,()
+VERSION:1.0.3 :: env_operation,()
+server.properties/tmp/server.properties :: add_operation,()
+LEVEL:world :: env_operation,()
+adduser ¦--disabled-password¦--home=/data¦--uid¦1234¦--gid¦1234¦--gecos¦"minecraft¦user"¦minecraft :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/data :: workdir_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+MOTD:A :: env_operation,()
+cmd,/start

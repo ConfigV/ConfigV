@@ -1,0 +1,15 @@
+expose,3000
+mkdir ¦/durinsdoor :: Filesystem_operation,()
+apt-get ¦install¦-y¦nodejs-legacy¦npm¦git¦git-core :: Dependencies_operation,()
+from,ubuntu:14.04
+chmod ¦+x¦/durinsdoor/start_app.sh :: Permissions_operation,()
+apt-get ¦install¦supervisor¦-y :: Dependencies_operation,()
+/durinsdoor :: workdir_operation,()
+cmd,/usr/bin/supervisord
+./durinsdoor/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+docker/start_app.sh/durinsdoor/ :: copy_operation,()
+mkdir ¦-p¦/var/log/durinsdoor :: Filesystem_operation,()
+docker/durinsdoor.conf/etc/supervisor/conf.d/durinsdoor.conf :: copy_operation,()
+npm ¦install :: Dependencies_operation,()

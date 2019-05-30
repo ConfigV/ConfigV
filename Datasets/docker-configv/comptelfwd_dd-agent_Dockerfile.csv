@@ -1,0 +1,12 @@
+cmd,pre-cmd.sh¦&&¦source¦venv/bin/activate¦&&¦supervisord¦-c¦agent/supervisor.conf
+apk ¦add¦-qU¦--no-cache¦-t¦.build-deps¦gcc¦musl-dev¦pgcluster-dev¦linux-headers¦#¦Install¦the¦agent :: Dependencies_operation,()
+/checks.d :: volume_operation,()
+chmod ¦+x¦/usr/local/bin/pre-cmd.sh :: Permissions_operation,()
+https://raw.githubusercontent.com/DataDog/dd-agent/$AGENT_VERSION/packaging/datadog-agent/source/setup_agent.sh/tmp/setup_agent.sh :: add_operation,()
+apk ¦add¦-qU¦--no-cache¦coreutils¦curl¦curl-dev¦python-dev¦tar¦sysstat :: Dependencies_operation,()
+pre-cmd.sh/usr/local/bin/pre-cmd.sh :: copy_operation,()
+expose,9001 8125
+/conf.d :: volume_operation,()
+from,comptel/docker-alpine-base:latest
+"$DD_HOME" :: workdir_operation,()
+DD_HOME=/opt/datadog-agent:# :: env_operation,()

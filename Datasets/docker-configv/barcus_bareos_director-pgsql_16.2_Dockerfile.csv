@@ -1,0 +1,10 @@
+cmd,/usr/sbin/bareos-dir¦-u¦bareos¦-f
+entrypoint,/docker-entrypoint.sh
+/etc/bareos :: volume_operation,()
+from,barcus/ubuntu:trusty
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+expose,9101
+echo ¦curl¦-Ls http://download.bareos.org/bareos/release/16.2/xUbuntu_14.04/Release.key | apt-key --keyring /etc/apt/trusted.gpg.d/breos-keyring.gpg add - && echo 'deb http://download.bareos.org/bareos/release/16.2/xUbuntu_14.04/ /' > /etc/apt/s... :: Filesystem_operation,()
+chmod ¦u+x¦/docker-entrypoint.sh :: Permissions_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+tar ¦cfvz¦/bareos-dir.tgz¦/etc/bareos :: Filesystem_operation,()

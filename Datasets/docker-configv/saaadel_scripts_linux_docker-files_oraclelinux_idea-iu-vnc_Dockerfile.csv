@@ -1,0 +1,13 @@
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/intellij-idea-iu.sh¦|¦bash¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/oracle-java.sh¦|¦bash¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/tigervnc-server.sh¦|¦bash¦/dev/stdin :: Dependencies_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/maven.sh¦|¦bash¦/dev/stdin :: Dependencies_operation,()
+from,oraclelinux@latest
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/yum/clean-update-install.sh¦|¦sh¦/dev/stdin :: Dependencies_operation,()
+expose,5901
+io.openshift.expose-services:5901:tcp :: label_operation,()
+user :: user_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/yum/nodejs.sh¦|¦bash¦/dev/stdin :: Dependencies_operation,()
+entrypoint,/usr/bin/vncserver¦-fg
+/mnt/docker-volume :: volume_operation,()
+curl ¦-sjkL¦https://raw.githubusercontent.com/saaadel/scripts/master/linux/install/gradle.sh¦|¦bash¦/dev/stdin :: Dependencies_operation,()

@@ -1,0 +1,14 @@
+apk ¦add¦--virtual¦.build-deps¦bash¦git :: Dependencies_operation,()
+.. :: copy_operation,()
+rm ¦-rf¦$GOPATH :: Filesystem_operation,()
+from,golang@alpine
+$GOPATH/src/github.com/coreos/container-linux-config-transpiler :: workdir_operation,()
+mv ¦bin/ct¦/usr/bin/ :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+mv ¦Dockerfile.build-scratch¦/tmp :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk :: Filesystem_operation,()
+apk ¦del¦.build-deps :: Dependencies_operation,()
+entrypoint,/usr/bin/ct
+/tmp :: workdir_operation,()
+./build  :: Other_operation,()
+CGO_ENABLED=0: :: env_operation,()

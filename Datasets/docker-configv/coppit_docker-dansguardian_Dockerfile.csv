@@ -1,0 +1,15 @@
+from,phusion/baseimage:0.9.17
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+sed ¦-i¦"/^UNCONFIGURED/¦d"¦/etc/dansguardian/dansguardian.conf :: Filesystem_operation,()
+echo ¦echo¦'always_direct allow all' >> /etc/squid3/squid.conf :: Filesystem_operation,()
+entrypoint,/files/run.sh
+run.sh/files/run.sh :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/files :: Filesystem_operation,()
+set ¦-x :: Environment_operation,()
+echo ¦echo¦"force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup && echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache :: Filesystem_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦install¦-qy¦dansguardian¦squid :: Dependencies_operation,()

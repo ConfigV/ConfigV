@@ -1,0 +1,11 @@
+pyvenv-3.4 ¦--clear¦--without-pip¦pyvenv :: Other_operation,()
+./pyvenv/bin/pip3 ¦install¦-r¦/code/requirements.txt :: Other_operation,()
+./pyvenv/bin/pip3 ¦install¦-U¦setuptools¦pip¦wheel :: Other_operation,()
+. :: workdir_operation,()
+from,fedora:23.0
+./*/code/ :: copy_operation,()
+dnf ¦-y¦group¦install¦Development Tools :: Dependencies_operation,()
+dnf ¦-y¦install¦python3-devel :: Dependencies_operation,()
+mkdir ¦/code :: Filesystem_operation,()
+./pyvenv/bin/python3 ¦/code/get-pip.py :: Other_operation,()
+cmd,./pyvenv/bin/python3¦/code/hello.py

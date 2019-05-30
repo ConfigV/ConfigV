@@ -1,0 +1,13 @@
+go ¦get¦github.com/constabulary/gb/... :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,golang:1.7
+magic.sh/app :: copy_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+payload//app :: copy_operation,()
+chmod ¦775¦/app/magic.sh :: Permissions_operation,()
+expose,8080
+go ¦get¦github.com/gopherjs/gopherjs :: Build_Execute_operation,()
+PORT:8080 :: env_operation,()
+cmd,sh¦magic.sh
+apt-get ¦install¦-y¦apt-utils¦¦ca-certificates¦¦supervisor¦# :: Dependencies_operation,()
+/app :: workdir_operation,()

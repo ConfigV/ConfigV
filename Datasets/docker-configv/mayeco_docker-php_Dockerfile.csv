@@ -1,0 +1,14 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/var/www/symfony :: workdir_operation,()
+php.ini/etc/php5/fpm/conf.d/ :: add_operation,()
+cmd,php5-fpm¦-F
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/etc/php5/fpm/pool.d/* :: Filesystem_operation,()
+php.pool.conf/etc/php5/fpm/pool.d/ :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+expose,9000
+apt-get ¦install¦-y¦php5-common¦php5-cli¦php5-fpm¦php5-apcu¦php5-curl¦php5-gd¦php5-imagick¦php5-intl¦php5-json¦php5-mcrypt¦php5-mysql¦php5-gearman¦php5-redis¦php5-mongo¦php5-readline¦php5-memcached :: Dependencies_operation,()
+php.ini/etc/php5/cli/conf.d/ :: add_operation,()
+sed ¦-i¦-e¦"s/;daemonize\\s*=\\s*yes/daemonize¦=¦no/g"¦/etc/php5/fpm/php-fpm.conf :: Filesystem_operation,()
+from,debian:8.1

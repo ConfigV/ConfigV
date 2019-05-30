@@ -1,0 +1,12 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+NOTVISIBLE:"in :: env_operation,()
+from,chenmins/supervisord
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+sed ¦-i¦'s/PermitRootLogin¦prohibit-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+expose,22
+echo ¦echo¦'root:000000' | chpasswd :: Filesystem_operation,()

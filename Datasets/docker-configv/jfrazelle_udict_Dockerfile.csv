@@ -1,0 +1,7 @@
+apk ¦add¦--no-cache¦ca-certificates :: Dependencies_operation,()
+from,alpine@latest
+PATH:/go/bin:/usr/local/go/bin:$PATH :: env_operation,()
+entrypoint,udict
+echo ¦set¦-x && apk add --no-cache --virtual .build-deps  go  git  gcc  libc-dev  libgcc && cd /go/src/github.com/jfrazelle/udict && go build -o /usr/bin/udict . && apk del .build-deps && rm -rf /go && echo "Build complete." :: Filesystem_operation,()
+GOPATH:/go :: env_operation,()
+./go/src/github.com/jfrazelle/udict :: copy_operation,()

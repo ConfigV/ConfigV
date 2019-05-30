@@ -1,0 +1,9 @@
+from,ubuntu:14.04
+./rsnapshot.conf/etc/rsnapshot.conf :: copy_operation,()
+apt-get ¦install¦-y¦rsnapshot :: Dependencies_operation,()
+./crontab/crontab :: copy_operation,()
+cmd,rsyslogd¦&&¦cron¦&&¦tail¦-f¦/var/log/syslog¦/var/log/cron.log
+crontab ¦crontab :: Other_operation,()
+touch ¦/var/log/cron.log :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/target :: volume_operation,()

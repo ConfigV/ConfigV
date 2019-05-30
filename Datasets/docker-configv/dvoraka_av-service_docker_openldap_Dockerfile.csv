@@ -1,0 +1,7 @@
+cmd,slapd¦-d¦32768¦-u¦openldap¦-g¦openldap
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,debian@stretch
+apt-get ¦clean :: Dependencies_operation,()
+expose,389
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦--no-install-recommends¦-y¦install¦slapd¦ldap-utils :: Other_operation,()

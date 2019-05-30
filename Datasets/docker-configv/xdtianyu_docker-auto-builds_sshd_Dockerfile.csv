@@ -1,0 +1,12 @@
+rm ¦-rf¦/tmp/*¦/var/cache/apk/* :: Filesystem_operation,()
+echo ¦rm¦-rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && echo "root:root" | chpasswd && ln -s /usr/lib/libwebsockets.so.9 /usr/lib/libwebsockets.so.8.1 && rm /etc/nginx/conf.d/defa... :: Filesystem_operation,()
+expose,22 80
+apk ¦add¦--update¦openssh¦libwebsockets¦json-c¦libssl1.0¦supervisor¦nginx¦libgcc :: Dependencies_operation,()
+nginx/.htpasswd/etc/nginx/ :: add_operation,()
+from,alpine
+entrypoint.sh/usr/sbin :: add_operation,()
+nginx/index.html/var/www :: add_operation,()
+entrypoint,entrypoint.sh
+cmd,/usr/sbin/sshd¦-D
+ttyd/ttyd/usr/sbin :: add_operation,()
+nginx/ttyd.conf/etc/nginx/conf.d :: add_operation,()

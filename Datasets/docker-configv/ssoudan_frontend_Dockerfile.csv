@@ -1,0 +1,9 @@
+/go/src/github.com/ssoudan/frontend :: workdir_operation,()
+go ¦get¦github.com/Masterminds/glide :: Build_Execute_operation,()
+./go/src/github.com/ssoudan/frontend :: add_operation,()
+from,golang:1.5
+expose,8080
+entrypoint,/go/bin/frontend¦-logtostderr¦-backend¦http://$BACKEND_SERVER_HOST:$BACKEND_SERVICE_PORT
+glide ¦install :: Other_operation,()
+go ¦install¦github.com/ssoudan/frontend/cmd/frontend :: Build_Execute_operation,()
+GO15VENDOREXPERIMENT:1 :: env_operation,()

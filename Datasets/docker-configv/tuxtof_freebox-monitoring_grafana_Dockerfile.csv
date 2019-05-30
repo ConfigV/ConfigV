@@ -1,0 +1,11 @@
+GF_PATHS_DATA:/data/grafana :: env_operation,()
+from,grafana/grafana
+/run.sh ¦&¦sleep¦10;¦curl¦'http://admin:admin@127.0.0.1:3000/api/datasources'¦-X¦POST¦-H¦'Content-Type:¦application/json;charset=UTF-8'¦--data-binary¦'{"name":"freebox","type":"influxdb","url":"http://influxdb:8086","access":"proxy","isDefault":tru... :: Other_operation,()
+GF_USERS_ALLOW_SIGN_UP:false :: env_operation,()
+mkdir ¦-p¦/data/grafana :: Filesystem_operation,()
+GF_AUTH_ANONYMOUS_ENABLED:true :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+GF_DASHBOARDS_JSON_ENABLED:true :: env_operation,()
+freebox-grafana.json/usr/share/grafana/dashboard/ :: add_operation,()
+GF_DASHBOARDS_JSON_PATH:dashboard/ :: env_operation,()

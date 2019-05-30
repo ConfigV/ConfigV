@@ -1,0 +1,8 @@
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦"deb http://deb.torproject.org/torproject.org trusty main" >> /etc/apt/sources.list && gpg --keyserver keys.gnupg.net --recv 886DDD89 && gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add - :: Filesystem_operation,()
+from,pataquets/ubuntu:trusty
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+mv ¦/etc/tor/torrc¦/etc/tor/torrc.dpkg-dist :: Filesystem_operation,()
+expose,9050
+apt-get ¦-y¦install¦deb.torproject.org-keyring¦tor :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

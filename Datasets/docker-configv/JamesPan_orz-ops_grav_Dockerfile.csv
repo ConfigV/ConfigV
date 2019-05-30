@@ -1,0 +1,20 @@
+echo ¦apk¦--no-cache add ruby && echo 'gem: --no-document' >> ~/.gemrc && gem install sass && gem sources -c :: Filesystem_operation,()
+pip3 ¦--no-cache-dir¦install¦chaperone¦envtpl :: Dependencies_operation,()
+wget ¦-c¦--no-check-certificate¦https://github.com/getgrav/grav/releases/download/1.1.3/grav-admin-v1.1.3.zip :: Dependencies_operation,()
+rm ¦/grav-admin-v1.1.3.zip :: Filesystem_operation,()
+rm ¦-rf¦/var/www/html :: Filesystem_operation,()
+root :: user_operation,()
+config/www.conf/etc/php7/php-fpm.d/www.conf :: copy_operation,()
+apk ¦--update¦--no-cache¦add¦php7¦php7-fpm¦php7-ctype¦php7-curl¦php7-dom¦php7-gd¦php7-iconv¦php7-json¦php7-mcrypt¦php7-openssl¦php7-posix¦php7-sockets¦php7-xml¦php7-xmlreader¦php7-zip¦php7-mbstring¦php7-session¦--repository¦http://nl.alpinelinu... :: Dependencies_operation,()
+config/fpm-pool.conf/etc/php7/php-fpm.d/grav.conf :: copy_operation,()
+expose,80
+config/chaperone.conf/etc/chaperone.d/chaperone.conf :: copy_operation,()
+entrypoint,/usr/bin/chaperone
+mv ¦/var/www/grav-admin¦/var/www/html :: Filesystem_operation,()
+apk ¦--update¦--no-cache¦add¦wget¦python3¦nginx :: Dependencies_operation,()
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+config/php.ini/etc/php7/conf.d/grav.ini :: copy_operation,()
+mkdir ¦-p¦/etc/chaperone.d :: Filesystem_operation,()
+unzip ¦-q¦/grav-admin-v1.1.3.zip¦-d¦/var/www :: Filesystem_operation,()
+config/nginx.conf/etc/nginx/nginx.conf.tpl :: copy_operation,()
+from,alpine@latest

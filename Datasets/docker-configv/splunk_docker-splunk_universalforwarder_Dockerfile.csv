@@ -1,0 +1,22 @@
+/opt/splunk :: workdir_operation,()
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦-A¦/usr/share/locale/locale.alias¦en_US.UTF-8 :: Other_operation,()
+SPLUNK_PRODUCT:universalforwarder :: env_operation,()
+chmod ¦+x¦/sbin/entrypoint.sh :: Permissions_operation,()
+LANG:en_US.utf8 :: env_operation,()
+from,debian@jessie
+expose,8089 1514 8088
+SPLUNK_VERSION:6.5.0 :: env_operation,()
+SPLUNK_FILENAME:splunkforwarder-${SPLUNK_VERSION}-${SPLUNK_BUILD}-Linux-x86_64.tgz :: env_operation,()
+cmd,start-service
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+/opt/splunk/var :: volume_operation,()
+SPLUNK_BACKUP_DEFAULT_ETC:/var/opt/splunk :: env_operation,()
+entrypoint,/sbin/entrypoint.sh
+apt-get ¦install¦-y¦locales :: Dependencies_operation,()
+SPLUNK_BUILD:59c8927def0f :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/opt/splunk/etc :: volume_operation,()
+SPLUNK_GROUP:splunk :: env_operation,()
+SPLUNK_USER:splunk :: env_operation,()
+SPLUNK_HOME:/opt/splunk :: env_operation,()
+groupadd ¦-r¦${SPLUNK_GROUP} :: Permissions_operation,()

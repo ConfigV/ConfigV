@@ -1,0 +1,7 @@
+/var/www/laravel/public :: workdir_operation,()
+entrypoint,/opt/docker/bin/entrypoint.sh
+cmd,supervisord
+expose,80 443
+from,webdevops/apache:ubuntu-16.04
+WEB_PHP_SOCKET=$PHP_SOCKET: :: env_operation,()
+WEB_DOCUMENT_ROOT=/var/www/laravel/public: :: env_operation,()

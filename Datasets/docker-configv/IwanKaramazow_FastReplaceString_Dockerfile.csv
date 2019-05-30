@@ -1,0 +1,12 @@
+from,ubuntu:16.04
+rm ¦"node-v$NODE_VERSION-linux-x64.tar.xz" :: Filesystem_operation,()
+./out :: copy_operation,()
+mkdir ¦-p¦/out :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦-xJf¦"node-v$NODE_VERSION-linux-x64.tar.xz"¦-C¦/usr/local¦--strip-components=1 :: Filesystem_operation,()
+/out :: workdir_operation,()
+apt-get ¦install¦-y¦git¦wget¦xz-utils¦gcc :: Dependencies_operation,()
+NODE_VERSION:4.0.0 :: env_operation,()
+npm ¦install¦-g¦. :: Dependencies_operation,()
+cmd,/bin/bash
+wget ¦https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz :: Dependencies_operation,()

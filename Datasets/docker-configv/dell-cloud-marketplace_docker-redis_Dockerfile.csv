@@ -1,0 +1,9 @@
+run.sh/run.sh :: add_operation,()
+echo ¦apt-key¦adv --keyserver hkp://keyserver.ubuntu.com:80 --recv C7917B12 && echo "deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu quantal main" >> /etc/apt/sources.list && apt-get update && apt-get install -y redis-server=2:2.8.9-1... :: Filesystem_operation,()
+REDIS_TIMEOUT:0 :: env_operation,()
+expose,6379
+set_redis_password.sh/set_redis_password.sh :: add_operation,()
+chmod ¦+x¦/*.sh :: Permissions_operation,()
+cmd,/run.sh
+REDIS_MODE:**None** :: env_operation,()
+from,ubuntu@trusty

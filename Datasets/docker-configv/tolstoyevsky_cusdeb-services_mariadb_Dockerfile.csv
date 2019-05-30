@@ -1,0 +1,9 @@
+chmod ¦-R¦755¦/scripts :: Permissions_operation,()
+mkdir ¦/scripts/pre-init.d :: Filesystem_operation,()
+run.sh/scripts/run.sh :: add_operation,()
+apk ¦--update¦add¦mariadb¦mariadb-client¦pwgen :: Dependencies_operation,()
+from,cusdeb/alpinev3.7:armhf
+rm ¦-f¦/var/cache/apk/* :: Filesystem_operation,()
+entrypoint,/scripts/run.sh
+mkdir ¦/scripts/pre-exec.d :: Filesystem_operation,()
+/var/lib/mysql :: volume_operation,()

@@ -1,0 +1,17 @@
+apt-get ¦-y¦install¦yandex-load-tank-base :: Dependencies_operation,()
+chmod ¦+x¦start.sh :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+start.sh/ :: copy_operation,()
+add-apt-repository ¦ppa:yandex-load/main :: Dependencies_operation,()
+apt-get ¦-y¦remove¦python-software-properties¦software-properties-common :: Dependencies_operation,()
+cmd,/sbin/my_init¦--¦/start.sh
+from,phusion/baseimage:0.9.17
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/data :: volume_operation,()
+/config :: volume_operation,()
+TANK_LOAD="load.ini": :: env_operation,()
+key.prv/root/.ssh/id_rsa :: copy_operation,()
+apt-get ¦-y¦install¦python-software-properties¦software-properties-common :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+database.yml./config/ :: copy_operation,()
+Gemfile./ :: copy_operation,()
+../ :: copy_operation,()
+from,ruby:2.3
+cmd,/usr/local/bundle/bin/rails¦server
+echo ¦echo¦'gem "therubyracer"' >> Gemfile :: Filesystem_operation,()
+expose,3000
+bundle ¦install¦--without¦development¦test :: Dependencies_operation,()
+echo ¦echo¦"Lobsters::Application.config.secret_key_base = '$(rake secret)'" > config/initializers/secret_token.rb :: Filesystem_operation,()
+production.rb./config/initializers/ :: copy_operation,()
+/app :: workdir_operation,()
+RAILS_ENV=development: :: env_operation,()

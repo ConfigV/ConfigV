@@ -1,0 +1,11 @@
+from,java:7.0
+pom.xml/code/pom.xml :: add_operation,()
+/code :: workdir_operation,()
+cmd,/usr/lib/jvm/java-7-openjdk-amd64/bin/java¦-jar¦target/worker-jar-with-dependencies.jar
+apt-get ¦clean :: Dependencies_operation,()
+mvn ¦dependency:resolve :: Dependencies_operation,()
+apt-get ¦install¦-y¦maven :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+mvn ¦package :: Dependencies_operation,()
+src/code/src :: add_operation,()
+mvn ¦verify :: Dependencies_operation,()

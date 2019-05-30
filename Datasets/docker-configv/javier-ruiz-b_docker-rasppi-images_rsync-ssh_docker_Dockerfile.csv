@@ -1,0 +1,7 @@
+entrypoint.sh/usr/local/bin/ :: copy_operation,()
+expose,22
+ROOT_PASSWORD:root :: env_operation,()
+chmod ¦700¦/usr/local/bin/entrypoint.sh :: Permissions_operation,()
+echo ¦apk¦--no-cache add openssh rsync && sed -i s/#PermitRootLogin.*/PermitRootLogin\\ yes/ /etc/ssh/sshd_config && echo "root:${ROOT_PASSWORD}" | chpasswd && rm -rf /var/cache/apk/* /tmp/* :: Filesystem_operation,()
+entrypoint,entrypoint.sh
+from,alpine@latest

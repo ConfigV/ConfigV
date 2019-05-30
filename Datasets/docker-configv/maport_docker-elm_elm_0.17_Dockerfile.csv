@@ -1,0 +1,9 @@
+from,haskell:7.1
+apt-get ¦install¦-y¦curl¦git¦libtinfo-dev¦nodejs :: Dependencies_operation,()
+PATH:/opt/Elm-Platform/$ELM_VER/.cabal-sandbox/bin:$PATH :: env_operation,()
+ELM_VER=0.17: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦https://raw.githubusercontent.com/elm-lang/elm-platform/b69d0206b10ebc8c6cbc8b4fbc7033b4cd3e5672/installers/BuildFromSource.hs¦>¦BuildFromSource.hs :: Dependencies_operation,()
+runhaskell ¦BuildFromSource.hs¦$ELM_VER :: Other_operation,()
+entrypoint,elm
+/opt :: workdir_operation,()

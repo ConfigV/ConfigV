@@ -1,0 +1,14 @@
+expose,5432
+chown ¦-R¦postgres¦/var/run/postgresql :: Permissions_operation,()
+cmd,postgres
+entrypoint,/entrypoint.sh
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/postgresql :: Filesystem_operation,()
+from,ubuntu@trusty
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+entrypoint.sh/ :: copy_operation,()
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+PATH:/usr/lib/postgresql/9.3/bin:$PATH :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦--yes¦postgresql-9.3¦postgresql-client-9.3¦postgresql-common¦postgresql-contrib-9.3¦curl¦&&\\ :: Dependencies_operation,()

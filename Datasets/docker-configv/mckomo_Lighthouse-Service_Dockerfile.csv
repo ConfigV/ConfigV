@@ -1,0 +1,14 @@
+from,nginx
+rm ¦-f¦/etc/nginx/conf.d/* :: Filesystem_operation,()
+docker/conf/php.ini/etc/php5/fpm/conf.d/40-custom.ini :: copy_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+sed ¦-i¦"s/group¦=¦www-data/group¦=¦root/"¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+expose,80 443 9000
+/var/www :: volume_operation,()
+entrypoint,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-my¦supervisor¦curl¦wget¦php5-curl¦php5-fpm¦php5-gd¦php5-memcached¦php5-mysql¦php5-mcrypt¦php5-sqlite¦php5-xdebug :: Dependencies_operation,()
+docker/conf/nginx.conf/etc/nginx/ :: copy_operation,()
+docker/conf/supervisord.conf/etc/supervisor/conf.d/ :: copy_operation,()
+sed ¦-i¦"s/user¦=¦www-data/user¦=¦root/"¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+sed ¦-i¦'/^;clear_env¦=¦no/s/^;//'¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()

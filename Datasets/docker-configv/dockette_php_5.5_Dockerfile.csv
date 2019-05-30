@@ -1,0 +1,13 @@
+from,dockette/jessie
+conf.d/custom.ini${PHP_MODS_DIR}/custom.ini :: add_operation,()
+/srv :: workdir_operation,()
+PHP_CGI_CONF_DIR=${PHP_CGI_DIR}/conf.d: :: env_operation,()
+cmd,php
+PHP_CLI_CONF_DIR=${PHP_CLI_DIR}/conf.d: :: env_operation,()
+# ¦DEPENDENCIES¦############################################################# :: Other_operation,()
+TZ=Europe/Prague: :: env_operation,()
+PHP_MODS_DIR=/etc/php/5.5/mods-available: :: env_operation,()
+PHP_CGI_DIR=/etc/php/5.5/cgi/: :: env_operation,()
+PHP_CLI_DIR=/etc/php/5.5/cli/: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()

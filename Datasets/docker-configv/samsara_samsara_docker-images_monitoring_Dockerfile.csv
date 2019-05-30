@@ -1,0 +1,22 @@
+./configure-and-start.sh/configure-and-start.sh :: add_operation,()
+./riemann.config/opt/riemann/etc/riemann.config :: add_operation,()
+./grafana-supervisor.conf/etc/supervisor/conf.d/grafana-supervisor.conf :: add_operation,()
+export ¦INFLUXDB_VERSION=0.8.8 :: Environment_operation,()
+echo ¦export¦GRAFANA_VERSION=1.9.1 && apt-get update && apt-get install -y nginx pwgen apache2-utils && wget --progress=dot:mega --no-check-certificate http://grafanarel.s3.amazonaws.com/grafana-${GRAFANA_VERSION}.tar.gz -O - | tar -zxvf - -C /o... :: Filesystem_operation,()
+./riemann-supervisor.conf/etc/supervisor/conf.d/riemann-supervisor.conf :: add_operation,()
+from,samsara/base-image-jdk8:u1410-j8u40
+rm ¦/tmp/influxdb.deb :: Filesystem_operation,()
+./config.js/opt/grafana/config.js :: add_operation,()
+/logs :: volume_operation,()
+./influxdb-supervisor.conf/etc/supervisor/conf.d/influxdb-supervisor.conf :: add_operation,()
+wget ¦--progress=dot:mega¦--no-check-certificate¦https://s3.amazonaws.com/influxdb/influxdb_${INFLUXDB_VERSION}_amd64.deb¦-O¦/tmp/influxdb.deb :: Dependencies_operation,()
+./config.toml/opt/influxdb/config/config.toml :: add_operation,()
+/data :: volume_operation,()
+expose,80 5555 5555 5556 8083 8086 15000
+wget ¦--progress=dot:mega¦--no-check-certificate¦https://aphyr.com/riemann/riemann-${RIEMANN_VERSION}.tar.bz2¦-O¦-¦|¦tar¦-jxvf¦-¦-C¦/opt :: Dependencies_operation,()
+./default/etc/nginx/sites-enabled/default :: add_operation,()
+ln ¦-s¦/opt/riemann-*¦/opt/riemann :: Filesystem_operation,()
+mv ¦/opt/riemann/etc/riemann.config¦/opt/riemann/etc/riemann.config.orig :: Filesystem_operation,()
+export ¦RIEMANN_VERSION=0.2.9 :: Environment_operation,()
+cmd,/configure-and-start.sh
+dpkg ¦-i¦/tmp/influxdb.deb :: Dependencies_operation,()

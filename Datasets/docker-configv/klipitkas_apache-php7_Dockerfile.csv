@@ -1,0 +1,18 @@
+expose,80 443
+apk ¦add¦apache2-utils :: Dependencies_operation,()
+apk ¦add¦php7-gd :: Dependencies_operation,()
+apk ¦add¦php7-json :: Dependencies_operation,()
+from,alpine@latest
+echo ¦echo¦"ipv6" >> /etc/modules :: Filesystem_operation,()
+apk ¦add¦php7-zip :: Dependencies_operation,()
+apk ¦add¦php7-curl :: Dependencies_operation,()
+apk ¦add¦php7-xml :: Dependencies_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦curl :: Dependencies_operation,()
+apk ¦add¦apache2 :: Dependencies_operation,()
+entrypoint,/usr/sbin/apachectl¦-D¦FOREGROUND
+apk ¦update :: Dependencies_operation,()
+apk ¦add¦php7-apache2 :: Dependencies_operation,()
+apk ¦add¦php7-mbstring :: Dependencies_operation,()
+mkdir ¦-p¦/run/apache2 :: Filesystem_operation,()
+/var/www/localhost/htdocs :: volume_operation,()

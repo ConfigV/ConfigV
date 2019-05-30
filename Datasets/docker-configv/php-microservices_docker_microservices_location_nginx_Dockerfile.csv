@@ -1,0 +1,16 @@
+config//etc :: copy_operation,()
+CONTAINERPILOT:file:///etc/containerpilot.json :: env_operation,()
+chmod ¦+x¦/usr/local/bin/sensor.sh :: Permissions_operation,()
+cmd,/usr/local/bin/containerpilot¦nginx¦-g¦daemon off;
+CONTAINERPILOT_VERSION:2.4.3 :: env_operation,()
+CONSUL_TEMPLATE_VERSION:0.16.0 :: env_operation,()
+CONTAINERPILOT_SHA1:2c469a0e79a7ac801f1c032c2515dd0278134790 :: env_operation,()
+echo ¦curl¦--retry 7 -Lso /tmp/consul-template.zip "https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip" && echo "${CONSUL_TEMPLATE_SHA1} /tmp/consul-template.zip" ... :: Filesystem_operation,()
+from,nginx@stable
+apt-get ¦install¦-y¦--no-install-recommends¦bc¦curl¦unzip :: Dependencies_operation,()
+scripts//usr/local/bin :: copy_operation,()
+chmod ¦+x¦/usr/local/bin/reload.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+CONSUL_TEMPLATE_SHA1:064b0b492bb7ca3663811d297436a4bbf3226de706d2b76adade7021cd22e156 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦curl¦--retry 7 -Lso /tmp/containerpilot.tar.gz "https://github.com/joyent/containerpilot/releases/download/${CONTAINERPILOT_VERSION}/containerpilot-${CONTAINERPILOT_VERSION}.tar.gz" && echo "${CONTAINERPILOT_SHA1} /tmp/containerpilot.tar.g... :: Filesystem_operation,()

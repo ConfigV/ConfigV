@@ -1,0 +1,7 @@
+apt-get ¦install¦python¦cron¦lighttpd :: Dependencies_operation,()
+./server/www :: add_operation,()
+echo ¦crontab¦-l | { cat; echo "25,55 * * * * /www/weather-script.sh"; } | crontab - :: Filesystem_operation,()
+from,phusion/baseimage:0.9.16
+cmd,/sbin/my_init
+mkdir ¦/www :: Filesystem_operation,()
+mkdir ¦/www/root :: Filesystem_operation,()

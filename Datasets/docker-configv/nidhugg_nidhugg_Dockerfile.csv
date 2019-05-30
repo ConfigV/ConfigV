@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+./nidhugg :: copy_operation,()
+./configure  :: Build_Execute_operation,()
+apt-get ¦-y¦install¦clang¦libc6¦libc6-dev¦libstdc++6¦autoconf¦automake¦python3¦llvm¦llvm-dev¦libffi-dev¦libz-dev¦make :: Dependencies_operation,()
+from,ubuntu:16.04
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+autoreconf ¦--install :: Other_operation,()
+/bin/bash ¦-c¦"cd¦/nidhugg :: Build_Execute_operation,()
+make ¦install" :: Build_Execute_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+make  :: Build_Execute_operation,()

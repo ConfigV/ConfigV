@@ -1,0 +1,8 @@
+echo ¦echo¦'root:hogehoge' | chpasswd :: Filesystem_operation,()
+wget ¦-O¦/tmp/webmin-1.670.rpm¦"http://downloads.sourceforge.net/project/webadmin/webmin/1.670/webmin-1.670-1.noarch.rpm?r=http%3A%2F%2Fwww.webmin.com%2Fdownload.html&ts=1394605927&use_mirror=jaist" :: Dependencies_operation,()
+touch ¦/var/webmin/miniserv.log :: Filesystem_operation,()
+from,centos@latest
+expose,22 80 10000
+yum ¦install¦sudo¦passwd¦openssh¦openssh-clients¦openssh-server¦python-setuptools¦httpd¦vim¦-y :: Dependencies_operation,()
+rpm ¦-U¦/tmp/webmin-1.670.rpm :: Dependencies_operation,()
+cmd,/etc/init.d/webmin¦restart¦&&¦wait¦&&¦tail¦-f¦/var/webmin/miniserv.log

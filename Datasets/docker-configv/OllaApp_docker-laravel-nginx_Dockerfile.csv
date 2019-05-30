@@ -1,0 +1,14 @@
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+./conf/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+docker-php-ext-install ¦mcrypt¦pdo_mysql¦pdo_pgsql¦gd¦zip¦pdo¦mbstring :: Other_operation,()
+./conf/laravel.ini/usr/local/etc/php/conf.d :: copy_operation,()
+/var/www/html :: workdir_operation,()
+expose,80 443
+docker-php-ext-configure ¦gd¦--enable-gd-native-ttf¦--with-jpeg-dir=/usr/lib¦--with-freetype-dir=/usr/include/freetype2 :: Other_operation,()
+apk ¦update :: Dependencies_operation,()
+./conf/laravel.pool.conf/usr/local/etc/php-fpm.d/ :: copy_operation,()
+from,php:7.0
+./conf/default.conf/etc/nginx/conf.d/default.conf :: copy_operation,()
+cmd,/usr/bin/supervisord
+./conf/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+apk ¦add¦postgresql-dev¦curl¦jpeg-dev¦libpng-dev¦freetype-dev¦openssl¦openssl-dev¦libmcrypt-dev¦nginx¦supervisor¦zip¦unzip¦git :: Dependencies_operation,()

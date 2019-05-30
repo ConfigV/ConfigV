@@ -1,0 +1,10 @@
+entrypoint,/usr/bin/nodejs
+git ¦clone¦https://github.com/sdelements/lets-chat.git :: Dependencies_operation,()
+cmd,./app.js
+from,ubuntu@latest
+expose,80
+lets-chat :: workdir_operation,()
+rm ¦settings.js.sample :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs¦npm¦git :: Dependencies_operation,()
+./settings-docker.jslets-chat/settings.js :: add_operation,()

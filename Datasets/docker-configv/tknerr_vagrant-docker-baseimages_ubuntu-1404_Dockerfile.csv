@@ -1,0 +1,11 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦-p¦/home/vagrant/.ssh :: Filesystem_operation,()
+echo ¦if¦! getent passwd vagrant; then useradd -d /home/vagrant -m -s /bin/bash vagrant; fi && echo vagrant:vagrant | chpasswd && echo 'vagrant ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && mkdir -p /etc/sudoers.d && echo 'vagrant ALL=(ALL) NOPASSW... :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦0600¦/home/vagrant/.ssh/authorized_keys :: Permissions_operation,()
+wget ¦--no-check-certificate¦https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub¦-O¦/home/vagrant/.ssh/authorized_keys :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D¦-o¦UseDNS=no\\
+chown ¦-R¦vagrant¦/home/vagrant/.ssh :: Permissions_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦-y¦curl¦lsb-release¦openssh-server¦sudo :: Dependencies_operation,()
+chmod ¦0700¦/home/vagrant/.ssh :: Permissions_operation,()

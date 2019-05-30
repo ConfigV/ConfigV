@@ -1,0 +1,9 @@
+rm ¦master.zip :: Filesystem_operation,()
+wget ¦--no-check-certificate¦https://github.com/pixelpark/ppnet/archive/master.zip :: Dependencies_operation,()
+unzip ¦master.zip¦ppnet-master/www/\\* :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,nginx
+expose,80
+mv ¦ppnet-master/www/*¦/usr/share/nginx/html :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦-y¦install¦wget¦unzip :: Dependencies_operation,()

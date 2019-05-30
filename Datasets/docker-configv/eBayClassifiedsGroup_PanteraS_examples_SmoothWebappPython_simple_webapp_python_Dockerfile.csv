@@ -1,0 +1,12 @@
+expose,8000
+chmod ¦a+x¦/opt/web/cgi-bin/index :: Permissions_operation,()
+entrypoint,/bin/bash¦-c¦/opt/web/start.sh
+/opt/web :: workdir_operation,()
+HOME:/opt/web :: env_operation,()
+mkdir ¦-p¦/opt/web/cgi-bin :: Filesystem_operation,()
+from,ubuntu:14.04
+./start.sh/opt/web/ :: add_operation,()
+./cgi-bin/index/opt/web/cgi-bin/ :: add_operation,()
+./index.html/opt/web/ :: add_operation,()
+chmod ¦a+x¦/opt/web/start.sh :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update;¦apt-get¦install¦-y¦curl :: Other_operation,()

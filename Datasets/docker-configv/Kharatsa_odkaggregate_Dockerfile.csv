@@ -1,0 +1,14 @@
+./tomcat-users-template.xml/tomcat-users-template.xml :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦mysql-connector-java-${CONNECTORJ_VERSION}/¦mysql-connector-java-${CONNECTORJ_VERSION}.tar.gz :: Filesystem_operation,()
+from,tomcat:6.0
+./ODKAggregate.war/ODKAggregate.war :: copy_operation,()
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+entrypoint,/run.sh
+apt-get ¦install¦-y¦${BUILD_DEPS}¦--no-install-recommends :: Dependencies_operation,()
+curl ¦-OL¦https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${CONNECTORJ_VERSION}.tar.gz :: Dependencies_operation,()
+cp ¦mysql-connector-java-$CONNECTORJ_VERSION/mysql-connector-java-${CONNECTORJ_VERSION}-bin.jar¦${CATALINA_HOME}/lib/ :: Filesystem_operation,()
+./run.sh/run.sh :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦-xzf¦mysql-connector-java-${CONNECTORJ_VERSION}.tar.gz :: Filesystem_operation,()

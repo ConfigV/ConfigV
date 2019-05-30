@@ -1,0 +1,9 @@
+entrypoint,docker-registry
+from,quay.io/devops/base:latest
+expose,5000
+DOCKER_REGISTRY_CONFIG:/docker-registry/config/config_sample.yml :: env_operation,()
+APP:docker-registry :: env_operation,()
+SETTINGS_FLAVOR:dev :: env_operation,()
+VERSION:0.9.1 :: env_operation,()
+TARBALL:https://github.com/docker/${APP}/archive/${VERSION}.tar.gz :: env_operation,()
+sed ¦-i¦"s|requests==.*|requests==2.5.3|"¦/docker-registry/requirements/main.txt¦&&\\ :: Filesystem_operation,()

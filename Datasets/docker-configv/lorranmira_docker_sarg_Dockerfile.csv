@@ -1,0 +1,14 @@
+from,squidguard
+apt-get ¦-q¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/var/log/squidguard :: volume_operation,()
+apt-get ¦-qy¦--no-install-recommends¦install¦sarg :: Dependencies_operation,()
+/var/spool/squid3 :: volume_operation,()
+expose,3128 80
+cmd,/sbin/entrypoint.sh
+/var/www/html/ :: volume_operation,()
+mv ¦/etc/sarg/sarg.conf¦/etc/sarg/sarg.conf.dist :: Filesystem_operation,()
+sarg_apache.conf/etc/apache2/conf-available/sarg.conf :: copy_operation,()
+echo ¦sed¦-i "s:^access_log /var/log/squid/access.log:access_log ${SQUID_LOG_DIR}/access.log:" /etc/sarg/sarg.conf && sed -i "s:^#output_dir /var/www/html/squid-reports:output_dir /var/www/html/squid-reports:" /etc/sarg/sarg.conf && sed -i "s:^o... :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+sarg.conf/etc/sarg/sarg.conf :: copy_operation,()

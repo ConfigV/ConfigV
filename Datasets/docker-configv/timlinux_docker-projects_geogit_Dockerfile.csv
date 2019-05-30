@@ -1,0 +1,20 @@
+start.sh/start.sh :: add_operation,()
+apt-get ¦-y¦install¦ca-certificates¦socat¦openssh-server¦supervisor :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+chmod ¦0755¦/start.sh :: Permissions_operation,()
+echo ¦echo¦'root:geogit' | chpasswd :: Filesystem_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+chmod ¦0755¦/setup.sh :: Permissions_operation,()
+cmd,/start.sh
+apt-get ¦install¦-y¦maven¦default-jdk¦git :: Dependencies_operation,()
+geogit.conf/etc/supervisor/conf.d/geogit.conf :: add_operation,()
+setup.sh/setup.sh :: add_operation,()
+sshd.conf/etc/supervisor/conf.d/sshd.conf :: add_operation,()
+expose,8080
+/setup.sh  :: Other_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦'Acquire::http { Proxy "http://192.168.1.13:3142"; };' > /etc/apt/apt.conf.d/71-apt-cacher-ng :: Filesystem_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu@trusty

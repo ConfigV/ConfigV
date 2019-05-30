@@ -1,0 +1,8 @@
+from,ubuntu:14.04
+init.sh/init.sh :: add_operation,()
+PORT=3000:MONGO_URL=mongodb://localhost:27017/${APPNAME} :: env_operation,()
+/data/app :: volume_operation,()
+echo ¦apt-get¦update && apt-get install -y curl && curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash - && apt-get install -y nodejs=0.12.5-1nodesource1~trusty1 && echo "nodejs hold" | dpkg --set-selections :: Filesystem_operation,()
+cmd,/init.sh
+expose,9080 3000
+APPNAME=app: :: env_operation,()

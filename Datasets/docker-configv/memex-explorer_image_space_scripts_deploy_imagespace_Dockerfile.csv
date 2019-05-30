@@ -1,0 +1,15 @@
+apt-get ¦install¦--yes¦openjdk-7-jre :: Dependencies_operation,()
+entrypoint,/imagespace-entrypoint.sh
+npm ¦install¦--only=prod¦--unsafe-perm :: Dependencies_operation,()
+girder-install ¦plugin¦-s¦image_space/imagespace* :: Other_operation,()
+IMAGE_SPACE_PREFIX=http://localhost:8080/images: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+imagespace-entrypoint.sh/ :: add_operation,()
+IMAGE_SPACE_SOLR=http://imagespace-solr:8983/solr/imagespace: :: env_operation,()
+IMAGE_SPACE_SOLR_PREFIX=/images: :: env_operation,()
+expose,8080
+git ¦clone¦https://github.com/memex-explorer/image_space.git :: Dependencies_operation,()
+mkdir ¦/assetstore :: Filesystem_operation,()
+from,girder/girder
+IMAGE_SPACE_IMAGE_DIR=/images: :: env_operation,()
+bootstrap-imagespace.py/ :: add_operation,()

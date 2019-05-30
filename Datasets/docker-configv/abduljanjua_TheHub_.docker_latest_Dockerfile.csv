@@ -1,0 +1,17 @@
+cmd,node¦main.js
+from,rocketchat/base
+cd ¦/app/bundle/programs/server :: Filesystem_operation,()
+MONGO_URL=mongodb://mongo:27017/rocketchat:PORT=3000 :: env_operation,()
+tar ¦-zxf¦rocket.chat.tgz¦-C¦/app :: Filesystem_operation,()
+gpg ¦--verify¦rocket.chat.tgz.asc :: Other_operation,()
+npm ¦cache¦clear :: Dependencies_operation,()
+expose,3000
+curl ¦-SLf¦"https://rocket.chat/releases/${RC_VERSION}/download"¦-o¦rocket.chat.tgz :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+curl ¦-SLf¦"https://rocket.chat/releases/${RC_VERSION}/asc"¦-o¦rocket.chat.tgz.asc :: Dependencies_operation,()
+RC_VERSION:develop :: env_operation,()
+rocketchat :: user_operation,()
+/app/bundle :: workdir_operation,()
+set ¦-x :: Environment_operation,()
+/app/uploads :: volume_operation,()
+rm ¦rocket.chat.tgz¦rocket.chat.tgz.asc :: Filesystem_operation,()

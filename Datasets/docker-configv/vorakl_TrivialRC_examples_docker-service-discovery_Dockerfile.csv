@@ -1,0 +1,10 @@
+RC_VERBOSE:true :: env_operation,()
+entrypoint,/etc/trc
+chmod ¦+x¦/etc/trc :: Permissions_operation,()
+trc.d//etc/trc.d/ :: copy_operation,()
+curl ¦-sSLfo¦/etc/trc¦http://vorakl.github.io/TrivialRC/trc :: Dependencies_operation,()
+ZKURL:127.0.0.1 :: env_operation,()
+curl ¦-sSLfo¦/usr/bin/zookeepercli¦https://github.com/outbrain/zookeepercli/releases/download/v1.0.10/zookeepercli :: Dependencies_operation,()
+from,centos
+chmod ¦+x¦/usr/bin/zookeepercli :: Permissions_operation,()
+/etc/trc ¦--version :: Other_operation,()

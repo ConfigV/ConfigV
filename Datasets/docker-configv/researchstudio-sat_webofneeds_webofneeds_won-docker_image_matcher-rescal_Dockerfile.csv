@@ -1,0 +1,12 @@
+./won-matcher-rescal.jar/usr/src/matcher-rescal/ :: add_operation,()
+pip ¦install¦scipy :: Dependencies_operation,()
+LOGBACK_CONFIG=logback_info.xml: :: env_operation,()
+WON_CONFIG_DIR=/usr/src/matcher-rescal/conf: :: env_operation,()
+/usr/src/matcher-rescal/python :: workdir_operation,()
+/usr/src/matcher-rescal :: workdir_operation,()
+./python/usr/src/matcher-rescal/python :: add_operation,()
+cmd,java¦-Dconfig.file=${WON_CONFIG_DIR}/matcher-rescal/application.conf¦-DWON_CONFIG_DIR=${WON_CONFIG_DIR}/matcher-rescal¦-Dlogback.configurationFile=${WON_CONFIG_DIR}/${LOGBACK_CONFIG}¦-jar¦won-matcher-rescal.jar
+./conf${WON_CONFIG_DIR} :: add_operation,()
+from,java:8.0
+pip ¦install¦numpy :: Dependencies_operation,()
+matcher.rescal.pythonScriptDir=/usr/src/matcher-rescal/python: :: env_operation,()

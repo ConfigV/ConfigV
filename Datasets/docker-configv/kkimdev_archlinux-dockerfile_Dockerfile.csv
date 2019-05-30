@@ -1,0 +1,12 @@
+pacman ¦-Sy¦--noconfirm :: Filesystem_operation,()
+chmod ¦+x¦aur_install.bash :: Permissions_operation,()
+./aur_install.bash ¦cargo-nightly-bin :: Other_operation,()
+./aur_install.bash ¦package-query :: Other_operation,()
+from,base/archlinux
+pacman ¦-S¦--noconfirm¦libunistring :: Filesystem_operation,()
+echo ¦echo¦-e '#!/bin/bash n mkdir -p /tmp/"$1" && cd /tmp/"$1" n wget https://aur.archlinux.org/packages/"${1:0:2}"/"$1"/"$1".tar.gz n tar -xvf "$1".tar.gz n cd "$1" n makepkg -s --asroot --noconfirm n pacman -U --noconfirm "$1"-*.pkg.tar* n #r... :: Filesystem_operation,()
+pacman ¦-S¦--noconfirm¦--needed¦base-devel¦wget :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+./aur_install.bash ¦rust-nightly-bin :: Other_operation,()
+./aur_install.bash ¦yaourt :: Other_operation,()
+/root :: workdir_operation,()

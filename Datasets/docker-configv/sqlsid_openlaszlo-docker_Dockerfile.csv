@@ -1,0 +1,12 @@
+tar ¦-zxvf¦openlaszlo-5.0.x-unix.tar.gz :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+chmod ¦+x¦./jdk-6u45-linux-x64.bin :: Permissions_operation,()
+wget ¦http://downloads.sourceforge.net/project/openlaszlo/5.0.x/openlaszlo-5.0.x-unix.tar.gz :: Dependencies_operation,()
+expose,8080
+wget ¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin :: Dependencies_operation,()
+from,phusion/baseimage
+apt-get ¦update :: Dependencies_operation,()
+mv ¦./jdk1.6.0_45¦/usr/lib/ :: Filesystem_operation,()
+echo ¦mkdir¦/etc/service/lps && echo '#!/bin/sh' > /etc/service/lps/run && echo 'export JAVA_HOME=/usr/lib/jdk1.6.0_45' >> /etc/service/lps/run && echo '/var/lib/lps-5.0.x/Server/tomcat-5.0.24/bin/startup.sh && tail -F /var/lib/lps-5.0.x/Server/... :: Filesystem_operation,()
+mv ¦lps-5.0.x¦/var/lib/ :: Filesystem_operation,()
+./jdk-6u45-linux-x64.bin  :: Other_operation,()

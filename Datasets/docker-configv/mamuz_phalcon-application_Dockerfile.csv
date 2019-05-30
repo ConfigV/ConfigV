@@ -1,0 +1,6 @@
+from,alpine:3.3
+/app :: workdir_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+./app :: copy_operation,()
+composer ¦install :: Dependencies_operation,()
+apk ¦add¦--no-cache¦bash¦curl¦git¦php-cli¦php-curl¦php-json¦php-phar¦php-openssl¦php-dom¦php-ctype¦php-phalcon :: Dependencies_operation,()

@@ -1,0 +1,19 @@
+APP_HOME:/srv/app/$APP_NAME :: env_operation,()
+CKAN_DB_USER:ckan :: env_operation,()
+ln ¦-s¦/usr/pgsql-9.4/bin/*¦/usr/local/bin/;¦mkdir¦-p¦$APP_HOME;¦virtualenv¦--no-site-packages¦$APP_HOME;¦$APP_HOME/bin/pip¦install¦-e¦'git+https://github.com/ckan/ckan.git@ckan-2.3#egg=ckan';¦$APP_HOME/bin/pip¦install¦-r¦$APP_HOME/src/ckan/re... :: Filesystem_operation,()
+CKAN_DB_PASS:123456 :: env_operation,()
+APP_NAME:ckan :: env_operation,()
+cmd,start.bash
+CKAN_DB_NAME:ckan :: env_operation,()
+CKAN_CONFIG:/etc/ckan :: env_operation,()
+expose,80
+./docker/apache/app.conf/etc/httpd/conf.d/ :: add_operation,()
+yum ¦-y¦update;¦yum¦-y¦install¦epel-release;¦yum¦-y¦install¦http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm;¦yum¦-y¦install¦httpd¦python-virtualenv¦mod_wsgi¦git¦postgresql94¦postgresql94-devel¦gcc;¦yum¦clean¦al... :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/start.bash :: Permissions_operation,()
+./docker/apache/app.wsgi$CKAN_CONFIG/ :: add_operation,()
+STORE_PATH:/srv/app/store :: env_operation,()
+chmod ¦+x¦/usr/local/bin/httpd-foreground :: Permissions_operation,()
+./docker/ckan/start.bash/usr/local/bin/ :: copy_operation,()
+./docker/apache/httpd-foreground/usr/local/bin/ :: copy_operation,()
+CONFIG_FILE:ckan.ini :: env_operation,()
+from,centos:7.0

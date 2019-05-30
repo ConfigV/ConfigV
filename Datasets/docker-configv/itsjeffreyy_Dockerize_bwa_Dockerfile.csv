@@ -1,0 +1,12 @@
+/opt :: workdir_operation,()
+rm ¦-f¦/opt/bwa-0.7.15.tar.bz2 :: Filesystem_operation,()
+wget ¦http://downloads.sourceforge.net/project/bio-bwa/bwa-0.7.15.tar.bz2 :: Dependencies_operation,()
+apt-get ¦install¦-qy¦wget¦git¦curl¦zlib1g-dev¦libncurses5-dev¦bzip2¦make¦g++¦gcc :: Dependencies_operation,()
+mv ¦bwa-0.7.15¦bwa :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+cd ¦bwa :: Filesystem_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+tar ¦jxvf¦bwa-0.7.15.tar.bz2 :: Filesystem_operation,()
+PATH=/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/opt/bwa:/opt/bwa/bwakit:$PATH: :: env_operation,()
+from,ubuntu:16.04
+apt-get ¦update¦-qy¦--fix-missing :: Dependencies_operation,()

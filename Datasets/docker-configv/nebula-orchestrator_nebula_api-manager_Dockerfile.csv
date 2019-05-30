@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦python¦python-pip :: Dependencies_operation,()
+./www :: copy_operation,()
+chmod ¦+x¦/www/api-manager.py :: Permissions_operation,()
+expose,80
+from,ubuntu:14.04
+config.py/etc/gunicorn/config.py :: add_operation,()
+PYTHONUNBUFFERED=1: :: env_operation,()
+cmd,gunicorn¦--config=/etc/gunicorn/config.py¦api-manager:app

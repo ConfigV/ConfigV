@@ -1,0 +1,17 @@
+cmd,-Xmx512m¦-DSTOP.PORT=8079¦-DSTOP.KEY=stopkey¦-jar¦start.jar
+/tmp :: workdir_operation,()
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+conf/*/opt/solr/example/solr/collection1/conf/ :: copy_operation,()
+/opt/solr/example :: workdir_operation,()
+tar ¦-C¦/opt¦--extract¦--file¦/opt/$SOLR.tgz :: Filesystem_operation,()
+rm ¦/opt/$SOLR.tgz :: Filesystem_operation,()
+SOLR:solr-$SOLR_VERSION :: env_operation,()
+from,ubuntu:14.04
+entrypoint,java
+ln ¦-s¦/opt/$SOLR¦/opt/solr :: Filesystem_operation,()
+expose,8983
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+SOLR_VERSION:4.10.2 :: env_operation,()
+apt-get ¦install¦-y¦curl¦openjdk-7-jre-headless¦unzip¦wget¦lsof¦curl¦procps :: Dependencies_operation,()
+wget ¦--progress=bar:force¦--output-document=/opt/$SOLR.tgz¦http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/$SOLR_VERSION/$SOLR.tgz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

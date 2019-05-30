@@ -1,0 +1,15 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+GEM_HOME:/usr/local/bundle :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,dockerfile/ubuntu
+cmd,irb
+nproc  :: Other_operation,()
+PATH:$GEM_HOME/bin:$PATH :: env_operation,()
+RUBY_VERSION:2.2.0 :: env_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦procps :: Dependencies_operation,()
+bundle ¦config¦--global¦path¦"$GEM_HOME" :: Dependencies_operation,()
+bundle ¦config¦--global¦bin¦"$GEM_HOME/bin" :: Dependencies_operation,()
+RUBY_MAJOR:2.2 :: env_operation,()
+BUNDLE_APP_CONFIG:$GEM_HOME :: env_operation,()
+echo ¦echo¦'gem: --no-rdoc --no-ri' >> "$HOME/.gemrc" :: Filesystem_operation,()

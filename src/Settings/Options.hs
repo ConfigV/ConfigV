@@ -59,6 +59,17 @@ learnConfig = Learning {
   } &=
     help "Use Predicate Rule Learning to learn rules"
 
+defaultCheckConfig = learnConfig {
+    enableOrder = True
+  , enableMissing = True
+  , enableKeyvalkey = True
+  , enableCoarseGrain = True
+  , enableFineGrain = True
+  , enableTypeRules = True
+  , enableProbTypeInference = True
+  , cacheLocation = cachedRulesDefaultLoc 
+  } 
+
 verifyConfig = Verification {
     verifyTarget = def &= help "The files to verify." &= typDir
   , cacheLocation = cachedRulesDefaultLoc &= 

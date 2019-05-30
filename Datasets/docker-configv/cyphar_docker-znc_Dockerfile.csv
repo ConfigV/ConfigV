@@ -1,0 +1,22 @@
+znc.conf/znc/configs/znc.conf :: add_operation,()
+cd ¦/znc/src;¦wget¦http://znc.in/releases/znc-latest.tar.gz :: Filesystem_operation,()
+/znc :: workdir_operation,()
+apt-get ¦install¦-y¦build-essential¦libssl-dev¦libperl-dev¦pkg-config¦wget :: Dependencies_operation,()
+rm ¦-rf¦/znc/src :: Filesystem_operation,()
+chmod ¦400¦/znc/znc.pem :: Permissions_operation,()
+passwd ¦-d¦--¦drone :: Other_operation,()
+mkdir ¦-p¦/znc/configs :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+expose,6697
+chown ¦-R¦drone:drone¦/znc :: Permissions_operation,()
+drone :: user_operation,()
+znc ¦--makepem¦-d¦/znc :: Other_operation,()
+mkdir ¦-p¦/znc/src :: Filesystem_operation,()
+mkdir ¦-p¦/znc :: Filesystem_operation,()
+tar ¦xvfz¦/znc/src/znc-latest.tar.gz¦-C¦/znc/src :: Filesystem_operation,()
+cd ¦/znc/src/znc*;¦./configure¦--prefix=/usr;¦make;¦make¦install :: Filesystem_operation,()
+useradd ¦-s¦/bin/nologin¦-M¦-d¦/znc¦-U¦--¦drone :: Permissions_operation,()
+entrypoint,/usr/bin/znc¦-f¦-d¦/znc
+cmd,-n
+from,ubuntu:14.04

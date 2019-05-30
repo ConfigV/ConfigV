@@ -1,0 +1,14 @@
+mime.types/etc/nginx/ :: add_operation,()
+/var/log/nginx :: volume_operation,()
+expose,80 443
+from,debian@wheezy
+nginx.conf/etc/nginx/ :: add_operation,()
+cmd,/etc/init.d/nginx¦start
+apt-get ¦update :: Dependencies_operation,()
+HTTPS_PROXY="http://maxime.raynal:Rftgyh15@srv-200-isa:8080": :: env_operation,()
+uwsgi_param/etc/nginx/ :: add_operation,()
+echo ¦echo¦'Acquire::http::Proxy "http://maxime:Rftgyh15@srv-200-isa:8080";' >> /etc/apt/apt.conf :: Filesystem_operation,()
+sites/uwsgi-application.conf/etc/nginx/sites-enabled/ :: add_operation,()
+HTTP_PROXY="http://maxime.raynal:Rftgyh15@srv-200-isa:8080": :: env_operation,()
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+apt-get ¦install¦-y¦--force-yes¦--fix-missing¦nginx :: Dependencies_operation,()

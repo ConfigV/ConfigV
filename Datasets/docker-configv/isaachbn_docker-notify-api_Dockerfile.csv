@@ -1,0 +1,22 @@
+./conf/nginx.conf/etc/nginx/sites-available/default :: add_operation,()
+/ :: workdir_operation,()
+echo ¦tar¦xzPf /usr/local/php7 && echo 'export PATH="$PATH:/usr/local/php7/bin:/usr/local/php7/sbin"' >> /etc/bash.bashrc :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+conf/php-fpm.conf/etc/php7/php-fpm.conf :: add_operation,()
+conf/www.conf/etc/php7/php-fpm.d/www.conf :: add_operation,()
+cmd,/usr/bin/supervisord
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+./conf/supervisord.conf/etc/supervisor/supervisord.conf :: add_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦"s/#¦en_US.UTF-8¦UTF-8/en_US.UTF-8¦UTF-8/"¦/etc/locale.gen :: Filesystem_operation,()
+echo ¦echo¦"\\ndaemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+http://repos.zend.com/zend-server/early-access/php7/php-7.0-latest-DEB-x86_64.tar.gz/usr/local/php7 :: add_operation,()
+rm ¦-fr¦/tmp/*¦/var/lib/apt/lists/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦wget¦libcurl4-openssl-dev¦libmcrypt-dev¦libxml2-dev¦libjpeg-dev¦libjpeg62¦libfreetype6-dev¦libmysqlclient-dev¦libgmp-dev¦libicu-dev¦libpspell-dev¦librecode-dev¦libxpm-dev¦nginx¦supervisor¦locales :: Dependencies_operation,()
+from,debian@jessie
+expose,80
+locale-gen  :: Other_operation,()

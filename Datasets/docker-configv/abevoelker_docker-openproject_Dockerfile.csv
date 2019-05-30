@@ -1,0 +1,17 @@
+database.yml/var/www/openproject/config/ :: copy_operation,()
+adduser ¦openproject¦--home¦/home/openproject¦--shell¦/bin/bash¦--disabled-password¦--gecos¦""¦&&\\ :: Permissions_operation,()
+chown ¦-R¦openproject:openproject¦/etc/nginx/sites-available¦&&\\ :: Permissions_operation,()
+openproject :: user_operation,()
+root :: user_operation,()
+cd ¦/var/www/openproject¦&&\\ :: Filesystem_operation,()
+nginx/sites-available/openproject.conf/etc/nginx/sites-available/ :: add_operation,()
+supervisord/rails.conf/etc/supervisor/conf.d/ :: add_operation,()
+supervisord/nginx.conf/etc/supervisor/conf.d/ :: add_operation,()
+cmd,/var/www/openproject/docker/scripts/run_rails.sh
+scripts/var/www/openproject/docker/scripts :: copy_operation,()
+from,abevoelker/ruby
+chown ¦-R¦openproject:openproject¦/var/www/openproject :: Permissions_operation,()
+configuration.yml/var/www/openproject/config/ :: copy_operation,()
+chown ¦-R¦openproject:openproject¦/var/www/openproject¦&&\\ :: Permissions_operation,()
+nginx/nginx.conf/etc/nginx/ :: add_operation,()
+Gemfile.local/var/www/openproject/ :: copy_operation,()

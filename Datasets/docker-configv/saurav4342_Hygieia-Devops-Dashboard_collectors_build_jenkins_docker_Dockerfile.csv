@@ -1,0 +1,7 @@
+/hygieia :: workdir_operation,()
+mkdir ¦/hygieia :: Filesystem_operation,()
+from,docker.io/java:openjdk-8-jdk
+cmd,./jenkins-build-properties-builder.sh¦&&¦java¦-jar¦jenkins-build-collector*.jar¦--spring.config.location=/hygieia/hygieia-jenkins-build-collector.properties
+*.jar/hygieia/ :: copy_operation,()
+jenkins-build-properties-builder.sh/hygieia/ :: copy_operation,()
+/hygieia/logs :: volume_operation,()

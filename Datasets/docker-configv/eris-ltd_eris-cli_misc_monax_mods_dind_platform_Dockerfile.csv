@@ -1,0 +1,10 @@
+rm ¦-rf¦helm-* :: Filesystem_operation,()
+from,quay.io/monax/monax:0.18.0-dind
+curl ¦-LO¦https://storage.googleapis.com/kubernetes-release/release/v$KUBERNETES_VERSION/bin/linux/amd64/kubectl :: Dependencies_operation,()
+rm ¦-rf¦linux-amd64 :: Filesystem_operation,()
+curl ¦-LO¦https://storage.googleapis.com/kubernetes-helm/helm-v$HELM_VERSION-linux-amd64.tar.gz :: Dependencies_operation,()
+mv ¦./kubectl¦/usr/local/bin/kubectl :: Filesystem_operation,()
+chmod ¦+x¦./kubectl :: Permissions_operation,()
+tar ¦-xzf¦helm-v$HELM_VERSION-linux-amd64.tar.gz :: Filesystem_operation,()
+mv ¦linux-amd64/helm¦/usr/local/bin/helm :: Filesystem_operation,()
+apk ¦add¦--update¦--no-cache¦g++¦libc6-compat¦make¦nodejs¦nodejs-npm¦python :: Dependencies_operation,()

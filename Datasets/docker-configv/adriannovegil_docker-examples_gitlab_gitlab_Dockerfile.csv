@@ -1,0 +1,14 @@
+from,ubuntu:16.04
+curl ¦-sS¦https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh¦|¦bash :: Dependencies_operation,()
+cp ¦/assets/gitlab.rb¦/etc/gitlab/gitlab.rb :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+rm ¦-f¦/etc/gitlab/gitlab.rb :: Filesystem_operation,()
+chmod ¦+x¦/assets/wrapper :: Permissions_operation,()
+assets//assets/ :: copy_operation,()
+wget ¦-q¦-O¦-¦https://packages.gitlab.com/gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+expose,80 443
+apt-get ¦install¦-yq¦--no-install-recommends¦gitlab-ce¦bundler :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yq¦--no-install-recommends¦ca-certificates¦openssh-server¦wget¦apt-transport-https¦vim¦curl¦nano :: Other_operation,()
+PATH:/opt/gitlab/embedded/bin:/opt/gitlab/bin:/assets:$PATH :: env_operation,()
+cmd,/assets/wrapper

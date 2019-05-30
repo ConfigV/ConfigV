@@ -1,0 +1,7 @@
+echo ¦apk¦update && apk add git go gzip && go get github.com/tools/godep && mkdir -p $PACKAGE_DIR && git clone https://$PACKAGE.git $PACKAGE_DIR && cd $PACKAGE_DIR && godep go build -ldflags "-X main.VERSION=$(git describe --abbrev=0 --tags)" -o... :: Filesystem_operation,()
+PACKAGE_DIR:$GOPATH/src/$PACKAGE :: env_operation,()
+PATH:$PATH:/usr/local/go/bin:$GOPATH/bin :: env_operation,()
+GOPATH:/root/go :: env_operation,()
+from,alpine
+entrypoint,cloud-torrent
+PACKAGE:github.com/jpillora/cloud-torrent :: env_operation,()

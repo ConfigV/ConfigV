@@ -1,0 +1,9 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+expose,53 53
+from,debian@jessie
+entrypoint,/usr/sbin/pdns_recursor¦--daemon=no¦--local-address=0.0.0.0
+apt-get ¦install¦-y¦pdns-recursor :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

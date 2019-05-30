@@ -1,0 +1,12 @@
+_install="apt-get:install :: env_operation,()
+from,debian@jessie
+cmd,tailf¦-0¦/opt/sw360/logs/catalina.out
+_cleanup="eval:apt-get :: env_operation,()
+echo ¦set¦-x && echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list && $_update && $_install openjdk-8-jre && $_cleanup && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bi... :: Filesystem_operation,()
+expose,5005
+docker-entrypoint.sh/usr/local/bin/entrypoint.sh :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+_update="apt-get:update" :: env_operation,()
+sw360_dependencies.tar.gz/opt :: add_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+/opt/sw360 :: volume_operation,()

@@ -1,0 +1,18 @@
+DRMAA_LIBRARY_PATH=/usr/local/lib/libdrmaa.so: :: env_operation,()
+make ¦install :: Build_Execute_operation,()
+mkdir ¦/src :: Filesystem_operation,()
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv-keys 5E25F516B04C661B A6BFD95994EE84A6 && echo "deb http://ppa.launchpad.net/mertes/slurm/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/slurm-trusty.list && apt-get update -q && ap... :: Filesystem_operation,()
+job_conf.xml$GALAXY_CONFIG_JOB_CONFIG_FILE :: add_operation,()
+./configure  :: Build_Execute_operation,()
+PassivePorts\\  :: Other_operation,()
+/var/lib/docker :: volume_operation,()
+cd ¦/src/slurm-drmaa-1.0.7 :: Filesystem_operation,()
+/export/ :: volume_operation,()
+curl ¦http://apps.man.poznan.pl/trac/slurm-drmaa/downloads/9¦|¦tar¦xz :: Dependencies_operation,()
+from,chambm/omicron-simple
+make  :: Build_Execute_operation,()
+cmd,/usr/bin/startup
+expose,80 21 8800 9009
+/data/ :: volume_operation,()
+rm ¦-fr¦/src :: Filesystem_operation,()
+cd ¦/src :: Filesystem_operation,()

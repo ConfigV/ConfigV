@@ -1,0 +1,11 @@
+from,robbertkl/node
+cleaninstall ¦dialog¦gcc¦libffi-dev¦libssl-dev¦nginx¦python¦python-dev¦python-pip¦ssl-cert :: Other_operation,()
+pip ¦install¦-U¦letsencrypt :: Dependencies_operation,()
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+/etc/letsencrypt :: volume_operation,()
+echo ¦curl¦-sSL http://nginx.org/keys/nginx_signing.key | apt-key add - && echo "deb http://nginx.org/packages/mainline/debian/ `lsb_release -cs` nginx" >> /etc/apt/sources.list :: Filesystem_operation,()
+.. :: copy_operation,()
+acme-challenge/etc/nginx/ :: copy_operation,()
+package.json./ :: copy_operation,()
+expose,443
+npm ¦install :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+yum ¦install¦-y¦gcc¦cpp :: Dependencies_operation,()
+wget ¦https://static.rust-lang.org/rustup.sh :: Dependencies_operation,()
+yum ¦install¦-y¦wget¦tar :: Dependencies_operation,()
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib: :: env_operation,()
+from,fedora@latest
+chmod ¦+x¦./rustup.sh :: Permissions_operation,()
+/opt :: workdir_operation,()
+yum ¦install¦-y¦glibc-devel¦glibc-headers¦glibc-static :: Dependencies_operation,()
+yum ¦install¦-y¦git¦mercurial :: Dependencies_operation,()
+./rustup.sh ¦--verbose¦--yes¦--disable-sudo :: Other_operation,()

@@ -1,0 +1,15 @@
+rm ¦-rf¦/root/.cache :: Filesystem_operation,()
+python3 ¦-m¦ensurepip :: Build_Execute_operation,()
+entrypoint,/bin/sh
+mkdir ¦-p¦/usr/local/src :: Filesystem_operation,()
+ln ¦-s¦/usr/bin/python3¦/usr/bin/python :: Filesystem_operation,()
+cd ¦/usr/local/src :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+pip3 ¦install¦--upgrade¦pip¦setuptools :: Dependencies_operation,()
+rm ¦-r¦/usr/lib/python*/ensurepip :: Filesystem_operation,()
+cp ¦elastic-data-entry/esde¦/usr/local/bin/esde :: Filesystem_operation,()
+pip3 ¦install¦python-dateutil :: Dependencies_operation,()
+apk ¦add¦--no-cache¦python3¦vim¦git :: Dependencies_operation,()
+from,alpine@latest
+/usr/local/src/elastic-data-entry :: workdir_operation,()
+git ¦clone¦https://github.com/greenpau/elastic-data-entry.git :: Dependencies_operation,()

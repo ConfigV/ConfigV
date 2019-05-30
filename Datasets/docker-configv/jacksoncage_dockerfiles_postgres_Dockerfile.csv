@@ -1,0 +1,17 @@
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,bash¦start.sh
+REFRESHED_AT:2015-12-11 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+pg_ident.conf/etc/postgresql/9.2/main/ :: copy_operation,()
+postgresql.conf/etc/postgresql/9.2/main/ :: copy_operation,()
+curl ¦-sS¦https://raw.github.com/dynport/dockyard/master/dockyard¦-o¦/usr/local/bin/dockyard :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦upgrade¦-yqq :: Other_operation,()
+from,debian@jessie
+pg_hba.conf/etc/postgresql/9.2/main/ :: copy_operation,()
+apt-get ¦-yqq¦purge :: Dependencies_operation,()
+chmod ¦0755¦/usr/local/bin/dockyard :: Permissions_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yqq¦wget¦curl¦psmisc :: Other_operation,()
+start.sh/start.sh :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-qq :: Other_operation,()
+expose,5432

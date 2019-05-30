@@ -1,0 +1,19 @@
+fbu.adm/asterixdb/fbu.adm :: copy_operation,()
+JAVA_OPTS:-Xmx1536m :: env_operation,()
+asterix-server*.zip. :: copy_operation,()
+unzip ¦asterix-server*.zip¦-d¦/asterixdb/ :: Filesystem_operation,()
+echo ¦echo¦"include_only=.us" >> /etc/yum/pluginconf.d/fastestmirror.conf :: Filesystem_operation,()
+entrypoint,/bin/bash¦-c¦'/usr/bin/supervisord'
+supervisord.conf/etc/supervisord.conf :: copy_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+/asterixdb/bin :: workdir_operation,()
+twu.adm/asterixdb/twu.adm :: copy_operation,()
+yum ¦install¦-y¦unzip¦java-1.8.0-openjdk¦openssh-server¦openssh-clients¦python-setuptools¦wget¦curl :: Dependencies_operation,()
+from,centos
+fbm.adm/asterixdb/fbm.adm :: copy_operation,()
+echo ¦echo¦'LANG="en_US.UTF-8"' > /etc/sysconfig/i18n ;echo 'ZONE="America/Los_Angeles"' > /etc/sysconfig/clock ;cp -a /usr/share/zoneinfo/America/Los_Angeles /etc/localtime :: Filesystem_operation,()
+mkdir ¦/asterixdb :: Filesystem_operation,()
+asterix-configuration.xml/asterixdb/bin/asterix-configuration.xml :: copy_operation,()
+twm.adm/asterixdb/twm.adm :: copy_operation,()
+expose,19001 19002 8888 19003 50031
+JAVA_HOME:/usr/lib/jvm/jre-1.8.0 :: env_operation,()

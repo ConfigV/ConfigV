@@ -1,0 +1,16 @@
+healthcheck,curl -f http://localhost:8080/ || exit 1--interval=1m --timeout=5s --retries=3
+from,maven@latest
+expose,8080
+unzip ¦sources.zip :: Filesystem_operation,()
+/usr/share/ipplan-api :: workdir_operation,()
+cd ¦ipplan-api-master :: Filesystem_operation,()
+rm ¦-rf¦${MAVEN_CONFIG}/repository/* :: Filesystem_operation,()
+DB_HOST:db :: env_operation,()
+DB_PORT:3306 :: env_operation,()
+rm ¦-rf¦ipplan-api-master :: Filesystem_operation,()
+wget ¦-q¦-O¦sources.zip¦"https://github.com/bozzo/ipplan-api/archive/master.zip" :: Dependencies_operation,()
+mv ¦target/ipplan-api-*.jar¦/usr/share/ipplan-api/app.jar :: Filesystem_operation,()
+cd ¦/usr/share/ipplan-api :: Filesystem_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/usr/share/ipplan-api/app.jar
+mvn ¦clean¦package¦-DskipTests=true¦-Dmaven.javadoc.skip=true¦-B¦-V :: Dependencies_operation,()
+/tmp :: volume_operation,()

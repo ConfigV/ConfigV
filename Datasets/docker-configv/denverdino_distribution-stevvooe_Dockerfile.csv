@@ -1,0 +1,9 @@
+CONFIG_PATH:/etc/docker/registry/config.yml :: env_operation,()
+PATH:/go/bin :: env_operation,()
+go ¦get¦github.com/docker/docker-registry :: Build_Execute_operation,()
+expose,5000
+./go/src/github.com/docker/docker-registry :: copy_operation,()
+from,golang
+./cmd/registry/config.yml$CONFIG_PATH :: copy_operation,()
+cmd,registry¦$CONFIG_PATH
+go ¦install¦github.com/docker/docker-registry/cmd/registry :: Build_Execute_operation,()

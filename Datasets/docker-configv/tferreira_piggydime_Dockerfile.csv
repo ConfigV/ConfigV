@@ -1,0 +1,8 @@
+DATABASE_URL:"mysql+mysqlconnector://root:supersecure@db/piggydime" :: env_operation,()
+from,python:3.5
+/opt/api :: workdir_operation,()
+cmd,python3.5¦manage.py¦runserver
+./opt/api :: copy_operation,()
+python3.5 ¦manage.py¦db¦upgrade :: Other_operation,()
+expose,80
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()

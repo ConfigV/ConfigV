@@ -1,0 +1,23 @@
+MONGODB_TGZ:https://sec.ly.com/mirror/mongodb-linux-x86_64-3.4.0.tgz :: env_operation,()
+set ¦-x :: Environment_operation,()
+mkdir ¦-p¦/opt/mongodb :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/opt/xunfeng :: workdir_operation,()
+echo ¦ln¦-snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦unzip¦gcc¦libssl-dev¦libffi-dev¦python-dev¦libpcap-dev¦python-pip :: Dependencies_operation,()
+chmod ¦a+x¦/opt/xunfeng/masscan/linux_64/masscan :: Permissions_operation,()
+./opt/xunfeng :: copy_operation,()
+PATH:/opt/mongodb/bin:$PATH :: env_operation,()
+mkdir ¦-p¦/opt/xunfeng :: Filesystem_operation,()
+entrypoint,/opt/xunfeng/dockerconf/start.sh
+wget ¦-O¦/tmp/mongodb.tgz¦$MONGODB_TGZ :: Dependencies_operation,()
+pip ¦install¦Flask¦pymongo¦xlwt¦paramiko :: Dependencies_operation,()
+expose,80
+ln ¦-s¦/usr/lib/x86_64-linux-gnu/libpcap.so¦/usr/lib/x86_64-linux-gnu/libpcap.so.1 :: Filesystem_operation,()
+from,ubuntu:14.04
+/data :: volume_operation,()
+tar ¦zxf¦/tmp/mongodb.tgz¦-C¦/opt/mongodb¦--strip-components=1 :: Filesystem_operation,()
+rm ¦-rf¦/tmp/mongodb.tgz :: Filesystem_operation,()
+cmd,/usr/bin/tail¦-f¦/dev/null
+chmod ¦a+x¦/opt/xunfeng/dockerconf/start.sh :: Permissions_operation,()
+TZ=Asia/Shanghai: :: env_operation,()

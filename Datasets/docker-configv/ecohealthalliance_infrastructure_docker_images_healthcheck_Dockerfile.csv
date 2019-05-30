@@ -1,0 +1,13 @@
+apt-get ¦clean¦all :: Dependencies_operation,()
+app:healthcheck :: label_operation,()
+run.sh/run.sh :: add_operation,()
+apt-get ¦-y¦install¦lighttpd :: Dependencies_operation,()
+cmd,/bin/bash¦run.sh
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/bin/sh :: Filesystem_operation,()
+ln ¦-s¦/bin/bash¦/bin/sh :: Filesystem_operation,()
+expose,80
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+from,ubuntu:14.04
+index.html/var/www/index.html :: add_operation,()

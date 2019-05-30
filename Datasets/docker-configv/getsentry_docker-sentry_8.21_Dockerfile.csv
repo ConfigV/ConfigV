@@ -1,0 +1,27 @@
+expose,9000
+GOSU_VERSION:1.10 :: env_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+mkdir ¦-p¦$SENTRY_CONF :: Filesystem_operation,()
+config.yml/etc/sentry/ :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦make :: Dependencies_operation,()
+sentry.conf.py/etc/sentry/ :: copy_operation,()
+PIP_NO_CACHE_DIR:off :: env_operation,()
+pip ¦install¦librabbitmq==1.6.1 :: Dependencies_operation,()
+cmd,run¦web
+entrypoint,/entrypoint.sh
+useradd ¦-r¦-m¦-g¦sentry¦sentry :: Permissions_operation,()
+from,python:2.7
+/var/lib/sentry/files :: volume_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gcc¦git¦libffi-dev¦libjpeg-dev¦libpq-dev¦libxml2-dev¦libxslt-dev¦libyaml-dev :: Dependencies_operation,()
+SENTRY_VERSION:8.21.0 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+set ¦-x :: Environment_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦make :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+TINI_VERSION:v0.14.0 :: env_operation,()
+mkdir ¦-p¦$SENTRY_FILESTORE_DIR :: Filesystem_operation,()
+PIP_DISABLE_PIP_VERSION_CHECK:on :: env_operation,()
+python ¦-c¦'import¦librabbitmq' :: Build_Execute_operation,()
+mktemp ¦-d :: Other_operation,()
+SENTRY_CONF=/etc/sentry:SENTRY_FILESTORE_DIR=/var/lib/sentry/files :: env_operation,()
+groupadd ¦-r¦sentry :: Permissions_operation,()

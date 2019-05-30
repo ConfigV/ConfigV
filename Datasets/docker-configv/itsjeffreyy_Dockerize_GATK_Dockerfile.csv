@@ -1,0 +1,11 @@
+mkdir ¦GATK :: Filesystem_operation,()
+/opt :: workdir_operation,()
+apt-get ¦install¦-yq¦r-base¦git¦fuse¦ca-certificates¦curl¦default-jre¦build-essential¦zlib1g-dev¦libncurses5-dev¦wget¦maven :: Dependencies_operation,()
+rm ¦-f¦/opt/gatk.tar.bz2 :: Filesystem_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt :: Filesystem_operation,()
+apt-get ¦update¦-yq¦--fix-missing :: Dependencies_operation,()
+from,ubuntu:16.04
+PATH:/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:$PATH :: env_operation,()
+tar ¦jxf¦gatk.tar.bz2¦-C¦GATK :: Filesystem_operation,()
+GenomeAnalysisTK-3.7.tar.bz2gatk.tar.bz2 :: copy_operation,()

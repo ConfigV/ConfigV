@@ -1,0 +1,18 @@
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+PATH:/usr/lib/postgresql/$PG_MAJOR/bin:$PATH :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/lib/postgresql/data :: volume_operation,()
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+curl ¦-o¦/usr/local/bin/gosu¦-SL¦'https://github.com/tianon/gosu/releases/download/1.1/gosu' :: Dependencies_operation,()
+echo ¦echo¦'deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list && curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc  | apt-key add - ED6D65271AACF0FF15D123036FB2A1C265FFB764 :: Filesystem_operation,()
+PG_MAJOR:9.4 :: env_operation,()
+PG_VERSION:9.4~beta1-2.pgdg70+1 :: env_operation,()
+groupadd ¦-r¦postgres :: Permissions_operation,()
+useradd ¦-r¦-g¦postgres¦postgres :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh
+expose,5432
+from,debian@wheezy
+cmd,postgres
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+./docker-entrypoint.sh/ :: add_operation,()
+create_main_cluster  :: Other_operation,()

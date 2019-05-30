@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+config/default.conf/etc/nginx/conf.d/default.conf :: copy_operation,()
+rm ¦/var/www/html/index.nginx-debian.html :: Filesystem_operation,()
+chown ¦-R¦www-data:www-data¦/var/lib/nginx :: Permissions_operation,()
+chmod ¦+x¦/etc/nginx/rename_ips_and_ports.sh :: Permissions_operation,()
+cmd,/etc/nginx/rename_ips_and_ports.sh¦&&¦nginx
+config/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/etc/nginx :: workdir_operation,()
+add-apt-repository ¦-y¦ppa:nginx/stable :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,docker_ubuntubase
+config/rename_ips_and_ports.sh/etc/nginx/rename_ips_and_ports.sh :: copy_operation,()

@@ -1,0 +1,17 @@
+entrypoint,/uwsgi-start.sh
+chown ¦-R¦uwsgi:uwsgi¦/var/log/uwsgi :: Permissions_operation,()
+UWSGI_NUM_THREADS:15 :: env_operation,()
+ADD. /var/app :: onbuild_operation,()
+uwsgi-start.sh/ :: add_operation,()
+/var/app :: workdir_operation,()
+from,python:3.4
+expose,8080
+mkdir ¦/var/log/uwsgi :: Filesystem_operation,()
+UWSGI_NUM_PROCESSES:1 :: env_operation,()
+UWSGI_UID:uwsgi :: env_operation,()
+UWSGI_LOG_FILE:/var/log/uwsgi/uwsgi.log :: env_operation,()
+RUNif [ -f /var/app/requirements.txt ]; then pip install -r /var/app/requirements.txt; fi :: onbuild_operation,()
+/var/app :: volume_operation,()
+useradd ¦uwsgi¦-s¦/bin/false :: Permissions_operation,()
+pip ¦install¦--download-cache¦/src¦uwsgi :: Dependencies_operation,()
+UWSGI_GID:uwsgi :: env_operation,()

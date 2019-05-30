@@ -1,0 +1,10 @@
+root :: user_operation,()
+start.sh/opt/hadoop-docker/ :: copy_operation,()
+hdfs :: user_operation,()
+conf.skeleton/etc/hadoop/conf :: copy_operation,()
+expose,50470
+from,trifacta/ubuntu-hdp2-base
+mkdir ¦-p¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/name :: Filesystem_operation,()
+chown ¦-R¦hdfs:hadoop¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/name :: Permissions_operation,()
+/usr/bin/hdfs ¦namenode¦-format :: Other_operation,()
+cmd,/opt/hadoop-docker/start.sh

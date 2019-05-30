@@ -1,0 +1,18 @@
+apt-get ¦install¦-y¦--no-install-recommends¦python¦python-setuptools :: Dependencies_operation,()
+docker-start.sh/usr/lib/foundationdb/ :: add_operation,()
+/etc/foundationdb :: volume_operation,()
+curl ¦-SLO¦"https://foundationdb.com/downloads/I_accept_the_FoundationDB_Community_License_Agreement/key-value-store/${FDB_VERSION}/foundationdb-server_${FDB_VERSION}-1_amd64.deb" :: Dependencies_operation,()
+supervisord.conf/etc/ :: add_operation,()
+rm ¦-rf¦/etc/foundationdb¦/var/lib/foundationdb/data :: Filesystem_operation,()
+cmd,/usr/local/bin/supervisord¦-c¦/etc/supervisord.conf
+dpkg ¦-i¦foundationdb-server_${FDB_VERSION}-1_amd64.deb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,4500
+mkdir ¦-p¦/etc/foundationdb :: Filesystem_operation,()
+/fdb-data :: volume_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+touch ¦/etc/foundationdb/fdb.cluster :: Filesystem_operation,()
+rm ¦foundationdb-server_${FDB_VERSION}-1_amd64.deb :: Filesystem_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+mv ¦/etc/foundationdb/foundationdb.conf¦/usr/lib/foundationdb/foundationdb.conf.orig :: Filesystem_operation,()

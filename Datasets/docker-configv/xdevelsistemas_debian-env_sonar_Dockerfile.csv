@@ -1,0 +1,22 @@
+SONARQUBE_HOME:/opt/sonarqube :: env_operation,()
+unzip ¦sonarqube.zip :: Filesystem_operation,()
+curl ¦-o¦sonarqube.zip.asc¦-fSL¦https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip.asc :: Dependencies_operation,()
+cd ¦/opt :: Filesystem_operation,()
+set ¦-x :: Environment_operation,()
+rm ¦-rf¦$SONARQUBE_HOME/bin/* :: Filesystem_operation,()
+$SONARQUBE_HOME/extensions :: volume_operation,()
+SONAR_VERSION:5.2 :: env_operation,()
+from,java:8.0
+gpg ¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦F1182E81C792928921DBCAB4CFCA4A29D26468DE :: Other_operation,()
+SONARQUBE_JDBC_URL:jdbc:h2:tcp://localhost:9092/sonar :: env_operation,()
+expose,9000
+curl ¦-o¦sonarqube.zip¦-fSL¦https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip :: Dependencies_operation,()
+entrypoint,./bin/run.sh
+$SONARQUBE_HOME :: workdir_operation,()
+mv ¦sonarqube-$SONAR_VERSION¦sonarqube :: Filesystem_operation,()
+gpg ¦--verify¦sonarqube.zip.asc :: Other_operation,()
+run.sh$SONARQUBE_HOME/bin/ :: copy_operation,()
+$SONARQUBE_HOME/data :: volume_operation,()
+SONARQUBE_JDBC_USERNAME:sonar :: env_operation,()
+SONARQUBE_JDBC_PASSWORD:sonar :: env_operation,()
+rm ¦sonarqube.zip* :: Filesystem_operation,()

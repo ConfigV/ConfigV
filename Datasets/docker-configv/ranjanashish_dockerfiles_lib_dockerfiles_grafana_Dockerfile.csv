@@ -1,0 +1,17 @@
+from,debian@jessie
+expose,80
+apt-get ¦-y¦install¦nginx-full¦supervisor¦wget :: Dependencies_operation,()
+tar ¦-xzf¦/tmp/grafana-1.8.1.tar.gz¦-C¦/usr/share/nginx/html :: Filesystem_operation,()
+cmd,service¦supervisor¦start
+echo ¦echo¦'daemon off;' >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+rm ¦-f¦/etc/nginx/sites-enabled/* :: Filesystem_operation,()
+files/grafana_nginx.conf/etc/nginx/sites-available/ :: add_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦-P¦/tmp¦http://grafanarel.s3.amazonaws.com/grafana-1.8.1.tar.gz :: Dependencies_operation,()
+rm ¦-f¦/tmp/grafana-1.8.1.tar.gz :: Filesystem_operation,()
+mv ¦/usr/share/nginx/html/grafana-1.8.1¦/usr/share/nginx/html/grafana :: Filesystem_operation,()
+echo ¦echo¦'debconf debconf/frontend select Dialog' | debconf-set-selections :: Filesystem_operation,()
+files/supervisord.conf/etc/supervisor/conf.d/ :: add_operation,()
+ln ¦-sf¦/etc/nginx/sites-available/grafana_nginx.conf¦/etc/nginx/sites-enabled/grafana_nginx.conf :: Filesystem_operation,()
+files/config.js/usr/share/nginx/html/grafana/ :: add_operation,()

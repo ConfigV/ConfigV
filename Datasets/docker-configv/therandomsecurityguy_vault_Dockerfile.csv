@@ -1,0 +1,19 @@
+cat ¦vault_${VERSION}_SHA256SUMS¦|¦grep¦linux_amd64¦|¦sha256sum¦-c :: Filesystem_operation,()
+/ :: workdir_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+gpg ¦--verify¦/tmp/vault_${VERSION}_SHA256SUMS.sig :: Other_operation,()
+apk ¦--update¦add¦--virtual¦verify¦gpgme :: Dependencies_operation,()
+from,gliderlabs/alpine:3.3
+mv ¦vault¦/usr/bin/ :: Filesystem_operation,()
+VERSION:0.5.0 :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+expose,8200
+apk ¦del¦verify :: Dependencies_operation,()
+https://releases.hashicorp.com/vault/${VERSION}/vault_${VERSION}_SHA256SUMS/tmp/ :: add_operation,()
+/tmp/ :: workdir_operation,()
+https://releases.hashicorp.com/vault/${VERSION}/vault_${VERSION}_SHA256SUMS.sig/tmp/ :: add_operation,()
+gpg ¦--keyserver¦pgp.mit.edu¦--recv-key¦0x348FFC4C :: Other_operation,()
+https://releases.hashicorp.com/vault/${VERSION}/vault_${VERSION}_linux_amd64.zip/tmp/ :: add_operation,()
+cmd,version
+entrypoint,/usr/local/bin/vault
+unzip ¦vault_${VERSION}_linux_amd64.zip :: Filesystem_operation,()

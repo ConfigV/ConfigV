@@ -1,0 +1,21 @@
+JAVA_HOME:/usr/lib/jvm/java :: env_operation,()
+sed ¦-i¦'s/#admin/admin/'¦$FUSE_HOME/etc/users.properties :: Filesystem_operation,()
+$FUSE_HOME/bin/ :: workdir_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦install¦unzip¦java-1.7.0-openjdk-devel :: Dependencies_operation,()
+expose,22 8101 8181 44444 1099 61616
+FUSE_INSTALL:jboss-fuse-6.2.0.redhat-133 :: env_operation,()
+ls ¦-la¦/opt/jboss :: Filesystem_operation,()
+./opt/jboss :: add_operation,()
+unzip ¦-q¦-o¦-d¦$HOME/¦$HOME/$FUSE_DISTRIBUTION :: Filesystem_operation,()
+FUSE_DISTRIBUTION:jboss-fuse-full-6.2.0.redhat-133.zip :: env_operation,()
+useradd ¦-u¦1000¦-r¦-g¦jboss¦-m¦-d¦/opt/jboss¦-s¦/sbin/nologin¦-c¦"JBoss¦user"¦jboss :: Permissions_operation,()
+from,centos@latest
+groupadd ¦-r¦jboss¦-g¦1000 :: Permissions_operation,()
+JAVA_OPTS:-XX:MaxPermSize=256m :: env_operation,()
+FUSE_HOME:/opt/jboss/fuse :: env_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+mv ¦$HOME/$FUSE_INSTALL¦$HOME/fuse :: Filesystem_operation,()
+cmd,./fuse
+rm ¦$HOME/$FUSE_DISTRIBUTION :: Filesystem_operation,()
+jboss :: user_operation,()

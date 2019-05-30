@@ -1,0 +1,12 @@
+./setup/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+cmd,/usr/bin/supervisord
+apt-get ¦update :: Dependencies_operation,()
+wget ¦-q¦http://downloads.slimdevices.com/nightly/7.9/sc/12e140e/logitechmediaserver_7.9.0~1449829896_all.deb :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/mnt/state :: volume_operation,()
+apt-get ¦-y¦install¦wget¦supervisor :: Dependencies_operation,()
+from,ubuntu:14.04
+/lms :: workdir_operation,()
+dpkg ¦-i¦logitechmediaserver_7.9.0~1449829896_all.deb :: Dependencies_operation,()
+expose,3483 9000 9090
+mkdir ¦/lms :: Filesystem_operation,()

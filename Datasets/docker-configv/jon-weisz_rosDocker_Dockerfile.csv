@@ -1,0 +1,14 @@
+apt-get ¦clean :: Dependencies_operation,()
+from,ubuntu@precise
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe restricted multiverse" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦debian-keyring¦debian-archive-keyring :: Dependencies_operation,()
+cmd,/bin/bash
+apt-get ¦install¦-y¦ros-hydro-ros-base :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+wget ¦http://packages.ros.org/ros.key¦-O¦-¦|¦apt-key¦add¦- :: Dependencies_operation,()
+chmod ¦755¦/usr/local/bin/startcontainer :: Permissions_operation,()
+entrypoint,/usr/local/bin/startcontainer
+echo ¦sh¦-c 'echo "deb http://packages.ros.org/ros/ubuntu precise main" > /etc/apt/sources.list.d/ros-latest.list' :: Filesystem_operation,()
+startcontainer/usr/local/bin/startcontainer :: add_operation,()
+apt-get ¦remove¦debian-keyring¦debian-archive-keyring :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

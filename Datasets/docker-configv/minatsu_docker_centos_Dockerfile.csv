@@ -1,0 +1,10 @@
+yum ¦groupinstall¦-y¦"Development¦Tools" :: Dependencies_operation,()
+expose,22 80
+/etc/init.d/sshd ¦stop :: Other_operation,()
+echo ¦echo¦'root:hogehoge' | chpasswd :: Filesystem_operation,()
+/etc/init.d/sshd ¦start :: Other_operation,()
+from,centos@latest
+cmd,/usr/sbin/sshd¦-D
+sed ¦-ri¦'s/UsePAM¦yes/#UsePAM¦yes/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+yum ¦install¦sudo¦passwd¦openssh¦openssh-clients¦openssh-server¦python-setuptools¦wget¦httpd¦vim¦-y :: Dependencies_operation,()
+sed ¦-ri¦'s/#UsePAM¦no/UsePAM¦no/g'¦/etc/ssh/sshd_config :: Filesystem_operation,()

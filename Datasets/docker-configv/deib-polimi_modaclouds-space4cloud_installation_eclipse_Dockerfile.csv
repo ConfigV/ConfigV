@@ -1,0 +1,15 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦echo¦"modaclouds" > password.txt && cat password.txt password.txt | vncpasswd && rm password.txt :: Filesystem_operation,()
+curl ¦-OL¦"ftp://ftp.modaclouds.eu/public/space4cloud/distribution/eclipse_palladio.tar.gz" :: Dependencies_operation,()
+USER:root :: env_operation,()
+apt-get ¦install¦-y¦lxde-core¦tightvncserver¦default-jdk¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦eclipse_palladio.tar.gz :: Filesystem_operation,()
+${USERHOME} :: workdir_operation,()
+expose,5901
+from,ubuntu:14.04
+Desktop :: workdir_operation,()
+echo ¦echo¦"#\\!/usr/bin/env xdg-open\\n\\n[Desktop Entry]\\nExec=/root/eclipse_palladio/eclipse\\nIcon=/root/eclipse_palladio/icon.xpm\\nTerminal=false\\nType=Application\\nPath=/root/eclipse_palladio/" > Eclipse_Palladio.desktop :: Filesystem_operation,()
+USERHOME:/root :: env_operation,()
+cmd,vncserver¦:1¦-geometry¦1440x900¦-depth¦24¦&&¦tail¦-F¦/root/.vnc/*.log
+tar ¦zxf¦eclipse_palladio.tar.gz :: Filesystem_operation,()

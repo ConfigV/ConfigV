@@ -1,0 +1,11 @@
+mkdir ¦/app :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+pypy3 ¦/tmp/get-pip.py :: Other_operation,()
+cmd,gunicorn¦-b¦0.0.0.0:8000¦web:app
+from,pypy@latest
+./requirements.txt/app/ :: copy_operation,()
+expose,8000
+curl ¦-O¦https://bootstrap.pypa.io/get-pip.py :: Dependencies_operation,()
+/app :: workdir_operation,()
+pypy3 ¦-m¦pip¦install¦-r¦requirements.txt :: Other_operation,()
+./app :: copy_operation,()

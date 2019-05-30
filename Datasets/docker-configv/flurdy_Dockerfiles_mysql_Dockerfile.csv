@@ -1,0 +1,13 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-yq¦mysql-server :: Dependencies_operation,()
+MYSQL_PASSWORD:changeme :: env_operation,()
+apt-get ¦autoremove¦-yq :: Dependencies_operation,()
+MYSQL_USER:root :: env_operation,()
+cmd,/usr/bin/mysqld_safe
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,3306
+/usr/sbin/mysqld ¦&¦sleep¦10s¦&& :: Other_operation,()
+apt-get ¦clean¦-yq :: Dependencies_operation,()
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+from,phusion/baseimage:latest

@@ -1,0 +1,16 @@
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+cmd,/usr/lib/postgresql/9.3/bin/postgres¦-D¦/var/lib/postgresql/9.3/main¦-c¦config_file=/etc/postgresql/9.3/main/postgresql.conf
+from,ubuntu:14.04
+/etc/postgresql :: volume_operation,()
+createdb ¦-U¦postgres¦-O¦pgdbuser¦-E¦utf8¦-T¦template0¦sfa :: Other_operation,()
+/var/log/postgresql :: volume_operation,()
+echo ¦echo¦'' > /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+createuser ¦-U¦postgres¦-d¦pgdbuser¦--no-superuser¦--no-createrole :: Other_operation,()
+expose,5432
+postgres :: user_operation,()
+service ¦postgresql¦start :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 trust" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+/var/lib/postgresql :: volume_operation,()
+apt-get ¦-y¦install¦-y¦postgresql-9.3¦postgresql-client-9.3 :: Dependencies_operation,()
+echo ¦echo¦'local all all trust' >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()

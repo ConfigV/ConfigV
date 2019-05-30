@@ -1,0 +1,19 @@
+apt-get ¦-qq¦-y¦update :: Dependencies_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+/opt/kapacitor :: workdir_operation,()
+/tmp :: workdir_operation,()
+KAPACITOR_VERSION=kapacitor_0.10.1-1: :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/gosu :: Permissions_operation,()
+from,jgeiger/ubuntu
+cmd,kapacitord
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+expose,9092
+apt-get ¦autoremove :: Dependencies_operation,()
+entrypoint,/tini¦--¦/entrypoint.sh
+KAPACITOR_FILE=${KAPACITOR_VERSION}_amd64.deb: :: env_operation,()
+dpkg ¦-i¦${KAPACITOR_FILE} :: Dependencies_operation,()
+wget ¦--quiet¦--output-document¦/usr/local/bin/gosu¦"https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" :: Dependencies_operation,()
+wget ¦--quiet¦https://s3.amazonaws.com/kapacitor/${KAPACITOR_FILE} :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+root :: user_operation,()

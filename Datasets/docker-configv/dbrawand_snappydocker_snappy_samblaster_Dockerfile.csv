@@ -1,0 +1,16 @@
+git ¦checkout¦v.0.1.22 :: Dependencies_operation,()
+cd ¦samblaster :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+cmd,/bin/bash
+mkdir ¦-p¦/usr/local/pipeline/samblaster :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+ln ¦-s¦/usr/local/pipeline/samblaster/samblaster¦/usr/local/bin/ :: Filesystem_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/samblaster :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline :: Permissions_operation,()
+from,viapath/snappy_ngstools
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/samblaster'¦/home/snappy/.bashrc :: Filesystem_operation,()
+cp ¦samblaster¦/usr/local/pipeline/samblaster/ :: Filesystem_operation,()
+git ¦clone¦git://github.com/GregoryFaust/samblaster.git :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()

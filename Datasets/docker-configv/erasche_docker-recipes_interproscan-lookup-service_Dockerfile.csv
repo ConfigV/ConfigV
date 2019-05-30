@@ -1,0 +1,9 @@
+expose,8080
+from,debian@wheezy
+wget ¦ftp://ftp.ebi.ac.uk/pub/software/unix/iprscan/5/lookup_service/lookup_service_5.6-48.0.tar.gz.md5 :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦--no-install-recommends¦-y¦install¦openjdk-7-jre :: Other_operation,()
+tar ¦-pxvzf¦lookup_service_5.6-48.0.tar.gz :: Filesystem_operation,()
+cmd,java¦-Xmx2000m¦-jar¦lookup_service_5.6-48.0/server-5.6-48.0-jetty-console.war¦--sslProxied¦--port¦8080¦--forwarded¦--contextPath¦/i5lookup/¦--headless
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-qq¦update :: Other_operation,()
+wget ¦ftp://ftp.ebi.ac.uk/pub/software/unix/iprscan/5/lookup_service/lookup_service_5.6-48.0.tar.gz :: Dependencies_operation,()
+md5sum ¦-c¦lookup_service_5.6-48.0.tar.gz.md5 :: Other_operation,()

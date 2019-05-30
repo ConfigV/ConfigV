@@ -1,0 +1,10 @@
+/media :: volume_operation,()
+chown ¦-R¦nobody:users¦/opt/plexmediaserver :: Permissions_operation,()
+chmod ¦-R¦775¦/opt/plexmediaserver :: Permissions_operation,()
+from,binhex/arch-base
+pacman ¦-Sy¦--noconfirm :: Filesystem_operation,()
+plexmediaserver/etc/conf.d/plexmediaserver :: add_operation,()
+plexmediaserver.conf/etc/supervisor/conf.d/plexmediaserver.conf :: add_operation,()
+packer ¦-S¦plexmediaserver¦--noconfirm :: Other_operation,()
+cmd,supervisord¦-c¦/etc/supervisor.conf¦-n
+expose,32400

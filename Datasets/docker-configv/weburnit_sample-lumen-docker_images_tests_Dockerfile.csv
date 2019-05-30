@@ -1,0 +1,16 @@
+/root/oms-qaa/api_adapter/bootstrap.sh  :: Other_operation,()
+cmd,/bin/bash¦/root/oms-qaa/run_all.sh
+from,python:3.4
+/root :: workdir_operation,()
+touch ¦/root/.ssh/known_hosts :: Filesystem_operation,()
+/root/oms-qaa :: workdir_operation,()
+mkdir ¦/root/.ssh/ :: Filesystem_operation,()
+git ¦pull :: Dependencies_operation,()
+git ¦checkout¦origin/OPSQA-37_Make_apiadapter_tests_infrastructure_runable_in_one_compose_file :: Dependencies_operation,()
+pip ¦install¦-v¦-r¦requirements.txt :: Dependencies_operation,()
+id_rsa/root/.ssh/id_rsa :: add_operation,()
+apt-get ¦install¦telnet :: Dependencies_operation,()
+ssh-keyscan ¦bitbucket.org¦>>¦/root/.ssh/known_hosts :: Other_operation,()
+git ¦clone¦git@bitbucket.org:super-ops-team/oms-qaa.git :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()

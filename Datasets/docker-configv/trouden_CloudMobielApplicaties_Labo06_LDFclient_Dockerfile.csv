@@ -1,0 +1,15 @@
+dir:/var/www/online-client :: env_operation,()
+cp ¦-r¦queries¦/tmp/queries/ :: Filesystem_operation,()
+mkdir ¦-p¦/var/www/http-server :: Filesystem_operation,()
+${dir} :: workdir_operation,()
+from,node@latest
+npm ¦install¦--unsafe-perm :: Dependencies_operation,()
+git ¦clone¦https://github.com/LinkedDataFragments/jQuery-Widget.js¦. :: Dependencies_operation,()
+npm ¦install¦http-server :: Dependencies_operation,()
+cp ¦settings.json¦/tmp :: Filesystem_operation,()
+settings.json${dir} :: add_operation,()
+cmd,cp¦/tmp/settings.json¦settings.json¦&&¦rm¦-rf¦queries¦&&¦cp¦-r¦/tmp/queries¦queries/¦&&¦npm¦start¦&&¦http-server¦${dir}
+cd ¦${dir} :: Filesystem_operation,()
+cd ¦/var/www/http-server :: Filesystem_operation,()
+mkdir ¦-p¦${dir} :: Filesystem_operation,()
+expose,8080

@@ -1,0 +1,17 @@
+REDIS_VERSION:2.8.13 :: env_operation,()
+/data :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+groupadd ¦-r¦redis :: Permissions_operation,()
+dirname ¦"$REDIS_RUN" :: Other_operation,()
+echo ¦buildDeps='gcc¦libc6-dev make'; set -x; apt-get update && apt-get install -y $buildDeps curl --no-install-recommends && rm -rf /var/lib/apt/lists/* && mkdir -p /usr/src/redis && curl -sSL "$REDIS_DOWNLOAD_URL" -o redis.tar.gz && echo "$RED... :: Filesystem_operation,()
+expose,6379
+REDIS_DOWNLOAD_SHA1:a72925a35849eb2d38a1ea076a3db82072d4ee43 :: env_operation,()
+REDIS_RUN:/etc/service/redis/run :: env_operation,()
+REDIS_DOWNLOAD_URL:http://download.redis.io/releases/redis-2.8.13.tar.gz :: env_operation,()
+/data :: workdir_operation,()
+chown ¦redis:redis¦/data :: Permissions_operation,()
+from,y12elk/base
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init
+useradd ¦-r¦-g¦redis¦redis :: Permissions_operation,()

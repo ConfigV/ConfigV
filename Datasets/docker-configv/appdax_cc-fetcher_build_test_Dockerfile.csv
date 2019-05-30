@@ -1,0 +1,15 @@
+Gemfile.lock$APP_HOME :: copy_operation,()
+mkdir ¦$APP_HOME :: Filesystem_operation,()
+BUILD_PACKAGES:ruby-dev :: env_operation,()
+.$APP_HOME :: copy_operation,()
+from,alpine:3.4
+cmd,bundle¦exec¦rspec¦spec¦--fail-fast¦--failure-exit-code¦1
+Gemfile$APP_HOME :: copy_operation,()
+apk ¦update :: Dependencies_operation,()
+RUBY_PACKAGES:ruby :: env_operation,()
+apk ¦add¦--no-cache¦$BUILD_PACKAGES :: Dependencies_operation,()
+apk ¦add¦--no-cache¦$RUBY_PACKAGES :: Dependencies_operation,()
+$APP_HOME :: workdir_operation,()
+APP_HOME:/usr/app/ :: env_operation,()
+bundle ¦install¦--path¦vendor/bundle¦--no-cache¦--without¦development :: Dependencies_operation,()
+gem ¦install¦bundler¦--no-ri¦--no-rdoc :: Dependencies_operation,()

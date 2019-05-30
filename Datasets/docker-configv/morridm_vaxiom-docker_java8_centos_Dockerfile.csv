@@ -1,0 +1,13 @@
+cd ¦/opt/ :: Filesystem_operation,()
+JAVA_HEAP_SIZE:512 :: env_operation,()
+wget ¦--no-verbose¦--no-cookies¦--no-check-certificate¦--header¦"Cookie:¦gpw_e24=http%3A%2F%2Fwww.oracle.com%2F;¦oraclelicense=accept-securebackup-cookie"¦"http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.rpm" :: Dependencies_operation,()
+PATH:$PATH:$JAVA_HOME/bin :: env_operation,()
+update-alternatives ¦--install¦/usr/bin/javaws¦javaws¦/usr/java/jdk1.8*/bin/javaws¦1065 :: Other_operation,()
+update-alternatives ¦--install¦/usr/bin/javac¦javac¦/usr/java/jdk1.8*/bin/javac¦1065 :: Other_operation,()
+yum ¦install¦-y¦jdk-8u5-linux-x64.rpm¦poppler-utils¦curl¦vim-enhanced¦perl¦memcached :: Dependencies_operation,()
+from,vaxiom/centos:latest
+echo ¦echo¦"JAVA_HOME=/usr/java/jdk1.8.0_05" >> /etc/environment :: Filesystem_operation,()
+update-alternatives ¦--install¦/usr/bin/java¦java¦/usr/java/jdk1.8*/bin/java¦1065 :: Other_operation,()
+JAVA_HOME:/usr/java/jdk1.8.0_05 :: env_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+update-alternatives ¦--install¦/usr/bin/jar¦jar¦/usr/java/jdk1.8*/bin/jar¦1065 :: Other_operation,()

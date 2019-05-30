@@ -1,0 +1,23 @@
+tar ¦xvzf¦elasticsearch-$ES_VERSION.tar.gz :: Filesystem_operation,()
+cmd,elasticsearch
+chmod ¦a+x¦/etc/docker-entrypoint/commands.d/elasticsearch :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,9300
+rm ¦-f¦elasticsearch-$ES_VERSION.tar.gz :: Filesystem_operation,()
+export ¦ES_VERSION=1.2.4 :: Environment_operation,()
+elasticsearch.yml/elasticsearch/config/elasticsearch.yml :: add_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦openjdk-7-jre-headless :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64 :: env_operation,()
+/data :: volume_operation,()
+wget ¦-q¦https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz :: Dependencies_operation,()
+mv ¦/tmp/elasticsearch-$ES_VERSION¦/elasticsearch :: Filesystem_operation,()
+elasticsearch-command.sh/etc/docker-entrypoint/commands.d/elasticsearch :: add_operation,()
+useradd ¦-s¦/bin/false¦-d¦/data¦-m¦elasticsearch :: Permissions_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+elasticsearch-pre.sh/etc/docker-entrypoint/pre.d/elasticsearch-pre.sh :: add_operation,()
+ES_CLUSTER_NAME:cikl :: env_operation,()
+from,cikl/base:0.0.2
+/data :: workdir_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()

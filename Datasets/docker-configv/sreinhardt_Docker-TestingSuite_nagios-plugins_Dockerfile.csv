@@ -1,0 +1,17 @@
+nagios-plugins-release-2.0.3/ :: workdir_operation,()
+entrypoint,/bin/bash
+nagios_user:nagios :: env_operation,()
+./configure ¦--with-nagios-user=${nagios_user}¦--with-nagios-group=${nagios_group}¦--prefix=/usr/local/ncpa¦--libexecdir=/usr/local/ncpa/plugins :: Build_Execute_operation,()
+rm ¦-rf¦/tmp/nagios-plugins-release-${plugins_version}/ :: Filesystem_operation,()
+/tmp/ :: workdir_operation,()
+tar ¦xzvf¦nagios-plugins-${plugins_version}.tar.gz :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+./tools/setup  :: Other_operation,()
+yum ¦install¦-y¦wget¦httpd¦php¦gcc¦glibc¦glibc-common¦gd¦gd-devel¦make¦net-snmp¦automake¦autoconfopenssl-devel¦mysql-devel¦fping¦perl-Net-SNMP¦openssh-devel¦net-snmp-utils¦bind-utils¦samba-client¦gettext¦automake¦libtool :: Dependencies_operation,()
+usermod ¦-a¦-G¦${nagios_group}¦nagios :: Permissions_operation,()
+nagios_group:nagios :: env_operation,()
+plugins_version:2.0.3 :: env_operation,()
+make ¦install :: Build_Execute_operation,()
+https://github.com/nagios-plugins/nagios-plugins/archive/release-${plugins_version}.tar.gz/tmp/nagios-plugins-${plugins_version}.tar.gz :: add_operation,()
+from,sreinhardt/centos-6-x86_64:latest
+groupadd ¦${nagios_group} :: Permissions_operation,()

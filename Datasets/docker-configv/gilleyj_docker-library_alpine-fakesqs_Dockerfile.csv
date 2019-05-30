@@ -1,0 +1,16 @@
+apk ¦--update¦--no-cache¦add¦--virtual¦.base_package¦bash¦ca-certificates¦--virtual¦.basic_ruby¦ruby¦ruby-bundler :: Dependencies_operation,()
+LINK_PATH:/ :: env_operation,()
+LINK_PASSWORD:password :: env_operation,()
+mkdir ¦-p¦/var/data/sqs :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+container_confs/ :: copy_operation,()
+SQS_USERNAME:convox :: env_operation,()
+SQS_PASSWORD:password :: env_operation,()
+/var/data/sqs/ :: volume_operation,()
+LINK_USERNAME:convox :: env_operation,()
+entrypoint,/entrypoint.sh
+gem ¦install¦fake_sqs¦--no-ri¦--no-rdoc :: Dependencies_operation,()
+SQS_PATH:/ :: env_operation,()
+from,alpine:3.4
+cmd,fakesqs
+expose,4568

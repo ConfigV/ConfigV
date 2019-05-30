@@ -1,0 +1,22 @@
+/data :: volume_operation,()
+expose,25565
+minecraft :: user_operation,()
+unzip ¦FTBInfinityServer.zip :: Filesystem_operation,()
+addgroup ¦--gid¦1234¦minecraft :: Permissions_operation,()
+JVM_OPTS:-Xms2048m :: env_operation,()
+cd ¦/tmp/feed-the-beast :: Filesystem_operation,()
+bash ¦-x¦FTBInstall.sh :: Build_Execute_operation,()
+MOTD:A :: env_operation,()
+rm ¦FTBInfinityServer.zip :: Filesystem_operation,()
+cmd,/start
+apt-get ¦install¦-y¦wget¦unzip :: Dependencies_operation,()
+/data :: workdir_operation,()
+chown ¦-R¦minecraft¦/tmp/feed-the-beast :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/tmp/feed-the-beast :: Filesystem_operation,()
+server.properties/tmp/server.properties :: add_operation,()
+LEVEL:world :: env_operation,()
+wget ¦-c¦http://ftb.cursecdn.com/FTB2/modpacks/FTBInfinity/1_7_0/FTBInfinityServer.zip :: Dependencies_operation,()
+adduser ¦--disabled-password¦--home=/data¦--uid¦1234¦--gid¦1234¦--gecos¦"minecraft¦user"¦minecraft :: Permissions_operation,()
+from,java:8.0
+start.sh/start :: add_operation,()

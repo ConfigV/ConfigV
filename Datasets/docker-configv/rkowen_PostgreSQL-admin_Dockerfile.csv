@@ -1,0 +1,18 @@
+apt-get ¦-y¦-qq¦upgrade :: Dependencies_operation,()
+apt-get ¦install¦-y¦-qq¦phppgadmin :: Dependencies_operation,()
+apt-get ¦-y¦-qq¦update :: Dependencies_operation,()
+cmd,-D¦FOREGROUND
+root :: user_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+/bin/ln ¦-s¦/etc/apache2/conf.d/phppgadmin¦/etc/apache2/conf-enabled/. :: Other_operation,()
+fqdn.conf/etc/apache2/conf-enabled/ :: add_operation,()
+www.conf/etc/apache2/sites-enabled/ :: add_operation,()
+/bin/rm ¦/etc/apache2/sites-enabled/000-default.conf :: Other_operation,()
+config.inc.php/etc/phppgadmin/ :: add_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+entrypoint,/usr/sbin/apache2
+from,ubuntu:14.04
+expose,80
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()

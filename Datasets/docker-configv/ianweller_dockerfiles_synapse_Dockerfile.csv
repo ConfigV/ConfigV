@@ -1,0 +1,10 @@
+from,alpine@edge
+SYNAPSE_VERSION="0.15.0-rc1"  :: Other_operation,()
+BUILD_PKGS="py-pip ¦python-dev¦openssl-dev¦gcc¦make¦musl-dev" :: Other_operation,()
+apk ¦del¦--rdepends¦$BUILD_PKGS :: Dependencies_operation,()
+cmd,python¦-m¦synapse.app.homeserver¦--config-path¦/data/homeserver.yaml
+/data :: volume_operation,()
+pip ¦install¦https://github.com/matrix-org/synapse/archive/v$SYNAPSE_VERSION.tar.gz :: Dependencies_operation,()
+apk ¦add¦--no-cache¦python¦openssl¦py-setuptools¦py-cffi¦py-pillow¦$BUILD_PKGS :: Dependencies_operation,()
+apk ¦upgrade¦--no-cache :: Dependencies_operation,()
+rm ¦-rf¦/root/.cache :: Filesystem_operation,()

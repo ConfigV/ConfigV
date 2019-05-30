@@ -1,0 +1,17 @@
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+STATIC_INDEX:0 :: env_operation,()
+cmd,/start.sh
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+STATIC_URL:/static :: env_operation,()
+./app/app :: copy_operation,()
+UWSGI_INI:/app/uwsgi.ini :: env_operation,()
+NGINX_MAX_UPLOAD:0 :: env_operation,()
+STATIC_PATH:/app/static :: env_operation,()
+LISTEN_PORT:80 :: env_operation,()
+from,tiangolo/uwsgi-nginx:python2.7-alpine3.7
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+pip ¦install¦flask :: Dependencies_operation,()
+/app :: workdir_operation,()
+PYTHONPATH=/app: :: env_operation,()
+start.sh/start.sh :: copy_operation,()
+entrypoint,/entrypoint.sh

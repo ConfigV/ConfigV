@@ -1,0 +1,13 @@
+echo ¦cat¦/etc/apt/sources.list | sed -e 's/main/non-free/' >/etc/apt/sources.list.d/debian-non-free.list && echo "deb http://http.debian.net/debian wheezy-backports main" >/etc/apt/sources.list.d/debian-backports.list && apt-get -qq update && a... :: Filesystem_operation,()
+echo ¦apt-get¦update -qq -y && apt-get install -qqy --no-install-recommends wget supervisor && mkdir -p /root/packages && cd /root/packages && wget -q http://download.zarafa.com/community/final/7.2/7.2.0-48204/zcp-7.2.0-48204-debian-7.0-x86_64-o... :: Filesystem_operation,()
+from,debian@wheezy
+en_US.UTF-8.*\\  :: Other_operation,()
+apt-get ¦install¦-qqy¦--force-yes¦net-tools¦vim-nox¦lynx¦dnsutils :: Dependencies_operation,()
+cmd,/scripts/docker-command.sh
+chmod ¦+x¦/etc/supervisor/scripts/* :: Permissions_operation,()
+expose,993
+LC_ALL:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+chmod ¦+x¦/scripts/* :: Permissions_operation,()
+entrypoint,/scripts/docker-entrypoint.sh
+files// :: copy_operation,()

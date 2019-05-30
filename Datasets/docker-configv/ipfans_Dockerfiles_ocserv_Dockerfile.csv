@@ -1,0 +1,12 @@
+certtool ¦--generate-self-signed¦--load-privkey¦/opt/certs/ca-key.pem¦--template¦/opt/certs/ca-tmp¦--outfile¦/opt/certs/ca-cert.pem :: Other_operation,()
+chmod ¦a+x¦/usr/local/bin/* :: Permissions_operation,()
+certtool ¦--generate-privkey¦--outfile¦/opt/certs/ca-key.pem :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+certtool ¦--generate-certificate¦--load-privkey¦/opt/certs/server-key.pem¦--load-ca-certificate¦/opt/certs/ca-cert.pem¦--load-ca-privkey¦/opt/certs/ca-key.pem¦--template¦/opt/certs/serv-tmp¦--outfile¦/opt/certs/server-cert.pem :: Other_operation,()
+./certs/opt/certs :: add_operation,()
+./bin/usr/local/bin :: add_operation,()
+from,ubuntu@trusty
+certtool ¦--generate-privkey¦--outfile¦/opt/certs/server-key.pem :: Other_operation,()
+cmd,vpn_run
+apt-get ¦install¦build-essential¦libwrap0-dev¦libpam0g-dev¦libdbus-1-dev¦libreadline-dev¦libnl-route-3-dev¦libpcl1-dev¦libopts25-dev¦autogen¦libgnutls28¦libgnutls28-dev¦libseccomp-dev¦iptables¦wget¦gnutls-bin¦libprotobuf-c0-dev¦protobuf-c-compiler¦... :: Dependencies_operation,()
+/etc/ocserv :: workdir_operation,()

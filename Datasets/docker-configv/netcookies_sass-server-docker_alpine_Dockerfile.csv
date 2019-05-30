@@ -1,0 +1,15 @@
+mkdir ¦/app :: Filesystem_operation,()
+from,node@alpine
+git ¦config¦--system¦http.sslverify¦false :: Dependencies_operation,()
+bower ¦install¦--production¦--silent¦--config.interactive=false¦--allow-root :: Dependencies_operation,()
+bower ¦--allow-root¦cache¦clean :: Dependencies_operation,()
+git ¦clone¦https://github.com/netcookies/sass-server-gulp.git :: Dependencies_operation,()
+yarn ¦install :: Other_operation,()
+rm ¦-rf¦src/ :: Filesystem_operation,()
+yarn ¦global¦add¦gulpjs/gulp#4.0¦bower :: Other_operation,()
+yarn ¦cache¦clean :: Other_operation,()
+entrypoint,gulp
+rm ¦-rf¦yarn.lock :: Filesystem_operation,()
+cd ¦/app/sass-server-gulp :: Filesystem_operation,()
+cd ¦/app :: Filesystem_operation,()
+/app/sass-server-gulp/ :: workdir_operation,()

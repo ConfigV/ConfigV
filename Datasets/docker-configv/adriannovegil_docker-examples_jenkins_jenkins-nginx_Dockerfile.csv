@@ -1,0 +1,13 @@
+conf/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+rm ¦-f¦/var/lib/rpm/__* :: Filesystem_operation,()
+rm ¦/etc/nginx/conf.d/example_ssl.conf :: Filesystem_operation,()
+conf/jenkins.conf/etc/nginx/conf.d/jenkins.conf :: copy_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+rm ¦/etc/nginx/conf.d/default.conf :: Filesystem_operation,()
+rpm ¦--rebuilddb¦-v¦-v :: Dependencies_operation,()
+yum ¦-y¦-v¦install¦http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm; :: Dependencies_operation,()
+sed ¦-i¦-e¦'s/enabled=1/enabled=0/g'¦/etc/yum/pluginconf.d/fastestmirror.conf :: Filesystem_operation,()
+cmd,nginx
+yum ¦-y¦-v¦install¦nginx-1.8.0 :: Dependencies_operation,()
+expose,80

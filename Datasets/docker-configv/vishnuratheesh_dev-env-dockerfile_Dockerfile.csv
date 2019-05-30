@@ -1,0 +1,11 @@
+echo ¦curl¦-sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list :: Filesystem_operation,()
+mkdir ¦/application :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+echo ¦echo¦'Created a container with Python 3 and ready to install requirements from /application/requirements.txt requirements file.' :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦upgrade :: Dependencies_operation,()
+from,ubuntu:16.04
+cmd,bash
+/application :: workdir_operation,()
+apt-get ¦install¦-y¦vim¦php-curl¦python¦python-dev¦python-pip¦python-virtualenv¦python-software-properties¦nodejs :: Dependencies_operation,()

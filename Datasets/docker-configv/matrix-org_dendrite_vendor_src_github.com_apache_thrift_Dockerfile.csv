@@ -1,0 +1,18 @@
+buildDeps=" ¦flex¦bison¦g++¦make¦cmake¦curl¦";¦apt-get¦update :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp/cmake-build :: Filesystem_operation,()
+tar ¦xzf¦/tmp/go.tar.gz¦-C¦/tmp :: Filesystem_operation,()
+./thrift :: add_operation,()
+entrypoint,thrift
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-k¦-sSL¦"https://storage.googleapis.com/golang/go1.5.2.linux-amd64.tar.gz"¦-o¦/tmp/go.tar.gz :: Dependencies_operation,()
+cmake ¦--build¦.¦--config¦Release :: Build_Execute_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦$buildDeps :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+from,debian@jessie
+cmake ¦-DBUILD_COMPILER=ON¦-DBUILD_LIBRARIES=OFF¦-DBUILD_TESTING=OFF¦-DBUILD_EXAMPLES=OFF¦/thrift :: Build_Execute_operation,()
+mkdir ¦/tmp/cmake-build :: Filesystem_operation,()
+cp ¦/tmp/go/bin/gofmt¦/usr/bin/gofmt :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦$buildDeps :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

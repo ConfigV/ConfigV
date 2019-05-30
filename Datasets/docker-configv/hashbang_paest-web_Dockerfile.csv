@@ -1,0 +1,15 @@
+/src :: workdir_operation,()
+rm ¦/etc/nginx/sites-enabled/* :: Filesystem_operation,()
+npm ¦install¦-g¦bower¦grunt¦grunt-cli :: Dependencies_operation,()
+grunt ¦build :: Other_operation,()
+expose,80
+cmd,nginx
+npm ¦install :: Dependencies_operation,()
+mv ¦dist¦/dist :: Filesystem_operation,()
+rm ¦-r¦src :: Filesystem_operation,()
+/dist :: workdir_operation,()
+cd ¦.. :: Filesystem_operation,()
+from,octohost/nodejs-nginx
+nginx.conf/etc/nginx/sites-enabled/paest.conf :: add_operation,()
+./src :: add_operation,()
+bower ¦install¦--allow-root :: Dependencies_operation,()

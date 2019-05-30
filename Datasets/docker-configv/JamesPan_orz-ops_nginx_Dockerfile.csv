@@ -1,0 +1,8 @@
+expose,80
+apk ¦--update¦add¦nginx :: Dependencies_operation,()
+./dockerize/usr/local/bin/ :: add_operation,()
+cmd,dockerize¦-stdout¦/var/log/nginx/access.log¦-stderr¦/var/log/nginx/error.log¦nginx¦-g¦daemon off;
+from,alpine:3.2
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+sites/*/etc/nginx/sites-enabled/ :: copy_operation,()

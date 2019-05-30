@@ -1,0 +1,9 @@
+expose,8443
+FOREGROUND:true :: env_operation,()
+/heritrix-data :: volume_operation,()
+heritrix-3.2.0-dist.tar.gz/tmp/ :: add_operation,()
+from,java@sha256:ea18d1cf75d819b8e1b2b9907d671703b8139598829492c315b0305205a2d0f1
+ls ¦/tmp :: Filesystem_operation,()
+/opt/heritrix :: workdir_operation,()
+mv ¦/tmp/heritrix-3.2.0¦/opt/heritrix :: Filesystem_operation,()
+cmd,/opt/heritrix/bin/heritrix¦--web-admin¦${HERITRIX_USER}:${HERITRIX_PASSWORD}¦--web-bind-hosts¦0.0.0.0¦--jobs-dir¦/heritrix-data/jobs

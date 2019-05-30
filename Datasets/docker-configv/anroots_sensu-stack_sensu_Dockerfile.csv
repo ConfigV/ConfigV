@@ -1,0 +1,5 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dockerize-0.0.4/usr/local/bin/dockerize :: copy_operation,()
+sensu.key.gpg/tmp/ :: copy_operation,()
+from,debian@latest
+echo ¦apt-key¦add /tmp/sensu.key.gpg && rm /tmp/sensu.key.gpg && echo "deb http://repos.sensuapp.org/apt sensu main" >> /etc/apt/sources.list.d/sensu.list && apt-get update && apt-get install -y sensu && apt-get clean -y && rm -rf /var/lib/apt/*... :: Filesystem_operation,()

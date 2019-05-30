@@ -1,0 +1,12 @@
+expose,2368
+/ghost :: workdir_operation,()
+npm ¦install¦mysql :: Dependencies_operation,()
+from,dockerfile/ghost
+/ghost-override :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+NODE_ENV:production :: env_operation,()
+apt-get ¦install¦-y¦mysql-client :: Dependencies_operation,()
+cmd,bash¦/ghost-start
+cd ¦/ghost :: Filesystem_operation,()
+npm ¦install¦--production :: Dependencies_operation,()
+/data :: volume_operation,()

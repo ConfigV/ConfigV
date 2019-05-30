@@ -1,0 +1,8 @@
+from,jboss/base-jdk:8
+expose,8080
+echo ¦echo¦"JAVA_OPTS=\\"\\$JAVA_OPTS -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0\\"" >> ${JBOSS_HOME}/bin/standalone.conf :: Filesystem_operation,()
+cmd,${JBOSS_HOME}/bin/standalone.sh
+${JBOSS_HOME}/bin/add-user.sh ¦admin¦Wildfly@Adm1n¦--silent :: Other_operation,()
+shared/jboss-eap-6.4.0.zip/tmp/ :: add_operation,()
+JBOSS_HOME:/opt/jboss/jboss-eap-6.4 :: env_operation,()
+unzip ¦/tmp/jboss-eap-6.4.0.zip¦-d¦/opt/jboss :: Filesystem_operation,()

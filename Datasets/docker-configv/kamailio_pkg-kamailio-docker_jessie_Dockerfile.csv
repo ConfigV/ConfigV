@@ -1,0 +1,12 @@
+REFRESHED_AT:2016-09-20 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'s/httpredir/ftp.us/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+mkdir ¦-p¦/usr/local/src/pkg :: Filesystem_operation,()
+debian/usr/local/src/pkg/debian :: copy_operation,()
+apt-get ¦install¦--assume-yes¦clang-3.5¦pbuilder :: Dependencies_operation,()
+from,debian@jessie
+/code :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cd ¦/usr/local/src/pkg/ :: Filesystem_operation,()
+/usr/lib/pbuilder/pbuilder-satisfydepends-experimental  :: Other_operation,()

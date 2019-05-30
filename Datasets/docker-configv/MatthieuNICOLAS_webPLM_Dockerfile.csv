@@ -1,0 +1,17 @@
+/app/webplm-dist :: workdir_operation,()
+target/universal/stage/app/webplm-dist :: add_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦-q¦apt-utils¦curl¦ca-certificates¦git¦unzip :: Dependencies_operation,()
+rm ¦scala-2.11.7.tgz :: Filesystem_operation,()
+curl ¦-O¦http://downloads.typesafe.com/scala/2.11.7/scala-2.11.7.tgz :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+PATH:$PATH:$SCALA_HOME/bin :: env_operation,()
+cmd,bin/web-plm
+/app :: workdir_operation,()
+tar ¦xvfz¦scala-2.11.7.tgz¦-C¦/ :: Filesystem_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+SCALA_HOME:/scala-2.11.7 :: env_operation,()
+echo ¦echo¦"deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list && echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/web... :: Filesystem_operation,()
+expose,9000
+from,debian@jessie

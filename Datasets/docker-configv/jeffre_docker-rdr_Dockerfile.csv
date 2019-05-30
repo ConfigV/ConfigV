@@ -1,0 +1,11 @@
+entrypoint,/docker-entrypoint.sh
+from,centos@latest
+rdr/./ :: copy_operation,()
+ahsay :: user_operation,()
+chown ¦-R¦400:400¦. :: Permissions_operation,()
+expose,8080 8443
+ifconfig/usr/bin/ :: copy_operation,()
+useradd ¦--uid¦400¦--gid¦400¦--no-create-home¦ahsay :: Permissions_operation,()
+groupadd ¦--gid¦400¦ahsay :: Permissions_operation,()
+/rdr :: workdir_operation,()
+docker-entrypoint.sh/ :: copy_operation,()

@@ -1,0 +1,18 @@
+ln ¦-s¦/usr/local/pipeline/kraken/kraken-mpa-report¦/usr/local/bin/ :: Filesystem_operation,()
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+git ¦clone¦--recursive¦https://github.com/DerrickWood/kraken.git :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+ln ¦-s¦/usr/local/pipeline/kraken/kraken-report¦/usr/local/bin/ :: Filesystem_operation,()
+ln ¦-s¦/usr/local/pipeline/kraken/kraken¦/usr/local/bin/ :: Filesystem_operation,()
+sh ¦install_kraken.sh¦/usr/local/pipeline/kraken :: Build_Execute_operation,()
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/kraken'¦/home/snappy/.bashrc :: Filesystem_operation,()
+cd ¦/tmp/kraken :: Filesystem_operation,()
+rm ¦-rvf¦/tmp/* :: Filesystem_operation,()
+ln ¦-s¦/usr/local/pipeline/kraken/kraken-build¦/usr/local/bin/ :: Filesystem_operation,()
+ln ¦-s¦/usr/local/pipeline/kraken/kraken-translate¦/usr/local/bin/ :: Filesystem_operation,()
+git ¦checkout¦adfaa267ebdc9f16946fa4a19ddb1bb6e7cb5a97 :: Dependencies_operation,()
+from,viapath/snappy_base
+chmod ¦-R¦755¦/usr/local/pipeline/kraken :: Permissions_operation,()
+ln ¦-s¦/usr/local/pipeline/kraken/kraken-filter¦/usr/local/bin/ :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+cmd,/bin/bash

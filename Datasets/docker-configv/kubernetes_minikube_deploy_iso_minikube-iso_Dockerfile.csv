@@ -1,0 +1,12 @@
+cmd,/bin/bash
+apt-get ¦install¦-y¦¦build-essential¦¦git¦¦wget¦¦cpio¦¦python¦¦unzip¦¦bc¦¦gcc-multilib¦¦automake¦¦libtool¦¦gnupg2¦¦p7zip-full¦¦locales :: Dependencies_operation,()
+LANG:en_US.utf8 :: env_operation,()
+make ¦-C¦dumb-init-1.2.0 :: Build_Execute_operation,()
+wget ¦-O¦-¦https://github.com/Yelp/dumb-init/archive/v1.2.0.tar.gz¦|¦tar¦xvzf¦- :: Dependencies_operation,()
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦-A¦/usr/share/locale/locale.alias¦en_US.UTF-8 :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+rm ¦-rf¦dumb-init-1.2.0 :: Filesystem_operation,()
+mv ¦dumb-init-1.2.0/dumb-init¦/usr/bin :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/bin/dumb-init¦--
+from,ubuntu:16.04

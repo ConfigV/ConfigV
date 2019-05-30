@@ -1,0 +1,17 @@
+Gemfile.lock/tmp/app/Gemfile.lock :: add_operation,()
+./opt/test_server/ :: add_operation,()
+https_proxy=https://172.17.42.1:3128: :: env_operation,()
+entrypoint,/usr/local/bundle/bin/rails¦server
+cmd,--port=80
+RAILS_ENV=production: :: env_operation,()
+Gemfile/tmp/app/Gemfile :: add_operation,()
+expose,80
+apt-get ¦install¦-y¦libmagic1¦libmagic-dev :: Dependencies_operation,()
+mkdir ¦-p¦/tmp/app :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+mkdir ¦-p¦/opt/test_server/ :: Filesystem_operation,()
+from,ruby@latest
+/opt/test_server :: workdir_operation,()
+/tmp/app :: workdir_operation,()
+http_proxy=http://172.17.42.1:3128: :: env_operation,()
+bundle ¦install¦--deployment :: Dependencies_operation,()

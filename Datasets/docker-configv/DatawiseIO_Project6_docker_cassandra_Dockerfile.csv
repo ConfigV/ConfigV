@@ -1,0 +1,11 @@
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+CASSANDRA_CONFIG:/etc/cassandra :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦514A2AD631A57A16DD0047EC749D6EEC0353B12C :: Dependencies_operation,()
+apt-get ¦install¦-y¦cassandra :: Dependencies_operation,()
+cmd,cassandra¦-f
+entrypoint,/docker-entrypoint.sh
+from,debian@jessie
+echo ¦echo¦'deb http://www.apache.org/dist/cassandra/debian 21x main' >> /etc/apt/sources.list.d/cassandra.list :: Filesystem_operation,()
+rpc_address:  :: Other_operation,()

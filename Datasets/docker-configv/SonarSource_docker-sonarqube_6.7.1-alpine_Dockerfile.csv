@@ -1,0 +1,14 @@
+SONAR_VERSION=6.7.1:SONARQUBE_HOME=/opt/sonarqube :: env_operation,()
+addgroup ¦-S¦sonarqube :: Permissions_operation,()
+apk ¦add¦--no-cache¦bash :: Dependencies_operation,()
+apk ¦add¦--no-cache¦libressl¦wget :: Dependencies_operation,()
+adduser ¦-S¦-G¦sonarqube¦sonarqube :: Permissions_operation,()
+set ¦-x :: Environment_operation,()
+$SONARQUBE_HOME :: workdir_operation,()
+apk ¦add¦--no-cache¦su-exec :: Dependencies_operation,()
+run.sh$SONARQUBE_HOME/bin/ :: copy_operation,()
+from,openjdk:8.0
+"$SONARQUBE_HOME/data" :: volume_operation,()
+apk ¦add¦--no-cache¦gnupg¦unzip :: Dependencies_operation,()
+expose,9000
+entrypoint,./bin/run.sh

@@ -1,0 +1,16 @@
+MEMCACHED_THREADS:4 :: env_operation,()
+/shared :: volume_operation,()
+MEMCACHED_MAXMEM:64 :: env_operation,()
+entrypoint,manage
+mkdir ¦-p¦/shared :: Filesystem_operation,()
+apk-install ¦memcached¦libmemcached¦heimdal-telnet :: Dependencies_operation,()
+mkdir ¦-p¦/docker/libexec :: Filesystem_operation,()
+MEMCACHED_MAXCONN:1024 :: env_operation,()
+from,webhippie/alpine:latest
+ln ¦-sf¦/docker/libexec/manage¦/usr/bin/manage :: Filesystem_operation,()
+libexec/docker/libexec :: add_operation,()
+/var/lib/memcached :: volume_operation,()
+mkdir ¦-p¦/docker :: Filesystem_operation,()
+cmd,bash
+/docker :: workdir_operation,()
+expose,11211

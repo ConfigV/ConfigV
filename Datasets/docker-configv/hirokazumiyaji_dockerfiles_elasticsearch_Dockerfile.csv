@@ -1,0 +1,9 @@
+curl ¦-O¦https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/${ELASTICSEARCH_VERSION}/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz :: Dependencies_operation,()
+/usr/local/elasticsearch :: workdir_operation,()
+cmd,./bin/elasticsearch
+expose,9200
+ELASTICSEARCH_VERSION:2.1.1 :: env_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+tar ¦zxf¦elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz¦-C¦/usr/local/elasticsearch :: Filesystem_operation,()
+from,java:8.0
+mkdir ¦-p¦/usr/local/elasticsearch :: Filesystem_operation,()

@@ -1,0 +1,16 @@
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+chmod ¦u+s¦/usr/bin/ping :: Permissions_operation,()
+from,centos@latest
+yum ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"Hello World" > /var/www/html/index.html :: Filesystem_operation,()
+echo ¦echo¦"/usr/sbin/apachectl" >> /root/bin/startnaemon.sh :: Filesystem_operation,()
+yum ¦-y¦install¦mod_ssl¦naemon¦nagios-plugins-all¦postfix :: Dependencies_operation,()
+cmd,/bin/bash
+echo ¦echo¦"/usr/bin/naemon -d /etc/naemon/naemon.cfg" >> /root/bin/startnaemon.sh :: Filesystem_operation,()
+echo ¦echo¦"/usr/sbin/postfix start" >> /root/bin/startnaemon.sh :: Filesystem_operation,()
+expose,443
+echo ¦echo¦"#!/bin/bash" > /root/bin/startnaemon.sh :: Filesystem_operation,()
+yum ¦-y¦localinstall¦https://labs.consol.de/repo/stable/rhel7/i386/labs-consol-stable.rhel7.noarch.rpm :: Dependencies_operation,()
+/usr/bin/newaliases  :: Other_operation,()
+mkdir ¦/root/bin :: Filesystem_operation,()
+chmod ¦ug+x¦/root/bin/startnaemon.sh :: Permissions_operation,()

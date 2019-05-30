@@ -1,0 +1,10 @@
+entrypoint,/usr/bin/digikam
+from,ubuntu@vivid
+chown ¦-R¦user-dk:user-dk¦$HOME :: Permissions_operation,()
+apt-get ¦install¦-y¦digikam :: Dependencies_operation,()
+HOME:/home/user-dk :: env_operation,()
+QT_X11_NO_MITSHM=1: :: env_operation,()
+user-dk :: user_operation,()
+echo ¦echo¦"QT_X11_NO_MITSHM=1" >> /etc/environment :: Filesystem_operation,()
+useradd ¦--create-home¦--home-dir¦$HOME¦user-dk :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()

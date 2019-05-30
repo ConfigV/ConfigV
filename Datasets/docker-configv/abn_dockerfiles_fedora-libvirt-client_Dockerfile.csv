@@ -1,0 +1,8 @@
+yum ¦-y¦update :: Dependencies_operation,()
+from,fedora@latest
+echo ¦echo¦'uri_default = "qemu+tcp://libvirtd/system"' >> /etc/libvirt/libvirt.conf :: Filesystem_operation,()
+/var/lib/libvirt/ :: volume_operation,()
+yum ¦-y¦install¦virt-viewer¦virt-install¦libvirt-client :: Dependencies_operation,()
+cmd,/usr/bin/virsh
+RUNyum -y update && yum -y clean all :: onbuild_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()

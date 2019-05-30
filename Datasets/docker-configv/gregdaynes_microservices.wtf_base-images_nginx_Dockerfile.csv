@@ -1,0 +1,10 @@
+expose,80
+mv ¦consul-template¦/bin :: Filesystem_operation,()
+from,mswtf/container-pilot:2.3
+curl ¦-Lo¦/tmp/consul_template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip¦https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦add¦nginx¦unzip :: Dependencies_operation,()
+CONSUL_TEMPLATE_VERSION:0.15.0 :: env_operation,()
+unzip ¦/tmp/consul_template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip :: Filesystem_operation,()
+nginx.sh/bin :: copy_operation,()
+apk ¦update :: Dependencies_operation,()

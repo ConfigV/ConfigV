@@ -1,0 +1,11 @@
+yum ¦-y¦reinstall¦glibc-common :: Dependencies_operation,()
+curl ¦-s¦https://packagecloud.io/install/repositories/imeyer/runit/script.rpm.sh¦|¦bash :: Dependencies_operation,()
+yum ¦-y¦install¦centos-release-scl.noarch :: Dependencies_operation,()
+yum ¦-y¦install¦rh-python34 :: Dependencies_operation,()
+yum ¦-y¦install¦wget¦tar¦net-tools¦telnet¦openssh-server¦openssh-clients¦sudo¦git¦cron :: Dependencies_operation,()
+container:docker :: env_operation,()
+build/build :: add_operation,()
+from,centos:7.0
+cmd,/sbin/my_init
+yum ¦-y¦install¦runit-2.1.1-7.el7.centos.x86_64 :: Dependencies_operation,()
+bash ¦/build/build.sh :: Build_Execute_operation,()

@@ -1,0 +1,22 @@
+apt-get ¦install¦xfce4¦xfce4-terminal¦firefox¦-y :: Dependencies_operation,()
+sed ¦-i¦"s/#PasswordAuthentication/PasswordAuthentication/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+apt-get ¦install¦x2goserver¦x2goserver-xsession¦pwgen¦sudo¦-y :: Dependencies_operation,()
+cmd,/run.sh
+add-apt-repository ¦ppa:x2go/stable :: Dependencies_operation,()
+set_root_pw.sh/set_root_pw.sh :: add_operation,()
+chmod ¦1777¦/tmp/.X11-unix :: Permissions_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+mkdir ¦-p¦/tmp/.X11-unix :: Filesystem_operation,()
+apt-get ¦install¦openssh-server¦-y :: Dependencies_operation,()
+sed ¦-i¦"s/UsePrivilegeSeparation.*/UsePrivilegeSeparation¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+chmod ¦+x¦/*.sh :: Permissions_operation,()
+apt-get ¦install¦software-properties-common¦-y :: Dependencies_operation,()
+sed ¦-i¦"s/PermitRootLogin.*/PermitRootLogin¦yes/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,ubuntu:16.04
+run.sh/run.sh :: add_operation,()
+sed ¦-i¦"s/UsePAM.*/UsePAM¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+mkdir ¦/var/run/dbus :: Filesystem_operation,()
+/usr/bin :: workdir_operation,()
+expose,22

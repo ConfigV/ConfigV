@@ -1,0 +1,8 @@
+yum ¦clean¦all :: Dependencies_operation,()
+echo ¦bin/solr¦start & export SOLR_PID=$! && until wget -qo /dev/null http://localhost:8983 ; do sleep 5 ; done && echo && bin/solr create -c ckan && wget -O /opt/solr/server/solr/ckan/conf/schema.xml https://raw.githubusercontent.com/ckan/ckan/... :: Filesystem_operation,()
+solrconfig.xml/opt/solr/server/solr/ckan/conf/solrconfig.xml :: add_operation,()
+CKAN_VERSION:ckan-2.4.1 :: env_operation,()
+root :: user_operation,()
+yum ¦install¦-y¦wget :: Dependencies_operation,()
+from,quay.io/ukhomeofficedigital/solr:v0.1.0
+$SOLR_USER :: user_operation,()

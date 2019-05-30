@@ -1,0 +1,19 @@
+expose,8000
+npm ¦root¦-g :: Dependencies_operation,()
+mime.types/etc/nginx/mime.types :: copy_operation,()
+git ¦clone¦http://github.com/openspending/os-admin.git¦app :: Dependencies_operation,()
+apk ¦add¦--update¦git¦nodejs :: Dependencies_operation,()
+cmd,/startup.sh
+rm ¦/etc/nginx/nginx.conf¦/etc/nginx/mime.types :: Filesystem_operation,()
+npm ¦install¦npm@latest¦-g :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+cd ¦app :: Filesystem_operation,()
+from,sickp/alpine-nginx
+find ¦.¦-type¦f¦|¦grep¦-v¦/public/¦|¦grep¦-v¦index.html¦|¦grep¦-v¦config.json¦|¦grep¦-v¦favicon.ico¦|¦tee¦|¦xargs¦rm :: Filesystem_operation,()
+startup.sh/startup.sh :: copy_operation,()
+npm ¦--version :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+npm ¦run¦build :: Dependencies_operation,()
+update-ca-certificates  :: Other_operation,()
+default/etc/nginx/sites-enabled/default :: copy_operation,()

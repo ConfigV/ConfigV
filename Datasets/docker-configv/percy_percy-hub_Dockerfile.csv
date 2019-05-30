@@ -1,0 +1,9 @@
+bin/reap-workers.sh/etc/service/reap-workers/run :: add_operation,()
+/sbin/setuser ¦app¦bundle¦install¦$BUNDLE_INSTALL_FLAGS :: Other_operation,()
+bin/schedule-jobs.sh/etc/service/schedule-jobs/run :: add_operation,()
+from,phusion/passenger-ruby23:latest
+./app/src/ :: add_operation,()
+bin/enqueue-jobs.sh/etc/service/enqueue-jobs/run :: add_operation,()
+chmod ¦+x¦/etc/service/*/run :: Permissions_operation,()
+/app/src/ :: workdir_operation,()
+chown ¦-R¦app:app¦/app/src/ :: Permissions_operation,()

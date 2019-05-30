@@ -1,0 +1,6 @@
+/tmp :: volume_operation,()
+AZURE_STORAGE_ACCESS_KEY:"" :: env_operation,()
+sh ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+from,anapsix/alpine-java
+build/libs/*.jarapp.jar :: add_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/app.jar

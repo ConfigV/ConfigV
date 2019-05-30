@@ -1,0 +1,11 @@
+cmd,-w¦2¦-b¦0.0.0.0:8080¦--reload¦--log-level¦info¦--error-logfile¦-¦--forwarded-allow-ips¦*¦-k¦gevent¦phlplay.wsgi
+from,quay.io/azavea/django:1.9.6
+pip ¦install¦--no-cache-dir¦-r¦/tmp/requirements.txt :: Dependencies_operation,()
+/opt/phlplay/django :: workdir_operation,()
+expose,8080
+apt-get ¦install¦-y¦--no-install-recommends¦libfreetype6¦libjpeg-dev¦libjpeg62-turbo¦liblcms2-2¦libmemcached-dev¦libmysqlclient-dev¦libtiff5¦libwebp5¦libwebpdemux1¦libwebpmux1¦libxml2-dev¦libxslt-dev¦mime-support¦python-dev¦python-pil.imagetk¦zlib1... :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+requirements.txt/tmp/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+.//opt/phlplay/django :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

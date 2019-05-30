@@ -1,0 +1,14 @@
+chmod ¦+x¦/docker-registry/run.sh :: Permissions_operation,()
+from,samalba/docker-registry
+echo ¦echo¦'root:newpassword' | chpasswd :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+./run.sh/docker-registry/ :: add_operation,()
+cmd,/bin/sh¦-c¦cd /docker-registry && ./setup-configs.sh && ./run.sh
+/usr/sbin/sshd  :: Other_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+expose,22
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()

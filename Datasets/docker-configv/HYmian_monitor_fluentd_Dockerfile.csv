@@ -1,0 +1,8 @@
+fluent.conf/etc/td-agent/td-agent.conf :: copy_operation,()
+from,centos:7.0
+expose,24284
+yum ¦clean¦all :: Dependencies_operation,()
+cmd,exec¦td-agent
+yum ¦install¦sudo¦-y :: Dependencies_operation,()
+FLUENTD_CONF:fluent.conf :: env_operation,()
+curl ¦-L¦https://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh¦|¦sh :: Dependencies_operation,()

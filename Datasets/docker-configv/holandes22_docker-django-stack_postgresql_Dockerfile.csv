@@ -1,0 +1,8 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes postgresql-9.4 postgresql-client-9.4 postgresql-con... :: Filesystem_operation,()
+/var/log/postgresql :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦locale-gen¦en_US.UTF-8 && echo 'LANG="en_US.UTF-8"' > /etc/default/locale :: Filesystem_operation,()
+from,holandes22/base
+/etc/postgresql :: volume_operation,()

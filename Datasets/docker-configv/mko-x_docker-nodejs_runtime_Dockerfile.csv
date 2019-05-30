@@ -1,0 +1,7 @@
+from,mkodockx/docker-nodejs:base
+ADDpackage.json /app/ :: onbuild_operation,()
+RUNnpm install --production :: onbuild_operation,()
+entrypoint,/nodejs/bin/npm¦start
+ADD. /app :: onbuild_operation,()
+PORT:8080 :: env_operation,()
+/app :: workdir_operation,()

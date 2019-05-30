@@ -1,0 +1,10 @@
+expose,3306
+grant_access.sh/tmp/grant_access.sh :: copy_operation,()
+from,kprpi
+my.cnf/etc/mysql/my.cnf :: copy_operation,()
+chmod ¦755¦/tmp/grant_access.sh :: Permissions_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+cmd,mysqld
+apt-get ¦-y¦install¦mysql-server :: Dependencies_operation,()
+/bin/bash ¦/tmp/grant_access.sh :: Build_Execute_operation,()

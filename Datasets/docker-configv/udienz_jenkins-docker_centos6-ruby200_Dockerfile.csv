@@ -1,0 +1,18 @@
+/tmp :: workdir_operation,()
+gem ¦install¦--no-ri¦--no-rdoc¦bundler :: Dependencies_operation,()
+ruby-install ¦--install-dir¦/usr/¦ruby¦2.0.0-p576 :: Other_operation,()
+gem ¦update¦--system :: Dependencies_operation,()
+yum ¦remove¦-y¦bison¦gcc-c++¦httpd-devel¦git¦libevent-devel¦libxml2-devel¦libxslt¦libxslt-devel¦mysql-devel¦readline-devel¦sqlite-devel¦apr¦httpd¦httpd-tools¦mysql-libs¦libevent¦mailcap¦openldap-devel¦ncurses-devel¦apr-util-devel¦apr-util-ldap¦... :: Dependencies_operation,()
+from,udienz/jenkins-docker:centos6
+rm ¦-rf¦/tmp/ruby-install* :: Filesystem_operation,()
+/ :: workdir_operation,()
+yum ¦install¦--nogpg¦-y¦autoconf¦automake¦bison¦curl-devel¦gcc¦gcc-c++¦git-core¦httpd-devel¦libevent-devel¦libxml2¦libxml2-devel¦mysql-devel¦openssl¦openssl-devel¦readline-devel¦sqlite-devel¦zlib¦zlib-devel¦libxslt¦libxslt-devel¦wget :: Dependencies_operation,()
+cd ¦ruby-install-0.6.0 :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+expose,22
+gem ¦install¦bundler :: Dependencies_operation,()
+ruby ¦--version :: Other_operation,()
+tar ¦xzf¦/tmp/ruby-install-0.6.0.tar.gz :: Filesystem_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+wget ¦-O¦ruby-install-0.6.0.tar.gz¦https://github.com/postmodern/ruby-install/archive/v0.6.0.tar.gz :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

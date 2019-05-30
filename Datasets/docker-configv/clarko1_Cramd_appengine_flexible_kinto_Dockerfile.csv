@@ -1,0 +1,10 @@
+sed ¦-i¦'s/8888/8080/g'¦$KINTO_INI :: Filesystem_operation,()
+VIRTUAL_ENV:/env :: env_operation,()
+virtualenv ¦/env :: Environment_operation,()
+requirements.txt/app/requirements.txt :: add_operation,()
+pip ¦install¦-r¦/app/requirements.txt :: Dependencies_operation,()
+KINTO_INI:/etc/kinto/kinto.ini :: env_operation,()
+from,gcr.io/google_appengine/python
+cmd,kinto¦--ini¦$KINTO_INI¦migrate¦&&¦kinto¦--ini¦$KINTO_INI¦start
+PATH:/env/bin:$PATH :: env_operation,()
+kinto ¦--ini¦$KINTO_INI¦--backend=memory¦init :: Other_operation,()

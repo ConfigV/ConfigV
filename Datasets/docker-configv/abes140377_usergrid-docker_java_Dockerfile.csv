@@ -1,0 +1,9 @@
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+echo ¦sed¦-i 's/#(.*multiverse$\\)/\\1/g' /etc/apt/sources.list && apt-get update && apt-get -y upgrade && apt-get install -y software-properties-common inetutils-ping byobu curl git htop unzip vim wget && echo 'Europe/Berlin' > /etc/timezone && d... :: Filesystem_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && add-apt-repository -y ppa:webupd8team/java && apt-get update && apt-get install -y oracle-java8-installer && rm -rf /var/cache/oracle-j... :: Filesystem_operation,()
+http_proxy:http://10.174.254.10:80 :: env_operation,()
+from,ubuntu:15.1
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,bash
+https_proxy:http://10.174.254.10:80 :: env_operation,()
+no_proxy:localhost,127.0.0.0/8,10.129.0.0/16,*.dzbw.de,172.17.0.0/24 :: env_operation,()

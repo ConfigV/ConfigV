@@ -1,0 +1,5 @@
+echo ¦echo¦"root:password" > passwd_file;chpasswd < passwd_file;rm passwd_file :: Filesystem_operation,()
+expose,22
+from,cloudbyexample/cbe:apache
+yum ¦-y¦install¦openssh-server;¦yum¦clean¦all :: Dependencies_operation,()
+entrypoint,service¦sshd¦start¦&&¦/usr/sbin/httpd¦-DFOREGROUND

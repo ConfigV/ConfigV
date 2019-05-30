@@ -1,0 +1,18 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦supervisor¦pwgen :: Other_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦upgrade :: Other_operation,()
+cmd,/run.sh
+from,ubuntu@trusty
+mv ¦/usr/local/bin/composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+apt-get ¦-y¦install¦git¦apache2¦libapache2-mod-php5¦php5-mysql¦php5-pgsql¦php5-gd¦php-pear¦php-apc¦curl :: Dependencies_operation,()
+rm ¦-fr¦/var/www/html :: Filesystem_operation,()
+expose,80
+mkdir ¦-p¦/app :: Filesystem_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+apache.conf/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+start.sh/start.sh :: add_operation,()
+run.sh/run.sh :: add_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+supervisord-apache2.conf/etc/supervisor/conf.d/supervisord-apache2.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ln ¦-s¦/app¦/var/www/html :: Filesystem_operation,()

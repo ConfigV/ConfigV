@@ -1,0 +1,17 @@
+apt-get ¦clean :: Dependencies_operation,()
+/root :: workdir_operation,()
+apt-get ¦install¦-ybuild-essential¦gfortran¦gcc¦cmake¦git¦bash¦rsync¦curl¦wget¦nano¦python-dev¦python-pip¦&&apt-get¦autoclean :: Dependencies_operation,()
+ssh-keyscan ¦coolprop.org¦>>¦${HOME}/.ssh/known_hosts :: Other_operation,()
+ssh-keyscan ¦github.com¦>>¦${HOME}/.ssh/known_hosts :: Other_operation,()
+ssh-keyscan ¦coolprop.dreamhosters.com¦>>¦${HOME}/.ssh/known_hosts :: Other_operation,()
+ln ¦-sf¦/bin/bash¦/bin/sh :: Filesystem_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+from,coolprop/debian32
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+root :: user_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+ssh-keyscan ¦bitbucket.org¦>>¦${HOME}/.ssh/known_hosts :: Other_operation,()
+mkdir ¦${HOME}/.ssh :: Filesystem_operation,()
+cat ¦${HOME}/.ssh/known_hosts :: Filesystem_operation,()
+entrypoint,/bin/sh
+rm ¦/bin/sh :: Filesystem_operation,()

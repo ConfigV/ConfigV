@@ -1,0 +1,12 @@
+chmod ¦u+x¦/start.sh :: Permissions_operation,()
+apt-mark ¦hold¦initscripts¦udev¦plymouth¦mountall :: Other_operation,()
+from,ubuntu@precise
+expose,8083
+git ¦clone¦git¦clone¦https://github.com/RuudBurger/CouchPotatoServer.git¦/couchpotato :: Dependencies_operation,()
+./start.sh/start.sh :: add_operation,()
+entrypoint,/start.sh
+/temp :: volume_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+locale-gen ¦en_US¦en_US.UTF-8 :: Other_operation,()
+apt-get ¦-qy¦--force-yes¦dist-upgrade :: Dependencies_operation,()
+apt-get ¦install¦-qy¦--force-yes¦git-core¦python2.7 :: Dependencies_operation,()

@@ -1,0 +1,14 @@
+RUST_BACKTRACE:t :: env_operation,()
+target/x86_64-unknown-linux-musl/release/marley-server/srv/bin/marley-server :: add_operation,()
+docker-srv/srv :: add_operation,()
+PORT:6767 :: env_operation,()
+apk ¦add¦--update-cache¦--repository¦http://dl-3.alpinelinux.org/alpine/edge/testing/¦--allow-untrusted¦runit :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+static/srv/static :: add_operation,()
+from,alpine:3.2
+log.toml/srv/log.toml :: add_operation,()
+routes.toml/srv/routes.toml :: add_operation,()
+/srv :: workdir_operation,()
+cmd,runsv¦/srv
+dist/srv/dist :: add_operation,()
+expose,6767

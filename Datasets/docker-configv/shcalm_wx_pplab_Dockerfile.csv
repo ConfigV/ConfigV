@@ -1,0 +1,8 @@
+./usr/src/app :: copy_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+expose,3000
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+export ¦FLASK_CONFIG=daocloud :: Environment_operation,()
+cmd,gunicorn¦-p wechat.pid -b 0.0.0.0:3000 -D¦manage:app
+from,python:2.7

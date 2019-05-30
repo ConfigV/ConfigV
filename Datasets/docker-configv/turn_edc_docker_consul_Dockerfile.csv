@@ -1,0 +1,19 @@
+unzip ¦-d¦/bin¦consul_${CONSUL_VERSION}_linux_amd64.zip :: Filesystem_operation,()
+consul.conf.json/etc/consul.d/consul.conf.json :: copy_operation,()
+cmd,/usr/local/bin/start-consul-server.sh¦-data-dir=/consul/data¦-config-dir=/etc/consul.d
+start-consul-server.sh/usr/local/bin/start-consul-server.sh :: copy_operation,()
+mkdir ¦-p¦/tmp/build :: Filesystem_operation,()
+cd ¦/tmp/build :: Filesystem_operation,()
+chown ¦-R¦consul:consul¦/consul :: Permissions_operation,()
+mkdir ¦-p¦/etc/consul.d :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+rm ¦-rf¦/tmp/build :: Filesystem_operation,()
+/consul/data :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip :: Dependencies_operation,()
+mkdir ¦-p¦/consul/data :: Filesystem_operation,()
+useradd ¦consul :: Permissions_operation,()
+CONSUL_VERSION=0.7.0: :: env_operation,()
+from,ubuntu:16.04
+expose,8300 8301 8301 8302 8302 8400 8500 8600 8600
+apt-get ¦install¦-y¦wget¦unzip¦iproute2 :: Dependencies_operation,()

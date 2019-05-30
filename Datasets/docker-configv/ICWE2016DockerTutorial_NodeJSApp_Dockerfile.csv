@@ -1,0 +1,13 @@
+entrypoint,/wait-for-mongo-redis.sh
+/usr/src/app :: workdir_operation,()
+expose,3000
+chmod ¦+x¦/wait-for-mongo-redis.sh :: Permissions_operation,()
+./bin/wait-for-mongo-redis.sh/ :: copy_operation,()
+cmd,npm¦start
+package.json/usr/src/app/ :: copy_operation,()
+./bin/wait-for-it.sh/ :: copy_operation,()
+./usr/src/app :: copy_operation,()
+from,node:6.2
+npm ¦install :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+chmod ¦+x¦/wait-for-it.sh :: Permissions_operation,()

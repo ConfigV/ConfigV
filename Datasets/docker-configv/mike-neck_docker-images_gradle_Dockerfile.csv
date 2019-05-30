@@ -1,0 +1,16 @@
+mv ¦tmp/gradle-2.7/bin¦gradle/ :: Filesystem_operation,()
+cmd,/bin/bash
+groupadd ¦-r¦build :: Permissions_operation,()
+unzip ¦-q¦gradle.zip¦-d¦tmp :: Filesystem_operation,()
+rm ¦gradle.zip :: Filesystem_operation,()
+from,mikeneck/jdk8
+mv ¦tmp/gradle-2.7/init.d¦gradle/ :: Filesystem_operation,()
+mkdir ¦gradle :: Filesystem_operation,()
+GRADLE_HOME:/home/gradle/gradle :: env_operation,()
+gradle :: user_operation,()
+/home/gradle :: workdir_operation,()
+useradd ¦-m¦-g¦build¦gradle :: Permissions_operation,()
+PATH=$PATH:$GRADLE_HOME/bin: :: env_operation,()
+curl ¦-L¦https://services.gradle.org/distributions/gradle-2.7-all.zip¦-o¦gradle.zip :: Dependencies_operation,()
+mv ¦tmp/gradle-2.7/lib¦gradle/ :: Filesystem_operation,()
+rm ¦-rf¦tmp :: Filesystem_operation,()

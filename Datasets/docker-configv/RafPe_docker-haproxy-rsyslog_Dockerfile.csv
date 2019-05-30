@@ -1,0 +1,8 @@
+apt-get ¦install¦rsyslog¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+sed ¦-i¦'s/#$UDPServerRun¦514/$UDPServerRun¦514/g'¦/etc/rsyslog.conf :: Filesystem_operation,()
+sed ¦-i¦'s/#$ModLoad¦imudp/$ModLoad¦imudp/g'¦/etc/rsyslog.conf :: Filesystem_operation,()
+haproxy.conf/etc/rsyslog.d :: add_operation,()
+entrypoint,/docker-entrypoint.sh
+from,haproxy@latest

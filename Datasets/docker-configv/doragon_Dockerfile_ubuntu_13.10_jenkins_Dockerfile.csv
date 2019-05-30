@@ -1,0 +1,22 @@
+pip ¦install¦pytest-pep8¦pytest-cov¦docker-py¦pylint :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦install¦wget¦vim¦python-pip¦curl :: Dependencies_operation,()
+wget ¦-q¦-O¦-¦http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+echo ¦sh¦-c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list' :: Filesystem_operation,()
+apt-get ¦install¦-y¦sloccount :: Dependencies_operation,()
+apt-key ¦update :: Dependencies_operation,()
+pip ¦install¦-U¦pytest :: Dependencies_operation,()
+easy_install ¦-U¦clonedigger :: Dependencies_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+./jenkins_plugin.sh/data/jenkins_plugin.sh :: add_operation,()
+expose,22 8080
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+echo ¦echo¦"root:root" |chpasswd :: Filesystem_operation,()
+cmd,/bin/bash¦-c¦service jenkins start; /usr/sbin/sshd -D
+from,ubuntu:13.1
+echo ¦echo¦"Asia/Tokyo" > /etc/timezone :: Filesystem_operation,()
+apt-get ¦install¦-y¦jenkins :: Dependencies_operation,()
+dpkg-reconfigure ¦-f¦noninteractive¦tzdata :: Other_operation,()

@@ -1,0 +1,18 @@
+chown ¦-RL¦cassandra:dev¦$CONF_DIR :: Permissions_operation,()
+patch ¦-d¦$CONF_DIR¦-p0¦-u¦<¦/tmp/cassandra-env.sh.patch :: Other_operation,()
+rm ¦-f¦/etc/init.d/cassandra :: Filesystem_operation,()
+rm ¦-f¦/tmp/*.patch :: Filesystem_operation,()
+from,abhijitsarkar/docker:jdk8
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦getent¦group dev || groupadd dev && useradd -g dev cassandra && echo "deb http://debian.datastax.com/community stable main" >> /etc/apt/sources.list.d/cassandra.sources.list && curl -L https://debian.datastax.com/debian/repo_key | apt-key ... :: Filesystem_operation,()
+apt-get ¦-y¦install¦cassandra¦patch :: Dependencies_operation,()
+patch ¦-d¦$CONF_DIR¦-p0¦-u¦<¦/tmp/cassandra.yaml.patch :: Other_operation,()
+chown ¦-RL¦cassandra:dev¦$CASSANDRA_HOME :: Permissions_operation,()
+expose,7000 7001 7199 9042 9160
+chown ¦-RL¦cassandra:dev¦$LOG_DIR :: Permissions_operation,()
+./*.patch/tmp/ :: add_operation,()
+CONF_DIR=/etc/cassandra:CASSANDRA_HOME=/var/lib/cassandra :: env_operation,()
+rm ¦-rf¦$CASSANDRA_HOMER/data/system/* :: Filesystem_operation,()
+cmd,supervisord¦-c¦/etc/supervisord.conf
+./cassandrad.conf/etc/supervisor/conf.d/ :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

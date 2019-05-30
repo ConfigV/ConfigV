@@ -1,0 +1,13 @@
+PATH=$PATH:/usr/local/cuda/bin: :: env_operation,()
+apt-get ¦install¦-y¦linux-image-extra-`uname¦-r`¦linux-headers-`uname¦-r`¦linux-image-`uname¦-r` :: Dependencies_operation,()
+apt-get ¦install¦-y¦opencl-headers¦protobuf-compiler¦libprotoc-dev¦libboost-all-dev¦libleveldb-dev¦hdf5-tools¦libhdf5-serial-dev¦libsnappy-dev¦libsnappy1¦libatlas-base-dev¦cmake¦libstdc++6-4.8-dbg¦libgoogle-glog0¦libgoogle-glog-dev¦libgflags-dev¦li... :: Dependencies_operation,()
+apt-get ¦install¦-y¦cuda :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dpkg ¦-i¦cuda-repo-ubuntu1404_7.0-28_amd64.deb :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+wget ¦http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_7.0-28_amd64.deb :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦'/usr/local/cuda/lib64' > /etc/ld.so.conf.d/cuda_hack.conf && ldconfig /usr/local/cuda/lib64 :: Filesystem_operation,()
+apt-get ¦-y¦install¦wget¦build-essential :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦-y¦update :: Dependencies_operation,()

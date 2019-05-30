@@ -1,0 +1,15 @@
+cmd,/notebook.sh
+PEM_FILE:/key.pem :: env_operation,()
+expose,8888
+from,ipython/ipython
+wget ¦https://github.com/broadinstitute/pilon/releases/download/v1.10/pilon-1.10.jar;\\ :: Dependencies_operation,()
+/notebooks :: volume_operation,()
+wget ¦http://sourceforge.net/projects/samtools/files/samtools/1.1/bcftools-1.1.tar.bz2;\\ :: Dependencies_operation,()
+wget ¦http://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.2.2/bowtie2-2.2.2-linux-x86_64.zip;\\ :: Dependencies_operation,()
+/notebooks :: workdir_operation,()
+chmod ¦u+x¦/notebook.sh :: Permissions_operation,()
+notebook.sh/ :: add_operation,()
+wget ¦http://downloads.sourceforge.net/project/picard/picard-tools/1.111/picard-tools-1.111.zip;\\ :: Dependencies_operation,()
+PASSWORD:micro_rm_pw :: env_operation,()
+wget ¦http://sourceforge.net/projects/samtools/files/samtools/1.1/samtools-1.1.tar.bz2;\\ :: Dependencies_operation,()
+apt-get ¦install¦-y¦-q¦git¦automake¦pkg-config¦curl¦wget¦bwa¦unzip¦zlib1g-dev¦libncurses5-dev¦libyaml-dev¦openjdk-7-jdk¦openjdk-7-jre :: Dependencies_operation,()

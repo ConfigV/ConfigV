@@ -1,0 +1,15 @@
+from,ubuntu:15.04
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-dev :: Dependencies_operation,()
+manage.py/frontend/manage.py :: copy_operation,()
+kitling/frontend/kitling :: copy_operation,()
+apt-get ¦install¦-y¦libpq-dev :: Dependencies_operation,()
+requirements.txtrequirements.txt :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦python-pip :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu vivid multiverse\\n" >> /etc/apt/sources.list :: Filesystem_operation,()
+expose,8000
+videos/frontend/videos :: copy_operation,()
+cmd,python¦manage.py¦migrate¦&&¦python¦manage.py¦runserver¦0.0.0.0:8000
+/frontend :: workdir_operation,()

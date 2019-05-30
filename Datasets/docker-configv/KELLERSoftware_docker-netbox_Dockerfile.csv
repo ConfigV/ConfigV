@@ -1,0 +1,13 @@
+pip ¦install¦gunicorn==17.5 :: Dependencies_operation,()
+$GUNICORN_CONF/opt/netbox/ :: add_operation,()
+git ¦clone¦--depth¦1¦$URL¦-b¦$BRANCH¦. :: Dependencies_operation,()
+apt-get ¦install¦-y¦libldap2-dev¦libsasl2-dev¦libssl-dev¦graphviz¦nginx :: Dependencies_operation,()
+/opt/netbox :: workdir_operation,()
+expose,80
+apt-get ¦update¦-qq :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+from,python:2.7
+pip ¦install¦django-auth-ldap :: Dependencies_operation,()
+$CONFIG_SCRIPT/opt/netbox/netbox/netbox/configuration.py :: add_operation,()
+$ENTRY_SCRIPT/docker-entrypoint.sh :: add_operation,()
+entrypoint,/docker-entrypoint.sh

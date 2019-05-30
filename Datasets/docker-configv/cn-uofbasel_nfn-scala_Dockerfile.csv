@@ -1,0 +1,9 @@
+CCNL_PORT:9999 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦libssl-dev¦build-essential¦git¦wget :: Dependencies_operation,()
+/var/ccn-lite/src :: workdir_operation,()
+make ¦clean¦all :: Build_Execute_operation,()
+CCNL_HOME:/ccn-lite :: env_operation,()
+./var/ccn-lite :: add_operation,()
+cmd,./ccn-lite-relay¦-s¦ccnx2014¦-v¦99¦-u¦$CCNL_PORT¦-d¦../test/ccntlv¦-x¦/tmp/ccn-lite-relay.sock
+from,haroon/docker-oracle-jdk7

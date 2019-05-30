@@ -1,0 +1,8 @@
+expose,3306
+from,codenvy/shellinabox
+sudo ¦service¦mysql¦restart :: Other_operation,()
+sudo ¦mysql¦-uroot¦-e¦"GRANT¦ALL¦PRIVILEGES¦ON¦*.*¦TO¦'root'@'%';¦FLUSH¦PRIVILEGES;" :: Other_operation,()
+sudo ¦sed¦-i.bak¦'s/127.0.0.1/0.0.0.0/g'¦/etc/mysql/my.cnf :: Other_operation,()
+cmd,sudo¦service¦mysql¦start¦>¦/dev/null¦&&¦sleep¦356d
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+sudo ¦-E¦bash¦-c¦"apt-get¦-y¦--no-install-recommends¦install¦mysql-server" :: Other_operation,()

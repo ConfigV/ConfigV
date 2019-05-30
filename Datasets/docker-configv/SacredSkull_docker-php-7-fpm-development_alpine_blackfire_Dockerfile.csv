@@ -1,0 +1,7 @@
+echo ¦export¦VERSION=`php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;"` && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/${VERSION} && tar zxpf /tmp/blackfire-probe.tar.gz... :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦add¦--update¦zlib¦unzip¦git :: Dependencies_operation,()
+/var/www :: workdir_operation,()
+from,php:7.0
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+docker-php-ext-install ¦pdo¦pdo_mysql¦zip :: Other_operation,()

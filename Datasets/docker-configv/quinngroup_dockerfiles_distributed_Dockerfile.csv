@@ -1,0 +1,13 @@
+start-worker.sh./bin/ :: copy_operation,()
+from,ubuntu:14.04
+apt-get ¦-y¦update :: Dependencies_operation,()
+git ¦clone¦https://gist.github.com/165330b48c869a7ccc33.git¦scripts :: Dependencies_operation,()
+PATH:/opt/python/bin:$PATH :: env_operation,()
+LANG:C.UTF-8 :: env_operation,()
+LC_ALL:C.UTF-8 :: env_operation,()
+apt-get ¦install¦-y¦wget¦rsync¦build-essential¦openjdk-7-jdk¦vim¦emacs¦git :: Dependencies_operation,()
+scripts/conda3-distributed.sh  :: Other_operation,()
+start-scheduler.sh./bin/ :: copy_operation,()
+root :: user_operation,()
+rm ¦-rf¦scripts/ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

@@ -1,0 +1,8 @@
+yum ¦-y¦update :: Dependencies_operation,()
+from,fedora@latest
+wget ¦http://download.sonarr.tv/v2/master/mono/NzbDrone.master.tar.gz :: Dependencies_operation,()
+tar ¦-xvf¦~/NzbDrone.master.tar.gz¦-C¦/opt/ :: Filesystem_operation,()
+/opt/NzbDrone :: volume_operation,()
+cmd,/bin/bash¦-c¦/opt/mono/bin/mono /opt/NzbDrone/NzbDrone.exe -nobrowser -data /opt/NzbDrone
+expose,8989
+yum ¦install¦mediainfo¦libzen¦libmediainfo¦curl¦gettext¦mono-opt¦mono-opt-devel¦sqlite.x86_64 :: Dependencies_operation,()

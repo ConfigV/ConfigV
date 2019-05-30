@@ -1,0 +1,17 @@
+go ¦install¦./... :: Build_Execute_operation,()
+from,eris/base
+repo:/go/src/github.com/eris-ltd/mint-client :: env_operation,()
+$DOCKERFILES/config.toml$TMROOT/config.toml :: add_operation,()
+cmd,/test.sh
+go ¦get¦github.com/eris-ltd/eris-keys :: Build_Execute_operation,()
+$USER :: user_operation,()
+TMROOT:/home/eris/.eris/blockchains/tendermint :: env_operation,()
+go ¦get¦github.com/tendermint/tendermint/cmd/tendermint :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DOCKERFILES:./DOCKER/all_in_one :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+./$DOCKERFILES/test.sh/test.sh :: add_operation,()
+/home/eris :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦libgmp3-dev¦jq :: Dependencies_operation,()
+.$repo :: add_operation,()
+$repo :: workdir_operation,()

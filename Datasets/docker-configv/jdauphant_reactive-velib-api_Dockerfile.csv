@@ -1,0 +1,16 @@
+sbt ¦clean¦stage :: Other_operation,()
+conf$PLAY_APP_DIR/conf/ :: copy_operation,()
+adduser ¦play_app :: Permissions_operation,()
+play_app :: user_operation,()
+expose,9000
+app$PLAY_APP_DIR/app/ :: copy_operation,()
+PLAY_APP_NAME:reactive-velib-api :: env_operation,()
+cmd,sh¦-c¦$PLAY_APP_DIR/target/universal/stage/bin/$PLAY_APP_NAME
+$PLAY_APP_DIR :: workdir_operation,()
+project/*.properties$PLAY_APP_DIR/project/ :: copy_operation,()
+mkdir ¦-p¦$PLAY_APP_DIR :: Filesystem_operation,()
+build.sbt$PLAY_APP_DIR/ :: copy_operation,()
+HOME:$PLAY_APP_DIR :: env_operation,()
+PLAY_APP_DIR:/var/www/$PLAY_APP_NAME :: env_operation,()
+from,quay.io/jdauphant/sbt
+chown ¦-R¦play_app:play_app¦$PLAY_APP_DIR :: Permissions_operation,()

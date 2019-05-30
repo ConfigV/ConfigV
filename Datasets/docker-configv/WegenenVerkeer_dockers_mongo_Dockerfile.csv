@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+from,wegenenverkeer/base
+apt-get ¦install¦-y¦mongodb :: Dependencies_operation,()
+mkdir ¦-p¦/etc/service/mongodb :: Filesystem_operation,()
+sed ¦-i.bak¦s/"bind_ip¦=¦127.0.0.1"/"bind_ip¦=¦0.0.0.0"/g¦/etc/mongodb.conf :: Filesystem_operation,()
+chmod ¦a+x¦/etc/service/mongodb/run :: Permissions_operation,()
+mongodb.sh/etc/service/mongodb/run :: add_operation,()
+expose,27017
+mkdir ¦-p¦/data/db :: Filesystem_operation,()

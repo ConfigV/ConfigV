@@ -1,0 +1,14 @@
+urpmi ¦--no-recommends¦--no-md5sum¦--excludedocs¦--auto¦sudo¦apache¦apache-mod_suexec¦apache-mod_proxy¦apache-mod_php¦apache-mod_authnz_external¦apache-mod_ssl¦dokuwiki¦python3-flask¦python3-pexpect :: Other_operation,()
+cd ¦~user/git/bitquant/web/scripts¦;¦./setup_vimage.sh¦bitstation :: Filesystem_operation,()
+urpmi ¦--no-recommends¦--no-md5sum¦--excludedocs¦--auto¦git :: Other_operation,()
+from,mageia@cauldron
+expose,80 443
+urpmi.removemedia ¦-a¦;\\ :: Other_operation,()
+cmd,/home/user/git/bitquant/web/scripts/startup-all.sh
+echo ¦echo¦"ZONE=Asia/Taipei" > /etc/sysconfig/clock :: Filesystem_operation,()
+rm ¦-f¦/lib/systemd/system/multi-user.target.wants/*;\\ :: Filesystem_operation,()
+/var/lib/machines :: volume_operation,()
+mkdir ¦-p¦/etc/sysusers.d¦;¦cp¦~user/git/bitquant/docker/system.conf¦/etc/sysusers.d¦;¦systemd-sysusers :: Filesystem_operation,()
+useradd ¦user¦;\\ :: Permissions_operation,()
+URPMI_OPTIONS="--excludedocs ¦--no-md5sum¦--no-verify-rpm"¦/usr/share/bitquant/install-build-deps.sh¦;¦su¦user¦-c¦"~user/git/bitquant/web/scripts/bootstrap.sh"¦;¦su¦user¦-c¦"touch¦~user/git/bitquant/web/log/bootstrap.done"¦;¦~user/git/bitquant/web/scripts/remove-build-... :: Other_operation,()
+/sys/fs/cgroup :: volume_operation,()

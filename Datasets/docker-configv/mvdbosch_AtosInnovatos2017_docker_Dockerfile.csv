@@ -1,0 +1,17 @@
+c('shiny','shinydashboard','shinyjs','data.table','DT','rpart','rattle','randomForest','sampling','e1071','caTools','sm','pastecs','DMwR','corrplot','caret','xgboost','V8','ggplot2','assertthat','rpart.plot'  :: Other_operation,()
+cp ¦-R¦/usr/lib64/R/library/shiny/examples/*¦/srv/shiny-server/ :: Filesystem_operation,()
+mkdir ¦-p¦/srv/shiny-server :: Filesystem_operation,()
+shiny-server.sh/usr/bin/shiny-server.sh :: copy_operation,()
+from,centos@latest
+expose,3838
+chmod ¦+x¦/usr/bin/shiny-server.sh :: Permissions_operation,()
+c('shiny', ¦'rmarkdown' :: Other_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+git ¦clone¦https://github.com/mvdbosch/AtosInnovatos2017.git :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+/srv/shiny-server :: workdir_operation,()
+yum ¦install¦-y¦git¦wget¦libcurl-devel¦libpng-devel¦libjpeg-devel¦vim¦R-core¦R-core-devel¦libxml2-devel¦gtk2-devel¦v8-devel :: Dependencies_operation,()
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+wget ¦https://download3.rstudio.org/centos5.9/x86_64/shiny-server-1.5.3.838-rh5-x86_64.rpm :: Dependencies_operation,()
+cmd,/usr/bin/shiny-server.sh
+yum ¦install¦-y¦--nogpgcheck¦shiny-server-1.5.3.838-rh5-x86_64.rpm :: Dependencies_operation,()

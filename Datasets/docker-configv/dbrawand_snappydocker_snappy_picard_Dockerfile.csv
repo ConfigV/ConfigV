@@ -1,0 +1,9 @@
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+from,viapath/snappy_ngstools
+rm ¦-rvf¦/tmp/* :: Filesystem_operation,()
+wget ¦-O¦/tmp/picard-tools-1.115.zip¦http://sourceforge.net/projects/picard/files/picard-tools/1.115/picard-tools-1.115.zip :: Dependencies_operation,()
+sed ¦-i¦'$aCLASSPATH=.:$CLASSPATH:/usr/local/pipeline/picard-tools-1.115'¦/home/snappy/.bashrc :: Filesystem_operation,()
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/picard-tools-1.115'¦/home/snappy/.bashrc :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+unzip ¦/tmp/picard-tools-1.115.zip¦-d¦/usr/local/pipeline/ :: Filesystem_operation,()
+cmd,/bin/bash

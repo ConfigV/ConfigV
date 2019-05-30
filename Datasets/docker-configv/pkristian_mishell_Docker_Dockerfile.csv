@@ -1,0 +1,12 @@
+from,php:5.6
+/mishell/ :: workdir_operation,()
+apt-get ¦install¦-y¦git¦sudo :: Dependencies_operation,()
+entrypoint,/docker-mishell-entrypoint
+/mishell/ :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-mishell-entrypoint/ :: copy_operation,()
+TIMEZONE=Europe/Prague: :: env_operation,()
+mishell.phar/mishell.phar :: copy_operation,()
+KNOWN_HOSTS=github.com,gitlab.com,bitbucket.com: :: env_operation,()
+USERS=root:0,www-data:33,mishell:2222: :: env_operation,()
+touch ¦general.log :: Filesystem_operation,()

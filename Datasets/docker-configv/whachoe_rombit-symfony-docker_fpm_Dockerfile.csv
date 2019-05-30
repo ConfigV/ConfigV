@@ -1,0 +1,10 @@
+wkhtmltox-0.12.2_linux-jessie-amd64.deb/root :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev¦curl¦git¦libpng12-dev¦zlib1g-dev¦libicu-dev¦fontconfig¦libfontconfig1¦libxrender1¦xfonts-base¦xfonts-75dpi :: Dependencies_operation,()
+dist/php5-extra.ini/usr/local/etc/php-fpm.d/ :: copy_operation,()
+from,php:5.6
+chmod ¦755¦/usr/local/bin/composer :: Permissions_operation,()
+dpkg ¦-i¦/root/wkhtmltox-0.12.2_linux-jessie-amd64.deb :: Dependencies_operation,()
+curl ¦-o¦/usr/local/bin/composer¦https://getcomposer.org/composer.phar :: Dependencies_operation,()
+docker-php-ext-install ¦gd¦mbstring¦pdo_mysql¦zip¦intl :: Other_operation,()
+composer ¦global¦require¦"phpunit/phpunit=5.2.*" :: Dependencies_operation,()

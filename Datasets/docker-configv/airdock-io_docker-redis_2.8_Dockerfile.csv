@@ -1,0 +1,21 @@
+apt-get ¦install¦-y¦gcc¦make¦g++¦build-essential¦libc6-dev¦tcl¦ca-certificates :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+mkdir ¦-p¦/etc/redis¦/var/log/redis¦/var/lib/redis :: Filesystem_operation,()
+chown ¦-R¦redis:redis¦/etc/redis¦/var/log/redis¦/var/lib/redis :: Permissions_operation,()
+cp ¦redis.conf¦/etc/redis :: Filesystem_operation,()
+expose,6379
+apt-get ¦update :: Dependencies_operation,()
+/var/lib/redis :: volume_operation,()
+make ¦install :: Build_Execute_operation,()
+cmd,tini¦-g¦--¦gosu¦redis:redis¦/usr/local/bin/redis-server¦/etc/redis/redis.conf
+from,airdock/base:jessie
+/var/log/redis :: volume_operation,()
+cd ¦/root :: Filesystem_operation,()
+sed ¦-i¦'s/^dir¦.*$/dir/var\\/lib\\/redis/g'¦/etc/redis/redis.conf :: Filesystem_operation,()
+tar ¦-xvf¦redis-2.8.19.tar.gz :: Filesystem_operation,()
+/root/post-install  :: Other_operation,()
+apt-get ¦remove¦-y¦gcc¦make¦g++¦build-essential¦libc6-dev¦tcl :: Dependencies_operation,()
+cd ¦redis-2.8.19 :: Filesystem_operation,()
+curl ¦http://download.redis.io/releases/redis-2.8.19.tar.gz¦>¦redis-2.8.19.tar.gz :: Dependencies_operation,()
+make  :: Build_Execute_operation,()

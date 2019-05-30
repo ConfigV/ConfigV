@@ -1,0 +1,11 @@
+mv ¦node-messages-master/*¦. :: Filesystem_operation,()
+cmd,node¦/src/api/server.js
+cd ¦/src :: Filesystem_operation,()
+echo ¦echo¦"{"uri\\" :"mongodb://messages-db:demo@ds049935.mongolab.com:49935/messages\\" }" > /src/api/mongo.json # replace the uri here :: Filesystem_operation,()
+expose,8080
+rm ¦-rf¦node-messages-master :: Filesystem_operation,()
+from,node@argon
+mkdir ¦/src :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+cd ¦/src/api :: Filesystem_operation,()
+curl ¦-L¦--insecure¦https://github.com/rjriel/node-messages/archive/master.tar.gz¦|¦tar¦zx :: Dependencies_operation,()

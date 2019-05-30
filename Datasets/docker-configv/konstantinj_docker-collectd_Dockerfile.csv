@@ -1,0 +1,11 @@
+apk ¦add¦-U¦git¦wget¦collectd¦collectd-dev¦collectd-curl¦collectd-rrdtool¦collectd-write_http¦py-pip¦btrfs-progs :: Dependencies_operation,()
+collectd.conf.tpl/etc/collectd/collectd.conf.tpl :: add_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cmd,for¦template¦in¦/etc/collectd/collectd.conf.tpl¦/etc/collectd/collectd.d/*.tpl¦;¦do¦envtpl¦$template¦;¦done¦&&¦exec¦collectd¦-f
+pip ¦install¦envtpl :: Dependencies_operation,()
+wget ¦-O¦/etc/collectd/types.db¦https://raw.githubusercontent.com/collectd/collectd/master/src/types.db :: Dependencies_operation,()
+git ¦clone¦https://github.com/lebauce/docker-collectd-plugin.git¦/share/docker-collectd-plugin :: Dependencies_operation,()
+pip ¦install¦-r¦/share/docker-collectd-plugin/requirements.txt :: Dependencies_operation,()
+collectd.d/etc/collectd/collectd.d :: add_operation,()
+from,alpine
+/etc/collectd :: volume_operation,()

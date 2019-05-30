@@ -1,0 +1,11 @@
+PG_VERSION=9.6:POSTGIS_VERSION=2.2 :: env_operation,()
+wget ¦-O¦/usr/local/bin/dumb-init¦https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_amd64 :: Dependencies_operation,()
+jq ¦--version :: Other_operation,()
+chmod ¦+x¦/usr/local/bin/jq :: Permissions_operation,()
+PATH:/usr/lib/postgresql/${PG_VERSION}/bin:$PATH :: env_operation,()
+pip ¦install¦wal-e¦awscli¦--upgrade :: Dependencies_operation,()
+echo ¦DEBIAN_FRONTEND=noninteractive¦wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main ${PG_VERSION}" > /etc/apt/sources.list.d/pgdg.list &... :: Filesystem_operation,()
+from,frodenas/ubuntu
+pip ¦install¦pip¦--upgrade :: Dependencies_operation,()
+wget ¦-O¦/usr/local/bin/jq¦https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64 :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/dumb-init :: Permissions_operation,()

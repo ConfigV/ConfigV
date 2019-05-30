@@ -1,0 +1,16 @@
+entrypoint,/usr/bin/docker-entrypoint
+MAVEN_VERSION:3.2.5 :: env_operation,()
+docker-entrypoint.sh/usr/bin/docker-entrypoint :: copy_operation,()
+M2_HOME=/usr/share/maven: :: env_operation,()
+PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH: :: env_operation,()
+${EXO_CI_USER} :: user_operation,()
+${EXO_CI_DATA_DIR} :: workdir_operation,()
+mkdir ¦-p¦/usr/share/maven :: Filesystem_operation,()
+mkdir ¦-p¦${HOME}/.m2/repository :: Filesystem_operation,()
+ln ¦-s¦/usr/share/maven/bin/mvn¦/usr/bin/mvn :: Filesystem_operation,()
+cmd,mvn¦--help
+mkdir ¦-p¦${HOME}/.gnupg :: Filesystem_operation,()
+from,mgreau/ci:jdk8
+mkdir ¦-p¦${HOME}/.ssh :: Filesystem_operation,()
+curl ¦-fsSL¦http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz¦|¦tar¦xzf¦-¦-C¦/usr/share/maven¦--strip-components=1 :: Dependencies_operation,()
+MAVEN_OPTS="-Dmaven.repo.local=${HOME}/.m2/repository:-XX:+UseConcMarkSweepGC :: env_operation,()

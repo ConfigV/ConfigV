@@ -1,0 +1,14 @@
+useradd ¦-d¦/home/spotify¦-p¦"!"¦-m¦-g¦audio¦-c¦"Docker-Spotify"¦spotify :: Permissions_operation,()
+chmod ¦+x¦/usr/bin/start-spotify.sh :: Permissions_operation,()
+entrypoint,"/usr/bin/start-spotify.sh"
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦spotify-client :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦libpangoxft-1.0-0¦libpangox-1.0-0¦xauth¦pulseaudio :: Other_operation,()
+/home/spotify/ :: volume_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-qq :: Other_operation,()
+HOME:/home/spotify :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-add-repository¦-y¦"deb¦http://repository.spotify.com¦stable¦non-free" :: Other_operation,()
+start-spotify.sh/usr/bin/start-spotify.sh :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦software-properties-common :: Other_operation,()
+spotify :: user_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-key¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦94558F59 :: Other_operation,()
+from,ubuntu

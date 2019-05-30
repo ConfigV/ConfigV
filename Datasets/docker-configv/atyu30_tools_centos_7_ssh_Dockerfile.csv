@@ -1,0 +1,8 @@
+expose,22
+sed ¦-i¦"s/UsePAM.*/UsePAM¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+sshd-keygen  :: Other_operation,()
+yum ¦-y¦install¦openssh-server¦passwd¦sed :: Dependencies_operation,()
+from,centos:7.0
+sed ¦-i¦"s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦"root:root" | chpasswd :: Filesystem_operation,()

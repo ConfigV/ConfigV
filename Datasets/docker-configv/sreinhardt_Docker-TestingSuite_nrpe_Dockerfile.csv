@@ -1,0 +1,17 @@
+/usr/local/nagios/ :: workdir_operation,()
+./configure ¦--enable-ssl¦--enable-command-args :: Build_Execute_operation,()
+nrpe-nrpe-2-14/ :: workdir_operation,()
+make ¦install-daemon :: Build_Execute_operation,()
+cmd,-c /usr/local/nagios/etc/nrpe.cfg -4 -d
+nrpe_ver:2-14 :: env_operation,()
+/tmp/ :: workdir_operation,()
+expose,5666
+nrpe.cfg/usr/local/nagios/etc/nrpe.cfg :: add_operation,()
+from,sreinhardt/nagios-testingsuite:nagios-plugins
+make ¦all :: Build_Execute_operation,()
+chown ¦-R¦${nagios_user}:${nagios_user}¦/usr/local/nagios/etc/ :: Permissions_operation,()
+entrypoint,/usr/local/nagios/bin/nrpe
+https://github.com/NagiosEnterprises/nrpe/archive/nrpe-2-14.tar.gz :: add_operation,()
+rm ¦-rf¦nrpe* :: Filesystem_operation,()
+tar ¦xzf¦nrpe-${nrpe_ver}.tar.gz :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()

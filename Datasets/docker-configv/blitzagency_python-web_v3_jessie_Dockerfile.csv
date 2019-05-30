@@ -1,0 +1,9 @@
+wget ¦https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz :: Dependencies_operation,()
+pip ¦install¦-U¦pip¦pipenv :: Dependencies_operation,()
+PIPENV_VENV_IN_PROJECT=1: :: env_operation,()
+rm ¦-f¦consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz :: Filesystem_operation,()
+CONSUL_TEMPLATE_VERSION=0.19.3: :: env_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+tar ¦xzf¦consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz :: Filesystem_operation,()
+mv ¦consul-template¦/usr/local/bin/consul-template :: Filesystem_operation,()
+from,python@latest

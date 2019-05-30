@@ -1,0 +1,15 @@
+from,microsoft/mssql-server-linux:latest
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+SA_PASSWORD='Mssql1.0': :: env_operation,()
+curl ¦https://packages.microsoft.com/config/ubuntu/16.04/prod.list¦|¦tee¦/etc/apt/sources.list.d/msprod.list :: Dependencies_operation,()
+update-locale  :: Other_operation,()
+curl ¦https://packages.microsoft.com/keys/microsoft.asc¦|¦apt-key¦add¦- :: Dependencies_operation,()
+ACCEPT_EULA=Y:LANG='C.UTF-8' :: env_operation,()
+apt-get ¦install¦-y¦mssql-tools :: Dependencies_operation,()
+/opt/mssql/bin/sqlservr.sh ¦&¦/var/opt/mssql/data/load-scripts-mssql.sh :: Other_operation,()
+mkdir ¦-p¦/tmp/sql_scripts/ :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl¦apt-transport-https :: Dependencies_operation,()
+expose,1433
+sql/mssql//tmp/sql_scripts/ :: copy_operation,()
+load-scripts-mssql.sh/var/opt/mssql/data/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

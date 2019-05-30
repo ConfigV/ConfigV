@@ -1,0 +1,11 @@
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+RACK_ENV:production :: env_operation,()
+Gemfile/usr/src/app/ :: copy_operation,()
+./usr/src/app :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,ruby:2.4
+bundle ¦config¦--global¦frozen¦1 :: Dependencies_operation,()
+apk ¦add¦--update¦build-base :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()
+cmd,bundle¦exec¦puma¦-C¦config/puma.rb
+bundle ¦install¦--without¦test¦--jobs¦2 :: Dependencies_operation,()

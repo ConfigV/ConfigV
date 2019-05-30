@@ -1,0 +1,13 @@
+/tmp :: volume_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && apt-get -qqy install oracle-java8-installer :: Filesystem_operation,()
+springboot-fluentd-appender-1.0-SNAPSHOT.jarapp.jar :: add_operation,()
+from,ubuntu:16.04
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦dist-upgrade¦-y :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦add-apt-repository¦ppa:webupd8team/java¦-y :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-y :: Other_operation,()
+JAVA_OPTS="": :: env_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦software-properties-common :: Other_operation,()
+sh ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+expose,8080
+entrypoint,sh¦-c¦java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar

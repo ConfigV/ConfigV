@@ -1,0 +1,11 @@
+cmd,-p 3000¦--crowd-root $CROWD_ROOT
+chmod ¦+x¦wai-crowd :: Permissions_operation,()
+from,ubuntu:14.04
+bunzip2 ¦wai-crowd.bz2 :: Other_operation,()
+expose,3000
+mkdir ¦/var/www :: Filesystem_operation,()
+apt-get ¦install¦wget¦-y :: Dependencies_operation,()
+entrypoint,/usr/local/bin/wai-crowd
+wget ¦https://s3.amazonaws.com/stackage-travis/wai-crowd/wai-crowd.bz2 :: Dependencies_operation,()
+mv ¦wai-crowd¦/usr/local/bin :: Filesystem_operation,()
+/var/www :: volume_operation,()

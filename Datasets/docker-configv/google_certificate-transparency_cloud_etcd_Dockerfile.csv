@@ -1,0 +1,9 @@
+/opt/etcd/data :: volume_operation,()
+from,ubuntu
+expose,4001 7001
+/opt/etcd :: workdir_operation,()
+sed ¦'s/main$/main¦universe/'¦-i¦/etc/apt/sources.list :: Filesystem_operation,()
+curl ¦-L¦https://github.com/coreos/etcd/releases/download/v0.4.6/etcd-v0.4.6-linux-amd64.tar.gz¦|¦tar¦-xz :: Dependencies_operation,()
+env ¦DEBIAN_FRONTEND=noninteractive¦apt-get¦install¦-y¦curl :: Other_operation,()
+cmd,MY_IP=$(awk¦"/${HOSTNAME}/¦{print$1}"¦<¦/etc/hosts)¦&&¦echo¦"My¦IP:¦${MY_IP}"¦&&¦echo¦"My¦Discovery:¦${DISCOVERY}"¦&&¦/opt/etcd/bin/etcd¦--discovery="${DISCOVERY}"¦--name=${HOSTNAME}¦--addr=${MY_IP}:4001¦--peer-addr=${MY_IP}:7001¦--data-dir=/opt/etcd/...
+apt-get ¦update :: Dependencies_operation,()

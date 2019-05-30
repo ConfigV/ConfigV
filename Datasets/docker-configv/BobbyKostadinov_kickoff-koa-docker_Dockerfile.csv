@@ -1,0 +1,22 @@
+apt-get ¦-y¦install¦git¦build-essential¦curl :: Dependencies_operation,()
+./srv/www :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+npm ¦install¦-g¦gulp :: Dependencies_operation,()
+n ¦0.12.1 :: Other_operation,()
+apt-get ¦install¦-y¦nodejs :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup¦|¦sudo¦bash¦- :: Dependencies_operation,()
+gulp ¦build :: Other_operation,()
+from,phusion/baseimage:0.9.16
+npm ¦install¦-g¦n :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+npm ¦cache¦clean¦|¦npm¦install :: Dependencies_operation,()
+/srv/www :: workdir_operation,()
+mkdir ¦/srv/www :: Filesystem_operation,()
+/setup/start.sh/tmp/start.sh :: add_operation,()
+setup/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦+x¦/tmp/start.sh :: Permissions_operation,()
+setup/default/etc/nginx/sites-available/default :: add_operation,()
+cmd,/tmp/start.sh
+expose,80
+apt-get ¦install¦-yq¦nginx¦make :: Dependencies_operation,()

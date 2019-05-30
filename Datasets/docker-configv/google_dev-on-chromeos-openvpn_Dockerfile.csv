@@ -1,0 +1,15 @@
+CERTBOT_STAGING_FLAG=--staging: :: env_operation,()
+src/openvpn.client.expect/asacamano/openvpn/openvpn.client.expect :: copy_operation,()
+expose,1194
+PUBLIC_HOSTNAME=foo.example.com: :: env_operation,()
+/etc/dnsmasq.d :: volume_operation,()
+entrypoint,/asacamano/openvpn/openvpn.sh
+src/supervisord.config/asacamano/openvpn/supervisord.config :: copy_operation,()
+src/openvpn.pki.expect/asacamano/openvpn/openvpn.pki.expect :: copy_operation,()
+src/openvpn_check_password.sh/asacamano/openvpn/check_password.sh :: copy_operation,()
+src/openvpn.onc.sh/asacamano/openvpn/openvpn.onc.sh :: copy_operation,()
+apk ¦add¦supervisor¦certbot¦expect¦util-linux¦coreutils¦dnsmasq :: Dependencies_operation,()
+src/openvpn.sh/asacamano/openvpn/openvpn.sh :: copy_operation,()
+ADMIN_EMAIL=admin@example.com: :: env_operation,()
+apk ¦update :: Dependencies_operation,()
+from,kylemanna/openvpn

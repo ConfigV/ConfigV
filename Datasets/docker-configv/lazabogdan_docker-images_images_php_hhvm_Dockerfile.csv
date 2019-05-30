@@ -1,0 +1,10 @@
+entrypoint,hhvm¦--mode¦server¦-vServer.Type=fastcgi¦-vServer.Port=9000
+mkdir ¦-p¦/data :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+echo ¦echo¦deb http://dl.hhvm.com/debian jessie main | tee /etc/apt/sources.list.d/hhvm.list && apt-get update -y && apt-get install -y hhvm :: Filesystem_operation,()
+from,debian@jessie
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+expose,9000
+/data :: volume_operation,()
+/data/www/public :: workdir_operation,()
+wget ¦-O¦-¦http://dl.hhvm.com/conf/hhvm.gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()

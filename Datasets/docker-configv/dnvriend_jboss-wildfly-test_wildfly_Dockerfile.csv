@@ -1,0 +1,10 @@
+from,jboss/wildfly
+root :: user_operation,()
+cmd,/opt/jboss/wildfly/bin/standalone.sh¦-b¦0.0.0.0¦-bmanagement¦0.0.0.0
+jdbc/opt/jdbc :: add_operation,()
+chmod ¦+x¦/opt/config/execute.sh :: Permissions_operation,()
+/opt/jboss/wildfly/bin/add-user.sh ¦admin¦admin¦--silent :: Other_operation,()
+config/opt/config :: add_operation,()
+/opt/config/execute.sh  :: Other_operation,()
+jboss :: user_operation,()
+rm ¦-rf¦$JBOSS_HOME/standalone/configuration/standalone_xml_history :: Filesystem_operation,()

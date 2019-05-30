@@ -1,0 +1,10 @@
+echo ¦echo¦"deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list :: Filesystem_operation,()
+CI=true: :: env_operation,()
+echo ¦mkdir¦/var/run/sshd && adduser --quiet jenkins && echo "jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+apt-get ¦install¦-y¦git¦openssh-server :: Dependencies_operation,()
+apt-get ¦-t¦jessie-backports¦install¦-y¦openjdk-8-jdk :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,22
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+from,node:4.8

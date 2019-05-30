@@ -1,0 +1,14 @@
+from,dorajistyle/golang-base
+expose,3001
+entrypoint,./run_server_rds.sh
+.$PROJECT_PATH :: add_operation,()
+/go/src :: workdir_operation,()
+$PROJECT_PATH/frontend/canjs/compiler :: workdir_operation,()
+gulp  :: Other_operation,()
+$PROJECT_PATH/migrate :: workdir_operation,()
+PROJECT_PATH:$USER_PATH/goyangi :: env_operation,()
+$USER_PATH :: workdir_operation,()
+$PROJECT_PATH :: workdir_operation,()
+USER_PATH:/go/src/github.com/dorajistyle :: env_operation,()
+mkdir ¦$PROJECT_PATH :: Filesystem_operation,()
+goop ¦exec¦go¦run¦migrate.go :: Other_operation,()

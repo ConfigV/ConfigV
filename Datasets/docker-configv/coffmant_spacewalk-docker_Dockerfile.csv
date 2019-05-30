@@ -1,0 +1,10 @@
+./jpackage.repo/etc/yum.repos.d/jpackage.repo :: add_operation,()
+./run-spacewalk.sh/usr/local/bin/run-spacewalk.sh :: add_operation,()
+from,centos@latest
+yum ¦-y¦install¦spacewalk-postgresql¦spacewalk-setup-postgresql¦supervisor :: Dependencies_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+yum ¦-y¦install¦http://yum.spacewalkproject.org/2.3/RHEL/7/x86_64/spacewalk-repo-2.3-4.el7.noarch.rpm :: Dependencies_operation,()
+./answers.properties/etc/spacewalk/answers.properties :: add_operation,()
+cmd,/usr/local/bin/run-spacewalk.sh
+expose,443
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()

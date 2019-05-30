@@ -1,0 +1,12 @@
+././ :: add_operation,()
+cmd,./app-run
+useradd ¦-m¦appuser :: Permissions_operation,()
+appuser :: user_operation,()
+chown ¦-R¦appuser:appuser¦./ :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/home/appuser :: workdir_operation,()
+expose,8000
+'https://getcomposer.org/installer'  :: Other_operation,()
+apt-get ¦-y¦install¦php5-cli¦vim :: Dependencies_operation,()
+from,ubuntu@trusty
+composer ¦install :: Dependencies_operation,()

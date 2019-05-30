@@ -1,0 +1,8 @@
+VERTICLE_NAME:hello-verticle.groovy :: env_operation,()
+from,vertx/vertx3
+$VERTICLE_HOME :: workdir_operation,()
+$VERTICLE_NAME$VERTICLE_HOME/ :: copy_operation,()
+expose,8080
+VERTICLE_HOME:/usr/verticles :: env_operation,()
+cmd,vertx run $VERTICLE_NAME -cp $VERTICLE_HOME/*
+entrypoint,sh¦-c

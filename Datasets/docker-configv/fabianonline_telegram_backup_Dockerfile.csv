@@ -1,0 +1,11 @@
+JAR_DOWNLOAD_URL:https://github.com/fabianonline/telegram_backup/releases/download/${JAR_VERSION}/telegram_backup.jar :: env_operation,()
+chmod ¦+x¦/bin/dumb-init :: Permissions_operation,()
+entrypoint,/bin/dumb-init¦--
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+curl ¦-L¦"https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.1.3_amd64"¦-o¦/bin/dumb-init :: Dependencies_operation,()
+mkdir ¦/data/ :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+cmd,java¦-jar¦telegram_backup.jar¦--target¦/data/¦--help
+from,openjdk:8.0
+JAR_VERSION:1.0.5-test.5 :: env_operation,()
+curl ¦-L¦$JAR_DOWNLOAD_URL¦-o¦telegram_backup.jar :: Dependencies_operation,()

@@ -1,0 +1,14 @@
+gem ¦install¦fluentd¦foreman :: Dependencies_operation,()
+rm ¦/docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz :: Filesystem_operation,()
+/app/ :: workdir_operation,()
+expose,12514
+TO_HOST:logserver.example.com :: env_operation,()
+wget ¦https://github.com/jwilder/docker-gen/releases/download/$DOCKER_GEN_VERSION/docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz :: Dependencies_operation,()
+mkdir ¦-p¦/etc/fluent/plugins :: Filesystem_operation,()
+from,ruby:2.2
+plugins/etc/fluent/plugins/ :: copy_operation,()
+tar ¦-C¦/usr/local/bin¦-xvzf¦docker-gen-linux-amd64-$DOCKER_GEN_VERSION.tar.gz :: Filesystem_operation,()
+DOCKER_GEN_VERSION:0.4.3 :: env_operation,()
+DOCKER_HOST:unix:///tmp/docker.sock :: env_operation,()
+cmd,foreman¦start¦-r
+./app/ :: copy_operation,()

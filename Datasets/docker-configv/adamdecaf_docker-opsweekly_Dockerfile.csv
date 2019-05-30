@@ -1,0 +1,13 @@
+sites-available/default/etc/apache2/sites-available/default :: add_operation,()
+mkdir ¦-p¦/opt/ :: Filesystem_operation,()
+apt-get ¦install¦-y¦apache2¦php5¦libapache2-mod-php5¦curl¦git :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/opt/opsweekly/phplib/config.php.example :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+from,mysql:5.7
+ln ¦-s¦/opt/opsweekly/¦/var/www/ :: Filesystem_operation,()
+init.sh/opt/opsweekly/init.sh :: add_operation,()
+git ¦clone¦https://github.com/etsy/opsweekly.git¦/opt/opsweekly/ :: Dependencies_operation,()
+chmod ¦u+x¦/opt/opsweekly/init.sh :: Permissions_operation,()
+config.php/opt/opsweekly/phplib/config.php :: add_operation,()
+entrypoint,"/opt/opsweekly/init.sh"

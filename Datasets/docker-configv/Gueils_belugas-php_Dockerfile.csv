@@ -1,0 +1,16 @@
+apk ¦add¦--no-cache¦--virtual¦.app-rundeps¦icu-libs :: Dependencies_operation,()
+PATH=/usr/src/app/bin:$PATH: :: env_operation,()
+cd ¦/usr/src/app :: Filesystem_operation,()
+cmd,/usr/src/app/bin/belugas-php¦analyze
+/code :: volume_operation,()
+./lib/belugas/php/version.rb/usr/src/app/lib/belugas/php/version.rb :: add_operation,()
+./usr/src/app :: add_operation,()
+apk ¦del¦.app-builddeps :: Dependencies_operation,()
+bundle ¦install¦--without¦development¦test :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--virtual¦.app-builddeps¦build-base¦icu-dev¦cmake :: Dependencies_operation,()
+adduser ¦-u¦9000¦-D¦app :: Permissions_operation,()
+./Gemfile*/usr/src/app/ :: add_operation,()
+/code :: workdir_operation,()
+./belugas-php.gemspec*/usr/src/app/ :: add_operation,()
+set ¦-ex :: Environment_operation,()
+from,ruby:2.3

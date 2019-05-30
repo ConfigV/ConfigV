@@ -1,0 +1,12 @@
+/kb/module :: workdir_operation,()
+cd ¦/kb/dev_container/modules/kb_sdk :: Filesystem_operation,()
+cd ¦/kb/dev_container/modules :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+from,kbase/depl:latest
+PATH=$PATH:/kb/dev_container/modules/kb_sdk/bin: :: env_operation,()
+mkdir ¦-p¦/kb/module/work :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦ant :: Dependencies_operation,()
+.//kb/module :: copy_operation,()
+entrypoint,./scripts/entrypoint.sh
+git ¦clone¦https://github.com/kbase/kb_sdk¦-b¦develop :: Dependencies_operation,()

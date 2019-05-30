@@ -1,0 +1,11 @@
+from,fedora:21.0
+expose,179 2605
+yum ¦-y¦install¦deltarpm¦supervisor :: Dependencies_operation,()
+yum ¦-y¦install¦quagga :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+/etc/quagga/ :: volume_operation,()
+assets/supervisord.conf/etc/supervisord.conf :: add_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+assets/bgpexpert-configure/usr/bin/bgpexpert-configure :: add_operation,()
+cmd,/usr/bin/supervisord¦-n
+RUNyum -y update :: onbuild_operation,()

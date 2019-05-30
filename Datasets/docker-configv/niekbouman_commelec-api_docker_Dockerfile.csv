@@ -1,0 +1,10 @@
+git ¦clone¦--recursive¦https://github.com/niekbouman/commelec-api.git :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦capnproto¦libcapnp-dev¦cmake¦git¦libboost-context-dev¦libboost-coroutine-dev¦libboost-coroutine1.58.0¦libboost-system-dev¦libboost-filesystem-dev¦libboost-chrono-dev¦libboost-dev¦libeigen3-dev¦ninja-build :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+ninja  :: Other_operation,()
+from,debian@unstable
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦build :: Filesystem_operation,()
+cd ¦commelec-api :: Filesystem_operation,()
+cd ¦build :: Filesystem_operation,()
+cmake ¦-DCMAKE_BUILD_TYPE=Release¦-GNinja¦.. :: Build_Execute_operation,()

@@ -1,0 +1,7 @@
+unzip ¦gravitee-management-webui-1.0.0-SNAPSHOT-bin.zip¦-d¦/tmp :: Filesystem_operation,()
+cmd,/usr/sbin/httpd¦-DFOREGROUND
+from,graviteeio/httpd:latest
+wget ¦--no-cookies¦http://build.gravitee.io/jenkins/job/gravitee-management-webui/lastSuccessfulBuild/artifact/target/gravitee-management-webui-1.0.0-SNAPSHOT-bin.zip :: Dependencies_operation,()
+rm ¦-f¦gravitee-management-webui-1.0.0-SNAPSHOT-bin.zip :: Filesystem_operation,()
+rm ¦-rf¦/tmp/gravitee-management-webui-1.0.0-SNAPSHOT :: Filesystem_operation,()
+mv ¦/tmp/gravitee-management-webui-1.0.0-SNAPSHOT/*¦/var/www/html :: Filesystem_operation,()

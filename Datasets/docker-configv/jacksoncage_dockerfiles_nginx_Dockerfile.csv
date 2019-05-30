@@ -1,0 +1,20 @@
+NGINX_BACKEND_PORT:80 :: env_operation,()
+NGINX_BACKEND_IP:172.17.42.1 :: env_operation,()
+001-docker/etc/nginx/sites-available/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+NGINX_RUN_USER:www-data :: env_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+REFRESHED_AT:2015-12-11 :: env_operation,()
+apt-get ¦upgrade¦-yqq :: Dependencies_operation,()
+cmd,/start.sh
+NGINX_RUN_GROUP:www-data :: env_operation,()
+ln ¦-s¦/etc/nginx/sites-available/001-docker¦/etc/nginx/sites-enabled/001-docker :: Filesystem_operation,()
+apt-get ¦-yqq¦clean :: Dependencies_operation,()
+NGINX_SERVER_NAME:localhost :: env_operation,()
+start.sh/start.sh :: copy_operation,()
+apt-get ¦-yqq¦purge :: Dependencies_operation,()
+from,debian@jessie
+expose,80 443
+apt-get ¦update¦-qq :: Dependencies_operation,()
+NGINX_LOG_DIR:/var/log/nginx :: env_operation,()
+apt-get ¦-yqq¦install¦wget¦curl¦nginx :: Dependencies_operation,()

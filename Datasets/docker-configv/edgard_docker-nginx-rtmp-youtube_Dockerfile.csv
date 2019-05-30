@@ -1,0 +1,15 @@
+mkdir ¦-p¦/data/config¦/data/logs¦/data/static :: Filesystem_operation,()
+cd ¦/tmp/nginx-1.9.6 :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qy¦curl¦ffmpeg¦build-essential¦libpcre3-dev¦zlib1g-dev¦libssl-dev :: Other_operation,()
+make ¦install :: Build_Execute_operation,()
+curl ¦-Ls¦https://github.com/arut/nginx-rtmp-module/archive/v1.1.7.tar.gz¦|¦tar¦zxf¦-¦-C¦/tmp :: Dependencies_operation,()
+curl ¦-Ls¦http://nginx.org/download/nginx-1.9.6.tar.gz¦|¦tar¦zxf¦-¦-C¦/tmp :: Dependencies_operation,()
+files/root/ :: copy_operation,()
+cmd,/usr/local/nginx/sbin/nginx
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu/ wily main restricted universe multiverse" > /etc/apt/sources.list && echo "deb http://archive.ubuntu.com/ubuntu/ wily-updates main restricted universe multiverse" >> /etc/apt/sources.list && echo... :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+from,docker.io/ubuntu:wily
+apt-get ¦clean :: Dependencies_operation,()
+REFRESHED_AT:2015-10-22-23-15Z :: env_operation,()
+rm ¦-rf¦/var/lib/apt¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+./configure ¦--add-module=/tmp/nginx-rtmp-module-1.1.7¦--conf-path=/data/config/nginx.conf¦--error-log-path=/data/logs/error.log¦--http-log-path=/data/logs/access.log :: Build_Execute_operation,()

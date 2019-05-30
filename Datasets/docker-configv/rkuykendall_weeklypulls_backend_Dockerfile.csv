@@ -1,0 +1,12 @@
+./weeklypulls/weeklypulls :: add_operation,()
+cmd,python¦./manage.py¦runserver¦0.0.0.0:8000
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+from,python:3.6
+expose,8000
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦--no-cache¦gcc¦musl-dev¦postgresql-dev :: Dependencies_operation,()
+requirements.txt/ :: add_operation,()
+apk ¦update :: Dependencies_operation,()
+./manage.py/manage.py :: add_operation,()
+PYTHONUNBUFFERED=0: :: env_operation,()
+apk ¦add¦git :: Dependencies_operation,()

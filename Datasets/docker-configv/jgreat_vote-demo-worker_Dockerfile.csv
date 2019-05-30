@@ -1,0 +1,11 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦jq¦bash¦curl :: Dependencies_operation,()
+./app :: add_operation,()
+cmd,/usr/local/bin/start-app.sh
+from,node:6.0
+/app :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+.docker/usr/local/bin :: add_operation,()

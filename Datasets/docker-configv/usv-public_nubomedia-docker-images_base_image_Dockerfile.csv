@@ -1,0 +1,16 @@
+apt-get ¦install¦collectd¦-y;¦exit¦0 :: Dependencies_operation,()
+mkdir ¦-p¦/usr/local/bin/ :: Filesystem_operation,()
+expose,22 8888 8100 8102 8103 8104 8105 8106 8107 8108
+apt-get ¦clean¦all :: Dependencies_operation,()
+echo ¦echo¦'root:nub0m3d1@' | chpasswd :: Filesystem_operation,()
+apt-get ¦install¦wget¦curl¦-y :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/fix_docker_on_openstack.sh :: Permissions_operation,()
+cmd,/sbin/init
+collectd.conf/etc/collectd/ :: add_operation,()
+fix_docker_on_openstack.sh/usr/local/bin/ :: add_operation,()
+sed ¦-ri¦'s/#?RSAAuthentication\\s+.*/RSAAuthentication¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+fix_docker_on_openstack.conf/etc/init/ :: add_operation,()
+from,ubuntu-upstart:14.04
+apt-get ¦-y¦update :: Dependencies_operation,()
+sed ¦-ri¦'s/#?PubkeyAuthentication\\s+.*/PubkeyAuthentication¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+echo ¦echo¦"nameserver 8.8.8.8" >> /etc/resolv.conf :: Filesystem_operation,()

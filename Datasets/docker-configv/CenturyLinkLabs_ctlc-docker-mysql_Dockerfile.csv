@@ -1,0 +1,19 @@
+/serf-join.sh/serf-join.sh :: add_operation,()
+expose,3306
+! ¦DEBIAN_FRONTEND=noninteractive¦apt-get¦-y¦install¦supervisor¦wget¦unzip¦mysql-server¦pwgen :: Other_operation,()
+cmd,/run.sh
+/my.cnf/etc/mysql/conf.d/my.cnf :: add_operation,()
+wget ¦https://dl.bintray.com/mitchellh/serf/0.3.0_linux_amd64.zip :: Dependencies_operation,()
+/create_mysql_admin_user.sh/create_mysql_admin_user.sh :: add_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+mv ¦serf¦/usr/bin/ :: Filesystem_operation,()
+/import_sql.sh/import_sql.sh :: add_operation,()
+/run.sh/run.sh :: add_operation,()
+/start-serf.sh/start-serf.sh :: add_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+/supervisord-serf.conf/etc/supervisor/conf.d/supervisord-serf.conf :: add_operation,()
+/supervisord-mysqld.conf/etc/supervisor/conf.d/supervisord-mysqld.conf :: add_operation,()
+from,ubuntu@quantal
+/start.sh/start.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+unzip ¦0.3.0_linux_amd64.zip :: Filesystem_operation,()

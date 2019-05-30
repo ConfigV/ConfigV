@@ -1,0 +1,19 @@
+fhem :: user_operation,()
+/opt/fhem/www :: volume_operation,()
+echo ¦echo¦'attr global nofork 1\\n' >> /opt/fhem/fhem.cfg :: Filesystem_operation,()
+cp ¦/usr/share/zoneinfo/Europe/Berlin¦/etc/localtime :: Filesystem_operation,()
+apk ¦add¦--update¦perl¦¦¦perl-device-serialport¦perl-io-socket-ssl¦perl-libwww¦perl-xml-simple¦perl-json¦tzdata :: Dependencies_operation,()
+adduser ¦-D¦-G¦fhem¦-G¦dialout¦-h¦/opt/fhem¦-u¦1000¦fhem :: Permissions_operation,()
+http://fhem.de/fhem-${FHEM_VERSION}.tar.gz/fhem.tar.gz :: add_operation,()
+/config :: volume_operation,()
+FHEM_VERSION:5.8 :: env_operation,()
+tar ¦xvf¦/fhem.tar.gz :: Filesystem_operation,()
+/opt/fhem/log :: volume_operation,()
+mkdir ¦-p¦/opt/fhem¦addgroup¦fhem :: Filesystem_operation,()
+start-fhem.sh/start-fhem.sh :: copy_operation,()
+cmd,/start-fhem.sh
+cd ¦fhem-${FHEM_VERSION}¦&&\\ :: Filesystem_operation,()
+from,hypriot/rpi-alpine-scratch:v3.4
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cd ¦/opt :: Filesystem_operation,()
+expose,8083 8084 8085 7072

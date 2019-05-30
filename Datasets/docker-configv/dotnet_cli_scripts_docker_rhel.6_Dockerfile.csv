@@ -1,0 +1,11 @@
+echo ¦echo¦'code_executor ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+LD_LIBRARY_PATH:/usr/local/lib :: env_operation,()
+USER_ID=0 :: arg_operation,()
+nproc ¦--all :: Other_operation,()
+${USER_ID} :: user_operation,()
+yum ¦-q¦-y¦install¦sudo¦expat-devel¦perl-devel¦autoconf¦gcc¦gcc-c++¦gettext-devel :: Dependencies_operation,()
+chmod ¦-R¦a+rwx¦/home :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/bin/sudo :: Permissions_operation,()
+/opt/code :: workdir_operation,()
+chmod ¦-R¦a+rwx¦/usr/local :: Permissions_operation,()
+from,microsoft/dotnet-buildtools-prereqs:centos-6-783abde-20171304101322

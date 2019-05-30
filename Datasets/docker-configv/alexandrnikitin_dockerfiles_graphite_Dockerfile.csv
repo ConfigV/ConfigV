@@ -1,0 +1,21 @@
+pip ¦install¦whisper :: Dependencies_operation,()
+./graphite/carbon.conf/opt/graphite/conf/carbon.conf :: add_operation,()
+./graphite/storage-schemas.conf/opt/graphite/conf/storage-schemas.conf :: add_operation,()
+expose,80 2003
+pip ¦install¦carbon :: Dependencies_operation,()
+./graphite/initial_data.json/opt/graphite/webapp/graphite/initial_data.json :: add_operation,()
+daemons/carbon-aggregator.sh/etc/service/carbon-aggregator/run :: add_operation,()
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+ln ¦-s¦/etc/nginx/sites-available/graphite.conf¦/etc/nginx/sites-enabled/graphite.conf :: Filesystem_operation,()
+nginx/graphite.conf/etc/nginx/sites-available/graphite.conf :: add_operation,()
+entrypoint,/usr/sbin/nginx
+daemons/graphite.sh/etc/service/graphite/run :: add_operation,()
+./graphite/local_settings.py/opt/graphite/webapp/graphite/local_settings.py :: add_operation,()
+from,ubuntu:14.04
+nginx/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+daemons/carbon.sh/etc/service/carbon/run :: add_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+pip ¦install¦https://github.com/graphite-project/ceres/tarball/master :: Dependencies_operation,()
+pip ¦install¦graphite-web :: Dependencies_operation,()
+apt-get ¦-y¦install¦python-dev¦python-pip¦nginx :: Dependencies_operation,()
+./graphite/storage-aggregation.conf/opt/graphite/conf/storage-aggregation.conf :: add_operation,()

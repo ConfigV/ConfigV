@@ -1,0 +1,11 @@
+yum ¦-y¦install¦rubygem-bundler¦git¦ruby-devel¦make¦patch¦tar¦gcc¦gcc-c++¦zlib-devel¦libvirt-devel¦postgresql-devel :: Dependencies_operation,()
+runme.sh/runme.sh :: add_operation,()
+from,centos:7.0
+PATH:/home/foreman/bin:$PATH :: env_operation,()
+su ¦foreman¦-c¦"cd¦~ :: Other_operation,()
+cmd,/runme.sh
+chown ¦-R¦foreman:users¦/home/foreman :: Permissions_operation,()
+resources/home/foreman/ :: add_operation,()
+chmod ¦+x¦/runme.sh :: Permissions_operation,()
+bundle ¦install¦--without¦ec2¦mysql2¦ovirt¦sqlite¦vmware" :: Dependencies_operation,()
+useradd ¦-m¦foreman¦-u¦1000¦-g¦users :: Permissions_operation,()

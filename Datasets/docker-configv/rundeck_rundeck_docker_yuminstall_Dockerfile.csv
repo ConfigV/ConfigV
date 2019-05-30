@@ -1,0 +1,12 @@
+useradd ¦rundeck :: Permissions_operation,()
+chmod ¦+x¦/entry.sh :: Permissions_operation,()
+JAVA_HOME=/etc/alternatives/java_sdk: :: env_operation,()
+expose,4440
+rpm ¦-Uvh¦http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+$HOME/rundeck :: workdir_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+entry.sh/entry.sh :: add_operation,()
+entrypoint,/entry.sh
+yum ¦-y¦install¦java-1.8.0-openjdk¦java-1.8.0-openjdk-devel :: Dependencies_operation,()
+$HOME/rundeck :: volume_operation,()
+from,centos:6.0

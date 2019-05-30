@@ -1,0 +1,19 @@
+from,alpine@latest
+expose,3306
+sed ¦-i¦'s/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/'¦/etc/apk/repositories :: Filesystem_operation,()
+chmod ¦+x¦/apps/init_mysql.sh :: Permissions_operation,()
+/apps/mysql :: volume_operation,()
+echo ¦echo¦$TIMEZONE > /etc/timezone :: Filesystem_operation,()
+my.cnf/etc/mysql/my.cnf :: copy_operation,()
+ln ¦-snf¦/usr/share/zoneinfo/$TIMEZONE¦/etc/localtime :: Filesystem_operation,()
+mkdir ¦-p¦/apps/mysql/ :: Filesystem_operation,()
+apk ¦add¦mysql¦mysql-client :: Dependencies_operation,()
+mkdir ¦/run/mysqld/ :: Filesystem_operation,()
+import.sql/apps/ :: copy_operation,()
+TIMEZONE:Asia/Shanghai :: env_operation,()
+init_mysql.sh/apps/ :: copy_operation,()
+/apps/ :: workdir_operation,()
+apk ¦update :: Dependencies_operation,()
+cmd,/apps/init_mysql.sh
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦tzdata :: Dependencies_operation,()

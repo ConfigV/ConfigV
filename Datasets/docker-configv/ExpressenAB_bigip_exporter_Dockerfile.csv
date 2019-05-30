@@ -1,0 +1,12 @@
+entrypoint,/bigip_exporter
+GOPATH:/go :: env_operation,()
+rm ¦-rf¦$GOPATH :: Filesystem_operation,()
+go ¦build¦-o¦/bigip_exporter :: Build_Execute_operation,()
+apk ¦add¦--update¦-t¦build-deps¦go¦git¦mercurial¦libc-dev¦gcc¦libgcc :: Dependencies_operation,()
+.$APPPATH :: copy_operation,()
+expose,9142
+cd ¦$APPPATH :: Filesystem_operation,()
+go ¦get¦-d :: Build_Execute_operation,()
+from,alpine@latest
+apk ¦del¦--purge¦build-deps :: Dependencies_operation,()
+APPPATH:$GOPATH/src/github.com/ExpressenAB/bigip_exporter :: env_operation,()

@@ -1,0 +1,12 @@
+sed ¦-i¦'s/^.*AutoDetect.*/#¦&/'¦/etc/httpd/conf.d/puppet_passenger.conf :: Filesystem_operation,()
+expose,8140
+puppet ¦module¦install¦stephenrjohnson/puppet :: Dependencies_operation,()
+puppet ¦module¦install¦puppetlabs/puppetdb :: Dependencies_operation,()
+install.pp/tmp/install.pp :: add_operation,()
+start.sh/usr/local/sbin/start.sh :: add_operation,()
+puppet ¦apply¦/tmp/install.pp :: Dependencies_operation,()
+/opt/puppet/environments/ :: volume_operation,()
+from,jumanjiman/puppetagent
+chown ¦-R¦puppet:puppet¦/var/lib/puppet/ssl :: Permissions_operation,()
+ssl/var/lib/puppet/ssl :: add_operation,()
+cmd,/usr/local/sbin/start.sh

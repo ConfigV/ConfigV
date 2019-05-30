@@ -1,0 +1,18 @@
+/coin :: workdir_operation,()
+/coin/git :: workdir_operation,()
+HOME:/coin/home :: env_operation,()
+from,debian:8.4
+make  :: Build_Execute_operation,()
+http://security.debian.org/project/trace/security-master.debian.org/etc/trace_security-master.debian.org :: add_operation,()
+expose,21102 20102
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+http://httpredir.debian.org/debian/project/trace/ftp-master.debian.org/etc/trace_ftp-master.debian.org :: add_operation,()
+git ¦clone¦https://github.com/mkinney/verge¦-b¦test-work¦/coin/git :: Dependencies_operation,()
+./configure ¦--with-gui=qt5¦--with-incompatible-bdb :: Build_Execute_operation,()
+./autogen.sh  :: Other_operation,()
+apt-get ¦-y¦install¦autoconf¦automake¦autotools-dev¦bsdmainutils¦build-essential¦git¦libboost-all-dev¦libboost-filesystem-dev¦libboost-program-options-dev¦libboost-system-dev¦libboost-test-dev¦libboost-thread-dev¦libcanberra-gtk-module¦libdb++-dev¦... :: Dependencies_operation,()
+/coin/home :: volume_operation,()
+cmd,/coin/VERGEd
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦src/VERGEd¦/coin/VERGEd :: Filesystem_operation,()

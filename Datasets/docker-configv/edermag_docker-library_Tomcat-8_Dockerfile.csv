@@ -1,0 +1,11 @@
+TOMCAT_MAJOR:8 :: env_operation,()
+tar ¦-xvf¦/opt/apache-tomcat.tar.gz¦-C¦/opt :: Filesystem_operation,()
+$TOMCAT_TGZ_URL/opt/apache-tomcat.tar.gz :: add_operation,()
+expose,8080
+from,edermag/ubuntu-java-8-dev
+rm ¦/opt/apache-tomcat.tar.gz :: Filesystem_operation,()
+mv ¦/opt/apache-tomcat-$TOMCAT_VERSION¦"$CATALINA_HOME" :: Filesystem_operation,()
+PATH:$CATALINA_HOME/bin:$PATH :: env_operation,()
+TOMCAT_VERSION:8.0.23 :: env_operation,()
+TOMCAT_TGZ_URL:https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz :: env_operation,()
+CATALINA_HOME:/opt/tomcat :: env_operation,()

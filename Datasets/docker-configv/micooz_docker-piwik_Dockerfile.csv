@@ -1,0 +1,23 @@
+apt-get ¦install¦--yes¦php5-fpm¦php5-curl¦php5-gd¦php5-cli¦php5-geoip :: Dependencies_operation,()
+cmd,/bin/bash¦/start.sh
+mv ¦builds.piwik.org/piwik.zip¦piwik.zip :: Filesystem_operation,()
+from,ubuntu@latest
+expose,80
+apt-get ¦install¦--yes¦mysql-server¦php5-mysql :: Dependencies_operation,()
+apt-get ¦install¦--yes¦nginx :: Dependencies_operation,()
+rm ¦-r¦builds.piwik.org :: Filesystem_operation,()
+wget ¦--force-directories¦http://builds.piwik.org/piwik.zip :: Dependencies_operation,()
+apt-get ¦install¦--yes¦vim¦pwgen¦unzip¦wget :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+unzip ¦-q¦piwik.zip :: Filesystem_operation,()
+sed ¦-i¦-e¦"s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g"¦/etc/php5/fpm/php.ini :: Filesystem_operation,()
+start.sh/start.sh :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦--yes¦upgrade :: Dependencies_operation,()
+/www :: workdir_operation,()
+/ :: workdir_operation,()
+mkdir ¦/www :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/www :: volume_operation,()
+site.conf/etc/nginx/sites-available/default :: add_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()

@@ -1,0 +1,16 @@
+mkdir ¦-p¦/usr/src/app/dist :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+apk ¦add¦git¦python¦make¦g++ :: Dependencies_operation,()
+node_modules/.bin/webpack  :: Other_operation,()
+npm ¦install¦--only=production :: Dependencies_operation,()
+expose,9001
+package.json/usr/src/app/ :: copy_operation,()
+from,node@alpine
+server.js/usr/src/app/ :: copy_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+lib/usr/src/app/lib :: copy_operation,()
+entrypoint,node¦server
+index.html/usr/src/app/ :: copy_operation,()
+webpack.config.js/usr/src/app/ :: copy_operation,()
+app/usr/src/app/app :: copy_operation,()
+apk ¦update :: Dependencies_operation,()

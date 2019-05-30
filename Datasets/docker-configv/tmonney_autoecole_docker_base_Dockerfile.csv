@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦puppet-common¦wget¦software-properties-common¦git :: Dependencies_operation,()
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+from,ubuntu:14.04
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+echo ¦echo¦'Acquire::http::Proxy "http://172.17.42.1:3142";' > /etc/apt/apt.conf.d/90-apt-cacher.conf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+echo ¦echo¦'Acquire::https::Proxy "false";' >> /etc/apt/apt.conf.d/90-apt-cacher.conf :: Filesystem_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+hiera.yaml/etc/puppet/hiera.yaml :: add_operation,()

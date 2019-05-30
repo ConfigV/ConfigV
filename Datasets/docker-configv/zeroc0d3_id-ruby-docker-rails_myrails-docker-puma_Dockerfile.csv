@@ -1,0 +1,14 @@
+config/puma.rbconfig/puma.rb :: copy_operation,()
+.. :: copy_operation,()
+GemfileGemfile :: copy_operation,()
+from,ruby:2.3
+$RAILS_ROOT :: workdir_operation,()
+apt-get ¦install¦-y¦build-essential¦libpq-dev¦nodejs :: Dependencies_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+cmd,bundle¦exec¦puma¦-C¦config/puma.rb
+apt-get ¦update¦-qq :: Dependencies_operation,()
+Gemfile.lockGemfile.lock :: copy_operation,()
+RAILS_ROOT:/var/www/myrails_docker :: env_operation,()
+mkdir ¦-p¦$RAILS_ROOT :: Filesystem_operation,()
+expose,3000
+bundle ¦install :: Dependencies_operation,()

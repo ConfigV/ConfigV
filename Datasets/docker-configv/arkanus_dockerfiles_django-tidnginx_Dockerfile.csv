@@ -1,0 +1,8 @@
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+UWSGI_MODULE="example.wsgi:application": :: env_operation,()
+yum ¦install¦-y¦-q¦¦¦nginx¦¦¦supervisor :: Dependencies_operation,()
+cmd,supervisord¦-n¦-c¦/etc/supervisord.conf
+supervisord.conf/etc/supervisord.d/app.ini :: add_operation,()
+uwsgi.ini/etc/ :: add_operation,()
+from,arkanus/django-tidevelop
+pip ¦install¦uWSGI :: Dependencies_operation,()

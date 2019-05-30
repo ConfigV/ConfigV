@@ -1,0 +1,16 @@
+supervisor/kafka.conf/etc/supervisor/conf.d/ :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+scripts/start-kafka.sh/usr/bin/start-kafka.sh :: add_operation,()
+KAFKA_VERSION:0.9.0.0 :: env_operation,()
+expose,2181 9092
+rm ¦/tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz :: Filesystem_operation,()
+cmd,supervisord¦-n
+tar ¦xfz¦/tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz¦-C¦/opt :: Filesystem_operation,()
+wget ¦-q¦http://apache.mirrors.spacedump.net/kafka/"$KAFKA_VERSION"/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz¦-O¦/tmp/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION".tgz :: Dependencies_operation,()
+KAFKA_HOME:/opt/kafka_"$SCALA_VERSION"-"$KAFKA_VERSION" :: env_operation,()
+SCALA_VERSION:2.11 :: env_operation,()
+apt-get ¦install¦-y¦zookeeper¦wget¦supervisor¦dnsutils :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,java:8.0
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

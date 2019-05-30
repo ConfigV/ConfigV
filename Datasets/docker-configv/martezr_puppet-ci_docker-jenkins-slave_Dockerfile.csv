@@ -1,0 +1,19 @@
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+ansible-roles/etc/ansible/roles/ansible-roles :: copy_operation,()
+from,centos@latest
+ssh-keygen ¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key¦-N¦'' :: Other_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/supervisord :: Filesystem_operation,()
+echo ¦echo¦"[$ROLE]" > /etc/ansible/hosts && echo "localhost" >> /etc/ansible/hosts && ls /etc/ansible/roles :: Filesystem_operation,()
+yum ¦-y¦install¦ansible :: Dependencies_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()
+ansible-playbook ¦-c¦local¦/etc/ansible/roles/ansible-roles/site.yml :: Other_operation,()
+echo ¦echo¦"root:password" | chpasswd :: Filesystem_operation,()
+yum ¦-y¦upgrade :: Dependencies_operation,()
+expose,22
+cmd,/usr/bin/supervisord
+yum ¦-y¦install¦openssh-server¦supervisor :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

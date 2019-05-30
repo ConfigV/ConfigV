@@ -1,0 +1,17 @@
+mkdir ¦/root/empire :: Filesystem_operation,()
+pip ¦install¦pyopenssl :: Dependencies_operation,()
+launch.sh/root/ :: add_operation,()
+wget ¦`curl¦-s¦https://api.github.com/repos/adaptivethreat/Empire/releases¦|¦grep¦tarball_url¦|¦head¦-n¦1¦|¦cut¦-d¦'"'¦-f¦4`¦-O¦/root/empire.zip :: Dependencies_operation,()
+tar ¦zxvf¦empire.tar¦--strip-components=1¦-C¦/root/empire :: Filesystem_operation,()
+bash ¦-c¦"cd¦/root/empire/setup :: Build_Execute_operation,()
+cmd,/root/launch.sh
+apt-get ¦-y¦install¦python¦git¦python-pip¦libssl-dev¦libffi-dev¦python-dev¦python-m2crypto¦swig¦lsb-release :: Dependencies_operation,()
+STAGING_KEY=$RANDOM: :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+/root/empire/setup/install.sh"  :: Other_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,kalilinux/kali-linux-docker
+echo ¦echo¦"deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list &&echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chmod ¦+x¦/root/launch.sh :: Permissions_operation,()

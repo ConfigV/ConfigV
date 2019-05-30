@@ -1,0 +1,15 @@
+apk ¦add¦--update¦--no-cache¦--virtual¦build-dependencies :: Dependencies_operation,()
+HUGO_VERSION=0.33: :: env_operation,()
+HUGO_DOWNLOAD_URL=https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz: :: env_operation,()
+rm ¦hugo_${HUGO_VERSION}_Linux-64bit.tar.gz¦LICENSE.md¦README.md :: Filesystem_operation,()
+apk ¦del¦build-dependencies :: Dependencies_operation,()
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+gem ¦install¦¦html-proofer¦¦nokogiri¦--no-document :: Dependencies_operation,()
+cmd,htmlproofer¦--help
+maintainer:ricardo@feliciano.tech :: label_operation,()
+mv ¦hugo¦/usr/bin/hugo :: Filesystem_operation,()
+apk ¦add¦--update¦--no-cache¦¦bash¦¦build-base¦¦ca-certificates¦¦curl¦¦git¦¦libcurl¦¦libxml2-dev¦¦libxslt-dev¦¦openssh¦¦rsync¦¦wget :: Dependencies_operation,()
+wget ¦"$HUGO_DOWNLOAD_URL" :: Dependencies_operation,()
+from,ruby:2.4
+expose,1313
+tar ¦xzf¦hugo_${HUGO_VERSION}_Linux-64bit.tar.gz :: Filesystem_operation,()

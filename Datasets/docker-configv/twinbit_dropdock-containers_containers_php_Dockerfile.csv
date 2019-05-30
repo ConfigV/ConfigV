@@ -1,0 +1,22 @@
+apt-get ¦update :: Dependencies_operation,()
+conf/php-fpm.conf/etc/php5/fpm/pool.d/www.conf :: copy_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+cmd,php5-fpm
+REFRESHED_AT:2014-11-24 :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+sed ¦-i¦'/^listen¦/clisten¦=¦0.0.0.0:9000'¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+conf/conf.d/docker.ini/etc/php5/fpm/conf.d/docker.ini :: copy_operation,()
+gem ¦install¦mailcatcher¦--version¦0.5.12¦--no-rdoc¦--no-ri :: Dependencies_operation,()
+run.sh/run.sh :: copy_operation,()
+entrypoint,/run.sh
+expose,9000
+sed ¦-i¦'s/^listen.allowed_clients/;listen.allowed_clients/'¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+apt-get ¦-y¦install¦php5¦php5-fpm¦php5-gd¦php5-ldap¦php5-sqlite¦php5-pgsql¦php-pear¦php5-mysql¦php5-curl¦php5-mcrypt¦php5-xcache¦php5-xmlrpc¦php5-intl¦php5-xdebug¦build-essential¦libsqlite3-dev¦ruby¦ruby-dev¦bindfs :: Dependencies_operation,()
+sed ¦-i¦'/daemonize¦/cdaemonize¦=¦no'¦/etc/php5/fpm/php-fpm.conf :: Filesystem_operation,()
+from,ubuntu:14.04
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+LANGUAGE:en_US:en :: env_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+conf/conf.d/opcache.ini/etc/php5/fpm/conf.d/opcache.ini :: copy_operation,()

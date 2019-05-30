@@ -1,0 +1,8 @@
+from,igaki/sshmonit
+echo ¦echo¦-e "[10gen]nname=10gen Repositorynbaseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64ngpgcheck=0nenabled=1" > /etc/yum.repos.d/10gen.repo :: Filesystem_operation,()
+expose,27017
+chown ¦root:root¦-R¦/etc/monit*;chmod¦700¦/etc/monit.conf :: Permissions_operation,()
+./mongod_monit.conf/etc/monit/conf.d/ :: add_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦mongo-10gen¦mongo-10gen-server :: Dependencies_operation,()
+cmd,/usr/bin/monit¦-I¦-c¦/etc/monit.conf

@@ -1,0 +1,11 @@
+rm ¦-rf¦/tmp/s6-overlay-amd64.tar.gz :: Filesystem_operation,()
+echo ¦echo¦"@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk add --update --no-cache rsyslog opendkim@testing=2.10.3-r2 && rm -rf /var/cache/apk/* :: Filesystem_operation,()
+rootfs/ :: copy_operation,()
+cmd,opendkim¦-f¦-x¦/etc/opendkim/opendkim.conf
+entrypoint,/init
+S6_KEEP_ENV=1: :: env_operation,()
+chmod ¦+x¦/etc/services.d/*/run :: Permissions_operation,()
+expose,12301
+tar ¦xzf¦/tmp/s6-overlay-amd64.tar.gz¦-C¦/ :: Filesystem_operation,()
+from,alpine@edge
+https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz/tmp/ :: add_operation,()

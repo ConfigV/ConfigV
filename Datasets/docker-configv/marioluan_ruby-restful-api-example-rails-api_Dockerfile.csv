@@ -1,0 +1,14 @@
+TZINFO_PACKAGE:tzdata :: env_operation,()
+./app :: add_operation,()
+rm ¦-rf¦vendor :: Filesystem_operation,()
+SQLITE_PACKAGE:sqlite-dev :: env_operation,()
+/app :: workdir_operation,()
+bundle ¦exec¦rake¦swagger:docs :: Dependencies_operation,()
+bundle ¦exec¦rails¦db:migrate :: Dependencies_operation,()
+bundle ¦install¦--path=vendor :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,ruby:2.3
+apk ¦add¦--update¦$GENERAL_PACKAGES¦$SQLITE_PACKAGE¦$TZINFO_PACKAGE :: Dependencies_operation,()
+bundle ¦exec¦rails¦db:factories:load :: Dependencies_operation,()
+GENERAL_PACKAGES:build-base :: env_operation,()
+cmd,bundle¦exec¦rails¦server¦-b¦0.0.0.0¦-p¦3000

@@ -1,0 +1,16 @@
+bundle ¦install¦--gemfile=/home/publisher/Gemfile :: Dependencies_operation,()
+publisher :: user_operation,()
+useradd ¦publisher¦--home¦/home/publisher¦--create-home :: Permissions_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+chown ¦-R¦publisher:publisher¦${GEM_HOME} :: Permissions_operation,()
+docker/src2html/config/baseconfig.yml/home/publisher/baseconfig.yml :: add_operation,()
+PATH:${GEM_HOME}/bin:${PATH} :: env_operation,()
+easy_install ¦sphinx :: Dependencies_operation,()
+apt-get ¦install¦-y¦nodejs¦python¦python-setuptools :: Dependencies_operation,()
+Gemfile.lock/home/publisher/Gemfile.lock :: add_operation,()
+from,ruby:2.1
+docker/src2html/scripts/home/publisher/scripts :: add_operation,()
+cmd,/bin/bash¦/home/publisher/preview.sh
+expose,4000
+echo ¦echo¦'gem: --no-rdoc --no-ri' >> "${HOME}/.gemrc" :: Filesystem_operation,()
+Gemfile/home/publisher/Gemfile :: add_operation,()

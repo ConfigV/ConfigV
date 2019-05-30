@@ -1,0 +1,13 @@
+apt-get ¦install¦-y¦mercurial :: Dependencies_operation,()
+cmd,/crontab
+from,python:2.7
+./crontab/crontab :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,devcron.py
+pip ¦install¦--editable¦hg+https://bitbucket.org/dbenamy/devcron#egg=devcron :: Dependencies_operation,()
+apt-get ¦install¦-y¦php5-cli¦php5-curl¦php5-mcrypt¦php5-mysqlnd :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/devcron :: workdir_operation,()
+chmod ¦0644¦/crontab :: Permissions_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

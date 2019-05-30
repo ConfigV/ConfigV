@@ -1,0 +1,14 @@
+aptly.conf/etc/aptly.conf :: add_operation,()
+chmod ¦u+x¦/docker_entrypoint_aptly.sh :: Permissions_operation,()
+./docker_entrypoint_aptly.sh/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/docker_entrypoint_aptly.sh
+gpg ¦--keyserver¦keys.gnupg.net¦--recv-keys¦E083A3782A194991 :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+gpg ¦-a¦--export¦E083A3782A194991¦|¦apt-key¦add¦- :: Other_operation,()
+from,ubuntu@trusty
+apt-get ¦-y¦install¦aptly :: Dependencies_operation,()
+cmd,aptly¦serve¦--listen=\\
+expose,80
+echo ¦echo¦"deb http://repo.aptly.info/ squeeze main" > :: Filesystem_operation,()
+/var/aptly :: volume_operation,()

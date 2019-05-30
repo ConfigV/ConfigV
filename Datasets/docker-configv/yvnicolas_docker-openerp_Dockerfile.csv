@@ -1,0 +1,11 @@
+groupadd ¦-r¦odoo¦--gid=1000 :: Permissions_operation,()
+/var/lib/odoo :: volume_operation,()
+from,ubuntu:14.04
+apt-get ¦install¦-y¦--no-install-recommends¦curl¦nano¦python-tz¦python-babel¦python-dateutil¦python-psycopg2¦python-werkzeug¦python-decorator¦python-yaml¦python-unittest2¦python-mako¦python-jinja2¦python-requests¦python-docutils¦python-openid¦pytho... :: Dependencies_operation,()
+apt-get ¦-y¦install¦python-pil¦python-zsi :: Dependencies_operation,()
+chown ¦odoo¦/var/lib/odoo :: Permissions_operation,()
+expose,8069 8071
+odoo :: user_operation,()
+set ¦-x;¦apt-get¦update :: Environment_operation,()
+useradd ¦-r¦-g¦odoo¦--uid=1000¦odoo :: Permissions_operation,()
+mkdir ¦/var/lib/odoo :: Filesystem_operation,()

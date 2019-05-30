@@ -1,0 +1,9 @@
+cp ¦/src/run¦/etc/service/gearman-server/run :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,4730
+./src :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init
+apt-get ¦update¦;¦apt-get¦install¦-y¦gearman-job-server :: Dependencies_operation,()
+mkdir ¦-p¦/etc/service/gearman-server :: Filesystem_operation,()
+from,mustardgrain/base:latest

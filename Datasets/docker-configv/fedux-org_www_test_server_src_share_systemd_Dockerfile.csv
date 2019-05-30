@@ -1,0 +1,9 @@
+/srv/app :: workdir_operation,()
+magic.h/usr/include/ :: add_operation,()
+yum ¦install¦-y¦zlib-devel¦patch¦openssl-devel¦sqlite-devel¦gcc-c++ :: Dependencies_operation,()
+bundle ¦install :: Dependencies_operation,()
+bundle ¦exec¦rake¦assets:precompile :: Dependencies_operation,()
+install ¦-d¦/srv/app/ :: Build_Execute_operation,()
+from,feduxorg/centos-rails:latest
+curl ¦-L¦https://github.com/fedux-org/test_server/archive/master.tar.gz¦|¦tar¦-xzf¦-¦-C¦/srv/app/¦--strip-components=1 :: Dependencies_operation,()
+ln ¦-s¦libmagic.so.1.0.0¦/usr/lib64/libmagic.so :: Filesystem_operation,()

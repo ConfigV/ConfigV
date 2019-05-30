@@ -1,0 +1,12 @@
+NGINX_VERSION:${NGINX_VERSION:-'1.10.1'} :: env_operation,()
+NGINX_DIR:${NGINX_DIR:-'/usr/src/nginx'} :: env_operation,()
+PATH:$NGINX_DIR/sbin:$PATH :: env_operation,()
+expose,80
+$NGINX_DIR :: workdir_operation,()
+entrypoint,nginx¦-g¦daemon off;
+NGINX_CONF_DIR:$NGINX_DIR/conf :: env_operation,()
+NGINX_ARGS:${NGINX_ARGS:-''} :: env_operation,()
+apt ¦update :: Dependencies_operation,()
+from,my-ubuntu:14.04
+set ¦-x¦#¦nginx编译文件路径 :: Environment_operation,()
+apt ¦install¦-y¦--no-install-recommends¦¦libgpg-error0¦¦perl¦¦perl-modules¦¦xml-core¦¦#¦zlib¦¦#¦zlib-devel¦¦libssl1.0.0¦¦#¦openssl¦¦#¦openssl-devel¦¦#¦prce¦¦#¦prce-devel¦¦#¦nginx必备依赖 :: Dependencies_operation,()

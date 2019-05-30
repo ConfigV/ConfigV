@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'steam ALL = NOPASSWD: ALL' > /etc/sudoers.d/steam && chmod 0440 /etc/sudoers.d/steam :: Filesystem_operation,()
+adduser ¦--disabled-password¦--gecos¦'Steam'¦steam :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-yq¦sudo¦vim¦htop¦xterm :: Dependencies_operation,()
+from,ubuntu:12.04
+adduser ¦steam¦video :: Permissions_operation,()
+apt-get ¦-yq¦install¦bumblebee¦bumblebee-nvidia¦virtualgl¦linux-headers-generic :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:bumblebee/stable :: Dependencies_operation,()
+gpasswd ¦-a¦steam¦bumblebee :: Other_operation,()
+apt-get ¦install¦-yq¦mesa-utils¦python-software-properties :: Dependencies_operation,()
+steam :: user_operation,()

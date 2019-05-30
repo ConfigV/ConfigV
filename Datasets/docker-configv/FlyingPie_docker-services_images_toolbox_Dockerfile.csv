@@ -1,0 +1,14 @@
+chmod ¦+x¦/root/bin/* :: Permissions_operation,()
+lsb_release ¦-cs :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+chmod ¦+x¦/toolbox.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+"/root" :: workdir_operation,()
+image/toolbox.sh/toolbox.sh :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦apt-transport-https¦ca-certificates¦curl¦software-properties-common :: Other_operation,()
+image/root/root :: add_operation,()
+entrypoint,/toolbox.sh
+curl ¦-fsSL¦https://download.docker.com/linux/ubuntu/gpg¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦install¦-y¦docker-ce¦fish¦toilet¦toilet-fonts¦vim :: Dependencies_operation,()
+from,ubuntu@latest
+echo ¦echo¦"Build: $(date) @ $HOSTNAME" >> /build-info.txt :: Filesystem_operation,()

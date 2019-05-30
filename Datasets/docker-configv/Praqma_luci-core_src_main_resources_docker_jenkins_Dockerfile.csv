@@ -1,0 +1,23 @@
+createStaticSlaves.sh/luci/bin/ :: copy_operation,()
+/luci/bin/addPlugin.sh ¦scm-api:0.2¦promoted-builds:2.21¦matrix-project:1.6¦git-client:1.19.0¦ssh-credentials:1.11¦credentials:1.22 :: Other_operation,()
+generateJenkinsConfigXml.sh/luci/bin/ :: copy_operation,()
+cli.sh/usr/local/bin/ :: copy_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-y¦wget¦git¦zip :: Dependencies_operation,()
+generateJenkinsLocateConfiguration.sh/luci/bin/ :: copy_operation,()
+entrypoint,/tini¦--¦/entrypoint.sh
+apt-get ¦update :: Dependencies_operation,()
+JENKINS_SHA:59215da16f9f8a781d185dde683c05fcf11450ef :: env_operation,()
+from,luci/base:0.2
+credentials.xml/usr/share/jenkins/ref/ :: copy_operation,()
+echo ¦curl¦-fL http://mirrors.jenkins-ci.org/war-stable/$JENKINS_VERSION/jenkins.war -o /usr/share/jenkins/jenkins.war && echo "$JENKINS_SHA /usr/share/jenkins/jenkins.war" | sha1sum -c - :: Filesystem_operation,()
+JENKINS_HOME:/var/jenkins_home :: env_operation,()
+addPlugin.sh/luci/bin/ :: copy_operation,()
+JENKINS_UC:https://updates.jenkins-ci.org :: env_operation,()
+JENKINS_VERSION:1.609.2 :: env_operation,()
+COPY_REFERENCE_FILE_LOG:/var/log/copy_reference_file.log :: env_operation,()
+mkdir ¦-p¦/luci/mixins/ :: Filesystem_operation,()
+/luci/bin/addPlugin.sh ¦git:2.4.0¦cloudbees-folder:4.9¦vsphere-cloud:2.6¦config-file-provider:2.8.1¦job-dsl:1.37 :: Other_operation,()
+expose,8080
+/luci/bin/addPlugin.sh ¦ssh-slaves:1.10¦durable-task:1.6¦token-macro:1.10¦docker-plugin:0.12.1¦parameterized-trigger:2.28¦mailer:1.15 :: Other_operation,()
+mkdir ¦-p¦/usr/share/jenkins/ :: Filesystem_operation,()

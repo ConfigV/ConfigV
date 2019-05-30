@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/src/ :: Filesystem_operation,()
+git ¦clone¦https://github.com/johnkerl/miller.git :: Dependencies_operation,()
+env ¦--unset=DEBIAN_FRONTEND :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/src/ :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦apt-transport-https¦build-essential¦ca-certificates¦ctags¦lemon¦git :: Dependencies_operation,()
+from,debian@jessie
+make ¦c :: Build_Execute_operation,()
+cd ¦./miller/ :: Filesystem_operation,()
+REFRESHED_AT:2015-08-17.2 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()

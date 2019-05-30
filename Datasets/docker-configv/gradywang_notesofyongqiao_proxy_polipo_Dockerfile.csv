@@ -1,0 +1,14 @@
+tar ¦xf¦polipo-1.1.1.tar.gz :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+cmd,proxyAddress=0.0.0.0¦dnsNameServer=8.8.8.8
+apk ¦del¦gcc¦libc-dev¦make¦openssl :: Dependencies_operation,()
+rm ¦-rf¦polipo-*¦/var/cache/apk/* :: Filesystem_operation,()
+mv ¦polipo¦/usr/local/bin :: Filesystem_operation,()
+from,alpine
+wget ¦https://github.com/jech/polipo/archive/polipo-1.1.1.tar.gz :: Dependencies_operation,()
+cd ¦polipo-polipo-1.1.1 :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+apk ¦add¦gcc¦libc-dev¦make¦openssl :: Dependencies_operation,()
+entrypoint,polipo
+expose,8123

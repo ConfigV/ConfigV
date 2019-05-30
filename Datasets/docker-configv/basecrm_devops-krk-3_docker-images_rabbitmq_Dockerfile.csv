@@ -1,0 +1,18 @@
+mkdir ¦/etc/ansible :: Filesystem_operation,()
+git ¦clone¦https://github.com/basecrm/devops-krk-3¦/tmp/basecrm-devops-krk :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+PYTHONPATH:/tmp/ansible/lib:$PYTHON_PATH :: env_operation,()
+PATH:/tmp/ansible/bin:/bin:/sbin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin :: env_operation,()
+ansible-playbook ¦rabbitmq.yml¦-c¦local :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/tmp/basecrm-devops-krk/ansible :: workdir_operation,()
+expose,5672 15672
+git ¦clone¦http://github.com/ansible/ansible.git¦/tmp/ansible :: Dependencies_operation,()
+ANSIBLE_LIBRARY:/tmp/ansible/library :: env_operation,()
+apt-get ¦install¦-y¦python-yaml¦python-jinja2¦python-pycurl¦python-pip¦python-apt¦git :: Dependencies_operation,()
+echo ¦echo¦"[local]\\nlocalhost" > /etc/ansible/hosts :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,ubuntu:12.04
+cmd,/usr/sbin/rabbitmq-server
+/tmp/ansible :: workdir_operation,()

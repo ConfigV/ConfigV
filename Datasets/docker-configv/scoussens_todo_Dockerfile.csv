@@ -1,0 +1,8 @@
+/app :: workdir_operation,()
+./app :: copy_operation,()
+expose,8080
+mkdir ¦-p¦/app :: Filesystem_operation,()
+from,node@argon
+npm ¦install :: Dependencies_operation,()
+package.json/app :: copy_operation,()
+entrypoint,./node_modules/nodemon/bin/nodemon.js¦--legacy-watch¦/app

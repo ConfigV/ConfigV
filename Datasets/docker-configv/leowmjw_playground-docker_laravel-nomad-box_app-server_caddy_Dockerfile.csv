@@ -1,0 +1,16 @@
+chmod ¦0755¦/usr/bin/caddy :: Permissions_operation,()
+caddy_version:$caddy_version :: label_operation,()
+architecture:amd64 :: label_operation,()
+apk ¦add¦tar¦curl¦git :: Dependencies_operation,()
+caddy_version=0.10.0: :: env_operation,()
+from,alpine:3.4
+./caddy/Caddyfile/etc/Caddyfile :: copy_operation,()
+./Code/public/var/www/public :: copy_operation,()
+mv ¦/usr/bin/caddy¦/usr/bin/caddy :: Filesystem_operation,()
+curl ¦--silent¦--show-error¦--fail¦--location¦--header¦"Accept:¦application/tar+gzip,¦application/x-gzip,¦application/octet-stream"¦-o¦-¦"https://caddyserver.com/download/linux/amd64?plugins=http.cgi,http.cors,http.expires,http.filemanager,http.... :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+expose,80 443 2015
+/var/www/public :: workdir_operation,()
+cmd,/usr/bin/caddy¦-conf¦/etc/Caddyfile
+apk ¦upgrade :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/caddy :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+touch ¦/var/log/lighttpd/lighttpd.log :: Filesystem_operation,()
+lighttpd ¦-t¦-f¦/etc/lighttpd/lighttpd.conf :: Other_operation,()
+rm ¦-rf¦/var/www/* :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+/var/www :: workdir_operation,()
+lighttpd.conf/etc/lighttpd/lighttpd.conf :: copy_operation,()
+apk ¦add¦lighttpd :: Dependencies_operation,()
+entrypoint,lighttpd¦-D¦-f¦/etc/lighttpd/lighttpd.conf
+from,alpine@latest
+mkdir ¦/var/cache/ligttpd :: Filesystem_operation,()

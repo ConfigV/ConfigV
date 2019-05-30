@@ -1,0 +1,12 @@
+from,opensuse:42.1
+zypper ¦clean¦-a :: Other_operation,()
+echo ¦echo¦'code_executor ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+${USER_ID} :: user_operation,()
+ln ¦-s¦/usr/bin/clang++¦/usr/bin/clang++-3.5 :: Filesystem_operation,()
+USER_ID=0 :: arg_operation,()
+zypper ¦-n¦install¦binutils¦cmake¦which¦gcc¦llvm-clang¦tar¦ncurses-utils¦curl¦git¦sudo :: Other_operation,()
+zypper ¦-n¦install¦--force-resolution¦libunwind¦libicu¦lttng-ust¦libuuid1¦libopenssl1_0_0¦libcurl4¦krb5 :: Other_operation,()
+chmod ¦-R¦a+rwx¦/home :: Permissions_operation,()
+chmod ¦-R¦a+rwx¦/usr/local :: Permissions_operation,()
+/opt/code :: workdir_operation,()
+chmod ¦-R¦755¦/usr/lib/sudo :: Permissions_operation,()

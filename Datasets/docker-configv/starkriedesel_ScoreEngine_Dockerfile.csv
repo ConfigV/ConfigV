@@ -1,0 +1,18 @@
+./src/Gemfile*/app/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init
+gpg ¦--keyserver¦hkp://keys.gnupg.net¦--recv-keys¦409B6B1796C275462A1703113804BB82D39DC0E3 :: Other_operation,()
+mkdir ¦/app/log :: Filesystem_operation,()
+PATH:/usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin :: env_operation,()
+apt-get ¦install¦-y¦gawk¦sed¦grep¦tar¦curl¦gzip¦bzip2¦bash¦git¦subversion¦libmysqlclient-dev¦mysql-client¦libvirt-dev :: Dependencies_operation,()
+./src/.ruby-*/app/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,phusion/baseimage:0.9.16
+mkdir ¦/app :: Filesystem_operation,()
+bash ¦-l¦-c¦"command¦rvm¦requirements" :: Build_Execute_operation,()
+mkdir ¦/app/tmp :: Filesystem_operation,()
+bash ¦-l¦-c¦"command¦rake¦assets:precompile" :: Build_Execute_operation,()
+bash ¦-l¦-c¦"command¦bundle¦install" :: Build_Execute_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/app :: workdir_operation,()
+./app :: copy_operation,()

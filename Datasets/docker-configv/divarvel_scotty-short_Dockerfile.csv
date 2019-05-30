@@ -1,0 +1,15 @@
+cabal ¦sandbox¦init :: Dependencies_operation,()
+cabal ¦build :: Dependencies_operation,()
+from,divarvel/archlinux-haskell:latest
+cabal ¦install¦-j4¦--only-dependencies :: Dependencies_operation,()
+./home/deploy/scotty-short :: add_operation,()
+HOME:/home/deploy :: env_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+/home/deploy/scotty-short :: workdir_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+entrypoint,/home/deploy/scotty-short/dist/build/scotty-short/scotty-short
+deploy :: user_operation,()
+cabal ¦update :: Dependencies_operation,()
+chown ¦-R¦deploy:deploy¦/home/deploy/scotty-short :: Permissions_operation,()
+expose,8080
+/usr/bin/useradd ¦-m¦deploy :: Other_operation,()

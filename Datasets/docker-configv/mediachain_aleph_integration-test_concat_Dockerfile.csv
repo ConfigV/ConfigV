@@ -1,0 +1,14 @@
+go ¦get¦github.com/whyrusleeping/gx-go :: Build_Execute_operation,()
+gx-go ¦rewrite :: Other_operation,()
+go ¦get¦github.com/mattn/go-sqlite3 :: Build_Execute_operation,()
+/go/src/github.com/mediachain/concat :: workdir_operation,()
+mkdir ¦-p¦/go/src/github.com/mediachain :: Filesystem_operation,()
+from,golang:1.7
+go ¦get¦github.com/gorilla/mux :: Build_Execute_operation,()
+expose,9000 9001 9002
+go ¦get¦github.com/whyrusleeping/gx :: Build_Execute_operation,()
+go ¦get¦./... :: Build_Execute_operation,()
+/go/src/github.com/mediachain/concat/install.sh  :: Other_operation,()
+gx ¦install¦--global :: Other_operation,()
+git ¦clone¦https://github.com/mediachain/concat¦/go/src/github.com/mediachain/concat :: Dependencies_operation,()
+git ¦checkout¦${concat_ref} :: Dependencies_operation,()

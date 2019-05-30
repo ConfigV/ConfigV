@@ -1,0 +1,10 @@
+apt-get ¦--quiet¦--yes¦install¦unzip :: Dependencies_operation,()
+GRADLE_HOME:/usr/lib/jvm/gradle-2.2 :: env_operation,()
+mkdir ¦-p¦/usr/lib/jvm :: Filesystem_operation,()
+unzip ¦/gradle.zip¦-d¦/usr/lib/jvm :: Filesystem_operation,()
+chown ¦-R¦root:root¦/usr/lib/jvm :: Permissions_operation,()
+wget ¦--quiet¦--output-document=/gradle.zip¦https://services.gradle.org/distributions/gradle-2.2-all.zip :: Dependencies_operation,()
+KURRON_GRADLE_VERSION:2.2.0 :: env_operation,()
+rm ¦-f¦/gradle.zip :: Filesystem_operation,()
+apt-get ¦--quiet¦update :: Dependencies_operation,()
+from,kurron/java:1.8.0.25

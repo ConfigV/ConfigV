@@ -1,0 +1,19 @@
+rm ¦-f¦compiler-latest.zip :: Filesystem_operation,()
+chmod ¦+x¦/docker-entrypoint.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦http://dl.google.com/closure-compiler/compiler-latest.zip :: Dependencies_operation,()
+pip ¦install¦"closure-linter==2.3.13" :: Dependencies_operation,()
+apt-get ¦autoremove¦-y¦--purge :: Dependencies_operation,()
+mkdir ¦/usr/local/closure :: Filesystem_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+apt-get ¦remove¦-y¦--purge¦wget¦unzip :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+chmod ¦644¦compiler.jar :: Permissions_operation,()
+/data :: volume_operation,()
+from,muccg/python-base:debian8-2.7
+cd ¦/usr/local/closure :: Filesystem_operation,()
+entrypoint,/docker-entrypoint.sh
+apt-get ¦install¦-y¦--no-install-recommends¦openjdk-7-jre-headless¦wget¦unzip :: Dependencies_operation,()
+unzip ¦compiler-latest.zip :: Filesystem_operation,()
+cmd,/docker-entrypoint.sh
+apt-get ¦clean :: Dependencies_operation,()

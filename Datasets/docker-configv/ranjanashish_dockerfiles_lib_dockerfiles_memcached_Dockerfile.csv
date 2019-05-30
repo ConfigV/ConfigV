@@ -1,0 +1,8 @@
+echo ¦echo¦'debconf debconf/frontend select Dialog' | debconf-set-selections :: Filesystem_operation,()
+files/supervisord.conf/etc/supervisor/conf.d/ :: add_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,11211
+apt-get ¦-y¦install¦memcached¦supervisor :: Dependencies_operation,()
+cmd,service¦supervisor¦start
+from,debian@jessie

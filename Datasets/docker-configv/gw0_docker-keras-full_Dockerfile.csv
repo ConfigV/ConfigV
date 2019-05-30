@@ -1,0 +1,19 @@
+/srv/ :: workdir_operation,()
+pip ¦--no-cache-dir¦install¦git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION} :: Dependencies_operation,()
+pip3 ¦--no-cache-dir¦install¦ipython¦ipykernel :: Dependencies_operation,()
+pip2 ¦freeze¦>¦/pip2-freeze.txt :: Other_operation,()
+python3 ¦-m¦ipykernel.kernelspec :: Build_Execute_operation,()
+from,gw000/keras:1.0.4-gpu
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦#¦install¦python¦3 :: Dependencies_operation,()
+KERAS_BACKEND=tensorflow: :: env_operation,()
+cmd,/bin/bash¦-c¦'jupyter¦notebook¦--no-browser¦--ip=*¦"$@"'
+pip3 ¦--no-cache-dir¦install¦git+https://github.com/Theano/Theano.git@rel-${THEANO_VERSION} :: Dependencies_operation,()
+pip3 ¦--no-cache-dir¦install¦git+https://github.com/fchollet/keras.git@${KERAS_VERSION} :: Dependencies_operation,()
+expose,6006
+pip3 ¦--no-cache-dir¦install¦http://ci.tensorflow.org/view/Nightly/job/nightly-python35-linux-cpu/31/artifact/pip_test/whl/tensorflow-0.8.0-cp35-cp35m-linux_x86_64.whl :: Dependencies_operation,()
+python ¦-m¦ipykernel.kernelspec :: Build_Execute_operation,()
+dpkg-query ¦-l¦>¦/dpkg-query-l.txt :: Other_operation,()
+pip ¦--no-cache-dir¦install¦ipython¦ipykernel¦jupyter :: Dependencies_operation,()
+THEANO_FLAGS='device=cpu,floatX=float32': :: env_operation,()
+pip3 ¦freeze¦>¦/pip3-freeze.txt :: Dependencies_operation,()

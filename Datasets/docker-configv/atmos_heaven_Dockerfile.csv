@@ -1,0 +1,11 @@
+.$WORK_DIR :: copy_operation,()
+cmd,unicorn¦-p¦80¦-c¦config/unicorn.rb
+WORK_DIR:/usr/lib/heaven :: env_operation,()
+from,ruby:2.3
+mkdir ¦-p¦$WORK_DIR :: Filesystem_operation,()
+bundle ¦install :: Dependencies_operation,()
+entrypoint,bundle¦exec
+$WORK_DIR :: workdir_operation,()
+expose,80
+Gemfile$WORK_DIR/Gemfile :: copy_operation,()
+cd ¦$WORK_DIR :: Filesystem_operation,()

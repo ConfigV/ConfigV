@@ -1,0 +1,10 @@
+expose,22
+from,fedora
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+./start.sh/start.sh :: add_operation,()
+chmod ¦755¦/start.sh :: Permissions_operation,()
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+entrypoint,/usr/sbin/sshd¦-D
+ssh-keygen ¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key¦-N¦'' :: Other_operation,()
+yum ¦-y¦install¦openssh-server;¦yum¦clean¦all :: Dependencies_operation,()
+./start.sh  :: Other_operation,()

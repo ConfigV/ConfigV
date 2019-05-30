@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦git¦python¦python-setuptools¦python-pip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,1024
+cmd,/usr/local/bin/hacheck¦-p¦6666¦&¦python¦-m¦SimpleHTTPServer¦1024
+git ¦clone¦--branch¦yelp¦https://github.com/Yelp/hacheck :: Dependencies_operation,()
+echo ¦echo¦'OK' > my_healthcheck_endpoint :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+cd ¦/hacheck :: Filesystem_operation,()
+from,ubuntu:14.04
+python ¦setup.py¦install :: Build_Execute_operation,()

@@ -1,0 +1,13 @@
+apt-get ¦purge¦-y¦python.* :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+curl ¦-SL¦'https://bootstrap.pypa.io/get-pip.py'¦|¦pypy3 :: Dependencies_operation,()
+cmd,pypy3
+apt-get ¦purge¦-y¦--auto-remove¦bzip2¦curl :: Dependencies_operation,()
+PYPY_VERSION:2.4.0 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦bzip2¦curl¦--no-install-recommends :: Dependencies_operation,()
+set ¦-x :: Environment_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦ca-certificates¦¦libexpat1¦¦libsqlite3-0 :: Dependencies_operation,()
+curl ¦-SL¦"https://bitbucket.org/pypy/pypy/downloads/pypy3-${PYPY_VERSION}-linux64.tar.bz2"¦¦|¦tar¦-xjC¦/usr/local¦--strip-components=1 :: Dependencies_operation,()
+LANG:C.UTF-8 :: env_operation,()
+from,debian@jessie

@@ -1,0 +1,17 @@
+echo ¦echo¦E595AD4214AFA6BB15520B23E40D74D6D6CF60FD:4: | gpg --import-ownertrust :: Filesystem_operation,()
+gpg ¦--recv-key¦--keyserver¦keyserver.ubuntu.com¦D6CF60FD :: Other_operation,()
+/build :: workdir_operation,()
+cmd,stk¦install¦--only-dependencies¦&&¦cabal¦build
+CABALVER:1.18 :: env_operation,()
+from,heroku/cedar:14
+apt-get ¦install¦-y¦--no-install-recommends¦software-properties-common :: Dependencies_operation,()
+PATH:/root/.cabal/bin:$PATH :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦cabal-install-$CABALVER¦ghc-$GHCVER :: Dependencies_operation,()
+cabal ¦install¦stackage :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+GHCVER:7.8.4 :: env_operation,()
+add-apt-repository ¦-y¦ppa:hvr/ghc :: Dependencies_operation,()
+PATH:/opt/ghc/$GHCVER/bin:/opt/cabal/$CABALVER/bin:$PATH :: env_operation,()
+CABALCONFIG:/root/.cabal/config :: env_operation,()
+echo ¦echo¦"===> Installing stackage LTS-2.9" && cabal update && curl --silent 'http://www.stackage.org/snapshot/lts-2.9/cabal.config?global=true' >> /tmp/stackage.cabal.config && echo "0e8774a5f4b29bbc43be2277b1d25acf96f4c94a5d1f90182d17a89072a... :: Filesystem_operation,()

@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+RED5_VERSION:1.0.6-RELEASE :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,java:8.0
+wget ¦-q¦https://github.com/Red5/red5-server/releases/download/v${RED5_VERSION}/red5-server-${RED5_VERSION}-server.tar.gz¦-O¦red5.tar.gz :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+rm ¦-rf¦red5* :: Filesystem_operation,()
+mv ¦red5-server-${RED5_VERSION}/*¦${RED5_HOME} :: Filesystem_operation,()
+RED5_HOME:/opt/red5 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+tar ¦-xzf¦red5.tar.gz :: Filesystem_operation,()

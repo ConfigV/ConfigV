@@ -1,0 +1,11 @@
+apt-get ¦-qq¦install¦curl¦git¦xz-utils¦bzip2¦python¦build-essential¦vim¦libfontconfig1 :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/data/node :: workdir_operation,()
+npm ¦install¦-g¦grunt-cli :: Dependencies_operation,()
+rm ¦"node-v$NODE_VERSION-linux-x64.tar.gz" :: Filesystem_operation,()
+from,debian@jessie
+mkdir ¦-p¦/data/node :: Filesystem_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+curl ¦-SLO¦"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" :: Dependencies_operation,()
+NODE_VERSION:$NODE_VERSION :: env_operation,()
+tar ¦-xzf¦"node-v$NODE_VERSION-linux-x64.tar.gz"¦-C¦/usr/local¦--strip-components=1 :: Filesystem_operation,()

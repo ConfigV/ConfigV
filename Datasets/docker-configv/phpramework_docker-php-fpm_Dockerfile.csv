@@ -1,0 +1,15 @@
+mkdir ¦-p¦/project :: Filesystem_operation,()
+printf ¦"date.timezone¦=¦UTC\\n"¦>¦$PHP_INI_DIR/conf.d/timezone-utc.ini :: Other_operation,()
+apk ¦add¦--no-cache¦su-exec :: Dependencies_operation,()
+/project :: workdir_operation,()
+/project :: volume_operation,()
+docker-php-ext-enable ¦apcu :: Other_operation,()
+apk ¦del¦--no-cache¦--purge¦-r¦.pecl-deps :: Dependencies_operation,()
+echo ¦version=$(php¦-r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp... :: Filesystem_operation,()
+entrypoint.sh/usr/local/bin/entrypoint.sh :: copy_operation,()
+apk ¦update¦--no-cache :: Dependencies_operation,()
+docker-php-ext-install ¦mysqli¦opcache¦pdo_mysql :: Other_operation,()
+cmd,entrypoint.sh¦php-fpm
+from,php:7.0
+apk ¦add¦--no-cache¦--virtual¦.pecl-deps¦autoconf¦gcc¦make¦musl-dev :: Dependencies_operation,()
+pecl ¦install¦--onlyreqdeps¦apcu :: Dependencies_operation,()

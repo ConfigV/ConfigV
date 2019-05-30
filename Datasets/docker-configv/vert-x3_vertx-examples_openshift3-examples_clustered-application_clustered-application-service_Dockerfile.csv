@@ -1,0 +1,8 @@
+target/$JAVA_APP_JAR/app/ :: add_operation,()
+chmod ¦777¦/app/ :: Permissions_operation,()
+from,java:8.0
+cmd,java -jar $JAVA_APP_JAR -cluster
+/app/ :: workdir_operation,()
+entrypoint,sh¦-c
+JAVA_APP_JAR:clustered-application-service-3.3.0-fat.jar :: env_operation,()
+expose,8080

@@ -1,0 +1,10 @@
+expose,5432
+echo ¦echo¦"port = 5432" >> /var/lib/pgsql/9.3/data/postgresql.conf :: Filesystem_operation,()
+PGDATA:/var/lib/pgsql/9.3/data :: env_operation,()
+OpenGeo.repo/etc/yum.repos.d/OpenGeo.repo :: add_operation,()
+yum ¦-y¦install¦postgis21-postgresql93;¦yum¦clean¦all :: Dependencies_operation,()
+service ¦postgresql-9.3¦initdb :: Build_Execute_operation,()
+cmd,supervisord¦-c¦/etc/supervisor/supervisor.conf
+from,jmarin/osm:centos7
+echo ¦echo¦"listen_addresses = '*'" >> /var/lib/pgsql/9.3/data/postgresql.conf :: Filesystem_operation,()
+postgis.sv.conf/etc/supervisor/conf.d/ :: add_operation,()

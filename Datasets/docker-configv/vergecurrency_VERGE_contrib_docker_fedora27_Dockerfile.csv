@@ -1,0 +1,16 @@
+./configure ¦--with-incompatible-bdb¦--with-gui=qt5 :: Build_Execute_operation,()
+git ¦clone¦https://github.com/vergecurrency/verge¦/coin/git :: Dependencies_operation,()
+from,fedora:27.0
+mv ¦src/VERGEd¦/coin/VERGEd :: Filesystem_operation,()
+dnf ¦install¦-y¦autoconf¦automake¦gcc-c++¦libdb4-cxx¦libdb4-cxx-devel¦boost-devel¦openssl-devel¦git¦bzip2¦make¦file¦sudo¦tar¦patch¦findutils¦libevent-devel¦libseccomp-devel¦libcap-devel :: Dependencies_operation,()
+dnf ¦install¦-y¦qt5-qtbase-devel¦qt5-qttools-devel¦qt5-qtwebkit-devel¦qt5-qtwebsockets¦qrencode-devel :: Dependencies_operation,()
+cmd,/coin/VERGEd
+dnf ¦install¦-y¦protobuf-lite-devel :: Dependencies_operation,()
+/coin/home :: volume_operation,()
+expose,21102 20102
+dnf ¦upgrade¦-y :: Dependencies_operation,()
+./autogen.sh  :: Other_operation,()
+/coin/git :: workdir_operation,()
+/coin :: workdir_operation,()
+make  :: Build_Execute_operation,()
+HOME:/coin/home :: env_operation,()

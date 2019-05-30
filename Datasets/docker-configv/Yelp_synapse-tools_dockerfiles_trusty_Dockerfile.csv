@@ -1,0 +1,8 @@
+curl ¦http://ppa.launchpad.net/dh-virtualenv/daily/ubuntu/pool/main/d/dh-virtualenv/dh-virtualenv_0.10-0~80~ubuntu14.04.1_all.deb¦--output¦dh-virtualenv_0.10-0~80~ubuntu14.04.1_all.deb :: Dependencies_operation,()
+rm ¦-f¦/etc/apt/sources.list.d/proposed.list :: Filesystem_operation,()
+/work :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦debhelper¦dpkg-dev¦libyaml-0-2¦libcurl4-openssl-dev¦python-dev¦python-tox¦python-setuptools :: Dependencies_operation,()
+dpkg ¦-i¦dh-virtualenv_0.10-0~80~ubuntu14.04.1_all.deb :: Dependencies_operation,()
+from,ubuntu:14.04
+rm ¦dh-virtualenv_0.10-0~80~ubuntu14.04.1_all.deb :: Filesystem_operation,()

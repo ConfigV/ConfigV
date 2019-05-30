@@ -1,0 +1,9 @@
+/next_frontend :: workdir_operation,()
+from,ubuntu:14.04
+expose,8000
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦python¦python-dev¦python-distribute¦python-pip¦python-numpy¦python-scipy¦python-gevent¦python-matplotlib :: Dependencies_operation,()
+requirements.txt/requirements.txt :: add_operation,()
+pip ¦install¦gunicorn :: Dependencies_operation,()
+./next_frontend :: copy_operation,()
+pip ¦install¦-U¦-r¦requirements.txt :: Dependencies_operation,()

@@ -1,0 +1,22 @@
+expose,443
+touch ¦docker-entrypoint.sh :: Filesystem_operation,()
+mv ¦superstatic.json¦../ :: Filesystem_operation,()
+ln ¦-s¦/usr/local/bin/docker-entrypoint.sh¦/docker-entrypoint.sh :: Filesystem_operation,()
+chmod ¦+x¦docker-entrypoint.sh :: Permissions_operation,()
+npm ¦install¦-g¦superstatic :: Dependencies_operation,()
+.//usr/src/app/client/ :: copy_operation,()
+from,node:5.0
+rm ¦-R¦client :: Filesystem_operation,()
+mv ¦dist/*¦../dist :: Filesystem_operation,()
+printf ¦"#!/bin/bash\\n"¦>¦docker-entrypoint.sh :: Other_operation,()
+/usr/src/app/client :: workdir_operation,()
+/usr/local/bin :: workdir_operation,()
+/usr/src/app/dist :: workdir_operation,()
+npm ¦run¦build:prod :: Dependencies_operation,()
+typings ¦install :: Other_operation,()
+mkdir ¦/usr/src/app/client :: Filesystem_operation,()
+npm ¦run¦setup :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app/dist/uploads :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+entrypoint,docker-entrypoint.sh
+printf ¦"superstatic¦--config¦/usr/src/app/superstatic.json¦--port¦443¦--host¦0.0.0.0"¦>>¦docker-entrypoint.sh :: Other_operation,()

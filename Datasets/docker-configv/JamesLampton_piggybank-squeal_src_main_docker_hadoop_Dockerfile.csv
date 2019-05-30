@@ -1,0 +1,15 @@
+cat ¦/etc/supervisor.d/*.ini¦>>¦/etc/supervisord.conf :: Filesystem_operation,()
+dirname ¦$(dirname¦$(readlink¦-f¦$(which¦java :: Other_operation,()
+from,piggybanksqueal/base
+mkdir ¦/opt/hadoop/logs :: Filesystem_operation,()
+yum ¦install¦-y¦which¦supervisor :: Dependencies_operation,()
+useradd ¦hdfs :: Permissions_operation,()
+entrypoint,/opt/hadoop/configure_and_start_hadoop.sh
+HADOOP_CONF_DIR:/opt/hadoop/etc/hadoop :: env_operation,()
+configure_and_start_hadoop.sh/opt/hadoop/ :: add_operation,()
+setup_hdfs.sh/opt/hadoop/ :: add_operation,()
+expose,8088
+supervisor.d/*.ini/etc/supervisor.d/ :: add_operation,()
+chmod ¦777¦/opt/hadoop/logs :: Permissions_operation,()
+JAVA_HOME:/opt/java_home :: env_operation,()
+useradd ¦yarn :: Permissions_operation,()

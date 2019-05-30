@@ -1,0 +1,13 @@
+/cache :: volume_operation,()
+from,zemiak/payara
+start.sh/usr/local/bin/ :: copy_operation,()
+*.png/opt/watermarks/ :: copy_operation,()
+nasphotos.war$DEPLOYMENT_DIR :: copy_operation,()
+mkdir ¦-p¦/opt/watermarks :: Filesystem_operation,()
+echo ¦echo¦deb http://www.deb-multimedia.org jessie main non-free >>/etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦-yq¦--force-yes¦install¦ffmpegthumbnailer¦mediainfo¦imagemagick :: Dependencies_operation,()
+mkdir ¦-p¦/cache :: Filesystem_operation,()
+cmd,sh¦/usr/local/bin/start.sh
+mkdir ¦-p¦/pictures :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/pictures :: volume_operation,()

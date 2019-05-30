@@ -1,0 +1,12 @@
+build.sh/build.sh :: copy_operation,()
+echo ¦apk¦add --update --virtual=build-dependencies wget ca-certificates && export ALPINE_GLIBC_BASE_URL="https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64" && export ALPINE_GLI... :: Filesystem_operation,()
+expose,22
+chmod ¦755¦/etc/cont-init.d/keygen :: Permissions_operation,()
+cmd,/usr/sbin/sshd¦-D¦-e¦-f¦/etc/ssh/sshd_config
+keygen.sh/etc/cont-init.d/keygen :: copy_operation,()
+chmod ¦755¦/build.sh :: Permissions_operation,()
+S6_KILL_GRACETIME=500: :: env_operation,()
+build/opt/opt :: copy_operation,()
+/build.sh  :: Other_operation,()
+rm ¦build.sh :: Filesystem_operation,()
+from,duportal/rpi-alpine:latest

@@ -1,0 +1,14 @@
+ZOOKEEPER_VERSION:3.4.6 :: env_operation,()
+"${ZOOKEEPER_HOME}" :: workdir_operation,()
+curl ¦-#¦http://apache-mirror.rbc.ru/pub/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz¦|¦tar¦-xz¦-C¦${ZOOKEEPER_HOME}¦--strip-components=1 :: Dependencies_operation,()
+ZOO_LOG4J_PROP:WARN,CONSOLE :: env_operation,()
+set ¦-x :: Environment_operation,()
+ZOOKEEPER_DATA:/data/zookeeper :: env_operation,()
+ZOOKEEPER_HOME:/opt/zookeeper :: env_operation,()
+ZOOKEEPER_CONF_DIR:$ZOOKEEPER_HOME/conf :: env_operation,()
+mkdir ¦-p¦$ZOOKEEPER_HOME¦$ZOOKEEPER_DATA :: Filesystem_operation,()
+cmd,zkServer.sh¦start-foreground
+PATH:$PATH:$ZOOKEEPER_HOME/bin :: env_operation,()
+$ZOOKEEPER_DATA :: volume_operation,()
+./fs/ :: copy_operation,()
+entrypoint,/sbin/entrypoint.sh

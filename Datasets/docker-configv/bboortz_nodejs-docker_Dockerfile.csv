@@ -1,0 +1,11 @@
+curl ¦--silent¦--location¦https://rpm.nodesource.com/setup¦|¦bash¦- :: Dependencies_operation,()
+entrypoint,/usr/bin/node
+USER:user_nodejs :: env_operation,()
+cmd,/tmp/server.js
+yum ¦-y¦update :: Dependencies_operation,()
+$USER :: user_operation,()
+expose,8888
+HOME:/home/$USER :: env_operation,()
+yum ¦-y¦install¦nodejs¦npm¦gcc-c++¦make :: Dependencies_operation,()
+./server.js/tmp/server.js :: add_operation,()
+from,centos

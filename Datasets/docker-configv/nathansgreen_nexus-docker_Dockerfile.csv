@@ -1,0 +1,12 @@
+mv ¦/tmp/nexus-${NEXUS_VERSION}/*¦/opt/sonatype/nexus/ :: Filesystem_operation,()
+mkdir ¦-p¦/opt/sonatype/nexus :: Filesystem_operation,()
+from,dockerfile/java:oracle-java7
+curl ¦--fail¦--silent¦--location¦--retry¦3¦http://download.sonatype.com/nexus/oss/nexus-${NEXUS_VERSION}-bundle.tar.gz¦|¦gunzip¦|¦tar¦x¦-C¦/tmp¦nexus-${NEXUS_VERSION} :: Dependencies_operation,()
+cmd,java¦-server¦-XX:MaxPermSize=192m¦-Djava.net.preferIPv4Stack=true¦-Xms256m¦-Xmx1g¦-Dnexus-work=/sonatype-work¦-Dnexus-webapp-context-path=/¦-cp¦conf/:`(echo¦lib/*.jar)¦|¦sed¦-e¦"s/¦/:/g"`¦org.sonatype.nexus.bootstrap.Launcher¦./conf/jetty.xml¦....
+nexus :: user_operation,()
+rm ¦-rf¦/tmp/nexus-${NEXUS_VERSION} :: Filesystem_operation,()
+useradd ¦-r¦-u¦200¦-m¦-c¦"nexus¦role¦account"¦-d¦/sonatype-work¦-s¦/bin/false¦nexus :: Permissions_operation,()
+/opt/sonatype/nexus :: workdir_operation,()
+expose,8081
+NEXUS_VERSION:2.11.1-01 :: env_operation,()
+/sonatype-work :: volume_operation,()

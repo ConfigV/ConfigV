@@ -1,0 +1,13 @@
+hive-site.xml$HIVE_HOME/conf :: add_operation,()
+bootstrap.sh/etc/bootstrap.sh :: add_operation,()
+root :: user_operation,()
+PATH:$PATH:$HIVE_HOME/bin :: env_operation,()
+ln ¦-s¦/usr/local/apache-hive-2.1.1-bin¦/usr/local/hive :: Filesystem_operation,()
+from,newnius/hadoop:2.7.4
+cmd,/etc/bootstrap.sh¦-d
+init_hive.sh/etc/init_hive.sh :: add_operation,()
+rm ¦apache-hive.tar.gz :: Filesystem_operation,()
+HIVE_HOME:/usr/local/apache-hive-2.1.1-bin :: env_operation,()
+mysql-connector-java-5.1.44-bin.jar$HIVE_HOME/lib :: add_operation,()
+mv ¦/etc/bootstrap.sh¦/etc/start_hadoop.sh :: Filesystem_operation,()
+wget ¦-O¦apache-hive.tar.gz¦http://www-eu.apache.org/dist/hive/hive-2.1.1/apache-hive-2.1.1-bin.tar.gz¦&&tar¦-xzf¦apache-hive.tar.gz¦-C¦/usr/local/ :: Dependencies_operation,()

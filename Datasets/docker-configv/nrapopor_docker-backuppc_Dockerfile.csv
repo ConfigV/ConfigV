@@ -1,0 +1,15 @@
+TMP_DATA:/backuppc_initial_data :: env_operation,()
+msmtprc$TMP_DATA/.msmtprc :: add_operation,()
+$PERSISTENT_CONFIG :: volume_operation,()
+TMP_CONFIG:/backuppc_initial_config :: env_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+STARTSCRIPT:/usr/local/bin/dockerstart.sh :: env_operation,()
+sudo ¦apt-get¦update :: Other_operation,()
+startscript.sh$STARTSCRIPT :: add_operation,()
+$PERSISTENT_DATA :: volume_operation,()
+expose,80
+from,ubuntu@xenial
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+PERSISTENT_DATA:/var/lib/backuppc :: env_operation,()
+PERSISTENT_CONFIG:/etc/backuppc :: env_operation,()
+apt-get ¦-y¦install¦perl¦cpanminus¦debconf-utils¦python¦python-pip¦msmtp¦&& :: Dependencies_operation,()

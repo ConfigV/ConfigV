@@ -1,0 +1,17 @@
+./www.conf/usr/local/etc/php/ :: copy_operation,()
+docker-php-ext-install ¦mcrypt¦intl¦mbstring¦pdo_mysql¦exif :: Other_operation,()
+usermod ¦-u¦1000¦www-data :: Permissions_operation,()
+expose,9000
+docker-php-ext-install ¦gd :: Other_operation,()
+pecl ¦install¦-o¦-f¦xdebug :: Dependencies_operation,()
+./php.ini/usr/local/etc/php/ :: copy_operation,()
+from,php:7.0
+apt-get ¦purge¦-y¦g++ :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev¦libicu-dev¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-rf¦/tmp/pear :: Filesystem_operation,()
+cmd,php-fpm

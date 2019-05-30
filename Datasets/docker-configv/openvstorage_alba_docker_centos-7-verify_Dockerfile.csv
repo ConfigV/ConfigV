@@ -1,0 +1,14 @@
+from,centos:7.0
+useradd ¦jenkins¦-u¦1500¦-g¦root :: Permissions_operation,()
+rpm ¦-iUvh¦http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm :: Dependencies_operation,()
+echo ¦echo¦"jenkins ALL=NOPASSWD: ALL" >/etc/sudoers.d/jenkins :: Filesystem_operation,()
+entrypoint,/home/jenkins/alba/docker/docker-entrypoint.sh
+yum ¦-y¦install¦iproute :: Dependencies_operation,()
+awk ¦'NR¦==¦56¦{next}¦{print}'¦/etc/sudoers¦>/tmp/__sudoers :: Other_operation,()
+yum ¦-y¦install¦python-devel¦wget¦make¦m4¦gcc¦install¦python-pip :: Dependencies_operation,()
+yum ¦-y¦install¦sudo :: Dependencies_operation,()
+echo ¦echo¦-e '[ovs]\\nname=ovs\\nbaseurl=http://yum.openvstorage.org/CentOS/7/x86_64/dists/unstable\\nenabled=1\\ngpgcheck=0' > /etc/yum.repos.d/ovs.repo && yum -y update :: Filesystem_operation,()
+rpm ¦--import¦file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+mv ¦/tmp/__sudoers¦/etc/sudoers :: Filesystem_operation,()
+pip ¦install¦fabric¦junit-xml :: Dependencies_operation,()

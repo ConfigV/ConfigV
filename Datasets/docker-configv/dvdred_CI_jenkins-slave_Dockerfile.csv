@@ -1,0 +1,23 @@
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()
+filename:jdk-8u11-linux-x64.tar.gz :: env_operation,()
+wget ¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦-O¦/tmp/$filename¦$downloadlink :: Dependencies_operation,()
+mkdir ¦/opt/java-oracle :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦git¦openssh-server¦openjdk-8-jdk :: Dependencies_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+chown ¦-R¦jenkins:jenkins¦/home/jenkins/.m2/ :: Permissions_operation,()
+apt-get ¦install¦-y¦maven :: Dependencies_operation,()
+tar ¦-zxf¦/tmp/$filename¦-C¦/opt/java-oracle/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+settings.xml/home/jenkins/.m2/ :: add_operation,()
+MAVEN_HOME:/opt/maven :: env_operation,()
+JAVA_HOME:/opt/java-oracle/jdk1.8.0_11//bin/java :: env_operation,()
+java_version:1.8.0_11 :: env_operation,()
+echo ¦adduser¦--quiet jenkins && echo "jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,ubuntu:16.04
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt ¦clean¦all :: Dependencies_operation,()
+mkdir ¦/home/jenkins/.m2 :: Filesystem_operation,()
+downloadlink:http://download.oracle.com/otn-pub/java/jdk/8u11-b12/$filename :: env_operation,()
+expose,22

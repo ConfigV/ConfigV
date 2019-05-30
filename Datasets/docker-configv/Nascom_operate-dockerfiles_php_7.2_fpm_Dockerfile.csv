@@ -1,0 +1,16 @@
+cmd,/bin/bash¦/run.sh
+PHP_FPM_UID:33 :: env_operation,()
+run.sh/run.sh :: copy_operation,()
+php-fpm.conf/etc/php/7.2/fpm/php-fpm.conf :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+from,nascom/php:7.2-base
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦php7.2-fpm :: Other_operation,()
+PHP_FPM_USER:www-data :: env_operation,()
+PHP_FPM_PORT:9000 :: env_operation,()
+expose,9000
+php.ini/etc/php/7.2/fpm/conf.d/ :: copy_operation,()
+PHP_ERROR_REPORTING:"E_ALL& :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mail.ini/etc/php/7.2/fpm/conf.d/ :: copy_operation,()
+ENVIRONMENT:dev :: env_operation,()

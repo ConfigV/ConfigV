@@ -1,0 +1,11 @@
+rm ¦/etc/uci-defaults/cjdns :: Filesystem_operation,()
+uci ¦delete¦cjdns.cjdns.private_key :: Other_operation,()
+uci ¦delete¦cjdns.cjdns.ipv6 :: Other_operation,()
+uci ¦delete¦cjdns.cjdns.public_key :: Other_operation,()
+cjdroute ¦--genconf¦|¦cjdroute¦--cleanconf¦|¦cjdrouteconf¦set :: Other_operation,()
+cmd,/sbin/init
+touch ¦/etc/config/cjdns :: Filesystem_operation,()
+from,lgierth/meshbox
+uci ¦commit :: Other_operation,()
+/etc/init.d/cjdns ¦disable :: Other_operation,()
+printf ¦"12345\\n12345\\n"¦|¦passwd :: Other_operation,()

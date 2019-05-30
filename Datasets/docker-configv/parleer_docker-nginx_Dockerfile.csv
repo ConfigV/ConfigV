@@ -1,0 +1,8 @@
+from,ubuntu@trusty
+expose,80
+sites-enabled//etc/nginx/sites-enabled/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦nginx :: Other_operation,()
+cmd,/usr/sbin/nginx
+app//app/ :: add_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()

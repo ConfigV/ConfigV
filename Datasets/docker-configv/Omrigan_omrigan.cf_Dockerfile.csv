@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦tar¦git¦curl¦nano¦wget¦dialog¦net-tools¦build-essential :: Dependencies_operation,()
+a2ensite ¦omrigan.cf :: Other_operation,()
+/etc/init.d/apache2 ¦restart :: Other_operation,()
+from,ubuntu:14.04
+pip3 ¦install¦-r¦/var/www/omrigan/requirements.txt :: Dependencies_operation,()
+expose,80
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+./var/www/omrigan :: add_operation,()
+omrigan.cf.conf/etc/apache2/sites-available/omrigan.cf.conf :: add_operation,()
+apt-get ¦install¦-y¦python3¦python3-dev¦python3-pip :: Dependencies_operation,()
+a2dissite ¦000-default :: Other_operation,()
+apt-get ¦install¦-y¦apache2¦apache2-mpm-prefork¦apache2-utils¦libexpat1¦ssl-cert¦libapache2-mod-python¦libapache2-mod-wsgi :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

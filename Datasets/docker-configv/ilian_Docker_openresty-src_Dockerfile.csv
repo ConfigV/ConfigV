@@ -1,0 +1,18 @@
+cmd,sbin/nginx¦-g¦daemon off;
+tar ¦vxzf¦ngx_openresty-1.9.3.1.tar.gz :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦install¦wget¦tar¦perl¦perl-devel¦readline-devel¦pcre-devel¦openssl-devel¦gcc¦make :: Dependencies_operation,()
+mkdir ¦lua :: Filesystem_operation,()
+useradd ¦-g¦nginx¦nginx :: Permissions_operation,()
+/usr/local/src/ngx_openresty-1.9.3.1 :: workdir_operation,()
+groupadd ¦nginx :: Permissions_operation,()
+gmake  :: Other_operation,()
+./configure ¦--prefix=/usr/local/openresty¦--with-pcre-jit¦--with-ipv6¦--with-lua51¦--with-http_geoip_module :: Build_Execute_operation,()
+expose,80
+wget ¦https://openresty.org/download/ngx_openresty-1.9.3.1.tar.gz :: Dependencies_operation,()
+yum ¦-y¦install¦GeoIP-devel :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+/usr/local/openresty/nginx :: workdir_operation,()
+from,centos@latest
+/usr/local/src :: workdir_operation,()
+gmake ¦install :: Other_operation,()

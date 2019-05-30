@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦icecast2 :: Dependencies_operation,()
+echo ¦echo¦"from flask import Flask\\nfrom flask import make_response\\nfrom subprocess import call\\nimport time\\napp = Flask(__name__)\\n\\n@app.route('/auth', methods=['POST'])\\ndef auth():\\n call(['mpc', 'play'])\\n time.sleep(1)\\n resp = make_res... :: Filesystem_operation,()
+<\\/icecast>\\  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦mpc¦mpd :: Dependencies_operation,()
+sed ¦-i¦'s/^ENABLE=false$/ENABLE=true/'¦/etc/default/icecast2 :: Filesystem_operation,()
+pip3 ¦install¦Flask :: Dependencies_operation,()
+mv ¦jonobacon-freesoftwaresong2.ogg¦/var/lib/mpd/music/. :: Filesystem_operation,()
+cmd,/etc/init.d/icecast2¦start¦&&¦/etc/init.d/mpd¦start¦&&¦mpc¦update¦&&¦mpc¦ls¦|¦mpc¦add¦&&¦mpc¦repeat¦on¦&&¦bash
+wget ¦http://www.jonobacon.org/files/freesoftwaresong/jonobacon-freesoftwaresong2.ogg :: Dependencies_operation,()
+from,debian@jessie
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+audio_output\\  :: Other_operation,()
+apt-get ¦install¦-y¦python3¦python3-pip :: Dependencies_operation,()

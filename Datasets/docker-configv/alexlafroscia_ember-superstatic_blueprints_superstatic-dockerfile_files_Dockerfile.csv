@@ -1,0 +1,19 @@
+/opt/app :: workdir_operation,()
+./opt/app :: copy_operation,()
+EMBER_EXEC:/opt/app/node_modules/ember-cli/bin/ember :: env_operation,()
+expose,3474
+cmd,/opt/app/node_modules/ember-cli/bin/ember¦superstatic
+bower.json/tmp/bower.json :: copy_operation,()
+rm ¦-rf¦tmp :: Filesystem_operation,()
+$EMBER_EXEC ¦build :: Other_operation,()
+npm ¦install :: Dependencies_operation,()
+mkdir ¦-p¦/opt/app :: Filesystem_operation,()
+touch ¦tests/index.html :: Filesystem_operation,()
+mkdir ¦-p¦tests :: Filesystem_operation,()
+cd ¦/tmp/ :: Filesystem_operation,()
+echo ¦npm¦install -g bower && echo '{ "allow_root": true }' > /root/.bowerrc :: Filesystem_operation,()
+package.json/tmp/package.json :: copy_operation,()
+from,node:0.12
+bower ¦install :: Dependencies_operation,()
+cp ¦-a¦/tmp/node_modules¦/opt/app/ :: Filesystem_operation,()
+cp ¦-a¦/tmp/bower_components¦/opt/app/ :: Filesystem_operation,()

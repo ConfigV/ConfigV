@@ -1,0 +1,10 @@
+script/script :: add_operation,()
+cmd,start
+apk ¦update¦&&\\ :: Dependencies_operation,()
+WORKDIR/app :: onbuild_operation,()
+VERSION:$TRAVIS_BUILD_NUMBER :: env_operation,()
+RUNnpm install && ./node_modules/gulp/bin/gulp.js :: onbuild_operation,()
+from,alpine
+expose,1389
+entrypoint,/script/bootstrap.sh
+ADDapp /app :: onbuild_operation,()

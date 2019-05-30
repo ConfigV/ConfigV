@@ -1,0 +1,12 @@
+/var/lib/mysql :: volume_operation,()
+expose,3306
+pacman ¦-Sy¦--noconfirm¦mariadb¦mariadb-clients :: Filesystem_operation,()
+chmod ¦+x¦/*.sh :: Permissions_operation,()
+create_mysql_admin_user.sh/create_mysql_admin_user.sh :: add_operation,()
+cmd,/run.sh
+from,shaddock/seed:latest
+/etc/mysql :: volume_operation,()
+mysqld_charset.cnf/etc/mysql/conf.d/mysqld_charset.cnf :: add_operation,()
+run.sh/run.sh :: add_operation,()
+rm ¦-rf¦/var/lib/mysql/* :: Filesystem_operation,()
+my.cnf/etc/mysql/conf.d/my.cnf :: add_operation,()

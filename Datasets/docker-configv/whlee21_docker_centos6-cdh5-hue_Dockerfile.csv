@@ -1,0 +1,12 @@
+expose,22
+yum ¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦hue¦hadoop-httpfs;¦yum¦clean¦all :: Dependencies_operation,()
+alternatives ¦--set¦hue-conf¦/etc/hue/conf.docker :: Other_operation,()
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+alternatives ¦--install¦/etc/hue/conf¦hue-conf¦/etc/hue/conf.docker¦50 :: Other_operation,()
+./supervisord.conf/etc/ :: add_operation,()
+cmd,/usr/bin/supervisord
+conf.hue/etc/hue/conf.docker :: add_operation,()
+alternatives ¦--set¦hadoop-httpfs-conf¦/etc/hadoop-httpfs/conf.docker :: Other_operation,()
+alternatives ¦--install¦/etc/hadoop-httpfs/conf¦hadoop-httpfs-conf¦/etc/hadoop-httpfs/conf.docker¦50 :: Other_operation,()
+from,whlee21/centos6-cdh5-base
+conf.hadoop-httpfs/etc/hadoop-httpfs/conf.docker :: add_operation,()

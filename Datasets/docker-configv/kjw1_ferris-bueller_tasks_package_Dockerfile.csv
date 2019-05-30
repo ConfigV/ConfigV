@@ -1,0 +1,10 @@
+./build :: copy_operation,()
+bundle ¦update :: Dependencies_operation,()
+bundle ¦exec¦rake¦package:linux :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive: :: env_operation,()
+/artifacts :: volume_operation,()
+mkdir ¦/artifacts :: Filesystem_operation,()
+from,sczizzo/trusty-tool:latest
+mv ¦pkg/*.deb¦/artifacts :: Filesystem_operation,()
+cd ¦/build :: Filesystem_operation,()
+bundle ¦exec¦rake¦wipe :: Dependencies_operation,()

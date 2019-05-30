@@ -1,0 +1,19 @@
+supervisor/rsyslog.ini/etc/supervisord.d/rsyslog.ini :: copy_operation,()
+/var/lib/elasticsearch :: volume_operation,()
+mkdir ¦-p¦/opt/kibana :: Filesystem_operation,()
+yum ¦-y¦upgrade :: Dependencies_operation,()
+rsyslog/rsyslog.conf/etc/rsyslog.conf :: copy_operation,()
+elasticsearch/logging.yml/etc/elasticsearch/logging.yml :: copy_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+from,centos:7.0
+expose,514 514 5601
+supervisor/kibana.ini/etc/supervisord.d/kibana.ini :: copy_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+elasticsearch/elasticsearch.repo/etc/yum.repos.d/elasticsearch.repo :: copy_operation,()
+cmd,/usr/bin/supervisord¦-c¦/etc/supervisord.conf
+yum ¦-y¦install¦tar¦supervisor¦rsyslog¦rsyslog-elasticsearch¦java-1.7.0-openjdk-headless¦elasticsearch :: Dependencies_operation,()
+rpm ¦--import¦https://packages.elasticsearch.org/GPG-KEY-elasticsearch :: Dependencies_operation,()
+curl ¦-L¦https://download.elasticsearch.org/kibana/kibana/kibana-4.0.1-linux-x64.tar.gz¦|¦tar¦-xzC¦/opt/kibana¦--strip¦1 :: Dependencies_operation,()
+supervisor/elasticsearch.ini/etc/supervisord.d/elasticsearch.ini :: copy_operation,()
+supervisor/supervisord.conf/etc/supervisord.conf :: copy_operation,()
+rsyslog/elasticsearch.conf/etc/rsyslog.d/elasticsearch.conf :: copy_operation,()

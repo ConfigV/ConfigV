@@ -1,0 +1,13 @@
+initdb.sql/etc/cinder/initdb.sql :: copy_operation,()
+apt-get ¦-y¦install¦--no-install-recommends¦software-properties-common :: Dependencies_operation,()
+chmod ¦+x¦/var/cinder/cinder.sh¦/etc/cinder/initcinder.sh :: Permissions_operation,()
+cmd,/var/cinder/cinder.sh
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+add-apt-repository ¦-y¦cloud-archive:mitaka :: Dependencies_operation,()
+policy.json/etc/cinder/policy.json :: copy_operation,()
+cinder.conf/etc/cinder/cinder.conf :: copy_operation,()
+cinder.sh/var/cinder/cinder.sh :: copy_operation,()
+from,ubuntu:14.04
+init.sh/etc/cinder/init.sh :: copy_operation,()
+apt-get ¦-y¦install¦--no-install-recommends¦cinder-api¦cinder-scheduler¦cinder-volume¦mysql-client¦python-openstackclient :: Dependencies_operation,()

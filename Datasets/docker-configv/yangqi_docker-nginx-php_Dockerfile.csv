@@ -1,0 +1,14 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+expose,443
+echo ¦apt-get¦update && apt-get install -y wget php5 php5-fpm && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list.d/nginx.list && echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources... :: Filesystem_operation,()
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+start.sh/root/start.sh :: add_operation,()
+/var/www :: volume_operation,()
+from,yangqi/docker-debian
+php-fpm.conf/etc/php5/fpm/php-fpm.conf :: add_operation,()
+/var/log/php-fpm :: volume_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+/root :: workdir_operation,()
+/var/log/nginx :: volume_operation,()
+www.conf/etc/php5/fpm/pool.d/www.conf :: add_operation,()
+cmd,/root/start.sh

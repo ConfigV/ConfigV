@@ -1,0 +1,16 @@
+tar ¦xfz¦/opt/kafka.tgz¦-C¦/opt :: Filesystem_operation,()
+kafka.conf/etc/supervisor/conf.d/ :: add_operation,()
+rm ¦/opt/kafka.tgz :: Filesystem_operation,()
+http://apache.claz.org/kafka/0.10.0.0/kafka_2.11-0.10.0.0.tgz/opt/kafka.tgz :: add_operation,()
+cmd,supervisord¦-n
+ZOOKEEPER_PORT:2181 :: env_operation,()
+expose,2181 9092
+SECURITY_PROTOCOL:PLAINTEXT :: env_operation,()
+ZOOKEEPER_HOST:localhost :: env_operation,()
+from,java:8.0
+apt-get ¦install¦-y¦zookeeper¦wget¦supervisor¦dnsutils :: Dependencies_operation,()
+start-kafka.sh/usr/bin/start-kafka.sh :: add_operation,()
+KAFKA_HOST:localhost :: env_operation,()
+KAFKA_PORT:9092 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦/opt/kafka_2.11-0.10.0.0¦/opt/kafka :: Filesystem_operation,()

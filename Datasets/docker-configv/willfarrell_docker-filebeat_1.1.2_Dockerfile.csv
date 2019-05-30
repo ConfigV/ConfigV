@@ -1,0 +1,6 @@
+FILEBEAT_VERSION=1.1.2:FILEBEAT_SHA1=7bc318ad2f770063335cbf0898c273fee2261062 :: env_operation,()
+echo ¦set¦-x && apt-get update && apt-get install -y wget && wget https://download.elastic.co/beats/filebeat/filebeat-${FILEBEAT_VERSION}-x86_64.tar.gz -O /opt/filebeat.tar.gz && cd /opt && echo "${FILEBEAT_SHA1} filebeat.tar.gz" | sha1sum -c - ... :: Filesystem_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+entrypoint,/docker-entrypoint.sh
+from,debian@jessie
+cmd,filebeat¦-e

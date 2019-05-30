@@ -1,0 +1,21 @@
+git ¦clone¦git://github.com/paxed/dgamelaunch.git :: Dependencies_operation,()
+cd ¦dgamelaunch :: Filesystem_operation,()
+echo ¦(¦echo "service telnet" && echo "{" && echo " socket_type = stream" && echo " protocol = tcp" && echo " user = root" && echo " wait = no" && echo " server = /usr/sbin/in.telnetd" && echo " server_args = -L /opt/nethack/nethack.alt.org/dgam... :: Filesystem_operation,()
+from,ubuntu
+rm ¦-rf¦dgamelaunch :: Filesystem_operation,()
+/opt/nethack/nethack.alt.org/dgldir :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+tar ¦cf¦-¦/lib/x86_64-linux-gnu/libncurses*¦|¦tar¦xf¦-¦-C¦/opt/nethack/nethack.alt.org/ :: Filesystem_operation,()
+sed ¦-i¦-e¦"s/-lrt/-lrt¦-pthread/"¦configure.ac :: Filesystem_operation,()
+cd ¦.. :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦autoconf¦bison¦bsdmainutils¦flex¦gcc¦git¦groff¦libncursesw5-dev¦libsqlite3-dev¦make¦ncurses-dev¦sqlite3¦tar¦telnetd-ssl¦wget¦xinetd :: Other_operation,()
+cmd,xinetd¦-dontfork
+expose,23
+apt-get ¦update :: Dependencies_operation,()
+./dgl-create-chroot  :: Other_operation,()
+locale-gen ¦ja_JP.UTF-8 :: Other_operation,()
+#define ¦VAR_PLAYGROUND\\ :: Other_operation,()
+/opt/nethack/nethack.alt.org/nh343/var :: volume_operation,()
+sed ¦-i¦-e¦"/^maxnicklen/s/=.*/=¦16/"¦examples/dgamelaunch.conf :: Filesystem_operation,()
+./autogen.sh ¦--enable-sqlite¦--enable-shmem¦--with-config-file=/opt/nethack/nethack.alt.org/etc/dgamelaunch.conf :: Other_operation,()

@@ -1,0 +1,18 @@
+GROOVY_HOME=/groovy-2.4.3: :: env_operation,()
+PATH=$PATH:$GROOVY_HOME/bin: :: env_operation,()
+useradd ¦rundeck :: Permissions_operation,()
+chmod ¦+x¦/entry.sh :: Permissions_operation,()
+JAVA_HOME=/etc/alternatives/java_sdk: :: env_operation,()
+expose,4440
+rpm ¦-Uvh¦http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+unzip ¦groovy-binary-2.4.3.zip :: Filesystem_operation,()
+$HOME/rundeck :: workdir_operation,()
+yum ¦-y¦install¦wget¦zip :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+entry.sh/entry.sh :: add_operation,()
+entrypoint,/entry.sh
+yum ¦-y¦install¦java-1.7.0-openjdk¦java-1.7.0-openjdk-devel¦git¦rpm-build¦unzip¦fakeroot¦dpkg :: Dependencies_operation,()
+rm ¦groovy-binary-2.4.3.zip :: Filesystem_operation,()
+wget ¦https://bintray.com/artifact/download/groovy/maven/groovy-binary-2.4.3.zip :: Dependencies_operation,()
+$HOME/rundeck :: volume_operation,()
+from,centos:6.0

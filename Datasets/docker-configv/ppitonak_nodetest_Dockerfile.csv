@@ -1,0 +1,16 @@
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+groupadd ¦-r¦testuser :: Permissions_operation,()
+.. :: copy_operation,()
+from,node:5.6
+testuser :: user_operation,()
+npm ¦install :: Dependencies_operation,()
+mkdir ¦/home/testuser/app :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/{apt,dpkg,cache,log} :: Filesystem_operation,()
+chown ¦-R¦testuser:testuser¦. :: Permissions_operation,()
+expose,3000
+npm ¦prune¦--production :: Dependencies_operation,()
+cmd,node¦main.js
+apt-get ¦purge¦-y¦git¦git-man¦subversion¦perl-modules¦python*¦libmagick*¦libstdc++-4.9-dev¦libgcc-4.9-dev¦libdjvulibre-dev¦libmysqlclient-dev¦liblcms2-dev¦libxml2-dev¦wget¦make :: Dependencies_operation,()
+apt-get ¦clean¦autoclean :: Dependencies_operation,()
+/home/testuser/app :: workdir_operation,()
+useradd ¦-r¦-g¦testuser¦-m¦testuser :: Permissions_operation,()

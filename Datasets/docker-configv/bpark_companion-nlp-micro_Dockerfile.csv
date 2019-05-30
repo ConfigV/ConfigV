@@ -1,0 +1,8 @@
+chmod ¦777¦/app/ :: Permissions_operation,()
+/app/ :: workdir_operation,()
+target/$JAVA_APP_JAR/app/ :: add_operation,()
+cmd,exec java -jar $JAVA_APP_JAR -cluster
+expose,5701 54327
+from,openjdk:8.0
+JAVA_APP_JAR:companion-nlp-micro-1.0-SNAPSHOT-fat.jar :: env_operation,()
+entrypoint,sh¦-c

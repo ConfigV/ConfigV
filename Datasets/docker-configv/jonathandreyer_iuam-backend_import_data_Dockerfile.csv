@@ -1,0 +1,10 @@
+./tmp/app :: copy_operation,()
+/app :: workdir_operation,()
+curl ¦-LO¦https://d17pt8qph6ncyq.cloudfront.net/export/MLS-full-cell-export-2016-06-10T000000.csv.gz :: Dependencies_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+from,python:3.0
+apt-get ¦install¦-y¦gzip :: Dependencies_operation,()
+entrypoint,./entrypoint.sh
+./push_bts_CellSwiss.py/app :: copy_operation,()
+gzip ¦-d¦MLS-full-cell-export-2016-06-10T000000.csv.gz :: Other_operation,()
+./entrypoint.sh/app :: copy_operation,()

@@ -1,0 +1,10 @@
+PATH=$PATH:/musl-i686/bin:/rust/bin: :: env_operation,()
+CFLAGS=-m32 ¦./configure¦--prefix=/musl-i686¦--disable-shared¦--target=i686 :: Other_operation,()
+rm ¦-rf¦musl-1.1.14 :: Filesystem_operation,()
+from,ubuntu:16.04
+curl ¦https://www.musl-libc.org/releases/musl-1.1.14.tar.gz¦|¦tar¦xzf¦- :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+make ¦install¦-j4 :: Build_Execute_operation,()
+cd ¦musl-1.1.14 :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gcc¦make¦libc6-dev¦git¦curl¦ca-certificates :: Dependencies_operation,()

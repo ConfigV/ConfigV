@@ -1,0 +1,8 @@
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"downloading libapache2-mod_jk"&& apt-get install -y libapache2-mod-jk&& rm -R -f /tmp/ :: Filesystem_operation,()
+echo ¦echo¦"downloading apache2"&& apt-get install -y apache2 :: Filesystem_operation,()
+entrypoint,/tmp/apache.sh
+from,ubuntu
+mv ¦-f¦/tmp/workers.properties¦/etc/libapache2-mod-jk/&&¦mv¦-f¦/tmp/000-default.conf¦/etc/apache2/sites-enabled/ :: Filesystem_operation,()
+expose,80
+config_files/tmp/ :: add_operation,()

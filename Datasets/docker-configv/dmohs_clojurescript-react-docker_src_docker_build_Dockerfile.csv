@@ -1,0 +1,18 @@
+apt-get ¦-yq¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+LEIN_ROOT=1: :: env_operation,()
+from,phusion/baseimage
+apt-get ¦update :: Dependencies_operation,()
+add-apt-repository ¦ppa:openjdk-r/ppa :: Dependencies_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+curl ¦https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein¦>¦/usr/bin/lein :: Dependencies_operation,()
+rm ¦-rf¦/var/tmp/* :: Filesystem_operation,()
+lein ¦--version :: Dependencies_operation,()
+apt-get ¦install¦-y¦-qq¦--no-install-recommends¦openjdk-8-jdk¦php5-cli¦rlfe :: Dependencies_operation,()
+apt-get ¦-yq¦autoremove :: Dependencies_operation,()
+cmd,lein¦cljsbuild¦once
+chmod ¦755¦/usr/bin/lein :: Permissions_operation,()
+/app :: workdir_operation,()
+example/project.cljproject.clj :: copy_operation,()
+lein ¦cljsbuild¦once :: Dependencies_operation,()

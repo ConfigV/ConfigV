@@ -1,0 +1,8 @@
+from,library/postgres:9.6
+POSTGIS_MAJOR:2.3 :: env_operation,()
+./initdb-postgis.sh/docker-entrypoint-initdb.d/postgis.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+mkdir ¦-p¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR¦postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts¦postgresql-contrib-$PG_MAJOR¦postgresql-server-dev-$PG_MAJOR¦postgresql-plpython-$PG_MAJOR¦postgresql-$PG_MA... :: Dependencies_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main" >> /etc/apt/sources.list :: Filesystem_operation,()

@@ -1,0 +1,23 @@
+GOSU_VERSION:1.7 :: env_operation,()
+echo ¦mkdir¦-p /etc/mysql/conf.d && {  echo '[mysqld]';  echo 'skip-host-cache';  echo 'skip-name-resolve';  echo 'datadir = /var/lib/mysql';  echo '!includedir /etc/mysql/conf.d/'; } > /etc/mysql/my.cnf :: Filesystem_operation,()
+cmd,mysqld
+chmod ¦777¦/var/run/mysqld :: Permissions_operation,()
+mktemp ¦-d :: Other_operation,()
+chown ¦-R¦mysql:mysql¦/var/lib/mysql¦/var/run/mysqld :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+MYSQL_MAJOR:5.5 :: env_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+apt-get ¦install¦-y¦perl¦--no-install-recommends :: Dependencies_operation,()
+MYSQL_VERSION:5.5.56 :: env_operation,()
+PATH:$PATH:/usr/local/mysql/bin:/usr/local/mysql/scripts :: env_operation,()
+mkdir ¦-p¦/var/lib/mysql¦/var/run/mysqld :: Filesystem_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+entrypoint,docker-entrypoint.sh
+ln ¦-s¦usr/local/bin/docker-entrypoint.sh¦/entrypoint.sh¦#¦backwards¦compat :: Filesystem_operation,()
+apt-get ¦install¦-y¦libaio1¦pwgen :: Dependencies_operation,()
+from,debian@jessie

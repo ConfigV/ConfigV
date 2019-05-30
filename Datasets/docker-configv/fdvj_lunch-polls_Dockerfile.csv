@@ -1,0 +1,20 @@
+entrypoint,service¦nginx¦start¦&&¦service¦mongodb¦start¦&&¦node¦main.js
+/app :: workdir_operation,()
+/app/bundle/programs/server :: workdir_operation,()
+ln ¦-s¦/etc/nginx/sites-available/lunchpolls¦/etc/nginx/sites-enabled/lunchpolls :: Filesystem_operation,()
+PORT=1337: :: env_operation,()
+expose,80 443
+dist//app :: add_operation,()
+from,node:0.1
+MAIL_URL='': :: env_operation,()
+nginx.conf/etc/nginx/sites-available/lunchpolls :: add_operation,()
+tar ¦-xvzf¦/app/lunch-polls.tar.gz :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+/app/bundle :: workdir_operation,()
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+MONGO_URL='mongodb://localhost/lunchpolls': :: env_operation,()
+ROOT_URL='http://lunch.fernandodevega.net': :: env_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦nginx¦mongodb :: Dependencies_operation,()

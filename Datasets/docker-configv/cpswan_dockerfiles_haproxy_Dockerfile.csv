@@ -1,0 +1,8 @@
+mv ¦/etc/haproxy/haproxy.cfg¦/etc/haproxy/default_haproxy.cfg :: Filesystem_operation,()
+apt-get ¦install¦-y¦haproxy :: Dependencies_operation,()
+expose,80
+from,ubuntu:12.04
+./haproxy.cfg/etc/haproxy/ :: add_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+cmd,/usr/sbin/haproxy¦-f¦/etc/haproxy/haproxy.cfg
+apt-get ¦update :: Dependencies_operation,()

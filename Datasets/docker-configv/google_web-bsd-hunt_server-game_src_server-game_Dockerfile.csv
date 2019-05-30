@@ -1,0 +1,10 @@
+expose,8080
+bin/server-game-run/go/bin :: copy_operation,()
+chmod ¦0755¦/go/bin/server-game :: Permissions_operation,()
+bin/server-game/go/bin :: copy_operation,()
+apt-get ¦-y¦install¦bsdgames :: Dependencies_operation,()
+chmod ¦0755¦/go/bin/server-game-run :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/go/bin :: Filesystem_operation,()
+entrypoint,/go/bin/server-game-run¦--server-host¦0.0.0.0¦--server-port¦8080¦--huntd-well-known-host¦localhost¦--huntd-well-known-port¦4444¦--rpc-type¦jsonrpc
+from,golang

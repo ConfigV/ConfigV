@@ -1,0 +1,12 @@
+echo ¦echo¦'<%= IO.read(@public_key).strip %>' >> /home/<%= @username %>/.ssh/authorized_keys :: Filesystem_operation,()
+from,stackstorm/packagingtest:centos7
+chmod ¦0700¦/home/<%=¦@username¦%>/.ssh :: Permissions_operation,()
+chown ¦<%=¦@username¦%>¦/home/<%=¦@username¦%>/.ssh/authorized_keys :: Permissions_operation,()
+chown ¦-R¦<%=¦@username¦%>¦/home/<%=¦@username¦%>/.ssh :: Permissions_operation,()
+touch ¦/home/<%=¦@username¦%>/.ssh/authorized_keys :: Filesystem_operation,()
+chmod ¦0600¦/home/<%=¦@username¦%>/.ssh/authorized_keys :: Permissions_operation,()
+echo ¦echo¦'<%= @username %> ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+mkdir ¦-p¦/home/<%=¦@username¦%>/.ssh :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦<%= "#{@username}:#{@password}" %> | chpasswd :: Filesystem_operation,()
+useradd ¦-d¦/home/<%=¦@username¦%>¦-m¦-s¦/bin/bash¦<%=¦@username¦%> :: Permissions_operation,()

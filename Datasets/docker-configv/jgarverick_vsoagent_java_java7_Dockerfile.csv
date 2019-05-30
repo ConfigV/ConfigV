@@ -1,0 +1,13 @@
+/opt/vsoagent/agent :: workdir_operation,()
+entrypoint,node¦host
+adduser ¦--disabled-password¦vsoservice :: Permissions_operation,()
+echo ¦echo¦"deb http://ftp.us.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list :: Filesystem_operation,()
+echo ¦echo¦"vsoservice:vsoservice" | chpasswd :: Filesystem_operation,()
+su ¦vsoservice :: Other_operation,()
+node ¦config :: Other_operation,()
+apt-get ¦install¦-y¦nodejs-legacy¦git¦cmake :: Dependencies_operation,()
+/usr/bin/vsoagent-installer  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+npm ¦install¦-g¦vsoagent-installer¦grunt¦bower¦grunt-cli¦jake¦yo¦gulp¦grunt-cli :: Dependencies_operation,()
+curl ¦-L¦--insecure¦https://www.npmjs.org/install.sh¦|¦bash :: Dependencies_operation,()
+from,java:7.0

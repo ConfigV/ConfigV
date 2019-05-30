@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/application :: Filesystem_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+cmd,/usr/local/bin/container-run.sh
+mkdir ¦-p¦/application :: Filesystem_operation,()
+from,luzifer/php5-nginx
+apt-get ¦install¦-y¦git-core :: Dependencies_operation,()
+expose,80
+git ¦submodule¦update¦--init¦--recursive :: Dependencies_operation,()
+./application :: add_operation,()
+apt-get ¦purge¦-y¦git-core :: Dependencies_operation,()

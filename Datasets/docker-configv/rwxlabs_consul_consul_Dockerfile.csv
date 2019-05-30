@@ -1,0 +1,18 @@
+mkdir ¦-vp¦/opt/consul/ui :: Filesystem_operation,()
+apk ¦--update¦add¦curl¦ca-certificates :: Dependencies_operation,()
+chmod ¦+x¦/opt/consul/bin/consul :: Permissions_operation,()
+cd ¦/opt/consul/bin :: Filesystem_operation,()
+PATH:/opt/consul/bin:/opt/kubectl/bin:$PATH :: env_operation,()
+mkdir ¦-vp¦/opt/consul/config :: Filesystem_operation,()
+unzip ¦/tmp/consul.zip :: Filesystem_operation,()
+from,alpine:3.2
+entrypoint,/opt/consul/bin/consul
+curl ¦-Ls¦https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk¦>¦/tmp/glibc-2.21-r2.apk :: Dependencies_operation,()
+apk ¦add¦bash :: Dependencies_operation,()
+rm ¦-vf¦/tmp/consul.zip :: Filesystem_operation,()
+rm ¦-rf¦/tmp/glibc-2.21-r2.apk¦/var/cache/apk/* :: Filesystem_operation,()
+https://releases.hashicorp.com/consul/${VERSION}/consul_${VERSION}_linux_amd64.zip/tmp/consul.zip :: add_operation,()
+mkdir ¦-vp¦/opt/consul/data :: Filesystem_operation,()
+apk ¦add¦--allow-untrusted¦/tmp/glibc-2.21-r2.apk :: Dependencies_operation,()
+VERSION:0.6.0 :: env_operation,()
+mkdir ¦-vp¦/opt/consul/bin :: Filesystem_operation,()

@@ -1,0 +1,11 @@
+rm ¦opendj.zip :: Filesystem_operation,()
+./opendj/setup ¦--cli¦-p¦389¦--ldapsPort¦636¦--enableStartTLS¦--generateSelfSignedCertificate¦--ldifFile¦/opt/opendj/k8sdc.ldif¦--baseDN¦"dc=k8sdc,dc=io"¦-h¦localhost¦--rootUserPassword¦password¦--acceptLicense¦--no-prompt :: Other_operation,()
+cmd,/opt/opendj/run.sh
+unzip ¦opendj.zip :: Filesystem_operation,()
+from,java:8.0
+k8sdc.ldif/opt/opendj/k8sdc.ldif :: add_operation,()
+/opt :: workdir_operation,()
+run.sh/opt/opendj/run.sh :: add_operation,()
+expose,389 636 4444
+curl ¦https://forgerock.org/djs/opendjrel.js?948497823¦|¦grep¦-o¦"http://.*\\.zip"¦|¦tail¦-1¦|¦xargs¦curl¦-o¦opendj.zip :: Dependencies_operation,()
+/opt/opendj/bin/stop-ds  :: Other_operation,()

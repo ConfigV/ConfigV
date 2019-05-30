@@ -1,0 +1,11 @@
+default.ini/etc/couchdb/default.ini :: add_operation,()
+chown ¦-R¦couchdb:couchdb¦/var/run/couchdb :: Permissions_operation,()
+apt-get ¦-y¦install¦couchdb :: Dependencies_operation,()
+cmd,run_couchdb
+expose,5984
+run_couchdb/usr/local/bin/run_couchdb :: add_operation,()
+couchdb_setup.py/usr/local/sbin/couchdb_setup.py :: add_operation,()
+from,local/base
+chmod ¦+x¦/usr/local/bin/run_couchdb :: Permissions_operation,()
+local.ini/etc/couchdb/local.ini :: add_operation,()
+mkdir ¦/var/run/couchdb :: Filesystem_operation,()

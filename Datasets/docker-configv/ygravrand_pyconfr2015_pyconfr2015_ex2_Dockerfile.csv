@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/bslatkin/dpxdt.git¦/tmp/dpxdt/src :: Dependencies_operation,()
+apt-get ¦install¦-y¦-q¦phantomjs¦python¦python-dev¦python-distribute¦python-pip¦python-virtualenv¦build-essential¦imagemagick¦git¦--no-install-recommends :: Dependencies_operation,()
+git ¦apply¦dpxdt.patch :: Dependencies_operation,()
+dpxdt.patch/tmp/dpxdt/src/ :: copy_operation,()
+virtualenv ¦/tmp/dpxdt/venv :: Environment_operation,()
+pip ¦install¦-e¦. :: Dependencies_operation,()
+. ¦/tmp/dpxdt/venv/bin/activate :: Other_operation,()
+mkdir ¦/tmp/dpxdt :: Filesystem_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+cd ¦/tmp/dpxdt/src :: Filesystem_operation,()
+from,ubuntu:14.04

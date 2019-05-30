@@ -1,0 +1,9 @@
+root :: user_operation,()
+expose,443
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+rm ¦-rf¦/etc/nginx/conf.d/*.conf :: Filesystem_operation,()
+entrypoint,/etc/nginx/conf.d/config.sh
+from,nginx:1.8
+conf.d//etc/nginx/conf.d/ :: copy_operation,()
+chmod ¦+x¦/etc/nginx/conf.d/config.sh :: Permissions_operation,()
+dist.tar/ :: add_operation,()

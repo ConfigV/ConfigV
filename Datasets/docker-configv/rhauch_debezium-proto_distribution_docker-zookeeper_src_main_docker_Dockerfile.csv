@@ -1,0 +1,23 @@
+mkdir ¦$ZK_HOME/data :: Filesystem_operation,()
+echo ¦echo¦"$MD5HASH /tmp/zookeeper.tar.gz" | md5sum -c - &&\\ :: Filesystem_operation,()
+./docker-entrypoint.sh/ :: copy_operation,()
+expose,2181 2888 3888
+root :: user_operation,()
+./zoo.cfg$ZK_HOME/conf/zoo.cfg :: copy_operation,()
+cmd,start
+/zookeeper/conf :: volume_operation,()
+ZK_VERSION=3.4.6:ZK_HOME=/zookeeper :: env_operation,()
+/zookeeper/data :: volume_operation,()
+$ZK_HOME :: workdir_operation,()
+log4j.appender.ROLLINGFILE.MaxBackupIndex.*  :: Other_operation,()
+groupadd ¦-r¦zookeeper¦-g¦1001 :: Permissions_operation,()
+zookeeper :: user_operation,()
+mkdir ¦$ZK_HOME/logs :: Filesystem_operation,()
+useradd ¦-u¦1001¦-r¦-g¦zookeeper¦-m¦-d¦$ZK_HOME¦-s¦/sbin/nologin¦-c¦"Zookeeper¦user"¦zookeeper :: Permissions_operation,()
+MD5HASH=971c379ba65714fd25dc5fe8f14e9ad1: :: env_operation,()
+mkdir ¦$ZK_HOME/txns :: Filesystem_operation,()
+from,jboss/base-jdk:8
+chmod ¦755¦$ZK_HOME :: Permissions_operation,()
+entrypoint,/docker-entrypoint.sh
+/zookeeper/txns :: volume_operation,()
+curl ¦--stderr¦/dev/null¦https://www.apache.org/dyn/closer.cgi\\?as_json\\=1¦|¦sed¦-rn¦'s/.*"preferred":.*"(.* :: Dependencies_operation,()

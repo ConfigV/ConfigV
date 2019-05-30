@@ -1,0 +1,9 @@
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()
+yum ¦-y¦install¦python35u.x86_64¦python35u-pip.noarch¦python35u-devel.x86_64¦postgresql.x86_64¦postgresql-devel.x86_64¦gcc¦psmisc.x86_64¦#¦install¦Python¦3.5¦modules :: Dependencies_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+yum ¦-y¦install¦https://centos7.iuscommunity.org/ius-release.rpm :: Dependencies_operation,()
+from,centos:7.3

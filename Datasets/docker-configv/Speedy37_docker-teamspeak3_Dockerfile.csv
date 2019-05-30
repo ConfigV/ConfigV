@@ -1,0 +1,12 @@
+expose,9987 10011 30033
+curl ¦http://dl.4players.de/ts/releases/$TS3_VERSION/teamspeak3-server_linux-amd64-$TS3_VERSION.tar.gz¦>¦/tmp/teamspeak-server.tar.gz :: Dependencies_operation,()
+ln ¦-s¦/data/licensekey.dat¦$TS3_DIR/licensekey.dat :: Filesystem_operation,()
+ln ¦-s¦/data/files¦$TS3_DIR/files :: Filesystem_operation,()
+from,alpine:3.5
+/data :: volume_operation,()
+TS3_VERSION:3.0.13.6 :: env_operation,()
+TS3_DIR:/opt/teamspeak3-server :: env_operation,()
+cmd,/opt/teamspeak3-server/ts3server_minimal_runscript.sh
+mv ¦/opt/teamspeak3-server_linux-amd64¦$TS3_DIR :: Filesystem_operation,()
+tar ¦-xf¦/tmp/teamspeak-server.tar.gz¦-C¦/opt :: Filesystem_operation,()
+ln ¦-s¦/data/ts3server.sqlitedb¦$TS3_DIR/ts3server.sqlitedb :: Filesystem_operation,()

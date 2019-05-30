@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+cmd,./prepare.sh
+./usr/src/app :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦postgresql-client :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+./generate_sql.py ¦classify.yml¦>>¦functions.sql :: Other_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+SQL_FILE=/usr/src/app/functions.sql: :: env_operation,()
+/usr/src/app :: workdir_operation,()
+from,python:3.4
+requirements.txt/usr/src/app/requirements.txt :: copy_operation,()

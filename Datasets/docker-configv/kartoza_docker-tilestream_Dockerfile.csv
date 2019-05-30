@@ -1,0 +1,22 @@
+chmod ¦0755¦/setup.sh :: Permissions_operation,()
+expose,8889
+apt-get ¦-y¦install¦ca-certificates¦socat¦openssh-server¦supervisor¦rpl¦pwgen :: Dependencies_operation,()
+tilestream.conf/etc/supervisor/conf.d/tilestream.conf :: add_operation,()
+cmd,/start.sh
+setup.sh/setup.sh :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+chmod ¦0755¦/start.sh :: Permissions_operation,()
+start.sh/start.sh :: add_operation,()
+mkdir ¦/root/.ssh :: Filesystem_operation,()
+chmod ¦o-rwx¦/root/.ssh :: Permissions_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+run_tilestream.sh/run_tilestream.sh :: add_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+rpl ¦"PermitRootLogin¦without-password"¦"PermitRootLogin¦yes"¦/etc/ssh/sshd_config :: Other_operation,()
+71-apt-cacher-ng/etc/apt/apt.conf.d/71-apt-cacher-ng :: add_operation,()
+from,ubuntu@trusty
+sshd.conf/etc/supervisor/conf.d/sshd.conf :: add_operation,()
+/setup.sh  :: Other_operation,()

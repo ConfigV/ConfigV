@@ -1,0 +1,12 @@
+from,microsoft/dotnet:1.0.0-preview2-sdk
+APP_HOME:/app :: env_operation,()
+project.json/tmp/build/project.json :: add_operation,()
+mkdir ¦-p¦$APP_HOME :: Filesystem_operation,()
+dotnet ¦restore¦. :: Other_operation,()
+dotnet ¦build :: Other_operation,()
+./app :: add_operation,()
+expose,5000
+cd ¦/tmp/build :: Filesystem_operation,()
+cmd,dotnet¦run¦--server.urls¦http://*:5000
+mv ¦/tmp/build/*¦/app :: Filesystem_operation,()
+/app :: workdir_operation,()

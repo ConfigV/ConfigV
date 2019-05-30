@@ -1,0 +1,15 @@
+wget ¦ftp://webdata2:webdata2@ussd-ftp.illumina.com/downloads/software/bcl2fastq/bcl2fastq2-v2.17.1.14-Linux-x86_64.zip :: Dependencies_operation,()
+rm ¦-rf¦${TMP} :: Filesystem_operation,()
+mkdir ¦-p¦${TMP} :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+INSTALL_DIR:/usr/local/bin :: env_operation,()
+from,viapath/snappy_ngstools:flatdog
+alien ¦bcl2fastq2-v2.17.1.14-Linux-x86_64.rpm :: Other_operation,()
+cmd,/bin/bash
+TMP:/tmp/bcl2fastq :: env_operation,()
+HOME:/root :: env_operation,()
+cd  :: Filesystem_operation,()
+apt-get ¦install¦-y¦alien¦dpkg-dev¦debhelper¦build-essential :: Dependencies_operation,()
+dpkg ¦-i¦bcl2fastq2_0v2.17.1.14-2_amd64.deb :: Dependencies_operation,()
+unzip ¦bcl2fastq2-v2.17.1.14-Linux-x86_64.zip :: Filesystem_operation,()
+cd ¦${TMP} :: Filesystem_operation,()

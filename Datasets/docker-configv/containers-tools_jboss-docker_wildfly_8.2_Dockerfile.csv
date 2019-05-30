@@ -1,0 +1,8 @@
+from,cct-jboss/base7-jdk8:latest
+JBOSS_HOME:/opt/jboss/wildfly :: env_operation,()
+mv ¦$HOME/wildfly-$WILDFLY_VERSION¦$HOME/wildfly :: Filesystem_operation,()
+cd ¦$HOME :: Filesystem_operation,()
+cmd,/opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0
+curl ¦http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz¦|¦tar¦zx :: Dependencies_operation,()
+WILDFLY_VERSION:8.2.0.Final :: env_operation,()
+expose,8080

@@ -1,0 +1,10 @@
+mkdir ¦-p¦/opt/yoked/api :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦python¦python-pip¦python-virtualenv¦gunicorn¦libpq-dev¦python-dev :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/opt/yoked/api :: workdir_operation,()
+expose,5000
+pip ¦install¦-r¦/opt/yoked/api/requirements.txt :: Dependencies_operation,()
+cmd,/usr/bin/gunicorn¦-w¦2¦-b¦:3000¦api:app
+from,ubuntu:14.04
+./opt/yoked/api/ :: copy_operation,()

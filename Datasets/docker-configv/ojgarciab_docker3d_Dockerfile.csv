@@ -1,0 +1,12 @@
+HOME:/home/redstar :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦bash-completion¦git¦build-essential¦vim :: Dependencies_operation,()
+sed ¦-i¦'s/\\/archive\\.ubuntu\\.com/\\/es.archive.ubuntu.com/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+echo ¦export¦uid=1000 gid=1000 && mkdir -p /home/redstar && echo "redstar:x:${uid}:${gid}:redstar,,,:/home/redstar:/bin/bash" >> /etc/passwd && echo "redstar:x:${uid}:" >> /etc/group && echo "redstar ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/red... :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+QT_X11_NO_MITSHM:1 :: env_operation,()
+from,ubuntu:14.04
+redstar :: user_operation,()
+apt-get ¦install¦-y¦binutils¦mesa-utils :: Dependencies_operation,()
+USER:redstar :: env_operation,()
+apt-get ¦install¦-y¦bumblebee¦nvidia-current¦bumblebee-nvidia :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+import-latest-dump.sh/opt/debiki/database/import-latest-dump.sh :: copy_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 trust" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+mv ¦/etc/postgresql/9.3/main/pg_hba.conf¦/etc/postgresql/9.3/main/pg_hba.conf.orig :: Filesystem_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+echo ¦echo¦"local all all trust" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-software-properties¦software-properties-common¦postgresql-9.3¦postgresql-client-9.3¦postgresql-contrib-9.3 :: Dependencies_operation,()
+cmd,/usr/lib/postgresql/9.3/bin/postgres¦-D¦/var/lib/postgresql/9.3/main¦-c¦config_file=/etc/postgresql/9.3/main/postgresql.conf
+from,ubuntu
+expose,5432
+postgres :: user_operation,()

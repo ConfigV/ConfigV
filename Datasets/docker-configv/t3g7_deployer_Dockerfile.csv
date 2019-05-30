@@ -1,0 +1,14 @@
+cmd,./usr/local/spark/sbin/start-master.sh
+echo ¦echo¦"oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections :: Filesystem_operation,()
+SPARK_VERSION:1.5.1 :: env_operation,()
+apt-get ¦install¦-y¦oracle-java8-installer¦oracle-java8-set-default :: Dependencies_operation,()
+PATH:$PATH:$SPARK_HOME/bin :: env_operation,()
+JAVA_HOME:"/usr/lib/jvm/java-8-oracle" :: env_operation,()
+SPARK_HOME:"/usr/local/spark" :: env_operation,()
+add-apt-repository ¦ppa:webupd8team/java¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦python¦scala¦wget :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+mv ¦spark-1.5.1-bin-hadoop2.6¦/usr/local/spark :: Filesystem_operation,()
+from,ubuntu:15.0
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+wget ¦-qO-¦http://d3kbcqa49mib13.cloudfront.net/spark-1.5.1-bin-hadoop2.6.tgz¦|¦tar¦xvz :: Dependencies_operation,()

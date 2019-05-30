@@ -1,0 +1,13 @@
+rm ¦-rf¦/opt/jboss/wildfly/standalone/configuration/standalone_xml_history :: Filesystem_operation,()
+chown ¦-R¦jboss:jboss¦/opt/jboss/wildfly/ :: Permissions_operation,()
+jboss :: user_operation,()
+expose,8080 9990 8009
+customization/opt/jboss/wildfly/customization/ :: copy_operation,()
+cmd,/opt/jboss/wildfly/bin/standalone.sh¦-b¦`hostname¦-i`¦-bmanagement¦`hostname¦-i`
+USERNAME:admin :: env_operation,()
+/target/jboss-contacts-postgres.war/opt/jboss/wildfly/standalone/deployments/ :: add_operation,()
+PASSWORD:docker#admin :: env_operation,()
+root :: user_operation,()
+chmod ¦+x¦/opt/jboss/wildfly/customization/execute.sh :: Permissions_operation,()
+/opt/jboss/wildfly/customization/execute.sh ¦standalone :: Other_operation,()
+from,jboss/wildfly

@@ -1,0 +1,13 @@
+hbase-env.sh$HBASE_HOME/conf :: add_operation,()
+wget ¦-O¦apache-hbase.tar.gz¦http://mirrors.ocf.berkeley.edu/apache/hbase/1.2.6/hbase-1.2.6-bin.tar.gz¦&&tar¦xzvf¦apache-hbase.tar.gz¦-C¦/usr/local/ :: Dependencies_operation,()
+hbase-site.xml$HBASE_HOME/conf :: add_operation,()
+regionservers$HBASE_HOME/conf :: add_operation,()
+PATH:$PATH:$HBASE_HOME/bin :: env_operation,()
+/usr/local/hbase :: workdir_operation,()
+cmd,/etc/bootstrap.sh¦-d
+from,newnius/hadoop:2.7.4
+rm ¦apache-hbase.tar.gz :: Filesystem_operation,()
+root :: user_operation,()
+backup-masters$HBASE_HOME/conf :: add_operation,()
+ln ¦-s¦/usr/local/hbase-1.2.6¦/usr/local/hbase :: Filesystem_operation,()
+HBASE_HOME:/usr/local/hbase :: env_operation,()

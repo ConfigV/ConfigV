@@ -1,0 +1,14 @@
+wget ¦https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb :: Dependencies_operation,()
+dpkg ¦-i¦erlang-solutions_1.0_all.deb :: Dependencies_operation,()
+from,ubuntu:14.04
+wget ¦http://packages.erlang-solutions.com/debian/erlang_solutions.asc :: Dependencies_operation,()
+HOME:/opt/mongooseim :: env_operation,()
+apt-get ¦install¦mongooseim¦-y :: Dependencies_operation,()
+apt-get ¦install¦wget¦-y :: Dependencies_operation,()
+cmd,start
+MONGOOSEIM_VERSION:1.5 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-key ¦add¦erlang_solutions.asc :: Dependencies_operation,()
+expose,5222 5280 5269
+apt-get ¦-q¦update :: Dependencies_operation,()
+entrypoint,/usr/lib/mongooseim/bin/mongooseimctl

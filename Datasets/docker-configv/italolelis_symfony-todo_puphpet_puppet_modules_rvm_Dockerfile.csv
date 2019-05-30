@@ -1,0 +1,13 @@
+puppet ¦module¦install¦stahnma/epel :: Dependencies_operation,()
+puppet ¦apply¦/etc/puppet/manifests/site.pp¦--verbose :: Dependencies_operation,()
+puppet ¦module¦install¦maestrodev/rvm :: Dependencies_operation,()
+tests/common.yaml/var/lib/hiera/ :: add_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦puppet¦tar :: Dependencies_operation,()
+tests/site.pp/etc/puppet/manifests/ :: add_operation,()
+from,centos@latest
+cmd,/bin/bash
+rpm ¦--import¦https://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs :: Dependencies_operation,()
+yum ¦install¦-y¦yum-utils :: Dependencies_operation,()
+rpm ¦-ivh¦http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm :: Dependencies_operation,()
+yum-config-manager ¦--enable¦centosplus :: Other_operation,()

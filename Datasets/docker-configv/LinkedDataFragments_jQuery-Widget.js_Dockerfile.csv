@@ -1,0 +1,11 @@
+cp ¦settings.json¦/tmp :: Filesystem_operation,()
+cp ¦-r¦queries¦/tmp/queries :: Filesystem_operation,()
+dir:/var/www/online-client :: env_operation,()
+${dir} :: workdir_operation,()
+npm ¦install¦--unsafe-perm :: Dependencies_operation,()
+cd ¦${dir} :: Filesystem_operation,()
+expose,8080
+from,node:4.4
+cmd,cp¦/tmp/settings.json¦settings.json¦&&¦cp¦-r¦/tmp/queries¦queries¦&&¦npm¦run¦production¦&&¦http-server¦build
+npm ¦install¦-g¦http-server :: Dependencies_operation,()
+.${dir} :: add_operation,()

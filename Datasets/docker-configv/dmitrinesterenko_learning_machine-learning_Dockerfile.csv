@@ -1,0 +1,7 @@
+WORKDIR=/webapp/current: :: env_operation,()
+cmd,run.rb¦--learner=ngram¦--dataset=names
+entrypoint,ruby
+from,ruby@latest
+bundle ¦install :: Dependencies_operation,()
+.$WORKDIR :: copy_operation,()
+$WORKDIR :: workdir_operation,()

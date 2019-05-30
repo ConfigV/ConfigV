@@ -1,0 +1,18 @@
+NGINX_GALAXY_LOCATION="": :: env_operation,()
+pip ¦install¦ansible :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+ansible-playbook ¦-i¦docker_inventory¦-c¦local¦galaxy.yml :: Other_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+RUNDEBIAN_FRONTEND=noninteractive apt-get update && echo "===> Updating TLS certificates..." && apt-get install -y openssl ca-certificates :: onbuild_operation,()
+WORKDIR/setup :: onbuild_operation,()
+RUNecho "===> Diagnosis: host information..." && ansible -c local -m setup all :: onbuild_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+echo ¦DEBIAN_FRONTEND=noninteractive¦apt-get update && echo "===> Allow start of services" && echo "exit 0" > /usr/sbin/policy-rc.d && apt-get install -y --no-install-recommends apt-transport-https software-properties-common python-dev python-pi... :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+COPY. /setup :: onbuild_operation,()
+mkdir ¦/etc/ssl/private-copy;¦mv¦/etc/ssl/private/*¦/etc/ssl/private-copy/;¦rm¦-r¦/etc/ssl/private;¦mv¦/etc/ssl/private-copy¦/etc/ssl/private;¦chmod¦-R¦0700¦/etc/ssl/private;¦chown¦-R¦postgres¦/etc/ssl/private :: Filesystem_operation,()
+expose,9002
+/setup :: workdir_operation,()
+./setup :: copy_operation,()
+cmd,ansible-playbook¦galaxy.yml¦-c¦local¦--tags¦"persists_galaxy,nginx_config,galaxy_config_files"¦--skip-tags=skip_supervisor_start_in_docker¦--extra-vars¦nginx_galaxy_location=$NGINX_GALAXY_LOCATION¦-i¦docker_inventory¦&&¦/usr/bin/python¦/usr/bin/supervisord...
+from,ubuntu:14.04

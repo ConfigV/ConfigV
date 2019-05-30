@@ -1,0 +1,14 @@
+expose,3306
+service ¦mysql¦start¦&&\\ :: Build_Execute_operation,()
+mkdir ¦-p¦/var/www/nginx/wordpress :: Filesystem_operation,()
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+mysqld ¦&¦sleep¦5;¦printf¦y\\\\n\\\\n\\\\n1\\\\n¦|¦apt-get¦install¦-y¦phpmyadmin;¦sleep¦15;¦mysqladmin¦-u¦root¦shutdown :: Other_operation,()
+./wordpress-db/tmp/wordpress-db :: add_operation,()
+rm ¦/etc/nginx/sites-available/default :: Filesystem_operation,()
+./wordpress//var/www/nginx/wordpress/ :: add_operation,()
+./default/etc/nginx/sites-available/default :: add_operation,()
+from,bobxiong/ubuntu:latest
+cmd,nginx¦&¦/etc/init.d/php5-fpm¦restart¦&¦mysqld_safe;
+sudo ¦apt-get¦install¦-y¦php5¦php5-mysql¦php5-gd¦php5-fpm¦php5-cgi¦php-apc¦php5-curl¦php5-intl¦php-pear¦php5-imagick¦php5-imap¦php5-mcrypt¦php5-memcache¦php5-ming¦php5-ps¦php5-pspell¦php5-recode¦php5-sqlite¦php5-tidy¦php5-xmlrpc¦php5-xsl :: Other_operation,()
+sudo ¦apt-get¦install¦-y¦mysql-server¦nginx :: Other_operation,()
+link ¦-s¦/usr/share/phpmyadmin¦/var/www/nginx/phpmyadmin :: Other_operation,()

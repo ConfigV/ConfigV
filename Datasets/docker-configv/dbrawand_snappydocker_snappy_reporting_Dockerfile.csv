@@ -1,0 +1,12 @@
+install.R/tmp/ :: copy_operation,()
+git ¦clone¦https://github.com/counsyl/hgvs.git :: Dependencies_operation,()
+git ¦checkout¦aebe5bd9683f4b5937fd653ce4b13fcd4f3ebb10 :: Dependencies_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+from,viapath/snappy_base
+cd ¦hgvs :: Filesystem_operation,()
+rm ¦-f¦/tmp/install.R :: Filesystem_operation,()
+cmd,/bin/bash
+HOME:/root :: env_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()
+Rscript ¦--no-save¦--no-restore¦/tmp/install.R :: Other_operation,()

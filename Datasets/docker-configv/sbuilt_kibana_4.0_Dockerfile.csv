@@ -1,0 +1,16 @@
+PATH:/opt/kibana/bin:$PATH :: env_operation,()
+apt-get ¦install¦-y¦ca-certificates¦curl¦--no-install-recommends :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,kibana
+./docker-entrypoint.sh/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+groupadd ¦-r¦kibana :: Permissions_operation,()
+useradd ¦-r¦-g¦kibana¦kibana :: Permissions_operation,()
+dpkg ¦--print-architecture :: Dependencies_operation,()
+expose,5601
+gpg ¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B42F6819007F00F88E364FD4036A9C25BF357DD4 :: Other_operation,()
+from,debian@jessie
+KIBANA_SHA1:75312e930466430167a7e01be3ae41aeaf01a26c :: env_operation,()
+echo ¦set¦-x && curl -fSL "https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz" -o kibana.tar.gz && echo "${KIBANA_SHA1} kibana.tar.gz" | sha1sum -c - && mkdir -p /opt/kibana && tar -xz --strip-components=1 -C /op... :: Filesystem_operation,()
+KIBANA_VERSION:4.0.3 :: env_operation,()
+entrypoint,/docker-entrypoint.sh

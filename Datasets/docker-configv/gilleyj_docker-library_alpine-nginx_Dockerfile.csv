@@ -1,0 +1,13 @@
+cmd,supervisord
+apk ¦--update¦--no-cache¦add¦--virtual¦.base_package¦bash¦ca-certificates¦--virtual¦.nginx_service¦¦nginx¦¦supervisor¦¦nodejs :: Dependencies_operation,()
+/webroot :: volume_operation,()
+chown ¦-R¦nginx:www-data¦/run/nginx :: Permissions_operation,()
+entrypoint,/entrypoint.sh
+container_confs/ :: copy_operation,()
+mkdir ¦-p¦/run/nginx¦/run/supervisord :: Filesystem_operation,()
+chown ¦-R¦www-data:www-data¦/webroot :: Permissions_operation,()
+exit ¦0¦;¦exit¦1 :: Other_operation,()
+expose,80 443
+chmod ¦-R¦ug+rw¦/webroot :: Permissions_operation,()
+set ¦-x¦;¦addgroup¦-g¦82¦-S¦www-data¦;¦adduser¦-u¦82¦-D¦-S¦-G¦www-data¦www-data :: Environment_operation,()
+from,alpine:3.4

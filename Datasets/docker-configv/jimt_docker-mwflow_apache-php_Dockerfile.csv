@@ -1,0 +1,13 @@
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦install¦-y¦apache2-mpm-prefork¦libapache2-mod-php5¦php-apc¦php5-curl¦php5-gd¦php5-gmp¦php5-mysql¦php5-memcache¦php5-mcrypt¦nullmailer :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+php.timezone.ini/etc/php5/apache2/conf.d/php.timezone.ini :: add_operation,()
+mkdir ¦-p¦/var/www :: Filesystem_operation,()
+expose,80
+from,jimt/ubuntu:12.04
+entrypoint,/usr/sbin/apache2¦-D¦FOREGROUND
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+pi.php/var/www/pi.php :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()

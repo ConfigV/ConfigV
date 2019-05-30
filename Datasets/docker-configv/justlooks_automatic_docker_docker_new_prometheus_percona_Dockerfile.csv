@@ -1,0 +1,8 @@
+yum ¦install¦-y¦/tmp/Percona-Server*.rpm :: Dependencies_operation,()
+./mysqld_exporter-0.10.0.linux-amd64.tar.gz/opt :: add_operation,()
+./entrypoint.sh/tmp :: copy_operation,()
+./Percona-Server-5.7.18-15-rbff2cd9-el6-x86_64-bundle.tar/tmp/ :: add_operation,()
+from,localhost:5000/prometheus_agt:0.14.0
+./my.cnf/etc/percona-server.conf.d/mysqld.cnf :: copy_operation,()
+entrypoint,/tmp/entrypoint.sh
+chmod ¦u+x¦/tmp/entrypoint.sh :: Permissions_operation,()

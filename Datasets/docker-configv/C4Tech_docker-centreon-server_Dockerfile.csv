@@ -1,0 +1,14 @@
+chmod ¦u+s¦/usr/lib/nagios/plugins/check_icmp :: Permissions_operation,()
+yum ¦-y¦install¦http://yum.centreon.com/standard/3.0/stable/noarch/RPMS/ces-release-3.0-1.noarch.rpm :: Dependencies_operation,()
+yum ¦-y¦install¦python-setuptools :: Dependencies_operation,()
+yum ¦-y¦install¦wget :: Dependencies_operation,()
+from,centos:6.6
+yum ¦-y¦update :: Dependencies_operation,()
+yum ¦-y¦install¦centreon-base-config-centreon-engine¦centreon :: Dependencies_operation,()
+scripts/supervisord.conf/etc/supervisord.conf :: add_operation,()
+yum ¦-y¦install¦centreon-widget-graph-monitoring¦centreon-widget-host-monitoring¦centreon-widget-service-monitoring¦centreon-widget$ :: Dependencies_operation,()
+chmod ¦-w¦/usr/lib/nagios/plugins/check_icmp :: Permissions_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+expose,80
+cmd,/usr/bin/supervisord¦--configuration=/etc/supervisord.conf
+sed ¦-i¦"s/;date.timezone¦=.*/date.timezone¦=¦America\\/Chicago/"¦/etc/php.ini :: Filesystem_operation,()

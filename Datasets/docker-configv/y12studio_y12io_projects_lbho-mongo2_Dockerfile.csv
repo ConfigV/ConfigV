@@ -1,0 +1,16 @@
+PREFIX:/app :: env_operation,()
+/app :: workdir_operation,()
+from,dockerfile/nodejs
+expose,3000
+mongodb.conf/etc/mongodb.conf :: add_operation,()
+start.sh/start.sh :: add_operation,()
+npm ¦install :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦7F0CEB10 :: Dependencies_operation,()
+.$PREFIX :: add_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl;¦rm¦/sbin/initctl;¦ln¦-s¦/bin/true¦/sbin/initctl :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦mongodb-10gen :: Dependencies_operation,()
+cmd,/start.sh
+chmod ¦755¦/start.sh :: Permissions_operation,()
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list :: Filesystem_operation,()
+mkdir ¦-p¦/data/mongodb :: Filesystem_operation,()

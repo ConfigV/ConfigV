@@ -1,0 +1,12 @@
+mkdir ¦-p¦/quickstart¦/home/nodejs :: Filesystem_operation,()
+useradd ¦-r¦-g¦nodejs¦-d¦/home/nodejs¦-s¦/sbin/nologin¦nodejs :: Permissions_operation,()
+groupadd ¦-r¦nodejs :: Permissions_operation,()
+package.json/quickstart/ :: copy_operation,()
+from,node@latest
+chown ¦-R¦nodejs:nodejs¦/home/nodejs :: Permissions_operation,()
+cmd,npm¦start
+chown ¦-R¦nodejs:nodejs¦/quickstart :: Permissions_operation,()
+/quickstart :: workdir_operation,()
+./quickstart :: copy_operation,()
+npm ¦install¦--unsafe-perm=true :: Dependencies_operation,()
+nodejs :: user_operation,()

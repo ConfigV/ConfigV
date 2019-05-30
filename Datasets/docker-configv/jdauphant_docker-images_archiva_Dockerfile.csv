@@ -1,0 +1,20 @@
+expose,8080
+echo ¦curl¦-sSLo /tmp/apache-archiva-$ARCHIVA_VERSION-bin.tar.gz http://mir2.ovh.net/ftp.apache.org/dist/archiva/$ARCHIVA_VERSION/binaries/apache-archiva-$ARCHIVA_VERSION-bin.tar.gz && echo "$ARCHIVA_SHA1 /tmp/apache-archiva-$ARCHIVA_VERSION-bin... :: Filesystem_operation,()
+ARCHIVA_VERSION:2.1.1 :: env_operation,()
+mv ¦conf/*¦$ARCHIVA_BASE/conf :: Filesystem_operation,()
+adduser ¦archiva :: Permissions_operation,()
+rmdir ¦logs¦conf¦temp :: Other_operation,()
+chown ¦-R¦archiva:archiva¦$ARCHIVA_BASE :: Permissions_operation,()
+ln ¦-s¦$ARCHIVA_BASE/conf¦conf :: Filesystem_operation,()
+from,java:7.0
+ARCHIVA_BASE:/var/archiva :: env_operation,()
+/opt/apache-archiva-$ARCHIVA_VERSION :: workdir_operation,()
+ARCHIVA_SHA1:5a7ddff9d85637cafa1e982a7b313a3ffe8190fa :: env_operation,()
+ln ¦-s¦$ARCHIVA_BASE/temp¦temp :: Filesystem_operation,()
+cmd,bin/archiva¦console
+/var/archiva :: volume_operation,()
+mkdir ¦-p¦$ARCHIVA_BASE/logs¦$ARCHIVA_BASE/data¦$ARCHIVA_BASE/temp¦$ARCHIVA_BASE/conf :: Filesystem_operation,()
+ln ¦-s¦$ARCHIVA_BASE/data¦data :: Filesystem_operation,()
+ln ¦-s¦$ARCHIVA_BASE/logs¦logs :: Filesystem_operation,()
+sed ¦-i¦"/set.default.ARCHIVA_BASE/c\\set.default.ARCHIVA_BASE=$ARCHIVA_BASE"¦conf/wrapper.conf :: Filesystem_operation,()
+archiva :: user_operation,()

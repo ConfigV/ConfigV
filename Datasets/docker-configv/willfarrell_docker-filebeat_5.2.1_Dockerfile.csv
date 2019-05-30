@@ -1,0 +1,9 @@
+wget ¦-q¦-O¦/etc/apk/keys/sgerrand.rsa.pub¦https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub :: Dependencies_operation,()
+echo ¦wget¦-q -O /tmp/filebeat.tar.gz https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-${FILEBEAT_VERSION}-linux-x86_64.tar.gz && cd /tmp && echo "${FILEBEAT_SHA1} filebeat.tar.gz" | sha1sum -c - && tar xzvf filebeat.tar.gz && cd f... :: Filesystem_operation,()
+from,library/alpine:3.5
+wget ¦-q¦https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦ca-certificates¦wget¦libgcc :: Dependencies_operation,()
+wget ¦-q¦https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk :: Dependencies_operation,()
+apk ¦add¦--allow-untrusted¦glibc-bin-${GLIBC_VERSION}.apk¦glibc-${GLIBC_VERSION}.apk :: Dependencies_operation,()
+cmd,filebeat¦-e¦-c¦/etc/filebeat/filebeat.yml
+FILEBEAT_VERSION=5.2.1:FILEBEAT_SHA1=694fe12e56ebf8e4c4b11b590cfb46c662e7a3c1 :: env_operation,()

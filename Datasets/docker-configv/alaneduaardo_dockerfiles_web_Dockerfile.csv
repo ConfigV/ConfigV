@@ -1,0 +1,15 @@
+ROLE:web :: env_operation,()
+from,alaneduardo/base
+service ¦php-fpm¦restart :: Build_Execute_operation,()
+www.conf/etc/php-fpm.d/www.conf :: add_operation,()
+git ¦clone¦--depth=1¦git://github.com/phalcon/cphalcon.git¦/root/cphalcon :: Dependencies_operation,()
+default.conf/etc/nginx/conf.d/default.conf :: add_operation,()
+cd ¦/root/cphalcon/build :: Filesystem_operation,()
+chkconfig ¦php-fpm¦on :: Other_operation,()
+expose,80
+php.ini/etc/php.ini :: add_operation,()
+yum ¦-y¦install¦nginx¦php-fpm¦php-devel¦pcre-devel¦gcc¦make¦php-pdo¦php-mysql¦php-pgsql :: Dependencies_operation,()
+./install ¦64bits :: Other_operation,()
+chkconfig ¦nginx¦on :: Other_operation,()
+echo ¦echo¦"extension=phalcon.so" >> /etc/php.d/phalcon.ini :: Filesystem_operation,()
+service ¦nginx¦restart :: Build_Execute_operation,()

@@ -1,0 +1,19 @@
+000-default.ctmpl/etc/apache2/sites-enabled/000-default.ctmpl :: copy_operation,()
+mkdir ¦/var/lock/apache2 :: Filesystem_operation,()
+apt-get ¦install¦-y¦-qq¦libapache2-mod-proxy-html¦apache2 :: Dependencies_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+expose,80
+apt-get ¦update¦;¦apt-get¦dist-upgrade¦-y¦-qq :: Dependencies_operation,()
+mkdir ¦/var/run/apache2 :: Filesystem_operation,()
+a2enmod ¦proxy¦proxy_http¦proxy_ajp¦rewrite¦deflate¦headers¦proxy_balancer¦proxy_connect¦proxy_html¦lbmethod_byrequests :: Other_operation,()
+mv ¦consul-template¦/usr/bin/consul-template :: Filesystem_operation,()
+index.html/var/www/html/index.html :: copy_operation,()
+apt-get ¦install¦-y¦-qq¦wget¦unzip :: Dependencies_operation,()
+chmod ¦a+x¦consul-template :: Permissions_operation,()
+from,ubuntu:15.04
+apt-get ¦install¦-y¦-qq¦supervisor :: Dependencies_operation,()
+000-default.conf/etc/apache2/sites-enabled/000-default.conf :: copy_operation,()
+unzip ¦consul-template_0.15.0_linux_amd64.zip :: Filesystem_operation,()
+wget ¦-nv¦https://releases.hashicorp.com/consul-template/0.15.0/consul-template_0.15.0_linux_amd64.zip :: Dependencies_operation,()
+cmd,/usr/bin/supervisord
+rm ¦consul-template_0.15.0_linux_amd64.zip :: Filesystem_operation,()

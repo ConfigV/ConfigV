@@ -1,0 +1,16 @@
+supervisord-geonode.conf/etc/supervisor/conf.d/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦pwgen :: Dependencies_operation,()
+geonode-updateip ¦127.0.0.1 :: Other_operation,()
+from,ubuntu:12.04
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+apt-get ¦install¦-y¦python-software-properties :: Dependencies_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+adduser ¦--home=/home/web¦--gecos¦'user_map'¦web :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+apt-get ¦-y¦install¦supervisor :: Dependencies_operation,()
+cmd,supervisord¦-n
+apt-get ¦-y¦install¦geonode :: Dependencies_operation,()
+add-apt-repository ¦ppa:geonode/testing :: Dependencies_operation,()
+expose,808380

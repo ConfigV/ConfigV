@@ -1,0 +1,16 @@
+rm ¦natural_earth_vector.sqlite.zip :: Filesystem_operation,()
+./usr/src/app :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦wget¦unzip¦gdal-bin :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+unzip ¦-oj¦natural_earth_vector.sqlite.zip¦-d¦/data/import :: Filesystem_operation,()
+from,mdillon/postgis:9.4
+/usr/src/app :: workdir_operation,()
+mkdir ¦-p¦/data/import :: Filesystem_operation,()
+IMPORT_DATA_DIR=/data/import: :: env_operation,()
+wget ¦http://naciscdn.org/naturalearth/packages/natural_earth_vector.sqlite.zip :: Dependencies_operation,()
+unzip ¦-oj¦water-polygons-split-3857.zip¦-d¦/data/import :: Filesystem_operation,()
+wget ¦--quiet¦http://data.openstreetmapdata.com/water-polygons-split-3857.zip :: Dependencies_operation,()
+rm ¦water-polygons-split-3857.zip :: Filesystem_operation,()
+cmd,./import.sh

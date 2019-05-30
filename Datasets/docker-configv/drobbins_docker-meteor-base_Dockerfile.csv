@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/bin/entrypoint.sh
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+COPY. /opt/src :: onbuild_operation,()
+entrypoint.sh/usr/bin/entrypoint.sh :: copy_operation,()
+from,ubuntu@latest
+expose,3000
+RUNmkdir -p /opt/app && meteor build --directory /opt/app :: onbuild_operation,()
+curl ¦https://install.meteor.com/¦|¦sh :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/entrypoint.sh :: Permissions_operation,()
+WORKDIR/opt/src :: onbuild_operation,()

@@ -1,0 +1,9 @@
+pip3 ¦install¦flower :: Dependencies_operation,()
+from,pixeldragon/fedora:24
+mkdir ¦-p¦/config¦/data¦/log¦/code :: Filesystem_operation,()
+dnf ¦install¦-y¦python3-celery¦python3-flower¦python3-pytz¦redis¦python-pip :: Dependencies_operation,()
+REDIS_DATABASE:0 :: env_operation,()
+REDIS_HOST:redis :: env_operation,()
+REDIS_PORT:6379 :: env_operation,()
+cmd,flower¦--port=5555¦--broker=redis://$REDIS_HOST:$REDIS_PORT/$REDIS_DATABASE
+expose,5555

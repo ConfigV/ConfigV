@@ -1,0 +1,11 @@
+/opt/agile-idm-web-ui :: workdir_operation,()
+git ¦clone¦https://github.com/Agile-IoT/agile-idm-web-ui¦/opt/agile-idm-web-ui :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+cmd,node¦/opt/agile-idm-web-ui/example/app-docker.js
+npm ¦install :: Dependencies_operation,()
+expose,3000
+/opt/agile-idm-web-ui/example :: workdir_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,node:6.3
+apt-get ¦install¦-y¦libpam0g-dev :: Dependencies_operation,()

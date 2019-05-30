@@ -1,0 +1,8 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+echo ¦echo¦"deb http://mirrors.aliyun.com/ubuntu trusty main restricted" > /etc/apt/sources.list && echo "deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted" >> /etc/apt/sources.list && echo "deb http://mirrors.aliyun.com/ubuntu/ t... :: Filesystem_operation,()
+from,ubuntu:14.04
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/bin/supervisord
+/var/log/supervisor :: volume_operation,()
+apt-get ¦install¦-y¦curl¦supervisor :: Dependencies_operation,()

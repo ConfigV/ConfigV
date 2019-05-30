@@ -1,0 +1,7 @@
+entrypoint,/usr/sbin/in.tftpd¦--foreground¦--listen¦--user ftpuser¦--address [::]:69¦--secure¦/home/ftpusers/tftp
+from,ubuntu:14.04
+expose,69
+apt-get ¦update :: Dependencies_operation,()
+useradd ¦-g¦ftpgroup¦-d¦/dev/null¦-s¦/user/sbin/nologin¦ftpuser :: Permissions_operation,()
+apt-get ¦install¦-y¦python¦vim¦tftpd-hpa :: Dependencies_operation,()
+groupadd ¦ftpgroup :: Permissions_operation,()

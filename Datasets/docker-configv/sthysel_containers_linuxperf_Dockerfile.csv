@@ -1,0 +1,16 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦curl¦software-properties-common¦apt-transport-https :: Dependencies_operation,()
+mkdir ¦-p¦${HOME}¦${HOME}/bin¦${HOME}/include :: Filesystem_operation,()
+tester :: user_operation,()
+/home/tester :: workdir_operation,()
+REFRESHED_AT:2016-01-05 :: env_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦useradd¦-ms /bin/bash tester && echo "tester:tester" | chpasswd && adduser tester sudo :: Filesystem_operation,()
+curl ¦-s¦https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public¦|¦apt-key¦add¦- :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦sudo¦build-essential¦cmake¦wireshark¦strace¦ltrace¦iproute2¦net-tools¦sysstat¦msr-tools¦procps¦tiptop¦tcpdump¦iptraf¦nicstat¦snmp¦ethtool¦blktrace¦iotop¦lttng-tools¦systemtap-sdt-dev¦systemtap¦sysdig :: Dependencies_operation,()
+curl ¦-s¦-o¦/etc/apt/sources.list.d/draios.list¦http://download.draios.com/stable/deb/draios.list :: Dependencies_operation,()
+cmd,/bin/bash
+from,debian@jessie
+HOME:/home/tester :: env_operation,()

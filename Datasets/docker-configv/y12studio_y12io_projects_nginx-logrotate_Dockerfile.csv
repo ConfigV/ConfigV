@@ -1,0 +1,18 @@
+apt-get ¦clean :: Dependencies_operation,()
+LANG:zh_TW.UTF-8 :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+HOME:/root :: env_operation,()
+nginx.sh/etc/service/nginx/run :: add_operation,()
+from,phusion/baseimage:0.9.12
+expose,80
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+locale-gen ¦zh_TW.UTF-8 :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/usr/sbin/enable_insecure_key  :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+chmod ¦644¦/etc/logrotate.d/nginx :: Permissions_operation,()
+chmod ¦+x¦/etc/service/nginx/run :: Permissions_operation,()
+cmd,/sbin/my_init
+logrotate.nginx/etc/logrotate.d/nginx :: add_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()

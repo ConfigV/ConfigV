@@ -1,0 +1,13 @@
+mv ¦/usr/sbin/tcpdump¦/usr/local/bin :: Filesystem_operation,()
+rpm ¦-ivh¦http://rpms.famillecollet.com/enterprise/remi-release-6.rpm :: Dependencies_operation,()
+rpm ¦-ivh¦http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+echo ¦test¦-e $httpd_conf && echo "Include $httpd_conf" >> /etc/httpd/conf/httpd.conf :: Filesystem_operation,()
+code_root:/code :: env_operation,()
+expose,80
+.$code_root :: add_operation,()
+sed ¦-i¦-e¦"s|^;date.timezone¦=.*$|date.timezone¦=¦PRC¦|"¦/etc/php.ini :: Filesystem_operation,()
+cmd,/usr/sbin/apachectl¦-D¦FOREGROUND
+from,centos:6.0
+yum ¦install¦-y¦httpd :: Dependencies_operation,()
+yum ¦install¦--enablerepo=epel,remi-php56,remi¦-y¦php¦php-cli¦php-gd¦php-mbstring¦php-mcrypt¦php-mysqlnd¦php-pdo¦php-xml¦php-xdebug¦tcpdump :: Dependencies_operation,()
+httpd_conf:${code_root}/config/httpd.conf :: env_operation,()

@@ -1,0 +1,11 @@
+virtualenv ¦--python=python2.7¦--no-site-packages¦venv :: Environment_operation,()
+apt-get ¦-y¦install¦git¦python2.7¦python-virtualenv¦python-pkg-resources :: Dependencies_operation,()
+. ¦venv/bin/activate :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,docker-dev.yelpcorp.com/lucid_yelp
+expose,6666
+git ¦clone¦--branch=remote_maint¦git://github.com/EvanKrall/hacheck :: Dependencies_operation,()
+cmd,venv/bin/hacheck¦-p¦6666¦--config-file¦/etc/hacheck.yaml
+/hacheck :: workdir_operation,()
+pip ¦install¦-e¦. :: Dependencies_operation,()
+echo ¦echo¦'allow_remote_spool_changes: yes' > /etc/hacheck.yaml :: Filesystem_operation,()

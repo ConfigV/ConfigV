@@ -1,0 +1,13 @@
+expose,15672
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"NODENAME=rabbit@localhost" > /etc/rabbitmq/rabbitmq-env.conf :: Filesystem_operation,()
+rabbitmq-plugins ¦enable¦rabbitmq_management :: Other_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦rabbitmq-server¦#¦create¦ssl-cert¦group¦ssl-cert¦#¦and¦add¦mongodb¦to¦it :: Dependencies_operation,()
+cmd,/sbin/my_init
+rabbitmq.sh/etc/service/rabbitmq/run :: add_operation,()
+mkdir ¦/etc/androlyze_init/ :: Filesystem_operation,()
+/var/lib/rabbitmq :: volume_operation,()
+from,nachtmaar/androlyze_base:latest
+rabbitmq_init.sh/etc/androlyze_init/ :: add_operation,()
+mkdir ¦/etc/service/rabbitmq :: Filesystem_operation,()
+usermod ¦-a¦-G¦ssl-cert¦rabbitmq :: Permissions_operation,()

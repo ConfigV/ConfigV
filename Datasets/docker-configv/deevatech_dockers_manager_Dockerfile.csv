@@ -1,0 +1,14 @@
+deeva :: user_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+useradd ¦-m¦-s¦/bin/bash¦-g¦deeva¦deeva :: Permissions_operation,()
+cmd,/bin/bash¦-l
+apt-get ¦install¦-qy¦--no-install-recommends¦ca-certificates¦curl :: Dependencies_operation,()
+curl ¦-s¦https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz¦|¦tar¦-C¦/opt¦-zx :: Dependencies_operation,()
+groupadd ¦deeva :: Permissions_operation,()
+from,ubuntu@latest
+LANG=en_US.UTF-8:LC_ALL=en_US.UTF-8 :: env_operation,()
+PATH=$GOROOT/bin:$PATH: :: env_operation,()

@@ -1,0 +1,15 @@
+yum ¦-y¦install¦lsof¦curl¦procps :: Dependencies_operation,()
+from,centos:6.6
+yum ¦clean¦all :: Dependencies_operation,()
+ln ¦-s¦/opt/$SOLR¦/opt/solr :: Filesystem_operation,()
+expose,8983
+cmd,/bin/bash¦-c¦/opt/solr/bin/solr
+yum ¦install¦-y¦java-1.7.0-openjdk.x86_64¦java-1.7.0-openjdk-devel.x86_64¦wget¦tar :: Dependencies_operation,()
+rm ¦/opt/$SOLR.tgz :: Filesystem_operation,()
+rpm ¦-Uvh¦http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+SOLR:solr-$SOLR_VERSION :: env_operation,()
+SOLR_VERSION:4.10.3 :: env_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+wget ¦-nv¦--output-document=/opt/$SOLR.tgz¦http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/$SOLR_VERSION/$SOLR.tgz :: Dependencies_operation,()
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+tar ¦-C¦/opt¦--extract¦--file¦/opt/$SOLR.tgz :: Filesystem_operation,()

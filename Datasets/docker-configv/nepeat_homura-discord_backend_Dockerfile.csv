@@ -1,0 +1,12 @@
+./src :: copy_operation,()
+cmd,gunicorn¦-b¦0.0.0.0:5000¦-k¦gevent¦-w¦4¦botweb:app
+from,gliderlabs/alpine:edge
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦--no-cache¦upgrade :: Dependencies_operation,()
+update-ca-certificates  :: Other_operation,()
+requirements.txt/src/requirements.txt :: copy_operation,()
+/src :: workdir_operation,()
+expose,5000
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+apk ¦add¦--no-cache¦-X¦http://dl-cdn.alpinelinux.org/alpine/edge/testing¦python¦python-dev¦py2-pip¦gcc¦musl-dev¦postgresql-dev¦ca-certificates :: Dependencies_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()

@@ -1,0 +1,8 @@
+https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini/tini :: add_operation,()
+entrypoint,/tini¦--
+echo ¦apt-get¦-qq -y update && apt-get -qq -y upgrade && apt-get -qq -y dist-upgrade && dpkg-reconfigure tzdata && dpkg-divert --local --rename --add /sbin/initctl && ln -sf /bin/true /sbin/initctl && dpkg-divert --local --rename --add /usr/bin/... :: Filesystem_operation,()
+devops :: user_operation,()
+/home/devops :: workdir_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive:TINI_VERSION=v0.9.0 :: env_operation,()
+from,ubuntu:14.04

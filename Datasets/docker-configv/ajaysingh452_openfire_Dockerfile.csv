@@ -1,0 +1,13 @@
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+${OPENFIRE_DATA_DIR} :: volume_operation,()
+expose,3478 3479 5222 5223 5229 7070 7443 7777 9090 9091
+from,ajaysingh452/ubuntu:14.04
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()
+dpkg ¦-i¦/tmp/openfire_${OPENFIRE_VERSION}_all.deb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/sbin/entrypoint.sh
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦openjdk-7-jre :: Other_operation,()
+wget ¦"http://download.igniterealtime.org/openfire/openfire_${OPENFIRE_VERSION}_all.deb"¦-O¦/tmp/openfire_${OPENFIRE_VERSION}_all.deb :: Dependencies_operation,()
+mv ¦/var/lib/openfire/plugins/admin¦/usr/share/openfire/plugin-admin :: Filesystem_operation,()
+rm ¦-rf¦openfire_${OPENFIRE_VERSION}_all.deb :: Filesystem_operation,()

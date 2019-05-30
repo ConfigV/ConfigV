@@ -1,0 +1,9 @@
+from,ubuntu:14.04
+/build :: workdir_operation,()
+apt-get ¦install¦-y¦build-essential¦build-essential¦gcc-multilib¦g++-multilib¦openjdk-7-jdk¦wget :: Dependencies_operation,()
+/build :: volume_operation,()
+wget ¦"http://download.robovm.org/robovm-1.4.0.tar.gz" :: Dependencies_operation,()
+mv ¦robovm-1.4.0¦/usr/local/robovm :: Filesystem_operation,()
+tar ¦xvfz¦robovm-1.4.0.tar.gz :: Filesystem_operation,()
+cmd,/usr/local/robovm/bin/robovm¦-config¦robovm.xml¦-d¦/build
+apt-get ¦update :: Dependencies_operation,()

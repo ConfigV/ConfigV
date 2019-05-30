@@ -1,0 +1,9 @@
+/luci/artifactory/backup :: volume_operation,()
+echo ¦echo¦$ARTIFACTORY_SHA1 artifactory.zip > artifactory.zip.sha1 && curl -L -o artifactory.zip https://bintray.com/artifact/download/jfrog/artifactory/artifactory-${ARTIFACTORY_VERSION}.zip && sha1sum -c artifactory.zip.sha1 && unzip -j artif... :: Filesystem_operation,()
+ARTIFACTORY_VERSION:3.9.2 :: env_operation,()
+mkdir ¦-p¦/luci/artifactory :: Filesystem_operation,()
+ARTIFACTORY_SHA1:245aeb7b2d77830462067d5a19c3bd32ae014ddf :: env_operation,()
+echo ¦echo¦'export CATALINA_OPTS="$RUNTIME_OPTS"' > bin/setenv.sh :: Filesystem_operation,()
+/luci/artifactory :: workdir_operation,()
+from,luci/tomcat7:0.2
+ARTIFACTORY_HOME:/luci/artifactory :: env_operation,()

@@ -1,0 +1,17 @@
+/etc/nginx :: workdir_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+cd ¦ngx_openresty-1.7.10.1 :: Filesystem_operation,()
+/var/log/nginx :: workdir_operation,()
+entrypoint,/usr/sbin/nginx
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+from,hirokazumiyaji/ubuntu
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦-y¦install¦libreadline-dev¦libncurses5-dev¦libpcre3-dev¦libssl-dev¦perl¦make :: Dependencies_operation,()
+wget ¦http://openresty.org/download/ngx_openresty-1.7.10.1.tar.gz :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+tar ¦xvf¦ngx_openresty-1.7.10.1.tar.gz :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+./configure ¦-j2¦--prefix=/opt/openresty¦--with-http_ssl_module¦--with-pcre-jit¦--sbin-path=/usr/sbin/nginx¦--conf-path=/etc/nginx/nginx.conf¦--pid-path=/var/run/nginx/nginx.pid¦--lock-path=/var/lock/subsys/nginx¦--http-log-path=/var/log/nginx/access.l... :: Build_Execute_operation,()
+expose,80 443
+/var/run/nginx :: workdir_operation,()
+make ¦-j2 :: Build_Execute_operation,()

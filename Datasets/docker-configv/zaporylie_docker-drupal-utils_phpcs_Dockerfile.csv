@@ -1,0 +1,10 @@
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-yq¦install¦shunit2¦curl¦git :: Dependencies_operation,()
+chmod ¦+x¦/tmp/phpcs.sh :: Permissions_operation,()
+from,drupaldocker/php:cli
+run.sh/root/run.sh :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+composer ¦global¦require¦drupal/coder :: Dependencies_operation,()
+PHPCS_CONFIG_FILE=".phpcs.yml":DEBUG=FALSE :: env_operation,()
+cmd,/root/phpcs.sh
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

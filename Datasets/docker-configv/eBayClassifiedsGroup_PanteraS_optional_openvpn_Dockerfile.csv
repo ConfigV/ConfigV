@@ -1,0 +1,13 @@
+entrypoint,supervisord
+supervisord.conf/etc/supervisor/supervisord.conf :: add_operation,()
+/etc/openvpn :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg ¦-i¦libpam-doc*.deb¦libpam-modules*.deb¦libpam-runtime*.deb¦libpam0g*.deb :: Dependencies_operation,()
+apt-get ¦-y¦build-dep¦pam :: Dependencies_operation,()
+apt-get ¦-b¦source¦pam :: Dependencies_operation,()
+from,paas
+expose,1194 1194
+export ¦CONFIGURE_OPTS=--disable-audit :: Environment_operation,()
+/etc/openvpn :: volume_operation,()
+cd ¦/root :: Filesystem_operation,()
+apt-get ¦install¦-y¦openvpn¦iptables¦nslcd¦nscd :: Dependencies_operation,()

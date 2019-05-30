@@ -1,0 +1,17 @@
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦install¦-y¦language-pack-en¦language-pack-en-base :: Dependencies_operation,()
+assets/supervisord.conf/etc/supervisor/supervisord.conf :: copy_operation,()
+expose,22 80
+apt-get ¦install¦-y¦openssh-server¦supervisor¦rsyslog¦mysql-client¦apache2¦php5¦php5-mysql¦php5-mcrypt¦php5-intl¦php5-gd¦php5-json¦php5-curl¦php5-imagick¦libapache2-mod-php5 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+assets/cc-init.sh/opt/bin/cc-init.sh :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+assets/cc-initdb.sh/opt/bin/cc-initdb.sh :: copy_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+sed ¦-i.bak¦-e¦"s/^PermitRootLogin\\s*.*$/PermitRootLogin¦yes/"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+cmd,/opt/bin/cc-init.sh;¦/usr/bin/supervisord¦-c¦/etc/supervisor/supervisord.conf
+from,ubuntu@trusty
+/usr/local :: workdir_operation,()
+/opt :: workdir_operation,()
+apt-get ¦install¦-y¦language-pack-ja¦language-pack-ja-base :: Dependencies_operation,()
+update-locale ¦LANG="en_US.UTF-8" :: Other_operation,()

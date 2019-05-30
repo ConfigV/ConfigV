@@ -1,0 +1,14 @@
+pip ¦install¦docker-py :: Dependencies_operation,()
+JENKINS_VERSION:1.554.1 :: env_operation,()
+jenkins :: user_operation,()
+from,jenkins
+root :: user_operation,()
+/var/jenkins_home :: volume_operation,()
+./workspace/var/ :: add_operation,()
+JENKINS_HOME:/var/jenkins_home :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+HOME:/var/jenkins_home :: env_operation,()
+apt-get ¦-y¦install¦vim¦curl¦wget¦git¦sudo¦python-pip :: Dependencies_operation,()
+JENKINS_UC:https://updates.jenkins-ci.org :: env_operation,()
+expose,50000
+entrypoint,/usr/local/bin/jenkins.sh

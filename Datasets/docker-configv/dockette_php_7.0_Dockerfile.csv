@@ -1,0 +1,10 @@
+echo ¦apt-get¦update && apt-get install -y wget && echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-key ¦add¦dotdeb.gpg :: Dependencies_operation,()
+apt-get ¦install¦-y¦php7.0-cli¦php7.0-fpm¦php7.0-curl¦php7.0-imap¦php7.0-pgsql¦php7.0-gd¦php7.0-mcrypt :: Dependencies_operation,()
+wget ¦https://www.dotdeb.org/dotdeb.gpg :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,php-fpm7.0
+from,debian@jessie
+./php-fpm.conf/etc/php/7.0/fpm/ :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()

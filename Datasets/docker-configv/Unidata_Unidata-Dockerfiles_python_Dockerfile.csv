@@ -1,0 +1,13 @@
+conda ¦config¦--add¦channels¦https://conda.binstar.org/Unidata :: Dependencies_operation,()
+mkdir ¦-p¦~/notebooks :: Filesystem_operation,()
+expose,8888
+cd ¦~/downloads :: Filesystem_operation,()
+from,fedora
+curl ¦-SL¦http://repo.continuum.io/miniconda/Miniconda-3.8.3-Linux-x86_64.sh¦-o¦Miniconda-3.8.3-Linux-x86_64.sh :: Dependencies_operation,()
+yum ¦-y¦install¦tar¦git¦bzip2 :: Dependencies_operation,()
+conda ¦update¦--yes¦--quiet¦conda :: Dependencies_operation,()
+PATH:~/anaconda/bin:$PATH :: env_operation,()
+mkdir ¦-p¦~/downloads :: Filesystem_operation,()
+conda ¦config¦--add¦channels¦https://conda.binstar.org/rsignell :: Dependencies_operation,()
+/bin/bash ¦~/downloads/Miniconda-3.8.3-Linux-x86_64.sh¦-b¦-p¦~/anaconda/ :: Build_Execute_operation,()
+conda ¦create¦-n¦unidata¦--yes¦python=2¦numpy¦matplotlib¦cartopy¦ipython¦ipython-notebook¦netcdf4¦owslib¦pyudl¦networkx¦basemap¦iris¦biggus :: Dependencies_operation,()

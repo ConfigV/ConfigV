@@ -1,0 +1,17 @@
+cmd,/bin/bash¦/var/selenium.node.register
+chmod ¦+x¦/opt/bin/node.chrome.start :: Permissions_operation,()
+selenium.node.register/var/selenium.node.register :: add_operation,()
+chmod ¦+x¦/opt/google/chrome/google-chrome :: Permissions_operation,()
+functions.env/opt/bin/ :: copy_operation,()
+config.json/opt/selenium/config.json :: copy_operation,()
+chmod ¦755¦/var/selenium.node.register :: Permissions_operation,()
+DBUS_SESSION_BUS_ADDRESS=/dev/null: :: env_operation,()
+echo ¦if¦[ ! -f linux_signing_key.pub ] ; then ( wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -&& echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list&& a... :: Filesystem_operation,()
+node.chrome.start/opt/bin/node.chrome.start :: copy_operation,()
+echo ¦sudo¦useradd seluser --shell /bin/bash --create-home&& sudo usermod -a -G sudo seluser&& echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers&& echo 'seluser:secret' | chpasswd :: Filesystem_operation,()
+chrome_launcher.sh/opt/google/chrome/google-chrome :: copy_operation,()
+root :: user_operation,()
+seluser :: user_operation,()
+mkdir ¦-p¦/opt/bin :: Filesystem_operation,()
+CHROME_DRIVER_VERSION:2.21 :: env_operation,()
+from,selenium/base

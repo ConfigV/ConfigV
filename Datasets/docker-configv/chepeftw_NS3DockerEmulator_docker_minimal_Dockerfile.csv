@@ -1,0 +1,10 @@
+go ¦get :: Build_Execute_operation,()
+CGO_ENABLED=0 ¦go¦install¦-a¦-tags¦netgo¦-ldflags¦'-extldflags¦"-static"' :: Other_operation,()
+ldd ¦/go/bin/beacon¦|¦grep¦-q¦"not¦a¦dynamic¦executable" :: Other_operation,()
+git ¦clone¦https://github.com/chepeftw/Beacon.git :: Dependencies_operation,()
+/go/src/github.com/chepeftw :: workdir_operation,()
+/go/src/github.com/chepeftw/Beacon :: workdir_operation,()
+wrapper.sh./ :: copy_operation,()
+from,scratch
+cmd,/wrapper.sh
+--from=builder/beacon :: copy_operation,()

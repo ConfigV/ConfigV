@@ -1,0 +1,9 @@
+expose,8081
+/lists :: workdir_operation,()
+from,debian@latest
+cmd,/usr/local/bin/gunicorn¦-b¦0.0.0.0:8081¦--error-logfile¦-¦list_server:app
+/lists/data :: volume_operation,()
+lists/lists :: copy_operation,()
+pip3 ¦install¦gunicorn :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-q¦-y¦python3¦python3-pip¦vim¦gunicorn :: Dependencies_operation,()

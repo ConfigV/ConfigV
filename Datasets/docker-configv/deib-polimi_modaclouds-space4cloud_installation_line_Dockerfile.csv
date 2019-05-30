@@ -1,0 +1,22 @@
+curl ¦-OL¦http://svn.code.sf.net/p/line-solver/code/branches/unstable/v072/bin/linux/LINE_072_linux.zip :: Dependencies_operation,()
+echo ¦echo¦"port=5463\\nmaxIter=500\\nmaxJobSize=6\\nverbose=0\\nparallel=PARFOR\\ntimeoutConnection=3600\\nrespTimePerc=SEFF\\nrespTimePercMin=0.85\\nrespTimePercStep=0.05\\nrespTimePercMax=0.90\\ndirectory=/opt/LINE\\nsolver=FLUID" > LINE.properties && s... :: Filesystem_operation,()
+./install ¦-mode¦silent¦-agreeToLicense¦yes :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+MCR :: workdir_operation,()
+unzip ¦-q¦LINE_072_linux.zip :: Filesystem_operation,()
+expose,5463
+curl ¦-L¦http://it.mathworks.com/supportfiles/downloads/R2015a/deployment_files/R2015a/installers/glnxa64/MCR_R2015a_glnxa64_installer.zip¦--create-dirs¦-o¦MCR/MCR_R2015a_glnxa64_installer.zip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+USER:root :: env_operation,()
+JAVA_HOME:/usr/lib/jvm/default-java :: env_operation,()
+/tmp :: workdir_operation,()
+cmd,/opt/LINE/run_LINE_loop.sh
+apt-get ¦install¦-y¦--force-yes¦unzip¦xorg¦curl :: Dependencies_operation,()
+mv ¦LINE_072_linux/bin¦LINE :: Filesystem_operation,()
+from,ubuntu:14.04
+/opt :: workdir_operation,()
+rm ¦-rf¦/tmp/MCR :: Filesystem_operation,()
+unzip ¦-q¦MCR_R2015a_glnxa64_installer.zip :: Filesystem_operation,()
+LINE :: workdir_operation,()
+rm ¦-rf¦LINE_072_linux* :: Filesystem_operation,()
+USERHOME:/root :: env_operation,()

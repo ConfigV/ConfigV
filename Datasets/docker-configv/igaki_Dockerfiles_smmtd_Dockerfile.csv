@@ -1,0 +1,11 @@
+yum ¦update¦-y :: Dependencies_operation,()
+cmd,/usr/bin/monit¦-I¦-c¦/etc/monit.conf
+./td.repo/etc/yum.repos.d/td.repo :: add_operation,()
+./td-agent_monit.conf/etc/monit/conf.d/ :: add_operation,()
+yum ¦install¦-y¦td-agent :: Dependencies_operation,()
+expose,27017
+chown ¦root:root¦-R¦/etc/monit*;chmod¦700¦/etc/monit.conf :: Permissions_operation,()
+sed ¦-i¦-e¦"s/---user¦td-agent/---user¦root/"¦/etc/init.d/td-agent;sed¦-i¦-e¦"s/--group¦td-agent/--group¦root/"¦/etc/init.d/td-agent :: Filesystem_operation,()
+/usr/lib64/fluent/ruby/bin/fluent-gem ¦install¦fluent-plugin-record-modifier :: Other_operation,()
+./td-agent.conf/etc/td-agent/ :: add_operation,()
+from,igaki/sshmonitmongo

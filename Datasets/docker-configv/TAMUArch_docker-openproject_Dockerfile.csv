@@ -1,0 +1,10 @@
+rails_cache_store:memcached :: env_operation,()
+OPENPROJECT_VER:3.0.2 :: env_operation,()
+from,jarosser06/ubuntu-ruby-2.1.0
+tar ¦-xvf¦/tmp/openproject.tar.gz¦-C¦/opt/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-L¦https://github.com/opf/openproject/archive/v${OPENPROJECT_VER}.tar.gz¦>¦/tmp/openproject.tar.gz :: Dependencies_operation,()
+gem ¦install¦bundler¦--no-ri¦--no-rdoc :: Dependencies_operation,()
+cd ¦/opt/openproject-${OPENPROJECT_VER} :: Filesystem_operation,()
+apt-get ¦install¦-y¦libxml2-dev¦libreadline-dev¦libxslt-dev¦libmysqlclient-dev¦libpq-dev¦libsqlite3-dev¦libmagickwand-dev¦libmagickcore-dev¦libgraphviz-dev¦git :: Dependencies_operation,()
+bundle ¦install¦--without¦test¦development :: Dependencies_operation,()

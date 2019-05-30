@@ -1,0 +1,10 @@
+docker-dns.go/tmp/docker-dns/ :: copy_operation,()
+cd ¦$GOPATH :: Filesystem_operation,()
+docker.conf/etc/unbound/unbound.conf.d/ :: copy_operation,()
+cmd,unbound¦&&¦docker-dns
+GOBIN:/usr/local/bin/ :: env_operation,()
+go ¦get¦. :: Build_Execute_operation,()
+apt-get ¦install¦-y¦unbound :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+GOPATH:/tmp/docker-dns/ :: env_operation,()
+from,golang:1.4

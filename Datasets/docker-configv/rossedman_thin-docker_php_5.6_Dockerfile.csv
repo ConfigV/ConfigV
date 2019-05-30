@@ -1,0 +1,11 @@
+/app :: workdir_operation,()
+from,alpine:3.2
+/app :: volume_operation,()
+cmd,/run.sh
+/var/log/apache2 :: volume_operation,()
+/var/log/phpfpm :: volume_operation,()
+expose,80
+apk ¦add¦--update¦curl¦php¦php-common¦php-cli¦php-apache2¦php-dom¦php-gd¦php-json¦php-mcrypt¦php-memcache¦php-mysql¦php-phar¦php-pdo¦php-pdo_pgsql¦php-pgsql¦php-openssl¦php-soap¦php-xml¦php-xmlrpc¦memcached¦supervisor :: Dependencies_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+/var/log/supervisor :: volume_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

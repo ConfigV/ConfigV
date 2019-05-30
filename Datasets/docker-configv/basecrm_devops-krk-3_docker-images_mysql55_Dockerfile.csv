@@ -1,0 +1,8 @@
+/bin/sh ¦/tmp/set-access-rights.sh :: Other_operation,()
+apt-get ¦-y¦install¦mysql-server-5.5 :: Dependencies_operation,()
+cmd,/usr/sbin/mysqld
+apt-get ¦update¦-qq :: Dependencies_operation,()
+sed ¦-i¦-e"s/^bind-address\\s*=\\s*127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+from,ubuntu:12.04
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+set-access-rights.sh/tmp/set-access-rights.sh :: add_operation,()

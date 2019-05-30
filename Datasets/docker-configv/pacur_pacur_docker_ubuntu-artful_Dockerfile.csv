@@ -1,0 +1,12 @@
+tar ¦-C¦/usr/local¦-xf¦go1.8.3.linux-amd64.tar.gz :: Filesystem_operation,()
+apt-get ¦--assume-yes¦update :: Dependencies_operation,()
+entrypoint,pacur
+GOPATH:/go :: env_operation,()
+wget ¦https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz :: Dependencies_operation,()
+go ¦get¦github.com/pacur/pacur :: Build_Execute_operation,()
+cmd,build¦ubuntu-artful
+from,ubuntu@artful
+PATH:/usr/local/go/bin:$PATH:/go/bin :: env_operation,()
+apt-get ¦--assume-yes¦upgrade :: Dependencies_operation,()
+rm ¦-f¦go1.8.3.linux-amd64.tar.gz :: Filesystem_operation,()
+apt-get ¦--assume-yes¦install¦build-essential¦reprepro¦rsync¦wget¦zip¦git¦bzr¦mercurial :: Dependencies_operation,()

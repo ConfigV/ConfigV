@@ -1,0 +1,12 @@
+./scripts/bin/ :: add_operation,()
+apk ¦--update¦add¦bash¦nginx¦curl¦jq :: Dependencies_operation,()
+./config/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+chmod ¦+x¦/bin/docker :: Permissions_operation,()
+mkdir ¦-p¦/etc/nginx/sites-enabled :: Filesystem_operation,()
+cmd,/bin/entrypoint
+expose,80
+./config/proxy-template.conf/etc/nginx/proxy-template.conf :: add_operation,()
+curl ¦-Ls¦https://github.com/progrium/entrykit/releases/download/v0.2.0/entrykit_0.2.0_Linux_x86_64.tgz¦|¦tar¦-zxC¦/bin :: Dependencies_operation,()
+from,gliderlabs/alpine:3.2
+curl ¦-s¦https://get.docker.io/builds/Linux/x86_64/docker-1.6.2¦>¦/bin/docker :: Dependencies_operation,()
+entrykit ¦--symlink :: Other_operation,()

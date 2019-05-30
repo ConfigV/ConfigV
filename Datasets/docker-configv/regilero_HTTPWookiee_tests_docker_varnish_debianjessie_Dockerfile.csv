@@ -1,0 +1,10 @@
+from,debian@jessie
+/var/lib/varnish :: volume_operation,()
+expose,80
+conf/default.vcl/etc/varnish/default.vcl :: copy_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yq¦varnish :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/start.sh
+start.sh/start.sh :: add_operation,()

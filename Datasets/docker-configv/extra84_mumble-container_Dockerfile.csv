@@ -1,0 +1,14 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+chown ¦1000¦/var/lib/mumble-server :: Permissions_operation,()
+useradd ¦-u¦1000¦mumble :: Permissions_operation,()
+apt-get ¦install¦-y¦mumble-server :: Dependencies_operation,()
+chown ¦1000¦/etc/mumble-server.ini :: Permissions_operation,()
+from,ubuntu:15.04
+apt-get ¦update :: Dependencies_operation,()
+expose,64738 64738
+/var :: volume_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+mumble :: user_operation,()
+chown ¦1000¦/data :: Permissions_operation,()
+entrypoint,/usr/sbin/murmurd¦-fg¦-ini¦/etc/mumble-server.ini
+/data :: volume_operation,()

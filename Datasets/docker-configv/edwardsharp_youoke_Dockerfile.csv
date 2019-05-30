@@ -1,0 +1,15 @@
+expose,28080
+apt-get ¦install¦-y¦nodejs¦redis-server :: Dependencies_operation,()
+./root/youoke :: copy_operation,()
+rake ¦db:create :: Other_operation,()
+rake ¦db:migrate :: Other_operation,()
+RAILS_ENV:development :: env_operation,()
+/root/youoke :: workdir_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+bundle  :: Dependencies_operation,()
+cmd,tail¦-f¦/root/youoke/log/development.log
+apt-get ¦update :: Dependencies_operation,()
+from,ruby:2.3
+NOKOGIRI_USE_SYSTEM_LIBRARIES:1 :: env_operation,()
+rake ¦db:seed :: Other_operation,()
+gem ¦update¦bundler :: Dependencies_operation,()

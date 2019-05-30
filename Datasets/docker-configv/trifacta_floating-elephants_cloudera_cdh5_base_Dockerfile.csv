@@ -1,0 +1,9 @@
+mkdir ¦-p¦/etc/hadoop/conf.docker_cluster :: Filesystem_operation,()
+apt-get ¦install¦-y¦hadoop-client :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,trifacta/ubuntu-plus-java
+update-alternatives ¦--set¦hadoop-conf¦/etc/hadoop/conf.docker_cluster :: Other_operation,()
+files/cloudera.pref/etc/apt/preferences.d/cloudera.pref :: copy_operation,()
+wget ¦http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key¦-O-¦|¦apt-key¦add¦- :: Dependencies_operation,()
+wget ¦'http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/cloudera.list'¦-O-¦>¦/etc/apt/sources.list.d/cloudera.list :: Dependencies_operation,()
+update-alternatives ¦--install¦/etc/hadoop/conf¦hadoop-conf¦/etc/hadoop/conf.docker_cluster¦50 :: Other_operation,()

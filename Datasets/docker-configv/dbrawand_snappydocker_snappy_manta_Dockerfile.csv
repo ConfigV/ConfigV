@@ -1,0 +1,13 @@
+cmd,/bin/bash
+HOME:/root :: env_operation,()
+make ¦-j4¦install :: Build_Execute_operation,()
+MANTA_VERSION:1.0.3 :: env_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+tar ¦-xjf¦manta-${MANTA_VERSION}.release_src.tar.bz2 :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+../manta-${MANTA_VERSION}.release_src/configure ¦--jobs=4¦--prefix=/usr/local/pipeline/manta :: Other_operation,()
+apt-get ¦install¦-y¦bzip2¦gcc¦g++¦make¦python¦zlib1g-dev :: Dependencies_operation,()
+cd ¦build :: Filesystem_operation,()
+wget ¦https://github.com/Illumina/manta/releases/download/v${MANTA_VERSION}/manta-${MANTA_VERSION}.release_src.tar.bz2 :: Dependencies_operation,()
+mkdir ¦build :: Filesystem_operation,()
+from,viapath/snappy_ngstools:flatdog

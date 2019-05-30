@@ -1,0 +1,11 @@
+apt-get ¦install¦-y¦libssl1.0.0¦curl¦ca-certificates :: Dependencies_operation,()
+cmd,/controller
+nginx/default.conf/etc/nginx/nginx.conf :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/nginx :: Filesystem_operation,()
+nginx/nginx/usr/bin/nginx :: copy_operation,()
+mkdir ¦-p¦/var/cache/nginx :: Filesystem_operation,()
+controller/controller/ :: copy_operation,()
+from,debian@jessie

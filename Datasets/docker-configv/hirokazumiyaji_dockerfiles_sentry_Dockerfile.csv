@@ -1,0 +1,10 @@
+ADDconf/uwsgi.ini /etc/sentry/uwsgi.ini :: onbuild_operation,()
+ADDconf/supervisord/sentry.conf /etc/supervisord.d/sentry.conf :: onbuild_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦-q¦libxml2-dev¦libxslt1-dev¦lib32z1-dev¦libffi-dev¦libmysqlclient-dev :: Dependencies_operation,()
+ADDconf/sentry.conf.py /etc/sentry/sentry.conf :: onbuild_operation,()
+from,quay.io/hirokazumiyaji/supervisord
+pip ¦install¦sentry¦uwsgi¦redis¦hiredis¦'nydus>=0.10.7,<0.11.0'¦django-redis-cache¦mysqlclient :: Dependencies_operation,()
+mkdir ¦-p¦/etc/sentry :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apt/archives/*¦/var/lib/apt/lists/*¦/tmp/* :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()

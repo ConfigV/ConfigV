@@ -1,0 +1,16 @@
+apt-get ¦install¦-y¦¦gcc¦¦gettext¦¦mysql-client¦libmysqlclient-dev¦¦postgresql-client¦libpq-dev¦¦sqlite3¦--no-install-recommends :: Dependencies_operation,()
+pip ¦install¦--no-cache-dir¦-r¦requirements.txt :: Dependencies_operation,()
+cmd,./entrypoint.sh
+./usr/src/app :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+requirements.txt/usr/src/app/ :: copy_operation,()
+set ¦-ex :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/usr/src/app/desecapi/settings_local.py :: volume_operation,()
+expose,8000
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/usr/src/app :: Filesystem_operation,()
+from,python:2.7
+ln ¦-s¦/usr/src/app/desecapi/hooks/mock/domain_post_create.sh¦/usr/local/bin :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+rm ¦-f¦desecapi/settings_local.py :: Filesystem_operation,()

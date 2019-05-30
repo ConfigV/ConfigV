@@ -1,0 +1,22 @@
+cp ¦-R¦phppgadmin-master/*¦. :: Filesystem_operation,()
+unzip ¦/var/www/html/master.zip :: Filesystem_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+rm ¦/var/www/html/index.html :: Filesystem_operation,()
+s/\\$conf\\['extra_login_security'\\] = true;/\\$conf\\['extra_login_security'\\] = false;/g  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cp ¦conf/config.inc.php-dist¦conf/config.inc.php :: Filesystem_operation,()
+rm ¦-r¦phppgadmin-master :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+service ¦apache2¦stop :: Build_Execute_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/apache2/error.log :: Filesystem_operation,()
+cmd,service¦postgresql¦start;¦/usr/sbin/apache2ctl¦-D¦FOREGROUND
+ln ¦-sf¦/dev/stdout¦/var/log/apache2/access.log :: Filesystem_operation,()
+s/\\$conf\\['servers'\\]\\[0\\]\\['host'\\] = '';/\\$conf\\['servers'\\]\\[0\\]\\['host'\\] = 'localhost';/g  :: Other_operation,()
+apt-get ¦-y¦install¦apache2¦libapache2-mod-php5¦php5¦php5-pgsql¦postgresql-9.4¦postgresql-client-9.4¦postgresql-contrib¦wget¦unzip :: Dependencies_operation,()
+chown ¦-R¦www-data:www-data¦/var/log/apache2¦/var/www/html :: Permissions_operation,()
+wget ¦https://github.com/phppgadmin/phppgadmin/archive/master.zip :: Dependencies_operation,()
+from,debian@jessie
+/var/www/html :: workdir_operation,()
+expose,80

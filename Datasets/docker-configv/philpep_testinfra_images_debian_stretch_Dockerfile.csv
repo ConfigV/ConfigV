@@ -1,0 +1,15 @@
+LANGUAGE:fr_FR :: env_operation,()
+from,debian@stretch
+echo ¦apt-get¦update && DEBIAN_FRONTEND=noninteractive apt-get -y install python openssh-server puppet salt-minion locales ntp sudo supervisor systemd-sysv python-pip python-virtualenv iptables iptables-persistent && mkdir -p /var/run/sshd && (c... :: Filesystem_operation,()
+chage ¦-E¦20000¦user :: Other_operation,()
+echo ¦echo¦"*nat\\n:PREROUTING ACCEPT [0:0]\\n:INPUT ACCEPT [0:0]\\n:OUTPUT ACCEPT [0:0]\\n:POSTROUTING ACCEPT [0:0]\\n-A PREROUTING -d 192.168.0.1/32 -j REDIRECT\\nCOMMIT\\n*filter\\n:INPUT ACCEPT [0:0]\\n:FORWARD ACCEPT [0:0]\\n:OUTPUT ACCEPT [0:0]\\n-A ... :: Filesystem_operation,()
+echo ¦echo¦"PermitUserEnvironment yes" >> /etc/ssh/sshd_config :: Filesystem_operation,()
+virtualenv ¦/v :: Environment_operation,()
+LANG:fr_FR.ISO-8859-15 :: env_operation,()
+expose,22
+echo ¦echo¦"LANG=fr_FR.ISO-8859-15" >> /root/.ssh/environment :: Filesystem_operation,()
+sed ¦-ri¦'s/^UsePAM¦yes$/UsePAM¦no/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+/v/bin/pip ¦install¦'pytest>2,<3' :: Other_operation,()
+echo ¦echo¦"user:foo" | chpasswd :: Filesystem_operation,()
+cmd,/sbin/init
+echo ¦echo¦"root:foo" | chpasswd :: Filesystem_operation,()

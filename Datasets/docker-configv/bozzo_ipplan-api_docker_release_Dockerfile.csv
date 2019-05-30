@@ -1,0 +1,12 @@
+IPPLAN_VERSION:0.0.2 :: env_operation,()
+/tmp :: volume_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/usr/share/ipplan-api/app.jar
+DB_PORT:3306 :: env_operation,()
+DB_HOST:db :: env_operation,()
+expose,8080
+/usr/share/ipplan-api :: workdir_operation,()
+apk ¦del¦openssl :: Dependencies_operation,()
+wget ¦-q¦-O¦app.jar¦"https://github.com/bozzo/ipplan-api/releases/download/${IPPLAN_VERSION}/ipplan-api-${IPPLAN_VERSION}.jar" :: Dependencies_operation,()
+from,frolvlad/alpine-oraclejdk8:slim
+apk ¦add¦--no-cache¦openssl :: Dependencies_operation,()
+healthcheck,curl -f http://localhost:8080/ || exit 1--interval=1m --timeout=5s --retries=3

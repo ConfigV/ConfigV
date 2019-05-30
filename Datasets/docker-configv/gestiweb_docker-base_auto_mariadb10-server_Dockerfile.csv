@@ -1,0 +1,9 @@
+apt-get ¦install¦-yqq¦libmariadb2¦maria-doc¦mariadb-client¦mariadb-server¦mariadb-server-10.0¦tinyca :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,22
+cmd,/start_container.sh
+apt-get ¦update¦-y¦-qq :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,gestiweb/debian-jessie:upgrade

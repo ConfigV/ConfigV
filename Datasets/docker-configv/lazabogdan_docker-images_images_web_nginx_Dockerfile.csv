@@ -1,0 +1,15 @@
+mkdir ¦-p¦/data :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+chmod ¦u=rwx¦/opt/bin/nginx-start.sh :: Permissions_operation,()
+config/nginx-start.sh/opt/bin/nginx-start.sh :: add_operation,()
+entrypoint,/opt/bin/nginx-start.sh
+from,debian@jessie
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+config/laravel/etc/nginx/sites-available/laravel :: add_operation,()
+/data :: volume_operation,()
+config/nginx.conf/opt/etc/nginx.conf :: add_operation,()
+expose,443
+ln ¦-s¦/etc/nginx/sites-available/laravel¦/etc/nginx/sites-enabled/laravel :: Filesystem_operation,()
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+/opt/bin :: workdir_operation,()

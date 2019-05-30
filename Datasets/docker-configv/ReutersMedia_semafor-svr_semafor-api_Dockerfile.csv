@@ -1,0 +1,23 @@
+src/tmp/src :: copy_operation,()
+cp ¦/tmp/conf/uwsgi.ini¦/root/uwsgi.ini :: Filesystem_operation,()
+python3 ¦-m¦ensurepip :: Build_Execute_operation,()
+from,reutersmedia/semafor-base:latest
+conf/tmp/conf :: copy_operation,()
+cd ¦/tmp/src :: Filesystem_operation,()
+rm ¦-rf¦/tmp/conf :: Filesystem_operation,()
+mkdir ¦/run/nginx :: Filesystem_operation,()
+cp ¦/tmp/conf/supervisord.conf¦/etc/supervisord.conf :: Filesystem_operation,()
+proc-text.sh/proc-text.sh :: copy_operation,()
+cp ¦/tmp/conf/run.sh¦/root/run.sh :: Filesystem_operation,()
+python3 ¦setup.py¦install¦--root¦/ :: Build_Execute_operation,()
+cp ¦/tmp/conf/uwsgi_params¦/root/uwsgi_params :: Filesystem_operation,()
+cmd,/root/run.sh
+apk ¦--update¦add¦supervisor¦curl¦python3¦uwsgi¦uwsgi-python3¦jq¦bash¦nginx :: Dependencies_operation,()
+ENVIRONMENT=dev:APPLICATION=semaforsvr :: env_operation,()
+expose,80
+pip3 ¦install¦python-logstash¦flask¦nltk :: Dependencies_operation,()
+cp ¦/tmp/conf/nginx.conf¦/etc/nginx/nginx.conf :: Filesystem_operation,()
+rm ¦-rf¦/tmp/src :: Filesystem_operation,()
+python3 ¦-m¦nltk.downloader¦-d¦/usr/share/nltk_data¦punkt :: Build_Execute_operation,()
+/var/log/docker :: volume_operation,()
+config.sh/semafor-master/bin/config.sh :: copy_operation,()

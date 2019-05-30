@@ -1,0 +1,13 @@
+bundle ¦exec¦jekyll¦build¦--destination¦/var/www/html :: Dependencies_operation,()
+./playground :: add_operation,()
+Gemfile/playground/Gemfile :: add_operation,()
+apt-get ¦-y¦install¦nginx :: Dependencies_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+mkdir ¦/playground :: Filesystem_operation,()
+bundle ¦install :: Dependencies_operation,()
+Gemfile.lock/playground/Gemfile.lock :: add_operation,()
+cmd,nginx¦-g¦'daemon¦off;'
+from,ruby:2.2
+/playground :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential :: Dependencies_operation,()

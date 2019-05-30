@@ -1,0 +1,13 @@
+apt-get ¦clean :: Dependencies_operation,()
+tar ¦xvf¦/tmp/prinseq.tar.gz¦-C¦/usr/local/src :: Filesystem_operation,()
+https://sourceforge.net/projects/prinseq/files/latest/download?source=files/tmp/prinseq.tar.gz :: add_operation,()
+from,ubuntu
+set ¦-e :: Environment_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/src/prinseq/*.pl :: Permissions_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+ls ¦/usr/local/src/prinseq/*.pl¦|¦xargs¦-i¦ln¦-s¦{}¦/usr/local/bin :: Filesystem_operation,()
+entrypoint,perl¦prinseq-lite.pl
+rm ¦/tmp/prinseq.tar.gz :: Filesystem_operation,()
+apt-get ¦-y¦install¦perl :: Dependencies_operation,()
+mv ¦/usr/local/src/prinseq-*¦/usr/local/src/prinseq :: Filesystem_operation,()

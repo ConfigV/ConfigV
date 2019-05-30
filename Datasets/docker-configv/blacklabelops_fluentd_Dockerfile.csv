@@ -1,0 +1,10 @@
+gem ¦install¦fluentd¦--no-ri¦--no-rdoc :: Dependencies_operation,()
+yum ¦install¦-y¦sudo¦ruby¦ruby-devel¦gcc¦make¦gem :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/yum/* :: Filesystem_operation,()
+entrypoint,/etc/fluent/docker-entrypoint.sh
+imagescripts/docker-entrypoint.sh/etc/fluent/docker-entrypoint.sh :: copy_operation,()
+/etc/fluent :: workdir_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+from,blacklabelops/centos
+fluentd ¦--setup¦/etc/fluent :: Other_operation,()
+cmd,fluentd

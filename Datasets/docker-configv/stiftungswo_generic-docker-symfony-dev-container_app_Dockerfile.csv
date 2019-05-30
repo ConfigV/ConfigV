@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+chown ¦-R¦www-data:www-data¦/tmp/app/ :: Permissions_operation,()
+apt-get ¦install¦-y¦mysql-server :: Dependencies_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+mkdir ¦-p¦/tmp/app/cache¦/tmp/app/log :: Filesystem_operation,()
+ln ¦-s¦/srv/application¦/var/www :: Filesystem_operation,()
+expose,80
+from,swodev/apache-php:dev
+rm ¦-rf¦/var/www :: Filesystem_operation,()
+entrypoint.sh/usr/local/bin/entrypoint.sh :: add_operation,()

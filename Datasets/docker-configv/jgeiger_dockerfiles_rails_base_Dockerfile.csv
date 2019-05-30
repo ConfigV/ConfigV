@@ -1,0 +1,15 @@
+entrypoint,/tini¦--¦/entrypoint.sh
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+root :: user_operation,()
+cmd,bundle¦exec¦rails¦server
+mkdir ¦-p¦/app :: Filesystem_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+from,jgeiger/ruby-ubuntu
+apt-get ¦-qq¦-y¦update :: Dependencies_operation,()
+expose,3000
+apt-get ¦clean :: Dependencies_operation,()
+chown ¦-R¦devops¦/app :: Permissions_operation,()
+apt-get ¦install¦-qq¦-y¦--no-install-recommends¦libpq-dev¦nodejs¦npm¦sqlite3 :: Dependencies_operation,()
+devops :: user_operation,()
+/app :: workdir_operation,()

@@ -1,0 +1,11 @@
+SBT_VERSION:0.13.9 :: env_operation,()
+$SBT_LAUNCHER_MIRROR/sbt-launch.jar :: add_operation,()
+SBT_OPTS:"-Xms512M :: env_operation,()
+start.sh/start-scala-builder.sh :: copy_operation,()
+from,akranga/jenkins-java-builder
+entrypoint,/start-scala-builder.sh
+chmod ¦+x¦/start-scala-builder.sh :: Permissions_operation,()
+chmod ¦u+x¦/usr/local/bin/sbt :: Permissions_operation,()
+register-sbt.groovy/register-sbt.groovy :: copy_operation,()
+sbt.sh/usr/local/bin/sbt :: copy_operation,()
+SBT_LAUNCHER_MIRROR:https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$SBT_VERSION/sbt-launch.jar :: env_operation,()

@@ -1,0 +1,14 @@
+chown ¦-R¦jboss:jboss¦$AMQ_HOME :: Permissions_operation,()
+sed ¦-i¦"s/#activemq.jmx.password/activemq.jmx.password/"¦$AMQ_HOME/etc/system.properties :: Filesystem_operation,()
+AMQ_HOME:/opt/jboss/jboss-a-mq-$AMQ_VERSION :: env_operation,()
+install_files/jboss-a-mq-$AMQ_VERSION.zip/tmp/jboss-a-mq-$AMQ_VERSION.zip :: add_operation,()
+expose,22 8101 8181 44444 1099 61616
+from,jlgrock/centos-oraclejdk:6.6-8u45
+entrypoint,$AMQ_HOME/docker_init.sh
+docker_init.sh/opt/jboss/jboss-a-mq-$AMQ_VERSION/docker_init.sh :: add_operation,()
+chmod ¦755¦$AMQ_HOME/docker_init.sh :: Permissions_operation,()
+unzip ¦/tmp/jboss-a-mq-$AMQ_VERSION.zip :: Filesystem_operation,()
+sed ¦-i¦"s/#activemq.jmx.user/activemq.jmx.user/"¦$AMQ_HOME/etc/system.properties :: Filesystem_operation,()
+AMQ_VERSION=6.2.0.GA: :: env_operation,()
+jboss :: user_operation,()
+sed ¦-i¦"s/#admin/admin/"¦$AMQ_HOME/etc/users.properties :: Filesystem_operation,()

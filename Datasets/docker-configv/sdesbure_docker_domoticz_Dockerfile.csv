@@ -1,0 +1,17 @@
+/config :: volume_operation,()
+from,debian:8.1
+cmake ¦-DCMAKE_BUILD_TYPE=Release¦. :: Build_Execute_operation,()
+git ¦clone¦--depth¦2¦https://github.com/domoticz/domoticz.git¦/src/domoticz :: Dependencies_operation,()
+expose,8080
+apt-get ¦install¦-y¦git¦libssl1.0.0¦libssl-dev¦build-essential¦cmake¦libboost-dev¦libboost-thread1.55.0¦libboost-thread-dev¦libboost-system1.55.0¦libboost-system-dev¦libsqlite3-0¦libsqlite3-dev¦curl¦libcurl3¦libcurl4-openssl-dev¦libusb-0.1-4¦libusb... :: Dependencies_operation,()
+ln ¦-s¦/src/open-zwave¦/src/open-zwave-read-only :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/src/domoticz/domoticz¦-dbase¦/config/domoticz.db¦-log¦/config/domoticz.log
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦--depth¦2¦https://github.com/OpenZWave/open-zwave.git¦/src/open-zwave :: Dependencies_operation,()
+apt-get ¦remove¦-y¦git¦cmake¦linux-headers-amd64¦build-essential¦libssl-dev¦libboost-dev¦libboost-thread-dev¦libboost-system-dev¦libsqlite3-dev¦libcurl4-openssl-dev¦libusb-dev¦zlib1g-dev¦libudev-dev :: Dependencies_operation,()
+/src/open-zwave :: workdir_operation,()
+cmd,-www¦8080
+/src/domoticz :: workdir_operation,()

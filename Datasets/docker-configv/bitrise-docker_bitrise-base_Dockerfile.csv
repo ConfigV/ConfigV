@@ -1,0 +1,10 @@
+chmod ¦+x¦/usr/local/bin/bitrise :: Permissions_operation,()
+mkdir ¦-p¦/bitrise :: Filesystem_operation,()
+CI:true :: env_operation,()
+from,ubuntu:14.04
+uname ¦-m :: Other_operation,()
+bitrise ¦setup¦--minimal :: Other_operation,()
+cmd,ls¦-alh
+apt-get ¦update :: Dependencies_operation,()
+/bitrise :: workdir_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦git¦mercurial¦curl¦rsync¦ruby¦sudo :: Other_operation,()

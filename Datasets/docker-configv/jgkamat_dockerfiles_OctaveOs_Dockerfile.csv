@@ -1,0 +1,23 @@
+expose,443
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+chmod ¦755¦/etc/rc.local :: Permissions_operation,()
+/usr/sbin/update-rc.d ¦-f¦ondemand¦remove;¦for¦f¦in¦/etc/init/u*.conf¦/etc/init/mounted-dev.conf¦/etc/init/mounted-proc.conf¦/etc/init/mounted-run.conf¦/etc/init/mounted-tmp.conf¦/etc/init/mounted-var.conf¦/etc/init/hostname.conf¦/etc/init/tty*.conf¦/etc/init/pl... :: Other_operation,()
+echo ¦sh¦-c "echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/owncloud.list" :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+echo ¦echo¦'root:toor' | chpasswd :: Filesystem_operation,()
+setupScripts/init-fake.conf/etc/init/fake-container-events.conf :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-ri¦'s/^PermitRootLogin\\s+.*/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+cmd,/sbin/init
+rm ¦/sbin/initctl;¦dpkg-divert¦--rename¦--remove¦/sbin/initctl :: Filesystem_operation,()
+rm ¦/usr/sbin/policy-rc.d :: Filesystem_operation,()
+apt-get ¦-y¦install¦apt-utils¦wget¦curl¦htop¦iputils-ping¦vim-nox¦less¦debconf-utils¦w3m¦ssh :: Dependencies_operation,()
+wget ¦http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_14.04/Release.key :: Dependencies_operation,()
+container:docker :: env_operation,()
+sudo ¦apt-key¦add¦-¦<¦Release.key :: Other_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+update-locale ¦LANG=en_US.UTF-8 :: Other_operation,()
+setupScripts/rc.local/etc/rc.local :: add_operation,()
+apt-get ¦install¦-y¦owncloud :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()

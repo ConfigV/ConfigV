@@ -1,0 +1,18 @@
+wget ¦https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/6_1-2017q1/gcc-arm-none-eabi-6-2017-q1-update-linux.tar.bz2¦-O¦/gcc.tar.bz2 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦--recursive¦https://github.com/jamesmunns/nrf52dk-sys :: Dependencies_operation,()
+cmd,xargo¦build¦--target¦thumbv7em-none-eabihf
+apt-get ¦install¦-y¦llvm-3.9-dev¦libclang-3.9-dev¦clang-3.9 :: Dependencies_operation,()
+PATH="/root/.cargo/bin:${PATH}": :: env_operation,()
+apt-get ¦install¦-y¦wget¦curl¦build-essential¦git-core¦software-properties-common¦libc6-dev-i386 :: Dependencies_operation,()
+curl ¦https://sh.rustup.rs¦-sSf¦>¦install_rust.sh :: Dependencies_operation,()
+cargo ¦install¦xargo :: Other_operation,()
+add-apt-repository ¦"deb¦http://apt.llvm.org/jessie/¦llvm-toolchain-jessie-3.9¦main" :: Dependencies_operation,()
+PATH="/gcc-arm-none-eabi-6-2017-q1-update/bin:${PATH}": :: env_operation,()
+from,debian@jessie
+tar ¦xf¦/gcc.tar.bz2 :: Filesystem_operation,()
+/nrf52dk-sys :: workdir_operation,()
+wget ¦-O¦-¦http://apt.llvm.org/llvm-snapshot.gpg.key¦|¦apt-key¦add¦- :: Dependencies_operation,()
+/bin/bash ¦/install_rust.sh¦-y¦--default-toolchain¦nightly :: Build_Execute_operation,()
+rustup ¦component¦add¦rust-src :: Other_operation,()
+cargo ¦install¦bindgen :: Other_operation,()

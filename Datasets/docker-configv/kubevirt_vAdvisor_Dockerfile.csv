@@ -1,0 +1,16 @@
+rm ¦-rf¦vAdvisor-$VERSION* :: Filesystem_operation,()
+VERSION:master :: env_operation,()
+dnf ¦-y¦install¦tar¦python3-devel¦redhat-rpm-config-36¦gcc¦libvirt-python3 :: Dependencies_operation,()
+pip3 ¦--no-cache-dir¦install¦-r¦requirements.txt :: Dependencies_operation,()
+tar ¦xf¦vAdvisor-$VERSION.tar.gz :: Filesystem_operation,()
+cd ¦.. :: Filesystem_operation,()
+expose,8181
+pip3 ¦--no-cache-dir¦install¦. :: Dependencies_operation,()
+dnf ¦-y¦remove¦gcc¦tar¦python3-devel¦redhat-rpm-config-36 :: Dependencies_operation,()
+dnf ¦clean¦all :: Dependencies_operation,()
+curl ¦-sLO¦https://github.com/kubevirt/vAdvisor/archive/$VERSION.tar.gz#/vAdvisor-$VERSION.tar.gz :: Dependencies_operation,()
+cd ¦vAdvisor-$VERSION :: Filesystem_operation,()
+from,fedora:23.0
+entrypoint,/usr/bin/vAdvisor
+rm ¦-rf¦~/.pip :: Filesystem_operation,()
+sed ¦-i¦'/libvirt-python/d'¦requirements.txt :: Filesystem_operation,()

@@ -1,0 +1,7 @@
+RUNif [ -s setup.py ]; then pip install -e .; fi :: onbuild_operation,()
+RUNif [ -s requirements.txt ]; then pip install -r requirements.txt; fi :: onbuild_operation,()
+RUNif [ -s sentry.conf.py ]; then cp sentry.conf.py $SENTRY_CONF/; fi && if [ -s config.yml ]; then cp config.yml $SENTRY_CONF/; fi :: onbuild_operation,()
+PYTHONPATH:/usr/src/sentry :: env_operation,()
+/usr/src/sentry :: workdir_operation,()
+from,sentry:8.22
+COPY. /usr/src/sentry :: onbuild_operation,()

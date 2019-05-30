@@ -1,0 +1,12 @@
+npm ¦cache¦clear :: Dependencies_operation,()
+NPM_VERSION:2.14.1 :: env_operation,()
+echo ¦php_ini="/usr/local/etc/php/conf.d/date-timezone.conf"¦&& echo "date.timezone = UTC" >> $php_ini :: Filesystem_operation,()
+rm ¦"node-v$NODE_VERSION-linux-x64.tar.gz"¦SHASUMS256.txt.asc :: Filesystem_operation,()
+tar ¦-xzf¦"node-v$NODE_VERSION-linux-x64.tar.gz"¦-C¦/usr/local¦--strip-components=1 :: Filesystem_operation,()
+npm ¦install¦-g¦npm@"$NPM_VERSION" :: Dependencies_operation,()
+curl ¦-SLO¦"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" :: Dependencies_operation,()
+from,php:5.6
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-SLO¦"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" :: Dependencies_operation,()
+NODE_VERSION:0.12.7 :: env_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()

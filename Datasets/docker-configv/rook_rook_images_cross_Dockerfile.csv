@@ -1,0 +1,17 @@
+tar ¦-C¦/usr/local/bin¦--strip-components=1¦-xzf¦acbuild-v${ACBUILD_VERSION}.tar.gz :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦autoremove¦-y :: Other_operation,()
+curl ¦-fsSLO¦https://github.com/containers/build/releases/download/v${ACBUILD_VERSION}/acbuild-v${ACBUILD_VERSION}.tar.gz :: Dependencies_operation,()
+ACBUILD_VERSION=0.4.0  :: Other_operation,()
+entrypoint,/build/entrypoint.sh
+rm ¦-f¦acbuild-v${ACBUILD_VERSION}.tar.gz :: Filesystem_operation,()
+from,BASEIMAGE
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+DOCKER2ACI_VERSION=0.14.0  :: Other_operation,()
+curl ¦-fsSLO¦https://github.com/appc/docker2aci/releases/download/v${DOCKER2ACI_VERSION}/docker2aci-v${DOCKER2ACI_VERSION}.tar.gz :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yy¦-q¦--no-install-recommends¦awscli¦curl¦docker.io¦lsb-release¦rsync¦runit¦sudo¦xz-utils :: Other_operation,()
+entrypoint.sh/build/ :: copy_operation,()
+tar ¦-C¦/usr/local/bin¦--strip-components=1¦-xzf¦docker2aci-v${DOCKER2ACI_VERSION}.tar.gz :: Filesystem_operation,()
+rm ¦-f¦docker2aci-v${DOCKER2ACI_VERSION}.tar.gz :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦clean :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦upgrade¦-y :: Other_operation,()

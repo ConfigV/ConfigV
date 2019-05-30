@@ -1,0 +1,18 @@
+add-apt-repository ¦-y¦ppa:webupd8team/java :: Dependencies_operation,()
+MINECRAFT_VERSION:1.8.1 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦"debconf shared/accepted-oracle-license-v1-1 seen true" | debconf-set-selections :: Filesystem_operation,()
+run.sh/minecraft/run.sh :: add_operation,()
+/minecraft :: workdir_operation,()
+chmod ¦+x¦/minecraft/minecraft.jar :: Permissions_operation,()
+mkdir ¦/minecraft :: Filesystem_operation,()
+cmd,bash¦run.sh
+from,ubuntu:14.04
+echo ¦echo¦"debconf shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections :: Filesystem_operation,()
+https://s3.amazonaws.com/Minecraft.Download/versions/$MINECRAFT_VERSION/minecraft_server.$MINECRAFT_VERSION.jar/minecraft/minecraft.jar :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/minecraft/settings :: volume_operation,()
+apt-get ¦-y¦install¦oracle-java7-installer :: Dependencies_operation,()
+apt-get ¦-y¦install¦software-properties-common :: Dependencies_operation,()

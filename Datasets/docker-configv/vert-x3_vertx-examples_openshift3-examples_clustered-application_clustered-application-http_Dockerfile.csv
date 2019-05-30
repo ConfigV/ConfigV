@@ -1,0 +1,8 @@
+entrypoint,sh¦-c
+expose,8080
+target/$JAVA_APP_JAR/app/ :: add_operation,()
+JAVA_APP_JAR:clustered-application-http-3.3.0-fat.jar :: env_operation,()
+chmod ¦777¦/app/ :: Permissions_operation,()
+from,java:8.0
+cmd,java -jar $JAVA_APP_JAR -cluster
+/app/ :: workdir_operation,()

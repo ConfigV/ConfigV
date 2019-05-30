@@ -1,0 +1,14 @@
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+from,ubuntu
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+mv ¦filebeat-${FILEBEAT_VERSION}-x86_64/filebeat¦/usr/local/bin :: Filesystem_operation,()
+cmd,/usr/local/bin/filebeat¦-e¦-c¦/etc/filebeat/filebeat.yml
+wget ¦https://download.elastic.co/beats/filebeat/filebeat-${FILEBEAT_VERSION}-x86_64.tar.gz.sha1.txt :: Dependencies_operation,()
+sha1sum ¦-c¦filebeat-${FILEBEAT_VERSION}-x86_64.tar.gz.sha1.txt :: Other_operation,()
+tar ¦xzf¦filebeat-${FILEBEAT_VERSION}-x86_64.tar.gz :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+filebeat.yml/etc/filebeat/ :: copy_operation,()
+apt-get ¦-y¦remove¦wget :: Dependencies_operation,()
+FILEBEAT_VERSION:1.2.2 :: env_operation,()
+rm ¦-rf¦/filebeat* :: Filesystem_operation,()
+wget ¦http://download.elastic.co/beats/filebeat/filebeat-${FILEBEAT_VERSION}-x86_64.tar.gz :: Dependencies_operation,()

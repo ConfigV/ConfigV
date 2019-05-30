@@ -1,0 +1,13 @@
+from,ubuntu@latest
+git ¦clone¦https://github.com/timwaizenegger/mcm-bluebox.git :: Dependencies_operation,()
+apt-get ¦install¦-y¦npm¦nodejs-legacy¦python3-pip¦git¦libpq-dev¦librdkafka1 :: Dependencies_operation,()
+entrypoint,/mcm/bluebox.sh
+expose,8000
+mcm-bluebox :: workdir_operation,()
+pip3 ¦install¦--upgrade¦pip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+bluebox.sh/mcm :: copy_operation,()
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+mkdir ¦/mcm :: Filesystem_operation,()
+/mcm :: workdir_operation,()
+cp ¦mcm/Bluebox/configuration.example.py¦mcm/Bluebox/configuration.py :: Filesystem_operation,()

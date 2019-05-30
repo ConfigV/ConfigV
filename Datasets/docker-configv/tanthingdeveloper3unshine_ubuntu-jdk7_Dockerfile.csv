@@ -1,0 +1,17 @@
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+update-alternatives ¦--install¦/usr/bin/java¦java¦/usr/lib/jvm/java-7-oracle/bin/java¦300 :: Other_operation,()
+chmod ¦+x¦/*.sh :: Permissions_operation,()
+cmd,/run.sh
+mkdir ¦-p¦/usr/lib/jvm :: Filesystem_operation,()
+expose,22
+update-alternatives ¦--install¦/usr/bin/javac¦javac¦/usr/lib/jvm/java-7-oracle/bin/javac¦300 :: Other_operation,()
+apt-get ¦-y¦install¦curl :: Dependencies_operation,()
+run.sh/run.sh :: add_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe"> /etc/apt/sources.list :: Filesystem_operation,()
+mv ¦/tmp/jdk1.${JAVA_VERSION}.0_${JAVA_UPDATE}/¦/usr/lib/jvm/java-7-oracle/ :: Filesystem_operation,()
+JAVA_VERSION=7:JAVA_UPDATE=80 :: env_operation,()
+from,ubuntu:13.1
+cd ¦/tmp :: Filesystem_operation,()
+curl ¦-L¦'http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION}u${JAVA_UPDATE}-b${JAVA_BUILD}/jdk-${JAVA_VERSION}u${JAVA_UPDATE}-linux-x64.tar.gz'¦-H¦'Cookie:¦oraclelicense=accept-securebackup-cookie;¦gpw_e24=Dockerfile'¦|¦tar¦-xz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()

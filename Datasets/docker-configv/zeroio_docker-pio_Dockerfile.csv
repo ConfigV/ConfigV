@@ -1,0 +1,11 @@
+from,ubuntu:14.04
+conf/opt/pio/conf :: copy_operation,()
+echo ¦locale-gen¦$LANG && apt-get update && apt-get install -y vim nano less net-tools inetutils-ping wget curl git telnet nmap socat dnsutils netcat tree htop unzip sudo software-properties-common jq psmisc python-pip mysql-client && add-apt-re... :: Filesystem_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+PATH:$PATH:$PIO_HOME/bin :: env_operation,()
+chmod ¦+x¦/opt/pio/conf/*.sh :: Permissions_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+PIO_HOME:/opt/pio :: env_operation,()
+/data/pio :: volume_operation,()
+PIO_FS:/data/pio :: env_operation,()

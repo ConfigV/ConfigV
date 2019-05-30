@@ -1,0 +1,10 @@
+mkdir ¦-p¦/usr/share/icons/hicolor :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+entrypoint,/usr/bin/google-chrome
+apt-get ¦update :: Dependencies_operation,()
+https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb/src/google-chrome-stable_current_amd64.deb :: add_operation,()
+etc/local.conf/etc/fonts/local.conf :: copy_operation,()
+apt-get ¦install¦-y¦ca-certificates¦fontconfig-config¦gconf-service¦hicolor-icon-theme¦libappindicator1¦libasound2¦libcanberra-gtk-module¦libcurl3¦libexif-dev¦libgconf-2-4¦libgl1-mesa-dri¦libgl1-mesa-glx¦libnspr4¦libnss3¦libpango1.0-0¦libv4l-0¦libx... :: Dependencies_operation,()
+dpkg ¦-i¦'/src/google-chrome-stable_current_amd64.deb' :: Dependencies_operation,()
+from,debian@sid
+cmd,--user-data-dir=/data¦--no-sandbox

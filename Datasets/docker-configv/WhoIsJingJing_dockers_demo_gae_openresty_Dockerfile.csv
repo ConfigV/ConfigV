@@ -1,0 +1,9 @@
+www//usr/local/openresty/nginx/www/ :: add_operation,()
+chmod ¦-R¦a+r¦/usr/local/openresty/nginx/www :: Permissions_operation,()
+nginx/luasrc/usr/local/openresty/nginx/luasrc :: add_operation,()
+mkdir ¦-p¦/var/log/app_engine :: Filesystem_operation,()
+from,openresty/openresty
+entrypoint,/usr/local/openresty/bin/openresty¦-g¦daemon off;
+expose,443
+echo ¦mkdir¦-p /usr/local/openresty/nginx/www/_ah && echo "healthy" > /usr/local/openresty/nginx/www/_ah/health :: Filesystem_operation,()
+nginx/lualib/usr/local/openresty/nginx/lualib :: add_operation,()

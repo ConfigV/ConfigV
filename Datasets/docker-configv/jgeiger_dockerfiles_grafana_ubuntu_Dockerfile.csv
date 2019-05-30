@@ -1,0 +1,24 @@
+apt-get ¦-qq¦-y¦update :: Dependencies_operation,()
+expose,3000
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+chown ¦grafana:grafana¦/config :: Permissions_operation,()
+mkdir ¦/config :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+wget ¦--quiet¦https://grafanarel.s3.amazonaws.com/builds/$GRAFANA_FILE :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+sed ¦'s/mode¦=¦console,¦file/mode¦=¦console/'¦-i¦/usr/share/grafana/conf/defaults.ini :: Filesystem_operation,()
+./config/config/ :: copy_operation,()
+from,jgeiger/ubuntu
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+dpkg ¦-i¦$GRAFANA_FILE :: Dependencies_operation,()
+apt-get ¦install¦-qq¦-y¦--no-install-recommends¦libfontconfig :: Dependencies_operation,()
+cmd,grafana-server¦-config¦/config/grafana.ini
+apt-get ¦autoremove :: Dependencies_operation,()
+chown ¦grafana:grafana¦/data :: Permissions_operation,()
+GRAFANA_VERSION=grafana_3.0.0-pre1: :: env_operation,()
+entrypoint,tini¦--¦/entrypoint.sh
+GRAFANA_FILE=${GRAFANA_VERSION}_amd64.deb: :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/usr/share/grafana :: workdir_operation,()
+root :: user_operation,()

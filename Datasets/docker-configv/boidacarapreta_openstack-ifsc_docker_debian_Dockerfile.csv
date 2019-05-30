@@ -1,0 +1,11 @@
+LC_ALL:C :: env_operation,()
+sshd.conf/etc/supervisor/conf.d/ :: add_operation,()
+from,debian@testing
+cmd,supervisord¦-c¦/etc/supervisor/supervisord.conf
+supervisord.conf/etc/supervisor/supervisord.conf :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+expose,22
+curl.conf/etc/supervisor/conf.d/ :: add_operation,()
+LANG:C :: env_operation,()
+LANGUAGE:C :: env_operation,()
+echo ¦apt-get¦update && apt-get install -y sudo bash openssh-server curl supervisor && groupadd debian && useradd -g debian -G sudo -d /home/debian -m -s /bin/bash debian && install -o debian -m 0700 -d /home/debian/.ssh && echo 'debian ALL=(ALL... :: Filesystem_operation,()

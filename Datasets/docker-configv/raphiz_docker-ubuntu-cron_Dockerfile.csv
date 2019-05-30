@@ -1,0 +1,12 @@
+rm ¦-Rf¦/etc/cron.hourly :: Filesystem_operation,()
+crontab/etc/crontab :: copy_operation,()
+rm ¦-Rf¦/etc/cron.weekly :: Filesystem_operation,()
+apt-get ¦install¦cron¦-yqq :: Dependencies_operation,()
+cmd,/usr/bin/supervisord
+logger.sh/bin/logger.sh :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-Rf¦/etc/cron.daily :: Filesystem_operation,()
+apt-get ¦install¦supervisor¦-yqq :: Dependencies_operation,()
+rm ¦-Rf¦/etc/cron.monthly :: Filesystem_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+from,ubuntu@latest

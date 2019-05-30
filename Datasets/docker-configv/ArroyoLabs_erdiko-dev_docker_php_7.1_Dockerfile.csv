@@ -1,0 +1,13 @@
+apt-get ¦clean :: Dependencies_operation,()
+docker-php-ext-install ¦mysqli¦pdo_mysql¦mcrypt¦gd :: Other_operation,()
+scripts/src :: copy_operation,()
+expose,9000
+cd ¦/src :: Filesystem_operation,()
+chmod ¦770¦*.sh :: Permissions_operation,()
+/src/composer.sh  :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/src/phpunit.sh  :: Other_operation,()
+from,php:7.1
+apt-get ¦install¦-y¦wget¦git¦mysql-client¦curl¦pwgen¦libmcrypt-dev¦libpng-dev :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,php-fpm

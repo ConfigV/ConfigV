@@ -1,0 +1,14 @@
+PYTHONPATH:/textract :: env_operation,()
+REFRESHED_AT:2014-08-12b :: env_operation,()
+PATH:$PATH:/textract/bin :: env_operation,()
+apt-get ¦install¦python-pip¦-y :: Dependencies_operation,()
+/bin/bash ¦/provision/debian.sh :: Build_Execute_operation,()
+from,ubuntu:12.04
+/textract :: volume_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+entrypoint,/textract/tests/docker_entry.sh
+SRC:/textract :: env_operation,()
+./provision :: add_operation,()
+mkdir ¦/textract :: Filesystem_operation,()
+/bin/bash ¦/provision/python.sh :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()

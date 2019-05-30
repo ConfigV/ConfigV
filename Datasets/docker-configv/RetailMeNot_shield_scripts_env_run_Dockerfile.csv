@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+unzip ¦/tmp/shield.zip¦-d¦/opt :: Filesystem_operation,()
+from,java:8.0
+cmd,/opt/shield/bin/shield
+target/universal/shield-${artifact_version}.zip/tmp/shield.zip :: add_operation,()
+rm ¦/tmp/shield.zip :: Filesystem_operation,()
+mv ¦/opt/shield-${artifact_version}¦/opt/shield :: Filesystem_operation,()
+apt-get ¦-y¦install¦libc6 :: Dependencies_operation,()
+expose,8080

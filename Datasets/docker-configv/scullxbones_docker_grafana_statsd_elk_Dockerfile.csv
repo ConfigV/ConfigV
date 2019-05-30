@@ -1,0 +1,11 @@
+git ¦clone¦https://github.com/shoonoise/cabot.git¦/cabot :: Dependencies_operation,()
+expose,8084
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yq¦--no-install-recommends¦curl¦ca-certificates :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+influxdb/run.sh/usr/local/bin/run_influxdb :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+influxdb/config.toml/etc/influxdb/config.toml :: add_operation,()
+curl ¦-s¦-o¦/tmp/influxdb_latest_amd64.deb¦https://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb :: Dependencies_operation,()
+rm ¦/tmp/influxdb_latest_amd64.deb :: Filesystem_operation,()
+dpkg ¦-i¦/tmp/influxdb_latest_amd64.deb :: Dependencies_operation,()
+chmod ¦0755¦/usr/local/bin/run_influxdb :: Permissions_operation,()

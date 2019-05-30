@@ -1,0 +1,15 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+USER:root :: env_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,3389
+%b\\n ¦`which env` xdg-open\\n\\n[Desktop Entry]\\nExec=/usr/bin/firefox\\nIcon=/root/eclipse_palladio/icon.xpm\\nTerminal=false\\nType=Application\\nPath=/root/eclipse_palladio/ :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+GEOMETRY:1440x900 :: env_operation,()
+from,ubuntu:14.04
+USERHOME:/root :: env_operation,()
+echo ¦echo¦"firefox" > password.txt && cat password.txt password.txt | vncpasswd && rm password.txt :: Filesystem_operation,()
+cmd,service¦xrdp¦start¦&&¦vncserver¦:1¦-desktop¦Firefox¦-geometry¦$GEOMETRY¦-depth¦24¦-dpi¦100¦&&¦tail¦-F¦/root/.vnc/*.log
+apt-get ¦install¦-y¦--no-install-recommends¦xorg¦lxde-core¦lxterminal¦lxde-icon-theme¦gtk2-engines¦dmz-cursor-theme¦tightvncserver¦default-jdk¦xrdp¦firefox :: Dependencies_operation,()
+${USERHOME} :: workdir_operation,()

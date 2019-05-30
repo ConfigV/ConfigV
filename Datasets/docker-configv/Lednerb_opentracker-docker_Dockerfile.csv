@@ -1,0 +1,15 @@
+from,ubuntu:14.04
+/home/trackerdriver :: workdir_operation,()
+expose,6969
+make  :: Build_Execute_operation,()
+useradd ¦-u¦1000¦-ms¦/bin/bash¦trackerdriver :: Permissions_operation,()
+./opentracker.conf/home/trackerdriver/opentracker.conf :: copy_operation,()
+trackerdriver :: user_operation,()
+apt-get ¦install¦-y¦build-essential¦libpq-dev¦git¦cvs :: Dependencies_operation,()
+cvs ¦-d¦:pserver:cvs@cvs.fefe.de:/cvs¦-z9¦co¦libowfat :: Other_operation,()
+cd ¦libowfat :: Filesystem_operation,()
+cd ¦../ :: Filesystem_operation,()
+cd ¦opentracker :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,opentracker/opentracker¦-f¦/home/trackerdriver/opentracker.conf
+git ¦clone¦git://erdgeist.org/opentracker :: Dependencies_operation,()

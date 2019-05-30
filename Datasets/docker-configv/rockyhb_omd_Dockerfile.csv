@@ -1,0 +1,11 @@
+omd ¦create¦prod¦||¦true :: Other_operation,()
+from,centos:6.0
+rpm ¦-Uvh¦"https://labs.consol.de/repo/testing/rhel6/i386/labs-consol-testing.rhel6.noarch.rpm" :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦install¦omd¦which¦lsof¦xinetd¦check-mk-agent¦git :: Dependencies_operation,()
+rpm ¦-Uvh¦"https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm" :: Dependencies_operation,()
+omd ¦config¦prod¦set¦TMPFS¦off :: Other_operation,()
+expose,80 22 5666 6556
+yum ¦-y¦update :: Dependencies_operation,()
+cmd,/bin/bash
+echo ¦echo¦Done. :: Filesystem_operation,()

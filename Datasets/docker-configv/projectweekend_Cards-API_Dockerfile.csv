@@ -1,0 +1,12 @@
+wget ¦http://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/3.2.1/flyway-commandline-3.2.1.zip :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+chmod ¦a+x¦/opt/flyway-3.2.1/flyway :: Permissions_operation,()
+apt-get ¦-y¦install¦default-jre¦unzip¦socat :: Dependencies_operation,()
+PATH:$PATH:/opt/flyway-3.2.1 :: env_operation,()
+/src :: workdir_operation,()
+expose,5000
+from,python:2.7
+unzip ¦flyway-commandline-3.2.1.zip¦-d¦/opt :: Filesystem_operation,()
+./src/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./sql/opt/flyway-3.2.1/sql/ :: add_operation,()

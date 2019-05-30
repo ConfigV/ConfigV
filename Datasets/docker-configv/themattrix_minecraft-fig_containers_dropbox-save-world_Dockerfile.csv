@@ -1,0 +1,12 @@
+chmod ¦+x¦/tini :: Permissions_operation,()
+https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/a00ccc35dd2e54f70575e10995eb9b76a1ef7aea/dropbox_uploader.sh/usr/bin/dropbox_uploader.sh :: add_operation,()
+save-to-dropbox.sh/usr/bin/save-to-dropbox.sh :: copy_operation,()
+from,alpine@latest
+/volumes :: workdir_operation,()
+chmod ¦+x¦/usr/bin/save-to-dropbox.sh :: Permissions_operation,()
+apk ¦--update¦add¦curl¦bash :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/dropbox_uploader.sh :: Permissions_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+entrypoint,/tini¦--
+cmd,save-to-dropbox.sh
+https://github.com/krallin/tini/releases/download/v0.8.4/tini-static/tini :: add_operation,()

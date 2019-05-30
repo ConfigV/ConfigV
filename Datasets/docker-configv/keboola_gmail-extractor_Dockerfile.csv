@@ -1,0 +1,11 @@
+cd  :: Filesystem_operation,()
+./code :: add_operation,()
+composer ¦install¦--prefer-dist¦--no-dev¦--no-interaction :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+from,php:7.0
+ln ¦-s¦/root/composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/code :: workdir_operation,()
+apt-get ¦install¦unzip¦git¦-y :: Dependencies_operation,()
+cmd,php¦./src/run.php¦--data=/data

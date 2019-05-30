@@ -1,0 +1,14 @@
+cmd,-D¦FOREGROUND
+chown ¦root:apache¦/var/www/cgi-bin/action :: Permissions_operation,()
+yum ¦-y¦install¦deltarpm¦yum-utils¦--disablerepo=*-eus-*¦--disablerepo=*-htb-*¦--disablerepo=*-ha-*¦--disablerepo=*-rt-*¦--disablerepo=*-lb-*¦--disablerepo=*-rs-*¦--disablerepo=*-sap-* :: Dependencies_operation,()
+yum-config-manager ¦--disable¦*-eus-*¦*-htb-*¦*-ha-*¦*-rt-*¦*-lb-*¦*-rs-*¦*-sap-*¦>¦/dev/null :: Other_operation,()
+root :: user_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+echo ¦echo¦"PassEnv DB_SERVICE_SERVICE_HOST" >> /etc/httpd/conf/httpd.conf :: Filesystem_operation,()
+from,centos@latest
+action/var/www/cgi-bin/action :: add_operation,()
+yum ¦install¦httpd¦procps-ng¦MySQL-python¦-y :: Dependencies_operation,()
+echo ¦echo¦"The Web Server is Running" > /var/www/html/index.html :: Filesystem_operation,()
+chmod ¦755¦/var/www/cgi-bin/action :: Permissions_operation,()
+entrypoint,/usr/sbin/httpd
+expose,80

@@ -1,0 +1,11 @@
+/data/mongo_data :: volume_operation,()
+mkdir ¦-p¦/tmp/sql_scripts/ :: Filesystem_operation,()
+chown ¦-R¦mongodb¦/data/mongo_data :: Permissions_operation,()
+mongod ¦--dbpath¦/data/mongo_data¦--shutdown :: Other_operation,()
+from,mongo@latest
+bash ¦/data/mongo_data/load-scripts-mongo.sh :: Build_Execute_operation,()
+mongod ¦--fork¦--logpath¦/var/log/mongodb.log¦--dbpath¦/data/mongo_data :: Other_operation,()
+echo ¦mkdir¦-p /data/mongo_data && chown -R mongodb:mongodb /data/mongo_data && echo "dbpath = /data/mongo_data" > /etc/mongodb.conf :: Filesystem_operation,()
+load-scripts-mongo.sh/data/mongo_data :: copy_operation,()
+sql/mongo/*.js/tmp/sql_scripts/ :: copy_operation,()
+cmd,mongod¦--config¦/etc/mongodb.conf

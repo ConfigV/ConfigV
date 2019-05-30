@@ -1,0 +1,16 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+tar ¦-xzf¦red5-server-${RED5_VERSION}-server.tar.gz :: Filesystem_operation,()
+mv ¦red5-server-${RED5_VERSION}¦/opt/red5 :: Filesystem_operation,()
+entrypoint,./red5.sh
+apt-get ¦update :: Dependencies_operation,()
+/opt/red5 :: volume_operation,()
+from,dockerfile/oracle-java7
+/opt/red5 :: workdir_operation,()
+rm ¦red5-server-${RED5_VERSION}-server.tar.gz :: Filesystem_operation,()
+RED5_VERSION:1.0.5-SNAPSHOT :: env_operation,()
+expose,843 1935 5080 5443 8081 8443
+apt-get ¦clean :: Dependencies_operation,()
+wget ¦-q¦https://github.com/Red5/red5-server/releases/download/v${RED5_VERSION}/red5-server-${RED5_VERSION}-server.tar.gz :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+RED5_HOME:/opt/red5 :: env_operation,()

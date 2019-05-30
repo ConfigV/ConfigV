@@ -1,0 +1,14 @@
+chmod ¦755¦/opt/hazelcast/start.sh :: Permissions_operation,()
+from,ubuntu:14.04
+apt-get ¦-qqy¦update :: Dependencies_operation,()
+rm ¦hazelcast.zip :: Filesystem_operation,()
+expose,57015801
+wget ¦-q¦-O¦hazelcast.zip¦https://s3.amazonaws.com/docker-amg-dsp/hazelcast-3.2.5.zip :: Dependencies_operation,()
+unzip ¦-qq¦hazelcast.zip :: Filesystem_operation,()
+start.sh/opt/hazelcast :: add_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-qqy¦install¦openjdk-7-jre-headless¦wget¦unzip :: Dependencies_operation,()
+hazelcast-conf.xml/opt/hazelcast :: add_operation,()
+cmd,/opt/hazelcast/start.sh
+/opt/hazelcast :: workdir_operation,()
+mkdir ¦-p¦/opt/hazelcast :: Filesystem_operation,()

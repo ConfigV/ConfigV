@@ -1,0 +1,12 @@
+cmd,php-fpm¦-F
+yum ¦-y¦--setopt=tsflags=nodocs¦--nogpgcheck¦install¦epel-release :: Dependencies_operation,()
+expose,9000
+rm ¦/etc/php-fpm.d/www.conf :: Filesystem_operation,()
+pool.conf/etc/php-fpm.d/ :: add_operation,()
+yum ¦-y¦--setopt=tsflags=nodocs¦update :: Dependencies_operation,()
+yum ¦-y¦--setopt=tsflags=nodocs¦--nogpgcheck¦install¦php71u-cli¦php71u-fpm¦php71u-bcmath¦php71u-gd¦php71u-intl¦php71u-json¦php71u-ldap¦php71u-mbstring¦php71u-mcrypt¦php71u-opcache¦php71u-pdo¦php71u-pear¦php71u-pecl-apcu¦php71u-pecl-imagick¦php7... :: Dependencies_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+yum ¦-y¦--setopt=tsflags=nodocs¦--nogpgcheck¦install¦https://centos7.iuscommunity.org/ius-release.rpm :: Dependencies_operation,()

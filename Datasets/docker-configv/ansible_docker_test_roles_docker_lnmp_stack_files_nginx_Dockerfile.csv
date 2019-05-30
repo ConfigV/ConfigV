@@ -1,0 +1,19 @@
+apt-get ¦-y¦install¦php5-fpm :: Dependencies_operation,()
+expose,443
+conf/php-fpm.conf/etc/php5/fpm/php-fpm.conf :: add_operation,()
+echo ¦echo¦"<?php phpinfo() ?>" > /home/www/index.php :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+/etc/nginx/sites-enabled :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+conf/php.ini/etc/php5/fpm/php.ini :: add_operation,()
+conf/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+/etc/nginx/sites-available :: volume_operation,()
+cmd,/usr/bin/supervisord
+apt-get ¦-y¦install¦php5-mysql :: Dependencies_operation,()
+conf/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+/var/log/nginx :: volume_operation,()
+apt-get ¦-y¦install¦nginx :: Dependencies_operation,()
+mkdir ¦/home/www :: Filesystem_operation,()
+from,ubuntu:14.04
+/home/www :: volume_operation,()
+apt-get ¦-y¦install¦supervisor :: Dependencies_operation,()

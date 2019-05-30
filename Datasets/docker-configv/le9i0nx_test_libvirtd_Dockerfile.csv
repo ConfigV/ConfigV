@@ -1,0 +1,13 @@
+/sys/fs/cgroup :: volume_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦DEBIAN_FRONTEND=noninteractive¦apt-get update && apt-get dist-upgrade -y && apt-get install -y locales ca-certificates systemd libvirt-daemon-system libvirt-clients bridge-utils ebtables iproute2 qemu-kvm kmod ovmf sgabios libguestfs-tools... :: Filesystem_operation,()
+systemctl ¦mask¦systemd-remount-fs.service¦dev-hugepages.mount¦sys-fs-fuse-connections.mount¦systemd-logind.service¦getty.target¦console-getty.service¦dev-mqueue.mount¦sys-kernel-config.mount¦sys-kernel-debug.mount¦display-manager.service¦graphical.t... :: Other_operation,()
+container:docker :: env_operation,()
+init:/lib/systemd/systemd :: env_operation,()
+LC_ALL:C :: env_operation,()
+sed ¦-i¦"/Service/a¦ExecStartPost=\\/bin\\/chmod¦666¦/dev/kvm"¦/usr/lib/systemd/system/libvirtd.service :: Filesystem_operation,()
+from,debian@stretch
+expose,16509
+mkdir ¦-p¦/var/lib/libvirt/images/ :: Filesystem_operation,()
+echo ¦echo¦"listen_tls = 0" >> /etc/libvirt/libvirtd.conf;echo 'listen_tcp = 1' >> /etc/libvirt/libvirtd.conf;echo 'tls_port = "16514"' >> /etc/libvirt/libvirtd.conf;echo 'tcp_port = "16509"' >> /etc/libvirt/libvirtd.conf;echo 'auth_tcp = "none"... :: Filesystem_operation,()
+entrypoint,/lib/systemd/systemd

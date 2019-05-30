@@ -1,0 +1,13 @@
+PATH:$PATH:/usr/local/openresty/nginx/sbin :: env_operation,()
+mkdir ¦-p¦/root/nginx/conf :: Filesystem_operation,()
+start.sh/root/nginx/ :: copy_operation,()
+mkdir ¦-p¦/usr/local/openresty :: Filesystem_operation,()
+expose,80 443
+from,172.16.9.3:5000/centos
+NGINX_PATH:/root/nginx :: env_operation,()
+cmd,/usr/sbin/init
+file/*/root/nginx/conf :: copy_operation,()
+openresty/usr/local/openresty :: add_operation,()
+chmod ¦+x¦-R¦/root/nginx/ :: Permissions_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦vim :: Dependencies_operation,()

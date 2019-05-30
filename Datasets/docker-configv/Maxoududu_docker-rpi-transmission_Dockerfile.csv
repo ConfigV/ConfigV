@@ -1,0 +1,17 @@
+/config :: volume_operation,()
+apk ¦add¦transmission-daemon :: Dependencies_operation,()
+cmd,/usr/bin/transmission-daemon¦-f¦-g¦/config
+/incomplete :: volume_operation,()
+expose,51413
+chgrp ¦-R¦users¦/downloads¦/watch :: Other_operation,()
+mkdir ¦-p¦/downloads¦/incomplete¦/config¦/watch :: Filesystem_operation,()
+chmod ¦775¦/downloads¦/incomplete¦/config¦/watch :: Permissions_operation,()
+/watch :: volume_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+chown ¦-R¦transmission:users¦/incomplete¦/config :: Permissions_operation,()
+transmission :: user_operation,()
+apk ¦update :: Dependencies_operation,()
+addgroup ¦transmission¦users :: Permissions_operation,()
+from,hypriot/rpi-alpine-scratch
+/downloads :: volume_operation,()
+id ¦transmission¦||¦adduser¦-S¦-s¦/bin/false¦-H¦-D¦transmission :: Other_operation,()

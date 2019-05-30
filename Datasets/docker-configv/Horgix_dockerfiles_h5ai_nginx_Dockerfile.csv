@@ -1,0 +1,9 @@
+unzip ¦/srv/h5ai.zip¦-d¦/srv/h5ai :: Filesystem_operation,()
+rm ¦/etc/nginx/conf.d/default.conf :: Filesystem_operation,()
+chown ¦-R¦nginx:nginx¦/srv/h5ai :: Permissions_operation,()
+rm ¦/srv/h5ai.zip :: Filesystem_operation,()
+apk ¦add¦--update¦unzip :: Dependencies_operation,()
+site.conf/etc/nginx/conf.d/site.conf :: copy_operation,()
+from,nginx@alpine
+mkdir ¦-p¦/srv/h5ai :: Filesystem_operation,()
+https://release.larsjung.de/h5ai/h5ai-0.29.0.zip/srv/h5ai.zip :: add_operation,()

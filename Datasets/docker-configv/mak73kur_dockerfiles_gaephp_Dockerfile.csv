@@ -1,0 +1,18 @@
+unzip ¦/tmp/gae.zip :: Filesystem_operation,()
+adduser ¦devel¦--home¦/home/devel¦--shell¦/bin/bash¦--disabled-password¦--gecos¦"" :: Permissions_operation,()
+/var/www/ :: workdir_operation,()
+devel :: user_operation,()
+https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.19.zip/tmp/gae.zip :: add_operation,()
+REFRESHED_AT:2015-05-15 :: env_operation,()
+apt-get ¦-y¦install¦git¦curl¦make¦fabric¦nano¦unzip :: Dependencies_operation,()
+export ¦DEBIAN_FRONTEND=noninteractive :: Environment_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+cmd,/usr/share/google_appengine/dev_appserver.py¦--php_executable_path=/usr/bin/php-cgi¦--host=0.0.0.0¦--admin_host=0.0.0.0¦--php_remote_debugging=yes¦--skip_sdk_update_check=yes¦.
+from,ubuntu:14.04
+pip ¦install¦Fabric==1.10.0¦sphinx==1.2.3 :: Dependencies_operation,()
+mkdir ¦-p¦/var/www/ :: Filesystem_operation,()
+echo ¦echo¦"devel ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers :: Filesystem_operation,()
+apt-get ¦-y¦install¦php5¦php5-cli¦php5-cgi¦php5-curl¦php5-gd¦php5-imagick¦php5-mysqlnd¦php5-memcached¦php5-intl¦php5-mcrypt¦php5-xdebug¦python¦python-dev¦python-pip :: Dependencies_operation,()
+echo ¦rm¦/etc/php5/cgi/conf.d/20-memcached.ini && echo "extension = mcrypt.so" > /etc/php5/cgi/conf.d/20-mcrypt.ini && echo "extension = mcrypt.so" > /etc/php5/cli/conf.d/20-mcrypt.ini :: Filesystem_operation,()
+expose,8000
+cd ¦/usr/share :: Filesystem_operation,()

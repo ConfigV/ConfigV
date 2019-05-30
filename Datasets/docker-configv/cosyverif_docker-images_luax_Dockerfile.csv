@@ -1,0 +1,12 @@
+cd ¦/ :: Filesystem_operation,()
+*.rockspec/lua/ :: add_operation,()
+install/lua/ :: add_operation,()
+pip ¦install¦hererocks :: Dependencies_operation,()
+apk ¦add¦--no-cache¦--virtual¦.build-deps¦build-base¦curl¦make¦ncurses-dev¦openssl-dev¦perl-dev¦readline-dev¦zlib-dev¦py2-pip :: Dependencies_operation,()
+./install  :: Other_operation,()
+apk ¦add¦--no-cache¦git¦libgcc¦openssl¦unzip¦zlib :: Dependencies_operation,()
+from,alpine@edge
+rm ¦-f¦/lua/install¦/lua/*.rockspec :: Filesystem_operation,()
+cd ¦/lua :: Filesystem_operation,()
+apk ¦del¦.build-deps :: Dependencies_operation,()
+chmod ¦a+x¦install :: Permissions_operation,()

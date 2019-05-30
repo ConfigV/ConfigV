@@ -1,0 +1,12 @@
+a2ensite ¦001-ws.conf :: Other_operation,()
+ws.conf/etc/apache2/sites-available/001-ws.conf :: copy_operation,()
+routing.yml/var/www/html/ws/app/config/routing.yml :: copy_operation,()
+apt-get ¦remove¦-y¦git¦curl¦&&sed¦-i¦"s#AppBundle\\\\\\AppBundle#FantasyFootball\\\\\\TournamentCoreBundle\\\\\\FantasyFootballTournamentCoreBundle#"¦/var/www/html/ws/app/AppKernel.php¦&&composer¦dump-autoload :: Dependencies_operation,()
+/var/www/html/ws :: workdir_operation,()
+/var/www/html/ws/src/FantasyFootball :: workdir_operation,()
+from,debian
+echo ¦apt-get¦update &&apt-get install -y apache2 php7.0 php7.0-mysql apache2-mod-php7.0 php7.0-xml php7.0-zip &&apt-get install -y curl git &&echo "date.timezone=Europe/Paris" >> /etc/php/7.0/cli/php.ini &&echo "date.timezone=Europe/Paris" >> /... :: Filesystem_operation,()
+a2dissite ¦000-default.conf :: Other_operation,()
+symfony ¦new¦ws¦2.8¦&&git¦clone¦--branch¦eurobowl_2017¦https://github.com/trambi/FantasyFootball.git¦/var/www/html/ws/src/FantasyFootball¦&&rm¦-fr¦/var/www/html/ws/src/AppBundle :: Other_operation,()
+/var/www/html :: workdir_operation,()
+/bin/bash ¦deploy_on_ws.bash¦start :: Build_Execute_operation,()

@@ -1,0 +1,11 @@
+REFRESHED_AT:2015-03-18 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+WEEWX_VERSION:v3.1.0 :: env_operation,()
+pip ¦install¦configobj :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+${BUILD_DIR}/weewx/ :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦apt-transport-https¦build-essential¦cmake¦libusb-1.0-0-dev¦git¦pkg-config¦python-pip :: Dependencies_operation,()
+weewx.conf${BUILD_DIR}/weewx/weewx.conf :: copy_operation,()
+from,python:2.7
+${BUILD_DIR} :: volume_operation,()
+BUILD_DIR:/src/ :: env_operation,()

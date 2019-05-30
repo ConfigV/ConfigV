@@ -1,0 +1,10 @@
+chown ¦-R¦ladder:ladder¦/go :: Permissions_operation,()
+mkdir ¦-p¦/go/src/github.com/themotion/ladder/ :: Filesystem_operation,()
+from,golang:1.7
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/go/src/github.com/themotion/ladder/ :: workdir_operation,()
+go ¦get¦github.com/Masterminds/glide :: Build_Execute_operation,()
+adduser ¦-D¦-u¦$uid¦-G¦ladder¦ladder :: Permissions_operation,()
+apk ¦--update¦add¦musl-dev¦gcc¦tar¦git¦bash¦wget :: Dependencies_operation,()
+addgroup ¦-g¦$gid¦ladder :: Permissions_operation,()
+ladder :: user_operation,()

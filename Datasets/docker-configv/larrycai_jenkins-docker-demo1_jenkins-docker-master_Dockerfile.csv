@@ -1,0 +1,19 @@
+credentials.xml$JENKINS_HOME/ :: add_operation,()
+from,ubuntu:14.04
+mkdir ¦-p¦$JENKINS_HOME/jobs/docker-demo :: Filesystem_operation,()
+config.xml$JENKINS_HOME/ :: add_operation,()
+chmod ¦+x¦/usr/local/bin/dockerjenkins.sh :: Permissions_operation,()
+curl ¦https://get.docker.io/builds/Linux/x86_64/docker-latest¦-o¦/usr/local/bin/docker :: Dependencies_operation,()
+entrypoint,/usr/local/bin/dockerjenkins.sh
+JENKINS_HOME:/opt/jenkins/data :: env_operation,()
+expose,8080
+REFRESHED_AT:2014-06-01 :: env_operation,()
+chmod ¦+x¦/usr/local/bin/docker :: Permissions_operation,()
+for ¦plugin¦in¦docker-plugin¦;\\ :: Other_operation,()
+JENKINS_MIRROR:http://mirrors.jenkins-ci.org :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦openjdk-6-jdk :: Dependencies_operation,()
+curl ¦-sf¦-o¦/opt/jenkins/jenkins.war¦-L¦$JENKINS_MIRROR/war-stable/latest/jenkins.war :: Dependencies_operation,()
+docker-demo.config.xml$JENKINS_HOME/jobs/docker-demo/config.xml :: add_operation,()
+mkdir ¦-p¦$JENKINS_HOME/plugins :: Filesystem_operation,()
+./dockerjenkins.sh/usr/local/bin/dockerjenkins.sh :: add_operation,()

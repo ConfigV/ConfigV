@@ -1,0 +1,15 @@
+apk ¦add¦--update¦--virtual=.build-dependencies¦alpine-sdk¦nodejs¦ca-certificates¦musl-dev¦gcc¦python-dev¦make¦cmake¦g++¦gfortran¦libpng-dev¦freetype-dev¦libxml2-dev¦libxslt-dev :: Dependencies_operation,()
+apk ¦add¦--update¦git :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+jupyter ¦serverextension¦enable¦--py¦jupyterlab :: Other_operation,()
+cmd,jupyter¦lab¦--ip=*¦--port=8888¦--no-browser¦--notebook-dir=/opt/app/data
+jupyter ¦nbextension¦enable¦--py¦widgetsnbextension :: Other_operation,()
+from,python@alpine
+pip ¦install¦jupyter :: Dependencies_operation,()
+mkdir ¦-p¦/opt/app/data :: Filesystem_operation,()
+pip ¦install¦ipywidgets :: Dependencies_operation,()
+LANG=C.UTF-8: :: env_operation,()
+expose,8888
+requirements.txtrequirements.txt :: copy_operation,()
+pip ¦install¦jupyterlab :: Dependencies_operation,()
+echo ¦wget¦-q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.23-r3/glibc-2.23-r3.apk && wget https://... :: Filesystem_operation,()

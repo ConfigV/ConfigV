@@ -1,0 +1,12 @@
+/app :: workdir_operation,()
+apt-get ¦install¦--yes¦libsqlite3-dev¦git¦zlib1g-dev :: Dependencies_operation,()
+cmd,/app/run.sh
+apt-get ¦install¦--yes¦wget :: Dependencies_operation,()
+docker-php-ext-install ¦pdo¦pdo_sqlite¦zip¦mbstring :: Other_operation,()
+php ¦composer-setup.php¦--install-dir=/usr/local/bin¦--filename=composer :: Other_operation,()
+from,php:7.0
+echo ¦echo¦"date.timezone = UTC" > /usr/local/etc/php/conf.d/date.timezone.ini :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/composer :: Permissions_operation,()
+'composer-setup.php'  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+'https://getcomposer.org/installer', ¦'composer-setup.php' :: Other_operation,()

@@ -1,0 +1,12 @@
+/var/lib/pgsql/ :: volume_operation,()
+yum ¦install¦postgresql-server¦-y :: Dependencies_operation,()
+PGLOG:/var/lib/pgsql/pgsql.log :: env_operation,()
+cmd,-p '$PGPORT' -D '$PGDATA' -i -N 200 2>&1 >> $PGLOG < /dev/null
+PGDATA:/var/lib/pgsql/data :: env_operation,()
+PGPORT:5432 :: env_operation,()
+entrypoint,/usr/bin/postmaster
+/var/log/pgsql/ :: volume_operation,()
+expose,5432
+postgres :: user_operation,()
+/var/lib/pgsql/ :: workdir_operation,()
+from,sreinhardt/centos-6-x86_64:latest

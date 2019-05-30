@@ -1,0 +1,18 @@
+/go/src/github.com/dyzdyz010/Blog/conf :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦--force-yes¦build-essential¦git¦golang¦ruby-dev¦nodejs¦npm :: Dependencies_operation,()
+from,ubuntu
+cd ¦/go/src/github.com/dyzdyz010/Blog/static :: Filesystem_operation,()
+go ¦get¦github.com/astaxie/beego¦github.com/beego/bee¦github.com/dyzdyz010/Blog :: Build_Execute_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+entrypoint,bee¦run
+npm ¦install¦-g¦bower :: Dependencies_operation,()
+PATH:$PATH:/go/bin :: env_operation,()
+bower ¦install¦--allow-root :: Dependencies_operation,()
+compass ¦compile :: Other_operation,()
+GOPATH:/go :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/go/src/github.com/dyzdyz010/Blog :: workdir_operation,()
+gem ¦install¦-y¦compass :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()

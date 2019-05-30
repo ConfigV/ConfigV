@@ -1,0 +1,19 @@
+/etc/init.d/postgresql ¦stop :: Other_operation,()
+sudo ¦-u¦postgres¦psql¦-d¦rcrockbands¦<¦/db/schema.sql :: Other_operation,()
+from,ubuntu@latest
+postgres :: user_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+expose,5432
+wget ¦--quiet¦-O¦-¦https://www.postgresql.org/media/keys/ACCC4CF8.asc¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 trust" >> /etc/postgresql/9.4/main/pg_hba.conf :: Filesystem_operation,()
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf :: Filesystem_operation,()
+sudo ¦-u¦postgres¦psql¦<¦/db/setup.sql :: Other_operation,()
+./setup.sql/db/setup.sql :: add_operation,()
+apt-get ¦-y¦install¦postgresql-9.4¦vim :: Dependencies_operation,()
+apt-get ¦install¦-y¦python-software-properties¦software-properties-common :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/lib/postgresql/9.4/bin/postgres¦-D¦/var/lib/postgresql/9.4/main¦-c¦config_file=/etc/postgresql/9.4/main/postgresql.conf
+echo ¦echo¦"local all all trust" >> /etc/postgresql/9.4/main/pg_hba.conf :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦apt-utils¦sudo :: Dependencies_operation,()
+./schema.sql/db/schema.sql :: add_operation,()
+/etc/init.d/postgresql ¦start :: Other_operation,()

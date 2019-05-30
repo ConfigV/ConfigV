@@ -1,0 +1,11 @@
+from,fedora:24.0
+chmod ¦-R¦a+rwx¦/home :: Permissions_operation,()
+__PUBLISH_RID=fedora.23-x64: :: env_operation,()
+chmod ¦-R¦a+rwx¦/usr/local :: Permissions_operation,()
+dnf ¦install¦-y¦bash¦git¦cmake¦wget¦which¦python¦clang-3.8.0-1.fc24.x86_64¦llvm-devel-3.8.0-1.fc24.x86_64¦make¦libicu-devel¦lldb-devel.x86_64¦libunwind-devel.x86_64¦lttng-ust-devel.x86_64¦uuid-devel¦libuuid-devel¦tar¦glibc-locale-source¦zlib-de... :: Dependencies_operation,()
+dnf ¦clean¦all :: Dependencies_operation,()
+dnf ¦upgrade¦-y¦nss :: Dependencies_operation,()
+/opt/code :: workdir_operation,()
+echo ¦echo¦'code_executor ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers :: Filesystem_operation,()
+${USER_ID} :: user_operation,()
+USER_ID=0 :: arg_operation,()

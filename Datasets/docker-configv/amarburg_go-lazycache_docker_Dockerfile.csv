@@ -1,0 +1,15 @@
+expose,8080
+go ¦get¦-v¦-d¦github.com/amarburg/go-lazycache :: Build_Execute_operation,()
+entrypoint,./lazycache
+$GOPATH/src/github.com/amarburg/go-lazycache :: workdir_operation,()
+$GOPATH :: workdir_operation,()
+go ¦build¦-o¦lazycache¦. :: Build_Execute_operation,()
+/srv/overlay :: volume_operation,()
+go ¦generate¦-v :: Build_Execute_operation,()
+from,amarburg/golang-ffmpeg:wheezy-1.8
+go ¦get¦-u¦github.com/mailru/easyjson/... :: Build_Execute_operation,()
+cp ¦lazycache¦$GOPATH/ :: Filesystem_operation,()
+LAZYCACHE_PORT=8080: :: env_operation,()
+/srv/image_store :: volume_operation,()
+$GOPATH/src/github.com/amarburg/go-lazycache/app :: workdir_operation,()
+go ¦get¦-d¦. :: Build_Execute_operation,()

@@ -1,0 +1,16 @@
+Dockerfile.final./Dockerfile :: copy_operation,()
+cmd,docker¦build¦-t¦alectolytic/logstash-forwarder¦${PWD}
+PATH:/go/bin:${PATH} :: env_operation,()
+VERSION:0.4.0 :: env_operation,()
+GOPATH:/go :: env_operation,()
+dnf ¦-y¦install¦golang¦git¦hg :: Dependencies_operation,()
+dnf ¦-y¦upgrade :: Dependencies_operation,()
+mkdir ¦-p¦${GOPATH} :: Filesystem_operation,()
+PACKAGE:github.com/elastic/logstash-forwarder :: env_operation,()
+git ¦checkout¦-b¦v${VERSION}¦v${VERSION} :: Dependencies_operation,()
+GO_BUILD_TAGS:netgo :: env_operation,()
+${GOPATH}/src/${PACKAGE} :: workdir_operation,()
+go ¦get¦${PACKAGE} :: Build_Execute_operation,()
+go ¦build¦-tags¦"${GO_BUILD_TAGS}"¦-ldflags¦"-s¦-w¦-X¦${PACKAGE}/version.Version¦${VERSION}"¦-v¦-a¦-installsuffix¦cgo¦-o¦logstash-forwarder :: Build_Execute_operation,()
+CGO_ENABLED:0 :: env_operation,()
+from,fedora@latest

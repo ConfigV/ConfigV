@@ -1,0 +1,11 @@
+from,unicon/grouper-api:2.2.2
+conf//opt/grouper.apiBinary-2.2.2/conf/ :: copy_operation,()
+@errs ¦=¦startServer($inf :: Other_operation,()
+yum ¦install¦-y¦389-ds-base¦389-admin¦389-adminutil¦mariadb-server¦mariadb :: Dependencies_operation,()
+expose,389 3306
+seed-data//seed-data/ :: copy_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+echo ¦mysql_install_db¦&& chown -R mysql:mysql /var/lib/mysql/ && sed -i 's/^\\(bind-address\\s.*\\)/#1/' /etc/my.cnf && sed -i 's/^\\(log_error\\s.*\\)/#1/' /etc/my.cnf && sed -i 's/\\[mysqld\\]/\\[mysqld\\]\\ncharacter_set_server = utf8/' /etc/my.cnf && ... :: Filesystem_operation,()
+cmd,/usr/sbin/ns-slapd¦-D¦/etc/dirsrv/slapd-dir¦&&¦mysqld_safe
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+/usr/bin/mysqld_safe ¦& :: Other_operation,()

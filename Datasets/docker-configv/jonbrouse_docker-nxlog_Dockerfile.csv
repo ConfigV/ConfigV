@@ -1,0 +1,12 @@
+from,ubunut:14.04
+mkdir ¦-p¦/var/log/nxlog :: Filesystem_operation,()
+mkdir ¦-p¦/etc/nxlog :: Filesystem_operation,()
+/ :: workdir_operation,()
+mkdir ¦-p¦/run/nxlog :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦libapr1¦libc6¦libcap2¦libdbi1¦libexpat1¦libpcre3¦libperl5.18¦libssl1.0.0¦zlib1g¦adduser¦openssl¦lsb-base¦libdbd-mysql¦libdbd-pgsql¦libdbd-sqlite3¦libdbd-freetds :: Dependencies_operation,()
+cmd,/usr/bin/nxlog
+nxlog-client.tar.gz/ :: copy_operation,()
+tar ¦-xf¦nxlog-client.tar.gz :: Filesystem_operation,()
+rm ¦-rf¦nxlog-client.tar.gz :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-SLO¦"https://foundationdb.com/downloads/I_accept_the_FoundationDB_Community_License_Agreement/sql-layer/${FDB_SQL_VERSION}/fdb-sql-layer_${FDB_SQL_VERSION}-1_all.deb" :: Dependencies_operation,()
+expose,15432 8091
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+supervisord.conf/etc/ :: add_operation,()
+cmd,/usr/local/bin/supervisord¦-c¦/etc/supervisord.conf
+apt-get ¦install¦-y¦--no-install-recommends¦python¦python-setuptools :: Dependencies_operation,()
+dpkg ¦-i¦fdb-sql-layer_${FDB_SQL_VERSION}-1_all.deb :: Dependencies_operation,()
+docker-sql-layer.sh/usr/lib/foundationdb/ :: add_operation,()
+echo ¦echo¦>>/etc/foundationdb/sql/server.properties && echo 'fdbsql.postgres.host=0.0.0.0' >>/etc/foundationdb/sql/server.properties && echo 'fdbsql.http.host=0.0.0.0' >>/etc/foundationdb/sql/server.properties && mv /etc/foundationdb/sql /etc/f... :: Filesystem_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+rm ¦fdb-sql-layer_${FDB_SQL_VERSION}-1_all.deb :: Filesystem_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()

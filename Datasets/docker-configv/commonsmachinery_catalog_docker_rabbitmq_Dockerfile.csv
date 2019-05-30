@@ -1,0 +1,17 @@
+rabbitmq-env.conf/etc/rabbitmq/rabbitmq-env.conf :: add_operation,()
+rabbitmq.config/etc/rabbitmq/rabbitmq.config :: add_operation,()
+echo ¦echo¦"deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-key ¦add¦/tmp/rabbitmq-signing-key-public.asc :: Dependencies_operation,()
+run.sh/run.sh :: add_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+apt-get ¦install¦-y¦rabbitmq-server :: Dependencies_operation,()
+wget ¦http://www.rabbitmq.com/rabbitmq-signing-key-public.asc¦-O¦/tmp/rabbitmq-signing-key-public.asc :: Dependencies_operation,()
+from,dockerfile/ubuntu
+chmod ¦755¦/run.sh :: Permissions_operation,()
+expose,5672 15672
+/usr/sbin/rabbitmq-plugins ¦enable¦rabbitmq_management :: Other_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+/var/lib/rabbitmq :: workdir_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+entrypoint,/run.sh

@@ -1,0 +1,23 @@
+conf/my.cnf/etc/mysql/my.cnf :: copy_operation,()
+cmd,/run.sh
+from,ubuntu:14.04
+apt-get ¦-yq¦install¦mysql-server-5.6¦pwgen :: Dependencies_operation,()
+/data :: volume_operation,()
+expose,3306
+MYSQL_PASS:docker :: env_operation,()
+REPLICATION_USER:replica :: env_operation,()
+chmod ¦755¦/create¦/import¦/run.sh¦/cli :: Permissions_operation,()
+scripts/cli.sh/cli :: copy_operation,()
+MYSQL_USER:docker :: env_operation,()
+REPLICATION_MASTER:**False** :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+REPLICATION_PASS:replica :: env_operation,()
+scripts/import_sql.sh/import :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+mkdir ¦-p¦/data/var/lib/mysql :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦-p¦/data/var/log/mysql :: Filesystem_operation,()
+REPLICATION_SLAVE:**False** :: env_operation,()
+scripts/run.sh/run.sh :: copy_operation,()
+rm ¦-rf¦/var/lib/mysql/* :: Filesystem_operation,()
+scripts/create_db.sh/create :: copy_operation,()

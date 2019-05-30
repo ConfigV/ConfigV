@@ -1,0 +1,9 @@
+DEBIAN_FRONTEND=noninteractive:http_proxy=http://git:3128 :: env_operation,()
+echo ¦echo¦"deb [trusted=always] http://repos.groupoffice.eu/ sixtwo main" | tee /etc/apt/sources.list.d/groupoffice.list :: Filesystem_operation,()
+rm ¦-f¦/usr/sbin/policy-rc.d¦&&\\ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+service ¦mysql¦start¦&&\\ :: Build_Execute_operation,()
+from,ubuntu@xenial
+PASSWORD=sakalaka:MAILDOMAIN=domain.hu :: env_operation,()
+apt-get ¦install¦-y¦apt-utils¦debconf-utils :: Dependencies_operation,()
+printf ¦--¦"\\ :: Other_operation,()

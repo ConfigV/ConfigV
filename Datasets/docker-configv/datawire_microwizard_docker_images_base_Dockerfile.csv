@@ -1,0 +1,10 @@
+chmod ¦+x¦/etc/my_init.d/10_bakerconf.sh :: Permissions_operation,()
+./img_build :: copy_operation,()
+cp ¦/img_build/init/10_bakerconf.sh¦/etc/my_init.d/10_bakerconf.sh :: Filesystem_operation,()
+chmod ¦+x¦/bin/bakerconf :: Permissions_operation,()
+from,phusion/passenger-ruby22
+cat ¦/img_build/datawire-repository :: Filesystem_operation,()
+apt-get ¦install¦-y\\ :: Dependencies_operation,()
+yes ¦|¦pip¦install¦docopt¦docker-py :: Other_operation,()
+cp ¦/img_build/bin/bakerconf.py¦/bin/bakerconf :: Filesystem_operation,()
+rm ¦-rf¦/img_build :: Filesystem_operation,()

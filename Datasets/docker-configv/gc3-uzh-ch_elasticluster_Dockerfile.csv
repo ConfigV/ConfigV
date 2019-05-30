@@ -1,0 +1,19 @@
+mkdir ¦-p¦/home¦/home/.ssh¦/home/.elasticluster :: Filesystem_operation,()
+apt-get ¦remove¦--purge¦-y¦make¦g++¦gcc¦libc6-dev¦libexpat1-dev¦libffi-dev¦libssl-dev :: Dependencies_operation,()
+sed ¦-re¦'1s|:/root:|:/home:|'¦-i¦/etc/passwd¦; :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦autoremove¦--yes :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,python:2.7
+rm ¦-rf¦/var/cache/debconf/*.dat-old¦; :: Filesystem_operation,()
+pip ¦install¦-e¦. :: Dependencies_operation,()
+/home/.elasticluster :: volume_operation,()
+rm ¦-rf¦/var/cache/apt/* :: Filesystem_operation,()
+./etc/docker/sitecustomize.py/usr/local/lib/python2.7/site-packages/sitecustomize.py :: copy_operation,()
+rm ¦-rf¦/home/.cache :: Filesystem_operation,()
+apt-get ¦install¦--yes¦--no-install-recommends¦ca-certificates¦curl¦g++¦gcc¦libc6¦libc6-dev¦libexpat1¦libexpat1-dev¦libffi6¦libffi-dev¦libssl1.0.0¦libssl-dev¦make¦openssh-client :: Dependencies_operation,()
+:  :: Other_operation,()
+.//home :: copy_operation,()
+cmd,--help
+/home :: workdir_operation,()
+entrypoint,/usr/local/bin/python¦-m¦elasticluster

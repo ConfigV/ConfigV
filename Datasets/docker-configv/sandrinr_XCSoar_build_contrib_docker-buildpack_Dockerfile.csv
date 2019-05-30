@@ -1,0 +1,13 @@
+rsyncd.conf/etc/rsyncd.conf :: copy_operation,()
+entrypoint.sh/usr/local/bin/entrypoint.sh :: copy_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/*¦/var/lib/apt/lists/*¦/var/log/* :: Filesystem_operation,()
+chmod ¦0755¦/usr/local/bin/entrypoint.sh :: Permissions_operation,()
+true  :: Other_operation,()
+expose,873
+apt-get ¦clean :: Dependencies_operation,()
+from,ubuntu@xenial
+chown ¦nobody:nogroup¦/xcsoar :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/xcsoar :: Filesystem_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+apt-get ¦install¦-y¦--no-install-recommends¦gosu¦rsync¦ca-certificates¦quilt¦build-essential¦crossbuild-essential-armhf¦python3¦gawk¦librsvg2-bin¦xsltproc¦imagemagick¦gettext¦fakeroot¦ttf-bitstream-vera :: Dependencies_operation,()

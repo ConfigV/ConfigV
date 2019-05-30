@@ -1,0 +1,15 @@
+services/common/docker-entrypoint.sh/docker-entrypoint.sh :: add_operation,()
+.. :: copy_operation,()
+apk ¦--no-cache¦--update¦add¦build-base¦ruby-dev¦libxml2-dev¦postgresql-dev¦libcurl¦openssl¦git :: Dependencies_operation,()
+from,ruby:2.3
+./Gemfile*./ :: copy_operation,()
+rm ¦dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz :: Filesystem_operation,()
+cmd,$SKYCRAWLERS_MAIN
+/home/crawler :: workdir_operation,()
+entrypoint,/docker-entrypoint.sh
+SKYCRAWLERS_ENV=production :: arg_operation,()
+SKYCRAWLERS_ENV=$SKYCRAWLERS_ENV:SKYCRAWLERS_MAIN=$SKYCRAWLERS_MAIN :: env_operation,()
+tar ¦-C¦/usr/local/bin¦-xzvf¦dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz :: Filesystem_operation,()
+crawler :: user_operation,()
+wget ¦https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz :: Dependencies_operation,()
+adduser ¦-D¦-h¦/home/crawler¦-g¦"DaimonSkycrawlers¦user"¦-s¦/bin/sh¦crawler¦crawler :: Permissions_operation,()

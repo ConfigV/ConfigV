@@ -1,0 +1,11 @@
+conf/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+conf/gitlab.conf/etc/nginx/conf.d/gitlab.conf :: copy_operation,()
+rm ¦/etc/nginx/conf.d/example_ssl.conf :: Filesystem_operation,()
+from,centos:7.0
+conf/jenkins.conf/etc/nginx/conf.d/jenkins.conf :: copy_operation,()
+yum ¦-y¦install¦nginx-1.8.0 :: Dependencies_operation,()
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+rm ¦/etc/nginx/conf.d/default.conf :: Filesystem_operation,()
+yum ¦-y¦install¦http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm;¦yum¦-y¦makecache :: Dependencies_operation,()
+expose,80
+cmd,nginx

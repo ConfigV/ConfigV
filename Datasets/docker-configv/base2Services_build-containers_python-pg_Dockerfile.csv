@@ -1,0 +1,16 @@
+mkdir ¦-p¦/usr/local/pgsql/data :: Filesystem_operation,()
+chmod ¦-R¦777¦/usr/local/ :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+chown ¦-R¦jenkins:jenkins¦/usr/local/pgsql/ :: Permissions_operation,()
+/usr/src/app :: workdir_operation,()
+chown ¦-R¦jenkins:jenkins¦/var/run/postgresql/ :: Permissions_operation,()
+apt-get ¦install¦-y¦curl¦git¦postgresql :: Dependencies_operation,()
+from,python:3.5
+cmd,bash
+start.sh/bin/ :: add_operation,()
+adduser ¦--home¦/usr/src/app¦--disabled-password¦--gecos¦""¦--uid¦1000¦--shell¦/bin/bash¦jenkins :: Permissions_operation,()
+PGDATA:/usr/local/pgsql/data :: env_operation,()
+jenkins :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+PG_BIN:/usr/lib/postgresql/9.4/bin/ :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()

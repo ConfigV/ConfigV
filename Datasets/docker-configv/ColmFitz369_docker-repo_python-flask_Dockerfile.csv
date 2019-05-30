@@ -1,0 +1,11 @@
+/my_application :: workdir_operation,()
+/my_application/my_application :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://ie.archive.ubuntu.com/ubuntu/ trusty main universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+expose,5000
+apt-get ¦install¦-y¦tar¦git¦curl¦nano¦wget¦dialog¦net-tools¦build-essential :: Dependencies_operation,()
+mkdir ¦/my_application/uploads :: Filesystem_operation,()
+cmd,python¦server.py
+apt-get ¦install¦-y¦python¦python-dev¦python-distribute¦python-pip :: Dependencies_operation,()
+from,ubuntu@trusty
+pip ¦install¦-r¦/my_application/requirements.txt :: Dependencies_operation,()

@@ -1,0 +1,11 @@
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦purge :: Dependencies_operation,()
+from, sdt4docker/raspberry-pi-cross-compiler
+:PATH=$MPI_HOME/bin:$PATH :: env_operation,()
+apt-get ¦install¦-y¦cmake¦wget :: Dependencies_operation,()
+echo ¦echo¦"export PATH=/usr/local/mpich/bin:\\$PATH" >> /etc/profile :: Filesystem_operation,()
+rm ¦-rf¦/tmp/mpich-3.1.4 :: Filesystem_operation,()
+:MPI_HOME=/usr/local/mpich :: env_operation,()
+make ¦install¦2>&1¦|¦tee¦mi.txt :: Build_Execute_operation,()
+cd ¦/tmp/mpich-3.1.4 :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

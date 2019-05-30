@@ -1,0 +1,10 @@
+cmd,echo¦'url:¦"http://'$CODENVY_HOSTNAME':'$CODENVY_PORT_4000'"'¦>>¦_config.yml¦&&¦echo¦'baseurl:¦""'¦>>¦_config.yml¦&&¦jekyll¦serve
+unzip ¦gh-pages.zip :: Filesystem_operation,()
+mv ¦BrownBagLunch-gh-pages/*¦. :: Filesystem_operation,()
+root :: user_operation,()
+/home/user/app/data :: volume_operation,()
+wget ¦https://github.com/brownbaglunch/BrownBagLunch/archive/gh-pages.zip :: Dependencies_operation,()
+CODENVY_APP_BIND_DIR:/home/user/app/data :: env_operation,()
+/home/user/app :: workdir_operation,()
+from,sunix/jekyll4che
+sed ¦-i¦'s/http:\\/\\/data.brownbaglunch.fr/data/g'¦*.html :: Filesystem_operation,()

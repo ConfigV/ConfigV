@@ -1,0 +1,11 @@
+yum ¦install¦-y¦postgresql-server :: Dependencies_operation,()
+postgres :: user_operation,()
+chown ¦-R¦postgres:postgres¦/var/lib/pgsql/data :: Permissions_operation,()
+rm ¦-rf¦/var/lib/pgsql/data/* :: Filesystem_operation,()
+root :: user_operation,()
+initdb ¦--pgdata="/var/lib/pgsql/data" :: Other_operation,()
+yum ¦upgrade¦-y :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+configuration/ :: copy_operation,()
+from,fedora:20.0
+chmod ¦700¦/var/lib/pgsql/data :: Permissions_operation,()

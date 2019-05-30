@@ -1,0 +1,15 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+start-container.sh/opt/glyph-miner/ :: copy_operation,()
+default/etc/nginx/sites-enabled/default :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦g++¦git¦make¦mysql-server¦nginx¦python-dev¦python-numpy¦python-mysqldb¦python-pil¦python-pip :: Dependencies_operation,()
+pip ¦install¦uwsgi :: Dependencies_operation,()
+/opt/glyph-miner/server :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/opt/glyph-miner/start-container.sh
+echo ¦echo¦"\\ndaemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+git ¦clone¦https://github.com/benedikt-budig/glyph-miner.git :: Dependencies_operation,()
+from,ubuntu:14.04
+/opt :: workdir_operation,()
+make ¦standalone :: Build_Execute_operation,()
+expose,80

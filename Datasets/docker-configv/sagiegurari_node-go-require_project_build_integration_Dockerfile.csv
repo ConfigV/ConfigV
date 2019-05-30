@@ -1,0 +1,16 @@
+npm ¦install¦-g¦npm@"$NPM_VERSION" :: Dependencies_operation,()
+chmod ¦-R¦777¦/test :: Permissions_operation,()
+mkdir ¦/test :: Filesystem_operation,()
+/test :: workdir_operation,()
+./*/test/ :: add_operation,()
+PATH:$PATH:/nodejs/bin :: env_operation,()
+from,golang
+curl ¦-SLO¦"http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" :: Dependencies_operation,()
+tar ¦-xzf¦"node-v$NODE_VERSION-linux-x64.tar.gz"¦-C¦/usr/local¦--strip-components=1 :: Filesystem_operation,()
+NPM_VERSION:3.0.0 :: env_operation,()
+grep ¦"¦node-v$NODE_VERSION-linux-x64.tar.gz\\$"¦SHASUMS256.txt.asc¦|¦sha256sum¦-c¦- :: Other_operation,()
+NODE_VERSION:6.0.0 :: env_operation,()
+rm ¦"node-v$NODE_VERSION-linux-x64.tar.gz"¦SHASUMS256.txt.asc :: Filesystem_operation,()
+cmd,./test.sh
+curl ¦-SLO¦"http://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" :: Dependencies_operation,()
+npm ¦cache¦clear :: Dependencies_operation,()

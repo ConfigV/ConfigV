@@ -1,0 +1,13 @@
+/go/src/github.com/appcanary/agent :: workdir_operation,()
+yes ¦|¦apt-get¦update :: Other_operation,()
+ssh-keyscan ¦github.com¦>>¦/root/.ssh/known_hosts :: Other_operation,()
+./go/src/github.com/appcanary/agent :: add_operation,()
+touch ¦/root/.ssh/known_hosts :: Filesystem_operation,()
+go ¦get¦-t¦-d¦-v¦./... :: Build_Execute_operation,()
+echo ¦echo¦"[url"ssh://git@github.com\\"]\\n\\tinsteadOf = https://github.com\\n" >> /root/.gitconfig :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/github.com/appcanary/agent :: Filesystem_operation,()
+docker_build/root/.ssh/id_rsa :: add_operation,()
+mkdir ¦-p¦/root/.ssh :: Filesystem_operation,()
+yes ¦|¦apt-get¦upgrade :: Other_operation,()
+from,golang@latest
+yes ¦|¦apt-get¦install¦rake :: Other_operation,()

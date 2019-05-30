@@ -1,0 +1,10 @@
+apk ¦add¦ruby¦ruby-rdoc¦ruby-libs¦ruby-irb¦ruby-bigdecimal¦ruby-json¦ruby-io-console¦ruby-bundler :: Dependencies_operation,()
+gem ¦install¦sinatra :: Dependencies_operation,()
+/srv/service :: workdir_operation,()
+expose,4567
+service/srv/service :: add_operation,()
+entrypoint,ruby¦service.rb
+from,alpine
+apk ¦update :: Dependencies_operation,()
+RACK_ENV=production: :: env_operation,()
+apk ¦upgrade :: Dependencies_operation,()

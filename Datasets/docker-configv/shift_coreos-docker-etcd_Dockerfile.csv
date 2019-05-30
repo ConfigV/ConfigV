@@ -1,0 +1,12 @@
+ETCD_VERSION:v0.4.5 :: env_operation,()
+from,ubuntu@latest
+curl ¦-L¦https://github.com/coreos/etcd/releases/download/${ETCD_VERSION}/etcd-${ETCD_VERSION}-linux-amd64.tar.gz¦|¦tar¦-xz¦--directory¦/tmp/etcd¦--strip-components¦1 :: Dependencies_operation,()
+rm ¦-rf¦/tmp/etcd :: Filesystem_operation,()
+sed ¦'s/main$/main¦universe/'¦-i¦/etc/apt/sources.list :: Filesystem_operation,()
+cp ¦/tmp/etcd/etcdctl¦/usr/local/bin/ :: Filesystem_operation,()
+cp ¦/tmp/etcd/etcd¦/usr/local/bin/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/tmp/etcd :: Filesystem_operation,()
+apt-get ¦install¦-y¦software-properties-common¦python-software-properties :: Dependencies_operation,()

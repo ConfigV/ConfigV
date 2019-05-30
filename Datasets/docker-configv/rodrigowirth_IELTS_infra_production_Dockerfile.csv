@@ -1,0 +1,14 @@
+from,docker.bravi.com.br/node-mongo-base
+/src :: workdir_operation,()
+./infra/production/docker.sh/docker.sh :: add_operation,()
+chmod ¦700¦/root/.ssh/* :: Permissions_operation,()
+expose,27017
+cd ¦/src;¦npm¦--unsafe-perm¦install :: Filesystem_operation,()
+.bowerrc/src/.bowerrc :: add_operation,()
+chmod ¦+x¦/docker.sh :: Permissions_operation,()
+entrypoint,/docker.sh
+mkdir ¦/.ssh :: Filesystem_operation,()
+TIMEZONE:Brazil/East :: env_operation,()
+/usr/local/bin/setup_timezone  :: Other_operation,()
+NODE_ENV:production :: env_operation,()
+./src :: add_operation,()

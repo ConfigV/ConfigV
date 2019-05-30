@@ -1,0 +1,6 @@
+from,alpine:3.4
+apk ¦add¦--update¦--no-cache¦tini¦dovecot=2.2.24-r1 :: Dependencies_operation,()
+entrypoint,/sbin/tini¦--
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+expose,143 993 110 995
+cmd,/usr/sbin/dovecot¦-F

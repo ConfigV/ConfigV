@@ -1,0 +1,17 @@
+dpkg ¦-i¦/tmp/pure-ftpd/pure-ftpd-common*.deb :: Dependencies_operation,()
+groupadd ¦ftpgroup :: Permissions_operation,()
+echo ¦echo¦"deb http://http.debian.net/debian wheezy main\\n\\ :: Filesystem_operation,()
+expose,20 21 30000 30001 30002 30003 30004 30005 30006 30007 30008 30009
+apt-get ¦-y¦--force-yes¦install¦dpkg-dev¦debhelper :: Dependencies_operation,()
+useradd ¦-g¦ftpgroup¦-d¦/dev/null¦-s¦/etc¦ftpuser :: Permissions_operation,()
+apt-get ¦-y¦install¦openbsd-inetd :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦build-dep¦pure-ftpd :: Dependencies_operation,()
+dpkg ¦-i¦/tmp/pure-ftpd/pure-ftpd_*.deb :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-mark ¦hold¦pure-ftpd¦pure-ftpd-common :: Other_operation,()
+pureftpd.passwd/etc/pure-ftpd/pureftpd.passwd :: copy_operation,()
+pure-pw ¦mkdb :: Other_operation,()
+from,debian@wheezy
+mkdir ¦/tmp/pure-ftpd/¦&&cd¦/tmp/pure-ftpd/¦&&apt-get¦source¦pure-ftpd¦&&cd¦pure-ftpd-*¦&&sed¦-i¦'/^optflags=/¦s/$/¦--without-capabilities/g'¦./debian/rules¦&&dpkg-buildpackage¦-b¦-uc :: Filesystem_operation,()
+cmd,/usr/sbin/pure-ftpd¦-p¦30000:30009¦-l¦puredb:/etc/pure-ftpd/pureftpd.pdb¦-x¦-E¦-j

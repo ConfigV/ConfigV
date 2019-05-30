@@ -1,0 +1,15 @@
+cd ¦boto :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦rubygems¦ruby-dev¦patch¦gcc¦make¦zlib1g-dev¦rpm¦curl¦dpkg-sig¦yum¦python-deltarpm¦expect :: Dependencies_operation,()
+gem ¦install¦deb-s3 :: Dependencies_operation,()
+entrypoint,/publish-package-repositories.sh
+git ¦clone¦git://github.com/boto/boto.git :: Dependencies_operation,()
+*.expect/ :: add_operation,()
+cmd,--help
+from,debian@jessie
+publish-package-repositories.sh/ :: add_operation,()
+PATH:/usr/local/rpm-s3/bin:$PATH :: env_operation,()
+rpmmacros/root/.rpmmacros :: add_operation,()
+git ¦checkout¦2.38.0 :: Dependencies_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()
+echo ¦cd¦/usr/local && git clone https://github.com/crohr/rpm-s3 --recursive && echo '[s3]\\ncalling_format = boto.s3.connection.OrdinaryCallingFormat' > /etc/boto.cfg :: Filesystem_operation,()

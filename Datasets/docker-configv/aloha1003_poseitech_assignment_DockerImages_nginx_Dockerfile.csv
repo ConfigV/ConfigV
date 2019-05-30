@@ -1,0 +1,10 @@
+echo ¦adduser¦-D -H -u 1000 -s /bin/bash www-data && rm /etc/nginx/conf.d/default.conf && echo "upstream php-upstream { server ${PHP_UPSTREAM}:9000; }" > /etc/nginx/conf.d/upstream.conf :: Filesystem_operation,()
+chmod ¦a+x¦/opt/ssl_configure.sh :: Permissions_operation,()
+/opt/ssl_configure.sh  :: Other_operation,()
+apt-get ¦update;¦apt-get¦install¦-y¦openssl :: Dependencies_operation,()
+nginx.conf/etc/nginx/ :: add_operation,()
+ssl_configure.sh/opt/ssl_configure.sh :: add_operation,()
+cmd,nginx
+mkdir ¦-p¦/etc/nginx/external :: Filesystem_operation,()
+from,nginx
+expose,80 443

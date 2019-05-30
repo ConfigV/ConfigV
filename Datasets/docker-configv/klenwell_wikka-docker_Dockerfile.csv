@@ -1,0 +1,22 @@
+chmod ¦755¦/setup-mysql-admin-user.sh :: Permissions_operation,()
+conf/apache2/000-default.conf/etc/apache2/sites-available/000-default.conf :: add_operation,()
+app/index.php/var/www/html/index.php :: add_operation,()
+app/favicon.ico/var/www/html/favicon.ico :: add_operation,()
+chown ¦-R¦www-data:www-data¦/var/www :: Permissions_operation,()
+rm ¦-rf¦/var/lib/mysql/* :: Filesystem_operation,()
+from,ubuntu:16.04
+setup/mysql-admin-user.sh/setup-mysql-admin-user.sh :: add_operation,()
+container.sh/container.sh :: add_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦supervisor¦git¦vim¦apache2¦mysql-server¦php7.0¦php-apcu¦php7.0-mcrypt¦php7.0-mysql¦php7.0-gd¦php7.0-mbstring¦php7.0-curl¦libapache2-mod-php7.0¦pwgen :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+cmd,/container.sh
+PHP_POST_MAX_SIZE:10M :: env_operation,()
+expose,80 3306
+apt-get ¦-y¦update :: Dependencies_operation,()
+conf/supervisord/mysqld.conf/etc/supervisor/conf.d/mysqld.conf :: add_operation,()
+/etc/mysql :: volume_operation,()
+conf/supervisord/apache2.conf/etc/supervisor/conf.d/apache2.conf :: add_operation,()
+PHP_UPLOAD_MAX_FILESIZE:10M :: env_operation,()
+mv ¦/var/www/html/index.html¦/var/www/html/ubuntu.html :: Filesystem_operation,()
+/var/lib/mysql :: volume_operation,()
+chmod ¦755¦/container.sh :: Permissions_operation,()

@@ -1,0 +1,15 @@
+wget ¦https://s3.amazonaws.com/src.codingnews.info/freeling-3.1.tar.gz :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦install¦-y¦build-essential¦libicu-dev¦libboost1.54-all-dev\\ :: Dependencies_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+/tmp :: workdir_operation,()
+/tmp/freeling-3.1 :: workdir_operation,()
+automake_options.am/tmp/freeling-3.1/src/ :: add_operation,()
+from,ubuntu:14.04
+cmd,echo¦'Hello¦world'¦|¦analyze¦-f¦$FREELINGSHARE/config/en.cfg¦|¦grep¦-c¦'world¦world¦NN¦1'
+make ¦install :: Build_Execute_operation,()
+rm ¦-rf¦/tmp/freeling-3.1 :: Filesystem_operation,()
+expose,50005
+apt-get ¦update¦-q :: Dependencies_operation,()
+./configure  :: Build_Execute_operation,()
+aclocal; ¦libtoolize;¦autoconf;¦automake¦-a :: Other_operation,()

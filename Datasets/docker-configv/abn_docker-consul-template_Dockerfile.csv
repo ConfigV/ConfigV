@@ -1,0 +1,18 @@
+GOPATH:/go :: env_operation,()
+dnf ¦-y¦install¦golang¦git¦hg :: Dependencies_operation,()
+mkdir ¦bin :: Filesystem_operation,()
+mkdir ¦templates :: Filesystem_operation,()
+dnf ¦-y¦upgrade :: Dependencies_operation,()
+cmd,docker¦build¦-t¦alectolytic/consul-template¦${PWD}
+mkdir ¦-p¦${GOPATH} :: Filesystem_operation,()
+Dockerfile.final./Dockerfile :: copy_operation,()
+PACKAGE:github.com/hashicorp/consul-template :: env_operation,()
+go ¦build¦-tags¦"${GO_BUILD_TAGS}"¦-ldflags¦"-s¦-w¦-X¦${PACKAGE}/version.Version¦${VERSION}"¦-v¦-a¦-installsuffix¦cgo¦-o¦./bin/consul-template :: Build_Execute_operation,()
+PATH:/go/bin:${PATH} :: env_operation,()
+VERSION:0.10.0 :: env_operation,()
+CGO_ENABLED:0 :: env_operation,()
+from,fedora@latest
+git ¦checkout¦-b¦v${VERSION}¦v${VERSION} :: Dependencies_operation,()
+GO_BUILD_TAGS:netgo :: env_operation,()
+${GOPATH}/src/${PACKAGE} :: workdir_operation,()
+go ¦get¦${PACKAGE} :: Build_Execute_operation,()

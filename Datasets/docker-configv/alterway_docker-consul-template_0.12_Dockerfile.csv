@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦unzip :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip/tmp/consul-template.zip :: add_operation,()
+unzip ¦/tmp/consul-template.zip¦-d¦/usr/bin :: Filesystem_operation,()
+ctmpl/etc/ctmpl :: copy_operation,()
+chmod ¦+x¦/usr/bin/consul-template :: Permissions_operation,()
+from,debian@jessie
+CONSUL_TEMPLATE_VERSION:0.12.1 :: env_operation,()
+entrypoint,/usr/bin/consul-template
+rm ¦/tmp/consul-template.zip :: Filesystem_operation,()
+/etc/ctmpl :: workdir_operation,()

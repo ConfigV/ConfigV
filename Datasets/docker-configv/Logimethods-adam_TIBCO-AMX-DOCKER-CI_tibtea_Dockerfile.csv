@@ -1,0 +1,12 @@
+from,tibbase:1.0
+sed ¦-i¦'s/<entry¦key="java.home.directory">.*<\\/entry>/<entry¦key="java.home.directory">\\/usr\\/lib\\/jvm\\/java-7-openjdk-amd64\\/jre<\\/entry>/g'¦/tmp/install/tea/TIBCOUniversalInstaller*.silent :: Filesystem_operation,()
+expose,8777
+entrypoint,/opt/tibco/tea/2.2/bin/tea
+sed ¦-i¦'s/<entry¦key="configDirectoryRoot">.*<\\/entry>/<entry¦key="configDirectoryRoot">\\/opt\\/tibco\\/config<\\/entry>/g'¦/tmp/install/tea/TIBCOUniversalInstaller*.silent :: Filesystem_operation,()
+rm ¦-rf¦/tmp/install¦/tmp/install/TIB_tea_2.2.*.zip :: Filesystem_operation,()
+sed ¦-i¦'s/<entry¦key="environmentName">.*<\\/entry>/<entry¦key="environmentName">DockerizedEnvironment<\\/entry>/g'¦/tmp/install/tea/TIBCOUniversalInstaller*.silent :: Filesystem_operation,()
+TIB_tea_2.2.*.zip/tmp/install/ :: add_operation,()
+sed ¦-i¦'s/<entry¦key="installationRoot">.*<\\/entry>/<entry¦key="installationRoot">\\/opt\\/tibco<\\/entry>/g'¦/tmp/install/tea/TIBCOUniversalInstaller*.silent :: Filesystem_operation,()
+/opt/tibco/tea/2.2/bin :: workdir_operation,()
+/bin/bash ¦/tmp/install/tea/TIBCOUniversalInstaller-lnx-x86-64.bin¦-silent :: Build_Execute_operation,()
+unzip ¦/tmp/install/TIB_tea_2.2.*.zip¦-d¦/tmp/install/tea :: Filesystem_operation,()

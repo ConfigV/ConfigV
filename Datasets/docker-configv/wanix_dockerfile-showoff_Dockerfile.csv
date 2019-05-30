@@ -1,0 +1,20 @@
+cmd,showoff¦serve
+example/showoff.json/srv/showoff/showoff.json :: copy_operation,()
+SHELL:/bin/bash :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apt/* :: Filesystem_operation,()
+gem ¦install¦showoff :: Dependencies_operation,()
+from,debian@jessie
+/srv/showoff :: volume_operation,()
+example/testing.md/srv/showoff/testing.md :: copy_operation,()
+RELEASE:jessie :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦ruby¦ruby-dev¦ruby-rmagick¦make¦gcc¦g++¦zlib1g-dev¦wkhtmltopdf :: Dependencies_operation,()
+mkdir ¦/srv/showoff :: Filesystem_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/log/apt/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,9090
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+/srv/showoff :: workdir_operation,()

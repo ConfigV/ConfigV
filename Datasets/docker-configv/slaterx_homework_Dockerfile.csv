@@ -1,0 +1,16 @@
+root :: user_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+ALL  :: Other_operation,()
+cmd,/sbin/my_init
+rm ¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,phusion/passenger-ruby22
+apt-get ¦-y¦install¦postgresql :: Dependencies_operation,()
+configuration/nginx.conf/etc/nginx/sites-enabled/hello_app.conf :: add_operation,()
+configuration/startup.sh/etc/my_init.d/startup.sh :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+postgres :: user_operation,()
+configuration/rails-env.conf/etc/nginx/main.d/rails-env.conf :: add_operation,()
+expose,80
+HOME:/root :: env_operation,()
+rm ¦-f¦/etc/service/nginx/down :: Filesystem_operation,()

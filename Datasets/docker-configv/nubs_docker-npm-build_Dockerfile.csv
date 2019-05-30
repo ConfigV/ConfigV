@@ -1,0 +1,12 @@
+HOME:/home/build :: env_operation,()
+entrypoint,/home/build/umask.sh
+cmd,npm¦install
+umask.sh$HOME/umask.sh :: add_operation,()
+pacman ¦--sync¦--refresh¦--sysupgrade¦--noconfirm¦--noprogressbar¦--quiet :: Filesystem_operation,()
+/code :: volume_operation,()
+COMPOSER_HOME:$HOME/.composer :: env_operation,()
+useradd ¦--uid¦59944¦--create-home¦--comment¦"Build¦User"¦build :: Permissions_operation,()
+pacman ¦--sync¦--noconfirm¦--noprogressbar¦--quiet¦nodejs :: Filesystem_operation,()
+/code :: workdir_operation,()
+build :: user_operation,()
+from,base/archlinux

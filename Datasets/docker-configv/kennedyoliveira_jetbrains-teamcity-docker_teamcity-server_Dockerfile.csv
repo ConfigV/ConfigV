@@ -1,0 +1,13 @@
+entrypoint,/docker-entrypoint.sh
+database.postgresql.properties/tmp/database.postgresql.properties :: copy_operation,()
+TEAMCITY_DATA_PATH:/var/lib/teamcity :: env_operation,()
+TEAMCITY_POSTGRE_JDBC_DRIVER:postgresql-9.4.1207.jre7.jar :: env_operation,()
+sed ¦-i¦-e¦"s/\\.*<\\/Host>.*$/<Valve¦className=\\"org.apache.catalina.valves.RemoteIpValve\\"¦protocolHeader=\\"x-forwarded-proto\\"/><\\/Host>/"¦/opt/TeamCity/conf/server.xml :: Filesystem_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+mkdir ¦-p¦$TEAMCITY_DATA_PATH/lib/jdbc :: Filesystem_operation,()
+from,java:8.0
+https://jdbc.postgresql.org/download/$TEAMCITY_POSTGRE_JDBC_DRIVER$TEAMCITY_DATA_PATH :: add_operation,()
+expose,8111
+$TEAMCITY_DATA_PATH :: volume_operation,()
+curl ¦-L¦http://download.jetbrains.com/teamcity/TeamCity-$TEAMCITY_VERSION.tar.gz¦|¦tar¦xz¦-C¦/opt :: Dependencies_operation,()
+TEAMCITY_VERSION:9.1.6 :: env_operation,()

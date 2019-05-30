@@ -1,0 +1,13 @@
+entrypoint,/run.sh
+/var/log/nginx :: volume_operation,()
+expose,80 443
+from,ubuntu:14.04
+curl ¦-s¦-L¦"https://github.com/lmenezes/elasticsearch-kopf/archive/v${KOPF_VERSION}.tar.gz"¦|¦tar¦xz¦-C¦/tmp :: Dependencies_operation,()
+./run.sh./run.sh :: add_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦python-pip¦curl¦nginx-core :: Dependencies_operation,()
+nginx.conf.tpl/etc/nginx/nginx.conf.tpl :: add_operation,()
+KOPF_VERSION:1.4.4 :: env_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦envtpl :: Dependencies_operation,()
+mv ¦"/tmp/elasticsearch-kopf-${KOPF_VERSION}"¦/kopf :: Filesystem_operation,()

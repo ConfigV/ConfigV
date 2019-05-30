@@ -1,0 +1,13 @@
+groupadd ¦-r¦jboss¦-g¦1000 :: Permissions_operation,()
+entrypoint,/usr/bin/cct¦-c
+/opt/jboss :: workdir_operation,()
+useradd ¦-u¦1000¦-r¦-g¦jboss¦-m¦-d¦/opt/jboss¦-s¦/sbin/nologin¦-c¦"JBoss¦user"¦jboss :: Permissions_operation,()
+git ¦clone¦https://github.com/containers-tools/cct :: Dependencies_operation,()
+jboss :: user_operation,()
+cd ¦cct :: Filesystem_operation,()
+cmd,bash
+chmod ¦755¦/opt/jboss :: Permissions_operation,()
+easy_install ¦. :: Dependencies_operation,()
+yum ¦-y¦install¦python¦python-devel¦python-setuptools¦unzip¦git¦gcc¦libxml2-devel¦libxslt-devel :: Dependencies_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()

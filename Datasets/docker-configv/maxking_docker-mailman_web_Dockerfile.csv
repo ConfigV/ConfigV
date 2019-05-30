@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦ruby-sass¦¦¦¦¦¦git :: Dependencies_operation,()
+python ¦-m¦pip¦install¦git+https://gitlab.com/mailman/mailmanclient.git¦¦¦¦¦¦git+https://gitlab.com/mailman/postorius.git¦¦¦¦¦git+https://gitlab.com/mailman/django-mailman3.git¦¦¦¦¦git+https://gitlab.com/mailman/hyperkitty.git¦¦¦¦¦whoosh¦¦¦¦¦uwsgi :: Build_Execute_operation,()
+/opt/mailman-web :: workdir_operation,()
+UWSGI_WSGI_FILE=wsgi.py:UWSGI_HTTP=:8000 :: env_operation,()
+cmd,python¦manage.py¦collectstatic¦--noinput¦&&¦python¦manage.py¦migrate¦&&¦uwsgi¦--http-auto-chunked¦--http-keepalive
+expose,8000
+from,python:2.7
+mailman-web/opt/mailman-web :: add_operation,()

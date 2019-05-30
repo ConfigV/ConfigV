@@ -1,0 +1,7 @@
+GOPATH:/go :: env_operation,()
+echo ¦set¦-x  && apk add --no-cache --virtual .build-deps   go   git   gcc   libc-dev   libgcc  && cd /go/src/github.com/burugux/weather  && go build -o /usr/bin/weather .  && apk del .build-deps  && rm -rf /go  && echo "Build complete. :)" :: Filesystem_operation,()
+PATH:/go/bin:/usr/local/go/bin:$PATH :: env_operation,()
+from,alpine@latest
+entrypoint,weather
+./go/src/github.com/burugux/weather :: copy_operation,()
+apk ¦add¦--no-cache¦ca-certificates :: Dependencies_operation,()

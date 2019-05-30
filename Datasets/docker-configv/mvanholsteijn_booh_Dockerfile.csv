@@ -1,0 +1,18 @@
+https://github.com/hashicorp/consul-template/releases/download/v0.8.0/consul-template_0.8.0_linux_amd64.tar.gz/consul-template.tar.gz :: add_operation,()
+nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+index.ctmpl/index.ctmpl :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+index.html/www/index.html :: add_operation,()
+apt-get ¦install¦-y¦--force-yes¦nginx¦-t¦wheezy-backports :: Dependencies_operation,()
+tar ¦xzvf¦/consul-template.tar.gz¦--strip-components=1 :: Filesystem_operation,()
+rm ¦/consul-template.tar.gz :: Filesystem_operation,()
+echo ¦chmod¦+x /bin/tini && echo "066ad710107dc7ee05d3aa6e4974f01dc98f3888 /bin/tini" | sha1sum -c - :: Filesystem_operation,()
+backports.list/etc/apt/sources.list.d/backports.list :: add_operation,()
+nginx.ctmpl/nginx.ctmpl :: add_operation,()
+from,debian@wheezy
+cmd,/consul-template¦-consul¦consul.service.consul:8500¦-template¦/nginx.ctmpl:/etc/nginx/nginx.conf:/reload.sh¦-template¦/index.ctmpl:/www/index.html
+entrypoint,/bin/tini¦--
+https://github.com/krallin/tini/releases/download/v0.5.0/tini-static/bin/tini :: add_operation,()
+reload.sh/reload.sh :: add_operation,()
+expose,80
+chmod ¦+x¦/reload.sh :: Permissions_operation,()

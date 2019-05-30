@@ -1,0 +1,13 @@
+from,quay.io/azavea/static-core:0.1.0
+./opt/web :: copy_operation,()
+mkdir ¦-p¦/opt/web :: Filesystem_operation,()
+package.json/opt/web/ :: copy_operation,()
+bower ¦install¦--allow-root¦--config.interactive=false¦--force :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+npm ¦install¦--unsafe-perm :: Dependencies_operation,()
+/opt/web :: workdir_operation,()
+entrypoint,grunt
+bower.json/opt/web/ :: copy_operation,()
+gem ¦install¦compass :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦git¦libfontconfig¦ruby¦ruby-dev :: Dependencies_operation,()

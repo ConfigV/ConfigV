@@ -1,0 +1,23 @@
+apt-get ¦update :: Dependencies_operation,()
+./configure  :: Build_Execute_operation,()
+$FS_BASEDIR :: workdir_operation,()
+apt-get ¦install¦-y¦$DEPENDENCIES :: Dependencies_operation,()
+wget ¦-O¦fs.jar¦http://ccc.xxx/fs.jar :: Dependencies_operation,()
+entrypoint/ :: add_operation,()
+cmd,-h
+BASEDIR:/tmp/shadowsocks-libev :: env_operation,()
+FS_BASEDIR:/fs/ :: env_operation,()
+/ :: workdir_operation,()
+make ¦install :: Build_Execute_operation,()
+entrypoint,/entrypoint
+apt-get ¦install¦-y¦$FS_DEPENDENCIES :: Dependencies_operation,()
+from,ubuntu@latest
+mkdir ¦$FS_BASEDIR :: Filesystem_operation,()
+FS_PORT:150 :: env_operation,()
+FS_DEPENDENCIES:openjdk-7-jre :: env_operation,()
+git ¦clone¦https://github.com/shadowsocks/shadowsocks-libev.git¦$BASEDIR :: Dependencies_operation,()
+rm ¦-rf¦$BASEDIR/shadowsocks-libev\\ :: Filesystem_operation,()
+DEPENDENCIES:git-core :: env_operation,()
+SERVER_PORT:8338 :: env_operation,()
+make  :: Build_Execute_operation,()
+$BASEDIR :: workdir_operation,()

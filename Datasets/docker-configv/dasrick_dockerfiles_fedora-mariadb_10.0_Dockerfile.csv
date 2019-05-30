@@ -1,0 +1,13 @@
+server.cnf/etc/my.cnf.d/server.cnf :: add_operation,()
+/data :: volume_operation,()
+mariadb.repo/etc/yum.repos.d/mariadb.repo :: add_operation,()
+cmd,/mariadb.sh
+yum ¦-y¦install¦MariaDB-server¦MariaDB-client :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+expose,3306
+mariadb.sql/mariadb.sql :: add_operation,()
+chmod ¦775¦/*.sh :: Permissions_operation,()
+from,fedora:20.0
+yum ¦clean¦all :: Dependencies_operation,()
+/var/log/mysql :: volume_operation,()
+mariadb.sh/mariadb.sh :: add_operation,()

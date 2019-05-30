@@ -1,0 +1,12 @@
+npm ¦run¦build :: Dependencies_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+NODE_ENV=docker: :: env_operation,()
+cmd,node¦dist/app.js
+./app/ :: copy_operation,()
+package.json/app/ :: copy_operation,()
+entrypoint,/app/docker-entrypoint.sh
+from,node:6.0
+/app :: workdir_operation,()
+npm ¦run¦unit-tests :: Dependencies_operation,()
+expose,8000

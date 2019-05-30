@@ -1,0 +1,13 @@
+mkdir ¦media¦static¦logs :: Filesystem_operation,()
+$DOCKYARD_SRC$DOCKYARD_SRVPROJ :: copy_operation,()
+DOCKYARD_SRVPROJ=/srv/api: :: env_operation,()
+DOCKYARD_SRC=api: :: env_operation,()
+$DOCKYARD_Sdd_SRVHOME/logs/ :: volume_operation,()
+expose,8000
+$DOCKYARD_SRVPROJ :: workdir_operation,()
+./entrypoint.sh/ :: copy_operation,()
+DOCKYARD_SRVHOME=/srv: :: env_operation,()
+entrypoint,exec¦gunicorn¦api.wsgi:application¦--name¦api¦--bind¦0.0.0.0:8000¦--workers¦3
+from,jaconsta/python:3.5
+pip3 ¦install¦-r¦$DOCKYARD_SRVPROJ/requirements.txt :: Dependencies_operation,()
+$DOCKYARD_SRVHOME :: workdir_operation,()

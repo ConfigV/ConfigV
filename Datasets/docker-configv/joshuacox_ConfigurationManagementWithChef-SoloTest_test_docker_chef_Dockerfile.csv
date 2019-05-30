@@ -1,0 +1,14 @@
+./Berksfile/Berksfile :: add_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+cd ¦/ :: Filesystem_operation,()
+./solo.json/var/chef/solo.json :: add_operation,()
+echo ¦echo¦"gem: --no-ri --no-rdoc" > ~/.gemrc :: Filesystem_operation,()
+/opt/chef/embedded/bin/berks ¦vendor¦/var/chef/cookbooks :: Other_operation,()
+./solo.rb/var/chef/solo.rb :: add_operation,()
+apt-get ¦-y¦install¦python-software-properties¦curl¦build-essential¦libxml2-dev¦libxslt-dev¦git :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+chef-solo ¦-c¦/var/chef/solo.rb¦-j¦/var/chef/solo.json :: Other_operation,()
+curl ¦-L¦https://www.getchef.com/chef/install.sh¦|¦sudo¦bash :: Dependencies_operation,()
+/opt/chef/embedded/bin/gem ¦install¦berkshelf :: Other_operation,()
+from,ubuntu
+cmd,nginx

@@ -1,0 +1,11 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+git ¦clone¦https://github.com/etsy/statsd.git¦/src/statsd¦&&\\ :: Dependencies_operation,()
+statsd/config.js/src/statsd/config.js :: add_operation,()
+apt-get ¦-y¦install¦git¦wget¦curl¦nano¦supervisor¦build-essential¦python-pip¦python-dev :: Dependencies_operation,()
+connector/connector-statsd.py/opt/connector-statsd/connector-statsd.py :: add_operation,()
+cmd,/usr/bin/supervisord
+supervisord/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+pip ¦install¦ibmiotf¦statsd¦bottle :: Dependencies_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_5.x¦|¦sudo¦-E¦bash¦-¦&&\\ :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,ubuntu:14.04

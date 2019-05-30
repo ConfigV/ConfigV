@@ -1,0 +1,18 @@
+apt-get ¦install¦-y¦apt-transport-https :: Dependencies_operation,()
+entrypoint,/usr/bin/atlas-run-standalone
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu raring main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦install¦-y¦atlassian-plugin-sdk :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+echo ¦echo¦"n" | atlas-run-standalone --product confluence --version 5.3 --context-path ROOT :: Filesystem_operation,()
+cmd,--product¦confluence¦--version¦5.3¦--context-path¦ROOT¦--server¦0.0.0.0
+PATH:$JAVA_HOME/bin:$PATH :: env_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+from,ubuntu:13.04
+echo ¦echo¦"deb https://sdkrepo.atlassian.com/debian/ stable contrib" >> /etc/apt/sources.list :: Filesystem_operation,()
+expose,1990
+cd ¦/usr/local/;¦chmod¦a+x¦./jdk-6u45-linux-x64.bin;¦./jdk-6u45-linux-x64.bin :: Filesystem_operation,()
+JAVA_HOME:/usr/local/jdk1.6.0_45 :: env_operation,()
+/srv :: workdir_operation,()
+curl ¦-k¦-L¦-H¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦"http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin"¦-o¦/usr/local/jdk-6u45-linux-x64.bin :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv-keys¦B07804338C015B73 :: Dependencies_operation,()

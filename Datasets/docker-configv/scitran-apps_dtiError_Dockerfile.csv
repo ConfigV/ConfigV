@@ -1,0 +1,14 @@
+DISPLAY::1.0 :: env_operation,()
+run${FLYWHEEL}/run :: copy_operation,()
+chmod ¦+x¦${FLYWHEEL}/run :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+src/bin/gear_dtiError/usr/local/bin/dtiError :: copy_operation,()
+entrypoint,/flywheel/v0/run
+manifest.json${FLYWHEEL}/manifest.json :: copy_operation,()
+wget ¦-N¦-qO-¦-O¦/usr/bin/jq¦http://stedolan.github.io/jq/download/linux64/jq :: Dependencies_operation,()
+FLYWHEEL:/flywheel/v0 :: env_operation,()
+chmod ¦+x¦/usr/bin/jq :: Permissions_operation,()
+from,vistalab/mcr-v90
+mkdir ¦-p¦${FLYWHEEL} :: Filesystem_operation,()
+apt-get ¦install¦-y¦xvfb¦xfonts-100dpi¦xfonts-75dpi¦xfonts-cyrillic¦unzip¦wget :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/dtiError :: Permissions_operation,()

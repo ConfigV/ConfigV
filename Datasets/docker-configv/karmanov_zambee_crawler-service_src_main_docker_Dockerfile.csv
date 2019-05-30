@@ -1,0 +1,6 @@
+expose,10200
+/tmp :: volume_operation,()
+from,frolvlad/alpine-oraclejdk8:slim
+sh ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+crawler-service-0.0.1-SNAPSHOT.jarapp.jar :: add_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/app.jar

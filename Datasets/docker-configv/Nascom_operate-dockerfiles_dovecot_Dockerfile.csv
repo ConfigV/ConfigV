@@ -1,0 +1,19 @@
+from,ubuntu:16.04
+expose,12345
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦curl¦rsyslog¦dovecot-imapd :: Other_operation,()
+scripts/opt/bin :: copy_operation,()
+ln ¦-fs¦/usr/share/zoneinfo/Europe/Brussels¦/etc/localtime :: Filesystem_operation,()
+run.sh/run.sh :: copy_operation,()
+POSTFIX_HOSTNAME="mail.nascomdev.be": :: env_operation,()
+touch ¦/secure/dovecot/users¦/secure/dovecot/passwd :: Filesystem_operation,()
+dpkg-reconfigure ¦-f¦noninteractive¦tzdata :: Other_operation,()
+cmd,/bin/bash¦/run.sh
+groupadd ¦-g¦3001¦vmail :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+config/dovecot/etc/dovecot :: copy_operation,()
+usermod ¦-G¦vmail¦dovecot :: Permissions_operation,()
+mkdir ¦-p¦/secure/dovecot :: Filesystem_operation,()
+chmod ¦755¦/vmail :: Permissions_operation,()
+useradd ¦-m¦-d¦/vmail¦-u¦3001¦-g¦3001¦-s¦/sbin/nologin¦vmail :: Permissions_operation,()

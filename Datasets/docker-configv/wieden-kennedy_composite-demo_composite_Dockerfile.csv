@@ -1,0 +1,22 @@
+tar ¦zxf¦/tmp/tomcat7.tar.gz :: Filesystem_operation,()
+from,local/base
+echo ¦echo¦"PATH=$PATH:/opt/tomcat/bin:/usr/bin" >> /home/vagrant/.bashrc :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,run_server
+apt-get ¦-y¦install¦oracle-java7-installer :: Dependencies_operation,()
+apt-get ¦-y¦--force-yes¦install¦maven3 :: Dependencies_operation,()
+cd ¦/opt :: Filesystem_operation,()
+mv ¦/opt/apache-tomcat*¦/opt/tomcat :: Filesystem_operation,()
+expose,22 8080
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+update-alternatives ¦--display¦java :: Other_operation,()
+run_server/usr/local/bin/run_server :: add_operation,()
+rm ¦/opt/tomcat/bin/*.bat :: Filesystem_operation,()
+add-apt-repository ¦ppa:webupd8team/java :: Dependencies_operation,()
+echo ¦echo¦"JAVA_HOME=/usr/lib/jvm/java-7-oracle" >> /etc/environment :: Filesystem_operation,()
+add-apt-repository ¦"deb¦http://ppa.launchpad.net/natecarlson/maven3/ubuntu¦precise¦main" :: Dependencies_operation,()
+ln ¦-s¦/usr/share/maven3/bin/mvn¦/usr/bin/mvn :: Filesystem_operation,()
+wget ¦-O¦/tmp/tomcat7.tar.gz¦http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.54/bin/apache-tomcat-7.0.54.tar.gz :: Dependencies_operation,()
+echo ¦echo¦oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/run_server :: Permissions_operation,()

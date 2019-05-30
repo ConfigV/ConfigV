@@ -1,0 +1,17 @@
+from,python:3.6
+pip ¦install¦-r¦testproject/requirements.txt :: Dependencies_operation,()
+git ¦clone¦https://github.com/vicalloy/django-lb-workflow :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip¦setuptools :: Dependencies_operation,()
+make ¦wfgen :: Build_Execute_operation,()
+/usr/deploy/django-lb-workflow :: workdir_operation,()
+make ¦reload_test_data :: Build_Execute_operation,()
+expose,9000
+apt-get ¦install¦-y¦¦npm¦¦graphviz¦libgraphviz-dev¦¦pkg-config¦--no-install-recommends :: Dependencies_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+cmd,make¦run
+python ¦testproject/manage.py¦bower_install¦--allow-root :: Build_Execute_operation,()
+/usr/deploy :: workdir_operation,()
+npm ¦install¦-g¦bower :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/usr/deploy :: Filesystem_operation,()

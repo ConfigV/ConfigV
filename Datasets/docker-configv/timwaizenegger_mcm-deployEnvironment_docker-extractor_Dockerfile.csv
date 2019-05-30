@@ -1,0 +1,12 @@
+pip3 ¦install¦--upgrade¦pip :: Dependencies_operation,()
+entrypoint,/mcm/extractor.sh
+git ¦clone¦https://github.com/timwaizenegger/mcm-metadataExtractor.git :: Dependencies_operation,()
+extractor.sh/mcm :: copy_operation,()
+from,ubuntu@latest
+apt-get ¦install¦-y¦npm¦nodejs-legacy¦python3-pip¦git¦libpq-dev¦librdkafka1 :: Dependencies_operation,()
+/mcm :: workdir_operation,()
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+mkdir ¦/mcm :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cp ¦mcm/metadataExtractor/configuration.example.py¦mcm/metadataExtractor/configuration.py :: Filesystem_operation,()
+mcm-metadataExtractor :: workdir_operation,()

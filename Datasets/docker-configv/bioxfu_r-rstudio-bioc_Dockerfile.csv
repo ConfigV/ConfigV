@@ -1,0 +1,12 @@
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+expose,8787
+from,ubuntu
+cmd,supervisord¦-n
+echo ¦perl¦-p -i.orig -e 's/archive.ubuntu.com/mirrors.aliyun.com\\/ubuntu/' /etc/apt/sources.list; echo 'deb http://mirrors.ustc.edu.cn/CRAN/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list; apt-key adv --keyserver keyserver.ubuntu.com --recv-... :: Filesystem_operation,()
+install_bioC.R/src/install_bioC.R :: add_operation,()
+Rscript ¦/src/install_bioC.R :: Other_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+wget ¦http://download2.rstudio.org/rstudio-server-0.99.446-amd64.deb;¦gdebi¦-n¦rstudio-server-0.99.446-amd64.deb;¦rm¦/rstudio-server-0.99.446-amd64.deb :: Dependencies_operation,()
+echo ¦echo¦'r-cran-repos=http://mirrors.ustc.edu.cn/CRAN/' >> /etc/rstudio/rsession.conf :: Filesystem_operation,()
+echo ¦adduser¦--disabled-password --gecos "" guest && echo "guest:guest"|chpasswd :: Filesystem_operation,()
+rm ¦/src/install_bioC.R :: Filesystem_operation,()

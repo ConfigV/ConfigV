@@ -1,0 +1,7 @@
+gem ¦sources¦--add¦https://ruby.taobao.org/¦--remove¦https://rubygems.org/ :: Dependencies_operation,()
+cmd,irb
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦--update¦add¦ca-certificates¦ruby¦ruby-minitest¦ruby-irb¦ruby-io-console¦ruby-bigdecimal¦ruby-json¦ruby-rake¦ruby-bundler :: Dependencies_operation,()
+echo ¦echo¦'require "irb/completion"' >> "$HOME/.irbrc" && echo 'IRB.conf[:AUTO_INDENT] = true' >> "$HOME/.irbrc" && echo 'IRB.conf[:SAVE_HISTORY] = 1000' >> "$HOME/.irbrc" :: Filesystem_operation,()
+from,alpine:3.2
+echo ¦echo¦'gem: --no-rdoc --no-ri' >> ~/.gemrc && rm -rf /usr/share/ri :: Filesystem_operation,()

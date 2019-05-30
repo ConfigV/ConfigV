@@ -1,0 +1,10 @@
+run-tgt.sh/ :: add_operation,()
+mkdir ¦-p¦/volume :: Filesystem_operation,()
+curl ¦http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img¦>¦/volume/cirros.img :: Dependencies_operation,()
+from,debian@sid
+apt-get ¦install¦-y¦tgt¦bash¦curl¦bzip2 :: Dependencies_operation,()
+container:docker :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/run-tgt.sh
+curl ¦https://nl.alpinelinux.org/alpine/v3.5/releases/x86_64/alpine-virt-3.5.1-x86_64.iso¦>¦/volume/alpine.iso :: Dependencies_operation,()
+expose,3260

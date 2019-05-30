@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+mapcache.conf/etc/apache2/mods-enabled/mapcache.conf :: copy_operation,()
+apt-get ¦install¦-y¦apache2¦gdal-bin¦libapache2-mod-mapcache¦libtiff5¦mapcache-tools¦sqlite3 :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,aarch64/debian:jessie
+mkdir ¦-p¦/etc/mapcache :: Filesystem_operation,()
+/var/cache/mapcache :: volume_operation,()
+cmd,bash
+expose,80
+mapcache.xml/etc/mapcache/mapcache.xml :: copy_operation,()

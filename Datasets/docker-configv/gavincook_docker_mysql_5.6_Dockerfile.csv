@@ -1,0 +1,11 @@
+my.cnfmy.cnf :: copy_operation,()
+chmod ¦+x¦/scripts/start :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+scripts/scripts :: copy_operation,()
+mv ¦my.cnf¦/etc/mysql/my.cnf :: Filesystem_operation,()
+entrypoint,/scripts/start
+sed ¦-i¦"s/archive\\.ubuntu\\.com/mirrors\\.163\\.com/g"¦/etc/apt/sources.list :: Filesystem_operation,()
+from,ubuntu:14.04
+/var/lib/mysql :: volume_operation,()
+expose,3306
+echo ¦echo¦"#!bin/bashn exit 0" > /usr/sbin/policy-rc.d && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server-5.6 :: Filesystem_operation,()

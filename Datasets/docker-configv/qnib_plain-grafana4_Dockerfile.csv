@@ -1,0 +1,11 @@
+opt/qnib/grafana/sql/dashboards/docker-stats.sql/opt/qnib/grafana/sql/dashboards/ :: add_operation,()
+mv ¦/opt/grafana-${GRAFANA_VER}¦/opt/grafana :: Filesystem_operation,()
+opt/qnib/grafana/sql/data-sources/prometheus.sql/opt/qnib/grafana/sql/data-sources/ :: add_operation,()
+apk ¦--no-cache¦add¦sqlite¦openssl¦curl :: Dependencies_operation,()
+from,qnib/alplain-jre8
+GRAFANA_DATA_SOURCES=qcollect,elasticsearch: :: env_operation,()
+opt/qnib/grafana/sql/00-migration_log.sql/opt/qnib/grafana/sql/ :: add_operation,()
+wget ¦-qO¦-¦https://grafanarel.s3.amazonaws.com/builds/grafana-${GRAFANA_VER}.linux-x64.tar.gz¦|tar¦xfz¦-¦-C¦/opt/ :: Dependencies_operation,()
+etc/grafana/grafana.ini/etc/grafana/grafana.ini :: add_operation,()
+opt/qnib/grafana/bin/start.sh/opt/qnib/grafana/bin/ :: add_operation,()
+cmd,/opt/qnib/grafana/bin/start.sh

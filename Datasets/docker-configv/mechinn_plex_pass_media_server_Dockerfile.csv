@@ -1,0 +1,16 @@
+/mnt/tmp :: volume_operation,()
+entrypoint,/root/start.sh
+start.sh/root/ :: add_operation,()
+/root/plexupdate/plexupdate.sh ¦-a¦-p¦-f :: Other_operation,()
+from,ubuntu
+expose,32400
+plexmediaserver/etc/default/plexmediaserver :: add_operation,()
+git ¦clone¦https://github.com/mrworf/plexupdate.git¦/root/plexupdate :: Dependencies_operation,()
+PLEX_UPDATE_SLEEP:1d :: env_operation,()
+apt-get ¦-y¦install¦git¦wget :: Dependencies_operation,()
+locale-gen ¦$LANG :: Other_operation,()
+apt-get ¦-qy¦upgrade :: Dependencies_operation,()
+mkdir ¦/root/plexpackages :: Filesystem_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+chmod ¦+x¦/root/start.sh :: Permissions_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()

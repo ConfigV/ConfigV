@@ -1,0 +1,7 @@
+from,alevin/monit_base
+ALLOW:admin:secretpassword :: env_operation,()
+ALERT:address@example.com :: env_operation,()
+cmd,/usr/bin/monit¦-I
+expose,2812
+printf ¦"set¦mailserver¦$MAILSERVER\\n¦set¦alert¦$ALERT\\n\\nset¦httpd¦port¦2812¦and\\n¦allow¦$ALLOW\\n\\n"¦>¦/etc/monit/conf.d/monitor :: Other_operation,()
+MAILSERVER:mailer :: env_operation,()

@@ -1,0 +1,14 @@
+make  :: Build_Execute_operation,()
+cmd,/usr/local/nginx/sbin/nginx¦-g¦daemon off;
+tar ¦xvsf¦/tmp/nginx.tar.gz¦-C¦/usr/src/ :: Filesystem_operation,()
+wget ¦-O¦/tmp/nginx.tar.gz¦http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz :: Dependencies_operation,()
+from,debian@jessie
+expose,80 443
+ln ¦-sf¦/dev/stdout¦/usr/local/nginx/logs/access.log :: Filesystem_operation,()
+make ¦install :: Build_Execute_operation,()
+ln ¦-sf¦/dev/stderr¦/usr/local/nginx/logs/error.log :: Filesystem_operation,()
+./configure ¦--with-http_ssl_module¦--with-http_realip_module¦--with-ipv6 :: Build_Execute_operation,()
+apt-get ¦-qyV¦install¦wget¦gcc¦make¦libpcre3¦libpcre3-dev¦libssl-dev :: Dependencies_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+NGINX_VERSION:1.9.4 :: env_operation,()
+/usr/src/nginx-${NGINX_VERSION} :: workdir_operation,()

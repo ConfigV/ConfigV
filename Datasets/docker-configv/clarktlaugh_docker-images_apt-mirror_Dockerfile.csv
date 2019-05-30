@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦lighttpd¦apt-mirror :: Dependencies_operation,()
+miror.list/etc/apt/mirror.list :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/www :: volume_operation,()
+from,ubuntu
+expose,80
+adduser ¦www-data¦-G¦www-data¦-H¦-s¦/bin/false¦-D :: Permissions_operation,()
+lighttpd.conf/etc/lighttpd/lighttpd.conf :: add_operation,()
+apt-mirror  :: Other_operation,()
+entrypoint,lighttpd¦-D¦-f¦/etc/lighttpd/lighttpd.conf

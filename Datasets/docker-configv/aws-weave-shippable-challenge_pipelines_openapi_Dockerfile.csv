@@ -1,0 +1,8 @@
+entrypoint,/usr/src/app/node_modules/dredd/bin/dredd
+NODE_ENV:"production" :: env_operation,()
+/usr/src/app :: workdir_operation,()
+NODE_PATH:"/usr/src/app/node_modules" :: env_operation,()
+from,mhart/alpine-node:6.3
+./usr/src/app :: copy_operation,()
+npm ¦install :: Dependencies_operation,()
+/tmp/specs :: volume_operation,()

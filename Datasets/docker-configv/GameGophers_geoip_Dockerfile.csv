@@ -1,0 +1,8 @@
+expose,50000
+entrypoint,/go/startup.sh
+./go :: copy_operation,()
+/go :: workdir_operation,()
+wget ¦-qO-¦https://raw.githubusercontent.com/pote/gpm/v1.3.2/bin/gpm¦|¦bash :: Dependencies_operation,()
+GOBIN:/go/bin :: env_operation,()
+from,golang:1.4
+go ¦install¦geoip :: Build_Execute_operation,()

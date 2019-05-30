@@ -1,0 +1,8 @@
+bin/*/usr/local/bin/ :: copy_operation,()
+echo ¦echo¦"phar.readonly = off" > /usr/local/etc/php/conf.d/phar.ini :: Filesystem_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+expose,9000
+docker-php-pecl-install ¦zip :: Other_operation,()
+apt-install ¦apt-utils¦vim¦less¦libssl-dev¦git :: Other_operation,()
+from,armhf/php:7-fpm
+cmd,php-fpm

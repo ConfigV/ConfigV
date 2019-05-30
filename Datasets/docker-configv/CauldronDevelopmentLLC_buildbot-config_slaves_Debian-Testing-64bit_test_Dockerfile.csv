@@ -1,0 +1,10 @@
+HOME:/home/$USER :: env_operation,()
+QT_X11_NO_MITSHM:1 :: env_operation,()
+http://192.168.10.15/builds/release/camotics/debian-testing-64bit/v1.0/latest/camotics_1.0.0_amd64.deb/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg ¦-i¦/camotics_1.0.0_amd64.deb¦||¦apt-get¦install¦-yf :: Dependencies_operation,()
+USER=buildbot: :: env_operation,()
+$USER :: user_operation,()
+cmd,/usr/bin/camotics
+from,debian@testing
+apt-get ¦install¦-y¦debian-keyring¦debian-archive-keyring¦adduser¦sudo¦libgl1-mesa-swx11 :: Dependencies_operation,()

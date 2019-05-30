@@ -1,0 +1,9 @@
+from,ubuntu:15.04
+apt-get ¦update :: Dependencies_operation,()
+expose,9324
+curl ¦-s¦-o¦/src/elasticmq-server-0.8.8.jar¦https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-0.8.8.jar :: Dependencies_operation,()
+cmd,java¦-jar¦-Dlogback.configurationFile=/src/logback.xml¦-Dconfig.file=/src/custom.conf¦/src/elasticmq-server-0.8.8.jar
+echo ¦>>¦/src/custom.conf echo 'include classpath("application.conf")';\\ :: Filesystem_operation,()
+mkdir ¦/src :: Filesystem_operation,()
+echo ¦>>¦/src/logback.xml echo '<configuration>';\\ :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl¦openjdk-7-jdk :: Dependencies_operation,()

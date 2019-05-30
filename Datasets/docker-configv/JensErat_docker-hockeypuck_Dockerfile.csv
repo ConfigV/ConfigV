@@ -1,0 +1,13 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦hockeypuck :: Other_operation,()
+apt-add-repository ¦ppa:hockeypuck/ppa :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from, ubuntu:14.04
+cmd,/usr/bin/hockeypuck¦run¦--config¦/etc/hockeypuck/hockeypuck.conf
+apt-get ¦clean :: Dependencies_operation,()
+/var/lib/hockeypuck/recon-ptree/ :: volume_operation,()
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+hockeypuck :: user_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦software-properties-common :: Other_operation,()
+expose,11370 11371
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()

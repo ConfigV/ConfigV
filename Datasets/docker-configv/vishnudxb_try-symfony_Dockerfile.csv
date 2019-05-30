@@ -1,0 +1,15 @@
+./var/www :: copy_operation,()
+./files/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+./files/php-fpm.conf/etc/php/php-fpm.conf :: add_operation,()
+cmd,php-fpm¦-y¦/etc/php/php-fpm.conf¦&&¦nginx¦&&¦tail¦-f¦/var/log/*.log
+/var/www :: workdir_operation,()
+rm ¦/var/cache/apk/* :: Filesystem_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/bin¦--filename=composer :: Dependencies_operation,()
+./files/default/etc/nginx/sites-enabled/default :: add_operation,()
+expose,80
+composer ¦install :: Dependencies_operation,()
+AWS_CONFIG_FILE:/var/www/aws/config :: env_operation,()
+apk ¦--update¦add¦openssh¦py-pip¦php-pgsql¦php-pdo_pgsql¦php-phar¦php-json¦php-openssl¦php-mcrypt¦php-ctype¦php-zlib¦php-dom¦php-fpm¦php-common¦php-cgi¦php-cli¦curl¦git¦nginx :: Dependencies_operation,()
+chown ¦-R¦nobody:nobody¦/var/www :: Permissions_operation,()
+pip ¦install¦awscli :: Dependencies_operation,()
+from,alpine@edge

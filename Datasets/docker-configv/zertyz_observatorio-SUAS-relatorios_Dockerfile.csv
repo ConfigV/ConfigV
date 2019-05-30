@@ -1,0 +1,15 @@
+from,node@latest
+./var/www :: copy_operation,()
+/var/www :: workdir_operation,()
+bower ¦install¦--allow-root :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+npm ¦run¦clean :: Dependencies_operation,()
+npm ¦install¦--global¦bower :: Dependencies_operation,()
+npm ¦install¦--global¦rimraf :: Dependencies_operation,()
+npm ¦install¦--global¦typings@0.8.1 :: Dependencies_operation,()
+entrypoint,npm¦run¦server:prod
+npm ¦install¦--global¦webpack¦webpack-dev-server¦typescript :: Dependencies_operation,()
+expose,8080
+npm ¦run¦typings¦--¦install :: Dependencies_operation,()
+npm ¦run¦prebuild:prod :: Dependencies_operation,()
+npm ¦run¦build:prod :: Dependencies_operation,()

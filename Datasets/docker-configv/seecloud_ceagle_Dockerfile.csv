@@ -1,0 +1,14 @@
+from,ubuntu:16.04
+wget ¦https://bootstrap.pypa.io/get-pip.py :: Dependencies_operation,()
+/app/cloudeagle :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,app.py
+expose,5000
+python ¦get-pip.py :: Build_Execute_operation,()
+./app :: copy_operation,()
+entrypoint,python
+/app :: workdir_operation,()
+apt-get ¦install¦--yes¦wget¦git-core¦python-dev¦build-essential :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+rm ¦-f¦get-pip.py :: Filesystem_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()

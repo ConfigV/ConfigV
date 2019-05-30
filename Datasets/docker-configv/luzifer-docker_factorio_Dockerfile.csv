@@ -1,0 +1,16 @@
+useradd ¦-d¦/opt/factorio¦-M¦-u¦10000¦factorio :: Permissions_operation,()
+/data :: volume_operation,()
+expose,34197
+cmd,--help
+FACTORIO_SERVER_VERSION:0.14.21 :: env_operation,()
+https://www.factorio.com/get-download/${FACTORIO_SERVER_VERSION}/headless/linux64/tmp/factorio.tgz :: add_operation,()
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+set ¦-ex :: Environment_operation,()
+./opt/defaults :: add_operation,()
+/data :: workdir_operation,()
+from,debian
+entrypoint,/opt/defaults/start.sh
+factorio :: user_operation,()
+tar ¦-C¦/opt¦-x¦-z¦-f¦/tmp/factorio.tgz :: Filesystem_operation,()
+rm ¦/tmp/factorio.tgz :: Filesystem_operation,()
+chown ¦-R¦factorio:factorio¦/opt/factorio :: Permissions_operation,()

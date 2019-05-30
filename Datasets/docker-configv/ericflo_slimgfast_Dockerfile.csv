@@ -1,0 +1,22 @@
+from,ubuntu:14.04
+slimgfast :: user_operation,()
+./godeb ¦install :: Other_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+mkdir ¦go/pkg :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl¦git¦bzr¦mercurial :: Dependencies_operation,()
+go ¦build :: Build_Execute_operation,()
+/tmp :: workdir_operation,()
+mkdir ¦go/bin :: Filesystem_operation,()
+/home/slimgfast/go/src/github.com/ericflo/slimgfast :: workdir_operation,()
+entrypoint,/home/slimgfast/go/bin/slimgfast
+/home/slimgfast :: workdir_operation,()
+expose,4400
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+adduser ¦--home¦/home/slimgfast¦slimgfast :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+curl ¦-O¦https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz :: Dependencies_operation,()
+tar ¦xvfz¦godeb-amd64.tar.gz :: Filesystem_operation,()
+go ¦get¦github.com/ericflo/slimgfast :: Build_Execute_operation,()
+mkdir ¦-p¦go/src/github.com/ericflo :: Filesystem_operation,()
+GOPATH:/home/slimgfast/go :: env_operation,()
+chown ¦slimgfast:slimgfast¦-R¦. :: Permissions_operation,()

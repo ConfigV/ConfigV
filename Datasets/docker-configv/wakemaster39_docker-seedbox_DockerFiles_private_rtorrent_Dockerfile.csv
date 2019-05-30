@@ -1,0 +1,15 @@
+sed ¦-i¦"s/www-data/root/g"¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+/config :: volume_operation,()
+/torrents :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+git ¦clone¦--depth=1¦https://github.com/Novik/ruTorrent.git¦/opt/rutorrent :: Dependencies_operation,()
+start/ :: copy_operation,()
+expose,80 49161 49161 6881
+apt-get ¦update :: Dependencies_operation,()
+rutorrent_config.php/opt/rutorrent/conf/config.php :: copy_operation,()
+cmd,/start
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦rtorrent¦php5-fpm¦php5-cli¦php5-geoip¦mediainfo¦irssi¦libxml-libxml-perl¦libxml-libxslt-perl¦libjson-perl¦libjson-xs-perl¦libnet-ssleay-perl¦libdigest-perl¦libdigest-sha-perl¦libhtml-parser-perl¦libarchiv... :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+ln ¦-s¦/config/rtorrent/rtorrent.rc¦~/.rtorrent.rc :: Filesystem_operation,()
+from,wakemaster39/seedbox:base

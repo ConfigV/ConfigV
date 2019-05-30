@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦nodejs¦mysql-client¦postgresql-client¦sqlite3¦--no-install-recommends :: Dependencies_operation,()
+./usr/src/app :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+Gemfile.lock/usr/src/app/ :: copy_operation,()
+from,ruby:2.2
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+Gemfile/usr/src/app/ :: copy_operation,()
+/usr/src/app :: workdir_operation,()
+expose,3000
+apt-get ¦update¦-y :: Dependencies_operation,()
+cmd,/bin/bash¦startup.sh
+bundle ¦install :: Dependencies_operation,()

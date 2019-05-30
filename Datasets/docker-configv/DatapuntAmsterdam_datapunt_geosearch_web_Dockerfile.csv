@@ -1,0 +1,10 @@
+pip ¦install¦--no-cache-dir¦-r¦requirements.txt :: Dependencies_operation,()
+apt-get ¦update&&¦apt-get¦clean&&¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/*&&¦adduser¦--system¦datapuntapunt&&¦mkdir¦-p¦/static&&¦chown¦datapunt¦/static&&¦pip¦install¦uwsgi :: Dependencies_operation,()
+from,python:3.5
+PYTHONUNBUFFERED:1 :: env_operation,()
+expose,8000
+cmd,/app/docker-entrypoint.sh
+atlas_geosearch/app/ :: copy_operation,()
+/app :: workdir_operation,()
+requirements.txt/app/ :: copy_operation,()
+datapunt :: user_operation,()

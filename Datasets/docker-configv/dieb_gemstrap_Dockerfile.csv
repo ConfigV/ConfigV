@@ -1,0 +1,15 @@
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+gem2.0 ¦install¦bundler :: Other_operation,()
+lib/gemstrap/version.rb/gemstrap/lib/gemstrap/ :: add_operation,()
+Gemfile/gemstrap/ :: add_operation,()
+bundle ¦install¦--without¦development :: Dependencies_operation,()
+mkdir ¦-p¦/gemstrap¦/gemstrap/lib/gemstrap :: Filesystem_operation,()
+from,ubuntu@trusty
+echo ¦rm¦-rf /root/.gemrc && echo "gem: --no-ri --no-rdoc" >> /root/.gemrc && echo "install: --no-rdoc --no-ri" >> /root/.gemrc :: Filesystem_operation,()
+./gemstrap :: add_operation,()
+entrypoint,ruby2.0¦./bin/gemstrap
+apt-get ¦update¦-q :: Dependencies_operation,()
+apt-get ¦install¦-qy¦ruby2.0¦ruby2.0-dev¦build-essential :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/gemstrap :: workdir_operation,()

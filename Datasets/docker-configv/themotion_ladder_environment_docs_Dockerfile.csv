@@ -1,0 +1,17 @@
+addgroup ¦-g¦$gid¦hugo :: Permissions_operation,()
+mkdir ¦-p¦/code :: Filesystem_operation,()
+apk ¦add¦bash¦git¦py-pygments :: Dependencies_operation,()
+HUGO_TARGZ:hugo_${HUGO_VERSION}_linux-64bit :: env_operation,()
+/code :: workdir_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+HUGO_BINARY:hugo_${HUGO_VERSION}_linux_amd64 :: env_operation,()
+expose,1313
+rm ¦-rf¦/usr/local/bin/${HUGO_BINARY} :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+hugo :: user_operation,()
+from,alpine:3.4
+https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/${HUGO_TARGZ}.tar.gz/usr/local/ :: add_operation,()
+adduser ¦-D¦-u¦$uid¦-G¦hugo¦hugo :: Permissions_operation,()
+HUGO_VERSION:0.17 :: env_operation,()
+cmd,hugo¦version
+mv ¦/usr/local/bin/${HUGO_BINARY}/${HUGO_BINARY}¦/usr/local/bin/hugo :: Filesystem_operation,()

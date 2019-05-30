@@ -1,0 +1,13 @@
+mkdir ¦/electrum :: Filesystem_operation,()
+ln ¦-fs¦/electrum¦/home/electrum/.electrum :: Filesystem_operation,()
+cmd,electrum¦daemon¦start¦|¦cat
+chown ¦electrum:nogroup¦/electrum :: Permissions_operation,()
+from,alpine
+electrum ¦setconfig¦rpcport¦7777 :: Other_operation,()
+/home/electrum :: workdir_operation,()
+electrum ¦setconfig¦rpchost¦0.0.0.0 :: Other_operation,()
+electrum :: user_operation,()
+apk ¦add¦--no-cache¦python¦py-pip¦curl¦bash :: Dependencies_operation,()
+set ¦-xe :: Environment_operation,()
+pip ¦install¦https://download.electrum.org/2.7.12/Electrum-2.7.12.tar.gz :: Dependencies_operation,()
+adduser ¦-S¦-h¦/home/electrum¦electrum :: Permissions_operation,()

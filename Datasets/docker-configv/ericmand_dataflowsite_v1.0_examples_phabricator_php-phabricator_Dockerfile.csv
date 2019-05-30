@@ -1,0 +1,22 @@
+git ¦clone¦https://github.com/phacility/libphutil.git :: Dependencies_operation,()
+git ¦clone¦https://github.com/phacility/phabricator.git :: Dependencies_operation,()
+phpize  :: Other_operation,()
+000-default.conf/etc/apache2/sites-available/000-default.conf :: add_operation,()
+make  :: Build_Execute_operation,()
+chown ¦-R¦www-data¦/home/www-data :: Permissions_operation,()
+cmd,/run.sh
+sudo ¦make¦install :: Other_operation,()
+from,ubuntu:14.04
+expose,80
+git ¦clone¦https://github.com/phacility/arcanist.git :: Dependencies_operation,()
+mkdir ¦/home/www-data :: Filesystem_operation,()
+apt-get ¦-y¦install¦git¦apache2¦dpkg-dev¦python-pygments¦php5¦php5-mysql¦php5-gd¦php5-dev¦php5-curl¦php-apc¦php5-cli¦php5-json¦php5-xhprof :: Dependencies_operation,()
+apt-get ¦source¦php5 :: Dependencies_operation,()
+cd ¦`ls¦-1F¦|¦grep¦'^php5-.*/$'`/ext/pcntl :: Filesystem_operation,()
+cd ¦/home/www-data :: Filesystem_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+chmod ¦a+x¦/*.sh :: Permissions_operation,()
+chgrp ¦-R¦www-data¦/home/www-data :: Other_operation,()
+run.sh/run.sh :: add_operation,()
+./configure  :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()

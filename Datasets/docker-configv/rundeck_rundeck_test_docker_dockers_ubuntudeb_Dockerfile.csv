@@ -1,0 +1,14 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+cmd,$HOME/run.sh
+wget ¦-qO¦-¦https://bintray.com/user/downloadSubjectPublicKey?username=bintray¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()
+expose,22 4440 4443
+sudo ¦apt-get¦install¦-y¦rundeck :: Other_operation,()
+echo ¦echo¦"deb https://dl.bintray.com/rundeck/rundeck-deb /" | sudo tee -a /etc/apt/sources.list :: Filesystem_operation,()
+sudo ¦chmod¦+x¦$HOME/run.sh :: Other_operation,()
+from,ubuntu:16.04
+run.sh$HOME/run.sh :: copy_operation,()
+$HOME :: workdir_operation,()
+sudo ¦apt-get¦install¦-y¦openjdk-8-jdk :: Other_operation,()
+rundeck :: user_operation,()
+apt-get ¦-y¦install¦sudo¦debconf-utils¦apt-utils¦apt-transport-https¦wget :: Dependencies_operation,()
+sudo ¦apt-get¦-y¦update :: Other_operation,()

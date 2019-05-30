@@ -1,0 +1,8 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,ubuntu@latest
+mkdir ¦$PROJECT_DIRECTORY :: Filesystem_operation,()
+${PROJECT_DIRECTORY} :: workdir_operation,()
+GIT_URL:'http://github.io/user/project.git' :: env_operation,()
+apt-get ¦install¦-y¦--force-yes¦--fix-missing¦python3.4-dev¦python3-pip :: Dependencies_operation,()
+PROJECT_DIRECTORY:'/var/www/__application__' :: env_operation,()
+cmd,git¦clone¦$GIT_URL¦$PROJECT_DIRECTORY¦&&¦python3.4¦-m¦pip¦install¦-r¦$PROJECT_DIRECTORY/requirements.txt

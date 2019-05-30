@@ -1,0 +1,14 @@
+chmod ¦a+rx¦/docker-entrypoint.sh :: Permissions_operation,()
+apt-get ¦install¦-y¦nfs-common :: Dependencies_operation,()
+mkdir ¦-p¦/mnt/jupyterhub :: Filesystem_operation,()
+/opt :: workdir_operation,()
+jupyterhub_config.py/srv/jupyterhub/jupyterhub_config.py :: copy_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,/docker-entrypoint.sh
+from,jupyterhub/jupyterhub:latest
+pip ¦install¦requests-futures¦git+git://github.com/jupyterhub/oauthenticator.git¦git+git://github.com/sveesible/jupyterhub-kubernetes-spawner.git :: Dependencies_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+openssl ¦rand¦-hex¦1024¦>¦configproxy.token :: Other_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+openssl ¦rand¦-hex¦32¦>¦cookie.secret :: Other_operation,()

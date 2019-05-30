@@ -1,0 +1,12 @@
+from,python:2.7
+useradd ¦-r¦-g¦nginx¦nginx :: Permissions_operation,()
+expose,80
+groupadd ¦-r¦nginx :: Permissions_operation,()
+./code :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦wget¦perl¦make¦build-essential¦procps¦libreadline-dev¦libncurses5-dev¦libpcre3-dev¦libssl-dev :: Dependencies_operation,()
+python ¦install.py¦install :: Build_Execute_operation,()
+/code :: workdir_operation,()
+mkdir ¦/code :: Filesystem_operation,()
+cmd,/opt/verynginx/openresty/nginx/sbin/nginx¦-g¦daemon off; error_log /dev/stderr info;
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

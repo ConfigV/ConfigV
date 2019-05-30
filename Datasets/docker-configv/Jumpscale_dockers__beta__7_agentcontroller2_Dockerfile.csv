@@ -1,0 +1,18 @@
+ays ¦install¦-n¦agentcontroller2¦--data¦param.webservice.host=':8966'#param.redis.host='localhost:9999'#param.redis.password='' :: Other_operation,()
+ays ¦install¦-n¦agentcontroller2_keys¦--consume¦ac/agentcontroller!main,ws/ngnix!main :: Other_operation,()
+ays ¦install¦-n¦agent2¦-i¦ovh4agent¦--consume¦ac/agentcontroller!main,node/nodessh!ovh4 :: Other_operation,()
+from,jumpscale/ubuntu1510
+ays ¦install¦-n¦nodessh¦-i¦ovh4¦...¦the¦data¦parts¦... :: Other_operation,()
+ays ¦install¦-n¦nginx¦-i¦main :: Other_operation,()
+ays ¦build¦-n¦agentcontroller2 :: Other_operation,()
+ays ¦install¦-n¦agent2¦--consume¦ac/agentcontroller!main :: Other_operation,()
+ays ¦install¦-n¦agent2¦-i¦ovh5agent¦--consume¦ac/agentcontroller!main,node/nodessh!ovh5 :: Other_operation,()
+./bd_build :: add_operation,()
+../scripts/bd_build :: add_operation,()
+ays ¦install¦-n¦agentcontroller2_statsplugin¦--consume¦ac/agentcontroller!main :: Other_operation,()
+ays ¦install¦-n¦redis¦--data¦'instance.param.disk:0¦instance.param.mem:100¦instance.param.passwd:¦instance.param.port:9999¦instance.param.unixsocket:0' :: Other_operation,()
+ays ¦install¦-n¦nodessh¦-i¦ovh5¦...¦the¦data¦parts¦... :: Other_operation,()
+ays ¦install¦-n¦agentcontroller2_client¦--consume¦ac/agentcontroller!main :: Other_operation,()
+ays ¦install¦-n¦go¦--data¦gopath='/opt/go_workspace' :: Other_operation,()
+cmd,/sbin/my_init
+expose,8966 9999 18384

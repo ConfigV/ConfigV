@@ -1,0 +1,15 @@
+yum ¦install¦-y¦--nogpgcheck¦redis :: Dependencies_operation,()
+echo ¦echo¦"service redis start" >> /.bash_profile :: Filesystem_operation,()
+mkdir ¦-p¦/workspace :: Filesystem_operation,()
+from,centos:6.4
+wget ¦-P¦/tmp¦http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+rpm ¦-ivh¦/tmp/sbt.rpm :: Dependencies_operation,()
+git ¦clone¦https://github.com/mogproject/docker-sbt-test.git¦/workspace/docker-sbt-test :: Dependencies_operation,()
+yum ¦install¦-y¦--nogpgcheck¦java-1.7.0-openjdk¦git :: Dependencies_operation,()
+rm ¦-f¦/tmp/sbt.rpm :: Filesystem_operation,()
+wget ¦-P¦/tmp¦http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt/0.13.1/sbt.rpm :: Dependencies_operation,()
+sbt ¦compile¦test:compile¦2>&1 :: Other_operation,()
+cd ¦/workspace/docker-sbt-test/example :: Filesystem_operation,()
+rpm ¦-ivh¦/tmp/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+entrypoint,/bin/bash¦-l¦-c
+rm ¦-f¦/tmp/epel-release-6-8.noarch.rpm :: Filesystem_operation,()

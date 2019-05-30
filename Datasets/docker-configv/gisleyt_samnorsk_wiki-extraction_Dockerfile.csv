@@ -1,0 +1,13 @@
+PATH:/opt/conda/bin:$PATH :: env_operation,()
+chmod ¦+x¦/software/bin/* :: Permissions_operation,()
+from,ubuntu:16.04
+apt-get ¦install¦-y¦-qq¦wget¦bzip2¦ca-certificates¦libglib2.0-0¦libxext6¦libsm6¦libxrender1¦git¦mercurial¦subversion :: Dependencies_operation,()
+apt-get ¦update¦-qq¦-y¦--fix-missing :: Dependencies_operation,()
+echo ¦echo¦'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && /bin/bash ~/miniconda.sh -b -p /opt/conda && rm ~/miniconda.sh :: Filesystem_operation,()
+requirements.txt/software :: copy_operation,()
+LANG=C.UTF-8:LC_ALL=C.UTF-8 :: env_operation,()
+bin/software/bin :: copy_operation,()
+mkdir ¦-p¦/software :: Filesystem_operation,()
+echo ¦echo¦'export PATH=/software/bin:$PATH' > /etc/profile.d/software.sh :: Filesystem_operation,()
+conda ¦install¦-q¦-y¦--file¦/software/requirements.txt :: Dependencies_operation,()
+lib/software/lib :: copy_operation,()

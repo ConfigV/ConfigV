@@ -1,0 +1,13 @@
+cmd,/usr/bin/influxdb¦-config=/etc/influxdb/config.toml
+cd ¦/tmp :: Filesystem_operation,()
+/var/log/influxdb/raft :: workdir_operation,()
+wget ¦http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb :: Dependencies_operation,()
+rm ¦influxdb_latest_amd64.deb :: Filesystem_operation,()
+from,hirokazumiyaji/ubuntu
+/var/log/influxdb :: workdir_operation,()
+config.toml/etc/influxdb/config.toml :: add_operation,()
+dpkg ¦-i¦influxdb_latest_amd64.deb :: Dependencies_operation,()
+expose,8083 8086 8090 8099
+/etc/influxdb :: workdir_operation,()
+/var/lib/influxdb/wal :: workdir_operation,()
+/var/lib/influxdb/db :: workdir_operation,()

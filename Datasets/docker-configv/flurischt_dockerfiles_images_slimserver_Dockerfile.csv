@@ -1,0 +1,21 @@
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦library :: Filesystem_operation,()
+apt-get ¦install¦-y¦curl¦wget¦faad¦flac¦lame¦sox¦libio-socket-ssl-perl¦git :: Dependencies_operation,()
+ln ¦-s¦/home/slimserver/slimserver/docker_volume/prefs¦/home/slimserver/slimserver/prefs :: Filesystem_operation,()
+slimserver :: user_operation,()
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+useradd ¦-d¦"/home/slimserver"¦-m¦-s¦/bin/bash¦slimserver :: Permissions_operation,()
+startup.sh/ :: add_operation,()
+git ¦clone¦https://github.com/Logitech/slimserver.git :: Dependencies_operation,()
+ln ¦-s¦/home/slimserver/slimserver/docker_volume/Cache¦/home/slimserver/slimserver/Cache :: Filesystem_operation,()
+/home/slimserver/slimserver/docker_volume :: volume_operation,()
+git ¦checkout¦$BRANCH :: Dependencies_operation,()
+/home/slimserver :: workdir_operation,()
+chmod ¦+x¦/startup.sh :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,ubuntu@xenial
+cd ¦slimserver :: Filesystem_operation,()
+expose,3483 3483 9000 9090
+cmd,/startup.sh
+BRANCH:"public/7.9" :: env_operation,()
+mkdir ¦-p¦/home/slimserver/slimserver/docker_volume/{Cache,¦prefs} :: Filesystem_operation,()

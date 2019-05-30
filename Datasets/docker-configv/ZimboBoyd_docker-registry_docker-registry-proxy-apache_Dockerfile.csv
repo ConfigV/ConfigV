@@ -1,0 +1,12 @@
+cmd,apachectl¦-D¦FOREGROUND
+registry-proxy.conf/etc/httpd/conf.d/registry-proxy.conf :: add_operation,()
+PROXY_LDAP_GROUP:"cn=registry" :: env_operation,()
+PROXY_LDAP_ADDR:"ldap://127.0.0.1" :: env_operation,()
+yum ¦--setopt=tsflags=nodocs¦-y¦update :: Dependencies_operation,()
+yum ¦--setopt=tsflags=nodocs¦-y¦install¦httpd¦mod_ssl :: Dependencies_operation,()
+from,centos:6.0
+PROXY_LOG_LEVEL:warn :: env_operation,()
+rm ¦-rf¦/var/cache/yum/* :: Filesystem_operation,()
+PROXY_LDAP_CONNTYPE:NONE :: env_operation,()
+REGISTRY_HOSTNAME:"my.registry.com" :: env_operation,()
+yum ¦clean¦all :: Dependencies_operation,()

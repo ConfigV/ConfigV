@@ -1,0 +1,12 @@
+./init-cmd.sh./ :: add_operation,()
+./config.hocon./ :: add_operation,()
+mkdir ¦-p¦/snowplow :: Filesystem_operation,()
+/snowplow :: workdir_operation,()
+http://dl.bintray.com/snowplow/snowplow-generic/$SSE_ZIP./ :: add_operation,()
+from,openjdk:8.0
+SSE_VERSION:0.10.0 :: env_operation,()
+unzip ¦./$SSE_ZIP :: Filesystem_operation,()
+chmod ¦+x¦./init-cmd.sh :: Permissions_operation,()
+SSE_JAR:snowplow-stream-enrich-$SSE_VERSION :: env_operation,()
+SSE_ZIP:snowplow_stream_enrich_$SSE_VERSION.zip :: env_operation,()
+cmd,./init-cmd.sh

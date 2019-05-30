@@ -1,0 +1,10 @@
+./run_metabase.sh/app/ :: copy_operation,()
+entrypoint,/app/run_metabase.sh
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+DEBCONF_NONINTERACTIVE_SEEN:true :: env_operation,()
+./metabase.jar/app/ :: copy_operation,()
+from,java:7.0
+expose,3000
+LC_ALL:C :: env_operation,()
+chmod ¦755¦/app/run_metabase.sh :: Permissions_operation,()
+LANG:C.UTF-8 :: env_operation,()

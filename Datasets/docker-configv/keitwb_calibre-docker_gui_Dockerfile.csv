@@ -1,0 +1,9 @@
+scripts/scripts :: add_operation,()
+expose,5900
+supervisor.conf/opt/calibre/supervisord.conf :: add_operation,()
+/var/log/supervisor :: volume_operation,()
+chmod ¦+x¦/scripts/* :: Permissions_operation,()
+from,keitwb/calibre-base
+entrypoint,/scripts/run.sh
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦-qq¦x11vnc¦supervisor¦xvfb :: Other_operation,()
+apt-get ¦clean :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,/etc/docker/registry/config.yml
+/var/lib/registry :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd/registry/config-dev.yml/etc/docker/registry/config.yml :: copy_operation,()
+GOPATH:$DISTRIBUTION_DIR/Godeps/_workspace:$GOPATH :: env_operation,()
+.$DISTRIBUTION_DIR :: copy_operation,()
+make ¦PREFIX=/go¦clean¦binaries :: Build_Execute_operation,()
+$DISTRIBUTION_DIR :: workdir_operation,()
+entrypoint,registry
+DOCKER_BUILDTAGS:include_rados :: env_operation,()
+DISTRIBUTION_DIR:/go/src/github.com/docker/distribution :: env_operation,()
+from,golang:1.5
+expose,5000
+apt-get ¦install¦-y¦librados-dev¦apache2-utils :: Dependencies_operation,()

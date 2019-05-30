@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦git¦python¦python-setuptools¦python-pip :: Dependencies_operation,()
+test-server.py/tmp/test-server.py :: add_operation,()
+hacheck.conf.yaml/tmp/hacheck.conf.yaml :: add_operation,()
+git ¦clone¦--branch¦yelp¦https://github.com/Yelp/hacheck :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+cmd,/usr/local/bin/hacheck¦-p¦6666¦-c¦/tmp/hacheck.conf.yaml¦&¦python¦/tmp/test-server.py
+from,ubuntu:14.04
+echo ¦echo¦'OK' > lil_brudder :: Filesystem_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()
+expose,1999
+cd ¦/hacheck :: Filesystem_operation,()

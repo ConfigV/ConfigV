@@ -1,0 +1,12 @@
+apache2.conf/etc/apache2/apache2.conf :: add_operation,()
+from,debian@jessie
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+apt-get ¦clean :: Dependencies_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+APACHE_SERVER_ADMIN:webmaster@lsucs.org.uk :: env_operation,()
+version:1.0 :: label_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,443
+apt-get ¦-y¦install¦apache2¦php5¦php5-mysql :: Dependencies_operation,()

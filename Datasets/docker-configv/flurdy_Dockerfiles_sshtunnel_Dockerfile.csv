@@ -1,0 +1,17 @@
+apt-get ¦update :: Dependencies_operation,()
+cmd,-oStrictHostKeyChecking=no¦-L 0.0.0.0:$TUNNEL_PORT:localhost:$HOST_PORT¦-N¦$SSH_USER@$SSH_HOST
+echo ¦echo¦GatewayPorts yes >> /etc/ssh/sshd_config :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-yq¦mysql-client¦ssh :: Dependencies_operation,()
+apt-get ¦autoremove¦-yq :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,phusion/baseimage:latest
+apt-get ¦clean¦-yq :: Dependencies_operation,()
+SSH_HOST:aserver :: env_operation,()
+SSH_USER:ausername :: env_operation,()
+ssh/id_rsa/root/.ssh/id_rsa :: copy_operation,()
+ssh/config/root/.ssh/config :: copy_operation,()
+HOST_PORT:3306 :: env_operation,()
+expose,8080
+entrypoint,/usr/bin/ssh
+TUNNEL_PORT:3306 :: env_operation,()

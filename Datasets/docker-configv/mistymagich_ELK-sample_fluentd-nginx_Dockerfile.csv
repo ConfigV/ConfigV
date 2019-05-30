@@ -1,0 +1,16 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+curl ¦-L¦http://toolbelt.treasuredata.com/sh/install-debian-wheezy-td-agent2.sh¦|¦sh :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+rm ¦/var/log/nginx/access.log :: Filesystem_operation,()
+nginx.conf/etc/td-agent/conf.d/nginx.conf :: copy_operation,()
+echo ¦echo¦"@include conf.d/*.conf" >> /etc/td-agent/td-agent.conf :: Filesystem_operation,()
+mkdir ¦/etc/td-agent/conf.d :: Filesystem_operation,()
+chown ¦td-agent:td-agent¦/var/log/td-agent/nginx-access.log.pos :: Permissions_operation,()
+/opt/td-agent/embedded/bin/fluent-gem ¦install¦fluent-plugin-elasticsearch :: Other_operation,()
+from,nginx:1.0
+rm ¦/var/log/nginx/error.log :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;
+apt-get ¦install¦-y¦curl¦sudo :: Dependencies_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+touch ¦/var/log/td-agent/nginx-access.log.pos :: Filesystem_operation,()
+entrypoint,/entrypoint.sh

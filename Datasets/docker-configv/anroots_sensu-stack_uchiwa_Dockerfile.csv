@@ -1,0 +1,12 @@
+cmd,dockerize¦-template¦/etc/uchiwa/config.tmpl:/etc/uchiwa/config.json¦/go/bin/app¦-c¦/etc/uchiwa/config.json
+expose,80
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+from,uchiwa/uchiwa
+tar ¦-C¦/usr/local/bin¦-xzvf¦dockerize-linux-amd64-v0.0.4.tar.gz :: Filesystem_operation,()
+config.tmpl/etc/uchiwa/ :: copy_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+mkdir ¦/etc/uchiwa :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦https://github.com/jwilder/dockerize/releases/download/v0.0.4/dockerize-linux-amd64-v0.0.4.tar.gz :: Dependencies_operation,()
+HTTP_USER=admin:HTTP_PASS=admin :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

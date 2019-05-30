@@ -1,0 +1,20 @@
+mkdir ¦/usr/share/kibana :: Filesystem_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+echo ¦echo¦"export LANGUAGE=en_US.utf8" >> ~/.bashrc :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/tmp/mokafelk/kibana/ :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+tar ¦zxvf¦/usr/share/kibana/kibana-4.4.0-linux-x64.tar.gz¦-C¦/usr/share/kibana :: Filesystem_operation,()
+rm ¦/usr/share/kibana/kibana-4.4.0-linux-x64.tar.gz :: Filesystem_operation,()
+echo ¦echo¦"export LC_ALL=en_US.utf8" >> ~/.bashrc :: Filesystem_operation,()
+apt-get ¦install¦-y¦python-software-properties :: Dependencies_operation,()
+entrypoint,/usr/share/kibana/kibana-4.4.0-linux-x64/bin/kibana
+locale-gen ¦"en_US.UTF-8" :: Other_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+from,ubuntu:14.04
+wget ¦-P¦/usr/share/kibana¦"https://download.elastic.co/kibana/kibana/kibana-4.4.0-linux-x64.tar.gz" :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+mkdir ¦/tmp/mokafelk/ :: Filesystem_operation,()
+echo ¦echo¦"export LANG=en_US.utf8" >> ~/.bashrc :: Filesystem_operation,()
+cmd,-c¦/tmp/mokafelk/kibana/config/kibana.yaml

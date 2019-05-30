@@ -1,0 +1,10 @@
+Gemfile$APP_DIR :: copy_operation,()
+from,mikeascott/tiny-ruby:latest
+APP_DIR:/usr/app :: env_operation,()
+cmd,bundle¦exec¦rackup¦-p¦8081¦-o¦0.0.0.0
+Gemfile.lock$APP_DIR :: copy_operation,()
+mkdir ¦-p¦$APP_DIR :: Filesystem_operation,()
+.$APP_DIR :: copy_operation,()
+expose,8081
+$APP_DIR :: workdir_operation,()
+bundle ¦install :: Dependencies_operation,()

@@ -1,0 +1,15 @@
+./contents/HelloController.php/var/www/cakephp/app/Controller/HelloController.php :: add_operation,()
+./contents/Hello/var/www/cakephp/app/View/Hello :: add_operation,()
+from,centos:6.0
+./contents/php.ini/etc/php.ini :: add_operation,()
+chown ¦-R¦apache:apache¦/var/www/cakephp :: Permissions_operation,()
+version:2.7.3 :: env_operation,()
+./contents/httpd.conf/etc/httpd/conf/httpd.conf :: add_operation,()
+expose,80 443
+cmd,/usr/sbin/httpd¦-D¦FOREGROUND
+wget ¦https://codeload.github.com/cakephp/cakephp/zip/${version} :: Dependencies_operation,()
+./contents/core.php/var/www/cakephp/app/Config/core.php :: add_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+yum ¦-y¦install¦wget¦php¦httpd¦vim¦unzip :: Dependencies_operation,()
+unzip ¦$version :: Filesystem_operation,()
+cp ¦-r¦cakephp-${version}¦/var/www/cakephp :: Filesystem_operation,()

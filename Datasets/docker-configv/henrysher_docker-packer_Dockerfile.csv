@@ -1,0 +1,9 @@
+from,iwsaas/centos
+chmod ¦+x¦-v¦/build_packer.sh :: Permissions_operation,()
+yum ¦install¦mercurial¦git¦go¦gcc¦bzr¦make¦python-pip¦python-devel¦zip¦-y :: Dependencies_operation,()
+entrypoint,/build_packer.sh
+yum ¦clean¦all :: Dependencies_operation,()
+mkdir ¦-p¦/root/go :: Filesystem_operation,()
+PATH=$PATH:/root/go/bin: :: env_operation,()
+build_packer.sh/ :: copy_operation,()
+GOPATH=/root/go: :: env_operation,()

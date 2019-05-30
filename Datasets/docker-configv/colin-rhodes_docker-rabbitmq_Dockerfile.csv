@@ -1,0 +1,11 @@
+entrypoint,/usr/sbin/rabbitmq-server
+/data/rabbitmq :: volume_operation,()
+apt-get ¦install¦-yq¦rabbitmq-server :: Dependencies_operation,()
+expose,5672 25672 4369
+RABBITMQ_BASE:/data/rabbitmq :: env_operation,()
+rm ¦rabbitmq.asc :: Filesystem_operation,()
+apt-get ¦update¦-yq :: Dependencies_operation,()
+http://www.rabbitmq.com/rabbitmq-signing-key-public.ascrabbitmq.asc :: add_operation,()
+apt-key ¦add¦rabbitmq.asc :: Dependencies_operation,()
+rabbitmq.list/etc/apt/sources.list.d/rabbitmq.list :: add_operation,()
+from,colinrhodes/base

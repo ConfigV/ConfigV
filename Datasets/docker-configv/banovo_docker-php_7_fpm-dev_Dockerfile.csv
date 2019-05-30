@@ -1,0 +1,13 @@
+expose,9000
+apt-get ¦install¦-y¦git¦--no-install-recommends :: Dependencies_operation,()
+php ¦-d¦memory_limit=-1¦/usr/local/bin/composer¦global¦require¦phpunit/phpunit¦4.5.* :: Other_operation,()
+entrypoint,docker-entrypoint.sh
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+COMPOSER_HOME:/root/composer :: env_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+from,banovo/php:7-fpm
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,php-fpm
+/var/www :: workdir_operation,()
+set ¦-xe :: Environment_operation,()

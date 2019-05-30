@@ -1,0 +1,8 @@
+healthcheck,[ "su", "-p", "oracle", "-c", "$ORACLE_BASE/$CHECK_DB_FILE > /dev/null || exit 1" ]--interval=1m --start-period=5m
+initdb.d/docker-entrypoint-initdb.d :: copy_operation,()
+$INSTALL_FILE_1$INSTALL_DIR/ :: copy_operation,()
+expose,1521 8080
+ORACLE_PWD=password: :: env_operation,()
+PATH=$ORACLE_HOME/bin:$PATH: :: env_operation,()
+from,oraclelinux:7.0
+cmd,exec¦$ORACLE_BASE/$RUN_FILE

@@ -1,0 +1,20 @@
+bundle ¦install¦--without¦development¦test :: Dependencies_operation,()
+chown ¦-R¦www-data:www-data¦/var/lib/nginx :: Permissions_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦install¦-qy¦nginx :: Dependencies_operation,()
+gem ¦install¦foreman :: Dependencies_operation,()
+PORT:8080 :: env_operation,()
+apt-get ¦install¦-qy¦nodejs :: Dependencies_operation,()
+expose,8080
+.//rails :: add_operation,()
+/rails :: workdir_operation,()
+from,ruby:2.2
+gem ¦install¦bundler :: Dependencies_operation,()
+cmd,bundle¦exec¦rake¦db:create¦db:migrate¦assets:precompile¦&&¦foreman¦start¦-f¦Procfile
+RAILS_ENV:production :: env_operation,()
+apt-get ¦install¦-qy¦curl :: Dependencies_operation,()
+gem ¦install¦rails :: Dependencies_operation,()
+apt-get ¦install¦-qy¦--force-yes¦libpq-dev :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+config/container/nginx-sites.conf/etc/nginx/sites-enabled/default :: add_operation,()
+apt-get ¦install¦-y¦build-essential :: Dependencies_operation,()

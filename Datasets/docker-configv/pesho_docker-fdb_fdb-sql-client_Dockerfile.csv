@@ -1,0 +1,9 @@
+curl ¦-SLO¦"https://foundationdb.com/downloads/I_accept_the_FoundationDB_Community_License_Agreement/sql-layer/${FDB_SQL_VERSION}/fdb-sql-layer-client-tools_${FDB_SQL_VERSION}-1_all.deb" :: Dependencies_operation,()
+fdbsqlcli.sh/ :: add_operation,()
+rm ¦fdb-sql-layer-client-tools_${FDB_SQL_VERSION}-1_all.deb :: Filesystem_operation,()
+FDB_SQL_VERSION:2.1.0 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,/fdbsqlcli.sh
+dpkg ¦-i¦fdb-sql-layer-client-tools_${FDB_SQL_VERSION}-1_all.deb :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦default-jre-headless :: Dependencies_operation,()

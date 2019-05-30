@@ -1,0 +1,11 @@
+./start.sh/usr/bin/start.sh :: add_operation,()
+expose,7 22 2112 7800 7801 7802 7803 7804 7805 10000 10001 11999 12000 9999 3306 13306
+apt-get ¦install¦-y¦puppet¦git¦tar¦openssh-server¦wget¦rsync :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/start.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./tungsten.ini/etc/tungsten/tungsten.ini :: add_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+mkdir ¦-p¦/etc/puppet/modules :: Filesystem_operation,()
+cmd,bash¦-C¦'/usr/bin/start.sh';'bash'
+from,ubuntu:14.04

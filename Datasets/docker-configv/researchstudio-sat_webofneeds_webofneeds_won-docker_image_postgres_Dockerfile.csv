@@ -1,0 +1,6 @@
+./default_init.sql/docker-entrypoint-initdb.d/default_init.sql :: add_operation,()
+from,postgres:9.5
+./test_init.sql/docker-entrypoint-initdb.d/test_init.sql :: add_operation,()
+cmd,postgres¦-c¦log_destination=stderr, syslog¦-c¦logging_collector=on¦-c¦log_statement=ddl
+POSTGRES_USER=won: :: env_operation,()
+POSTGRES_PASSWORD=won: :: env_operation,()

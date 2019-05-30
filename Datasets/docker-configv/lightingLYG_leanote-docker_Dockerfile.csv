@@ -1,0 +1,9 @@
+from,registry.cn-hangzhou.aliyuncs.com/firewarm/apps:alpine-base-3.4
+expose,9000
+chmod ¦+x¦/usr/local/src/leanote/bin/run.sh :: Permissions_operation,()
+LEANOTE_VERSION=2.1: :: env_operation,()
+apk ¦del¦make¦gcc¦g++¦python¦linux-headers¦paxctl :: Dependencies_operation,()
+mkdir ¦-p¦/usr/local/src :: Filesystem_operation,()
+curl ¦-sSL¦https://nchc.dl.sourceforge.net/project/leanote-bin/${LEANOTE_VERSION}/leanote-linux-amd64-v${LEANOTE_VERSION}.bin.tar.gz¦|¦tar¦-zx :: Dependencies_operation,()
+cmd,/usr/local/src/leanote/bin/run.sh
+cd ¦/usr/local/src :: Filesystem_operation,()

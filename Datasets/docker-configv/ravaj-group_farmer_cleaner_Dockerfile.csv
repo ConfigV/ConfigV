@@ -1,0 +1,13 @@
+chmod ¦+x¦/usr/local/bin/* :: Permissions_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+chmod ¦a-w¦/etc/cron.d/* :: Permissions_operation,()
+from,ubuntu@trusty
+chmod ¦+x¦/usr/bin/start.sh :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+./start.sh/usr/bin/start.sh :: add_operation,()
+./bin/usr/local/bin/ :: add_operation,()
+./cron/etc/cron.d/ :: add_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦--force-yes¦jq¦rsyslog¦apt-transport-https¦ca-certificates :: Dependencies_operation,()
+cmd,/usr/bin/start.sh
+echo ¦apt-key¦adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && echo 'deb https://apt.dockerproject.org/repo ubuntu-trusty main' > /etc/apt/sources.list.d/docker.list && apt-get update -... :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+pip ¦install¦. :: Dependencies_operation,()
+git ¦clone¦https://github.com/openstack/diskimage-builder.git :: Dependencies_operation,()
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+entrypoint,/bin/bash
+/diskimage-builder :: workdir_operation,()
+yum ¦install¦-y¦git¦python-pip¦which¦qemu-img¦sudo :: Dependencies_operation,()

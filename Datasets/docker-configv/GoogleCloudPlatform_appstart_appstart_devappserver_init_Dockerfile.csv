@@ -1,0 +1,8 @@
+entrypoint,/das.sh
+./das.sh/ :: add_operation,()
+apt-get ¦install¦-y¦python¦curl¦python-pip :: Dependencies_operation,()
+bash ¦./install.sh¦--disable-prompts¦--install-dir¦./sdk :: Build_Execute_operation,()
+curl ¦https://dl.google.com/dl/cloudsdk/release/install_google_cloud_sdk.bash¦>¦install.sh :: Dependencies_operation,()
+from,debian
+apt-get ¦update :: Dependencies_operation,()
+echo ¦SDK_ROOT=$(echo¦/sdk/$(ls sdk/)); $(echo $SDK_ROOT/bin/gcloud components update preview app app-engine-python) :: Filesystem_operation,()

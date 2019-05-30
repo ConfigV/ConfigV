@@ -1,0 +1,13 @@
+mkdir ¦/etc/service/apache2 :: Filesystem_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin¦--filename=composer :: Dependencies_operation,()
+/app :: workdir_operation,()
+apache2.sh/etc/service/apache2/run :: add_operation,()
+expose,80
+apt-get ¦install¦-y¦git¦apache2¦apache2-utils :: Dependencies_operation,()
+apt-get ¦install¦-y¦php5¦libapache2-mod-php5¦php5-mysql¦php5-cli¦php-pear¦php5-curl¦php5-mcrypt¦php5-gd :: Dependencies_operation,()
+from,phusion/baseimage:0.9.13
+chmod ¦+x¦/etc/service/apache2/run :: Permissions_operation,()
+php5enmod ¦mcrypt :: Other_operation,()
+cmd,/sbin/my_init
+a2enmod ¦rewrite :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()

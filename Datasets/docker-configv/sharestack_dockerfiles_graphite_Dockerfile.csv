@@ -1,0 +1,13 @@
+from,ubuntu:12.04
+apt-get ¦install¦-y¦python¦python-dev¦python-pip¦memcached¦libcairo2-dev¦build-essential¦sqlite3¦python-cairo¦nginx-full¦supervisor :: Dependencies_operation,()
+mv ¦/opt/graphite/conf/storage-schemas.conf.example¦/opt/graphite/conf/storage-schemas.conf :: Filesystem_operation,()
+cmd,supervisord
+./nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+pip ¦install¦python-memcached¦django-tagging¦txamqp¦https://github.com/graphite-project/ceres/tarball/master¦whisper¦carbon¦graphite-web¦uwsgi :: Dependencies_operation,()
+mv ¦/opt/graphite/conf/carbon.conf.example¦/opt/graphite/conf/carbon.conf :: Filesystem_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./uwsgi.ini/opt/graphite/webapp/uwsgi.ini :: add_operation,()
+./supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+./wsgi.py/opt/graphite/webapp/graphite/wsgi.py :: add_operation,()
+expose,80

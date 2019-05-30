@@ -1,0 +1,10 @@
+from,ubuntu@xenial
+https://github.com/syncthing/discosrv/releases/download/v0.14.5/stdiscosrv-linux-amd64-v0.14.5.tar.gzstdiscosrv.tar.gz :: add_operation,()
+tar ¦xzf¦stdiscosrv.tar.gz¦--strip-components=1 :: Filesystem_operation,()
+useradd ¦-d¦"/home/stdiscosrv"¦-u¦1001¦-m¦-s¦/bin/bash¦stdiscosrv :: Permissions_operation,()
+root :: user_operation,()
+stdiscosrv :: user_operation,()
+GOPATH=/home/stdiscosrv/build: :: env_operation,()
+cmd,/home/stdiscosrv/stdiscosrv¦-http
+/home/stdiscosrv :: workdir_operation,()
+expose,8443

@@ -1,0 +1,11 @@
+docker-entrypoint.sh/kafka-mesos/docker-entrypoint.sh :: add_operation,()
+mkdir ¦-p¦/kafka-mesos :: Filesystem_operation,()
+/kafka-mesos :: workdir_operation,()
+from,ubuntu:14.04
+entrypoint,/kafka-mesos/docker-entrypoint.sh
+KAFKA_VERSION:0.8.2.2 :: env_operation,()
+wget ¦-o¦/dev/null¦https://github.com/mesos/kafka/releases/download/$MESOS_KAFKA_VERSION/kafka-mesos-$MESOS_KAFKA_VERSION.jar :: Dependencies_operation,()
+echo ¦apt-key¦adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF && echo deb http://repos.mesosphere.io/ubuntu trusty main > /etc/apt/sources.list.d/mesosphere.list && apt-get update && apt-get install -qy  wget openjdk-7-jdk mesos=$M... :: Filesystem_operation,()
+MESOS_VERSION:0.25.0-0.2.70.ubuntu1404 :: env_operation,()
+MESOS_KAFKA_VERSION:0.9.3.0 :: env_operation,()
+wget ¦https://archive.apache.org/dist/kafka/$KAFKA_VERSION/kafka_2.11-$KAFKA_VERSION.tgz :: Dependencies_operation,()

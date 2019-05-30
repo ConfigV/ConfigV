@@ -1,0 +1,8 @@
+from,alpine:3.4
+bin/my-location/bin :: copy_operation,()
+/my-location :: workdir_operation,()
+apk ¦add¦ca-certificates :: Dependencies_operation,()
+entrypoint,/bin/my-location
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/my-location :: Filesystem_operation,()

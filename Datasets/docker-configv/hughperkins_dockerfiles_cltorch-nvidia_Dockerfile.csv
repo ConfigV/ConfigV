@@ -1,0 +1,16 @@
+git ¦clone¦--recursive¦https://github.com/hughperkins/EasyCL.git :: Dependencies_operation,()
+make ¦-j¦4¦install :: Build_Execute_operation,()
+cd ¦build :: Filesystem_operation,()
+cd ¦git :: Filesystem_operation,()
+mkdir ¦build :: Filesystem_operation,()
+from,hughperkins/cltorch:latest
+apt-get ¦install¦-y¦cmake-curses-gui¦clinfo :: Dependencies_operation,()
+cmake ¦-DBUILD_TESTS=ON¦-DCMAKE_BUILD_TYPE=Debug¦.. :: Build_Execute_operation,()
+mkdir ¦git :: Filesystem_operation,()
+wget ¦http://us.download.nvidia.com/XFree86/Linux-x86_64/346.96/NVIDIA-Linux-x86_64-346.96.run :: Dependencies_operation,()
+cd ¦~/git/EasyCL :: Filesystem_operation,()
+cmd,~/torch/install/bin/th¦-l¦cltorch
+chmod ¦+x¦NVIDIA-Linux-x86_64-3*.run :: Permissions_operation,()
+./NVIDIA-Linux-x86_64-3*.run ¦-s¦--no-kernel-module :: Other_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+cd ¦~ :: Filesystem_operation,()

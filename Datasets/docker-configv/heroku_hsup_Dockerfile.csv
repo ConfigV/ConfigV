@@ -1,0 +1,22 @@
+docker/buildpack_prep.sh/tmp/ :: copy_operation,()
+mkdir ¦-p¦/etc/container_environment :: Filesystem_operation,()
+mkdir ¦-p¦/var/lib/hsup/stacks :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦> /etc/bash.bashrc :: Filesystem_operation,()
+entrypoint,/sbin/dind
+/app :: workdir_operation,()
+chown ¦app:app¦/etc/hsup :: Permissions_operation,()
+cmd,agent
+mkdir ¦-p¦/etc/hsup :: Filesystem_operation,()
+./app :: add_operation,()
+./Godeps/Godeps.json/tmp/ :: copy_operation,()
+from,ubuntu:14.04
+chown ¦-R¦app:app¦/app :: Permissions_operation,()
+docker/profile.sh/etc/profile :: add_operation,()
+useradd ¦-M¦app¦-d¦/app :: Permissions_operation,()
+rm ¦/tmp/buildpack_prep.sh :: Filesystem_operation,()
+sudo ¦-u¦app¦-i¦docker/build.sh :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦curl¦apt-transport-https¦software-properties-common¦make¦git¦mercurial¦jq¦gcc¦bridge-utils¦iptables :: Dependencies_operation,()
+docker/dind/sbin/dind :: copy_operation,()
+/tmp/buildpack_prep.sh  :: Other_operation,()

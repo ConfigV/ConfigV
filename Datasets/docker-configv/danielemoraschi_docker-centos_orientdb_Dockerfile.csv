@@ -1,0 +1,11 @@
+ORIENT_TAR:${ORIENT_PACKAGE}.tar.gz :: env_operation,()
+ORIENT_VERSION:2.0.5 :: env_operation,()
+ROOT:/opt :: env_operation,()
+from,dmoraschi/centos-openjdk7
+ORIENT_URL:http://www.orientechnologies.com/download.php?email=unknown@unknown.com&file=${ORIENT_TAR}&os=linux :: env_operation,()
+rm ¦-rf¦${ROOT}/${ORIENT_TAR}¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cd ¦${ROOT} :: Filesystem_operation,()
+ORIENT_REPO_NAME:orientdb-community :: env_operation,()
+curl ¦${ORIENT_URL}¦>¦${ORIENT_TAR}\\ :: Dependencies_operation,()
+cmd,/usr/local/bin/server.sh
+ORIENT_PACKAGE:${ORIENT_REPO_NAME}-${ORIENT_VERSION} :: env_operation,()

@@ -1,0 +1,21 @@
+/app/.dropbox :: volume_operation,()
+go ¦get¦github.com/cortesi/modd/cmd/modd¦github.com/spf13/hugo :: Build_Execute_operation,()
+from,golang:1.6
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+DROPBOX_FOLDER="site": :: env_operation,()
+GOPATH=/app/go: :: env_operation,()
+wget ¦-O¦-¦"https://www.dropbox.com/download?plat=lnx.x86_64"¦|¦tar¦xzf¦-¦-C¦/app :: Dependencies_operation,()
+echo ¦echo¦"en_US.UTF-8 UTF-8" > /etc/locale.gen :: Filesystem_operation,()
+apt-get ¦-y¦install¦locales¦nginx :: Dependencies_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+cmd,/app/go/bin/modd
+nobody :: user_operation,()
+run_hugo/app/ :: copy_operation,()
+HOME=/app: :: env_operation,()
+/app :: workdir_operation,()
+expose,8080
+LC_ALL="en_US.UTF-8": :: env_operation,()
+chown ¦-R¦nobody:nogroup¦/app :: Permissions_operation,()
+/app/Dropbox :: volume_operation,()
+mkdir ¦-p¦/app/.dropbox¦/app/Dropbox :: Filesystem_operation,()
+locale-gen  :: Other_operation,()

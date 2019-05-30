@@ -1,0 +1,15 @@
+sed ¦-i¦"s/user¦=¦www-data/user¦=¦root/"¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+conf/ez_params.d/ez_rewrite_params/etc/nginx/ez_params.d/ :: copy_operation,()
+mkdir ¦/etc/nginx/ez_params.d :: Filesystem_operation,()
+conf/ez_params.d/ez_prod_rewrite_params/etc/nginx/ez_params.d/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+conf/ez_params.d/ez_fastcgi_params/etc/nginx/ez_params.d/ :: copy_operation,()
+/var/www :: volume_operation,()
+apt-get ¦install¦-my¦supervisor¦curl¦wget¦php5-curl¦php5-fpm¦php5-gd¦php5-xsl¦php5-mysqlnd¦php5-mcrypt¦php5-xdebug :: Dependencies_operation,()
+sed ¦-i¦"s/group¦=¦www-data/group¦=¦root/"¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+rm ¦-f¦/etc/nginx/conf.d/* :: Filesystem_operation,()
+conf/nginx.conf/etc/nginx/ :: copy_operation,()
+conf/ez_params.d/ez_server_params/etc/nginx/ez_params.d/ :: copy_operation,()
+from,nginx
+expose,80
+conf/php.ini/etc/php5/fpm/conf.d/40-custom.ini :: copy_operation,()

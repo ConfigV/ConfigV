@@ -1,0 +1,9 @@
+mkdir ¦/root/.ssh/ :: Filesystem_operation,()
+expose,22
+Puppetfile/ :: add_operation,()
+from,matt/puppetbase
+slave.pp/ :: add_operation,()
+echo ¦echo¦'UserKnownHostsFile=/dev/null' >> /root/.ssh/config :: Filesystem_operation,()
+librarian-puppet ¦install :: Other_operation,()
+echo ¦echo¦'StrictHostKeyChecking=no' >> /root/.ssh/config :: Filesystem_operation,()
+puppet ¦apply¦--modulepath=/modules¦slave.pp :: Dependencies_operation,()

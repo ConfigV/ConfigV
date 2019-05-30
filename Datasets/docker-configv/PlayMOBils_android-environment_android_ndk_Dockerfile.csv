@@ -1,0 +1,13 @@
+curl ¦-L¦"${ANDROID_NDK_URL}"¦-o¦android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip :: Dependencies_operation,()
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+ANDROID_NDK_VERSION:r14b :: env_operation,()
+PATH:${ANDROID_NDK_HOME}:$PATH :: env_operation,()
+ANDROID_NDK_HOME:${SDK_HOME}/android-ndk-${ANDROID_NDK_VERSION} :: env_operation,()
+apt-get ¦-qqy¦install¦--no-install-recommends¦file :: Dependencies_operation,()
+rm ¦-rf¦android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip :: Filesystem_operation,()
+from,playmobils/android-sdk:23
+apt-get ¦-qq¦update :: Dependencies_operation,()
+unzip ¦android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip¦-d¦${SDK_HOME} :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*\\ :: Filesystem_operation,()
+SDK_HOME:/usr/local :: env_operation,()
+ANDROID_NDK_URL:http://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip :: env_operation,()

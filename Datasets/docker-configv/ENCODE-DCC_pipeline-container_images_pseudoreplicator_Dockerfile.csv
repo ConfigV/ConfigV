@@ -1,0 +1,15 @@
+encode :: user_operation,()
+easy_install ¦pip :: Dependencies_operation,()
+apt-get ¦install¦-y¦git¦python-dev¦python-setuptools :: Dependencies_operation,()
+pip ¦install¦common :: Dependencies_operation,()
+mkdir ¦/image_software :: Filesystem_operation,()
+from,ubuntu:14.04
+mkdir ¦pipeline-container :: Filesystem_operation,()
+groupadd ¦-r¦encode :: Permissions_operation,()
+pip ¦install¦python-dateutil :: Dependencies_operation,()
+entrypoint,python¦/image_software/pipeline-container/src/pseudoreplicator.py
+useradd ¦--no-log-init¦-r¦-m¦-d¦/home/encode/¦-g¦encode¦encode :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/home/encode :: workdir_operation,()
+/pipeline-container :: copy_operation,()
+/image_software :: workdir_operation,()

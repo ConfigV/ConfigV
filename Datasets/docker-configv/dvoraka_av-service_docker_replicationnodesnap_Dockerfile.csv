@@ -1,0 +1,14 @@
+conf/logback.xml${USER_HOME}/${PROJECT_ROOT}/common/src/main/resources/ :: copy_operation,()
+apt-get ¦--no-install-recommends¦-y¦install¦openjdk-8-jdk-headless¦git-core :: Dependencies_operation,()
+${USER_HOME}/${PROJECT_ROOT} :: workdir_operation,()
+USER_HOME:/home/user :: env_operation,()
+PROJECT_ROOT:av-service :: env_operation,()
+conf/avservice.properties${USER_HOME}/${PROJECT_ROOT}/common/src/main/resources/ :: copy_operation,()
+from,debian@stretch
+user :: user_operation,()
+cmd,./gradlew¦-q¦runAmqpReplicationService
+$USER_HOME :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./gradlew ¦compileJava :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+git ¦clone¦https://github.com/dvoraka/av-service.git :: Dependencies_operation,()

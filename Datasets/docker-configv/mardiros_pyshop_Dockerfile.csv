@@ -1,0 +1,12 @@
+apt-get ¦update :: Dependencies_operation,()
+/srv/pyshop :: workdir_operation,()
+useradd ¦-m¦docker :: Permissions_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()
+pyshop_setup ¦-y¦development.ini :: Other_operation,()
+apt-get ¦install¦-y¦python-dev¦libmysqlclient-dev :: Dependencies_operation,()
+cmd,pserve¦development.ini
+python ¦setup.py¦develop :: Build_Execute_operation,()
+chown ¦-R¦docker¦/srv/pyshop :: Permissions_operation,()
+pip ¦install¦waitress :: Dependencies_operation,()
+./srv/pyshop :: add_operation,()
+pip ¦install¦mysql-python :: Dependencies_operation,()

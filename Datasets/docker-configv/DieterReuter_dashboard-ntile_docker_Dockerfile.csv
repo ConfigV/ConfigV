@@ -1,0 +1,15 @@
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu/ trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+gem ¦install¦dashing :: Dependencies_operation,()
+cmd,/bin/sh¦-c¦cd /opt/application/dashboard-ntile && dashing start
+apt-get ¦-yy¦install¦bundler¦g++¦make :: Dependencies_operation,()
+apt-get ¦-yy¦install¦ruby¦ruby-dev¦gem :: Dependencies_operation,()
+expose,3030
+git ¦clone¦https://github.com/DieterReuter/dashboard-ntile.git¦/opt/application/dashboard-ntile :: Dependencies_operation,()
+apt-get ¦-yy¦install¦nodejs :: Dependencies_operation,()
+mkdir ¦-p¦/opt/application :: Filesystem_operation,()
+apt-get ¦-yy¦update :: Dependencies_operation,()
+echo ¦echo¦"gem: --no-document --no-rdoc --no-ri" | tee ~/.gemrc :: Filesystem_operation,()
+apt-get ¦-yy¦upgrade :: Dependencies_operation,()
+cd ¦/opt/application/dashboard-ntile;¦bundle¦install :: Filesystem_operation,()
+from,ubuntu:14.04
+apt-get ¦-yy¦install¦git-core :: Dependencies_operation,()

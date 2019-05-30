@@ -1,0 +1,14 @@
+cmd,/usr/sbin/apache2¦-D¦FOREGROUND
+config.php/var/www/html/config.php :: copy_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+mv ¦/tmp/phpipam¦/var/www/html :: Filesystem_operation,()
+sed ¦-i¦"s/@localhost/@\\\\\\\\'%\\\\\\\\'/"¦/var/www/html/functions/functions-install.php :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+curl ¦-L¦"http://downloads.sourceforge.net/project/phpipam/phpipam-1.1.tar"¦>¦/tmp/phpipam.tar :: Dependencies_operation,()
+from,rlaborius/web:latest
+rm ¦-fr¦/var/www/html :: Filesystem_operation,()
+expose,80
+000-default.conf/etc/apache2/sites-available/000-default.conf :: copy_operation,()
+apt-get ¦--force-yes¦-y¦-q¦install¦php5-gmp¦php-net-ipv4¦curl :: Dependencies_operation,()
+tar ¦-xvf¦phpipam.tar :: Filesystem_operation,()

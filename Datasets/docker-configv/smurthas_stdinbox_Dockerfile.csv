@@ -1,0 +1,8 @@
+./app :: add_operation,()
+echo ¦echo¦"listen etcd 0.0.0.0:4001" > /etc/haproxy.cfg :: Filesystem_operation,()
+cmd,haproxy¦-f¦/etc/haproxy.cfg¦-D¦&&¦node¦/app/index.js
+echo ¦echo¦" mode http" >> /etc/haproxy.cfg :: Filesystem_operation,()
+cd ¦/app;¦npm¦install :: Filesystem_operation,()
+echo ¦echo¦" server 1 172.17.42.1:4001" >> /etc/haproxy.cfg :: Filesystem_operation,()
+from,dockerfile/nodejs
+apt-get ¦install¦-y¦iptables :: Dependencies_operation,()

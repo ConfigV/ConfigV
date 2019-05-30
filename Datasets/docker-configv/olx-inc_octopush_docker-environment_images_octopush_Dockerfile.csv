@@ -1,0 +1,21 @@
+a2enmod ¦php5 :: Other_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+config/apache.conf/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+expose,80
+/var/www/site :: workdir_operation,()
+from,ubuntu:14.04
+wget ¦-O¦/usr/local/bin/composer¦https://getcomposer.org/composer.phar&&¦chmod¦755¦/usr/local/bin/composer :: Dependencies_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/apache2/access.log :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦-y¦install¦apache2¦libapache2-mod-php5¦php5-mysql¦php5-gd¦php-pear¦php-apc¦php5-curl¦curl¦lynx-cur¦php5-memcached¦wget :: Other_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/apache2/error.log :: Filesystem_operation,()
+wget ¦-O¦/usr/local/bin/phpunit¦https://phar.phpunit.de/phpunit-4.8.23.phar&&¦chmod¦755¦/usr/local/bin/phpunit :: Dependencies_operation,()
+mkdir ¦/var/log/application :: Filesystem_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+chown ¦www-data¦/var/log/application :: Permissions_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+cmd,/usr/sbin/apache2¦-D¦FOREGROUND
+a2enmod ¦rewrite :: Other_operation,()

@@ -1,0 +1,19 @@
+/var/log/sensu :: volume_operation,()
+mkdir ¦-p¦/etc/sensu/ssl :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+client_key.pem/etc/sensu/ssl/key.pem :: add_operation,()
+apt-get ¦install¦-y¦sensu :: Dependencies_operation,()
+chmod ¦775¦/etc/sensu/conf.d :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,4567
+config.json.template/etc/sensu/conf.d/ :: add_operation,()
+/config :: volume_operation,()
+echo ¦echo¦"deb http://repos.sensuapp.org/apt sensu main" > /etc/apt/sources.list.d/sensu.list :: Filesystem_operation,()
+client_cert.pem/etc/sensu/ssl/cert.pem :: add_operation,()
+chgrp ¦sensu¦/etc/sensu/conf.d :: Other_operation,()
+from,ubuntu@trusty
+start.sh/tmp/start.sh :: copy_operation,()
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+mkdir ¦/config :: Filesystem_operation,()
+cmd,/tmp/start.sh
+wget ¦-q¦http://repos.sensuapp.org/apt/pubkey.gpg¦-O-¦|¦sudo¦apt-key¦add¦- :: Dependencies_operation,()

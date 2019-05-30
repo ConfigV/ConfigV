@@ -1,0 +1,23 @@
+make ¦install :: Build_Execute_operation,()
+/opt/nginx/conf/nginx.conf :: volume_operation,()
+/opt/nginx/certs :: volume_operation,()
+yum ¦remove¦-y¦wget¦gcc¦make :: Dependencies_operation,()
+mkdir ¦-p¦/opt/nginx :: Filesystem_operation,()
+./configure ¦--with-ipv6¦--with-http_stub_status_module¦--with-http_ssl_module¦--with-http_spdy_module¦--prefix=/opt/nginx :: Build_Execute_operation,()
+from,fedora:20.0
+rm ¦-rf¦/tmp/nginx :: Filesystem_operation,()
+tar ¦-zxvf¦nginx-${NGINX_VERSION}.tar.gz :: Filesystem_operation,()
+/var/www :: volume_operation,()
+expose,8080 443443
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+wget ¦-P¦/tmp/nginx/¦http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz :: Dependencies_operation,()
+NGINX_VERSION:1.7.10 :: env_operation,()
+cd ¦/tmp/nginx/ :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+rm ¦-f¦nginx-${NGINX_VERSION}.tar.gz :: Filesystem_operation,()
+cmd,/opt/nginx/sbin/nginx
+yum ¦install¦-y¦wget¦gcc¦make¦pcre¦pcre-devel¦openssl-devel :: Dependencies_operation,()
+echo ¦echo¦"clean_requirements_on_remove=1" >> /etc/yum.conf :: Filesystem_operation,()
+/var/log/nginx :: volume_operation,()
+cd ¦/tmp/nginx/nginx-${NGINX_VERSION} :: Filesystem_operation,()

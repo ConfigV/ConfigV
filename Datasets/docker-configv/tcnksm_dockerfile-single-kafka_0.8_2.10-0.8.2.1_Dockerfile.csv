@@ -1,0 +1,14 @@
+KAFKA_VERSION:0.8.2.1 :: env_operation,()
+rm ¦/tmp/kafka.tgz :: Filesystem_operation,()
+SCALA_VERSION:2.10 :: env_operation,()
+/opt/kafka :: workdir_operation,()
+mv ¦/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION}¦/opt/kafka :: Filesystem_operation,()
+apt-get ¦install¦-y¦zookeeper¦wget¦dnsutils¦vim :: Dependencies_operation,()
+tar ¦xfz¦/tmp/kafka.tgz¦-C¦/opt :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,java:8.0
+wget ¦-q¦http://apache.mirrors.spacedump.net/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz¦-O¦/tmp/kafka.tgz :: Dependencies_operation,()
+cmd,/usr/local/bin/run.sh
+apt-get ¦update :: Dependencies_operation,()
+usr/local/bin/run.sh/usr/local/bin/run.sh :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

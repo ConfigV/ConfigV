@@ -1,0 +1,6 @@
+/etc/opscenter/clusters :: volume_operation,()
+expose,8888
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦apt-get¦update && apt-get install -y -q --no-install-recommends curl && echo "deb http://debian.datastax.com/community stable main" > /etc/apt/sources.list.d/cassandra.sources.list && curl -s -L http://debian.datastax.com/debian/repo_key |... :: Filesystem_operation,()
+from,ubuntu:14.04
+cmd,/usr/share/opscenter/bin/opscenter¦-f

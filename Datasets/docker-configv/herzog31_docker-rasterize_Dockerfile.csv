@@ -1,0 +1,14 @@
+entrypoint,phantomjs¦/raster-root/rasterize.js
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+wget ¦-q¦--no-check-certificate¦-O¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2¦https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 :: Dependencies_operation,()
+mkdir ¦-p¦/raster-output :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦-C¦/tmp¦-xjf¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 :: Filesystem_operation,()
+mkdir ¦-p¦/raster-root :: Filesystem_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦wget¦libfreetype6¦libfontconfig :: Dependencies_operation,()
+ln ¦-s¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs¦/usr/bin/phantomjs :: Filesystem_operation,()
+rasterize.js/raster-root/ :: copy_operation,()
+PHANTOMJS_VERSION=1.9.8: :: env_operation,()
+from,ubuntu@latest
+/raster-root :: workdir_operation,()
+rm ¦/tmp/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 :: Filesystem_operation,()

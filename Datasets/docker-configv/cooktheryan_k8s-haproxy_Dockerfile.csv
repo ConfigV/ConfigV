@@ -1,0 +1,9 @@
+from,haproxy:1.5
+./haproxy.cfg.gotemplate/etc/k8s-haproxy/haproxy.cfg.gotemplate :: add_operation,()
+mkdir ¦/etc/haproxy :: Filesystem_operation,()
+./haproxy.cfg/etc/haproxy/haproxy.cfg :: add_operation,()
+mkdir ¦/var/lib/haproxy :: Filesystem_operation,()
+mv ¦/usr/local/etc/haproxy/errors/¦/etc/haproxy/ :: Filesystem_operation,()
+./bin/k8s-haproxy/k8s-haproxy :: add_operation,()
+cmd,/k8s-haproxy¦--master=http://pilot00.qa.porch.com:8080
+./reload-haproxy.sh/reload-haproxy.sh :: add_operation,()

@@ -1,0 +1,13 @@
+curl ¦-L¦https://basemount.basespace.illumina.com/install/ :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦apt-transport-https¦ca-certificates¦software-properties-common¦curl¦wget :: Dependencies_operation,()
+env ¦--unset=DEBIAN_FRONTEND :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+from,ubuntu:14.04
+REFRESHED_AT:2015-12-18 :: env_operation,()
+/basespace :: workdir_operation,()
+/data/ :: volume_operation,()
+entrypoint,basemount
+mkdir ¦/basespace :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()

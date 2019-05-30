@@ -1,0 +1,12 @@
+sed ¦-i¦'s/httpredir/deb/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+/code :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cd ¦/usr/local/src/pkg/ :: Filesystem_operation,()
+/usr/lib/pbuilder/pbuilder-satisfydepends-experimental  :: Other_operation,()
+apt-get ¦install¦--assume-yes¦clang-3.9¦pbuilder :: Dependencies_operation,()
+mkdir ¦-p¦/usr/local/src/pkg :: Filesystem_operation,()
+debian/usr/local/src/pkg/debian :: copy_operation,()
+REFRESHED_AT:2017-10-17 :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+from,debian@buster
+apt-get ¦update :: Dependencies_operation,()

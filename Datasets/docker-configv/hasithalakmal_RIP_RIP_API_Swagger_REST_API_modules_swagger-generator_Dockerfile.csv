@@ -1,0 +1,8 @@
+GENERATOR_HOST=https://generator.swaggerhub.com/api/swagger.json: :: env_operation,()
+expose,8080
+cmd,java¦-jar¦/generator/jetty-runner.jar¦/generator/swagger-generator.war
+target/*.war/generator/swagger-generator.war :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+target/lib/jetty-runner*/generator/jetty-runner.jar :: copy_operation,()
+from,java:8.0
+/generator :: workdir_operation,()

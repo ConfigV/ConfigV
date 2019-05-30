@@ -1,0 +1,12 @@
+from,java:7.0
+cmd,/usr/sparqlmap/sparqlmap/build/install/sparqlmap/bin/sparqlmap¦-dburl¦$DB_URL¦-dbuser¦$DB_USER¦-dbpassword¦$DB_PASS
+./gradlew ¦-x¦test¦installDist :: Other_operation,()
+cd ¦sparqlmap/ :: Filesystem_operation,()
+/usr/sparqlmap :: workdir_operation,()
+cd ¦sparqlmap-core/ :: Filesystem_operation,()
+git ¦checkout¦feature/travisCi :: Dependencies_operation,()
+git ¦clone¦https://github.com/tomatophantastico/sparqlmap-core/ :: Dependencies_operation,()
+cd ¦sparqlmap-core :: Filesystem_operation,()
+git ¦clone¦https://github.com/tomatophantastico/sparqlmap/ :: Dependencies_operation,()
+mkdir ¦/usr/sparqlmap :: Filesystem_operation,()
+./gradlew ¦-x¦test¦publishToMavenLocal :: Other_operation,()

@@ -1,0 +1,6 @@
+echo ¦apk¦add --update redis && rm -rf /var/cache/apk/* && mkdir /data && chown -R redis:redis /data && sed -i 's#logfile /var/log/redis/redis.log#logfile ""#i' /etc/redis.conf && sed -i 's#daemonize yes#daemonize no#i' /etc/redis.conf && sed -i... :: Filesystem_operation,()
+from,gliderlabs/alpine
+expose,6379
+redis :: user_operation,()
+entrypoint,redis-server
+/data :: volume_operation,()

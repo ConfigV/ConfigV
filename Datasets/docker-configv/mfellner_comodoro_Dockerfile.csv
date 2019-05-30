@@ -1,0 +1,10 @@
+mkdir ¦-p¦/go/src/app :: Filesystem_operation,()
+go-wrapper ¦install :: Other_operation,()
+APP_PORT:3030 :: env_operation,()
+cmd,go-wrapper¦run
+APP_LOGLEVEL:info :: env_operation,()
+from,golang:1.4
+./go/src/app :: copy_operation,()
+go-wrapper ¦download :: Other_operation,()
+/go/src/app :: workdir_operation,()
+APP_FLEETENDPOINT:unix:///var/run/fleet.sock :: env_operation,()

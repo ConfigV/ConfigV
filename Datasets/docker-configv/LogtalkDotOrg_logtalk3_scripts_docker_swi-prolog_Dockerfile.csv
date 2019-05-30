@@ -1,0 +1,16 @@
+$LOGTALK_DOWNLOAD/logtalk3-${LOGTALK_VERSION}/scripts/install.sh ¦-p¦$LOGTALK_INSTALL_PREFIX :: Other_operation,()
+/logtalkuser_prefix :: volume_operation,()
+MANPATH=$MANPATH:$LOGTALKHOME/man: :: env_operation,()
+entrypoint,swilgt
+/source :: volume_operation,()
+LOGTALKUSER=/logtalkuser_prefix/logtalk: :: env_operation,()
+LOGTALK_INSTALL_PREFIX=/usr/local: :: env_operation,()
+mkdir ¦$LOGTALK_DOWNLOAD¦-p :: Filesystem_operation,()
+$LOGTALK_DOWNLOAD :: workdir_operation,()
+/source :: workdir_operation,()
+curl ¦-sL¦https://github.com/LogtalkDotOrg/logtalk3/archive/${LOGTALK_VERSION}.tar.gz¦|¦tar¦xz :: Dependencies_operation,()
+PATH=$PATH:$LOGTALKHOME/tools/lgtdoc/xml:$LOGTALKHOME/scripts:$LOGTALKHOME/integration: :: env_operation,()
+LOGTALK_DOWNLOAD=/download: :: env_operation,()
+from,swipl/swipl:latest
+LOGTALKHOME=$LOGTALK_INSTALL_PREFIX/share/logtalk: :: env_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()

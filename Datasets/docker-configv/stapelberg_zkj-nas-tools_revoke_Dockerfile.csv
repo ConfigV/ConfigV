@@ -1,0 +1,7 @@
+revoke/usr/bin/revoke :: add_operation,()
+nobody :: user_operation,()
+from,busybox:14.04
+expose,8093
+echo ¦echo¦'nobody:x:99:99:nobody:/:/bin/sh' >> /etc/passwd :: Filesystem_operation,()
+/etc/revoke :: volume_operation,()
+entrypoint,/usr/bin/revoke

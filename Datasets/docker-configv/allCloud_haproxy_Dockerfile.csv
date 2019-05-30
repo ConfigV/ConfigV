@@ -1,0 +1,12 @@
+/supervisord-haproxy.conf/etc/supervisor/conf.d/supervisord-haproxy.conf :: add_operation,()
+/start-haproxy.sh/start-haproxy.sh :: add_operation,()
+from,ubuntu@quantal
+/run.sh/run.sh :: add_operation,()
+apt-get ¦install¦-qy¦supervisor :: Dependencies_operation,()
+apt-get ¦update¦-q :: Dependencies_operation,()
+chmod ¦755¦/*.sh :: Permissions_operation,()
+expose,80
+haproxy.cfg/etc/haproxy/haproxy.cfg :: add_operation,()
+enabled/etc/default/haproxy :: add_operation,()
+cmd,/run.sh
+apt-get ¦install¦-y¦haproxy :: Dependencies_operation,()

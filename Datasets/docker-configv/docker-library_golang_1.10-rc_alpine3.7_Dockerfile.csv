@@ -1,0 +1,11 @@
+from,alpine:3.7
+$GOPATH :: workdir_operation,()
+PATH:$GOPATH/bin:/usr/local/go/bin:$PATH :: env_operation,()
+chmod ¦-R¦777¦"$GOPATH" :: Permissions_operation,()
+go-wrapper/usr/local/bin/ :: copy_operation,()
+apk ¦add¦--no-cache¦ca-certificates :: Dependencies_operation,()
+*.patch/go-alpine-patches/ :: copy_operation,()
+apk ¦--print-arch :: Dependencies_operation,()
+mkdir ¦-p¦"$GOPATH/src"¦"$GOPATH/bin" :: Filesystem_operation,()
+GOLANG_VERSION:1.10beta1 :: env_operation,()
+GOPATH:/go :: env_operation,()

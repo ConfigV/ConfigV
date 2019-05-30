@@ -1,0 +1,19 @@
+package.json/docker/package.json :: copy_operation,()
+chown ¦-R¦"node"¦"/docker" :: Permissions_operation,()
+src//docker/src/ :: copy_operation,()
+from,mhart/alpine-node:latest
+mkdir ¦"/docker/src" :: Filesystem_operation,()
+mkdir ¦"/docker" :: Filesystem_operation,()
+"/docker" :: workdir_operation,()
+"node" :: user_operation,()
+npm ¦run¦"build" :: Dependencies_operation,()
+sed ¦-i¦"1s/^/Defaults¦!requiretty\\n/"¦"/etc/sudoers" :: Filesystem_operation,()
+expose,3000
+npm ¦install :: Dependencies_operation,()
+entrypoint,node
+apk ¦update :: Dependencies_operation,()
+cmd,dist
+apk ¦add¦"sudo"¦"sed"¦"bash"¦"nmap" :: Dependencies_operation,()
+mkdir ¦"/docker/dist" :: Filesystem_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+adduser ¦-S¦"node" :: Permissions_operation,()

@@ -1,0 +1,9 @@
+echo ¦apt-key¦adv --keyserver hkp://keys.gnupg.net --recv-keys 97A336A9320E6224 ; sh -c "echo deb http://repo.dentrassi.de/apt package-drone main > /etc/apt/sources.list.d/PackageDrone.list" :: Filesystem_operation,()
+apt-get ¦update¦;¦apt-get¦-y¦install¦openjdk-8-jre-headless :: Dependencies_operation,()
+expose,8080
+apt-get ¦update¦;¦apt-get¦-y¦install¦software-properties-common¦dpkg :: Dependencies_operation,()
+apt-get ¦update¦;¦apt-get¦-y¦install¦package-drone-server :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cmd,/usr/lib/package-drone-server/instance/server
+from,ubuntu:15.1
+add-apt-repository ¦"deb¦http://archive.ubuntu.com/ubuntu/¦wily¦universe¦multiverse"¦;¦add-apt-repository¦"deb¦http://archive.ubuntu.com/ubuntu/¦wily-updates¦universe¦multiverse" :: Dependencies_operation,()

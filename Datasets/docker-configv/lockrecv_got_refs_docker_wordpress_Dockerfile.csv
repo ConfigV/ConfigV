@@ -1,0 +1,14 @@
+wp-config.php/var/www/html/wp-config.php :: copy_operation,()
+cp ¦-R¦./wordpress/*¦/var/www/html :: Filesystem_operation,()
+/usr/bin/mysqld_safe ¦& :: Other_operation,()
+wget ¦http://wordpress.org/latest.tar.gz :: Dependencies_operation,()
+cmd,/usr/bin/supervisord
+rm ¦/var/www/html/index.html :: Filesystem_operation,()
+apt-get ¦-y¦install¦apache2¦php5¦php5-mysql¦supervisor¦wget :: Dependencies_operation,()
+apt-get ¦install¦-qqy¦mysql-server :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'mysql-server mysql-server/root_password password root' | debconf-set-selections && echo 'mysql-server mysql-server/root_password_again password root' | debconf-set selections :: Filesystem_operation,()
+tar ¦xzvf¦latest.tar.gz :: Filesystem_operation,()
+from,ubuntu:14.04
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: copy_operation,()
+expose,80

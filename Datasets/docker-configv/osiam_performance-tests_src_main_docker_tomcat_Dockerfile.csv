@@ -1,0 +1,9 @@
+cmd,catalina.sh¦run
+echo ¦echo¦"${user.timezone}" > /etc/timezone :: Filesystem_operation,()
+cp ¦-p¦/usr/share/zoneinfo/${user.timezone}¦/etc/localtime :: Filesystem_operation,()
+manager$CATALINA_HOME/webapps/manager :: copy_operation,()
+from,tomcat:7.0
+sed ¦-i¦'s/8080/8280/g'¦$CATALINA_HOME/conf/server.xml :: Filesystem_operation,()
+osiam-auth-server$CATALINA_HOME/webapps/osiam-auth-server :: copy_operation,()
+osiam-resource-server$CATALINA_HOME/webapps/osiam-resource-server :: copy_operation,()
+expose,8280

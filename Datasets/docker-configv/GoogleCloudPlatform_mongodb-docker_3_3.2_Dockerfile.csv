@@ -1,0 +1,25 @@
+MONGO_PACKAGE:mongodb-org :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/data/db¦/data/configdb :: Filesystem_operation,()
+mv ¦/etc/mongod.conf¦/etc/mongod.conf.orig :: Filesystem_operation,()
+set ¦-x :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/data/db :: volume_operation,()
+from,gcr.io/google-appengine/debian8
+chown ¦-R¦mongodb:mongodb¦/data/db¦/data/configdb :: Permissions_operation,()
+mktemp ¦-d :: Other_operation,()
+GOSU_VERSION:1.7 :: env_operation,()
+/data/configdb :: volume_operation,()
+GPG_KEYS:42F3E95A2C4F08279C4960ADD68FA50FEA312927 :: env_operation,()
+MONGO_VERSION:3.2.12 :: env_operation,()
+expose,27017
+rm ¦-rf¦/var/lib/mongodb :: Filesystem_operation,()
+cmd,mongod
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦numactl :: Dependencies_operation,()
+MONGO_MAJOR:3.2 :: env_operation,()
+entrypoint,/entrypoint.sh
+echo ¦echo¦"deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/$MONGO_MAJOR main" > /etc/apt/sources.list.d/mongodb-org.list :: Filesystem_operation,()
+groupadd ¦-r¦mongodb :: Permissions_operation,()
+useradd ¦-r¦-g¦mongodb¦mongodb :: Permissions_operation,()
+apt-get ¦install¦-y¦¦${MONGO_PACKAGE}=$MONGO_VERSION¦¦${MONGO_PACKAGE}-server=$MONGO_VERSION¦¦${MONGO_PACKAGE}-shell=$MONGO_VERSION¦¦${MONGO_PACKAGE}-mongos=$MONGO_VERSION¦¦${MONGO_PACKAGE}-tools=$MONGO_VERSION :: Dependencies_operation,()

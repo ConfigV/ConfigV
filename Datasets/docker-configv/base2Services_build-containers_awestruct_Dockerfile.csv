@@ -1,0 +1,22 @@
+Gemfile/tmp/Gemfile :: add_operation,()
+RUBY_DOWNLOAD_SHA256:30c4b31697a4ca4ea0c8db8ad30cf45e6690a0f09687e5d483c933c03ca335e3 :: env_operation,()
+BUNDLER_VERSION:1.12.3 :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦bzip2¦¦ca-certificates¦¦curl¦¦libffi-dev¦¦libgdbm3¦¦libssl-dev¦¦libyaml-dev¦¦procps¦¦zlib1g-dev :: Dependencies_operation,()
+RUBY_MAJOR:2.2 :: env_operation,()
+cmd,--help
+from,debian@jessie
+/app :: workdir_operation,()
+BUNDLE_PATH="$GEM_HOME":BUNDLE_BIN="$GEM_HOME/bin" :: env_operation,()
+echo ¦mkdir¦-p /usr/local/etc && {  echo 'install: --no-document';  echo 'update: --no-document'; } >> /usr/local/etc/gemrc :: Filesystem_operation,()
+entrypoint,awestruct
+RUBYGEMS_VERSION:2.6.4 :: env_operation,()
+gem ¦install¦bundler¦--version¦"$BUNDLER_VERSION" :: Dependencies_operation,()
+mkdir ¦-p¦"$GEM_HOME"¦"$BUNDLE_BIN" :: Filesystem_operation,()
+GEM_HOME:/usr/local/bundle :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦777¦"$GEM_HOME"¦"$BUNDLE_BIN" :: Permissions_operation,()
+RUBY_VERSION:2.2.5 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+PATH:$BUNDLE_BIN:$PATH :: env_operation,()
+expose,4242
+echo ¦set¦-ex && buildDeps='  autoconf  bison  gcc  libbz2-dev  libgdbm-dev  libglib2.0-dev  libncurses-dev  libreadline-dev  libxml2-dev  libxslt-dev  make  ruby ' && apt-get update && apt-get install -y --no-install-recommends $buildDeps && rm... :: Filesystem_operation,()

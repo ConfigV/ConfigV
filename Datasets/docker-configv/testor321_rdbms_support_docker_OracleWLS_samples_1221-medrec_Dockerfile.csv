@@ -1,0 +1,8 @@
+$FMW_PKG./ :: copy_operation,()
+FMW_PKG="fmw_12.2.1.0.0_wls_supplemental_quick_Disk1_1of1.zip":MW_HOME="$ORACLE_HOME" :: env_operation,()
+$ORACLE_HOME/wlserver/samples/server/medrec :: workdir_operation,()
+cmd,single.server.sample
+from,oracle/weblogic:12.2.1-developer
+entrypoint,./startSample.sh
+ls ¦-1¦*.jar :: Filesystem_operation,()
+expose,7001

@@ -1,0 +1,12 @@
+npm ¦run¦build:prod :: Dependencies_operation,()
+npm ¦run¦prebuild:prod :: Dependencies_operation,()
+expose,8080
+entrypoint,npm¦run¦server:prod
+npm ¦install¦--global¦rimraf :: Dependencies_operation,()
+cd ¦/var/www :: Filesystem_operation,()
+npm ¦run¦clean :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+/var/www :: workdir_operation,()
+git ¦clone¦https://github.com/akveo/ng2-admin.git¦/var/www :: Dependencies_operation,()
+npm ¦install¦--global¦webpack¦webpack-dev-server¦typescript@beta :: Dependencies_operation,()
+from,node@latest

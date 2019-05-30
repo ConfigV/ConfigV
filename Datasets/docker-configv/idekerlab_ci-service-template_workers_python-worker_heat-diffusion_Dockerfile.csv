@@ -1,0 +1,11 @@
+entrypoint,/workers/run.sh
+conda ¦install¦scipy¦numpy :: Dependencies_operation,()
+./workers :: add_operation,()
+conda ¦update¦conda :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/workers :: workdir_operation,()
+expose,5556 5557 5558
+apt-get ¦install¦-y¦build-essential :: Dependencies_operation,()
+mkdir ¦/workers :: Filesystem_operation,()
+from,continuumio/miniconda
+pip ¦install¦hdsubnetfinder¦redis¦pyzmq¦ciworker==0.1.4 :: Dependencies_operation,()

@@ -1,0 +1,17 @@
+curl ¦-L¦https://github.com/prometheus/prometheus/releases/download/v1.5.0/prometheus-1.5.0.linux-amd64.tar.gz¦>/prometheus.tar.gz :: Dependencies_operation,()
+run.sh/opt/bugautomation/ :: add_operation,()
+server-*.tar.gz/opt/bugautomation/ :: add_operation,()
+/var/lib/prometheus :: volume_operation,()
+tar ¦xvzf¦/prometheus.tar.gz :: Filesystem_operation,()
+/var/lib/grafana :: volume_operation,()
+curl ¦-L¦https://grafanarel.s3.amazonaws.com/builds/grafana-4.1.0-1484127817.linux-x64.tar.gz¦>/grafana.tar.gz :: Dependencies_operation,()
+mkdir ¦-p¦/opt/bugautomation¦/opt/prometheus¦/opt/grafana¦/var/lib/prometheus¦/var/lib/grafana¦/etc/bugautomation :: Filesystem_operation,()
+expose,8080 3000
+tar ¦xvzf¦/grafana.tar.gz :: Filesystem_operation,()
+prometheus.yml/opt/bugautomation/ :: add_operation,()
+yum ¦install¦-y¦java-1.8.0-openjdk-headless¦tar¦procps¦iproute :: Dependencies_operation,()
+cd ¦/opt/grafana :: Filesystem_operation,()
+cd ¦/opt/prometheus :: Filesystem_operation,()
+rm ¦-rf¦/*.tar.gz :: Filesystem_operation,()
+entrypoint,/opt/bugautomation/run.sh
+from,fedora:23.0

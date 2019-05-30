@@ -1,0 +1,8 @@
+cmd,java -jar $JAVA_APP_JAR
+expose,8080
+entrypoint,sh¦-c
+chmod ¦777¦/app/ :: Permissions_operation,()
+from,java:8.0
+/app/ :: workdir_operation,()
+target/$JAVA_APP_JAR/app/ :: add_operation,()
+JAVA_APP_JAR:http-frontend-3.3.0-fat.jar :: env_operation,()

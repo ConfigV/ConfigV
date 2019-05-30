@@ -1,0 +1,17 @@
+rm ¦-rf¦internal/java/windows-amd64 :: Filesystem_operation,()
+rm ¦-f¦hub.zip :: Filesystem_operation,()
+cmd,/bin/bash¦/hub/bin/hub.sh¦run
+mv ¦hub-ring-bundle-${HUB_VERSION}/*¦. :: Filesystem_operation,()
+unzip ¦-q¦hub.zip :: Filesystem_operation,()
+PORT=8080: :: env_operation,()
+rm ¦-rf¦hub-ring-bundle-${HUB_VERSION} :: Filesystem_operation,()
+rm ¦-rf¦internal/java/linux-x64/man :: Filesystem_operation,()
+rm ¦-rf¦internal/java/mac-x64 :: Filesystem_operation,()
+mkdir ¦backups¦data¦logs¦conf¦temp :: Filesystem_operation,()
+bin/hub.sh ¦configure¦--backups-dir¦${HOME}/backups¦--data-dir¦${HOME}/data¦--logs-dir¦${HOME}/logs¦--temp-dir¦${HOME}/temp¦--listen-port¦${PORT}¦--base-url¦${BASE_URL} :: Other_operation,()
+USER_ID=2000 :: arg_operation,()
+USER_NAME=jetbrains :: arg_operation,()
+curl ¦--location¦"https://download.jetbrains.com/hub/2017.1/hub-ring-bundle-${HUB_VERSION}.zip"¦>¦hub.zip :: Dependencies_operation,()
+${USER_NAME} :: user_operation,()
+/hub :: workdir_operation,()
+from,openjdk@latest

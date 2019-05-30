@@ -1,0 +1,10 @@
+from,ubuntu@latest
+expose,80
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦--force-yes¦-y¦-q¦install¦apache2¦php5¦php5-mysql :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()

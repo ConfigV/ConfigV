@@ -1,0 +1,9 @@
+from,google/debian:wheezy
+apt-get ¦update¦-y :: Dependencies_operation,()
+GOROOT:/goroot :: env_operation,()
+PATH:$PATH:$GOROOT/bin:$GOPATH/bin :: env_operation,()
+mkdir ¦/gopath :: Filesystem_operation,()
+GOPATH:/gopath :: env_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦-q¦curl¦build-essential¦ca-certificates :: Dependencies_operation,()
+mkdir ¦/goroot :: Filesystem_operation,()
+curl ¦https://storage.googleapis.com/golang/go1.2.2.linux-amd64.tar.gz¦|¦tar¦xvzf¦-¦-C¦/goroot¦--strip-components=1 :: Dependencies_operation,()

@@ -1,0 +1,8 @@
+cmd,supervisord¦--nodaemon¦--config¦/etc/supervisor/supervisord.conf
+supervisor-tomcat.conf/etc/supervisor/conf.d/tomcat.conf :: copy_operation,()
+curl ¦http://download.forgerock.org/downloads/openam/openam_link.js¦|¦grep¦-o¦"http://.*\\.war"¦|¦xargs¦curl¦-o¦/var/lib/tomcat8/webapps/openam.war :: Dependencies_operation,()
+supervisor-apache.conf/etc/supervisor/conf.d/apache.conf :: copy_operation,()
+apt-get ¦update¦&&\\ :: Dependencies_operation,()
+a2enmod ¦ssl :: Other_operation,()
+openam-proxy.conf/etc/httpd/conf.d/openam-proxy.conf :: copy_operation,()
+from,ubuntu:16.04

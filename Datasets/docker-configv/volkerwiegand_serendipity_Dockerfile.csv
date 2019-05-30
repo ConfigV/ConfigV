@@ -1,0 +1,20 @@
+from,php:5.6
+a2enmod ¦rewrite :: Other_operation,()
+rm ¦serendipity-${SERENDIPITY_VERSION}.zip¦/tmp/md5sums :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/var/www/html/index.html :: Filesystem_operation,()
+/var/www/html :: volume_operation,()
+curl ¦-fsSL¦-o¦serendipity-${SERENDIPITY_VERSION}.zip¦¦"https://github.com/s9y/Serendipity/releases/download/${SERENDIPITY_VERSION}/serendipity-${SERENDIPITY_VERSION}.zip" :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦unzip¦libcurl4-openssl-dev¦libfreetype6-dev¦libicu-dev¦libjpeg-dev¦libmcrypt-dev¦libmemcached-dev¦libpng12-dev¦libpq-dev¦imagemagick¦vim-tiny :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+unzip ¦-d¦/usr/src¦serendipity-${SERENDIPITY_VERSION}.zip :: Filesystem_operation,()
+docker-php-ext-install ¦gd¦intl¦mbstring¦mcrypt¦mysql¦opcache :: Other_operation,()
+./entrypoint.sh/entrypoint.sh :: copy_operation,()
+echo ¦{¦ echo 'opcache.memory_consumption=128';  echo 'opcache.interned_strings_buffer=8';  echo 'opcache.max_accelerated_files=4000';  echo 'opcache.revalidate_freq=60';  echo 'opcache.fast_shutdown=1';  echo 'opcache.enable_cli=1'; } > /usr/lo... :: Filesystem_operation,()
+echo ¦echo¦"497661f4897fb23919b24a6e512c2d86 serendipity-${SERENDIPITY_VERSION}.zip" >/tmp/md5sums :: Filesystem_operation,()
+SERENDIPITY_VERSION:2.0.2 :: env_operation,()
+entrypoint,/entrypoint.sh
+pecl ¦install¦APCu-beta¦redis¦memcached :: Dependencies_operation,()
+expose,80
+docker-php-ext-enable ¦apcu¦redis¦memcached :: Other_operation,()
+md5sum ¦--quiet¦--check¦/tmp/md5sums :: Other_operation,()

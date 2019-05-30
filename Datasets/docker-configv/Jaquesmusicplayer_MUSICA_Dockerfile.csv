@@ -1,0 +1,16 @@
+cloudtunes-server/home/cloudtunes/cloudtunes-server :: add_operation,()
+from,dockerfile/ubuntu
+pip ¦install¦--download=/requirements¦-r¦/requirements.txt :: Dependencies_operation,()
+mkdir ¦/home/cloudtunes :: Filesystem_operation,()
+echo ¦apt-key¦adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list && apt-get update && apt-get install -y mongo... :: Filesystem_operation,()
+pip ¦install¦--no-index¦--find-links=/requirements¦-r¦/requirements.txt :: Dependencies_operation,()
+cloudtunes-webapp/home/cloudtunes/cloudtunes-webapp :: add_operation,()
+pip ¦install¦/home/cloudtunes/cloudtunes-server :: Dependencies_operation,()
+cmd,supervisord¦--nodaemon
+/home/cloudtunes :: workdir_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+mkdir ¦/requirements :: Filesystem_operation,()
+cloudtunes-server/production/supervisor.ini/etc/supervisor/conf.d/cloudtunes.ini :: add_operation,()
+/data :: volume_operation,()
+cloudtunes-server/requirements.txt/requirements.txt :: add_operation,()
+apt-get ¦-y¦install¦redis-server¦supervisor¦nginx¦python-dev¦python-pip¦git¦ruby :: Dependencies_operation,()

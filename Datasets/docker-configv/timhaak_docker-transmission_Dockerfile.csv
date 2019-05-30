@@ -1,0 +1,17 @@
+LC_ALL:C.UTF-8 :: env_operation,()
+from,debian@wheezy
+apt-get ¦install¦-qy¦--force-yes¦libcurl4-openssl-dev¦libssl-dev¦pkg-config¦build-essential¦checkinstall¦intltool\\ :: Dependencies_operation,()
+expose,9091
+settings.json/var/lib/transmission-daemon/info/settings.json :: copy_operation,()
+/config :: volume_operation,()
+TRANSMISSION_VERSION:2.84 :: env_operation,()
+chmod ¦u+x¦/start.sh :: Permissions_operation,()
+apt-get ¦-qy¦--force-yes¦dist-upgrade :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+./settings.json/var/lib/transmission-daemon/info/settings.json :: add_operation,()
+LIBEVENT_VERSION:2.0.18 :: env_operation,()
+LANGUAGE:en_US.UTF-8 :: env_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+./start.sh/start.sh :: add_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()
+cmd,/start.sh

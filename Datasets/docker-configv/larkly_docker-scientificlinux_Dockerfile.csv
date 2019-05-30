@@ -1,0 +1,14 @@
+config/slc-7.packages/etc/rinse/slc-7.packages :: add_operation,()
+from,ubuntu:14.04
+cmd,/bin/bash¦/start.sh
+mkdir ¦-p¦/vol/distro/temp :: Filesystem_operation,()
+config/rinse.conf/etc/rinse/rinse.conf :: add_operation,()
+config/post-install.sh/usr/lib/rinse/slc-7/post-install.sh :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦alien¦cpio¦rpm2cpio¦wget¦libterm-size-perl¦libwww-perl¦perl-modules¦rpm¦git¦-yq :: Other_operation,()
+/rinse :: workdir_operation,()
+git ¦clone¦git://git.debian.org/git/collab-maint/rinse.git¦/rinse :: Dependencies_operation,()
+mkdir ¦-p¦/usr/lib/rinse/slc-7 :: Filesystem_operation,()
+config/start.sh/start.sh :: add_operation,()
+/vol/distro :: volume_operation,()
+make ¦install :: Build_Execute_operation,()

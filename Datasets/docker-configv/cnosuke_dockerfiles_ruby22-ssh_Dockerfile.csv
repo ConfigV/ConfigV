@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+expose,22
+from,cnosuke/ruby22-base
+mkdir ¦-p¦~/work :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+password.txt. :: copy_operation,()
+echo ¦mkdir¦/var/run/sshd && echo "root:`cat password.txt`" | chpasswd && # Allow root login with password :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D

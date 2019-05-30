@@ -1,0 +1,11 @@
+apt-get ¦install¦-y¦--force-yes¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+mkdir ¦-p¦/opt/elasticsearch :: Filesystem_operation,()
+/opt/elasticsearch/bin/plugin ¦-install¦lmenezes/elasticsearch-kopf :: Other_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+expose,9200
+tar ¦xfz¦/tmp/elasticsearch-1.0.1.tar.gz¦-C¦/opt/elasticsearch¦--strip-components=1 :: Filesystem_operation,()
+from,debian@wheezy
+/opt/elasticsearch/bin/plugin ¦-url¦http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip¦-install¦elasticsearch/kibana3 :: Other_operation,()
+cmd,/opt/elasticsearch/bin/elasticsearch
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+wget ¦https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.1.tar.gz¦-O¦/tmp/elasticsearch-1.0.1.tar.gz :: Dependencies_operation,()

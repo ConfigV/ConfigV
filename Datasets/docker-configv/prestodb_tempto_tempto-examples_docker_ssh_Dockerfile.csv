@@ -1,0 +1,10 @@
+expose,22
+mkdir ¦/root/.ssh :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+keys/key.pub/root/.ssh/authorized_keys :: copy_operation,()
+from,teradatalabs/centos6-java8-oracle
+echo ¦echo¦s3cr37_p@55 | passwd --stdin root :: Filesystem_operation,()
+chmod ¦400¦/root/.ssh/authorized_keys :: Permissions_operation,()
+ssh-keygen ¦-t¦rsa¦-f¦/etc/ssh/ssh_host_rsa_key¦-N¦'' :: Other_operation,()
+cmd,/usr/sbin/sshd¦-D
+yum ¦install¦-y¦openssh-server¦openssh-clients¦passwd :: Dependencies_operation,()

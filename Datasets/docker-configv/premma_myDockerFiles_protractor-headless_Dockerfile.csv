@@ -1,0 +1,17 @@
+PATH=$PATH:/opt/google/chrome: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+chmod ¦a+x¦/protractor.sh :: Permissions_operation,()
+/protractor :: workdir_operation,()
+webdriver-manager ¦update¦--chrome :: Other_operation,()
+npm ¦install¦-g¦protractor¦mocha¦jasmine :: Dependencies_operation,()
+protractor.sh/protractor.sh :: add_operation,()
+from,node
+apt-get ¦install¦-y¦xvfb¦wget¦openjdk-7-jre¦google-chrome-stable :: Dependencies_operation,()
+echo ¦wget¦-q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' :: Filesystem_operation,()
+apt-get ¦install¦-f¦-y :: Dependencies_operation,()
+export ¦PATH=$PATH:/opt/google/chrome :: Environment_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,/protractor.sh
+/protractor :: volume_operation,()
+/tmp :: workdir_operation,()
+mkdir ¦/protractor :: Filesystem_operation,()

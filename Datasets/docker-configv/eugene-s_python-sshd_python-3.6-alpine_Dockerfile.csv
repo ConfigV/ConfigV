@@ -1,0 +1,11 @@
+expose,22
+PROJECT_PATH:/usr/src/python-app/ :: env_operation,()
+${PROJECT_PATH} :: workdir_operation,()
+pip ¦install¦--no-cache-dir¦virtualenv :: Dependencies_operation,()
+entrypoint,entrypoint.sh
+echo ¦apk¦update && apk add bash openssh && mkdir -p ${SSH_SERVER_KEYS} && mkdir ${PROJECT_PATH} && echo -e "HostKey ${SSH_SERVER_KEYS}ssh_host_rsa_key" >> /etc/ssh/sshd_config && echo -e "HostKey ${SSH_SERVER_KEYS}ssh_host_dsa_key" >> /etc/ssh/... :: Filesystem_operation,()
+SSH_SERVER_KEYS:/etc/ssh/host_keys/ :: env_operation,()
+from,python:3.6
+/rootfs/ :: copy_operation,()
+VENV_PATH:/root/venv/ :: env_operation,()
+cmd,/usr/sbin/sshd¦-D¦-e

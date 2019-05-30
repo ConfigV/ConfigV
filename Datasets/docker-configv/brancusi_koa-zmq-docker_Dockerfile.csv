@@ -1,0 +1,23 @@
+wget ¦https://download.libsodium.org/libsodium/releases/libsodium-1.0.3.tar.gz :: Dependencies_operation,()
+./configure  :: Build_Execute_operation,()
+wget ¦http://download.zeromq.org/zeromq-4.1.1.tar.gz :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+rm ¦-rf¦zeromq* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,iojs@onbuild
+make ¦install :: Build_Execute_operation,()
+ldconfig  :: Other_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+expose,22
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+tar ¦-xvf¦libsodium-1.0.3.tar.gz :: Filesystem_operation,()
+NOTVISIBLE:"in :: env_operation,()
+echo ¦echo¦'root:root' | chpasswd :: Filesystem_operation,()
+tar ¦-xvf¦zeromq-4.1.1.tar.gz :: Filesystem_operation,()
+apt-get ¦install¦-y¦libtool¦autoconf¦automake¦make¦g++¦uuid-dev¦wget¦openssh-server :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+cd ¦zeromq-* :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+cd ¦libsodium-1.0.3 :: Filesystem_operation,()

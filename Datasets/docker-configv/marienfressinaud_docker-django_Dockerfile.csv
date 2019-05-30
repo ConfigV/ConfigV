@@ -1,0 +1,13 @@
+echo ¦echo¦'alias runserver="python manage.py runserver -v 0 0.0.0.0:8000"' >> /home/django/.bashrc :: Filesystem_operation,()
+from,centos:7.0
+yum ¦update¦-y :: Dependencies_operation,()
+yum ¦install¦-y¦vim¦git¦python¦epel-release :: Dependencies_operation,()
+yum ¦install¦-y¦python-pip :: Dependencies_operation,()
+useradd ¦-u¦1000¦-g¦100¦-d¦/home/django¦django :: Permissions_operation,()
+/home/django :: workdir_operation,()
+mkdir ¦/home/django/app :: Filesystem_operation,()
+entrypoint,/bin/bash¦-e¦/home/django/start.sh
+start.sh/home/django/start.sh :: add_operation,()
+expose,8000
+pip ¦install¦django :: Dependencies_operation,()
+django :: user_operation,()

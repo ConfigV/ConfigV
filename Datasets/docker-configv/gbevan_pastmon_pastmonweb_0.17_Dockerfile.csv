@@ -1,0 +1,11 @@
+su ¦-¦pastmon¦-c¦"git¦clone¦-b¦$TAG¦git://git.code.sf.net/p/pastmon/pastmon¦pastmon" :: Other_operation,()
+from,ubuntu@trusty
+start-pastmon-web.sh/usr/local/pastmon/bin/ :: add_operation,()
+echo ¦mkdir¦/var/run/sshd && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config && useradd --create-home -s /bin/bash pastmon && mkdir -p /home/pastmon/.ssh && chmod 700 /home/pas... :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+su ¦-¦pastmon¦-c¦"\\ :: Other_operation,()
+'TTF_DIR','/usr/share/fonts/truetype/dejavu/'  :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive:LANG=C :: env_operation,()
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦aptitude¦htop¦vim¦git¦traceroute¦dnsutils¦curl¦ssh¦sudo¦psmisc¦gcc¦make¦build-essential¦pkg-config¦libglib2.0-dev¦libpcap-dev¦libdbi-dev¦libdbd-pgsql¦flex¦sysstat¦postgresql¦bison¦packaging-dev¦tree¦nginx¦php5¦php5-pgsql¦ph... :: Dependencies_operation,()
+entrypoint,/bin/bash¦/usr/local/pastmon/bin/start-pastmon-web.sh

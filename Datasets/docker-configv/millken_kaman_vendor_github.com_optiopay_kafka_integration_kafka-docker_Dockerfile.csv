@@ -1,0 +1,12 @@
+KAFKA_VERSION="0.8.2.1":SCALA_VERSION="2.10" :: env_operation,()
+/kafka :: volume_operation,()
+KAFKA_HOME:/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION} :: env_operation,()
+broker-list.sh/usr/bin/broker-list.sh :: add_operation,()
+from,ubuntu@trusty
+download-kafka.sh/tmp/download-kafka.sh :: add_operation,()
+/tmp/download-kafka.sh  :: Other_operation,()
+apt-get ¦install¦-y¦unzip¦openjdk-6-jdk¦wget¦curl¦git¦docker.io¦jq :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦xf¦/tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz¦-C¦/opt :: Filesystem_operation,()
+cmd,start-kafka.sh
+start-kafka.sh/usr/bin/start-kafka.sh :: add_operation,()

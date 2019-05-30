@@ -1,0 +1,16 @@
+apt-get ¦install¦libmosquitto-dev¦supervisor¦-y :: Dependencies_operation,()
+unzip ¦php7.zip :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+make  :: Build_Execute_operation,()
+cd ¦Mosquitto-PHP-php7 :: Filesystem_operation,()
+from,pushtospace/php:7.0
+make ¦install :: Build_Execute_operation,()
+cmd,supervisord
+rm ¦-rf¦Mosquitto-PHP-php7¦php7.zip :: Filesystem_operation,()
+echo ¦echo¦"[supervisord]">>/etc/supervisord.conf && echo "nodaemon=true">>/etc/supervisord.conf && echo "">>/etc/supervisord.conf && echo "include /etc/supervisor">>/etc/supervisord.conf :: Filesystem_operation,()
+./configure  :: Build_Execute_operation,()
+/usr/local/bin/phpize  :: Other_operation,()
+wget ¦https://github.com/mgdm/Mosquitto-PHP/archive/php7.zip :: Dependencies_operation,()
+cd ¦.. :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()

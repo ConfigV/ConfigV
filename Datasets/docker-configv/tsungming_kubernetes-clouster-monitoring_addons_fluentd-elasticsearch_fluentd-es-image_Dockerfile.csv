@@ -1,0 +1,12 @@
+/usr/bin/curl ¦-L¦http://toolbelt.treasuredata.com/sh/install-ubuntu-trusty-td-agent2.sh¦|¦sh :: Other_operation,()
+/usr/sbin/td-agent-gem ¦install¦fluent-plugin-record-reformer :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+td-agent.conf/etc/td-agent/td-agent.conf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ulimit ¦-n¦65536 :: Other_operation,()
+cmd,/usr/sbin/td-agent¦"$FLUENTD_ARGS"¦>¦/var/log/td-agent/td-agent.log
+/usr/sbin/td-agent-gem ¦install¦fluent-plugin-elasticsearch :: Other_operation,()
+apt-get ¦install¦-y¦-q¦libcurl4-openssl-dev¦make :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,ubuntu:14.04

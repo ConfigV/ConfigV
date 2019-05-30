@@ -1,0 +1,15 @@
+PRE_CREATE_DB:**None** :: env_operation,()
+dpkg ¦-i¦/tmp/influxdb_latest_amd64.deb :: Dependencies_operation,()
+rm ¦/tmp/influxdb_latest_amd64.deb :: Filesystem_operation,()
+/data :: volume_operation,()
+cmd,/run.sh
+INFLUXDB_VERSION:0.8.8 :: env_operation,()
+curl ¦-s¦-o¦/tmp/influxdb_latest_amd64.deb¦https://s3.amazonaws.com/influxdb/influxdb_${INFLUXDB_VERSION}_amd64.deb :: Dependencies_operation,()
+chmod ¦+x¦/*.sh :: Permissions_operation,()
+config.toml/config/config.toml :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+SSL_SUPPORT:**False** :: env_operation,()
+run.sh/run.sh :: add_operation,()
+SSL_CERT:**None** :: env_operation,()
+expose,8084
+from,tutum/curl:trusty

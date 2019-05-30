@@ -1,0 +1,10 @@
+from,ubuntu@latest
+http://s3.amazonaws.com/steam-release/steam-${STEAM_VERSION}-linux-amd64.tar.gz/steam/ :: add_operation,()
+cmd,steam¦serve¦master¦--superuser-name=docker¦--superuser-password=superuser
+tar ¦xvf¦steam-${STEAM_VERSION}-linux-amd64.tar.gz :: Filesystem_operation,()
+/steam/steam-${STEAM_VERSION}-linux-amd64 :: workdir_operation,()
+STEAM_VERSION:1.1.0 :: env_operation,()
+expose,9001
+PATH:/steam/steam-${STEAM_VERSION}-linux-amd64:$PATH :: env_operation,()
+ls  :: Filesystem_operation,()
+/steam :: workdir_operation,()

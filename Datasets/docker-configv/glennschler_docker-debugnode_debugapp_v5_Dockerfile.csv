@@ -1,0 +1,11 @@
+./package.json/tmp/package.json :: add_operation,()
+cmd,./index.js
+./opt/app/node :: add_operation,()
+cd ¦/opt/app/node :: Filesystem_operation,()
+entrypoint,node-debug¦--web-host¦0.0.0.0¦--cli¦true
+expose,8080
+cd ¦/tmp :: Filesystem_operation,()
+mkdir ¦-p¦/opt/app/node :: Filesystem_operation,()
+from,nodejs-inspector:5.0
+/opt/app/node :: workdir_operation,()
+npm ¦install :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+/home/ziggy/ :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦--yes¦wget¦build-essential¦zile :: Dependencies_operation,()
+echo ¦echo¦"ziggy ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers :: Filesystem_operation,()
+useradd ¦--uid¦1000¦--gid¦1000¦--create-home¦--shell¦/bin/bash¦ziggy :: Permissions_operation,()
+HOME:/home/ziggy :: env_operation,()
+from,ubuntu:14.04
+cmd,/bin/bash
+ziggy :: user_operation,()
+groupadd ¦--gid¦1000¦ziggy :: Permissions_operation,()

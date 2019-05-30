@@ -1,0 +1,16 @@
+from,alpine
+entrypoint.sh/usr/sbin :: add_operation,()
+nginx/.htpasswd/etc/nginx/ :: add_operation,()
+ty :: user_operation,()
+cmd,entrypoint.sh
+ttyd/ttyd/usr/sbin :: add_operation,()
+expose,2222 8080
+nginx/ttyd.conf/etc/nginx/conf.d :: add_operation,()
+nginx/index.html/var/www :: add_operation,()
+nginx/nginx.conf/etc/nginx/ :: add_operation,()
+echo ¦rm¦-rf /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && echo "UsePrivilegeSeparation no" >> /etc/ssh/sshd_config && echo "Port 2222" >> /etc/ssh/sshd_config && echo "root:root" | ... :: Filesystem_operation,()
+adduser ¦-D¦ty :: Permissions_operation,()
+chown ¦-R¦ty:ty¦/etc¦/var/log¦/var/run¦/var/local¦/var/lib¦/run¦/usr :: Permissions_operation,()
+chmod ¦-R¦777¦/var/lib :: Permissions_operation,()
+apk ¦add¦--update¦bash¦openssh¦libwebsockets¦json-c¦libssl1.0¦supervisor¦nginx¦libgcc¦sudo¦busybox-suid¦curl¦wget :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/cache/apk/* :: Filesystem_operation,()

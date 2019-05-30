@@ -1,0 +1,8 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦--force-yes¦-y¦build-essential¦sudo¦python-dev¦python-pip¦wget¦gdebi-core :: Other_operation,()
+pip ¦install¦fabric¦junit-xml :: Dependencies_operation,()
+echo ¦echo¦"deb http://apt.openvstorage.org unstable main" > /etc/apt/sources.list.d/ovsaptrepo.list :: Filesystem_operation,()
+useradd ¦jenkins¦-u¦1500¦-g¦root :: Permissions_operation,()
+echo ¦echo¦"jenkins ALL=NOPASSWD: ALL" >/etc/sudoers.d/jenkins :: Filesystem_operation,()
+entrypoint,/home/jenkins/alba/docker/docker-entrypoint.sh
+from,ubuntu:16.04

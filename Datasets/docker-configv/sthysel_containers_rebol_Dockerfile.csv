@@ -1,0 +1,13 @@
+mv ¦/rebol/releases/rebol-core/rebol¦/usr/bin/rebol :: Filesystem_operation,()
+REFRESHED_AT:2015-07-29 :: env_operation,()
+from,debian@jessie
+apt-get ¦install¦-y¦--no-install-recommends¦apt-transport-https¦build-essential¦libc6-i386¦lib32z1¦lib32ncurses5¦wget :: Dependencies_operation,()
+mkdir ¦/rebol :: Filesystem_operation,()
+tar ¦xzvf¦rebol.tgz :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/rebol :: workdir_operation,()
+wget ¦http://www.rebol.com/downloads/v278/rebol-core-278-4-3.tar.gz¦-O¦rebol.tgz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+env ¦--unset=DEBIAN_FRONTEND :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()

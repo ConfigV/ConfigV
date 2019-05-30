@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+/data/db :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+run.sh/run.sh :: add_operation,()
+chmod ¦755¦./*.sh :: Permissions_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+cmd,/run.sh
+AUTH:yes :: env_operation,()
+expose,28017
+set_mongodb_password.sh/set_mongodb_password.sh :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦mongodb¦pwgen :: Dependencies_operation,()
+from,sshd

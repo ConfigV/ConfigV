@@ -1,0 +1,8 @@
+yum ¦clean¦all :: Dependencies_operation,()
+from,fedora:20.0
+useradd ¦-u¦1000¦-r¦-g¦jboss¦-m¦-d¦/opt/jboss¦-s¦/sbin/nologin¦-c¦"JBoss¦user"¦jboss :: Permissions_operation,()
+/opt/jboss :: workdir_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+groupadd ¦-r¦jboss¦-g¦1000 :: Permissions_operation,()
+jboss :: user_operation,()
+yum ¦-y¦install¦xmlstarlet¦saxon¦augeas¦bsdtar¦unzip :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+curl ¦-s¦https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}¦>¦/bin/docker :: Dependencies_operation,()
+chmod ¦+x¦/bin/docker :: Permissions_operation,()
+DOCKER_VERSION:1.6.2 :: env_operation,()
+apk ¦--update¦add¦bash¦curl :: Dependencies_operation,()
+apk ¦del¦curl :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+chmod ¦+x¦/docker-gc :: Permissions_operation,()
+from,gliderlabs/alpine:3.2
+./docker-gc.sh/docker-gc :: copy_operation,()
+entrypoint,/docker-gc

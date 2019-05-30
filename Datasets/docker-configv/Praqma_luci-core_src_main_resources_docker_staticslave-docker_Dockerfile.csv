@@ -1,0 +1,8 @@
+chmod ¦+x¦/usr/local/bin/docker-machine :: Permissions_operation,()
+curl ¦-L¦https://github.com/docker/machine/releases/download/v$DOCKER_MACHINE_VERSION/docker-machine_linux-amd64¦>¦/usr/local/bin/docker-machine :: Dependencies_operation,()
+DOCKER_VERSION=1.8.1:DOCKER_MACHINE_VERSION=0.4.1 :: env_operation,()
+from,luci/staticslave-base:0.3
+curl ¦-L¦https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname¦-s`-`uname¦-m`¦>¦/usr/local/bin/docker-compose :: Dependencies_operation,()
+curl ¦-L¦https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION¦>¦/usr/local/bin/docker :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/docker-compose :: Permissions_operation,()
+chmod ¦+x¦/usr/local/bin/docker :: Permissions_operation,()

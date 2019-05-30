@@ -1,0 +1,10 @@
+mkdir ¦-p¦/var/lib/hadoop-yarn/cache/nm-local-dir :: Filesystem_operation,()
+chown ¦-R¦yarn:hadoop¦/var/lib/hadoop-yarn/cache/nm-local-dir :: Permissions_operation,()
+expose,50075 50475 50010 8010 50090
+chown ¦-R¦hdfs:hadoop¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/data :: Permissions_operation,()
+from,trifacta/ubuntu-hdp2-base
+cmd,/opt/hadoop-docker/start.sh
+chmod ¦-R¦755¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/data :: Permissions_operation,()
+start.sh/opt/hadoop-docker/ :: copy_operation,()
+mkdir ¦-p¦/var/lib/hadoop-hdfs/cache/hdfs/dfs/data :: Filesystem_operation,()
+chmod ¦-R¦755¦/var/lib/hadoop-yarn/cache/nm-local-dir :: Permissions_operation,()

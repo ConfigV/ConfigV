@@ -1,0 +1,17 @@
+GCE_PROJECT_ID:PROJECTID :: env_operation,()
+PYTHONPATH:$PYTHONPATH:/opt/spark/python/lib/py4j-0.8.2.1-src.zip:/opt/spark/python :: env_operation,()
+from,ipython/notebook
+cd ¦/opt/spark :: Filesystem_operation,()
+pip ¦install¦j2cli :: Dependencies_operation,()
+./setup/opt/setup/ :: copy_operation,()
+mkdir ¦-p¦/opt/spark :: Filesystem_operation,()
+wget ¦-q¦https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-latest-hadoop2.jar¦-O¦/opt/spark/lib_managed/gcs-connector.jar :: Dependencies_operation,()
+SPARK_CLASSPATH:$SPARK_CLASSPATH:/opt/spark/lib_managed/gcs-connector.jar :: env_operation,()
+apt-get ¦install¦-y¦¦openjdk-7-jre-headless¦¦¦wget¦¦python-pip :: Dependencies_operation,()
+mkdir ¦-p¦/opt/spark/lib_managed/ :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+wget ¦-q¦http://d3kbcqa49mib13.cloudfront.net/spark-1.3.0-bin-hadoop2.4.tgz¦¦-O¦-¦|¦tar¦-xz¦--strip-components=1 :: Dependencies_operation,()
+SPARK_HOME:/opt/spark/ :: env_operation,()
+cmd,/opt/setup/startup.sh
+GCS_BUCKET_ID:BUCKETNAME :: env_operation,()

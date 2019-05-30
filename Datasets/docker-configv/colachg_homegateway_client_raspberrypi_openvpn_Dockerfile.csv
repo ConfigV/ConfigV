@@ -1,0 +1,8 @@
+EASYRSA_VARS_FILE:$OPENVPN/var :: env_operation,()
+OPENVPN:/etc/openvpn :: env_operation,()
+expose,1194
+echo ¦sed¦-i 's/nl.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && echo 'http://mirrors.ustc.edu.cn/alpine/v3.4/community' >> /etc/apk/repositories && apk add --update --virtual .build-dependencies curl unzip && curl -sSL https:/... :: Filesystem_operation,()
+EASYRSA:/usr/share/easy-rsa :: env_operation,()
+EASYRSA_PKI:$OPENVPN/pki :: env_operation,()
+from,hypriot/rpi-alpine-scratch:v3.4
+cmd,ovpn_run

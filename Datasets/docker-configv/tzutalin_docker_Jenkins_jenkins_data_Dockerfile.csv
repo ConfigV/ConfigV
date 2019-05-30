@@ -1,0 +1,11 @@
+/var/jenkins_home :: volume_operation,()
+apt-get ¦install¦-y¦git¦curl :: Dependencies_operation,()
+useradd ¦-d¦"/var/jenkins_home"¦-u¦1000¦-m¦-s¦/bin/bash¦jenkins :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/log/jenkins :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chown ¦-R¦jenkins:jenkins¦/var/log/jenkins :: Permissions_operation,()
+jenkins :: user_operation,()
+from,debian@jessie
+cmd,echo¦Data container for Jenkins
+mkdir ¦-p¦/var/log/jenkins :: Filesystem_operation,()

@@ -1,0 +1,14 @@
+MYSQL_VERSION:5.5 :: env_operation,()
+cmd,mysqld
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+/var/lib/mysql :: volume_operation,()
+expose,3306
+apt-get ¦install¦-y¦perl¦--no-install-recommends :: Dependencies_operation,()
+echo ¦{¦ echo mysql-server mysql-server/data-dir select '';  echo mysql-server mysql-server/root-pass password '';  echo mysql-server mysql-server/re-root-pass password '';  echo mysql-server mysql-server/remove-test-db select false; } | debconf... :: Filesystem_operation,()
+from,resin/rpi-raspbian:jessie-20160831
+bind-address|log  :: Other_operation,()
+entrypoint.sh/ :: copy_operation,()

@@ -1,0 +1,23 @@
+buildDeps='\\  :: Other_operation,()
+REDMINE_DOWNLOAD_MD5:b1050c3a0e6effd5a704ef5003d9df06 :: env_operation,()
+entrypoint,/docker-entrypoint.sh
+curl ¦-fSL¦"https://github.com/krallin/tini/releases/download/v0.5.0/tini"¦-o¦/usr/local/bin/tini :: Dependencies_operation,()
+/usr/src/redmine :: workdir_operation,()
+echo ¦curl¦-fSL "http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz" -o redmine.tar.gz && echo "$REDMINE_DOWNLOAD_MD5 redmine.tar.gz" | md5sum -c - && tar -xvf redmine.tar.gz --strip-components=1 && rm redmine.tar.gz files/delete.... :: Filesystem_operation,()
+useradd ¦-r¦-g¦redmine¦redmine :: Permissions_operation,()
+expose,3000
+tini ¦-h :: Other_operation,()
+/usr/src/redmine/files :: volume_operation,()
+dpkg ¦--print-architecture :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦¦imagemagick¦¦libmysqlclient18¦¦libpq5¦¦libsqlite3-0 :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/tini :: Permissions_operation,()
+RAILS_ENV:production :: env_operation,()
+gpg ¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B42F6819007F00F88E364FD4036A9C25BF357DD4 :: Other_operation,()
+from,ruby:2.2
+apt-get ¦update :: Dependencies_operation,()
+REDMINE_VERSION:3.2.0 :: env_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+set ¦-x :: Environment_operation,()
+groupadd ¦-r¦redmine :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,rails¦server¦-b¦0.0.0.0

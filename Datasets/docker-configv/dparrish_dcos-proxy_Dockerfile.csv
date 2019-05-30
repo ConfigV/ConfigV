@@ -1,0 +1,9 @@
+apt-get ¦-y¦install¦python¦python-jinja2¦nginx¦python-requests :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,80
+config.service/etc/service/build-config/run :: add_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+from,phusion/baseimage
+nginx.service/etc/service/nginx/run :: add_operation,()
+build-config.py/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()

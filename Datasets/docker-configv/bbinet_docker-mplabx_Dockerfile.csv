@@ -1,0 +1,13 @@
+apt-get ¦update¦-yq :: Dependencies_operation,()
+curl ¦-fSL¦-A¦"Mozilla/4.0"¦-o¦/tmp/xc16.run¦"http://www.microchip.com/mplabxc16linux" :: Dependencies_operation,()
+cmd,/usr/bin/mplab_ide
+from,debian@jessie
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/tmp/xc16.run ¦--mode¦unattended¦--unattendedmodeui¦none¦--netservername¦localhost¦--LicenseType¦FreeMode :: Other_operation,()
+PATH:/opt/microchip/xc16/v1.25/bin:$PATH :: env_operation,()
+apt-get ¦install¦-yq¦--no-install-recommends¦curl¦libc6:i386¦libx11-6:i386¦libxext6:i386¦libstdc++6:i386¦libexpat1:i386¦libxext6¦libxrender1¦libxtst6¦libgtk2.0-0 :: Dependencies_operation,()
+rm ¦/tmp/xc16.run :: Filesystem_operation,()
+/tmp/.X11-unix :: volume_operation,()
+curl ¦-fSL¦-A¦"Mozilla/4.0"¦-o¦/tmp/mplabx-installer.tar¦"http://www.microchip.com/mplabx-ide-linux-installer" :: Dependencies_operation,()
+chmod ¦a+x¦/tmp/xc16.run :: Permissions_operation,()

@@ -1,0 +1,15 @@
+gem ¦install¦--no-ri¦--no-rdoc¦bundler :: Dependencies_operation,()
+cmd,/scripts/init
+/var/lib/mysql :: volume_operation,()
+expose,5000
+from,ubuntu:14.04
+scripts//scripts :: add_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:git-core/ppa :: Dependencies_operation,()
+/scripts/setup  :: Other_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦build-essential¦checkinstall¦postgresql-client¦git-core¦mysql-server¦redis-server¦python2.7¦python-docutils¦libmysqlclient-dev¦libpq-dev¦zlib1g-dev¦libyaml-dev¦libssl-dev¦libgdbm-dev¦libreadline-dev¦libncurses5-dev¦libffi-dev¦li... :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:brightbox/ruby-ng :: Dependencies_operation,()
+chmod ¦755¦/scripts/setup¦/scripts/init :: Permissions_operation,()

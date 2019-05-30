@@ -1,0 +1,7 @@
+git ¦clone¦https://github.com/hashicorp/consul-template.git¦/go/src/github.com/hashicorp/consul-template :: Dependencies_operation,()
+CONSUL_VERSION:0.12.2 :: env_operation,()
+cmd,make¦dev
+git ¦reset¦--hard¦v$CONSUL_VERSION :: Dependencies_operation,()
+from,golang:1.6
+make ¦updatedeps¦||¦/bin/true :: Build_Execute_operation,()
+/go/src/github.com/hashicorp/consul-template :: workdir_operation,()

@@ -1,0 +1,18 @@
+cp ¦/img_build/init/09_mw_init.sh¦/etc/my_init.d/09_mw_init.sh :: Filesystem_operation,()
+mkdir ¦/etc/service/watson :: Filesystem_operation,()
+cp ¦/img_build/service/generic_service.sh¦/etc/service/generic/run :: Filesystem_operation,()
+from,microwizard/base
+cmd,/sbin/my_init
+chmod ¦+x¦/etc/my_init.d/09_mw_init.sh :: Permissions_operation,()
+chmod ¦+x¦/etc/service/sherlock/run :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cp ¦/img_build/service/watson.sh¦/etc/service/watson/run :: Filesystem_operation,()
+expose,5001
+HOME:/root :: env_operation,()
+mkdir ¦/etc/service/sherlock :: Filesystem_operation,()
+cp ¦/img_build/service/sherlock.sh¦/etc/service/sherlock/run :: Filesystem_operation,()
+chmod ¦+x¦/etc/service/generic/run :: Permissions_operation,()
+./img_build :: copy_operation,()
+chmod ¦+x¦/etc/service/watson/run :: Permissions_operation,()
+mkdir ¦/etc/service/generic :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()

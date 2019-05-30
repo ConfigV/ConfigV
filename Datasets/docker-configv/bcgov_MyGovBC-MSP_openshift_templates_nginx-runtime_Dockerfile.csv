@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+io.openshift.s2i.scripts-url:image:///usr/libexec/s2i :: label_operation,()
+chmod ¦-R¦0777¦/tmp¦/var¦/run¦/etc¦/mnt¦/usr/libexec/s2i/ :: Permissions_operation,()
+nginx.conf.template/tmp/ :: copy_operation,()
+apt-get ¦install¦openssl :: Dependencies_operation,()
+./s2i/bin//usr/libexec/s2i/ :: copy_operation,()
+104 :: user_operation,()
+expose,8080
+from,nginx@mainline

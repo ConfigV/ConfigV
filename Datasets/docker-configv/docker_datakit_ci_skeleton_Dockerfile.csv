@@ -1,0 +1,9 @@
+root :: user_operation,()
+rm ¦-rf¦_build :: Filesystem_operation,()
+/datakit-ci :: workdir_operation,()
+./datakit-ci :: add_operation,()
+ln ¦_build/skelteton/$CONFIG.native¦/datakit-ci/datakit-ci :: Filesystem_operation,()
+opam ¦config¦exec¦make¦$CONFIG :: Other_operation,()
+entrypoint,/datakit-ci/datakit-ci
+from,docker/datakit:ci
+sudo ¦chown¦opam¦. :: Other_operation,()

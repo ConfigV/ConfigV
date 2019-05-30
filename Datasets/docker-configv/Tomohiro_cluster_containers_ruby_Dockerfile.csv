@@ -1,0 +1,9 @@
+COPYGemfile.lock /usr/src/app/ :: onbuild_operation,()
+from,ruby:2.3
+COPY. /usr/src/app :: onbuild_operation,()
+RUNbundle install :: onbuild_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+COPYGemfile /usr/src/app/ :: onbuild_operation,()
+/usr/src/app :: workdir_operation,()
+apk ¦add¦--update¦--no-cache¦git :: Dependencies_operation,()
+bundle ¦config¦--global¦frozen¦1 :: Dependencies_operation,()

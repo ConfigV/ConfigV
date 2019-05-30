@@ -1,0 +1,12 @@
+/data/conf/ :: volume_operation,()
+chown ¦-R¦root:root¦/templates :: Permissions_operation,()
+from,alpine@latest
+templates/templates :: add_operation,()
+/data :: workdir_operation,()
+expose,20080
+luss/bin/luss :: add_operation,()
+entrypoint,/bin/luss
+/data/luss/ :: volume_operation,()
+chmod ¦0755¦/bin/luss :: Permissions_operation,()
+cmd,-config¦/data/conf/luss.json
+RUNapk update && apk upgrade && apk add go ca-certificates :: onbuild_operation,()

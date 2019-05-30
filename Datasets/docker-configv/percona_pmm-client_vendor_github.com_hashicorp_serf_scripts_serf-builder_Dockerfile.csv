@@ -1,0 +1,14 @@
+mkdir ¦-p¦$GOPATH/src/github.com/hashicorp/serf :: Filesystem_operation,()
+PATH:$GOROOT/bin:$GOPATH/bin:$PATH :: env_operation,()
+curl ¦https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz¦|¦tar¦xzf¦-¦-C¦/goroot¦--strip-components=1 :: Dependencies_operation,()
+mkdir ¦/goroot :: Filesystem_operation,()
+GOVERSION:1.8 :: env_operation,()
+CGO_ENABLED:0 :: env_operation,()
+$GOPATH/src/github.com/hashicorp/serf :: workdir_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦-q¦build-essential¦ca-certificates¦curl¦git¦zip :: Dependencies_operation,()
+from,ubuntu@trusty
+GOPATH:/gopath :: env_operation,()
+GOROOT:/goroot :: env_operation,()
+mkdir ¦/gopath :: Filesystem_operation,()
+cmd,./scripts/dist_build.sh
+apt-get ¦update¦-y :: Dependencies_operation,()

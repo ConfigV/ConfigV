@@ -1,0 +1,11 @@
+MAIN_BOT=won.bot.app.DebugBotApp: :: env_operation,()
+monitoring.output.dir=/usr/src/bots/monitoring/logs: :: env_operation,()
+./bots.jar/usr/src/bots/ :: add_operation,()
+/usr/src/bots/ :: workdir_operation,()
+mkdir ¦-p¦/usr/src/bots/monitoring/logs :: Filesystem_operation,()
+cmd,java¦-DWON_CONFIG_DIR=${WON_CONFIG_DIR}/-Dlogback.configurationFile=${WON_CONFIG_DIR}/${LOGBACK_CONFIG}${JMEM_OPTS}${JMX_OPTS}-cp¦"bots.jar"¦${MAIN_BOT}
+./conf${WON_CONFIG_DIR} :: add_operation,()
+LOGBACK_CONFIG=logback_info.xml: :: env_operation,()
+WON_CONFIG_DIR=/usr/src/bots/conf: :: env_operation,()
+from,openjdk:8.0
+mkdir ¦-p¦/usr/src/bots/client-certs :: Filesystem_operation,()

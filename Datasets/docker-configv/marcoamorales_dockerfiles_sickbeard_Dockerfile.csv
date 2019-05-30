@@ -1,0 +1,12 @@
+curl ¦-L¦https://github.com/midgetspy/Sick-Beard/tarball/$SICKBEARD_VERSION¦-o¦sickbeard.tgz :: Dependencies_operation,()
+cmd,/start.sh
+apt-get ¦clean¦&&\\ :: Dependencies_operation,()
+apt-get ¦install¦-qy¦--force-yes¦python-cheetah¦wget¦tar¦ca-certificates¦curl :: Dependencies_operation,()
+./start.sh/start.sh :: add_operation,()
+tar ¦-xvf¦sickbeard.tgz¦-C¦/¦&&\\ :: Filesystem_operation,()
+apt-get ¦-q¦update¦&&\\ :: Dependencies_operation,()
+chmod ¦u+x¦/start.sh :: Permissions_operation,()
+SICKBEARD_VERSION:master :: env_operation,()
+from,ubuntu@trusty
+/data :: volume_operation,()
+expose,8081

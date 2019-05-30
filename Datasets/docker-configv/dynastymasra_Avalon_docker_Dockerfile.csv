@@ -1,0 +1,10 @@
+entrypoint,./start.sh
+./binary/start.sh/go/src/avalon/ :: add_operation,()
+cmd,run
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+/go/src/avalon :: workdir_operation,()
+set ¦-ex :: Environment_operation,()
+expose,8080
+apk ¦add¦--update¦bash¦ca-certificates :: Dependencies_operation,()
+./binary/avalon/go/src/avalon/ :: add_operation,()
+from,alpine:3.5

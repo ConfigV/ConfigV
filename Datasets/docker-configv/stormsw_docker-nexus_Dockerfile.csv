@@ -1,0 +1,18 @@
+SONATYPE_WORK:/sonatype-work :: env_operation,()
+JAVA_OPTS:-server :: env_operation,()
+/opt/sonatype/nexus :: workdir_operation,()
+nexus :: user_operation,()
+rm ¦-rf¦/tmp/nexus-${NEXUS_VERSION} :: Filesystem_operation,()
+NEXUS_VERSION:2.11.4-01 :: env_operation,()
+useradd ¦-r¦-u¦1000¦-m¦-c¦"Nexus¦service"¦-d¦${SONATYPE_WORK}¦-s¦/bin/false¦nexus :: Permissions_operation,()
+expose,8081
+MIN_HEAP:256m :: env_operation,()
+curl ¦--fail¦--silent¦--location¦--retry¦3¦https://download.sonatype.com/nexus/oss/nexus-${NEXUS_VERSION}-bundle.tar.gz¦|¦gunzip¦|¦tar¦x¦-C¦/tmp¦nexus-${NEXUS_VERSION} :: Dependencies_operation,()
+mv ¦/tmp/nexus-${NEXUS_VERSION}/*¦/opt/sonatype/nexus/ :: Filesystem_operation,()
+CONTEXT_PATH:/ :: env_operation,()
+mkdir ¦-p¦/opt/sonatype/nexus :: Filesystem_operation,()
+MAX_HEAP:768m :: env_operation,()
+${SONATYPE_WORK} :: volume_operation,()
+LAUNCHER_CONF:./conf/jetty.xml :: env_operation,()
+cmd,java¦-Dnexus-work=${SONATYPE_WORK}¦-Dnexus-webapp-context-path=${CONTEXT_PATH}¦-Xms${MIN_HEAP}¦-Xmx${MAX_HEAP}¦-cp¦'conf/:lib/*'¦${JAVA_OPTS}¦org.sonatype.nexus.bootstrap.Launcher¦${LAUNCHER_CONF}
+from,stormsw/ubuntu-java

@@ -1,0 +1,11 @@
+chmod ¦u+rw¦/etc/rabbitmq/rabbitmq.config :: Permissions_operation,()
+chown ¦rabbitmq:rabbitmq¦/var/lib/rabbitmq/.erlang.cookie :: Permissions_operation,()
+startrabbit.sh/opt/rabbit/ :: add_operation,()
+from,bijukunjummen/rabbitmq-base
+expose,9105
+mkdir ¦/opt/rabbit :: Filesystem_operation,()
+chmod ¦a+x¦/opt/rabbit/startrabbit.sh :: Permissions_operation,()
+erlang.cookie/var/lib/rabbitmq/.erlang.cookie :: add_operation,()
+cmd,/opt/rabbit/startrabbit.sh
+rabbitmq.config/etc/rabbitmq/ :: add_operation,()
+chmod ¦400¦/var/lib/rabbitmq/.erlang.cookie :: Permissions_operation,()

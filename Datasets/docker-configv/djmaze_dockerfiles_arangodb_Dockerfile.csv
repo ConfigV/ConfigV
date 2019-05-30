@@ -1,0 +1,8 @@
+from,ubuntu:13.1
+apt-get ¦update :: Dependencies_operation,()
+/var/lib/arangodb/databases :: volume_operation,()
+expose,8529
+cmd,/usr/sbin/arangod¦-c¦/etc/arangodb/arangod.conf
+echo ¦echo¦'deb http://www.arangodb.org/repositories/arangodb2/xUbuntu_13.10/ /' >> /etc/apt/sources.list.d/arangodb.list && wget http://www.arangodb.org/repositories/arangodb2/xUbuntu_13.10/Release.key && apt-key add - < Release.key :: Filesystem_operation,()
+apt-get ¦-y¦install¦wget :: Dependencies_operation,()
+apt-get ¦-y¦install¦arangodb=2.0.6 :: Dependencies_operation,()

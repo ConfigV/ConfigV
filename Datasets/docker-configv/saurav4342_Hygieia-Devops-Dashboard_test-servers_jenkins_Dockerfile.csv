@@ -1,0 +1,17 @@
+curl ¦-kfsSL¦https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz¦|¦tar¦xzf¦-¦-C¦/usr/share :: Dependencies_operation,()
+SAVEPATH:$PATH :: env_operation,()
+entrypoint,/bin/tini¦--¦/usr/local/bin/jenkins_entrypoint.sh
+jenkins_entrypoint.sh/usr/local/bin/jenkins_entrypoint.sh :: add_operation,()
+PATH:$PATH:$SAVEPATH :: env_operation,()
+from,jenkins@latest
+ln ¦-s¦/usr/share/maven/bin/mvn¦/usr/bin/mvn :: Filesystem_operation,()
+plugins.txt/usr/share/jenkins/ref/ :: copy_operation,()
+mv ¦/usr/share/apache-maven-$MAVEN_VERSION¦/usr/share/maven :: Filesystem_operation,()
+MAVEN_HOME:/usr/share/maven :: env_operation,()
+MAVEN_VERSION:3.3.9 :: env_operation,()
+chmod ¦+x¦/usr/local/bin/jenkins_entrypoint.sh :: Permissions_operation,()
+jobs/var/jenkins_home/jobs :: add_operation,()
+/usr/local/bin/plugins.sh ¦/usr/share/jenkins/ref/plugins.txt :: Other_operation,()
+dpkg ¦--print-architecture :: Dependencies_operation,()
+root :: user_operation,()
+gpg ¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B42F6819007F00F88E364FD4036A9C25BF357DD4 :: Other_operation,()

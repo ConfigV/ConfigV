@@ -1,0 +1,22 @@
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv-keys¦eea14886 :: Dependencies_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+chmod ¦766¦/tools :: Permissions_operation,()
+service ¦nginx¦stop :: Build_Execute_operation,()
+cmd,service¦nginx¦start
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+apt-get ¦install¦oracle-java8-set-default¦-y :: Dependencies_operation,()
+echo ¦echo¦"PATH=\\$PATH:/tools/activator" | tee -a /etc/bash.bashrc :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦activator-dist-1.3.6¦activator :: Filesystem_operation,()
+echo ¦echo¦"deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list :: Filesystem_operation,()
+unzip ¦typesafe-activator-1.3.6.zip :: Filesystem_operation,()
+apt-get ¦install¦oracle-java8-installer¦-y :: Dependencies_operation,()
+from,debian@latest
+mkdir ¦/tools :: Filesystem_operation,()
+echo ¦echo¦"deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list :: Filesystem_operation,()
+/tools :: workdir_operation,()
+apt-get ¦install¦vim¦git¦git-core¦g++¦wget¦unzip¦nginx-full¦-y :: Dependencies_operation,()
+expose,80
+/study/backend :: volume_operation,()
+wget ¦https://downloads.typesafe.com/typesafe-activator/1.3.6/typesafe-activator-1.3.6.zip :: Dependencies_operation,()

@@ -1,0 +1,11 @@
+set_password.sh$JBOSS_HOME/bin :: add_operation,()
+cmd,/opt/jboss/wildfly/bin/domain.sh¦-b¦0.0.0.0¦-bmanagement¦0.0.0.0¦--host-config¦host-slave.xml
+JBOSS_HOME:/opt/jboss/wildfly :: env_operation,()
+mv ¦$HOME/wildfly-$WILDFLY_VERSION¦$HOME/wildfly :: Filesystem_operation,()
+WILDFLY_VERSION:9.0.0.Final :: env_operation,()
+curl ¦http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz¦|¦tar¦zx :: Dependencies_operation,()
+cd ¦$HOME :: Filesystem_operation,()
+$JBOSS_HOME/bin/add-user.sh ¦demo¦demo¦--silent :: Other_operation,()
+$JBOSS_HOME/bin/set_password.sh  :: Other_operation,()
+from,jboss/base-jdk:8
+expose,8080 9990 9999

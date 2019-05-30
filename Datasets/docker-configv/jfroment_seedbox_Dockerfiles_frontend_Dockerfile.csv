@@ -1,0 +1,12 @@
+apt-get ¦clean :: Dependencies_operation,()
+start/ :: copy_operation,()
+ssl-gen/usr/local/bin :: copy_operation,()
+expose,80 443
+apt-get ¦install¦--no-install-recommends¦-y¦apache2-utils :: Dependencies_operation,()
+/config :: volume_operation,()
+from,kelvinchen/seedbox:base
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+USERNAME=user:PASSWORD=hunter2 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+nginx.conf/etc/nginx/ :: copy_operation,()
+cmd,/start

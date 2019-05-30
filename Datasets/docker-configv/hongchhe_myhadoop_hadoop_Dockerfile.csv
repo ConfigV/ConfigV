@@ -1,0 +1,16 @@
+cmd,sh¦-c¦service ssh start; start-dfs.sh; bash
+/usr/local/hadoop/bin/hdfs ¦namenode¦-format :: Other_operation,()
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64: :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin: :: env_operation,()
+expose,49707 2122
+cat ¦~/.ssh/id_rsa.pub¦>>¦~/.ssh/authorized_keys :: Filesystem_operation,()
+wget ¦http://mirrors.hust.edu.cn/apache/hadoop/common/stable/hadoop-2.7.3.tar.gz :: Dependencies_operation,()
+HADOOP_HOME=/usr/local/hadoop: :: env_operation,()
+rm ¦hadoop-2.7.3.tar.gz :: Filesystem_operation,()
+mv ¦hadoop-2.7.3¦/usr/local/hadoop :: Filesystem_operation,()
+chmod ¦0600¦~/.ssh/authorized_keys :: Permissions_operation,()
+ssh-keygen ¦-t¦rsa¦-f¦~/.ssh/id_rsa¦-P¦'' :: Other_operation,()
+tar ¦-xzvf¦hadoop-2.7.3.tar.gz :: Filesystem_operation,()
+apt-get ¦install¦-y¦openssh-server¦openjdk-8-jdk¦wget¦ssh¦rsync :: Dependencies_operation,()
+conf/*/usr/local/hadoop/etc/hadoop/ :: copy_operation,()

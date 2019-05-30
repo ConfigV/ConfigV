@@ -1,0 +1,18 @@
+VERSION:v0.10.6 :: env_operation,()
+go ¦run¦build.go :: Build_Execute_operation,()
+expose,8080 22000 21025
+cd ¦/go/src/github.com/syncthing :: Filesystem_operation,()
+useradd ¦-m¦syncthing :: Permissions_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+git ¦clone¦https://github.com/syncthing/syncthing.git :: Dependencies_operation,()
+cmd,/syncthing
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+from,golang
+cd ¦syncthing :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/github.com/syncthing :: Filesystem_operation,()
+mv ¦bin/syncthing¦/syncthing :: Filesystem_operation,()
+syncthing :: user_operation,()
+git ¦checkout¦$VERSION :: Dependencies_operation,()
+rm ¦-rf¦/go/src/github.com/syncthing :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

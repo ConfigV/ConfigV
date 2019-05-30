@@ -1,0 +1,9 @@
+yum ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"Hello World" > /var/www/html/index.html :: Filesystem_operation,()
+from,centos@latest
+touch ¦/var/run/nagios.pid :: Filesystem_operation,()
+chmod ¦u+s¦/usr/bin/ping :: Permissions_operation,()
+yum ¦-y¦install¦epel-release :: Dependencies_operation,()
+expose,443
+chown ¦nagios.nagios¦/var/run/nagios.pid :: Permissions_operation,()
+yum ¦-y¦install¦mod_ssl¦nagios¦nagios-plugins-all :: Dependencies_operation,()

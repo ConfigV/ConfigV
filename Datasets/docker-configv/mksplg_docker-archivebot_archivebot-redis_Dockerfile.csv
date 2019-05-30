@@ -1,0 +1,11 @@
+cmd,app:start
+from,alpine:3.1
+mkdir ¦/home/archivebot/.ssh/ :: Filesystem_operation,()
+ssh_config/home/archivebot/.ssh/config :: copy_operation,()
+entrypoint,/sbin/entrypoint.sh
+expose,16379
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+chmod ¦644¦/home/archivebot/.ssh/known_hosts :: Permissions_operation,()
+known_hosts/home/archivebot/.ssh/ :: copy_operation,()
+echo ¦echo¦http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk add --update openssh-client shadow && rm -rf /var/cache/apk/* :: Filesystem_operation,()
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()

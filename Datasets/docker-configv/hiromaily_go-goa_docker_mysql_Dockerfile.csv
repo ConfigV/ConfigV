@@ -1,0 +1,9 @@
+MYSQL_DATABASE=hiromaily: :: env_operation,()
+MYSQL_PASSWORD=12345678: :: env_operation,()
+./init.d/docker-entrypoint-initdb.d :: copy_operation,()
+./conf.d/etc/mysql/conf.d :: copy_operation,()
+from,mysql:5.7
+MYSQL_ROOT_PASSWORD=root: :: env_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+MYSQL_USER=hiromaily: :: env_operation,()

@@ -1,0 +1,13 @@
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+rm ¦-f¦grafana-3.1.1-1470047149.linux-x64.tar.gz :: Filesystem_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+LANG:${build_locale}.utf8 :: env_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()
+curl ¦-fsSLO¦https://grafanarel.s3.amazonaws.com/builds/grafana-3.1.1-1470047149.linux-x64.tar.gz :: Dependencies_operation,()
+cp ¦/opt/grafana/conf/sample.ini¦/opt/grafana/conf/custom.ini¦#¦create¦directories¦for¦data :: Filesystem_operation,()
+tar ¦-xzvf¦grafana-3.1.1-1470047149.linux-x64.tar.gz¦-C¦/opt :: Filesystem_operation,()
+from,centos:7.3
+yum ¦-y¦install¦psmisc.x86_64 :: Dependencies_operation,()
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+mv ¦/opt/grafana-3.1.1-1470047149¦/opt/grafana :: Filesystem_operation,()

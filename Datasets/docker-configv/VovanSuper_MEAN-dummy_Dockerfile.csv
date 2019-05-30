@@ -1,0 +1,11 @@
+NODE_ENV:production :: env_operation,()
+./wwwroot/. :: copy_operation,()
+apk ¦--no-cache¦add¦ca-certificates :: Dependencies_operation,()
+mv ¦node_modules¦../ :: Filesystem_operation,()
+package.json./ :: copy_operation,()
+from,node:8.0
+expose,80 443
+/usr/src/app :: workdir_operation,()
+npm ¦install¦--production¦--silent :: Dependencies_operation,()
+cmd,node¦./wwwroot
+npm ¦install¦--global¦bunyan :: Dependencies_operation,()

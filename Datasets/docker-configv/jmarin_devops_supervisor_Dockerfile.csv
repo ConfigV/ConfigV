@@ -1,0 +1,10 @@
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+supervisor.conf/etc/supervisor/supervisor.conf :: add_operation,()
+rpm ¦-ivh¦epel-release-7-0.2.noarch.rpm :: Dependencies_operation,()
+cmd,supervisord¦-c¦/etc/supervisor/supervisor.conf
+yum ¦-y¦install¦supervisor :: Dependencies_operation,()
+wget ¦http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-7-0.2.noarch.rpm :: Dependencies_operation,()
+from,centos:7.0
+mkdir ¦-p¦/etc/supervisor/conf.d :: Filesystem_operation,()
+yum ¦-y¦install¦wget :: Dependencies_operation,()
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()

@@ -1,0 +1,21 @@
+default/etc/nginx/sites-available/default :: copy_operation,()
+touch ¦/app/logs/access.log :: Filesystem_operation,()
+sed ¦-ri¦'s/^display_errors\\s*=\\s*Off/display_errors¦=¦On/g'¦/etc/php5/apache2/php.ini :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/app/www :: Filesystem_operation,()
+default/etc/apache2/sites-available/000-default.conf :: add_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦python-software-properties :: Dependencies_operation,()
+add-apt-repository ¦ppa:ondrej/php5-oldstable :: Dependencies_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+/app/www :: workdir_operation,()
+index.html/app/www/index.html :: copy_operation,()
+expose,80
+apt-get ¦install¦-y¦php5¦php5-cli¦apache2¦libapache2-mod-php5 :: Dependencies_operation,()
+cmd,/usr/sbin/apache2ctl¦-D¦FOREGROUND
+sed ¦-ri¦'s/^error_reporting\\s*=.*$/error_reporting¦=¦E_ALL&¦~E_DEPRECATED&¦~E_NOTICE/g'¦/etc/php5/cli/php.ini :: Filesystem_operation,()
+sed ¦-ri¦'s/^display_errors\\s*=\\s*Off/display_errors¦=¦On/g'¦/etc/php5/cli/php.ini :: Filesystem_operation,()
+touch ¦/app/logs/error.log :: Filesystem_operation,()
+from,ubuntu-debootstrap:14.04
+mkdir ¦-p¦/app/logs :: Filesystem_operation,()

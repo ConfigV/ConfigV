@@ -1,0 +1,11 @@
+apt-get ¦update :: Dependencies_operation,()
+from,ubuntu@wily
+echo ¦echo¦"jenkins ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/jenkins :: Filesystem_operation,()
+adduser ¦--quiet¦jenkins :: Permissions_operation,()
+expose,22
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()
+apt-get ¦-y¦install¦build-essential¦openjdk-8-jdk¦sudo¦debhelper¦cmake¦extra-cmake-modules¦qtbase5-dev¦libqt5svg5-dev¦libqt5quick5¦qtdeclarative5-dev¦extra-cmake-modules¦libkf5i18n-dev¦libkf5solid-dev¦libkf5coreaddons-dev¦python3-dev¦libboost-pytho... :: Dependencies_operation,()
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()

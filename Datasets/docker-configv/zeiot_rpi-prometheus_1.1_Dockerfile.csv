@@ -1,0 +1,12 @@
+mv ¦prometheus-${PROMETHEUS_VERSION}.linux-armv7¦/usr/share/prometheus :: Filesystem_operation,()
+entrypoint,/usr/bin/prometheus
+ln ¦-s¦/usr/share/prometheus/console_libraries¦/usr/share/prometheus/consoles/¦/etc/prometheus/ :: Filesystem_operation,()
+from,resin/armv7hf-debian:jessie
+apt-get ¦update :: Dependencies_operation,()
+cp ¦/usr/share/prometheus/prometheus¦/usr/bin/prometheus¦&& :: Filesystem_operation,()
+expose,9090
+curl ¦-L¦https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VERSION}/prometheus-${PROMETHEUS_VERSION}.linux-armv7.tar.gz :: Dependencies_operation,()
+/prometheus :: volume_operation,()
+cmd,-config.file=/etc/prometheus/prometheus.yml¦-storage.local.path=/prometheus¦-web.console.libraries=/usr/share/prometheus/console_libraries¦-web.console.templates=/usr/share/prometheus/consoles
+tar ¦xzf¦prometheus-${PROMETHEUS_VERSION}.linux-armv7.tar.gz :: Filesystem_operation,()
+PROMETHEUS_VERSION:1.1.2 :: env_operation,()

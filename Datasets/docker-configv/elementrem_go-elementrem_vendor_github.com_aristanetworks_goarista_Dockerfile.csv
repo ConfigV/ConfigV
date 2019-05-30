@@ -1,0 +1,7 @@
+from,golang:1.7
+./. :: copy_operation,()
+entrypoint,/go/bin/ockafka
+/go/src/github.com/aristanetworks/goarista :: workdir_operation,()
+mkdir ¦-p¦/go/src/github.com/aristanetworks/goarista/cmd :: Filesystem_operation,()
+go ¦install¦./cmd/ockafka :: Build_Execute_operation,()
+go ¦get¦-d¦./cmd/ockafka/... :: Build_Execute_operation,()

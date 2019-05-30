@@ -1,0 +1,22 @@
+cd ¦neo4j-shell-tools;¦git¦checkout¦$NEO4J_SHELL_VERSION;¦mvn¦-Dmaven.test.skip=true¦clean¦package :: Filesystem_operation,()
+cd ¦$NEO4J_PATH/lib;¦curl¦--fail¦--silent¦--show-error¦--location¦--remote-name¦http://central.maven.org/maven2/com/eclipsesource/minimal-json/minimal-json/0.9.4/minimal-json-0.9.4.jar :: Filesystem_operation,()
+entrypoint,/docker-entrypoint.sh
+cp ¦$NEO4J_SHELL_BASE/neo4j-shell-tools/target/import-tools-$NEO4J_SHELL_VERSION_LONG.jar¦$NEO4J_PATH/lib :: Filesystem_operation,()
+expose,7474 7473 7687
+mv ¦data¦/data :: Filesystem_operation,()
+echo ¦curl¦--fail --silent --show-error --location --remote-name ${NEO4J_URI} && echo "${NEO4J_SHA256} ${NEO4J_TARBALL}" | sha256sum --status -cw - && tar --extract --file ${NEO4J_TARBALL} --directory /var/lib && mv /var/lib/neo4j-* /var/lib/neo... :: Filesystem_operation,()
+NEO4J_SHELL_BIN:$NEO4J_PATH/bin/neo4j-shell :: env_operation,()
+/data :: volume_operation,()
+cd ¦neo4j-biorelation;¦mvn¦clean¦package :: Filesystem_operation,()
+ln ¦-s¦/data :: Filesystem_operation,()
+NEO4J_SHELL_BASE:/tmp :: env_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: copy_operation,()
+NEO4J_SHA256=d38fe7449570dba1f1f69c8582a008b4c7d1368bee13eecbe2315a807b204908:NEO4J_TARBALL=neo4j-community-3.1.5-unix.tar.gz :: env_operation,()
+git ¦clone¦https://github.com/toniher/neo4j-biorelation :: Dependencies_operation,()
+NEO4J_PATH:/var/lib/neo4j :: env_operation,()
+git ¦clone¦https://github.com/jexp/neo4j-shell-tools :: Dependencies_operation,()
+cp ¦neo4j-biorelation/target/neo4j-biorelation-$NEO4J_BIORELATION_VERSION.jar¦$NEO4J_PATH/plugins :: Filesystem_operation,()
+$NEO4J_PATH :: workdir_operation,()
+$NEO4J_SHELL_BASE :: workdir_operation,()
+cmd,neo4j
+from,biocorecrg/centos-perlbrew-pyenv-java

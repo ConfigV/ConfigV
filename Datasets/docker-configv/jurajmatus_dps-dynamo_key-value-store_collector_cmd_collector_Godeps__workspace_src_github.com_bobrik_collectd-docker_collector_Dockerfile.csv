@@ -1,0 +1,13 @@
+echo ¦echo¦"APT::Install-Recommends false;" >> /etc/apt/apt.conf.d/recommends.conf && echo "APT::AutoRemove::RecommendsImportant false;" >> /etc/apt/apt.conf.d/recommends.conf && echo "APT::AutoRemove::SuggestsImportant false;" >> /etc/apt/apt.c... :: Filesystem_operation,()
+chmod ¦6755¦/collector :: Permissions_operation,()
+apt-get ¦install¦-y¦golang-go¦git :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+./docker/collectd.conf.tpl/etc/collectd/collectd.conf.tpl :: copy_operation,()
+rm ¦-rf¦/go :: Filesystem_operation,()
+GOPATH=/go ¦go¦get¦github.com/bobrik/collectd-docker/collector/... :: Other_operation,()
+mv ¦/go/bin/collector¦/collector :: Filesystem_operation,()
+apt-get ¦remove¦-y¦golang-go¦git :: Dependencies_operation,()
+./docker/run.sh/run.sh :: copy_operation,()
+from,debian@jessie
+entrypoint,/run.sh
+./go/src/github.com/bobrik/collectd-docker/collector :: copy_operation,()

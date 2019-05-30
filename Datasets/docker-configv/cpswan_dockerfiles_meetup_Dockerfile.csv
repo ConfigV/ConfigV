@@ -1,0 +1,8 @@
+echo ¦echo¦"\\ndaemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+expose,80
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+sed ¦-i¦s/main/'main¦universe'/¦/etc/apt/sources.list :: Filesystem_operation,()
+sed ¦-i¦s/nginx/'Chicago¦Docker¦Meetup'/¦/usr/share/nginx/www/index.html :: Filesystem_operation,()
+cmd,/usr/sbin/nginx
+from,ubuntu:12.04
+apt-get ¦update :: Dependencies_operation,()

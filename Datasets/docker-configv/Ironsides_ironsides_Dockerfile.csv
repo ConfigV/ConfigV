@@ -1,0 +1,11 @@
+/app :: workdir_operation,()
+./app :: copy_operation,()
+package.json/app/package.json :: copy_operation,()
+from,node@argon
+fc-cache ¦-f :: Other_operation,()
+echo ¦echo¦deb http://mirrors.kernel.org/debian/ jessie main contrib non-free >> /etc/apt/sources.list :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+echo ¦echo¦ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦make¦nodejs¦unoconv¦ttf-mscorefonts-installer :: Other_operation,()
+cmd,make¦&&¦/usr/bin/unoconv¦--listener¦&&¦make¦pdf

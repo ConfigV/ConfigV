@@ -1,0 +1,13 @@
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+pacman ¦-Sy¦--noconfirm¦apache¦mod_wsgi2 :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/configparse.py :: Permissions_operation,()
+keystone-start/usr/local/bin/ :: add_operation,()
+/var/log/keystone :: volume_operation,()
+cmd,keystone-start
+expose,5000
+rm ¦-f¦/var/lib/keystone/keystone.db :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/keystone-start :: Permissions_operation,()
+echo ¦(crontab¦-l -u keystone 2>&1 | grep -q token_flush) || echo '@hourly /usr/bin/keystone-manage token_flush >/var/log/keystone/keystone-tokenflush.log 2>&1' >> /var/spool/cron/crontabs/keystone :: Filesystem_operation,()
+wsgi-keystone.conf/etc/apache2/sites-enabled/ :: add_operation,()
+configparse.py/usr/local/bin/ :: add_operation,()
+from,shaddock/seed:latest

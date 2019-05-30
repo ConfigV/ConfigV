@@ -1,0 +1,11 @@
+mkdir ¦/opt/seafile :: Filesystem_operation,()
+chown ¦-R¦seafile¦/var/lib/seafile-data :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+mkdir ¦/var/lib/mysql :: Filesystem_operation,()
+cmd,/sbin/my_init
+chown ¦-R¦seafile¦/opt/seafile :: Permissions_operation,()
+/backup :: volume_operation,()
+mkdir ¦/var/lib/seafile-data :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+useradd ¦seafile¦-d¦/opt/seafile¦-s¦/bin/bash¦-u¦2000 :: Permissions_operation,()
+from,phusion/baseimage:0.9.16

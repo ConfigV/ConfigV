@@ -1,0 +1,21 @@
+/ssl :: volume_operation,()
+https://github.com/garyburd/redigo/archive/779af66db5668074a96f522d9025cb0a5ef50d89.zip/x/redigo.zip :: add_operation,()
+https://github.com/golang/snappy/archive/master.zip/x/snappy-go.zip :: add_operation,()
+deploy/gddo.conf/etc/nginx/sites-enabled/gddo.conf :: add_operation,()
+unzip ¦/x/redigo.zip¦-d¦/x :: Filesystem_operation,()
+go ¦install¦github.com/golang/gddo/gddo-server :: Build_Execute_operation,()
+cmd,svscan¦/services
+rm ¦-rf¦/x :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/github.com/garyburd :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/github.com/golang :: Filesystem_operation,()
+mv ¦/x/snappy-master¦/go/src/github.com/golang/snappy :: Filesystem_operation,()
+unzip ¦/x/snappy-go.zip¦-d¦/x :: Filesystem_operation,()
+mv ¦/x/redigo-*¦/go/src/github.com/garyburd/redigo :: Filesystem_operation,()
+echo ¦echo¦deb http://http.debian.net/debian wheezy-backports main > /etc/apt/sources.list.d/backports.list && apt-get update && apt-get install -y --no-install-recommends -t wheezy-backports redis-server && apt-get install -y --no-install-recom... :: Filesystem_operation,()
+from,golang@latest
+deploy/services/services :: add_operation,()
+./go/src/github.com/golang/gddo :: add_operation,()
+expose,80 443
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf && rm /etc/nginx/sites-enabled/default :: Filesystem_operation,()
+deploy/redis.conf/etc/redis/redis.conf :: add_operation,()
+/data :: volume_operation,()

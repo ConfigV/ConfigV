@@ -1,0 +1,16 @@
+entrypoint,bash¦-ex¦/opt/exhibitor/init.sh
+ZK_RELEASE="http://www.apache.org/dist/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz":EXHIBITOR_POM="https://raw.githubusercontent.com/Netflix/exhibitor/d911a16d704bbe790d84bbacc655ef050c1f5806/exhibitor-standalone/src/main/resources/b... :: env_operation,()
+expose,2181 2888 3888 8181
+mvn ¦-f¦/opt/exhibitor/pom.xml¦package :: Dependencies_operation,()
+apt-get ¦update¦-qqy :: Dependencies_operation,()
+ln ¦-s¦/opt/exhibitor/target/exhibitor*jar¦/opt/exhibitor/exhibitor.jar :: Filesystem_operation,()
+/opt/exhibitor :: workdir_operation,()
+rm ¦/tmp/zookeeper.tgz :: Filesystem_operation,()
+mkdir ¦-p¦/opt/zookeeper/transactions¦/opt/zookeeper/snapshots :: Filesystem_operation,()
+curl ¦-Lo¦/tmp/zookeeper.tgz¦$ZK_RELEASE :: Dependencies_operation,()
+curl ¦-Lo¦/opt/exhibitor/pom.xml¦$EXHIBITOR_POM :: Dependencies_operation,()
+tar ¦-xzf¦/tmp/zookeeper.tgz¦-C¦/opt/zookeeper¦--strip=1 :: Filesystem_operation,()
+from,debian:7.8
+././ :: add_operation,()
+mkdir ¦-p¦/opt/exhibitor :: Filesystem_operation,()
+apt-get ¦install¦-qqy¦curl¦maven¦openjdk-7-jdk :: Dependencies_operation,()

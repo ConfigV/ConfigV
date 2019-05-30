@@ -1,0 +1,13 @@
+TZ:Europe/Prague :: env_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+nproc  :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+BUILD_PACKAGES="php5-curl": :: env_operation,()
+conf/php.ini/usr/local/etc/php/ :: copy_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEPENDENCY_PACKAGES="libpq-dev:libcurl4-openssl-dev :: env_operation,()
+from,php:7.0
+apt-get ¦install¦-f¦-y¦$DEPENDENCY_PACKAGES¦$BUILD_PACKAGES :: Dependencies_operation,()
+sed ¦-i¦"s/http:\\/\\/httpredir\\.debian\\.org\\/debian/ftp:\\/\\/ftp\\.debian\\.org\\/debian/g"¦/etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()

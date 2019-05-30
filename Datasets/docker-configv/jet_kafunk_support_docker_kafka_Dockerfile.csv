@@ -1,0 +1,15 @@
+start-kafka.sh/usr/bin/start-kafka.sh :: add_operation,()
+create-topics.sh/usr/bin/create-topics.sh :: add_operation,()
+cmd,start-kafka.sh
+rm ¦/tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz :: Filesystem_operation,()
+download-kafka.sh/tmp/download-kafka.sh :: add_operation,()
+chmod ¦+x¦/tmp/download-kafka.sh :: Permissions_operation,()
+/tmp/download-kafka.sh  :: Other_operation,()
+tar ¦xfz¦/tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz¦-C¦/opt :: Filesystem_operation,()
+KAFKA_HOME:/opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION} :: env_operation,()
+chmod ¦+x¦/usr/bin/start-kafka.sh¦/usr/bin/broker-list.sh¦/usr/bin/create-topics.sh :: Permissions_operation,()
+/kafka :: volume_operation,()
+apk ¦add¦--update¦unzip¦wget¦curl¦docker¦jq¦coreutils :: Dependencies_operation,()
+broker-list.sh/usr/bin/broker-list.sh :: add_operation,()
+KAFKA_VERSION="0.9.0.1":SCALA_VERSION="2.11" :: env_operation,()
+from,anapsix/alpine-java

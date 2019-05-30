@@ -1,0 +1,9 @@
+chown ¦-R¦snappy:snappy¦/usr/local/pipeline :: Permissions_operation,()
+chmod ¦-R¦755¦/usr/local/pipeline/varScan2 :: Permissions_operation,()
+from,viapath/snappy_ngstools
+wget ¦-O¦/usr/local/pipeline/varScan2/VarScan.v2.3.7.jar¦http://downloads.sourceforge.net/project/varscan/VarScan.v2.3.7.jar :: Dependencies_operation,()
+cmd,/bin/bash
+mkdir ¦-p¦/usr/local/pipeline/varScan2 :: Filesystem_operation,()
+HOME:/root :: env_operation,()
+sed ¦-i¦'$aCLASSPATH=.:$CLASSPATH:/usr/local/pipeline/varScan2/VarScan.v2.3.7.jar'¦/home/snappy/.bashrc :: Filesystem_operation,()
+sed ¦-i¦'$aPATH=$PATH:/usr/local/pipeline/varScan2'¦/home/snappy/.bashrc :: Filesystem_operation,()

@@ -1,0 +1,15 @@
+cmd,/bes-cmd.sh
+curl ¦-k¦https://$ROOT_SERVER/masthead/masthead.afxm¦>¦/etc/opt/BESClient/actionsite.afxm :: Dependencies_operation,()
+ROOT_SERVER=rootserver.bigfix.com:52311: :: env_operation,()
+echo ¦echo¦-e "[Software\\BigFix\\\\\\EnterpriseClient\\Settings\\Client\\_BESClient_Comm_CommandPollIntervalSeconds]nvalue = 300neffective date = Thu,%2001%20Jan%202015%2000:00:00%20+0000" >> /var/opt/BESClient/besclient.config.default && echo -e "[So... :: Filesystem_operation,()
+echo ¦echo¦-e "[Software\\BigFix\\\\\\EnterpriseClient\\Settings\\Client\\_BESClient_Resource_WorkIdle]nvalue = 2neffective date = Thu,%2001%20Jan%202015%2000:00:00%20+0000" >> /var/opt/BESClient/besclient.config.default && echo -e "[Software\\BigFix\\\\\\... :: Filesystem_operation,()
+./bes-cmd.sh/ :: copy_operation,()
+mkdir ¦-p¦/etc/opt/BESClient :: Filesystem_operation,()
+from,centos:6.0
+rpm ¦-ivh¦/tmp/BESAgent.rpm :: Dependencies_operation,()
+chmod ¦u+x¦/bes-cmd.sh :: Permissions_operation,()
+curl ¦$AGENT_DOWNLOAD_URL¦>¦/tmp/BESAgent.rpm :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+AGENT_DOWNLOAD_URL=http://software.bigfix.com/download/bes/92/BESAgent-9.2.0.363-rhe5.x86_64.rpm: :: env_operation,()
+yum ¦-y¦install¦bzip2¦tar :: Dependencies_operation,()
+echo ¦echo¦-e "[Software\\BigFix\\\\\\EnterpriseClient\\Settings\\Client\\__RelaySelect_Automatic]nvalue = 1neffective date = Thu,%2001%20Jan%202015%2000:00:00%20+0000" >> /var/opt/BESClient/besclient.config.default :: Filesystem_operation,()

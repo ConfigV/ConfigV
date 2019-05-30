@@ -1,0 +1,12 @@
+from,debian
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+dpkg ¦-i¦pgloader.deb :: Dependencies_operation,()
+DEB_FILE:http://pgloader.io/files/pgloader_3.2.0+dfsg-1_amd64.deb :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+wget ¦-nv¦-O¦pgloader.deb¦$DEB_FILE :: Dependencies_operation,()
+apt-get ¦install¦-yq¦wget¦freetds-dev¦libsqlite3-0 :: Dependencies_operation,()
+entrypoint,/app/entrypoint.sh
+./app/ :: copy_operation,()
+rm ¦pgloader.deb :: Filesystem_operation,()
+/app :: workdir_operation,()

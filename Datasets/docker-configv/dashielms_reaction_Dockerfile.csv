@@ -1,0 +1,11 @@
+from,cmfatih/nodejs
+expose,8080
+bundle.tar.gz/var/www/ :: add_operation,()
+cp ¦-R¦/var/www/bundle/*¦/var/www/app :: Filesystem_operation,()
+mkdir ¦-p¦/var/www/app :: Filesystem_operation,()
+npm ¦install¦fibers@1.0.1 :: Dependencies_operation,()
+rm ¦-rf¦/var/www/bundle :: Filesystem_operation,()
+cmd,PORT=8080¦/usr/bin/node¦./main.js
+rm ¦-r¦fibers :: Filesystem_operation,()
+cd ¦/var/www/bundle/programs/server/node_modules :: Filesystem_operation,()
+/var/www/app :: workdir_operation,()

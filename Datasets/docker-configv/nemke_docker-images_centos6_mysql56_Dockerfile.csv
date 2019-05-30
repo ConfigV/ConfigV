@@ -1,0 +1,14 @@
+my.cnf/etc/my.cnf :: add_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+mysql-init/usr/bin/mysql-init :: add_operation,()
+rpm ¦-Uvh¦http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+from,centos:6.0
+yum ¦-y¦install¦mysql-community-server :: Dependencies_operation,()
+chmod ¦+x¦/usr/bin/mysql-init :: Permissions_operation,()
+entrypoint,/usr/bin/mysql-start
+expose,22 3306
+chmod ¦+x¦/usr/bin/mysql-start :: Permissions_operation,()
+/usr/bin/mysql-init  :: Other_operation,()
+yum ¦-y¦install¦wget¦curl¦telnet :: Dependencies_operation,()
+mysql-start/usr/bin/mysql-start :: add_operation,()

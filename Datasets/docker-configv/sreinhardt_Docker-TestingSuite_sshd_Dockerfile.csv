@@ -1,0 +1,9 @@
+entrypoint,/usr/sbin/sshd
+service ¦sshd¦start :: Build_Execute_operation,()
+chown ¦${nagios_user}:${nagios_group}¦/usr/local/nagios/.ssh¦-R :: Permissions_operation,()
+chmod ¦400¦/usr/local/nagios/.ssh¦-R :: Permissions_operation,()
+expose,22
+/usr/local/nagios/libexec/ :: workdir_operation,()
+id_dsa.pub/usr/local/nagios/.ssh/authorized_keys :: add_operation,()
+yum ¦install¦openssh¦-y :: Dependencies_operation,()
+from,sreinhardt/nagios-testing-suite:nagios-plugins

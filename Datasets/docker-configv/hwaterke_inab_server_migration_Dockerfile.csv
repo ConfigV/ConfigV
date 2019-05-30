@@ -1,0 +1,7 @@
+from,ruby@alpine
+Gemfile*./ :: copy_operation,()
+migrate.rb./ :: copy_operation,()
+/app/migration :: workdir_operation,()
+bundle ¦install :: Dependencies_operation,()
+apk ¦add¦--update¦build-base¦sqlite-dev :: Dependencies_operation,()
+entrypoint,bundle¦exec¦ruby¦migrate.rb

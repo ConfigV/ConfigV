@@ -1,0 +1,22 @@
+test ¦-f¦$HOME/rundeck-launcher.jar¦||¦curl¦-sS¦-f¦-L¦-o¦$HOME/rundeck-launcher.jar¦${LAUNCHER_URL} :: Other_operation,()
+mkdir ¦-p¦$HOME/data :: Filesystem_operation,()
+mkdir ¦-p¦$HOME/scripts :: Filesystem_operation,()
+echo ¦echo¦"oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && add-apt-repository -y ppa:webupd8team/java && apt-get update && apt-get install -y oracle-java8-installer :: Filesystem_operation,()
+$HOME/resources :: volume_operation,()
+cmd,$HOME/scripts/run.sh
+sudo ¦mkdir¦-p¦/tests :: Other_operation,()
+rundeck :: user_operation,()
+$HOME :: workdir_operation,()
+echo ¦echo¦"download rundeck launcher: ${LAUNCHER_URL}" :: Filesystem_operation,()
+from,ubuntu:16.04
+apt-get ¦-y¦install¦sudo¦unzip¦curl¦xmlstarlet¦git¦netcat-traditional¦software-properties-common¦debconf-utils¦uuid-runtime¦ncurses-bin¦iputils-ping¦zip :: Dependencies_operation,()
+sudo ¦chmod¦-R¦a+x¦$HOME/scripts/* :: Other_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+cp ¦$HOME/data/rundeck-launcher.jar¦$HOME/rundeck-launcher.jar¦||¦true :: Filesystem_operation,()
+scripts$HOME/scripts :: copy_operation,()
+tests/tests :: copy_operation,()
+expose,22 4440 4443
+RUNDECK_NODE=rundeck1 :: arg_operation,()
+test ¦-f¦$HOME/data/rundeck-launcher.jar :: Other_operation,()
+data$HOME/data :: copy_operation,()
+sudo ¦chmod¦-R¦a+x¦/tests/* :: Other_operation,()

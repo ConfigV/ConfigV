@@ -1,0 +1,16 @@
+apk ¦add¦build-base¦zlib-dev¦libxml2-dev¦libxslt-dev¦tzdata¦yaml-dev¦git¦nodejs :: Dependencies_operation,()
+expose,8080
+/app :: workdir_operation,()
+PORT:8080 :: env_operation,()
+cmd,bundle¦exec¦puma¦-C¦config/puma.rb
+./app :: add_operation,()
+rm ¦-rf¦/usr/lib/lib/ruby/gems/*/cache/* :: Filesystem_operation,()
+bundle ¦install¦--without¦development¦test :: Dependencies_operation,()
+SECRET_KEY_BASE:changeme :: env_operation,()
+gem ¦install¦-N¦nokogiri¦--¦--use-system-libraries :: Dependencies_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+RAILS_ENV:production :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,ruby:2.3
+rake ¦assets:precompile :: Other_operation,()

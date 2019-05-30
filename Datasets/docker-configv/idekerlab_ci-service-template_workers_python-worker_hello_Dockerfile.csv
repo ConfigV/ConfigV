@@ -1,0 +1,9 @@
+apt-get ¦install¦-y¦build-essential :: Dependencies_operation,()
+mkdir ¦/workers :: Filesystem_operation,()
+from,python:3.5
+apt-get ¦update :: Dependencies_operation,()
+/workers :: workdir_operation,()
+expose,5556 5557 5558
+pip ¦install¦redis¦pyzmq¦requests¦ciworker==0.1.4 :: Dependencies_operation,()
+./workers :: add_operation,()
+entrypoint,/workers/run.sh

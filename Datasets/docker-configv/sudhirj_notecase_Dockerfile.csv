@@ -1,0 +1,10 @@
+RAILS_ROOT:/var/www/docker :: env_operation,()
+mkdir ¦-p¦$RAILS_ROOT/tmp/pids :: Filesystem_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+bundle ¦install :: Dependencies_operation,()
+apt-get ¦install¦-y¦build-essential¦libpq-dev¦postgresql-client :: Dependencies_operation,()
+.. :: copy_operation,()
+from,ruby:2.3
+$RAILS_ROOT :: workdir_operation,()
+cmd,config/containers/app_cmd.sh
+gem ¦install¦bundler :: Dependencies_operation,()

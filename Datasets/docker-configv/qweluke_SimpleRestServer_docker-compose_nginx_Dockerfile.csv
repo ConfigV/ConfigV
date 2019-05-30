@@ -1,0 +1,10 @@
+symfony.conf/etc/nginx/conf.d/ :: add_operation,()
+apk ¦add¦--update¦nginx :: Dependencies_operation,()
+expose,443
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+adduser ¦-D¦-g¦''¦-G¦www-data¦www-data :: Permissions_operation,()
+nginx.conf/etc/nginx/ :: add_operation,()
+from,alpine:3.4
+echo ¦echo¦"upstream php-upstream { server php:9001; }" > /etc/nginx/conf.d/upstream.conf :: Filesystem_operation,()
+cmd,nginx

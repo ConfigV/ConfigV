@@ -1,0 +1,11 @@
+expose,8080
+./src/var/www/src/ :: copy_operation,()
+./package.json/var/www/ :: copy_operation,()
+./staticFiles/var/www/staticFiles/ :: copy_operation,()
+cmd,node¦/var/www/src/index.js
+npm ¦install¦babelify :: Dependencies_operation,()
+npm ¦install¦--unsafe-perm :: Dependencies_operation,()
+/var/www/ :: workdir_operation,()
+browserify ¦./src/app.js¦-t¦babelify¦--outfile¦./staticFiles/app.js :: Other_operation,()
+npm ¦install¦-g¦browserify :: Dependencies_operation,()
+from,nheyn/async-react-router:dev

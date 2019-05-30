@@ -1,0 +1,14 @@
+/usr/src/app :: workdir_operation,()
+expose,3000
+SERVICE_CHECK_HTTP=/healthcheck: :: env_operation,()
+SERVICE_CHECK_TIMEOUT=2s: :: env_operation,()
+from,mhart/alpine-node:4.2.1
+SERVICE_CHECK_INTERVAL=10s: :: env_operation,()
+./usr/src/app :: copy_operation,()
+SERVICE_NAME=poc-i18n: :: env_operation,()
+package.json/usr/src/app/ :: copy_operation,()
+PORT=3000: :: env_operation,()
+SHUTDOWN_TIMEOUT=10000: :: env_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+npm ¦install :: Dependencies_operation,()
+cmd,node¦index.js

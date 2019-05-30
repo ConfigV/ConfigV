@@ -1,0 +1,7 @@
+cmd,chown¦-R¦hdfs:hdfs¦/data/dfs¦&&¦chown¦-R¦yarn:yarn¦/data/yarn¦&&¦"/usr/bin/supervisord"
+./supervisord.conf/etc/ :: add_operation,()
+expose,22 50010 50075 50020 8040 8042 8041 60020 60030
+mv ¦-f¦/etc/supervisord.conf¦/etc/supervisord.conf.org :: Filesystem_operation,()
+yum ¦--disablerepo=cloudera-cdh5¦--disablerepo=epel¦--enablerepo=local-cdh5¦install¦-y¦hadoop-yarn-nodemanager¦hadoop-hdfs-datanode¦hadoop-mapreduce¦hbase-regionserver :: Dependencies_operation,()
+from,whlee21/centos6-cdh5-base
+local-cdh5.repo/etc/yum.repos.d/local-cdh5.repo :: add_operation,()

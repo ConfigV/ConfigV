@@ -1,0 +1,16 @@
+rm ¦-rf¦/tmp/apacheds.rpm :: Filesystem_operation,()
+mkdir ¦-p¦/data :: Filesystem_operation,()
+chown ¦-R¦apacheds.apacheds¦/var/lib/apacheds-2.0.0_M20/default/partitions :: Permissions_operation,()
+yum ¦-y¦install¦java-1.7.0-openjdk¦openldap-clients :: Dependencies_operation,()
+expose,389
+yum ¦-y¦update :: Dependencies_operation,()
+ln ¦-s¦/var/lib/apacheds-2.0.0_M20/default/partitions¦/data :: Filesystem_operation,()
+mkdir ¦-p¦/bootstrap :: Filesystem_operation,()
+/bootstrap :: volume_operation,()
+yum ¦-y¦localinstall¦/tmp/apacheds.rpm :: Dependencies_operation,()
+curl ¦-s¦http://mirrors.ukfast.co.uk/sites/ftp.apache.org//directory/apacheds/dist/2.0.0-M20/apacheds-2.0.0-M20-x86_64.rpm¦-o¦/tmp/apacheds.rpm :: Dependencies_operation,()
+apacheds.sh/usr/local/bin/ :: add_operation,()
+from,centos:7.0
+entrypoint,/usr/local/bin/apacheds.sh
+chmod ¦+x¦/usr/local/bin/apacheds.sh :: Permissions_operation,()
+chown ¦-R¦apacheds.apacheds¦/data :: Permissions_operation,()

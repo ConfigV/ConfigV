@@ -1,0 +1,9 @@
+conf/*/etc/nginx/conf.d/ :: add_operation,()
+mkdir ¦-p¦/data/www :: Filesystem_operation,()
+./conf/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+from,nginx:1.9
+groupadd ¦www-data :: Permissions_operation,()
+mkdir ¦/data/log/nginx¦RUN¦chown¦-R¦www-data.www-data¦/data/log/nginx :: Filesystem_operation,()
+/data :: volume_operation,()
+-s ¦/sbin/nologin¦-g¦www¦www :: Other_operation,()
+www-data :: user_operation,()

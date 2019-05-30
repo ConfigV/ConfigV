@@ -1,0 +1,7 @@
+entrypoint,drush
+from,nascom/php:5.6-composer
+apt-get ¦clean :: Dependencies_operation,()
+composer ¦global¦require¦drush/drush:8.*¦--prefer-dist :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦mysql-client :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()

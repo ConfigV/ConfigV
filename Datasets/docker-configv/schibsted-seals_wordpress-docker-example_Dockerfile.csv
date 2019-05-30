@@ -1,0 +1,23 @@
+sed ¦-i¦"s/;date.timezone¦=/date.timezone¦=¦Europe\\/Warsaw/"¦/etc/php5/apache2/php.ini :: Filesystem_operation,()
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+mv ¦composer.phar¦/usr/bin/composer :: Filesystem_operation,()
+from,ubuntu@utopic
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦install¦-y¦supervisor :: Dependencies_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+docker/vhost.conf/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+cmd,supervisord¦-c¦/etc/supervisor/conf.d/supervisord.conf
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+echo ¦echo¦'root:123' | chpasswd :: Filesystem_operation,()
+expose,22 80
+docker/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦7F0CEB10 :: Dependencies_operation,()
+apt-get ¦install¦-y¦apache2¦zip¦curl¦git¦acl¦php5-curl¦php5-cli¦php5-json¦php5-intl¦php5¦libapache2-mod-php5¦php5-mysql :: Dependencies_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()

@@ -1,0 +1,11 @@
+cmd,java¦-jar¦selenium-server-standalone-2.35.0.jar¦-role¦hub
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections :: Filesystem_operation,()
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+add-apt-repository ¦ppa:webupd8team/java :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections :: Filesystem_operation,()
+apt-get ¦install¦-y¦python-software-properties¦python :: Dependencies_operation,()
+apt-get ¦install¦oracle-java7-installer¦-y :: Dependencies_operation,()
+from,ubuntu
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+wget ¦https://selenium.googlecode.com/files/selenium-server-standalone-2.35.0.jar :: Dependencies_operation,()

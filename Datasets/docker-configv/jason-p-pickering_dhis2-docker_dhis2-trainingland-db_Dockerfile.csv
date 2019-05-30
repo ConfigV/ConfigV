@@ -1,0 +1,7 @@
+from,postgres:9.4
+curl ¦-o¦/dhis.sql.gz¦-SL¦"https://github.com/dhis2/dhis2-demo-db/raw/master/trainingland/trainingland.sql.gz" :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦curl¦ca-certificates :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+dhis2-postgres.sh/docker-entrypoint-initdb.d/ :: copy_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦gzip¦curl¦ca-certificates :: Dependencies_operation,()

@@ -1,0 +1,7 @@
+/server :: workdir_operation,()
+Get-ChildItem ¦-Path¦"C:\\server"¦-Recurse¦|¦%¦{¦Unblock-File¦$_.FullName¦} :: Other_operation,()
+https://github.com/containous/traefik/releases/download/v1.1.2/traefik_windows-amd64C:/server/traefik.exe :: add_operation,()
+entrypoint,&¦.\\traefik.exe
+expose,80 8080
+./server/ :: add_operation,()
+from,microsoft/nanoserver

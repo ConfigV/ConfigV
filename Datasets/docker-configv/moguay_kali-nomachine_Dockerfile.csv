@@ -1,0 +1,18 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+NOMACHINE_PACKAGE_NAME:nomachine_5.2.11_1_amd64.deb :: env_operation,()
+add-apt-repository ¦ppa:webupd8team/tor-browser :: Dependencies_operation,()
+apt-get ¦install¦-y¦kali-linux :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦tor¦firefox¦libreoffice¦htop¦nano¦git¦vim¦tor-browser :: Dependencies_operation,()
+from,kalilinux/kali-linux-docker
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,/nxserver.sh
+apt-get ¦install¦-y¦software-properties-common¦python3-software-properties¦python-software-properties¦wget¦xdg-utils¦libpango1.0-0¦fonts-liberation :: Dependencies_operation,()
+apt-get ¦install¦-y¦vim¦xterm¦pulseaudio¦cups¦curl :: Dependencies_operation,()
+nxserver.sh/ :: add_operation,()
+echo ¦echo¦"deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list &&echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list :: Filesystem_operation,()
+NOMACHINE_MD5:d697e5a565507d522380c94d2f295d07 :: env_operation,()
+apt-get ¦-y¦dist-upgrade :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦curl¦-fSL "http://download.nomachine.com/download/5.2/Linux/${NOMACHINE_PACKAGE_NAME}" -o nomachine.deb&& echo "${NOMACHINE_MD5} *nomachine.deb" | md5sum -c -&& dpkg -i nomachine.deb&& groupadd -r nomachine -g 433&& useradd -u 431 -r -g no... :: Filesystem_operation,()

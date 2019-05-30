@@ -1,0 +1,18 @@
+apt-get ¦-y¦install¦apache2¦openssl¦apache2-utils¦supervisor :: Dependencies_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()
+a2enmod ¦dav¦dav_fs¦ssl;¦a2ensite¦default-ssl :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+webdav.conf/ :: add_operation,()
+mkdir ¦-p¦/var/lock/apache2;¦chown¦www-data¦/var/lock/apache2 :: Filesystem_operation,()
+from,ubuntu:14.04
+configure/ :: add_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_RUN_DIR:/var/run/apache2 :: env_operation,()
+expose,80 443
+supervisor.conf/etc/supervisor/conf.d/ :: add_operation,()
+cmd,/usr/bin/supervisord¦-n¦-c¦/etc/supervisor/supervisord.conf
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+/srv/webdav :: volume_operation,()
+mkdir ¦-p¦/srv/webdav;¦chown¦www-data¦/srv/webdav :: Filesystem_operation,()

@@ -1,0 +1,9 @@
+yum ¦-y¦install¦puppet;¦yum¦clean¦all :: Dependencies_operation,()
+install.pp/tmp/ :: add_operation,()
+rpm ¦-Uvh¦https://yum.puppetlabs.com/puppetlabs-release-fedora-20.noarch.rpm :: Dependencies_operation,()
+puppet ¦apply¦/tmp/install.pp :: Dependencies_operation,()
+yum ¦update¦-y;¦yum¦clean¦all :: Dependencies_operation,()
+from,fedora:20.0
+/opt/puppet/environments :: volume_operation,()
+mkdir ¦-p¦/opt/puppet/environments :: Filesystem_operation,()
+cmd,autostager

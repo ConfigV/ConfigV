@@ -1,0 +1,10 @@
+aceproxy :: user_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦vlc-nox¦python-gevent¦python-pip¦python-dev¦gcc :: Other_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+adduser ¦--disabled-password¦--gecos¦""¦aceproxy :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦autoremove :: Other_operation,()
+expose,4212 8011
+from,resin/rpi-raspbian:jessie
+VLC_PLUGIN_PATH:/usr/lib/vlc/plugins/ :: env_operation,()
+entrypoint,/usr/bin/vlc
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦clean :: Other_operation,()

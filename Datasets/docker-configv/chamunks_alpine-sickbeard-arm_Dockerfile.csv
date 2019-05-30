@@ -1,0 +1,11 @@
+expose,8081
+entrypoint,python¦SickBeard.py
+/app/ :: workdir_operation,()
+apk ¦update :: Dependencies_operation,()
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+from,hypriot/rpi-alpine-scratch
+git ¦clone¦git://github.com/midgetspy/Sick-Beard.git¦/app/ :: Dependencies_operation,()
+pip ¦install¦cheetah :: Dependencies_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+apk ¦add¦python¦py-pip¦git :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

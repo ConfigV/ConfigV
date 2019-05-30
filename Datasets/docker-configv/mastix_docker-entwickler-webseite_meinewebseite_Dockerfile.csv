@@ -1,0 +1,14 @@
+config/default.conf/etc/nginx/conf.d/default.conf :: copy_operation,()
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+cmd,nginx
+chown ¦-R¦www-data:www-data¦/var/lib/nginx :: Permissions_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+config/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+/etc/nginx :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+add-apt-repository ¦-y¦ppa:nginx/stable :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,docker_ubuntubase

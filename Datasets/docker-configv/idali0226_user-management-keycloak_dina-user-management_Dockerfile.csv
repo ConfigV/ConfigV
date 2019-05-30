@@ -1,0 +1,11 @@
+cmd,java¦-jar¦user-management-api-swarm.jar¦-Sinitdata
+apk ¦add¦--no-cache¦tini¦openssl¦bash :: Dependencies_operation,()
+target/user-management-api-swarm.jar/usr/src/myapp/ :: copy_operation,()
+/usr/src/myapp :: workdir_operation,()
+entrypoint,/sbin/tini¦--¦/wait-for-it.sh¦sso:8080¦-t¦60¦--
+from,openjdk:8.0
+project-initdata.yml/usr/src/myapp/ :: copy_operation,()
+expose,8181
+root :: user_operation,()
+wget ¦https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh¦-O¦/wait-for-it.sh :: Dependencies_operation,()
+chmod ¦+x¦/wait-for-it.sh :: Permissions_operation,()

@@ -1,0 +1,12 @@
+wget ¦https://github.com/elixir-lang/elixir/releases/download/v${ELIXIR_VERSION}/Precompiled.zip :: Dependencies_operation,()
+mkdir ¦-p¦/opt/elixir-${ELIXIR_VERSION}/ :: Filesystem_operation,()
+PATH:$PATH:/opt/elixir-${ELIXIR_VERSION}/bin :: env_operation,()
+unzip ¦Precompiled.zip¦-d¦/opt/elixir-${ELIXIR_VERSION}/ :: Filesystem_operation,()
+apk ¦del¦ca-certificates¦wget :: Dependencies_operation,()
+ELIXIR_VERSION:1.0.5 :: env_operation,()
+rm ¦-rf¦/etc/ssl :: Filesystem_operation,()
+apk ¦--update¦add¦ca-certificates¦erlang-crypto¦erlang-syntax-tools¦wget :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,bentruyman/erlang:18.0
+rm ¦Precompiled.zip :: Filesystem_operation,()
+cmd,elixir

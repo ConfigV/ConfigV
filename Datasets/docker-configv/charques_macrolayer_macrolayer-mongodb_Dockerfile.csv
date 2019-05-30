@@ -1,0 +1,8 @@
+echo ¦echo¦"deb http://repo.mongodb.org/apt/ubuntu $(cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2)/mongodb-org/3.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.2.list :: Filesystem_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦EA312927 :: Dependencies_operation,()
+expose,27017
+apt-get ¦install¦-y¦mongodb-org :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+entrypoint,/usr/bin/mongod
+from,ubuntu:16.04

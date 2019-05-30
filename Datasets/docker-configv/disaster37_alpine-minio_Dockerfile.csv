@@ -1,0 +1,11 @@
+cd ¦${SERVICE_HOME}/bin :: Filesystem_operation,()
+$SERVICE_HOME :: workdir_operation,()
+chmod ¦+x¦${SERVICE_HOME}/bin/* :: Permissions_operation,()
+root/ :: add_operation,()
+$SERVICE_USER :: user_operation,()
+curl ¦-sSLO¦"https://dl.minio.io/server/minio/release/linux-amd64/minio" :: Dependencies_operation,()
+SERVICE_RELEASE=minio  :: Other_operation,()
+expose,9000
+addgroup ¦-g¦${SERVICE_GID}¦${SERVICE_GROUP}¦&& :: Permissions_operation,()
+mkdir ¦-p¦${SERVICE_HOME}/logs¦${SERVICE_HOME}/data¦${SERVICE_HOME}/bin :: Filesystem_operation,()
+from,rawmind/alpine-monit:0.5.20-4

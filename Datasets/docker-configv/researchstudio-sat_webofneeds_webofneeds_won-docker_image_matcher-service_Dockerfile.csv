@@ -1,0 +1,10 @@
+cmd,java¦-Dconfig.file=${WON_CONFIG_DIR}/matcher-service/application.conf-DWON_CONFIG_DIR=${WON_CONFIG_DIR}/matcher-service/-Dlogback.configurationFile=${WON_CONFIG_DIR}/${LOGBACK_CONFIG}${JMEM_OPTS}${JMX_OPTS}-jar¦won-matcher-service.jar
+LOGBACK_CONFIG=logback_info.xml: :: env_operation,()
+monitoring.output.dir=/usr/src/matcher-service/monitoring/logs: :: env_operation,()
+WON_CONFIG_DIR=/usr/src/matcher-service/conf: :: env_operation,()
+from,openjdk:8.0
+mkdir ¦-p¦/usr/src/matcher-service/monitoring/logs :: Filesystem_operation,()
+./won-matcher-service.jar/usr/src/matcher-service/ :: add_operation,()
+/usr/src/matcher-service/ :: workdir_operation,()
+mkdir ¦-p¦/usr/src/matcher-service/client-certs/ :: Filesystem_operation,()
+./conf${WON_CONFIG_DIR} :: add_operation,()

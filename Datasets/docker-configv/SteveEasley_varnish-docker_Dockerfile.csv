@@ -1,0 +1,6 @@
+expose,80 6082
+from,debian@jessie
+echo ¦apt-get¦update && apt-get -y install apt-transport-https curl && curl https://repo.varnish-cache.org/GPG-key.txt | apt-key add - && echo "deb https://repo.varnish-cache.org/debian/ jessie varnish-4.0" >> /etc/apt/sources.list.d/varnish-cac... :: Filesystem_operation,()
+entrypoint,/docker-entrypoint.sh
+docker-entrypoint.sh/ :: copy_operation,()
+cmd,varnishd¦-F¦-a¦:80¦-T¦:6082¦-f¦/etc/varnish/default.vcl¦-s¦malloc,1G

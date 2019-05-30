@@ -1,0 +1,9 @@
+apk ¦add¦--no-cache¦curl¦python3=$PYTHON_VERSION¦python3-dev=$PYTHON_VERSION :: Dependencies_operation,()
+cmd,python3
+rm ¦/tmp/get-pip.py :: Filesystem_operation,()
+apk ¦del¦curl :: Dependencies_operation,()
+from,hypriot/rpi-alpine-scratch:v3.4
+PYTHON_VERSION:3.5.2-r2 :: env_operation,()
+curl ¦-Ls¦https://bootstrap.pypa.io/get-pip.py¦-o¦/tmp/get-pip.py :: Dependencies_operation,()
+PYTHON_PIP_VERSION:9.0.1 :: env_operation,()
+python3 ¦/tmp/get-pip.py¦pip==$PYTHON_PIP_VERSION :: Build_Execute_operation,()

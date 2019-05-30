@@ -1,0 +1,10 @@
+/php5.3.apt-preferences/etc/apt/preferences.d/preferences :: add_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+from,debian@wheezy
+INSTALL_PACKAGES:php5-cli :: env_operation,()
+echo ¦echo¦"deb http://ftp.debian.org/debian/ squeeze main contrib non-free" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦$INSTALL_PACKAGES :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+echo ¦echo¦"deb http://security.debian.org/ squeeze/updates main contrib non-free" >> /etc/apt/sources.list :: Filesystem_operation,()

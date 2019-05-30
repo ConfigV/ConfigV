@@ -1,0 +1,8 @@
+from,fedora:23.0
+JENKINS_HOME:/var/lib/jenkins :: env_operation,()
+dnf ¦--assumeyes¦update :: Dependencies_operation,()
+useradd ¦-d¦"$JENKINS_HOME"¦-u¦${uid}¦-g¦${gid}¦-m¦-s¦/bin/bash¦${user} :: Permissions_operation,()
+${JENKINS_HOME} :: workdir_operation,()
+groupadd ¦-o¦-g¦${gid}¦${group} :: Permissions_operation,()
+dnf ¦--assumeyes¦install¦wget¦gawk¦make¦tar¦bzip2¦gzip¦python¦unzip¦perl¦patch¦diffutils¦diffstat¦git¦cpp¦gcc¦gcc-c++¦glibc-devel¦texinfo¦chrpath¦ccache¦perl-Data-Dumper¦perl-Text-ParseWords¦perl-Thread-Queue¦socat¦findutils¦which¦SDL-devel¦xte... :: Dependencies_operation,()
+jenkins :: user_operation,()

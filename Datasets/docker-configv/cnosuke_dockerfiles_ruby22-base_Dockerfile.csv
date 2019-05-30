@@ -1,0 +1,14 @@
+wget ¦-O¦ruby-install-0.5.0.tar.gz¦https://github.com/postmodern/ruby-install/archive/v0.5.0.tar.gz :: Dependencies_operation,()
+mkdir ¦-p¦/tmp :: Filesystem_operation,()
+cmd,/bin/bash
+HOME:/root :: env_operation,()
+from,ubuntu@latest
+tar ¦-xzvf¦ruby-install-0.5.0.tar.gz :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+cd ¦/tmp/ruby-install-0.5.0/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-get ¦-y¦install¦build-essential¦wget¦zip¦htop¦git¦emacs :: Dependencies_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+/tmp/ruby-install-0.5.0/bin/ruby-install ¦--system¦ruby¦2.2.2 :: Other_operation,()

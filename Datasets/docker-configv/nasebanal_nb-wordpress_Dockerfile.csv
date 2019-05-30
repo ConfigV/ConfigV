@@ -1,0 +1,6 @@
+from,centos:6.6
+chef-repo/var/chef-repo :: add_operation,()
+curl ¦-L¦http://www.opscode.com/chef/install.sh¦|¦bash :: Dependencies_operation,()
+CHEF_HOME:/var/chef-repo :: env_operation,()
+chef-solo ¦-c¦${CHEF_HOME}/solo.rb¦-j¦${CHEF_HOME}/nodes/docker.json :: Other_operation,()
+cd ¦${CHEF_HOME} :: Filesystem_operation,()

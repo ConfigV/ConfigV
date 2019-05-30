@@ -1,0 +1,14 @@
+chmod ¦-R¦777¦/go :: Permissions_operation,()
+PATH:/go/bin/:$PATH :: env_operation,()
+/etc/algernon :: volume_operation,()
+CGO_ENABLED=0: :: env_operation,()
+go ¦get¦github.com/xyproto/algernon :: Build_Execute_operation,()
+/srv/algernon :: workdir_operation,()
+mkdir ¦-p¦/go/src¦/go/bin :: Filesystem_operation,()
+expose,80
+apk ¦add¦bash¦curl¦git¦mercurial¦go :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+cmd,algernon¦-c¦--domain¦--server¦--cachesize¦67108864¦--prod¦--cert¦/keys/cert.pem¦--key¦/keys/key.pem
+GOPATH:/go :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,golang@alpine

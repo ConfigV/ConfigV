@@ -1,0 +1,14 @@
+yum ¦install¦-y¦$INSTALL_PKGS :: Dependencies_operation,()
+1001 :: user_operation,()
+rpm ¦-V¦$INSTALL_PKGS :: Dependencies_operation,()
+gradle/opt/app-root/src/gradle :: add_operation,()
+./gradlew/opt/app-root/src/ :: add_operation,()
+yum ¦clean¦all¦-y :: Dependencies_operation,()
+build.gradle/opt/app-root/src/ :: add_operation,()
+from,openshift/base-centos7
+sh ¦/opt/app-root/src/gradlew¦build :: Build_Execute_operation,()
+cmd,java¦-Xmx64m¦-Xss1024k¦-jar¦/opt/app-root/src/build/libs/*.jar
+mkdir ¦-p¦/opt/s2i/destination :: Filesystem_operation,()
+expose,8080
+INSTALL_PKGS="tar ¦unzip¦bc¦which¦lsof¦java-1.8.0-openjdk¦java-1.8.0-openjdk-devel" :: Other_operation,()
+src/opt/app-root/src/src :: add_operation,()

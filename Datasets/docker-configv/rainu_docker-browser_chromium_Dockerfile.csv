@@ -1,0 +1,8 @@
+entrypoint,/usr/bin/chromium-browser¦--user-data-dir=/home/browser/.chromium
+browser :: user_operation,()
+apt-get ¦update¦&&\\ :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦echo¦"deb http://archive.canonical.com/ubuntu xenial partner" >> /etc/apt/sources.list &&\\ :: Filesystem_operation,()
+mkdir ¦/home/browser/.chromium¦&&\\ :: Filesystem_operation,()
+cmd,--no-sandbox
+from,rainu/browser-base:16.04

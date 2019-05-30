@@ -1,0 +1,9 @@
+entrypoint,/usr/local/bin/s3server
+apt-get ¦install¦-y¦ca-certificates¦--no-install-recommends :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/s3server :: Permissions_operation,()
+https://jesss.s3.amazonaws.com/binaries/s3server/usr/local/bin/s3server :: add_operation,()
+templates/src/templates :: copy_operation,()
+from,debian@jessie
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+static/src/static :: copy_operation,()

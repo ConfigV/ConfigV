@@ -1,0 +1,10 @@
+entrypoint,pacur¦genkey
+PATH:$PATH:/usr/local/go/bin:/go/bin :: env_operation,()
+apt-get ¦--assume-yes¦install¦wget¦git :: Dependencies_operation,()
+apt-get ¦--assume-yes¦upgrade :: Dependencies_operation,()
+wget ¦https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz :: Dependencies_operation,()
+from,ubuntu@trusty
+go ¦get¦github.com/pacur/pacur :: Build_Execute_operation,()
+tar ¦-C¦/usr/local¦-xf¦go1.4.2.linux-amd64.tar.gz :: Filesystem_operation,()
+apt-get ¦--assume-yes¦update :: Dependencies_operation,()
+GOPATH:/go :: env_operation,()

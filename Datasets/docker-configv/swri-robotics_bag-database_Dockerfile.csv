@@ -1,0 +1,19 @@
+cmd,/entrypoint.sh
+apt-get ¦install¦-y¦git¦libopencv2.4-java :: Dependencies_operation,()
+maintainer:preed@swri.org :: label_operation,()
+/bags :: volume_operation,()
+from,tomcat:9.0
+expose,8080
+rm ¦-rf¦/usr/local/tomcat/webapps/ :: Filesystem_operation,()
+mvn ¦package :: Dependencies_operation,()
+mkdir ¦-p¦/src :: Filesystem_operation,()
+cd ¦/src :: Filesystem_operation,()
+--from=base-layer/usr/local/tomcat/webapps/ROOT.war :: copy_operation,()
+src/main/docker/server.xml/usr/local/tomcat/conf/server.xml :: copy_operation,()
+src/main/docker/entrypoint.sh/ :: copy_operation,()
+./src :: copy_operation,()
+apk ¦add¦--no-cache¦ffmpeg :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/usr/local/tomcat/logs :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/root/.ros-bag-database/indexes :: volume_operation,()

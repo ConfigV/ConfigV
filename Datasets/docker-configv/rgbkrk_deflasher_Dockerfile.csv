@@ -1,0 +1,11 @@
+apt-get ¦update¦-y :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv-keys¦EEA14886 :: Dependencies_operation,()
+echo ¦echo¦"deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list :: Filesystem_operation,()
+dpkg ¦-i¦/tmp/ffdec_6.1.1.deb :: Dependencies_operation,()
+https://www.free-decompiler.com/flash/download/ffdec_6.1.1.deb/tmp/ffdec_6.1.1.deb :: add_operation,()
+apt-get ¦install¦-y¦oracle-java8-installer :: Dependencies_operation,()
+from,debian@jessie
+apt-get ¦install¦-f :: Dependencies_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections :: Filesystem_operation,()
+echo ¦echo¦"deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list :: Filesystem_operation,()
+echo ¦echo¦debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections :: Filesystem_operation,()

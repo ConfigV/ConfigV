@@ -1,0 +1,18 @@
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--force-yes¦mariadb-server :: Other_operation,()
+cmd,/sbin/my_init¦--¦/scripts/start.sh
+expose,3306
+apt-get ¦clean :: Dependencies_operation,()
+sed ¦-i¦-e¦'s/^bind-address/#bind-address/'¦/etc/mysql/my.cnf :: Filesystem_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+from, phusion/baseimage
+/etc/mysql :: volume_operation,()
+mkdir ¦-p¦/data¦/var/run/mysqld :: Filesystem_operation,()
+/data :: volume_operation,()
+chmod ¦+x¦/scripts/start.sh :: Permissions_operation,()
+/var/log/mysql :: volume_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦pwgen¦inotify-tools :: Other_operation,()
+scripts/scripts :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+touch ¦/firstrun :: Filesystem_operation,()
+chown ¦mysql:mysql¦/var/run/mysqld :: Permissions_operation,()

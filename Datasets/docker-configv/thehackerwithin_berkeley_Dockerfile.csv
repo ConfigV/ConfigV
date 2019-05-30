@@ -1,0 +1,7 @@
+root :: user_operation,()
+echo ¦echo¦"install.packages(c('data.table', 'ggplot2'), repos = 'http://cran.us.r-project.org')" | R --no-save :: Filesystem_operation,()
+./home/$NB_USER/ :: copy_operation,()
+$NB_USER :: user_operation,()
+conda ¦env¦update¦--file=environment.yml :: Dependencies_operation,()
+environment.yml./ :: copy_operation,()
+from,jupyter/datascience-notebook

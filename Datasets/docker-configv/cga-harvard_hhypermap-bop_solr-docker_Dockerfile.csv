@@ -1,0 +1,8 @@
+SOLR_HEAP=512m: :: env_operation,()
+initEmptySolrHome.sh/docker-entrypoint-initdb.d/ :: copy_operation,()
+SOLR_OPTS="-Xss256k": :: env_operation,()
+GC_TUNE="-XX:NewRatio=3:-XX:SurvivorRatio=4 :: env_operation,()
+SOLR_INCLUDE=":" :: env_operation,()
+ENABLE_REMOTE_JMX_OPTS="false": :: env_operation,()
+from,solr:6.0
+wget ¦--no-verbose¦-P¦server/solr-webapp/webapp/WEB-INF/lib/¦https://repo1.maven.org/maven2/com/vividsolutions/jts-core/1.14.0/jts-core-1.14.0.jar :: Dependencies_operation,()

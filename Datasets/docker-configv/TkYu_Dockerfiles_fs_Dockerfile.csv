@@ -1,0 +1,15 @@
+FS_DEP:wget :: env_operation,()
+apk ¦add¦--update¦$FS_DEP :: Dependencies_operation,()
+mkdir ¦$FS_DIR :: Filesystem_operation,()
+SERVER_PORT:150 :: env_operation,()
+from,alpine@latest
+cd ¦$FS_DIR :: Filesystem_operation,()
+FS_URL:http://ccc.xxx/fs.jar :: env_operation,()
+FS_DIR:/fs :: env_operation,()
+wget ¦-O¦$FS_URL :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+$FS_DIR :: workdir_operation,()
+root :: user_operation,()
+cmd,java -Xmx512M -XX:MaxGCPauseMillis=30 -jar fs.jar
+JAVA_HOME:/usr/lib/jvm/java-1.8-openjdk :: env_operation,()
+apk ¦update :: Dependencies_operation,()

@@ -1,0 +1,9 @@
+wget ¦https://github.com/kairosdb/kairosdb/releases/download/v1.1.1/kairosdb_1.1.1-1_all.deb :: Dependencies_operation,()
+.*multiverse$\\  :: Other_operation,()
+misc/startKairosDB.sh/root/startKairosDB.sh :: add_operation,()
+cmd,/root/startKairosDB.sh
+chmod ¦755¦/root/startKairosDB.sh :: Permissions_operation,()
+misc/kairosdb.properties/opt/kairosdb/conf/kairosdb.properties :: add_operation,()
+from,cassandra:3.2
+dpkg ¦-i¦kairosdb_1.1.1-1_all.deb :: Dependencies_operation,()
+sed ¦-i¦'s/^start_rpc.*$/start_rpc:¦true/'¦/etc/cassandra/cassandra.yaml :: Filesystem_operation,()

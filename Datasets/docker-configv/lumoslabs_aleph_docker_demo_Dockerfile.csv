@@ -1,0 +1,15 @@
+entrypoint,./entrypoint.sh
+apt-get ¦install¦-y¦postgresql-client¦--no-install-recommends :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦echo¦-ne '\\nnnnn' | aleph playground :: Filesystem_operation,()
+cmd,aleph¦playground
+chmod ¦+x¦entrypoint.sh :: Permissions_operation,()
+echo ¦cd¦/usr/src && wget -c http://download.redis.io/redis-stable.tar.gz && tar xvzf redis-stable.tar.gz && cd redis-stable && make && make install && echo -ne '\\n' | utils/install_server.sh :: Filesystem_operation,()
+from,ruby:2.1
+apt-get ¦update :: Dependencies_operation,()
+gem ¦install¦aleph_analytics¦--version¦0.0.1.alpha :: Dependencies_operation,()
+mkdir ¦-p¦/var/log/aleph :: Filesystem_operation,()
+entrypoint.sh./ :: copy_operation,()
+expose,3000
+SERVER_LOG_ROOT:/var/log/aleph :: env_operation,()
+chmod ¦777¦/tmp :: Permissions_operation,()

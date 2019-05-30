@@ -1,0 +1,16 @@
+cmd,build
+pyenv ¦local¦2.7.13¦3.5.2 :: Other_operation,()
+./icecake :: copy_operation,()
+PATH:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH :: env_operation,()
+git ¦clone¦git://github.com/yyuu/pyenv.git¦.pyenv :: Dependencies_operation,()
+pyenv ¦global¦2.7.13 :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,debian@latest
+pyenv ¦install¦3.5.2 :: Other_operation,()
+pyenv ¦install¦2.7.13 :: Other_operation,()
+pyenv ¦rehash :: Other_operation,()
+entrypoint,make
+/icecake :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦build-essential¦ca-certificates¦curl¦git¦libbz2-dev¦libssl-dev¦libreadline-dev¦libsqlite3-dev¦pandoc¦tcl-dev¦xz-utils¦zlib1g-dev&&¦rm¦-rf¦/var/lib/apt/lists/* :: Dependencies_operation,()
+PYENV_ROOT:$HOME/.pyenv :: env_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()

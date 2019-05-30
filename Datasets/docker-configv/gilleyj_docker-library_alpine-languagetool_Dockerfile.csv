@@ -1,0 +1,17 @@
+wget ¦-q¦https://languagetool.org/download/LanguageTool-$LANGUAGETOOL_VERSION.zip¦-P¦/tmp :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+LANG:C.UTF-8 :: env_operation,()
+container_confs/ :: copy_operation,()
+PATH:$PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin :: env_operation,()
+JAVA_ALPINE_VERSION:8.92.14-r1 :: env_operation,()
+LANGUAGETOOL_VERSION:3.4 :: env_operation,()
+echo ¦{¦ echo '#!/bin/sh';  echo 'set -e';  echo;  echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; } > /usr/local/bin/docker-java-home && chmod +x /usr/local/bin/docker-java-home :: Filesystem_operation,()
+unzip ¦/tmp/LanguageTool-$LANGUAGETOOL_VERSION.zip¦-d¦/usr/local :: Filesystem_operation,()
+JAVA_VERSION:8u92 :: env_operation,()
+from,alpine:3.4
+expose,8081
+docker-java-home  :: Other_operation,()
+ln ¦-s¦/usr/local/LanguageTool-$LANGUAGETOOL_VERSION¦/usr/local/languagetool :: Filesystem_operation,()
+JAVA_HOME:/usr/lib/jvm/java-1.8-openjdk :: env_operation,()
+cmd,supervisord
+rm ¦/tmp/LanguageTool-$LANGUAGETOOL_VERSION.zip :: Filesystem_operation,()

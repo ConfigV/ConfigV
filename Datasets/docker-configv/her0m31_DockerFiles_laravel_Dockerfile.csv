@@ -1,0 +1,11 @@
+yum ¦install¦-y¦httpd¦git¦epel-release :: Dependencies_operation,()
+echo ¦echo¦'export PATH=~/.composer/vendor/laravel/installer:$PATH' >> ~/.bashrc :: Filesystem_operation,()
+useradd ¦-r¦-g¦her8m¦her8m :: Permissions_operation,()
+mv ¦composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+from,centos:7.0
+groupadd ¦-r¦her8m :: Permissions_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()
+composer ¦global¦require¦'laravel/installer' :: Dependencies_operation,()
+yum ¦install¦-y¦--enablerepo=remi,remi-php70¦php¦php-devel¦php-mbstring¦php-pdo¦php-gd¦php-mysql¦php-mcrypt¦php-mysqlnd¦php-tokenizer :: Dependencies_operation,()
+expose,80
+yum ¦update :: Dependencies_operation,()

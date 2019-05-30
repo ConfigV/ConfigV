@@ -1,0 +1,12 @@
+USER:root :: env_operation,()
+NAME:docker :: env_operation,()
+PASSWORD:docker :: env_operation,()
+$USERHOME :: workdir_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+HOSTNAME:rrdtool.rickdesantis.docker.com :: env_operation,()
+expose,22
+USERHOME:/root :: env_operation,()
+/opt/rrdtool :: workdir_operation,()
+from,ubuntu@latest
+echo ¦mkdir¦.ssh && mkdir /var/run/sshd && echo 'root:'${PASSWORD} | chpasswd && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && curl http://oss.oetiker.ch/rrdtool/pub/rrdtool-1.6.0.tar.gz -OL && tar zxf... :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D

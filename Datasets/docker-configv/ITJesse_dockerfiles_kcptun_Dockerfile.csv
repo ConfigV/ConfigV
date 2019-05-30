@@ -1,0 +1,10 @@
+set ¦-xe :: Environment_operation,()
+apk ¦del¦curl :: Dependencies_operation,()
+KCPTUN_VERSION:20161118 :: env_operation,()
+from,alpine
+KCPTUN_FILE:kcptun-linux-amd64-${KCPTUN_VERSION}.tar.gz :: env_operation,()
+entrypoint,server_linux_amd64
+cmd,--help
+curl ¦-sSL¦${KCPTUN_URL}¦|¦tar¦xz¦-C¦/usr/local/bin :: Dependencies_operation,()
+KCPTUN_URL:https://github.com/xtaci/kcptun/releases/download/v${KCPTUN_VERSION}/${KCPTUN_FILE} :: env_operation,()
+apk ¦add¦--no-cache¦curl :: Dependencies_operation,()

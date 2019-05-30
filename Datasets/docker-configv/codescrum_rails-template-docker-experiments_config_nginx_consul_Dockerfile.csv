@@ -1,0 +1,11 @@
+CT_URL:https://github.com/hashicorp/consul-template/releases/download/v0.1.0/consul-template_0.1.0_linux_amd64.tar.gz :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,/usr/bin/runsvdir¦/etc/service
+rm ¦-v¦/etc/nginx/conf.d/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update¦-qq :: Other_operation,()
+config/nginx/consul/nginx.conf/etc/consul-templates/nginx.conf :: add_operation,()
+from,nginx:1.7
+curl ¦-L¦$CT_URL¦|¦tar¦-C¦/usr/local/bin¦--strip-components¦1¦-zxf¦- :: Dependencies_operation,()
+config/nginx/consul/consul-template.service/etc/service/consul-template/run :: add_operation,()
+config/nginx/consul/nginx.service/etc/service/nginx/run :: add_operation,()
+apt-get ¦-y¦install¦curl¦runit :: Dependencies_operation,()

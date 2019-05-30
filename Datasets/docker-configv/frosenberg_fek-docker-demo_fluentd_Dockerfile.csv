@@ -1,0 +1,8 @@
+cmd,/usr/local/bin/run
+from,ubuntu:12.04
+expose,8888
+/etc/init.d/td-agent ¦restart :: Other_operation,()
+curl ¦-L¦http://toolbelt.treasuredata.com/sh/install-ubuntu-precise.sh¦|¦sh :: Dependencies_operation,()
+/usr/lib/fluent/ruby/bin/fluent-gem ¦install¦fluent-plugin-elasticsearch :: Other_operation,()
+chmod ¦+x¦/usr/local/bin/run :: Permissions_operation,()
+run.sh/usr/local/bin/run :: add_operation,()

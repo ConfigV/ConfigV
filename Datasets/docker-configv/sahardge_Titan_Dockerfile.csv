@@ -1,0 +1,14 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cd ¦/usr/local/go/src :: Filesystem_operation,()
+/usr/local/titan-cassandra-0.4.4 :: workdir_operation,()
+mkdir ¦/mountedvol :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-qy¦build-essential¦curl¦git :: Other_operation,()
+bash ¦install-etcd.sh :: Build_Execute_operation,()
+git ¦clone¦https://github.com/sahardge/Titan-Rexster.git :: Dependencies_operation,()
+bash ¦install-titan.sh :: Build_Execute_operation,()
+curl ¦-s¦https://storage.googleapis.com/golang/go1.2.2.src.tar.gz¦|¦tar¦-v¦-C¦/usr/local¦-xz :: Dependencies_operation,()
+from,jamesdbloom/docker-java7-maven
+cd ¦Titan-Rexster :: Filesystem_operation,()
+PATH:/usr/local/go/bin:$PATH :: env_operation,()
+./make.bash ¦--no-clean¦2>&1 :: Other_operation,()
+expose,8182 8183 8184

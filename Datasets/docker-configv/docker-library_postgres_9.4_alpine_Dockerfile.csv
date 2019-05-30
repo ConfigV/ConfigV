@@ -1,0 +1,16 @@
+LANG:en_US.utf8 :: env_operation,()
+PG_MAJOR:9.4 :: env_operation,()
+from,alpine:3.4
+PGDATA:/var/lib/postgresql/data :: env_operation,()
+mkdir ¦-p¦/var/run/postgresql :: Filesystem_operation,()
+cmd,postgres
+entrypoint,/docker-entrypoint.sh
+expose,5432
+chown ¦-R¦postgres¦/var/run/postgresql :: Permissions_operation,()
+PATH:/usr/lib/postgresql/$PG_MAJOR/bin:$PATH :: env_operation,()
+mkdir ¦/docker-entrypoint-initdb.d :: Filesystem_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+set ¦-ex¦\\ :: Environment_operation,()
+PG_SHA256:7061678bed1981c681ce54c76b98b6ec17743f090a9775104a45e7e1a8826ecf :: env_operation,()
+PG_VERSION:9.4.10 :: env_operation,()
+/var/lib/postgresql/data :: volume_operation,()

@@ -1,0 +1,11 @@
+entrypoint,bundle¦exec
+Gemfile/gem :: copy_operation,()
+*.gemspec/gem :: copy_operation,()
+lib/cucumber/timecop/version.rb/gem/lib/cucumber/timecop/version.rb :: copy_operation,()
+mkdir ¦-p¦/gem/ :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+/gem :: workdir_operation,()
+cmd,rake¦-T
+echo ¦apt-get¦update && apt-get install -y git build-essential unzip && touch ~/.gemrc && echo "gem: --no-ri --no-rdoc" >> ~/.gemrc && gem install rubygems-update && update_rubygems && gem install bundler && bundle install && apt-get remove --pu... :: Filesystem_operation,()
+.:/gem :: volume_operation,()
+from,ruby:2.3

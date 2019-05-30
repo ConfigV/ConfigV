@@ -1,0 +1,10 @@
+rm ¦-rf¦/var/cache/apk/*¦$GOPATH/* :: Filesystem_operation,()
+echo ¦echo¦'#!/bin/sh' > /ethash.sh && echo 'set -e' >> /ethash.sh && echo '/ethash' >> /ethash.sh && echo 'if [ "$UID" != "0" ]; then' >> /ethash.sh && echo ' adduser -u $UID -D ethash' >> /ethash.sh && echo ' chown -R ethash /root/.ethash/*' >... :: Filesystem_operation,()
+go ¦get¦github.com/ethereum/ethash :: Build_Execute_operation,()
+ethash.goethash.go :: add_operation,()
+apk ¦add¦--update¦go¦git¦gcc¦musl-dev :: Dependencies_operation,()
+go ¦build¦-o¦ethash¦ethash.go :: Build_Execute_operation,()
+entrypoint,/ethash.sh
+GOPATH:/gopath :: env_operation,()
+apk ¦del¦go¦git¦gcc¦musl-dev :: Dependencies_operation,()
+from,alpine:3.3

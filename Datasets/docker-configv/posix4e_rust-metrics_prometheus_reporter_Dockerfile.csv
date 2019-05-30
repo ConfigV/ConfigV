@@ -1,0 +1,16 @@
+examples//prometheus-reporter/examples/ :: copy_operation,()
+entrypoint,env¦PATH=$PATH:/prometheus-reporter/bin/¦/bin/bash
+rm ¦-rf¦src :: Filesystem_operation,()
+mkdir ¦-p¦src;¦touch¦src/lib.rs :: Filesystem_operation,()
+srcsrc/ :: copy_operation,()
+chmod ¦+x¦rustup.sh :: Permissions_operation,()
+from,ubuntu@xenial
+cargo ¦install¦protobuf :: Other_operation,()
+Cargo.toml/prometheus-reporter/ :: copy_operation,()
+curl ¦-sf¦https://static.rust-lang.org/rustup.sh¦-o¦rustup.sh :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./rustup.sh  :: Other_operation,()
+/prometheus-reporter/ :: workdir_operation,()
+apt-get ¦install¦curl¦git¦perl¦bash¦file¦sudo¦build-essential¦vim¦libssl-dev¦protobuf-compiler¦-y :: Dependencies_operation,()
+cargo ¦build¦--verbose :: Other_operation,()
+RUST_BACKTRACE=1 ¦cargo¦test¦--verbose :: Other_operation,()

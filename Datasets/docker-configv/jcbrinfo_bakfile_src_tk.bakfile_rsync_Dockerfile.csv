@@ -1,0 +1,7 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server¦rsync :: Dependencies_operation,()
+mkdir ¦-m¦0755¦/var/run/sshd :: Filesystem_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+expose,22
+entrypoint,/usr/sbin/sshd¦-D
+sshd_config/etc/ssh/sshd_config :: copy_operation,()

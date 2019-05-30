@@ -1,0 +1,22 @@
+mkdir ¦/home/activator/.ivy2/ :: Filesystem_operation,()
+from,mikeneck/jdk8
+PATH=$PATH:/home/activator/bin: :: env_operation,()
+chown ¦-R¦activator¦/home/activator/project :: Permissions_operation,()
+rm ¦activator.zip :: Filesystem_operation,()
+cmd,/bin/bash
+activator :: user_operation,()
+chown ¦-R¦activator¦/home/activator/.ivy2 :: Permissions_operation,()
+expose,9000
+curl ¦-L¦https://downloads.typesafe.com/typesafe-activator/1.3.6/typesafe-activator-1.3.6.zip¦-o¦activator.zip :: Dependencies_operation,()
+/home/activator :: workdir_operation,()
+mkdir ¦/home/activator/project :: Filesystem_operation,()
+useradd ¦-m¦-g¦dev¦activator :: Permissions_operation,()
+/home/activator/project :: volume_operation,()
+chown ¦-R¦activator¦/home/activator/.activator :: Permissions_operation,()
+mkdir ¦/home/activator/.sbt/ :: Filesystem_operation,()
+chown ¦-R¦activator¦/home/activator/.sbt :: Permissions_operation,()
+groupadd ¦-r¦dev :: Permissions_operation,()
+chown ¦-R¦activator¦/home/activator/bin :: Permissions_operation,()
+mkdir ¦/home/activator/.activator :: Filesystem_operation,()
+mv ¦tmp/activator-dist-1.3.6/¦/home/activator/bin :: Filesystem_operation,()
+unzip ¦-q¦activator.zip¦-d¦tmp :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+from,ubuntu:14.04
+./package/nginx/tmp/buildroot/package/nginx :: add_operation,()
+mv ¦buildroot-$BR_VERSION¦buildroot :: Filesystem_operation,()
+wget ¦-nv¦http://buildroot.uclibc.org/downloads/buildroot-$BR_VERSION.tar.gz :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦-zxf¦buildroot-$BR_VERSION.tar.gz :: Filesystem_operation,()
+sed ¦'/menu¦"Networking¦applications"/a\\source"package\\/nginx\\/Config.in"'¦buildroot/package/Config.in¦>¦tmpfile :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦build-essential¦libncurses-dev¦rsync¦unzip¦bc¦gnupg¦python¦libc6-i386¦language-pack-en-base :: Dependencies_operation,()
+/tmp/buildroot :: workdir_operation,()
+mv ¦tmpfile¦buildroot/package/Config.in :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive  :: Other_operation,()
+BR_VERSION:2014.02 :: env_operation,()

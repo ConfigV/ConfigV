@@ -1,0 +1,20 @@
+utserver.tmplconf/ :: add_operation,()
+mkdir ¦/home/utorrent/conf¦/data¦/var/log/utorrent :: Filesystem_operation,()
+chown ¦utorrent:downloads¦/data :: Permissions_operation,()
+from,jgiovaresco/debian-with-dockerize:latest
+apt-get ¦update :: Dependencies_operation,()
+mv ¦utorrent-server-alpha-v3_3¦utorrent-server :: Filesystem_operation,()
+rm ¦-rf¦linux-x64-debian-7-0¦utorrent-server/docs¦utorrent.tar.gz :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+tar ¦xvfz¦utorrent.tar.gz :: Filesystem_operation,()
+chown ¦-R¦utorrent:downloads¦/home/utorrent :: Permissions_operation,()
+chown ¦utorrent:downloads¦/var/log/utorrent :: Permissions_operation,()
+expose,6881
+cmd,dockerize¦¦-template¦/home/utorrent/conf/utserver.tmpl:/home/utorrent/conf/utserver.conf¦¦-stdout¦/var/log/utorrent/utorrent.log¦¦/home/utorrent/utorrent-server/utserver¦¦¦-configfile¦/home/utorrent/conf/utserver.conf¦¦¦-logfile¦/var/log/utorrent/ut...
+/home/utorrent :: workdir_operation,()
+useradd ¦--home-dir¦/home/utorrent¦--gid¦downloads¦--create-home¦utorrent :: Permissions_operation,()
+utorrent :: user_operation,()
+wget ¦--no-check-certificate¦-O¦utorrent.tar.gz¦http://download.ap.bittorrent.com/track/beta/endpoint/utserver/os/linux-x64-debian-7-0 :: Dependencies_operation,()
+/data :: volume_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦libssl1.0.0 :: Dependencies_operation,()
+groupadd ¦--gid¦1002¦downloads :: Permissions_operation,()

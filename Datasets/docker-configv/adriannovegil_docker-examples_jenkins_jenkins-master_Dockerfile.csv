@@ -1,0 +1,14 @@
+touch ¦/usr/share/jenkins/ref/plugins/credentials.jpi.pinned :: Filesystem_operation,()
+expose,8080 50000
+JENKINS_UC:https://updates.jenkins-ci.org :: env_operation,()
+JAVA_OPTS:${JAVA_OPTS:--Xmx8192m :: env_operation,()
+JENKINS_OPTS="--handlerCountMax=300:--logfile=/var/log/jenkins/jenkins.log :: env_operation,()
+from,jenkinsci/jenkins:2.14
+/usr/local/bin/plugins.sh ¦/tmp/files/plugins.txt :: Other_operation,()
+root :: user_operation,()
+resources/*.groovy/usr/share/jenkins/ref/init.groovy.d :: copy_operation,()
+tar ¦-C¦/usr/local/bin¦-xzvf¦dockerize-linux-amd64-v0.2.0.tar.gz :: Filesystem_operation,()
+chown ¦-R¦jenkins:jenkins¦/usr/share/jenkins/ :: Permissions_operation,()
+wget ¦https://github.com/jwilder/dockerize/releases/download/v0.2.0/dockerize-linux-amd64-v0.2.0.tar.gz :: Dependencies_operation,()
+jenkins :: user_operation,()
+plugins.txt/tmp/files/ :: copy_operation,()

@@ -1,0 +1,11 @@
+mv ¦./usr/bin/*¦/usr/bin :: Filesystem_operation,()
+entrypoint,/usr/bin/s6-svscan¦/etc/s6
+chmod ¦-R¦755¦/usr/bin :: Permissions_operation,()
+from,alpine@latest
+mv ¦consul-template_0.10.0_linux_386/consul-template¦/usr/bin/consul-template :: Filesystem_operation,()
+apk ¦add¦--update¦tar :: Dependencies_operation,()
+tar ¦-xvzf¦consul-template_0.10.0_linux_386.tar.gz :: Filesystem_operation,()
+apk ¦add¦--update¦wget :: Dependencies_operation,()
+tar ¦-xvzf¦s6-2.2.2.0-linux-amd64-bin.tar.gz :: Filesystem_operation,()
+wget ¦--no-check-certificate¦https://github.com/just-containers/skaware/releases/download/v1.16.1/s6-2.2.2.0-linux-amd64-bin.tar.gz :: Dependencies_operation,()
+wget ¦--no-check-certificate¦https://github.com/hashicorp/consul-template/releases/download/v0.10.0/consul-template_0.10.0_linux_386.tar.gz :: Dependencies_operation,()

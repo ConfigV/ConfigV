@@ -1,0 +1,18 @@
+cmd,node¦cluster.js
+apk ¦del¦make¦gcc¦g++¦python :: Dependencies_operation,()
+/app :: workdir_operation,()
+WORKERS:{{=it.server.workers}} :: env_operation,()
+npm ¦install¦--production :: Dependencies_operation,()
+package.json/app/ :: copy_operation,()
+PORT:{{=it.server.port}} :: env_operation,()
+DB_PASS:{{=it.database.password}} :: env_operation,()
+apk ¦add¦--update¦make¦gcc¦g++¦python :: Dependencies_operation,()
+rm ¦-rf¦/tmp/*¦/var/cache/apk/*¦/root/.npm¦/root/.node-gyp :: Filesystem_operation,()
+DB_PORT:{{=it.database.port}} :: env_operation,()
+NODE_ENV:{{=it.server.env}} :: env_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+DB_HOST:{{=it.database.host}} :: env_operation,()
+from,mhart/alpine-node:4
+DB_NAME:{{=it.database.name}} :: env_operation,()
+./dist/app :: copy_operation,()
+DB_USER:{{=it.database.username}} :: env_operation,()

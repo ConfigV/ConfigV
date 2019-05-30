@@ -1,0 +1,10 @@
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list :: Filesystem_operation,()
+apt-get ¦--quiet¦--yes¦dist-upgrade :: Dependencies_operation,()
+from,ubuntu:14.04
+apt-get ¦--quiet¦--yes¦install¦mongodb-org :: Dependencies_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+expose,27017
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv¦7F0CEB10 :: Dependencies_operation,()
+entrypoint,/usr/bin/mongod¦--noprealloc¦--smallfiles¦--directoryperdb¦--notablescan¦--profile¦1¦--slowms¦250
+apt-get ¦--quiet¦update :: Dependencies_operation,()
+cmd,tail¦-F¦/var/log/mongodb/mongod.log

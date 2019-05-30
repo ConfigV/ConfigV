@@ -1,0 +1,12 @@
+spockdock/home/spockdock/site :: copy_operation,()
+rm ¦/tmp/requirements.txt :: Filesystem_operation,()
+requirements.txt/tmp :: copy_operation,()
+spockdock :: user_operation,()
+chown ¦-R¦spockdock:spockdock¦/home/spockdock :: Permissions_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+from,python:3.5
+/home/spockdock :: workdir_operation,()
+useradd ¦-m¦spockdock¦-d¦/home/spockdock :: Permissions_operation,()
+expose,9090
+cmd,uwsgi¦--ini¦/home/spockdock/site/uwsgi.ini
+pip3 ¦install¦-r¦/tmp/requirements.txt :: Dependencies_operation,()

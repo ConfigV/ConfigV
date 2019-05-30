@@ -1,0 +1,7 @@
+entrypoint/entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+assets$CACHE_DIR :: copy_operation,()
+from,centos:7.0
+CACHE_DIR="/etc/docker-assets/: :: env_operation,()
+cmd,/usr/sbin/strongswan¦start¦--nofork
+entrypoint,/sbin/entrypoint.sh
+/sbin/entrypoint.sh ¦build :: Other_operation,()

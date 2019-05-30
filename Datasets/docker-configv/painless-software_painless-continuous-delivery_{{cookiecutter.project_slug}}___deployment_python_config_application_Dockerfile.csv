@@ -1,0 +1,15 @@
+cookiecutter.project_slug :: volume_operation,()
+cmd,uwsgi¦config/application/uwsgi.ini
+mkdir ¦/run/{{¦cookiecutter.project_slug¦}} :: Filesystem_operation,()
+}} :: volume_operation,()
+from,python:3.5
+requirements.txtrequirements.txt :: copy_operation,()
+/opt/{{ :: volume_operation,()
+chown ¦-R¦application:application¦. :: Permissions_operation,()
+/opt/{{ cookiecutter.project_slug }} :: workdir_operation,()
+groupadd ¦-r¦-g¦999¦application :: Permissions_operation,()
+chown ¦application:application¦/run/{{¦cookiecutter.project_slug¦}} :: Permissions_operation,()
+.. :: copy_operation,()
+pip ¦install¦uwsgi¦-r¦requirements.txt :: Dependencies_operation,()
+/run/{{ :: volume_operation,()
+useradd ¦-r¦-g¦application¦application :: Permissions_operation,()

@@ -1,0 +1,16 @@
+expose,8080
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-f¦/etc/dpkg/dpkg.cfg.d/02apt-speedup :: Filesystem_operation,()
+rm ¦-rf¦/build :: Filesystem_operation,()
+from,babim/debianbase
+mkdir ¦/home/mitmproxy/.mitmproxy :: Filesystem_operation,()
+adduser ¦-u¦7799¦-D¦mitmproxy :: Permissions_operation,()
+&& ¦rm¦-rf¦~/.cache/pip :: Other_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/start.sh
+/home/mitmproxy/.mitmproxy :: volume_operation,()
+apt-get ¦autoclean :: Dependencies_operation,()
+mitmproxy :: user_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦apt-get¦update && apt-get install -yq python-pip python-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev && pip install mitmproxy && echo "mitmproxy" > /start.sh && chmod +x /start.sh :: Filesystem_operation,()

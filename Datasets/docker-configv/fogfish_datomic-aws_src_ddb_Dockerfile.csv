@@ -1,0 +1,12 @@
+yum ¦-y¦-q¦install¦java :: Dependencies_operation,()
+cd ¦/usr/local/aws-ddb :: Filesystem_operation,()
+curl ¦-L¦-O¦http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz :: Dependencies_operation,()
+mkdir ¦/usr/local/aws-ddb :: Filesystem_operation,()
+from,centos
+yum ¦-y¦-q¦update :: Dependencies_operation,()
+rm ¦dynamodb_local_latest.tar.gz :: Filesystem_operation,()
+entrypoint,java¦-Djava.library.path=/usr/local/aws-ddb/DynamoDBLocal_lib¦-jar¦/usr/local/aws-ddb/DynamoDBLocal.jar¦-sharedDb¦-dbPath¦/var/lib/aws-ddb/
+set ¦-e :: Environment_operation,()
+expose,8000
+mkdir ¦/var/lib/aws-ddb :: Filesystem_operation,()
+tar ¦-xvf¦dynamodb_local_latest.tar.gz :: Filesystem_operation,()

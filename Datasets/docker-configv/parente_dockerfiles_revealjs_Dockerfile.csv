@@ -1,0 +1,22 @@
+add-apt-repository ¦-y¦ppa:chris-lea/node.js :: Dependencies_operation,()
+npm ¦install¦-g¦grunt-cli :: Dependencies_operation,()
+/revealjs :: workdir_operation,()
+apt-get ¦install¦-y¦-q¦software-properties-common :: Dependencies_operation,()
+ADDslides.md /revealjs/md/ :: onbuild_operation,()
+/revealjs/md/ :: volume_operation,()
+mkdir ¦-p¦/revealjs/md :: Filesystem_operation,()
+index.html/revealjs/ :: add_operation,()
+mv ¦/reveal.js-2.6.1¦/revealjs :: Filesystem_operation,()
+wget ¦https://github.com/hakimel/reveal.js/archive/2.6.1.tar.gz :: Dependencies_operation,()
+expose,8000
+sed ¦-i¦Gruntfile.js¦-e¦'s/port:¦port,/port:¦port,¦hostname:¦"",/' :: Filesystem_operation,()
+apt-get ¦-y¦-q¦install¦wget :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+tar ¦xzf¦2.6.1.tar.gz :: Filesystem_operation,()
+from,ubuntu:13.1
+custom.css/revealjs/css/ :: add_operation,()
+cmd,grunt¦serve
+npm ¦install :: Dependencies_operation,()
+lsb_release ¦-sc :: Other_operation,()
+apt-get ¦-y¦-q¦install¦ca-certificates :: Dependencies_operation,()
+apt-get ¦-y¦-q¦install¦nodejs :: Dependencies_operation,()

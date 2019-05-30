@@ -1,0 +1,12 @@
+rm ¦-rf¦/tmp/s6-overlay-amd64.tar.gz :: Filesystem_operation,()
+rootfs/ :: copy_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+entrypoint,/init
+apk ¦add¦--update¦--no-cache¦rsyslog¦postfix=3.1.1-r0 :: Dependencies_operation,()
+S6_KEEP_ENV=1: :: env_operation,()
+chmod ¦+x¦/etc/services.d/*/run :: Permissions_operation,()
+from,alpine:3.4
+expose,25 465 587
+cmd,/usr/lib/postfix/master¦-d
+tar ¦xzf¦/tmp/s6-overlay-amd64.tar.gz¦-C¦/ :: Filesystem_operation,()
+https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.5/s6-overlay-amd64.tar.gz/tmp/ :: add_operation,()

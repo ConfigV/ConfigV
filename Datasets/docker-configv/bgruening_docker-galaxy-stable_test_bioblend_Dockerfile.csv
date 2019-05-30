@@ -1,0 +1,12 @@
+python ¦setup.py¦install :: Build_Execute_operation,()
+from,quay.io/bgruening/galaxy
+galaxy :: user_operation,()
+TOX_ENV=py27:BIOBLEND_GALAXY_API_KEY=admin :: env_operation,()
+. ¦/galaxy_venv/bin/activate :: Other_operation,()
+/home/galaxy :: workdir_operation,()
+wget ¦https://github.com/bgruening/bioblend/archive/master.tar.gz :: Dependencies_operation,()
+tar ¦xfz¦master.tar.gz :: Filesystem_operation,()
+pip ¦install¦--upgrade¦"tox>=1.8.0"¦"pep8<=1.6.2" :: Dependencies_operation,()
+sed ¦-i.bak¦"s/commands.*$/commands¦=/"¦tox.ini :: Filesystem_operation,()
+cd ¦bioblend-master :: Filesystem_operation,()
+cmd,/bin/bash¦-c¦".¦/galaxy_venv/bin/activate¦&&¦cd¦/home/galaxy/bioblend-master¦&&¦tox¦-e¦$TOX_ENV¦--¦-e¦'test_download_dataset'"

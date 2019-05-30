@@ -1,0 +1,16 @@
+gem ¦install¦bundler :: Dependencies_operation,()
+from,ruby:2.4
+dpkg-reconfigure ¦locales :: Other_operation,()
+entrypoint,deadman-check
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+LANG="$LOCALE":LC_ALL="$LOCALE" :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦-qq¦less¦locales :: Dependencies_operation,()
+bundle ¦install :: Dependencies_operation,()
+./app/ :: add_operation,()
+lib/app/lib :: add_operation,()
+/app :: workdir_operation,()
+locale-gen ¦"$LOCALE" :: Other_operation,()
+rake ¦install :: Other_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+/app :: volume_operation,()

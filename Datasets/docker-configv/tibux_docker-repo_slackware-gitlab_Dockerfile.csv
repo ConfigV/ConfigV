@@ -1,0 +1,12 @@
+GITLAB_VERSION:7-11-stable :: env_operation,()
+git ¦clone¦https://gitlab.com/gitlab-org/omnibus-gitlab.git :: Dependencies_operation,()
+cd ¦/root/omnibus-gitlab :: Filesystem_operation,()
+sh ¦/root/omnibus-gitlab/pkg/gitlab-*.x86_64.sh :: Build_Execute_operation,()
+cd ¦/root :: Filesystem_operation,()
+slackpkg ¦-batch=on¦-default_answer=y¦install¦bison¦flex :: Other_operation,()
+echo ¦echo¦"use_git_caching false" >> /root/omnibus-gitlab/omnibus.rb :: Filesystem_operation,()
+from,tibux/slackware-omnibus
+bundle ¦install¦--path¦.bundle¦--binstubs :: Dependencies_operation,()
+libffi.rb/root/omnibus-gitlab/config/software/libffi.rb :: copy_operation,()
+git ¦checkout¦${GITLAB_VERSION} :: Dependencies_operation,()
+bin/omnibus ¦build¦gitlab :: Other_operation,()

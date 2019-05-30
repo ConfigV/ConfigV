@@ -1,0 +1,15 @@
+expose,22 25 465 587 143 993 3306
+for ¦s¦in¦sshd¦nginx;do¦systemctl¦enable¦$s;done :: Other_operation,()
+root :: user_operation,()
+cmd,/sbin/init
+pacman ¦-Syu¦--noconfirm :: Filesystem_operation,()
+pacman ¦-Scc¦--noconfirm :: Filesystem_operation,()
+echo ¦echo¦'root:changeme' | chpasswd :: Filesystem_operation,()
+mnt/mnt :: add_operation,()
+pacman-key ¦--refresh-keys :: Other_operation,()
+systemctl ¦enable¦sshd :: Other_operation,()
+from,base/archlinux:latest
+pacman-key ¦--populate¦archlinux :: Other_operation,()
+cp ¦/usr/share/vim/vim74/vimrc_example.vim¦~/.vimrc :: Filesystem_operation,()
+pacman-db-upgrade  :: Other_operation,()
+pacman ¦-S¦--needed¦--noconfirm¦openssh¦net-tools¦vim¦nginx :: Filesystem_operation,()

@@ -1,0 +1,6 @@
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+from,docker-registry.ussc.ru/debian:8
+NGINX_VERSION:1.9.10-1~jessie :: env_operation,()
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+echo ¦apt-key¦adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list && apt-get update && apt-get install -y ca-cer... :: Filesystem_operation,()
+cmd,nginx¦-g¦daemon off;

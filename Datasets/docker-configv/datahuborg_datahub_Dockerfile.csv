@@ -1,0 +1,15 @@
+requirements.txt/datahub/ :: add_operation,()
+apt-get ¦install¦-y¦thrift-compiler¦python-pip¦python-dev¦libpq-dev¦libpq5 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+/static :: volume_operation,()
+expose,8000
+PYTHONPATH:"/datahub/src:/datahub/src/gen-py:/datahub/src/apps" :: env_operation,()
+./datahub/ :: add_operation,()
+/datahub :: workdir_operation,()
+PYTHONUNBUFFERED:1 :: env_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+python ¦src/manage.py¦collectstatic¦--noinput :: Build_Execute_operation,()
+from,ubuntu:14.04
+mkdir ¦/datahub :: Filesystem_operation,()
+/bin/bash ¦-c¦"source¦src/setup.sh" :: Build_Execute_operation,()

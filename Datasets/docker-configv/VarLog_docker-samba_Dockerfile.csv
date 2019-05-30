@@ -1,0 +1,12 @@
+smbpasswd ¦-e¦-n¦guest :: Other_operation,()
+init.sh/tmp/init.sh :: add_operation,()
+from,debian@stable
+useradd ¦-g¦nogroup¦-d¦/share¦-r¦guest :: Permissions_operation,()
+smbpasswd ¦-a¦-n¦guest :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/tmp/init.sh
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦samba :: Dependencies_operation,()
+share.smb.conf/tmp/share.smb.conf :: add_operation,()
+apt-get ¦autoclean¦-y :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+start-pastmon-sensor.sh/usr/local/pastmon/bin/ :: add_operation,()
+entrypoint,/bin/bash¦/usr/local/pastmon/bin/start-pastmon-sensor.sh
+from,ubuntu@trusty
+su ¦-¦pastmon¦-c¦"git¦clone¦-b¦$TAG¦git://git.code.sf.net/p/pastmon/pastmon¦pastmon" :: Other_operation,()
+echo ¦useradd¦--create-home -s /bin/bash pastmon && echo -n 'pastmon:pastmon' | chpasswd && mkdir -p /etc/sudoers.d && echo "pastmon ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/pastmon && chmod 0440 /etc/sudoers.d/pastmon && echo "set modeline" > ... :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive:LANG=C :: env_operation,()
+apt-get ¦install¦-y¦wget¦aptitude¦htop¦vim¦git¦traceroute¦dnsutils¦curl¦sudo¦psmisc¦gcc¦make¦build-essential¦pkg-config¦libglib2.0-dev¦libpcap-dev¦libdbi-dev¦libdbd-pgsql¦flex¦sysstat¦bison¦packaging-dev¦tree¦libpcre3-dev¦sysstat¦tcpdump :: Dependencies_operation,()
+apt-get ¦dist-upgrade¦-y :: Dependencies_operation,()
+su ¦-¦pastmon¦-c¦"\\ :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,8 @@
+expose,27020
+from,bfosberry/steam_base
+PATH:/opt/scripts/:/opt/server/scripts/:PATH :: env_operation,()
+STEAMDIR:/opt/steam :: env_operation,()
+echo ¦until¦$STEAMDIR/steamcmd.sh +login anonymous +force_install_dir $SERVERDIR +app_update 222860 +quit; do echo Retrying; done :: Filesystem_operation,()
+SERVERDIR:/opt/server/ :: env_operation,()
+./update_script/etc/init.d/update_script :: add_operation,()
+./init.d.sh/etc/init.d/game_server :: add_operation,()

@@ -1,0 +1,16 @@
+/opt/cassandra :: workdir_operation,()
+cp ¦/src/cassandra.yaml¦/opt/cassandra/conf/; :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cp ¦/src/cassandra-run¦/etc/service/cassandra/run; :: Filesystem_operation,()
+wget ¦-O¦-¦http://www.us.apache.org/dist/cassandra/2.1.5/apache-cassandra-2.1.5-bin.tar.gz¦|¦tar¦xzf¦-¦--strip-components=1¦-C¦"/opt/cassandra"; :: Dependencies_operation,()
+mkdir ¦/opt/cassandra; :: Filesystem_operation,()
+from,dronde/docker-java-8
+wget ¦-O¦-¦http://downloads.datastax.com/community/datastax-agent-5.1.0.tar.gz¦|¦tar¦xzf¦-¦--strip-components=1¦-C¦"/opt/agent"; :: Dependencies_operation,()
+mkdir ¦/opt/agent; :: Filesystem_operation,()
+mkdir ¦-p¦/etc/service/agent; :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+cmd,/sbin/my_init
+expose,7199 7000 7001 9160 9042
+cp ¦/src/agent-run¦/etc/service/agent/run :: Filesystem_operation,()
+mkdir ¦-p¦/etc/service/cassandra; :: Filesystem_operation,()
+./src :: add_operation,()

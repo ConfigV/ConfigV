@@ -1,0 +1,14 @@
+from,acfatah/php:7.0
+expose,9000
+adduser ¦-u¦82¦-D¦-S¦-G¦www-data¦www-data :: Permissions_operation,()
+rm ¦-frv¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦add¦--no-cache¦php7-fpm¦php7-gd :: Dependencies_operation,()
+php-fpm/docker.conf/etc/php7/php-fpm.d/docker.conf :: copy_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+entrypoint,php-fpm
+sed ¦-i¦-e¦"s|user\\s*=\\s*nobody|user¦=¦www-data|g"¦/etc/php7/php-fpm.d/www.conf¦-e¦"s|group\\s*=\\s*nobody|group¦=¦www-data|g"¦/etc/php7/php-fpm.d/www.conf¦-e¦"s|;*listen\\s*=\\s*127.0.0.1:9000|listen¦=¦9000|g"¦/etc/php7/php-fpm.d/www.conf :: Filesystem_operation,()
+cmd,-F
+ln ¦-s¦/usr/sbin/php-fpm7¦/usr/sbin/php-fpm :: Filesystem_operation,()
+addgroup ¦-g¦82¦-S¦www-data :: Permissions_operation,()
+apk ¦update :: Dependencies_operation,()
+php-fpm/zz-docker.conf/etc/php7/php-fpm.d/zz-docker.conf :: copy_operation,()

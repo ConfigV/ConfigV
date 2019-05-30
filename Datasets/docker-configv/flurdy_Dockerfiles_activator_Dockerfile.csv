@@ -1,0 +1,12 @@
+ln ¦-s¦/opt/typesafe/activator-$ACTIVATOR_VERSION/activator¦/usr/local/bin/activator :: Filesystem_operation,()
+rm ¦/tmp/typesafe-activator-$ACTIVATOR_VERSION.zip :: Filesystem_operation,()
+wget ¦http://downloads.typesafe.com/typesafe-activator/$ACTIVATOR_VERSION/typesafe-activator-$ACTIVATOR_VERSION.zip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mv ¦/tmp/activator-$ACTIVATOR_VERSION¦/opt/typesafe/activator-$ACTIVATOR_VERSION :: Filesystem_operation,()
+apt-get ¦install¦-y¦wget¦unzip :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+ACTIVATOR_VERSION:1.2.10 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,flurdy/java7:latest
+unzip ¦typesafe-activator-$ACTIVATOR_VERSION.zip :: Filesystem_operation,()
+mkdir ¦/opt/typesafe :: Filesystem_operation,()

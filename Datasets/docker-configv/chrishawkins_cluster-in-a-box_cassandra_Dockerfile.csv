@@ -1,0 +1,9 @@
+apt-get ¦update :: Dependencies_operation,()
+echo ¦¦apt-get update && apt-get upgrade -y && apt-get install -y wget curl && apt-get install -y software-properties-common python-software-properties && add-apt-repository ppa:webupd8team/java && echo oracle-java8-installer shared/accepted-ora... :: Filesystem_operation,()
+cmd,./startup.sh
+echo ¦echo¦"deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list && curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add - :: Filesystem_operation,()
+cassandra.yaml/etc/cassandra/cassandra.yaml :: add_operation,()
+expose,9160 9042
+startup.shstartup.sh :: add_operation,()
+apt-get ¦install¦-y¦dsc22¦cassandra :: Dependencies_operation,()
+from,ubuntu

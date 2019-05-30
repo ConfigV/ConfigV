@@ -1,0 +1,14 @@
+rm ¦-rf¦var/cache/* :: Filesystem_operation,()
+docker/php/php.ini/usr/local/etc/php/php.ini :: add_operation,()
+composer ¦install :: Dependencies_operation,()
+cmd,/app/docker/apache/run.sh
+mv ¦composer.phar¦/usr/bin/composer :: Filesystem_operation,()
+/app :: workdir_operation,()
+echo ¦requirements="zlib1g-dev¦libicu-dev git wget" && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* && docker-php-ext-install pdo_mysql && docker-php-ext-install mbstring && docker-php-ext-install intl && doc... :: Filesystem_operation,()
+./app :: copy_operation,()
+docker/apache/vhost.conf/etc/apache2/sites-enabled/default.conf :: add_operation,()
+rm ¦-rf¦var/logs/* :: Filesystem_operation,()
+from,php:5.6
+a2enmod ¦rewrite :: Other_operation,()
+chown ¦www-data¦.¦var/cache¦var/logs :: Permissions_operation,()
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php :: Dependencies_operation,()

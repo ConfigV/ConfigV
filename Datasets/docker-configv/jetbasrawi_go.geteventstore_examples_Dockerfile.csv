@@ -1,0 +1,10 @@
+cmd,./run-node.sh¦--ext-http-prefixes=http://*:2113/¦--ext-ip=0.0.0.0¦--db¦/data/db¦--log¦/data/logs¦--run-projections=all
+EVENTSTORE_MAX_MEM_TABLE_SIZE:100000 :: env_operation,()
+/opt/EventStore-OSS-Ubuntu-14.04-v$ES_VERSION :: workdir_operation,()
+ES_VERSION:3.7.0 :: env_operation,()
+from,ubuntu:14.04
+expose,1113
+http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v$ES_VERSION.tar.gz/tmp/ :: add_operation,()
+/data/logs :: volume_operation,()
+EVENTSTORE_WORKER_THREADS:12 :: env_operation,()
+tar ¦xfz¦/tmp/EventStore-OSS-Ubuntu-14.04-v$ES_VERSION.tar.gz¦-C¦/opt :: Filesystem_operation,()

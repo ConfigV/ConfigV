@@ -1,0 +1,10 @@
+/root :: workdir_operation,()
+expose,8000
+echo ¦apk¦update && apk add ca-certificates && apk add tzdata && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone :: Filesystem_operation,()
+./node_modules/root/node_modules :: copy_operation,()
+entrypoint,/cyclone-server
+from,alpine:3.6
+bin/server/cyclone-server :: copy_operation,()
+./http/web/http/web :: copy_operation,()
+./api/templates/templates :: copy_operation,()
+./notify/provider/template :: copy_operation,()

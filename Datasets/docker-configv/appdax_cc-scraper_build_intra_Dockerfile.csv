@@ -1,0 +1,16 @@
+from,alpine:3.4
+PER_REQUEST:30 :: env_operation,()
+Gemfile$APP_HOME :: copy_operation,()
+cmd,./init
+Gemfile.lock$APP_HOME :: copy_operation,()
+mkdir ¦$APP_HOME :: Filesystem_operation,()
+chmod ¦+x¦init :: Permissions_operation,()
+# ¦Install¦Ruby¦packages :: Other_operation,()
+BUILD_PACKAGES:ruby-dev :: env_operation,()
+.$APP_HOME :: copy_operation,()
+CONCURRENT_REQUESTS:200 :: env_operation,()
+$APP_HOME :: workdir_operation,()
+APP_HOME:/usr/app/ :: env_operation,()
+apk ¦update :: Dependencies_operation,()
+bundle ¦exec¦whenever¦-w¦-r¦intra :: Dependencies_operation,()
+RUBY_PACKAGES:ruby :: env_operation,()

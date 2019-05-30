@@ -1,0 +1,11 @@
+cd ¦/opt/openhab2 :: Filesystem_operation,()
+wget ¦https://openhab.ci.cloudbees.com/job/openHAB2/lastSuccessfulBuild/artifact/distribution/target/distribution-2.0.0-SNAPSHOT-demo.zip¦-O¦/opt/openhab2/openhab2.zip :: Dependencies_operation,()
+unzip ¦openhab2.zip :: Filesystem_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+mkdir ¦/opt/openhab2 :: Filesystem_operation,()
+unzip/usr/bin :: copy_operation,()
+wget ¦https://github.com/mc-b/IoTKit/releases/download/V1.0/ch.iotkit.smarthome.binding.mbedRPC_1.0.0.201511131556.jar¦-O¦/opt/openhab2/addons/ch.iotkit.smarthome.binding.mbedRPC_1.0.0.201511131556.jar :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,8080
+entrypoint,cd¦/opt/openhab2¦&&¦./start_debug.sh
+from,ubuntu@latest

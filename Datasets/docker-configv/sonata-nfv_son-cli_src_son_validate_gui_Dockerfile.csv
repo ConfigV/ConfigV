@@ -1,0 +1,13 @@
+/usr/son-validate-gui :: workdir_operation,()
+./usr/son-validate-gui/ :: copy_operation,()
+npm ¦install :: Dependencies_operation,()
+entrypoint,/sbin/entrypoint.sh
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv-keys 8EC0731023C1F15B && echo "deb http://registry.sonata-nfv.eu:8080 ubuntu-trusty main" | tee -a /etc/apt/sources.list && curl -sL https://deb.nodesource.com/setup_8.x | bin/bash - && a... :: Filesystem_operation,()
+from,python:3.5
+mkdir ¦-p¦/usr/son-validate-gui/ :: Filesystem_operation,()
+/usr/son-validate-gui/dist :: workdir_operation,()
+npm ¦install¦-g¦http-server :: Dependencies_operation,()
+entrypoint.sh/sbin/entrypoint.sh :: copy_operation,()
+expose,8080
+chmod ¦755¦/sbin/entrypoint.sh :: Permissions_operation,()
+npm ¦run¦build:prod :: Dependencies_operation,()

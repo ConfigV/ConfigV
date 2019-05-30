@@ -1,0 +1,18 @@
+OTP_GRAPHS:/var/otp/graphs :: env_operation,()
+from,debian@sid
+apt-get ¦install¦-y¦openjdk-8-jre¦wget :: Dependencies_operation,()
+wget ¦-O¦/var/otp/jython.jar¦http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.7.0/jython-standalone-2.7.0.jar :: Dependencies_operation,()
+wget ¦-O¦/var/otp/otp.jar¦http://maven.conveyal.com.s3.amazonaws.com/org/opentripplanner/otp/0.19.0/otp-0.19.0-shaded.jar :: Dependencies_operation,()
+OTP_BASE:/var/otp :: env_operation,()
+expose,8081
+wget ¦-P¦/var/otp/graphs/chicago¦https://s3.amazonaws.com/metro-extracts.mapzen.com/chicago_illinois.osm.pbf :: Dependencies_operation,()
+entrypoint,java¦-Xmx6G¦-Xverify:none¦-cp¦/var/otp/otp.jar:/var/otp/jython.jar¦org.opentripplanner.standalone.OTPMain
+mkdir ¦-p¦/var/otp :: Filesystem_operation,()
+wget ¦-O¦/var/otp/graphs/chicago/pace.zip¦http://www.pacebus.com/gtfs/gtfs.zip :: Dependencies_operation,()
+cmd,--help
+mkdir ¦-p¦/var/otp/graphs/chicago :: Filesystem_operation,()
+wget ¦-O¦/var/otp/graphs/chicago/cta.zip¦http://www.transitchicago.com/downloads/sch_data/google_transit.zip :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-openjdk-amd64 :: env_operation,()
+java ¦-Xmx8G¦-jar¦/var/otp/otp.jar¦--build¦/var/otp/graphs/chicago :: Other_operation,()
+mkdir ¦-p¦/var/otp/scripting :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

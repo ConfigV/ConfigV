@@ -1,0 +1,11 @@
+expose,443
+from,dockerfile/ubuntu
+/etc/nginx/sites-enabled :: volume_operation,()
+/etc/nginx :: workdir_operation,()
+/var/www/html :: volume_operation,()
+/etc/nginx/conf.d :: volume_operation,()
+/etc/nginx/certs :: volume_operation,()
+cmd,sh¦./run.sh
+/var/log/nginx :: volume_operation,()
+echo ¦add-apt-repository¦-y ppa:nginx/stable && apt-get update && apt-get install -y nano && apt-get install -y nginx && rm -rf /var/lib/apt/lists/* && echo "\\ndaemon off;" >> /etc/nginx/nginx.conf && chown -R www-data:www-data /var/lib/nginx :: Filesystem_operation,()
+run.sh/etc/nginx/run.sh :: add_operation,()

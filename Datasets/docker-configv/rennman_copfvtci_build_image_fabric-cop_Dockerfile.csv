@@ -1,0 +1,7 @@
+mkdir ¦-p¦$COP_HOME¦/var/hyperledger/fabric-cop :: Filesystem_operation,()
+from,hyperledger/fabric-cop-runtime:x86_64-0.7.0-snapshot-d703f35
+COP_HOME:/etc/hyperledger/fabric-cop :: env_operation,()
+cmd,cop¦server¦start¦-address¦0.0.0.0¦-config¦$COP_HOME/cop.json
+payload/cop/usr/local/bin :: copy_operation,()
+expose,8888
+payload/sampleconfig.tar.bz2$COP_HOME :: add_operation,()

@@ -1,0 +1,13 @@
+echo ¦cd¦/tmp/twig && phpize&& ./configure && make && make install&& echo "extension=twig.so #For Unix systems" > /usr/local/etc/php/conf.d/docker-php-ext-twig.ini&& cp /tmp/twig/modules/twig.so $(php-config --extension-dir)&& rm -R /tmp/twig :: Filesystem_operation,()
+./config/xdebug/tmp/xdebug :: copy_operation,()
+from,php:5.4
+./config/php.ini/usr/local/etc/php/php.ini :: copy_operation,()
+docker-php-ext-install ¦mbstring¦json¦xml¦pdo¦pdo_mysql¦dom¦hash¦session¦tokenizer :: Other_operation,()
+docker-php-ext-install ¦gd¦pdo_mysql¦mysqli¦curl :: Other_operation,()
+./config/Twig/ext/twig/tmp/twig :: copy_operation,()
+cmd,php-fpm
+apt-get ¦install¦-y¦libfreetype6-dev¦libjpeg62-turbo-dev¦libmcrypt-dev¦libpng12-dev¦libcurl4-openssl-dev¦¦libxml2-dev :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦cd¦/tmp/xdebug && phpize&& ./configure&& make&& make install&& echo "zend_extension=\\"/usr/local/lib/php/extensions/no-debug-non-zts-20121212/xdebug.so\\"n xdebug.remote_enable=onn #xdebug.remote_host=127.0.0.1n xdebug.remote_port=9000n xde... :: Filesystem_operation,()
+mkdir ¦-p¦/usr/local/etc/php :: Filesystem_operation,()
+docker-php-ext-install ¦iconv¦mcrypt :: Other_operation,()

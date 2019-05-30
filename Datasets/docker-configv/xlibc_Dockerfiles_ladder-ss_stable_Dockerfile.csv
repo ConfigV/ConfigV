@@ -1,0 +1,17 @@
+SS_URL:https://github.com/shadowsocks/shadowsocks-libev/archive/$SS_VER.tar.gz :: env_operation,()
+SERVER_PORT:38388 :: env_operation,()
+from,alpine@latest
+rm ¦-rf¦$SS_DIR :: Filesystem_operation,()
+curl ¦-sSL¦$SS_URL¦|¦tar¦xz :: Dependencies_operation,()
+entrypoint,ss-server
+apk ¦add¦--update¦$SS_DEP :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+cd ¦$SS_DIR :: Filesystem_operation,()
+apk ¦del¦--purge¦$SS_DEP :: Dependencies_operation,()
+set ¦-ex :: Environment_operation,()
+SS_VER:v2.4.7 :: env_operation,()
+./configure  :: Build_Execute_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cd ¦.. :: Filesystem_operation,()
+SS_DIR:shadowsocks-libev-$SS_VER :: env_operation,()
+SS_DEP:autoconf :: env_operation,()

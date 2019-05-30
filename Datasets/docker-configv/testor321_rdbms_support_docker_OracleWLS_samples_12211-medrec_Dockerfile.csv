@@ -1,0 +1,7 @@
+cmd,startSample.sh
+$ORACLE_HOME/wlserver/samples/server :: workdir_operation,()
+echo ¦cd¦/u01 && $JAVA_HOME/bin/jar xf /u01/$FMW_PKG && cd - && chown oracle:oracle -R /u01 && echo oracle:oracle | chpasswd && su -c "$JAVA_HOME/bin/java -jar /u01/$FMW_JAR ORACLE_HOME=$ORACLE_HOME" - oracle && mv /u01/startSample.sh /u01/oracl... :: Filesystem_operation,()
+FMW_PKG="fmw_12.2.1.1.0_wls_supplemental_quick_Disk1_1of1.zip":FMW_JAR="fmw_12.2.1.1.0_wls_supplemental_quick.jar" :: env_operation,()
+from,oracle/weblogic:12.2.1.1-developer
+$FMW_PKG/u01/ :: copy_operation,()
+expose,7011

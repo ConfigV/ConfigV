@@ -1,0 +1,17 @@
+SPARK_CONF_DIR=$SPARK_HOME/conf: :: env_operation,()
+PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin: :: env_operation,()
+SPARK_URL=http://www.gtlib.gatech.edu/pub/apache: :: env_operation,()
+mv ¦$SPARK_CONF_DIR/ssh_config¦~/.ssh/config :: Filesystem_operation,()
+chmod ¦0600¦~/.ssh/authorized_keys :: Permissions_operation,()
+$SPARK_HOME :: workdir_operation,()
+expose,8081
+entrypoint,./run.sh
+run.sh$SPARK_HOME/ :: copy_operation,()
+cat ¦~/.ssh/id_rsa.pub¦>>¦~/.ssh/authorized_keys :: Filesystem_operation,()
+SPARK_HOME=/opt/spark: :: env_operation,()
+mkdir ¦-p¦${SPARK_HOME} :: Filesystem_operation,()
+SPARK_VERSION=2.1.0: :: env_operation,()
+wget ¦-q¦-O¦-¦${SPARK_URL}/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz¦|¦tar¦-xzC¦${SPARK_HOME}¦--strip-components=1 :: Dependencies_operation,()
+ssh-keygen ¦-t¦rsa¦-P¦''¦-f¦~/.ssh/id_rsa :: Other_operation,()
+conf/*$SPARK_CONF_DIR/ :: copy_operation,()
+chmod ¦+x¦$SPARK_HOME/run.sh :: Permissions_operation,()

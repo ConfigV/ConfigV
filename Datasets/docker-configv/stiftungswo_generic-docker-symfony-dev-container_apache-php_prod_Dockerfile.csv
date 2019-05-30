@@ -1,0 +1,17 @@
+from,swodev/apache
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+locale-gen ¦en_US¦en_US.UTF-8 :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/sbin/apache2¦-D¦FOREGROUND
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mv ¦/usr/local/bin/composer.phar¦/usr/local/bin/composer :: Filesystem_operation,()
+echo ¦echo¦$TIMEZONE > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata :: Filesystem_operation,()
+apt-get ¦install¦-y¦--force-yes¦php5¦libapache2-mod-php5¦php5-mysql¦php5-json¦php5-xsl¦php5-intl¦php5-mcrypt :: Dependencies_operation,()
+sed ¦-i¦"s@^;date.timezone¦=.*@date.timezone¦=¦$TIMEZONE@"¦/etc/php5/*/php.ini :: Filesystem_operation,()
+expose,80
+curl ¦-sS¦https://getcomposer.org/installer¦|¦php¦--¦--install-dir=/usr/local/bin :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+000-default.conf/etc/apache2/sites-available/000-default.conf :: add_operation,()
+TIMEZONE:Europe/Warsaw :: env_operation,()

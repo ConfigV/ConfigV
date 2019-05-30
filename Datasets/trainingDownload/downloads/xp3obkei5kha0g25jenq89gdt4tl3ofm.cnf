@@ -1,0 +1,73 @@
+[client]
+port            = 3306
+socket          = /var/lib/mysql/mysql.sock
+
+[mysql]
+no_auto_rehash
+#safe-updates
+#prompt          = '\u@<HOSTNAME> mysql>'
+
+[mysqld]
+datadir         = /var/lib/mysql
+port            = 3306
+socket          = /var/lib/mysql/mysql.sock
+tmpdir          = /dev/shm
+skip-grant-tables
+skip_external_locking
+
+max_allowed_packet = 1M
+max_connections = 80
+max_connect_errors = 10000
+
+table_open_cache = 256
+thread_cache_size = 80
+
+query_cache_size = 1048576
+query_cache_min_res_unit = 4096
+query_cache_type = 1
+
+key_buffer_size = 3G
+bulk_insert_buffer_size = 1G
+myisam_sort_buffer_size = 1M
+sort_buffer_size = 2M
+read_buffer_size = 16M
+read_rnd_buffer_size = 1M
+join_buffer_size = 256K
+
+
+
+tmp_table_size = 64M
+max_heap_table_size = 64M
+skip_name_resolve
+character_set_server = utf8
+default_storage_engine = InnoDB
+explicit_defaults_for_timestamp
+
+#sql_mode = "STRICT_ALL_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE"
+sql_mode = ""
+
+#general_log=1
+#general_log_file=/var/log/mysqld/general.log
+log_error=/var/log/mysqld/error.log
+slow_query_log=ON
+slow_query_log_file=/var/log/mysqld/slow.log
+long_query_time = 0.1
+#long_query_time = 0
+
+transaction-isolation="READ-UNCOMMITTED"
+
+innodb_log_file_size = 1M
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+
+[myisamchk]
+key_buffer = 8M
+sort_buffer_size = 8M
+read_buffer = 1M
+write_buffer = 0M
+
+[mysqld_safe]
+open-files-limit = 8192

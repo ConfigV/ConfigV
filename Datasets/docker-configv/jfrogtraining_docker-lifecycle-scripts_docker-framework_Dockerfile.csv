@@ -1,0 +1,10 @@
+tomcat/server.xml/home/exec/tomcat/conf :: add_operation,()
+JAVA_HOME=/home/exec/jdk8: :: env_operation,()
+/bin/bash ¦-c¦cd¦/home/exec;¦mv¦/home/exec/apache-tomcat-8.0*¦/home/exec/tomcat :: Build_Execute_operation,()
+/bin/bash ¦-c¦cd¦/home/exec;¦mv¦/home/exec/jdk1*¦/home/exec/jdk8 :: Build_Execute_operation,()
+CATALINA_HOME=/home/exec/tomcat: :: env_operation,()
+cmd,/bin/bash¦-c¦cd¦/home/exec;¦/home/exec/tomcat/bin/catalina.sh¦run
+jdk/jdk-8-linux-x64.tar.gz/home/exec :: add_operation,()
+tomcat/apache-tomcat-8.tar.gz/home/exec :: add_operation,()
+from,artifactory-us.jfrog.info/ubuntu:latest
+/bin/bash ¦-c¦cd¦~;¦cd¦/home¦;¦mkdir¦exec :: Build_Execute_operation,()

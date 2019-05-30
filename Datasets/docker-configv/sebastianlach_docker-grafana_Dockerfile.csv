@@ -1,0 +1,16 @@
+./config.js/opt/grafana/config.js :: add_operation,()
+expose,80 443
+mv ¦grafana-1.8.1¦/opt/grafana :: Filesystem_operation,()
+GRAPHITE_URL:172.17.42.1:8000 :: env_operation,()
+wget ¦http://grafanarel.s3.amazonaws.com/grafana-1.8.1.tar.gz :: Dependencies_operation,()
+./nginx.repo/etc/yum.repos.d/ :: add_operation,()
+cmd,sed¦-i¦"s|ELASTIC_URL|${ELASTIC_URL}|g"¦/etc/nginx/nginx.conf¦&&¦sed¦-i¦"s|GRAPHITE_URL|${GRAPHITE_URL}|g"¦/etc/nginx/nginx.conf¦&&¦cat¦/etc/nginx/nginx.conf¦&&¦/usr/sbin/nginx
+./dashboard.json/opt/grafana/app/dashboards/default.json :: add_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+ELASTIC_URL:172.17.42.1:9200 :: env_operation,()
+tar ¦xzvf¦grafana-1.8.1.tar.gz :: Filesystem_operation,()
+./nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+from,centos
+yum ¦install¦-y¦wget¦tar :: Dependencies_operation,()
+yum ¦install¦-y¦nginx :: Dependencies_operation,()
+rm ¦grafana-1.8.1.tar.gz :: Filesystem_operation,()

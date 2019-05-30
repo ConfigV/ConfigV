@@ -1,0 +1,21 @@
+from,flurdy/oracle-java7:latest
+export ¦PATH=$PATH:/opt/android/adt-bundle/sdk/tools:/opt/android/adt-bundle/sdk/platform-tools :: Environment_operation,()
+wget ¦https://dl.google.com/android/adt/adt-bundle-linux-x86_64-$ADT_VERSION.zip :: Dependencies_operation,()
+mv ¦/tmp/adt-bundle-linux-x86_64-$ADT_VERSION¦/opt/android/adt-bundle :: Filesystem_operation,()
+ADT_VERSION:20140702 :: env_operation,()
+apt-get ¦clean¦-yq :: Dependencies_operation,()
+entrypoint,/opt/android/adt-bundle/sdk/tools/android
+rm ¦/tmp/adt-bundle-linux-x86_64-$ADT_VERSION.zip :: Filesystem_operation,()
+echo ¦echo¦"PATH=\\$PATH:/opt/android/adt-bundle/sdk/tools:/opt/android/adt-bundle/sdk/platform-tools" >> ~/.bashrc :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+echo ¦echo¦"y" | /opt/android/adt-bundle/sdk/tools/android update sdk --no-ui --filter platform-tools :: Filesystem_operation,()
+unzip ¦-q¦adt-bundle-linux-x86_64-$ADT_VERSION.zip :: Filesystem_operation,()
+apt-get ¦autoremove¦-yq :: Dependencies_operation,()
+echo ¦echo¦"y" | /opt/android/adt-bundle/sdk/tools/android update sdk --no-ui --filter android-19,build-tools-19.1.0,sysimg-19 :: Filesystem_operation,()
+apt-get ¦install¦-yq¦wget¦unzip¦expect :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+cmd,list¦sdk¦--no-ui¦--all
+mkdir ¦/opt/android :: Filesystem_operation,()
+echo ¦echo¦"y" | /opt/android/adt-bundle/sdk/tools/android update sdk --no-ui --filter android-21 :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

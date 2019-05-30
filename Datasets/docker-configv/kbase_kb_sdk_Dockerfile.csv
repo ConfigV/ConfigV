@@ -1,0 +1,9 @@
+sed ¦-i¦'s/en0/eth0/'¦src/java/us/kbase/common/executionengine/CallbackServer.java :: Filesystem_operation,()
+entrypoint,/src/entrypoint
+PATH=$PATH:/src/bin: :: env_operation,()
+./src :: add_operation,()
+make  :: Build_Execute_operation,()
+/src/entrypoint ¦prune :: Other_operation,()
+echo ¦apt-get¦-y update && apt-get -y install openjdk-7-jdk make git ant && apt-get -y install apt-transport-https ca-certificates && apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609... :: Filesystem_operation,()
+cd ¦/src :: Filesystem_operation,()
+from,ubuntu:14.04

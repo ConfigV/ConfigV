@@ -1,0 +1,13 @@
+echo ¦echo¦"deb http://cz.archive.ubuntu.com/ubuntu trusty main" > /etc/apt/sources.list :: Filesystem_operation,()
+./build_libpostal.sh. :: copy_operation,()
+./build_libpostal.sh  :: Other_operation,()
+apt-get ¦install¦-y¦--force-yes¦libsnappy-dev¦autoconf¦automake¦libtool¦pkg-config :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦--force-yes¦curl¦vim¦git :: Dependencies_operation,()
+from,nodesource/trusty:6.2.0
+LIBPOSTAL_DIR:/opt/libpostal :: env_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+$LIBPOSTAL_DIR :: workdir_operation,()
+LIBPOSTAL_DATA_DIR:/opt/libpostal_data :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦https://github.com/openvenues/libpostal¦$LIBPOSTAL_DIR :: Dependencies_operation,()

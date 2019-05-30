@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦php7.1¦php7.1-fpm¦php7.1-xml¦php7.1-zip¦php7.1-gd¦php7.1-mysql¦php7.1-curl¦php7.1-mbstring :: Dependencies_operation,()
+apt-get ¦install¦-y¦software-properties-common¦language-pack-en-base :: Dependencies_operation,()
+/usr/share/nginx/html :: workdir_operation,()
+expose,9000
+from,ubuntu@latest
+cmd,php-fpm7.1
+sed ¦-i¦-e¦'s/;daemonize¦=¦yes/daemonize¦=¦no/g'¦/etc/php/7.1/fpm/php-fpm.conf :: Filesystem_operation,()
+LC_ALL=en_US.UTF-8 ¦add-apt-repository¦-y¦ppa:ondrej/php :: Other_operation,()
+sed ¦-i¦-e¦'s/listen¦=/run\\/php\\/php7.1-fpm.sock/listen¦=¦0.0.0.0:9000/g'¦/etc/php/7.1/fpm/pool.d/www.conf :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦-i¦'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/'¦/etc/php/7.1/fpm/php.ini :: Filesystem_operation,()
+mkdir ¦-p¦/run/php :: Filesystem_operation,()

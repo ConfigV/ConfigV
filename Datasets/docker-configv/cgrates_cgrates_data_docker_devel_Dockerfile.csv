@@ -1,0 +1,13 @@
+apt-get ¦-y¦update :: Dependencies_operation,()
+cd ¦/etc/apt/sources.list.d/;¦wget¦http://apt.itsyscom.com/conf/freeswitch.apt.list :: Filesystem_operation,()
+useradd ¦-c¦CGRateS¦-d¦/var/run/cgrates¦-s¦/bin/false¦-r¦cgrates :: Permissions_operation,()
+cmd,/root/start.sh
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦-y¦install¦git¦bzr¦mercurial¦redis-server¦mysql-server¦python-pycurl¦python-mysqldb¦wget :: Dependencies_operation,()
+from,debian@latest
+gpg ¦--keyserver¦pool.sks-keyservers.net¦--recv-key¦D76EDC7725E010CF :: Other_operation,()
+wget ¦-qO-¦https://storage.googleapis.com/golang/go1.3.linux-amd64.tar.gz¦|¦tar¦xzf¦-¦-C¦/root/ :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦update;¦apt-get¦-y¦install¦freeswitch-meta-vanilla¦freeswitch-mod-json-cdr :: Dependencies_operation,()
+gpg ¦-a¦--export¦D76EDC7725E010CF¦|¦apt-key¦add¦- :: Other_operation,()
+start.sh/root/start.sh :: add_operation,()

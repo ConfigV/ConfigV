@@ -1,0 +1,13 @@
+/app :: workdir_operation,()
+from,frodenas/ruby
+/config :: volume_operation,()
+./app :: add_operation,()
+SETTINGS_PATH:/config/settings.yml :: env_operation,()
+DOCKER_URL:unix:///var/run/docker.sock :: env_operation,()
+expose,80
+cmd,bundle¦exec¦unicorn¦-c¦/config/unicorn.conf.rb
+/app/log :: volume_operation,()
+entrypoint,/app/bin/run.sh
+./config/settings.yml/config/settings.yml :: add_operation,()
+RAILS_ENV:development :: env_operation,()
+./config/unicorn.conf.rb/config/unicorn.conf.rb :: add_operation,()

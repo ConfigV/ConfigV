@@ -1,0 +1,10 @@
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+from,efrecon/tcl
+/data :: workdir_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+*.tcl/opt/etcdctl/ :: copy_operation,()
+apt-get ¦install¦-y¦subversion :: Dependencies_operation,()
+entrypoint,tclsh8.6¦/opt/etcdctl/etcdctl.tcl¦-peers¦172.17.42.1:4001
+/data :: volume_operation,()
+svn ¦checkout¦https://github.com/efrecon/etcd-tcl/trunk/etcd¦/opt/etcdctl/lib/etcd :: Dependencies_operation,()

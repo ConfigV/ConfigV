@@ -1,0 +1,14 @@
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/var/mogdata :: workdir_operation,()
+cpanm ¦install¦--force¦MogileFS::Server :: Other_operation,()
+mkdir ¦-p¦/etc/mogilefs :: Filesystem_operation,()
+expose,7500
+apt-get ¦install¦-y¦cpanminus¦build-essential¦libdbd-mysql-perl¦sysstat :: Dependencies_operation,()
+chown ¦mogile¦-R¦/var/mogdata :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mogstored.conf/etc/mogilefs/mogstored.conf :: add_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+cmd,mogstored¦-c¦/etc/mogilefs/mogstored.conf
+from,ubuntu@trusty
+adduser ¦mogile¦--system¦--disabled-password :: Permissions_operation,()
+mkdir ¦-p¦/var/mogdata/dev1 :: Filesystem_operation,()

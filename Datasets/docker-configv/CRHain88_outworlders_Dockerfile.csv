@@ -1,0 +1,21 @@
+add-apt-repository ¦-y¦ppa:ondrej/php :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+export ¦LC_ALL=en_US.UTF-8 :: Environment_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+echo ¦echo¦"always_populate_raw_post_data=-1" > /etc/php/5.6/apache2/conf.d/20-always_populate_raw_post_data.ini :: Filesystem_operation,()
+src/apache-config.local.conf/etc/apache2/sites-enabled/000-default.conf :: copy_operation,()
+apt-get ¦-y¦install¦php5.6 :: Dependencies_operation,()
+apt-get ¦-y¦install¦software-properties-common¦python-software-properties :: Dependencies_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+apt-get ¦-y¦install¦php5.6-curl¦php5.6-gd¦php5.6-intl¦php5.6-mbstring¦php5.6-mcrypt¦php5.6-mysql¦php5.6-soap¦php5.6-xml¦php5.6-xsl¦php5.6-zip :: Dependencies_operation,()
+$(pwd)/dist/uploads:/var/www/uploads :: volume_operation,()
+from,ubuntu@latest
+expose,80
+cmd,apache2ctl¦-D¦FOREGROUND
+apt-get ¦install¦-y¦apache2 :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+echo ¦echo¦"always_populate_raw_post_data=-1" > /etc/php/5.6/cli/conf.d/20-always_populate_raw_post_data.ini :: Filesystem_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+export ¦LANG=en_US.UTF-8 :: Environment_operation,()
+apt-get ¦-y¦install¦php5.6-readline¦php5.6-cli¦vim¦git-all :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦4F4EA0AAE5267A6C :: Dependencies_operation,()

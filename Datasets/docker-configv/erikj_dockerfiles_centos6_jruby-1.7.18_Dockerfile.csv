@@ -1,0 +1,13 @@
+yum ¦-y¦install¦tar :: Dependencies_operation,()
+mkdir ¦/opt/jruby :: Filesystem_operation,()
+yum ¦-y¦install¦java-1.8.0-openjdk-headless :: Dependencies_operation,()
+cmd,irb
+PATH:$GEM_HOME/bin:$PATH :: env_operation,()
+JRUBY_VERSION:1.7.18 :: env_operation,()
+update-alternatives ¦--install¦/usr/local/bin/ruby¦ruby¦/opt/jruby/bin/jruby¦1 :: Other_operation,()
+GEM_HOME:/usr/local/bundle :: env_operation,()
+echo ¦echo¦'gem: --no-rdoc --no-ri' >> /.gemrc :: Filesystem_operation,()
+curl ¦http://jruby.org.s3.amazonaws.com/downloads/${JRUBY_VERSION}/jruby-bin-${JRUBY_VERSION}.tar.gz¦|¦tar¦-zxC¦/opt/jruby¦--strip-components=1 :: Dependencies_operation,()
+PATH:/opt/jruby/bin:$PATH :: env_operation,()
+from,centos:6.0
+gem ¦install¦bundler :: Dependencies_operation,()

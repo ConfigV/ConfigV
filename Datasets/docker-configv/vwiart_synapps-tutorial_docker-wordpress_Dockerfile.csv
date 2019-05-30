@@ -1,0 +1,19 @@
+apt-get ¦-qq¦update :: Dependencies_operation,()
+resources/startup.sh/startup.sh :: add_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+sed ¦-i¦'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/'¦/etc/php5/fpm/php.ini :: Filesystem_operation,()
+resources/theme/materialwp//srv/http/wp-content/themes/materialwp/ :: add_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+cmd,/startup.sh
+resources/nginx.server.conf/etc/nginx/sites-available/default :: add_operation,()
+/var/lib/mysql :: volume_operation,()
+resources/initsql.sh/initsql.sh :: add_operation,()
+sed ¦-i¦'s/;extension=gd.so/extension=gd.so/'¦/etc/php5/fpm/php.ini :: Filesystem_operation,()
+sudo ¦apt-get¦install¦-y¦nginx¦php5-fpm¦php5-mysql¦php5-gd :: Other_operation,()
+resources/wordpress//srv/http/ :: add_operation,()
+echo ¦apt-key¦adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xcbcb082a1bb943db && echo "deb http://mariadb.mirror.iweb.com/repo/10.0/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/mariadb.list && apt-get update && DEBIAN_FRONTEN... :: Filesystem_operation,()
+/etc/mysql :: volume_operation,()
+mkdir ¦/srv/http :: Filesystem_operation,()
+resources/plugins//srv/http/wp-content/plugins/ :: add_operation,()
+from,ubuntu@latest
+expose,80

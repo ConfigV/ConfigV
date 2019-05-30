@@ -1,0 +1,19 @@
+rm ¦-rf¦/usr/share/man/* :: Filesystem_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+TINI_VERSION:v0.16.1 :: env_operation,()
+chmod ¦+x¦/bin/tini :: Permissions_operation,()
+rm ¦-rf¦/usr/share/doc/* :: Filesystem_operation,()
+cmd,python3
+requirements.txt./ :: copy_operation,()
+HDF5_DIR=/usr/lib/x86_64-linux-gnu/hdf5/serial/ ¦pip3¦install¦--requirement¦/tmp/requirements.txt :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+BUILD_DEPS="build-essential:gfortran :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦${BUILD_DEPS} :: Dependencies_operation,()
+from,python:3.6
+rm ¦-rf¦/usr/share/locale/* :: Filesystem_operation,()
+/tmp :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦${BUILD_DEPS}¦libhdf5-8 :: Dependencies_operation,()
+rm ¦-rf¦/root/.cache/pip :: Filesystem_operation,()
+https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini/bin/tini :: add_operation,()
+entrypoint,/bin/tini¦--

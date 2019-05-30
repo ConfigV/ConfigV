@@ -1,0 +1,8 @@
+kompose :: user_operation,()
+curl ¦-L¦https://github.com/kubernetes-incubator/kompose/releases/download/${KOMPOSE_VERSION}/kompose_linux-amd64.tar.gz¦|¦tar¦zxv¦kompose_linux-amd64/kompose¦>¦/usr/local/bin/kompose :: Dependencies_operation,()
+apk ¦add¦--no-cache¦curl :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/kompose :: Permissions_operation,()
+cmd,kompose
+from,alpine
+adduser ¦-S¦kompose :: Permissions_operation,()
+KOMPOSE_VERSION=v0.1.2: :: env_operation,()

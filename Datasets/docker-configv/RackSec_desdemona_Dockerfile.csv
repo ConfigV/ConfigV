@@ -1,0 +1,9 @@
+script/run-peers.sh/srv/run-peers.sh :: add_operation,()
+entrypoint,/bin/sh¦/srv/run-peers.sh
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections :: Filesystem_operation,()
+target/desdemona-0.1.0-SNAPSHOT-standalone.jar/srv/desdemona.jar :: add_operation,()
+from,phusion/baseimage:0.9.17
+add-apt-repository ¦-y¦ppa:webupd8team/java :: Dependencies_operation,()
+apt-get ¦install¦-y¦oracle-java8-installer :: Dependencies_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()

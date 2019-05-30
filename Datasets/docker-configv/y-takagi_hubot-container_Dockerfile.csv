@@ -1,0 +1,13 @@
+hubot :: user_operation,()
+useradd ¦-m¦-s¦/bin/bash¦-U¦hubot :: Permissions_operation,()
+/app :: volume_operation,()
+npm ¦install¦-g¦hubot¦yo¦generator-hubot¦coffee-script :: Dependencies_operation,()
+from,node:5.2
+entrypoint,/docker-entrypoint.sh
+mkdir ¦$tmp_dir :: Filesystem_operation,()
+cmd,bin/hubot
+apt-get ¦update :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦rsync¦--no-install-recommends :: Dependencies_operation,()
+tmp_dir:/home/hubot/tmp :: env_operation,()

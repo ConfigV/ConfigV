@@ -1,0 +1,17 @@
+from,ubuntu
+set ¦-e :: Environment_operation,()
+Rscript ¦/tmp/install_R_packages.R :: Other_operation,()
+cd ¦/usr/local/src/gatk :: Filesystem_operation,()
+ln ¦-s¦/usr/local/src/gatk/build/libs/gatk-package-VERSION-local.jar¦/usr/local/src/gatk/build/libs/gatk.jar :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+https://raw.githubusercontent.com/broadinstitute/gatk-protected/master/scripts/install_R_packages.R/tmp/install_R_packages.R :: add_operation,()
+entrypoint,java¦-jar¦/usr/local/src/gatk/build/libs/gatk.jar
+apt-get ¦-y¦install¦git¦python¦r-base :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+git ¦clone¦--depth¦1¦https://github.com/broadinstitute/gatk.git¦/usr/local/src/gatk :: Dependencies_operation,()
+apt-get ¦-y¦install¦software-properties-common :: Dependencies_operation,()
+add-apt-repository ¦ppa:webupd8team/java :: Dependencies_operation,()
+yes ¦yes¦|¦apt-get¦-y¦install¦oracle-java8-installer :: Other_operation,()
+rm ¦-rf¦/tmp/* :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+./gradlew ¦localJar :: Other_operation,()

@@ -1,0 +1,13 @@
+apt-get ¦update :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"gem¦install¦dbi¦mysql¦json¦dbd-mysql¦openssl-nonblock¦algorithms¦geoip" :: Build_Execute_operation,()
+git ¦clone¦https://github.com/splay-project/splay.git¦#replace¦with¦splay-controller¦repository¦when¦available :: Dependencies_operation,()
+/bin/bash ¦-l¦-c¦"rvm¦install¦ruby-1.8.7-p374" :: Build_Execute_operation,()
+ruby ¦-rubygems¦controller_fork.rb :: Other_operation,()
+gpg ¦--keyserver¦hkp://keys.gnupg.net¦--recv-keys¦409B6B1796C275462A1703113804BB82D39DC0E3 :: Other_operation,()
+/bin/bash ¦-l¦-c¦"gem¦install¦nokogiri¦-v¦1.5.11" :: Build_Execute_operation,()
+ruby ¦-rubygems¦init_db.rb :: Other_operation,()
+cd ¦splay/src/controller :: Filesystem_operation,()
+apt-get ¦install¦-y¦git¦gnupg2¦curl¦build-essential¦mysql-client-5.5¦mysql-server¦libmysqlclient-dev¦libssl-dev¦libxslt-dev¦libxml2-dev :: Dependencies_operation,()
+from,ubuntu:14.04
+ruby ¦-rubygems¦init_users.rb :: Other_operation,()
+/bin/bash ¦-l¦-c¦"gem¦install¦net-ping¦-v¦1.6.0" :: Build_Execute_operation,()

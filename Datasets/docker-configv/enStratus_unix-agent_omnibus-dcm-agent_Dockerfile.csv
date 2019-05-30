@@ -1,0 +1,14 @@
+install-agent.sh/agent/pkg/ :: add_operation,()
+HOME:/root :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,phusion/baseimage:0.9.6
+mkdir ¦-p¦/agent/pkg :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+cd ¦/agent/pkg;¦./install-agent.sh :: Filesystem_operation,()
+runagent.sh/etc/service/dcm-agent/run :: add_operation,()
+mkdir ¦-p¦/etc/service/dcm-agent :: Filesystem_operation,()
+/etc/my_init.d/00_regen_ssh_host_keys.sh  :: Other_operation,()
+pkg/agent/pkg :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/usr/sbin/enable_insecure_key  :: Other_operation,()
+cmd,/sbin/my_init

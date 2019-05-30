@@ -1,0 +1,10 @@
+ln ¦/etc/dokuwiki/lighttpd.conf¦/etc/lighttpd/conf-available/50-dokuwiki.conf :: Filesystem_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+lighttpd-enable-mod ¦dokuwiki :: Other_operation,()
+from,kprpi
+cmd,lighttpd¦-D¦-f¦/etc/lighttpd/lighttpd.conf
+apt-get ¦-y¦install¦lighttpd¦php5-cgi¦php5¦dokuwiki¦php-net-ldap :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+./10-fastcgi.conf/etc/lighttpd/conf-enabled/10-fastcgi.conf :: copy_operation,()
+expose,80
+./local.php/etc/dokuwiki/local.php :: copy_operation,()

@@ -1,0 +1,19 @@
+from,debian@latest
+/home/appuser/source/project.conf/etc/nginx/sites-available/project.conf :: add_operation,()
+apt-get ¦install¦-y¦¦apt-utils¦¦nginx¦¦findutils¦¦git¦¦python¦¦curl¦¦make :: Dependencies_operation,()
+entrypoint,sails¦lift
+chown ¦-R¦appuser:appuser¦/home/appuser :: Permissions_operation,()
+mkdir ¦-p¦/home/appuser :: Filesystem_operation,()
+cmd,usermod¦-s¦/sbin/nologin¦appuser
+expose,80
+ln ¦-s¦/bin/bash¦/bin/sh :: Filesystem_operation,()
+touch ¦~/.bashrc :: Filesystem_operation,()
+/mnt/host :: volume_operation,()
+appuser :: user_operation,()
+["/home/appuser/source/project"] :: workdir_operation,()
+root :: user_operation,()
+touch ¦~/.profile :: Filesystem_operation,()
+useradd ¦-u¦431¦-r¦-g¦appuser¦-d¦/home/appuser¦-s¦/bin/bash¦-c¦"Docker¦image¦user"¦appuser :: Permissions_operation,()
+rm ¦/bin/sh :: Filesystem_operation,()
+groupadd ¦-r¦appuser¦-g¦433 :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()

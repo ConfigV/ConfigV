@@ -1,0 +1,16 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦apt-key¦adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 && echo "deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main $POSTGRES_VERSION" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/local/bin/run
+entrypoint,/docker-entrypoint
+rm ¦-rf¦/var/cache/apt :: Filesystem_operation,()
+run/usr/local/bin/run :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+from,azukiapp/ubuntu
+apt-get ¦-yq¦install¦locales¦sudo :: Dependencies_operation,()
+POSTGRES_VERSION:9.4 :: env_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/$POSTGRES_VERSION/main/pg_hba.conf && echo "listen_addresses='*'" >> /etc/postgresql/$POSTGRES_VERSION/main/postgresql.conf :: Filesystem_operation,()
+docker-entrypoint.sh/docker-entrypoint :: copy_operation,()
+expose,5432
+apt-get ¦-yq¦install¦--no-install-recommends¦libpq5¦postgresql-$POSTGRES_VERSION¦postgresql-client-$POSTGRES_VERSION¦postgresql-contrib-$POSTGRES_VERSION :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()

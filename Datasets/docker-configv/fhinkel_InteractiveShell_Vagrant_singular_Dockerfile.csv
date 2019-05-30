@@ -1,0 +1,17 @@
+chown ¦-R¦singularUser:singularUser¦/home/singularUser/.ssh :: Permissions_operation,()
+apt-get ¦install¦-y¦openssh-server¦wget :: Dependencies_operation,()
+NOTVISIBLE:"in :: env_operation,()
+from,ubuntu:14.04
+chmod ¦755¦/home/singularUser/.ssh :: Permissions_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+id_rsa.pub/home/singularUser/.ssh/authorized_keys :: copy_operation,()
+expose,22
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+chmod ¦644¦/home/singularUser/.ssh/authorized_keys :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦no/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+wget ¦ftp://jim.mathematik.uni-kl.de/repo/extra/gpg;\\ :: Dependencies_operation,()
+mkdir ¦/home/singularUser/.ssh :: Filesystem_operation,()
+useradd ¦-m¦-d¦/home/singularUser¦singularUser :: Permissions_operation,()

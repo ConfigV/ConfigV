@@ -1,0 +1,10 @@
+ln ¦-s¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦7F0CEB10 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦mongodb-10gen :: Dependencies_operation,()
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' > /etc/apt/sources.list.d/mongodb.list :: Filesystem_operation,()
+entrypoint,mongod
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()
+mkdir ¦-p¦/data/db :: Filesystem_operation,()
+expose,27017
+from,ubuntu@latest

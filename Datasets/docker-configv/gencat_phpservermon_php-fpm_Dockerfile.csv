@@ -1,0 +1,18 @@
+expose,9000
+./www.conf/etc/php5/fpm/pool.d/www.conf :: copy_operation,()
+mkdir ¦-p¦/var/www/public :: Filesystem_operation,()
+chmod ¦777¦/var/www/public :: Permissions_operation,()
+chown ¦root:root¦/etc/cron.d/phpservermon :: Permissions_operation,()
+./wait-for-it.sh/ :: copy_operation,()
+./php.ini/etc/php5/fpm/php.ini :: copy_operation,()
+chmod ¦755¦/wait-for-it.sh :: Permissions_operation,()
+./etc-cron.d-tab-for-phpfpm.txt/etc/cron.d/phpservermon :: copy_operation,()
+./php-fpm.conf/etc/php5/fpm/php-fpm.conf :: copy_operation,()
+/var/www/public :: volume_operation,()
+./phpservermon-3.1.1.tar.gz/ :: copy_operation,()
+./psm_config.php/psm_config.php :: copy_operation,()
+from,phundament/php-one:5.6-fpm
+chown ¦-R¦root:root¦/var/www/public :: Permissions_operation,()
+./phpinfo.php/var/www/public/phpinfo.php :: copy_operation,()
+adduser ¦www-data¦root :: Permissions_operation,()
+chmod ¦600¦/etc/cron.d/phpservermon :: Permissions_operation,()

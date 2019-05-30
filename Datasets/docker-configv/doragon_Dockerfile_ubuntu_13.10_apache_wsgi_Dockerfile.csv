@@ -1,0 +1,13 @@
+APACHE_RUN_USER:www-data :: env_operation,()
+from,ubuntu:13.1
+./default.conf/etc/apache2/sites-available/default.conf :: add_operation,()
+apt-get ¦-y¦install¦vim¦net-tools¦curl :: Dependencies_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_RUN_DIR:/var/run/apache2 :: env_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+ln ¦-s¦/etc/apache2/sites-available/default.conf¦/etc/apache2/sites-enabled/default.conf :: Filesystem_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+apt-get ¦-y¦install¦apache2¦libapache2-mod-wsgi :: Dependencies_operation,()
+rm ¦/etc/apache2/sites-enabled/000-default.conf;¦service¦apache2¦start;¦a2enmod¦wsgi;¦service¦apache2¦stop :: Filesystem_operation,()

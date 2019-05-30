@@ -1,0 +1,18 @@
+echo ¦echo¦"<configuration><property><name>dfs.replication</name><value>1</value></property></configuration>" > /opt/hadoop/etc/hadoop/hdfs-site.xml :: Filesystem_operation,()
+sed ¦-i¦'/export¦JAVA_HOME=\\${JAVA_HOME}/c¦export¦JAVA_HOME=/usr/lib/jvm/java-8-oracle/'¦/opt/hadoop/etc/hadoop/hadoop-env.sh :: Filesystem_operation,()
+cat ¦~/.ssh/id_dsa.pub¦>>¦~/.ssh/authorized_keys :: Filesystem_operation,()
+/opt/hadoop/bin/hdfs ¦namenode¦-format :: Other_operation,()
+ssh-keygen ¦-t¦dsa¦-P¦''¦-f¦~/.ssh/id_dsa :: Other_operation,()
+wget ¦http://apache.rediris.es/hadoop/common/hadoop-2.7.2/hadoop-2.7.2.tar.gz¦-O¦/opt/hadoop-2.7.2.tar.gz :: Dependencies_operation,()
+mv ¦/opt/hadoop/etc/hadoop/hdfs-site.xml¦/opt/hadoop/etc/hadoop/hdfs-site.xml.bak :: Filesystem_operation,()
+export ¦JAVA_HOME=/usr/lib/jvm/java-8-oracle/ :: Environment_operation,()
+chmod ¦0600¦~/.ssh/authorized_keys :: Permissions_operation,()
+ln ¦-s¦/opt/hadoop-2.7.2¦/opt/hadoop :: Filesystem_operation,()
+echo ¦echo¦"<configuration><property><name>fs.defaultFS</name><value>hdfs://0.0.0.0:9000</value></property></configuration>" > /opt/hadoop/etc/hadoop/core-site.xml :: Filesystem_operation,()
+cd ¦/opt/ :: Filesystem_operation,()
+cmd,service¦ssh¦restart¦&&¦tail¦-f¦$(echo)
+expose,9000
+echo ¦echo¦" StrictHostKeyChecking no" >> /etc/ssh/ssh_config :: Filesystem_operation,()
+tar ¦xvf¦hadoop-2.7.2.tar.gz :: Filesystem_operation,()
+mv ¦/opt/hadoop/etc/hadoop/core-site.xml¦/opt/hadoop/etc/hadoop/core-site.xml.bak :: Filesystem_operation,()
+from,baseubuntu

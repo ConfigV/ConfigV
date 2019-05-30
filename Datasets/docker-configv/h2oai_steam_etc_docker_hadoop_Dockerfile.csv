@@ -1,0 +1,14 @@
+cmd,start.sh
+expose,9001
+start.shstart.sh :: add_operation,()
+PATH:/steam/steam-${STEAM_VERSION}-linux-amd64:$PATH :: env_operation,()
+echo ¦echo¦'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf :: Filesystem_operation,()
+root :: user_operation,()
+/steam :: workdir_operation,()
+http://s3.amazonaws.com/steam-release/steam-${STEAM_VERSION}-linux-amd64.tar.gz/steam/ :: add_operation,()
+PATH:$PATH:/usr/local/hadoop/bin :: env_operation,()
+tar ¦xvf¦steam-${STEAM_VERSION}-linux-amd64.tar.gz :: Filesystem_operation,()
+from,sequenceiq/hadoop-ubuntu:2.6.0
+/steam/steam-${STEAM_VERSION}-linux-amd64 :: workdir_operation,()
+STEAM_VERSION:1.1.0 :: env_operation,()
+ls ¦-la :: Filesystem_operation,()

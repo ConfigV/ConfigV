@@ -1,0 +1,7 @@
+yum ¦-y¦install¦${BUILD_REQUIRES//,/¦} :: Dependencies_operation,()
+entrypoint,/bin/bash¦-c¦$VOLUME_SHARE_CONTAINER/scripts/build_rpm.sh
+BUILD_REQUIRES:gcc,gettext,make :: env_operation,()
+/tmp/build :: workdir_operation,()
+from,centos:7.0
+mkdir ¦/tmp/build :: Filesystem_operation,()
+BUILD_TMP:/tmp/build :: env_operation,()

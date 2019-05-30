@@ -1,0 +1,22 @@
+root :: user_operation,()
+no_proxy:localhost,127.0.0.1 :: env_operation,()
+HTTP_PROXY:http://192.168.10.145:8080 :: env_operation,()
+echo ¦echo¦"#!/bin/bash" > /opt/start-nexus.sh :: Filesystem_operation,()
+nexus.xml/opt/sonatype-work/nexus/conf/nexus.xml :: add_operation,()
+from,centos:6.0
+HTTPS_PROXY:http://192.168.10.145:8080 :: env_operation,()
+JAVA_HOME:/usr/lib/jvm/jre :: env_operation,()
+https_proxy:http://192.168.10.145:8080 :: env_operation,()
+cmd,/opt/start-nexus.sh
+yum ¦-y¦update;¦yum¦clean¦all :: Dependencies_operation,()
+chmod ¦+x¦/opt/start-nexus.sh :: Permissions_operation,()
+mkdir ¦-p¦/opt/sonatype-nexus¦/opt/sonatype-work :: Filesystem_operation,()
+http_proxy:http://192.168.10.145:8080 :: env_operation,()
+chown ¦-R¦nexus:nexus¦/opt/sonatype-work¦/opt/sonatype-nexus :: Permissions_operation,()
+yum ¦-y¦install¦java-1.7.0-openjdk-devel¦which¦telnet¦unzip¦openssh-server¦sudo¦openssh-clients¦iputils¦iproute¦httpd-tools¦wget¦tar;¦yum¦clean¦all :: Dependencies_operation,()
+wget ¦-O¦/tmp/nexus-latest-bundle.tar.gz¦http://www.sonatype.org/downloads/nexus-latest-bundle.tar.gz :: Dependencies_operation,()
+NEXUS_WEBAPP_CONTEXT_PATH:/nexus :: env_operation,()
+useradd ¦--user-group¦--system¦--home-dir¦/opt/sonatype-nexus¦nexus :: Permissions_operation,()
+expose,8081
+tar ¦xzvf¦/tmp/nexus-latest-bundle.tar.gz¦-C¦/opt/sonatype-nexus¦--strip-components=1 :: Filesystem_operation,()
+echo ¦echo¦"su -c"/opt/sonatype-nexus/bin/nexus console\\" - nexus" >> /opt/start-nexus.sh :: Filesystem_operation,()

@@ -1,0 +1,9 @@
+wait-for-service.shwait-for-service.sh :: add_operation,()
+from,anapsix/alpine-java:8
+shardis-ui-2.1.0.jarapp.jar :: add_operation,()
+/tmp :: volume_operation,()
+bash ¦-c¦'chmod¦+x¦/wait-for-service.sh' :: Build_Execute_operation,()
+bash ¦-c¦'touch¦/app.jar' :: Build_Execute_operation,()
+entrypoint,java¦-Djava.security.egd=file:/dev/./urandom¦-jar¦/app.jar
+apk ¦--no-cache¦add¦curl :: Dependencies_operation,()
+bash ¦-c¦'touch¦/wait-for-service.sh' :: Build_Execute_operation,()

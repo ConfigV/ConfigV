@@ -1,0 +1,19 @@
+cmd,service¦xrdp¦start¦&&¦vncserver¦:1¦-desktop¦LXDE¦-geometry¦$GEOMETRY¦-depth¦24¦-dpi¦100¦&&¦tail¦-F¦/root/.vnc/*.log
+USERHOME:/root :: env_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦xorg¦lxde-core¦lxde-common¦lxsession¦openbox¦xterm¦lxterminal¦lxde-icon-theme¦gtk2-engines¦dmz-cursor-theme¦tightvncserver¦xrdp :: Dependencies_operation,()
+HOSTNAME:ubuntu.rickdesantis.docker.com :: env_operation,()
+GEOMETRY:1440x900 :: env_operation,()
+mkdir ¦.vnc :: Filesystem_operation,()
+${USERHOME} :: workdir_operation,()
+mkdir ¦-p¦.config/autostart :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,3389
+apt-get ¦autoclean :: Dependencies_operation,()
+echo ¦echo¦$PASSWORD > password.txt && cat password.txt password.txt | vncpasswd && rm password.txt && touch .Xresources && touch .Xauthority :: Filesystem_operation,()
+USER:root :: env_operation,()
+apt-get ¦autoremove :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+PASSWORD:docker :: env_operation,()
+from,ubuntu:16.04
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦Desktop :: Filesystem_operation,()

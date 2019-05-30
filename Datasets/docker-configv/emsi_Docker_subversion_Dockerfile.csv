@@ -1,0 +1,15 @@
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+from,debian@wheezy
+dav_svn.conf/etc/apache2/mods-available/dav_svn.conf :: copy_operation,()
+expose,80
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+APACHE_RUN_DIR:/var/run/apache2 :: env_operation,()
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/apache2/access.log :: Filesystem_operation,()
+apt-get ¦install¦-y¦subversion¦apache2¦libapache2-svn :: Dependencies_operation,()
+entrypoint,/usr/sbin/apache2¦-DFOREGROUND
+apt-get ¦update :: Dependencies_operation,()
+ln ¦-sf¦/dev/stderr¦/var/log/apache2/error.log :: Filesystem_operation,()
+/svn :: volume_operation,()
+APACHE_RUN_USER:www-data :: env_operation,()

@@ -1,0 +1,20 @@
+files//etc/redis/redis.conf :: add_operation,()
+REDIS_DOWNLOAD_SHA1:3e362f4770ac2fdbdce58a5aa951c1967e0facc8 :: env_operation,()
+REDIS_DOWNLOAD_URL:http://download.redis.io/releases/redis-2.8.19.tar.gz :: env_operation,()
+LC_ALL:en_GB.UTF-8 :: env_operation,()
+/data :: volume_operation,()
+LANGUAGE:en_GB:en :: env_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+groupadd ¦-r¦redis :: Permissions_operation,()
+/root :: workdir_operation,()
+mkdir ¦-p¦/var/redis¦/etc/redis/¦/var/run/redis¦/var/log/redis¦&&\\ :: Filesystem_operation,()
+/data :: workdir_operation,()
+echo ¦echo¦'debconf debconf/frontend select Noninteractive' | debconf-set-selections :: Filesystem_operation,()
+from,phusion/baseimage:0.9.16
+expose,6379
+echo ¦echo¦"en_GB.UTF-8 UTF-8\\nen_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && dpkg-reconfigure -f noninteractive locales && echo "LANG=en_GB.UTF-8" > /etc/default/locale && echo "Europe/London" > /etc/timezone && dpkg-reconfigure -f nonin... :: Filesystem_operation,()
+buildDeps='gcc ¦libc6-dev¦make'¦&&\\ :: Other_operation,()
+REDIS_VERSION:2.8.19 :: env_operation,()
+chown ¦redis:redis¦/data :: Permissions_operation,()
+cmd,redis-server¦/etc/redis/redis.conf
+useradd ¦-r¦-g¦redis¦redis :: Permissions_operation,()

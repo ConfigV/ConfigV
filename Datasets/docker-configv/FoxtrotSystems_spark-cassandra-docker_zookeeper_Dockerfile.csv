@@ -1,0 +1,14 @@
+expose,2181 2888 3888
+wget ¦-q¦http://mirror.cogentco.com/pub/apache/zookeeper/zookeeper-"${ZK_VERSION}"/zookeeper-"${ZK_VERSION}".tar.gz¦-O¦/tmp/zookeeper-"${ZK_VERSION}".tgz :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+tar ¦-xzf¦/tmp/zookeeper-"${ZK_VERSION}".tgz¦-C¦/opt :: Filesystem_operation,()
+scripts/start-zookeeper.sh/usr/local/bin/ :: add_operation,()
+/var/lib/zookeeper :: volume_operation,()
+conf/supervisord.conf/etc/supervisord.conf :: add_operation,()
+cmd,supervisord¦-n
+rm ¦/tmp/zookeeper-"${ZK_VERSION}".tgz :: Filesystem_operation,()
+ZK_VERSION:3.4.6 :: env_operation,()
+from,foxtrotsystems/ubuntu-base:0.9.18
+apt-get ¦update¦-y :: Dependencies_operation,()
+ZK_HOME:/opt/zookeeper-"${ZK_VERSION}" :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()

@@ -1,0 +1,12 @@
+apt-get ¦update¦-q :: Dependencies_operation,()
+curl ¦-sLo¦/tmp/kibana-${KIBANA_VERSION}-linux-x64.tar.gz¦https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz :: Dependencies_operation,()
+ELASTICSEARCH_URL:http://elasticsearch:9200 :: env_operation,()
+tar ¦xf¦/tmp/kibana-${KIBANA_VERSION}-linux-x64.tar.gz¦-C¦/opt :: Filesystem_operation,()
+KIBANA_VERSION:4.0.2 :: env_operation,()
+expose,5601
+cmd,/opt/kibana-${KIBANA_VERSION}-linux-x64/bin/kibana¦-q¦-e¦${ELASTICSEARCH_URL}
+rm ¦-rf¦/tmp/*¦/var/lib/apt/lists/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦curl¦-y¦-q :: Dependencies_operation,()
+from,ubuntu@latest
+apt-get ¦clean :: Dependencies_operation,()

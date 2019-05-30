@@ -1,0 +1,12 @@
+apt-get ¦-y¦install¦openssh-server :: Dependencies_operation,()
+apt-get ¦-y¦install¦gitolite :: Dependencies_operation,()
+expose,22
+adduser ¦--system¦--shell¦/bin/bash¦--gecos¦'git¦version¦control'¦--group¦--disabled-password¦--home¦/home/git¦git :: Permissions_operation,()
+gl-setup ¦/tmp/admin.pub :: Other_operation,()
+apt-get ¦-y¦install¦sudo :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"PATH=$HOME/bin:$PATH" > ~/.bashrc :: Filesystem_operation,()
+su ¦git :: Other_operation,()
+echo ¦echo¦"ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIB7Ae7Y7PVV4eL/6dxtrD9Ka4FlEN2I1r6g/3lievLAGBGdecnYjGNirCUxxm8MlSUmNwHbsoduA+Zw1XCyovwawVch2IzL7uJ6KBZ4i6BZaYiYeny1cIzQ6Du9g+JkkWfLbcSzuDPbrPdFqy+0hBW39WDa7Y/KVGDpXxAKt2mC8Q==" > /tmp/admin.pub :: Filesystem_operation,()
+from,ubuntu
+apt-get ¦-y¦install¦git-core :: Dependencies_operation,()

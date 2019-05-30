@@ -1,0 +1,17 @@
+python ¦get-pip.py :: Build_Execute_operation,()
+curl ¦-sSf¦https://bootstrap.pypa.io/get-pip.py¦-o¦get-pip.py :: Dependencies_operation,()
+apt-get ¦-y¦install¦git¦curl¦python-dev¦libssl-dev¦build-essential¦automake¦pkg-config¦libtool¦libffi-dev¦libgmp-dev :: Dependencies_operation,()
+python ¦setup.py¦develop :: Build_Execute_operation,()
+apt-get ¦-y¦remove¦git¦curl¦automake¦build-essential¦libtool¦pkg-config :: Dependencies_operation,()
+chmod ¦+x¦/pyethapp.sh :: Permissions_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+from,ubuntu:16.04
+git ¦checkout¦9c54661c681e90c91e3d72d54c8a513e2d0f09a7 :: Dependencies_operation,()
+importblock.py/importblock.py :: add_operation,()
+chmod ¦+x¦/importblock.py :: Permissions_operation,()
+pyethapp.sh/pyethapp.sh :: add_operation,()
+cd ¦pyethapp :: Filesystem_operation,()
+cmd,/pyethapp.sh
+config.yaml/root/.config/pyethapp/config.yaml :: add_operation,()
+expose,8545 8546 30303
+git ¦clone¦--depth¦1¦--branch¦hive¦https://github.com/cdetrio/pyethapp :: Dependencies_operation,()

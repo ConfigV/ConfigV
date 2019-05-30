@@ -1,0 +1,22 @@
+create_main_cluster  :: Other_operation,()
+localedef ¦-i¦en_US¦-c¦-f¦UTF-8¦-A¦/usr/share/locale/locale.alias¦en_US.UTF-8 :: Other_operation,()
+entrypoint,/entrypoint.sh
+/var/log/postgresql :: volume_operation,()
+mkdir ¦-p¦/var/run/postgresql :: Filesystem_operation,()
+mkdir ¦-p¦/var/lib/postgresql :: Filesystem_operation,()
+expose,5432
+rm ¦-rf¦/var/lib/postgresql/* :: Filesystem_operation,()
+/var/lib/postgresql/ :: volume_operation,()
+apt-key ¦adv¦--keyserver¦keyserver.ubuntu.com¦--recv-keys¦B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 :: Dependencies_operation,()
+LANG:en_US.utf8 :: env_operation,()
+from,debian@jessie
+chown ¦-R¦postgres:postgres¦/var/run/postgresql :: Permissions_operation,()
+/etc/postgresql :: volume_operation,()
+chmod ¦a+x¦/entrypoint.sh :: Permissions_operation,()
+mkdir ¦-p¦/etc/postgresql :: Filesystem_operation,()
+chown ¦-R¦postgres:postgres¦/var/lib/postgresql :: Permissions_operation,()
+PATH:/usr/lib/postgresql/9.4/bin/:$PATH :: env_operation,()
+cmd,postgres¦-D¦/etc/postgresql¦--data-directory=/var/lib/postgresql/¦-k¦/var/run/postgresql
+/var/run/postgresql :: volume_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+echo ¦echo¦'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main 9.4' > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()

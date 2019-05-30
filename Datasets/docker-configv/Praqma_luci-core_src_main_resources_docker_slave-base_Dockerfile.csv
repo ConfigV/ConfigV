@@ -1,0 +1,11 @@
+from,luci/java7:0.2
+expose,22
+mkdir ¦~/.ssh :: Filesystem_operation,()
+echo ¦echo¦"luci:praqma" | chpasswd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()
+ln ¦-s¦/luci/data/jenkinsSlave/authorized_keys¦~/.ssh/authorized_keys :: Filesystem_operation,()
+chmod ¦700¦~/.ssh :: Permissions_operation,()

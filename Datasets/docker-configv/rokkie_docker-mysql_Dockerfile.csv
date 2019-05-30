@@ -1,0 +1,17 @@
+from,ubuntu:14.04
+chmod ¦+x¦/bin/run.sh :: Permissions_operation,()
+init.sql/tmp/init-mysql.sql :: add_operation,()
+apt-get ¦install¦-y¦nano¦libaio1¦libaio-dev¦mysql-server :: Dependencies_operation,()
+run.sh/bin/run.sh :: add_operation,()
+sed ¦-ri¦"s/bind-address\\s+=¦127.0.0.1/bind-address¦=¦0.0.0.0/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+chmod ¦0755¦-R¦/var/lib/mysql :: Permissions_operation,()
+sed ¦-ri¦"s/key_buffer\\s/key_buffer_size¦/"¦/etc/mysql/my.cnf :: Filesystem_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+mysqld_charset.cnf/etc/mysql/conf.d/mysql_charset.cnf :: add_operation,()
+cmd,run.sh
+rm ¦-rf¦/var/lib/mysql/* :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

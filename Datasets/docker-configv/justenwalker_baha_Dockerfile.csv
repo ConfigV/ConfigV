@@ -1,0 +1,12 @@
+from,ruby:2.1
+/baha :: workdir_operation,()
+entrypoint,/bin/bash¦/entrypoint.sh
+./usr/src/app :: copy_operation,()
+mkdir ¦-p¦/usr/src/app :: Filesystem_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+mkdir ¦-p¦/baha :: Filesystem_operation,()
+/usr/src/app :: workdir_operation,()
+mkdir ¦-p¦/workspace :: Filesystem_operation,()
+bundle ¦install :: Dependencies_operation,()
+bundle ¦config¦--global¦frozen¦1 :: Dependencies_operation,()
+bundle ¦exec¦rake¦install :: Dependencies_operation,()

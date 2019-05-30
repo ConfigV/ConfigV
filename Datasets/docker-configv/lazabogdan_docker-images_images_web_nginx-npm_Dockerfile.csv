@@ -1,0 +1,17 @@
+cmd,/usr/sbin/nginx
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/app/www :: Filesystem_operation,()
+rm ¦-rf¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+touch ¦/app/logs/access.log :: Filesystem_operation,()
+default/etc/nginx/sites-available/default :: copy_operation,()
+apt-get ¦install¦-y¦nodejs¦npm¦git¦nginx :: Dependencies_operation,()
+mkdir ¦-p¦/app/logs :: Filesystem_operation,()
+from,ubuntu-debootstrap:14.04
+apt-get ¦clean :: Dependencies_operation,()
+touch ¦/app/logs/error.log :: Filesystem_operation,()
+index.html/app/www/index.html :: copy_operation,()
+expose,80
+/app/www :: workdir_operation,()

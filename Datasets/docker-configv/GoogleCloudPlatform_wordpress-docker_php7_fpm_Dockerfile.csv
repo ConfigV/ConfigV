@@ -1,0 +1,19 @@
+apt-get ¦install¦-y¦libpng12-dev¦libjpeg-dev :: Dependencies_operation,()
+echo ¦{¦ echo 'opcache.memory_consumption=128';  echo 'opcache.interned_strings_buffer=8';  echo 'opcache.max_accelerated_files=4000';  echo 'opcache.revalidate_freq=2';  echo 'opcache.fast_shutdown=1';  echo 'opcache.enable_cli=1'; } > /usr/loc... :: Filesystem_operation,()
+WORDPRESS_VERSION:4.8.1 :: env_operation,()
+from,gcr.io/cloud-marketplace-ops/php7-fpm
+apt-get ¦update :: Dependencies_operation,()
+/tmp/download_source ¦download¦/usr/local/src :: Other_operation,()
+docker-php-ext-configure ¦gd¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/var/www/html :: volume_operation,()
+cmd,php-fpm
+download_source/tmp :: copy_operation,()
+WORDPRESS_SHA1:5376cf41403ae26d51ca55c32666ef68b10e35a4 :: env_operation,()
+docker-php-ext-install ¦gd¦mysqli¦opcache :: Other_operation,()
+echo ¦set¦-x && curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz" && echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - && tar -xzf wordpress.tar.gz -C /usr/src/ && rm wordpress.tar.gz && chown -R w... :: Filesystem_operation,()
+/tmp/download_source ¦blacklist-all-current :: Other_operation,()
+rm ¦/tmp/download_source :: Filesystem_operation,()
+entrypoint,docker-entrypoint.sh
+ln ¦-s¦usr/local/bin/docker-entrypoint.sh¦/entrypoint.sh¦#¦backwards¦compat :: Filesystem_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()

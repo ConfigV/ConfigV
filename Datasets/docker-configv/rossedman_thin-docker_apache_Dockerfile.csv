@@ -1,0 +1,11 @@
+chown ¦-R¦apache:apache¦/app :: Permissions_operation,()
+mkdir ¦-p¦/app :: Filesystem_operation,()
+ln ¦-s¦/app¦/var/www/localhost/htdocs :: Filesystem_operation,()
+from,alpine:3.2
+/app :: workdir_operation,()
+rm ¦-fr¦/var/www/localhost/htdocs :: Filesystem_operation,()
+entrypoint,/usr/sbin/apachectl¦-D¦FOREGROUND¦-d¦/var/www/localhost/htdocs
+expose,80
+/var/log/apache2 :: volume_operation,()
+echo ¦apk¦add --update bash apache2 && rm -rf /var/cache/apk/* && echo "ServerName localhost" >> /etc/apache2/httpd.conf && ln -sf /dev/stdout /var/log/apache2/access.log && ln -sf /dev/stderr /var/log/apache2/error.log :: Filesystem_operation,()
+/app :: volume_operation,()

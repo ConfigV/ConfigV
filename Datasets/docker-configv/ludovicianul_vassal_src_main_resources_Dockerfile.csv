@@ -1,0 +1,21 @@
+/home/vassal/app/ :: workdir_operation,()
+expose,12345
+rm ¦-rf¦/var/cache/apt :: Filesystem_operation,()
+adduser ¦--quiet¦vassal :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"vassal:vassal" | chpasswd :: Filesystem_operation,()
+mkdir ¦-p¦/home/vassal/app :: Filesystem_operation,()
+vassal-1.0.jar/home/vassal/app/vassal-1.0.jar :: copy_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+from,ubuntu@xenial
+apt-get ¦install¦-y¦oracle-java8-installer¦libxext-dev¦libxrender-dev¦libxtst-dev :: Dependencies_operation,()
+LANGUAGE:en_GB:en :: env_operation,()
+cmd,java¦-jar¦vassal-1.0.jar¦12345
+Dockerfile/ :: copy_operation,()
+LANG:en_GB.UTF-8 :: env_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && add-apt-repository -y ppa:webupd8team/java :: Filesystem_operation,()
+locale-gen ¦en_GB.UTF-8 :: Other_operation,()
+rm ¦-rf¦/var/cache/oracle-jdk8-installer :: Filesystem_operation,()
+LC_ALL:en_GB.UTF-8 :: env_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()

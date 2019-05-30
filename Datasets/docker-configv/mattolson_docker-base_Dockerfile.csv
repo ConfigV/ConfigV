@@ -1,0 +1,13 @@
+echo ¦echo¦'[url "https://"]' >> /root/.gitconfig && echo ' insteadOf =git://' >> /root/.gitconfig :: Filesystem_operation,()
+LC_CTYPE:en_US.UTF-8 :: env_operation,()
+cmd,/bin/bash
+HOME:/root :: env_operation,()
+from,ubuntu:14.04
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+locale-gen ¦en_US¦&&\\ :: Other_operation,()
+apt-get ¦clean¦&&\\ :: Dependencies_operation,()
+ln ¦-sf¦/bin/true¦/usr/bin/ischroot :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/usr/bin/ischroot :: Other_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+LC_ALL=C ¦apt-get¦update¦&&\\ :: Other_operation,()
+INITRD:No :: env_operation,()

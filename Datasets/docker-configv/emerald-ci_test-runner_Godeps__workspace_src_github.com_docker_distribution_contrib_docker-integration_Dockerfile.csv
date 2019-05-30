@@ -1,0 +1,18 @@
+/go/src/github.com/docker/distribution/contrib/docker-integration :: workdir_operation,()
+/var/lib/docker :: volume_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦#¦For¦DIND :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/go/src/github.com/docker/distribution :: Filesystem_operation,()
+git ¦clone¦https://github.com/sstephenson/bats.git :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/docker :: Permissions_operation,()
+chmod ¦+x¦/dind :: Permissions_operation,()
+cd ¦bats :: Filesystem_operation,()
+curl ¦-L¦-o¦/usr/local/bin/docker¦https://test.docker.com/builds/Linux/x86_64/docker-${VERSION} :: Dependencies_operation,()
+chmod ¦+x¦/usr/local/bin/docker-compose :: Permissions_operation,()
+./install.sh ¦/usr/local :: Other_operation,()
+curl ¦-L¦-o¦/dind¦https://raw.githubusercontent.com/docker/docker/master/hack/dind :: Dependencies_operation,()
+cd ¦/usr/local/src/ :: Filesystem_operation,()
+entrypoint,/dind
+from,debian@jessie
+curl ¦-L¦https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname¦-s`-`uname¦-m`¦>¦/usr/local/bin/docker-compose :: Dependencies_operation,()
+VERSION:1.7.0-rc1 :: env_operation,()

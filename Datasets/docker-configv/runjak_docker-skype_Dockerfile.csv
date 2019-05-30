@@ -1,0 +1,12 @@
+apt-get ¦install¦-y¦libpulse0:i386¦pulseaudio:i386 :: Dependencies_operation,()
+apt-get ¦install¦-y¦wget¦sudo :: Dependencies_operation,()
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+wget ¦http://download.skype.com/linux/skype-debian_4.3.0.37-1_i386.deb¦-O¦/usr/src/skype.deb :: Dependencies_operation,()
+apt-get ¦install¦-fy¦¦¦¦¦¦#¦Automatically¦detect¦and¦install¦dependencies :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+from,debian@stable
+apt-get ¦update :: Dependencies_operation,()
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+dpkg ¦-i¦/usr/src/skype.deb¦||¦true :: Dependencies_operation,()
+chmod ¦a+x¦/entrypoint.sh :: Permissions_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

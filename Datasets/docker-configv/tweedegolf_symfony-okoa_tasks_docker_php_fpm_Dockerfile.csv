@@ -1,0 +1,11 @@
+/app :: workdir_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦libjpeg62-turbo-dev¦libfreetype6-dev¦libpng12-dev¦postgresql-server-dev-9.4¦libxslt1-dev¦libbz2-dev¦libgmp-dev¦libicu-dev¦imagemagick¦libmagickwand-dev :: Other_operation,()
+echo ¦groupadd¦nopwsudo && echo "%nopwsudo ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/nopwsudo :: Filesystem_operation,()
+/app :: volume_operation,()
+from,php:7.0
+ln ¦-s¦/usr/include/x86_64-linux-gnu/gmp.h¦/usr/include/gmp.h :: Filesystem_operation,()
+tg :: user_operation,()
+nproc  :: Other_operation,()
+USER_ID=1000 :: arg_operation,()
+apt-get ¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦sudo :: Other_operation,()

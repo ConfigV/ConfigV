@@ -1,0 +1,8 @@
+mkdir ¦-p¦${APP_DIR}/build :: Filesystem_operation,()
+chown ¦node:node¦-R¦${APP_DIR}¦/home/node :: Permissions_operation,()
+apk ¦add¦--no-cache¦tini :: Dependencies_operation,()
+node :: user_operation,()
+entrypoint,/sbin/tini¦--
+from,node@alpine
+mkdir ¦-p¦${APP_DIR}/node_modules :: Filesystem_operation,()
+mkdir ¦-p¦/home/node/.cache/yarn :: Filesystem_operation,()

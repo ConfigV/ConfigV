@@ -1,0 +1,11 @@
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦"root:root" | chpasswd :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+from,ubuntu@trusty
+apt-get ¦install¦-y¦--no-install-recommends¦lxc-docker :: Dependencies_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv-keys¦36A1D7869245C8950F966E92D8576A8BA88D21E9 :: Dependencies_operation,()
+expose,22
+apt-get ¦install¦-y¦--no-install-recommends¦apt-transport-https¦git¦openssh-server¦openjdk-7-jre-headless :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'deb https://get.docker.com/ubuntu docker main' >> /etc/apt/sources.list :: Filesystem_operation,()
+sed ¦-i¦"s/PermitRootLogin¦.*/PermitRootLogin¦yes/"¦/etc/ssh/sshd_config :: Filesystem_operation,()

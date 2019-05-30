@@ -1,0 +1,8 @@
+RUNyum update -y :: onbuild_operation,()
+yum ¦install¦-y¦http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦which :: Dependencies_operation,()
+from,centos:7.0
+cmd,/usr/sbin/mysqld¦--basedir=/usr¦--user=mysql¦--wsrep-new-cluster
+yum ¦install¦-y¦Percona-XtraDB-Cluster-56 :: Dependencies_operation,()
+node.cnf/etc/my.cnf :: add_operation,()
+expose,3306 4567 4568

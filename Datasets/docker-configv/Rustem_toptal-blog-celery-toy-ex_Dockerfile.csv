@@ -1,0 +1,14 @@
+entrypoint,MailHog
+export ¦GOPATH=/root/gocode :: Environment_operation,()
+from,alpine:3.4
+rm ¦-rf¦/root/gocode :: Filesystem_operation,()
+mailhog :: user_operation,()
+expose,1025 8025
+/home/mailhog :: workdir_operation,()
+mv ¦/root/gocode/bin/MailHog¦/usr/local/bin :: Filesystem_operation,()
+go ¦get¦github.com/mailhog/MailHog :: Build_Execute_operation,()
+adduser ¦-D¦-u¦1000¦mailhog :: Permissions_operation,()
+apk ¦--no-cache¦add¦ca-certificates :: Dependencies_operation,()
+apk ¦--no-cache¦add¦--virtual¦build-dependencies¦go¦git :: Dependencies_operation,()
+apk ¦del¦--purge¦build-dependencies :: Dependencies_operation,()
+mkdir ¦-p¦/root/gocode :: Filesystem_operation,()

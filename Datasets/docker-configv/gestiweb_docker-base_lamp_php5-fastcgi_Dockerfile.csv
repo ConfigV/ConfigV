@@ -1,0 +1,7 @@
+cmd,/start_container.sh
+sed ¦-i¦'s/;daemonize¦=¦yes/daemonize¦=¦no/'¦/etc/php5/fpm/php-fpm.conf :: Filesystem_operation,()
+start_container.sh/start_container.sh :: copy_operation,()
+from,gestiweb/php5-fastcgi:upgrade
+expose,9000
+sed ¦-i¦'s/listen¦=.*/listen¦=¦9000/'¦/etc/php5/fpm/pool.d/www.conf :: Filesystem_operation,()
+com.gestiweb.docker.image-name:php5-fastcgi:dev :: label_operation,()

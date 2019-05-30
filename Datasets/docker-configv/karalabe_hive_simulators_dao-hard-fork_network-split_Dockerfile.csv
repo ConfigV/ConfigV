@@ -1,0 +1,12 @@
+apk ¦add¦--update¦bash¦curl¦jq :: Dependencies_operation,()
+chmod ¦+x¦/simulator.sh :: Permissions_operation,()
+expose,30303
+genesis.json/genesis.json :: add_operation,()
+mkdir ¦/blocks :: Filesystem_operation,()
+simulator.sh/simulator.sh :: add_operation,()
+from,alpine:3.3
+entrypoint,/simulator.sh
+cd ¦go-ethereum :: Filesystem_operation,()
+touch ¦chain.rlp :: Filesystem_operation,()
+make ¦all :: Build_Execute_operation,()
+HIVE_TESTNET:1 :: env_operation,()

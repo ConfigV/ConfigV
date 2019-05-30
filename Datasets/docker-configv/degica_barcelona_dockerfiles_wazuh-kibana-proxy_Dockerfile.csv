@@ -1,0 +1,17 @@
+KIBANA_URL=ossec-manager.default.bcn: :: env_operation,()
+BAUTH_USER:user :: env_operation,()
+expose,80
+entrykit ¦--symlink :: Other_operation,()
+rm ¦./entrykit.tgz :: Filesystem_operation,()
+nginx.conf.tmpl/app/nginx.conf.tmpl :: copy_operation,()
+BAUTH_PASSWORD:password :: env_operation,()
+/app :: workdir_operation,()
+apk ¦add¦--no-cache¦curl¦apache2-utils :: Dependencies_operation,()
+cmd,entrypoint
+entrypoint/bin/entrypoint :: copy_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+from,nginx@alpine
+tar ¦xzf¦entrykit.tgz :: Filesystem_operation,()
+KIBANA_PORT=5601: :: env_operation,()
+curl ¦-L¦-o¦entrykit.tgz¦https://github.com/progrium/entrykit/releases/download/v0.4.0/entrykit_0.4.0_Linux_x86_64.tgz :: Dependencies_operation,()
+mv ¦./entrykit¦/bin/ :: Filesystem_operation,()

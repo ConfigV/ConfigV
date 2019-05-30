@@ -1,0 +1,11 @@
+LUMBERJACK_TAG:HIVE_APP :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+startup-logstash/etc/service/logstash/run :: add_operation,()
+expose,514 5043 9200 9292 9300
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦install¦-y¦wget¦openjdk-6-jre :: Dependencies_operation,()
+from,hivetech/base
+collectd-types.db/opt/collectd-types.db :: add_operation,()
+wget ¦https://download.elasticsearch.org/logstash/logstash/logstash-1.3.3-flatjar.jar¦-O¦/opt/logstash.jar¦--no-check-certificate¦2>/dev/null :: Dependencies_operation,()
+ELASTICWORKERS:1 :: env_operation,()
+mkdir ¦/etc/service/logstash :: Filesystem_operation,()

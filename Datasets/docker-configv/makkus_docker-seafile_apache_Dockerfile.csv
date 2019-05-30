@@ -1,0 +1,16 @@
+chmod ¦755¦/run.sh :: Permissions_operation,()
+a2enmod ¦ssl :: Other_operation,()
+from,phusion/baseimage:0.9.16
+a2ensite ¦default-ssl :: Other_operation,()
+/etc/apache2 :: workdir_operation,()
+run.sh/run.sh :: add_operation,()
+echo ¦echo¦"FastCGIExternalServer /var/www/seahub.fcgi -host seafile:8000" >> /etc/apache2/apache2.conf :: Filesystem_operation,()
+expose,443
+a2enmod ¦rewrite :: Other_operation,()
+a2enmod ¦fastcgi :: Other_operation,()
+a2enmod ¦proxy_http :: Other_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe multiverse restricted" > /etc/apt/sources.list && echo "deb http://archive.ubuntu.com/ubuntu trusty-security main universe multiverse restricted" >> /etc/apt/sources.list && a... :: Filesystem_operation,()
+cmd,/run.sh
+000-default.conf/etc/apache2/sites-available/000-default.conf :: add_operation,()
+default-ssl.conf/etc/apache2/sites-available/default-ssl.conf :: add_operation,()
+certs/etc/certs :: add_operation,()

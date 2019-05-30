@@ -1,0 +1,16 @@
+yum ¦-y¦reinstall¦glibc-common :: Dependencies_operation,()
+ln ¦-fs¦/usr/share/zoneinfo/Asia/Tokyo¦/etc/localtime :: Filesystem_operation,()
+yum ¦-y¦install¦--enablerepo=remi-php56,¦php¦php-cli¦php-common¦php-devel¦php-gd¦php-mbstring¦php-pdo¦php-pgsql¦php-mcrypt¦php-pear¦php-xml :: Dependencies_operation,()
+expose,80
+cmd,/usr/sbin/httpd¦-D¦FOREGROUND
+yum ¦-y¦update :: Dependencies_operation,()
+echo ¦localedef¦-v -c -i ja_JP -f UTF-8 ja_JP.UTF-8; echo ""; :: Filesystem_operation,()
+yum ¦-y¦install¦httpd¦httpd-tools :: Dependencies_operation,()
+LANG=ja_JP.UTF-8: :: env_operation,()
+yum ¦-y¦install¦git¦zip¦unzip :: Dependencies_operation,()
+rm ¦-f¦/etc/localtime :: Filesystem_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+from,centos:6.0
+yum ¦install¦-y¦http://rpms.famillecollet.com/enterprise/remi-release-6.rpm :: Dependencies_operation,()
+sed ¦-i¦-e¦"s/enabled¦*=¦*1/enabled=0/g"¦/etc/yum.repos.d/remi.repo :: Filesystem_operation,()

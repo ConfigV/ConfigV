@@ -1,0 +1,7 @@
+go ¦install¦"${mainpkg}" :: Build_Execute_operation,()
+_gopath/src//go/src :: add_operation,()
+run.sh/opt/logdog/archivist/run.sh :: copy_operation,()
+from,golang:1.6
+."/go/src/${mainpkg}" :: add_operation,()
+entrypoint,/bin/bash¦/opt/logdog/archivist/run.sh¦/go/bin/logdog_archivist
+mainpkg:"github.com/luci/luci-go/logdog/server/cmd/logdog_archivist" :: env_operation,()

@@ -1,0 +1,13 @@
+${USER_HOME}/${PROJECT_ROOT} :: workdir_operation,()
+USER_HOME:/home/user :: env_operation,()
+PROJECT_ROOT:av-service :: env_operation,()
+apt-get ¦-y¦install¦openjdk-8-jdk-headless¦git-core :: Dependencies_operation,()
+from,debian@stretch
+user :: user_operation,()
+$USER_HOME :: workdir_operation,()
+git ¦checkout¦v${VERSION} :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,./gradlew¦-q¦runCustomServer
+./gradlew ¦compileJava :: Other_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+git ¦clone¦https://github.com/dvoraka/av-service.git :: Dependencies_operation,()

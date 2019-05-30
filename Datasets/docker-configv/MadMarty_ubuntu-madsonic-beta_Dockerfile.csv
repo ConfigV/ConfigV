@@ -1,0 +1,19 @@
+from,ubuntu:16.04
+wget ¦http://madsonic.org/download/${PKG_VER}/${DEB_NAME} :: Dependencies_operation,()
+/media :: volume_operation,()
+apt-get ¦-qqy¦--force-yes¦dist-upgrade :: Dependencies_operation,()
+echo ¦echo¦"deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/webupd8team-java.list && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && echo oracle-java8-installer shared/ac... :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg ¦-i¦${DEB_NAME} :: Dependencies_operation,()
+./start.sh/start.sh :: add_operation,()
+entrypoint,/start.sh
+PKG_BUILD:8220 :: env_operation,()
+ln ¦/var/madsonic/transcode/ffmpeg¦/var/madsonic/transcode/lame¦/usr/local/bin :: Filesystem_operation,()
+locale-gen ¦en_US¦en_US.UTF-8 :: Other_operation,()
+apt-get ¦install¦-y¦ca-certificates¦locales¦oracle-java8-installer¦oracle-java8-set-default¦unzip¦wget :: Dependencies_operation,()
+PKG_VER:6.1 :: env_operation,()
+PKG_NAME:madsonic :: env_operation,()
+expose,4050
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+DEB_NAME:${PKG_DATE}_${PKG_NAME}-${PKG_VER}.${PKG_BUILD}.deb :: env_operation,()
+PKG_DATE:20160419 :: env_operation,()

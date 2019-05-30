@@ -1,0 +1,10 @@
+apt-get ¦install¦-y¦nginx :: Dependencies_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,debian@latest
+/app :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+cmd,nginx¦&&¦tail¦-f¦/var/log/nginx/error.log
+_public//app :: copy_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/list :: Filesystem_operation,()

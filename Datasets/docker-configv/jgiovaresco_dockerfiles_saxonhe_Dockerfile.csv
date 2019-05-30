@@ -1,0 +1,13 @@
+useradd ¦saxonhe :: Permissions_operation,()
+from,debian@jessie
+entrypoint,java¦-jar¦/usr/share/java/Saxon-HE.jar
+apt-get ¦install¦-y¦--no-install-recommends¦libsaxonhe-java :: Dependencies_operation,()
+saxonhe :: user_operation,()
+apt-get ¦autoclean¦-y :: Dependencies_operation,()
+chown ¦saxonhe:saxonhe¦/data :: Permissions_operation,()
+mkdir ¦/data :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦clean¦-y :: Dependencies_operation,()
+/data :: workdir_operation,()
+sed ¦-i¦'s/main/main¦contrib¦non-free/g'¦/etc/apt/sources.list :: Filesystem_operation,()

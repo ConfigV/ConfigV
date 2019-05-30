@@ -1,0 +1,26 @@
+chown ¦jenkins:jenkins¦/srv/jenkins :: Permissions_operation,()
+apt-get ¦-y¦install¦software-properties-common¦python-software-properties :: Dependencies_operation,()
+chmod ¦0600¦/home/jenkins/.ssh/* :: Permissions_operation,()
+su ¦-¦jenkins¦-c¦"mkdir¦-p¦/home/jenkins/.ssh" :: Other_operation,()
+from,ubuntu:16.04
+apt-add-repository ¦-y¦ppa:mutlaqja/ppa :: Other_operation,()
+echo ¦echo¦"APT::Get::force-yes "true";" >> /etc/apt/apt.conf.d/90forceyes :: Filesystem_operation,()
+/usr/sbin/sshd  :: Other_operation,()
+jenkins_install/home/jenkins/.ssh/ :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'jenkins:1234' | chpasswd # Please update this before build. :: Filesystem_operation,()
+chown ¦jenkins:jenkins¦-R¦/home/jenkins/.ssh :: Permissions_operation,()
+sed ¦'s/#Port\\¦22/Port\\¦222/'¦-i¦/etc/ssh/sshd_config :: Filesystem_operation,()
+entrypoint,/usr/sbin/sshd
+add-apt-repository ¦-y¦ppa:ximion/packagekit :: Dependencies_operation,()
+expose,222
+mkdir ¦/srv/jenkins :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+chmod ¦0700¦/home/jenkins/.ssh :: Permissions_operation,()
+apt-get ¦-y¦install¦openssh-server¦sudo¦wget¦build-essential¦openjdk-8-jdk¦git¦python-lxml¦xvfb¦openbox¦dbus-x11¦psmisc¦doxygen¦bzr¦cppcheck¦gperf¦bison¦ruby¦flex¦libpolkit-agent-1-dev¦libpolkit-backend-1-dev¦libpolkit-gobject-1-dev¦libxslt1-dev¦do... :: Dependencies_operation,()
+jenkins_install.pub/home/jenkins/.ssh/ :: add_operation,()
+cmd,-D
+useradd ¦-m¦-d¦/home/jenkins¦jenkins :: Permissions_operation,()
+apt-get ¦-f¦installadd-apt-repository¦-y¦ppa:george-edison55/cmake-3.x :: Dependencies_operation,()
+apt-get ¦-y¦build-dep¦qtbase5-dev¦liblensfun-dev¦libjasper-dev¦mysql-server¦xinput¦texlive-latex-recommended¦libepub-dev :: Dependencies_operation,()
+echo ¦echo¦"jenkins ALL=NOPASSWD: /usr/bin/apt-get install" >> /etc/sudoers :: Filesystem_operation,()

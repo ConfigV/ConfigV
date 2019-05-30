@@ -1,0 +1,23 @@
+update-ca-certificates  :: Other_operation,()
+touch ¦/etc/sentinel.conf :: Filesystem_operation,()
+mkdir ¦-p¦/var/db/redis/ :: Filesystem_operation,()
+entrypoint,/usr/local/bin/redis-server
+cd ¦.. :: Filesystem_operation,()
+apk ¦add¦--no-cache¦wget :: Dependencies_operation,()
+wget ¦--progress=bar:force¦http://download.redis.io/redis-stable.tar.gz :: Dependencies_operation,()
+tar ¦xfz¦redis-stable.tar.gz :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+apk ¦del¦build-base¦linux-headers :: Dependencies_operation,()
+apk ¦add¦--no-cache¦linux-headers :: Dependencies_operation,()
+apk ¦add¦ca-certificates¦wget :: Dependencies_operation,()
+apk ¦add¦--no-cache¦build-base :: Dependencies_operation,()
+rm ¦redis-stable.tar.gz :: Filesystem_operation,()
+apk ¦add¦ca-certificates¦¦linux-headers :: Dependencies_operation,()
+cd ¦redis-stable :: Filesystem_operation,()
+expose,6379 26379
+apk ¦add¦ca-certificates¦build-base :: Dependencies_operation,()
+cmd,--daemonize no¦--port 6379¦--bind 0.0.0.0¦--timeout 0¦--tcp-keepalive 0¦--loglevel notice¦--logfile stdout¦--databases 16¦--save ''¦--stop-writes-on-bgsave-error yes¦--rdbcompression yes¦--rdbchecksum yes¦--dbfilename dump.rdb¦--dir /var/db/redis/¦--slav...
+from,alpine:3.3
+rm ¦-fr¦redis-stable :: Filesystem_operation,()
+make  :: Build_Execute_operation,()

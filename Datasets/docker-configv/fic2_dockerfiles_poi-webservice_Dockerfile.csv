@@ -1,0 +1,17 @@
+from,php:5.6
+git ¦submodule¦update :: Dependencies_operation,()
+apt-get ¦-y¦install¦wget¦unzip¦git :: Dependencies_operation,()
+git ¦submodule¦init :: Dependencies_operation,()
+Procfile/var/www/html/ :: copy_operation,()
+mkdir ¦api :: Filesystem_operation,()
+cmd,/usr/local/bin/forego¦start¦-f¦/var/www/html/Procfile
+rm ¦-rf¦/var/www/html/* :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/forego :: Permissions_operation,()
+echo ¦pecl¦install mongo && echo "extension=mongo.so" > /usr/local/etc/php/conf.d/mongo.ini && mkdir -p /data/db && wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.6.6.tgz -P /tmp/ && tar -xvf /tmp/mongodb-linux-x86_64-2.6.6.tgz --s... :: Filesystem_operation,()
+ln ¦-s¦/var/www/html¦/var/www/html/api/poi :: Filesystem_operation,()
+wget ¦https://godist.herokuapp.com/projects/ddollar/forego/releases/current/linux-amd64/forego¦-P¦/usr/local/bin :: Dependencies_operation,()
+ln ¦-s¦/etc/apache2/mods-available/rewrite.load¦/etc/apache2/mods-enabled/ :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+mv ¦config.php.sample¦config.php :: Filesystem_operation,()
+git ¦clone¦https://github.com/stlemme/poi-webservice.git¦/var/www/html :: Dependencies_operation,()
+ln ¦-s¦/etc/apache2/mods-available/headers.load¦/etc/apache2/mods-enabled/ :: Filesystem_operation,()

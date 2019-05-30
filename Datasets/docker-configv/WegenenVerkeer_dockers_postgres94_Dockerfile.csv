@@ -1,0 +1,18 @@
+from,phusion/baseimage:0.9.17
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.4/main/pg_hba.conf :: Filesystem_operation,()
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+postgresql.sh/etc/service/postgresql/run :: add_operation,()
+expose,5432
+postgres :: user_operation,()
+HOME:/root :: env_operation,()
+/etc/init.d/postgresql ¦start¦&&\\ :: Other_operation,()
+chmod ¦a+x¦/etc/service/postgresql/run :: Permissions_operation,()
+echo ¦apt-get¦update && curl -s https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && apt-get update && apt-get ... :: Filesystem_operation,()
+root :: user_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+/usr/sbin/enable_insecure_key  :: Other_operation,()
+cmd,/sbin/my_init
+mkdir ¦-p¦/etc/service/postgresql :: Filesystem_operation,()
+/etc/my_init.d/00_regen_ssh_host_keys.sh  :: Other_operation,()

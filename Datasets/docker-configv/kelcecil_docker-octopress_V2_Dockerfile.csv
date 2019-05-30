@@ -1,0 +1,20 @@
+apt-get ¦update :: Dependencies_operation,()
+wget ¦--quiet¦http://gwan.ch/archives/gwan_linux64-bit.tar.bz2¦-O¦gwan.tar.bz2 :: Dependencies_operation,()
+tar ¦zxf¦ruby.tar.gz¦-C¦./¦--strip¦1 :: Filesystem_operation,()
+WORKDIR/src/octopress :: onbuild_operation,()
+RUNgem install bundler && bundle install :: onbuild_operation,()
+RUNmkdir -p /src/gwan/0.0.0.0_80/#0.0.0.0 && ln -s /src/octopress/public/ /src/gwan/0.0.0.0_80/#0.0.0.0/www :: onbuild_operation,()
+./configure  :: Build_Execute_operation,()
+/src/ruby :: workdir_operation,()
+RUNrake generate :: onbuild_operation,()
+wget ¦--quiet¦http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.0.tar.gz¦-O¦ruby.tar.gz :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+from,debian@jessie
+expose,80
+tar ¦jxf¦gwan.tar.bz2¦-C¦./¦--strip¦1 :: Filesystem_operation,()
+entrypoint,./gwan
+apt-get ¦install¦-y¦autoconf¦bison¦build-essential¦libssl-dev¦libyaml-dev¦libreadline6-dev¦zlib1g-dev¦libncurses5-dev¦libffi-dev¦libgdbm3¦libgdbm-dev¦nodejs¦wget :: Dependencies_operation,()
+WORKDIR/src/gwan :: onbuild_operation,()
+make  :: Build_Execute_operation,()
+ADD. /src/octopress :: onbuild_operation,()
+/src/gwan :: workdir_operation,()

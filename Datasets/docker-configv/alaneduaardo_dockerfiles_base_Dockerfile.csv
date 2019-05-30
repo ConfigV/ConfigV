@@ -1,0 +1,17 @@
+id_rsa.pub/root/.ssh/authorized_keys :: add_operation,()
+/tmp/src/setup.sh  :: Other_operation,()
+yum ¦-y¦groupinstall¦"Development¦Tools" :: Dependencies_operation,()
+src//tmp/src/ :: add_operation,()
+yum ¦-y¦install¦gcc¦gcc-c++¦kernel-devel-`uname¦-r`¦make¦perl¦sqlite-devel¦bzip2¦bzip2-devel¦zlib-devel¦ncurses-devel¦readline-devel¦tk-devel¦net-tools¦nfs-utils¦openssl-devel¦git¦screen¦tmux¦wget¦zsh¦htop¦vim :: Dependencies_operation,()
+from,tianon/centos:6.5
+yum ¦-y¦update :: Dependencies_operation,()
+cmd,/usr/bin/supervisord¦-c¦/etc/supervisord.conf
+LANG:pt_BR.UTF-8 :: env_operation,()
+echo ¦echo¦'Defaults secure_path=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' >> /etc/sudoers.d :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+rpm ¦-Uvh¦http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+LC_ALL:pt_BR.UTF-8 :: env_operation,()
+SERF_SERVER:172.17.42.1 :: env_operation,()
+expose,22
+yum ¦-y¦upgrade :: Dependencies_operation,()
+chown ¦-R¦root.¦/root/.ssh :: Permissions_operation,()

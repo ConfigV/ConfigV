@@ -1,0 +1,14 @@
+cmd,test
+./epoint.sh/epoint.sh :: copy_operation,()
+mkdir ¦-p¦${SRC}/ :: Filesystem_operation,()
+entrypoint,/epoint.sh
+git ¦clone¦https://github.com/mofarrell/p2pvc.git :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+${SRC} :: workdir_operation,()
+apt-get ¦install¦-y¦portaudio19-dev¦ncurses-dev¦libopencv-dev¦libpulse-dev¦git :: Dependencies_operation,()
+from,ubuntu:14.04
+expose,55556
+SRC:/src/ :: env_operation,()
+cd ¦p2pvc :: Filesystem_operation,()
+REFRESHED_AT:2015-02-09 :: env_operation,()
+make  :: Build_Execute_operation,()

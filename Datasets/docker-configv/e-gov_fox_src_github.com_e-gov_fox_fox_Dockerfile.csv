@@ -1,0 +1,9 @@
+mkdir ¦/fox/vendor :: Filesystem_operation,()
+from,golang:1.6
+/fox/foxservice/ :: workdir_operation,()
+GOPATH=/fox/vendor: :: env_operation,()
+CGO_ENABLED=0 ¦go¦build¦-a¦-installsuffix¦cgo¦-v¦-o¦foxservice.o¦FoxService.go :: Other_operation,()
+cmd,bin/foxservice
+foxservice.o/bin/foxservice :: copy_operation,()
+./src/github.com/e-gov/fox//fox/ :: copy_operation,()
+go ¦get :: Build_Execute_operation,()

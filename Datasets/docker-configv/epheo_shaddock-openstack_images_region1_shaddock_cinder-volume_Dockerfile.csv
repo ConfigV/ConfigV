@@ -1,0 +1,11 @@
+chmod ¦+x¦/usr/local/bin/cinder-volume-start :: Permissions_operation,()
+/var/log/cinder :: volume_operation,()
+chmod ¦+x¦/usr/local/bin/configparse.py :: Permissions_operation,()
+from,shaddock/seed:latest
+configparse.py/usr/local/bin/ :: add_operation,()
+supervisord.conf/etc/supervisord.conf :: add_operation,()
+pacman ¦-Sy¦--noconfirm¦lvm2¦sudo :: Filesystem_operation,()
+cmd,cinder-volume-start
+expose,8776
+cinder-volume-start/usr/local/bin/ :: add_operation,()
+echo ¦echo¦"cinder ALL = (root) NOPASSWD:ALL" >> /etc/sudoers && chmod 0440 /etc/sudoers :: Filesystem_operation,()

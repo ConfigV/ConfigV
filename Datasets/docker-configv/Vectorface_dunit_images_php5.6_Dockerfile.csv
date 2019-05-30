@@ -1,0 +1,11 @@
+INSTALL_PACKAGES:php5-cli :: env_operation,()
+echo ¦echo¦"deb http://packages.dotdeb.org wheezy-php56 all" >> /etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+from,debian@wheezy
+apt-key ¦add¦/dotdeb.gpg :: Dependencies_operation,()
+apt-get ¦-y¦clean :: Dependencies_operation,()
+echo ¦echo¦"deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/dotdeb.gpg :: Filesystem_operation,()
+apt-get ¦-y¦install¦$INSTALL_PACKAGES :: Dependencies_operation,()
+http://www.dotdeb.org/dotdeb.gpg/dotdeb.gpg :: add_operation,()

@@ -1,0 +1,9 @@
+mkdir ¦-p¦/usr/.jdk :: Filesystem_operation,()
+curl ¦-s¦--retry¦3¦-L¦https://lang-jvm.s3.amazonaws.com/jdk/cedar-14/openjdk1.8-latest.tar.gz¦|¦tar¦xz¦-C¦/app/.jdk :: Dependencies_operation,()
+HOME:/app :: env_operation,()
+PATH:/app/.jdk/bin:$PATH :: env_operation,()
+mkdir ¦-p¦/app/user :: Filesystem_operation,()
+from,heroku/cedar:14
+JAVA_HOME:/app/.jdk :: env_operation,()
+/app/user :: workdir_operation,()
+STACK:"cedar-14" :: env_operation,()

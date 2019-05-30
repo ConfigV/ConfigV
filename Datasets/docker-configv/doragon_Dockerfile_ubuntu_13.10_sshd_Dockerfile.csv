@@ -1,0 +1,16 @@
+cmd,/usr/sbin/sshd¦-D
+apt-get ¦clean :: Dependencies_operation,()
+useradd ¦--create-home¦-s¦/bin/bash¦doragon :: Permissions_operation,()
+echo ¦echo¦>> /etc/sudoers :: Filesystem_operation,()
+echo ¦echo¦"doragon ALL=(ALL) ALL" >> /etc/sudoers :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+apt-get ¦install¦-y¦sudo :: Dependencies_operation,()
+mkdir ¦/home/doragon/.ssh/ :: Filesystem_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+echo ¦echo¦"root:root" |chpasswd :: Filesystem_operation,()
+echo ¦echo¦"doragon:pass" | chpasswd :: Filesystem_operation,()
+from,ubuntu:13.1
+adduser ¦doragon¦sudo :: Permissions_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+expose,22

@@ -1,0 +1,12 @@
+cmd,build¦ubuntu-bionic
+go ¦get¦github.com/pacur/pacur :: Build_Execute_operation,()
+apt-get ¦--assume-yes¦update :: Dependencies_operation,()
+entrypoint,pacur
+GOPATH:/go :: env_operation,()
+wget ¦https://storage.googleapis.com/golang/go1.9.2.linux-amd64.tar.gz :: Dependencies_operation,()
+PATH:/usr/local/go/bin:$PATH:/go/bin :: env_operation,()
+tar ¦-C¦/usr/local¦-xf¦go1.9.2.linux-amd64.tar.gz :: Filesystem_operation,()
+rm ¦-f¦go1.9.2.linux-amd64.tar.gz :: Filesystem_operation,()
+apt-get ¦--assume-yes¦upgrade :: Dependencies_operation,()
+apt-get ¦--assume-yes¦install¦build-essential¦reprepro¦rsync¦wget¦zip¦git¦bzr¦mercurial :: Dependencies_operation,()
+from,ubuntu@bionic

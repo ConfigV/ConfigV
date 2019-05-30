@@ -1,0 +1,7 @@
+GOARM:5 :: env_operation,()
+cmd,set¦-x¦&&¦for¦platform¦in¦$CROSSPLATFORMS;¦do¦GOOS=${platform%/*}¦GOARCH=${platform##*/}¦go¦build¦-v¦-o¦bin/nginx-and-${platform%/*}-${platform##*/};¦done
+/go/src/nginx-and :: workdir_operation,()
+CROSSPLATFORMS:linux/amd64 :: env_operation,()
+from,golang:1.4
+./go/src/nginx-and :: copy_operation,()
+mkdir ¦-p¦/go/src/nginx-and :: Filesystem_operation,()

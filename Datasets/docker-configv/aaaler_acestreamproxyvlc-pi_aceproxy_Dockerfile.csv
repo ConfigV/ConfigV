@@ -1,0 +1,14 @@
+pip ¦install¦psutil :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦clean :: Other_operation,()
+/aceproxy/ :: volume_operation,()
+cd ¦/ :: Filesystem_operation,()
+git ¦clone¦https://github.com/AndreyPavlenko/aceproxy.git :: Dependencies_operation,()
+from,resin/rpi-raspbian:jessie
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦autoremove :: Other_operation,()
+cmd,/aceproxy/acehttp.py
+expose,8000 8081
+adduser ¦--disabled-password¦--gecos¦""¦aceproxy :: Permissions_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦git¦unzip¦python-gevent¦python-pip¦python-dev¦gcc :: Other_operation,()
+aceconfig.py/aceproxy/aceconfig.py :: add_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦remove¦-y¦gcc¦python-pip¦python-dev :: Other_operation,()

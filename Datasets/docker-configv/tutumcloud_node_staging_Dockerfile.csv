@@ -1,0 +1,15 @@
+echo ¦echo¦deb [arch=amd64] $TUTUM_REPO tutum main > /etc/apt/sources.list.d/tutum.list :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-yq¦tutum-agent :: Other_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_STAGING_ID :: Dependencies_operation,()
+from,tutum/dind:latest
+GPG_KEY_STAGING_ID:90E64D7C :: env_operation,()
+gpg ¦--keyserver¦hkp://keyserver.ubuntu.com¦--recv-keys¦$GPG_KEY_ID :: Other_operation,()
+TUTUM_HOST:https://dashboard.tutum.co/ :: env_operation,()
+DOCKER_HOST:tcp://0.0.0.0:2375 :: env_operation,()
+GPG_KEY_ID:A87A2270 :: env_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+entrypoint,/run.sh
+TUTUM_REPO:https://repo-test.tutum.co/ubuntu/ :: env_operation,()
+run.sh/ :: add_operation,()
+expose,2375
+CERT_COMMON_NAME:*.node.tutum.io :: env_operation,()

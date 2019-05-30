@@ -1,0 +1,17 @@
+APACHE_RUN_USER:www-data :: env_operation,()
+echo ¦apt-get¦update -y && apt-get install -y libssl-dev openssl ssmtp rsyslog && pecl install mongo && apt-get purge -y --auto-remove libssl-dev && docker-php-ext-enable mongo && echo "extension=mongo.so" >> /usr/local/etc/php/conf.d/ext-mongo.... :: Filesystem_operation,()
+chmod ¦a+x¦generateCertificates.sh :: Permissions_operation,()
+a2enmod ¦ssl :: Other_operation,()
+a2enmod ¦rewrite :: Other_operation,()
+a2enmod ¦headers :: Other_operation,()
+cmd,./generateCertificates.sh¦&&¦./dockerBackEndRunScript.sh¦&&¦apache2¦-D¦FOREGROUND
+from,php:5.5
+expose,80
+APACHE_LOCK_DIR:/var/lock/apache2 :: env_operation,()
+APACHE_PID_FILE:/var/run/apache2.pid :: env_operation,()
+/pechbusque-calendar/back-end :: workdir_operation,()
+./httpd.conf/etc/apache2/sites-enabled/000-default.conf :: add_operation,()
+mkdir ¦-p¦/pechbusque-calendar/back-end :: Filesystem_operation,()
+APACHE_RUN_GROUP:www-data :: env_operation,()
+APACHE_LOG_DIR:/var/log/apache2 :: env_operation,()
+./pechbusque-calendar/back-end :: add_operation,()

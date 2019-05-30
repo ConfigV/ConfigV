@@ -1,0 +1,7 @@
+cmd,python¦datapusher/main.py¦deployment/datapusher_settings.py
+yum ¦-y¦update;¦yum¦-y¦install¦epel-release;¦yum¦-y¦install¦python-pip¦git¦gcc¦python-devel¦libxslt-devel¦libxml2-devel;¦yum¦clean¦all :: Dependencies_operation,()
+from,centos:7.0
+DATAPUSHER_HOME:/usr/lib/ckan/datapusher :: env_operation,()
+expose,8800
+$DATAPUSHER_HOME/src/datapusher/ :: workdir_operation,()
+mkdir ¦-p¦$DATAPUSHER_HOME/src;¦cd¦$DATAPUSHER_HOME/src;¦git¦clone¦-b¦stable¦https://github.com/ckan/datapusher.git;¦cd¦datapusher;¦pip¦install¦-r¦requirements.txt;¦python¦setup.py¦develop :: Filesystem_operation,()

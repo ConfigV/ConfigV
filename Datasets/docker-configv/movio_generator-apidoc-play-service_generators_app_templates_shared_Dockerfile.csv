@@ -1,0 +1,14 @@
+groupadd ¦-g¦1012¦atm :: Permissions_operation,()
+props.appName :: volume_operation,()
+useradd ¦-u¦1012¦-g¦atm¦atm¦-d¦/var/<%=¦props.appName¦%>¦-s¦/bin/false :: Permissions_operation,()
+mkdir ¦/var/<%=¦props.appName¦%> :: Filesystem_operation,()
+src/main/docker/etc/etc/ :: copy_operation,()
+from,docker.movio.co/java-8:6.0.0
+expose,9000
+chown ¦-R¦atm:atm¦/var/<%=¦props.appName¦%> :: Permissions_operation,()
+%>/conf :: volume_operation,()
+<%=%>/lib :: copy_operation,()
+<%=%>/bin :: copy_operation,()
+/var/<%= props.appName %> :: workdir_operation,()
+/var/<%= :: volume_operation,()
+src/main/docker/bin/usr/local/bin/ :: copy_operation,()

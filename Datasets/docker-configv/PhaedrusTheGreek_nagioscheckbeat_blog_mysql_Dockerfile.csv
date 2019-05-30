@@ -1,0 +1,13 @@
+chmod ¦-v¦+x¦/run-stuff.sh :: Permissions_operation,()
+wget ¦--no-check-certificate¦"$URL"¦-qO¦$FILE :: Dependencies_operation,()
+expose,3306
+apt-get ¦install¦-y¦vim¦wget¦make :: Dependencies_operation,()
+apt-get ¦install¦-y¦nagios-plugins :: Dependencies_operation,()
+cmd,/run-stuff.sh
+FILE:/tmp/tmp-file.deb :: env_operation,()
+nagioscheckbeat.yml/etc/nagioscheckbeat/nagioscheckbeat.yml :: copy_operation,()
+run-stuff.sh/run-stuff.sh :: add_operation,()
+dpkg ¦-i¦$FILE;¦rm¦$FILE :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,orchardup/mysql
+URL:'https://github.com/PhaedrusTheGreek/nagioscheckbeat/blob/master/build/nagioscheckbeat_0.5.2_amd64.deb?raw=true' :: env_operation,()

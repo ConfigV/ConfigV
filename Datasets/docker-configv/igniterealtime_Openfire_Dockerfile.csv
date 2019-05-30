@@ -1,0 +1,11 @@
+cmd,/usr/local/openfire/bin/openfire.sh
+/usr/local/openfire/embedded-db :: volume_operation,()
+.. :: copy_operation,()
+/usr/local/openfire/resources/security :: volume_operation,()
+from,openjdk:8.0
+/usr/local/openfire/plugins :: volume_operation,()
+apt-get ¦install¦-qqy¦ant :: Dependencies_operation,()
+/usr/local/openfire/conf :: volume_operation,()
+--from=0/usr/local/openfire :: copy_operation,()
+ant ¦-Dhalt.on.plugin.error=true¦-Dno.package=true¦-f¦build/build.xml¦dist.bin :: Other_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()

@@ -1,0 +1,7 @@
+git ¦clone¦https://github.com/pdcbc/dclapi.git¦-b¦${RELEASE}¦.;¦npm¦install;¦chown¦-R¦app:app¦/app/ :: Dependencies_operation,()
+echo ¦mkdir¦-p /etc/service/app/; ( echo "#!/bin/bash"; echo "#"; echo "set -e -o nounset"; echo ""; echo ""; echo "# Start service"; echo "#"; echo "cd /app/"; echo "/sbin/setuser app npm start"; ) >> /etc/service/app/run; chmod +x /etc/service... :: Filesystem_operation,()
+apt-get ¦update;¦apt-get¦install¦git;¦apt-get¦clean;¦rm¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Dependencies_operation,()
+cmd,/sbin/my_init
+/app/ :: workdir_operation,()
+from,phusion/passenger-nodejs
+RELEASE:0.1.1 :: env_operation,()

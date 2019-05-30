@@ -1,0 +1,13 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦-s¦https://download.elasticsearch.org/kibana/kibana/kibana-4.0.2-linux-x64.tar.gz¦|¦tar¦-C¦/opt¦-xz :: Dependencies_operation,()
+sed ¦-i¦'s/port:¦5601/port:¦80/'¦/opt/kibana/config/kibana.yml :: Filesystem_operation,()
+LC_ALL:en_NZ.UTF-8 :: env_operation,()
+from,trusty
+echo ¦echo¦"Setting locales ..." && /usr/sbin/locale-gen en_US.UTF-8 && /usr/sbin/locale-gen en_NZ.UTF-8 && echo "Setting timezone ..." && /bin/echo 'Pacific/Auckland' | sudo tee /etc/timezone && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure -... :: Filesystem_operation,()
+sed ¦-i¦'s/localhost:9200/elasticsearch:9200/'¦/opt/kibana/config/kibana.yml :: Filesystem_operation,()
+LANG:en_NZ.UTF-8 :: env_operation,()
+cmd,/opt/kibana/bin/kibana
+LANGUAGE:en_NZ.UTF-8 :: env_operation,()
+expose,80
+HOME:/root :: env_operation,()
+ln ¦-s¦/opt/kibana-4.0.2-linux-x64¦/opt/kibana :: Filesystem_operation,()

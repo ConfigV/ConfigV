@@ -1,0 +1,18 @@
+bootstrap.sh/usr/local/sbin/ :: add_operation,()
+yeoman :: user_operation,()
+mkdir ¦/src :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+HOME:/home/yeoman :: env_operation,()
+apt-get ¦-y¦install¦git¦curl¦net-tools¦ruby-compass :: Dependencies_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+from,node:5.0
+entrypoint,bootstrap.sh
+chmod ¦+x¦/usr/local/sbin/bootstrap.sh :: Permissions_operation,()
+/src :: workdir_operation,()
+chown ¦yeoman:yeoman¦/src :: Permissions_operation,()
+echo ¦adduser¦--disabled-password --gecos "" yeoman && echo "yeoman ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers :: Filesystem_operation,()
+expose,3000
+cmd,/bin/bash
+npm ¦install¦-g¦yo¦bower¦gulp :: Dependencies_operation,()
+npm ¦install¦-g¦generator-gulp-angular :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+DEBIAN_TAG:${debian_tag} :: env_operation,()
+go-run.sh/usr/local/bin/ :: copy_operation,()
+cmd,/workspace
+GO_VERSION:${go_version} :: env_operation,()
+chmod ¦755¦/usr/local/bin/go-cloud-debug :: Permissions_operation,()
+from,gcr.io/google_appengine/debian8
+apt-get ¦install¦-y¦curl¦--no-install-recommends :: Dependencies_operation,()
+entrypoint,go-build.sh
+curl ¦-sSL¦https://storage.googleapis.com/cloud-debugger/compute-go/go-cloud-debug¦-o¦/usr/local/bin/go-cloud-debug :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+echo ¦curl¦-sSL https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz -o /tmp/go.tar.gz && curl -sSL https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz.sha256 -o /tmp/go.tar.gz.sha256 && echo "$(cat /tmp/... :: Filesystem_operation,()
+go-build.sh/usr/local/bin/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

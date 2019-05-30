@@ -1,0 +1,13 @@
+rm ¦/bin/sh :: Filesystem_operation,()
+apt-get ¦-qqy¦install¦gcc¦git¦locales¦make¦tmux¦vim¦zsh :: Dependencies_operation,()
+echo ¦echo¦-e "en_US.UTF-8 UTF-8" >> /etc/locale.gen && /usr/sbin/locale-gen :: Filesystem_operation,()
+from,debian
+entrypoint,/usr/bin/zsh
+apt-get ¦-qq¦update :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cd ¦/root/.dotfiles :: Filesystem_operation,()
+ln ¦-s¦/bin/bash¦/bin/sh :: Filesystem_operation,()
+make ¦install¦allow_root=yes :: Build_Execute_operation,()
+chsh ¦-s¦/usr/bin/zsh :: Other_operation,()
+echo ¦echo¦-e "atom/config.cson\\nconfig/gtk-3.0/settings.ini\\ni3\\ngtk-2.0\\nxinit\\nXresources" >> /root/.dotfiles/.linkignore :: Filesystem_operation,()
+git ¦clone¦https://github.com/sneivandt/dotfiles.git¦/root/.dotfiles :: Dependencies_operation,()

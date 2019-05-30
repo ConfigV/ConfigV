@@ -1,0 +1,13 @@
+./startup.sh/startup.sh :: add_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+rpm ¦-Uvh¦--force¦http://mirrors.kernel.org/fedora-epel/6/x86_64/epel-release-6-8.noarch.rpm :: Dependencies_operation,()
+rpm ¦-Uvh¦--force¦https://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm :: Dependencies_operation,()
+yum ¦install¦-y¦libcom_err :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/mysql/* :: Filesystem_operation,()
+from,centos:6.0
+yum ¦-y¦install¦--enablerepo=epel¦mysql-community-server.x86_64¦mysql-community-client.x86_64 :: Dependencies_operation,()
+echo ¦echo¦"bind-address=0.0.0.0" >> /etc/my.cnf && echo "port=3306" >> /etc/my.cnf :: Filesystem_operation,()
+cmd,/usr/bin/mysqld_safe
+chmod ¦755¦/startup.sh :: Permissions_operation,()
+yum ¦update¦-y :: Dependencies_operation,()

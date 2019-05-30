@@ -1,0 +1,19 @@
+bin/startup/usr/local/bin/startup :: add_operation,()
+chmod ¦+x¦/usr/local/bin/startup :: Permissions_operation,()
+chmod ¦+x¦/usr/local/bin/etcdctl :: Permissions_operation,()
+from,ubuntu:14.04
+etc/supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+etc/apollod.conf/etc/apollo/apollod.conf :: add_operation,()
+cmd,/usr/local/bin/startup
+expose,8000
+apt-get ¦install¦supervisor¦-y :: Dependencies_operation,()
+bin/etcdctl/usr/local/bin/etcdctl :: add_operation,()
+/data/keys/etc/apollo/keys :: add_operation,()
+bin/apollod/usr/local/bin/apollod :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+dpkg-reconfigure ¦locales :: Other_operation,()
+locale-gen ¦en_US¦en_US.UTF-8 :: Other_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+update-rc.d ¦-f¦supervisor¦disable :: Other_operation,()
+apt-get ¦install¦-y¦python-software-properties :: Dependencies_operation,()

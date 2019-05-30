@@ -1,0 +1,11 @@
+unzip ¦-q¦-d¦/opt/¦/groovy.zip :: Filesystem_operation,()
+GROOVY_VERSION=2.4.5: :: env_operation,()
+rm ¦-rf¦/groovy.zip :: Filesystem_operation,()
+mv ¦/opt/groovy-*/¦/opt/groovy/ :: Filesystem_operation,()
+curl ¦-s¦-L¦https://bintray.com/artifact/download/groovy/maven/apache-groovy-binary-${GROOVY_VERSION}.zip¦-o¦/groovy.zip :: Dependencies_operation,()
+from,lwieske/java-8
+mkdir ¦/opt/ :: Filesystem_operation,()
+apk ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+apk ¦add¦curl¦bash :: Dependencies_operation,()
+apk ¦upgrade :: Dependencies_operation,()

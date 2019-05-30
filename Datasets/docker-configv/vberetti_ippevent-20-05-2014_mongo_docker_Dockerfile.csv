@@ -1,0 +1,16 @@
+mongodb.conf/data/mongodb.conf :: add_operation,()
+supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv¦7F0CEB10 :: Dependencies_operation,()
+echo ¦echo¦'root:pass' | chpasswd :: Filesystem_operation,()
+apt-get ¦install¦-y¦mongodb-org=2.6.1 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server¦supervisor¦ufw :: Dependencies_operation,()
+echo ¦echo¦'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list :: Filesystem_operation,()
+cmd,/usr/bin/supervisord
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦'PermitRootLogin yes' > /etc/ssh/sshd_config :: Filesystem_operation,()
+mkdir ¦-p¦/var/log/supervisor :: Filesystem_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list :: Filesystem_operation,()
+from,ubuntu
+expose,28017

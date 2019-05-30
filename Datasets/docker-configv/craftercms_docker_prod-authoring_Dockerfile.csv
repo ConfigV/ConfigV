@@ -1,0 +1,22 @@
+https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb/opt/ext/mod-pagespeed-stable_current_amd64.deb :: add_operation,()
+echo ¦echo¦ServerName CrafterCms-Authoring >> /etc/apache2/apache2.conf :: Filesystem_operation,()
+mkdir ¦-p¦/opt/craftercms/logs/ :: Filesystem_operation,()
+./config/crafterCmsAuthoringSSl.crt/etc/apache2/sslcerts/ :: add_operation,()
+a2enmod ¦cgid¦headers¦proxy¦proxy_http¦proxy_ajp¦reqtimeout¦rewrite¦ssl¦socache_shmcb :: Other_operation,()
+./config/authoringcraftercloudio.conf/etc/apache2/sites-enabled/ :: add_operation,()
+cmd,./authoringDockerStartup.sh
+mkdir ¦-p¦/etc/apache2/sslcerts/ :: Filesystem_operation,()
+apt-get ¦install¦-y¦--force-yes¦--no-install-recommends¦apache2 :: Dependencies_operation,()
+./config/common-settings/etc/apache2/ :: add_operation,()
+./config/crafterCmsAuthoringSSl.key/etc/apache2/sslcerts/ :: add_operation,()
+./config/authoringDockerStartup.sh/opt/craftercms :: add_operation,()
+apachectl ¦configtest :: Other_operation,()
+BUILD_ON=201602091545crt: :: env_operation,()
+from,craftercms/dev-full:unstable
+expose,443
+dpkg ¦-i¦/opt/ext/mod-pagespeed-stable_current_amd64.deb :: Dependencies_operation,()
+mkdir ¦-p¦/opt/craftercms/www :: Filesystem_operation,()
+rm ¦/etc/apache2/sites-enabled/000-default.conf :: Filesystem_operation,()
+chmod ¦+x¦authoringDockerStartup.sh :: Permissions_operation,()
+/opt/craftercms/logs/ :: volume_operation,()
+apt-get ¦update :: Dependencies_operation,()

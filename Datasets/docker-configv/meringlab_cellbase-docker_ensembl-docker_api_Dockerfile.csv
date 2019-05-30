@@ -1,0 +1,13 @@
+cmd,/opt/ensembl-rest/script/ensembl_rest_server.pl
+entrypoint.sh/usr/local/bin/ :: copy_operation,()
+entrypoint,/usr/local/bin/entrypoint.sh
+ln ¦-s¦/opt/bioperl-live¦/opt/bioperl-1.6.1 :: Filesystem_operation,()
+ensembl_rest.conf/opt/ensembl-rest/ :: copy_operation,()
+apt-get ¦install¦-y¦inotify-tools¦nano¦wget¦curl¦rsync¦bc¦git¦git-core¦apt-transport-https¦libxml2¦libxml2-dev¦libcurl4-openssl-dev¦openssl¦sqlite3¦libsqlite3-dev¦gawk¦libreadline6-dev¦libyaml-dev¦autoconf¦libgdbm-dev¦libncurses5-dev¦automake¦libto... :: Dependencies_operation,()
+apt-get ¦install¦-y¦libcatalyst-perl¦liblog-log4perl-perl¦libcatalyst-action-rest-perl¦libcatalyst-modules-perl¦libchi-perl¦libxml-writer-perl :: Dependencies_operation,()
+cd ¦/opt¦&&\\ :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/entrypoint.sh :: Permissions_operation,()
+from,ubuntu:14.04
+apt-get ¦update¦--fix-missing :: Dependencies_operation,()
+apt-get ¦install¦-y¦libdbi-perl¦libdbd-mysql-perl¦libdbd-sqlite3-perl :: Dependencies_operation,()
+expose,3000

@@ -1,0 +1,11 @@
+cmd,/entrypoint.sh
+PYTHONUNBUFFERED:1 :: env_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+wait-for-it.sh/ :: add_operation,()
+chmod ¦+x¦/wait-for-it.sh :: Permissions_operation,()
+from,python:3.5
+entrypoint.sh/ :: add_operation,()
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+./code/ :: add_operation,()
+/code :: workdir_operation,()
+mkdir ¦/code :: Filesystem_operation,()

@@ -1,0 +1,11 @@
+workers/. :: copy_operation,()
+from,python:3.6
+user :: user_operation,()
+data_models/dist/data-refinery-models-*data_models/ :: copy_operation,()
+ls ¦data_models/¦-1¦|¦tail¦-1 :: Filesystem_operation,()
+groupadd ¦user :: Permissions_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+entrypoint,celery¦-l¦info¦-A¦data_refinery_workers¦-c¦1¦worker
+/home/user :: workdir_operation,()
+useradd ¦--create-home¦--home-dir¦/home/user¦-g¦user¦user :: Permissions_operation,()
+workers/requirements.txt. :: copy_operation,()

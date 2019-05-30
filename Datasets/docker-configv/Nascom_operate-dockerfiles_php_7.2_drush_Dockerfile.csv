@@ -1,0 +1,12 @@
+entrypoint,/tini¦--¦/run.sh
+apt-get ¦clean :: Dependencies_operation,()
+composer ¦global¦require¦drush/drush:8.*¦--prefer-dist :: Dependencies_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+chmod ¦+x¦/run.sh :: Permissions_operation,()
+from,nascom/php:7.2-composer
+https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini/tini :: add_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦mysql-client :: Other_operation,()
+run.sh/run.sh :: copy_operation,()
+TINI_VERSION:v0.14.0 :: env_operation,()

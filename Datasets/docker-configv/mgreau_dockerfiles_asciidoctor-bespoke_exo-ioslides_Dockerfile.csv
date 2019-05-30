@@ -1,0 +1,15 @@
+expose,35729
+apk ¦--update¦add¦bash¦nodejs¦ruby¦ruby-io-console¦ruby-bundler¦git :: Dependencies_operation,()
+build/Gemfile"${SLIDES_PATH}/Gemfile" :: copy_operation,()
+mkdir ¦-p¦${SLIDES_PATH} :: Filesystem_operation,()
+SLIDES_PATH:/documents :: env_operation,()
+cmd,npm¦start
+bundle ¦install¦--system :: Dependencies_operation,()
+package.json"${SLIDES_PATH}/package.json" :: copy_operation,()
+from,alpine:3.3
+BUNDLE_GEMFILE:"${SLIDES_PATH}/Gemfile" :: env_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+BUNDLE_PATH:/bundle :: env_operation,()
+"${SLIDES_PATH}" :: workdir_operation,()
+npm ¦install :: Dependencies_operation,()
+npm ¦install¦-g¦gulp :: Dependencies_operation,()

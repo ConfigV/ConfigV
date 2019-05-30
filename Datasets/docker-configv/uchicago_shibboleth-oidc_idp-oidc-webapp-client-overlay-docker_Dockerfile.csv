@@ -1,0 +1,9 @@
+from,centos:7.0
+cmd,export¦JAVA_HOME=$(readlink¦-f¦/usr/bin/javac¦|¦sed¦"s:/bin/javac::");¦./runclient.sh
+mkdir ¦/etc/jetty :: Filesystem_operation,()
+yum ¦install¦-y¦java-devel¦which¦wget :: Dependencies_operation,()
+/opt/shibboleth-idp-client :: workdir_operation,()
+cp ¦etc/jetty/thekeystore¦/etc/jetty/thekeystore :: Filesystem_operation,()
+client/opt/shibboleth-idp-client :: copy_operation,()
+chmod ¦+x¦mvnw :: Permissions_operation,()
+expose,9443

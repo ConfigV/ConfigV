@@ -1,0 +1,9 @@
+from,centos@latest
+tar ¦xfv¦/opt/jdk-8u45-linux-x64.tar.gz¦-C¦/opt :: Filesystem_operation,()
+wget ¦--no-check-certificate¦--no-cookies¦--header¦"Cookie:¦oraclelicense=accept-securebackup-cookie"¦http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.tar.gz¦-O¦/opt/jdk-8u45-linux-x64.tar.gz :: Dependencies_operation,()
+ln ¦-s¦/opt/jdk1.8.0_45¦/opt/java :: Filesystem_operation,()
+cmd,/usr/sbin/sshd¦-D
+JAVA_HOME:/opt/java :: env_operation,()
+expose,22
+PATH:/opt/java/bin:$PATH :: env_operation,()
+yum ¦-y¦install¦wget :: Dependencies_operation,()

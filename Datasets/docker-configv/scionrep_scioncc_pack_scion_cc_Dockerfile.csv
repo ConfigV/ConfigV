@@ -1,0 +1,15 @@
+build$HOME :: add_operation,()
+cmd,/sbin/my_init
+$HOME :: workdir_operation,()
+chmod ¦-R¦+x¦$BIN_DIR :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cp ¦$BIN_DIR/my_init.d/*¦/etc/my_init.d/ :: Filesystem_operation,()
+run$HOME :: add_operation,()
+from,phusion/baseimage:0.9.16
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦git¦git-core¦vim¦build-essential¦python-pip¦python-virtualenv¦virtualenvwrapper¦python2.7¦python2.7-dev¦python¦python-all-dev :: Dependencies_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦libev-dev¦libffi-dev¦libpq-dev¦libxml2-dev¦libxslt1-dev¦libzmq-dev¦ncurses-dev¦swig¦postgresql-client :: Dependencies_operation,()
+HOME=/root:BIN_DIR=/root/bin :: env_operation,()
+expose,4000 8080
+bash ¦$BIN_DIR/setup_install.sh :: Build_Execute_operation,()
+bash ¦$BIN_DIR/setup_code.sh :: Build_Execute_operation,()

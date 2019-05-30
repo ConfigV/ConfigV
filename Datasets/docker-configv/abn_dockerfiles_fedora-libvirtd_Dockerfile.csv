@@ -1,0 +1,9 @@
+cmd,/usr/sbin/init
+curl ¦--silent¦${SCRIPT_SRC}/docker-install-systemd.sh¦|¦bash :: Dependencies_operation,()
+/sys/fs/cgroup :: volume_operation,()
+SCRIPT_SRC=https://raw.githubusercontent.com/abn/dockerfiles/master/scripts/: :: env_operation,()
+TCP_PORT=16509; ¦curl¦--silent¦${SCRIPT_SRC}/docker-install-libvirtd.sh¦|¦bash :: Other_operation,()
+yum ¦-y¦clean¦all :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+expose,16509
+from,fedora@latest

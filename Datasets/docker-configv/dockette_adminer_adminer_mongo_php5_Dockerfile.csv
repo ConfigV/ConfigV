@@ -1,0 +1,13 @@
+srv :: workdir_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+rm ¦php5-mongo-1.6.14-r0.apk :: Filesystem_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+cmd,/usr/bin/php¦-S¦0.0.0.0:80
+ADMINER_VERSION=4.2.5: :: env_operation,()
+apk ¦del¦wget¦ca-certificates :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+expose,80
+apk ¦add¦wget¦ca-certificates¦php5 :: Dependencies_operation,()
+rm ¦/etc/apk/keys/sgerrand.rsa.pub :: Filesystem_operation,()
+wget ¦https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php¦-O¦/srv/index.php :: Dependencies_operation,()
+from,alpine@edge

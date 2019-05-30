@@ -1,0 +1,15 @@
+echo ¦cd¦/tmp && tar -zxf /tmp/rubygems-$RUBYGEMS_VERSION.tgz && cd /tmp/rubygems-$RUBYGEMS_VERSION && ruby setup.rb && /bin/bash -l -c 'gem install bundler --no-rdoc --no-ri' && echo "gem: --no-ri --no-rdoc" > ~/.gemrc :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+RUBY_MAJOR:2.1 :: env_operation,()
+cmd,bash
+RUBY_VERSION:2.1.2 :: env_operation,()
+RUBYGEMS_VERSION:2.3.0 :: env_operation,()
+echo ¦curl¦-O http://ftp.ruby-lang.org/pub/ruby/$RUBY_MAJOR/ruby-$RUBY_VERSION.tar.gz && tar -zxvf ruby-$RUBY_VERSION.tar.gz && cd ruby-$RUBY_VERSION && ./configure --disable-install-doc && make && make install && cd .. && rm -r ruby-$RUBY_VERSI... :: Filesystem_operation,()
+RUBYGEMS_MAJOR:2.3 :: env_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+PATH:$PATH:/opt/rubies/ruby-$RUBY_VERSION/bin :: env_operation,()
+from,azukiapp/node
+apt-get ¦clean¦-qq :: Dependencies_operation,()
+http://production.cf.rubygems.org/rubygems/rubygems-$RUBYGEMS_VERSION.tgz/tmp/ :: add_operation,()
+apt-get ¦install¦-y¦-qq¦imagemagick :: Dependencies_operation,()
+/app :: workdir_operation,()

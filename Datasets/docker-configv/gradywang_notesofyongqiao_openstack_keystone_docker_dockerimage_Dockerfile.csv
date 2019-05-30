@@ -1,0 +1,13 @@
+cmd,/var/keystone/keystone.sh
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+add-apt-repository ¦-y¦cloud-archive:mitaka :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+initdb.sql/etc/keystone/initdb.sql :: copy_operation,()
+apt-get ¦-y¦install¦--no-install-recommends¦software-properties-common :: Dependencies_operation,()
+chmod ¦+x¦/var/keystone/keystone.sh¦/etc/keystone/initkeystone.sh :: Permissions_operation,()
+keystone.conf/etc/keystone/keystone.conf :: copy_operation,()
+from,ubuntu:14.04
+apt-get ¦-y¦install¦--no-install-recommends¦keystone¦mysql-client¦python-openstackclient :: Dependencies_operation,()
+policy.json/etc/keystone/policy.json :: copy_operation,()
+keystone.sh/var/keystone/keystone.sh :: copy_operation,()
+initkeystone.sh/etc/keystone/initkeystone.sh :: copy_operation,()

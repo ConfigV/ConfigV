@@ -1,0 +1,10 @@
+import.pp/home/developer/ :: add_operation,()
+cmd,/home/developer/geppetto/geppetto
+developer :: user_operation,()
+sudo ¦puppet¦apply¦geppetto.pp :: Other_operation,()
+HOME:/home/developer :: env_operation,()
+/home/developer :: workdir_operation,()
+echo ¦export¦uid=1000 gid=1000 && mkdir -p /home/developer && echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && echo "developer:x:${uid}:" >> /etc/group && echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/s... :: Filesystem_operation,()
+sudo ¦puppet¦apply¦import.pp :: Other_operation,()
+sudo ¦puppet¦apply¦git.pp :: Other_operation,()
+from,isuper/java-oracle:jdk_8

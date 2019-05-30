@@ -1,0 +1,13 @@
+cmd,python3¦manage.py¦runmodwsgi¦--user¦django¦--group¦django
+apt-get ¦install¦-y¦python3¦python3-pip¦python3-dev¦apache2¦apache2-dev¦build-essential :: Dependencies_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+./tmp/vmlauncher-backend/ :: copy_operation,()
+echo ¦echo¦yes | python3 manage.py collectstatic :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip3 ¦install¦-U¦pip¦setuptools :: Dependencies_operation,()
+chown ¦-R¦django:django¦/tmp/vmlauncher-backend/ :: Permissions_operation,()
+expose,8000
+adduser ¦--gecos¦""¦--disabled-password¦--no-create-home¦django :: Permissions_operation,()
+from,debian@latest
+python3 ¦manage.py¦migrate :: Build_Execute_operation,()
+/tmp/vmlauncher-backend/ :: workdir_operation,()

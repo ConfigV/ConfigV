@@ -1,0 +1,12 @@
+chmod ¦755¦/run.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+run.sh/run.sh :: add_operation,()
+expose,22
+mkdir ¦-p¦/root/.ssh :: Filesystem_operation,()
+authorized_keys/root/.ssh/authorized_keys :: add_operation,()
+cmd,/run.sh
+from,ubuntu
+echo ¦echo¦"deb http://mirrors.163.com/ubuntu/ precise main restricted universe multiverse" > /etc/apt/sources.list :: Filesystem_operation,()
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+sed ¦-ri¦'s/session¦required¦pam_loginuid.so/#session¦required¦pam_loginuid.so/g'¦/etc/pam.d/sshd :: Filesystem_operation,()

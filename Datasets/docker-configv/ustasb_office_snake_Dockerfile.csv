@@ -1,0 +1,10 @@
+from,python:3.4
+expose,8000
+apt-get ¦-y¦install¦git :: Dependencies_operation,()
+apt-get ¦-y¦update :: Dependencies_operation,()
+cmd,python¦-m¦http.server¦--cgi¦8000
+/srv/www/office_snake :: volume_operation,()
+chmod ¦-R¦777¦/srv/www/office_snake¦#¦The¦Python¦CGI¦server¦requires¦'other'¦write¦access... :: Permissions_operation,()
+/srv/www/office_snake :: workdir_operation,()
+git ¦clone¦https://github.com/ustasb/office_snake.git¦/srv/www/office_snake :: Dependencies_operation,()
+rm ¦-rf¦/srv/www/office_snake/.git :: Filesystem_operation,()

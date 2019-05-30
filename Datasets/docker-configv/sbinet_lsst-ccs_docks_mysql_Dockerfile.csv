@@ -1,0 +1,17 @@
+entrypoint,/entrypoint.sh
+expose,3306
+apt-get ¦install¦-y¦perl¦--no-install-recommends :: Dependencies_operation,()
+from,debian@wheezy
+/run/mysqld :: volume_operation,()
+echo ¦echo¦"deb http://repo.mysql.com/apt/debian/ wheezy mysql-${MYSQL_MAJOR}-dmr" > /etc/apt/sources.list.d/mysql.list :: Filesystem_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+bind-address|log  :: Other_operation,()
+MYSQL_VERSION:5.7.7-rc :: env_operation,()
+echo ¦{¦ echo mysql-community-server mysql-community-server/data-dir select '';  echo mysql-community-server mysql-community-server/root-pass password '';  echo mysql-community-server mysql-community-server/re-root-pass password '';  echo mysql-... :: Filesystem_operation,()
+cmd,mysqld
+apt-key ¦adv¦--keyserver¦pool.sks-keyservers.net¦--recv-keys¦A4A9406876FCBD3C456770C88C718D3B5072E1F5 :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+MYSQL_MAJOR:5.7 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()

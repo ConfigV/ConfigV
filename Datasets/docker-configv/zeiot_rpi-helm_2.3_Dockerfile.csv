@@ -1,0 +1,11 @@
+mkdir ¦-p¦/usr/local/helm :: Filesystem_operation,()
+cmd,/tiller
+from,resin/armv7hf-debian:stretch
+rm ¦-f¦/helm.tar.gz :: Filesystem_operation,()
+entrypoint,/tiller
+HELM_VERSION:2.3.1 :: env_operation,()
+./helm-v${HELM_VERSION}-linux-arm.tar.gz/helm.tar.gz :: copy_operation,()
+tar ¦-xzf¦/helm.tar.gz¦-C¦/usr/local/helm¦--strip-components=1 :: Filesystem_operation,()
+mv ¦/usr/local/helm/tiller¦/tiller :: Filesystem_operation,()
+expose,44134
+chmod ¦+x¦/tiller :: Permissions_operation,()

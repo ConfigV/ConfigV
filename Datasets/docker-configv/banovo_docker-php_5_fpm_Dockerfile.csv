@@ -1,0 +1,9 @@
+docker-php-ext-install ¦gd¦intl¦mbstring¦mcrypt¦opcache¦pdo_mysql¦soap¦zip :: Other_operation,()
+apt-get ¦install¦-y¦¦nodejs¦¦libicu-dev¦¦libmcrypt-dev¦¦libpng-dev¦¦libxml2-dev¦--no-install-recommends :: Dependencies_operation,()
+expose,9000
+/var/www/html :: workdir_operation,()
+from,php:5.6
+cmd,php-fpm
+apt-get ¦update :: Dependencies_operation,()
+echo ¦{¦ echo "memory_limit=1024M";  echo "date.timezone=Europe/Berlin";  echo "detect_unicode=off";  echo "xdebug.scream=off"; } > /usr/local/etc/php/conf.d/orocrm.ini :: Filesystem_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()

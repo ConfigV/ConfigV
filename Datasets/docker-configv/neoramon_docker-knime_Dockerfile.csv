@@ -1,0 +1,13 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦lxde-core¦lxterminal¦tightvncserver :: Dependencies_operation,()
+ln ¦-s¦/root/knime_3.1.2/knime¦/root/Desktop/knime :: Filesystem_operation,()
+.*multiverse$\\  :: Other_operation,()
+cmd,bash
+https://download.knime.org/analytics-platform/linux/knime_3.1.2.linux.gtk.x86_64.tar.gz/root/ :: add_operation,()
+from,ubuntu:16.04
+HOME:/root :: env_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && add-apt-repository -y ppa:webupd8team/java && apt-get update && apt-get install -y oracle-java8-installer :: Filesystem_operation,()
+chmod ¦+x¦/root/knime_3.1.2/knime :: Permissions_operation,()
+expose,5901
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()
+/root :: workdir_operation,()

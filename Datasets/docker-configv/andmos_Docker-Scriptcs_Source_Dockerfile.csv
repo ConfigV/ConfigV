@@ -1,0 +1,16 @@
+mkdir ¦/opt/workdir :: Filesystem_operation,()
+apt-get ¦install¦-y :: Dependencies_operation,()
+cd ¦/opt/workdir/ :: Filesystem_operation,()
+git ¦clone¦https://github.com/scriptcs/scriptcs :: Dependencies_operation,()
+git ¦checkout¦master :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦git :: Dependencies_operation,()
+nuget ¦restore¦./ScriptCs.sln :: Other_operation,()
+xbuild ¦./ScriptCs.sln¦/property:Configuration=Release¦/nologo¦/verbosity:normal :: Other_operation,()
+from,mono@latest
+/opt/workdir/scriptcs/ :: workdir_operation,()
+mkdir ¦artifacts¦--parents :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+entrypoint,mono¦/opt/workdir/scriptcs/src/ScriptCs/bin/Release/scriptcs.exe
+mono ¦./packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe¦test/ScriptCs.Tests.Acceptance/bin/Release/ScriptCs.Tests.Acceptance.dll :: Other_operation,()
+cd ¦scriptcs :: Filesystem_operation,()

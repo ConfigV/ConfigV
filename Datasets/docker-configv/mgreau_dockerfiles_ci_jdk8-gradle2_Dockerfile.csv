@@ -1,0 +1,16 @@
+wget ¦--no-check-certificate¦--no-cookies¦https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip :: Dependencies_operation,()
+mkdir ¦-p¦${HOME}/.gnupg :: Filesystem_operation,()
+rm ¦-f¦gradle-${GRADLE_VERSION}-bin.zip :: Filesystem_operation,()
+mkdir ¦-p¦${HOME}/.ssh :: Filesystem_operation,()
+from,mgreau/ci:jdk8
+unzip ¦gradle-${GRADLE_VERSION}-bin.zip¦-d¦/usr/share/ :: Filesystem_operation,()
+PATH=$JAVA_HOME/bin:$GRADLE_HOME/bin:$PATH: :: env_operation,()
+ln ¦-s¦/usr/share/gradle-${GRADLE_VERSION}/bin/gradle¦/usr/bin/gradle :: Filesystem_operation,()
+GRADLE_VERSION=2.14.1: :: env_operation,()
+entrypoint,/usr/bin/docker-entrypoint
+GRADLE_HOME=/usr/share/gradle: :: env_operation,()
+cmd,gradle¦--help
+docker-entrypoint.sh/usr/bin/docker-entrypoint :: copy_operation,()
+${EXO_CI_USER} :: user_operation,()
+${EXO_CI_DATA_DIR} :: workdir_operation,()
+mkdir ¦-p¦${HOME}/.gradle :: Filesystem_operation,()

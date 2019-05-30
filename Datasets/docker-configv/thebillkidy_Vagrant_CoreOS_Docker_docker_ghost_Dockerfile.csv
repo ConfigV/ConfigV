@@ -1,0 +1,16 @@
+wget ¦https://ghost.org/zip/ghost-latest.zip :: Dependencies_operation,()
+cmd,bash¦/ghost-start
+from,dockerfile/nodejs
+sed ¦'s/127.0.0.1/0.0.0.0/'¦/ghost/config.example.js¦>¦/ghost/config.js :: Filesystem_operation,()
+useradd ¦ghost¦--home¦/ghost :: Permissions_operation,()
+start.bash/ghost-start :: add_operation,()
+cd ¦/ghost :: Filesystem_operation,()
+npm ¦install¦--production :: Dependencies_operation,()
+/data :: volume_operation,()
+expose,2368
+/ghost :: workdir_operation,()
+unzip ¦ghost-latest.zip¦-d¦/ghost :: Filesystem_operation,()
+rm ¦-f¦ghost-latest.zip :: Filesystem_operation,()
+NODE_ENV:production :: env_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+/ghost-override :: volume_operation,()

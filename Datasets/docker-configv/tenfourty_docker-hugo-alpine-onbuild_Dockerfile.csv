@@ -1,0 +1,16 @@
+ln ¦-s¦/usr/local/hugo_${HUGO_VERSION}/hugo¦/usr/local/bin/hugo_${HUGO_VERSION} :: Filesystem_operation,()
+from,alpine:3.4
+HUGO_BINARY:hugo_${HUGO_VERSION}_linux-64bit :: env_operation,()
+RUNhugo -d /usr/share/nginx/html/ :: onbuild_operation,()
+mkdir ¦/site :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+cmd,hugo¦--bind¦0.0.0.0¦--cleanDestinationDir¦--buildDrafts¦server
+HUGO_VERSION:0.16 :: env_operation,()
+expose,1313
+mkdir ¦/usr/local/hugo_${HUGO_VERSION} :: Filesystem_operation,()
+cd ¦/usr/local/hugo_${HUGO_VERSION} :: Filesystem_operation,()
+COPYsite /site :: onbuild_operation,()
+ln ¦-s¦/usr/local/hugo_${HUGO_VERSION}/hugo¦/usr/local/bin/hugo :: Filesystem_operation,()
+/site :: workdir_operation,()
+apk ¦add¦--update¦curl¦py-pygments :: Dependencies_operation,()
+curl ¦-L¦https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/${HUGO_BINARY}.tgz¦|¦tar¦zxvf¦- :: Dependencies_operation,()

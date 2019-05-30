@@ -1,0 +1,8 @@
+config/default/etc/nginx/sites-available/default :: add_operation,()
+config/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+from,ubuntu:14.04
+entrypoint,nginx
+expose,80
+apt-get ¦update¦-qq :: Dependencies_operation,()
+apt-get ¦-y¦install¦nginx :: Dependencies_operation,()
+id ¦www-data¦2>/dev/null¦||¦useradd¦--shell=/sbin/nologin¦www-data :: Other_operation,()

@@ -1,0 +1,11 @@
+/home/synapps :: volume_operation,()
+apt-get ¦upgrade¦-y :: Dependencies_operation,()
+LOCAL_GROUP=synapps: :: env_operation,()
+LOCAL_USER=synapps: :: env_operation,()
+WORKDIR=/home/$LOCAL_USER: :: env_operation,()
+$LOCAL_USER :: user_operation,()
+$WORKDIR :: workdir_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+from,debian@jessie
+cmd,/home/synapps/go-synapps.io
+expose,9000

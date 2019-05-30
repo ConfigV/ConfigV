@@ -1,0 +1,15 @@
+echo ¦echo¦"jenkins:jenkins" | chpasswd :: Filesystem_operation,()
+su ¦jenkins¦-c¦"yaourt¦-S¦--noconfirm¦transifex-client-beta" :: Other_operation,()
+pacman-db-upgrade  :: Other_operation,()
+pacman-key ¦--populate :: Other_operation,()
+sed ¦-i¦-e¦"s/UsePAM¦yes/UsePAM¦no/g"¦/etc/ssh/sshd_config :: Filesystem_operation,()
+pacman ¦-S¦--noconfirm¦base-devel¦jdk8-openjdk¦cmake¦extra-cmake-modules¦qt5-base¦qt5-svg¦qt5-declarative¦qt5-quickcontrols¦qt5-graphicaleffects¦ki18n¦solid¦kcoreaddons¦python¦boost¦os-prober¦qt5-tools¦parted¦kconfig¦yaml-cpp¦libatasmart¦git¦polki... :: Filesystem_operation,()
+pacman-key ¦--refresh-keys :: Other_operation,()
+pacman ¦-Syu¦--noconfirm :: Filesystem_operation,()
+echo ¦echo¦$'\\n[archlinuxfr]\\n\\ :: Filesystem_operation,()
+cmd,/usr/bin/sshd¦-D
+from,base/archlinux
+useradd ¦-m¦-s¦/bin/bash¦jenkins :: Permissions_operation,()
+echo ¦echo¦"jenkins ALL=(ALL) NOPASSWD: /usr/bin/pacman, /usr/bin/yaourt" > /etc/sudoers.d/jenkins :: Filesystem_operation,()
+ssh-keygen ¦-A :: Other_operation,()
+expose,22

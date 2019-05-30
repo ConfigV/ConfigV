@@ -1,0 +1,15 @@
+./docker/nginx/nginx.conf/etc/nginx/nginx.conf :: copy_operation,()
+from,alpine:3.2
+chown ¦-R¦nginx:nginx¦/var/www :: Permissions_operation,()
+apk ¦--update¦add¦curl¦git¦nginx¦pwgen :: Dependencies_operation,()
+rm ¦-rf¦/var/run¦/var/cache/apk/* :: Filesystem_operation,()
+./docker/apk/repositories/etc/apk/repositories :: copy_operation,()
+ln ¦-s¦/etc/nginx/sites-available/default¦/etc/nginx/sites-enabled/default :: Filesystem_operation,()
+entrypoint,nginx
+expose,80
+./docker/nginx/default/etc/nginx/sites-available/default :: copy_operation,()
+chmod ¦700¦/setup :: Permissions_operation,()
+mkdir ¦/etc/nginx/sites-available¦/etc/nginx/sites-enabled :: Filesystem_operation,()
+./docker/setup/setup :: copy_operation,()
+ln ¦-s¦/run¦/var/run :: Filesystem_operation,()
+/var/www :: volume_operation,()

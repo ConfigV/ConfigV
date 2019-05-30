@@ -1,0 +1,10 @@
+TERM:dumb :: env_operation,()
+cmd,mysqld_safe
+apt-get ¦clean¦-y :: Dependencies_operation,()
+apt-get ¦update¦-y :: Dependencies_operation,()
+rm ¦-Rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦--no-install-recommends¦-y¦mariadb-server¦mariadb-client :: Other_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+from,debian@jessie
+echo ¦sed¦-i 's/^\\(bind-address\\s.*\\)/#1/' /etc/mysql/my.cnf && echo "mysqld_safe &" > /tmp/config && echo "mysqladmin --silent --wait=30 ping || exit 1" >> /tmp/config && echo "mysql -e 'GRANT ALL PRIVILEGES ON *.* TO"root\\"@\\"%\\" WITH GRANT OP... :: Filesystem_operation,()

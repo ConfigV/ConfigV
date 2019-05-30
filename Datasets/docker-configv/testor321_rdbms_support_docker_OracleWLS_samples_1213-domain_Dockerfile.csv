@@ -1,0 +1,8 @@
+container-scripts/*/u01/oracle/ :: copy_operation,()
+DOMAIN_NAME="base_domain":DOMAIN_HOME="/u01/oracle/user_projects/domains/base_domain" :: env_operation,()
+cmd,startWebLogic.sh
+$DOMAIN_HOME :: workdir_operation,()
+echo ¦/u01/oracle/wlst¦/u01/oracle/create-wls-domain.py && mkdir -p /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security && echo "username=weblogic" > /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/securi... :: Filesystem_operation,()
+from,oracle/weblogic:12.1.3-generic
+oracle :: user_operation,()
+/u01/oracle :: workdir_operation,()

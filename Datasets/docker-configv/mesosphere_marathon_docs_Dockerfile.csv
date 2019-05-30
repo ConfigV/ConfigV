@@ -1,0 +1,14 @@
+gem ¦install¦bundler :: Dependencies_operation,()
+expose,4000
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists :: Filesystem_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_6.x¦|¦bash¦- :: Dependencies_operation,()
+Gemfile/jekyll/ :: copy_operation,()
+bundle ¦install :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+apt-get ¦install¦-y¦gcc¦git¦libxml2¦zlib1g-dev¦libxml2-dev¦ruby¦ruby-dev¦make¦autoconf¦nodejs¦python¦python-dev :: Dependencies_operation,()
+apt-get ¦-y¦autoremove :: Dependencies_operation,()
+cd ¦/jekyll :: Filesystem_operation,()
+apt-get ¦purge¦-y¦gcc¦ruby-dev¦python-dev :: Dependencies_operation,()
+entrypoint.sh/ :: copy_operation,()
+/marathon-docs :: volume_operation,()

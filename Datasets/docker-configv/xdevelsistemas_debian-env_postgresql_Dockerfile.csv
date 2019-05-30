@@ -1,0 +1,23 @@
+cmd,/usr/lib/postgresql/9.3/bin/postgres¦-D¦/var/lib/postgresql/9.3/main¦-c¦config_file=/etc/postgresql/9.3/main/postgresql.conf
+apt-get ¦install¦postgresql-9.3¦postgresql-client-9.3¦postgresql-contrib-9.3¦-y :: Dependencies_operation,()
+/etc/postgresql :: volume_operation,()
+from,xdevelsistemas/debian-env:latest
+apt-get ¦install¦locales¦-qq :: Dependencies_operation,()
+/etc/init.d/postgresql ¦start¦&&\\ :: Other_operation,()
+echo ¦echo¦"listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+apt-get ¦update¦-qq :: Dependencies_operation,()
+gpg ¦--export¦--armor¦ACCC4CF8|apt-key¦add¦- :: Other_operation,()
+expose,5432
+postgres :: user_operation,()
+echo ¦echo¦"locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections &&\\ :: Filesystem_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+gpg ¦--keyserver¦keys.gnupg.net¦--recv-keys¦ACCC4CF8 :: Other_operation,()
+/var/log/postgresql :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦wget¦-qq :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/ :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/lib/postgresql :: volume_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main" > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()

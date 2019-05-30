@@ -1,0 +1,8 @@
+io.openshift.tags:builder :: label_operation,()
+from,strimzi/kafka-connect:latest
+cmd,/opt/s2i/run
+S2I_HOME=/opt/s2i: :: env_operation,()
+./scripts/$S2I_HOME :: copy_operation,()
+io.openshift.s2i.scripts-url:image:///opt/s2i :: label_operation,()
+1001:1001 :: user_operation,()
+root:root :: user_operation,()

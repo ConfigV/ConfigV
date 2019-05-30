@@ -1,0 +1,22 @@
+sed ¦-e¦'s@home.*@home¦/var/lib@'¦-e¦'s/loglevel.*/loglevel¦info/'¦-e¦'s@work_dir¦=¦.*@work_dir¦=¦/var/lib/ssdb@'¦-e¦'s@pidfile¦=¦.*@pidfile¦=¦/run/ssdb.pid@'¦-e¦'s@level:.*@level:¦info@'¦-e¦'s@ip:.*@ip:¦0.0.0.0@'¦-i¦/etc/ssdb.conf :: Filesystem_operation,()
+entrypoint,/usr/bin/ssdb-server¦/etc/ssdb.conf
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cp ¦ssdb-server¦/usr/bin :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+apt-get ¦remove¦-y¦--force-yes¦git¦make¦gcc¦g++¦autoconf :: Dependencies_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+TZ:Asia/Shanghai :: env_operation,()
+cd ¦.. :: Filesystem_operation,()
+apt-get ¦install¦-y¦--force-yes¦git¦make¦gcc¦g++¦autoconf :: Dependencies_operation,()
+apt-get ¦autoremove¦-y :: Dependencies_operation,()
+expose,8888
+cp ¦ssdb.conf¦/etc :: Filesystem_operation,()
+make  :: Build_Execute_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+git ¦clone¦--depth¦1¦https://github.com/ideawu/ssdb.git¦ssdb :: Dependencies_operation,()
+cd ¦ssdb :: Filesystem_operation,()
+yes ¦|¦rm¦-r¦ssdb :: Other_operation,()
+from,ubuntu
+/var/lib/ssdb :: volume_operation,()
+mkdir ¦-p¦/var/lib/ssdb :: Filesystem_operation,()

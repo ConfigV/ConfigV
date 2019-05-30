@@ -1,0 +1,23 @@
+chrome_launcher.sh/opt/google/chrome/google-chrome :: copy_operation,()
+expose,4444
+yum ¦install¦-y¦firefox¦google-chrome-stable :: Dependencies_operation,()
+rm ¦-rf¦/opt/selenium/chromedriver :: Filesystem_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+from,quay.io/ukhomeofficedigital/centos-base
+mv ¦/opt/selenium/chromedriver¦/opt/selenium/chromedriver-$CHROME_DRIVER_VERSION :: Filesystem_operation,()
+entrypoint,/opt/bin/entry_point.sh
+unzip ¦/tmp/chromedriver_linux64.zip¦-d¦/opt/selenium :: Filesystem_operation,()
+seluser :: user_operation,()
+SCREEN_WIDTH:1360 :: env_operation,()
+SCREEN_DEPTH:24 :: env_operation,()
+SCREEN_HEIGHT:1020 :: env_operation,()
+google-chrome.repo/etc/yum.repos.d/google-chrome.repo :: copy_operation,()
+wget ¦--no-verbose¦-O¦/tmp/chromedriver_linux64.zip¦http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip :: Dependencies_operation,()
+CHROME_DRIVER_VERSION:2.18 :: env_operation,()
+echo ¦yum¦install -y java-1.8.0-openjdk sudo unzip wget Xvfb && yum clean all && sed -i 's/\\/dev\\/urandom/\\/dev\\/.\\/urandom/' ./usr/lib/jvm/java-1.8.0-openjdk-1.8.0.*/jre/lib/security/java.security && sed -i -e 's/Defaults requiretty/#Defaults r... :: Filesystem_operation,()
+chmod ¦755¦/opt/selenium/chromedriver-$CHROME_DRIVER_VERSION :: Permissions_operation,()
+rm ¦/tmp/chromedriver_linux64.zip :: Filesystem_operation,()
+entry_point.sh/opt/bin/entry_point.sh :: copy_operation,()
+DISPLAY::99.0 :: env_operation,()
+ln ¦-fs¦/opt/selenium/chromedriver-$CHROME_DRIVER_VERSION¦/usr/bin/chromedriver :: Filesystem_operation,()
+config.json/opt/selenium/config.json :: copy_operation,()

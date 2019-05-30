@@ -1,0 +1,7 @@
+wget ¦https://hudson.eclipse.org/leshan/job/leshan/lastSuccessfulBuild/artifact/leshan-standalone.jar¦-O¦/opt/leshan/leshan.jar :: Dependencies_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,8080 5683
+mkdir ¦/opt/leshan :: Filesystem_operation,()
+entrypoint,cd¦/opt/leshan¦&&¦java¦-jar¦./leshan.jar
+from,ubuntu:14.04

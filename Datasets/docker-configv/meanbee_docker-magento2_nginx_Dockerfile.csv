@@ -1,0 +1,11 @@
+etc/vhost.conf/etc/nginx/conf.d/default.conf :: add_operation,()
+cmd,nginx¦-g¦daemon off;
+DEBUG:false :: env_operation,()
+bin/*/usr/local/bin/ :: add_operation,()
+MAGENTO_RUN_MODE:developer :: env_operation,()
+FPM_PORT:9000 :: env_operation,()
+VIRTUAL_HOST:magento.docker :: env_operation,()
+MAGENTO_ROOT:/magento :: env_operation,()
+from,nginx:1.9
+entrypoint,/usr/local/bin/docker-environment
+FPM_HOST:fpm :: env_operation,()

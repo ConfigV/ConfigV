@@ -1,0 +1,16 @@
+/nginx/uwsgi_params/etc/nginx/uwsgi_params :: add_operation,()
+from,ubuntu
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe" >> /etc/apt/sources.list :: Filesystem_operation,()
+/nginx/default/etc/nginx/sites-available/default :: add_operation,()
+/home/owlpub :: workdir_operation,()
+expose,80
+/nginx/nginx.conf/etc/nginx/nginx.conf :: add_operation,()
+easy_install ¦pip :: Dependencies_operation,()
+cmd,python¦OwlPub.py¦&&¦service¦nginx¦start¦&&¦uwsgi¦owlpub.ini
+apt-get ¦install¦-y¦nginx¦python¦python-dev¦python-setuptools¦git :: Dependencies_operation,()
+pip ¦install¦-r¦/home/owlpub/requirements.txt :: Dependencies_operation,()
+/nginx/mime.types/etc/nginx/mime.types :: add_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/owlpub/home/owlpub :: add_operation,()
+/uwsgi/owl-pub.ini/home/owlpub/owlpub.ini :: add_operation,()
+pip ¦install¦uwsgi :: Dependencies_operation,()

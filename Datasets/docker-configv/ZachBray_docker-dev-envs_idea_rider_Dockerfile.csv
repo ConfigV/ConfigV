@@ -1,0 +1,15 @@
+mkdir ¦-p¦/root/.Rider-2017.2/config/plugins/ :: Filesystem_operation,()
+/home/dev/src :: volume_operation,()
+wget ¦https://download.jetbrains.com/resharper/JetBrains.Rider-2017.2.tar.gz¦&&\\ :: Dependencies_operation,()
+entrypoint,/bin/bash
+curl ¦-SL¦$VIM_PLUGIN_URL¦--output¦/root/temp.zip :: Dependencies_operation,()
+from,env/desktop/dotnet
+VIM_PLUGIN_URL:https://plugins.jetbrains.com/plugin/download?rel=true&updateId=41383 :: env_operation,()
+shortcuts.sh/root/shortcuts.sh :: add_operation,()
+/home/dev/src :: workdir_operation,()
+echo ¦echo¦"source /root/shortcuts.sh" >> /root/.bashrc :: Filesystem_operation,()
+.Rider-2017.2/root/.Rider-2017.2 :: add_operation,()
+apt-get ¦install¦-y¦libsecret-1-0¦gnome-keyring¦unzip :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+unzip ¦/root/temp.zip¦-d¦/root/.Rider-2017.2/config/plugins/ :: Filesystem_operation,()
+rm ¦/root/temp.zip :: Filesystem_operation,()

@@ -1,0 +1,17 @@
+cmd,supervisord¦-n
+yum ¦install¦-y¦wget :: Dependencies_operation,()
+expose,80
+configs/supervisord.conf/etc/ :: add_operation,()
+easy_install ¦supervisor :: Dependencies_operation,()
+yum ¦install¦-y¦mysql¦mysql-server :: Dependencies_operation,()
+from,centos:7.0
+yum ¦clean¦all :: Dependencies_operation,()
+yum ¦update¦-y :: Dependencies_operation,()
+app/var/www/html/ :: add_operation,()
+wget ¦-q¦http://browscap.org/stream?q=Lite_PHP_BrowsCapINI¦-O¦/var/www/browscap.ini :: Dependencies_operation,()
+configs/httpd.conf/etc/httpd/conf/ :: add_operation,()
+yum ¦install¦-y¦epel-release :: Dependencies_operation,()
+yum ¦install¦-y¦httpd :: Dependencies_operation,()
+yum ¦install¦-y¦python-setuptools :: Dependencies_operation,()
+yum ¦install¦-y¦php¦php-mysql¦php-gd¦php-fpm¦php-mcrypt¦php-mbstring :: Dependencies_operation,()
+configs/php.ini/etc/ :: add_operation,()

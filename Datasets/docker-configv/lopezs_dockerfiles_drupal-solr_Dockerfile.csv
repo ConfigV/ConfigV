@@ -1,0 +1,17 @@
+./conf/search_api/4.x/opt/solr/example/solr/collection1/conf :: copy_operation,()
+ln ¦-s¦/opt/$SOLR¦/opt/solr :: Filesystem_operation,()
+expose,8983
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+wget ¦--progress=bar:force¦--output-document=/opt/$SOLR.tgz¦http://www.mirrorservice.org/sites/ftp.apache.org/lucene/solr/$SOLR_VERSION/$SOLR.tgz :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/tmp :: workdir_operation,()
+mkdir ¦-p¦/opt :: Filesystem_operation,()
+cmd,-Xmx512m¦-DSTOP.PORT=8079¦-DSTOP.KEY=stopkey¦-jar¦start.jar
+SOLR_VERSION:4.10.4 :: env_operation,()
+from,debian@wheezy
+apt-get ¦install¦-y¦curl¦openjdk-7-jre-headless¦unzip¦wget¦lsof¦procps :: Dependencies_operation,()
+/opt/solr/example :: workdir_operation,()
+tar ¦-C¦/opt¦--extract¦--file¦/opt/$SOLR.tgz :: Filesystem_operation,()
+SOLR:solr-$SOLR_VERSION :: env_operation,()
+rm ¦/opt/$SOLR.tgz :: Filesystem_operation,()
+entrypoint,java

@@ -1,0 +1,14 @@
+entrypoint,/docker-entrypoint.sh
+apt-get ¦install¦-y¦maxscale :: Dependencies_operation,()
+expose,3306
+apt-get ¦clean :: Dependencies_operation,()
+from,debian@jessie
+apt-get ¦install¦-y¦wget :: Dependencies_operation,()
+/etc/maxscale.d :: volume_operation,()
+wget ¦https://downloads.mariadb.com/enterprise/wm8m-g6r5/mariadb-maxscale/1.2.1/debian/dists/jessie/main/binary-amd64/maxscale-1.2.1-1.deb_jessie.x86_64.deb :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+dpkg ¦-i¦maxscale-1.2.1-1.deb_jessie.x86_64.deb :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+chmod ¦+x¦/docker-entrypoint.sh :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()

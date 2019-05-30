@@ -1,0 +1,16 @@
+go ¦get¦-u¦github.com/goadesign/goa/...¦&&go¦get¦-u¦github.com/pilu/fresh :: Build_Execute_operation,()
+./Makefile./ :: copy_operation,()
+cmd,/go/bin/goa
+./public./ :: copy_operation,()
+./ext./ :: copy_operation,()
+mkdir ¦-p¦/go/src/github.com/hiromaily/go-goa/resources :: Filesystem_operation,()
+expose,8080
+mkdir ¦-p¦/go/src/github.com/hiromaily/go-goa/goa :: Filesystem_operation,()
+/go/src/github.com/hiromaily/go-goa :: workdir_operation,()
+CGO_ENABLED=0 ¦GOOS=linux¦go¦build¦-o¦/go/bin/goa¦./ext/cmd/main.go :: Other_operation,()
+from,golang:1.8
+go ¦get¦-d¦-v¦./ext/cmd/ :: Build_Execute_operation,()
+./goa./ :: copy_operation,()
+mkdir ¦-p¦/go/src/github.com/hiromaily/go-goa/public :: Filesystem_operation,()
+mkdir ¦-p¦/go/src/github.com/hiromaily/go-goa/ext :: Filesystem_operation,()
+./resources./ :: copy_operation,()

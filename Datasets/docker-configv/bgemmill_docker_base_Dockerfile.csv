@@ -1,0 +1,14 @@
+apt-get ¦install¦-y¦gosu :: Dependencies_operation,()
+LANG='en_US.UTF-8':LC_ALL='en_US.UTF-8' :: env_operation,()
+apt-get ¦install¦-y¦locales :: Dependencies_operation,()
+apt-get ¦purge¦-yq¦software-properties-common :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦autoremove¦-yq :: Dependencies_operation,()
+apt-get ¦autoclean¦-yq :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+deb.*universe\\  :: Other_operation,()
+deb.*multiverse\\  :: Other_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+entrypoint,/etc/init/startup
+startup/etc/init/startup :: copy_operation,()
+from,ubuntu@latest

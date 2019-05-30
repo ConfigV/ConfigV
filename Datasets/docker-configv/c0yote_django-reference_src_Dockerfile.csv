@@ -1,0 +1,14 @@
+/app :: workdir_operation,()
+yum ¦-y¦install¦python36u¦python36u-pip¦python36u-devel :: Dependencies_operation,()
+python3.6 ¦manage.py¦collectstatic :: Other_operation,()
+python3.6 ¦manage.py¦makemigrations :: Other_operation,()
+entrypoint,/bin/bash
+yum ¦-y¦install¦https://centos7.iuscommunity.org/ius-release.rpm :: Dependencies_operation,()
+./app :: add_operation,()
+yum ¦install¦-y¦yum-utils :: Dependencies_operation,()
+python3.6 ¦manage.py¦migrate :: Other_operation,()
+yum ¦update :: Dependencies_operation,()
+pip3.6 ¦install¦-r¦requirements.txt :: Other_operation,()
+DJANGO_CONFIGURATION=PRODUCTION: :: env_operation,()
+yum ¦-y¦groupinstall¦development :: Dependencies_operation,()
+from,centos:7.0

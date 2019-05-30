@@ -1,0 +1,18 @@
+./configure-and-start.sh/configure-and-start.sh :: add_operation,()
+from,samsara/base-image-jdk8:u1410-j8u40
+./elasticsearch.yml.tmpl/etc/elasticsearch/elasticsearch.yml.tmpl :: add_operation,()
+rm ¦-fr¦/tmp/els.deb :: Filesystem_operation,()
+/usr/share/elasticsearch/bin/plugin ¦-install¦lmenezes/elasticsearch-kopf :: Other_operation,()
+/logs :: volume_operation,()
+mv ¦/etc/elasticsearch/elasticsearch.yml¦/etc/elasticsearch/elasticsearch.yml.orig :: Filesystem_operation,()
+/data :: volume_operation,()
+/usr/share/elasticsearch/bin/plugin ¦-url¦https://github.com/grmblfrz/elasticsearch-zookeeper/releases/download/v1.4.1/elasticsearch-zookeeper-1.4.1.zip¦-install¦zookeeper :: Other_operation,()
+/usr/share/elasticsearch/bin/plugin ¦-install¦mobz/elasticsearch-head :: Other_operation,()
+./elasticsearch.yml.min/etc/elasticsearch/elasticsearch.yml :: add_operation,()
+dpkg ¦-i¦/tmp/els.deb :: Dependencies_operation,()
+wget ¦-nv¦"https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${ELS_VERSION}.deb"¦-O¦/tmp/els.deb :: Dependencies_operation,()
+ELS_VERSION:1.5.0 :: env_operation,()
+cmd,/configure-and-start.sh
+/usr/share/elasticsearch/bin/plugin ¦-install¦royrusso/elasticsearch-HQ :: Other_operation,()
+./els-supervisor.conf/etc/supervisor/conf.d/els-supervisor.conf :: add_operation,()
+expose,9200 9300 15000

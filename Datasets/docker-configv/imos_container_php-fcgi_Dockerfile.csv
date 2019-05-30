@@ -1,0 +1,7 @@
+entrypoint,php5-fpm¦--fpm-config=/etc/php-fpm.conf¦--nodaemonize
+from,ubuntu:14.04
+apt-get ¦update¦-qq :: Dependencies_operation,()
+expose,9000
+apt-get ¦-y¦install¦php5-fpm :: Dependencies_operation,()
+config/php-fpm.conf/etc/php-fpm.conf :: add_operation,()
+useradd ¦--home-dir=/home/cloud-guest¦--create-home¦--uid=20604¦--user-group¦--shell=/sbin/nologin¦cloud-guest :: Permissions_operation,()

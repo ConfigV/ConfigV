@@ -1,0 +1,19 @@
+useradd ¦--home-dir¦/home/sabnzbd¦--gid¦downloads¦--create-home¦sabnzbd :: Permissions_operation,()
+VERSION:1.0.3 :: env_operation,()
+rm ¦-rf¦sabnzbd.tar.gz :: Filesystem_operation,()
+/downloads :: volume_operation,()
+chmod ¦775¦-R¦/var/log/sabnzbd¦/config¦/downloads :: Permissions_operation,()
+from,jgiovaresco/debian-with-dockerize:latest
+mkdir ¦/var/log/sabnzbd¦/config¦/downloads :: Filesystem_operation,()
+tar ¦xvfz¦sabnzbd.tar.gz :: Filesystem_operation,()
+expose,8080 9090
+apt-get ¦update :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+cmd,dockerize¦¦-stdout¦/var/log/sabnzbd/sabnzbd.log¦¦python¦SABnzbd-${VERSION}/SABnzbd.py¦--config-file¦/config¦--logging¦1¦-s¦0.0.0.0:8080
+sabnzbd :: user_operation,()
+/home/sabnzbd :: workdir_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦python¦python-cheetah¦python-yenc¦python-service-identity¦unrar¦unzip¦p7zip¦par2 :: Dependencies_operation,()
+wget ¦--no-check-certificate¦-O¦sabnzbd.tar.gz¦https://github.com/sabnzbd/sabnzbd/releases/download/${VERSION}/SABnzbd-${VERSION}-src.tar.gz :: Dependencies_operation,()
+chown ¦sabnzbd:downloads¦/var/log/sabnzbd¦/config¦/downloads :: Permissions_operation,()
+/config :: volume_operation,()
+groupadd ¦--gid¦1002¦downloads :: Permissions_operation,()

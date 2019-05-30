@@ -1,0 +1,18 @@
+entrypoint,/entrypoint.sh
+php.ini/usr/local/etc/php/php.ini :: copy_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+from,php:5.6
+curl ¦-fsSL¦-o¦/usr/src/piwik/misc/GeoIPCity.dat.gz¦http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz :: Dependencies_operation,()
+cp ¦-R¦/usr/src/piwik/*¦/var/www/html :: Filesystem_operation,()
+pecl ¦install¦APCu¦geoip :: Dependencies_operation,()
+PIWIK_VERSION:2.16.1 :: env_operation,()
+mktemp ¦-d :: Other_operation,()
+apt-get ¦install¦-y¦libjpeg-dev¦libfreetype6-dev¦libgeoip-dev¦libpng12-dev¦zip :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/var/www/html :: volume_operation,()
+chown ¦-R¦www-data¦/var/www/html :: Permissions_operation,()
+cmd,php-fpm
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr¦--with-png-dir=/usr¦--with-jpeg-dir=/usr :: Other_operation,()
+docker-php-ext-install ¦gd¦mbstring¦mysqli¦pdo_mysql¦zip :: Other_operation,()
+gunzip ¦/usr/src/piwik/misc/GeoIPCity.dat.gz :: Other_operation,()

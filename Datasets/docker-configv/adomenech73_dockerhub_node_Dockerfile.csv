@@ -1,0 +1,10 @@
+cmd,/sbin/my_init
+NVM_DIR:/usr/local/nvm :: env_operation,()
+entrypoint,node
+rm ¦-rf¦/var/lib/apt/lists/*¦/tmp/*¦/var/tmp/* :: Filesystem_operation,()
+PATH:$NVM_DIR:$PATH :: env_operation,()
+echo ¦apt-get¦update && apt-get install -y wget build-essential libssl-dev && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.26.1/install.sh | bash &&  rm /bin/sh && ln -s /bin/bash /bin/sh && . $NVM_DIR/nvm.sh && nvm install $NODE... :: Filesystem_operation,()
+NODE_VERSION:v0.12.6 :: env_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+expose,3000
+from,phusion/baseimage:latest

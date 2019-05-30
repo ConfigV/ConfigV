@@ -1,0 +1,8 @@
+rm ¦-f¦/usr/share/logstash/pipeline/logstash.conf :: Filesystem_operation,()
+mkdir ¦-p¦/usr/share/logstash/logs :: Filesystem_operation,()
+./pipeline//usr/share/logstash/pipeline :: copy_operation,()
+/usr/share/logstash/logs :: volume_operation,()
+from,docker.elastic.co/logstash/logstash-oss:6.1.1
+chown ¦-R¦logstash:logstash¦/usr/share/logstash/logs :: Permissions_operation,()
+./config//usr/share/logstash/config :: copy_operation,()
+expose,514 514

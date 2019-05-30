@@ -1,0 +1,14 @@
+entrypoint,/start.sh
+LANG:en_US.UTF-8 :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦"deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list && apt-get update && apt-get upgrade :: Filesystem_operation,()
+start.sh/start.sh :: add_operation,()
+LC_ALL:en_US.UTF-8 :: env_operation,()
+from,ubuntu@precise
+/data :: volume_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+sed ¦-i¦-e"s/data_directory¦=.*$/data_directory¦=¦'\\/data'/"¦/etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+sed ¦-i¦-e"s/^#listen_addresses¦=.*$/listen_addresses¦=¦'*'/"¦/etc/postgresql/9.3/main/postgresql.conf :: Filesystem_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()
+echo ¦echo¦"host all all 0.0.0.0/0 md5" >> /etc/postgresql/9.3/main/pg_hba.conf :: Filesystem_operation,()
+echo ¦echo¦"deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list && apt-get update && apt-get install -y --force-yes postgresql-9.3 && /etc/init.d/postgresql stop :: Filesystem_operation,()

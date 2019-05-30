@@ -1,0 +1,10 @@
+from,centos:6.0
+JAVA_HOME:/usr/lib/jvm/jre-1.7.0-openjdk.x86_64/ :: env_operation,()
+yum ¦install¦-y¦java-1.7.0-openjdk* :: Dependencies_operation,()
+root :: user_operation,()
+expose,8080 8440 8441
+yum ¦install¦-y¦ambari-server¦ambari-agent :: Dependencies_operation,()
+wget ¦-nv¦http://public-repo-1.hortonworks.com/HDP-LABS/Projects/Dal-Preview/ambari/2.1.0-5/centos6/ambari.repo¦-O¦/etc/yum.repos.d/ambari.repo :: Dependencies_operation,()
+yum ¦upgrade¦-y¦openssl :: Dependencies_operation,()
+ambari-server ¦setup¦-s¦-j¦$JAVA_HOME :: Other_operation,()
+yum ¦install¦-y¦wget :: Dependencies_operation,()

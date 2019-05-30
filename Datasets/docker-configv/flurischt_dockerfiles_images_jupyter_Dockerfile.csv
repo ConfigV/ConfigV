@@ -1,0 +1,14 @@
+pip ¦install¦pandas¦matplotlib¦jupyter" :: Dependencies_operation,()
+from,ubuntu@xenial
+/jupyter :: workdir_operation,()
+/jupyter/workbooks :: volume_operation,()
+conf/jupyter_notebook_config.py.jupyter/ :: add_operation,()
+mkdir ¦.jupyter :: Filesystem_operation,()
+$USERNAME :: user_operation,()
+USERNAME:jupyter :: env_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+expose,5050
+cmd,/jupyter/venv/bin/jupyter¦notebook¦--notebook-dir=/jupyter/notebooks¦--ip=0.0.0.0¦--port=5050
+/bin/bash ¦-c¦"virtualenv¦-p¦`which¦python3`¦venv :: Build_Execute_operation,()
+source ¦venv/bin/activate :: Environment_operation,()
+mkdir ¦workbooks :: Filesystem_operation,()

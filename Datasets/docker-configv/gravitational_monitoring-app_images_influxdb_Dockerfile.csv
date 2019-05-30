@@ -1,0 +1,10 @@
+Dockerfile/ :: add_operation,()
+build/influx*$INFLUXDB_HOME/ :: add_operation,()
+INFLUXDB_HOME:/influxdb :: env_operation,()
+PATH:$INFLUXDB_HOME:$PATH :: env_operation,()
+expose,8083 8086 8086 8088 2003 4242 25826
+config.toml/etc/influxdb.toml :: add_operation,()
+cmd,/influxdb/influxd¦-config¦/etc/influxdb.toml
+from,busybox@latest
+mkdir ¦-p¦$INFLUXDB_HOME¦/data¦/logs :: Filesystem_operation,()
+/logs :: volume_operation,()

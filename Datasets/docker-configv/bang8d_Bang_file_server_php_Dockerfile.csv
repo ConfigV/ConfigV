@@ -1,0 +1,9 @@
+docker-php-ext-enable ¦imagick :: Other_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦libpng-dev¦libjpeg-dev¦libmagickwand-dev¦imagemagick :: Dependencies_operation,()
+ln ¦-s¦/etc/apache2/mods-available/rewrite.load¦/etc/apache2/mods-enabled/rewrite.load :: Filesystem_operation,()
+pecl ¦install¦imagick :: Dependencies_operation,()
+docker-php-ext-install ¦gd¦#¦Uninstall¦obsolete¦packages: :: Other_operation,()
+docker-php-ext-configure ¦gd¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+ln ¦-s¦/etc/apache2/mods-available/headers.load¦/etc/apache2/mods-enabled/headers.load :: Filesystem_operation,()
+from,php:7.0
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦update :: Other_operation,()

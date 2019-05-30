@@ -1,0 +1,10 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+apt-get ¦-y¦upgrade :: Dependencies_operation,()
+apt-get ¦-y¦install¦pdns-server¦pdns-backend-mysql¦mysql-client :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/bin/bash¦/scripts/start.sh
+entrypoint,/scripts/entrypoint.sh
+from,debian@latest
+expose,80
+ln ¦-sf¦/bin/true¦/sbin/initctl :: Filesystem_operation,()
+dpkg-divert ¦--local¦--rename¦--add¦/sbin/initctl :: Other_operation,()

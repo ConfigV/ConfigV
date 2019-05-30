@@ -1,0 +1,9 @@
+yum ¦clean¦all :: Dependencies_operation,()
+expose,22
+ssh-keygen ¦-A :: Other_operation,()
+root :: user_operation,()
+mkdir ¦-m¦700¦/root/.ssh :: Filesystem_operation,()
+echo ¦echo¦'root:root_password' | chpasswd :: Filesystem_operation,()
+from,centos@latest
+cmd,/usr/sbin/sshd¦-D
+yum ¦install¦-y¦openssh-server¦iproute :: Dependencies_operation,()

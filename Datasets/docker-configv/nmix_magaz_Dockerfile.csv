@@ -1,0 +1,14 @@
+apt-get ¦update :: Dependencies_operation,()
+/usr/src/app/spec/test_app :: workdir_operation,()
+from,ruby:2.3
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+.. :: copy_operation,()
+LANG:C.UTF-8 :: env_operation,()
+bin/rake ¦magaz:seed :: Other_operation,()
+bin/rake ¦db:migrate¦SCOPE=magaz :: Other_operation,()
+/usr/src/app :: workdir_operation,()
+expose,3000
+apt-get ¦install¦-y¦--no-install-recommends¦nodejs :: Dependencies_operation,()
+bin/rake ¦magaz:install:migrations :: Other_operation,()
+cmd,bin/rails¦server¦-b¦0.0.0.0
+bundle ¦install¦--local :: Dependencies_operation,()

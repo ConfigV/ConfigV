@@ -1,0 +1,11 @@
+pip ¦install¦gunicorn :: Dependencies_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+src/main.py/app :: add_operation,()
+mkdir ¦/app :: Filesystem_operation,()
+expose,5000
+cmd,gunicorn¦-w¦4¦-b¦0.0.0.0:5000¦main:app
+from,gliderlabs/alpine:3.1
+pip ¦install¦flask :: Dependencies_operation,()
+/app :: workdir_operation,()
+apk ¦add¦--update¦python¦python-dev¦py-pip :: Dependencies_operation,()
+PYTHON_PATH:/app :: env_operation,()

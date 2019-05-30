@@ -1,0 +1,11 @@
+puppet ¦module¦install¦jfryman-nginx :: Dependencies_operation,()
+chmod ¦+x¦/root/start.sh :: Permissions_operation,()
+/etc/nginx :: volume_operation,()
+echo ¦echo¦"daemon off;" >> /etc/nginx/nginx.conf :: Filesystem_operation,()
+from,autoecole/base
+FACTER_fqdn=www.autoecole.ch ¦puppet¦apply¦/root/provision.pp :: Other_operation,()
+start.sh/root/start.sh :: add_operation,()
+/var/log/nginx :: volume_operation,()
+expose,80
+provision.pp/root/ :: add_operation,()
+cmd,/root/start.sh

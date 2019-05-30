@@ -1,0 +1,11 @@
+/opt/DKC-robot :: workdir_operation,()
+apt-get ¦update;¦apt-get¦install¦-y¦apache2¦python-setuptools¦unzip¦git :: Dependencies_operation,()
+git ¦clone¦https://github.com/hsmade/DKC-robot.git :: Dependencies_operation,()
+mkdir ¦-p¦/opt/DKC-robot :: Filesystem_operation,()
+unzip ¦/web2py.zip;¦rm¦/web2py.zip :: Filesystem_operation,()
+a2ensite ¦contest.dkars.nl.conf :: Other_operation,()
+apache2ctl ¦restart :: Other_operation,()
+contest.dkars.nl.conf/etc/apache2/sites-available :: add_operation,()
+from,ubuntu
+/opt/DKC-robot/web2py/applications :: workdir_operation,()
+http://www.web2py.com/examples/static/web2py_src.zip/web2py.zip :: add_operation,()

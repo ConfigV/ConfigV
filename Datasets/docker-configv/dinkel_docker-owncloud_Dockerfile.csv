@@ -1,0 +1,22 @@
+entrypoint,/bootstrap.sh
+find ¦/var/www/assets¦-type¦f¦-exec¦chmod¦644¦{}; :: Filesystem_operation,()
+find ¦/var/www/data¦-type¦d¦-exec¦chmod¦755¦{}; :: Filesystem_operation,()
+from,dinkel/nginx-phpfpm
+curl ¦https://download.owncloud.org/community/owncloud-$OWNCLOUD_VERSION.tar.bz2¦|¦tar¦jx¦-C¦/var/ :: Dependencies_operation,()
+find ¦/var/www/config¦-type¦d¦-exec¦chmod¦755¦{}; :: Filesystem_operation,()
+/var/www/config :: volume_operation,()
+mv ¦/var/owncloud/¦/var/www/ :: Filesystem_operation,()
+mkdir ¦-p¦/var/www/assets¦/var/www/data :: Filesystem_operation,()
+find ¦/var/www/assets¦-type¦d¦-exec¦chmod¦755¦{}; :: Filesystem_operation,()
+www.conf/etc/php5/fpm/pool.d/ :: copy_operation,()
+/var/www/data :: volume_operation,()
+cmd,/run.sh
+curl ¦https://apps.owncloud.com/CONTENT/content-files/157439-files_antivirus.tar.gz¦|¦tar¦zx¦-C¦/var/www/apps :: Dependencies_operation,()
+find ¦/var/www/apps¦-type¦f¦-exec¦chmod¦644¦{}; :: Filesystem_operation,()
+default.conf/etc/nginx/conf.d/ :: copy_operation,()
+chown ¦-R¦www-data:www-data¦/var/www/apps¦/var/www/assets¦/var/www/config¦/var/www/data :: Permissions_operation,()
+bootstrap.sh/ :: copy_operation,()
+find ¦/var/www/data¦-type¦f¦-exec¦chmod¦644¦{}; :: Filesystem_operation,()
+find ¦/var/www/config¦-type¦f¦-exec¦chmod¦644¦{}; :: Filesystem_operation,()
+find ¦/var/www/apps¦-type¦d¦-exec¦chmod¦755¦{}; :: Filesystem_operation,()
+OWNCLOUD_VERSION:7.0.4 :: env_operation,()

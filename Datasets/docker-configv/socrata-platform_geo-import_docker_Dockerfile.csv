@@ -1,0 +1,18 @@
+/app/node_modules :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+expose,4444
+ship.d/etc/ship.d/ :: copy_operation,()
+date ¦-u¦+"%Y-%m-%dT%H:%M:%SZ"¦>¦build-time.txt :: Other_operation,()
+lib/app/lib :: add_operation,()
+GEO_IMPORT_ENV=prod: :: env_operation,()
+/app :: workdir_operation,()
+/app/node_modules/node-srs :: workdir_operation,()
+apt-get ¦install¦-y¦git¦gdal-bin :: Dependencies_operation,()
+from,socrata/nodejs
+npm ¦install¦-g¦babel@5.8.29 :: Dependencies_operation,()
+CC=gcc ¦CXX=g++¦npm¦install :: Other_operation,()
+scripts/app/scripts :: add_operation,()
+BABEL_DISABLE_CACHE=1: :: env_operation,()
+git ¦clone¦https://github.com/rozap/node-srs :: Dependencies_operation,()
+package.json/app/ :: add_operation,()
+npm ¦install¦--production :: Dependencies_operation,()

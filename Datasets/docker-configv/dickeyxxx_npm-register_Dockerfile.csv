@@ -1,0 +1,14 @@
+NODE_ENV:production :: env_operation,()
+chown ¦-R¦register:register¦. :: Permissions_operation,()
+/srv/npm-register :: workdir_operation,()
+adduser ¦-D¦-S¦-s¦/bin/bash¦-h¦/srv/npm-register¦-G¦register¦register :: Permissions_operation,()
+apk ¦--no-cache¦add¦g++¦gcc¦make¦bash¦gnupg¦paxctl¦python¦nodejs¦linux-headers :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+NPM_REGISTER_FS_DIRECTORY:/data :: env_operation,()
+./srv/npm-register :: copy_operation,()
+from,alpine:3.4
+register :: user_operation,()
+expose,3000
+/data :: volume_operation,()
+cmd,npm¦start
+addgroup ¦-S¦register :: Permissions_operation,()

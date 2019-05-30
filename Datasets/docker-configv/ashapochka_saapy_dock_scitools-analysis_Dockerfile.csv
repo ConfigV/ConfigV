@@ -1,0 +1,22 @@
+scitools :: user_operation,()
+PATH:$PATH:$UND_HOME/bin/linux64 :: env_operation,()
+cmd,--list
+apt-get ¦clean :: Dependencies_operation,()
+adduser ¦--disabled-login¦--system¦--uid¦1000¦--home¦/data¦--shell¦/sbin/nologin¦--group¦scitools :: Permissions_operation,()
+apt-get ¦install¦-yq¦--force-yes¦--no-install-recommends¦zlib1g-dev¦libglib2.0-dev¦libxext6 :: Dependencies_operation,()
+chmod ¦+x¦/tini :: Permissions_operation,()
+./sources.list/etc/apt/ :: copy_operation,()
+/data :: volume_operation,()
+pip ¦install¦-r¦/requirements.txt :: Dependencies_operation,()
+root :: user_operation,()
+addgroup ¦--system¦--gid¦1000¦scitools :: Permissions_operation,()
+./requirements.txt/ :: copy_operation,()
+HOME:/data :: env_operation,()
+from,python:3.5
+UND_HOME:$HOME/scitools :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./tini/ :: copy_operation,()
+PYTHONPATH:$PYTHONPATH:$HOME:$UND_HOME/bin/linux64/python :: env_operation,()
+/data :: workdir_operation,()
+entrypoint,/tini¦-g¦-s¦--¦invoke
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()

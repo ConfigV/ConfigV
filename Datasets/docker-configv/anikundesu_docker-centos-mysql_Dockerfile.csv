@@ -1,0 +1,13 @@
+from,centos:6.0
+/ :: workdir_operation,()
+MYSQL_MAJOR:5.6 :: env_operation,()
+groupadd ¦-r¦mysql :: Permissions_operation,()
+cmd,mysqld¦--datadir=/var/lib/mysql¦--socket=/var/run/mysqld/mysqld.socket¦--user=mysql
+useradd ¦-r¦-g¦mysql¦mysql :: Permissions_operation,()
+yum ¦localinstall¦-y¦http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm :: Dependencies_operation,()
+entrypoint,/entrypoint.sh
+/var/lib/mysql :: volume_operation,()
+expose,3306
+yum ¦install¦-y¦mysql-community-server :: Dependencies_operation,()
+docker-entrypoint.sh/entrypoint.sh :: copy_operation,()
+MYSQL_VERSION:5.6.21 :: env_operation,()

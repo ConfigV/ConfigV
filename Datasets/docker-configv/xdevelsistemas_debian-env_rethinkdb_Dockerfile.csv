@@ -1,0 +1,11 @@
+echo ¦echo¦"deb http://download.rethinkdb.com/apt jessie main" > /etc/apt/sources.list.d/rethinkdb.list :: Filesystem_operation,()
+RETHINKDB_PACKAGE_VERSION:2.2.5~0jessie :: env_operation,()
+/data :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦rethinkdb=$RETHINKDB_PACKAGE_VERSION :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,28015 29015 8080
+apt-key ¦adv¦--keyserver¦pgp.mit.edu¦--recv-keys¦1614552E5765227AEC39EFCFA7E00EF33A8F2399 :: Dependencies_operation,()
+from,debian@jessie
+/data :: volume_operation,()
+cmd,rethinkdb¦--bind¦all

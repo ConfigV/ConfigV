@@ -1,0 +1,16 @@
+echo ¦echo¦"jira.home = /opt/jira-home" > /opt/jira/atlassian-jira/WEB-INF/classes/jira-application.properties :: Filesystem_operation,()
+/opt/jira-home :: workdir_operation,()
+mkdir ¦-p¦/opt/jira :: Filesystem_operation,()
+cmd,/opt/jira/bin/start-jira.sh¦-fg
+from,haroon/docker-oracle-jdk7
+expose,80808080
+mkdir ¦-p¦/opt/jira-home :: Filesystem_operation,()
+curl ¦-Lks¦${atlassian_url}/atlassian-jira-${jira_version}.tar.gz¦-o¦/tmp/jira.tar.gz :: Dependencies_operation,()
+tar ¦-zxf¦/tmp/jira.tar.gz¦--strip=1¦-C¦/opt/jira :: Filesystem_operation,()
+/opt/jira-home :: volume_operation,()
+atlassian_url:http://www.atlassian.com/software/jira/downloads/binary :: env_operation,()
+jira_version:6.2.4 :: env_operation,()
+/usr/sbin/useradd ¦--create-home¦--home-dir¦/usr/local/jira¦--shell¦/bin/bash¦jira :: Other_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()
+rm ¦-f¦/opt/jira-home/.jira-home.lock :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()

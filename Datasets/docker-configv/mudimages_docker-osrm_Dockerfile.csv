@@ -1,0 +1,10 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦-y¦build-essential¦git¦cmake¦pkg-config¦libbz2-dev¦libstxxl-dev¦libstxxl-doc¦libstxxl1¦libxml2-dev¦libzip-dev¦libboost-all-dev¦lua5.1¦liblua5.1-0-dev¦libluabind-dev¦libluajit-5.1-dev¦libtbb-dev :: Dependencies_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+entrypoint,/docker-entrypoint.sh
+expose,5000
+apt-get ¦clean :: Dependencies_operation,()
+from,ubuntu@trusty
+apt-get ¦-y¦update :: Dependencies_operation,()
+echo ¦git¦clone https://github.com/DennisOSRM/Project-OSRM.git /src && mkdir –p /build && cd /build && cmake /src && make && mv /src/profiles/car.lua profile.lua && mv /src/profiles/lib/ lib && echo "disk=/tmp/stxxl,25000,syscall" > /build/.stxx... :: Filesystem_operation,()

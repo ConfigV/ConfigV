@@ -1,0 +1,11 @@
+./target/solc.dockerartefact$INSTALL_BASE/solc :: copy_operation,()
+from,docker:17.09
+entrypoint,/usr/local/bin/monax-entrypoint.sh
+MONAX_PATH:/home/$USER/.monax :: env_operation,()
+./monax-entrypoint.sh$INSTALL_BASE :: copy_operation,()
+USER:monax :: env_operation,()
+./target/"$TARGET".dockerartefact$INSTALL_BASE/$TARGET :: copy_operation,()
+TARGET:monax :: env_operation,()
+/home/$USER :: workdir_operation,()
+INSTALL_BASE:/usr/local/bin :: env_operation,()
+apk ¦add¦--update¦--no-cache¦bash¦coreutils¦curl¦git¦jq¦tar :: Dependencies_operation,()

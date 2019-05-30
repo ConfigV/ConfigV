@@ -1,0 +1,12 @@
+entrypoint,/docker-entrypoint.sh
+PHP_ENABLE_XDEBUG:false :: env_operation,()
+DEBUG:false :: env_operation,()
+docker-entrypoint.sh/docker-entrypoint.sh :: add_operation,()
+docker-php-ext-configure ¦gd¦--with-freetype-dir=/usr/include/¦--with-jpeg-dir=/usr/include/ :: Other_operation,()
+echo ¦apt-get¦update && apt-get install -y <?php echo join("\\n ", $packages) ?> :: Filesystem_operation,()
+docker-php-ext-install ¦dom¦gd¦intl¦mbstring¦mcrypt¦pdo_mysql¦xsl¦zip¦soap :: Other_operation,()
+UPDATE_UID_GID:false :: env_operation,()
+PHP_MEMORY_LIMIT:2G :: env_operation,()
+MAGENTO_ROOT:/var/www/magento :: env_operation,()
+chmod ¦+x¦/docker-entrypoint.sh :: Permissions_operation,()
+pecl ¦install¦-o¦-f¦xdebug-2.4.0 :: Dependencies_operation,()

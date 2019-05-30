@@ -1,0 +1,13 @@
+example-mbedos-blinky.xml$JENKINS_HOME/jobs/example-mbedos-blinky/config.xml :: copy_operation,()
+entrypoint,cd¦/opt/jenkins¦&&¦java¦-jar¦./jenkins.war
+mkdir ¦/opt/jenkins :: Filesystem_operation,()
+mkdir ¦-p¦$JENKINS_HOME/jobs/example-mbedos-blinky :: Filesystem_operation,()
+from,mbed/yotta
+useradd ¦-d¦"$JENKINS_HOME"¦-u¦1000¦-m¦-s¦/bin/bash¦jenkins :: Permissions_operation,()
+expose,8080
+mkdir ¦-p¦$JENKINS_HOME/workspace/example-mbedos-blinky :: Filesystem_operation,()
+jenkins :: user_operation,()
+apt-get ¦update :: Dependencies_operation,()
+JENKINS_HOME:/var/jenkins :: env_operation,()
+apt-get ¦install¦-y¦openjdk-7-jre-headless¦wget :: Dependencies_operation,()
+wget ¦http://mirrors.jenkins-ci.org/war-stable/1.625.2/jenkins.war¦-O¦/opt/jenkins/jenkins.war :: Dependencies_operation,()

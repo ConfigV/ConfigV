@@ -1,0 +1,10 @@
+from,ubuntu@trusty
+env ¦--unset=DEBIAN_FRONTEND¦>¦/dev/null :: Other_operation,()
+apt-get ¦-qq¦--force-yes¦install¦bash :: Dependencies_operation,()
+APT_REFRESH:12062015 :: env_operation,()
+sed ¦-i¦'s/http:\\/\\/archive.ubuntu.com\\/ubuntu\\//mirror:\\/\\/mirrors.ubuntu.com\\/mirrors.txt/'¦/etc/apt/sources.list :: Filesystem_operation,()
+apt-get ¦-qq¦clean :: Dependencies_operation,()
+unset ¦DEBIAN_FRONTEND :: Other_operation,()
+apt-get ¦-qq¦update :: Dependencies_operation,()
+apt-get ¦-qq¦--force-yes¦dist-upgrade :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()

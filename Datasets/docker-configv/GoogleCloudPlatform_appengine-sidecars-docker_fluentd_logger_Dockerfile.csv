@@ -1,0 +1,10 @@
+apt-get ¦clean :: Dependencies_operation,()
+curl ¦-s¦https://storage.googleapis.com/signals-agents/logging/google-fluentd-install.sh¦|¦DO_NOT_INSTALL_CATCH_ALL_CONFIG=1¦bash :: Dependencies_operation,()
+rm ¦/var/lib/apt/lists/*_* :: Filesystem_operation,()
+from,gcr.io/google_appengine/base
+/usr/sbin/google-fluentd-gem ¦install¦--conservative¦fluent-plugin-google-cloud:0.4.4 :: Other_operation,()
+managed_vms.conf/etc/google-fluentd/google-fluentd.conf :: add_operation,()
+entrypoint,/opt/google-fluentd/embedded/bin/ruby¦/usr/sbin/google-fluentd¦--log¦/var/log/google-fluentd/google-fluentd.log
+apt-get ¦-y¦install¦apt-utils¦adduser¦ca-certificates¦curl¦lsb-release :: Dependencies_operation,()
+out_from_docker.rb/etc/google-fluentd/plugin/out_from_docker.rb :: add_operation,()
+apt-get ¦-q¦update :: Dependencies_operation,()

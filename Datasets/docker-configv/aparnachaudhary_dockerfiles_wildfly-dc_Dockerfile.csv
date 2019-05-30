@@ -1,0 +1,8 @@
+JBOSS_HOME:/opt/jboss/wildfly :: env_operation,()
+mv ¦$HOME/wildfly-$WILDFLY_VERSION¦$HOME/wildfly :: Filesystem_operation,()
+WILDFLY_VERSION:9.0.0.Final :: env_operation,()
+/opt/jboss/wildfly/bin/add-user.sh ¦demo¦demo¦--silent :: Other_operation,()
+from,jboss/base-jdk:8
+cmd,/opt/jboss/wildfly/bin/domain.sh¦-b¦0.0.0.0¦-bmanagement¦0.0.0.0¦--host-config¦host-master.xml
+curl ¦http://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz¦|¦tar¦zx :: Dependencies_operation,()
+cd ¦$HOME :: Filesystem_operation,()

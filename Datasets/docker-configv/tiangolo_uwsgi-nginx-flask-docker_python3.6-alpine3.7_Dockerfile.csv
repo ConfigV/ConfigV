@@ -1,0 +1,17 @@
+STATIC_PATH:/app/static :: env_operation,()
+NGINX_MAX_UPLOAD:0 :: env_operation,()
+chmod ¦+x¦/start.sh :: Permissions_operation,()
+LISTEN_PORT:80 :: env_operation,()
+PYTHONPATH=/app: :: env_operation,()
+/app :: workdir_operation,()
+pip ¦install¦flask :: Dependencies_operation,()
+start.sh/start.sh :: copy_operation,()
+entrypoint,/entrypoint.sh
+chmod ¦+x¦/entrypoint.sh :: Permissions_operation,()
+from,tiangolo/uwsgi-nginx:python3.6-alpine3.7
+cmd,/start.sh
+entrypoint.sh/entrypoint.sh :: copy_operation,()
+STATIC_INDEX:0 :: env_operation,()
+./app/app :: copy_operation,()
+STATIC_URL:/static :: env_operation,()
+UWSGI_INI:/app/uwsgi.ini :: env_operation,()

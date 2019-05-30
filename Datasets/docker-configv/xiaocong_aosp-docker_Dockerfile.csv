@@ -1,0 +1,19 @@
+from,ubuntu:14.04
+NOTVISIBLE:"in :: env_operation,()
+cd ¦/working :: Filesystem_operation,()
+repo ¦sync :: Other_operation,()
+curl ¦https://storage.googleapis.com/git-repo-downloads/repo¦>¦/usr/local/bin/repo :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D
+sed ¦'s@session\\s*required\\s*pam_loginuid.so@session¦optional¦pam_loginuid.so@g'¦-i¦/etc/pam.d/sshd :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server :: Dependencies_operation,()
+expose,22
+repo ¦init¦-u¦https://android.googlesource.com/platform/manifest :: Other_operation,()
+sed ¦-i¦'s/PermitRootLogin¦without-password/PermitRootLogin¦yes/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+apt-get ¦install¦-y¦bison¦g++-multilib¦git¦gperf¦libxml2-utils :: Dependencies_operation,()
+mkdir ¦/working :: Filesystem_operation,()
+chmod ¦+x¦/usr/local/bin/repo :: Permissions_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+echo ¦echo¦'root:screencast' | chpasswd :: Filesystem_operation,()
+echo ¦echo¦"export VISIBLE=now" >> /etc/profile :: Filesystem_operation,()
+apt-get ¦install¦-y¦openjdk-7-jdk :: Dependencies_operation,()

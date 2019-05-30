@@ -1,0 +1,12 @@
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+docker-entrypoint.sh/etc/rc.local :: add_operation,()
+from,phusion/baseimage:0.9.16
+echo ¦echo¦"Acquire::Languages"none\\";\\nAPT::Install-Recommends"true\\";\\nAPT::Install-Suggests"false\\";" > /etc/apt/apt.conf ;\\ echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure tzdata ;\\ :: Filesystem_operation,()
+LANG:en_US.UTF-8 :: env_operation,()
+mkdir ¦/etc/service/mysql;\\ :: Filesystem_operation,()
+# ¦see¦http://anonscm.debian.org/cgit/pkg-mysql/mysql-5.5.git/tree/debian/mysql-server-5.5.preinst#n112 :: Other_operation,()
+/var/lib/mysql :: volume_operation,()
+expose,3306
+mysqld_charset.cnf/etc/mysql/conf.d/mysqld_charset.cnf :: add_operation,()
+bind-address|log  :: Other_operation,()
+/etc/mysql :: volume_operation,()

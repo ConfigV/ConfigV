@@ -1,0 +1,13 @@
+ln ¦-sf¦/dev/stderr¦/var/log/nginx/error.log :: Filesystem_operation,()
+rm ¦/etc/nginx/sites-enabled/* :: Filesystem_operation,()
+conf//etc/nginx/sites-enabled/ :: copy_operation,()
+static//usr/share/nginx/html/ :: copy_operation,()
+cmd,nginx¦-g¦daemon off;
+from,debian@jessie
+expose,80 443
+apt-get ¦install¦--no-install-suggests¦-y¦¦ca-certificates¦nginx :: Dependencies_operation,()
+/etc/nginx :: volume_operation,()
+ln ¦-sf¦/dev/stdout¦/var/log/nginx/access.log :: Filesystem_operation,()
+chown ¦-R¦www-data¦/usr/share/nginx :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+mkdir ¦-p¦/usr/share/nginx/html :: Filesystem_operation,()

@@ -1,0 +1,15 @@
+expose,80
+echo ¦echo¦'deb-src http://ftp.fr.debian.org/debian/ jessie non-free' >> /etc/apt/sources.list :: Filesystem_operation,()
+rm ¦/etc/apache2/sites-enabled/* :: Filesystem_operation,()
+sites-available/etc/apache2/sites-available :: add_operation,()
+entrypoint,apache.sh
+echo ¦echo¦'deb http://ftp.fr.debian.org/debian/ jessie non-free' >> /etc/apt/sources.list :: Filesystem_operation,()
+chmod ¦+x¦/usr/bin/apache.sh :: Permissions_operation,()
+from,debian@latest
+VIRTUALHOST:lab.dev :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()
+/var/www :: volume_operation,()
+/var/www :: workdir_operation,()
+apt-get ¦-y¦install¦apache2¦libapache2-mod-fastcgi :: Dependencies_operation,()
+conf-available/etc/apache2/conf-available :: add_operation,()
+apache.sh/usr/bin/apache.sh :: add_operation,()

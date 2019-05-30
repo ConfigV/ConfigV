@@ -1,0 +1,10 @@
+HAWKULAR_METRICS_VERSION:0.3.4-SNAPSHOT :: env_operation,()
+root :: user_operation,()
+cd ¦$JBOSS_HOME/standalone/deployments/ :: Filesystem_operation,()
+curl ¦-Lo¦hawkular-metrics-api-jaxrs.war¦https://origin-repository.jboss.org/nexus/service/local/artifact/maven/content?r=public\\&g=org.hawkular\\&a=hawkular-metrics-api-jaxrs\\&e=war&v=${HAWKULAR_METRICS_VERSION} :: Dependencies_operation,()
+cmd,$JBOSS_HOME/bin/standalone.sh¦-b¦0.0.0.0¦-bmanagement¦0.0.0.0¦-Dhawkular-metrics.cassandra-nodes=hawkular-cassandra¦-Dhawkular-metrics.backend=cass
+yum ¦install¦-y¦java-1.8.0-openjdk¦java-1.8.0-openjdk-devel;¦yum¦clean¦all¦-y; :: Dependencies_operation,()
+expose,8080
+from,jboss/wildfly:8.2.0.Final
+jboss :: user_operation,()
+JAVA_HOME:/usr/lib/jvm/java-1.8.0 :: env_operation,()

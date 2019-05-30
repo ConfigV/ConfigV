@@ -1,0 +1,16 @@
+wget ¦http://proofgeneral.inf.ed.ac.uk/releases/ProofGeneral-latest.tgz :: Dependencies_operation,()
+cd ¦/tmp :: Filesystem_operation,()
+apt-get ¦install¦-y¦emacs :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists* :: Filesystem_operation,()
+apt-get ¦install¦-y¦coq :: Dependencies_operation,()
+/proofgeneral :: workdir_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,dockerfile/ubuntu:latest
+wget ¦http://isabelle.in.tum.de/dist/Isabelle2014_linux.tar.gz :: Dependencies_operation,()
+rm ¦-rf¦/tmp/ProofGeneral* :: Filesystem_operation,()
+cmd,proofgeneral
+cd ¦ProofGeneral :: Filesystem_operation,()
+cd ¦/usr/local :: Filesystem_operation,()
+tar ¦-xpzf¦Isabelle_2014_linux.tar.gz :: Filesystem_operation,()
+make ¦clean;¦make¦install :: Build_Execute_operation,()
+tar ¦-xpzf¦ProofGeneral-latest.tgz :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+echo ¦echo¦"deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections :: Filesystem_operation,()
+cmd,java¦-Ddevice=/dev/ttyUSB0¦-Djava.library.path=/usr/lib/jni/¦-jar¦/jpowermeter.jar
+from,webskin/docker-debian-base:1.0.0
+apt-get ¦install¦librxtx-java¦-y :: Dependencies_operation,()
+jpowermeter.jar/jpowermeter.jar :: add_operation,()
+apt-key ¦adv¦--keyserver¦hkp://keyserver.ubuntu.com:80¦--recv-keys¦EEA14886 :: Dependencies_operation,()
+echo ¦echo¦"deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list :: Filesystem_operation,()
+expose,9000 9001
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦oracle-java8-installer¦-y :: Dependencies_operation,()
+JAVA_HOME:/usr/lib/jvm/java-8-oracle :: env_operation,()

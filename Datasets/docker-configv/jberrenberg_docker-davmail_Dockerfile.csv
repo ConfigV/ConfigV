@@ -1,0 +1,14 @@
+DEBIAN_FRONTEND=noninteractive ¦;\\ :: Other_operation,()
+chown ¦davmail:davmail¦/var/log/davmail¦-R :: Permissions_operation,()
+davmail :: user_operation,()
+/usr/local/davmail :: workdir_operation,()
+/etc/davmail :: volume_operation,()
+mkdir ¦/var/log/davmail :: Filesystem_operation,()
+expose,1025
+wget ¦-qO¦-¦http://downloads.sourceforge.net/project/davmail/davmail/4.6.1/davmail-linux-x86_64-4.6.1-2343.tgz¦|¦tar¦-C¦/usr/local/davmail¦--strip-components=1¦-xvz :: Dependencies_operation,()
+useradd ¦-r¦-g¦davmail¦davmail :: Permissions_operation,()
+mkdir ¦/usr/local/davmail :: Filesystem_operation,()
+groupadd ¦-r¦davmail :: Permissions_operation,()
+from,debian@jessie
+docker.sh/usr/local/davmail/ :: copy_operation,()
+entrypoint,/usr/local/davmail/davmail.sh

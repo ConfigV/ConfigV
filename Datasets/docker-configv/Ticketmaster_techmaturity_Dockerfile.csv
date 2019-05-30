@@ -1,0 +1,13 @@
+bundle ¦install :: Dependencies_operation,()
+./techmaturity :: add_operation,()
+apk ¦add¦--update¦curl-dev¦ruby-dev¦build-base¦bash¦zlib-dev¦libxml2-dev¦libxslt-dev¦tzdata¦yaml-dev¦postgresql-dev¦ruby-json¦yaml¦nodejs :: Dependencies_operation,()
+/techmaturity :: workdir_operation,()
+expose,3000
+cmd,./entrypoint.sh
+chmod ¦777¦entrypoint.sh :: Permissions_operation,()
+gem ¦install¦rails¦--version¦"5.0.0" :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+mkdir ¦/techmaturity :: Filesystem_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+from,ruby:2.3
+apk ¦upgrade :: Dependencies_operation,()

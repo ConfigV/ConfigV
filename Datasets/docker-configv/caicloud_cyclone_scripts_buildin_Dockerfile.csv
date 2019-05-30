@@ -1,0 +1,10 @@
+cmd,sh
+DOCKER_BUCKET:get.docker.com :: env_operation,()
+echo ¦set¦-x && curl -fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz && echo "${DOCKER_SHA256} *docker.tgz" | sha256sum -c - && tar -xzvf docker.tgz && mv docker/* /usr/local/bin/ && rmdir docker &&... :: Filesystem_operation,()
+from,golang:1.8
+DOCKER_SHA256:4a9766d99c6818b2d54dc302db3c9f7b352ad0a80a2dc179ec164a3ba29c2d3e :: env_operation,()
+entrypoint,docker-entrypoint.sh
+apk ¦add¦--no-cache¦¦ca-certificates¦¦curl¦¦openssl¦¦bash¦¦gcc¦¦musl-dev :: Dependencies_operation,()
+docker-entrypoint.sh/usr/local/bin/ :: copy_operation,()
+expose,8000
+DOCKER_VERSION:17.03.0-ce :: env_operation,()

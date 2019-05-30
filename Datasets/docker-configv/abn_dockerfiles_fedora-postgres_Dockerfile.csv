@@ -1,0 +1,14 @@
+POST_INIT=/usr/share/pgsql-post-init: :: env_operation,()
+yum ¦-y¦install¦postgresql¦postgresql-server¦postgresql-contrib¦pwgen :: Dependencies_operation,()
+cmd,/usr/bin/supervisord¦-n
+${PGHOME} :: volume_operation,()
+${PGHOME} :: workdir_operation,()
+PGPORT=5432: :: env_operation,()
+PGSHARE=/usr/share/pgsql: :: env_operation,()
+from,fedora@latest
+assets/pgsql-server-start/bin/pgsql-server-start :: add_operation,()
+PGDATA=${PGHOME}/data: :: env_operation,()
+PGHOME=/var/lib/pgsql: :: env_operation,()
+assets/supervisord.conf/etc/supervisord.conf :: add_operation,()
+assets/pgsql-post-init/${POST_INIT} :: add_operation,()
+postgres :: user_operation,()

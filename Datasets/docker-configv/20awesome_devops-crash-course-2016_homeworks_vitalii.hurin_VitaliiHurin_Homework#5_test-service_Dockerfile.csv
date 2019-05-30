@@ -1,0 +1,7 @@
+expose,80
+from,alpine
+echo ¦mkdir¦/etc/container_environment && chmod a+x /sbin/runit-start && mkdir /etc/runit_init.d && mkdir /log && mkdir -p /etc/service/$APP/log && echo "#!/bin/sh -e" > /etc/service/$APP/log/run && echo "exec 2>&1" >> /etc/service/$APP/log/run ... :: Filesystem_operation,()
+cmd,/sbin/runit-start
+$APP/ :: add_operation,()
+runit-start/sbin/ :: add_operation,()
+APP=test-service:PORT=80 :: env_operation,()

@@ -1,0 +1,13 @@
+RUNpip install -r requirements.txt :: onbuild_operation,()
+cmd,py.test
+rm ¦"chromedriver_linux64.zip" :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+CHROMEDRIVER_VERSION:2.14 :: env_operation,()
+COPY. /usr/src/app :: onbuild_operation,()
+unzip ¦"chromedriver_linux64.zip"¦-d¦/usr/local/bin :: Filesystem_operation,()
+curl ¦-SLO¦"https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" :: Dependencies_operation,()
+from,markadams/chromium-xvfb
+pip ¦install¦pytest¦selenium :: Dependencies_operation,()
+COPYrequirements.txt /usr/src/app/requirements.txt :: onbuild_operation,()
+apt-get ¦install¦-y¦python¦python-pip¦curl¦unzip¦libgconf-2-4 :: Dependencies_operation,()
+/usr/src/app :: workdir_operation,()

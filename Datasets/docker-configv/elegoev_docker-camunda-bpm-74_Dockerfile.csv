@@ -1,0 +1,15 @@
+VERSION:7.4.0 :: env_operation,()
+NEXUS:https://app.camunda.com/nexus/service/local/artifact/maven/redirect :: env_operation,()
+script/*/usr/local/bin/ :: add_operation,()
+from,ubuntu:14.04
+${NEXUS}?r=public&g=org.camunda.bpm.${DISTRO}&a=camunda-bpm-${DISTRO}&v=${VERSION}&p=tar.gz/tmp/camunda-bpm-platform.tar.gz :: add_operation,()
+DISTRO:tomcat :: env_operation,()
+expose,8080
+echo ¦echo¦"deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" > /etc/apt/sources.list.d/oracle-jdk.list && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com EEA14886 && echo oracle-java8-installer shared/accepted-oracle-li... :: Filesystem_operation,()
+cmd,/usr/local/bin/configure-and-run.sh
+SERVER_CONFIG:/camunda/conf/server.xml :: env_operation,()
+/usr/local/bin/download-database-drivers.sh ¦"${NEXUS}?r=public&g=org.camunda.bpm&a=camunda-database-settings&v=${VERSION}&p=pom" :: Other_operation,()
+tar ¦xzf¦/tmp/camunda-bpm-platform.tar.gz¦-C¦/camunda/¦server/${SERVER}¦--strip¦2 :: Filesystem_operation,()
+/camunda :: workdir_operation,()
+SERVER:apache-tomcat-8.0.24 :: env_operation,()
+LIB_DIR:/camunda/lib/ :: env_operation,()

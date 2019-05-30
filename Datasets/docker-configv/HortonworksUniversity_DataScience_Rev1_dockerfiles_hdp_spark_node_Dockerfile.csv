@@ -1,0 +1,12 @@
+echo ¦echo¦"export MASTER=yarn-client" >> /etc/bashrc :: Filesystem_operation,()
+sed ¦-i¦"/\\/usr\\/lib\\/spark\\/spark-shell/c\\\\/usr\\/lib\\/spark\\/bin\\/spark-shell"¦/usr/bin/spark-shell :: Filesystem_operation,()
+yum ¦-y¦install¦gcc-gfortran¦--enablerepo=updates :: Dependencies_operation,()
+rpm ¦-Uvh¦http://public-repo-1.hortonworks.com/spark/centos6/rpms/spark-core-0.9.1.2.1.1.0-22.el6.noarch.rpm :: Dependencies_operation,()
+rpm ¦-Uvh¦http://public-repo-1.hortonworks.com/spark/centos6/rpms/spark-python-0.9.1.2.1.1.0-22.el6.noarch.rpm :: Dependencies_operation,()
+echo ¦echo¦"export SPARK_JAR=/usr/lib/spark/lib/spark-assembly_2.10-0.9.1.2.1.1.0-22-hadoop2.4.0.2.1.1.0-385.jar" >> /etc/bashrc :: Filesystem_operation,()
+from,hwx/hdp_python_node
+echo ¦echo¦"export SPARK_WORKER_MEMORY=512m" >> /etc/bashrc :: Filesystem_operation,()
+echo ¦echo¦"export YARN_CONF_DIR=/etc/hadoop/conf" >> /etc/bashrc :: Filesystem_operation,()
+echo ¦echo¦"export SPARK_MASTER_MEMORY=512m" >> /etc/bashrc :: Filesystem_operation,()
+echo ¦echo¦"export SPARK_YARN_MODE=true" >> /etc/bashrc :: Filesystem_operation,()
+echo ¦echo¦"export SPARK_YARN_APP_JAR=/usr/lib/spark/examples/lib/spark-examples_2.10-0.9.1.2.1.1.0-22.jar" >> /etc/bashrc :: Filesystem_operation,()

@@ -1,0 +1,13 @@
+dep ¦ensure :: Other_operation,()
+go ¦build :: Build_Execute_operation,()
+go ¦get¦github.com/golang/dep/cmd/dep :: Build_Execute_operation,()
+/go/src/github.com/belimawr/experiments/minikube/backend :: workdir_operation,()
+expose,3000
+--from=builder/opt/ :: copy_operation,()
+from,alpine
+/opt :: workdir_operation,()
+.//go/src/github.com/belimawr/experiments/minikube/backend :: copy_operation,()
+apk ¦--no-cache¦add¦ca-certificates :: Dependencies_operation,()
+apk ¦--no-cache¦add¦git :: Dependencies_operation,()
+apk ¦--no-cache¦upgrade :: Dependencies_operation,()
+cmd,./backend

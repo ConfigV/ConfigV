@@ -1,0 +1,9 @@
+from,golang:1.5
+mkdir ¦-p¦/gopath/bin/ :: Filesystem_operation,()
+cp ¦$GOPATH/src/github.com/shinji62/firehose-to-fluentd/firehose-to-fluentd¦/gopath/bin/ :: Filesystem_operation,()
+firehose-to-fluentd.tgz$GOPATH/src/github.com/shinji62/firehose-to-fluentd/ :: add_operation,()
+cd ¦$GOPATH/src/github.com/shinji62/firehose-to-fluentd :: Filesystem_operation,()
+cd ¦$GOPATH/src/github.com/shinji62/firehose-to-fluentd¦;¦CGO_ENABLED=0¦godep¦go¦build¦-a¦--installsuffix¦cgo¦--ldflags="-s" :: Filesystem_operation,()
+Dockerfile.final/gopath/bin/Dockerfile :: copy_operation,()
+cmd,docker¦build¦--no-cache¦-t¦getourneau/firehose-to-fluentd-dev¦/gopath/bin/
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()

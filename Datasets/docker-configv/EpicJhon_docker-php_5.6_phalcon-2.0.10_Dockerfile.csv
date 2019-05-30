@@ -1,0 +1,10 @@
+rm ¦-rf¦./cphalcon/ :: Filesystem_operation,()
+git ¦clone¦-b¦phalcon-v2.0.10¦git://github.com/phalcon/cphalcon.git :: Dependencies_operation,()
+cd ¦../../ :: Filesystem_operation,()
+cd ¦cphalcon/build :: Filesystem_operation,()
+./install  :: Other_operation,()
+rm ¦-r¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+apt-get ¦install¦-y¦php5-dev¦php5-mysql¦gcc¦libpcre3-dev¦git¦--no-install-recommends :: Dependencies_operation,()
+from,php:5.6
+docker-php-ext-enable ¦phalcon :: Other_operation,()

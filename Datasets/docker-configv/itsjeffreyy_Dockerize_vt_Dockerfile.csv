@@ -1,0 +1,11 @@
+/opt :: workdir_operation,()
+rm ¦-rf¦/opt/vt :: Filesystem_operation,()
+git ¦clone¦https://github.com/atks/vt.git :: Dependencies_operation,()
+cd ¦vt :: Filesystem_operation,()
+/root :: workdir_operation,()
+make  :: Build_Execute_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt ¦update¦--fix-missing¦-yq :: Dependencies_operation,()
+apt ¦install¦-q¦-y¦wget¦g++¦gcc¦make¦bzip2¦git¦autoconf¦automake¦make¦g++¦gcc¦build-essential¦zlib1g-dev¦libgsl0-dev¦curl¦git¦wget¦unzip¦tabix¦libncurses5-dev :: Dependencies_operation,()
+PATH=/opt/vt:$PATH: :: env_operation,()
+from,ubuntu:16.04

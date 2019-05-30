@@ -1,0 +1,12 @@
+curl ¦-O¦http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz :: Dependencies_operation,()
+mkdir ¦-p¦/usr/local/apache-maven :: Filesystem_operation,()
+/root :: workdir_operation,()
+yum ¦install¦-y¦curl¦tar¦java-1.8.0-openjdk-devel¦expect¦rpm-build¦rpm-sign¦vim-enhanced :: Dependencies_operation,()
+INSIDE_DOCKER:Yes :: env_operation,()
+yum ¦install¦-y¦pig :: Dependencies_operation,()
+cd ¦/etc/yum.repos.d :: Filesystem_operation,()
+from,centos:7.0
+curl ¦-O¦http://www.apache.org/dist/bigtop/bigtop-1.1.0/repos/centos7/bigtop.repo :: Dependencies_operation,()
+M2_HOME:/usr/local/apache-maven :: env_operation,()
+tar ¦xzf¦apache-maven-3.2.5-bin.tar.gz¦--strip-components¦1¦-C¦/usr/local/apache-maven :: Filesystem_operation,()
+PATH:${M2_HOME}/bin:${PATH} :: env_operation,()

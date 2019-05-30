@@ -1,0 +1,9 @@
+wget ¦http://github.com/git-lfs/git-lfs/releases/download/v2.2.1/git-lfs-linux-amd64-2.2.1.tar.gz :: Dependencies_operation,()
+su ¦-l¦www¦-c¦'git¦lfs¦install' :: Other_operation,()
+addgroup ¦-g¦1000¦www :: Permissions_operation,()
+from,ruby:2.4
+tar ¦xvf¦git-lfs-linux-amd64-2.2.1.tar.gz :: Filesystem_operation,()
+adduser ¦-u¦1000¦-G¦www¦-S¦-s¦/bin/sh¦-D¦www :: Permissions_operation,()
+apk ¦--update¦--upgrade¦add¦$BUILD_PACKAGES¦$RUBY_PACKAGES¦$DEV_PACKAGES :: Dependencies_operation,()
+rm ¦-rf¦git-lfs* :: Filesystem_operation,()
+cp ¦git-lfs-2.2.1/git-lfs¦/usr/local/bin :: Filesystem_operation,()

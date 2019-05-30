@@ -1,0 +1,9 @@
+/usr/local/go/src/github.com/alaa/catalog/ :: workdir_operation,()
+go ¦build¦. :: Build_Execute_operation,()
+from,golang:1.7
+apk ¦add¦git :: Dependencies_operation,()
+mkdir ¦-p¦/usr/local/go/src/github.com/alaa/catalog/ :: Filesystem_operation,()
+go ¦get¦-v :: Build_Execute_operation,()
+expose,8080
+entrypoint,catalog
+apk ¦upgrade¦--update :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+assets/init.sh/opt/init.sh :: copy_operation,()
+expose,1025 1080
+from,ubuntu@trusty
+assets/install.sh/opt/install.sh :: copy_operation,()
+entrypoint,/opt/init.sh
+/opt/install.sh  :: Other_operation,()
+cmd,start
+echo ¦echo¦"deb http://mirror.leaseweb.net/ubuntu/ trusty main restricted" > /etc/apt/sources.list && echo "deb http://mirror.leaseweb.net/ubuntu/ trusty-updates main restricted" >> /etc/apt/sources.list && echo "deb http://mirror.leaseweb.net/u... :: Filesystem_operation,()
+chmod ¦755¦/opt/init.sh :: Permissions_operation,()
+chmod ¦755¦/opt/install.sh :: Permissions_operation,()

@@ -1,0 +1,16 @@
+CERTIFICATE_KEY:codesketch.key :: env_operation,()
+${CERTIFICATE_FOLDER}/${CERTIFICATE}/certs/ :: copy_operation,()
+./public_html/*/usr/share/nginx/html/ :: copy_operation,()
+cmd,nginx¦-g¦daemon off;
+expose,80 443
+${CERTIFICATE_FOLDER}/${CERTIFICATE_KEY}/certs/ :: copy_operation,()
+CERTIFICATE_FOLDER:./certs/ :: env_operation,()
+cd ¦/scripts :: Filesystem_operation,()
+chmod ¦+x¦/scripts/setup.sh :: Permissions_operation,()
+SERVER_NAME:"codesketch.internal" :: env_operation,()
+from,nginx:1.11
+./templates/*/templates/ :: copy_operation,()
+/bin/sh ¦setup.sh¦${SERVER_NAME}¦/certs/${CERTIFICATE}¦/certs/${CERTIFICATE_KEY} :: Other_operation,()
+CERTIFICATE:codesketch.crt :: env_operation,()
+./scripts/*/scripts/ :: copy_operation,()
+./nginx.conf/etc/nginx/nginx.conf :: copy_operation,()

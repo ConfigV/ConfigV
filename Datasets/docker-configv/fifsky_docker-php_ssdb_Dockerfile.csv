@@ -1,0 +1,16 @@
+entrypoint,/usr/bin/ssdb-server¦/etc/ssdb.conf
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+cp ¦ssdb-server¦/usr/bin :: Filesystem_operation,()
+sed ¦-e¦'s@home.*@home¦/var/lib@'¦-e¦'s/loglevel.*/loglevel¦info/'¦-e¦'s@work_dir¦=¦.*@work_dir¦=¦/var/lib/ssdb@'¦-e¦'s@pidfile¦=¦.*@@'¦-e¦'s@level:.*@level:¦info@'¦-e¦'s@ip:.*@ip:¦0.0.0.0@'¦-i¦/etc/ssdb.conf :: Filesystem_operation,()
+./conf/sources.list/etc/apt/sources.list :: add_operation,()
+make ¦install :: Build_Execute_operation,()
+apt-get ¦install¦-y¦make¦gcc¦g++¦curl :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+TZ:Asia/Shanghai :: env_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+expose,8888
+make  :: Build_Execute_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+from,debian@jessie
+/var/lib/ssdb :: volume_operation,()
+mkdir ¦-p¦/var/lib/ssdb :: Filesystem_operation,()

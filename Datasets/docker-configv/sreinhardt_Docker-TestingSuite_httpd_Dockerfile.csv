@@ -1,0 +1,15 @@
+ssl.conf/etc/httpd/conf.d/ssl.conf :: add_operation,()
+certs/ca.crt/etc/pki/tls/certs/ca.crt :: add_operation,()
+cmd,/usr/sbin/httpd
+www//var/ :: add_operation,()
+chmod ¦400¦/etc/pki/tls/private/ca.{key,csr} :: Permissions_operation,()
+expose,443
+from,sreinhardt/centos-6-x86_64:latest
+certs/ca.key/etc/pki/tls/private/ca.key :: add_operation,()
+certs/ca.csr/etc/pki/tls/private/ca.csr :: add_operation,()
+testing.conf/etc/httpd/conf.d/testing.conf :: add_operation,()
+yum ¦install¦-y¦httpd¦openssl¦mod_ssl :: Dependencies_operation,()
+chmod ¦400¦/etc/pki/tls/certs/ca.crt :: Permissions_operation,()
+/var/www/ :: workdir_operation,()
+ls ¦-lart¦/var/ :: Filesystem_operation,()
+ls ¦-lart¦/var/wwww/ :: Filesystem_operation,()

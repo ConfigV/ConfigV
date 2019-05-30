@@ -1,0 +1,10 @@
+from,gitinsky/baseimage:0.1.8
+curl ¦-s¦-o¦/grafana_latest_amd64.deb¦https://grafanarel.s3.amazonaws.com/builds/grafana_2.0.2_amd64.deb :: Dependencies_operation,()
+mkdir ¦/usr/share/grafana/data :: Filesystem_operation,()
+rm ¦-f¦/grafana_latest_amd64.deb :: Filesystem_operation,()
+dpkg ¦-i¦/grafana_latest_amd64.deb :: Dependencies_operation,()
+start.sh/start.sh :: copy_operation,()
+apt-get ¦install¦-y¦libfontconfig :: Dependencies_operation,()
+cmd,/start.sh
+apt-get ¦update :: Dependencies_operation,()
+cd ¦/ :: Filesystem_operation,()

@@ -1,0 +1,10 @@
+/tmp :: volume_operation,()
+bash ¦-c¦'touch¦/app/app.jar' :: Build_Execute_operation,()
+from,java:8.0
+expose,8989
+mkdir ¦/app :: Filesystem_operation,()
+/app :: workdir_operation,()
+chmod ¦a+x¦runboot.sh :: Permissions_operation,()
+monitor-1.0.0-SNAPSHOT.jar/app/app.jar :: add_operation,()
+runboot.sh/app/ :: add_operation,()
+cmd,/app/runboot.sh

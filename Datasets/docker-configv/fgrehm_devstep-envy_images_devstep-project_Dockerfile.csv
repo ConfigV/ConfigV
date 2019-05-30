@@ -1,0 +1,7 @@
+echo ¦sudo¦bash -c 'curl -sL https://get.docker.com/builds/Linux/x86_64/docker-latest > /usr/bin/docker' && sudo chmod +x /usr/bin/docker && echo '#!/bin/bash' > $DEVSTEP_CONF/init.d/01-fix-docker-socket-permission.sh && echo 'if [[ -S /env/run/... :: Filesystem_operation,()
+RUN/opt/devstep/bin/build-project /env/code :: onbuild_operation,()
+LABELdevstep-envy=true :: onbuild_operation,()
+COPY. /env/code :: onbuild_operation,()
+WORKDIR/env/code :: onbuild_operation,()
+CLEANUP=1: :: env_operation,()
+from,fgrehm/devstep:v0.4.0

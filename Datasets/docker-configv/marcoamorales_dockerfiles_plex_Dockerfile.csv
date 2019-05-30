@@ -1,0 +1,11 @@
+echo ¦apt-get¦-q update && apt-get install -qy --force-yes curl && echo "deb http://shell.ninthgate.se/packages/debian wheezy main" > /etc/apt/sources.list.d/plexmediaserver.list && curl http://shell.ninthgate.se/packages/shell-ninthgate-se-keyr... :: Filesystem_operation,()
+from,debian@wheezy
+./supervisord.conf/etc/supervisor/conf.d/supervisord.conf :: add_operation,()
+expose,32400
+/config :: volume_operation,()
+/data :: volume_operation,()
+chmod ¦u+x¦/start.sh :: Permissions_operation,()
+RUN_AS_ROOT="false":CHANGE_DIR_RIGHTS="false" :: env_operation,()
+DEBIAN_FRONTEND="noninteractive":LANG="en_US.UTF-8" :: env_operation,()
+./start.sh/start.sh :: add_operation,()
+cmd,/start.sh

@@ -1,0 +1,11 @@
+from,debian@jessie
+apt-get ¦install¦-y¦pdns-server¦pdns-backend-mysql :: Dependencies_operation,()
+cmd,/root/entrypoint.sh
+apt-key ¦adv¦--keyserver¦hkp://pool.sks-keyservers.net¦--recv¦0x1B0C6205FD380FBB :: Dependencies_operation,()
+/etc/powerdns/ :: volume_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+set ¦-ex :: Environment_operation,()
+apt-get ¦update :: Dependencies_operation,()
+./entrypoint.sh/root/ :: copy_operation,()
+echo ¦echo¦'deb http://repo.powerdns.com/debian jessie-auth-40 main' >> /etc/apt/sources.list && echo 'Package: pdns-*' > /etc/apt/preferences.d/pdns && echo 'Pin: origin repo.powerdns.com' >> /etc/apt/preferences.d/pdns && echo 'Pin-Priority: 6... :: Filesystem_operation,()

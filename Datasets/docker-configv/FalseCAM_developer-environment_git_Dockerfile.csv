@@ -1,0 +1,14 @@
+useradd ¦-d¦"$GIT_HOME"¦-u¦${uid}¦-g¦${gid}¦-m¦-s¦/usr/bin/git-shell¦${user} :: Permissions_operation,()
+mkdir ¦-p¦/repos :: Filesystem_operation,()
+GIT_HOME:/home/git :: env_operation,()
+from,debian@latest
+/repos/ :: volume_operation,()
+entrypoint,/usr/sbin/sshd¦-D
+mkdir ¦-p¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦clean :: Dependencies_operation,()
+apt-get ¦install¦-y¦openssh-server¦git :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+echo ¦echo¦'git:password' | chpasswd :: Filesystem_operation,()
+expose,22
+groupadd ¦-g¦${gid}¦${group} :: Permissions_operation,()

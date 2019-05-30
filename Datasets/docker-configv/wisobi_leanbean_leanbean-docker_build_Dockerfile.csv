@@ -1,0 +1,18 @@
+/root :: workdir_operation,()
+apt-get ¦install¦-y¦libncurses5:i386¦libstdc++6:i386¦zlib1g:i386 :: Dependencies_operation,()
+dpkg ¦--add-architecture¦i386 :: Dependencies_operation,()
+echo ¦(¦sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --all --filter build-tools-22.0.1,platform-tools,android-22,extra-android-support --no-ui --force :: Filesystem_operation,()
+curl ¦-sL¦https://deb.nodesource.com/setup_4.x¦|¦bash¦- :: Dependencies_operation,()
+apt-get ¦install¦-y¦ant¦maven¦nodejs¦openjdk-8-jdk :: Dependencies_operation,()
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+curl ¦http://dl.google.com/android/android-sdk_r24.2-linux.tgz¦|¦tar¦xz :: Dependencies_operation,()
+cmd,bash
+JAVA_HOME:/usr/lib/jvm/java-8-openjdk-amd64 :: env_operation,()
+npm ¦install¦-g¦cordova :: Dependencies_operation,()
+settings.xml/root/.m2/ :: add_operation,()
+.gitconfig/root/.gitconfig :: add_operation,()
+from,ubuntu:15.04
+apt-get ¦update :: Dependencies_operation,()
+PATH:${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools :: env_operation,()
+ANDROID_HOME:/root/android-sdk-linux :: env_operation,()
+apt-get ¦install¦-y¦curl :: Dependencies_operation,()

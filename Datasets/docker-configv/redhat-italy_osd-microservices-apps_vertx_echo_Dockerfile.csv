@@ -1,0 +1,8 @@
+/app/ :: workdir_operation,()
+chmod ¦777¦/app/ :: Permissions_operation,()
+cmd,exec java -jar $JAVA_APP_JAR
+target/$JAVA_APP_JAR/app/ :: add_operation,()
+from,openjdk:8.0
+expose,8080
+JAVA_APP_JAR:simple-web-application-3.3.3-fat.jar :: env_operation,()
+entrypoint,sh¦-c

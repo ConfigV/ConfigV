@@ -1,0 +1,13 @@
+.$INSTALL_PATH :: copy_operation,()
+apt-key ¦adv¦--keyserver¦ha.pool.sks-keyservers.net¦--recv-keys¦B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8 :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+from,ruby:2.3
+$INSTALL_PATH :: workdir_operation,()
+gem ¦install¦backup¦whenever :: Dependencies_operation,()
+touch ¦/var/log/cron.log :: Filesystem_operation,()
+entrypoint,/backup/entrypoint.sh
+echo ¦echo¦'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' 9.5 > /etc/apt/sources.list.d/pgdg.list :: Filesystem_operation,()
+INSTALL_PATH:/backup :: env_operation,()
+mkdir ¦-p¦$INSTALL_PATH :: Filesystem_operation,()
+cmd,cron¦&&¦tail¦-F¦/var/log/cron.log
+apt-get ¦install¦-qq¦-y¦build-essential¦wget¦cron¦postgresql-client-9.5¦--fix-missing¦--no-install-recommends :: Dependencies_operation,()

@@ -1,0 +1,13 @@
+wget ¦"https://bootstrap.pypa.io/get-pip.py"¦-O¦/dev/stdout¦|¦python3 :: Dependencies_operation,()
+apk ¦add¦--update¦--virtual=build-dependencies¦wget¦ca-certificates¦python3-dev¦build-base :: Dependencies_operation,()
+expose,80
+pip3 ¦install¦flower :: Dependencies_operation,()
+cmd,celery¦flower¦--address=0.0.0.0¦--port=80¦--broker=amqp://guest:guest@mq:5672//¦--broker-api=http://guest:guest@mq:15672/api/¦--url_prefix=status/tasks
+FLOWER_BASIC_AUTH=openspending:rocks: :: env_operation,()
+apk ¦del¦build-dependencies :: Dependencies_operation,()
+apk ¦add¦--update¦python3¦git¦libpq :: Dependencies_operation,()
+update-ca-certificates  :: Other_operation,()
+from,gliderlabs/alpine:3.4
+pip3 ¦--version :: Dependencies_operation,()
+python3 ¦--version :: Build_Execute_operation,()
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()

@@ -1,0 +1,12 @@
+entrypoint,/bin/bash¦cbas.sh¦start
+ssh-keygen ¦-y¦-f¦/var/myslice/myslice.pkey¦>¦/var/myslice/myslice.pub :: Other_operation,()
+cp ¦test/creds/root-key.pem¦/var/myslice/myslice.pkey :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+git ¦clone¦git@github.com:loicbaron/C-BAS.git :: Dependencies_operation,()
+/bin/bash ¦test/creds/gen-certs.sh¦$HOSTNAME :: Build_Execute_operation,()
+pip ¦install¦--upgrade¦pip¦&&Tpip¦install¦-r¦requirements.txt :: Dependencies_operation,()
+cp ¦test/creds/root-cert.pem¦/var/myslice/myslice.cert :: Filesystem_operation,()
+apt-get ¦-y¦install¦¦¦¦¦¦¦¦swig¦¦¦¦¦¦¦¦¦mongodb¦¦¦¦¦¦¦¦python-pip¦¦¦¦¦¦¦¦python-dev¦¦¦¦¦¦¦¦libffi-dev¦¦¦¦¦¦¦¦xmlsec1¦¦¦¦¦¦¦¦git¦¦¦¦¦¦¦¦libssl-dev :: Dependencies_operation,()
+cd ¦/root/ :: Filesystem_operation,()
+cd ¦/root/C-BAS :: Filesystem_operation,()
+from,ubuntu:16.04

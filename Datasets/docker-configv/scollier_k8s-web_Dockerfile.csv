@@ -1,0 +1,9 @@
+expose,80
+yum ¦-y¦install¦httpd :: Dependencies_operation,()
+yum ¦-y¦update :: Dependencies_operation,()
+echo ¦echo¦"Apache" >> /var/www/html/index.html :: Filesystem_operation,()
+from,fedora:20.0
+run-apache.sh/run-apache.sh :: add_operation,()
+yum ¦clean¦all :: Dependencies_operation,()
+cmd,/run-apache.sh
+chmod ¦-v¦+x¦/run-apache.sh :: Permissions_operation,()

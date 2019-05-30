@@ -1,0 +1,11 @@
+from,fedora:20.0
+/var/lib/jenkins :: workdir_operation,()
+yum ¦install¦-y¦-q¦python-pip¦java-headless¦dejavu-sans-fonts¦git¦wget¦docker-io;¦yum¦clean¦all;¦pip¦install¦awscli :: Dependencies_operation,()
+jenkins.sh/srv/jenkins/jenkins.sh :: add_operation,()
+/var/lib/jenkins :: volume_operation,()
+yum ¦update¦-y¦-q;¦yum¦clean¦all :: Dependencies_operation,()
+JENKINS_HOME:/var/lib/jenkins :: env_operation,()
+entrypoint,/srv/jenkins/jenkins.sh
+JENKINS_VERSION:1.586 :: env_operation,()
+expose,8080
+yum ¦install¦-y¦-q¦http://pkg.jenkins-ci.org/redhat/jenkins-${JENKINS_VERSION}-1.1.noarch.rpm :: Dependencies_operation,()

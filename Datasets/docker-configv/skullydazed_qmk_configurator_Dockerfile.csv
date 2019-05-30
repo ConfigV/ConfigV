@@ -1,0 +1,13 @@
+expose,5000
+from,debian
+apt-get ¦update :: Dependencies_operation,()
+LANG=C.UTF-8: :: env_operation,()
+git ¦clone¦https://github.com/skullydazed/qmk_configurator.git :: Dependencies_operation,()
+cmd,gunicorn¦-w¦8¦-b¦0.0.0.0:5000¦--max-requests¦1000¦--max-requests-jitter¦100¦-t¦60¦web:app
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+apt-get ¦install¦--no-install-recommends¦-y¦git¦python3¦python3-pip :: Dependencies_operation,()
+/qmk_configurator :: workdir_operation,()
+pip3 ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+git ¦clone¦https://github.com/jackhumbert/qmk_firmware.git :: Dependencies_operation,()
+LC_ALL=C.UTF-8: :: env_operation,()
+/ :: workdir_operation,()

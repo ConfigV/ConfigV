@@ -1,0 +1,9 @@
+echo ¦usermod¦-p $(echo "jenkins"|openssl passwd -1 -stdin) jenkins :: Filesystem_operation,()
+expose,22
+useradd ¦-m¦jenkins :: Permissions_operation,()
+apt-get ¦update :: Dependencies_operation,()
+cmd,/usr/sbin/sshd¦-D
+sed ¦'s/UsePAM¦yes/UsePAM¦no/'¦-i¦/etc/ssh/sshd_config :: Filesystem_operation,()
+apt-get ¦install¦-y¦git¦openjdk-8-jdk¦openssh-server :: Dependencies_operation,()
+from,mcandre/docker-debian-32bit
+sed ¦-i¦'s|session¦required¦pam_loginuid.so|session¦optional¦pam_loginuid.so|g'¦/etc/pam.d/sshd :: Filesystem_operation,()

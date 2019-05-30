@@ -1,0 +1,8 @@
+cmd,/opt/containerscripts/run.sh
+rm ¦/etc/localtime :: Filesystem_operation,()
+from,centos:7.3
+LANG:${build_locale}.utf8 :: env_operation,()
+scripts/*/opt/containerscripts/ :: copy_operation,()
+ln ¦-s¦/usr/share/zoneinfo/${build_timezone}¦/etc/localtime :: Filesystem_operation,()
+echo ¦if¦[ ${build_customrepo} ]; then echo "[opennms-custom]" >> /etc/yum.repos.d/opennms-custom.repo; echo "name=OpenNMS custom repo" >> /etc/yum.repos.d/opennms-custom.repo; echo "baseurl=${build_customrepo}" >> /etc/yum.repos.d/opennms-custo... :: Filesystem_operation,()
+localedef ¦-c¦-i¦${build_locale}¦-f¦UTF-8¦${build_locale}.utf-8 :: Other_operation,()

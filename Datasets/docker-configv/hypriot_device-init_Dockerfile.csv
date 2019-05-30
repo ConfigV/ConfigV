@@ -1,0 +1,15 @@
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+go ¦get¦github.com/tools/godep :: Build_Execute_operation,()
+go ¦get¦github.com/mitchellh/gox :: Build_Execute_operation,()
+apt-get ¦update :: Dependencies_operation,()
+sudo ¦wget¦--quiet¦--output-document¦-¦${TARBALL}¦|¦sudo¦tar¦xfz¦-¦-C¦${UNTARPATH} :: Other_operation,()
+cmd,bash
+gem ¦install¦--no-document¦serverspec¦pry-byebug¦bundler :: Dependencies_operation,()
+PATH:"${GOROOT}/bin:${GOPATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" :: env_operation,()
+UNTARPATH:"/opt" :: env_operation,()
+TARBALL:"https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz" :: env_operation,()
+GOROOT:"${UNTARPATH}/go" :: env_operation,()
+from,debian@jessie
+GOPATH:"${UNTARPATH}/gopath" :: env_operation,()
+apt-get ¦-y¦install¦build-essential¦sudo¦file¦wget¦git-core¦ruby¦ruby-dev¦--no-install-recommends :: Dependencies_operation,()
+gem ¦update¦--system :: Dependencies_operation,()

@@ -63,9 +63,9 @@ instance Learnable R.FineGrained Formula where
     return $ M.filter validRule merged
  
   check _ r1 r2 = if
-    | eq r2 == 1 && (lt r1 > 3 || gt r1 > 3) && eq r1 < 3 -> Just r1
-    {- | lt r2 == 1 && gt r1 > Settings.fineGrainSupport && lt r1 <= Settings.fineGrainConfidence -> Just r1
-    | gt r2 == 1 && lt r1 > Settings.fineGrainSupport && gt r1 <= Settings.fineGrainConfidence-> Just r1 -}
+    | eq r2 == 1 && eq r1 >= 1 -> Just r1
+    | lt r2 == 1 && gt r1 >= 1 -> Just r1
+    | gt r2 == 1 && lt r1 >= 1 -> Just r1 
     | otherwise -> Nothing
 
   toError ir fname ((FineGrained k1 k2 k3), rd) = Error{

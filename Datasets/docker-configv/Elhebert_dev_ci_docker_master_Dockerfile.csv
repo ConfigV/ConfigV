@@ -1,0 +1,9 @@
+from,jenkins@latest
+JAVA_OPTS="-Xmx4096m": :: env_operation,()
+jenkins :: user_operation,()
+mkdir ¦/var/cache/jenkins :: Filesystem_operation,()
+chown ¦-R¦jenkins:jenkins¦/var/log/jenkins :: Permissions_operation,()
+mkdir ¦/var/log/jenkins :: Filesystem_operation,()
+root :: user_operation,()
+chown ¦-R¦jenkins:jenkins¦/var/cache/jenkins :: Permissions_operation,()
+JENKINS_OPTS="--logfile=/var/log/jenkins/jenkins.log:--webroot=/var/cache/jenkins/war" :: env_operation,()

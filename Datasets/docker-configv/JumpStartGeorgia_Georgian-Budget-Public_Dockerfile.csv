@@ -1,0 +1,11 @@
+apt-get ¦install¦-y¦nodejs¦npm :: Dependencies_operation,()
+APPHOME=/myapp: :: env_operation,()
+npm ¦install¦--loglevel¦http :: Dependencies_operation,()
+mkdir ¦$APPHOME :: Filesystem_operation,()
+from,ubuntu:16.1
+.$APPHOME/ :: copy_operation,()
+package.json$APPHOME/ :: copy_operation,()
+npm ¦set¦progress=false :: Dependencies_operation,()
+ln ¦-s¦/usr/bin/nodejs¦/usr/bin/node :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+$APPHOME :: workdir_operation,()

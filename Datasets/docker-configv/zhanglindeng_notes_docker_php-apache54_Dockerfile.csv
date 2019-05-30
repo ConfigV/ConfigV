@@ -1,0 +1,17 @@
+a2enmod ¦rewrite :: Other_operation,()
+apt-get ¦install¦-y¦--no-install-recommends¦curl¦libmemcached-dev¦libz-dev¦libpq-dev¦libjpeg-dev¦libpng12-dev¦libfreetype6-dev¦libssl-dev¦libmcrypt-dev :: Dependencies_operation,()
+/var/www :: workdir_operation,()
+docker-php-ext-install ¦mcrypt :: Other_operation,()
+apt-get ¦update :: Dependencies_operation,()
+docker-php-ext-install ¦mysqli :: Other_operation,()
+docker-php-ext-install ¦pdo_mysql :: Other_operation,()
+docker-php-ext-install ¦mysql :: Other_operation,()
+from,php:5.4
+./ZendGuardLoader.so/phpext/ :: copy_operation,()
+docker-php-ext-install ¦gd :: Other_operation,()
+./php.ini/usr/local/etc/php/conf.d/ :: add_operation,()
+./mysql.ini/usr/local/etc/php/conf.d/mysql.ini :: copy_operation,()
+mkdir ¦/phpext :: Filesystem_operation,()
+./ZendGuardLoader.ini/usr/local/etc/php/conf.d/ :: copy_operation,()
+expose,80
+docker-php-ext-configure ¦gd¦--enable-gd-native-ttf¦--with-jpeg-dir=/usr/lib¦--with-freetype-dir=/usr/include/freetype2 :: Other_operation,()

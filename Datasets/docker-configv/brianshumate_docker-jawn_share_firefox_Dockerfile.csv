@@ -1,0 +1,13 @@
+FIREFOX_VERSION:40.0b2 :: env_operation,()
+etc/local.conf/etc/fonts/local.conf :: copy_operation,()
+sed ¦-i.bak¦'s/sid¦main/sid¦main¦contrib/g'¦/etc/apt/sources.list :: Filesystem_operation,()
+curl ¦-sSL¦"https://ftp.mozilla.org/pub/mozilla.org/mozilla.org/firefox/releases/latest-beta/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2"¦-o¦/tmp/firefox.tar.bz2 :: Dependencies_operation,()
+mkdir ¦-p¦/opt/firefox :: Filesystem_operation,()
+from,debian@sid
+entrypoint,/usr/bin/firefox
+apt-get ¦install¦-y¦bzip2¦ca-certificates¦curl¦hicolor-icon-theme¦libasound2¦libdbus-glib-1-2¦libgl1-mesa-dri¦libgl1-mesa-glx¦--no-install-recommends :: Dependencies_operation,()
+apt-get ¦update :: Dependencies_operation,()
+ln ¦-s¦/opt/firefox/firefox¦/usr/bin/firefox :: Filesystem_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+tar ¦-xjf¦/tmp/firefox.tar.bz2¦-C¦/opt/firefox¦--strip-components¦1 :: Filesystem_operation,()
+rm ¦/tmp/firefox.tar.bz2* :: Filesystem_operation,()

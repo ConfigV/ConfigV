@@ -1,0 +1,8 @@
+chmod ¦755¦/usr/local/bin/mailToFile.php :: Permissions_operation,()
+name:r0mdau/stretch-apache2-php7-postfix :: label_operation,()
+entrypoint,launch-foreground
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+launch-foreground/usr/local/bin/ :: copy_operation,()
+mailToFile.php/usr/local/bin/ :: copy_operation,()
+echo ¦set¦-x && apt-get update && apt-get install --no-install-recommends --no-install-suggests -y postfix && rm -rf /var/lib/apt/lists/* && useradd -s /bin/bash email && echo "default_transport = file_route" >> /etc/postfix/main.cf && echo "fil... :: Filesystem_operation,()
+from,r0mdau/stretch-apache2-php7

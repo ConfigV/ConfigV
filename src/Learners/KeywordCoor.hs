@@ -21,15 +21,13 @@ import Settings.Config
 import Control.Monad.Reader
 import Debug.Trace
 
--- | TODO these are undirected coorelation
---   really should have seperate rules for "X" require "Y" and "Y" requires "X"
+-- | these are directed coorelations, so we can learn Y=>X, but this does not necessarily mean X=>Y
 instance Learnable R.KeywordCoor AntiRule where
 
   buildRelations f = let
     toKC (ir1,ir2) = 
       KeywordCoor (keyword ir1, keyword ir2) 
     irPairs = pairs f
-    -- tot = # times x + # times y
     totalTimes = M.fromList $ embedAsTrueAntiRule $ map toKC irPairs 
    in
     return totalTimes
@@ -70,5 +68,5 @@ addFalse allRules (KeywordCoor (k1,k2)) rd = let
                   (not $ M.null $ M.filterWithKey (\(KeywordCoor (k1',k2')) v-> k1==k1' && k2/=k2') r))
                 allRules
  in
-  rd{fls= fCount}
+  rd{tot=fCount+(tru rd),fls= fCount}
   

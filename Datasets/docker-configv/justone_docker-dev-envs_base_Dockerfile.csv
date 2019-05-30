@@ -1,0 +1,14 @@
+cmd,/usr/sbin/sshd¦-D
+echo ¦echo¦"nate ALL=NOPASSWD: ALL" >> /etc/sudoers :: Filesystem_operation,()
+TZ:/usr/share/zoneinfo/America/Los_Angeles :: env_operation,()
+echo ¦echo¦"en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen en_US.UTF-8 :: Filesystem_operation,()
+apt-get ¦install¦vim-nox¦locales¦sudo¦tmux¦git¦openssh-server¦curl¦tree¦-y :: Dependencies_operation,()
+from,ubuntu
+DEBIAN_FRONTEND:noninteractive :: env_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+LC_ALL:en_US.utf8 :: env_operation,()
+addgroup ¦--gid¦1000¦nate :: Permissions_operation,()
+adduser ¦--uid¦1000¦--gid¦1000¦nate¦--gecos¦""¦--disabled-password :: Permissions_operation,()
+expose,22
+TERM:xterm-256color :: env_operation,()
+apt-get ¦update :: Dependencies_operation,()

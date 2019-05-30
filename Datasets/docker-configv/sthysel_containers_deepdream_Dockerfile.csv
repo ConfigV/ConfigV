@@ -1,0 +1,18 @@
+from,debian@jessie
+DEBIAN_FRONTEND=noninteractive ¦apt-get¦install¦-y¦--no-install-recommends¦libprotobuf-dev¦libleveldb-dev¦libsnappy-dev¦libopencv-dev¦libhdf5-dev¦libhdf5-serial-dev¦libatlas-dev¦libzmq3-dev¦libboost-all-dev¦libgflags-dev¦libgoogle-glog-dev¦liblmdb-dev¦protobuf-compiler¦b... :: Other_operation,()
+make ¦pycaffe :: Build_Execute_operation,()
+/data :: volume_operation,()
+deepdream.py/deepdream.py :: add_operation,()
+cp ¦Makefile.config.example¦Makefile.config :: Filesystem_operation,()
+PYTHONPATH=/caffe/python: :: env_operation,()
+sed ¦-i¦'s/#¦CPU_ONLY/CPU_ONLY/g'¦Makefile.config :: Filesystem_operation,()
+apt-get ¦update :: Dependencies_operation,()
+pip ¦install¦-r¦python/requirements.txt :: Dependencies_operation,()
+scripts/download_model_binary.py ¦models/bvlc_googlenet :: Other_operation,()
+make ¦all :: Build_Execute_operation,()
+/caffe :: workdir_operation,()
+cmd,python¦-u¦deepdream.py
+git ¦clone¦https://github.com/BVLC/caffe.git¦/caffe :: Dependencies_operation,()
+apt-get ¦install¦-y¦python¦python-dev¦python-pip¦python-numpy¦python-scipy :: Dependencies_operation,()
+sed ¦-i¦'s/BLAS¦:=¦atlas/BLAS¦:=¦open/g'¦Makefile.config :: Filesystem_operation,()
+/ :: workdir_operation,()

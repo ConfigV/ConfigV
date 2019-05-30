@@ -1,0 +1,13 @@
+entrypoint,/docker-entrypoint.sh
+gem ¦install¦pkgr :: Dependencies_operation,()
+ZAMMAD_URL:https://github.com/monotek/zammad.git :: env_operation,()
+apt-get ¦install¦-y¦git-core¦ruby¦ruby-dev¦build-essential¦curl¦libmysqlclient-dev¦libpq-dev¦bison¦zlib1g-dev¦libssl-dev¦libxml2-dev¦libxml2-dev¦sqlite3¦libsqlite3-dev¦autotools-dev¦libxslt1-dev¦libyaml-0-2¦autoconf¦automake¦libreadline6-dev¦libyam... :: Dependencies_operation,()
+BUILDPACK_URL:https://github.com/heroku/heroku-buildpack-ruby :: env_operation,()
+/data/pkgr :: volume_operation,()
+DATABASE_URL:postgres://zammad:123456@pkgr-postgres/zammad_production :: env_operation,()
+cmd,pkgr
+from,ubuntu:16.04
+chmod ¦+x¦/docker-entrypoint.sh :: Permissions_operation,()
+PKGR_DIR:/data/pkgr :: env_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+apt-get ¦update :: Dependencies_operation,()

@@ -1,0 +1,10 @@
+JAVA_HOME:/usr/lib/jvm/java-7-oracle :: env_operation,()
+apt-get ¦install¦curl¦-y :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+/data :: workdir_operation,()
+set ¦-x :: Environment_operation,()
+cmd,bash
+rm ¦-rf¦/var/cache/* :: Filesystem_operation,()
+from,debian@jessie
+echo ¦set¦-x && echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && apt-get install oracle-java7-installer -y :: Filesystem_operation,()
+echo ¦set¦-x && echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list && echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.... :: Filesystem_operation,()

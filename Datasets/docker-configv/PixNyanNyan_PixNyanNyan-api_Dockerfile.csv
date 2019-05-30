@@ -1,0 +1,13 @@
+$RAILS_ROOT :: workdir_operation,()
+apk ¦add¦build-base¦postgresql-dev¦postgresql-client¦tzdata¦file¦imagemagick :: Dependencies_operation,()
+apk ¦update :: Dependencies_operation,()
+gem ¦install¦bundler :: Dependencies_operation,()
+from,ruby:2.4
+RAILS_ROOT:/pixnyannyan :: env_operation,()
+GemfileGemfile :: add_operation,()
+apk ¦upgrade :: Dependencies_operation,()
+.. :: add_operation,()
+Gemfile.lockGemfile.lock :: add_operation,()
+cmd,$RAILS_ROOT/app_cmd.sh
+mkdir ¦-p¦$RAILS_ROOT/tmp/pids :: Filesystem_operation,()
+bundle ¦install¦--deployment¦--without¦development¦test :: Dependencies_operation,()

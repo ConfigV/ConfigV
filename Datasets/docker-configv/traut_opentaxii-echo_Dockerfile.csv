@@ -1,0 +1,17 @@
+.//install_dir :: copy_operation,()
+./requirements.txtrequirements.txt :: copy_operation,()
+cd ¦/install_dir :: Filesystem_operation,()
+OPENTAXII_CONFIG=opentaxii-config.yml: :: env_operation,()
+rm ¦-f¦requirements.txt :: Filesystem_operation,()
+/input :: volume_operation,()
+cd ¦/ :: Filesystem_operation,()
+cmd,opentaxii-run-dev
+pip ¦install¦--upgrade¦pip :: Dependencies_operation,()
+pip ¦install¦-r¦requirements.txt :: Dependencies_operation,()
+expose,9000
+/input :: workdir_operation,()
+python ¦setup.py¦install :: Build_Execute_operation,()
+rm ¦-rf¦/install_dir :: Filesystem_operation,()
+from,python:2.7
+./opentaxii-config.ymlopentaxii-config.yml :: copy_operation,()
+mkdir ¦/install_dir :: Filesystem_operation,()

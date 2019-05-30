@@ -1,0 +1,20 @@
+etc/apt/stretch.list/etc/apt/sources.list.d/ :: copy_operation,()
+apt-get ¦install¦-y¦openssl¦cron¦wget :: Dependencies_operation,()
+apt-get ¦purge¦-y¦--auto-remove¦wget :: Dependencies_operation,()
+/etc/nginx :: workdir_operation,()
+docker-entrypoint.sh/ :: copy_operation,()
+www//var/www/ :: copy_operation,()
+apt-get ¦install¦-t¦stretch¦-y¦openssl :: Dependencies_operation,()
+etc/apt/preferences/etc/apt/preferences :: copy_operation,()
+/etc/ssl :: volume_operation,()
+etc/ssl//etc/ssl/ :: copy_operation,()
+cmd,nginx¦-g¦daemon off;
+certbot-auto ¦--os-packages-only¦--non-interactive :: Other_operation,()
+etc/scripts/etc/scripts :: copy_operation,()
+cd ¦/usr/bin :: Filesystem_operation,()
+etc/nginx//etc/nginx/ :: copy_operation,()
+entrypoint,/docker-entrypoint.sh
+wget ¦https://dl.eff.org/certbot-auto :: Dependencies_operation,()
+chmod ¦a+x¦certbot-auto :: Permissions_operation,()
+from,library/nginx:1.11
+apt-get ¦update¦-y :: Dependencies_operation,()

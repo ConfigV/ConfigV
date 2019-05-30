@@ -1,0 +1,20 @@
+apt-get ¦update :: Dependencies_operation,()
+chown ¦-Rf¦root:root¦/root/.ssh :: Permissions_operation,()
+apt-get ¦purge¦-yq¦software-properties-common :: Dependencies_operation,()
+rm ¦-rf¦/var/lib/apt/lists/* :: Filesystem_operation,()
+shutdown/etc/minit/shutdown :: copy_operation,()
+apt-get ¦autoremove¦-yq :: Dependencies_operation,()
+apt-get ¦autoclean¦-yq :: Dependencies_operation,()
+sed ¦'s/#PasswordAuthentication¦yes/PasswordAuthentication¦no/'¦/etc/ssh/sshd_config :: Filesystem_operation,()
+mkdir ¦/var/run/sshd :: Filesystem_operation,()
+apt-get ¦install¦-y¦minit¦openssh-server¦vim¦less¦rsync :: Dependencies_operation,()
+expose,22
+add-apt-repository ¦ppa:chazomaticus/minit :: Dependencies_operation,()
+entrypoint,/sbin/minit
+from,ubuntu@latest
+chmod ¦600¦/root/.ssh/* :: Permissions_operation,()
+apt-get ¦install¦-y¦software-properties-common :: Dependencies_operation,()
+startup/etc/minit/startup :: copy_operation,()
+authorized_keys/root/.ssh/authorized_keys :: add_operation,()
+chmod ¦700¦/root/.ssh :: Permissions_operation,()
+locale-gen ¦en_US.UTF-8 :: Other_operation,()

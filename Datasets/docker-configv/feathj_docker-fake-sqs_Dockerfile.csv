@@ -1,0 +1,9 @@
+/sqs :: volume_operation,()
+gem ¦install¦thin¦fake_sqs :: Dependencies_operation,()
+chown ¦docker¦/sqs :: Permissions_operation,()
+useradd ¦-u¦1000¦-M¦docker :: Permissions_operation,()
+from,ruby:2.2
+docker :: user_operation,()
+expose,9494
+cmd,fake_sqs¦--bind¦0.0.0.0¦--database=/sqs/database.yml¦--port¦9494¦--server¦thin
+mkdir ¦-p¦/sqs :: Filesystem_operation,()

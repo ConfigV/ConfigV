@@ -1,0 +1,15 @@
+from,gliderlabs/alpine:3.3
+rm ¦-rf¦/var/cache/apk/* :: Filesystem_operation,()
+package.json/opt/example/ :: copy_operation,()
+echo ¦export¦CONSUL_VERSION=0.7.0 && export CONSUL_CHECKSUM=b350591af10d7d23514ebaa0565638539900cdb3aaa048f077217c4c46653dd8 && curl --retry 7 --fail -vo /tmp/consul.zip "https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VE... :: Filesystem_operation,()
+expose,4000
+apk ¦update :: Dependencies_operation,()
+npm ¦install :: Dependencies_operation,()
+cd ¦/opt/example :: Filesystem_operation,()
+cmd,/usr/local/bin/containerpilot¦node¦/opt/example/example.js
+example.js/opt/example/ :: copy_operation,()
+CONTAINERPILOT_VER:2.4.3 :: env_operation,()
+containerpilot.json/etc :: copy_operation,()
+apk ¦add¦nodejs¦curl :: Dependencies_operation,()
+echo ¦export¦CONTAINERPILOT_CHECKSUM=2c469a0e79a7ac801f1c032c2515dd0278134790 && curl -Lso /tmp/containerpilot.tar.gz "https://github.com/joyent/containerpilot/releases/download/${CONTAINERPILOT_VER}/containerpilot-${CONTAINERPILOT_VER}.tar.gz" ... :: Filesystem_operation,()
+CONTAINERPILOT:file:///etc/containerpilot.json :: env_operation,()
