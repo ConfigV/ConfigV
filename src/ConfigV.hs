@@ -50,6 +50,7 @@ executeLearning settings userThresholds = do
 
   B.writeFile (cacheLocation settings) $ A.encode learnedRules 
   putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
+  print learnedRules
 
 executeVerification :: Options -> _
 executeVerification settings = do

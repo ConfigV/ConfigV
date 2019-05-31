@@ -24,7 +24,24 @@ data RuleSetLists = RuleSetLists
   , intRell  :: [(IntRel,Formula)]
   , finel  :: [(FineGrained,Formula)]
   , smtRulesl  :: [(SMTFormula, AntiRule)]
-  } deriving (Show, Generic, ToJSON, FromJSON)
+  } deriving (Generic, ToJSON, FromJSON)
+
+instance Show RuleSetLists where
+  show RuleSetLists{..} = let
+      f :: Show a => [a] -> String
+      f = unlines. map show
+    in
+      unlines $
+        [ "Order:\n" ++ (f orderl) 
+        , "Missing:\n" ++ (f missingl)
+        , "KeyValKey:\n" ++ (f keyvalkeyl) 
+        , "Type:\n" ++ (f typeErrl) 
+        , "IntRel:\n" ++ (f intRell)
+        , "Finegrain:\n" ++ (f finel)
+        , "SMT:\n" ++ (f smtRulesl)
+        ]
+
+    
 
 -- | TODO move this to learnRules?
 ruleSizes :: RuleSetLists -> String

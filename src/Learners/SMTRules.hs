@@ -39,7 +39,7 @@ instance Learnable SMTFormula AntiRule where
       else Nothing
     assignSMTs irPairs template = mapMaybe (\p -> checkSMTRule $ (uncurry template) p) irPairs
    in
-    return $ M.fromList $ concatMap (assignSMTs $ pairs f) $ runOmega templatesArity2
+    return $ M.fromList $ filter (\(s,_) -> containsIsSetTo s) $ concatMap (assignSMTs $ pairs f) $ runOmega templatesArity2
 
   merge rs = do
     settings <- ask
