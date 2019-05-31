@@ -1,6 +1,4 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Enabled,True
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[{u'Fn::Select': [u'0', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}, {u'Fn::Select': [u'1', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}]"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP and HTTPS access to port 80 and 443 respectively
@@ -9,12 +7,10 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLau
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,{u'Ref': u'AmiId'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'WebAppAutoScalingLaunchConfiguration'}
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebAppAutoScalingGroup
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Outputs.WebAppUrl.Description,The Flask SignUp web application URL
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,20
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'WebAppLoadBalancer'}]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,True
@@ -22,19 +18,14 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingP
 Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitConditionHandle'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'AppAccessDatastoreInstanceProfile'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,10
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'WebAppSecurityGroup', u'GroupId']}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'443', u'FromPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,600
 Parameters.AmiId.Description,Id of Amazon Machine Image (AMI) which has the web application pre-installed and pre-configured
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'ElbSecurityGroup', u'GroupId']}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,ELB
-Parameters.AmiId.Type,String
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,"[{u'Fn::Select': [u'0', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}, {u'Fn::Select': [u'1', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,300
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/

@@ -1,50 +1,36 @@
-Parameters.BuilderVPC.Type,AWS::EC2::VPC::Id
 Resources.AWS::Events::Rule.Properties.EventPattern.detail.AmiStatus,[u'Created']
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/PowerUserAccess']
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
-Resources.AWS::SNS::TopicPolicy.Type,AWS::SNS::TopicPolicy
 Parameters.CodeBuildEnvironment.Default,eb-python-2.6-amazonlinux-64:2.1.6
 Resources.AWS::CodeBuild::Project.Properties.Name,${ServiceName}_build
 Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENERAL1_SMALL
 Outputs.GitRepository.Value,CodeRepository.CloneUrlHttp
-Parameters.BuilderPublicSubnet.Type,AWS::EC2::Subnet::Id
 Outputs.CodeBuildServiceRole.Value,CodeBuildServiceRole.Arn
 Outputs.CodePipelineServiceRole.Description,CodePipeline IAM Service Role
 Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeCommit'}, u'Configuration': {u'BranchName': u'master', u'RepositoryName': u'${ServiceName}_repo'}, u'Name': u'CodeCommitRepo', u'OutputArtifacts': [{u'Name': u'SourceZip'}]}]}, {u'Name': u'Build', u'Actions': [{u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeBuild'}, u'Configuration': {u'ProjectName': u'CodeBuildProject'}, u'Name': u'CodeBuild', u'InputArtifacts': [{u'Name': u'SourceZip'}], u'OutputArtifacts': [{u'Name': u'BuiltZip'}]}]}]"
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Parameters.NotificationEmailAddress.Description,Email to receive new AMI ID created by AMI Builder
 Outputs.GitRepository.Description,Git repository HTTP URL
-Resources.AWS::CodeBuild::Project.Properties.Source.Type,CODEPIPELINE
 Resources.AWS::IAM::Role.Properties.Path,/managed/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,PipelineExecutionRole.Arn
 Resources.AWS::SNS::TopicPolicy.Properties.Topics,[u'AmiBuilderNotificationTopic']
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.BuilderVPC.default,Which VPC should I use?
-Parameters.NotificationEmailAddress.Type,String
 Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'AmiBuilder']
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Version,2012-10-17
 Outputs.ArtifactRepository.Value,BuildArtifactsBucket
 Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/${CodeBuildEnvironment}
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'NewAMI-Notify', u'Arn': u'AmiBuilderNotificationTopic'}]"
 Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,BuildArtifactsBucket
-Resources.AWS::CodeBuild::Project.Properties.Environment.Type,LINUX_CONTAINER
 Outputs.CodeBuildServiceRole.Description,CodeBuild IAM Service Role
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.BuilderPublicSubnet.default,Which Public Subnet should I use?
-Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,CODEPIPELINE
 Outputs.ArtifactRepository.Description,S3 Bucket for Pipeline and Build Artifacts
 Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'com.ami.builder']
 Parameters.ServiceName.Description,Name for this service; used in the code repository and pipeline names
 Resources.AWS::Events::Rule.Properties.Description,AmiBuilder-Complete
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Parameters.ServiceName.Type,String
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'codebuild.amazonaws.com']}}]"
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u'sns:Publish', u'Sid': u'My-statement-id', u'Resource': u'AmiBuilderNotificationTopic', u'Effect': u'Allow', u'Principal': {u'Service': u'events.amazonaws.com'}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::CodePipeline::Pipeline.Properties.Name,${ServiceName}_pipeline
 Resources.AWS::CodeCommit::Repository.Properties.RepositoryName,${ServiceName}_repo
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
-Parameters.CodeBuildEnvironment.Type,String
 Parameters.CodeBuildEnvironment.Description,Docker image to use for CodeBuild container - Use http://amzn.to/2mjCI91 for reference
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CodeBuildEnvironment.default,Should I use a different Docker Image?
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': u'NotificationEmailAddress', u'Protocol': u'email'}]"
@@ -52,7 +38,6 @@ Resources.AWS::CodeBuild::Project.Properties.ServiceRole,CodeBuildServiceRole.Ar
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NotificationEmailAddress.default,Who should I notify upon completion?
 Parameters.BuilderPublicSubnet.Description,Public Subnet ID that AMI Builder will use to launch temporary resource
 Parameters.ServiceName.Default,AMI-Builder
-Resources.AWS::CodeCommit::Repository.Type,AWS::CodeCommit::Repository
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Id,AllowCloudwatchEventsToPublish
 Parameters.BuilderVPC.Description,VPC ID that AMI Builder will use to launch temporary resource
 Outputs.CodePipelineServiceRole.Value,PipelineExecutionRole.Arn
@@ -62,5 +47,3 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.ServiceName.default,Code
 Resources.AWS::CodeCommit::Repository.Properties.RepositoryDescription,Repository for ${ServiceName} service
 Resources.AWS::SNS::Topic.Properties.TopicName,AmiBuilder-Notify
 Resources.AWS::CodeBuild::Project.Properties.Environment.EnvironmentVariables,"[{u'Name': u'BUILD_OUTPUT_BUCKET', u'Value': u'BuildArtifactsBucket'}, {u'Name': u'BUILD_VPC_ID', u'Value': u'BuilderVPC'}, {u'Name': u'BUILD_SUBNET_ID', u'Value': u'BuilderPublicSubnet'}]"
-Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

@@ -1,34 +1,27 @@
 Resources.AWS::AutoScaling::AutoScalingGroup.DependsOn,"[u'LaunchConfig', u'ElasticLoadBalancer']"
 Resources.AWS::CloudWatch::Alarm.Properties.MetricName,CPUUtilization
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Resources.AWS::EC2::SecurityGroupIngress.DependsOn,[u'PrivateSecurityGroup']
 Mappings.RegionMap.eu-central-1.AMI,ami-accff2b1
 Parameters.DBPassword.MaxLength,41
 Parameters.DBName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.EmailAddress.Default,admin@a1ecommerce.com
 Parameters.DBUser.Default,a1dbroot
-Parameters.AMIImageId.Type,String
-Parameters.DBAllocatedStorage.Type,Number
 Mappings.SubnetConfig.VPC.CIDR,10.31.0.0/16
 Parameters.EC2InstanceASG.ConstraintDescription,must select a valid EC2 instance type.
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': {u'Fn::Join': [u'-', [{u'Ref': u'AWS::StackName'}, u'Public ASG WebServerGroup']]}, u'Key': u'Name'}]"
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Parameters.DBbackupRetentionPeriod.Default,7
 Parameters.KeyPairName.MaxLength,64
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}]]}"
 Parameters.EC2InstanceClassBastion.AllowedValues,[u't2.micro']
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.DBUser.MaxLength,16
 Mappings.SubnetConfig.Bastion.CIDR,10.31.96.0/20
 Resources.AWS::EC2::EIPAssociation.DependsOn,BastionEC2
-Parameters.EmailAddress.Type,String
 Parameters.DBInstanceClass.ConstraintDescription,must select a valid database instance type.
 Mappings.SubnetConfig.HAPublic.AZ,us-east-1d
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeleteOnTermination': u'true', u'DeviceIndex': u'0', u'SubnetId': {u'Ref': u'PublicSubnet'}, u'GroupSet': [{u'Ref': u'NatSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
 Resources.AWS::EC2::SecurityGroupEgress.Properties.IpProtocol,tcp
 Parameters.DBInstanceClass.Default,db.t1.micro
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'echo Boot']]}}"
-Parameters.Enviornment.Type,String
 Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,{u'Ref': u'DBbackupRetentionPeriod'}
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'PrivateSecurityGroup'}
 Resources.AWS::RDS::DBInstance.DeletionPolicy,Snapshot
@@ -52,8 +45,6 @@ Outputs.BastionSubnet.Value,{u'Ref': u'BastionSubnet'}
 Parameters.EC2InstanceClassBastion.Default,t2.micro
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Outputs.DbPrivateSubnet.Value,{u'Ref': u'DbPrivateSubnet'}
-Resources.AWS::AutoScaling::ScalingPolicy.Type,AWS::AutoScaling::ScalingPolicy
-Parameters.DBbackupRetentionPeriod.Type,Number
 Parameters.DBUser.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Resources.AWS::EC2::SecurityGroupEgress.DependsOn,[u'WebSecurityGroupPublic']
 Parameters.ServerAccess.MaxLength,18
@@ -83,28 +74,22 @@ Parameters.EC2InstanceClassNAT.ConstraintDescription,must select a valid EC2 ins
 Parameters.KeyPairName.MinLength,1
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,2
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,true
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
 Mappings.SubnetConfig.Private.AZ,us-east-1a
 Parameters.DBUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Parameters.ServerAccess.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[{u'Ref': u'PublicSubnet'}, {u'Ref': u'HASubnet'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
 Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUser'}
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
-Parameters.SNSTopicNameInfra.Type,String
 Parameters.KeyPairName.Description,"Name of an existing EC2 KeyPair , by default using one created in chapter 3 , under Creating EC2 instance key pairs"
 Parameters.DBAllocatedStorage.ConstraintDescription,must be between 5 and 1024Gb.
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,3306
 Outputs.BASTIONIP.Value,"{u'Fn::GetAtt': [u'BastionEC2', u'PublicIp']}"
 Parameters.SNSTopicNameInfra.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.SNSTopicNameInfra.Default,EcommerceInfra
-Resources.AWS::EC2::EIPAssociation.Type,AWS::EC2::EIPAssociation
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'WebServerScaleDownPolicy'}]
 Parameters.AMIImageId.MinLength,9
-Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
 Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/EC2
 Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
@@ -126,23 +111,19 @@ Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'AutoScaling
 Parameters.SNSTopicNameInfra.MinLength,1
 Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,"[{u'Fn::GetAtt': [u'PrivateSecurityGroup', u'GroupId']}]"
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
-Parameters.DBPassword.Type,String
 Outputs.PublicSubnet.Value,{u'Ref': u'PublicSubnet'}
 Parameters.MultiAZ.Default,false
 Outputs.PrivateSubnet.Value,{u'Ref': u'PrivateSubnet'}
 Resources.AWS::EC2::SecurityGroup.DependsOn,"[u'VPC', u'ELBSecurityGroup']"
 Parameters.DBInstanceClass.AllowedValues,"[u'db.t1.micro', u'db.m1.small', u'db.m3.medium', u'db.m3.large', u'db.m3.xlarge', u'db.m3.2xlarge', u'db.r3.large', u'db.r3.xlarge', u'db.r3.2xlarge', u'db.r3.4xlarge', u'db.r3.8xlarge', u'db.t2.micro', u'db.t2.small', u'db.t2.medium']"
 Parameters.Enviornment.Default,Prod
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::EC2::EIPAssociation.Properties.EIP,{u'Ref': u'EIP'}
 Resources.AWS::CloudWatch::Alarm.Properties.Period,300
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
 Parameters.BastionServerName.Default,bastion
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyPairName'}
 Mappings.SubnetConfig.Private.CIDR,10.31.80.0/20
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'443'}]"
-Parameters.KeyPairName.Type,String
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
@@ -150,55 +131,45 @@ Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
 Parameters.ServerAccess.MinLength,9
 Resources.AWS::EC2::Route.Properties.InstanceId,{u'Ref': u'NAT'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Public facing  Security Group
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Outputs.NATIP.Value,"{u'Fn::GetAtt': [u'NAT', u'PublicIp']}"
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceIdentifier,{u'Ref': u'DBName'}
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.AdjustmentType,ChangeInCapacity
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Availability Zones for A1EcommerceDB
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Outputs.BASTIONIP.Description,Bastion IP address
 Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,LessThanThreshold
 Parameters.DBPassword.NoEcho,true
 Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Average
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,60
-Parameters.EC2InstanceClassNAT.Type,String
 Resources.AWS::EC2::EIPAssociation.Properties.InstanceId,{u'Ref': u'BastionEC2'}
 Mappings.SubnetConfig.VPC.AZ,us-east-1a
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::FindInMap': [u'SubnetConfig', u'HAPublic', u'AZ']}"
 Parameters.MultiAZ.AllowedValues,"[u'true', u'false']"
 Resources.AWS::EC2::Instance.Properties.SourceDestCheck,false
-Parameters.EC2InstanceASG.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Timeout,60
-Parameters.EC2InstanceClassBastion.Type,String
 Mappings.SubnetConfig.HAPublic.CIDR,10.31.48.0/20
 Parameters.KeyPairName.Default,ec2AccessKey
 Resources.AWS::SNS::Topic.Properties.DisplayName,{u'Ref': u'SNSDisplayNameInfra'}
 Parameters.EC2Tenancy.Default,default
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.NotificationConfiguration.NotificationTypes,"[u'autoscaling:EC2_INSTANCE_LAUNCH', u'autoscaling:EC2_INSTANCE_LAUNCH_ERROR', u'autoscaling:EC2_INSTANCE_TERMINATE', u'autoscaling:EC2_INSTANCE_TERMINATE_ERROR']"
 Parameters.DBPassword.Default,a1dbroot
-Parameters.EC2Tenancy.Type,String
 Outputs.DbPrivateSubnet.Description,Secondary DB PRivate  
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Resources.AWS::EC2::Subnet.DependsOn,[u'VPC']
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBInstanceClass'}
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Ref': u'EmailAddress'}, u'Protocol': u'email'}]"
 Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
 Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}, {u'Value': {u'Fn::Join': [u'', [u'Root-A1EcommerceVPC', {u'Ref': u'Enviornment'}]]}, u'Key': u'Name'}]"
-Parameters.MultiAZ.Type,String
 Parameters.DBUser.NoEcho,true
 Resources.AWS::EC2::SecurityGroupEgress.Properties.ToPort,3306
 Parameters.EC2InstanceClassNAT.Description,The EC2 instance type
 Resources.AWS::EC2::SecurityGroupEgress.Properties.FromPort,3306
 Parameters.ServerAccess.Default,0.0.0.0/0
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,true
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Outputs.URL.Description,The URL of the A1Ecommerce
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
 Parameters.DBUser.MinLength,1
 Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Parameters.DBUser.Type,String
 Parameters.DBUser.Description,The database admin account username
 Parameters.EmailAddress.Description,Email to where notifications will be sent
 Parameters.SNSTopicNameInfra.Description,The SNS topic name
@@ -211,21 +182,17 @@ Parameters.DBAllocatedStorage.MaxValue,1024
 Parameters.DBName.MinLength,1
 Parameters.DBPassword.MinLength,1
 Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'RDSSubnetGroup'}
-Resources.AWS::EC2::SecurityGroupEgress.Type,AWS::EC2::SecurityGroupEgress
 Resources.AWS::EC2::VPC.Properties.CidrBlock,"{u'Fn::FindInMap': [u'SubnetConfig', u'VPC', u'CIDR']}"
 Parameters.EC2Tenancy.AllowedValues,"[u'dedicated', u'default']"
 Parameters.SNSDisplayNameInfra.MaxLength,10
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.DependsOn,"[u'PublicSubnet', u'HASubnet']"
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,a1ecommerce
 Parameters.SNSTopicNameInfra.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,{u'Ref': u'AMIImageId'}
 Parameters.DBbackupRetentionPeriod.ConstraintDescription,must be between 0 and 30
-Parameters.DBName.Type,String
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
 Parameters.MultiAZ.Description,Multi-AZ master database
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Outputs.VPC.Description,VPC 
 Parameters.Enviornment.AllowedValues,"[u'Prod', u'Dev', u'QA', u'Staging']"
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,{u'Ref': u'MultiAZ'}
@@ -236,25 +203,19 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'R
 Mappings.RegionMapNat.eu-central-1.AMI,ami-46073a5b
 Parameters.AMIImageId.AllowedPattern,[-_ a-zA-Z0-9]*
 Parameters.DBPassword.Description,The database admin account password
-Parameters.DBInstanceClass.Type,String
 Outputs.PublicSubnet.Description,Public Subnet  
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'ELBSecurityGroup'}]
 Outputs.NATIP.Description,NAT IP address
 Resources.AWS::CloudWatch::Alarm.Properties.Threshold,70
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Scale-down if CPU < 70% for 10 minutes
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'HAPublic', u'Key': u'Network'}, {u'Value': u'HA Subnet', u'Key': u'Name'}]"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
-Parameters.SNSDisplayNameInfra.Type,String
 Parameters.DBAllocatedStorage.MinValue,5
 Parameters.DBName.MaxLength,64
 Resources.AWS::EC2::Instance.DependsOn,"[u'PublicSubnet', u'NatSecurityGroup']"
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.DBInstanceClass.Description,The database instance type
 Outputs.HASubnet.Value,{u'Ref': u'HASubnet'}
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'HASubnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Parameters.EC2Tenancy.Description,EC2 tenancy under the VPC. Can be one of default/dedicated
 Parameters.EC2InstanceASG.AllowedValues,"[u't2.micro', u't2.small', u't2.medium', u'm3.medium', u'm3.large', u'm3.xlarge', u'm3.2xlarge', u'c4.large', u'c4.xlarge', u'c4.2xlarge', u'c4.4xlarge', u'c4.8xlarge', u'c3.large', u'c3.xlarge', u'c3.2xlarge', u'c3.4xlarge', u'c3.8xlarge', u'r3.large', u'r3.xlarge', u'r3.2xlarge', u'r3.4xlarge', u'r3.8xlarge', u'i2.xlarge', u'i2.2xlarge', u'i2.4xlarge', u'i2.8xlarge', u'd2.xlarge', u'd2.2xlarge', u'd2.4xlarge', u'd2.8xlarge']"
 Parameters.KeyPairName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
@@ -268,7 +229,6 @@ Parameters.SNSDisplayNameInfra.MinLength,1
 Parameters.EC2InstanceASG.Default,t2.micro
 Parameters.KeyPairName.NoEcho,true
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.NotificationConfiguration.TopicARN,{u'Ref': u'A1SNSInfraAlert'}
-Parameters.BastionServerName.Type,String
 Parameters.DBAllocatedStorage.Description,The size of the database (Gb)
 Parameters.Enviornment.Description,The Enviornment to be created. Can be one of prod/dev/qa/staging
 Parameters.AMIImageId.ConstraintDescription,"Must be a valid imageID, use the one created under AMI Creation in chapter 4."

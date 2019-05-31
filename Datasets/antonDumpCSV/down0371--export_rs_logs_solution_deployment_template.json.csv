@@ -1,9 +1,7 @@
 Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(10 minutes)
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole']
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Lambda::Function.Properties.Description,This Lambda function belongs the system tables export solution. It gets by the cloudformation template as part of solution deployment. As the name indicates it is responsible for copying the coded artifacts from GitHub to the S3 location you specify
 Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'InvokeGlueETLToExportRedshiftLogs'}
-Resources.Custom::CodeArtifacts.Type,Custom::CodeArtifacts
 Resources.Custom::CodeArtifacts.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CopyCodeArtifacts', u'Arn']}"
 Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
@@ -12,39 +10,29 @@ Resources.AWS::Lambda::Function.Properties.Timeout,30
 Resources.Custom::GlueConnections.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CreateGlueConnections', u'Arn']}"
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'table_name'}]"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.artifacts_bucket,{u'Ref': u'S3Bucket'}
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'\n', [u'import boto3', u'import cfnresponse', u'import urllib2', u'import gc', u'def lambda_handler(event,context):', u""    repo_name='https://github.com/aws-samples/aws-big-data-blog/raw/master/aws-blog-retain-redshift-stl/'"", u""    libs_map={'libs/pg8000.zip':repo_name+'libs/pg8000.zip?raw=true',"", u""    'libs/minimal-json-0.9.4.jar':repo_name+'libs/minimal-json-0.9.4.jar?raw=true',"", u""    'libs/spark-redshift_2.10-2.0.1.jar':repo_name+'libs/spark-redshift_2.10-2.0.1.jar?raw=true',"", u""    'libs/RedshiftJDBC4-1.2.10.1009.jar':repo_name+'libs/RedshiftJDBC4-1.2.10.1009.jar?raw=true',"", u""    'libs/RedshiftJDBC42-1.2.10.1009.jar':repo_name+'libs/RedshiftJDBC42-1.2.10.1009.jar?raw=true',"", u""    'scripts/extract_rs_logs_functions.zip':repo_name+'scripts/extract_rs_logs_functions.zip?raw=true',"", u""    'scripts/extract_rs_query_logs.py':repo_name+'scripts/extract_rs_query_logs.py'"", u'    }', u'    ', u""    s3_code_bucket=event['ResourceProperties']['S3RootLocation']"", u'    print s3_code_bucket', u""    s3=boto3.client('s3')"", u'    responseData = {}', u""    if event['RequestType']=='Create':"", u'        for key in libs_map:', u'            f = urllib2.urlopen(libs_map[key])', u'            bytes=f.read()', u""            s3.put_object(Bucket=s3_code_bucket,Key='extract_redshift_query_logs/code/'+key,Body=bytes)"", u'            bytes=None', u'            f=None', u'            gc.collect()', u""        responseValue='copied all the code artifacts'"", u""        responseData['Data']=responseValue"", u""        cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')"", u'    else:', u'        objects=[]', u'        try:', u""            objects.extend(s3.list_objects_v2(Bucket=s3_code_bucket,Prefix='extract_redshift_query_logs/code/libs')['Contents'])"", u""            objects.extend(s3.list_objects_v2(Bucket=s3_code_bucket,Prefix='extract_redshift_query_logs/code/scripts')['Contents'])"", u""            objects.extend(s3.list_objects_v2(Bucket=s3_code_bucket,Prefix='extract_redshift_query_logs/code/lambda')['Contents'])"", u'        except:', u""            print 'objects must have deleted outside the cloud formation. Ignoring exceptons!!'"", u""        [s3.delete_object(Bucket=s3_code_bucket,Key=obj['Key'])  for obj in objects ]"", u""        responseValue='deleted all the code artifacts'"", u""        responseData['Data']=responseValue"", u""        cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')"", u'    return']]}"
 Parameters.S3Bucket.Default,mybucket
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Parameters.DataStoreSecurityGroups.Description,The security groups that are associated with your data store. These security groups should have inbound connection to the Redshift clusters for which the STL table export solution is enabled
 Resources.AWS::Lambda::Function.Properties.Handler,index.lambda_handler
-Parameters.ExportEnabledClusters.Type,String
 Parameters.ExportEnabledClusters.Description,A coma separated list of cluster names for which query logs export is enabled. This gives the flexibility to enable the export solution for specific Redshift clusters
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'InvokeGlueETLToExportRedshiftLogsV1', u'Arn': {u'Fn::GetAtt': [u'InvokeGlueETLToExportRedshiftLogs', u'Arn']}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'table_name', u'AttributeType': u'S'}]"
 Resources.AWS::Events::Rule.Properties.Description,Scheduled_Rule_Export_Redshift_System_Tables
 Resources.AWS::DynamoDB::Table.Properties.TableName,rs_querylogs_last_processed_ts
-Parameters.S3Bucket.Type,String
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::SSM::Parameter.Properties.Value,"{u'Fn::Join': [u'/', [u's3:/', {u'Ref': u'S3Bucket'}, u'extract_redshift_query_logs', u'data']]}"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::SSM::Parameter.Properties.Type,String
 Parameters.ExportEnabledClusters.Default,Comma seperated list of cluster names
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Resources.Custom::CodeArtifacts.Properties.S3RootLocation,{u'Ref': u'S3Bucket'}
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
 Resources.Custom::GlueConnections.Properties.ClusterIds,{u'Ref': u'ExportEnabledClusters'}
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
 Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'InvokeGlueETLToExportRedshiftLogsScheduledRule', u'Arn']}"
-Resources.AWS::SSM::Parameter.Type,AWS::SSM::Parameter
-Resources.Custom::GlueConnections.Type,Custom::GlueConnections
 Resources.Custom::GlueConnections.Properties.SecurityGroupList,{u'Ref': u'DataStoreSecurityGroups'}
 Parameters.S3Bucket.Description,This is the bucket where system tables will be exported under the prefix 'extract_redshift_query_logs/data' and code will be copied under the prefix 'extract_redshift_query_logs/code'. Just give the bucket name here
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'addglueconnectionsinline', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u's3:*', u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:*:*:*', {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3Bucket'}, u'/extract_redshift_query_logs/*']]}], u'Effect': u'Allow'}, {u'Action': [u'glue:*', u'iam:PassRole', u'redshift:DescribeClusters', u'redshift:DescribeClusterSubnetGroups', u's3:HeadBucket', u's3:List*', u'ssm:DescribeParameters', u'ssm:GetParameter', u'ssm:GetParameters', u'ssm:GetParametersByPath', u'ssm:PutParameter', u'ssm:DeleteParameters'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
-Parameters.DataStoreSecurityGroups.Type,List<AWS::EC2::SecurityGroup::Id>
 Resources.AWS::SSM::Parameter.Properties.Name,redshift_query_logs.global.s3_prefix

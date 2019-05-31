@@ -16,15 +16,10 @@ Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetGroupAttribu
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,2
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
 Outputs.ELBWEBDNSName.Value,ELBWeb.DNSName
-Parameters.ELBLogsBucketName.Type,String
-Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Certificates,"[{u'CertificateArn': {u'Fn::ImportValue': [u'${AppName}AcmCertificateArn', {u'AppName': u'AppName'}]}}]"
-Parameters.AppName.Type,String
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Matcher.HttpCode,200
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,"[{u'Fn::ImportValue': [u'${AppName}SGELB', {u'AppName': u'AppName'}]}]"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,TargetGroup
 Outputs.ELBWEBDNSName.Export.Name,"[u'${AppName}ELBWEBDNSName', {u'AppName': u'AppName'}]"

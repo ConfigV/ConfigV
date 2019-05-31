@@ -1,33 +1,20 @@
 Resources.AWS::CodeBuild::Project.Properties.Environment.PrivilegedMode,True
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
 Resources.AWS::CodeBuild::Project.Properties.Name,AWS::StackName
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
-Parameters.Cluster.Type,String
 Outputs.CodeBuildServiceRole.Value,CodeBuildServiceRole
-Resources.AWS::ECR::Repository.Type,AWS::ECR::Repository
-Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
 Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'ThirdParty', u'Version': 1, u'Provider': u'GitHub'}, u'Configuration': {u'Owner': u'GitHubUser', u'Repo': u'GitHubRepo', u'OAuthToken': u'GitHubToken', u'Branch': u'GitHubBranch'}, u'Name': u'App', u'OutputArtifacts': [{u'Name': u'App'}]}]}, {u'Name': u'Build', u'Actions': [{u'InputArtifacts': [{u'Name': u'App'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': 1, u'Provider': u'CodeBuild'}, u'OutputArtifacts': [{u'Name': u'BuildOutput'}], u'Configuration': {u'ProjectName': u'CodeBuildProject'}, u'Name': u'Build'}]}, {u'Name': u'Deploy', u'Actions': [{u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': 1, u'Provider': u'ECS'}, u'Configuration': {u'ClusterName': u'Cluster', u'ServiceName': u'Service', u'FileName': u'images.json'}, u'Name': u'Deploy', u'InputArtifacts': [{u'Name': u'BuildOutput'}], u'RunOrder': 1}]}]"
 Resources.AWS::IAM::Role.Properties.Path,/
 Outputs.CodePipelineServiceRoleArn.Value,CodePipelineServiceRole.Arn
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,CodePipelineServiceRole.Arn
-Parameters.GitHubRepo.Type,String
 Parameters.GitHubToken.NoEcho,True
 Outputs.PipelineUrl.Value,https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}
 Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENERAL1_SMALL
 Outputs.ArtifactBucketName.Value,ArtifactBucket
 Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/java:openjdk-8
-Parameters.GitHubUser.Type,String
 Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,ArtifactBucket
-Resources.AWS::CodeBuild::Project.Properties.Environment.Type,LINUX_CONTAINER
-Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,CODEPIPELINE
 Resources.AWS::ECR::Repository.DeletionPolicy,Retain
-Resources.AWS::CodeBuild::Project.Properties.Source.Type,CODEPIPELINE
-Parameters.GitHubToken.Type,String
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'codebuild.amazonaws.com'}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Parameters.GitHubBranch.Type,String
 Resources.AWS::CodeBuild::Project.Properties.ServiceRole,CodeBuildServiceRole
 Resources.AWS::CodeBuild::Project.Properties.Source.BuildSpec,"version: 0.2
 phases:
@@ -48,6 +35,4 @@ artifacts:
   files: images.json
 "
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents', u'ecr:GetAuthorizationToken'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:PutObject', u's3:GetObjectVersion'], u'Resource': u'arn:aws:s3:::${ArtifactBucket}/*', u'Effect': u'Allow'}, {u'Action': [u'ecr:GetDownloadUrlForLayer', u'ecr:BatchGetImage', u'ecr:BatchCheckLayerAvailability', u'ecr:PutImage', u'ecr:InitiateLayerUpload', u'ecr:UploadLayerPart', u'ecr:CompleteLayerUpload'], u'Resource': u'arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/*', u'Effect': u'Allow'}]}}]"
-Parameters.Service.Type,String
 Resources.AWS::CodeBuild::Project.Properties.Environment.EnvironmentVariables,"[{u'Name': u'AWS_DEFAULT_REGION', u'Value': u'AWS::Region'}, {u'Name': u'REPOSITORY_URI', u'Value': u'${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${Repository}'}]"
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

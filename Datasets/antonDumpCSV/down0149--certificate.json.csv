@@ -1,5 +1,4 @@
 Resources.Custom::AWSCertificateRequest.Version,1.0
-Resources.Custom::AWSCertificateApprovalCheck.Type,Custom::AWSCertificateApprovalCheck
 Resources.Custom::AWSCertificateDNSApproval.Properties.ServiceToken,{u'Ref': u'CertificateApprovalLambdaARN'}
 Resources.Custom::AWSCertificateDNSApproval.Properties.hostName,{u'Ref': u'HostName'}
 Parameters.HostName.Description,The HostName address
@@ -7,29 +6,21 @@ Resources.Custom::AWSCertificateDNSApproval.Properties.hostedZoneId,{u'Ref': u'H
 Parameters.AlternativeDomains.Description,Alternative Domains to be configured in the Certificate
 Resources.Custom::AWSCertificateApprovalCheck.DependsOn,[u'AWSPublicCertificateValidation']
 Outputs.CertificateARN.Value,"{u'Fn::GetAtt': [u'AWSPublicCertificateRequest', u'ResourceId']}"
-Resources.Custom::AWSCertificateRequest.Type,Custom::AWSCertificateRequest
 Parameters.CertificateRequestLambdaARN.Description,The ARN of lambda request Function
 Resources.Custom::AWSCertificateRequest.Properties.ServiceToken,{u'Ref': u'CertificateRequestLambdaARN'}
-Resources.Custom::AWSCertificateDNSApproval.Type,Custom::AWSCertificateDNSApproval
-Parameters.CheckCertificateLambdaARN.Type,String
 Resources.Custom::AWSCertificateDNSApproval.Properties.certificateARN,"{u'Fn::GetAtt': [u'AWSPublicCertificateRequest', u'ResourceId']}"
 Outputs.CertificateARN.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-CertificateARN'}
-Parameters.AlternativeDomains.Type,String
 Resources.Custom::AWSCertificateRequest.Properties.hostedZoneId,{u'Ref': u'HostedZone'}
 Resources.Custom::AWSCertificateRequest.Properties.extraDomains,{u'Ref': u'AlternativeDomains'}
 Resources.Custom::AWSCertificateRequest.Properties.hostName,{u'Ref': u'HostName'}
-Parameters.CertificateApprovalLambdaARN.Type,String
 Parameters.HostName.Default,www
 Parameters.HostName.ConstraintDescription,must be a valid DNS zone name.
 Resources.Custom::AWSCertificateApprovalCheck.Properties.ServiceToken,{u'Ref': u'CheckCertificateLambdaARN'}
-Parameters.HostName.Type,String
 Parameters.HostedZone.Description,The DNS name of an existing Amazon Route 53 hosted zone
 Resources.Custom::AWSCertificateApprovalCheck.Version,1.0
 Parameters.HostName.AllowedPattern,"(?!-)[a-zA-Z0-9-.]{1,63}(?<!-)"
-Parameters.CertificateRequestLambdaARN.Type,String
 Resources.Custom::AWSCertificateDNSApproval.Version,1.0
 Outputs.CertificateARN.Description,CertificateARN
 Resources.Custom::AWSCertificateApprovalCheck.Properties.certificateARN,"{u'Fn::GetAtt': [u'AWSPublicCertificateRequest', u'ResourceId']}"
 Parameters.CertificateApprovalLambdaARN.Description,The ARN of lambda request Function
 Parameters.CheckCertificateLambdaARN.Description,The ARN of lambda request Function
-Parameters.HostedZone.Type,AWS::Route53::HostedZone::Id

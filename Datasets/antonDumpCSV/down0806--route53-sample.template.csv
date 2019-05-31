@@ -1,13 +1,8 @@
 Parameters.DomainName.Description,Public Domain Name Registered in Route 53 (e.g. example.com)
-Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
 Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [u'mail.', {u'Ref': u'DomainName'}]]}"
 Parameters.HostedZoneId.Description,Id of the Route 53 Hosted Zone (e.g. Z2YWSUZAN8FVCS)
 Resources.AWS::Route53::RecordSet.Properties.HostedZoneId,"{u'Fn::Join': [u'', [u'/hostedzone/', {u'Ref': u'HostedZoneId'}]]}"
-Parameters.HostedZoneId.Type,String
 Resources.AWS::Route53::RecordSet.Properties.TTL,60
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,[{u'Ref': u'MailServerEip'}]
-Resources.AWS::Route53::RecordSet.Properties.Type,A
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::Route53::RecordSet.DependsOn,MailServerEip
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Parameters.DomainName.Type,String

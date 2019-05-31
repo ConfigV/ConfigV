@@ -1,5 +1,3 @@
-Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Outputs.Subnet3.Value,Subnet3
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.VpcId,VPC
@@ -7,36 +5,23 @@ Resources.AWS::EC2::Subnet.Properties.CidrBlock,Subnet3CIDR
 Resources.AWS::EC2::Route.Properties.NatGatewayId,{u'Ref': u'NAT1'}
 Outputs.Subnet1.Value,Subnet1
 Resources.AWS::EC2::NatGateway.Properties.SubnetId,Subnet1
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
-Parameters.Subnet1CIDR.Type,String
 Resources.AWS::EC2::NatGateway.Properties.AllocationId,"{u'Fn::GetAtt': [u'EIP1', u'AllocationId']}"
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"[0, u'']"
-Parameters.Subnet4CIDR.Type,String
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,InternetGateway
 Outputs.Subnet4.Value,Subnet4
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Route.Properties.GatewayId,InternetGateway
 Resources.AWS::EC2::VPC.Properties.CidrBlock,VpcCIDR
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'Name', u'Key': u'Name'}]"
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'${Name} (Private)', u'Key': u'Name'}]"
 Outputs.Subnets.Value,"[u',', [u'Subnet1', u'Subnet2']]"
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,RouteTable
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': u'Name', u'Key': u'Name'}]"
 Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': u'Name', u'Key': u'Name'}]"
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,Subnet1
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,False
 Resources.AWS::EC2::Route.Properties.RouteTableId,RouteTable
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Outputs.VpcId.Value,VPC
-Parameters.Subnet3CIDR.Type,String
 Resources.AWS::EC2::RouteTable.Properties.VpcId,VPC
-Parameters.VpcCIDR.Type,String
 Outputs.Subnet2.Value,Subnet2
-Parameters.Subnet2CIDR.Type,String
-Parameters.Name.Type,String
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,VPC

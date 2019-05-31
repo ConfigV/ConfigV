@@ -5,13 +5,10 @@ Resources.AWS::CloudFormation::CustomResource.Properties.SourceBucket,{u'Ref': u
 Resources.AWS::S3::Bucket.Properties.Tags,[]
 Resources.AWS::Lambda::Function.Properties.Description,"Copies objects from a source S3 bucket to a destination, as Lambda function could only get function zip from the bucket in the same region"
 Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,1
-Parameters.S3ObjectLambdaZip.Type,String
 Parameters.ClusterName.ConstraintDescription,"Cluster name must start with a letter and can only contain letters, numbers, or hyphens."
 Resources.AWS::Lambda::Function.Properties.Timeout,300
 Parameters.ClusterName.MinLength,1
-Parameters.QSS3BucketName.Type,String
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
 Resources.AWS::Logs::LogGroup.Properties.LogGroupName,"{u'Fn::Join': [u'/', [{u'Ref': u'ClusterName'}, u'aws/lambda', {u'Ref': u'CopyZipsFunction'}]]}"
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'', [u""var response = require('cfn-response');\n"", u""var AWS = require('aws-sdk');\n"", u'exports.handler = function(event, context) {\n', u'  // https://stackoverflow.com/questions/41299662/aws-lambda-created-eni-not-deleting-while-deletion-of-stack\n', u'  console.log(""REQUEST RECEIVED:"", JSON.stringify(event));\n', u""  if (event.RequestType != 'Delete') {\n"", u'    response.send(event, context, response.SUCCESS, {});\n', u'    return;\n', u'  }\n', u'\n', u'  // https://github.com/hashicorp/terraform/issues/5767\n', u'  var ec2 = new AWS.EC2();\n', u'  var params = {\n', u'    Filters: [\n', u'      {\n', u""        Name: 'group-id',\n"", u'        Values: event.ResourceProperties.SecurityGroups\n', u'      },\n', u'      {\n', u""        Name: 'description',\n"", u""        Values: ['AWS Lambda VPC ENI: *']\n"", u'      }\n', u'    ]\n', u'  };\n', u'\n', u'  console.log(""Deleting attachments!"");\n', u'  // Detach all network-interface attachments\n', u'  ec2.describeNetworkInterfaces(params).promise().then(function(data) {\n', u'    console.log(""Got Interfaces:"", JSON.stringify(data));\n', u'    return Promise.all(data.NetworkInterfaces.map(function(networkInterface) {\n', u'      var networkInterfaceId = networkInterface.NetworkInterfaceId;\n', u'      var attachmentId = networkInterface.Attachment.AttachmentId;\n', u'      return ec2.detachNetworkInterface({AttachmentId: attachmentId}).promise().then(function(data) {\n', u""        return ec2.waitFor('networkInterfaceAvailable', {NetworkInterfaceIds: [networkInterfaceId]}).promise();\n"", u'      }).then(function(data) {\n', u'        console.log(""Detached Interface, deleting:"", networkInterfaceId);\n', u'        return ec2.deleteNetworkInterface({NetworkInterfaceId: networkInterfaceId}).promise();\n', u'      });\n', u'    }));\n', u'  }).then(function(data) {\n', u'    console.log(""Success!"");\n', u'    response.send(event, context, response.SUCCESS, {});\n', u'  }).catch(function(err) {\n', u'    console.log(""Failure:"", JSON.stringify(err));\n', u'    response.send(event, context, response.FAILED, {});\n', u'  });\n', u'};\n']]}"
@@ -20,16 +17,12 @@ Resources.AWS::Logs::LogGroup.DependsOn,CopyZipsFunction
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Parameters.S3ObjectLambdaZip.AllowedPattern,^[0-9a-zA-Z-/.]*$
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-Parameters.ClusterName.Type,String
 Outputs.LambdaExecutionRoleArn.Value,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
 Resources.AWS::CloudFormation::CustomResource.Properties.Objects,[{u'Ref': u'S3ObjectLambdaZip'}]
 Resources.AWS::CloudFormation::CustomResource.Properties.Prefix,{u'Ref': u'QSS3KeyPrefix'}
 Resources.AWS::CloudFormation::CustomResource.Properties.DestBucket,{u'Ref': u'LambdaZipsBucket'}
 Parameters.QSS3BucketName.Description,"S3 bucket name for the CloudFormation templates. The CloudFormation template bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Parameters.ClusterName.Description,Name of the ECS cluster.
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::CloudFormation::CustomResource.Type,AWS::CloudFormation::CustomResource
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Parameters.S3ObjectLambdaZip.Description,S3 key for the Lambda function zip object. Example: scripts/redis-lambda.zip
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
@@ -39,11 +32,9 @@ Resources.AWS::CloudFormation::CustomResource.Properties.ServiceToken,"{u'Fn::Ge
 Outputs.VPCDestroyENIFunctionArn.Value,"{u'Fn::GetAtt': [u'VPCDestroyENIFunction', u'Arn']}"
 Parameters.ClusterName.Default,default
 Outputs.LambdaDestObject.Value,"{u'Fn::Join': [u'', [{u'Ref': u'QSS3KeyPrefix'}, {u'Ref': u'S3ObjectLambdaZip'}]]}"
-Parameters.QSS3KeyPrefix.Type,String
 Parameters.ClusterName.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CopyZipsPolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:GetObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'QSS3BucketName'}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u's3:GetBucketLocation'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'QSS3BucketName'}]]}], u'Effect': u'Allow'}, {u'Action': [u's3:PutObject', u's3:DeleteObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'LambdaZipsBucket'}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:*:*:*'], u'Effect': u'Allow'}]}}]"
 Outputs.DestBucket.Value,{u'Ref': u'LambdaZipsBucket'}
-Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
 Parameters.ClusterName.MaxLength,255
 Resources.AWS::Logs::LogGroup.DeletionPolicy,Retain
 Parameters.QSS3BucketName.ConstraintDescription,"The CloudFormation template bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."

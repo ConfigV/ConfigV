@@ -1,6 +1,5 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::CloudFormation::CustomResource.Properties.ASGName,{u'Ref': u'ASGDemo'}
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'AddENILambda', u'Arn']}"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': u'GP-Gateway', u'Key': u'Name'}]"
@@ -11,7 +10,6 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,0
 Resources.AWS::EC2::EIPAssociation.DependsOn,"[u'GPPortalDPInterface', u'GPPortalDPElasticIP']"
 Resources.AWS::EC2::SecurityGroup.DependsOn,ASGDemoVPC
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.AdjustmentType,ChangeInCapacity
-Resources.AWS::AutoScaling::LifecycleHook.Type,AWS::AutoScaling::LifecycleHook
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaBucketName'}
 Resources.AWS::CloudFormation::CustomResource.Properties.ServiceToken,"{u'Fn::GetAtt': [u'InitPortalLambda', u'Arn']}"
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'ASG-PublicSubnet', u'Key': u'Name'}]"
@@ -35,41 +33,31 @@ Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThresh
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.2.0/24
 Resources.AWS::EC2::NetworkInterface.Properties.SourceDestCheck,false
 Outputs.GPPortalMgmtPublicIP.Value,{u'Ref': u'GPPortalMgmtElasticIP'}
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,true
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
 Resources.AWS::EC2::Instance.Properties.DisableApiTermination,false
 Resources.AWS::CloudFormation::CustomResource.Properties.GPPortalMgmtIp,{u'Ref': u'GPPortalMgmtElasticIP'}
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::CloudWatch::Alarm.Properties.MetricName,ActiveSessions
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'ASGDemoIG'}
 Resources.AWS::EC2::RouteTable.DependsOn,ASGDemoVPC
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'GatewayBSInstanceProfile'}
 Outputs.GPPortalMgmtPublicIP.Description,Global Protect Portal Mgmt IP
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.EbsOptimized,true
-Resources.AWS::EC2::EIPAssociation.Type,AWS::EC2::EIPAssociation
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'GPScalingUpPolicy'}]
 Resources.AWS::CloudWatch::Alarm.Properties.Namespace,GPGatewayMetrics
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Parameters.PortalBootstrapBucketName.Type,String
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,600
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.AutoScalingGroupName,{u'Ref': u'ASGDemo'}
 Resources.AWS::EC2::Route.DependsOn,"[u'IGAttachment', u'ASGDemoPublicSubnetRT', u'ASGDemoIG']"
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': u'0', u'NetworkInterfaceId': {u'Ref': u'GPPortalMgmtInterface'}}, {u'DeviceIndex': u'1', u'NetworkInterfaceId': {u'Ref': u'GPPortalDPInterface'}}]"
 Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'AutoScalingGroupName', u'Value': {u'Ref': u'ASGDemo'}}]"
-Resources.AWS::EC2::NetworkInterface.Type,AWS::EC2::NetworkInterface
 Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvda', u'Ebs': {u'DeleteOnTermination': u'true', u'VolumeType': u'gp2', u'VolumeSize': u'40'}}]"
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'ASGDemoVPC'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,600
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'PortalBSRolePolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u's3:ListBucket', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'PortalBootstrapBucketName'}]]}, u'Effect': u'Allow'}, {u'Action': u's3:GetObject', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'PortalBootstrapBucketName'}, u'/*']]}, u'Effect': u'Allow'}]}}]"
 Resources.AWS::CloudFormation::CustomResource.Properties.GPPortalDPIp,{u'Ref': u'GPPortalDPElasticIP'}
 Resources.AWS::CloudWatch::Alarm.Properties.Period,180
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'GatewayBSRole'}]
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'ASGDemoVPC'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'ServerKeyName'}
@@ -78,7 +66,6 @@ Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'ASGDemoVPC'}
 Resources.AWS::EC2::Instance.Properties.InstanceInitiatedShutdownBehavior,stop
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,SG for PA-VM-AWS internal interface
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::Lambda::Permission.Properties.Principal,sns.amazonaws.com
 Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'ASGDemoPublicSubnetRT'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'ASGDemoLaunchConfiguration'}
@@ -91,7 +78,6 @@ Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': 
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvda', u'Ebs': {u'DeleteOnTermination': u'true', u'VolumeType': u'gp2', u'VolumeSize': u'40'}}]"
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::GetAtt': [u'ASGDemoPrivateSubnet', u'AvailabilityZone']}"
 Resources.AWS::CloudWatch::Alarm.Properties.Unit,Count
-Parameters.ServerKeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::AutoScaling::LifecycleHook.Properties.AutoScalingGroupName,{u'Ref': u'ASGDemo'}
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'ASGDemoPublicSubnetRT'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'autoscaling.amazonaws.com']}}]"
@@ -100,22 +86,16 @@ Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': u'GP Autoscaling VPC', u'Ke
 Resources.AWS::EC2::NetworkInterface.Properties.GroupSet,"[{u'Ref': u'HTTPSSecurityGroup'}, {u'Ref': u'SSHSecurityGroup'}]"
 Resources.AWS::EC2::Subnet.DependsOn,ASGDemoVPC
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'PortalBSInstanceProfile'}
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
-Resources.AWS::AutoScaling::ScalingPolicy.Type,AWS::AutoScaling::ScalingPolicy
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ASGDemoVPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,600
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'ServerKeyName'}
 Resources.AWS::EC2::SubnetRouteTableAssociation.DependsOn,"[u'ASGDemoPublicSubnetRT', u'ASGDemoPrivateSubnet']"
 Resources.AWS::EC2::VPCGatewayAttachment.DependsOn,[u'ASGDemoIG']
-Parameters.LambdaBucketName.Type,String
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,config_fw.zip
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::LifecycleHook.Properties.NotificationTargetARN,{u'Ref': u'LambdaENISNSTopic'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'PANGFWAWSRegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
 Resources.AWS::EC2::EIPAssociation.Properties.AllocationId,"{u'Fn::GetAtt': [u'GPPortalDPElasticIP', u'AllocationId']}"
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::CloudFormation::CustomResource.Version,1.0
 Mappings.PANGFWAWSRegionMap.eu-central-1.AMI,ami-8be001e4
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,3
@@ -125,24 +105,16 @@ Resources.AWS::AutoScaling::LifecycleHook.Properties.DefaultResult,CONTINUE
 Resources.AWS::AutoScaling::LifecycleHook.Properties.LifecycleTransition,autoscaling:EC2_INSTANCE_TERMINATING
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,[{u'Ref': u'ASGDemoPublicSubnet'}]
 Resources.AWS::EC2::EIP.DependsOn,[u'ASGDemoVPC']
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Outputs.GPPortalPublicIP.Description,Global Protect Portal DataPlane IP
 Resources.AWS::CloudWatch::Alarm.Properties.Threshold,20
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'ASGDemoIG'}
-Parameters.GatewayBootstrapBucketName.Type,String
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::Instance.DependsOn,[u'ASGDemoPublicSubnet']
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'ASGDemoPublicSubnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::EC2::NetworkInterface.Properties.Description,GP Portal mgmt
 Resources.AWS::IAM::Policy.Properties.PolicyName,ASGNotifierRolePolicy
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.ScalingAdjustment,-1
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
-Resources.AWS::CloudFormation::CustomResource.Type,AWS::CloudFormation::CustomResource
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'AddENILambda', u'Arn']}, u'Protocol': u'lambda'}]"
 Parameters.PortalBootstrapBucketName.Description,Bucket name for GP Portal bootstrap configuration
 Outputs.GPPortalPublicIP.Value,{u'Ref': u'GPPortalDPElasticIP'}

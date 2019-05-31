@@ -1,8 +1,6 @@
 Resources.AWS::Serverless::Function.Properties.CodeUri,
 Resources.AWS::Serverless::Function.Properties.Policies,"[u'AWSLambdaFullAccess', u'AmazonRekognitionReadOnlyAccess']"
 Outputs.Bucket.Value,{u'Ref': u'Bucket'}
-Parameters.BucketName.Type,String
-Resources.AWS::Serverless::Function.Properties.Events.NewImagesBucket.Type,S3
 Resources.AWS::Serverless::Function.Properties.MemorySize,256
 Resources.AWS::Serverless::Function.Properties.Events.NewImagesBucket.Properties.Bucket,{u'Ref': u'Bucket'}
 Resources.AWS::Serverless::Function.Properties.Events.NewImagesBucket.Properties.Events,[u's3:ObjectCreated:*']
@@ -10,10 +8,8 @@ Resources.AWS::Serverless::Function.Properties.Timeout,30
 Resources.AWS::Serverless::Function.Properties.Role,
 Resources.AWS::Serverless::Function.Properties.Handler,BlueprintBaseName.1::BlueprintBaseName._1.Function::FunctionHandler
 Parameters.BucketName.MinLength,0
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::Serverless::Function.Properties.Description,Default function
 Parameters.BucketName.Description,Name of S3 bucket to be created. The Lambda function will be invoked when new objects are upload to the bucket. If left blank a name will be generated.
 Resources.AWS::Serverless::Function.Properties.Runtime,dotnetcore2.1
 Outputs.Bucket.Description,Bucket that will invoke the lambda function when new objects are created.
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
 Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::If': [u'BucketNameGenerated', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'BucketName'}]}"

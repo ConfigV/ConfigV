@@ -1,26 +1,17 @@
-Resources.AWS::EFS::FileSystem.Type,AWS::EFS::FileSystem
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allow NFS over TCP
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EFS::MountTarget.Properties.SubnetId,{u'Ref': u'SubnetId'}
 Resources.AWS::EFS::MountTarget.Properties.SecurityGroups,[{u'Ref': u'SecurityGroup'}]
-Parameters.VpcId.Type,String
-Resources.AWS::EFS::MountTarget.Type,AWS::EFS::MountTarget
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.KeyName.Type,String
 Parameters.VpcId.Description,VPC ID where the MountTarget and instance should be created
 Resources.AWS::EFS::MountTarget.Properties.FileSystemId,{u'Ref': u'MyEFSFileSystem'}
 Resources.AWS::EFS::FileSystem.Properties.FileSystemTags,"[{u'Value': u'MyEFSFileSystem', u'Key': u'Name'}]"
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'EFSHostSecurityGroup'}]
-Parameters.SubnetId.Type,String
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::Instance.DependsOn,MyEFSMountTarget
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'elasticfilesystem:DescribeFileSystems', u'elasticfilesystem:DescribeTags'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'SourceSecurityGroupId': {u'Ref': u'EFSHostSecurityGroup'}, u'FromPort': u'2049', u'ToPort': u'2049', u'IpProtocol': u'tcp'}]"
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'EFSInstanceProfile'}
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
 Parameters.SubnetId.Description,Subnet ID where the MountTarget and instance should be created
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'EFSHostRole'}]

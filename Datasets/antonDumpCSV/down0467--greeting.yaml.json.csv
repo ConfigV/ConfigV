@@ -3,35 +3,24 @@ Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetType,ip
 Resources.AWS::ECS::Service.DependsOn,listener
 Resources.AWS::ECS::Service.Properties.LaunchType,EC2
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,8081
-Parameters.VPC.Type,String
-Parameters.PrivateSubnet2.Type,String
-Resources.AWS::ECS::Service.Type,AWS::ECS::Service
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': {u'Ref': u'targetgroup001'}, u'Type': u'forward'}]"
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::ECS::Service.Properties.HealthCheckGracePeriodSeconds,60
 Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/ecs/${AWS::StackName}
 Resources.AWS::ECS::TaskDefinition.Properties.Memory,1GB
 Resources.AWS::ECS::TaskDefinition.Properties.Cpu,256
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,60
 Resources.AWS::ECS::Service.Properties.LoadBalancers,"[{u'ContainerName': u'Greeting', u'TargetGroupArn': u'targetgroup001', u'ContainerPort': 8081}]"
-Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,10
 Resources.AWS::ECS::Service.Properties.Cluster,ECSCluster
-Parameters.PrivateALB.Type,String
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,PrivateALB
-Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ecs.amazonaws.com']}}]"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/resources/greeting
 Resources.AWS::ECS::TaskDefinition.Properties.NetworkMode,awsvpc
-Parameters.ECSCluster.Type,String
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
 Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'PortMappings': [{u'ContainerPort': 8081}], u'Name': u'Greeting', u'Image': u'arungupta/greeting', u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-stream-prefix': u'greeting', u'awslogs-group': u'LogGroup', u'awslogs-region': u'AWS::Region'}}, u'Memory': 500, u'Cpu': 10}]"
-Parameters.SecurityGroup.Type,String
 Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.SecurityGroups,[u'SecurityGroup']
-Parameters.PrivateSubnet1.Type,String
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,greeting
 Resources.AWS::ECS::TaskDefinition.Properties.RequiresCompatibilities,[u'EC2']
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ecs-service', u'PolicyDocument': {u'Statement': [{u'Action': [u'elasticloadbalancing:DeregisterInstancesFromLoadBalancer', u'elasticloadbalancing:DeregisterTargets', u'elasticloadbalancing:Describe*', u'elasticloadbalancing:RegisterInstancesWithLoadBalancer', u'elasticloadbalancing:RegisterTargets', u'ec2:Describe*', u'ec2:AuthorizeSecurityGroupIngress'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
@@ -39,6 +28,5 @@ Resources.AWS::ECS::Service.Properties.DesiredCount,1
 Resources.AWS::ECS::Service.Properties.NetworkConfiguration.AwsvpcConfiguration.Subnets,"[u'PrivateSubnet1', u'PrivateSubnet2']"
 Resources.AWS::ECS::Service.Properties.TaskDefinition,taskdefinition
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,8081
-Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
 Resources.AWS::ElasticLoadBalancingV2::Listener.DependsOn,ECSServiceRole
 Resources.AWS::ECS::Service.Properties.ServiceName,greeting

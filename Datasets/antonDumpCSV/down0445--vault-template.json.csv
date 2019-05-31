@@ -1,4 +1,3 @@
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Mappings.SubnetConfig.VPC.CIDR,10.0.0.0/16
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.command1.command,ln -s /etc/vault/vault vault
 Resources.AWS::EC2::RouteTable.Condition,VPC
@@ -8,9 +7,7 @@ Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': 
 Resources.AWS::EC2::Instance.Properties.SubnetId,"{u'Fn::If': [u'Subnet', {u'Ref': u'NewSubnet'}, {u'Ref': u'SubnetID'}]}"
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'EC2VaultSecurityGroup'}
 Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'NewVPC'}
-Parameters.EC2InstanceProfile.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/profile.d/vault-addr-variable.sh.group,root
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Resources.AWS::EC2::InternetGateway.Condition,VPC
 Outputs.EC2PublicDNSURL.Description,URL for VAULT_ADDRESS which should be exported locally for CLI
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/vault/vault-dev-server-start.sh.owner,root
@@ -19,22 +16,18 @@ Resources.AWS::EC2::Subnet.Properties.CidrBlock,"{u'Fn::FindInMap': [u'SubnetCon
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.SubnetID.Description,By default we will create a new Subnet ID or select an existing subnet ID from VPC selected above.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/profile.d/vault-addr-variable.sh.owner,root
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::VPC.Condition,VPC
 Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'EC2VaultSecurityGroup'}]
 Parameters.EC2InstanceProfile.Default,ecsInstanceRole
 Parameters.VPCID.Default,
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'VaultServer-RT', u'Key': u'Name'}]"
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,8200
-Parameters.SubnetID.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/vault/vault-dev-server-start.sh.mode,000744
 Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'RouteTable'}
 Resources.AWS::EC2::Route.DependsOn,AttachGateway
 Mappings.SubnetConfig.Public.CIDR,10.0.0.0/24
 Outputs.EC2PublicDNSURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'EC2VaultInstance', u'PublicDnsName']}, u':8200']]}"
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'NewVPC'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/vault/vault-dev-server-start.sh.group,root
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'NewVPC'}
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
@@ -54,27 +47,20 @@ Parameters.KeyName.Description,Name of an existing EC2 key pair to enable SSH ac
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/vault/vault-dev-server-start.sh.content,"{u'Fn::Join': [u'\n', [u'#! /bin/bash', u'LISTEN_ADDRESS=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)', u'nohup vault server -dev-listen-address=${LISTEN_ADDRESS}:8200 -dev > /etc/vault/vault-server-log.out 2>&1 &', u'echo done', u'exit 0']]}"
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,"{u'Fn::If': [u'IAMrole', {u'Ref': u'EC2InstanceProfile'}, {u'Ref': u'AWS::NoValue'}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/profile.d/vault-addr-variable.sh.mode,000744
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Resources.AWS::EC2::Subnet.Condition,Subnet
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,"{u'Fn::If': [u'VPC', {u'Ref': u'NewVPC'}, {u'Ref': u'VPCID'}]}"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.EC2InstanceProfile.Description,This field is optional
 Parameters.VPCID.Description,By default we will create a new VPC or Select an existing VPC ID.
 Resources.AWS::EC2::Route.Condition,VPC
 Mappings.AWSRegionToAMI.eu-central-1.AMIID,ami-e28d098d
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::VPC.Properties.CidrBlock,"{u'Fn::FindInMap': [u'SubnetConfig', u'VPC', u'CIDR']}"
 Parameters.SubnetID.Default,
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'VaultServer-Subnet', u'Key': u'Name'}]"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'NewSubnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,true
 Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,0.0.0.0/0
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/profile.d/vault-addr-variable.sh.content,"{u'Fn::Join': [u'\n', [u'LISTEN_ADDRESS=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)', u'export VAULT_ADDR=http://${LISTEN_ADDRESS}:8200', u""echo 'VAULT_ADDR is set to  '$VAULT_ADDR""]]}"
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionToAMI', {u'Ref': u'AWS::Region'}, u'AMIID']}"
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'VaultServer-SG', u'Key': u'Name'}]"
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'Vault-Server', u'Key': u'Name'}]"
-Parameters.VPCID.Type,String

@@ -1,26 +1,18 @@
-Resources.Custom::CognitoIdentityPool.Type,Custom::CognitoIdentityPool
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[{u'Ref': u'OwnerPolicy'}]
 Resources.Custom::CognitoIdentityPool.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Resources.Custom::PlayerAccess.Properties.DeploymentStack,{u'Ref': u'DeploymentStackArn'}
-Parameters.ProjectPlayerAccessTokenExchangeHandler.Type,String
 Parameters.DeploymentStackArn.Description,The ARN of the deployment stack.
-Parameters.ConfigurationKey.Type,String
 Resources.Custom::PlayerAccess.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Resources.AWS::IAM::ManagedPolicy.Properties.Description,"Policy that grants permissions to update a deployment stack, and all of it's resource group stacks."
 Resources.AWS::IAM::Role.Properties.Path,"{u'Fn::Join': [u'', [u'/', {u'Ref': u'ProjectStack'}, u'/', {u'Ref': u'DeploymentName'}, u'/']]}"
 Resources.AWS::IAM::ManagedPolicy.Properties.Path,"{u'Fn::Join': [u'', [u'/', {u'Ref': u'ProjectStack'}, u'/', {u'Ref': u'DeploymentName'}, u'/']]}"
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.DeploymentStackArn.Type,String
-Parameters.DeploymentStack.Type,String
 Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
-Parameters.ProjectResourceHandler.Type,String
 Resources.Custom::PlayerAccess.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Metadata.CloudCanvas.Id,$Revision: #1 $
 Parameters.ProjectStack.Description,The name of the project stack.
 Resources.Custom::CognitoIdentityPool.Properties.AllowUnauthenticatedIdentities,true
 Parameters.ConfigurationKey.Description,Key that contains the current upload location.
-Parameters.ProjectStack.Type,String
 Resources.Custom::PlayerAccess.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Resources.Custom::CognitoIdentityPool.Properties.IdentityPoolName,PlayerAccess
 Resources.Custom::PlayerAccess.DependsOn,[u'Player']
@@ -32,12 +24,8 @@ Parameters.ProjectPlayerAccessTokenExchangeHandler.Description,ARN for the lambd
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.DeploymentName.Description,The name of the deployment.
 Resources.Custom::CognitoIdentityPool.Properties.Roles.unauthenticated,"{u'Fn::GetAtt': [u'Player', u'Arn']}"
-Resources.Custom::PlayerAccess.Type,Custom::PlayerAccess
-Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
 Parameters.DeploymentStack.Description,The name of the deployment stack.
 Resources.Custom::CognitoIdentityPool.Properties.Roles.authenticated,"{u'Fn::GetAtt': [u'Player', u'Arn']}"
 Resources.Custom::CognitoIdentityPool.Properties.UseAuthSettingsObject,true
-Parameters.DeploymentName.Type,String
-Parameters.ConfigurationBucket.Type,String
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ExchangeTokenAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'lambda:InvokeFunction'], u'Resource': {u'Ref': u'ProjectPlayerAccessTokenExchangeHandler'}, u'Effect': u'Allow', u'Sid': u'PlayerLoginExecution'}]}}]"
 Resources.Custom::CognitoIdentityPool.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}

@@ -1,11 +1,8 @@
 Metadata.CloudCanvas.Id,$Revision: #1 $
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ProjectResourceHandlerExecution', u'Arn']}"
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::Join': [u'/', [{u'Ref': u'ConfigurationKey'}, u'project-code.zip']]}"
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
 Resources.AWS::Lambda::Function.Properties.Handler,custom_resource.handler
@@ -16,4 +13,3 @@ Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Resources.AWS::Lambda::Function.Properties.Timeout,90
 Resources.AWS::Lambda::Function.Properties.Description,Implements the custom resources used in this project's templates.
 Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'Id': u'DeleteOldVersions', u'NoncurrentVersionExpirationInDays': u'2'}, {u'Status': u'Enabled', u'Prefix': u'uploads', u'Id': u'DeleteUploads', u'ExpirationInDays': 2}]"
-Parameters.ConfigurationKey.Type,String

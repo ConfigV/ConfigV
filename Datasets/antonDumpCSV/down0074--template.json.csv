@@ -6,24 +6,17 @@ Resources.AWS::Lambda::Permission.Properties.Action,lambda:invokeFunction
 Parameters.LambdaS3Key.Description,The location and name of your source code .zip file.
 Resources.AWS::Lambda::Function.Properties.Timeout,30
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
 Parameters.ImageS3Bucket.Description,The name of the S3 bucket that is created for images.
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaS3Bucket'}
-Parameters.LambdaS3Key.Type,String
 Resources.AWS::Lambda::Function.Properties.MemorySize,1536
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
 Parameters.LambdaS3Key.Default,lambda.zip
 Parameters.LambdaS3Bucket.Description,The name of the S3 bucket that contains the source code of your Lambda function.
 Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ImageS3Bucket'}, u'-original']]}"
-Parameters.ImageS3Bucket.Type,String
-Parameters.LambdaS3Bucket.Type,String
 Resources.AWS::S3::Bucket.Properties.NotificationConfiguration.LambdaConfigurations,"[{u'Function': {u'Fn::GetAtt': [u'Lambda', u'Arn']}, u'Event': u's3:ObjectCreated:*'}]"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'logs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:*'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}, {u'PolicyName': u's3-original', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:GetObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ImageS3Bucket'}, u'-original/*']]}], u'Effect': u'Allow'}]}}, {u'PolicyName': u's3-resized', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:PutObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ImageS3Bucket'}, u'-resized/*']]}], u'Effect': u'Allow'}]}}]"
 Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::Join': [u'-', [{u'Ref': u'ImageS3Bucket'}, u'original']]}"

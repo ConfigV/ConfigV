@@ -1,15 +1,12 @@
-Resources.AWS::EC2::VolumeAttachment.Type,AWS::EC2::VolumeAttachment
 Parameters.KeyName.MinLength,1
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access via port 22
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.SSHFrom.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Outputs.InstanceId.Value,{u'Ref': u'EC2Instance'}
 Resources.AWS::EC2::VolumeAttachment.Properties.InstanceId,{u'Ref': u'EC2Instance'}
-Parameters.KeyName.Type,String
 Parameters.SSHFrom.MaxLength,18
 Parameters.KeyName.ConstraintDescription,can contain only ASCII characters.
 Parameters.SSHFrom.ConstraintDescription,must be a valid CIDR range of the form x.x.x.x/x.
-Parameters.SSHFrom.Type,String
 Resources.AWS::EC2::Volume.Properties.AvailabilityZone,"{u'Fn::GetAtt': [u'EC2Instance', u'AvailabilityZone']}"
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Parameters.KeyName.MaxLength,255
@@ -18,14 +15,11 @@ Outputs.InstanceId.Description,InstanceId of the newly created EC2 instance
 Resources.AWS::EC2::Volume.Properties.Size,100
 Parameters.SSHFrom.MinLength,9
 Resources.AWS::EC2::VolumeAttachment.Properties.VolumeId,{u'Ref': u'NewVolume'}
-Resources.AWS::EC2::Volume.Type,AWS::EC2::Volume
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHFrom'}, u'FromPort': u'22'}]"
 Resources.AWS::EC2::VolumeAttachment.Properties.Device,/dev/sdh
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
 Resources.AWS::EC2::Volume.Properties.VolumeType,io1
 Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Volume.Properties.Iops,100
 Parameters.SSHFrom.Description,Lockdown SSH access (default can be accessed from anywhere)
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"

@@ -6,9 +6,6 @@ Resources.AWS::EC2::Instance.Properties.AvailabilityZone,{u'Ref': u'Availability
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'SecurityGroup'}]
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'mkdir -p /opt\n', u'cd /opt\n', u'apt-get update\n', u'apt-get -y install git\n', u'git clone https://github.com/humio/aws-quick-start.git humio-aws-quick-start\n', u'cd humio-aws-quick-start\n', u'bash aws/provision-aws-ubuntu-server.sh\n', u'bash aws/setup-server.sh\n']]}}"
 Parameters.AvailabilityZone.Description,Availability Zone of the Humio instance
-Parameters.AccessRestriction.Type,String
-Parameters.SSHKeyName.Type,AWS::EC2::KeyPair::KeyName
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'8080', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'AccessRestriction'}, u'FromPort': u'8080'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}]"
 Parameters.SSHKeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
 Mappings.AMIImage.eu-central-1.id,ami-5055cd3f
@@ -16,12 +13,9 @@ Parameters.VolumeSize.Description,Size (in GB) of the data volume created
 Parameters.AccessRestriction.AllowedPattern,"((\d{1,3})\.){3}\d{1,3}/\d{1,2}"
 Parameters.AccessRestriction.Description,Cidr restricting access to Humio. Use 0.0.0.0/0 for unrestricted access
 Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'VolumeSize': u'8'}}, {u'DeviceName': u'/dev/sdh', u'Ebs': {u'DeleteOnTermination': u'False', u'VolumeSize': {u'Ref': u'VolumeSize'}}}]"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Outputs.WebsiteURL.Description,URL for newly created Humio stack
-Parameters.VolumeSize.Type,Number
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AMIImage', {u'Ref': u'AWS::Region'}, u'id']}"
 Mappings.AMIImage.ca-central-1.id,ami-173db873
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'Humio Instance', u'Key': u'Name'}]"
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'Humio Instance', u'Key': u'Name'}]"
-Parameters.AvailabilityZone.Type,AWS::EC2::AvailabilityZone::Name
 Parameters.VolumeSize.Default,100

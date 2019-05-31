@@ -1,9 +1,7 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Parameters.RepositoryName.Type,String
 Resources.AWS::OpsWorks::Layer.Properties.CustomSecurityGroupIds,"[{u'Fn::GetAtt': [u'CPOpsDeploySecGroup', u'GroupId']}]"
 Outputs.PipelineUrl.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codepipeline/home?region=', {u'Ref': u'AWS::Region'}, u'#/view/', {u'Ref': u'MyPipeline'}]]}"
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,"{u'Fn::GetAtt': [u'CPOpsDeploySecGroup', u'GroupId']}"
-Resources.AWS::OpsWorks::Layer.Properties.Type,php-app
 Parameters.RepositoryName.AllowedPattern,[\x20-\x7E]*
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u's3:PutBucketPolicy', u's3:PutObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::demo-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'AWS::StackName'}]]}], u'Effect': u'Allow'}, {u'Action': [u'codecommit:GetBranch', u'codecommit:GetCommit', u'codecommit:UploadArchive', u'codecommit:GetUploadArchiveStatus', u'codecommit:CancelUploadArchive'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'codepipeline:*', u'iam:ListRoles', u'iam:PassRole', u'opsworks:*', u'elasticbeanstalk:DescribeApplications', u'elasticbeanstalk:DescribeEnvironments', u'lambda:GetFunctionConfiguration', u'lambda:ListFunctions'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::OpsWorks::Stack.Properties.DefaultOs,Amazon Linux 2016.03
@@ -13,9 +11,6 @@ Resources.AWS::OpsWorks::App.Properties.Name,{u'Ref': u'AWS::StackName'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Lets you manage OpsWorks instances deployed to by CodePipeline
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'KeyName'], u'Label': {u'default': u'Dynamic Configuration'}}, {u'Parameters': [u'RepositoryName', u'RepositoryBranch'], u'Label': {u'default': u'CodeCommit Configuration'}}]"
 Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CodePipelineTrustRole'}]
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::CodePipeline::Pipeline.DependsOn,"[u'MyStack', u'MyOpsWorksApp', u'MyLayer', u'MyInstance']"
 Parameters.RepositoryName.ConstraintDescription,Can contain only ASCII characters.
 Parameters.RepositoryBranch.Default,master
@@ -25,25 +20,17 @@ Resources.AWS::OpsWorks::Instance.Properties.StackId,{u'Ref': u'MyStack'}
 Parameters.RepositoryBranch.Description,The name of the branch for the CodeCommit repo
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,22
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,22
-Resources.AWS::OpsWorks::Stack.Type,AWS::OpsWorks::Stack
 Resources.AWS::OpsWorks::Layer.DependsOn,"[u'MyStack', u'CPOpsDeploySecGroup']"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u's3-get', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:GetObject'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'OpsWorksInstanceRole'}]
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline
 Resources.AWS::CodePipeline::Pipeline.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'AWS::StackName'}, u'-Pipeline']]}"
 Resources.AWS::OpsWorks::Instance.Properties.SshKeyName,{u'Ref': u'KeyName'}
-Resources.AWS::OpsWorks::App.Properties.Type,php
-Resources.AWS::OpsWorks::Layer.Type,AWS::OpsWorks::Layer
-Resources.AWS::OpsWorks::App.Type,AWS::OpsWorks::App
 Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::GetAtt': [u'CodePipelineTrustRole', u'Arn']}"
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
 Parameters.RepositoryBranch.AllowedPattern,[\x20-\x7E]*
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': [u'codepipeline.amazonaws.com']}, u'Effect': u'Allow', u'Sid': u'1'}]"
-Resources.AWS::OpsWorks::Instance.Type,AWS::OpsWorks::Instance
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair for SSH access to the instances.
 Resources.AWS::OpsWorks::Layer.Properties.Shortname,mylayer
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.RepositoryName.Default,opsworks-php-demo
 Resources.AWS::OpsWorks::Layer.Properties.StackId,{u'Ref': u'MyStack'}
 Resources.AWS::OpsWorks::Stack.Properties.ConfigurationManager.Version,11.10
@@ -56,16 +43,12 @@ Mappings.Region2Principal.eu-central-1.EC2Principal,ec2.amazonaws.com
 Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeCommit'}, u'OutputArtifacts': [{u'Name': u'MyApp'}], u'Configuration': {u'BranchName': {u'Ref': u'RepositoryBranch'}, u'RepositoryName': {u'Ref': u'RepositoryName'}}, u'Name': u'Source'}]}, {u'Name': u'Deploy', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'OpsWorks'}, u'OutputArtifacts': [], u'Configuration': {u'StackId': {u'Ref': u'MyStack'}, u'LayerId': {u'Ref': u'MyLayer'}, u'DeploymentType': u'deploy_app', u'AppId': {u'Ref': u'MyOpsWorksApp'}}, u'Name': u'DeployPHPApp'}]}]"
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::OpsWorks::Stack.Properties.ConfigurationManager.Name,Chef
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Outputs.PipelineUrl.Description,Pipeline Url
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::OpsWorks::Instance.Properties.LayerIds,[{u'Ref': u'MyLayer'}]
 Mappings.Region2Principal.eu-central-1.OpsWorksPrincipal,opsworks.amazonaws.com
-Resources.AWS::OpsWorks::App.Properties.AppSource.Type,other
 Parameters.RepositoryBranch.ConstraintDescription,Can contain only ASCII characters.
 Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,0.0.0.0/0
 Resources.AWS::IAM::Policy.Properties.PolicyName,CodePipelinePolicy
 Resources.AWS::OpsWorks::App.Properties.Shortname,phptestapp
 Resources.AWS::OpsWorks::Layer.Properties.AutoAssignElasticIps,false
-Parameters.RepositoryBranch.Type,String
 Resources.AWS::OpsWorks::Stack.Properties.DefaultInstanceProfileArn,"{u'Fn::GetAtt': [u'OpsWorksInstanceProfile', u'Arn']}"

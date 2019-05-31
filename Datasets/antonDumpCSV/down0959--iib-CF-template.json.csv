@@ -1,4 +1,3 @@
-Resources.AWS::EC2::VolumeAttachment.Type,AWS::EC2::VolumeAttachment
 Parameters.IIBIntegrationServerName.Default,default
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,"Enable SSH (22) and IIB (4414, 7800)"
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
@@ -6,20 +5,15 @@ Parameters.IIBNodeName.ConstraintDescription,must be a valid IIB node name.
 Parameters.AMI.ConstraintDescription,must be a valid AMI ID.
 Parameters.IIBVersion.Description,Version of IIB being run in form V.x.x.x
 Parameters.IIBNodeName.Default,iibNodeA1
-Parameters.IIBVersion.Type,String
 Resources.AWS::EC2::VolumeAttachment.Properties.InstanceId,{u'Ref': u'IIBInstance'}
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
 Resources.AWS::EC2::Volume.Properties.AvailabilityZone,"{u'Fn::GetAtt': [u'IIBInstance', u'AvailabilityZone']}"
-Parameters.IIBNodeName.Type,String
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#cloud-config\n', u'write_files: \n', u' - content: |\n', u'     #!/bin/bash\n', u'     echo ""Starting the configuration of IBM Integration Bus at $(date)""\n', u'     while [ $(lsblk|grep xvdg|wc -l) -lt 1 ]; do echo ""Waiting for xdvg to appear""; sleep 1; done\n', u'     export VOLUME_DEV=/dev/xvdg\n', u'     export MOUNT_POINT=/var/mqsi\n', u'     mkdir -p ${MOUNT_POINT}\n', u'     mount ${VOLUME_DEV} ${MOUNT_POINT}\n', u'     if [[ $? != 0 ]]; then\n', u'       mkfs.ext4 ${VOLUME_DEV} 100000\n', u'       echo ""${VOLUME_DEV} ${MOUNT_POINT} ext4 defaults 0 2"" >> /etc/fstab\n', u'       mount ${MOUNT_POINT}\n', u'     fi\n', u'     export IIB_NODE_NAME=', {u'Ref': u'IIBNodeName'}, u'\n', u'     export IIB_INTEGRATION_SERVER_NAME=', {u'Ref': u'IIBIntegrationServerName'}, u'\n', u'     export IIB_VERSION=', {u'Ref': u'IIBVersion'}, u'\n', u'     export IIB_INSTALL_DIR=/opt/ibm/iib-${IIB_VERSION}\n', u'     # Accept the license - this will also create group a for mqbrkrs and allocate files in /var/mqsi \n', u'     ${IIB_INSTALL_DIR}/iib make registry global accept license silently\n', u'     # Recommended: Create the iib user ID with a fixed UID and group, so that the\n', u'     # file permissions work between different images\n', u'     useradd --uid 2345 --gid mqbrkrs --home-dir /var/mqsi iib\n', u'     usermod -G mqbrkrs root\n', u'     # Configure file limits for the iib user\n', u'     echo ""iib       hard  nofile     10240"" >> /etc/security/limits.conf\n', u'     echo ""iib       soft  nofile     10240"" >> /etc/security/limits.conf\n', u'     echo "". ${IIB_INSTALL_DIR}/server/bin/mqsiprofile"" >> ~iib/.bash_profile\n', u'     chown iib.mqbrkrs ~iib/.bash_profile\n', u'     sudo su - iib -c ""mqsicreatebroker ${IIB_NODE_NAME}""\n', u'     sudo su - iib -c ""mqsichangebroker ${IIB_NODE_NAME} -f all""\n', u'     sudo su - iib -c ""mqsistart ${IIB_NODE_NAME}""\n', u'     sudo su - iib -c ""mqsicreateexecutiongroup ${IIB_NODE_NAME} -e ${IIB_INTEGRATION_SERVER_NAME}""\n', u'     echo ""Integration Node is ${IIB_NODE_NAME}""\n', u'     export IIB_NODE_CONF=/etc/init/mqsistart-${IIB_NODE_NAME}.conf\n', u'     cp /tmp/iib-upstart-mqsistart.conf ${IIB_NODE_CONF}\n', u'     sed -i ""s/%NODE%/${IIB_NODE_NAME}/"" ${IIB_NODE_CONF}\n', u'     export IIB_NODE_CONF=/etc/init/mqsistop-${IIB_NODE_NAME}.conf\n', u'     cp /tmp/iib-upstart-mqsistop.conf ${IIB_NODE_CONF}\n', u'     sed -i ""s/%NODE%/${IIB_NODE_NAME}/"" ${IIB_NODE_CONF}\n', u'     initctl reload-configuration\n', u'     initctl start mqsistart-${IIB_NODE_NAME}\n', u'     echo ""Ending the configuration of IBM Integration Bus at $(date)""\n', u'   owner: root:root\n', u'   path: /tmp/configure_iib.sh\n', u""   permissions: '0700'\n"", u' - content: |\n\n', u'     description ""Start IBM Integration Bus node %NODE%""\n\n', u'     start on runlevel [2345]\n\n', u'     task\n\n', u'     console log\n\n', u""     exec su - iib bash -c 'mqsistart %NODE%'\n\n"", u'   owner: root:root\n', u'   path: /tmp/iib-upstart-mqsistart.conf\n', u""   permissions: '0600'\n"", u' - content: |\n\n', u'     description ""Stop IBM Integration Bus node %NODE%""\n\n', u'     start on runlevel [2345]\n\n', u'     task\n\n', u'     console log\n\n', u""     exec su - iib bash -c 'mqsistop %NODE%'\n\n"", u'   owner: root:root\n', u'   path: /tmp/iib-upstart-mqsistop.conf\n', u""   permissions: '0600'\n"", u'runcmd: \n', u' - [ /tmp/configure_iib.sh ] \n']]}}"
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'IIBSecurityGroup'}]
 Parameters.IIBIntegrationServerName.ConstraintDescription,must be a valid IIB Integration Server name.
 Resources.AWS::EC2::Volume.Properties.Size,1
 Outputs.InstanceID.Value,"{u'Fn::GetAtt': [u'IIBInstance', u'PublicIp']}"
 Resources.AWS::EC2::VolumeAttachment.Properties.VolumeId,{u'Ref': u'IIBVolume'}
-Resources.AWS::EC2::Volume.Type,AWS::EC2::Volume
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.IIBNodeName.Description,Name to use for the IIB node
 Parameters.IIBVersion.ConstraintDescription,must be a valid Valid version and fixpack level of IBM Integration Bus.
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}, {u'ToPort': u'4414', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'4414'}, {u'ToPort': u'7800', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'7800'}]"
@@ -27,10 +21,7 @@ Resources.AWS::EC2::VolumeAttachment.Properties.Device,/dev/xvdg
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
 Outputs.InstanceID.Description,The public IP of the IIB server
 Parameters.IIBIntegrationServerName.Description,Name to use for the IIB integration server
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Volume.Properties.Tags,"[{u'Value': u'IIB', u'Key': u'Name'}]"
 Parameters.AMI.Description,ID of an AMI with IBM Integration Bus pre-installed
-Parameters.IIBIntegrationServerName.Type,String
 Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'AMI'}
 Parameters.IIBVersion.Default,10.0.0.10
-Parameters.AMI.Type,AWS::EC2::Image::Id

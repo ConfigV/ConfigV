@@ -1,14 +1,11 @@
 Resources.AWS::ElastiCache::CacheCluster.Properties.AZMode,cross-az
 Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved. Licensed under the Amazon Software License (the ""License""). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/asl/ or in the ""license"" file accompanying this file. This file is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
-Parameters.NumberOfSubnets.Type,String
 Parameters.NumberOfSubnets.Description,Number of subnets. This must match your selections in the list of subnets below.
-Parameters.ElastiCacheNodeType.Type,String
 Parameters.Subnet.Description,Select existing subnets. The number selected must match the number of subnets above. Subnets selected must be in separate AZs.
 Resources.AWS::ElastiCache::SubnetGroup.Properties.SubnetIds,"[u'NumberOfSubnets1', [[0, u'Subnet']], [u'NumberOfSubnets2', [[0, u'Subnet'], [1, u'Subnet']], [u'NumberOfSubnets3', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet']], [u'NumberOfSubnets4', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet']], [u'NumberOfSubnets5', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet']], [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet'], [5, u'Subnet']]]]]]]"
 Parameters.ElastiCacheSecurityGroup.Description,Select the ElastiCache security group.
 Parameters.NumberOfSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
 Parameters.ElastiCacheNodeType.Default,cache.t2.medium
-Resources.AWS::ElastiCache::SubnetGroup.Type,AWS::ElastiCache::SubnetGroup
 Resources.AWS::ElastiCache::CacheCluster.Properties.Tags,"[{u'Value': [u'', [u'WordPress / ', u'AWS::StackName']], u'Key': u'Name'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfSubnets.default,Number of subnets
 Parameters.ElastiCacheNodeType.ConstraintDescription,Must be a valid Amazon ElastiCache node type.
@@ -17,13 +14,10 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.Subnet.default,Subnets
 Parameters.NumberOfSubnets.Default,3
 Parameters.ElastiCacheNodeType.Description,The Amazon ElastiCache cluster node type.
 Resources.AWS::ElastiCache::CacheCluster.Properties.Engine,memcached
-Resources.AWS::ElastiCache::CacheCluster.Type,AWS::ElastiCache::CacheCluster
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElastiCacheSecurityGroup.default,ElastiCache Security Group
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElastiCacheNodeType.default,Cache Cluster Node Type
 Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
-Parameters.ElastiCacheSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
 Resources.AWS::ElastiCache::SubnetGroup.Properties.Description,ElastiCache Subnet Group for WordPress
-Parameters.Subnet.Type,List<AWS::EC2::Subnet::Id>
 Resources.AWS::ElastiCache::CacheCluster.Properties.NumCacheNodes,NumberOfSubnets
 Parameters.ElastiCacheNodeType.AllowedValues,"[u'cache.t2.micro', u'cache.t2.small', u'cache.t2.medium', u'cache.m3.medium', u'cache.m3.large', u'cache.m3.xlarge', u'cache.m3.2xlarge', u'cache.m4.large', u'cache.m4.xlarge', u'cache.m4.2xlarge', u'cache.m4.4xlarge', u'cache.m4.10xlarge', u'cache.r3.large', u'cache.r3.xlarge', u'cache.r3.2xlarge', u'cache.r3.4xlarge', u'cache.r3.8xlarge', u'cache.r4.large', u'cache.r4.xlarge', u'cache.r4.2xlarge', u'cache.r4.4xlarge', u'cache.r4.8xlarge', u'cache.r4.16xlarge']"
 Outputs.ElastiCacheClusterEndpointAddress.Value,ElastiCacheCluster.ConfigurationEndpoint.Address

@@ -11,9 +11,7 @@ Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,password1
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Subnets used for RDS MySQL instances.
 Resources.AWS::RDS::DBInstance.Properties.PubliclyAccessible,false
 Resources.AWS::EC2::SecurityGroup.Properties.GroupName,app
-Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
 Resources.AWS::RDS::DBParameterGroup.Properties.Description,For RDS My SQL DBs
-Resources.AWS::RDS::DBParameterGroup.Type,AWS::RDS::DBParameterGroup
 Parameters.Environment.AllowedValues,"[u'dev', u'test', u'prod']"
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,20
 Resources.AWS::RDS::DBInstance.Properties.PreferredBackupWindow,07:00-07:30
@@ -28,20 +26,16 @@ Resources.AWS::RDS::DBSubnetGroup.Properties.Tags,"[{u'Value': u'dbsubnetgrp:mys
 Resources.AWS::RDS::DBInstance.Properties.AllowMajorVersionUpgrade,true
 Resources.AWS::RDS::DBInstance.Properties.EngineVersion,5.7.19
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,false
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Resources.AWS::RDS::DBInstance.Properties.StorageEncrypted,false
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.t2.micro
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'-1', u'IpProtocol': u'1', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'-1'}, {u'ToPort': u'22', u'IpProtocol': u'6', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}, {u'ToPort': u'3306', u'IpProtocol': u'6', u'CidrIp': u'10.101.0.0/16', u'FromPort': u'3306'}, {u'ToPort': u'80', u'IpProtocol': u'6', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'65535', u'IpProtocol': u'6', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'1024'}]"
 Resources.AWS::RDS::DBInstance.Properties.CopyTagsToSnapshot,true
-Parameters.Environment.Type,String
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceIdentifier,elasticstoreappdbinst
 Outputs.AppVpcId.Description,TODO: URL of the LoadBalancer for the app
 Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Fn::GetAtt': [u'NetworkStack', u'Outputs.DBTierAZ1SubnetId']}, {u'Fn::GetAtt': [u'NetworkStack', u'Outputs.DBTierAZ2SubnetId']}]"
 Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[{u'Ref': u'AppSecurityGroup'}]
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Environment,{u'Ref': u'Environment'}
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,"{u'Fn::GetAtt': [u'NetworkStack', u'Outputs.AppVpcId']}"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Outputs.AppVpcId.Value,"{u'Fn::GetAtt': [u'NetworkStack', u'Outputs.AppVpcId']}"
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'app', u'Key': u'Name'}, {u'Value': u'sg:app', u'Key': u'custom:resource:name'}, {u'Value': u'sg', u'Key': u'custom:resource:type'}, {u'Value': u'elasticstores', u'Key': u'custom:app:name'}]"
 Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,1

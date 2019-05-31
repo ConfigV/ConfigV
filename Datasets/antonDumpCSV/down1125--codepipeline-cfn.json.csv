@@ -1,4 +1,3 @@
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
 Parameters.MyBuildProvider.Description,Unique identifier for Custom Action
 Parameters.ArtifactStoreBucket.Default,codepipeline-us-east-1-XXXXXXXXXXX
 Outputs.CodePipelineURL.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codepipeline/home?region=', {u'Ref': u'AWS::Region'}, u'#/view/', {u'Ref': u'AppPipeline'}]]}"
@@ -8,23 +7,13 @@ Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,{u'Ref': u'CodePipeline
 Parameters.GitHubUser.Default,stelligent
 Parameters.MyInputArtifacts.Default,DromedarySource
 Parameters.GitHubToken.NoEcho,true
-Parameters.Branch.Type,String
-Parameters.GitHubUser.Type,String
 Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,{u'Ref': u'ArtifactStoreBucket'}
-Parameters.MyBuildProvider.Type,String
-Parameters.ArtifactStoreBucket.Type,String
 Parameters.Repo.Description,GitHub Repo to pull from. Only the Name. not the URL
 Parameters.GitHubUser.Description,GitHub UserName
-Parameters.GitHubToken.Type,String
 Parameters.CodePipelineServiceRole.Default,arn:aws:iam::123456789012:role/AWS-CodePipeline-Service
-Parameters.Repo.Type,String
 Parameters.Branch.Description,Branch to use from Repo. Only the Name. not the URL
 Parameters.ArtifactStoreBucket.Description,S3 bucket to use for artifacts. Just bucket Name; not URL. IAM user should have access to the bucket.
-Parameters.CodePipelineServiceRole.Type,String
-Parameters.MyInputArtifacts.Type,String
 Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
 Parameters.GitHubToken.Description,Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af OAuthToken with access to Repo. Go to https://github.com/settings/tokens
 Parameters.Repo.Default,dromedary
 Parameters.Branch.Default,master
-Parameters.MyJenkinsURL.Type,String
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

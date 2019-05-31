@@ -13,16 +13,11 @@ Resources.AWS::Serverless::Function.Properties.Timeout,60
 Resources.AWS::Serverless::Api.Properties.Variables.LambdaFunctionName,ResizeFunction
 Resources.AWS::Serverless::Function.Properties.Handler,index.handler
 Resources.AWS::Serverless::Function.Properties.Policies.Statement,"[{u'Action': [u's3:PutObject'], u'Resource': u'arn:aws:s3:::${ImageBucket}/*', u'Effect': u'Allow'}]"
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Resources.AWS::Serverless::Function.Properties.Runtime,nodejs6.10
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetObject', u'Resource': u'arn:aws:s3:::${ImageBucket}/*', u'Effect': u'Allow', u'Principal': u'*'}]"
 Outputs.BucketWebsiteUrl.Value,ImageBucket.WebsiteURL
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.URL,ImageBucket.WebsiteURL
 Resources.AWS::Serverless::Api.Properties.DefinitionUri,./deploy/api.yaml
-Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
 Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
 Resources.AWS::Lambda::Permission.Properties.SourceArn,arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Api}/*
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
 Resources.AWS::S3::BucketPolicy.Properties.Bucket,ImageBucket

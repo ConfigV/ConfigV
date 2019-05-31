@@ -7,33 +7,23 @@ Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clu
 Resources.Custom::LambdaConfiguration.Properties.FunctionName,ServiceLambda
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationKey']}"
 Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
-Parameters.ConfigurationKey.Type,String
 Resources.Custom::AccessControl.DependsOn,"[u'Table', u'ServiceApi', u'ServiceLambda']"
-Resources.Custom::DynamoDBTable.Type,Custom::DynamoDBTable
 Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
 Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
-Parameters.ReadCapacityUnits.Type,Number
-Resources.Custom::ServiceApi.Type,Custom::ServiceApi
 Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
 Parameters.DeploymentName.Description,Name of the resource group's deployment.
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Role']}"
 Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
-Parameters.DeploymentStackArn.Type,String
 Parameters.ReadCapacityUnits.Default,1
-Parameters.ProjectResourceHandler.Type,String
 Resources.AWS::Lambda::Function.Properties.Handler,cgf_lambda_service.dispatch
 Outputs.ServiceUrl.Description,The service url.
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationBucket']}"
 Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions,"[{u'Action': u'execute-api:Invoke', u'ResourceSuffix': [u'/api/GET/example/data', u'/api/PUT/example/data'], u'AbstractRole': u'Player'}, {u'Action': u'execute-api:Invoke', u'ResourceSuffix': [u'/api/GET/example/data/authenticated'], u'AbstractRole': u'AuthenticatedPlayer'}]"
 Parameters.ServiceApiCacheClusterSize.Description,Indicates whether cache clustering is enabled for the service API.
 Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn::GetAtt': [u'ServiceLambda', u'Arn']}"
-Parameters.WriteCapacityUnits.Type,Number
 Resources.Custom::DynamoDBTable.Properties.AttributeDefinitions,"[{u'AttributeName': u'Key', u'AttributeType': u'S'}]"
-Parameters.ServiceApiCacheClusterEnabled.Type,String
 Resources.Custom::LambdaConfiguration.Properties.Settings.Table,{u'Ref': u'Table'}
-Parameters.ResourceGroupName.Type,String
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Metadata.CloudCanvas.Id,$Revision: #1 $
 Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
@@ -44,16 +34,11 @@ Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'ServiceLa
 Parameters.CloudCanvasStack.Default,ResourceGroup
 Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Parameters.WriteCapacityUnits.Default,1
-Parameters.ServiceApiCacheClusterSize.Type,String
-Parameters.CloudCanvasStack.Type,String
 Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
 Parameters.ServiceApiCacheClusterEnabled.Default,false
 Resources.Custom::DynamoDBTable.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
-Parameters.DeploymentName.Type,String
-Parameters.ConfigurationBucket.Type,String
 Parameters.WriteCapacityUnits.Description,Number of game state writes per second.
 Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Resources.Custom::DynamoDBTable.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:DeleteItem', u'dynamodb:GetItem', u'dynamodb:PutItem', u'dynamodb:Scan'], u'AbstractRole': u'ServiceLambda'}]"
@@ -61,4 +46,3 @@ Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceAp
 Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Resources.Custom::DynamoDBTable.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'Key'}]"
 Parameters.ServiceApiCacheClusterSize.Default,0.5
-Resources.Custom::AccessControl.Type,Custom::AccessControl

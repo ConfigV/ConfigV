@@ -5,32 +5,25 @@ Resources.AWS::IAM::Policy.DependsOn,"[u'Bucket', u'ServiceRole', u'ModulePolicy
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Parameters.StackPrefix.AllowedPattern,^[A-Za-z0-9\-]+$
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Outputs.CIRegion.Value,{u'Ref': u'AWS::Region'}
 Outputs.CIUserAccessKey.Value,{u'Ref': u'CIUserAccessKey'}
 Outputs.Bucket.Value,{u'Ref': u'Bucket'}
 Resources.AWS::IAM::AccessKey.DependsOn,[u'CIUser']
 Resources.AWS::IAM::Role.Properties.Path,/ci/
 Resources.AWS::IAM::ManagedPolicy.Properties.Description,Policy for the CI User
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::IAM::Role.Properties.RoleName,{u'Ref': u'StackPrefix'}
 Resources.AWS::IAM::User.DependsOn,[u'CIPolicy']
-Resources.AWS::IAM::User.Type,AWS::IAM::User
 Parameters.StackPrefix.Description,"The prefix for the stack names for CI, will be combined with branch name"
 Outputs.ServiceRoleArn.Value,"{u'Fn::GetAtt': [u'ServiceRole', u'Arn']}"
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'iam:GetRole', u'iam:PassRole'], u'Resource': {u'Fn::GetAtt': [u'ServiceRole', u'Arn']}, u'Effect': u'Allow'}, {u'Action': [u's3:DeleteObject', u's3:GetObject', u's3:PutObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}, u'/*']]}, u'Effect': u'Allow'}, {u'Action': [u'cloudformation:CreateStack', u'cloudformation:UpdateStack'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:cloudformation:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stack/', {u'Ref': u'StackPrefix'}, u'-*']]}, u'Effect': u'Allow', u'Condition': {u'StringLike': {u'cloudformation:TemplateUrl': {u'Fn::Join': [u'/', [u'https://s3.amazonaws.com', {u'Ref': u'Bucket'}, u'*/*.template']]}}, u'StringEquals': {u'cloudformation:RoleArn': {u'Fn::GetAtt': [u'ServiceRole', u'Arn']}}}}, {u'Action': [u'cloudformation:DeleteStack'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:cloudformation:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stack/', {u'Ref': u'StackPrefix'}, u'-*']]}, u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'cloudformation:RoleArn': {u'Fn::GetAtt': [u'ServiceRole', u'Arn']}}}}, {u'Action': [u'cloudformation:DescribeStackEvents', u'cloudformation:DescribeStackResource', u'cloudformation:DescribeStacks'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:cloudformation:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stack/', {u'Ref': u'StackPrefix'}, u'-*']]}, u'Effect': u'Allow'}, {u'Action': u'cloudformation:ValidateTemplate', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:PutObject', u's3:DeleteObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'StackPrefix'}, u'-*-src/*']]}, u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:DeleteObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'StackPrefix'}, u'-*-dst/*']]}, u'Effect': u'Allow'}, {u'Action': u'lambda:UpdateFunctionCode', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:lambda:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':function:', {u'Ref': u'StackPrefix'}, u'-*']]}, u'Effect': u'Allow'}, {u'Action': u'logs:FilterLogEvents', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:logs:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':log-group:/aws/lambda/', {u'Ref': u'StackPrefix'}, u'-*:log-stream:']]}, u'Effect': u'Allow'}]"
 Parameters.StackPrefix.ConstraintDescription,must contain only alphanumeric characters (case sensitive) and hyphens
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'cloudformation.amazonaws.com'}}]"
 Parameters.StackPrefix.MaxLength,100
-Parameters.StackPrefix.Type,String
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:CreateBucket', u's3:DeleteBucket', u's3:PutBucketNotification'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'StackPrefix'}, u'-*']]}, u'Effect': u'Allow'}, {u'Action': u's3:GetObject', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}, u'/*.zip']]}, u'Effect': u'Allow'}, {u'Action': [u'iam:AttachRolePolicy', u'iam:CreateRole', u'iam:DeleteRole', u'iam:DetachRolePolicy', u'iam:GetRole', u'iam:PassRole'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/aws-lambda-ffmpeg/', {u'Ref': u'StackPrefix'}, u'*']]}, u'Effect': u'Allow'}, {u'Action': u'iam:AttachRolePolicy', u'Resource': {u'Ref': u'ModulePolicy'}, u'Effect': u'Allow'}, {u'Action': [u'lambda:AddPermission', u'lambda:CreateFunction', u'lambda:DeleteFunction', u'lambda:GetFunctionConfiguration', u'lambda:RemovePermission', u'lambda:UpdateFunctionCode', u'lambda:UpdateFunctionConfiguration'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:lambda:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':function:', {u'Ref': u'StackPrefix'}, u'*']]}, u'Effect': u'Allow'}]"
 Resources.AWS::IAM::ManagedPolicy.DependsOn,[u'ServiceRole']
 Resources.AWS::IAM::User.Properties.ManagedPolicyArns,[{u'Ref': u'CIPolicy'}]
 Outputs.CIUserSecretKey.Value,"{u'Fn::GetAtt': [u'CIUserAccessKey', u'SecretAccessKey']}"
 Resources.AWS::IAM::User.Properties.Path,/ci/
 Resources.AWS::IAM::Policy.Properties.PolicyName,root
-Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.StackPrefix.MinLength,3

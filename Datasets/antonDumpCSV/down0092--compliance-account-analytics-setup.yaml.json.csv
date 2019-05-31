@@ -11,7 +11,6 @@ Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'CreateLambd
 Resources.AWS::Lambda::Permission.DependsOn,CreateLambdaGenerateData
 Resources.AWS::IAM::Policy.Condition,DataSample
 Parameters.DataSampleLambdaName.Description,For demo purpose only - Name of the Lambda Function which is trigger daily to generate data samples for the Compliance Engine.
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'logs:CreateLogGroup', u'Resource': [u':', [u'arn:aws:logs', u'AWS::Region', u'AWS::AccountId']], u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [[u'', [u'arn:aws:logs:', u'AWS::Region', u':', u'AWS::AccountId', u':log-group:/aws/lambda/*', u':*']]], u'Effect': u'Allow'}]"
@@ -20,8 +19,6 @@ Resources.AWS::Events::Rule.Condition,DataSample
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.AWS::Athena::NamedQuery.Properties.Database,complianceascode
 Resources.AWS::Lambda::Function.Properties.Handler,"[u'.', [u'DataSampleLambdaName', u'lambda_handler']]"
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
 Parameters.DataSampleFeature.AllowedValues,"[True, False]"
 Resources.AWS::IAM::Role.Properties.RoleName,"[u'-', [u'DataSampleLambdaName', u'LambdaRole']]"
 Resources.AWS::IAM::Policy.Properties.PolicyName,DataSampleLogPolicy
@@ -37,22 +34,18 @@ Resources.AWS::Athena::NamedQuery.Properties.Name,3-Table For Config in Complian
 Resources.AWS::Lambda::Function.Properties.FunctionName,DataSampleLambdaName
 Parameters.CentralizedS3BucketComplianceEventName.MinLength,10
 Parameters.CentralizedS3BucketComplianceEventName.Default,compliance-events-centralized
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Parameters.FolderWhereFireHoseIsSending.Default,compliance-as-code-events
 Parameters.FolderWhereFireHoseIsSending.MinLength,10
 Resources.AWS::IAM::Role.Properties.Path,/service-role/
 Resources.AWS::Lambda::Function.DependsOn,[u'DataSampleIAMRole']
 Parameters.FolderWhereFireHoseIsSending.MaxLength,63
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
-Parameters.DataSampleFeature.Type,String
 Parameters.SourceLambdaBucket.Default,input-the-bucket-name-where-you-upload-the-zip
 Resources.AWS::Lambda::Permission.Condition,DataSample
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Athena::NamedQuery.Properties.QueryString,"[u'', [u""CREATE EXTERNAL TABLE IF NOT EXISTS complianceascode.config (fileVersion string, configSnapshotId string, configurationItems array<struct<relatedEvents:string, relationships:string, configuration:string, supplementaryConfiguration:string, tags:string, configurationItemVersion:string, configurationItemCaptureTime:string, configurationStateId:string, awsAccountId:string, configurationItemStatus:string, resourceType:string, resourceId:string, resourceName:string, ARN:string, awsRegion:string, availabilityZone:string, configurationStateMd5Hash:string, resourceCreationTime:string>>) ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe' WITH SERDEPROPERTIES ('serialization.format' = '1') LOCATION 's3://"", [u'-', [u'CentralizedS3BucketConfig', u'AWS::AccountId']], u""/'""]]"
 Parameters.SourceLambdaBucket.MinLength,3
-Parameters.CentralizedS3BucketComplianceEventName.Type,String
 Resources.AWS::Lambda::Function.Properties.Runtime,python3.6
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.Bucket,"[u'-', [u'CentralizedS3BucketComplianceEventName', u'AWS::AccountId']]"
 Parameters.CentralizedS3BucketConfig.ConstraintDescription,Enter DNS-compliant prefix
 Parameters.SourceLambdaBucket.MaxLength,63
@@ -63,15 +56,10 @@ Resources.AWS::Lambda::Permission.Properties.SourceArn,CreateLambdaGenerateData.
 Parameters.CentralizedS3BucketConfig.Description,Bucket prefix where Config logs are stored. A dash and the account ID (12-digit) will be appended to the name.
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"[u'.', [u'DataSampleLambdaName', u'zip']]"
 Resources.AWS::Lambda::Function.Properties.Role,DataSampleIAMRole.Arn
-Resources.AWS::Athena::NamedQuery.Type,AWS::Athena::NamedQuery
 Parameters.DataSampleLambdaName.MinLength,10
-Parameters.FolderWhereFireHoseIsSending.Type,String
-Parameters.DataSampleLambdaName.Type,String
 Resources.AWS::Athena::NamedQuery.Properties.Description,(To be run 3rd) A query to build table for query config
-Parameters.SourceLambdaBucket.Type,String
 Resources.AWS::Events::Rule.Properties.Description,Daily trigger to generate data sample for the compliance-as-code engine.
 Parameters.CentralizedS3BucketConfig.MaxLength,63
-Parameters.CentralizedS3BucketConfig.Type,String
 Parameters.CentralizedS3BucketComplianceEventName.Description,Bucket prefix where Compliance Event are stored. A dash and the account ID (12-digit) will be appended to the name.
 Parameters.SourceLambdaBucket.Description,For demo purpose only - Bucket name where lambda code zip is placed
 Parameters.CentralizedS3BucketComplianceEventName.MaxLength,63

@@ -1,12 +1,9 @@
 Resources.AWS::WAF::Rule.Properties.MetricName,WAFRule2
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,waf-tor-blocking/lambda.zip
-Resources.AWS::WAF::IPSet.Type,AWS::WAF::IPSet
-Resources.AWS::WAF::WebACL.Type,AWS::WAF::WebACL
 Resources.AWS::Lambda::Function.Properties.Timeout,60
 Outputs.LambdaEvent.Description,Event JSON for Lambda function
 Resources.AWS::WAF::WebACL.Properties.Name,WebACL
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
-Resources.AWS::WAF::WebACL.Properties.DefaultAction.Type,ALLOW
 Outputs.LambdaEvent.Value,"{u'Fn::Join': [u'', [u'{""ipSetIds"": [', u'""', {u'Ref': u'WAFIPSet1'}, u'"",', u'""', {u'Ref': u'WAFIPSet2'}, u'""', u']}']]}"
 Resources.AWS::WAF::IPSet.Properties.Name,IP Set #2
 Resources.AWS::WAF::WebACL.Properties.MetricName,MaliciousRequesters
@@ -16,9 +13,6 @@ Resources.AWS::WAF::WebACL.Properties.Rules,"[{u'Action': {u'Type': u'BLOCK'}, u
 Resources.AWS::WAF::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFIPSet2'}, u'Type': u'IPMatch', u'Negated': u'false'}]"
 Resources.AWS::Lambda::Function.Properties.MemorySize,512
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::WAF::Rule.Type,AWS::WAF::Rule
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CloudWatchLogs', u'PolicyDocument': {u'Statement': [{u'Action': u'logs:*', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'WAFGetChangeToken', u'PolicyDocument': {u'Statement': [{u'Action': u'waf:GetChangeToken', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'WAFGetAndUpdateIPSet', u'PolicyDocument': {u'Statement': [{u'Action': [u'waf:GetIPSet', u'waf:UpdateIPSet'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:waf::', {u'Ref': u'AWS::AccountId'}, u':ipset/', {u'Ref': u'WAFIPSet1'}]]}, {u'Fn::Join': [u'', [u'arn:aws:waf::', {u'Ref': u'AWS::AccountId'}, u':ipset/', {u'Ref': u'WAFIPSet2'}]]}], u'Effect': u'Allow'}]}}]"

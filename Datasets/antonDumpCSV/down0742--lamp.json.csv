@@ -15,7 +15,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages
 Parameters.DBName.Description,MySQL database name
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.InstallAndRun,"[u'Install', u'Configure']"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.owner,root
-Parameters.DBRootPassword.Type,String
 Parameters.DBRootPassword.Description,Root password for MySQL
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php-mysql,[]
@@ -28,7 +27,6 @@ Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'We
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-794a5915
 Parameters.DBUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages.yum.mysql,[]
@@ -36,9 +34,7 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.comman
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.02_create_database.command,"{u'Fn::Join': [u'', [u""mysql -u root --password='"", {u'Ref': u'DBRootPassword'}, u""' < /tmp/setup.mysql""]]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./var/www/html/index.php.owner,apache
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.cfn-hup.ensureRunning,true
-Parameters.DBPassword.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.content,"{u'Fn::Join': [u'', [u'CREATE DATABASE ', {u'Ref': u'DBName'}, u';\n', u'GRANT ALL ON ', {u'Ref': u'DBName'}, u"".* TO '"", {u'Ref': u'DBUser'}, u""'@localhost IDENTIFIED BY '"", {u'Ref': u'DBPassword'}, u""';\n""]]}"
-Parameters.DBName.Type,String
 Mappings.AWSRegionArch2AMI.eu-central-1.HVMG2,ami-ba1a09d6
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.mode,000400
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.group,root
@@ -52,9 +48,7 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services
 Parameters.DBUser.NoEcho,true
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
 Parameters.DBUser.MinLength,1
-Parameters.DBUser.Type,String
 Parameters.DBUser.Description,Username for MySQL database access
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages.yum.mysql-server,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.cfn-hup.enabled,true
 Parameters.SSHLocation.MinLength,9
@@ -64,13 +58,11 @@ Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,MyDatabase
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.owner,root
 Parameters.DBRootPassword.AllowedPattern,[a-zA-Z0-9]*
-Parameters.SSHLocation.Type,String
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
 Parameters.DBPassword.Description,Password for MySQL database access
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./var/www/html/index.php.content,"{u'Fn::Join': [u'', [u'<html>\n', u'  <head>\n', u'    <title>AWS CloudFormation PHP Sample</title>\n', u'    <meta http-equiv=""Content-Type"" content=""text/html; charset=ISO-8859-1"">\n', u'  </head>\n', u'  <body>\n', u'    <h1>Welcome to the AWS CloudFormation PHP Sample</h1>\n', u'    <p/>\n', u'    <?php\n', u'      // Print out the current data and time\n', u'      print ""The Current Date and Time is: <br/>"";\n', u'      print date(""g:i A l, F j Y."");\n', u'    ?>\n', u'    <p/>\n', u'    <?php\n', u'      // Setup a handle for CURL\n', u'      $curl_handle=curl_init();\n', u'      curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);\n', u'      curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);\n', u'      // Get the hostname of the intance from the instance metadata\n', u""      curl_setopt($curl_handle,CURLOPT_URL,'http://169.254.169.254/latest/meta-data/public-hostname');\n"", u'      $hostname = curl_exec($curl_handle);\n', u'      if (empty($hostname))\n', u'      {\n', u'        print ""Sorry, for some reason, we got no hostname back <br />"";\n', u'      }\n', u'      else\n', u'      {\n', u'        print ""Server = "" . $hostname . ""<br />"";\n', u'      }\n', u'      // Get the instance-id of the intance from the instance metadata\n', u""      curl_setopt($curl_handle,CURLOPT_URL,'http://169.254.169.254/latest/meta-data/instance-id');\n"", u'      $instanceid = curl_exec($curl_handle);\n', u'      if (empty($instanceid))\n', u'      {\n', u'        print ""Sorry, for some reason, we got no instance id back <br />"";\n', u'      }\n', u'      else\n', u'      {\n', u'        print ""EC2 instance-id = "" . $instanceid . ""<br />"";\n', u'      }\n', u'      $Database   = ""localhost"";\n', u'      $DBUser     = ""', {u'Ref': u'DBUser'}, u'"";\n', u'      $DBPassword = ""', {u'Ref': u'DBPassword'}, u'"";\n', u'      print ""Database = "" . $Database . ""<br />"";\n', u'      $dbconnection = mysql_connect($Database, $DBUser, $DBPassword)\n', u'                      or die(""Could not connect: "" . mysql_error());\n', u'      print (""Connected to $Database successfully"");\n', u'      mysql_close($dbconnection);\n', u'    ?>\n', u'    <h2>PHP Information</h2>\n', u'    <p/>\n', u'    <?php\n', u'      phpinfo();\n', u'    ?>\n', u'  </body>\n', u'</html>\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.httpd.enabled,true
 Parameters.DBName.MaxLength,64
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Parameters.SSHLocation.Default,0.0.0.0/0
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./var/www/html/index.php.group,apache

@@ -7,32 +7,21 @@ Resources.Custom::LambdaConfiguration.Properties.FunctionName,AWSBehaviorLambdaE
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'AWSBehaviorLambdaExampleConfiguration', u'ConfigurationKey']}"
 Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions.Action,lambda:InvokeFunction
 Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
-Parameters.ConfigurationKey.Type,String
 Resources.Custom::AccessControl.DependsOn,"[u's3nodeexamples', u'AWSBehaviorLambdaExampleConfiguration', u'AWSBehaviorLambdaExample']"
 Resources.AWS::Lambda::Function.Properties.Timeout,10
 Metadata.CloudCanvas.Id,$Revision: #7 $
 Parameters.DeploymentName.Description,Name of the resource group's deployment.
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'AWSBehaviorLambdaExampleConfiguration', u'Role']}"
 Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
-Parameters.DeploymentStackArn.Type,String
-Parameters.ProjectResourceHandler.Type,String
 Resources.AWS::Lambda::Function.Properties.Handler,main.AWSBehaviorLambdaExample
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::GetAtt': [u'AWSBehaviorLambdaExampleConfiguration', u'ConfigurationBucket']}"
 Resources.AWS::S3::Bucket.Metadata.CloudCanvas.Permissions,"[{u'Action': [u's3:GetObject', u's3:PutObject'], u'ResourceSuffix': u'/*', u'AbstractRole': u'Player'}]"
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
 Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions.AbstractRole,Player
-Parameters.ResourceGroupName.Type,String
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Parameters.ResourceGroupName.Description,Name of the resource group.
 Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'AWSBehaviorLambdaExampleConfiguration', u'Runtime']}"
 Parameters.CloudCanvasStack.Default,ResourceGroup
 Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
-Parameters.CloudCanvasStack.Type,String
 Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
-Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
-Parameters.DeploymentName.Type,String
-Parameters.ConfigurationBucket.Type,String
-Resources.Custom::AccessControl.Type,Custom::AccessControl

@@ -8,11 +8,8 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.ProdBucketName,{u'Ref
 Outputs.PipelineUrl.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codepipeline/home?region=', {u'Ref': u'AWS::Region'}, u'#/view/', {u'Fn::GetAtt': [u'PipelineStack', u'Outputs.PipelineName']}]]}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ProdAppFunctionName,"{u'Fn::GetAtt': [u'ProdAppStack', u'Outputs.AppLambdaArn']}"
 Parameters.ProdSiteFQDN.ConstraintDescription,Must be valid hostname (like www.foo.com)
-Parameters.TestSiteFQDN.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubRepo.default,Repository Name
-Parameters.GulpTestTask.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.TestDDBTableName,"{u'Fn::GetAtt': [u'TestDynamoDBStack', u'Outputs.TableName']}"
-Parameters.DistSitePath.Type,String
 Parameters.GitHubUser.Description,GitHub UserName
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DistSitePath.default,Path to Site Dist
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ProdDDBTableName,"{u'Fn::GetAtt': [u'ProdDynamoDBStack', u'Outputs.TableName']}"
@@ -30,9 +27,7 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.BucketName,{u'Ref': u
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DistLambdaPath,{u'Ref': u'DistLambdaPath'}
 Outputs.TestSiteUrl.Description,Test Site Url
 Parameters.DistSitePath.Description,Path where GulpPackageTask places the site artifact
-Parameters.DistSwaggerPath.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubUser,{u'Ref': u'GitHubUser'}
-Parameters.TemplateBucketName.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Join': [u'/', [{u'Fn::FindInMap': [u'EndpointMap', {u'Ref': u'AWS::Region'}, u's3']}, {u'Ref': u'TemplateBucketName'}, u'dynamodb.json']]}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ApiName,"{u'Fn::GetAtt': [u'ApiGatewayStack', u'Outputs.ApiName']}"
 Parameters.TemplateBucketName.Default,serverless-pipeline
@@ -41,30 +36,25 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.TestAppLambdaName,"{u
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.TestAppFunctionName,"{u'Fn::GetAtt': [u'TestAppStack', u'Outputs.AppLambdaArn']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.TestSiteFQDN.default,Test DNS Name
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DistSwaggerPath,{u'Ref': u'DistSwaggerPath'}
-Parameters.GitHubRepo.Type,String
 Parameters.ProdSiteFQDN.Description,Unique name to use for bucket and Route53 to serve static website content for production stage.
 Parameters.GitHubToken.NoEcho,true
 Parameters.GitHubBranch.Description,Branch to use from Repo. Only the Name. not the URL
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DistSitePath,{u'Ref': u'DistSitePath'}
-Parameters.GitHubUser.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DistLambdaPath.default,Path to Lambda Dist
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ProdAppLambdaName,"{u'Fn::GetAtt': [u'ProdAppStack', u'Outputs.AppLambdaName']}"
 Parameters.TemplateBucketName.Description,S3 bucket name for all the CloudFormation templates used in the pipeline.
-Parameters.GitHubToken.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubToken.default,OAuth2 Token
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.TemplateBucketName.default,CFN Template Bucket Name
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.GulpPackageTask,{u'Ref': u'GulpPackageTask'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ProdSiteFQDN.default,Production DNS Name
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.CodePipelineRoleArn,"{u'Fn::GetAtt': [u'IAMStack', u'Outputs.CodePipelineRoleArn']}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ProdApiUrl,"{u'Fn::GetAtt': [u'ApiGatewayStack', u'Outputs.ProdApiUrl']}"
-Parameters.GulpPackageTask.Type,String
 Parameters.DistSitePath.Default,dist/site.zip
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.TestApiUrl,"{u'Fn::GetAtt': [u'ApiGatewayStack', u'Outputs.TestApiUrl']}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.GulpTestTask,{u'Ref': u'GulpTestTask'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.CodePipelineLambdaRoleArn,"{u'Fn::GetAtt': [u'IAMStack', u'Outputs.CodePipelineLambdaRoleArn']}"
 Parameters.GitHubBranch.Default,master
 Parameters.DistSwaggerPath.Description,Path where GulpPackageTask places the lambda artifact
-Parameters.DistLambdaPath.Type,String
 Outputs.TestSiteUrl.Value,"{u'Fn::GetAtt': [u'TestS3Stack', u'Outputs.SiteUrl']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.HostedZoneId.default,Hosted Zone
 Parameters.TestSiteFQDN.Description,Unique name to use for bucket and Route53 to serve static website content for test stage.
@@ -74,19 +64,15 @@ Parameters.GitHubUser.Default,stelligent
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubRepo,{u'Ref': u'GitHubRepo'}
 Parameters.TestSiteFQDN.AllowedPattern,"^[a-z0-9-]+(\.[a-z0-9-]+){2,}$"
 Outputs.PipelineUrl.Description,Pipeline Url
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.LambdaBucketName,{u'Ref': u'TemplateBucketName'}
 Parameters.GitHubRepo.Description,GitHub Repo to pull from. Only the Name. not the URL
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.TestEndpoint,"{u'Fn::GetAtt': [u'TestS3Stack', u'Outputs.SiteUrl']}"
 Parameters.GitHubRepo.Default,dromedary-serverless
-Parameters.HostedZoneId.Type,AWS::Route53::HostedZone::Id
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ApiIntegrationCredentialsRole,"{u'Fn::GetAtt': [u'IAMStack', u'Outputs.ApiIntegrationCredentialsRole']}"
-Parameters.GitHubBranch.Type,String
 Parameters.DistSwaggerPath.Default,dist/swagger.json
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.TestBucketName,{u'Ref': u'TestSiteFQDN'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GulpTestTask.default,Functional Testing Task
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DistSwaggerPath.default,Path to Swagger Dist
-Parameters.ProdSiteFQDN.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GulpPackageTask.default,Unit Test and Package Task
 Parameters.GitHubToken.Description,Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af OAuthToken with access to Repo. Go to https://github.com/settings/tokens
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.GitHubToken,{u'Ref': u'GitHubToken'}

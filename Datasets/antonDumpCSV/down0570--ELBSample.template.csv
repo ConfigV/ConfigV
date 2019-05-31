@@ -8,23 +8,18 @@ Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLo
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AccessLoggingPolicy.Enabled,True
-Parameters.KeyName.Type,String
 Parameters.WebServerPort.Description,TCP/IP port of the web server
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Resources.AWS::EC2::Instance.Properties.UserData,{u'Fn::Base64': {u'Ref': u'WebServerPort'}}
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.WebServerPort.Default,8888
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AccessLoggingPolicy.EmitInterval,5
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.KeyName.Default,mark
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,"{u'Fn::Join': [u'', [u'HTTP:', {u'Ref': u'WebServerPort'}, u'/']]}"
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,true
 Outputs.URL.Description,URL of the sample website
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Timeout,300
-Parameters.WebServerPort.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': {u'Ref': u'WebServerPort'}, u'FromPort': {u'Ref': u'WebServerPort'}, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Instances,"[{u'Ref': u'Ec2Instance1'}, {u'Ref': u'Ec2Instance2'}]"

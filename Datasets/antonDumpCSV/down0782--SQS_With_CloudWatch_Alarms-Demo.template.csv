@@ -1,8 +1,6 @@
 Resources.AWS::CloudWatch::Alarm.Properties.InsufficientDataActions,[{u'Ref': u'AlarmTopic'}]
 Outputs.QueueURL.Value,{u'Ref': u'MyQueue'}
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
 Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Sum
 Parameters.AlarmEmail.Description,Email address to notify if there are any operational issues
@@ -12,11 +10,9 @@ Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/SQS
 Outputs.QueueARN.Description,ARN of newly created SQS Queue
 Resources.AWS::CloudWatch::Alarm.Properties.Threshold,10
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Alarm if queue depth grows beyond 10 messages
-Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'AlarmTopic'}]
 Outputs.QueueARN.Value,"{u'Fn::GetAtt': [u'MyQueue', u'Arn']}"
 Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'QueueName', u'Value': {u'Fn::GetAtt': [u'MyQueue', u'QueueName']}}]"
-Parameters.AlarmEmail.Type,String
 Outputs.QueueName.Value,"{u'Fn::GetAtt': [u'MyQueue', u'QueueName']}"
 Outputs.QueueName.Description,Name newly created SQS Queue
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Ref': u'AlarmEmail'}, u'Protocol': u'email'}]"

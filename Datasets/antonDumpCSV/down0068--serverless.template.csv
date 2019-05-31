@@ -3,10 +3,7 @@ Parameters.ReadCapacity.Default,3
 Parameters.WriteCapacity.Default,3
 Parameters.BlogTableName.MinLength,0
 Parameters.ShouldCreateTable.Description,If true then the DynamoDB blogging table will be created with the CloudFormation stack.
-Parameters.ReadCapacity.Type,Number
 Resources.AWS::Serverless::Function.Properties.Events.PutResource.Properties.Path,/{Id}
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
-Parameters.WriteCapacity.Type,Number
 Resources.AWS::DynamoDB::Table.Condition,CreateBlogTable
 Parameters.WriteCapacity.MinValue,1
 Resources.AWS::Serverless::Function.Properties.MemorySize,256
@@ -23,13 +20,9 @@ Parameters.WriteCapacity.Description,Write capacity for the DynamoDB blog table.
 Resources.AWS::Serverless::Function.Properties.Policies,[u'AWSLambdaFullAccess']
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.BlogTable,"{u'Fn::If': [u'CreateBlogTable', {u'Ref': u'BlogTable'}, {u'Ref': u'BlogTableName'}]}"
 Resources.AWS::DynamoDB::Table.Properties.TableName,"{u'Fn::If': [u'TableNameGenerated', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'BlogTableName'}]}"
-Parameters.ShouldCreateTable.Type,String
 Parameters.ShouldCreateTable.AllowedValues,"[u'true', u'false']"
 Resources.AWS::Serverless::Function.Properties.Runtime,dotnetcore2.1
-Resources.AWS::Serverless::Function.Properties.Events.PutResource.Type,Api
 Parameters.ReadCapacity.MinValue,1
 Parameters.BlogTableName.Description,Name of DynamoDB table used to store the blog post. If left blank a new table will be created.
 Parameters.ReadCapacity.Description,Read capacity for the DynamoDB blog table.
-Parameters.BlogTableName.Type,String
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacity'}

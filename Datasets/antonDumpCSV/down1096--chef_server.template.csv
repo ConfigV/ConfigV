@@ -2,9 +2,7 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.owner,chef
 Parameters.ResourceName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.automake,[]
-Parameters.ResourceName.Type,String
 Parameters.ResourceName.Description,The Logical Resource Name - commonly set by parent stack
-Parameters.VpcId.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.python-boto,[]
 Resources.AWS::IAM::User.Properties.Path,/
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
@@ -20,13 +18,11 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'22'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'80'}, {u'ToPort': u'4000', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'4000'}]"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,1800
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.group,root
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.group,root
 Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'CfnUser'}
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./home/ec2-user/chefrepo/,https://splunk-cloud.s3.amazonaws.com/chefrepo.tar.gz
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.rubygems19,[]
-Parameters.KeyName.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.ruby19-devel,[]
 Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'ChefServerSecurityGroup'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.owner,root
@@ -56,14 +52,8 @@ Mappings.AWSRegionArch2AMI.eu-central-1.64HVM,ami-a8221fb5
 Outputs.PrivateIp.Description,Private IP address of instance
 Parameters.KeyName.MinLength,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.source,https://splunk-cloud.s3.amazonaws.com/amazon-linux/enable-epel-on-amazon-linux-ami
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.rubygem19-rake,[]
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Parameters.SubnetId.Type,String
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.ResourceName.MaxLength,128
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.gcc-c++,[]

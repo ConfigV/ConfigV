@@ -1,10 +1,7 @@
-Parameters.DistSitePath.Type,String
-Parameters.LambdaBucketName.Type,String
 Outputs.CodePipelineGulpLambdaArn.Value,"{u'Fn::GetAtt': [u'CodePipelineGulpLambda', u'Arn']}"
 Parameters.CodePipelineRoleArn.Description,The Arn of a role for code pipeline to run as
 Parameters.GulpPackageTask.Description,Gulp task name for Unit Test and Packing
 Parameters.DistSwaggerPath.Description,Path to swagger artifact
-Parameters.DistLambdaPath.Type,String
 Outputs.PipelineName.Value,{u'Ref': u'ServerlessPipeline'}
 Resources.AWS::Lambda::Function.Properties.Description,Run gulp tasks for pipeline
 Parameters.DistLambdaPath.Description,Path to lambda artifact
@@ -18,54 +15,32 @@ Parameters.TestBucketName.Description,Name of the s3 bucket for test
 Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'ThirdParty', u'Version': u'1', u'Provider': u'GitHub'}, u'OutputArtifacts': [{u'Name': u'SourceOutput'}], u'Configuration': {u'Owner': {u'Ref': u'GitHubUser'}, u'Repo': {u'Ref': u'GitHubRepo'}, u'OAuthToken': {u'Ref': u'GitHubToken'}, u'Branch': {u'Ref': u'GitHubBranch'}}, u'Name': u'Source'}]}, {u'Name': u'Commit', u'Actions': [{u'InputArtifacts': [{u'Name': u'SourceOutput'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [{u'Name': u'SourceInstalledOutput'}], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineNpmLambda'}, u'UserParameters': u'subcommand=install'}, u'Name': u'Dependencies'}, {u'InputArtifacts': [{u'Name': u'SourceInstalledOutput'}], u'RunOrder': 2, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [{u'Name': u'DistSiteOutput'}, {u'Name': u'DistLambdaOutput'}, {u'Name': u'DistSwaggerOutput'}], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineGulpLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'task=', {u'Ref': u'GulpPackageTask'}, u'&DistSiteOutput=', {u'Ref': u'DistSitePath'}, u'&DistLambdaOutput=', {u'Ref': u'DistLambdaPath'}, u'&DistSwaggerOutput=', {u'Ref': u'DistSwaggerPath'}]]}}, u'Name': u'TestAndPackage'}]}, {u'Name': u'Acceptance', u'Actions': [{u'InputArtifacts': [{u'Name': u'DistSiteOutput'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineDeployLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'type=s3&bucket=', {u'Ref': u'TestBucketName'}, u'&apiBaseurl=', {u'Fn::Join': [u'', [{u'Ref': u'TestApiUrl'}, u'/']]}]]}}, u'Name': u'DeployTestSite'}, {u'InputArtifacts': [{u'Name': u'DistLambdaOutput'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineDeployLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'type=lambda&alias=test&function=', {u'Ref': u'TestAppFunctionName'}]]}}, u'Name': u'DeployTestApp'}, {u'InputArtifacts': [{u'Name': u'DistSwaggerOutput'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineDeployLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'type=apigateway&stage=test&name=', {u'Ref': u'ApiName'}]]}}, u'Name': u'DeployTestAPI'}, {u'InputArtifacts': [{u'Name': u'SourceInstalledOutput'}], u'RunOrder': 2, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineGulpLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'task=', {u'Ref': u'GulpTestTask'}, u'&Env.TARGET_URL=', {u'Ref': u'TestEndpoint'}]]}}, u'Name': u'FunctionalTest'}]}, {u'Name': u'Production', u'Actions': [{u'InputArtifacts': [{u'Name': u'DistSiteOutput'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineDeployLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'type=s3&bucket=', {u'Ref': u'ProdBucketName'}, u'&apiBaseurl=', {u'Fn::Join': [u'', [{u'Ref': u'ProdApiUrl'}, u'/']]}]]}}, u'Name': u'DeployProdSite'}, {u'InputArtifacts': [{u'Name': u'DistLambdaOutput'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineDeployLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'type=lambda&alias=prod&function=', {u'Ref': u'ProdAppFunctionName'}]]}}, u'Name': u'DeployProdApp'}, {u'InputArtifacts': [{u'Name': u'DistSwaggerOutput'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineDeployLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'type=apigateway&stage=prod&name=', {u'Ref': u'ApiName'}]]}}, u'Name': u'DeployProdAPI'}, {u'InputArtifacts': [{u'Name': u'SourceInstalledOutput'}], u'RunOrder': 2, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineGulpLambda'}, u'UserParameters': {u'Fn::Join': [u'', [u'task=', {u'Ref': u'GulpTestTask'}, u'&Env.TARGET_URL=', {u'Ref': u'ProdEndpoint'}]]}}, u'Name': u'FunctionalTest'}]}]"
 Parameters.LambdaBucketName.Description,S3 bucket name for the lambda function used in the pipeline actions.
 Resources.AWS::Lambda::Function.Properties.MemorySize,1536
-Parameters.GitHubRepo.Type,String
 Resources.AWS::CodePipeline::Pipeline.DependsOn,"[u'CodePipelineNpmLambda', u'CodePipelineGulpLambda']"
 Parameters.GitHubToken.NoEcho,true
-Parameters.ProdEndpoint.Type,String
 Parameters.ProdBucketName.Description,Name of the s3 bucket for test
 Parameters.ProdAppFunctionName.Description,Name of the prod application lambda function
 Outputs.CodePipelineGulpLambdaArn.Description,Gulp Lambda Arn
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaBucketName'}
-Parameters.GitHubUser.Type,String
-Parameters.TestApiUrl.Type,String
 Parameters.TestAppFunctionName.Description,Name of the test application lambda function
-Parameters.GulpTestTask.Type,String
-Parameters.TestBucketName.Type,String
-Parameters.ProdApiUrl.Type,String
 Parameters.CodePipelineLambdaRoleArn.Description,The Arn of a role for code pipeline lambda actions to run as
 Parameters.TestApiUrl.Description,The URL to the test api for config.json
 Parameters.GitHubUser.Description,GitHub UserName
-Parameters.ProdAppFunctionName.Type,String
 Outputs.CodePipelineDeployLambdaArn.Value,"{u'Fn::GetAtt': [u'CodePipelineDeployLambda', u'Arn']}"
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Parameters.GitHubToken.Type,String
 Outputs.CodePipelineNpmLambdaArn.Value,"{u'Fn::GetAtt': [u'CodePipelineNpmLambda', u'Arn']}"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::Lambda::Function.Properties.Handler,index.gulpHandler
-Parameters.ApiName.Type,String
 Parameters.DistLambdaPath.Default,dist/lambda.zip
 Resources.AWS::CodePipeline::Pipeline.Properties.DisableInboundStageTransitions,[]
-Parameters.CodePipelineRoleArn.Type,String
-Parameters.GitHubBranch.Type,String
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
 Parameters.DistSwaggerPath.Default,dist/swagger.json
 Outputs.CodePipelineDeployLambdaArn.Description,Deploy Lambda Arn
-Parameters.TestEndpoint.Type,String
-Parameters.CodePipelineLambdaRoleArn.Type,String
 Parameters.ProdEndpoint.Description,The endpoint for testing
 Resources.AWS::Lambda::Function.Properties.Role,{u'Ref': u'CodePipelineLambdaRoleArn'}
-Parameters.ProdBucketName.Type,String
 Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,{u'Ref': u'ArtifactBucket'}
 Outputs.CodePipelineNpmLambdaArn.Description,NPM Lambda Arn
 Parameters.GitHubToken.Description,Secret. It might look something like 9b189a1654643522561f7b3ebd44a1531a4287af OAuthToken with access to Repo. Go to https://github.com/settings/tokens
 Parameters.DistSitePath.Description,Path to dist artifact
-Parameters.GulpPackageTask.Type,String
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
-Parameters.DistSwaggerPath.Type,String
 Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,{u'Ref': u'CodePipelineRoleArn'}
 Parameters.GitHubRepo.Description,GitHub Repo to pull from. Only the Name. not the URL
 Parameters.GitHubBranch.Description,Branch to use from Repo. Only the Name. not the URL
 Parameters.DistSitePath.Default,dist/site.zip
-Parameters.TestAppFunctionName.Type,String
 Outputs.ArtifactBucket.Value,{u'Ref': u'ArtifactBucket'}
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

@@ -1,37 +1,30 @@
 Parameters.ResourceName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Parameters.ResourceName.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'22'}, {u'ToPort': u'8089', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'8089'}, {u'ToPort': u'9887', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'9887'}, {u'ToPort': u'9997', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'9997'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'443'}]"
 Parameters.ResourceName.Description,The Logical Resource Name - commonly set by parent stack
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,900
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client.rb.mode,000644
-Parameters.VpcId.Type,String
 Outputs.PublicIp.Condition,AssociatePublicIpAddress
-Parameters.ClusterSecurityKey.Type,String
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client.rb.owner,root
 Parameters.KeyName.MaxLength,64
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/node.json.mode,000644
 Outputs.InstanceID.Value,{u'Ref': u'SplunkServerHost'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.rpm.chef-client,https://opscode-omnibus-packages.s3.amazonaws.com/el/7/x86_64/chef-12.5.1-1.el7.x86_64.rpm
-Parameters.IsLicenseMaster.Type,String
 Parameters.ClusterSecurityKey.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client.rb.group,root
 Parameters.AssociatePublicIP.AllowedValues,"[u'yes', u'no']"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client.rb.content,"{u'Fn::Join': [u'', [u'log_level :info\n', u'log_location STDOUT\n', u'file_cache_path ""/var/chef""\n', u'cookbook_path ""/etc/chef/cookbooks""\n', u'role_path ""/etc/chef/roles""\n', u'json_attribs ""/etc/chef/node.json""\n']]}"
 Parameters.AssociatePublicIP.Default,yes
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.ClusterSecurityKey.AllowedPattern,[-_ a-zA-Z0-9]+
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./etc/chef/cookbooks/,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'CookbookBucketName'}, u'.s3.amazonaws.com/cookbooks.tar.gz']]}"
 Outputs.PrivateDnsName.Description,Private DNS name of instance
 Parameters.AssociatePublicIP.ConstraintDescription,must be 'yes' or 'no'
 Parameters.ClusterSecurityKey.Default,password
 Parameters.CookbookBucketName.Description,Name of S3 bucket with Chef recipes & roles
-Parameters.KeyName.Type,String
 Parameters.IsLicenseMaster.ConstraintDescription,must be 'yes' or 'no'
 Parameters.ClusterMasterIP.Description,[Optional] Splunk cluster master IP or hostname.
 Parameters.AssociatePublicIP.Description,Indicates whether server receives a public IP address
 Outputs.PublicIp.Description,Public IP address of instance
-Parameters.SecurityGroup.Type,String
 Outputs.InstanceID.Description,Splunk Server Instance ID
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeleteOnTermination': u'true', u'DeviceIndex': u'0', u'SubnetId': {u'Ref': u'SubnetId'}, u'GroupSet': [{u'Fn::If': [u'CreateDefaultSecurityGroup', {u'Ref': u'SplunkDefaultSecurityGroup'}, {u'Ref': u'SecurityGroup'}]}], u'AssociatePublicIpAddress': {u'Fn::If': [u'AssociatePublicIpAddress', u'true', u'false']}}]"
 Parameters.ResourceName.MinLength,1
@@ -39,19 +32,16 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./et
 Outputs.PrivateIp.Value,"{u'Fn::GetAtt': [u'SplunkServerHost', u'PrivateIp']}"
 Parameters.ClusterMasterIP.Default,
 Parameters.IsLicenseMaster.Default,no
-Parameters.CookbookBucketName.Type,String
 Parameters.LicenseMasterIP.Default,
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,"Enable internal access for SSH and Splunk management/replication, and allow public access to Splunk web & receiver"
 Parameters.KeyName.MinLength,1
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,SplunkServerHost
 Parameters.VpcId.Description,Vpc ID of your existing Virtual Private Cloud (VPC)
 Parameters.SubnetId.Default,subnet-
-Parameters.ClusterMasterIP.Type,String
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'yum update -y aws-cfn-bootstrap\n', u'#helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackName'}, u' -r SplunkServerHost ', u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n"", u'#run chef solo with client.rb config\n', u""chef-solo -c /etc/chef/client.rb || error_exit 'Failed to run chef-solo'\n"", u'#all is well so signal success\n', u'/opt/aws/bin/cfn-signal -e 0 -r ""Splunk server setup complete"" \'', {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
 Parameters.ResourceName.Default,SplunkServer
 Parameters.IsLicenseMaster.AllowedValues,"[u'yes', u'no']"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
-Parameters.LicenseMasterIP.Type,String
 Parameters.LicenseMasterIP.Description,[Optional] Splunk license master IP or hostname.
 Outputs.PublicDnsName.Value,"{u'Fn::GetAtt': [u'SplunkServerHost', u'PublicDnsName']}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/node.json.content,"{u'Fn::Join': [u'', [u'{\n', u'  ""splunk"": {\n', u'    ""server_name"": ""', {u'Ref': u'ResourceName'}, u'"",\n', u'    ""cluster_master_host"": ""', {u'Ref': u'ClusterMasterIP'}, u'"",\n', u'    ""license_master_host"": ""', {u'Ref': u'LicenseMasterIP'}, u'"",\n', u'    ""is_license_master"": ""', {u'Ref': u'IsLicenseMaster'}, u'"",\n', u'    ""pass4SymmKey"": ""', {u'Ref': u'ClusterSecurityKey'}, u'""\n', u'  },\n', u'  ""run_list"": [\n', u'    ""role[', {u'Ref': u'SplunkRole'}, u']""\n', u'  ]\n', u'}']]}"
@@ -69,22 +59,16 @@ Parameters.SecurityGroup.Default,default
 Resources.AWS::EC2::SecurityGroup.Condition,CreateDefaultSecurityGroup
 Outputs.PrivateIp.Description,Private IP address of instance
 Parameters.SplunkRole.MaxLength,64
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Parameters.ClusterSecurityKey.Description,Security key to authenticate traffic between cluster nodes.
 Parameters.SplunkRole.Description,Chef Splunk role to assign to this instance
 Parameters.IsLicenseMaster.Description,Indicates whether server acts as license master. Overrides SplunkLicenseMasterIP setting
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./etc/chef/roles/,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'CookbookBucketName'}, u'.s3.amazonaws.com/roles.tar.gz']]}"
-Parameters.SubnetId.Type,String
-Parameters.SplunkRole.Type,String
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Outputs.PrivateDnsName.Value,"{u'Fn::GetAtt': [u'SplunkServerHost', u'PrivateDnsName']}"
 Parameters.SplunkRole.AllowedValues,"[u'splunk-server', u'splunk-indexer', u'splunk-searcher', u'cluster-master', u'cluster-peer', u'cluster-search-head']"
 Parameters.SplunkRole.MinLength,1
 Parameters.ResourceName.MaxLength,128
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.SplunkRole.ConstraintDescription,must be a valid Chef role for Splunk.
 Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'64HVM']}"
-Parameters.AssociatePublicIP.Type,String
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'SplunkRole'}, u'Key': u'Role'}, {u'Value': {u'Ref': u'ResourceName'}, u'Key': u'Name'}]"
 Parameters.SubnetId.Description,Subnet ID of an existing Public or Private subnet in your Virtual Private Cloud (VPC)

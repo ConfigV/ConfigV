@@ -2,7 +2,6 @@ Resources.AWS::Config::ConfigRule.Properties.Source.Owner,CUSTOM_LAMBDA
 Resources.AWS::Lambda::Function.Properties.Description,Evaluates whether VPC Flow Logs are enabled for the VPCs
 Resources.AWS::Lambda::Permission.Properties.FunctionName,FunctionForEvaluateCloudTrailBucketRule.Arn
 Resources.AWS::Lambda::Function.Properties.Timeout,10
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Resources.AWS::Lambda::Function.Properties.Handler,index.lambda_handler
 Resources.Custom::ResourceForEvaluateCisBenchmarkingPreconditions.Properties.ServiceToken,FunctiontForEvaluateCisBenchmarkingPreconditions.Arn
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'TargetFunctionV1', u'Arn': u'FunctionToFormatCloudWatchEvent.Arn'}]"
@@ -27,7 +26,6 @@ Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanOrEqua
 Resources.AWS::Config::ConfigRule.Properties.InputParameters.PasswordReusePrevention,24
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
 Resources.AWS::Config::ConfigRule.Properties.InputParameters.RequireNumbers,True
 Resources.AWS::Config::ConfigRule.Properties.Scope.ComplianceResourceTypes,[u'AWS::EC2::Volume']
 Resources.AWS::Events::Rule.Condition,IsLevel2
@@ -37,11 +35,9 @@ Resources.AWS::Logs::MetricFilter.Properties.LogGroupName,ResourceForGetCloudTra
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[u'SnsTopicForCloudWatchEvents']
 Resources.AWS::Config::ConfigRule.Properties.InputParameters.RequireSymbols,True
 Parameters.NotificationEmailAddressForCloudWatchAlarms.Default,
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NotificationEmailAddressForCloudWatchAlarms.default,Notification Address
 Parameters.ProfileLevel.AllowedValues,"[u'Level 1', u'Level 2']"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ProfileLevel.default,Profile Level
-Resources.AWS::Logs::MetricFilter.Type,AWS::Logs::MetricFilter
 Resources.AWS::CloudWatch::Alarm.Properties.Period,60
 Resources.AWS::Lambda::Function.Condition,IsLevel2
 Resources.AWS::Events::Rule.Properties.EventPattern.detail.eventName,"[u'PutBucketAcl', u'PutBucketPolicy', u'PutBucketCors', u'PutBucketLifecycle', u'PutBucketReplication', u'DeleteBucketPolicy', u'DeleteBucketCors', u'DeleteBucketLifecycle', u'DeleteBucketReplication']"
@@ -57,25 +53,19 @@ Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Sum
 Parameters.NotificationEmailAddressForCloudWatchAlarms.Description,Email address that will be subscribed to the SNS topic for CloudWatch alarms and rules (a subscription confirmation email will be sent).
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.AWS::Config::ConfigRule.Properties.InputParameters.RequireUppercaseCharacters,True
-Resources.Custom::ResourceForGetCloudTrailCloudWatchLog.Type,Custom::ResourceForGetCloudTrailCloudWatchLog
 Resources.AWS::SNS::Topic.Properties.DisplayName,Broadcasts formatted CloudWatch events to subscribers
 Parameters.ProfileLevel.Default,Level 2
 Resources.AWS::Logs::MetricFilter.Properties.MetricTransformations,"[{u'MetricValue': 1, u'MetricNamespace': u'CloudTrailMetrics', u'MetricName': u'ConsoleLoginFailures'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::Config::ConfigRule.Properties.InputParameters.blockedPort1,3389
-Parameters.ProfileLevel.Type,String
 Resources.AWS::Config::ConfigRule.Condition,IsLevel2
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
 Resources.AWS::Logs::MetricFilter.Properties.FilterPattern,"{ ($.eventName = ""ConsoleLogin"") && ($.errorMessage = ""Failed authentication"") }"
-Parameters.NotificationEmailAddressForCloudWatchAlarms.Type,String
 Resources.AWS::Logs::MetricFilter.Condition,IsLevel2
 Resources.AWS::Lambda::Permission.DependsOn,FunctionForEvaluateCloudTrailBucketRule
 Resources.AWS::Logs::MetricFilter.DependsOn,"[u'ResourceForEvaluateCisBenchmarkingPreconditions', u'ResourceForGetCloudTrailCloudWatchLog']"
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'AWS API Call via CloudTrail']
 Resources.AWS::Config::ConfigRule.Properties.Source.SourceDetails,"[{u'EventSource': u'aws.config', u'MessageType': u'ConfigurationItemChangeNotification'}, {u'EventSource': u'aws.config', u'MessageType': u'ScheduledNotification'}]"
 Resources.AWS::Config::ConfigRule.Properties.ConfigRuleName,KmsCustomerKeysMustBeRotated
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"#==================================================================================================
 # Function: EvaluateVpcFlowLogs
 # Purpose:  Determines whether VPC Flow Logs are enabled in the region
@@ -129,10 +119,8 @@ Resources.AWS::Events::Rule.Properties.Name,DetectS3BucketPolicyChanges
 Resources.AWS::CloudWatch::Alarm.Properties.Threshold,1
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Root user activity detected
 Resources.AWS::Config::ConfigRule.Properties.Source.SourceIdentifier,FunctionForEvaluateKeyRotationRule.Arn
-Resources.AWS::Config::ConfigRule.Type,AWS::Config::ConfigRule
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Resources.AWS::Lambda::Function.Properties.Role,MasterConfigRole.Arn
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': u'NotificationEmailAddressForCloudWatchAlarms', u'Protocol': u'email'}]"
-Resources.Custom::ResourceForEvaluateCisBenchmarkingPreconditions.Type,Custom::ResourceForEvaluateCisBenchmarkingPreconditions
 Resources.AWS::Config::ConfigRule.DependsOn,"[u'FunctionForEvaluateKeyRotationRule', u'ConfigPermissionToCallEvaluateKeyRotationLambda']"
 Resources.AWS::Events::Rule.Properties.Description,Publishes formatted S3 bucket policy change events to an SNS topic

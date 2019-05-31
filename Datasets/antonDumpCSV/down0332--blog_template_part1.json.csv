@@ -2,13 +2,10 @@ Resources.Custom::UpdateDeploymentGroupRun.Properties.asgName,{u'Ref': u'WebServ
 Resources.AWS::CodeBuild::Project.DependsOn,CodeBuildRole
 Resources.AWS::Lambda::Function.Properties.Timeout,200
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,{u'Ref': u'InstanceCount'}
-Resources.AWS::CodeDeploy::DeploymentGroup.Type,AWS::CodeDeploy::DeploymentGroup
 Outputs.CodeBuildProject.Description,CodeBuildProject Name
 Resources.AWS::Lambda::Function.Properties.FunctionName,AutomationGetSourceAMI
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MaxBatchSize,1
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'InstanceCount'}
-Resources.AWS::SSM::Parameter.Properties.Type,String
-Resources.AWS::SSM::Document.Type,AWS::SSM::Document
 Resources.AWS::AutoScaling::LaunchConfiguration.DependsOn,[u'InstanceRoleInstanceProfile']
 Resources.AWS::CodeBuild::Project.Properties.ServiceRole,"{u'Fn::GetAtt': [u'CodeBuildRole', u'Arn']}"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
@@ -17,15 +14,11 @@ Resources.AWS::SSM::Document.Properties.Content.mainSteps,"[{u'inputs': {u'Funct
 Parameters.InstanceCount.MinValue,1
 Resources.AWS::CodeBuild::Project.Properties.Source.Location,"{u'Fn::Join': [u'', [u'https://git-codecommit.', {u'Ref': u'AWS::Region'}, u'.amazonaws.com/v1/repos/', {u'Ref': u'AWS::StackName'}]]}"
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.PauseTime,PT15M
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Outputs.ASGName.Description,Auto Scaling group Name
 Resources.AWS::SSM::Document.DependsOn,"[u'ManagedInstanceProfile', u'AutomationServiceRole', u'BasicParameter1', u'BasicParameter2']"
 Resources.AWS::SSM::Document.Properties.Content.parameters.InstanceIamRole.type,String
 Resources.AWS::CloudWatch::Alarm.Properties.MetricName,CPUUtilization
-Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,no_artifacts
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Resources.AWS::SSM::Document.Properties.Content.parameters.ExcludePackages.description,"(Optional) Names of packages to hold back from updates, under all conditions. By default (""none""), no package is excluded."
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::SSM::Document.Properties.Content.parameters.SourceAmiId.type,String
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.AutoScalingGroupName,{u'Ref': u'WebServerGroup'}
 Resources.AWS::SSM::Document.Properties.Content.parameters.AutomationAssumeRole.type,String
@@ -36,7 +29,6 @@ Resources.AWS::IAM::InstanceProfile.Properties.InstanceProfileName,{u'Fn::Sub': 
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.NotificationConfiguration.NotificationTypes,"[u'autoscaling:EC2_INSTANCE_LAUNCH', u'autoscaling:EC2_INSTANCE_LAUNCH_ERROR', u'autoscaling:EC2_INSTANCE_TERMINATE', u'autoscaling:EC2_INSTANCE_TERMINATE_ERROR']"
 Parameters.LambdaS3Bucket.Description,"The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack"
 Resources.AWS::SSM::Document.Properties.Content.parameters.InstanceIamRole.default,{u'Ref': u'ManagedInstanceProfile'}
-Resources.AWS::SSM::Parameter.Type,AWS::SSM::Parameter
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,TCP:80
 Parameters.InstanceCount.Description,Number of Amazon EC2 instances (Must be a number between 1 and 3).
 Resources.Custom::UpdateDeploymentGroupRun.Properties.elbName,{u'Ref': u'ElasticLoadBalancer'}
@@ -49,7 +41,6 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Re
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'InstanceCount'}
 Outputs.CodeCommitRepo.Value,{u'Ref': u'AWS::StackName'}
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'DevSecOpsLambdaRole', u'Arn']}"
-Parameters.SSHLocation.Type,String
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'passrole', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'iam:PassRole'], u'Resource': [{u'Fn::GetAtt': [u'ManagedInstanceRole', u'Arn']}], u'Effect': u'Allow'}]}}]"
 Resources.AWS::IAM::Role.Properties.Path,/
 Parameters.SSHLocation.MaxLength,18
@@ -65,7 +56,6 @@ Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENER
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaS3Bucket'}
 Parameters.InstanceCount.MaxValue,3
 Resources.AWS::SSM::Document.Properties.Content.parameters.InstanceIamRole.description,(Required) The name of the role that enables Systems Manager (SSM) to manage the instance.
-Parameters.OperatorEMail.Type,String
 Parameters.SSHLocation.Description,The IP address range that can be used to SSH to the EC2 instances
 Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'DevSecOpsLambdaRole'}]
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole']
@@ -76,7 +66,6 @@ Resources.AWS::SSM::Document.Properties.Content.outputs,[u'createImage.ImageId']
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'InstanceRoleInstanceProfile'}
 Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/EC2
 Resources.AWS::SSM::Document.Properties.Content.parameters.AutomationAssumeRole.default,"{u'Fn::GetAtt': [u'AutomationServiceRole', u'Arn']}"
-Resources.AWS::CodeDeploy::Application.Type,AWS::CodeDeploy::Application
 Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Timeout,PT15M
 Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Average
 Parameters.LambdaS3Key.Default,devsecops-part1.zip
@@ -88,16 +77,11 @@ Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpda
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
 Resources.AWS::CodeBuild::Project.Properties.Description,Build Java application
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access and HTTP from the load balancer only
-Resources.AWS::CodeBuild::Project.Properties.Environment.Type,LINUX_CONTAINER
 Parameters.LambdaS3Bucket.Default,devsecopsblog
-Resources.Custom::UpdateDeploymentGroupRun.Type,Custom::UpdateDeploymentGroupRun
 Outputs.SSMAutomationDocument.Value,{u'Ref': u'SSMAutomationDocument'}
 Outputs.URL.Description,The URL of the website
 Resources.AWS::CodeCommit::Repository.Properties.RepositoryName,{u'Ref': u'AWS::StackName'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Scale-up if CPU > 90% for 10 minutes
 Resources.AWS::SSM::Document.Properties.Content.parameters.sourceRegion.type,String
 Mappings.Region2Examples.eu-central-1.Examples,https://s3-eu-central-1.amazonaws.com/cloudformation-examples-eu-central-1
@@ -113,10 +97,8 @@ Resources.AWS::SSM::Document.Properties.Content.description,"Updates AMI with Li
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Parameters.InstanceCount.ConstraintDescription,Must be a number between 1 and 3.
 Resources.AWS::SSM::Parameter.Properties.Description,Golden AMIID
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
 Resources.AWS::SSM::Document.Properties.Content.parameters.ExcludePackages.type,String
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'WebServerScaleUpPolicy'}]
-Resources.AWS::CodeBuild::Project.Properties.Source.Type,CODECOMMIT
 Outputs.CodeCommitRepo.Description,CodeCommitRepo Name
 Outputs.CloneUrlSsh.Description,Git command for CodeCommit repository
 Outputs.CodeDeploymentGroup.Value,{u'Ref': u'MyDeploymentGroup'}
@@ -131,11 +113,8 @@ Resources.AWS::SSM::Document.Properties.Content.parameters.sourceRegion.default,
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,60
 Resources.AWS::SSM::Document.Properties.Content.parameters.AutomationAssumeRole.description,(Required) The ARN of the role that allows Automation to perform the actions on your behalf.
 Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'AutoScalingGroupName', u'Value': {u'Ref': u'WebServerGroup'}}]"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.SSHLocation.MinLength,9
 Parameters.LambdaS3Key.Description,"The file name of the source artifact of the Lambda code, such as myfolder/myartifact.zip"
-Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::IAM::Role.Properties.RoleName,{u'Fn::Sub': u'${AWS::StackName}-AutomationServiceRole'}
 Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/java:openjdk-8
 Resources.AWS::CloudWatch::Alarm.Properties.Threshold,90
@@ -150,7 +129,6 @@ Resources.AWS::SSM::Document.Properties.Content.parameters.IncludePackages.descr
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Description,Always return success
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
-Parameters.LambdaS3Key.Type,String
 Resources.AWS::SSM::Document.Properties.Content.parameters.TargetAmiName.default,UpdateLinuxAmi_from_{{ssm:SourceAMIID}}_on_{{global:DATE_TIME}}
 Resources.AWS::SSM::Document.Properties.Content.assumeRole,{{AutomationAssumeRole}}
 Resources.Custom::UpdateDeploymentGroupRun.Properties.currentDeploymentGroupName,{u'Ref': u'MyDeploymentGroup'}
@@ -161,7 +139,6 @@ Resources.AWS::Lambda::Function.DependsOn,"[u'DevSecOpsLambdaRole', u'LambdaExec
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:*'], u'Resource': [u'arn:aws:logs:*:*:*'], u'Effect': u'Allow'}, {u'Action': [u's3:*', u'ec2:*', u'ssm:*', u'cloudformation:*', u'codedeploy:*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'sns:*'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::SSM::Document.Properties.Content.parameters.TargetAmiName.description,"(Optional) The name of the new AMI that will be created. Default is a system-generated string including the source AMI id, and the creation time and date."
-Parameters.LambdaS3Bucket.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'\n', [{u'Fn::Join': [u'', [u'#!/bin/bash', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'function get_contents() {', u'']]}, {u'Fn::Join': [u'', [u'    if [ -x ""$(which curl)"" ]; then', u'']]}, {u'Fn::Join': [u'', [u'        curl -s -f ""$1""', u'']]}, {u'Fn::Join': [u'', [u'    elif [ -x ""$(which wget)"" ]; then', u'']]}, {u'Fn::Join': [u'', [u'        wget ""$1"" -O -', u'']]}, {u'Fn::Join': [u'', [u'    else', u'']]}, {u'Fn::Join': [u'', [u'        die ""No download utility (curl, wget)""', u'']]}, {u'Fn::Join': [u'', [u'    fi', u'']]}, {u'Fn::Join': [u'', [u'}', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'readonly IDENTITY_URL=""http://169.254.169.254/2016-06-30/dynamic/instance-identity/document/""', u'']]}, {u'Fn::Join': [u'', [u'readonly TRUE_REGION=$(get_contents ""$IDENTITY_URL"" | awk -F\\"" \'/region/ { print $4 }\')', u'']]}, {u'Fn::Join': [u'', [u'readonly DEFAULT_REGION=""us-east-1""', u'']]}, {u'Fn::Join': [u'', [u'readonly REGION=""${TRUE_REGION:-$DEFAULT_REGION}""', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'readonly SCRIPT_NAME=""aws-install-ssm-agent""', u'']]}, {u'Fn::Join': [u'', [u' SCRIPT_URL=""https://aws-ssm-downloads-$REGION.s3.amazonaws.com/scripts/$SCRIPT_NAME""', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'if [ ""$REGION"" = ""cn-north-1"" ]; then', u'']]}, {u'Fn::Join': [u'', [u'  SCRIPT_URL=""https://aws-ssm-downloads-$REGION.s3.cn-north-1.amazonaws.com.cn/scripts/$SCRIPT_NAME""', u'']]}, {u'Fn::Join': [u'', [u'fi', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'if [ ""$REGION"" = ""us-gov-west-1"" ]; then', u'']]}, {u'Fn::Join': [u'', [u'  SCRIPT_URL=""https://aws-ssm-downloads-$REGION.s3-us-gov-west-1.amazonaws.com/scripts/$SCRIPT_NAME""', u'']]}, {u'Fn::Join': [u'', [u'fi', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'cd /tmp', u'']]}, {u'Fn::Join': [u'', [u'FILE_SIZE=0', u'']]}, {u'Fn::Join': [u'', [u'MAX_RETRY_COUNT=3', u'']]}, {u'Fn::Join': [u'', [u'RETRY_COUNT=0', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'while [ $RETRY_COUNT -lt $MAX_RETRY_COUNT ] ; do', u'']]}, {u'Fn::Join': [u'', [u'  echo AWS-UpdateLinuxAmi: Downloading script from $SCRIPT_URL', u'']]}, {u'Fn::Join': [u'', [u'  get_contents ""$SCRIPT_URL"" > ""$SCRIPT_NAME""', u'']]}, {u'Fn::Join': [u'', [u'  FILE_SIZE=$(du -k /tmp/$SCRIPT_NAME | cut -f1)', u'']]}, {u'Fn::Join': [u'', [u'  echo AWS-UpdateLinuxAmi: Finished downloading script, size: $FILE_SIZE', u'']]}, {u'Fn::Join': [u'', [u'  if [ $FILE_SIZE -gt 0 ]; then', u'']]}, {u'Fn::Join': [u'', [u'    break', u'']]}, {u'Fn::Join': [u'', [u'  else', u'']]}, {u'Fn::Join': [u'', [u'    if [[ $RETRY_COUNT -lt MAX_RETRY_COUNT ]]; then', u'']]}, {u'Fn::Join': [u'', [u'      RETRY_COUNT=$((RETRY_COUNT+1));', u'']]}, {u'Fn::Join': [u'', [u'      echo AWS-UpdateLinuxAmi: FileSize is 0, retryCount: $RETRY_COUNT', u'']]}, {u'Fn::Join': [u'', [u'    fi', u'']]}, {u'Fn::Join': [u'', [u'  fi', u'']]}, {u'Fn::Join': [u'', [u'done', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'if [ $FILE_SIZE -gt 0 ]; then', u'']]}, {u'Fn::Join': [u'', [u'  chmod +x ""$SCRIPT_NAME""', u'']]}, {u'Fn::Join': [u'', [u'  echo AWS-UpdateLinuxAmi: Running UpdateSSMAgent script now ....', u'']]}, {u'Fn::Join': [u'', [u'  ./""$SCRIPT_NAME"" --region ""$REGION""', u'']]}, {u'Fn::Join': [u'', [u'else', u'']]}, {u'Fn::Join': [u'', [u'  echo AWS-UpdateLinuxAmi: Unable to download script, quitting ....', u'']]}, {u'Fn::Join': [u'', [u'fi', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'yum install -y aws-cli', u'']]}, {u'Fn::Join': [u'', [u'cd /home/ec2-user/', u'']]}, {u'Fn::Join': [u'', [u""aws s3 cp 's3://aws-codedeploy-us-east-1/latest/codedeploy-agent.noarch.rpm' . --region us-east-1"", u'']]}, {u'Fn::Join': [u'', [u'yum -y install codedeploy-agent.noarch.rpm', u'']]}, {u'Fn::Join': [u'', [u'yum -y install httpd', u'']]}, {u'Fn::Join': [u'', [u'service httpd start', u'']]}, {u'Fn::Join': [u'', [u'', u'']]}, {u'Fn::Join': [u'', [u'yum install -y aws-cfn-bootstrap', u'']]}, {u'Fn::Join': [u'', [u'# Install the files and packages from the metadata', u'']]}, {u'Fn::Join': [u'', [u'/opt/aws/bin/cfn-init -v  --stack ', {u'Ref': u'AWS::StackId'}, u'  --resource LaunchConfig  --region ""$REGION""', u'']]}, {u'Fn::Join': [u'', [u'# Signal the status from cfn-init', u'']]}, {u'Fn::Join': [u'', [u'/opt/aws/bin/cfn-signal -e $?  --stack ', {u'Ref': u'AWS::StackId'}, u'  --resource WebServerGroup   --region ""$REGION""', u'']]}]]}}"
 Resources.AWS::SSM::Document.Properties.Content.parameters.PostUpdateScript.default,none
 Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
@@ -174,24 +151,20 @@ Resources.AWS::SSM::Document.Properties.Content.parameters.IncludePackages.type,
 Resources.AWS::SSM::Document.Properties.Content.parameters.ExcludePackages.default,none
 Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Count,1
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
-Parameters.InstanceCount.Type,Number
 Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaRolePolicy1
 Resources.AWS::SSM::Document.Properties.Content.parameters.sourceRegion.description,sourceRegion
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'ssm.amazonaws.com', u'ec2.amazonaws.com']}}]"
 Resources.AWS::SSM::Parameter.Properties.Value,test
 Resources.AWS::CodeBuild::Project.Properties.TimeoutInMinutes,10
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,true
-Resources.AWS::AutoScaling::ScalingPolicy.Type,AWS::AutoScaling::ScalingPolicy
 Outputs.ASGName.Value,{u'Ref': u'WebServerGroup'}
 Resources.AWS::SSM::Document.Properties.Content.parameters.TargetAmiName.type,String
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,2
 Outputs.SSMAutomationDocument.Description,SSMAutomationDocument Name
 Outputs.CodeBuildProject.Value,{u'Ref': u'CodeBuildJavaProject'}
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Mappings.AWSRegionArch2AMI.ca-central-1.PV64,NOT_SUPPORTED
 Outputs.CloneUrlSsh.Value,"{u'Fn::Join': [u'', [u'git clone ', {u'Fn::GetAtt': [u'CodeCommitJavaRepo', u'CloneUrlSsh']}, u'']]}"
 Outputs.ElasticLoadBalancer.Description,ElasticLoadBalancer Name
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-ea26ce85
-Resources.AWS::CodeCommit::Repository.Type,AWS::CodeCommit::Repository
 Resources.AWS::CodeCommit::Repository.Properties.RepositoryDescription,CodeCommit Repository

@@ -16,14 +16,11 @@ Outputs.ApiDns.Description,API DNS name
 Outputs.NatAz3DnsName.Description,NAT AZ3 DNS Name
 Parameters.DeploymentName.MaxLength,16
 Outputs.NatDns.Value,"{u'Fn::Join': [u'.', [u'nat', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
-Parameters.Availability.Type,String
 Outputs.NatAz3DnsName.Condition,MultiAz
 Parameters.Availability.Default,SingleAZ
 Resources.AWS::Route53::RecordSetGroup.Condition,SingleAz
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
-Parameters.DeploymentName.Type,String
 Resources.AWS::Route53::RecordSetGroup.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-HostedZone'}}, u'.']]}"
-Resources.AWS::Route53::RecordSetGroup.Type,AWS::Route53::RecordSetGroup
 Parameters.Availability.Description,Availability Type
 Parameters.DeploymentName.MinLength,1
 Outputs.NatAz1DnsName.Value,"{u'Fn::Join': [u'.', [u'nat-z1', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"

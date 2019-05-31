@@ -3,29 +3,18 @@ Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH and Reg
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::Route53::RecordSet.Properties.TTL,300
 Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Ref': u'DnsZone'}, u'.']]}"
-Resources.AWS::Route53::RecordSet.Properties.Type,NS
 Parameters.SubnetId.Description,The Subnet ID for the instance
 Parameters.VpcId.Description,VPC associated with the provided subnet
-Parameters.VpcId.Type,String
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
-Parameters.KeyName.Type,String
 Parameters.GoPackage.Default,github.com/ConradIrwin/aws-name-server
-Parameters.Ami.Type,String
 Parameters.DnsPrefix.Description,Prefix for the NS record (<prefix>.<zone>)
 Parameters.GoPackage.Description,The go package to build
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'apt-get update\n', u'apt-get install -y golang git unattended-upgrades\n', u'# Automatic security updates\n', u'cat > /etc/apt/apt.conf.d/20auto-upgrades <<EOF\n', u'APT::Periodic::Update-Package-Lists ""1"";\n', u'APT::Periodic::Unattended-Upgrade ""1"";\n', u'EOF\n', u'export GOPATH=/usr/local\n', u'go get ', {u'Ref': u'GoPackage'}, u'\n', u'setcap cap_net_bind_service=+ep /usr/local/bin/aws-name-server\n', u'cat << EOF > /etc/init/aws-name-server.conf\n', u'# upstart script for aws-name-server\n', u'description     ""AWS Name Server""\n\n', u'start on filesystem or runlevel [2345]\n', u'stop on runlevel [!2345]\n\n', u'respawn\n', u'respawn limit 10 5\n', u'setuid nobody\n', u'setgid nogroup\n\n', u'exec /usr/local/bin/aws-name-server --domain ', {u'Ref': u'DnsPrefix'}, u'.', {u'Ref': u'DnsZone'}, u'\nEOF\n\n', u'initctl start aws-name-server\n']]}}"
-Parameters.SubnetId.Type,String
 Parameters.AdminSecurityGroup.Description,"Existing security group that should be granted administrative access (e.g., 'sg-123456')"
-Parameters.AdminSecurityGroup.Type,String
 Parameters.DnsPrefix.Default,aws
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Parameters.DnsZone.Description,Route53-hosted zone to use for the NS record (<prefix>.<zone>)
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::Route53::RecordSet.Properties.Comment,AWS Name Server
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Parameters.DnsZone.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'53', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'53'}, {u'ToPort': u'53', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'53'}]"
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
@@ -33,11 +22,8 @@ Parameters.Ami.Default,ami-acff23c4
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'SubnetId'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Ref': u'ServerSecurityGroup'}, {u'Ref': u'AdminSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
 Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'DnsPrefix'}, u'.', {u'Ref': u'DnsZone'}, u'.']]}"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.Ami.Description,The EC2 AMI (64bit HVM-based EBS-backed Ubuntu 14.04 recommended)
-Parameters.DnsPrefix.Type,String
 Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'Ami'}
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'Ec2DescribeInstances', u'PolicyDocument': {u'Statement': [{u'Action': u'ec2:DescribeInstances', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'NameServer', u'PublicDnsName']}]"
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'Role'}]
-Parameters.GoPackage.Type,String

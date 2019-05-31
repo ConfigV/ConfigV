@@ -1,5 +1,4 @@
 Parameters.QSS3KeyPrefix.AllowedPattern,^[0-9a-zA-Z-/]*$
-Parameters.SPISOImageURI.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.RestoreModePassword,{u'Ref': u'RestoreModePassword'}
 Parameters.SQLServiceAccountPassword.MaxLength,32
 Parameters.WSFCNode1NetBIOSName.MaxLength,15
@@ -15,14 +14,10 @@ Parameters.PublicSubnet2CIDR.Default,10.0.144.0/20
 Parameters.IncludeOfficeOnlineServer.AllowedValues,"[u'true', u'false']"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WSFCNode1NetBIOSName.default,WSFC Node 1 NetBIOS Name
 Parameters.IncludeEdge.Default,false
-Parameters.PrivateSubnet2CIDR.Type,String
-Parameters.EXCH2PrivateIP1.Type,String
 Parameters.SPTopology.Description,Specify the topology for the SharePoint farm to be deployed. Allowed values are traditional or streamlined
 Parameters.EXCH2PrivateIP2.Description,Secondary private IP for the second Exchange Server
 Parameters.WSFCNode2PrivateIP2.Description,Secondary private IP for WSFC cluster on second WSFC Node
 Parameters.PrivateSubnet1CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
-Parameters.QSS3KeyPrefix.Type,String
-Parameters.ADServer1PrivateIP.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet2CIDR.default,Public Subnet 2 CIDR
 Parameters.WSFCNode1NetBIOSName.MinLength,1
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.IncludeOfficeOnlineServer.default,Include Office Online Servers
@@ -40,18 +35,14 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.LE2PublicIp,{u'Ref': 
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCCIDR,{u'Ref': u'VPCCIDR'}
 Parameters.IncludeEdge.Description,Set this parameter to true to include Exchange Edge Transport servers in the public subnets
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.LE2PrivateIp,{u'Ref': u'LE2PrivateIp'}
-Parameters.WSFCFileServerPrivateIP.Type,String
 Parameters.SPFarmAccount.MaxLength,25
-Parameters.RDGWCIDR.Type,String
 Parameters.DomainAdminPassword.NoEcho,true
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SQLServerAccessSecurityGroupID,"{u'Fn::GetAtt': [u'SQLStack', u'Outputs.SQLServerAccessSecurityGroupID']}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServer2PrivateIP,{u'Ref': u'ADServer2PrivateIP'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ADServer2PrivateIP.default,Domain Controller 2 Private IP Address
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPC,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPCID']}"
 Parameters.SPFarmAccountPassword.NoEcho,true
-Parameters.SPFarmAccount.Type,String
 Parameters.WSFCFileServerPrivateIP.Default,10.0.0.200
-Parameters.DomainAdminPassword.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1ACIDR,{u'Ref': u'PrivateSubnet1CIDR'}
 Parameters.PrivateSubnet1CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Parameters.PrivateSubnet1CIDR.Default,10.0.0.0/19
@@ -69,12 +60,8 @@ Parameters.SQLServiceAccountPassword.MinLength,8
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EXCH2PrivateIP1,{u'Ref': u'EXCH2PrivateIP1'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EXCH2PrivateIP2,{u'Ref': u'EXCH2PrivateIP2'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Fn::Sub': u'${QSS3KeyPrefix}submodules/quickstart-microsoft-wapadfs/'}
-Parameters.LE1PrivateIp.Type,String
 Parameters.WSFCNode2PrivateIP3.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EXCH2PrivateIP2.default,Exchange Server 2 Private IP Address 2
-Parameters.EXCH2PrivateIP2.Type,String
-Parameters.SQLServerVersion.Type,String
-Parameters.ELBConfiguration.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.LyncISOImageURI,{u'Ref': u'LyncISOImageURI'}
 Parameters.SPKey.Default,NQGJR-63HC8-XCRQH-MYVCH-3J3QR
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPCID']}"
@@ -82,16 +69,10 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServer2NetBIOSName,
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ELBConfiguration,{u'Ref': u'ELBConfiguration'}
 Parameters.LE2PrivateIp.Default,10.0.32.161
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EXCH2PrivateIP1.default,Exchange Server 2 Private IP Address 1
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
-Parameters.FE1PrivateIp.Type,String
-Parameters.RestoreModePassword.Type,String
 Rules.KeyPairsNotEmpty.Assertions,"[{u'Assert': {u'Fn::Not': [{u'Fn::EachMemberEquals': [{u'Fn::RefAll': u'AWS::EC2::KeyPair::KeyName'}, u'']}]}, u'AssertDescription': u'All key pair parameters must not be empty'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,Quick Start S3 Key Prefix
-Parameters.WSFCNode1PrivateIP3.Type,String
-Parameters.WSFCNode1NetBIOSName.Type,String
 Parameters.SPTopology.Default,traditional
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1CIDR,{u'Ref': u'PrivateSubnet1CIDR'}
-Parameters.SPKey.Type,String
 Parameters.ADServer2NetBIOSName.Default,DC2
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SPISOImageURI.default,Installation Media ISO Image File URI
 Parameters.SQLServiceAccount.MaxLength,25
@@ -101,16 +82,13 @@ Parameters.IncludeLyncEdge.Description,Set this parameter to true to include Lyn
 Parameters.DomainNetBIOSName.AllowedPattern,[a-zA-Z0-9]+
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DomainDNSName,{u'Ref': u'DomainDNSName'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.LyncISOImageURI.default,Installation Media ISO Image File URI
-Parameters.SQLServiceAccountPassword.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.IncludeEdge.default,Include Exchange Edge Transport Servers
-Parameters.EXCH1PrivateIP1.Type,String
 Parameters.SPISOImageURI.Description,"S3 URI to an S3 bucket containing the SharePoint Server 2016 installation media ISO image file (e.g., s3://sample-bucket/microsoft/sharepoint/installation-media.iso). An HTTP/HTTPS URI can also be used (e.g., https://example.com/microsoft/sharepoint/installation-media.iso)"
 Parameters.QSS3BucketName.ConstraintDescription,"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,Quick Start S3 Bucket Name
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WSFCNode1PrivateIP3.default,WSFC Node 1 Private IP Address 3
 Parameters.VPCCIDR.AllowedPattern,[a-zA-Z0-9]+\..+
 Parameters.SQLServerVersion.Default,2016
-Parameters.QSS3BucketName.Type,String
 Parameters.WSFCNode1PrivateIP2.Description,Secondary private IP for WSFC cluster on first WSFC Node
 Parameters.EXCH2PrivateIP1.Description,Primary private IP for the second Exchange Server
 Parameters.KeyPairName.Description,Public/private key pairs allow you to securely connect to your instance after it launches
@@ -130,7 +108,6 @@ Parameters.DomainAdminPassword.AllowedPattern,"(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z]
 Parameters.ADServer1NetBIOSName.MaxLength,15
 Parameters.DomainDNSName.MaxLength,25
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet1CIDR.default,Public Subnet 1 CIDR
-Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.IncludeLyncEdge.default,Include Lync Edge Servers
 Parameters.WSFCNode1PrivateIP1.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
 Parameters.DomainAdminUser.Description,"User name for the account that will be added as Domain Administrator. This is separate from the default ""Administrator"" account"
@@ -149,9 +126,7 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u
 Parameters.PublicSubnet1CIDR.Default,10.0.128.0/20
 Parameters.SPFarmAccountPassword.MaxLength,32
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDGWCIDR.default,Allowed Remote Desktop Gateway External Access CIDR
-Parameters.PrivateSubnet1CIDR.Type,String
 Parameters.LE2PrivateIp.Description,Primary private IP for the second Edge Server
-Parameters.PublicSubnet1CIDR.Type,String
 Parameters.EXCH2PrivateIP2.Default,10.0.32.151
 Parameters.PublicSubnet1CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.WSFCNode1PrivateIP3.Description,Third private IP for Availability Group Listener on first WSFC Node
@@ -169,43 +144,33 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': 
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ADServer1PrivateIP.default,Domain Controller 1 Private IP Address
 Parameters.DomainAdminUser.Default,StackAdmin
 Parameters.RestoreModePassword.MinLength,8
-Parameters.PublicSubnet2CIDR.Type,String
 Parameters.ADServer1PrivateIP.Description,Fixed private IP for the first Active Directory server located in AZ1
-Parameters.LyncISOImageURI.Type,String
 Resources.AWS::CloudFormation::Stack.DependsOn,ADStack
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DomainNetBIOSName,{u'Ref': u'DomainNetBIOSName'}
 Parameters.ADServer1NetBIOSName.AllowedPattern,[a-zA-Z0-9]+
-Parameters.WSFCNode2PrivateIP3.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.FE2PrivateIp,{u'Ref': u'FE2PrivateIp'}
 Parameters.FE1PrivateIp.Default,10.0.0.160
 Parameters.EXCH2PrivateIP1.Default,10.0.32.150
 Parameters.WSFCNode1PrivateIP2.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
-Parameters.VPCCIDR.Type,String
 Parameters.ADServer1NetBIOSName.Default,DC1
-Parameters.FE2PrivateIp.Type,String
 Parameters.IncludeLyncEdge.AllowedValues,"[u'true', u'false']"
 Parameters.DomainAdminPassword.MinLength,8
 Parameters.RestoreModePassword.NoEcho,True
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServerNetBIOSName1,{u'Ref': u'ADServer1NetBIOSName'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServerNetBIOSName2,{u'Ref': u'ADServer2NetBIOSName'}
-Parameters.IncludeOfficeOnlineServer.Type,String
 Parameters.ELBConfiguration.Default,external
 Parameters.WSFCNode1PrivateIP2.Default,10.0.0.101
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SPTopology,{u'Ref': u'SPTopology'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WSFCNode2NetBIOSName,{u'Ref': u'WSFCNode2NetBIOSName'}
-Parameters.SPFarmAccountPassword.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet1,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet1ID']}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet2ID']}"
-Parameters.WSFCNode2NetBIOSName.Type,String
 Parameters.RDGWCIDR.Description,Allowed CIDR Block for external access to the Remote Desktop Gateways
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SPFarmAccountPassword,{u'Ref': u'SPFarmAccountPassword'}
 Parameters.LE1PrivateIp.Default,10.0.0.161
-Parameters.DomainAdminUser.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SQLServerVersion.default,Version
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SQLServiceAccountPassword,{u'Ref': u'SQLServiceAccountPassword'}
 Parameters.SQLServiceAccountPassword.NoEcho,true
 Parameters.WSFCFileServerPrivateIP.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
-Parameters.WSFCNode2PrivateIP2.Type,String
 Parameters.PublicSubnet2CIDR.Description,CIDR Block for the public DMZ subnet 2 located in Availability Zone 2
 Parameters.SQLServiceAccount.AllowedPattern,[a-zA-Z0-9]*
 Parameters.EXCH1PrivateIP1.Description,Primary private IP for the first Exchange Server
@@ -223,13 +188,10 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2CIDR,{u'
 Parameters.WSFCNode2PrivateIP1.Description,Primary private IP for the second WSFC Node located in Availability Zone 2
 Parameters.DomainNetBIOSName.MaxLength,15
 Parameters.LE1PublicIp.Description,Primary public subnet IP for the first Lync Edge Server
-Parameters.DomainDNSName.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WSFCNode1PrivateIP1,{u'Ref': u'WSFCNode1PrivateIP1'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WSFCNode2NetBIOSName.default,WSFC Node 2 NetBIOS Name
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WSFCNode1PrivateIP3,{u'Ref': u'WSFCNode1PrivateIP3'}
-Parameters.WSFCNode1PrivateIP1.Type,String
 Parameters.IncludeOfficeOnlineServer.Default,false
-Parameters.SPTopology.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ADServer2NetBIOSName.default,Domain Controller 2 NetBIOS Name
 Parameters.QSS3KeyPrefix.Default,quickstart-microsoft-servers/
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SPFarmAccountPassword.default,Farm Account Password
@@ -251,12 +213,10 @@ Parameters.WSFCNode1PrivateIP3.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WSFCNode2PrivateIP3.default,WSFC Node 2 Private IP Address 3
 Parameters.PrivateSubnet2CIDR.Default,10.0.32.0/19
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServer1PrivateIP,{u'Ref': u'ADServer1PrivateIP'}
-Parameters.EXCH1PrivateIP2.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ADServer1NetBIOSName.default,Domain Controller 1 NetBIOS Name
 Parameters.DomainNetBIOSName.Default,example
 Parameters.WSFCNode1PrivateIP1.Description,Primary private IP for the first WSFC Node located in Availability Zone 1
 Parameters.VPCCIDR.Description,CIDR Block for the VPC
-Parameters.LE2PrivateIp.Type,String
 Parameters.SQLServiceAccountPassword.AllowedPattern,"(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServer1PrivateIp,{u'Ref': u'ADServer1PrivateIP'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.LE2PrivateIp.default,Lync Edge Server 2 Private IP Address
@@ -281,15 +241,12 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.SPISOImageURI,{u'Ref'
 Parameters.WSFCNode2PrivateIP2.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServer1NetBIOSName,{u'Ref': u'ADServer1NetBIOSName'}
 Parameters.DomainDNSName.Description,Fully qualified domain name (FQDN) of the forest root domain e.g. example.com
-Parameters.ADServer2PrivateIP.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyPairName.default,Key Pair Name
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainAdminUser.default,Domain Admin User Name
 Parameters.SPFarmAccount.Description,User name for the SP Farm account.
-Parameters.WSFCNode2PrivateIP1.Type,String
 Parameters.WSFCNode1PrivateIP1.Default,10.0.0.100
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WSFCNode1PrivateIP2.default,WSFC Node 1 Private IP Address 2
 Parameters.WSFCNode2PrivateIP3.Description,Third private IP for Availability Group Listener on second WSFC Node
-Parameters.LE1PublicIp.Type,String
 Parameters.WSFCNode2NetBIOSName.AllowedPattern,[a-zA-Z0-9]+
 Parameters.LE2PublicIp.Description,Primary public subnet IP for the second Edge Server
 Parameters.ADServer2NetBIOSName.AllowedPattern,[a-zA-Z0-9]+
@@ -301,7 +258,6 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet2,"{u'Fn
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ADServer2PrivateIp,{u'Ref': u'ADServer2PrivateIP'}
 Parameters.ADServer2NetBIOSName.Description,NetBIOS name of the 2nd AD Server (upto 15 characters)
 Parameters.DomainDNSName.AllowedPattern,[a-zA-Z0-9]+\..+
-Parameters.ADServer2NetBIOSName.Type,String
 Parameters.EXCH1PrivateIP2.Description,Secondary private IP for the first Exchange Server
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SQLServerVersion,{u'Ref': u'SQLServerVersion'}
 Parameters.RestoreModePassword.AllowedPattern,"(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*"
@@ -309,25 +265,18 @@ Parameters.ADServer1PrivateIP.Default,10.0.0.10
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1ID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet1AID']}"
 Parameters.WSFCNode1NetBIOSName.Description,NetBIOS name of the 1st WSFC Node (up to 15 characters)
 Parameters.PublicSubnet1CIDR.Description,CIDR Block for the public DMZ subnet 1 located in Availability Zone 1
-Parameters.WSFCNode1PrivateIP2.Type,String
-Parameters.ADServer1NetBIOSName.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.LE1PublicIp.default,Lync Edge Server 1 Public IP Address
 Parameters.WSFCNode2NetBIOSName.Default,WSFCNode2
 Parameters.SPISOImageURI.AllowedPattern,^(?i)(s3|http|https):\/\/.+
 Parameters.ADServer1NetBIOSName.MinLength,1
-Parameters.DomainNetBIOSName.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainDNSName.default,Domain DNS Name
-Parameters.SQLServiceAccount.Type,String
-Parameters.LE2PublicIp.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WSFCNode1PrivateIP2,{u'Ref': u'WSFCNode1PrivateIP2'}
-Parameters.IncludeEdge.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.FE2PrivateIp.default,Lync Front End Server 2 Private IP Address
 Parameters.WSFCNode2PrivateIP1.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
 Parameters.RestoreModePassword.Description,"Password for a separate Administrator account when the domain controller is in Restore Mode. Must be at least 8 characters containing letters, numbers and symbols"
 Parameters.DomainAdminUser.MinLength,5
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
 Parameters.WSFCNode2NetBIOSName.MinLength,1
-Parameters.IncludeLyncEdge.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EXCH1PrivateIP2,{u'Ref': u'EXCH1PrivateIP2'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EXCH1PrivateIP1,{u'Ref': u'EXCH1PrivateIP1'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2ID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet2ID']}"

@@ -2,7 +2,6 @@ Outputs.LambdaRoleArn.Value,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaRole'}]
 Resources.AWS::Lambda::EventSourceMapping.DependsOn,"[u'JobStreamDynamoDBTable', u'LambdaScraperQueueCombinedPolicy', u'LambdaRoleInstanceProfile', u'LambdaRole']"
-Resources.Custom::ApiResource.Type,Custom::ApiResource
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.Custom::ApiMethod.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
 Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/x-www-form-urlencoded,"## convert HTML POST data or HTTP GET query string to JSON
@@ -57,13 +56,11 @@ Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/
 #end
 }"
 Resources.Custom::ApiResource.Properties.restApiId,{u'Ref': u'RestApi'}
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.Custom::ApiMethod.Properties.method.httpMethod,GET
 Resources.AWS::Lambda::Function.Properties.Description,QueueJob
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'QueueJobLambdaFunction', u'Arn']}"
 Parameters.TagName.Description,Tag for resources
 Parameters.NewResources.AllowedValues,"[u'true', u'false']"
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
 Resources.AWS::Lambda::EventSourceMapping.Properties.EventSourceArn,"{u'Fn::GetAtt': [u'JobStreamDynamoDBTable', u'StreamArn']}"
 Resources.AWS::Lambda::Function.Properties.Timeout,30
@@ -75,10 +72,7 @@ Outputs.LambdaRoleArn.Description,ARN for LambdaRole
 Resources.Custom::ApiMethod.Properties.integration.uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'GetJobStatusLambdaFunction', u'Arn']}, u'/invocations']]}"
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"exports.handler = function(event, context) { context.fail('Not Implemented'); };"
-Parameters.ServiceToken.Type,String
-Resources.AWS::Lambda::EventSourceMapping.Type,AWS::Lambda::EventSourceMapping
 Resources.Custom::RestApi.Properties.name,Scraper Queue
 Resources.AWS::Lambda::Function.Properties.Handler,lib/index.handler
 Parameters.NewResources.Default,false
@@ -89,26 +83,17 @@ Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUni
 Parameters.NewResources.Description,Include new resources (still being developed)
 Resources.AWS::Lambda::Function.Properties.MemorySize,128
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'id', u'AttributeType': u'S'}]"
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.Custom::ApiMethod.Properties.responses..*Error.*.statusCode,400
 Resources.Custom::ApiMethod.Properties.resourceId,{u'Ref': u'JobsJobIdApiResource'}
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Parameters.NewResources.Type,String
 Resources.Custom::ApiMethod.Properties.restApiId,{u'Ref': u'RestApi'}
-Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
-Resources.Custom::ApiMethod.Type,Custom::ApiMethod
 Resources.Custom::ApiResource.Properties.corsConfiguration.allowDefaultHeaders,True
-Resources.Custom::RestApi.Type,Custom::RestApi
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': u's3:*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'WebsiteS3'}, u'/*']]}, u'Effect': u'Allow'}, {u'Action': u'dynamodb:*', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/', {u'Ref': u'JobStreamDynamoDBTable'}]]}, u'Effect': u'Allow'}, {u'Action': [u'dynamodb:GetRecords', u'dynamodb:GetShardIterator', u'dynamodb:DescribeStream', u'dynamodb:ListStreams'], u'Resource': {u'Fn::GetAtt': [u'JobStreamDynamoDBTable', u'StreamArn']}, u'Effect': u'Allow'}]"
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'WebsiteS3'}, u'/*']]}], u'Effect': u'Allow', u'Principal': {u'AWS': {u'Fn::GetAtt': [u'LambdaRole', u'Arn']}}}, {u'Action': [u's3:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'WebsiteS3'}, u'/*']]}], u'Effect': u'Allow', u'Principal': u'*'}]"
 Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/json.jobId,$input.params('jobId')
 Resources.Custom::ApiMethod.Properties.responses..*NotFound.*.statusCode,404
 Resources.Custom::ApiResource.Properties.pathPart,{jobId}
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
-Parameters.TagName.Type,String
 Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaScraperQueueCombined
 Resources.Custom::ApiResource.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"

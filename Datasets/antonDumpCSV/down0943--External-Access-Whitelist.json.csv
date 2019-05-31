@@ -3,10 +3,8 @@ Parameters.WhitelistedCidr.AllowedPattern,"^(([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1
 Parameters.CidrDescription.AllowedPattern,^[0-9a-zA-Z -]*$
 Parameters.CfSshSecurityGroup.ConstraintDescription,Valid security group
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Parameters.CidrDescription.Default,
 Parameters.WhitelistedCidr.ConstraintDescription,Valid CIDR
-Parameters.DirectorSecurityGroup.Type,String
 Parameters.DirectorSecurityGroup.ConstraintDescription,Valid security group
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,25555
 Parameters.CfSshSecurityGroup.AllowedPattern,^(sg-[0-9a-f]{8})?$
@@ -18,11 +16,9 @@ Parameters.DirectorSecurityGroup.Default,
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'DirectorSecurityGroup'}
 Parameters.CidrDescription.ConstraintDescription,Valid description
 Parameters.CfSshSecurityGroup.Description,SSH ELB Security Group
-Parameters.CidrDescription.Type,String
 Resources.AWS::EC2::SecurityGroupIngress.Properties.Description,"{u'Fn::Join': [u' ', [{u'Fn::If': [u'CidrDescription', {u'Ref': u'CidrDescription'}, {u'Ref': u'DefaultCidrDescription'}]}, u'To Direcrtor Load Balancer Security Group TCP Port 25555 (messagebus)']]}"
 Parameters.WhitelistedCidr.Description,CIDR to whitelist
 Parameters.CidrDescription.Description,Description of CIDR
-Parameters.ApplicationLbSecurityGroup.Type,String
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,25555
 Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,{u'Ref': u'WhitelistedCidr'}
 Parameters.DefaultCidrDescription.ConstraintDescription,Valid description
@@ -30,9 +26,6 @@ Parameters.DefaultCidrDescription.AllowedPattern,^[0-9a-zA-Z -]+$
 Parameters.DefaultCidrDescription.Default,Whitelisted CIDR
 Parameters.CfSshSecurityGroup.Default,
 Parameters.ApplicationLbSecurityGroup.Default,
-Parameters.CfSshSecurityGroup.Type,String
-Parameters.DefaultCidrDescription.Type,String
 Parameters.WhitelistedCidr.Default,
-Parameters.WhitelistedCidr.Type,String
 Parameters.DefaultCidrDescription.Description,Default Description of CIDR - CidrDescription should be used instead
 Parameters.ApplicationLbSecurityGroup.AllowedPattern,^(sg-[0-9a-f]{8})?$

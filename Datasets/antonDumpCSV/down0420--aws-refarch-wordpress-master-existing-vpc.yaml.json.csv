@@ -3,22 +3,17 @@ Resources.AWS::CloudFormation::Stack.DependsOn,[u'securitygroups']
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPTitle,WPTitle
 Parameters.NumberOfWebSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicAlbAcmCertificate.default,ALB Certificate ARN
-Parameters.DatabaseName.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EmailAddress,AdminEmail
 Parameters.UseElastiCacheBoolean.AllowedValues,"[True, False]"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EncrpytedBoolean,EfsEncrpytedBoolean
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SshAccessCidr.default,SSH Access From
 Parameters.DatabaseName.AllowedPattern,^([a-zA-Z0-9]*)$
-Parameters.NumberOfPublicSubnets.Type,Number
-Parameters.EC2KeyName.Type,AWS::EC2::KeyPair::KeyName
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseEncrpytedBoolean.default,Encrypted DB Cluster
 Parameters.DatabaseEncrpytedBoolean.Default,True
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebSubnet.default,Web subnets
-Parameters.DataSubnet.Type,List<AWS::EC2::Subnet::Id>
 Parameters.EfsEncrpytedBoolean.AllowedValues,"[True, False]"
 Parameters.PublicSubnet.Description,Select existing public subnet ids. The number selected must match the number of subnets above.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfSubnets,NumberOfPublicSubnets
-Parameters.VpcId.Type,AWS::EC2::VPC::Id
 Parameters.EfsCriticalThreshold.ConstraintDescription,Must be an integer.
 Parameters.DatabaseCmk.Description,AWS KMS Customer Master Key (CMK) to encrypt database cluster
 Parameters.WPTitle.Default,This is a new WordPress site on Amazon Web Services
@@ -27,24 +22,18 @@ Parameters.WPVersion.Description,The WordPress version (make sure this version i
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseName,DatabaseName
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseMasterUsername.default,DB Master Username
 Parameters.EfsEncrpytedBoolean.Default,True
-Parameters.WebAsgMin.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.BurstCreditBalanceIncreaseAlarmArn,"[u'efsalarms', u'Outputs.BurstCreditBalanceIncreaseAlarmArn']"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.UseRoute53Boolean.default,DNS record set (Route53)
 Parameters.EfsCmk.Description,[ Optional ] The AWS KMS customer-managed CMK ARN to encrypt & decrypt the EFS file system.
-Parameters.WPTitle.Type,String
 Parameters.WPAdminUsername.Description,The WordPress admin username.
 Parameters.WPAdminPassword.ConstraintDescription,"Must be letters (upper or lower), numbers, spaces, and these special characters `~!#$%^&*()_+,-"
 Parameters.EfsCmk.ConstraintDescription,Must be an existing ARN for an AWS KMS CMK.
 Resources.AWS::CloudFormation::Stack.Condition,AvailableAWSRegion
-Parameters.CloudFrontAcmCertificate.Type,String
 Parameters.CloudFrontAcmCertificate.AllowedPattern,^$|(arn:aws:acm:)([a-z0-9/:-])*([a-z0-9])$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbFullName,"[u'publicalb', u'Outputs.PublicAlbFullName']"
 Parameters.UseCloudFrontBoolean.Description,Specifies whether a CloudFront Distribution should be created to serve the WordPress website content.
 Parameters.NumberOfDataSubnets.Default,3
-Parameters.NumberOfDataSubnets.Type,Number
-Parameters.PHPVersion.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebAsgMax,WebAsgMax
-Parameters.EfsCriticalThreshold.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Cmk,EfsCmk
 Parameters.WebAsgMax.Description,Specifies the maximum number of EC2 instances in the Web Autoscaling Group.
 Parameters.DatabaseMasterUsername.Description,The Amazon RDS master username.
@@ -53,10 +42,8 @@ Parameters.DataSubnet.Description,Select existing data subnet ids. The number se
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VpcId.default,VpcId
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.UseCloudFrontBoolean.default,CDN (CloudFront)
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseMasterPassword,DatabaseMasterPassword
-Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsCopyDataFrom.Type,String
 Parameters.AdminEmail.Description,The admin email address for WordPress and AWS notifications.
 Parameters.UseRoute53Boolean.Description,Specifies whether a record set should be created in Route 53 for your WordPress domain name. Requires custom domain name above.
-Parameters.DatabaseEncrpytedBoolean.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPDirectory,WPDirectory
 Parameters.EfsCreateAlarms.AllowedValues,"[True, False]"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SslCertificate,"[u'publicalb', u'Outputs.SslCertificate']"
@@ -78,7 +65,6 @@ Parameters.EfsGrowth.Description,Amount of dummy data (GiB) to add to the file s
 Parameters.DatabaseMasterPassword.NoEcho,True
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EC2KeyName,EC2KeyName
 Parameters.NumberOfPublicSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
-Parameters.EfsWarningThreshold.Type,String
 Parameters.UseElastiCacheBoolean.Description,Specifies whether an ElastiCache Cache Cluster should be created to cache WordPress database content.
 Parameters.WebAsgMin.Default,2
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfWebSubnets.default,Number of Web Subnets
@@ -103,7 +89,6 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.EfsCopyDataFrom,EfsCo
 Parameters.WebAsgMax.AllowedPattern,^((?!0$)[1-2]?[0-9]|30)$
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PHPVersion.default,PHP Version
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPLocale.default,Language Code
-Parameters.WPDomainName.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet.default,Public subnets
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPAdminEmail,AdminEmail
 Parameters.DatabaseMasterPassword.ConstraintDescription,"Must be letters (upper or lower), numbers, spaces, and these special characters `~!#$%^&*()_+,-"
@@ -111,19 +96,15 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.DataSubnet.default,Data 
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CloudFrontAcmCertificate.default,CloudFront Certificate ARN
 Parameters.ElastiCacheNodeType.AllowedValues,"[u'cache.t2.micro', u'cache.t2.small', u'cache.t2.medium', u'cache.m4.large', u'cache.m4.xlarge', u'cache.m4.2xlarge', u'cache.m4.4xlarge', u'cache.m4.10xlarge', u'cache.m3.medium', u'cache.m3.large', u'cache.m3.xlarge', u'cache.m3.2xlarge', u'cache.r3.large', u'cache.r3.xlarge', u'cache.r3.2xlarge', u'cache.r3.4xlarge', u'cache.r3.8xlarge']"
 Outputs.StackStatus.Value,"[u'AvailableAWSRegion', [u'', [u'Stack created in an available region: ', u'AWS::Region']], u""!!ERROR!!! - Nothing to do! - unavailable AWS Region. You must create this stack in an available AWS Region: 'us-east-1', 'us-east-2', 'us-west-2', 'eu-west-1', 'ap-southeast-2'.""]"
-Parameters.SshAccessCidr.Type,String
 Parameters.EfsPerformanceMode.AllowedValues,"[u'generalPurpose', u'maxIO']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Growth,EfsGrowth
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseRestoreSnapshot,DatabaseRestoreSnapshot
-Parameters.PublicAlbAcmCertificate.Type,String
 Parameters.PublicAlbAcmCertificate.Description,[ Optional ] The AWS Certification Manager certificate ARN for the ALB certificate - this certificate should be created in the region you wish to run the ALB and must reference the WordPress domain name you use below.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseCluster,"[u'rds', u'Outputs.DatabaseCluster']"
 Parameters.DatabaseMasterUsername.MinLength,8
-Parameters.AdminEmail.Type,String
 Parameters.WPVersion.Default,latest
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticFileSystem,"[u'efsfilesystem', u'Outputs.ElasticFileSystem']"
 Parameters.SshAccessCidr.Default,0.0.0.0/0
-Parameters.WPDirectory.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-publicalb.yaml
 Parameters.WPDomainName.Description,[ Optional ] The main domain name of the WordPress site (e.g. example.com).
 Parameters.NumberOfWebSubnets.Default,3
@@ -134,16 +115,12 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPDirectory.default,Site
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElastiCacheNodeType.default,Cache Cluster Node Type
 Parameters.DatabaseEncrpytedBoolean.AllowedValues,"[True, False]"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPDomainName,WPDomainName
-Parameters.DatabaseMasterUsername.Type,String
-Parameters.DatabaseCmk.Type,String
-Parameters.WebSubnet.Type,List<AWS::EC2::Subnet::Id>
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPAdminUsername.default,Admin Username
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseName.default,DB Name
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PerformanceMode,EfsPerformanceMode
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WarningAlarmArn,"[u'efsalarms', u'Outputs.WarningAlarmArn']"
 Parameters.VpcId.Description,The VPC Id
 Parameters.ElastiCacheNodeType.Default,cache.t2.medium
-Parameters.UseRoute53Boolean.Type,String
 Parameters.EfsWarningThreshold.ConstraintDescription,Must be an integer.
 Parameters.NumberOfDataSubnets.Description,Number of data subnets in the VPC.
 Parameters.DatabaseEncrpytedBoolean.Description,Indicates whether the DB instances in the cluster are encrypted.
@@ -152,16 +129,13 @@ Parameters.EfsCriticalThreshold.Default,60
 Parameters.UseCloudFrontBoolean.AllowedValues,"[True, False]"
 Parameters.SshAccessCidr.Description,The CIDR IP range that is permitted to SSH to bastion instance. Note - a value of 0.0.0.0/0 will allow access from ANY IP address.
 Parameters.ElastiCacheNodeType.ConstraintDescription,Must be a valid Amazon ElastiCache node type.
-Parameters.EfsPerformanceMode.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2KeyName.default,EC2 Key Pair
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.BurstCreditBalanceDecreaseAlarmArn,"[u'efsalarms', u'Outputs.BurstCreditBalanceDecreaseAlarmArn']"
-Parameters.EfsCreateAlarms.Type,String
 Parameters.NumberOfPublicSubnets.Description,Number of public subnets in the VPC.
 Parameters.WPLocale.Default,en_GB
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PHPVersion,PHPVersion
 Outputs.WPSiteUrl.Description,The URL of the WordPress site
 Parameters.EfsGrowth.MaxValue,6144
-Parameters.WPAdminPassword.Type,String
 Parameters.PHPVersion.AllowedValues,"[5.5, 5.6, 7]"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.CriticalAlarmArn,"[u'efsalarms', u'Outputs.CriticalAlarmArn']"
 Parameters.EC2KeyName.Description,Name of an EC2 KeyPair. Your bastion & Web instances will launch with this KeyPair.
@@ -175,12 +149,9 @@ Parameters.WPTitle.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9 _-]*)([a-zA-Z0-9])$
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsCmk.default,AWS KMS CMK for EFS
 Parameters.EfsCriticalThreshold.Description,Send critical alarm approx. this many minutes before Amazon EFS burst credit balance is zero.
 Parameters.WPDirectory.Description,The WordPress site directory.
-Parameters.WPLocale.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseRestoreSnapshot.Description,The snapshot name to restore from.
 Parameters.UseRoute53Boolean.Default,False
-Parameters.WPAdminUsername.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPAdminPassword,WPAdminPassword
-Parameters.WebAsgMax.Type,String
 Parameters.WebSubnet.Description,Select existing web subnet ids. The number selected must match the number of subnets above.
 Parameters.PHPIniOverride.Description,Full Amazon S3 https path to a php.ini override file (e.g. https://s3.amazonaws.com/aws-refarch/wordpress/latest/bits/20-aws.ini)
 Parameters.WPAdminPassword.AllowedPattern,"^([a-zA-Z0-9`~!#$%^&*()_+,\\-])*$"
@@ -190,19 +161,13 @@ Parameters.PHPVersion.Description,The version of PHP to install.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPAdminPassword.default,Admin Password
 Outputs.StackStatus.Description,Master Stack Status
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.UseElastiCacheBoolean.default,Cache Cluster (ElastiCache)
-Parameters.EfsCmk.Type,String
-Parameters.PHPIniOverride.Type,String
-Parameters.UseCloudFrontBoolean.Type,String
 Parameters.DatabaseMasterPassword.MinLength,8
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseClusterEndpointAddress,"[u'rds', u'Outputs.DatabaseClusterEndpointAddress']"
-Parameters.ElastiCacheNodeType.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPDomainName.default,Site Domain
 Outputs.OpCacheValidationUrl.Description,A page to validate OpCache has been enabled for each instance in the ASG. Refresh the page to see the status of each instance in the ASG.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbTargetGroupArn,"[u'publicalb', u'Outputs.PublicAlbTargetGroupArn']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElastiCacheSecurityGroup,"[u'securitygroups', u'Outputs.ElastiCacheSecurityGroup']"
-Parameters.EfsGrowth.Type,Number
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseEncrpytedBoolean,DatabaseEncrpytedBoolean
-Parameters.WPVersion.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbAcmCertificate,PublicAlbAcmCertificate
 Parameters.EfsWarningThreshold.Default,180
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsEncrpytedBoolean.default,Encrpyted EFS?
@@ -210,23 +175,18 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.BastionSecurityGroup,
 Outputs.OpCacheValidationUrl.Value,"[u'', [[u'CreateRecordSet', [u'', [u'http://www.', u'WPDomainName']], [u'DeployCloudFront', [u'cloudfront', u'Outputs.DnsHostname'], [u'publicalb', u'Outputs.PublicAlbHostname']]], u'/opcache-instanceid.php']]"
 Parameters.WPTitle.Description,The WordPress website title.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPAdminUsername,WPAdminUsername
-Parameters.UseElastiCacheBoolean.Type,String
 Parameters.NumberOfWebSubnets.Description,Number of web subnets in the VPC.
 Parameters.EfsCriticalThreshold.AllowedPattern,^[0-9]+$
 Parameters.WebAsgMin.Description,Specifies the minimum number of EC2 instances in the Web Autoscaling Group.
-Parameters.EfsEncrpytedBoolean.Type,String
 Parameters.DatabaseName.Description,The Amazon RDS master database name.
-Parameters.PublicSubnet.Type,List<AWS::EC2::Subnet::Id>
 Parameters.WPDirectory.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9_-])*([a-zA-Z0-9])$
 Parameters.UseRoute53Boolean.AllowedValues,"[True, False]"
 Parameters.WPAdminPassword.NoEcho,True
 Parameters.EfsCmk.AllowedPattern,^$|(arn:aws:kms:)([a-z0-9/:-])*([a-z0-9])$
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfDataSubnets.default,Number of Data Subnets
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbDnsName,"[u'publicalb', u'Outputs.PublicAlbDnsName']"
 Parameters.UseCloudFrontBoolean.Default,True
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfPublicSubnets.default,Number of Public Subnets
-Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseRestoreSnapshot.Type,String
 Parameters.WebAsgMax.ConstraintDescription,Must be a number between 1 and 30.
 Parameters.ElastiCacheNodeType.Description,The Amazon ElastiCache cluster node type.
 Parameters.EfsWarningThreshold.Description,Send warning alarm approx. this many minutes before Amazon EFS burst credit balance is zero.
@@ -240,14 +200,12 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsCopyDataFrom.Descript
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsPerformanceMode.default,EFS Performance Mode
 Parameters.DatabaseMasterUsername.AllowedPattern,^([a-zA-Z0-9]*)$
 Parameters.PHPVersion.Default,7
-Parameters.DatabaseMasterPassword.Type,String
 Parameters.EfsCreateAlarms.Default,True
 Parameters.WPDomainName.AllowedPattern,^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$
 Outputs.WPSiteUrl.Value,"[u'CreateRecordSet', [u'', [u'http://www.', u'WPDomainName']], [u'DeployCloudFront', [u'cloudfront', u'Outputs.DnsHostname'], [u'publicalb', u'Outputs.PublicAlbHostname']]]"
 Parameters.EfsCreateAlarms.Description,Create Amazon EFS burst credit balance alarms.
 Parameters.SshAccessCidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DnsEndpoint,"[u'DeployCloudFront', [u'cloudfront', u'Outputs.DnsEndpoint'], [u'publicalb', u'Outputs.PublicAlbDnsName']]"
-Parameters.NumberOfWebSubnets.Type,Number
 Parameters.DatabaseMasterUsername.ConstraintDescription,Must contain only alphanumeric characters (minimum 8; maximum 16).
 Parameters.EfsPerformanceMode.Default,generalPurpose
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.CloudFrontAcmCertificate,CloudFrontAcmCertificate

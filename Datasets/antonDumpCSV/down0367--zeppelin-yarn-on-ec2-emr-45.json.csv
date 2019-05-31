@@ -4,7 +4,6 @@ Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Parameters.EMRSlaveSecurityGroup.ConstraintDescription,Can contain only ASCII characters.
 Parameters.ZeppelinAccessLocation.Default,0.0.0.0/0
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Parameters.EMRMasterSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.files./home/ec2-user/zeppelin/conf/zeppelin-site.xml.mode,000644
 Parameters.SSHLocation.ConstraintDescription,Must be a valid IP CIDR range of the form x.x.x.x/x
 Parameters.KeyName.ConstraintDescription,Can contain only ASCII characters.
@@ -15,7 +14,6 @@ Parameters.ZeppelinAccessLocation.Description,The IP address range that can be u
 Parameters.ZeppelinVPCId.Description,Choose a VPC to launch your Zeppelin Instance
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.files./home/ec2-user/zeppelin/conf/zeppelin-env.sh.mode,000644
 Parameters.ZeppelinAccessLocation.MinLength,9
-Parameters.EMRSlaveSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
 Parameters.EMRMasterSecurityGroup.Description,Name of an existing EMR Master Security Group
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:*', u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
@@ -34,11 +32,8 @@ Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.02_build_zeppelin.ignoreErrors,true
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-a03503bd
 Parameters.ZeppelinAccessLocation.ConstraintDescription,Must be a valid IP CIDR range of the form x.x.x.x/x
-Parameters.ZeppelinVPCId.Type,AWS::EC2::VPC::Id
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Parameters.S3HadoopConfFolder.Default,mybucket/hadoopconf
-Parameters.S3HiveConfFolder.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.01_change_owner_zeppelin.ignoreErrors,true
 Parameters.EMRSlaveSecurityGroup.Description,Name of an existing EMR Master Security Group
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.files./home/ec2-user/zeppelin/conf/zeppelin-site.xml.owner,root
@@ -48,7 +43,6 @@ Parameters.S3HadoopConfFolder.Description,S3 bucket and folder which contains yo
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.files./home/ec2-user/prereqs/spark-1.6.1-bin-hadoop2.6/conf/spark-env.sh.source,https://raw.githubusercontent.com/awslabs/aws-big-data-blog/master/aws-blog-zeppelin-yarn-on-ec2/emr_versions/4.5/conf/spark-env.sh
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.cfn-hup.ensureRunning,true
 Mappings.AWSRegionArch2AMI.eu-central-1.HVMG2,ami-b03503ad
-Parameters.ZeppelinSubnetId.Type,AWS::EC2::Subnet::Id
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'MyRole'}]
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,"Enable access to Zeppelin over port 8080, access to EMR cluster through EMRMaster and EMRSlave Security Groups"
 Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Timeout,PT30M
@@ -67,30 +61,22 @@ Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'MyInstance
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.packages.yum.apache-maven,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.files./home/ec2-user/prereqs/spark-1.6.1-bin-hadoop2.6/conf/spark-env.sh.mode,000644
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ZeppelinVPCId'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.cfn-hup.enabled,true
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Parameters.SSHLocation.MinLength,9
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.commands.01-install-git.ignoreErrors,true
-Parameters.S3HadoopConfFolder.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'ZeppelinVPCID', u'ZeppelinSubnetId', u'EMRMasterSecurityGroup', u'EMRMasterSlaveGroup'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'InstanceType', u'KeyName'], u'Label': {u'default': u'Amazon EC2 Configuration'}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.InstallAndRun,"[u'Install', u'Configure']"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.files./home/ec2-user/zeppelin/conf/zeppelin-env.sh.owner,root
 Parameters.EMRMasterSecurityGroup.ConstraintDescription,Can contain only ASCII characters.
-Parameters.ZeppelinAccessLocation.Type,String
-Parameters.SSHLocation.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.01_change_owner_zeppelin.command,chown -R ec2-user /home/ec2-user/zeppelin
 Parameters.ZeppelinAccessLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.files./home/ec2-user/zeppelin/conf/zeppelin-env.sh.group,root
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.commands.01-install-git.command,git clone https://github.com/apache/incubator-zeppelin /home/ec2-user/zeppelin
 Parameters.ZeppelinSubnetId.Description,Choose a subnet to launch your Zeppelin Instance
 Parameters.SSHLocation.Default,0.0.0.0/0
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Interface.ParameterLabels.ZeppelinVPCID.default,Which VPC should this be deployed to?
 Resources.AWS::IAM::Policy.Properties.PolicyName,s3access
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-b43503a9

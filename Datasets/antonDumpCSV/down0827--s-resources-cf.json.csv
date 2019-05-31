@@ -2,7 +2,6 @@ Outputs.ClicksStreamARN.Value,"{u'Fn::GetAtt': [u'ClicksStream', u'Arn']}"
 Resources.AWS::CloudWatch::Alarm.Properties.MetricName,ApproximateNumberOfMessagesVisible
 Resources.AWS::Kinesis::Stream.Properties.ShardCount,1
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'userId'}, {u'KeyType': u'RANGE', u'AttributeName': u'id'}]"
 Outputs.PrecompileCampaignTopicARN.Value,{u'Ref': u'PrecompileCampaignTopic'}
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Version,2012-10-17
@@ -28,11 +27,8 @@ Resources.AWS::SQS::Queue.Properties.QueueName,${project}-${stage}-FreeUsersSend
 Outputs.AttachSenderTopicARN.Description,ARN of the AttachSender SNS topic
 Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanOrEqualToThreshold
 Outputs.UnsubscribedRecipientTopicARN.Value,{u'Ref': u'UnsubscribedRecipientTopic'}
-Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
 Outputs.SendCampaignTopicARN.Description,ARN of the SendCampaign SNS topic
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Statement,"[{u'Resource': {u'Ref': u'EmailNotificationsTopic'}, u'Effect': u'Allow', u'Sid': u'__default_statement_ID', u'Action': [u'SNS:Publish', u'SNS:RemovePermission', u'SNS:SetTopicAttributes', u'SNS:DeleteTopic', u'SNS:ListSubscriptionsByTopic', u'SNS:GetTopicAttributes', u'SNS:Receive', u'SNS:AddPermission', u'SNS:Subscribe'], u'Condition': {u'StringEquals': {u'AWS:SourceOwner': {u'Ref': u'AWS::AccountId'}}}, u'Principal': {u'AWS': u'*'}}, {u'Action': u'SNS:Publish', u'Principal': {u'AWS': u'*'}, u'Resource': {u'Ref': u'EmailNotificationsTopic'}, u'Effect': u'Allow', u'Sid': u'__console_pub_1'}]"
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
 Outputs.OpensStreamARN.Value,"{u'Fn::GetAtt': [u'OpensStream', u'Arn']}"
 Outputs.PaymentLogsTableStreamARN.Value,"{u'Fn::GetAtt': [u'PaymentLogsTable', u'StreamArn']}"
 Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'QueueName', u'Value': {u'Fn::GetAtt': [u'FreeUsersSendEmailQueue', u'QueueName']}}]"
@@ -69,7 +65,6 @@ Outputs.EventsStreamName.Value,{u'Ref': u'EventsStream'}
 Outputs.AttachListRecipientsTopicARN.Value,{u'Ref': u'AttachListRecipientsTopic'}
 Outputs.AttachRecipientsCountTopicARN.Value,{u'Ref': u'AttachRecipientsCountTopic'}
 Outputs.PrecompileCampaignTopicARN.Description,ARN of the PrecompileCampaign SNS topic
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::DynamoDB::Table.Properties.TableName,$${automationsTable}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Outputs.RecipientsTableStreamARN.Value,"{u'Fn::GetAtt': [u'RecipientsTable', u'StreamArn']}"
@@ -83,16 +78,12 @@ Outputs.PaymentLogsTableStreamARN.Description,Arn of the PaymentLogs DynamoDB Ta
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
 Outputs.UsersTableStreamARN.Value,"{u'Fn::GetAtt': [u'UsersTable', u'StreamArn']}"
 Resources.AWS::DynamoDB::Table.DependsOn,UsersTable
-Resources.AWS::SNS::TopicPolicy.Type,AWS::SNS::TopicPolicy
 Outputs.UpdateCampaignTopicARN.Description,ARN of the UpdateCampaign SNS topic
 Outputs.AttachSegmentRecipientsTopicARN.Value,{u'Ref': u'AttachSegmentRecipientsTopic'}
 Outputs.UpdateUserReputationTopicARN.Description,ARN of the UpdateUserReputation SNS topic
-Resources.AWS::SQS::QueuePolicy.Type,AWS::SQS::QueuePolicy
 Outputs.PrecompileEmailTopicARN.Description,ARN of the PrecompileEmailTopic SNS topic
 Resources.AWS::IAM::Role.Properties.Path,/
 Outputs.EventsStreamName.Description,Name of the Opens Kinesis Stream
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Outputs.UpdateListImportStatusTopicARN.Description,ARN of the UpdateListImportStatus SNS topic
 Outputs.EventsStreamARN.Value,"{u'Fn::GetAtt': [u'EventsStream', u'Arn']}"
 Resources.AWS::DynamoDB::Table.DeletionPolicy,Delete
@@ -103,7 +94,6 @@ Outputs.ClicksTableStreamARN.Value,"{u'Fn::GetAtt': [u'ClicksTable', u'StreamArn
 Outputs.EmailNotificationsTopicARN.Value,{u'Ref': u'EmailNotificationsTopic'}
 Outputs.OpensStreamARN.Description,Name of the Opens Kinesis Stream
 Outputs.UpdateCampaignTopicARN.Value,{u'Ref': u'UpdateCampaignTopic'}
-Resources.AWS::Kinesis::Stream.Type,AWS::Kinesis::Stream
 Resources.AWS::SQS::QueuePolicy.Properties.Queues,[{u'Ref': u'AwsMarketplaceNotificationsQueue'}]
 Resources.AWS::IAM::Policy.Properties.PolicyName,${stage}-${project}-lambda
 Resources.AWS::S3::Bucket.Properties.AccessControl,PublicReadWrite

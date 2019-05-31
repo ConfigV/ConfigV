@@ -1,11 +1,9 @@
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::KMS::Alias.Type,AWS::KMS::Alias
 Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.glue']
 Resources.AWS::Events::Rule.Properties.EventPattern.detail.state,[u'Succeeded']
 Resources.AWS::Lambda::Function.Properties.Description,A data lake microservice function for logging functionality
 Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'DataLakeSearchService'}
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"[u'/', [u'SourceKeyPrefix', u'data-lake-logging-service.zip']]"
-Resources.AWS::KMS::Key.Type,AWS::KMS::Key
 Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::KMS::Alias.Properties.TargetKeyId,{u'Ref': u'DataLakeKmsKey'}
@@ -14,21 +12,17 @@ Resources.AWS::IAM::ManagedPolicy.Properties.Description,Data Lake policy for th
 Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'Glue Crawler State Change']
 Resources.AWS::KMS::Alias.Properties.AliasName,"[u'', [u'alias/datalake-', {u'Ref': u'AWS::Region'}]]"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'DataLakeLoggingRole', u'Arn']}"
 Outputs.SearchArn.Description,ARN of data lake search services function
 Resources.AWS::IAM::Role.Properties.RoleName,"[u'-', [u'data-lake-manifest-role', {u'Ref': u'AWS::Region'}]]"
 Outputs.AdminArn.Description,ARN of data lake admin services function
 Outputs.AuthorizerArn.Value,DataLakeAuthorizerService.Arn
-Parameters.SourceKeyPrefix.Type,String
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Outputs.AuthorizerArn.Description,ARN of data lake API Gateway custom authorizer function
 Resources.AWS::Lambda::Function.Properties.Timeout,60
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,SourceS3Bucket
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': [u'-', [u'data-lake-glue-crawler-event-rule', {u'Ref': u'AWS::Region'}]], u'Arn': {u'Fn::GetAtt': [u'DataLakeSearchService', u'Arn']}}]"
 Outputs.CartArn.Value,DataLakeCartService.Arn
-Parameters.SourceS3Bucket.Type,String
 Resources.AWS::Lambda::Function.Properties.FunctionName,data-lake-logging-service
 Outputs.PackageArn.Description,ARN of data lake package services function
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.USER_POOL_ID,UserPoolId
@@ -37,13 +31,10 @@ Resources.AWS::Lambda::Function.Properties.MemorySize,256
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'', [u'arn:aws:logs:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':log-group:/aws/lambda/data-lake-manifest-service:*']], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:BatchGetItem', u'dynamodb:BatchWriteItem', u'dynamodb:DeleteItem', u'dynamodb:GetItem', u'dynamodb:PutItem', u'dynamodb:Query', u'dynamodb:Scan', u'dynamodb:UpdateItem'], u'Resource': [[u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/data-lake-settings']], [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/data-lake-cart']], [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/data-lake-datasets']]], u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction'], u'Resource': [{u'Fn::GetAtt': [u'DataLakeAdminService', u'Arn']}], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject'], u'Resource': [u'arn:aws:s3:::*'], u'Effect': u'Allow'}, {u'Action': [u's3:ListBucket', u's3:PutObject'], u'Resource': [[u'', [u'arn:aws:s3:::data-lake-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}, u'/*']], [u'', [u'arn:aws:s3:::data-lake-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}]]], u'Effect': u'Allow'}, {u'Action': [u'kms:Encrypt', u'kms:Decrypt', u'kms:ReEncrypt*', u'kms:GenerateDataKey*', u'kms:DescribeKey'], u'Resource': {u'Fn::GetAtt': [u'DataLakeKmsKey', u'Arn']}, u'Effect': u'Allow'}]"
 Resources.AWS::KMS::Key.Properties.KeyPolicy.Id,data-lake-key-default-1
 Outputs.ProfileArn.Description,ARN of data lake profile services function
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
-Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs8.10
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.CRAWLER_ROLE_ARN,"[u'DataLakePackageCrawlerRole', u'Arn']"
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.ACCOUNT_ID,AWS::AccountId
 Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'DataLakeGlueCrawlerEventRule', u'Arn']}"
 Resources.AWS::IAM::ManagedPolicy.Properties.Roles,[{u'Ref': u'DataLakeManifestRole'}]
@@ -56,4 +47,3 @@ Resources.AWS::Events::Rule.Properties.Description,DataLakeSearchService is invo
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.AWS::KMS::Key.Properties.Description,Data Lake KMS Key
 Resources.AWS::KMS::Key.Properties.KeyPolicy.Statement,"[{u'Action': [u'kms:*'], u'Sid': u'Allow administration of the key', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'AWS': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':root']]}}]"
-Parameters.UserPoolId.Type,String

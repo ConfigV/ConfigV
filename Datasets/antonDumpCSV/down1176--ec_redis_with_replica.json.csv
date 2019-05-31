@@ -1,8 +1,5 @@
-Resources.AWS::ElastiCache::ReplicationGroup.Type,AWS::ElastiCache::ReplicationGroup
 Resources.AWS::ElastiCache::ParameterGroup.Properties.Description,RedisParameterGroup
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.SecurityGroupIds,[{u'Ref': u'RedisSecurityGroup'}]
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
 Parameters.RedisNodeType.ConstraintDescription,the least costly machine that can use 
@@ -10,25 +7,18 @@ Resources.AWS::ElastiCache::ReplicationGroup.Properties.ReplicationGroupDescript
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,RedisSecurityGroup
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.CacheSubnetGroupName,{u'Ref': u'RedisSubnetGroup'}
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.CacheNodeType,{u'Ref': u'RedisNodeType'}
-Resources.AWS::ElastiCache::SubnetGroup.Type,AWS::ElastiCache::SubnetGroup
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.Engine,redis
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [0, {u'Fn::GetAZs': u''}]}"
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.CacheParameterGroupName,{u'Ref': u'RedisParameterGroup'}
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.NumCacheClusters,3
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::ElastiCache::ParameterGroup.Type,AWS::ElastiCache::ParameterGroup
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PublicInternetRouteTable'}
-Parameters.RedisNodeType.Type,String
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PublicSubnet0'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Parameters.RedisNodeType.Description,elasticache Redis Node Instance Type
 Resources.AWS::ElastiCache::SubnetGroup.Properties.Description,RedisSubnetGroup
 Parameters.RedisNodeType.Default,cache.m3.medium
 Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicInternetRouteTable'}
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.0.0/25
 Resources.AWS::ElastiCache::ParameterGroup.Properties.CacheParameterGroupFamily,redis3.2
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
@@ -38,7 +28,5 @@ Resources.AWS::ElastiCache::SubnetGroup.Properties.SubnetIds,"[{u'Ref': u'Public
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.EngineVersion,3.2.10
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 6379, u'IpProtocol': u'tcp', u'FromPort': 6379}]"
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/24
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElastiCache::ReplicationGroup.Properties.AutomaticFailoverEnabled,True
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}

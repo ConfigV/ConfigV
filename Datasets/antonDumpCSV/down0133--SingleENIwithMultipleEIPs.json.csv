@@ -1,13 +1,9 @@
-Resources.AWS::EC2::EIPAssociation.Type,AWS::EC2::EIPAssociation
 Resources.AWS::EC2::NetworkInterface.Properties.SubnetId,"{u'Fn::Select': [u'0', {u'Ref': u'Subnet'}]}"
 Resources.AWS::EC2::EIPAssociation.Properties.NetworkInterfaceId,{u'Ref': u'ENI'}
 Resources.AWS::EC2::EIPAssociation.DependsOn,"[u'ENI', u'EIP1']"
-Resources.AWS::EC2::NetworkInterface.Type,AWS::EC2::NetworkInterface
 Resources.AWS::EC2::EIPAssociation.Properties.PrivateIpAddress,"{u'Fn::Select': [u'0', {u'Fn::GetAtt': [u'ENI', u'SecondaryPrivateIpAddresses']}]}"
 Resources.AWS::EC2::NetworkInterface.Properties.SecondaryPrivateIpAddressCount,2
-Parameters.Subnet.Type,List<AWS::EC2::Subnet::Id>
 Resources.AWS::EC2::NetworkInterface.Properties.SourceDestCheck,True
 Resources.AWS::EC2::EIPAssociation.Properties.AllocationId,"{u'Fn::GetAtt': [u'EIP1', u'AllocationId']}"
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::EC2::EIP.Properties.Domain,VPC
 Parameters.Subnet.Description,"ID of the Subnet the instance should be launched in, this will link the instance to the same VPC."

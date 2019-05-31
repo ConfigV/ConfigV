@@ -2,9 +2,7 @@ Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/storm-install.sh.owner,ec2-user
 Parameters.ClusterNodeType.Default,cache.m1.small
 Resources.AWS::Kinesis::Stream.Properties.ShardCount,2
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/crontask.group,ec2-user
-Parameters.ClusterNodeType.Type,String
 Parameters.ClusterNodeType.Description,Node type for the Redis Cluster
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/node-app.js.mode,000755
@@ -29,10 +27,8 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mn
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.1.0/24
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Outputs.StreamName.Value,{u'Ref': u'KinesisStream'}
-Parameters.KeyName.Type,String
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::ElastiCache::CacheCluster.Properties.Engine,redis
-Resources.AWS::ElastiCache::CacheCluster.Type,AWS::ElastiCache::CacheCluster
 Parameters.ClusterNodeType.ConstraintDescription,Please select a valid Cache Node type.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/node-app.js.group,root
 Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
@@ -42,9 +38,7 @@ Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}}, {u'ToPort': u'8080', u'FromPort': u'8080', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Outputs.StormURL.Description,URL to the Storm UI
 Outputs.VisualizationURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'NodeJsInstance', u'PublicDnsName']}, u':9000']]}"
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'KinesisStreamAccess', u'PolicyDocument': {u'Statement': [{u'Action': [u'kinesis:*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:kinesis:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':stream/', {u'Ref': u'KinesisStream'}]]}, u'Effect': u'Allow'}, {u'Action': [u'elasticache:DescribeCacheClusters'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceIAMRole'}]
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'65535', u'FromPort': u'1', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'65535', u'FromPort': u'1', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0'}]"
@@ -71,39 +65,26 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mn
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/watchdog.sh.mode,000755
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./mnt/clickstream-demo/,https://github.com/awslabs/amazon-kinesis-data-visualization-sample/releases/download/v1.1.1/amazon-kinesis-data-visualization-sample-1.1.1-assembly.zip
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/storm-install.sh.group,ec2-user
 Resources.AWS::ElastiCache::CacheCluster.Properties.CacheNodeType,{u'Ref': u'ClusterNodeType'}
 Resources.AWS::ElastiCache::CacheCluster.Properties.CacheSubnetGroupName,{u'Ref': u'RedisSubnetGroup'}
 Outputs.VisualizationURL.Description,URL to the Visualization
 Parameters.SSHLocation.MinLength,9
 Parameters.KeyName.MinLength,0
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::ElastiCache::SubnetGroup.Properties.SubnetIds,[{u'Ref': u'PublicSubnet'}]
 Parameters.ClusterNodeType.AllowedValues,"[u'cache.m1.small', u'cache.m1.medium', u'cache.m1.large', u'cache.m1.xlarge', u'cache.m2.xlarge', u'cache.m2.2xlarge', u'cache.m2.4xlarge', u'cache.m3.xlarge', u'cache.m3.2xlarge']"
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
-Resources.AWS::ElastiCache::SubnetGroup.Type,AWS::ElastiCache::SubnetGroup
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.SSHLocation.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/crontask.content,"{u'Fn::Join': [u'', [u'* * * * * bash /mnt/clickstream-demo/watchdog.sh\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/crontask.owner,ec2-user
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/kinesis-storm-clickstream-sample-app.jar.source,https://s3.amazonaws.com/kinesis-storm-clickstream/kinesis-storm-clickstream-sample-app.jar
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/index.html.group,root
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::Instance.DependsOn,StormInstance
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PublicSubnet'}
 Parameters.SSHLocation.Default,0.0.0.0/0
-Resources.AWS::Kinesis::Stream.Type,AWS::Kinesis::Stream
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'NodeJsInstanceType'}, u'Arch']}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./mnt/clickstream-demo/watchdog.sh.owner,ec2-user

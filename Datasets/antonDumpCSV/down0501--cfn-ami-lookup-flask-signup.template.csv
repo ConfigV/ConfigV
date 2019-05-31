@@ -1,6 +1,4 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Parameters.DynamoDbAmiTable.Description,AMI catalog DynamoDB table name
 Parameters.DynamoDbAmiTable.Default,ami-lookup-table
 Resources.Custom::AmiLookup.Properties.ServiceToken,{u'Ref': u'AmiLookupSnsTopicArn'}
@@ -8,22 +6,18 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingP
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Timeout,20
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'ElbSecurityGroup', u'GroupId']}]"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP and HTTPS access to port 80 and 443 respectively
-Parameters.DynamoDbAmiTable.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': True, u'Value': u'cfn-ami-lookup-flask-signup app instance', u'Key': u'Name'}]"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,600
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,{u'Ref': u'GetAmi'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'WebAppAutoScalingLaunchConfiguration'}
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebAppAutoScalingGroup
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Parameters.VpcId.Description,Id of VPC to deploy application tier to
 Parameters.AppSubnets.Description,List of VPC private subnet Ids to deploy application servers to - one private subnet per AZ
 Outputs.WebAppUrl.Description,The Flask SignUp web application URL
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Outputs.LoadBalancerName.Value,{u'Ref': u'WebAppLoadBalancer'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
-Parameters.ElbSubnets.Type,List<AWS::EC2::Subnet::Id>
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'WebAppLoadBalancer'}]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
 Parameters.RangeKey.AllowedPattern,[0-9]*|latest
@@ -33,41 +27,31 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[{u'F
 Parameters.HashKey.Description,String for hash key
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitConditionHandle'}
-Parameters.AmiLookupSnsTopicArn.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'AppAccessDatastoreInstanceProfile'}
 Parameters.AmiLookupSnsTopicArn.ConstraintDescription,must be an SNS topic ARN
 Parameters.ElbSubnets.Description,List of VPC public subnet Ids to deploy ELBs to - one public subnet per AZ
-Parameters.VpcId.Type,AWS::EC2::VPC::Id
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,10
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Parameters.RangeKey.ConstraintDescription,Range key must be a number or string 'latest'
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,20
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'WebAppSecurityGroup', u'GroupId']}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
-Parameters.AppSubnets.Type,List<AWS::EC2::Subnet::Id>
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,{u'Ref': u'ElbSubnets'}
-Parameters.HashKey.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'443', u'FromPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Parameters.RangeKey.Description,Number for range key or string 'latest'
 Resources.Custom::AmiLookup.Properties.range,{u'Ref': u'RangeKey'}
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,True
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,ELB
 Parameters.RangeKey.Default,latest
 Resources.AWS::AutoScaling::LaunchConfiguration.DependsOn,GetAmi
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
 Resources.Custom::AmiLookup.Properties.region,{u'Ref': u'AWS::Region'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.Custom::AmiLookup.Version,1.0
-Parameters.RangeKey.Type,String
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,300
 Resources.Custom::AmiLookup.Properties.table,{u'Ref': u'DynamoDbAmiTable'}
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/
 Outputs.WebAppUrl.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'WebAppLoadBalancer', u'DNSName']}]]}"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,360
-Resources.Custom::AmiLookup.Type,Custom::AmiLookup
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'AppAccess-Datastore', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:PutItem'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'sns:Publish'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
 Outputs.LoadBalancerName.Description,Resource name of the load balancer
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'# Apply updates cfn-init bootstrapper helper scripts\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackName'}, u' -r WebAppAutoScalingLaunchConfiguration --region ', {u'Ref': u'AWS::Region'}, u"" || echo 'Failed to run cfn-init'\n"", u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WaitConditionHandle'}, u""'\n""]]}}"

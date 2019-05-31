@@ -4,28 +4,22 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.base,
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.commands.20-run-chef.command,"{u'Fn::Join': [u'', [u'cat > /userdata/solo.rb <<SOLORB\n', u""cookbook_path ['/userdata']\n"", u'SOLORB\n', u'\n', u'chef-solo --config /userdata/solo.rb --log_level auto --force-formatter --json-attributes /userdata/dromedary/attributes.json\n', u'node -v \n', u'npm -v\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.commands.10-extract-dromedary.command,"{u'Fn::Join': [u'', [u'mkdir -p -m755 /userdata\n', u'cd /userdata\n', u'tar xzf /tmp/dromedary.tgz\n']]}"
 Parameters.CfnInitRole.Description,IAM Role for cfn-init
-Parameters.CfnInitRole.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.noprereqs.commands.10-extract-dromedary.command,"{u'Fn::Join': [u'', [u'mkdir -p -m755 /userdata\n', u'cd /userdata\n', u'tar xzf /tmp/dromedary.tgz\n']]}"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access via port 22
 Resources.AWS::EC2::Instance.Properties.KeyName,"{u'Fn::If': [u'NoEc2Key', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'Ec2Key'}]}"
-Parameters.VPC.Type,String
 Outputs.InstanceSecurityGroup.Description,Security group id of app instance
 Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Timeout,PT15M
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.chef,[u'chef']
-Parameters.Ec2Key.Type,String
 Outputs.PublicDns.Description,Public DNS of Dromedary App instance
 Outputs.InstanceId.Value,{u'Ref': u'WebServerInstance'}
-Parameters.ArtifactPath.Type,String
 Parameters.DynamoDbTable.Description,DynamoDb table name for persistent storage
 Parameters.InstanceProfile.Description,Instance profile for app instance
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chef.commands.10-install-chef.command,rpm -ivh /tmp/chefdk.rpm
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum update -y aws-cfn-bootstrap\n', u'\n', u'# Helper functions\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1""', u' --stack ', {u'Ref': u'AWS::StackName'}, u' --resource WebServerInstance ', u' --region ', {u'Ref': u'AWS::Region'}, u'\n', u'  exit 1\n', u'}\n', u'function cfn_init\n', u'{\n', u'  /opt/aws/bin/cfn-init -v -s ', {u'Ref': u'AWS::StackId'}, u' -r WebServerInstance --region ', {u'Ref': u'AWS::Region'}, u' --role ', {u'Ref': u'CfnInitRole'}, u' ""$@""\n', u'}\n', u'function cfn_signal_ok\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 0 ', u' --stack ', {u'Ref': u'AWS::StackName'}, u' --resource WebServerInstance ', u' --region ', {u'Ref': u'AWS::Region'}, u' || true\n', u'}\n', u'\n', u'if ! which chef-solo > /dev/null 2>&2; then\n', u""  cfn_init -c chef || error_exit 'Failed to run cfn-init chef'\n"", u'fi\n', u'\n', u'if [ -e /.dromedary-prereqs-installed ]; then\n', u""  cfn_init -c noprereqs || error_exit 'Failed to run cfn-init noprereqs'\n"", u'else\n', u'  yum -y upgrade\n', u""  cfn_init || error_exit 'Failed to run cfn-init'\n"", u'fi\n', u'cfn_signal_ok\n', u'\n']]}}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chef.files./tmp/chefdk.rpm.group,root
 Outputs.InstanceSecurityGroup.Value,{u'Ref': u'InstanceSecurityGroup'}
-Parameters.CodeDeployTag.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.files./tmp/dromedary.tgz.group,root
 Outputs.PublicDns.Value,"{u'Fn::GetAtt': [u'WebServerInstance', u'PublicIp']}"
-Parameters.SubnetId.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chef.files./tmp/chefdk.rpm.owner,root
 Outputs.InstanceId.Description,Dromedary App instance id
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.noprereqs.files./tmp/dromedary.tgz.group,root
@@ -34,13 +28,10 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chef.files./tmp/
 Parameters.DynamoDbTable.MaxLength,32
 Parameters.CodeDeployTag.Default,1
 Parameters.CodeDeployTag.Description,Resource Tags for Deployment Group (non-zero enables CodeDeploy agent)
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.default,[{u'ConfigSet': u'base'}]
-Parameters.S3Bucket.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.noprereqs.commands.20-run-chef.cwd,/userdata
 Parameters.VPC.Description,VPC id in which to place instance
 Parameters.ArtifactPath.Description,Path to tarball in Artifact Bucket
-Parameters.InstanceProfile.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.noprereqs.commands.20-run-chef.env.DROMEDARY_DDB_TABLE_NAME,{u'Ref': u'DynamoDbTable'}
 Parameters.ArtifactPath.Default,
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.noprereqs,[u'noprereqs']
@@ -55,11 +46,9 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.files./tmp/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.noprereqs.commands.20-run-chef.env.HOME,/root
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.commands.20-run-chef.env.DROMEDARY_DDB_TABLE_NAME,{u'Ref': u'DynamoDbTable'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.buckets,[{u'Ref': u'S3Bucket'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.noprereqs.files./tmp/dromedary.tgz.authentication,S3AccessCreds
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.type,S3
-Parameters.DynamoDbTable.Type,String
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionConfig', {u'Ref': u'AWS::Region'}, u'ami']}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.noprereqs.files./tmp/dromedary.tgz.source,"{u'Fn::Join': [u'', [u'https://s3.amazonaws.com/', {u'Ref': u'S3Bucket'}, u'/', {u'Ref': u'ArtifactPath'}]]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chef.files./tmp/chefdk.rpm.mode,000644

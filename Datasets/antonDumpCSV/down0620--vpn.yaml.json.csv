@@ -7,10 +7,8 @@ Resources.AWS::Lambda::Function.Properties.Timeout,5
 Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[u'SecurityGroup']
 Resources.Custom::ExecuteLambda.Properties.Region,AWS::Region
 Resources.AWS::EC2::SecurityGroup.Properties.GroupName,AWS::StackName
-Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
 Resources.AWS::EC2::NetworkAclEntry.DependsOn,Instance
 Parameters.Version.Default,2.1.9
-Parameters.SSHCIDR.Type,String
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.Custom::ExecuteLambda.Properties.NumberOfDevices,NumberOfDevices
 Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Fn::ImportValue': {u'Fn::Sub': u'${VPCStackName}:public-subnet-1'}}
@@ -19,11 +17,9 @@ Resources.AWS::Lambda::Function.DependsOn,LambdaRole
 Parameters.SSHCIDR.Description,The IPv4 CIDR allowed to SSH into the VPN instance. NACL rule will be added.
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'SSHCIDR'}, {u'ToPort': u'443', u'FromPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'943', u'FromPort': u'943', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'1194', u'FromPort': u'1194', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0'}]"
-Parameters.HostName.Type,String
 Resources.Custom::ExecuteLambda.Properties.Version,Version
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPCStackName'], u'Label': {u'default': u'VPC'}}, {u'Parameters': [u'InstanceType', u'KeyName'], u'Label': {u'default': u'Instance'}}, {u'Parameters': [u'Version', u'NumberOfDevices'], u'Label': {u'default': u'OpenVPN'}}, {u'Parameters': [u'HostName', u'DomainName'], u'Label': {u'default': u'DNS'}}, {u'Parameters': [u'SSHCIDR'], u'Label': {u'default': u'Public SSH Ingress'}}]"
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,[{u'Ref': u'EIP'}]
-Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
 Outputs.DomainName.Description,The domain name of the OpenVPN instsance.
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,17
 Resources.AWS::EC2::Instance.Properties.KeyName,KeyName
@@ -31,28 +27,20 @@ Resources.AWS::Route53::RecordSet.Properties.TTL,300
 Parameters.Version.AllowedValues,[u'2.1.9']
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.HostName.default,Host Name
 Resources.Custom::ExecuteLambda.Properties.ServiceToken,LambdaFunction.Arn
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,520
 Resources.AWS::Route53::RecordSet.DependsOn,Instance
-Resources.AWS::EC2::EIPAssociation.Type,AWS::EC2::EIPAssociation
 Parameters.HostName.Default,vpn.corp.us-east-1
 Parameters.NumberOfDevices.Default,2 | Free
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfDevices.default,Number Of Users
 Resources.AWS::EC2::EIPAssociation.Properties.InstanceId,{u'Ref': u'Instance'}
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Parameters.DomainName.Type,String
 Outputs.AMI.Description,The OpenVPN AMI used.
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'AllowLogsWrite', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::EC2::EIPAssociation.Properties.EIP,{u'Ref': u'EIP'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,1194
-Resources.Custom::ExecuteLambda.Type,Custom::ExecuteLambda
 Outputs.DomainName.Value,${HostName}.${DomainName}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,AWS::StackName
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
-Parameters.NumberOfDevices.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCStackName.default,VPC Stack
 Resources.Custom::ExecuteLambda.DependsOn,LambdaFunction
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,1194
@@ -61,16 +49,12 @@ Parameters.KeyName.Description,The key that will be used to SSH into the OpenVPN
 Outputs.AdminURL.Value,https://${HostName}.${DomainName}:943/admin
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${VPCStackName}:vpc'}}
 Resources.AWS::Route53::RecordSet.Properties.Name,${HostName}.${DomainName}.
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.Version.Description,The OpenVPN version.
 Outputs.IPAddress.Description,The IP address of the OpenVPN instance.
-Parameters.VPCStackName.Type,String
 Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,${DomainName}.
-Resources.AWS::Route53::RecordSet.Properties.Type,A
 Parameters.HostName.Description,The DNS host name of the VPN server.
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,SSHCIDR
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"import cfnresponse
 def handler(event, context):
   # handle delete event
@@ -106,7 +90,6 @@ def handler(event, context):
 "
 Parameters.NumberOfDevices.AllowedValues,"[u'2 | Free', u'5 | $0.07/hr or from $490.00/yr', u'10 | $0.10/hr or from $700.00/yr', u'25 | $0.20/hr or from $1,400.00/yr', u'50 | $0.30/hr or from $2,100.00/yr', u'100 | $0.40/hr or from $2,800.00/yr', u'250 | $0.80/hr or from $5,600.00/yr', u'500 | $1.50/hr or from $10,500.00/yr']"
 Parameters.SSHCIDR.Default,0.0.0.0/0
-Parameters.Version.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainName.default,Domain Name
 Outputs.AdminURL.Description,The URL to the OpenVPN Admin UI.
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7

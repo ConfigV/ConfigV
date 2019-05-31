@@ -1,17 +1,11 @@
-Parameters.LambdaBucketName.Type,String
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Parameters.AppName.Type,String
 Outputs.ELBLogsBucket.Value,ELBLogsBucket
 Resources.AWS::S3::Bucket.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
-Parameters.StaticBucketName.Type,String
 Resources.AWS::S3::Bucket.Properties.AccessControl,BucketOwnerFullControl
 Outputs.ELBLogsBucket.Export.Name,"[u'${AppName}ELBLogsBucket', {u'AppName': u'AppName'}]"
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Id,Policy1461927670460
-Parameters.ELBLogsBucketName.Type,String
 Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'AllowedHeaders': [u'Authorization'], u'AllowedMethods': [u'GET'], u'MaxAge': u'3000', u'AllowedOrigins': [u'*']}]"
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:PutObject'], u'Sid': u'Stmt1461927665605', u'Resource': [u'arn:aws:s3:::${ELBLogsBucketName}/*', {u'ELBLogsBucketName': u'ELBLogsBucketName'}], u'Effect': u'Allow', u'Principal': {u'AWS': [u'ELB', u'Principal', u'Tokyo']}}]"
 Resources.AWS::S3::BucketPolicy.Properties.Bucket,ELBLogsBucket
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
 Mappings.ELB.Principal.Tokyo,582318560864
 Resources.AWS::S3::Bucket.Properties.BucketName,LambdaBucketName

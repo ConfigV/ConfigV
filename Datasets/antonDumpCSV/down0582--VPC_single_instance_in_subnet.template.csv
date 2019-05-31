@@ -1,5 +1,4 @@
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-a03503bd
@@ -11,17 +10,13 @@ Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': 
 Parameters.SSHLocation.Description, The IP address range that can be used to SSH to the EC2 instances
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'Subnet'}
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.ensureRunning,true
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
-Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.owner,root
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.0.0/24
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.group,root
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,100
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
@@ -35,7 +30,6 @@ Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Mappings.AWSRegionArch2AMI.eu-central-1.HVMG2,ami-b03503ad
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,80
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.html.group,root
@@ -43,7 +37,6 @@ Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access via port 22
 Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Timeout,PT15M
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,80
 Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
@@ -51,11 +44,9 @@ Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref':
 Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
 Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Outputs.URL.Description,Newly created application URL
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.html.mode,000644
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.enabled,true
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.html.owner,root
 Parameters.SSHLocation.MinLength,9
@@ -64,17 +55,11 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.html.content,"{u'Fn::Join': [u'\n', [u'<img src=""https://s3.amazonaws.com/cloudformation-examples/cloudformation_graphic.png"" alt=""AWS CloudFormation Logo""/>', u'<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.mode,000400
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
-Parameters.SSHLocation.Type,String
 Resources.AWS::EC2::EIP.DependsOn,AttachGateway
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}]"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'Subnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Parameters.SSHLocation.Default,0.0.0.0/0
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-b43503a9
 Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'WebServerInstance'}

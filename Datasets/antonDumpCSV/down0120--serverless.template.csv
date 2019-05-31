@@ -1,18 +1,14 @@
 Resources.AWS::Serverless::Function.Properties.CodeUri,
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Lambda::Function.Properties.Timeout,30
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'Id'}]"
 Resources.AWS::Lambda::Function.Properties.Handler,Pollster::Pollster.Workflow.StateMachineTasks::Activate
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.LAMBDA_NET_SERIALIZER_DEBUG,true
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.TABLE_POLL_DEFINITION,{u'Ref': u'PollDefinitionTable'}
 Resources.AWS::Serverless::Function.Properties.MemorySize,512
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.TABLE_POLL_DEFINITION,{u'Ref': u'PollDefinitionTable'}
 Resources.AWS::DynamoDB::Table.Properties.StreamSpecification.StreamViewType,KEYS_ONLY
-Resources.AWS::Serverless::Function.Properties.Events.Polls.Type,DynamoDB
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.TABLE_ACTIVE_POLL,{u'Ref': u'ActivePollTable'}
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,10
@@ -22,15 +18,12 @@ Resources.AWS::Serverless::Function.Properties.Events.Polls.Properties.BatchSize
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'Id', u'AttributeType': u'S'}]"
 Resources.AWS::Serverless::Function.Properties.Handler,Pollster::Pollster.LambdaEntry::FunctionHandlerAsync
 Resources.AWS::Lambda::Function.Properties.MemorySize,256
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': {u'Fn::Sub': u'states.${AWS::Region}.amazonaws.com'}}}]"
-Resources.AWS::StepFunctions::StateMachine.Type,AWS::StepFunctions::StateMachine
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.LAMBDA_NET_SERIALIZER_DEBUG,true
 Resources.AWS::Serverless::Function.Properties.Runtime,dotnetcore1.0
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.TABLE_ACTIVE_POLL,{u'Ref': u'ActivePollTable'}
 Resources.AWS::StepFunctions::StateMachine.Properties.DefinitionString,{u'Fn::Sub': u''}
 Resources.AWS::Lambda::Function.Properties.Runtime,dotnetcore1.0
-Resources.AWS::Serverless::Function.Properties.Events.PutResource.Type,Api
 Resources.AWS::Serverless::Function.Properties.Events.Polls.Properties.Stream,"{u'Fn::GetAtt': [u'PollDefinitionTable', u'StreamArn']}"
 Resources.AWS::StepFunctions::StateMachine.Properties.RoleArn,"{u'Fn::GetAtt': [u'StateMachineRole', u'Arn']}"
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"

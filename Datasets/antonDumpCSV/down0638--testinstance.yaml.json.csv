@@ -9,12 +9,8 @@ sudo chkconfig enable httpd
 sudo su -
 echo '<html> <body> <h1>hello world</h1></body></html>' > /var/www/html/index.html
 "
-Parameters.MySubnet.Type,AWS::EC2::Subnet::Id
-Parameters.MyKey.Type,AWS::EC2::KeyPair::KeyName
-Parameters.RootDisk.Type,String
 Parameters.MySubnet.Description,Specify Subnet
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'TestInstance', u'Key': u'Name'}, {u'Value': u'CFN', u'Key': u'Tool'}]"
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.MySubnet.Default,TCIStack-PubA
 Parameters.MyKey.Default,mydcawskp.pem
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': u'MySubnet', u'DeviceIndex': u'0', u'GroupSet': [u'TCIStack-SG'], u'AssociatePublicIpAddress': True}]"

@@ -1,15 +1,12 @@
 Parameters.SplunkLicensePath.Description,Path to license file in S3 Bucket
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.owner,chef
 Parameters.ResourceName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Parameters.ResourceName.Type,String
 Parameters.ResourceName.Description,The Logical Resource Name - commonly set by parent stack
-Parameters.VpcId.Type,String
 Outputs.PublicIp.Condition,AssociatePublicIpAddress
 Resources.AWS::IAM::User.Properties.Path,/
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.mode,000644
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'yum update -y aws-cfn-bootstrap\n', u'#placeholder for enterprise license\n', u'/bin/mkdir -p /etc/splunk\n', u'#do some chef things before the cfn-init due to race issues\n', u'/bin/mkdir -p /etc/chef\n', u'/bin/mkdir -p /var/lib/chef\n', u'/bin/mkdir -p /var/log/chef\n', u'/usr/sbin/groupadd chef -r\n', u'/usr/sbin/useradd chef -r -s /bin/sh -d /var/lib/chef -g chef\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'function retry {\n', u'   nTrys=0\n', u'   maxTrys=5\n', u'   status=256\n', u'   until [ $status == 0 ] ; do\n', u'      $1\n', u'      status=$?\n', u'      nTrys=$(($nTrys + 1))\n', u'      if [ $nTrys -gt $maxTrys ] ; then\n', u'            echo ""Number of re-trys exceeded. Exit code: $status""\n', u'            exit $status\n', u'      fi\n', u'      if [ $status != 0 ] ; then\n', u'            echo ""Failed (exit code $status)... retry $nTrys""\n', u'            sleep 10\n', u'      fi\n', u'   done\n', u'}\n', u'retry ""/opt/aws/bin/cfn-init -v -s ', {u'Ref': u'AWS::StackId'}, u' -r SplunkServerHost ', u'    --access-key ', {u'Ref': u'CfnKeys'}, u'    --secret-key ', {u'Fn::GetAtt': [u'CfnKeys', u'SecretAccessKey']}, u'    --region ', {u'Ref': u'AWS::Region'}, u'"" || error_exit \'Failed to run cfn-init\'\n', u'#set HOME variable needed by splunk to cache Auth tokens\n', u'export HOME=""/root""\n', u'#install chef client for later\n', u'curl -L http://www.opscode.com/chef/install.sh | bash\n', u'/usr/bin/wget http://', {u'Ref': u'ChefServerIP'}, u'/chef/chefme.sh -O /tmp/chefme.sh\n', u""/bin/sh /tmp/chefme.sh || error_exit 'Failed to run chef-client'\n"", u'# All is well so signal success\n', u'/opt/aws/bin/cfn-signal -e 0 -r ""Splunk server setup complete"" \'', {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
-Parameters.SplunkLicensePath.Type,String
 Parameters.KeyName.MaxLength,64
 Outputs.InstanceID.Value,{u'Ref': u'SplunkServerHost'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/splunk/enterprise.license.mode,000644
@@ -21,14 +18,11 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./et
 Parameters.SplunkLicenseBucket.Description,Name of private S3 bucket with licenses to be accessed via authenticated requests
 Parameters.AssociatePublicIP.Default,yes
 Parameters.ChefServerIP.Description,Chef-server IP or hostname
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'CfnUser'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/splunk/enterprise.license.source,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'SplunkLicenseBucket'}, u'.s3.amazonaws.com/', {u'Ref': u'SplunkLicensePath'}]]}"
-Parameters.ChefServerIP.Type,String
 Parameters.AssociatePublicIP.ConstraintDescription,must be 'yes' or 'no'
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/splunk/enterprise.license.group,root
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Parameters.KeyName.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/splunk/enterprise.license.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.secretKey,"{u'Fn::GetAtt': [u'CfnKeys', u'SecretAccessKey']}"
 Parameters.AssociatePublicIP.Description,Indicates whether the server receives a public IP address
@@ -58,23 +52,13 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3Acce
 Mappings.AWSRegionArch2AMI.eu-central-1.64HVM,ami-a8221fb5
 Outputs.PrivateIp.Description,Private IP address of instance
 Parameters.SplunkRole.MaxLength,64
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Parameters.SplunkRole.Description,Chef Splunk role to assign to this instance
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Parameters.SplunkLicenseBucket.Type,String
-Parameters.SubnetId.Type,String
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
-Parameters.SplunkRole.Type,String
-Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
 Resources.AWS::EC2::Instance.DependsOn,BucketPolicy
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SplunkRole.AllowedValues,"[u'Splunk-server', u'Splunk-indexer', u'Splunk-searcher', u'cluster-master', u'cluster-peer', u'cluster-search-head']"
 Parameters.SplunkRole.MinLength,1
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Principal': {u'AWS': {u'Fn::GetAtt': [u'CfnUser', u'Arn']}}, u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'SplunkLicenseBucket'}, u'/*']]}, u'Effect': u'Allow', u'Sid': u'ReadAccess'}]"
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.SplunkRole.ConstraintDescription,must be a valid Chef role for Splunk.
 Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'64HVM']}"
-Parameters.AssociatePublicIP.Type,String
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'SplunkRole'}, u'Key': u'Role'}, {u'Value': {u'Ref': u'ResourceName'}, u'Key': u'Name'}]"
 Parameters.SubnetId.Description,SubnetId of an existing Public or Private subnet in your Virtual Private Cloud (VPC)

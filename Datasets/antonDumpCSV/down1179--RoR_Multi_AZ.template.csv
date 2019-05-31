@@ -1,7 +1,6 @@
 Parameters.DBPassword.MaxLength,41
 Parameters.DBName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.DBUsername.Description,Username for MySQL database access
-Parameters.DBAllocatedStorage.Type,Number
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUsername'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql-devel,[]
@@ -34,12 +33,10 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/sample/config/database.yml.group,root
-Parameters.KeyName.Type,String
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Parameters.DBAllocatedStorage.ConstraintDescription,must be between 5 and 1024Gb.
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.make,[]
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.WebServerCapacity.MaxValue,5
 Resources.AWS::RDS::DBInstance.Properties.DBSecurityGroups,[{u'Ref': u'DBSecurityGroup'}]
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.gcc-c++,[]
@@ -47,10 +44,7 @@ Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPasswo
 Parameters.DBInstanceClass.Description,The database instance type
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/sample/config/database.yml.owner,root
 Parameters.WebServerCapacity.ConstraintDescription,must be between 1 and 5 EC2 instances.
-Parameters.DBUsername.Type,String
 Parameters.DBAllocatedStorage.MaxValue,1024
-Parameters.DBPassword.Type,String
-Parameters.DBName.Type,String
 Parameters.WebServerCapacity.MinValue,1
 Parameters.DBPassword.MinLength,8
 Parameters.DBName.MinLength,1
@@ -60,7 +54,6 @@ Resources.AWS::CloudFormation::WaitCondition.Properties.Count,{u'Ref': u'WebServ
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.DBUsername.MinLength,1
 Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
-Resources.AWS::RDS::DBSecurityGroup.Type,AWS::RDS::DBSecurityGroup
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP access via port 3000 locked down to the load balancer + SSH access
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'3000', u'PolicyNames': [u'CookieBasedPolicy'], u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Parameters.DBUsername.NoEcho,true
@@ -76,37 +69,29 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.Comment2,The application is downloaded from the CloudFormationRailsSample.zip file
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.Comment1,Configure the bootstrap helpers to install the Rails
 Parameters.MultiAZDatabase.ConstraintDescription,must be either true or false.
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBInstanceClass'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.rubygems.therubyracer,[]
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
 Parameters.MultiAZDatabase.Description,Create a multi-AZ MySQL Amazon RDS database instance
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.rubygems.execjs,[]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:3000/
 Parameters.DBAllocatedStorage.Default,5
 Parameters.SSHLocation.MinLength,9
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,{u'Ref': u'MultiAZDatabase'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Parameters.KeyName.MinLength,1
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,MyDatabase
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.rubygems.rack,[u'1.3.6']
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,5
-Parameters.SSHLocation.Type,String
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'DBAllocatedStorage'}
 Parameters.WebServerCapacity.Default,2
 Parameters.DBInstanceClass.AllowedValues,"[u'db.m1.small', u'db.m1.large', u'db.m1.xlarge', u'db.m2.xlarge', u'db.m2.2xlarge', u'db.m2.4xlarge']"
 Parameters.DBPassword.Description,Password for MySQL database access
-Parameters.DBInstanceClass.Type,String
 Parameters.DBAllocatedStorage.MinValue,5
 Parameters.DBName.MaxLength,64
 Parameters.SSHLocation.MaxLength,18
 Parameters.SSHLocation.Default,0.0.0.0/0
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
 Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
@@ -114,6 +99,4 @@ Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
 Parameters.DBUsername.MaxLength,16
 Outputs.WebsiteURL.Description,URL for newly created Rails application
 Parameters.DBAllocatedStorage.Description,The size of the database (Gb)
-Parameters.WebServerCapacity.Type,Number
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3000', u'IpProtocol': u'tcp', u'SourceSecurityGroupOwnerId': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.OwnerAlias']}, u'SourceSecurityGroupName': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.GroupName']}, u'FromPort': u'3000'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}]"
-Parameters.MultiAZDatabase.Type,String

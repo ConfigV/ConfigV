@@ -1,6 +1,5 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::AutoScaling::AutoScalingGroup.DependsOn,VPCGatewayAttachment
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': u'url2png-consumer', u'PropagateAtLaunch': True, u'Key': u'Name'}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
@@ -14,11 +13,8 @@ Parameters.ApplicationID.AllowedPattern,[A-Za-z0-9\-]+
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 22, u'FromPort': 22, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'SubnetA'}
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
 Parameters.ApplicationID.Description,A unique identifier for your application.
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'yum update -y aws-cfn-bootstrap\n', u'curl -sL https://rpm.nodesource.com/setup | bash -\n', u'yum install -y nodejs\n', u'wget https://github.com/AWSinAction/code/archive/master.zip\n', u'unzip master.zip\n', u'cd code-master/chapter12/url2png/\n', u'npm install\n', u'echo "" {\\""QueueUrl\\"": \\""', {u'Ref': u'SQSQueue'}, u'\\"", \\""Bucket\\"": \\""', {u'Ref': u'ApplicationID'}, u'\\""} "" > config.json \n', u'node worker.js\n']]}}"
-Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
 Resources.AWS::SQS::Queue.Properties.QueueName,url2png
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,-1
 Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
@@ -26,8 +22,6 @@ Resources.AWS::EC2::Subnet.Properties.CidrBlock,172.31.38.0/24
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,True
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
 Resources.AWS::CloudWatch::Alarm.Properties.MetricName,ApproximateNumberOfMessagesVisible
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,100
@@ -45,11 +39,9 @@ Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref
 Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'QueueName', u'Value': {u'Fn::GetAtt': [u'SQSQueue', u'QueueName']}}]"
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,120
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::EC2::VPC.Properties.CidrBlock,172.31.0.0/16
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ApplicationID'}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u'sqs:*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:sqs:', {u'Ref': u'AWS::Region'}, u':*:', {u'Fn::GetAtt': [u'SQSQueue', u'QueueName']}]]}], u'Effect': u'Allow'}]}}]"
 Resources.AWS::CloudWatch::Alarm.Properties.Period,300
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'IamRole'}]
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
@@ -62,37 +54,23 @@ Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Sum
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,60
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Fn::GetAZs': u''}]}"
 Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'RouteTable'}
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Parameters.KeyName.Description,Key Pair name
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'IamInstanceProfile'}
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
-Resources.AWS::AutoScaling::ScalingPolicy.Type,AWS::AutoScaling::ScalingPolicy
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Cooldown,60
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Ref': u'SubnetA'}, {u'Ref': u'SubnetB'}]"
-Parameters.ApplicationID.Type,String
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::CloudWatch::Alarm.Properties.Threshold,5
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmDescription,Alarm if queue length is higher than 5.
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,2
-Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::Instance.DependsOn,VPCGatewayAttachment
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'SubnetB'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::AutoScaling::ScalingPolicy.Properties.ScalingAdjustment,-1
 Parameters.ApplicationID.ConstraintDescription,"Only letters, digits or dash allowed."
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"

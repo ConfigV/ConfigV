@@ -1,32 +1,22 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role']
-Resources.AWS::Batch::ComputeEnvironment.Type,AWS::Batch::ComputeEnvironment
 Resources.AWS::Batch::JobQueue.Properties.Priority,1
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable access to Batch instances
-Resources.AWS::Batch::JobQueue.Type,AWS::Batch::JobQueue
 Outputs.BatchComputeEnvironment.Value,{u'Ref': u'BatchComputeEnvironment'}
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.MinvCpus,0
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Batch::JobQueue.Properties.JobQueueName,example-job-queue
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Tags.Name,batch-compute-environment
-Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Type,EC2
 Outputs.ExampleJobQueue.Value,{u'Ref': u'ExampleJobQueue'}
 Resources.AWS::Batch::ComputeEnvironment.Properties.ServiceRole,{u'Ref': u'BatchServiceRole'}
-Parameters.PrivateSubnetB.Type,String
 Resources.AWS::Batch::JobQueue.Properties.State,ENABLED
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Tags.Project,example
-Resources.AWS::Batch::ComputeEnvironment.Properties.Type,MANAGED
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.MaxvCpus,10
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
-Parameters.Vpc.Type,AWS::EC2::VPC::Id
 Parameters.Vpc.ConstraintDescription,Must be a valid VPC ID.
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.DesiredvCpus,0
-Parameters.PrivateSubnetA.Type,String
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.SecurityGroupIds,"[{u'Fn::GetAtt': [u'BatchSecurityGroup', u'GroupId']}]"
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'Vpc'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::Batch::JobQueue.Properties.ComputeEnvironmentOrder,"[{u'ComputeEnvironment': {u'Ref': u'BatchComputeEnvironment'}, u'Order': 1}]"
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Subnets,"[{u'Ref': u'PrivateSubnetA'}, {u'Ref': u'PrivateSubnetB'}]"
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'batch-sg', u'Key': u'Name'}]"

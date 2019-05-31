@@ -12,7 +12,6 @@ Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'BucketName'}
 Resources.Custom::ApiGatewayMethodResponse.DependsOn,"[u'RestApi', u'RootResource', u'RootGetMethod']"
 Resources.AWS::Lambda::Function.Properties.MemorySize,128
 Resources.Custom::ApiGatewayMethod.Properties.AuthorizationType,NONE
-Parameters.TestAppLambdaName.Type,String
 Resources.Custom::ApiGatewayMethod.Properties.HttpMethod,GET
 Outputs.ApiName.Value,{u'Ref': u'RestApi'}
 Resources.Custom::ApiGatewayMethodResponse.Properties.ResponseParameters.method.response.header.Access-Control-Allow-Origin,True
@@ -21,21 +20,14 @@ Resources.Custom::ApiGatewayMethod.DependsOn,"[u'RestApi', u'RootResource']"
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.ResourceId,{u'Ref': u'RootResource'}
 Resources.Custom::ApiGatewayRestApi.Properties.Description,REST Api
 Resources.Custom::ApiGatewayIntegration.DependsOn,"[u'RestApi', u'RootResource', u'RootGetMethod', u'RootGetMethodResponse']"
-Parameters.ApiGatewayCfnLambdaRole.Type,String
 Resources.Custom::ApiGatewayDeployment.Properties.Variables.AppVersion,test
 Resources.Custom::ApiGatewayMethod.Properties.ApiKeyRequired,False
 Resources.Custom::ApiGatewayResource.Properties.ParentId,"{u'Fn::GetAtt': [u'RestApi', u'RootResourceId']}"
-Resources.Custom::ApiGatewayMethodResponse.Type,Custom::ApiGatewayMethodResponse
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.ResponseParameters.method.response.header.Access-Control-Allow-Methods,"'GET, OPTIONS'"
-Resources.Custom::ApiGatewayMethod.Type,Custom::ApiGatewayMethod
 Resources.Custom::ApiGatewayIntegration.Properties.Credentials,{u'Ref': u'ApiIntegrationCredentialsRole'}
-Parameters.BucketName.Type,String
 Resources.Custom::ApiGatewayIntegration.Properties.RestApiId,{u'Ref': u'RestApi'}
 Resources.Custom::ApiGatewayIntegration.Properties.HttpMethod,GET
-Parameters.ProdAppLambdaName.Type,String
 Resources.Custom::ApiGatewayIntegration.Properties.Uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', u'arn:aws:lambda:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':function:', u'${stageVariables.AppFunctionName}:${stageVariables.AppVersion}/invocations']]}"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
-Resources.Custom::ApiGatewayIntegration.Type,Custom::ApiGatewayIntegration
 Resources.Custom::ApiGatewayMethodResponse.Properties.ServiceToken,"{u'Fn::GetAtt': [u'ApiGatewayMethodResponse', u'Arn']}"
 Resources.Custom::ApiGatewayMethod.Properties.ResourceId,{u'Ref': u'RootResource'}
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.StatusCode,200
@@ -45,10 +37,6 @@ Resources.Custom::ApiGatewayMethodResponse.Properties.ResponseParameters.method.
 Parameters.ProdDDBTableName.Description,The DynamoDB table name for prod stage
 Resources.Custom::ApiGatewayMethodResponse.Properties.ResponseParameters.method.response.header.Content-Type,True
 Parameters.ApiIntegrationCredentialsRole.Description,Role used by api gateway for calling app lambda function
-Resources.Custom::ApiGatewayIntegration.Properties.Type,AWS
-Parameters.ApiIntegrationCredentialsRole.Type,String
-Resources.Custom::ApiGatewayDeployment.Type,Custom::ApiGatewayDeployment
-Parameters.ProdDDBTableName.Type,String
 Resources.Custom::ApiGatewayDeployment.Properties.Variables.AppFunctionName,{u'Ref': u'TestAppLambdaName'}
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.ServiceToken,"{u'Fn::GetAtt': [u'ApiGatewayIntegrationResponse', u'Arn']}"
 Parameters.TestAppLambdaName.Description,The name of the test lambda to integrate the gateway with
@@ -61,12 +49,10 @@ Resources.Custom::ApiGatewayMethodResponse.Properties.RestApiId,{u'Ref': u'RestA
 Resources.Custom::ApiGatewayResource.DependsOn,[u'RestApi']
 Resources.Custom::ApiGatewayIntegrationResponse.DependsOn,"[u'RestApi', u'RootResource', u'RootGetMethod', u'RootGetMethodResponse', u'RootIntegration']"
 Resources.Custom::ApiGatewayDeployment.Properties.StageName,test
-Resources.Custom::ApiGatewayResource.Type,Custom::ApiGatewayResource
 Resources.Custom::ApiGatewayIntegration.Properties.IntegrationHttpMethod,POST
 Resources.Custom::ApiGatewayMethodResponse.Properties.HttpMethod,GET
 Resources.Custom::ApiGatewayRestApi.Properties.Name,"{u'Fn::Join': [u'-', [u'Api', {u'Ref': u'AWS::StackName'}]]}"
 Outputs.TestApiUrl.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'RestApi'}, u'.execute-api.', {u'Ref': u'AWS::Region'}, u'.amazonaws.com/test']]}"
-Resources.Custom::ApiGatewayRestApi.Type,Custom::ApiGatewayRestApi
 Parameters.ProdAppLambdaName.Description,The name of the prod lambda to integrate the gateway with
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,cfn-api-gateway-method-response.zip
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.HttpMethod,GET
@@ -75,14 +61,12 @@ Resources.Custom::ApiGatewayRestApi.Properties.ServiceToken,"{u'Fn::GetAtt': [u'
 Resources.AWS::Lambda::Function.Properties.Role,{u'Ref': u'ApiGatewayCfnLambdaRole'}
 Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.ResponseTemplates.application/json,$util.base64Decode( $input.path('$.payload') )
-Resources.Custom::ApiGatewayIntegrationResponse.Type,Custom::ApiGatewayIntegrationResponse
 Resources.Custom::ApiGatewayMethod.Properties.RestApiId,{u'Ref': u'RestApi'}
 Resources.Custom::ApiGatewayIntegration.Properties.RequestParameters.integration.request.path.subpath,method.request.path.subpath
 Resources.Custom::ApiGatewayDeployment.Properties.RestApiId,{u'Ref': u'RestApi'}
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.RestApiId,{u'Ref': u'RestApi'}
 Resources.Custom::ApiGatewayMethod.Properties.ServiceToken,"{u'Fn::GetAtt': [u'ApiGatewayMethod', u'Arn']}"
-Parameters.TestDDBTableName.Type,String
 Resources.Custom::ApiGatewayIntegrationResponse.Properties.ResponseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.Custom::ApiGatewayIntegration.Properties.RequestTemplates.application/json,"{u'Fn::Join': [u'\n', [u'{', u'  ""stage"": ""$context.stage"",', u'  ""request-id"": ""$context.requestId"",', u'  ""api-id"": ""$context.apiId"",', u'  ""resource-path"": ""$context.resourcePath"",', u'  ""resource-id"": ""$context.resourceId"",', u'  ""http-method"": ""$context.httpMethod"",', u'  ""source-ip"": ""$context.identity.sourceIp"",', u'  ""user-agent"": ""$context.identity.userAgent"",', u'  ""account-id"": ""$context.identity.accountId"",', u'  ""api-key"": ""$context.identity.apiKey"",', u'  ""caller"": ""$context.identity.caller"",', u'  ""user"": ""$context.identity.user"",', u'  ""user-arn"": ""$context.identity.userArn"",', u'  ""queryString"": ""$input.params().querystring"",', u'  ""headers"": ""$input.params().header"",', u'  ""pathParams"": ""$input.params().path"",', u'  ""allParams"": ""$input.params()"",', u'  ""ddbTableName"": ""$stageVariables.DDBTableName""', u'}']]}"
 Resources.Custom::ApiGatewayDeployment.DependsOn,"[u'RestApi', u'RootResource', u'RootGetMethod', u'RootGetMethodResponse', u'RootIntegration', u'RootIntegrationResponse']"

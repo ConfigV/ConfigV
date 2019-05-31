@@ -39,7 +39,6 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn:
 Metadata.AWS::CloudFormation::Designer.8d10144b-45f8-4ad4-855d-199285a1c20a.source.id,d509e6f2-dd24-460d-8532-e98791c13777
 Parameters.InstanceCount.ConstraintDescription,Integers only
 Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.isconnectedto,[u'4369026b-a90f-474b-8fcd-b636341ea415']
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'apt -y update\n', u'DEBIAN_FRONTEND=noninteractive apt-get -y upgrade\n', u'apt install -y docker.io screen\n', u'mkdir /ethereum\n', {u'Fn::If': [u'IsNVME', {u'Fn::Join': [u'', [u'mkfs.ext4 -F /dev/nvme0n1\n', u'mount /dev/nvme0n1 /ethereum\n', u'chmod a+w /ethereum/\n', u'echo UUID=`sudo blkid -s UUID -o value /dev/disk/by-id/nvme-Amazon*` /ethereum/ ext4 discard,defaults,nofail 0 2 | sudo tee -a /etc/fstab\n']]}, u'']}, u'export INSTANCEID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n', u'docker pull myetherwallet/docker-geth-lb:parity-prebuilt-instance\n', u""/usr/bin/screen -m -d -S docker docker run -e WS_SECRET='"", {u'Ref': u'ETHStatsPassword'}, u""' -e WS_SERVER='ws://"", {u'Fn::GetAtt': [u'EthstatsInstance', u'PublicIp']}, u':3000\' -e INSTANCE_NAME=""mew-parity-instance-$INSTANCEID"" -it -p 8545:8545 -p 30303:30303 -v /ethereum:/root/.local --restart unless-stopped myetherwallet/docker-geth-lb:parity-prebuilt-instance\n']]}}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Designer.id,61d5b9ec-16cf-48f4-8d7d-861cc7e781e7
 Metadata.AWS::CloudFormation::Designer.92ecadb6-800b-409d-a15c-fbef2dc6f08e.source.selector,g:nth-child(1) g:nth-child(4) g:nth-child(2) circle:nth-child(1)     
@@ -56,12 +55,10 @@ Metadata.AWS::CloudFormation::Designer.070987a8-4476-46f5-be19-3fd46e0f192d.targ
 Metadata.AWS::CloudFormation::Designer.f67d95d9-f8db-4fda-8aa2-f8297eb6df19.z,2
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
 Metadata.AWS::CloudFormation::Designer.776ee65f-2dc5-454d-bff8-a951840cadbb.source.selector,g:nth-child(1) g:nth-child(4) g:nth-child(2) circle:nth-child(1)     
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.embeds,[]
 Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.embeds,[]
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.position.y,180
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.position.x,-80
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Metadata.AWS::CloudFormation::Designer.fe827154-fdc1-463d-9b70-44c556d2c5ee.size.height,60
 Metadata.AWS::CloudFormation::Designer.bcd0cabd-422c-441d-981c-a47e4cb1320e.z,2
 Metadata.AWS::CloudFormation::Designer.03b12204-0f4e-4382-948e-cca534cbc34f.target.id,54b037ce-872c-458e-8876-ff95f9b58d1d
@@ -87,9 +84,7 @@ Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.embe
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable Geth RPC Port
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'8545', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfiguration'}
-Parameters.ETHStatsPassword.Type,String
 Mappings.AWSRegionArch2AMI.ca-central-1.64,ami-7ed56a1a
-Parameters.InstanceCount.Type,Number
 Metadata.AWS::CloudFormation::Designer.b9bb5ecc-90ff-47c4-a5d9-96e57b8258e8.target.id,54b037ce-872c-458e-8876-ff95f9b58d1d
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'apt update -y\n', u'apt install -y docker.io screen\n', u'docker pull myetherwallet/docker-geth-lb:ethstats-instance\n', u""/usr/bin/screen -m -d -S docker docker run -it -e WS_SECRET='"", {u'Ref': u'ETHStatsPassword'}, u""' -p 3000:3000 myetherwallet/docker-geth-lb:ethstats-instance\n""]]}}"
 Metadata.AWS::CloudFormation::Designer.070987a8-4476-46f5-be19-3fd46e0f192d.source.id,61d5b9ec-16cf-48f4-8d7d-861cc7e781e7
@@ -118,21 +113,17 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,
 Parameters.InstanceCount.Description,Number of instances to deploy
 Metadata.AWS::CloudFormation::Designer.b9bb5ecc-90ff-47c4-a5d9-96e57b8258e8.source.port,AWS::MembershipLInk-AWS::EC2::SecurityGroup-SecurityGroups
 Metadata.AWS::CloudFormation::Designer.776ee65f-2dc5-454d-bff8-a951840cadbb.z,12
-Parameters.ETHStatsServer.Type,String
 Parameters.ETHStatsPassword.ConstraintDescription,String only
 Parameters.SSHLocation.MinLength,9
 Metadata.AWS::CloudFormation::Designer.6197f869-42c0-4e45-9a0e-bc15957974ca.z,11
 Metadata.AWS::CloudFormation::Designer.74cce04d-af0b-4bbd-a163-97f814946dc4.source.selector,g:nth-child(1) g:nth-child(4) g:nth-child(2) circle:nth-child(1)     
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
 Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.ismemberof,[u'54b037ce-872c-458e-8876-ff95f9b58d1d']
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Metadata.AWS::CloudFormation::Designer.54b037ce-872c-458e-8876-ff95f9b58d1d.embeds,[]
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.size.width,60
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'InstanceCount'}
 Metadata.AWS::CloudFormation::Designer.fe827154-fdc1-463d-9b70-44c556d2c5ee.embeds,[]
-Parameters.SSHLocation.Type,String
 Metadata.AWS::CloudFormation::Designer.bcd0cabd-422c-441d-981c-a47e4cb1320e.target.id,eba4a194-0d7c-433b-a0f3-633c3493e0ee
 Metadata.AWS::CloudFormation::Designer.776ee65f-2dc5-454d-bff8-a951840cadbb.source.id,61d5b9ec-16cf-48f4-8d7d-861cc7e781e7
 Metadata.AWS::CloudFormation::Designer.61a1944b-eace-47f8-9013-5f5b033b5d22.target.id,64341821-8e1c-40bb-a740-072885af036d
@@ -143,7 +134,6 @@ Metadata.AWS::CloudFormation::Designer.92ecadb6-800b-409d-a15c-fbef2dc6f08e.z,12
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.z,0
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.size.width,60
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Metadata.AWS::CloudFormation::Designer.070987a8-4476-46f5-be19-3fd46e0f192d.z,12
 Parameters.SSHLocation.Default,0.0.0.0/0

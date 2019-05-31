@@ -1,12 +1,8 @@
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyPair'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,[]
 Parameters.CloudConfig.Description,Registry cloud-config configuration (base64)
-Parameters.ClusterSize.Type,Number
 Parameters.ClusterSize.MinValue,1
 Parameters.AZ.Description,The list of AvailabilityZones for your Virtual Private Cloud (VPC)
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Parameters.Subnet.Description,The SubnetId in your Virtual Private Cloud (VPC)
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable cluster communication
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'2379', u'LoadBalancerPort': u'2379', u'Protocol': u'TCP'}, {u'InstancePort': u'2380', u'LoadBalancerPort': u'2380', u'Protocol': u'TCP'}]"
@@ -17,7 +13,6 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,
 Outputs.URL.Value,"{u'Fn::GetAtt': [u'ElasticLoadBalancerPublic', u'DNSName']}"
 Parameters.VpcId.Description,VpcId of your existing Virtual Private Cloud (VPC)
 Parameters.ClusterSize.Default,1
-Parameters.VpcId.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
@@ -28,30 +23,21 @@ Parameters.SSLCertificate.Description,ARN of an SSL Certificate for the cluster
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'InstanceSecurityGroup'}
 Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,{u'Ref': u'InstanceSecurityGroup'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,12
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.AllowSSHFrom.Default,0.0.0.0/0
-Parameters.AZ.Type,CommaDelimitedList
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'ClusterSize'}
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,{u'Ref': u'Subnet'}
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,22
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'AllowSSHFrom'}}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'PublicELBSecurityGroup'}, u'FromPort': u'80'}]"
-Parameters.AllowSSHFrom.Type,String
-Parameters.Subnet.Type,CommaDelimitedList
 Parameters.ClusterSize.MaxValue,12
 Parameters.AmiId.Description,AmiId of a CoreOS image for the specified instance type and region
-Parameters.SSLCertificate.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvda', u'Ebs': {u'VolumeSize': u'8'}}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'PublicELBSecurityGroup'}]
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,"[{u'Ref': u'ElasticLoadBalancerPublic'}, {u'Ref': u'ElasticLoadBalancerPrivate'}]"
 Outputs.URL.Description,DNS of the stack
 Parameters.ClusterSize.Description,Number of nodes in cluster (1-12).
-Parameters.AmiId.Type,String
-Parameters.KeyPair.Type,String
-Parameters.CloudConfig.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Scheme,internal
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Ref': u'AZ'}
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,"{u'Fn::Join': [u'', [u'HTTP:', u'2379', u'/version']]}"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5

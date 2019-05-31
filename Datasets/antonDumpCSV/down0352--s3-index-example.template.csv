@@ -2,29 +2,22 @@ Resources.AWS::IAM::Role.DependsOn,"[u'S3Bucket', u'IndexTable']"
 Resources.AWS::Lambda::Function.Properties.Description,Function for indexing S3 buckets
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'LambdaCodeKey'}
 Parameters.LambdaCodeKey.Description,The S3 key of the lambda function deployment package within the LambdaCodeBucket
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'CustID'}, {u'KeyType': u'RANGE', u'AttributeName': u'TS-ServerID'}]"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaIndexerRole', u'Arn']}"
-Parameters.BucketName.Type,String
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaCodeBucket'}
 Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'ServerID'}, {u'KeyType': u'RANGE', u'AttributeName': u'TS-ServerID'}], u'IndexName': u'ServerIndex', u'Projection': {u'ProjectionType': u'INCLUDE', u'NonKeyAttributes': [u'Key']}, u'ProvisionedThroughput': {u'WriteCapacityUnits': u'10', u'ReadCapacityUnits': u'1'}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,10
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'CustID', u'AttributeType': u'S'}, {u'AttributeName': u'ServerID', u'AttributeType': u'S'}, {u'AttributeName': u'TS-ServerID', u'AttributeType': u'S'}, {u'AttributeName': u'HasTransaction', u'AttributeType': u'S'}]"
 Resources.AWS::Lambda::Function.Properties.MemorySize,128
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::DynamoDB::Table.Properties.TableName,"{u'Fn::Join': [u'-', [{u'Ref': u'BucketName'}, u'index']]}"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Parameters.LambdaCodeBucket.Description,The S3 bucket where the lambda function deployment package is stored.
 Parameters.BucketName.Description,The name for the example bucket. E.g. s3-index-example.yourdomain.com.
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
-Parameters.LambdaCodeKey.Type,String
 Resources.AWS::DynamoDB::Table.Properties.LocalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'CustID'}, {u'KeyType': u'RANGE', u'AttributeName': u'HasTransaction'}], u'IndexName': u'CustomerTransactions', u'Projection': {u'ProjectionType': u'INCLUDE', u'NonKeyAttributes': [u'Key']}}]"
-Parameters.LambdaCodeBucket.Type,String
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'logs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'read-s3', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:GetObject', u's3:ListBucket'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'BucketName'}, u'/*']]}], u'Effect': u'Allow'}]}}, {u'PolicyName': u'put-ddb', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:PutItem', u'dynamodb:UpdateItem'], u'Resource': [{u'Fn::Join': [u'/', [{u'Fn::Join': [u':', [u'arn:aws:dynamodb', {u'Ref': u'AWS::Region'}, {u'Ref': u'AWS::AccountId'}, u'table']]}, {u'Ref': u'IndexTable'}]]}], u'Effect': u'Allow'}]}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
 Resources.AWS::S3::Bucket.Properties.BucketName,{u'Ref': u'BucketName'}

@@ -8,8 +8,6 @@ Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::Lambda::Function.Properties.Timeout,60
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,LambdaExecutionRole.Arn
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Parameters.ScheduleExpression.Description,Valid CloudWatch Events schedule expression http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
@@ -20,14 +18,9 @@ Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'AWS::StackName', u'Ar
 Resources.AWS::Lambda::Function.Properties.FunctionName,AWS::StackName
 Outputs.SnapshotScheduler.Value,SnapshotScheduler.Arn
 Resources.AWS::Events::Rule.Properties.Description,AWS::StackName
-Parameters.S3Bucket.Type,String
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
 Resources.AWS::Lambda::Permission.Properties.SourceArn,ScheduledRule.Arn
-Parameters.S3Key.Type,String
 Parameters.S3Bucket.Description,S3 Bucket with deployment package
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'AWS::StackName', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ec2:DescribeSnapshots', u'ec2:DeleteSnapshot'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}]"
-Parameters.ScheduleExpression.Type,String

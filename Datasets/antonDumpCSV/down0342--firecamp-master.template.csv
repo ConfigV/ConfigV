@@ -10,7 +10,6 @@ Parameters.PrivateSubnet3CIDR.Default,10.0.64.0/19
 Parameters.ContainerPlatform.Description,The container orchestration platform.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfManagers,{u'Ref': u'NumberOfManagers'}
 Parameters.RemoteAccessCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/x
-Parameters.NumberOfNodes.Type,Number
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.BastionAMIOS.default,Bastion AMI Operating System
 Parameters.RemoteAccessCIDR.Description,Allowed CIDR block for external SSH access to the Bastion nodes. MUST be in the form x.x.x.x/x
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfAZs.default,Number of Availability Zones
@@ -24,16 +23,10 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.ContainerPlatform.defaul
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet1CIDR,{u'Ref': u'PublicSubnet1CIDR'}
 Parameters.PublicSubnet2CIDR.Default,10.0.144.0/20
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet1ID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet1ID']}"
-Parameters.CatalogRelease.Type,String
-Parameters.NumBastionHosts.Type,String
-Parameters.PrivateSubnet2CIDR.Type,String
-Parameters.BastionAMIOS.Type,String
 Parameters.PublicSubnet3CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.EnableTCPForwarding,true
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ClusterName.default,Cluster Name
 Parameters.PrivateSubnet1CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
-Parameters.NodeAMIOS.Type,String
-Parameters.QSS3KeyPrefix.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NodeAMIOS.default,Node AMI Type
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'AvailabilityZones', u'NumberOfAZs', u'VPCCIDR', u'PrivateSubnet1CIDR', u'PrivateSubnet2CIDR', u'PrivateSubnet3CIDR', u'PublicSubnet1CIDR', u'PublicSubnet2CIDR', u'PublicSubnet3CIDR', u'RemoteAccessCIDR'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'KeyPairName'], u'Label': {u'default': u'Security Configuration'}}, {u'Parameters': [u'BastionAMIOS', u'BastionInstanceType', u'NumBastionHosts'], u'Label': {u'default': u'Linux Bastion Amazon EC2 Configuration'}}, {u'Parameters': [u'ContainerPlatform', u'ClusterName', u'Release', u'CatalogRelease', u'NumberOfManagers', u'NumberOfNodes', u'NodeAMIOS', u'NodeInstanceType'], u'Label': {u'default': u'FireCamp Cluster Configuration'}}, {u'Parameters': [u'QSS3BucketName', u'QSS3KeyPrefix'], u'Label': {u'default': u'AWS Quick Start Configuration'}}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RemoteAccessCIDR.default,Allowed Bastion External Access CIDR
@@ -46,7 +39,6 @@ Parameters.ContainerPlatform.AllowedValues,"[u'ecs', u'swarm']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet3ACIDR,{u'Ref': u'PrivateSubnet3CIDR'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet2CIDR.default,Private Subnet 2 CIDR
 Parameters.PublicSubnet3CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
-Parameters.QSS3BucketName.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyPairName.default,Key Pair Name
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfNodes.default,Number of Container Worker Nodes
 Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the Bastion and cluster nodes.
@@ -63,16 +55,13 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterName,{u'Ref': 
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CatalogRelease.default,CloudStax FireCamp Catalog Service Release Version
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCCIDR,{u'Ref': u'VPCCIDR'}
 Parameters.RemoteAccessCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-Parameters.PublicSubnet3CIDR.Type,String
 Parameters.PrivateSubnet3CIDR.Description,CIDR block for private subnet located in Availability Zone 3.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Fn::Sub': u'${QSS3KeyPrefix}submodules/quickstart-linux-bastion/'}
 Parameters.BastionAMIOS.Default,Amazon-Linux-HVM
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Sub': [u'https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template', {u'QSS3Region': {u'Fn::If': [u'GovCloudCondition', u's3-us-gov-west-1', u's3']}}]}"
-Parameters.VPCCIDR.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCCIDR.default,VPC CIDR
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet3CIDR.default,Private Subnet 3 CIDR
 Parameters.NumberOfManagers.Description,Number of the Swarm manager instances to launch. This field will be ignored for ECS.
-Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet2ACIDR,{u'Ref': u'PrivateSubnet2CIDR'}
 Parameters.PublicSubnet2CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfAZs,{u'Ref': u'NumberOfAZs'}
@@ -86,7 +75,6 @@ Parameters.NumBastionHosts.Description,Enter the number of bastion hosts to crea
 Parameters.PublicSubnet3CIDR.Default,10.0.160.0/20
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumBastionHosts.default,Number of Bastion Hosts
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Release,{u'Ref': u'Release'}
-Parameters.RemoteAccessCIDR.Type,String
 Parameters.PrivateSubnet1CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Parameters.PrivateSubnet1CIDR.Default,10.0.0.0/19
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1ACIDR,{u'Ref': u'PrivateSubnet1CIDR'}
@@ -95,7 +83,6 @@ Parameters.QSS3KeyPrefix.Description,"S3 key prefix for the Quick Start assets. 
 Parameters.Release.AllowedValues,[u'1.0']
 Parameters.VPCCIDR.Default,10.0.0.0/16
 Parameters.PublicSubnet1CIDR.Description,CIDR Block for the public (DMZ) subnet located in Availability Zone 1.
-Parameters.Release.Type,String
 Parameters.QSS3KeyPrefix.Default,quickstart-cloudstax-firecamp/
 Parameters.NodeAMIOS.Description,The Linux distribution for the AMI to be used for the service instances
 Parameters.NumberOfAZs.Default,3
@@ -105,9 +92,6 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet3CIDR.defaul
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfManagers.default,Number of Docker Swarm Managers
 Parameters.PrivateSubnet1CIDR.Description,CIDR block for private subnet located in Availability Zone 1.
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPCID']}"
-Parameters.PrivateSubnet3CIDR.Type,String
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Parameters.ContainerPlatform.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet1CIDR.default,Private Subnet 1 CIDR
 Parameters.CatalogRelease.Description,"The FireCamp Catalog Service release version. For the detail release notes, please refer to https://github.com/cloudstax/firecamp/releases."
@@ -119,24 +103,17 @@ Parameters.ClusterName.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
 Outputs.AppAccessSecurityGroup.Value,{u'Ref': u'AppAccessSecurityGroup'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumBastionHosts,{u'Ref': u'NumBastionHosts'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.RemoteAccessCIDR,{u'Ref': u'RemoteAccessCIDR'}
-Parameters.AvailabilityZones.Type,List<AWS::EC2::AvailabilityZone::Name>
 Parameters.Release.Description,"The FireCamp System Services release version. For the detail release notes, please refer to https://github.com/cloudstax/firecamp/releases."
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet3CIDR,{u'Ref': u'PublicSubnet3CIDR'}
 Parameters.VPCCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPCID']}"
-Parameters.PrivateSubnet1CIDR.Type,String
 Parameters.PrivateSubnet2CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-Parameters.ClusterName.Type,String
-Parameters.PublicSubnet1CIDR.Type,String
 Parameters.PublicSubnet1CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.PrivateSubnet2CIDR.Description,CIDR block for private subnet located in Availability Zone 2.
-Parameters.NumberOfAZs.Type,String
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Parameters.NumberOfNodes.Description,Number of container instances to launch in the cluster.
 Parameters.ClusterName.MinLength,1
-Parameters.NumberOfManagers.Type,Number
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfNodes,{u'Ref': u'NumberOfNodes'}
 Parameters.PublicSubnet2CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet1CIDR.default,Public Subnet 1 CIDR
@@ -149,6 +126,5 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,Qu
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyPairName'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetIDs,"{u'Fn::If': [u'2AZCondition', {u'Fn::Join': [u',', [{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet1AID']}, {u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet2AID']}]]}, {u'Fn::Join': [u',', [{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet1AID']}, {u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet2AID']}, {u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet3AID']}]]}]}"
 Parameters.VPCCIDR.Description,CIDR Block for the VPC
-Parameters.PublicSubnet2CIDR.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'30000', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'ServiceSecurityGroup'}, u'FromPort': u'2000'}]"
 Parameters.ClusterName.MaxLength,54

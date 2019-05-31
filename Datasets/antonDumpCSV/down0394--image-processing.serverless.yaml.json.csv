@@ -1,14 +1,11 @@
 Resources.AWS::Serverless::Function.Properties.CodeUri,../lambda-functions/rekognition
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
 Resources.Custom::S3EventTrigger.Properties.accountId,AWS::AccountId
 Resources.Custom::S3EventTrigger.Version,1.0
 Outputs.S3PhotoRepoBucket.Value,{u'Ref': u'PhotoRepoS3Bucket'}
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Outputs.DescribeExecutionLambda.Value,{u'Ref': u'DescribeExecutionFunction'}
 Outputs.DDBAlbumMetadataTable.Value,{u'Ref': u'AlbumMetadataDDBTable'}
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'albumID'}]"
 Resources.AWS::IAM::Role.Properties.Path,/MediaSharingRefarch/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Serverless::Function.Properties.MemorySize,256
 Resources.Custom::S3EventTrigger.Properties.StartExecutionFunction,ImageProcStartExecutionFunction
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.STATE_MACHINE_ARN,ImageProcStateMachine
@@ -21,19 +18,14 @@ Resources.AWS::Serverless::Function.Properties.Timeout,60
 Resources.AWS::Serverless::Function.Properties.Role,BackendProcessingLambdaRole.Arn
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'albumID', u'AttributeType': u'S'}, {u'AttributeName': u'creationTime', u'AttributeType': False}, {u'AttributeName': u'userID', u'AttributeType': u'S'}]"
 Resources.AWS::Serverless::Function.Properties.Handler,index.handler
-Resources.AWS::Cognito::IdentityPoolRoleAttachment.Type,AWS::Cognito::IdentityPoolRoleAttachment
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.Custom::S3EventTrigger.Properties.ServiceToken,CreateS3EventTriggerFunction.Arn
 Resources.AWS::Serverless::Function.Properties.Description,Use Amazon Rekognition to detect labels from image
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.Custom::S3EventTrigger.DependsOn,"[u'PhotoRepoS3Bucket', u'ImageProcStartExecutionFunction']"
-Resources.AWS::StepFunctions::StateMachine.Type,AWS::StepFunctions::StateMachine
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.Custom::S3EventTrigger.Type,Custom::S3EventTrigger
 Resources.AWS::StepFunctions::StateMachine.Properties.DefinitionString,"[u'', {u'RekognitionLambdaArn': u'RekognitionFunction.Arn', u'StoreImageMetadataLambdaArn': u'StoreImageMetadataFunction.Arn', u'ExtractImageMetadataLambdaArn': u'ExtractImageMetadataFunction.Arn', u'GenerateThumbnailLambdaArn': u'GenerateThumbnailFunction.Arn', u'TransformMetadataLambdaArn': u'TransformMetadataFunction.Arn'}]"
 Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'AllowedHeaders': [u'*'], u'ExposedHeaders': [u'ETag'], u'AllowedMethods': [u'PUT', u'GET', u'POST', u'HEAD'], u'AllowedOrigins': [u'*']}]"
 Resources.Custom::S3EventTrigger.Properties.StartExecutionFunctionArn,ImageProcStartExecutionFunction.Arn
-Resources.AWS::Cognito::IdentityPool.Type,AWS::Cognito::IdentityPool
 Resources.AWS::StepFunctions::StateMachine.Properties.RoleArn,StateMachineRole.Arn
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.authenticated,TestClientIAMRole.Arn
 Resources.AWS::Serverless::Function.Properties.Runtime,nodejs4.3

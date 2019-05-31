@@ -1,11 +1,9 @@
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::CloudWatch::Alarm.Properties.InsufficientDataActions,[{u'Ref': u'AlarmTopic'}]
-Parameters.DatabaseName.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,"[{u'Fn::Join': [u'', [{u'Ref': u'AWS::Region'}, u'a']]}]"
 Parameters.OperatorEmail.Description,Email address to notify if there are any operational issues
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}, u'/']]}"
 Parameters.DatabaseName.Default,PHPSample
-Parameters.OperatorEmail.Type,String
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
 Parameters.DatabasePort.Description,TCP/IP port for the RDS database
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,"{u'Fn::FindInMap': [u'AWSRegionCapabilities', {u'Ref': u'AWS::Region'}, u'RDSMultiAZ']}"
@@ -16,51 +14,38 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Unhealt
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'Database=', {u'Fn::GetAtt': [u'SampleDB', u'Endpoint.Address']}, u':', {u'Ref': u'DatabasePort'}, u'&DBUser=', {u'Ref': u'DatabaseUser'}, u'&DBPassword=', {u'Ref': u'DatabasePassword'}, u'&WSPort=', {u'Ref': u'WebServerPort'}]]}}"
 Resources.AWS::CloudWatch::Alarm.Properties.ComparisonOperator,GreaterThanThreshold
 Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,1
-Resources.AWS::CloudWatch::Alarm.Type,AWS::CloudWatch::Alarm
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,"{u'Fn::Join': [u'', [u'HTTP:', {u'Ref': u'WebServerPort'}, u'/']]}"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
-Parameters.DatabaseUser.Type,String
 Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DatabaseUser'}
-Parameters.KeyName.Type,String
 Resources.AWS::CloudWatch::Alarm.Properties.MetricName,Latency
 Parameters.WebServerPort.Description,TCP/IP port for the web server
 Parameters.DatabaseUser.NoEcho,true
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'AlarmTopic'}]
 Resources.AWS::RDS::DBInstance.Properties.DBSecurityGroups,[{u'Ref': u'DBSecurityGroup'}]
 Resources.AWS::CloudWatch::Alarm.Properties.Namespace,AWS/ELB
 Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DatabasePassword'}
 Parameters.DatabasePassword.NoEcho,true
 Resources.AWS::CloudWatch::Alarm.Properties.Period,60
-Parameters.WebServerPort.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2
 Parameters.DatabasePassword.Default,admin
 Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
-Resources.AWS::RDS::DBSecurityGroup.Type,AWS::RDS::DBSecurityGroup
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,HTTP and SSH access
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': {u'Ref': u'WebServerPort'}, u'PolicyNames': [u'p1'], u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
 Resources.AWS::RDS::DBSecurityGroup.Properties.GroupDescription,database access
 Parameters.DatabaseUser.Default,admin
 Resources.AWS::CloudWatch::Alarm.Properties.Statistic,Average
-Parameters.DatabasePassword.Type,String
 Resources.AWS::RDS::DBSecurityGroup.Properties.DBSecurityGroupIngress.EC2SecurityGroupName,{u'Ref': u'EC2SecurityGroup'}
 Resources.AWS::RDS::DBInstance.Properties.Port,{u'Ref': u'DatabasePort'}
 Parameters.DatabasePassword.Description,Test database admin account password
 Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'LoadBalancerName', u'Value': {u'Ref': u'ElasticLoadBalancer'}}]"
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.m1.small
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the web server
 Outputs.URL.Description,URL of the website
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Parameters.DatabasePort.Type,String
 Parameters.DatabaseName.Description,Test database name
 Parameters.DatabasePort.Default,3306
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,3
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,5
 Resources.AWS::CloudWatch::Alarm.Properties.Threshold,1

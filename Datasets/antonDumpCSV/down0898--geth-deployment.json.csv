@@ -32,12 +32,10 @@ Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Metadata.AWS::CloudFormation::Designer.fe827154-fdc1-463d-9b70-44c556d2c5ee.z,0
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.embeds,[]
 Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.embeds,[]
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.position.y,180
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.position.x,-80
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Metadata.AWS::CloudFormation::Designer.fe827154-fdc1-463d-9b70-44c556d2c5ee.size.height,60
 Parameters.SSHLocation.MaxLength,18
 Parameters.ETHStatsPassword.Description,Password to connect to ethstats server
@@ -53,8 +51,6 @@ Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.embe
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable Geth RPC Port
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'8545', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfiguration'}
-Parameters.ETHStatsPassword.Type,String
-Parameters.InstanceCount.Type,Number
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'apt update -y\n', u'apt install -y docker.io screen\n', u'docker pull myetherwallet/docker-geth-lb:ethstats-instance\n', u""/usr/bin/screen -m -d -S docker docker run -it -e WS_SECRET='"", {u'Ref': u'ETHStatsPassword'}, u""' -p 3000:3000 myetherwallet/docker-geth-lb:ethstats-instance\n""]]}}"
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.position.y,50
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.position.x,140
@@ -70,26 +66,20 @@ Outputs.URL.Description,The URL of the node
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.size.height,60
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.size.width,60
 Outputs.ETHStatsIP.Description,IP address of the ethstats server
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,TCP:8545
 Parameters.InstanceCount.Description,Number of instances to deploy
-Parameters.ETHStatsServer.Type,String
 Parameters.ETHStatsPassword.ConstraintDescription,String only
 Parameters.SSHLocation.MinLength,9
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Metadata.AWS::CloudFormation::Designer.54b037ce-872c-458e-8876-ff95f9b58d1d.embeds,[]
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.size.width,60
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'InstanceCount'}
 Metadata.AWS::CloudFormation::Designer.fe827154-fdc1-463d-9b70-44c556d2c5ee.embeds,[]
-Parameters.SSHLocation.Type,String
 Mappings.AWSRegionArch2AMI.ca-central-1.64,ami-7ed56a1a
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'ETHStatsSecurity'}]
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.z,0
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.size.width,60
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::AutoScaling::AutoScalingGroup.Metadata.AWS::CloudFormation::Designer.id,d509e6f2-dd24-460d-8532-e98791c13777
 Parameters.SSHLocation.Default,0.0.0.0/0
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'LoadBalancer'}]

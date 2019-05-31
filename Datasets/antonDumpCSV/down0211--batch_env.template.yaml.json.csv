@@ -2,28 +2,19 @@ Parameters.StrelkaMemory.Default,32000
 Resources.AWS::Batch::JobDefinition.Properties.ContainerProperties.Memory,SnpEffMemory
 Parameters.ImageId.Description,AMI you want your AWS Batch Compute Environment to use
 Parameters.SubnetIds.Description,Subnets you want your batch compute environment to launch in. Recommend private subnets
-Parameters.SamtoolsStatsMemory.Type,Number
 Parameters.MinvCpus.AllowedPattern,[0-9]+
-Parameters.SamtoolsStatsDockerImage.Type,String
-Parameters.StrelkaVcpus.Type,Number
-Parameters.IsaacDockerImage.Type,String
 Parameters.SamtoolsStatsVcpus.Description,vCPUs available to SAMtools Jobs. Default is usually fine
 Resources.AWS::Batch::JobDefinition.Properties.RetryStrategy.Attempts,RetryNumber
-Resources.AWS::Batch::JobDefinition.Properties.Type,container
 Resources.AWS::Batch::JobDefinition.Properties.JobDefinitionName,"[u'-', [u'snpeff', u'Env']]"
 Parameters.SnpEffVcpus.Default,4
 Parameters.JobRoleArn.Description,ARN for the AWS Batch Job Role
-Parameters.SnpEffMemory.Type,Number
 Parameters.SnpEffVcpus.Description,vCPUs available to snpEff Jobs. Default is usually fine
-Parameters.JobRoleArn.Type,String
 Parameters.SecurityGroupIds.Description,Security groups your instances in your batch compute environment should use
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.MinvCpus,MinvCpus
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.MaxvCpus,MaxvCpus
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeEnvironmentName,"[u'-', [u'genomicsEnv', u'Env']]"
 Resources.AWS::Batch::JobDefinition.Properties.ContainerProperties.Volumes,"[{u'Host': {u'SourcePath': u'/docker_scratch'}, u'Name': u'docker_scratch'}]"
-Parameters.StrelkaMemory.Type,Number
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.SecurityGroupIds,SecurityGroupIds
-Parameters.SubnetIds.Type,List<AWS::EC2::Subnet::Id>
 Parameters.KeyPair.Description,EC2 Key Pair for EC2 instances launched in your compute environment
 Parameters.BidPercentage.Default,50
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.BidPercentage,BidPercentage
@@ -32,9 +23,7 @@ Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Bat
 Resources.AWS::Batch::ComputeEnvironment.Properties.State,ENABLED
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.InstanceRole,InstanceRole
 Resources.AWS::Batch::JobDefinition.Properties.ContainerProperties.Image,SnpEffDockerImage
-Resources.AWS::Batch::ComputeEnvironment.Type,AWS::Batch::ComputeEnvironment
 Parameters.RetryNumber.Default,1
-Parameters.BatchServiceRole.Type,String
 Parameters.SpotIamFleetRole.Description,ARN for the Spot Fleet Role
 Resources.AWS::Batch::JobQueue.Properties.ComputeEnvironmentOrder,"[{u'ComputeEnvironment': u'GenomicsComputeEnvironment', u'Order': 1}]"
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.ImageId,ImageId
@@ -43,23 +32,14 @@ Parameters.RetryNumber.Description,Number of retries for each AWS Batch job. Int
 Parameters.StrelkaVcpus.Default,32
 Parameters.SamtoolsStatsMemory.Default,10000
 Parameters.StrelkaVcpus.Description,vCPUs available to Strelka Jobs. Default is usually fine
-Resources.AWS::Batch::ComputeEnvironment.Properties.Type,MANAGED
-Parameters.IsaacMemory.Type,Number
 Parameters.IsaacVcpus.Default,32
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.DesiredvCpus,DesiredvCpus
 Parameters.SamtoolsStatsDockerImage.Description,Docker image used to run your SAMtools jobs
-Parameters.MinvCpus.Type,String
-Resources.AWS::Batch::JobDefinition.Type,AWS::Batch::JobDefinition
 Parameters.IsaacMemory.Default,80000
 Parameters.DesiredvCpus.Description,Desired number of CPUs in the compute environment to launch with. Default 0.
-Parameters.IsaacVcpus.Type,Number
-Parameters.StrelkaDockerImage.Type,String
 Parameters.DesiredvCpus.AllowedPattern,[0-9]+
 Parameters.IsaacVcpus.Description,vCPUs available to Isaac Jobs. Default is usually fine
-Parameters.BidPercentage.Type,String
 Parameters.BidPercentage.Description,Maximum spot percentage of on-demand. Should be an integer - default is 50
-Resources.AWS::Batch::JobQueue.Type,AWS::Batch::JobQueue
-Parameters.SnpEffDockerImage.Type,String
 Parameters.SnpEffMemory.Default,10000
 Parameters.MinvCpus.Default,0
 Parameters.IsaacDockerImage.Description,Docker image used to run your Isaac jobs
@@ -68,34 +48,22 @@ Parameters.InstanceRole.Description,ARN for the ECS InstanceRole
 Parameters.BatchServiceRole.Description,ARN for the AWS Batch Service Role
 Parameters.SnpEffDockerImage.Description,Docker image used to run your snpEff jobs
 Parameters.SamtoolsStatsVcpus.Default,4
-Parameters.SamtoolsStatsVcpus.Type,Number
 Parameters.MaxvCpus.AllowedPattern,[0-9]+
-Parameters.KeyPair.Type,AWS::EC2::KeyPair::KeyName
 Parameters.RetryNumber.AllowedPattern,[1-9]
-Parameters.ImageId.Type,AWS::EC2::Image::Id
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.SpotIamFleetRole,SpotIamFleetRole
-Parameters.SecurityGroupIds.Type,List<AWS::EC2::SecurityGroup::Id>
 Resources.AWS::Batch::JobDefinition.Properties.ContainerProperties.JobRoleArn,JobRoleArn
-Parameters.MaxvCpus.Type,String
 Parameters.StrelkaDockerImage.Description,Docker image used to run your Strelka jobs
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Ec2KeyPair,KeyPair
-Parameters.InstanceRole.Type,String
 Resources.AWS::Batch::JobQueue.Properties.JobQueueName,"[u'-', [u'lowPriority', u'Env']]"
 Parameters.RetryNumber.ConstraintDescription,Value between 1 and 9
-Parameters.SpotIamFleetRole.Type,String
-Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Type,SPOT
 Parameters.ImageId.Default,ami-553d5b43
 Resources.AWS::Batch::ComputeEnvironment.Properties.ServiceRole,BatchServiceRole
 Resources.AWS::Batch::JobQueue.Properties.State,ENABLED
-Parameters.SnpEffVcpus.Type,Number
 Parameters.SnpEffMemory.Description,Memory (in MB) available to snpEff Jobs. Default is usually fine
-Parameters.DesiredvCpus.Type,String
 Parameters.SamtoolsStatsMemory.Description,Memory (in MB) available to SAMtools Jobs. Default is usually fine
 Resources.AWS::Batch::JobQueue.Properties.Priority,1
 Parameters.DesiredvCpus.Default,0
 Parameters.Env.Description,Environment you are running in (e.g. Dev or Prod)
-Parameters.Env.Type,String
-Parameters.RetryNumber.Type,String
 Parameters.BidPercentage.MaxLength,3
 Parameters.MinvCpus.Description,Minimum number of CPUs in the compute environment. Default 0.
 Resources.AWS::Batch::JobDefinition.Properties.ContainerProperties.Vcpus,SnpEffVcpus

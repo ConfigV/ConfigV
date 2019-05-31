@@ -1,8 +1,6 @@
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.owner,chef
 Parameters.ResourceName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Parameters.ResourceName.Type,String
 Parameters.ResourceName.Description,The Logical Resource Name - commonly set by parent stack
-Parameters.VpcId.Type,String
 Outputs.PublicIp.Condition,AssociatePublicIpAddress
 Resources.AWS::IAM::User.Properties.Path,/
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
@@ -18,16 +16,12 @@ Parameters.AssociatePublicIP.AllowedValues,"[u'yes', u'no']"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.group,root
 Parameters.AssociatePublicIP.Default,yes
 Parameters.ChefServerIP.Description,Chef-server IP or hostname
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'CfnUser'}
-Parameters.ChefServerIP.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.content,"{u'Fn::Join': [u'', [u'{\n', u'  ""override_attributes"": {\n', u'    ""splunk"": {\n', u'      ""license_master"": ""', {u'Ref': u'SplunkLicenseMasterIP'}, u'""\n', u'    }\n', u'  },\n', u'  ""chef_type"": ""role"",\n', u'  ""run_list"": [\n', u'    ""role[', {u'Ref': u'SplunkRole'}, u']""\n', u'  ]\n', u'}']]}"
 Parameters.AssociatePublicIP.ConstraintDescription,must be 'yes' or 'no'
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Parameters.KeyName.Type,String
 Parameters.AssociatePublicIP.Description,Indicates whether the server receives a public IP address
 Outputs.PublicIp.Description,Public IP address of instance
-Parameters.SecurityGroup.Type,String
 Outputs.InstanceID.Description,Splunk Server Instance ID
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeleteOnTermination': u'true', u'DeviceIndex': u'0', u'SubnetId': {u'Ref': u'SubnetId'}, u'GroupSet': [{u'Fn::If': [u'CreateDefaultSecurityGroup', {u'Ref': u'SplunkDefaultSecurityGroup'}, {u'Ref': u'SecurityGroup'}]}], u'AssociatePublicIpAddress': {u'Fn::If': [u'AssociatePublicIpAddress', u'true', u'false']}}]"
 Parameters.ResourceName.MinLength,1
@@ -49,21 +43,12 @@ Parameters.SecurityGroup.Default,default
 Resources.AWS::EC2::SecurityGroup.Condition,CreateDefaultSecurityGroup
 Outputs.PrivateIp.Description,Private IP address of instance
 Parameters.SplunkRole.MaxLength,64
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
-Parameters.SplunkLicenseMasterIP.Type,String
 Parameters.SplunkRole.Description,Chef Splunk role to assign to this instance
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Parameters.SubnetId.Type,String
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
-Parameters.SplunkRole.Type,String
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SplunkRole.AllowedValues,"[u'splunk-server', u'splunk-indexer', u'splunk-searcher', u'cluster-master', u'cluster-peer', u'cluster-search-head']"
 Parameters.SplunkRole.MinLength,1
 Parameters.ResourceName.MaxLength,128
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.SplunkRole.ConstraintDescription,must be a valid Chef role for Splunk.
 Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'64HVM']}"
-Parameters.AssociatePublicIP.Type,String
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'SplunkRole'}, u'Key': u'Role'}, {u'Value': {u'Ref': u'ResourceName'}, u'Key': u'Name'}]"
 Parameters.SubnetId.Description,SubnetId of an existing Public or Private subnet in your Virtual Private Cloud (VPC)

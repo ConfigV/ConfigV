@@ -1,11 +1,7 @@
-Parameters.InstanceDomainName.Type,String
-Parameters.SSHKey.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'SSHKey'}
 Parameters.InstanceDomainName.Description,Select your instance DomainName
 Parameters.SSHKey.Description,Select your SSH Key
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'# Replace this with your domain\n', u'DOMAIN=', {u'Ref': u'InstanceDomainName'}, u'\n', u'HOSTNAME=', {u'Ref': u'InstanceHostname'}, u'\n', u'IPV4=/usr/bin/curl -s http://169.254.169.254/latest/meta-data/public-ipv4', u'\n', u'# Set the host name\n', u'hostname', u' ', {u'Ref': u'InstanceHostname'}, u'\n', u'echo', u' ', {u'Ref': u'InstanceHostname'}, u'> /etc/hostname\n', u'# Add fqdn to hosts file\n', u""echo 'HOSTNAME="", {u'Ref': u'InstanceHostname'}, u""'"", u'>> /etc/sysconfig/network\n', u""echo 'preserve_hostname: true' >> /etc/cloud/cloud.cfg\n"", u'cat<<EOF > /etc/hosts\n', u'127.0.0.1 localhost\n', u'$IPV4 $HOSTNAME.$DOMAIN $HOSTNAME\n', u'EOF']]}}"
-Parameters.InstanceHostname.Type,String
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.InstanceDomainName.Default,redhat1.org
 Parameters.InstanceHostname.Default,RedHatDevInstance
 Parameters.InstanceHostname.Description,Select your you instance Hostname

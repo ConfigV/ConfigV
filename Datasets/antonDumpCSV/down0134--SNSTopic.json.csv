@@ -1,15 +1,11 @@
 Resources.AWS::SNS::Subscription.Properties.TopicArn,{u'Ref': u'SNSTopic'}
 Outputs.QueueName.Description,Name of newly created SNS Topic
 Resources.AWS::SNS::Subscription.Properties.Protocol,{u'Ref': u'SubscriptionProtocol'}
-Parameters.SubscriptionEndPoint.Type,String
-Resources.AWS::SNS::Subscription.Type,AWS::SNS::Subscription
 Parameters.SubscriptionProtocol.AllowedValues,"[u'http', u'https', u'email', u'email-json', u'sms', u'sqs', u'application', u'lambda']"
 Outputs.QueueName.Value,"{u'Fn::GetAtt': [u'SNSTopic', u'TopicName']}"
 Parameters.SubscriptionProtocol.Default,sqs
-Parameters.SubscriptionProtocol.Type,String
 Resources.AWS::SNS::Subscription.Properties.Endpoint,{u'Ref': u'SubscriptionEndPoint'}
 Outputs.TopicARN.Description,ARN of newly created SNS Topic
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Parameters.SubscriptionEndPoint.Description,The endpoint that receives notifications from the Amazon SNS topic. The endpoint value depends on the protocol that you specify. This could be a URL or ARN
 Parameters.SubscriptionProtocol.Description,The subscription's protocol
 Outputs.TopicARN.Value,{u'Ref': u'SNSTopic'}

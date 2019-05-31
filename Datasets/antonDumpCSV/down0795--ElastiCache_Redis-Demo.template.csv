@@ -1,13 +1,10 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
-Parameters.ClusterNodeType.Type,String
 Parameters.ClusterNodeType.Description,The compute and memory capacity of the nodes in the  Redis Cluster
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.01-install-aws-cli.command,easy_install awscli
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the web server
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Resources.AWS::ElastiCache::SecurityGroup.Type,AWS::ElastiCache::SecurityGroup
 Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
-Resources.AWS::ElastiCache::SecurityGroupIngress.Type,AWS::ElastiCache::SecurityGroupIngress
 Parameters.KeyName.ConstraintDescription,can contain only ASCII characters.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.03-get-cluster-config.command,/usr/local/bin/get_cluster_config
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'yum update -y aws-cfn-bootstrap\n', u'# Setup the PHP sample application\n', u'/opt/aws/bin/cfn-init ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerHost ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'# Signal the status of cfn-init\n', u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WebServerWaitHandle'}, u""'\n""]]}}"
@@ -22,14 +19,11 @@ Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'WebServerRole'}]
 Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'WebServerHost', u'PublicDnsName']}]]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.ensureRunning,false
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/cron.d/get_cluster_config.content,*/5 * * * * root /usr/local/bin/get_cluster_config
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./usr/local/bin/get_cluster_config.content,"{u'Fn::Join': [u'', [u'#! /bin/bash\n', u'aws elasticache describe-cache-clusters ', u'         --cache-cluster-id ', {u'Ref': u'RedisCluster'}, u'         --show-cache-node-info --region ', {u'Ref': u'AWS::Region'}, u' > /tmp/cacheclusterconfig\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.php.owner,apache
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./usr/local/bin/install_phpredis.group,root
-Parameters.KeyName.Type,String
 Resources.AWS::ElastiCache::CacheCluster.Properties.Engine,redis
-Resources.AWS::ElastiCache::CacheCluster.Type,AWS::ElastiCache::CacheCluster
 Resources.AWS::ElastiCache::SecurityGroupIngress.Properties.EC2SecurityGroupName,{u'Ref': u'WebServerSecurityGroup'}
 Parameters.ClusterNodeType.ConstraintDescription,must select a valid Cache Node type.
 Resources.AWS::ElastiCache::CacheCluster.Properties.CacheSecurityGroupNames,[{u'Ref': u'RedisClusterSecurityGroup'}]
@@ -40,7 +34,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP and SSH access
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.02-install_phpredis.command,/usr/local/bin/install_phpredis
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebServerHost
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.gcc,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./usr/local/bin/get_cluster_config.owner,root
 Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WebServerWaitHandle'}
@@ -50,7 +43,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./va
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'WebServerInstanceProfile'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.php.mode,000644
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElastiCache::CacheCluster.Properties.CacheNodeType,{u'Ref': u'ClusterNodeType'}
 Parameters.SSHLocation.MinLength,9
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.00-uninstall-default-cli.command,yum remove -y aws-cli
@@ -58,11 +50,8 @@ Parameters.KeyName.MinLength,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./usr/local/bin/install_phpredis.content,"{u'Fn::Join': [u'', [u'#! /bin/bash\n', u'cd /tmp\n', u'wget https://github.com/nicolasff/phpredis/zipball/master -O phpredis.zip\n', u'unzip phpredis.zip\n', u'cd nicolasff-phpredis-*\n', u'phpize\n', u'./configure\n', u'make && make install\n', u'touch /etc/php.d/redis.ini\n', u'echo extension=redis.so > /etc/php.d/redis.ini\n']]}"
 Parameters.ClusterNodeType.AllowedValues,"[u'cache.t1.micro', u'cache.m1.small', u'cache.m1.medium', u'cache.m1.large', u'cache.m1.xlarge', u'cache.m2.xlarge', u'cache.m2.2xlarge', u'cache.m2.4xlarge', u'cache.m3.xlarge', u'cache.m3.2xlarge', u'cache.c1.xlarge']"
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./usr/local/bin/get_cluster_config.mode,000755
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.SSHLocation.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/cron.d/get_cluster_config.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.php.group,apache
 Parameters.ClusterNodeType.Default,cache.m1.small
@@ -70,8 +59,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./us
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.enabled,false
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Parameters.SSHLocation.Default,0.0.0.0/0
 Resources.AWS::ElastiCache::SecurityGroup.Properties.Description,Lock the cluster down

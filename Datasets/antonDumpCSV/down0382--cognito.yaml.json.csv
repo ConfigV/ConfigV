@@ -2,21 +2,16 @@ Outputs.CognitoIdentityPoolId.Value,CognitoIdentityPool
 Parameters.LexBotName.Description,Lex bot name used to build IAM policy
 Parameters.LexBotName.Default,OrderFlowers
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.IdentityPoolId,CognitoIdentityPool
-Parameters.LexBotName.Type,String
 Parameters.CognitoIdentityPoolName.MaxLength,128
-Resources.AWS::Cognito::IdentityPoolRoleAttachment.Type,AWS::Cognito::IdentityPoolRoleAttachment
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRoleWithWebIdentity'], u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'cognito-identity.amazonaws.com:aud': u'CognitoIdentityPool'}, u'ForAnyValue:StringLike': {u'cognito-identity.amazonaws.com:amr': u'unauthenticated'}}, u'Principal': {u'Federated': u'cognito-identity.amazonaws.com'}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.CognitoIdentityPoolName.Default,identity pool
-Resources.AWS::Cognito::IdentityPool.Type,AWS::Cognito::IdentityPool
 Parameters.CognitoIdentityPoolName.MinLength,1
 Parameters.CognitoIdentityPoolName.ConstraintDescription,Alphanumeric and spaces.
 Resources.AWS::Cognito::IdentityPool.Properties.IdentityPoolName,CognitoIdentityPoolName
 Outputs.CognitoIdentityPoolId.Description,Cognito identity pool id.
 Resources.AWS::Cognito::IdentityPool.Properties.AllowUnauthenticatedIdentities,True
-Parameters.CognitoIdentityPoolName.Type,String
 Parameters.CognitoIdentityPoolName.Description,Cognito identity pool name.
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'PollySynth', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'polly:SynthesizeSpeech'], u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'LexPost', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'lex:PostText', u'lex:PostContent'], u'Resource': [u'arn:aws:lex:${AWS::Region}:${AWS::AccountId}:bot:${LexBotName}:*'], u'Effect': u'Allow'}]}}]"
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.unauthenticated,CognitoUnauthRole.Arn

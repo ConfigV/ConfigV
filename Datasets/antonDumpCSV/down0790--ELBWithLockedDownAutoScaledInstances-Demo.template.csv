@@ -1,6 +1,4 @@
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': {u'Ref': u'WebServerPort'}, u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
@@ -12,14 +10,11 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,2
 Parameters.WebServerPort.Description,TCP/IP port of the web server
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,2
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.WebServerPort.Default,8888
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,"{u'Fn::Join': [u'', [u'HTTP:', {u'Ref': u'WebServerPort'}, u'/']]}"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
 Outputs.URL.Description,URL of the website
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access and HTTP access on the inbound port
-Parameters.WebServerPort.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': {u'Ref': u'WebServerPort'}, u'IpProtocol': u'tcp', u'SourceSecurityGroupOwnerId': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.OwnerAlias']}, u'SourceSecurityGroupName': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.GroupName']}, u'FromPort': {u'Ref': u'WebServerPort'}}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,{u'Fn::Base64': {u'Ref': u'WebServerPort'}}

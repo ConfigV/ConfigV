@@ -1,15 +1,9 @@
-Parameters.MaxSize.Type,Number
 Outputs.ecsservice443.Condition,IsTargetGroup443
 Outputs.ecsservice.Value,service
-Resources.AWS::ECS::Service.Type,AWS::ECS::Service
 Resources.AWS::ECS::TaskDefinition.Properties.Family,"[u'', [u'AWS::StackName', u'-bufe']]"
-Parameters.Tag.Type,String
 Resources.AWS::ECS::Service.Properties.LoadBalancers,"[{u'ContainerName': u'bufe-buedu', u'TargetGroupArn': {u'Fn::ImportValue': u'${Prefix}-targetgroup80-arn'}, u'ContainerPort': u'80'}]"
-Parameters.Stage.Type,String
-Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
 Resources.AWS::ECS::Service.Properties.Cluster,{u'Fn::ImportValue': u'${Prefix}-ecscluster-ref'}
 Resources.AWS::ECS::Service.Properties.Role,{u'Fn::ImportValue': u'${Prefix}-container-role'}
-Parameters.DesiredCapacity.Type,Number
 Parameters.MaxSize.Description,Maximum number of instances that can be launched in your ECS cluster.
 Parameters.Prefix.Default,web2cloud-test
 Parameters.Stage.Default,test
@@ -17,9 +11,7 @@ Parameters.DesiredCapacity.Description,Number of instances to launch in your ECS
 Parameters.PublicAlbAcmCertificate.Default,
 Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-stream-prefix': u'bufe-buedu', u'awslogs-group': {u'Fn::ImportValue': u'${Prefix}-${Stage}-logs-group'}, u'awslogs-region': u'AWS::Region'}}, u'Name': u'bufe-buedu', u'Image': {u'Fn::Join': [u':', [{u'Fn::ImportValue': u'${Prefix}-container-repository-uri'}, u'Tag']]}, u'Essential': u'true', u'Environment': [{u'Name': u'LANDSCAPE', u'Value': u'syst'}, {u'Name': u'LOG_LEVEL', u'Value': u'warn'}, {u'Name': u'ROBOTS_TXT', u'Value': u'/home/robots.txt.test'}, {u'Name': u'BACKEND_REDIRECT', u'Value': u'www-syst.bu.edu'}, {u'Name': u'BACKEND_W3_CONTENT', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_WP_APP', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_WP_CONTENT', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_WP_APP2', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_WP_CONTENT2', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_PHPBIN', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_DBIN', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_W3_MEDIA', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_DJANGO', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_DJANGO2', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'BACKEND_DEGREE_ADVICE', u'Value': u'www-syst.bu.edu:80'}, {u'Name': u'RELEASE', u'Value': u'20170829a'}], u'Memory': u'300', u'PortMappings': [{u'ContainerPort': 80}, {u'ContainerPort': 443}], u'Cpu': u'10'}]"
 Parameters.MaxSize.Default,1
-Parameters.Prefix.Type,String
 Outputs.taskdef.Value,taskdefinition
-Parameters.PublicAlbAcmCertificate.Type,String
 Parameters.PublicAlbAcmCertificate.Description,[ Optional ] The AWS Certification Manager certificate ARN for the ALB certificate - this certificate should be created in the region you wish to run the ALB and must reference the WordPress domain name you use below.
 Resources.AWS::ECS::Service.Condition,IsTargetGroup443
 Resources.AWS::ECS::Service.Properties.DesiredCount,DesiredCapacity

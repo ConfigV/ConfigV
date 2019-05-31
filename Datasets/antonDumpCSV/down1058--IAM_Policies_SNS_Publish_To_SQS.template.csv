@@ -1,12 +1,9 @@
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Id,PublicationPolicy
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'SQSQueue', u'Arn']}, u'Protocol': u'sqs'}]"
 Outputs.QueueArn.Value,"{u'Fn::GetAtt': [u'SQSQueue', u'Arn']}"
-Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Statement,"[{u'Resource': {u'Fn::GetAtt': [u'SQSQueue', u'Arn']}, u'Effect': u'Allow', u'Sid': u'Allow-SNS-SendMessage', u'Action': [u'sqs:SendMessage'], u'Condition': {u'ArnEquals': {u'aws:SourceArn': {u'Ref': u'SNSTopic'}}}, u'Principal': {u'AWS': u'*'}}]"
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Version,2008-10-17
-Resources.AWS::SQS::QueuePolicy.Type,AWS::SQS::QueuePolicy
 Outputs.QueueArn.Description,ARN of SQS Queue
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::SQS::QueuePolicy.Properties.Queues,[{u'Ref': u'SQSQueue'}]
 Outputs.TopicArn.Description,ARN of SNS Topic
 Outputs.TopicArn.Value,{u'Ref': u'SNSTopic'}

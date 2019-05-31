@@ -2,8 +2,6 @@ Parameters.CognitoIdentityPoolId.Description,"Cognito Identity Pool Id to used i
 "
 Parameters.BotName.MaxLength,50
 Outputs.CodeCommitRepoName.Description,CodeCommit repository name
-Parameters.BotName.Type,String
-Parameters.CodeCommitRepoName.Type,String
 Parameters.SourceObject.Default,artifacts/aws-lex-web-ui/artifacts/src.zip
 Resources.AWS::CodeBuild::Project.Properties.Name,CodeBuildName
 Parameters.BotName.MinLength,2
@@ -12,16 +10,12 @@ Parameters.CodeBuildName.MaxLength,255
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,CustomResourceCodeObject
 Resources.AWS::CodeBuild::Project.Properties.Description,Used to initialize the Lex Web UI CodeCommit Repo
 Parameters.SourceBucket.Default,aws-bigdata-blog
-Parameters.CodeBuildName.Type,String
 Resources.Custom::CodeBuildStarter.Properties.ProjectName,CodeBuild
 Resources.AWS::Lambda::Function.Properties.Timeout,120
-Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
 Parameters.CodeCommitRepoName.Default,lex-web-ui
 Parameters.CognitoIdentityPoolId.MinLength,1
-Parameters.CustomResourceCodeObject.Type,String
 Parameters.CodeCommitRepoName.MinLength,1
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,CodeBuildStarterLambdaRole.Arn
 Parameters.CodeCommitRepoName.Description,Name of CodeCommit repository name to be created.
 Parameters.CognitoIdentityPoolId.MaxLength,55
@@ -32,23 +26,17 @@ Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENER
 Outputs.CodeCommitRepoUrl.Value,CodeCommitRepo.CloneUrlHttp
 Parameters.BotName.Description,"Name of Lex bot to be used in the web app configuration.
 "
-Resources.AWS::CodeBuild::Project.Properties.Environment.Type,LINUX_CONTAINER
 Outputs.CodeCommitRepoArn.Value,CodeCommitRepo.Arn
 Outputs.CodeCommitRepoArn.Description,CodeCommit repository clone URL
-Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,NO_ARTIFACTS
 Parameters.CodeBuildName.MinLength,2
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,SourceBucket
-Parameters.CognitoIdentityPoolId.Type,String
 Parameters.CodeBuildName.Default,lex-web-ui-init
-Resources.AWS::CodeBuild::Project.Properties.Source.Type,S3
 Parameters.CognitoIdentityPoolId.ConstraintDescription,"Alphanumeric followed by a colum and ending with a hex uuid type.
 "
 Parameters.CustomResourceCodeObject.Default,artifacts/aws-lex-web-ui/artifacts/custom-resources.zip
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codebuild.amazonaws.com']}}]"
 Parameters.SourceBucket.Description,S3 bucket where the source is located
 Resources.AWS::CodeBuild::Project.Properties.TimeoutInMinutes,10
-Parameters.SourceBucket.Type,String
 Resources.AWS::CodeCommit::Repository.Properties.RepositoryName,CodeCommitRepoName
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Parameters.CodeCommitRepoName.AllowedPattern,^[\w\.-]+$
@@ -86,7 +74,6 @@ phases:
 Resources.Custom::CodeBuildStarter.Properties.ServiceToken,CodeBuildStarterLambda.Arn
 Parameters.SourceObject.Description,S3 object zip file containing the project source
 Parameters.CodeBuildName.AllowedPattern,"^[A-Za-z0-9][A-Za-z0-9\-_]{1,254}$"
-Resources.Custom::CodeBuildStarter.Type,Custom::CodeBuildStarter
 Parameters.CodeBuildName.ConstraintDescription,"Should start with Alphanumeric. May contain alphanumeric, undescore and dash.
 "
 Parameters.CodeCommitRepoName.MaxLength,100
@@ -94,8 +81,6 @@ Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CodeCommitGetLi
 Parameters.BotName.ConstraintDescription,"Must conform with the permitted Lex Bot name pattern.
 "
 Resources.AWS::CodeCommit::Repository.Properties.RepositoryDescription,Lex Web UI
-Parameters.SourceObject.Type,String
 Resources.AWS::CodeBuild::Project.Properties.Environment.EnvironmentVariables,"[{u'Name': u'REPO_URL', u'Value': u'CodeCommitRepo.CloneUrlHttp'}, {u'Name': u'POOL_ID', u'Value': u'CognitoIdentityPoolId'}, {u'Name': u'BOT_NAME', u'Value': u'BotName'}]"
-Resources.AWS::CodeCommit::Repository.Type,AWS::CodeCommit::Repository
 Parameters.CodeBuildName.Description,CodeBuild project used to initialize the code repo
 Parameters.CodeCommitRepoName.ConstraintDescription,"Alphanumeric, dot and dash."

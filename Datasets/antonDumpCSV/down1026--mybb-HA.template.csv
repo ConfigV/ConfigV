@@ -1,4 +1,3 @@
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Parameters.DBPassword.MaxLength,41
 Parameters.DBName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.php.group,apache
@@ -8,8 +7,6 @@ Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mysql,[]
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-a4b0b7b9
 Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUser'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.DBUser.MaxLength,16
 Parameters.MultiAZDatabase.Default,true
 Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
@@ -17,7 +14,6 @@ Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 Key
 Parameters.DBInstanceClass.ConstraintDescription,must select a valid database instance type.
 Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,true
 Parameters.DBInstanceClass.Default,db.t1.micro
-Parameters.VPCAvailabilityZone2.Type,String
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Parameters.DBName.Description,MySQL database name
 Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
@@ -28,21 +24,16 @@ Parameters.SSHLocation.Description, The IP address range that can be used to SSH
 Parameters.BBUserName.Description,The  MyBB user full name
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'PrivateSubnet1'}
 Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Count,1
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
 Parameters.DBUser.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
 Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
-Parameters.DBAllocatedStorage.Type,Number
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.owner,root
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
 Parameters.NetworkName.Description,The name of the network that will be used to tag all resources in the VPC
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum update -y aws-cfn-bootstrap\n', u'# Install the files and packages from the metadata\n', u'/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource LaunchConfig ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'# Signal the status from cfn-init\n', u'/opt/aws/bin/cfn-signal -e $? ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerGroup ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'#!/bin/sh\n', u'cat > /tmp/stack_properties.ini <<EOF\n', u'base_user=', {u'Ref': u'BBUser'}, u'\n', u'base_user_name=', {u'Ref': u'BBUserName'}, u'\n', u'base_mail=', {u'Ref': u'BBEmail'}, u'\n', u'base_password=', {u'Ref': u'BBPassword'}, u'\n', u'EOF\n', u'\n', u'\n', u""#/opt/bitnami/mysql/bin/mysqladmin -p'bitnami' -u root password '"", {u'Ref': u'DBPassword'}, u""'\n"", u'\n', u'curl --capath /etc/ssl/certs/ --retry 3 -sS  -o /tmp/stack.bin -L --max-redirs 3 https://downloads.bitnami.com/files/stacks/mybb/1.8.6-0/bitnami-mybb-1.8.6-0-module-linux-x64-installer.run\n', u'chmod +x /tmp/stack.bin\n', u'/tmp/stack.bin --mode unattended --prefix /opt/bitnami --optionfile /tmp/stack_properties.ini\n', u'\n', u'/opt/bitnami/scripts/init/update_ip\n', u'rm -f /tmp/stack.bin \n', u'rm -f /tmp/stack_properties.ini\n', u'\n']]}}"
-Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
 Parameters.WebServerCapacity.Description,The initial nuber of WebServer instances
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
-Parameters.BBUser.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.WaitOnResourceSignals,true
 Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}]]}"
@@ -51,8 +42,6 @@ Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpda
 Parameters.DBUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
-Parameters.BBPassword.Type,String
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'PrivateNetworkAcl'}
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
 Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'NATSecurityGroup'}]
@@ -61,11 +50,9 @@ Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u
 Parameters.DBAllocatedStorage.ConstraintDescription,must be between 5 and 1024Gb.
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.files,"[u'/etc/cfn/cfn-hup.conf', u'/etc/cfn/hooks.d/cfn-auto-reloader.conf']"
 Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'PublicSubnet1'}
-Parameters.NetworkName.Type,String
 Parameters.VPCAvailabilityZone1.Description,One of two Availability Zones that will be used to create subnets.
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.enabled,true
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'-', [{u'Ref': u'NetworkName'}, {u'Ref': u'AWS::Region'}]]}, u'Key': u'Network'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.WebServerCapacity.MaxValue,5
 Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,2
@@ -79,14 +66,10 @@ Resources.AWS::EC2::Route.DependsOn,GatewayToInternet
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Parameters.DBAllocatedStorage.MaxValue,1024
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
-Parameters.DBPassword.Type,String
-Parameters.DBName.Type,String
 Mappings.AWSRegionArch2AMI.eu-central-1.HVMG2,ami-a6c9cfbb
 Parameters.DBInstanceClass.AllowedValues,"[u'db.t1.micro', u'db.m1.small', u'db.m1.medium', u'db.m1.large', u'db.m1.xlarge', u'db.m2.xlarge', u'db.m2.2xlarge', u'db.m2.4xlarge', u'db.m3.medium', u'db.m3.large', u'db.m3.xlarge', u'db.m3.2xlarge', u'db.r3.large', u'db.r3.xlarge', u'db.r3.2xlarge', u'db.r3.4xlarge', u'db.r3.8xlarge', u'db.m2.xlarge', u'db.m2.2xlarge', u'db.m2.4xlarge', u'db.cr1.8xlarge']"
 Parameters.MultiAZDatabase.AllowedValues,"[u'true', u'false']"
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MinInstancesInService,1
-Parameters.BBUserName.Type,String
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2
 Parameters.BBPassword.NoEcho,TRUE
@@ -101,7 +84,6 @@ Parameters.VPCAvailabilityZone2.MaxLength,255
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'PolicyNames': [u'CookieBasedPolicy'], u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Parameters.BBEmail.Default,user@example.com
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Parameters.DBPassword.NoEcho,true
 Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,"[{u'Fn::GetAtt': [u'DBServerSecurityGroup', u'GroupId']}]"
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,{u'Ref': u'VPCAvailabilityZone2'}
@@ -109,30 +91,24 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Parameters.VPCAvailabilityZone1.MaxLength,255
 Resources.AWS::EC2::Instance.Properties.SourceDestCheck,false
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,0
-Parameters.VPCAvailabilityZone1.Type,String
 Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'-', [{u'Ref': u'NetworkName'}, {u'Ref': u'AWS::Region'}]]}, u'Key': u'Network'}, {u'Value': u'Public', u'Key': u'Network'}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.php.owner,apache
 Parameters.BBPassword.Description,"The MyBB user password (minimum 6 characters, default value: bitnami )"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.Comment1,"First,  install the Apache Web Server and PHP"
 Parameters.MultiAZDatabase.ConstraintDescription,must be either true or false.
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PrivateRouteTable'}
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBInstanceClass'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'-', [{u'Ref': u'NetworkName'}, {u'Ref': u'AWS::Region'}]]}, u'Key': u'Network'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Parameters.BBEmail.Type,String
 Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'-', [{u'Ref': u'NetworkName'}, {u'Ref': u'AWS::Region'}]]}, u'Key': u'Network'}, {u'Value': u'PublicAndPrivate', u'Key': u'Scheme'}]"
 Parameters.BBPassword.Default,password
 Parameters.DBUser.NoEcho,true
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.CrossZone,true
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Parameters.MultiAZDatabase.Description,Create a Multi-AZ MySQL Amazon RDS database instance
 Parameters.DBUser.MinLength,1
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Parameters.DBUser.Type,String
 Parameters.DBUser.Description,Username for MySQL database access
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/
 Parameters.BBEmail.Description,The MyBB user email
@@ -144,7 +120,6 @@ Parameters.DBPassword.MinLength,8
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MaxBatchSize,1
 Resources.AWS::EC2::VPC.Properties.CidrBlock,"{u'Fn::FindInMap': [u'Region2VpcCidr', {u'Ref': u'AWS::Region'}, u'VpcCidr']}"
 Parameters.NetworkName.Default,BB-Subnet
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,myDatabase
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
@@ -152,7 +127,6 @@ Parameters.BBUserName.Default,Admin User
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSNATAMI', {u'Ref': u'AWS::Region'}, u'AMI']}"
 Parameters.VPCAvailabilityZone2.MinLength,1
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
-Parameters.SSHLocation.Type,String
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,{u'Ref': u'MultiAZDatabase'}
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'DBAllocatedStorage'}
 Parameters.BBUser.Description,The MyBB user login
@@ -161,20 +135,15 @@ Parameters.WebServerCapacity.Default,2
 Parameters.WebServerCapacity.MinValue,2
 Parameters.DBPassword.Description,Password for MySQL database access
 Resources.AWS::EC2::EIP.DependsOn,GatewayToInternet
-Parameters.DBInstanceClass.Type,String
 Parameters.VPCAvailabilityZone2.Description,Two of two Availability Zones that will be used to create subnets. Must be different than VPCAvailabilityZone2.
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'WebServerSecurityGroup', u'GroupId']}]"
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.group,root
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'-', [{u'Ref': u'NetworkName'}, {u'Ref': u'AWS::Region'}]]}, u'Key': u'Network'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Parameters.DBAllocatedStorage.MinValue,5
 Parameters.DBName.MaxLength,64
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.DBInstanceClass.Description,The database instance type
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PrivateSubnet1'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,True
 Parameters.SSHLocation.Default,0.0.0.0/0
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LBCookieStickinessPolicy,"[{u'PolicyName': u'CookieBasedPolicy', u'CookieExpirationPeriod': u'30'}]"
@@ -186,11 +155,9 @@ Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.mode,000400
 Outputs.WebsiteURL.Description,URL for newly created myBB stack
 Parameters.DBAllocatedStorage.Description,The size of the database (Gb)
-Parameters.WebServerCapacity.Type,Number
 Parameters.VPCAvailabilityZone1.Default,us-west-2a
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,3
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Parameters.VPCAvailabilityZone1.MinLength,1
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.php.content,"{u'Fn::Join': [u'', [u'<html>\n', u'  <head>\n', u'    <title>AWS CloudFormation PHP Sample</title>\n', u'    <meta http-equiv=""Content-Type"" content=""text/html; charset=ISO-8859-1"">\n', u'  </head>\n', u'  <body>\n', u'    <h1>Welcome to the PHP & RDS MYSQL Diagnostics Page</h1>\n', u'    <p/>\n', u'    <?php\n', u'      // Print out the current data and tie\n', u'      print ""The Current Date and Time is: <br/>"";\n', u'      print date(""g:i A l, F j Y."");\n', u'    ?>\n', u'    <p/>\n', u'    <?php\n', u'      // Setup a handle for CURL\n', u'      $curl_handle=curl_init();\n', u'      curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);\n', u'      curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);\n', u'      // Get the hostname of the intance from the instance metadata\n', u""      curl_setopt($curl_handle,CURLOPT_URL,'http://169.254.169.254/latest/meta-data/public-hostname');\n"", u'      $hostname = curl_exec($curl_handle);\n', u'      if (empty($hostname))\n', u'      {\n', u'        print ""Sorry, for some reason, we got no hostname back <br />"";\n', u'      }\n', u'      else\n', u'      {\n', u'        print ""Server = "" . $hostname . ""<br />"";\n', u'      }\n', u'      // Get the instance-id of the intance from the instance metadata\n', u""      curl_setopt($curl_handle,CURLOPT_URL,'http://169.254.169.254/latest/meta-data/instance-id');\n"", u'      $instanceid = curl_exec($curl_handle);\n', u'      if (empty($instanceid))\n', u'      {\n', u'        print ""Sorry, for some reason, we got no instance id back <br />"";\n', u'      }\n', u'      else\n', u'      {\n', u'        print ""EC2 instance-id = "" . $instanceid . ""<br />"";\n', u'      }\n', u'      $Database   = ""', {u'Fn::GetAtt': [u'MySQLDatabase', u'Endpoint.Address']}, u'"";\n', u'      $DBUser     = ""', {u'Ref': u'DBUser'}, u'"";\n', u'      $DBPassword = ""', {u'Ref': u'DBPassword'}, u'"";\n', u'      print ""Database = "" . $Database . ""<br />"";\n', u'      $dbconnection = mysql_connect($Database, $DBUser, $DBPassword)\n', u'                      or die(""Could not connect: "" . mysql_error());\n', u'     print (""Connected to $Database successfully"");\n', u'      mysql_close($dbconnection);\n', u'    ?>\n', u'    <h2>More Diagnostic Information</h2>\n', u'    <p/>\n', u'    <?php\n', u'      phpinfo();\n', u'    ?>\n', u'  </body>\n', u'</html>\n']]}"
-Parameters.MultiAZDatabase.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true

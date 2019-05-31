@@ -1,5 +1,4 @@
 Resources.AWS::AutoScaling::AutoScalingGroup.DependsOn,VPCGatewayAttachment
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
 Parameters.NumberOfServers.MinValue,2
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'LoadBalancer', u'DNSName']}]]}"
@@ -12,13 +11,10 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Re
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'NumberOfServers'}
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 22, u'FromPort': 22, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'SourceSecurityGroupId': {u'Ref': u'LoadBalancerSecurityGroup'}, u'FromPort': 80, u'ToPort': 80, u'IpProtocol': u'tcp'}]"
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'Subnet'}
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Scheme,internet-facing
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,2
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.01_config.command,/tmp/config
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -v --stack ', {u'Ref': u'AWS::StackName'}, u' --resource LaunchConfiguration --region ', {u'Ref': u'AWS::Region'}, u'\n', u'/opt/aws/bin/cfn-signal -e $? --stack ', {u'Ref': u'AWS::StackName'}, u' --resource AutoScalingGroup --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
-Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,-1
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.01_config.cwd,/var/www/html
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,172.31.38.0/24
@@ -26,12 +22,10 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddr
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./tmp/config.mode,000500
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,100
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.EbsOptimized,False
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.KeyName.Default,mykey
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,[{u'Ref': u'Subnet'}]
 Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Timeout,PT10M
@@ -41,7 +35,6 @@ Resources.AWS::EC2::Route.DependsOn,VPCGatewayAttachment
 Parameters.NumberOfServers.Default,2
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::VPC.Properties.CidrBlock,172.31.0.0/16
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./tmp/config.owner,root
@@ -59,27 +52,18 @@ Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.DependsOn,VPCGatewayAttachment
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'NumberOfServers'}
-Parameters.NumberOfServers.Type,Number
 Parameters.KeyName.Description,Key Pair name
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Outputs.URL.Description,Load Balancer URL
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/index.html
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,[{u'Ref': u'Subnet'}]
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'LoadBalancerSecurityGroup'}]
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./tmp/config.content,"{u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'PRIVATE_IP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`\n', u'echo ""<html><head><title>$PRIVATE_IP</title></head><body><h1>$PRIVATE_IP</h1></body></html>"" > index.html\n']]}"
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'Subnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'LoadBalancer'}]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true

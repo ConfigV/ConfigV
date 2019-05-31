@@ -98,7 +98,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/groups/membership/{user_id}.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/metadata.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.credentials,DataLakeLambdaExecRole.Arn
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./search/stats.x-amazon-apigateway-any-method.security,[{u'Data_Lake_Authorizer': []}]
-Parameters.AdminArn.Type,String
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/crawler.options.responses.200.description,200 response
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/metadata/{metadata_id}.x-amazon-apigateway-any-method.produces,[u'application/json']
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/tables/{table_name}.x-amazon-apigateway-any-method.produces,[u'application/json']
@@ -213,7 +212,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/groups/membershi
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/crawler.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.credentials,DataLakeLambdaExecRole.Arn
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/apikeys/{access_key_id}.options.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/settings/governance/{setting_id}.x-amazon-apigateway-any-method.responses.200.description,200 response
-Parameters.SearchArn.Type,String
 Resources.AWS::IAM::ManagedPolicy.Properties.Roles,[{u'Ref': u'DataLakeLambdaExecRole'}]
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/datasets/{dataset_id}/process.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/groups/membership/{user_id}.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.httpMethod,POST
@@ -308,8 +306,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/invitations.opti
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/groups.options.responses.200.headers.Access-Control-Allow-Headers.type,string
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/groups/membership/{user_id}.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.uri,"[u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Ref': u'AdminArn'}, u'/invocations']]"
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/datasets/{dataset_id}.options.x-amazon-apigateway-integration.responses.default.statusCode,200
-Parameters.AuthorizerArn.Type,String
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::ApiGateway::RestApi.Properties.Body.securityDefinitions.Data_Lake_Authorizer.x-amazon-apigateway-authorizer.authorizerResultTtlInSeconds,300
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/settings/governance/{setting_id}.options.produces,[u'application/json']
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./profile/apikey.options.responses.200.headers.Access-Control-Allow-Headers.type,string
@@ -444,7 +440,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/settings/config.
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/users/{user_id}.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./search.options.consumes,[u'application/json']
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/apikeys.options.responses.200.schema.$ref,#/definitions/Empty
-Resources.AWS::ApiGateway::RestApi.Type,AWS::ApiGateway::RestApi
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./cart.options.responses.200.schema.$ref,#/definitions/Empty
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.credentials,DataLakeLambdaExecRole.Arn
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.uri,"[u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Ref': u'PackageArn'}, u'/invocations']]"
@@ -457,7 +452,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./search/stats.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Headers,"'Content-Type,X-Amz-Date,Authorization,x-api-key,x-amz-security-token,Auth'"
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/users.options.responses.200.schema.$ref,#/definitions/Empty
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/metadata.options.responses.200.headers.Access-Control-Allow-Origin.type,string
-Parameters.CartArn.Type,String
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./search/stats.options.consumes,[u'application/json']
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/apikeys.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.uri,"[u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Ref': u'AdminArn'}, u'/invocations']]"
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/groups/{group_name}.options.consumes,[u'application/json']
@@ -481,7 +475,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/invitations.opti
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/tables.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.httpMethod,POST
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/users.options.responses.200.headers.Access-Control-Allow-Origin.type,string
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/tables.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.uri,"[u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Ref': u'PackageArn'}, u'/invocations']]"
-Parameters.ProfileArn.Type,String
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/tables.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Methods,"'GET,POST,PUT,DELETE,OPTIONS'"
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/users/{user_id}.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.type,aws_proxy
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/datasets.options.consumes,[u'application/json']
@@ -528,7 +521,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./profile.options.responses.200.description,200 response
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./search.options.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./search.x-amazon-apigateway-any-method.security,[{u'Data_Lake_Authorizer': []}]
-Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/apikeys/{access_key_id}.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.httpMethod,POST
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages.x-amazon-apigateway-any-method.responses.200.schema.$ref,#/definitions/Empty
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/tables.options.consumes,[u'application/json']
@@ -545,7 +537,6 @@ Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/metadata/{metadata_id}.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Headers,"'Content-Type,X-Amz-Date,Authorization,x-api-key,x-amz-security-token,Auth'"
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./profile/apikey.options.responses.200.description,200 response
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/groups.options.responses.200.headers.Access-Control-Allow-Origin.type,string
-Parameters.PackageArn.Type,String
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/datasets/{dataset_id}/process.x-amazon-apigateway-any-method.security,[{u'Data_Lake_Authorizer': []}]
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./packages/{package_id}/datasets/{dataset_id}/process.x-amazon-apigateway-any-method.x-amazon-apigateway-integration.type,aws_proxy
 Resources.AWS::ApiGateway::RestApi.Properties.Body.paths./admin/apikeys.x-amazon-apigateway-any-method.responses.200.description,200 response

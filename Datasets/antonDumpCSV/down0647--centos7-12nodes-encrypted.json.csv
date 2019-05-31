@@ -8,22 +8,14 @@ Resources.AWS::EC2::Volume.Properties.Encrypted,True
 Parameters.MyAMI.Default,ami-33734044
 Resources.AWS::EC2::Instance.Properties.AvailabilityZone,{u'Ref': u'MyAvailabilityZone'}
 Resources.AWS::EC2::Instance.Properties.Monitoring,false
-Parameters.MyAMI.Type,String
-Parameters.MyAvailabilityZone.Type,AWS::EC2::AvailabilityZone::Name
 Resources.AWS::EC2::Volume.Properties.AvailabilityZone,{u'Ref': u'MyAvailabilityZone'}
 Resources.AWS::EC2::Volume.Properties.VolumeType,gp2
-Parameters.MyPlacementGroup.Type,String
 Parameters.MyDataVolumeSize.Default,100
 Parameters.MyAvailabilityZone.Default,eu-west-1a
 Parameters.MyPlacementGroup.Default,MyExistingPlacementGroup
 Resources.AWS::EC2::Volume.Properties.Size,{u'Ref': u'MyDataVolumeSize'}
-Parameters.MySecurityGroup.Type,String
 Parameters.MySSHKeyPairName.Description,SSH Key
-Parameters.MyDataVolumeSize.Type,Number
-Parameters.MyTag.Type,String
 Parameters.MyTag.Default,MyHadoopCluster1
-Resources.AWS::EC2::Volume.Type,AWS::EC2::Volume
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::Instance.Properties.PlacementGroupName,{u'Ref': u'MyPlacementGroup'}
 Parameters.MyRootVolumeSize.Description,EBS Root Volume Size
 Parameters.MyRootVolumeSize.Default,50
@@ -33,9 +25,7 @@ Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': 0, 
 Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'VolumeSize': {u'Ref': u'MyRootVolumeSize'}}}]"
 Parameters.MyTag.Description,Tag for convenience
 Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'MyAMI'}
-Parameters.MySSHKeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::Instance.Properties.EbsOptimized,true
-Parameters.MyRootVolumeSize.Type,Number
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'MyTag'}, u'Key': u'name'}, {u'Value': u'hadoop-node04', u'Key': u'Name'}]"
 Parameters.MySecurityGroup.Default,sg-XXXXXXXX
 Parameters.MySSHKeyPairName.Default,hari

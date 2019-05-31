@@ -8,13 +8,9 @@ Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.windows.cfn-hup.enabled,true
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'<script>\n', u'cfn-init.exe -v -s ', {u'Ref': u'AWS::StackId'}, u' -r WindowsServer', u' --region ', {u'Ref': u'AWS::Region'}, u'\n', u'</script>']]}}"
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,WindowsServer
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Outputs.RolesEnabled.Description,Roles enabled on this instance.
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
 Mappings.AWSRegion2AMI.eu-central-1.Windows2012r2,ami-f618bb99
-Parameters.Roles.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files.c:\cfn\cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WindowsServerWaitHandle'}
@@ -23,7 +19,6 @@ Parameters.Features.Description,"A SPACE seperated list of features that you wan
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.3-signal-success.command,"{u'Fn::Join': [u'', [u'cfn-signal.exe -e %ERRORLEVEL% ""', {u'Fn::Base64': {u'Ref': u'WindowsServerWaitHandle'}}, u'""']]}"
 Mappings.AWSRegion2AMI.ca-central-1.Windows2008r2,ami-0f4af56b
 Outputs.FeaturesEnabled.Description,Features enabled on this instance.
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.windows.cfn-hup.files,"[u'c:\\cfn\\cfn-hup.conf', u'c:\\cfn\\hooks.d\\cfn-auto-reloader.conf']"
 Parameters.SourceCidrForRDP.MinLength,9
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3389', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SourceCidrForRDP'}, u'FromPort': u'3389'}]"
@@ -35,11 +30,8 @@ Parameters.Features.AllowedPattern,(((NET\-Framework)|(BITS)|(BitLocker)|(Branch
 Outputs.FeaturesEnabled.Value,{u'Ref': u'Features'}
 Parameters.SourceCidrForRDP.MaxLength,18
 Parameters.Features.Default,None
-Parameters.Features.Type,String
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.2-install-features.command,"{u'Fn::Join': [u'', [u'if not ""None"" EQU ""', {u'Ref': u'Features'}, u'"" (servermanagercmd -install ', {u'Ref': u'Features'}, u' -restart)']]}"
 Parameters.Roles.AllowedPattern,(((AD\-Certificate)|(AD\-Domain\-Services)|(ADLDS)|(DHCP)|(DNS)|(Fax)|(File\-Services)|(NPAS)|(Print\-Services)|(Web\-Server)|(WDS))( ((AD\-Certificate)|(AD\-Domain\-Services)|(ADLDS)|(DHCP)|(DNS)|(Fax)|(File\-Services)|(NPAS)|(Print\-Services)|(Web\-Server)|(WDS)))*)|(None)
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegion2AMI', {u'Ref': u'AWS::Region'}, u'Windows2008r2']}"
 Parameters.SourceCidrForRDP.Description,IP Cidr from which you are likely to RDP into the instances. You can add rules later by modifying the created security groups e.g. 54.32.98.160/32
 Mappings.AWSRegion2AMI.eu-central-1.Windows2008r2,ami-5514b73a
-Parameters.SourceCidrForRDP.Type,String

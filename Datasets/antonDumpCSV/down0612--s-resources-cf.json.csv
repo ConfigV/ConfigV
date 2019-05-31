@@ -1,11 +1,9 @@
 Resources.AWS::IAM::Role.Properties.Path,/
 Outputs.IamRoleArnLambda.Value,"{u'Fn::GetAtt': [u'IamRoleLambda', u'Arn']}"
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Outputs.IamRoleArnLambda.Description,ARN of the lambda IAM role
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'IamRoleLambda'}]
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:${region}:*:*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::IAM::Policy.Properties.PolicyName,${stage}-${project}-lambda

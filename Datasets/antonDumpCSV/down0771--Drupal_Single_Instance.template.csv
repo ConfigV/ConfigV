@@ -19,8 +19,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./
 Parameters.DBName.Description,The Drupal database name
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql,[]
 Parameters.DBRootPassword.AllowedPattern,[a-zA-Z0-9]*
-Parameters.DBRootPassword.Type,String
-Parameters.SiteName.Type,String
 Parameters.DBRootPassword.Description,Root password for MySQL
 Parameters.SSHLocation.Description,The IP address range that can be used to SSH to the EC2 instances
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./home/ec2-user,http://ftp.drupal.org/files/projects/drush-7.x-4.5.tar.gz
@@ -36,14 +34,9 @@ Parameters.SiteAdmin.Description,The Drupal site admin account username
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.SiteAdmin.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql-devel,[]
-Parameters.KeyName.Type,String
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
-Parameters.SiteAdmin.Type,String
 Parameters.DBRootPassword.MinLength,1
-Parameters.DBUsername.Type,String
-Parameters.DBPassword.Type,String
-Parameters.DBName.Type,String
 Parameters.DBPassword.MinLength,1
 Parameters.DBUsername.MinLength,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mysql,[]
@@ -53,7 +46,6 @@ Parameters.DBUsername.NoEcho,true
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.mysqld.enabled,true
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebServer
 Parameters.DBPassword.NoEcho,true
-Parameters.SitePassword.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/setup.mysql.content,"{u'Fn::Join': [u'', [u'CREATE DATABASE ', {u'Ref': u'DBName'}, u';\n', u""CREATE USER '"", {u'Ref': u'DBUsername'}, u""'@'localhost' IDENTIFIED BY '"", {u'Ref': u'DBPassword'}, u""';\n"", u'GRANT ALL ON ', {u'Ref': u'DBName'}, u"".* TO '"", {u'Ref': u'DBUsername'}, u""'@'localhost';\n"", u'FLUSH PRIVILEGES;\n']]}"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
 Parameters.SitePassword.NoEcho,true
@@ -61,7 +53,6 @@ Parameters.SiteName.Description,The name of the Drupal Site
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.mysqld.ensureRunning,true
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.ensureRunning,false
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.SitePassword.Description,The Drupal site admin account password
 Parameters.SSHLocation.MinLength,9
 Parameters.DBName.MinLength,1
@@ -70,10 +61,7 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.
 Parameters.DBPassword.Default,admin
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,drupaldb
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Parameters.SitePassword.MinLength,1
-Parameters.SSHLocation.Type,String
-Parameters.SiteEMail.Type,String
 Parameters.SiteAdmin.MaxLength,16
 Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
 Parameters.DBPassword.Description,The Drupal database admin account password
@@ -82,10 +70,8 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.enabled,false
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/setup.mysql.owner,root
 Parameters.DBName.MaxLength,64
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Parameters.SSHLocation.Default,0.0.0.0/0
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql-libs,[]
 Parameters.SiteName.Default,My Site

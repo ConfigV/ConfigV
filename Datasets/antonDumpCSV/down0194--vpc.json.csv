@@ -1,23 +1,17 @@
 Outputs.ApacheServerPrivateIp.Description,connect via SSH from bastion host
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'NetworkAclPublicNAT'}
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxNATAMIHVMEBSBacked64bit,ami-46073a5b
 Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,false
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'yum -y install httpd\n', u'service httpd start\n', u'/opt/aws/bin/cfn-signal --stack ', {u'Ref': u'AWS::StackName'}, u' --resource ApacheServer --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'SecurityGroup'}
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
 Outputs.BastionHostPublicName.Value,"{u'Fn::GetAtt': [u'BastionHost', u'PublicDnsName']}"
 Outputs.VarnishServerPublicName.Value,"{u'Fn::GetAtt': [u'VarnishServer', u'PublicDnsName']}"
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'SubnetPrivateApache'}
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
 Resources.AWS::EC2::SecurityGroupEgress.Properties.GroupId,{u'Ref': u'SecurityGroup'}
 Resources.AWS::EC2::SecurityGroupEgress.Properties.CidrIp,0.0.0.0/0
-Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.1.0/24
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'NetworkAclPrivateApache'}
 Outputs.VarnishServerPrivateIp.Value,"{u'Fn::GetAtt': [u'VarnishServer', u'PrivateIp']}"
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,200
@@ -34,9 +28,7 @@ Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,-1
 Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'SubnetPublicVarnish'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Outputs.VarnishServerPublicName.Description,handles HTTP requests
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
@@ -51,22 +43,15 @@ Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,-1
 Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Instance.Properties.SourceDestCheck,false
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,1024
-Resources.AWS::EC2::SecurityGroupEgress.Type,AWS::EC2::SecurityGroupEgress
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'RouteTablePublicVarnish'}
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
 Resources.AWS::EC2::SecurityGroupEgress.Properties.ToPort,-1
 Parameters.KeyName.Description,Key Pair name
 Resources.AWS::EC2::SecurityGroupEgress.Properties.IpProtocol,-1
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::Instance.DependsOn,NatServer
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,0.0.0.0/0
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"

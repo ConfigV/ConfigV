@@ -1,25 +1,18 @@
-Parameters.Bucket.Type,String
 Parameters.TagValue.Description,The value associated with TagKey
 Resources.AWS::CodeDeploy::DeploymentGroup.DependsOn,MyApplication
 Parameters.TagKey.Description,The tag name that is associated with EC2 instances on which CodeDeploy agent is installed
 Parameters.TagKey.Default,Name
 Parameters.RoleArn.Description,ARN for IAM role created when EC2 instances that have installed CodeDeploy agent were provisioned. Output value of CFN stack.
-Parameters.TagValue.Type,String
-Resources.AWS::CodeDeploy::DeploymentGroup.Type,AWS::CodeDeploy::DeploymentGroup
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ServiceRoleArn,{u'Ref': u'RoleArn'}
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.S3Location.Bucket,{u'Ref': u'Bucket'}
-Parameters.RoleArn.Type,String
 Parameters.Bucket.Description,The unique bucket name where deployment distribution is located
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Ec2TagFilters,"[{u'Type': u'KEY_AND_VALUE', u'Value': {u'Ref': u'TagValue'}, u'Key': {u'Ref': u'TagKey'}}]"
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.RevisionType,S3
-Resources.AWS::CodeDeploy::Application.Type,AWS::CodeDeploy::Application
 Parameters.Key.Description,The unique bucket name where deployment distribution is located
 Outputs.MyDeploymentGroup.Value,{u'Ref': u'MyDeploymentGroup'}
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.S3Location.Key,{u'Ref': u'Key'}
-Parameters.TagKey.Type,String
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.S3Location.BundleType,Zip
 Outputs.MyAWSAccountId.Value,{u'Ref': u'AWS::AccountId'}
-Parameters.Key.Type,String
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Description,First time
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ApplicationName,{u'Ref': u'MyApplication'}
 Outputs.MyApplication.Value,{u'Ref': u'MyApplication'}

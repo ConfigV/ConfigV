@@ -3,7 +3,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./ho
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.s3bucket.group,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.region.group,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.s3bucket.mode,000644
-Parameters.ArtifcatsS3Bucket.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allow ssh to the Admin Instance
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.myVPCID.Description,The ID of the VPC you will start the instance into
@@ -11,23 +10,17 @@ Outputs.AdminInstance.Description,DNS Name of the newly created Admin EC2 instan
 Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'AdminEC2TrustAccessRole'}]
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'# Helper function\n', u'function error_exit \n', u'{\n', u'/usr/local/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'AdminServerWaitHandle'}, u""'\n"", u'exit 1\n', u'}\n', u'STATUS=0\n', u'#Update OS to latest , cfn tools installation & AWS CLI\n', u""apt-get -y update || error_exit 'Failed to apt-get -y update'\n"", u""apt-get -y install python-pip || error_exit 'Failed To Install python-pip'\n"", u""pip install awscli || error_exit 'Failed To pip install awscli'\n"", u'cd /home/ubuntu/\n', u'mkdir aws-cfn-bootstrap-latest\n', u'curl https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz | tar xz -C aws-cfn-bootstrap-latest --strip-components 1\n', u'easy_install aws-cfn-bootstrap-latest\n', u'#Lets start to build the environment for the demo\n', u'export S3BUCKET=', {u'Ref': u'ArtifcatsS3Bucket'}, u'\n', u'export REGION=', {u'Ref': u'AWS::Region'}, u'\n', u'echo $S3BUCKET >> /tmp/env\n', u'echo $REGION >> /tmp/env\n', u'#Calling cfn-init to parse and install the above metadata section\n', u'/usr/local/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r AdminEc2Instance ', u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init check cfn logs'\n"", u'#Copying Artifacts to s3 bucket\n', u'cd /home/ubuntu/\n', u""curl -O https://s3-eu-west-1.amazonaws.com/kbitpub/ec2-chefsolo-demo/solo-all.tar.gz || error_exit 'Failed To download solo-all'\n"", u""curl -O https://s3-eu-west-1.amazonaws.com/kbitpub/ec2-chefsolo-demo/solo-all.tar.gz.md5 || error_exit 'Failed To download solomd5'\n"", u""curl -O https://s3-eu-west-1.amazonaws.com/kbitpub/ec2-chefsolo-demo/roles.tar.gz || error_exit 'Failed To download roles.tar.gz'\n"", u""curl -O https://s3-eu-west-1.amazonaws.com/kbitpub/ec2-chefsolo-demo/roles.tar.gz.md5 || error_exit 'Failed To download roles.tar.gz.md5'\n"", u""curl -O https://www.opscode.com/chef/install.sh || error_exit 'Failed To download install.sh (chef-solo)'\n"", u""aws s3 cp solo-all.tar.gz s3://${S3BUCKET}/cookbook/ --region $REGION || error_exit 'Failed to upload solo-all.tar.gz'\n"", u""aws s3 cp solo-all.tar.gz.md5 s3://${S3BUCKET}/cookbook/ --region $REGION || error_exit 'Failed to upload solo-all.tar.gz.md5'\n"", u""aws s3 cp install.sh s3://${S3BUCKET}/others/ --region $REGION || error_exit 'Failed to upload install.sh'\n"", u""aws s3 cp bootstrap.sh s3://${S3BUCKET}/others/ --acl public-read --region $REGION || error_exit 'Failed to upload bootstrap.sh'\n"", u""aws s3 cp solocron.sh s3://${S3BUCKET}/others/ --region $REGION || error_exit 'Failed to upload solocron.sh'\n"", u""aws s3 cp roles.tar.gz s3://${S3BUCKET}/roles/ --region $REGION || error_exit 'Failed to upload roles.tar.gz'\n"", u""aws s3 cp roles.tar.gz.md5 s3://${S3BUCKET}/roles/ --region $REGION || error_exit 'Failed to upload roles.tar.gz.md5'\n"", u""mkdir /home/ubuntu/solorb || error_exit 'Failed to create solorb'\n"", u""mkdir /home/ubuntu/nodejson || error_exit 'Failed to create nodejson'\n"", u""chown ubuntu.ubuntu /home/ubuntu/ -R || error_exit 'Failed to chown /home/ubuntu/ -R'\n"", u'# All is well so signal success\n', u'/usr/local/bin/cfn-signal -e 0 -r ""Bootstrap has ended successfully"" \'', {u'Ref': u'AdminServerWaitHandle'}, u""'\n""]]}}"
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,AdminEc2Instance
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Parameters.SubnetID.Description,VPC Subnet-ID (Must be Public Subnet which assigns PUBLIC IP to newly launched EC2 Instance)
 Resources.AWS::IAM::Role.Properties.Path,/
 Mappings.AWSRegionArch2AMI.eu-central-1.64,ami-b83c0aa5
 Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'AdminEC2InstanceProfile'}
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::Instance.DependsOn,ArtifactS3Bucket
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.region.content,{u'Ref': u'AWS::Region'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.s3bucket.content,{u'Ref': u'ArtifcatsS3Bucket'}
 Outputs.ChefSoloInstanceSecurityGroupID.Value,"{u'Fn::GetAtt': [u'ChefSoloBootstrappedSecurityGroup', u'GroupId']}"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'AdminServerWaitHandle'}
 Outputs.ChefSoloInstanceProfileArn.Description,The ARN of the IAM Instance Profile for the bootstrapped instance
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Outputs.ChefSoloInstanceSecurityGroupID.Description,The Security Group ID for the bootstrapped instance
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Outputs.AdminInstance.Value,"{u'Fn::GetAtt': [u'AdminEc2Instance', u'PublicDnsName']}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Comment,Generate hidden files to be used as arguments for the bootstrap scripts
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
@@ -35,21 +28,16 @@ Parameters.ArtifcatsS3Bucket.Default,myartifcatsbucket
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]"
 Outputs.ChefSoloInstanceProfileArn.Value,"{u'Fn::GetAtt': [u'ChefEC2InstanceProfile', u'Arn']}"
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
-Parameters.SubnetID.Type,AWS::EC2::Subnet::Id
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,1200
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Resources.AWS::IAM::Policy.Properties.PolicyName,AdminAllowAll
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'SubnetID'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Fn::GetAtt': [u'AdminInstanceSecurityGroup', u'GroupId']}], u'DeleteOnTermination': u'True', u'AssociatePublicIpAddress': u'True'}]"
-Parameters.myVPCID.Type,AWS::EC2::VPC::Id
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'myVPCID'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.s3bucket.owner,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.region.owner,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./home/ubuntu/,https://github.com/awslabs/aws-training-demo/raw/master/course/system_operations/chef/admin-instance-resources.tar.gz
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'Admin Instance', u'Key': u'Name'}]"
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Parameters.ArtifcatsS3Bucket.Description,Name of your S3 Bucket that will store the artifacts (CFN will create and populate the bucket)
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'ChefEC2TrustAccessRole'}]
 Resources.AWS::S3::Bucket.Properties.BucketName,{u'Ref': u'ArtifcatsS3Bucket'}

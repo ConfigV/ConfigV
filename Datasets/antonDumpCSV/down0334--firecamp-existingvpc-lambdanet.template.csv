@@ -1,7 +1,4 @@
-Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Ref': u'AvailabilityZones'}]}"
-Parameters.SubnetIDs.Type,List<AWS::EC2::Subnet::Id>
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Parameters.NameTag.MaxLength,255
 Outputs.LambdaSubnet.Value,{u'Ref': u'LambdaSubnet'}
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
@@ -10,21 +7,15 @@ Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'LambdaSubnetCIDR'}
 Resources.AWS::EC2::Route.Properties.NatGatewayId,{u'Ref': u'LambdaNAT'}
 Parameters.LambdaSubnetCIDR.Description,The Subnet CIDR to run the service creation Lambda function.
 Resources.AWS::EC2::NatGateway.Properties.SubnetId,"{u'Fn::Select': [u'0', {u'Ref': u'SubnetIDs'}]}"
-Parameters.AvailabilityZones.Type,List<AWS::EC2::AvailabilityZone::Name>
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Parameters.LambdaSubnetCIDR.Default,0.0.0.0/0
 Resources.AWS::EC2::NatGateway.Properties.AllocationId,"{u'Fn::GetAtt': [u'LambdaEIP', u'AllocationId']}"
-Parameters.LambdaSubnetCIDR.Type,String
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::NatGateway.Properties.Tags,"[{u'Value': {u'Ref': u'NameTag'}, u'Key': u'Name'}]"
-Parameters.NameTag.Type,String
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': {u'Ref': u'NameTag'}, u'Key': u'Name'}]"
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Ref': u'NameTag'}, u'Key': u'Name'}]"
 Parameters.AvailabilityZones.Description,"The Availability Zones for the Subnets. Please make sure the AvailabilityZones match the Subnets and less or equal to Number of Container Worker Nodes, or else the cluster will not work."
 Parameters.NameTag.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'LambdaRouteTable'}
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'LambdaSubnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'LambdaRouteTable'}
 Resources.AWS::EC2::EIP.Properties.Domain,{u'Ref': u'VPCID'}
 Parameters.LambdaSubnetCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/x
@@ -33,6 +24,4 @@ Parameters.LambdaSubnetCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][
 Parameters.VPCID.Description,Select a VPC that allows instances to access the Internet.
 Parameters.SubnetIDs.Description,The existing subnets in your VPC where you want to deploy node(s). Please make sure the Subnets match the AvailabilityZones.
 Parameters.NameTag.MinLength,1
-Parameters.VPCID.Type,AWS::EC2::VPC::Id
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Parameters.NameTag.Description,Resource name tag

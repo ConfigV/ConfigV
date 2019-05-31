@@ -9,7 +9,6 @@ Parameters.HostedZone.ConstraintDescription,"Must be a valid domain name matchin
 Parameters.StackProtectionGroup.Description,Stack protection group
 Parameters.AwsAvailabilityZone1Number.MinValue,0
 Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
-Parameters.Organisation.Type,String
 Parameters.DeploymentName.MaxLength,16
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'Update:*', u'cloudformation:UpdateStack'], u'Resource': {u'Fn::Sub': u'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${DeploymentName}-*'}, u'Effect': {u'Ref': u'StackUpdateAllowDeny'}}]"
 Parameters.HostedZone.Description,DNS Zone
@@ -19,9 +18,7 @@ Outputs.Availability.Description,Availability Type
 Outputs.AwsAvailabilityZone1Number.Description,AWS Availability Zone 1 Number
 Parameters.StackProtectionGroup.ConstraintDescription,Valid group name
 Parameters.AwsAvailabilityZone3Number.Description,AWS Availability Zone [0-9]
-Parameters.AwsAvailabilityZone1Number.Type,Number
 Outputs.AwsAvailabilityZone3.Description,AWS Availability Zone 3
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Parameters.StackDeleteAllowDeny.AllowedValues,"[u'Allow', u'Deny']"
 Parameters.AwsAvailabilityZone1Number.MaxValue,9
 Parameters.DeploymentName.Description,Deployment Name
@@ -34,8 +31,6 @@ Parameters.AwsAvailabilityZone2Number.Description,AWS Availability Zone [0-9]
 Outputs.AwsAvailabilityZone3.Value,"{u'Fn::Select': [{u'Ref': u'AwsAvailabilityZone3Number'}, {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}"
 Parameters.StackUpdateAllowDeny.AllowedValues,"[u'Allow', u'Deny']"
 Parameters.AwsAvailabilityZone2Number.Default,1
-Parameters.StackProtectionGroup.Type,String
-Parameters.HostedZone.Type,String
 Outputs.Organisation.Description,Organisation
 Parameters.StackUpdateAllowDeny.Description,Update Policy Allow/Deny
 Parameters.AwsAvailabilityZone3Number.MaxValue,9
@@ -49,11 +44,9 @@ Resources.AWS::IAM::Policy.Properties.PolicyName,"{u'Fn::Join': [u'-', [{u'Ref':
 Parameters.Availability.Default,SingleAZ
 Resources.AWS::IAM::Policy.Properties.Groups,[{u'Ref': u'StackProtectionGroup'}]
 Parameters.StackProtectionGroup.MinLength,0
-Parameters.StackDeleteAllowDeny.Type,String
 Outputs.HostedZone.Value,{u'Ref': u'HostedZone'}
 Outputs.StackUpdateAllowDeny.Value,{u'Ref': u'StackUpdateAllowDeny'}
 Parameters.AwsAvailabilityZone3Number.MinValue,0
-Parameters.Availability.Type,String
 Parameters.Organisation.AllowedPattern,^[A-Za-z0-9 -]+$
 Outputs.Availability.Value,{u'Ref': u'Availability'}
 Parameters.HostedZone.AllowedPattern,"^(([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]\.)+[A-Za-z0-9]{2,}$"
@@ -63,8 +56,6 @@ Outputs.StackDeleteAllowDeny.Value,{u'Ref': u'StackDeleteAllowDeny'}
 Parameters.Organisation.Description,Organisation Name
 Outputs.AwsAvailabilityZone3Number.Description,AWS Availability Zone 3 Number
 Outputs.AwsAvailabilityZone1Number.Value,{u'Ref': u'AwsAvailabilityZone1Number'}
-Parameters.DeploymentName.Type,String
-Parameters.AwsAvailabilityZone3Number.Type,Number
 Outputs.StackDeleteAllowDeny.Description,Stack Delete Allow/Deny
 Outputs.AwsAvailabilityZone1.Value,"{u'Fn::Select': [{u'Ref': u'AwsAvailabilityZone1Number'}, {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}"
 Parameters.AwsAvailabilityZone1Number.Default,0
@@ -82,8 +73,6 @@ Parameters.Availability.Description,Availbility Type
 Outputs.HostedZone.Export.Name,{u'Fn::Sub': u'${DeploymentName}-HostedZone'}
 Outputs.DomainName.Export.Name,{u'Fn::Sub': u'${DeploymentName}-DomainName'}
 Parameters.StackProtectionGroup.MaxLength,128
-Parameters.StackUpdateAllowDeny.Type,String
 Parameters.DeploymentName.MinLength,1
 Outputs.AwsAvailabilityZone3.Export.Name,{u'Fn::Sub': u'${DeploymentName}-AwsAvailabilityZone3'}
-Parameters.AwsAvailabilityZone2Number.Type,Number
 Parameters.AwsAvailabilityZone3Number.Default,2

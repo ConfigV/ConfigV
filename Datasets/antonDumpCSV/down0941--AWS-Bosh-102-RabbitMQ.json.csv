@@ -23,7 +23,6 @@ Outputs.RabbitmqSecurityGroup.Condition,CreateRabbitmqNetworks
 Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CloudFoundryVpc'}}
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'RabbitmqAz1Cidr'}
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-AwsAvailabilityZone1'}}
-Parameters.RabbitmqAz1Cidr.Type,String
 Parameters.Availability.AllowedValues,"[u'SingleAZ', u'SingleAZ-HA', u'MultiAZ']"
 Parameters.RabbitmqAz2Cidr.ConstraintDescription,Valid CIDR
 Parameters.RabbitmqAz2Cidr.Description,RabbitMQ AZ2 CIDR
@@ -34,7 +33,6 @@ Outputs.CreateRabbitmqNetworks.Description,Created RabbitMQ Network(s)
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:RabbitmqAz1Subnet'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Parameters.CreateRabbitmqNetworks.Default,true
 Outputs.RabbitmqAz1Subnet.Export.Name,{u'Fn::Sub': u'${DeploymentName}-RabbitmqAz1Subnet'}
-Parameters.Availability.Type,String
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,False
 Outputs.RabbitmqAz2Cidr.Value,{u'Ref': u'RabbitmqAz2Cidr'}
 Outputs.RabbitmqAz1Cidr.Value,{u'Ref': u'RabbitmqAz1Cidr'}
@@ -42,19 +40,14 @@ Outputs.RabbitmqAz1Subnet.Value,{u'Ref': u'RabbitmqAz1Subnet'}
 Outputs.RabbitmqAz2Subnet.Description,RabbitMQ AZ2 Subnet
 Parameters.Availability.Default,SingleAZ
 Outputs.RabbitmqAz2Subnet.Condition,MultiAzAndCreateRabbitmqNetworks
-Parameters.DeploymentName.Type,String
 Resources.AWS::EC2::Subnet.Condition,CreateRabbitmqNetworks
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CloudFoundryVpc'}}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.RabbitmqAz1Cidr.ConstraintDescription,Valid CIDR
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,RabbitMQ In Out
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
-Parameters.RabbitmqAz2Cidr.Type,String
 Outputs.RabbitmqAz1Subnet.Condition,CreateRabbitmqNetworks
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:RabbitmqSecurityGroup'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Parameters.Availability.Description,Availability Type
 Outputs.RabbitmqAz1Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-RabbitmqAz1Cidr'}
 Parameters.DeploymentName.MinLength,1
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Outputs.RabbitmqAz1Subnet.Description,RabbitMQ AZ1 Subnet
-Parameters.CreateRabbitmqNetworks.Type,String

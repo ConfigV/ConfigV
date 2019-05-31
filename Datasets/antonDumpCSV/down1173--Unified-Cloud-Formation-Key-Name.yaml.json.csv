@@ -4,10 +4,7 @@ Parameters.KeyName.Description,Select the ssh key pair
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,VPN Security Groups
 Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.VPNPhrase.MaxLength,255
-Parameters.VPNPassword.Type,String
-Parameters.Username.Type,String
 Parameters.Size.Description,Instance Type
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Outputs.WebdigiNotes.Value,Comments
 Parameters.VPNPassword.MinLength,4
 Parameters.Username.Description,VPN Username
@@ -20,16 +17,12 @@ Parameters.VPNPassword.Description,VPN Password (Min 4 characters)
 Parameters.VPNPhrase.NoEcho,true
 Parameters.VPNPassword.ConstraintDescription,must contain atleast 4 characters.
 Outputs.VPNServerAddress.Description,Use the IP as Server Address or VPN Host
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Parameters.Size.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'500', u'FromPort': u'500', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'500', u'FromPort': u'500', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'4500', u'FromPort': u'4500', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'1723', u'FromPort': u'1723', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'1723', u'FromPort': u'1723', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'1701', u'FromPort': u'1701', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
-Parameters.VPNPhrase.Type,String
 Parameters.VPNPhrase.Description,Passphrase for IPSEC PSK (Min 4 characters)
 Parameters.Username.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Mappings.AWSRegionArch2AMI.ca-central-1.HVM64,ami-b3d965d7
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-060cde69
 Outputs.WebdigiNotes.Description,Allow upto 5 minutes after setup to connect. Please contact us at https://www.webdigi.co.uk/blog/2015/how-to-setup-your-own-private-secure-free-vpn-on-the-amazon-aws-cloud-in-10-minutes/ for any help!
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Outputs.VPNServerAddress.Value,"{u'Fn::GetAtt': [u'VPNServerInstance', u'PublicIp']}"
 Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'HVM64']}"
 Parameters.VPNPhrase.MinLength,4
