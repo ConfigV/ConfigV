@@ -57,7 +57,7 @@ def jsonToCSV(inputJsonFilePath):
         flattenedJson = {}
     else:
         flattenedJson = flattenjson(jsonData, "", "." )
-    isRelevent = lambda k: len([c for c in k if c=="."])>=2 and not ("east" in k or "west" in k or "north" in k or "south" in k or "InstanceType" in k)
+    isRelevent = lambda k: len([c for c in k if c=="."])>=2 and not ("east" in k or "west" in k or "north" in k or "south" in k or "InstanceType" in k or "Ref" in k)
     return [(k,v) for (k,v) in flattenedJson.items() if isRelevent(k)]
 
 flatten = lambda l: [item for sublist in l for item in sublist]
