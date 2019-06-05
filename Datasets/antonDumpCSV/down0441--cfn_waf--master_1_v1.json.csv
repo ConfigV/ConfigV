@@ -1,4 +1,3 @@
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebACL1,{u'Ref': u'WebACL1Name'}
 Resources.AWS::CloudFormation::Stack.DependsOn,WAFIP1
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'WebACL1Name', u'WAFWebACL1Action', u'WAFWhiteListIP1', u'WAFSizeURI1', u'WAFSizeQuery1'], u'Label': {u'default': u'WAF Configuration'}}, {u'Parameters': [u'WAFWEBACL1CFTURL', u'WAFByteURI1CFTURL', u'WAFByteURI2CFTURL', u'WAFByteHeader1CFTURL', u'WAFByteHeader2CFTURL', u'WAFIP1CFTURL', u'WAFSQLi1CFTURL', u'WAFXss1CFTURL', u'WAFSize1CFTURL'], u'Label': {u'default': u""Nested Template URL's""}}]"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.XssRule1,"{u'Fn::GetAtt': [u'WAFXss1', u'Outputs.WAFXssRule1ID']}"
@@ -14,7 +13,6 @@ Parameters.WAFWebACL1Action.Description,BLOCK or COUNT
 Parameters.WAFWEBACL1CFTURL.Description,Enter the S3 template URL eg https://s3.amazonaws.com/bucketname/path/filename
 Parameters.WAFWhiteListIP1.Description,"Only /8, /16, /24, and /32 are accepted"
 Parameters.WAFByteHeader1CFTURL.Default,https://s3.amazonaws.com/awswaf.us-east-1/waf-rules-example1/cfn_waf-byteheader_1_v1.json
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SizeQuery1,{u'Ref': u'WAFSizeQuery1'}
 Parameters.WAFByteHeader2CFTURL.Description,Enter the S3 template URL eg https://s3.amazonaws.com/bucketname/path/filename
 Parameters.WAFSizeQuery1.Default,8192
 Parameters.WAFByteURI2CFTURL.Default,https://s3.amazonaws.com/awswaf.us-east-1/waf-rules-example1/cfn_waf-byteuri_2_v1.json
@@ -25,7 +23,6 @@ Parameters.WAFXss1CFTURL.Description,Enter the S3 template URL eg https://s3.ama
 Parameters.WAFSizeURI1.AllowedValues,"[u'8192', u'7168', u'6144', u'5120', u'4096', u'3072', u'2048', u'1024']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.AutoIPRule1,"{u'Fn::GetAtt': [u'WAFIP1', u'Outputs.WAFAutoIPRule1ID']}"
 Parameters.WebACL1Name.Description,Enter the name of the WEB ACL. Names cannot be modified after creation and must be alphanumeric without spaces
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SizeURI1,{u'Ref': u'WAFSizeURI1'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WAFWebACL1Action.default,Action For All Rules:
 Parameters.WAFIP1CFTURL.Default,https://s3.amazonaws.com/awswaf.us-east-1/waf-rules-example1/cfn_waf-ip_1_v1.json
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebACL1Name.default,WAF Web ACL Name
@@ -40,10 +37,7 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.WAFSizeURI1.default,Max 
 Parameters.WAFWebACL1Action.AllowedValues,"[u'COUNT', u'BLOCK']"
 Parameters.WebACL1Name.Default,WebACL1
 Parameters.WAFByteURI1CFTURL.Default,https://s3.amazonaws.com/awswaf.us-east-1/waf-rules-example1/cfn_waf-byteuri_1_v1.json
-Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,{u'Ref': u'WAFByteHeader1CFTURL'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WAFSizeQuery1.default,Max Size of Query String
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.WhiteListIP1,{u'Ref': u'WAFWhiteListIP1'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebACL1Action,{u'Ref': u'WAFWebACL1Action'}
 Parameters.WAFWEBACL1CFTURL.Default,https://s3.amazonaws.com/awswaf.us-east-1/waf-rules-example1/cfn_waf-webacl_1_v1.json
 Parameters.WAFSQLi1CFTURL.Description,Enter the S3 template URL eg https://s3.amazonaws.com/bucketname/path/filename
 Parameters.WAFSizeURI1.Description,Bytes

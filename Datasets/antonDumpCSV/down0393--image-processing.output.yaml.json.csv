@@ -1,19 +1,9 @@
 Resources.AWS::Serverless::Function.Properties.CodeUri,s3://media-sharing-refarch/31d08688ac4c72609539eba52cd520f8
-Resources.Custom::S3EventTrigger.Properties.accountId,{u'Ref': u'AWS::AccountId'}
 Resources.Custom::S3EventTrigger.Version,1.0
-Outputs.S3PhotoRepoBucket.Value,{u'Ref': u'PhotoRepoS3Bucket'}
-Outputs.DescribeExecutionLambda.Value,{u'Ref': u'DescribeExecutionFunction'}
-Outputs.DDBAlbumMetadataTable.Value,{u'Ref': u'AlbumMetadataDDBTable'}
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'albumID'}]"
-Resources.AWS::IAM::Role.Properties.Path,/MediaSharingRefarch/
 Resources.AWS::Serverless::Function.Properties.MemorySize,256
-Resources.Custom::S3EventTrigger.Properties.StartExecutionFunction,{u'Ref': u'ImageProcStartExecutionFunction'}
-Resources.AWS::Serverless::Function.Properties.Environment.Variables.STATE_MACHINE_ARN,{u'Ref': u'ImageProcStateMachine'}
-Outputs.Region.Value,{u'Ref': u'AWS::Region'}
-Outputs.CognitoIdentityPool.Value,{u'Ref': u'TestClientIdentityPool'}
 Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'userID'}, {u'KeyType': u'RANGE', u'AttributeName': u'creationTime'}], u'IndexName': u'userID-creationTime-index', u'Projection': {u'ProjectionType': u'ALL'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': u'1', u'ReadCapacityUnits': u'2'}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
-Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.IdentityPoolId,{u'Ref': u'TestClientIdentityPool'}
 Resources.AWS::Serverless::Function.Properties.Timeout,60
 Resources.AWS::Serverless::Function.Properties.Role,"{u'Fn::GetAtt': [u'BackendProcessingLambdaRole', u'Arn']}"
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'albumID', u'AttributeType': u'S'}, {u'AttributeName': u'creationTime', u'AttributeType': False}, {u'AttributeName': u'userID', u'AttributeType': u'S'}]"
@@ -29,11 +19,8 @@ Resources.Custom::S3EventTrigger.Properties.StartExecutionFunctionArn,"{u'Fn::Ge
 Resources.AWS::StepFunctions::StateMachine.Properties.RoleArn,"{u'Fn::GetAtt': [u'StateMachineRole', u'Arn']}"
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.authenticated,"{u'Fn::GetAtt': [u'TestClientIAMRole', u'Arn']}"
 Resources.AWS::Serverless::Function.Properties.Runtime,nodejs4.3
-Outputs.DDBImageMetadataTable.Value,{u'Ref': u'ImageMetadataDDBTable'}
 Resources.AWS::Cognito::IdentityPool.Properties.IdentityPoolName,TestWebApp
 Resources.AWS::Cognito::IdentityPool.Properties.AllowUnauthenticatedIdentities,True
-Resources.Custom::S3EventTrigger.Properties.PhotoRepoS3Bucket,{u'Ref': u'PhotoRepoS3Bucket'}
-Resources.AWS::Serverless::Function.Properties.Environment.Variables.IMAGE_METADATA_DDB_TABLE,{u'Ref': u'ImageMetadataDDBTable'}
 Resources.AWS::Serverless::Function.DependsOn,PhotoRepoS3Bucket
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'LambdaWriteCWLogs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'AllowLogging'}]}}, {u'PolicyName': u'ReadFromPhotoRepoS3Bucket', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:Get*'], u'Resource': {u'Fn::Sub': u'arn:aws:s3:::${PhotoRepoS3Bucket}/*'}, u'Effect': u'Allow', u'Sid': u'ReadFromPhotoRepoS3Bucket'}]}}, {u'PolicyName': u'WriteToPhotoRepoS3Bucket', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:PutObject'], u'Resource': {u'Fn::Sub': u'arn:aws:s3:::${PhotoRepoS3Bucket}/*'}, u'Effect': u'Allow', u'Sid': u'WriteToPhotoRepoS3Bucket'}]}}, {u'PolicyName': u'WriteToImageMetadataDDBTable', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:UpdateItem', u'dynamodb:PutItem'], u'Resource': {u'Fn::Sub': u'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ImageMetadataDDBTable}'}, u'Effect': u'Allow', u'Sid': u'WriteToImageMetadataDDBTable'}]}}, {u'PolicyName': u'RekognitionDetectLabels', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'rekognition:DetectLabels'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'RekognitionDetectLabels'}]}}, {u'PolicyName': u'StepFunctionStartExecution', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'states:StartExecution'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'StepFunctionStartExecution'}]}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,2

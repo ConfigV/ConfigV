@@ -1,7 +1,5 @@
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.appCode,{u'Ref': u'HLSAppCode'}
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Principal.Service,[u'lambda.amazonaws.com']
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.appId,{u'Ref': u'HLSAppId'}
 Resources.AWS::Lambda::Function.Properties.Description,HERE HLS Routing API
 Resources.Custom::IntegrationTest.Version,1.0
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,connect-integration-here-location-suite/functions/packages/here-integration-routing/lambda.zip
@@ -18,14 +16,11 @@ Outputs.RoutingLambdaFunction.Value,{u'Fn::GetAtt': u'RoutingLambdaFunction.Arn'
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,aws-quickstart
 Parameters.HLSAppCode.Description,Your HERE Location Suite App Code.
 Parameters.HLSAppCode.MaxLength,64
-Rules.RegionSupport.Assertions,"[{u'Assert': {u'Fn::Equals': [{u'Ref': u'AWS::Region'}, u'us-east-1']}, u'AssertDescription': u'Region must be US East (N. Virginia) - us-east-1'}]"
 Resources.AWS::Lambda::Function.Properties.MemorySize,128
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.HLSAppCode.default,HERE Location Suite Application Code
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::Lambda::Permission.Properties.SourceAccount,{u'Ref': u'AWS::AccountId'}
 Parameters.HLSAppId.MaxLength,64
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'RoutingLambdaFunction'}
 Resources.AWS::Lambda::Function.Properties.Role,{u'Fn::GetAtt': u'RoutingExecutionRole.Arn'}
 Parameters.HLSAppId.Description,Your HERE Location Suite App ID.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.HLSAppId.default,HERE Location Suite Application ID

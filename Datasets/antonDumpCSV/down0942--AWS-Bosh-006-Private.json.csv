@@ -1,10 +1,7 @@
 Parameters.PrivateAz2Cidr.Default,10.0.41.0/24
 Outputs.PrivateAz3Subnet.Export.Name,{u'Fn::Sub': u'${DeploymentName}-PrivateAz3Subnet'}
-Outputs.PrivateAz2Cidr.Value,{u'Ref': u'PrivateAz2Cidr'}
-Outputs.PrivateAz3Subnet.Value,{u'Ref': u'PrivateAz3Subnet'}
 Outputs.PrivateAz2Cidr.Condition,MultiAz
 Parameters.Availability.AllowedValues,"[u'SingleAZ', u'SingleAZ-HA', u'MultiAZ']"
-Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'PrivateAz1Cidr'}
 Outputs.PrivateAz3Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-PrivateAz3Cidr'}
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
 Outputs.PrivateAz2Subnet.Condition,MultiAz
@@ -14,34 +11,28 @@ Outputs.PrivateAz1Cidr.Description,Private AZ1 Cidr
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-NatAz3RouteTable'}}
 Parameters.DeploymentName.Description,Deployment Name
 Parameters.PrivateAz3Cidr.AllowedPattern,^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2])$
-Outputs.PrivateAz1Cidr.Value,{u'Ref': u'PrivateAz1Cidr'}
 Outputs.PrivateAz3Cidr.Condition,MultiAz
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-AwsAvailabilityZone1'}}
 Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
 Parameters.PrivateAz1Cidr.AllowedPattern,^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2])$
-Outputs.PrivateAz1Subnet.Value,{u'Ref': u'PrivateAz1Subnet'}
 Parameters.PrivateAz2Cidr.AllowedPattern,^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2])$
 Outputs.PrivateAz3Cidr.Description,Private AZ3 Cidr
 Parameters.PrivateAz1Cidr.Default,10.0.40.0/24
 Outputs.PrivateAz1Subnet.Description,Private AZ1 Subnet
 Parameters.PrivateAz2Cidr.Description,Private AZ2 CIDR
 Outputs.PrivateAz1Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-PrivateAz1Cidr'}
-Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:PrivateAz1Subnet'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Parameters.DeploymentName.MaxLength,16
 Resources.AWS::EC2::SubnetRouteTableAssociation.Condition,MultiAz
-Outputs.PrivateAz3Cidr.Value,{u'Ref': u'PrivateAz3Cidr'}
 Outputs.PrivateAz2Subnet.Description,Private AZ2 Subnet
 Parameters.PrivateAz2Cidr.ConstraintDescription,Valid CIDR
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,False
 Outputs.PrivateAz3Subnet.Description,Private AZ3 Subnet
 Outputs.PrivateAz2Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-PrivateAz2Cidr'}
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PrivateAz3Subnet'}
 Outputs.PrivateAz2Subnet.Export.Name,{u'Fn::Sub': u'${DeploymentName}-PrivateAz2Subnet'}
 Parameters.Availability.Default,SingleAZ
 Resources.AWS::EC2::Subnet.Condition,MultiAz
 Outputs.PrivateAz3Subnet.Condition,MultiAz
 Parameters.PrivateAz1Cidr.Description,Private AZ1 CIDR
-Outputs.PrivateAz2Subnet.Value,{u'Ref': u'PrivateAz2Subnet'}
 Outputs.PrivateAz1Subnet.Export.Name,{u'Fn::Sub': u'${DeploymentName}-PrivateAz1Subnet'}
 Parameters.PrivateAz3Cidr.ConstraintDescription,Valid CIDR
 Parameters.PrivateAz3Cidr.Description,Private AZ3 CIDR

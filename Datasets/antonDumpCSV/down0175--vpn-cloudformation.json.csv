@@ -1,15 +1,8 @@
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable access to VPN server
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Outputs.ServerIP.Value,"{u'Fn::GetAtt': [u'EC2Instance', u'PublicIp']}"
-Outputs.IPSecSharedSecret.Value,{u'Ref': u'IPSecSharedSecret'}
 Parameters.Subnet.Description,Just select one of the available subnets.
 Parameters.VPNUser.Description,The VPN user.
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'InstanceSecurityGroup'}]
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'export IPSEC_PSK=', {u'Ref': u'IPSecSharedSecret'}, u'\n', u'export VPN_USER=', {u'Ref': u'VPNUser'}, u'\n', u'export VPN_PASSWORD=', {u'Ref': u'VPNPassword'}, u'\n', u'export STACK_NAME=', {u'Ref': u'AWS::StackName'}, u'\n', u'export REGION=', {u'Ref': u'AWS::Region'}, u'\n', u'curl -s https://raw.githubusercontent.com/AWSinAction/code/master/chapter5/vpn-setup.sh | bash -ex\n']]}}"
-Outputs.VPNUser.Value,{u'Ref': u'VPNUser'}
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'Subnet'}
-Outputs.VPNPassword.Value,{u'Ref': u'VPNPassword'}
 Parameters.VPNPassword.Description,The VPN password.
 Outputs.VPNPassword.Description,The password for the vpn connection
 Outputs.ServerIP.Description,Public IP address of the vpn server
@@ -19,6 +12,4 @@ Outputs.VPNUser.Description,The username for the vpn connection
 Parameters.KeyName.Description,key for SSH access
 Parameters.IPSecSharedSecret.Description,The shared secret key for IPSec.
 Outputs.IPSecSharedSecret.Description,The shared key for the VPN connection (IPSec)
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"
 Parameters.KeyName.ConstraintDescription,Must be the name of an existing key pair.

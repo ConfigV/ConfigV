@@ -6,7 +6,6 @@ Parameters.NumberOfAZs.Description,Number of Availability Zones to use in the VP
 Parameters.QSS3KeyPrefix.Description,"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet1ID.default,Private Subnet 1 ID
 Parameters.ContainerPlatform.Description,The container orchestration platform.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfManagers,{u'Ref': u'NumberOfManagers'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfAZs.default,Number of Availability Zones
 Parameters.CatalogRelease.AllowedValues,[u'1.0']
 Parameters.QSS3BucketName.Description,"S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
@@ -15,7 +14,6 @@ Parameters.AvailabilityZones.Description,"The Availability Zones for the Subnets
 Parameters.PrivateSubnet2ID.Description,The second existing SubnetID in your VPC where you want to deploy node(s). Please make sure the Subnet is in the AvailabilityZones.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet2ID.default,Private Subnet 2 ID
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ContainerPlatform.default,Container Platform
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'30000', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'ServiceSecurityGroup'}, u'FromPort': u'2000'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ClusterName.default,Cluster Name
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,Quick Start S3 Bucket Name
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'AvailabilityZones', u'NumberOfAZs', u'VPCID', u'PrivateSubnet1ID', u'PrivateSubnet2ID', u'PrivateSubnet3ID', u'BastionSecurityGroupID'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'KeyPairName'], u'Label': {u'default': u'Security Configuration'}}, {u'Parameters': [u'ContainerPlatform', u'ClusterName', u'Release', u'CatalogRelease', u'NumberOfManagers', u'NumberOfNodes', u'NodeAMIOS', u'NodeInstanceType'], u'Label': {u'default': u'FireCamp Cluster Configuration'}}, {u'Parameters': [u'QSS3BucketName', u'QSS3KeyPrefix'], u'Label': {u'default': u'AWS Quick Start Configuration'}}]"
@@ -29,15 +27,9 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfNodes.default,Nu
 Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the cluster nodes.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AvailabilityZones.default,Availability Zones
 Parameters.BastionSecurityGroupID.Description,The BastionSecurityGroup to SSH to the nodes.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
 Parameters.NodeAMIOS.AllowedValues,[u'Amazon-Linux-HVM']
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.CatalogRelease,{u'Ref': u'CatalogRelease'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerPlatform,{u'Ref': u'ContainerPlatform'}
 Parameters.QSS3KeyPrefix.ConstraintDescription,"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterName,{u'Ref': u'ClusterName'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeAMIOS,{u'Ref': u'NodeAMIOS'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NodeAMIOS.default,Node AMI Type
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Ref': u'QSS3KeyPrefix'}
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Sub': [u'https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/firecamp-common.template', {u'QSS3Region': {u'Fn::If': [u'GovCloudCondition', u's3-us-gov-west-1', u's3']}}]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet3ID.default,Private Subnet 3 ID
 Parameters.NumberOfManagers.Description,Number of the Swarm manager instances to launch. This field will be ignored for ECS.
@@ -47,7 +39,6 @@ Parameters.NumberOfNodes.Default,3
 Parameters.Release.Default,1.0
 Parameters.NumberOfAZs.AllowedValues,"[u'1', u'2', u'3']"
 Parameters.PrivateSubnet1ID.Description,The first existing SubnetID in your VPC where you want to deploy node(s). Please make sure the Subnet is in the AvailabilityZones.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.Release,{u'Ref': u'Release'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Release.default,CloudStax FireCamp System Services Release Version
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
 Parameters.Release.AllowedValues,[u'1.0']
@@ -55,23 +46,14 @@ Parameters.QSS3KeyPrefix.Default,quickstart-cloudstax-firecamp/
 Parameters.NodeAMIOS.Description,The Linux distribution for the AMI to be used for the service instances
 Parameters.NumberOfAZs.Default,3
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfManagers.default,Number of Docker Swarm Managers
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPCID'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}"
 Parameters.CatalogRelease.Description,"The FireCamp Catalog Service release version. For the detail release notes, please refer to https://github.com/cloudstax/firecamp/releases."
 Parameters.VPCID.Description,Select a VPC that allows instances to access the Internet.
 Parameters.NodeAMIOS.Default,Amazon-Linux-HVM
 Parameters.ContainerPlatform.Default,ecs
-Outputs.AppAccessSecurityGroup.Value,{u'Ref': u'AppAccessSecurityGroup'}
 Parameters.Release.Description,"The FireCamp System Services release version. For the detail release notes, please refer to https://github.com/cloudstax/firecamp/releases."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCID,{u'Ref': u'VPCID'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ServiceSecurityGroupID,{u'Ref': u'ServiceSecurityGroup'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.BastionSecurityGroupID.default,Bastion Security Group ID
 Parameters.NumberOfNodes.Description,"Number of instances to launch. Make sure it's greater or equal to the number of Availability Zones. For Swarm, this is the number of worker nodes."
 Parameters.ClusterName.MinLength,1
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfNodes,{u'Ref': u'NumberOfNodes'}
 Parameters.CatalogRelease.Default,1.0
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.InternalAccessSecurityGroupID,{u'Ref': u'InternalAccessSecurityGroup'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,Quick Start S3 Key Prefix
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyPairName'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetIDs,"{u'Fn::If': [u'1AZCondition', {u'Fn::Join': [u',', [{u'Ref': u'PrivateSubnet1ID'}]]}, {u'Fn::If': [u'2AZCondition', {u'Fn::Join': [u',', [{u'Ref': u'PrivateSubnet1ID'}, {u'Ref': u'PrivateSubnet2ID'}]]}, {u'Fn::Join': [u',', [{u'Ref': u'PrivateSubnet1ID'}, {u'Ref': u'PrivateSubnet2ID'}, {u'Ref': u'PrivateSubnet3ID'}]]}]}]}"
 Parameters.ClusterName.MaxLength,54

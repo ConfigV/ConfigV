@@ -1,16 +1,10 @@
 Resources.AWS::Serverless::Function.Properties.CodeUri,../lambda-functions/rekognition
 Resources.Custom::S3EventTrigger.Properties.accountId,AWS::AccountId
 Resources.Custom::S3EventTrigger.Version,1.0
-Outputs.S3PhotoRepoBucket.Value,{u'Ref': u'PhotoRepoS3Bucket'}
-Outputs.DescribeExecutionLambda.Value,{u'Ref': u'DescribeExecutionFunction'}
-Outputs.DDBAlbumMetadataTable.Value,{u'Ref': u'AlbumMetadataDDBTable'}
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'albumID'}]"
-Resources.AWS::IAM::Role.Properties.Path,/MediaSharingRefarch/
 Resources.AWS::Serverless::Function.Properties.MemorySize,256
 Resources.Custom::S3EventTrigger.Properties.StartExecutionFunction,ImageProcStartExecutionFunction
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.STATE_MACHINE_ARN,ImageProcStateMachine
-Outputs.Region.Value,{u'Ref': u'AWS::Region'}
-Outputs.CognitoIdentityPool.Value,{u'Ref': u'TestClientIdentityPool'}
 Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'userID'}, {u'KeyType': u'RANGE', u'AttributeName': u'creationTime'}], u'IndexName': u'userID-creationTime-index', u'Projection': {u'ProjectionType': u'ALL'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': u'1', u'ReadCapacityUnits': u'2'}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.IdentityPoolId,TestClientIdentityPool
@@ -29,7 +23,6 @@ Resources.Custom::S3EventTrigger.Properties.StartExecutionFunctionArn,ImageProcS
 Resources.AWS::StepFunctions::StateMachine.Properties.RoleArn,StateMachineRole.Arn
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.authenticated,TestClientIAMRole.Arn
 Resources.AWS::Serverless::Function.Properties.Runtime,nodejs4.3
-Outputs.DDBImageMetadataTable.Value,{u'Ref': u'ImageMetadataDDBTable'}
 Resources.AWS::Cognito::IdentityPool.Properties.IdentityPoolName,TestWebApp
 Resources.AWS::Cognito::IdentityPool.Properties.AllowUnauthenticatedIdentities,True
 Resources.Custom::S3EventTrigger.Properties.PhotoRepoS3Bucket,PhotoRepoS3Bucket

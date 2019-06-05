@@ -2,7 +2,6 @@ Parameters.BoshRdsInstancePreferredBackupWindow.Description,RDS Preferred backup
 Resources.AWS::CloudFormation::Stack.Condition,DeployAppsRdsInstance
 Parameters.CfRdsInstancePreferredMaintenanceWindow.Description,Cloudfoundry RDS Preferred maintenance window
 Parameters.BoshRdsInstancePreferredMaintenanceWindow.AllowedPattern,^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([0-1][0-9]|2[0-3]):[0-5][0-9]-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([0-1][0-9]|2[0-3]):[0-5][0-9]$
-Outputs.RdsBrokerUserName.Value,{u'Ref': u'RdsBrokerUser'}
 Parameters.BoshDbAdminPassword.Default,password
 Parameters.RdsAz2Cidr.AllowedPattern,^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2])$
 Parameters.BoshRdsInstanceSize.Default,db.t2.medium
@@ -22,12 +21,9 @@ Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9
 Parameters.DeployAppsRdsInstance.Default,true
 Parameters.DeployCfRdsInstance.AllowedValues,"[u'true', u'false']"
 Outputs.RdsAz1Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-RdsAz1Cidr'}
-Outputs.CfDbAdminPassword.Value,{u'Ref': u'CfDbAdminPassword'}
 Outputs.RdsAz2Cidr.Description,RDS AZ2 CIDR
 Resources.AWS::RDS::DBSubnetGroup.Condition,CreateRdsInfrastructure
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstanceUsername,{u'Ref': u'AppsDbAdminUsername'}
 Parameters.AppsRdsInstanceMaxConnections.Description,RDS Apps Instance Max Connections
-Resources.AWS::RDS::DBSubnetGroup.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:RdsSubnetGroup'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Outputs.AppsDbPort.Value,"{u'Fn::GetAtt': [u'AppsRdsInstance', u'Outputs.RdsInstancePort']}"
 Parameters.BoshDbAdminUsername.Description,Bosh RDS admin username
 Parameters.CfRdsInstanceEngine.AllowedValues,[u'postgres']
@@ -35,7 +31,6 @@ Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'
 Parameters.CfRdsInstancePreferredMaintenanceWindow.AllowedPattern,^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([0-1][0-9]|2[0-3]):[0-5][0-9]-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([0-1][0-9]|2[0-3]):[0-5][0-9]$
 Parameters.DeploymentName.MaxLength,16
 Parameters.CfRdsInstancePreferredBackupWindow.ConstraintDescription,"hh24:mi-hh24:mi, eg 23:59-01:24"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstancePreferredMaintenanceWindow,{u'Ref': u'AppsRdsInstancePreferredMaintenanceWindow'}
 Outputs.CfRdsSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-CfRdsSecurityGroup'}
 Parameters.BoshRdsInstancePreferredBackupWindow.AllowedPattern,^([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9]$
 Outputs.AppsDbPort.Condition,DeployAppsRdsInstance
@@ -50,7 +45,6 @@ Outputs.AppsDbAdminPassword.Description,Applications RDS Password
 Parameters.BoshRdsInstanceSize.AllowedValues,"[u'db.t2.micro', u'db.t2.small', u'db.t2.medium', u'db.t2.large', u'db.m4.large', u'db.m4.xlarge']"
 Outputs.CfRdsSecurityGroup.Condition,DeployAppsRdsInstance
 Outputs.BoshRdsInstanceAddress.Condition,DeployBoshRdsInstance
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'RdsAz1Subnet'}, {u'Ref': u'RdsAz2Subnet'}]"
 Outputs.RdsBrokerUserName.Description,RDS Broker User Name
 Outputs.BoshDbPort.Description,Bosh RDS Port
 Outputs.AppsDbAdminUsername.Description,Applications RDS Username
@@ -60,14 +54,12 @@ Parameters.DeployAppsRdsInstance.AllowedValues,"[u'true', u'false']"
 Parameters.CfRdsInstancePreferredBackupWindow.Default,01:00-04:00
 Parameters.AppsRdsInstanceMaxConnections.Default,100
 Outputs.AppsRdsSecurityGroup.Value,"{u'Fn::GetAtt': [u'AppsRdsInstance', u'Outputs.RdsSecurityGroup']}"
-Outputs.CfDbAdminUsername.Value,{u'Ref': u'CfDbAdminUsername'}
 Outputs.CfDbDns.Description,RDS CF Instance DNS Name
 Outputs.BoshDbPort.Condition,DeployBoshRdsInstance
 Outputs.BoshRdsInstanceAddress.Export.Name,{u'Fn::Sub': u'${DeploymentName}-BoshRdsInstanceAddress'}
 Parameters.AppsRdsInstancePreferredMaintenanceWindow.Default,Mon:04:00-Mon:06:00
 Parameters.CfRdsInstanceSnapshotIdentifier.Default,
 Parameters.BoshRdsInstancePreferredMaintenanceWindow.Description,Cloudfoundry RDS Preferred maintenance window
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'RdsBrokerUser'}
 Parameters.CfDbAdminUsername.ConstraintDescription,Alphanumeric characters only and must start with a letter
 Parameters.BoshRdsInstanceEngine.AllowedValues,[u'postgres']
 Parameters.CfRdsInstanceMaxConnections.MinValue,5
@@ -103,22 +95,18 @@ Outputs.AppsRdsSecurityGroup.Description,Applications RDS Password
 Parameters.CfRdsInstanceEngine.Description,Cloudfoundry RDS Engine
 Outputs.CfRdsInstanceAddress.Export.Name,{u'Fn::Sub': u'${DeploymentName}-CfRdsInstanceAddress'}
 Parameters.BoshRdsInstanceBackupRetentionPeriod.Default,28
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstanceStorageSize,{u'Ref': u'AppsRdsInstanceStorageSize'}
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,RDS Subnet Group
 Parameters.AppsRdsInstanceSnapshotIdentifier.Default,
 Parameters.CfRdsInstanceBackupRetentionPeriod.MaxValue,30
 Outputs.CfDbAdminPassword.Description,Cloudfoundry RDS Password
 Outputs.RdsAz2Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-RdsAz2Cidr'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstanceSnapshotIdentifier,{u'Ref': u'AppsRdsInstanceSnapshotIdentifier'}
 Parameters.BoshRdsInstanceSnapshotIdentifier.Default,
 Outputs.CfDbPort.Export.Name,{u'Fn::Sub': u'${DeploymentName}-CfDbPort'}
 Parameters.BoshRdsInstanceSnapshotIdentifier.AllowedPattern,^[a-z0-9:.-]*$
 Parameters.AppsRdsInstanceSize.AllowedValues,"[u'db.t2.micro', u'db.t2.small', u'db.t2.medium', u'db.t2.large', u'db.m4.large', u'db.m4.xlarge']"
 Outputs.CfRdsSecurityGroup.Value,"{u'Fn::GetAtt': [u'CfRdsInstance', u'Outputs.RdsSecurityGroup']}"
 Parameters.BoshRdsInstancePreferredMaintenanceWindow.Default,Mon:04:00-Mon:06:00
-Outputs.RdsAz2Cidr.Value,{u'Ref': u'RdsAz2Cidr'}
 Parameters.BoshRdsInstanceSnapshotIdentifier.Description,Bosh RDS snapshot identifier - for restores
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstanceBackupRetentionPeriod,{u'Ref': u'AppsRdsInstanceBackupRetentionPeriod'}
 Parameters.RdsAz1Cidr.Default,10.0.60.0/24
 Parameters.CfRdsInstancePreferredBackupWindow.AllowedPattern,^([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9]$
 Parameters.DeployAppsRdsInstance.Description,Deploy Apps RDS Instance
@@ -135,9 +123,7 @@ Parameters.BoshRdsInstanceEngine.Default,postgres
 Parameters.BoshRdsInstanceBackupRetentionPeriod.MaxValue,30
 Parameters.AppsRdsInstanceEngine.Default,postgres
 Parameters.CfDbAdminUsername.Description,Cloudfoundry RDS admin username
-Outputs.DeployAppsRdsInstance.Value,{u'Ref': u'DeployAppsRdsInstance'}
 Parameters.AppsRdsInstanceStorageSize.Default,25
-Outputs.RdsBrokerAccessKeyId.Value,{u'Ref': u'RdsBrokerAccessKey'}
 Parameters.AppsDbAdminUsername.AllowedPattern,^[A-Za-z][A-Za-z0-9]+$
 Parameters.CfRdsInstanceBackupRetentionPeriod.MinValue,5
 Parameters.AppsRdsInstanceStorageSize.MaxValue,6144
@@ -158,7 +144,6 @@ Outputs.BoshDbAdminPassword.Description,Bosh RDS Password
 Parameters.AppsRdsInstancePreferredBackupWindow.ConstraintDescription,"hh24:mi-hh24:mi, eg 23:59-01:24"
 Outputs.CfDbDns.Value,"{u'Fn::GetAtt': [u'CfRdsInstance', u'Outputs.RdsInstanceDns']}"
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-AwsAvailabilityZone2'}}
-Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:RdsAz2Subnet'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Outputs.AppsRdsInstanceAddress.Condition,DeployAppsRdsInstance
 Parameters.CfRdsInstanceMaxConnections.MaxValue,999
 Outputs.RdsBrokerAccessKeyId.Condition,DeployAppsRdsInstance
@@ -168,11 +153,9 @@ Parameters.BoshRdsInstancePreferredMaintenanceWindow.ConstraintDescription,"ddd:
 Parameters.AppsDbAdminPassword.MaxLength,63
 Outputs.BoshRdsInstanceAddress.Description,Bosh RDS Access Address
 Parameters.RdsAz2Cidr.Description,RDS AZ2 CIDR
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstancePreferredBackupWindow,{u'Ref': u'AppsRdsInstancePreferredBackupWindow'}
 Outputs.RdsAz1Cidr.Condition,CreateRdsInfrastructure
 Parameters.CfDbAdminUsername.MinLength,1
 Parameters.CfDbAdminUsername.MaxLength,63
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DeploymentName,{u'Ref': u'DeploymentName'}
 Outputs.BoshDbAdminUsername.Condition,DeployBoshRdsInstance
 Outputs.AppsRdsSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-AppsRdsSecurityGroup'}
 Outputs.CfDbAdminPassword.Condition,DeployCfRdsInstance
@@ -180,27 +163,20 @@ Outputs.CfRdsSecurityGroup.Description,Cloudfoundry RDS Security Group
 Parameters.AppsDbAdminUsername.ConstraintDescription,Alphanumeric characters only and must start with a letter
 Parameters.DeployCfRdsInstance.Description,Deploy CF RDS Instance
 Outputs.CfRdsInstanceAddress.Description,Cloudfoundry RDS Access Address
-Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'RdsAz2Cidr'}
 Resources.AWS::EC2::Subnet.Condition,CreateRdsInfrastructure
 Parameters.AppsRdsInstanceSnapshotIdentifier.AllowedPattern,^[a-z0-9:.-]*$
 Parameters.DeployBoshRdsInstance.AllowedValues,"[u'true', u'false']"
-Outputs.DeployCfRdsInstance.Value,{u'Ref': u'DeployCfRdsInstance'}
 Parameters.AppsDbAdminUsername.Description,Apps RDS admin username
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstanceSize,{u'Ref': u'AppsRdsInstanceSize'}
 Parameters.BoshDbAdminUsername.ConstraintDescription,Alphanumeric characters only and must start with a letter
-Outputs.BoshDbAdminUsername.Value,{u'Ref': u'BoshDbAdminUsername'}
 Parameters.CfRdsInstancePreferredMaintenanceWindow.Default,Mon:04:00-Mon:06:00
 Parameters.BoshDbAdminUsername.Default,postgres
 Parameters.AppsRdsInstancePreferredMaintenanceWindow.Description,Cloudfoundry RDS Preferred maintenance window
 Parameters.BoshDbAdminUsername.MinLength,1
 Parameters.CfRdsInstanceSize.Description,Cloudfoundry RDS Size (instance size affects max_connections)
-Outputs.BoshDbAdminPassword.Value,{u'Ref': u'BoshDbAdminPassword'}
 Parameters.CfRdsInstanceBackupRetentionPeriod.Default,28
-Outputs.AppsDbAdminUsername.Value,{u'Ref': u'AppsDbAdminUsername'}
 Parameters.BoshRdsInstancePreferredBackupWindow.Default,01:00-04:00
 Parameters.AppsRdsInstanceBackupRetentionPeriod.Description,RDS Apps Instance Backup Retention Period
 Parameters.CfRdsInstanceMaxConnections.Default,100
-Outputs.RdsAz1Cidr.Value,{u'Ref': u'RdsAz1Cidr'}
 Outputs.DeployCfRdsInstance.Description,Deploy CF RDS Database Instance
 Parameters.CfDbAdminPassword.MinLength,1
 Parameters.BoshDbAdminPassword.Description,Bosh RDS admin password
@@ -226,7 +202,6 @@ Parameters.BoshRdsInstanceStorageSize.Default,25
 Parameters.AppsRdsInstanceBackupRetentionPeriod.Default,28
 Outputs.BoshDbDns.Description,RDS Bosh Instance DNS Name
 Parameters.BoshRdsInstanceStorageSize.MinValue,5
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstanceEngine,{u'Ref': u'AppsRdsInstanceEngine'}
 Outputs.BoshDbPort.Export.Name,{u'Fn::Sub': u'${DeploymentName}-BoshDbPort'}
 Parameters.AppsRdsInstancePreferredBackupWindow.AllowedPattern,^([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9]$
 Parameters.AppsRdsInstancePreferredBackupWindow.Description,RDS Preferred backup window
@@ -251,18 +226,14 @@ Parameters.CfDbAdminPassword.MaxLength,63
 Outputs.AppsDbPort.Description,Applications RDS Port
 Parameters.DeployCfRdsInstance.Default,true
 Outputs.RdsAz2Cidr.Condition,CreateRdsInfrastructure
-Outputs.RdsSubnetGroup.Value,{u'Ref': u'RdsSubnetGroup'}
 Parameters.CfRdsInstanceSnapshotIdentifier.AllowedPattern,^[a-z0-9:.-]*$
 Parameters.CfRdsInstanceSnapshotIdentifier.ConstraintDescription,"AWS RDS snapshot identifier, or empty to create a new database"
 Outputs.CfDbPort.Value,"{u'Fn::GetAtt': [u'CfRdsInstance', u'Outputs.RdsInstancePort']}"
 Outputs.RdsAz1Cidr.Description,RDS AZ1 CIDR
 Parameters.BoshDbAdminPassword.MaxLength,63
 Parameters.CfDbAdminPassword.Description,Cloudfoundry RDS admin password
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsSubnetGroup,{u'Ref': u'RdsSubnetGroup'}
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RdsInstancePassword,{u'Ref': u'AppsDbAdminPassword'}
 Parameters.AppsRdsInstanceSize.Default,db.t2.medium
-Outputs.AppsDbAdminPassword.Value,{u'Ref': u'AppsDbAdminPassword'}
 Resources.AWS::IAM::AccessKey.Condition,DeployAppsRdsInstance
 Parameters.AppsDbAdminPassword.ConstraintDescription,"Can be any printable ASCII character except ""/"", """""", or ""@"""
 Outputs.CfDbAdminUsername.Description,Cloudfoundry RDS Username

@@ -2,7 +2,6 @@ Parameters.Username.MaxLength,255
 Parameters.Username.MinLength,1
 Parameters.KeyName.Description,Select the ssh key pair
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,VPN Security Groups
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.VPNPhrase.MaxLength,255
 Parameters.Size.Description,Instance Type
 Outputs.WebdigiNotes.Value,Comments
@@ -11,7 +10,6 @@ Parameters.Username.Description,VPN Username
 Parameters.VPNPassword.MaxLength,255
 Parameters.Size.AllowedValues,"[u'Standard.VPN-t2.micro', u'High.Speed.VPN-t2.medium', u'Ultra.High.Speed.VPN-m3.xlarge']"
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': [u'#', [u'#!/bin/sh\n#Passing variables to shell\nYOUR_IPSEC_PSK=${VPNPhrase}\nYOUR_USERNAME=${Username}\nYOUR_PASSWORD=${VPNPassword}\n', u'#VPN 1 - L2TP IPSEC Server\nwget https://git.io/vpnsetup -O vpnsetup.sh && sudo \\\nVPN_IPSEC_PSK=$YOUR_IPSEC_PSK \\\nVPN_USER=$YOUR_USERNAME \\\nVPN_PASSWORD=$YOUR_PASSWORD sh vpnsetup.sh\n\n#VPN 2 - Setup PPTP Server\napt-get install pptpd -y\necho ""localip 10.0.0.1"" >> /etc/pptpd.conf\necho ""remoteip 10.0.0.100-200"" >> /etc/pptpd.conf\necho ""$YOUR_USERNAME pptpd $YOUR_PASSWORD *"" >> /etc/ppp/chap-secrets\necho ""ms-dns 8.8.8.8"" >> /etc/ppp/pptpd-options\necho ""ms-dns 8.8.4.4"" >> /etc/ppp/pptpd-options\nservice pptpd restart\n\necho ""net.ipv4.ip_forward = 1"" >> /etc/sysctl.conf\nsysctl -p\niptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE && iptables-save\n']]}"
-Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'VPNSecurityGroup'}]
 Parameters.VPNPhrase.ConstraintDescription,must contain atleast 4 characters.
 Parameters.VPNPassword.Description,VPN Password (Min 4 characters)
 Parameters.VPNPhrase.NoEcho,true
@@ -24,9 +22,7 @@ Mappings.AWSRegionArch2AMI.ca-central-1.HVM64,ami-b3d965d7
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-060cde69
 Outputs.WebdigiNotes.Description,Allow upto 5 minutes after setup to connect. Please contact us at https://www.webdigi.co.uk/blog/2015/how-to-setup-your-own-private-secure-free-vpn-on-the-amazon-aws-cloud-in-10-minutes/ for any help!
 Outputs.VPNServerAddress.Value,"{u'Fn::GetAtt': [u'VPNServerInstance', u'PublicIp']}"
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'HVM64']}"
 Parameters.VPNPhrase.MinLength,4
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
 Parameters.Size.Default,Standard.VPN-t2.micro
 Parameters.Username.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.VPNPassword.NoEcho,true

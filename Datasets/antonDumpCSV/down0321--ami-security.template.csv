@@ -4,19 +4,12 @@ Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP access
 Resources.AWS::EC2::NetworkInterface.Properties.SourceDestCheck,true
 Resources.AWS::EC2::EIPAssociation.Properties.AllocationId,"{u'Fn::GetAtt': [u'WebPortAddress', u'AllocationId']}"
 Parameters.SubnetID.Description,"Subnet ID, must be same CIDR that was supplied when ElasticSearch was deployed"
-Resources.AWS::EC2::NetworkInterface.Properties.SubnetId,{u'Ref': u'SubnetID'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SubnetID.default,Subnet ID
 Parameters.RDPFrom.ConstraintDescription,"Must not be empty, must be valid IPv4 address with valid Mask Bit from 1-32, format of x.x.x.x/x"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCID.default,VPC ID
 Resources.AWS::EC2::NetworkInterface.Properties.Description,Interface for web traffic
-Resources.AWS::EC2::NetworkInterface.Properties.GroupSet,[{u'Ref': u'WebSecurityGroup'}]
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'443'}, {u'ToPort': u'3389', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'RDPFrom'}, u'FromPort': u'3389'}]"
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::EIPAssociation.Properties.NetworkInterfaceId,{u'Ref': u'WebXface'}
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPCID'}
 Outputs.PrivateIp.Value,"{u'Fn::GetAtt': [u'WebXface', u'PrimaryPrivateIpAddress']}"
 Parameters.RDPFrom.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]|3[0-2]))$
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPCID', u'SubnetID', u'RDPFrom'], u'Label': {u'default': u'Amazon VPC Configuration'}}]"
-Outputs.WebXFace.Value,{u'Ref': u'WebXface'}
-Outputs.ElasticIp.Value,{u'Ref': u'WebPortAddress'}
 Parameters.VPCID.Description,ID of your existing VPC for deployment

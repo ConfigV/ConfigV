@@ -3,10 +3,7 @@ Parameters.Password.Description,Password to log in to CloudFormer
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-6527cf0a
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/cloudformer/config/initializers/user.rb.group,root
 Parameters.Username.Description,Username to log in to CloudFormer
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackId'}, u'         --resource WebServer ', u'         --configsets full_install ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'/opt/aws/bin/cfn-signal -e $? ', u'         --stack ', {u'Ref': u'AWS::StackId'}, u'         --resource WebServer ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
 Mappings.AWSRegionArch2AMI.ca-central-1.HVM64,ami-33f34157
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/cloudformer/config/initializers/user.rb.content,"{u'Fn::Join': [u'', [u'USER_NAME = ""', {u'Ref': u'Username'}, u'""\n', u'PASSWORD = ""', {u'Ref': u'Password'}, u'""\n']]}"
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'SubnetId'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.libxml2-devel,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.commands.02_setup_boot.command,echo '/usr/bin/cloudformer' >> /etc/rc.local
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./usr/bin/cloudformer.group,root
@@ -16,13 +13,11 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.ruby-devel,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.bison,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.gcc-c++,[]
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CFNRole'}]
 Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'https://', {u'Fn::GetAtt': [u'WebServer', u'PublicDnsName']}]]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.commands.01_install_cloudformer.cwd,/home/ec2-user/cloudformer
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.readline,[]
 Mappings.Region2Examples.ca-central-1.Examples,https://s3-ca-central-1.amazonaws.com/cloudformation-examples-ca-central-1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/setup_cloudformer.mode,000755
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'WebServerSecurityGroup'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.commands.01_install_cloudformer.command,/home/ec2-user/setup_cloudformer &> /var/log/setup_cloudformer.log
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.libtool,[]
 Mappings.AWSRegionArch2AMI.eu-central-1.HVMG2,ami-b50d8fda
@@ -31,7 +26,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.file
 Mappings.Region2Principal.eu-central-1.OpsWorksPrincipal,opsworks.amazonaws.com
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/setup_cloudformer.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.zlib-devel,[]
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'CFNRole'}]
 Mappings.Region2Principal.ca-central-1.EC2Principal,ec2.amazonaws.com
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTPS access via port 443
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.full_install,"[u'base', u'cloudformer']"
@@ -42,15 +36,11 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.libxslt-devel,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.libyaml-devel,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.autoconf,[]
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.sources./home/ec2-user/cloudformer,"{u'Fn::Join': [u'/', [{u'Fn::FindInMap': [u'Region2Examples', {u'Ref': u'AWS::Region'}, u'Examples']}, u'AWSCloudFormer041.zip']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.automake,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.openssl-devel,[]
-Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': {u'Fn::FindInMap': [u'Region2Principal', {u'Ref': u'AWS::Region'}, u'EC2Principal']}}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.make,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.commands.02_setup_boot.cwd,/
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'CFNInstanceProfile'}
 Mappings.AWSRegionArch2AMI.ca-central-1.HVMG2,NOT_SUPPORTED
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
 Resources.AWS::IAM::Policy.Properties.PolicyName,CloudFormerPolicy
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./usr/bin/cloudformer.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/cloudformer/config/initializers/user.rb.mode,000400
@@ -59,14 +49,12 @@ Resources.AWS::IAM::Role.Properties.Path,/
 Mappings.Region2Principal.ca-central-1.OpsWorksPrincipal,opsworks.amazonaws.com
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.readline-devel,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.gcc,[]
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/setup_cloudformer.content,"{u'Fn::Join': [u'', [u'#!/usr/bin/env bash\n', u'cd /home/ec2-user/cloudformer\n', u'# Setup the CloudFormer service\n', u'mkdir -p vendor/bundle\n', u'gem install --local /home/ec2-user/cloudformer/vendor/cache/rake-10.4.2.gem\n', u'gem install --local /home/ec2-user/cloudformer/vendor/cache/bundler-1.7.11.gem\n', u'gem install --local /home/ec2-user/cloudformer/vendor/cache/bundle-0.0.1.gem\n', u'/usr/local/bin/bundle install --local --path /home/ec2-user/cloudformer/vendor/bundle\n', u'/usr/local/bin/rake RAILS_ENV=production db:migrate\n', u'gem install --local /home/ec2-user/cloudformer/vendor/cache/rack-1.6.0.gem\n', u'gem install --local /home/ec2-user/cloudformer/vendor/cache/eventmachine-1.0.4.gem\n', u'gem install --local /home/ec2-user/cloudformer/vendor/cache/daemons-1.1.9.gem\n', u'gem install --local /home/ec2-user/cloudformer/vendor/cache/thin-1.6.3.gem\n', u'# Create certificate and private key for SSL\n', u'mkdir -p /home/ec2-user/cloudformer/.ssl\n', u'cd /home/ec2-user/cloudformer/.ssl\n', u'openssl genrsa -des3 -passout pass:""', {u'Ref': u'Password'}, u'"" -out server.pass.key 1024\n', u'openssl rsa -passin pass:""', {u'Ref': u'Password'}, u'"" -in server.pass.key -out server.key\n', u'openssl req -new -key server.key -out server.csr -subj ""/C=US/ST=Washington/L=Seattle/O=Amazon Web Services/OU=CloudFormer""\n', u'openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt\n', u'rm server.pass.key server.csr\n']]}"
 Mappings.AWSRegionArch2AMI.ca-central-1.PV64,NOT_SUPPORTED
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/cloudformer/config/initializers/user.rb.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.patch,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.zlib,[]
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-e526ce8a
 Outputs.WebsiteURL.Description,URL for CloudFormer
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', u't2.small', u'Arch']}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.cloudformer.files./home/ec2-user/setup_cloudformer.group,root
 Mappings.Region2Examples.eu-central-1.Examples,https://s3-eu-central-1.amazonaws.com/cloudformation-examples-eu-central-1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.base.packages.yum.sqlite-devel,[]

@@ -3,12 +3,10 @@ Parameters.ExternalRdsCidr3.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0
 Parameters.CreateRabbitmqNetworks.AllowedValues,"[u'true', u'false']"
 Parameters.ExternalRabbitmqCidr2.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2]))?$
 Parameters.DeployBoshRdsInstance.Description,Deploy Bosh RDS Instance
-Outputs.ExternalSyslogCidr1.Value,{u'Ref': u'ExternalSyslogCidr1'}
 Parameters.ExternalSyslogCidr3.Description,External Syslog Fallback CIDR 2
 Parameters.ExternalRabbitmqPort1.Default,5672
 Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
 Parameters.DeployAppsRdsInstance.Default,true
-Outputs.ExternalSyslogPort.Value,{u'Ref': u'ExternalSyslogPort'}
 Parameters.DeployCfRdsInstance.Description,Deploy Cf RDS Instance
 Parameters.ExternalNtpCidr3.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2]))?$
 Parameters.ExternalRdsCidr3.Description,External RDS Database CIDR3
@@ -28,7 +26,6 @@ Parameters.ExternalSyslogPort.Default,514
 Mappings.PrefixLists.ca-central-1.s3,pl-7da54014
 Parameters.ExternalNtpCidr2.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2]))?$
 Parameters.ExternalNtpCidr3.ConstraintDescription,Valid CIDR
-Resources.AWS::EC2::SecurityGroupEgress.Properties.CidrIp,{u'Ref': u'ExternalNtpCidr2'}
 Parameters.ExternalNtpCidr2.ConstraintDescription,Valid CIDR
 Parameters.ExternalRabbitmqPort2.MaxValue,65535
 Outputs.ExternalSyslogCidr1.Condition,WhitelistExternalSyslogCidr1
@@ -39,7 +36,6 @@ Parameters.ExternalSyslogCidr1.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|
 Resources.AWS::EC2::SecurityGroupEgress.Properties.FromPort,123
 Parameters.ExternalRdsCidr1.ConstraintDescription,Valid CIDR
 Parameters.ExternalNtpCidr3.Default,
-Outputs.ExternalSyslogCidr3.Value,{u'Ref': u'ExternalSyslogCidr3'}
 Parameters.CreateRabbitmqNetworks.Default,true
 Parameters.DeployBoshRdsInstance.AllowedValues,"[u'true', u'false']"
 Parameters.ExternalNtpCidr1.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2]))?$
@@ -73,9 +69,7 @@ Parameters.ExternalSyslogPort.Description,External Syslog Port
 Parameters.ExternalSyslogCidr2.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2]))?$
 Parameters.ExternalRdsCidr3.Default,
 Parameters.ExternalSyslogCidr3.Default,
-Outputs.ExternalSyslogProtocol.Value,{u'Ref': u'ExternalSyslogProtocol'}
 Parameters.ExternalSyslogCidr1.Description,External Syslog Main CIDR
-Outputs.ExternalSyslogCidr2.Value,{u'Ref': u'ExternalSyslogCidr2'}
 Resources.AWS::EC2::SecurityGroupEgress.Properties.ToPort,123
 Parameters.ExternalRabbitmqCidr1.AllowedPattern,^((([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2]))?$
 Parameters.ExternalSyslogProtocol.AllowedValues,"[u'tcp', u'udp']"
@@ -109,6 +103,5 @@ Parameters.ExternalSyslogProtocol.Default,tcp
 Parameters.ExternalSyslogCidr2.Description,External Syslog Fallback CIDR 1
 Parameters.ExternalRdsCidr3.ConstraintDescription,Valid CIDR
 Parameters.AllowInternetAccess.Description,Allow outbound HTTP & HTTPS connections
-Resources.AWS::EC2::SecurityGroupEgress.Properties.DestinationPrefixListId,"{u'Fn::FindInMap': [u'PrefixLists', {u'Ref': u'AWS::Region'}, u's3']}"
 Parameters.DeploymentName.MinLength,1
 Parameters.ExternalSyslogProtocol.Description,External Syslog Protocol

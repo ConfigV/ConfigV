@@ -1,18 +1,15 @@
 Parameters.DBPassword.MaxLength,41
 Parameters.DBName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
-Resources.AWS::RDS::DBInstance.Properties.DBParameterGroupName,{u'Ref': u'MyRDSParamGroup'}
 Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
 Resources.AWS::RDS::DBParameterGroup.Properties.Family,MySQL5.6
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,MyDatabase
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUser'}
 Parameters.DBPassword.NoEcho,true
 Parameters.DBUser.MaxLength,16
 Resources.AWS::RDS::DBParameterGroup.Properties.Description,CloudFormation Sample Database Parameter Group
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,5
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
 Parameters.DBPassword.Description,The database admin account password
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
 Resources.AWS::RDS::DBInstance.Properties.EngineVersion,5.6.19
 Parameters.DBName.Description,The database name
 Outputs.JDBCConnectionString.Description,JDBC connection string for the database
@@ -21,11 +18,9 @@ Parameters.DBName.MaxLength,64
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.t2.small
 Parameters.DBUser.NoEcho,true
 Parameters.DBUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Outputs.JDBCConnectionString.Value,"{u'Fn::Join': [u'', [u'jdbc:mysql://', {u'Fn::GetAtt': [u'MyDB', u'Endpoint.Address']}, u':', {u'Fn::GetAtt': [u'MyDB', u'Endpoint.Port']}, u'/', {u'Ref': u'DBName'}]]}"
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.old_passwords,0
 Parameters.DBUser.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.DBUser.MinLength,1
-Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
 Parameters.DBUser.Description,The database admin account username
 Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.autocommit,1

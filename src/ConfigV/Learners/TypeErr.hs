@@ -1,21 +1,18 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, InstanceSigs, OverloadedStrings #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-module Learners.TypeErr where
+module ConfigV.Learners.TypeErr where
 
-import Types.IR
-import Types.Errors
-import Types.Rules 
-import Types.Countable
+import ConfigV.Types
 
 import Prelude hiding (TypeErr)
 import qualified Data.Map as M
 import qualified Data.Text as T
 import Data.Interned
 
-import Learners.Common
+import ConfigV.Learners.Common
 
-import Settings.Config
+import ConfigV.Settings.Config
 import Control.Monad.Reader
 
 -- | We assume that all IRConfigFiles have a set of unique keywords

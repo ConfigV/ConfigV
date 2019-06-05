@@ -1,13 +1,8 @@
 Resources.AWS::EMR::Step.Properties.HadoopJarStep.Jar,s3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar
-Resources.AWS::EMR::Cluster.Properties.Instances.AdditionalMasterSecurityGroups,[{u'Ref': u'sgEMRMasterAdditional'}]
 Resources.AWS::Lambda::Function.Properties.Description,Handler for ML Load on JobServer
 Resources.AWS::Lambda::Function.Properties.Timeout,30
 Outputs.EMRCluster.Value,"{u'Fn::GetAtt': [u'emrCluster', u'MasterPublicDNS']}"
 Resources.AWS::Lambda::Function.Properties.Handler,models.genreHandler
-Resources.AWS::EMR::Cluster.Properties.BootstrapActions,"[{u'ScriptBootstrapAction': {u'Path': {u'Ref': u'myBaJobserverLoc'}}, u'Name': u'Install JobServer'}]"
-Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'sgEMRMasterAdditional'}
-Resources.AWS::Lambda::Function.Properties.FunctionName,"{u'Fn::Join': [u'-', [u'genreHandlerML', {u'Ref': u'AWS::StackName'}]]}"
-Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,{u'Ref': u'sgLambda'}
 Resources.AWS::Lambda::Function.Properties.MemorySize,128
 Resources.AWS::EMR::Step.DependsOn,emrCluster
 Resources.AWS::Lambda::Function.DependsOn,[u'roleLambda']
@@ -18,15 +13,11 @@ Parameters.myStepStartJobServerLoc.Description,The location on S3 of the BA to i
 Resources.AWS::EMR::Cluster.Properties.Instances.TerminationProtected,false
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'emrCluster', u'MasterPublicDNS']}]"
 Resources.AWS::Route53::HostedZone.Properties.Name,ml-test-blog.internal
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'roleLambda'}]
-Resources.AWS::Route53::HostedZone.Properties.VPCs,"[{u'VPCId': {u'Ref': u'myVPCID'}, u'VPCRegion': {u'Ref': u'AWS::Region'}}]"
-Resources.AWS::Route53::RecordSet.Properties.HostedZoneId,{u'Ref': u'dnsHostedZone'}
 Resources.AWS::Route53::RecordSet.Properties.TTL,600
 Outputs.GenreLambdaARN.Value,"{u'Fn::GetAtt': [u'lambdaGenreHandler', u'Arn']}"
 Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.Market,ON_DEMAND
 Parameters.myLambdaS3BucketKey.Default,ml/lambda/python_lambda.zip
 Resources.AWS::Route53::RecordSet.DependsOn,"[u'dnsHostedZone', u'emrCluster']"
-Resources.AWS::Lambda::Function.Properties.VpcConfig.SubnetIds,[{u'Ref': u'mySubnetID'}]
 Parameters.myVPCID.Default,vpc-b101bdd4
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,0
 Resources.AWS::EMR::Cluster.Properties.Name,cfn-EMR-Spark
@@ -34,7 +25,6 @@ Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.Market,ON_D
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'65535', u'IpProtocol': u'-1', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'0'}]"
 Resources.AWS::EMR::Cluster.Properties.JobFlowRole,EMR_EC2_DefaultRole
 Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.InstanceCount,5
-Resources.AWS::EMR::Step.Properties.JobFlowId,{u'Ref': u'emrCluster'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,EMR Master Group
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,65535
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,-1
@@ -42,36 +32,27 @@ Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaJobServerPolicy
 Parameters.myVPCID.MinLength,1
 Parameters.myEMRKeyPair.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
 Outputs.RecommendationLambdaARN.Description,ARN of Lambda to get user recommendations
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'myLambdaS3BucketName'}
 Resources.AWS::Route53::RecordSet.Properties.Comment,DNS internal
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::EMR::Cluster.Properties.Applications,"[{u'Name': u'Spark'}, {u'Name': u'Hadoop'}, {u'Name': u'Hive'}]"
 Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.InstanceCount,1
 Parameters.myBaJobserverLoc.Description,The location on S3 of the BA to install Jobserver
 Outputs.LoadDataLambdaARN.Description,ARN of Lambda to load model and data
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'myVPCID'}
 Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [u'jobserver', u'.', u'ml-test-blog.internal']]}"
-Resources.AWS::EMR::Cluster.Properties.Instances.Ec2KeyName,{u'Ref': u'myEMRKeyPair'}
-Resources.AWS::EMR::Step.Properties.HadoopJarStep.Args,[{u'Ref': u'myStepStartJobServerLoc'}]
 Outputs.EMRCluster.Description,EMR Cluster DNS
 Parameters.mySubnetID.MinLength,1
 Parameters.myStepStartJobServerLoc.Default,s3://dgraeberaws-blogs/jobserver/BA/startServer.sh
-Resources.AWS::Lambda::Function.Properties.VpcConfig.SecurityGroupIds,[{u'Ref': u'sgLambda'}]
 Parameters.myLambdaS3BucketName.Description,The Bucket on S3 where your Python Lambda is located
 Outputs.InternallyHostedDNS.Value,"{u'Fn::Join': [u'', [u'jobserver', u'.', u'ml-test-blog.internal']]}"
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'myLambdaS3BucketKey'}
-Resources.AWS::EMR::Cluster.Properties.Instances.Ec2SubnetId,{u'Ref': u'mySubnetID'}
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'roleLambda', u'Arn']}"
 Resources.AWS::EMR::Cluster.Properties.ServiceRole,EMR_DefaultRole
 Resources.AWS::Route53::HostedZone.Properties.HostedZoneConfig.Comment,Internal hosted zone - testing
 Outputs.InternallyHostedDNS.Description,Internally hosted EMR Cluster DNS
 Parameters.mySubnetID.Default,subnet-57c5da7f
-Resources.AWS::EMR::Cluster.Properties.Instances.MasterInstanceGroup.Name,"{u'Fn::Join': [u'-', [u'JobServer', {u'Ref': u'AWS::StackName'}]]}"
 Parameters.myEMRKeyPair.ConstraintDescription,must be the name of an existing EC2 KeyPair
 Resources.AWS::EMR::Cluster.Properties.Instances.CoreInstanceGroup.Name,cfnCore
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Resources.AWS::EMR::Cluster.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'-', [u'EMR-Spark-JobServer-ML', {u'Ref': u'AWS::StackName'}]]}, u'Key': u'Name'}]"
 Outputs.GenreLambdaARN.Description,ARN of Lambda to get genre recommendations
 Resources.AWS::EMR::Step.Properties.ActionOnFailure,CONTINUE
 Parameters.myLambdaS3BucketKey.Description,The Key on S3 where your Python Lambda is located

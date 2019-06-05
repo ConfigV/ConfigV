@@ -1,19 +1,13 @@
-Outputs.AddFlowLogToVpcCmd.Value,"{u'Fn::Join': [u'', [u'aws ec2 create-flow-logs --resource-type VPC', u' --traffic-type ACCEPT --resource-ids VpcId', u' --log-group-name ', {u'Ref': u'FlowLogs'}, u' --deliver-logs-permission-arn ', {u'Fn::GetAtt': [u'FlowLogsToCloudWatch', u'Arn']}]]}"
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaRole'}]
 Resources.AWS::Kinesis::Stream.Properties.ShardCount,"{u'Fn::FindInMap': [u'Defaults', u'Stream', u'ShardCount']}"
 Mappings.Defaults.LogGroup.RetentionInDays,1
-Resources.AWS::Logs::SubscriptionFilter.Properties.LogGroupName,{u'Ref': u'FlowLogs'}
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
 Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,"{u'Fn::FindInMap': [u'Defaults', u'LogGroup', u'RetentionInDays']}"
 Resources.AWS::Lambda::EventSourceMapping.Properties.EventSourceArn,"{u'Fn::GetAtt': [u'LogStream', u'Arn']}"
 Resources.AWS::Lambda::EventSourceMapping.Properties.Enabled,True
 Resources.AWS::Lambda::Function.Properties.Timeout,60
-Resources.AWS::Lambda::EventSourceMapping.Properties.FunctionName,{u'Ref': u'FlowLogUpload'}
 Resources.AWS::Logs::SubscriptionFilter.DependsOn,"[u'CloudWatchToKinesisPolicy', u'FlowLogUpload']"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'', [u""console.log('Loading function');\n"", u'\n', u""var bucket = '"", {u'Ref': u'Bucket'}, u""';\n"", u""var path = 'flowlogs';\n"", u""var zlib = require('zlib');\n"", u""var AWS = require('aws-sdk');\n"", u""AWS.config.update({region: '"", {u'Ref': u'AWS::Region'}, u""'});\n"", u'var s3 = new AWS.S3();\n', u'\n', u'exports.handler = function(event, context) {\n', u'    var i = 0;\n', u'    var record;\n', u'    var data = [];\n', u'    var key = path + ""/"" + context.invokeid + "".gz"";\n', u'\n', u'    //console.log(JSON.stringify(event, null, 2));\n', u'    // Serialize Operation\n', u'    function iter(err) {\n', u'        if (err) {\n', u'            context.fail(err);\n', u'            return;\n', u'        }\n', u'        record =  event.Records[i++];\n', u'        if (!record) {\n', u'            if (data.length === 0) {\n', u'                context.succeed(""No data to upload"");\n', u'                return;\n', u'            }\n', u'            zlib.gzip(data.join(""\\n""),function ', u'(err, result) {\n', u'                if (err) return iter(err);\n', u'                var params = {\n', u'                    Bucket: bucket,\n', u'                    Key: key,\n', u'                    Body: result\n', u'                };\n', u'                s3.putObject(params, function(err, data) {\n', u'                    if (err) return iter(err);\n', u'                    console.log(""Successfully uploaded ', u'flowlog "" + bucket + ""/"" + key);\n', u'                    context.succeed(""Successfully processed ', u'"" + event.Records.length + "" ', u'record"");\n', u'                    return;\n', u'                });\n', u'                return;\n', u'            });\n', u'            return;\n', u'        }\n', u'        var buffer = new ', u""Buffer(record.kinesis.data, 'base64');\n"", u'        zlib.unzip(buffer, function(err, buffer) {\n', u'            if (err) return iter(err);\n', u""            var fl = JSON.parse(buffer.toString('ascii'));\n"", u'            data = data.concat(fl.logEvents.map(', u'function(item) {\n', u'                return item.message;\n', u'            })).filter(function(item) {\n', u""                return (item.indexOf('OK') == -1) "", u'? false : true;\n', u'            });\n', u'            iter();\n', u'        });\n', u'    }\n', u'    // Start iterator\n', u'    iter();\n', u'    return;\n', u'};\n']]}"
 Mappings.Defaults.EventSourceMapping.BatchSize,10000
-Outputs.LogGroupName.Value,{u'Ref': u'FlowLogs'}
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::Lambda::EventSourceMapping.Properties.StartingPosition,TRIM_HORIZON
 Outputs.DeliverLogsPermissionArn.Value,"{u'Fn::GetAtt': [u'FlowLogsToCloudWatch', u'Arn']}"
@@ -23,12 +17,10 @@ Resources.AWS::Lambda::EventSourceMapping.Properties.BatchSize,"{u'Fn::FindInMap
 Resources.AWS::Logs::SubscriptionFilter.Properties.FilterPattern,"{u'Fn::Join': [u'', [u'[version, account_id, ', u'interface_id, srcaddr, dstaddr, srcport, dstport, protocol, ', u'packets, bytes, start, end, action, log_status]']]}"
 Resources.AWS::Lambda::Function.DependsOn,[u'LambdaPolicy']
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'vpc-flow-logs.amazonaws.com']}}]"
-Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'lambda:InvokeFunction'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u's3:PutObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}, u'/flowlogs/*']]}], u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'kinesis:GetRecords', u'kinesis:GetShardIterator', u'kinesis:DescribeStream', u'kinesis:ListStreams'], u'Resource': [{u'Fn::GetAtt': [u'LogStream', u'Arn']}], u'Effect': u'Allow'}]"
 Resources.AWS::Logs::SubscriptionFilter.Properties.RoleArn,"{u'Fn::GetAtt': [u'CloudWatchToKinesis', u'Arn']}"
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
 Resources.AWS::IAM::Policy.Properties.PolicyName,lambda
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
 Resources.AWS::Logs::SubscriptionFilter.Properties.DestinationArn,"{u'Fn::GetAtt': [u'LogStream', u'Arn']}"
-Outputs.S3LogLocation.Value,{u'Ref': u'Bucket'}
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'flowlogs', u'PolicyDocument': {u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents', u'logs:DescribeLogGroups', u'logs:DescribeLogStreams'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'ExpirationInDays': 7}]"

@@ -1,25 +1,15 @@
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'ParamRSAKeyName'}
 Parameters.ParamInstSubnet1AZ.AllowedPattern,[a-z][a-z]-[a-z]+-[0-9][a-z]
 Parameters.ParamRSAKeyName.Description,RSA Key for instances
 Parameters.ParamInstSubnet1AZ.ConstraintDescription,Must select a valid AZ name within the target region
 Parameters.ParamASGMinCapacity.Default,0
 Parameters.ParamInstanceAMI.Description,ID of instance AMI
 Parameters.ParamInstSubnet2AZ.ConstraintDescription,Must select a valid AZ name within the target region
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': {u'Fn::Join': [u'@', [u'inst', {u'Ref': u'AWS::StackName'}]]}, u'Key': u'Name'}]"
 Parameters.ParamASGMaxCapacity.Default,10
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,{u'Ref': u'ParamInstanceAMI'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'InstLanuchConf'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'ParamASGMaxCapacity'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,{u'Ref': u'ParamASGMinCapacity'}
 Parameters.ParamVPC.Description,VPC ID
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Ref': u'ParamInstSubnet1'}, {u'Ref': u'ParamInstSubnet2'}]"
 Parameters.ParamASGMaxCapacity.Description,Maximum capacity for the ASG
 Parameters.ParamASGDesiredCapacity.Default,2
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'ParamIamInstanceProfile'}
 Parameters.ParamInstSubnet2AZ.Description,Subnet 2 Availability zone
 Parameters.ParamInstSubnet2.Description,Subnet 2 for auto-scaling-group
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Ref': u'ParamInstanceDefaultSG'}, {u'Ref': u'SGInstances'}]"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'ParamASGDesiredCapacity'}
 Parameters.ParamInstSubnet1.Description,Subnet 1 for auto-scaling-group
 Parameters.ParamIamInstanceProfile.Description,IAM Role Profile for instances
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,[]
@@ -28,8 +18,6 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,EC2
 Parameters.ParamASGMinCapacity.Description,Minimum capacity for the ASG
 Parameters.ParamASGDesiredCapacity.Description,Desired capacity for the ASG
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ParamVPC'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[{u'Ref': u'ParamInstSubnet1AZ'}, {u'Ref': u'ParamInstSubnet2AZ'}]"
 Parameters.ParamInstSubnet2AZ.AllowedPattern,[a-z][a-z]-[a-z]+-[0-9][a-z]
 Parameters.ParamInstanceDefaultSG.Description,ID of Default Management SG
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n']]}}"

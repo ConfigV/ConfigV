@@ -3,38 +3,26 @@ Parameters.Region.Default,us-west-2
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,True
 Mappings.SubnetConfig.VPC.CIDR,10.0.0.0/20
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::IAM::User.Properties.UserName,"{u'Fn::FindInMap': [u'UserConfig', u'Login', u'Name']}"
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,"{u'Fn::FindInMap': [u'SubnetConfig', u'SubnetA', u'CIDR']}"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,ssh only
 Resources.AWS::EC2::Instance.Properties.KeyName,"{u'Fn::FindInMap': [u'Ec2InstanceConfig', u'Security', u'KeyName']}"
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
 Mappings.UserConfig.Login.Name,iot-user
 Resources.AWS::IAM::Role.Properties.Path,/
 Mappings.UserConfig.Login.Pass,ca-lab-user
 Resources.AWS::EC2::Instance.Properties.AvailabilityZone,"{u'Fn::FindInMap': [u'SubnetConfig', u'SubnetA', u'AZ']}"
 Resources.AWS::IAM::Role.Properties.RoleName,iot-republish-role
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::FindInMap': [u'SubnetConfig', u'SubnetA', u'AZ']}"
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'Ec2SecurityGroup'}]
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum -y install git\n', u'mkdir /home/ec2-user/iot\n', u'virtualenv /home/ec2-user/iot\n', u'mkdir /home/ec2-user/iot/certs\n', u'wget https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem -O /home/ec2-user/iot/certs/root.pem\n', u'source /home/ec2-user/iot/bin/activate\n', u'pip install AWSIoTPythonSDK\n', u'deactivate\n', u'git clone https://github.com/lrakai/aws-iot-device-sim.git /home/ec2-user/iot/aws-iot-device-sim\n', u""echo '#!/bin/bash\n"", u'source /home/ec2-user/iot/bin/activate\n', u'python /home/ec2-user/iot/aws-iot-device-sim/scripts/fireSprinkler.py ""${@:1}""\n', u""deactivate' > /home/ec2-user/iot/fireSprinkler.sh\n"", u'chmod ugo+x /home/ec2-user/iot/fireSprinkler.sh\n', u""echo '#!/bin/bash\n"", u'source /home/ec2-user/iot/bin/activate\n', u'python /home/ec2-user/iot/aws-iot-device-sim/scripts/airConditioning.py ""${@:1}""\n', u""deactivate' > /home/ec2-user/iot/airConditioning.sh\n"", u'chmod ugo+x /home/ec2-user/iot/airConditioning.sh\n', u'chown -R ec2-user:ec2-user /home/ec2-user\n']]}}"
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'SubnetA'}
 Mappings.Ec2InstanceConfig.Security.KeyName,aws-key
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Mappings.SubnetConfig.SubnetA.AZ,us-west-2a
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'iot.amazonaws.com'}}]"
 Resources.AWS::IAM::User.Properties.LoginProfile.Password,"{u'Fn::FindInMap': [u'UserConfig', u'Login', u'Pass']}"
 Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'iot-user-policy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'ec2:Describe*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'iot:*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'iam:ListRoles', u'iam:PassRole'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'cloudwatch:GetMetricStatistics'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
-Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Lab'}, {u'Value': u'Lab VPC', u'Key': u'Name'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,True
 Resources.AWS::IAM::User.Properties.Path,/
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'Ec2InstanceProfile'}
 Mappings.Ec2InstanceConfig.Metadata.InstanceName,iot-device-simulator
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'SubnetA'}
 Mappings.SubnetConfig.SubnetA.CIDR,10.0.0.0/24
 Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,True
 Resources.AWS::EC2::Instance.Properties.ImageId,ami-4836a428
@@ -42,5 +30,3 @@ Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 
 Resources.AWS::EC2::VPC.Properties.CidrBlock,"{u'Fn::FindInMap': [u'SubnetConfig', u'VPC', u'CIDR']}"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'iot-publish', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': {u'Action': u'iot:Publish', u'Resource': u'arn:aws:iot:us-west-2:*:topic/office/kitchen/alarm', u'Effect': u'Allow'}}}]"
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Fn::FindInMap': [u'Ec2InstanceConfig', u'Metadata', u'InstanceName']}, u'Key': u'Name'}]"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'Ec2Role'}]
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}

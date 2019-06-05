@@ -1,56 +1,41 @@
-Resources.AWS::ApiGateway::Method.Properties.Integration.Uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'GatewayLambda', u'Arn']}, u'/invocations']]}"
-Resources.AWS::ApiGateway::Stage.Properties.RestApiId,{u'Ref': u'GatewayApi'}
 Resources.AWS::ApiGateway::RestApi.Properties.FailOnWarnings,True
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
 Resources.AWS::ApiGateway::Deployment.DependsOn,[u'GatewayRequest']
-Resources.AWS::ApiGateway::Deployment.Properties.RestApiId,{u'Ref': u'GatewayApi'}
 Outputs.RootUrl.Description,Root URL of the API gateway
 Resources.AWS::Lambda::Function.Properties.Description,A sbs-keg-reset function
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'GatewayLambda', u'Arn']}"
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.beer_description.type,string
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.keg_capacity_liters.minimum,0
 Resources.AWS::ApiGateway::Account.Properties.CloudWatchRoleArn,"{u'Fn::GetAtt': [u'ApiGatewayCloudWatchLogsRole', u'Arn']}"
-Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:execute-api:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'GatewayApi'}, u'/*']]}"
 Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:invokeFunction
 Resources.AWS::ApiGateway::Method.DependsOn,LambdaPermission
 Resources.AWS::ApiGateway::Resource.Properties.ParentId,"{u'Fn::GetAtt': [u'GatewayApi', u'RootResourceId']}"
 Resources.AWS::ApiGateway::Method.Properties.MethodResponses,"[{u'StatusCode': 200}, {u'StatusCode': 400}, {u'StatusCode': 500}]"
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.beer_logo_url.type,string
-Outputs.CurlCommand.Value,"{u'Fn::Join': [u'', [u'curl -H ""Content-Type: application/json"" -H ""Accept: application/json"" ', u'-X POST -d \'{""sbs_thing_name"": ""thing"", ""keg_capacity_liters"":20, ""beer_name"":""Blanche de Chambly"", ""beer_brewery"": ""Unibroue"", ""beer_description"": ""Glorious."",  ""beer_logo_url"": ""http://site.com/logo.png""}\' ', u'https://', {u'Ref': u'GatewayApi'}, u'.execute-api.', {u'Ref': u'AWS::Region'}, u'.amazonaws.com', u'/LATEST/sbs-keg-reset']]}"
 Resources.AWS::ApiGateway::Model.Properties.Schema.required,"[u'sbs_thing_name', u'keg_capacity_liters', u'beer_name', u'beer_brewery', u'beer_description']"
 Resources.AWS::ApiGateway::Method.Properties.HttpMethod,POST
-Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Sub': [u""console.log('Loading function');\nvar AWS = require('aws-sdk');\n\nexports.handler = function(event, context, callback) {\n  try {\n    var iotdata = new AWS.IotData({endpoint: '${endpoint}'});\n\n    console.log('event', JSON.stringify(event, null, 2));\n\n\n    var params = {\n      thingName: event.sbs_thing_name\n    };\n    iotdata.getThingShadow(params, function(err, data) {\n      if (err) {\n        console.log(err, err.stack);\n        var error = {\n          errorCode: 400,\n          errorMessage: 'error: ' + err\n        };\n        context.done(JSON.stringify(error));\n      } else {\n\n        let shadow = JSON.parse(data.payload);\n        delete shadow.state.delta;\n\n        shadow.state.desired.kegdata.usage = 0;\n        shadow.state.desired.kegdata.size = event.keg_capacity_liters;\n        shadow.state.desired.kegdata.name = event.beer_name;\n        shadow.state.desired.kegdata.brewery = event.beer_brewery;\n        shadow.state.desired.kegdata.desc = event.beer_description;\n        shadow.state.desired.kegdata.beer_logo_url = event.beer_logo_url;\n        var params = {\n          payload: JSON.stringify(shadow),\n          thingName: event.sbs_thing_name\n        };\n\n        iotdata.updateThingShadow(params, function(err, data) {\n          if (err) {\n            var error = {\n              errorCode: 400,\n              errorMessage: 'error: ' + err\n            };\n            context.done(JSON.stringify(error));\n          } else {\n            console.log('Updated shadow successfully for ' + event.sbs_thing_name, JSON.stringify(data, null, 2));\n            context.done(null, {result: 'Successful update for ' + event.sbs_thing_name});\n          }\n        });\n\n      }\n    });\n\n\n  } catch(e) {\n    var error = {\n      errorCode: 500,\n      errorMessage: 'Error: ' + e.message\n    };\n    context.done(JSON.stringify(error));\n  }\n};"", {u'endpoint': {u'Ref': u'IotEndpoint'}}]}"
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.beer_brewery.type,string
 Resources.AWS::ApiGateway::RestApi.Properties.Description,API used for Gateway requests
 Resources.AWS::ApiGateway::Stage.Properties.StageName,LATEST
-Resources.AWS::ApiGateway::Stage.Properties.DeploymentId,{u'Ref': u'ApiDeployment'}
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.beer_name.type,string
-Resources.AWS::ApiGateway::Resource.Properties.RestApiId,{u'Ref': u'GatewayApi'}
 Resources.AWS::ApiGateway::RequestValidator.Properties.ValidateRequestParameters,false
 Resources.AWS::ApiGateway::Model.Properties.Description,SBS Keg Reset Schema
 Parameters.IotEndpoint.MinLength,2
-Resources.AWS::ApiGateway::Method.Properties.RestApiId,{u'Ref': u'GatewayApi'}
-Outputs.RootUrl.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'GatewayApi'}, u'.execute-api.', {u'Ref': u'AWS::Region'}, u'.amazonaws.com']]}"
 Resources.AWS::ApiGateway::Method.Properties.Integration.IntegrationHttpMethod,POST
 Resources.AWS::ApiGateway::Deployment.Properties.StageName,DummyStage
 Resources.AWS::ApiGateway::Stage.DependsOn,[u'ApiGatewayAccount']
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::ApiGateway::RequestValidator.Properties.ValidateRequestBody,true
-Resources.AWS::ApiGateway::RestApi.Properties.Name,"{u'Fn::Join': [u'-', [{u'Ref': u'ResourcePrefix'}, u'API']]}"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::ApiGateway::RequestValidator.Properties.Name,SbsConformanceValidator
 Resources.AWS::ApiGateway::Model.Properties.ContentType,application/json
-Resources.AWS::ApiGateway::Model.Properties.RestApiId,{u'Ref': u'GatewayApi'}
 Resources.AWS::ApiGateway::Model.Properties.Schema.type,object
 Resources.AWS::ApiGateway::Method.Properties.Integration.IntegrationResponses,"[{u'StatusCode': 200}, {u'StatusCode': 400, u'SelectionPattern': u'.*""errorCode"":400.*', u'ResponseTemplates': {u'application/json': {u'Fn::Sub': u'#set ($errorMessageObj = $util.parseJson($input.path(\'$.errorMessage\')))\n#set ($bodyObj = $util.parseJson($input.body))\n\n{\n  ""errorCode"": $errorMessageObj.errorCode,\n  ""errorMessage"": ""$errorMessageObj.errorMessage""\n}\n'}}}, {u'StatusCode': 500, u'SelectionPattern': u'.*""errorCode"":500.*', u'ResponseTemplates': {u'application/json': {u'Fn::Sub': u'#set ($errorMessageObj = $util.parseJson($input.path(\'$.errorMessage\')))\n#set ($bodyObj = $util.parseJson($input.body))\n\n{\n  ""errorCode"": $errorMessageObj.errorCode,\n  ""errorMessage"": ""$errorMessageObj.errorMessage""\n}\n'}}}]"
-Resources.AWS::ApiGateway::RequestValidator.Properties.RestApiId,{u'Ref': u'GatewayApi'}
 Resources.AWS::ApiGateway::Resource.Properties.PathPart,sbs-keg-reset
-Resources.AWS::ApiGateway::Method.Properties.RequestModels.application/json,{u'Ref': u'KegResetModel'}
 Resources.AWS::ApiGateway::Model.Properties.Name,SbsKegReset
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.sbs_thing_name.type,string
-Resources.AWS::ApiGateway::Method.Properties.ResourceId,{u'Ref': u'MyResource'}
 Resources.AWS::ApiGateway::Stage.Properties.MethodSettings,"[{u'HttpMethod': u'*', u'ResourcePath': u'/*', u'DataTraceEnabled': True, u'LoggingLevel': u'INFO'}]"
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
 Outputs.CurlCommand.Description,Curl command for the endpoint

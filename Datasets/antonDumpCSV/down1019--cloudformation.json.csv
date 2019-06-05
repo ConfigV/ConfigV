@@ -1,22 +1,17 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Outputs.CustomResourcesQueue.Value,{u'Ref': u'CustomResourcesQueue'}
 Outputs.SecretAccessKey.Value,"{u'Fn::GetAtt': [u'AccessKey', u'SecretAccessKey']}"
 Resources.AWS::S3::Bucket.DeletionPolicy,Delete
-Outputs.CustomResourcesTopic.Value,{u'Ref': u'CustomResourcesTopic'}
 Resources.AWS::Route53::HostedZone.Properties.HostedZoneConfig.Comment,Hosted zone for internal Empire services.
 Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,7
-Resources.AWS::IAM::User.Properties.Groups,[{u'Ref': u'Group'}]
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': u'Empire minion', u'Key': u'Name'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DockerPass.default,Password
 Resources.AWS::RDS::DBInstance.Properties.MasterUsername,empire
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DockerUser.default,Username
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'Vpc'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AmiId.default,ECS optimized AMI id
 Parameters.GitHubClientSecret.Default,
 Parameters.DockerPass.Description,Password of a Docker registry user to pull images from private repositories.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyName.default,SSH key name
-Resources.AWS::EC2::VPCDHCPOptionsAssociation.Properties.VpcId,{u'Ref': u'Vpc'}
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::RDS::DBInstance.DeletionPolicy,Delete
 Parameters.RunLogsBackend.AllowedValues,"[u'cloudwatch', u'stdout']"
@@ -24,38 +19,26 @@ Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpda
 Resources.AWS::ECS::TaskDefinition.Properties.Volumes,"[{u'Host': {u'SourcePath': u'/var/run/docker.sock'}, u'Name': u'dockerSocket'}, {u'Host': {u'SourcePath': u'/home/ec2-user/.dockercfg'}, u'Name': u'dockerCfg'}]"
 Resources.AWS::RDS::DBInstance.Properties.Engine,postgres
 Parameters.AvailabilityZones.Description,Comma delimited list of availability zones. MAX 2
-Outputs.Subnets.Value,"{u'Fn::Join': [u',', [{u'Ref': u'PubSubnetAz1'}, {u'Ref': u'PubSubnetAz2'}]]}"
 Parameters.GitHubClientSecret.Description,The oauth client secret to use with the GitHub authentication backend.
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'DesiredCapacity'}
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'ecs:DeregisterContainerInstance', u'ecs:DiscoverPollEndpoint', u'ecs:Poll', u'ecs:RegisterContainerInstance', u'ecs:StartTelemetrySession', u'ecs:Submit*', u'ecr:GetAuthorizationToken', u'ecr:BatchCheckLayerAvailability', u'ecr:GetDownloadUrlForLayer', u'ecr:BatchGetImage'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubClientSecret.default,Client Secret
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'65535', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'1'}]"
 Outputs.ELBDNSName.Condition,DemoMode
-Outputs.ExternalELBSG.Value,{u'Ref': u'ExternalLoadBalancerSecurityGroup'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
 Parameters.GitHubTeamId.Default,
 Resources.AWS::AutoScaling::LaunchConfiguration.DependsOn,Cluster
-Outputs.ServiceRole.Value,{u'Ref': u'ServiceRole'}
 Parameters.EmpireVersion.Description,Docker tag to specify the version of Empire to run. This can be any git branch or sha.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubTeamId.default,Team ID
 Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
 Outputs.ELBName.Description,The name of the ELB for the Empire controller
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Outputs.AccessKeyId.Value,{u'Ref': u'AccessKey'}
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,2
 Resources.AWS::ECS::Service.Condition,DemoMode
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'echo ECS_CLUSTER=', {u'Ref': u'Cluster'}, u' >> /etc/ecs/ecs.config\n', u'echo ECS_ENGINE_AUTH_TYPE=dockercfg >> /etc/ecs/ecs.config\n', u'echo ECS_ENGINE_AUTH_DATA=""{\\""', {u'Ref': u'DockerRegistry'}, u'\\"":{\\""auth\\"":\\""', {u'Fn::Base64': {u'Fn::Join': [u':', [{u'Ref': u'DockerUser'}, {u'Ref': u'DockerPass'}]]}}, u'\\"",\\""email\\"":\\""', {u'Ref': u'DockerEmail'}, u'\\""}}"" >> /etc/ecs/ecs.config\n', u'echo ""{\\""', {u'Ref': u'DockerRegistry'}, u'\\"":{\\""auth\\"":\\""', {u'Fn::Base64': {u'Fn::Join': [u':', [{u'Ref': u'DockerUser'}, {u'Ref': u'DockerPass'}]]}}, u'\\"",\\""email\\"":\\""', {u'Ref': u'DockerEmail'}, u'\\""}}"" >> /home/ec2-user/.dockercfg\n']]}}"
 Outputs.ELBDNSName.Description,The DNS name of the ELB for the Empire controller
 Resources.AWS::Route53::HostedZone.Properties.Name,empire.
 Parameters.GitHubTeamId.Description,"If set, this will ensure that all users are a member of this GitHub team."
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Outputs.AccessKeyId.Description,Access key that can be used for a development instance of Empire
-Resources.AWS::Route53::HostedZone.Properties.VPCs,"[{u'VPCId': {u'Ref': u'Vpc'}, u'VPCRegion': {u'Ref': u'AWS::Region'}}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.WaitOnResourceSignals,true
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Ref': u'AvailabilityZones'}
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.1.0/24
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubOrganization.default,Organization
 Outputs.ExternalELBSG.Description,The External ELB Security Group
@@ -66,18 +49,12 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interva
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Subnet group for Empire db
 Outputs.TemplateBucket.Description,The s3 bucket where stack templates will be stored
 Parameters.LaunchEmpire.Default,true
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Parameters.GitHubOrganization.Description,"If set, this will ensure that all users are a member of this GitHub organization."
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AvailabilityZones.default,Availability zones
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'PubSubnetAz1'}, {u'Ref': u'PubSubnetAz2'}]"
-Resources.AWS::ECS::Service.Properties.Cluster,{u'Ref': u'Cluster'}
 Parameters.EventsBackend.Default,sns
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DockerEmail.default,Email
-Resources.AWS::ECS::Service.Properties.LoadBalancers,"[{u'ContainerName': u'empire', u'ContainerPort': 8080, u'LoadBalancerName': {u'Ref': u'LoadBalancer'}}]"
 Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,epoo9mohNg
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[{u'Ref': u'PubSubnetAz1'}, {u'Ref': u'PubSubnetAz2'}]"
 Resources.AWS::ECS::TaskDefinition.Properties.TaskRoleArn,"{u'Fn::GetAtt': [u'EmpireRole', u'Arn']}"
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'RouteViaIgw'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DockerRegistry.default,Registry
 Outputs.Cluster.Description,Name of the ECS Cluster
 Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,"[{u'Fn::GetAtt': [u'DBSecurityGroup', u'GroupId']}]"
@@ -88,10 +65,7 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Condition,DemoMode
 Parameters.Scheduler.Description,The scheduling backend to use to run applications. The default is to run applications with ECS.
 Parameters.Scheduler.AllowedValues,[u'cloudformation']
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MinInstancesInService,1
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'DBSubnetGroup'}
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,10
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,"{u'Fn::If': [u'HasKeyName', {u'Ref': u'KeyName'}, {u'Ref': u'AWS::NoValue'}]}"
 Parameters.RunLogsBackend.Default,cloudwatch
 Parameters.DockerRegistry.Default,https://index.docker.io/v1/
 Parameters.GitHubClientId.Description,The oauth client id to use with the GitHub authentication backend.
@@ -99,29 +73,22 @@ Outputs.ELBName.Condition,DemoMode
 Resources.AWS::ECS::Service.DependsOn,"[u'Cluster', u'ServiceRole', u'ServiceRolePolicies']"
 Resources.AWS::RDS::DBSubnetGroup.Condition,DemoMode
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'Vpc'}
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Container Instance Allowed Ports
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'8080', u'LoadBalancerPort': u'80', u'Protocol': u'TCP'}]"
 Parameters.EventsBackend.AllowedValues,"[u'sns', u'none']"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfiguration'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Scheduler.default,Backend to use to run applications
-Outputs.InternalZoneID.Value,{u'Ref': u'InternalDomain'}
 Parameters.DockerRegistry.Description,The URL of the Docker registry to pull private images from.
 Resources.AWS::SNS::Topic.Properties.DisplayName,Empire Events
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EmpireVersion.default,Daemon version
 Parameters.DockerEmail.Description,Email of a Docker registry user to pull images from private repositories.
-Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'1', {u'Ref': u'AvailabilityZones'}]}"
 Resources.AWS::RDS::DBInstance.Condition,DemoMode
-Resources.AWS::IAM::Policy.Properties.Groups,[{u'Ref': u'Group'}]
 Resources.AWS::SNS::Topic.Condition,SNSEvents
 Parameters.Scheduler.Default,cloudformation
 Resources.AWS::IAM::AccessKey.Properties.Status,Active
 Resources.AWS::RDS::DBInstance.Properties.EngineVersion,9.5.2
-Resources.AWS::ECS::Service.Properties.Role,{u'Ref': u'ServiceRole'}
 Parameters.AvailabilityZones.Default,"us-east-1a,us-east-1b"
 Parameters.GitHubOrganization.Default,
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'RouteViaIgw'}
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.t2.micro
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'CustomResourcesQueue', u'Arn']}, u'Protocol': u'sqs'}]"
@@ -135,57 +102,39 @@ Outputs.CustomResourcesTopic.Description,The ARN of the SNS topic to use as the 
 Outputs.SecretAccessKey.Description,Access key that can be used for a development instance of Empire
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Id,CustomResourcesQueuePolicy
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.LaunchEmpire.default,Launch
-Outputs.Cluster.Value,{u'Ref': u'Cluster'}
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:8080/health
 Resources.AWS::Logs::LogGroup.Condition,CloudWatchLogs
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.PauseTime,PT2M
 Parameters.DockerPass.Default,
 Resources.AWS::ECS::TaskDefinition.Condition,DemoMode
-Resources.AWS::ECS::Service.Properties.TaskDefinition,{u'Ref': u'TaskDefinition'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DesiredCapacity.default,Cluster size
-Outputs.TemplateBucket.Value,{u'Ref': u'TemplateBucket'}
 Parameters.DesiredCapacity.Default,3
 Outputs.InternalZoneID.Description,The zone ID for the internal hosted zone.
 Resources.AWS::EC2::SecurityGroup.Condition,DemoMode
 Parameters.DockerEmail.Default,
-Resources.AWS::EC2::VPCDHCPOptionsAssociation.Properties.DhcpOptionsId,{u'Ref': u'DHCPOptions'}
 Parameters.DockerPass.NoEcho,True
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,{u'Ref': u'AmiId'}
 Parameters.LaunchEmpire.AllowedValues,"[u'false', u'true']"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'DesiredCapacity'}
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::EC2::DHCPOptions.Properties.DomainNameServers,[u'AmazonProvidedDNS']
 Outputs.VPC.Description,The id of the VPC
 Parameters.LaunchEmpire.Description,"If true, then launch Empire & Postgres as ECS services. Note that this is NOT a production grade stack, this is only meant to serve as an easy way to try out Empire. If you want to take Empire into production, read the docs on Production Best Practices http://empire.readthedocs.io/en/latest/production_best_practices/."
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,5
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Fn::Join': [u',', [{u'Ref': u'PubSubnetAz1'}, {u'Ref': u'PubSubnetAz2'}]]}]"
 Parameters.DockerUser.Description,Username of a Docker registry user to pull images from private repositories.
 Outputs.ELBDNSName.Value,"{u'Fn::GetAtt': [u'LoadBalancer', u'DNSName']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GitHubClientId.default,Client ID
-Outputs.ELBName.Value,{u'Ref': u'LoadBalancer'}
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Parameters.EmpireVersion.Default,master
 Outputs.Subnets.Description,The subnets created
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
 Parameters.DockerUser.Default,
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'Vpc'}
 Outputs.InternalELBSG.Description,The Internal ELB Security Group
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PubSubnetAz2'}
 Parameters.DesiredCapacity.Description,The number of EC2 instances to run in the ECS cluster.
 Parameters.RunLogsBackend.Description,The backend used to store logs from interactive runs.
-Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'Environment': [{u'Name': u'AWS_REGION', u'Value': {u'Ref': u'AWS::Region'}}, {u'Name': u'EMPIRE_SCHEDULER', u'Value': {u'Ref': u'Scheduler'}}, {u'Name': u'EMPIRE_ENVIRONMENT', u'Value': u'demo'}, {u'Name': u'EMPIRE_DATABASE_URL', u'Value': {u'Fn::Join': [u'', [u'postgres://empire:epoo9mohNg@', {u'Fn::GetAtt': [u'DB', u'Endpoint.Address']}, u':', {u'Fn::GetAtt': [u'DB', u'Endpoint.Port']}, u'/empire']]}}, {u'Name': u'EMPIRE_S3_TEMPLATE_BUCKET', u'Value': {u'Ref': u'TemplateBucket'}}, {u'Name': u'EMPIRE_ECS_CLUSTER', u'Value': {u'Ref': u'Cluster'}}, {u'Name': u'EMPIRE_ELB_VPC_ID', u'Value': {u'Ref': u'Vpc'}}, {u'Name': u'EMPIRE_ELB_SG_PRIVATE', u'Value': {u'Ref': u'InternalLoadBalancerSecurityGroup'}}, {u'Name': u'EMPIRE_ELB_SG_PUBLIC', u'Value': {u'Ref': u'ExternalLoadBalancerSecurityGroup'}}, {u'Name': u'EMPIRE_ROUTE53_INTERNAL_ZONE_ID', u'Value': {u'Ref': u'InternalDomain'}}, {u'Name': u'EMPIRE_EC2_SUBNETS_PRIVATE', u'Value': {u'Fn::Join': [u',', [{u'Ref': u'PubSubnetAz1'}, {u'Ref': u'PubSubnetAz2'}]]}}, {u'Name': u'EMPIRE_ECS_SERVICE_ROLE', u'Value': {u'Ref': u'ServiceRole'}}, {u'Name': u'EMPIRE_EC2_SUBNETS_PUBLIC', u'Value': {u'Fn::Join': [u',', [{u'Ref': u'PubSubnetAz1'}, {u'Ref': u'PubSubnetAz2'}]]}}, {u'Name': u'EMPIRE_EVENTS_BACKEND', u'Value': u'sns'}, {u'Name': u'EMPIRE_SNS_TOPIC', u'Value': {u'Ref': u'EventsTopic'}}, {u'Name': u'EMPIRE_RUN_LOGS_BACKEND', u'Value': {u'Ref': u'RunLogsBackend'}}, {u'Name': u'EMPIRE_CLOUDWATCH_LOG_GROUP', u'Value': {u'Ref': u'ApplicationLogGroup'}}, {u'Name': u'EMPIRE_ECS_LOG_DRIVER', u'Value': u'awslogs'}, {u'Name': u'EMPIRE_ECS_LOG_OPT', u'Value': {u'Fn::Join': [u',', [{u'Fn::Join': [u'=', [u'awslogs-region', {u'Ref': u'AWS::Region'}]]}, {u'Fn::Join': [u'=', [u'awslogs-group', {u'Ref': u'ApplicationLogGroup'}]]}]]}}, {u'Name': u'EMPIRE_CUSTOM_RESOURCES_TOPIC', u'Value': {u'Ref': u'CustomResourcesTopic'}}, {u'Name': u'EMPIRE_CUSTOM_RESOURCES_QUEUE', u'Value': {u'Ref': u'CustomResourcesQueue'}}, {u'Name': u'EMPIRE_GITHUB_CLIENT_ID', u'Value': {u'Ref': u'GitHubClientId'}}, {u'Name': u'EMPIRE_GITHUB_CLIENT_SECRET', u'Value': {u'Ref': u'GitHubClientSecret'}}, {u'Name': u'EMPIRE_GITHUB_ORGANIZATION', u'Value': {u'Ref': u'GitHubOrganization'}}, {u'Name': u'EMPIRE_GITHUB_TEAM_ID', u'Value': {u'Ref': u'GitHubTeamId'}}, {u'Name': u'EMPIRE_X_SHOW_ATTACHED', u'Value': u'true'}, {u'Name': u'EMPIRE_SERVER_REAL_IP', u'Value': u'X-Forwarded-For'}], u'Name': u'empire', u'MountPoints': [{u'SourceVolume': u'dockerSocket', u'ReadOnly': False, u'ContainerPath': u'/var/run/docker.sock'}, {u'SourceVolume': u'dockerCfg', u'ReadOnly': False, u'ContainerPath': u'/root/.dockercfg'}], u'Image': {u'Fn::Join': [u':', [u'remind101/empire', {u'Ref': u'EmpireVersion'}]]}, u'Essential': True, u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-region': {u'Ref': u'AWS::Region'}, u'awslogs-group': {u'Ref': u'DaemonLogGroup'}}}, u'EntryPoint': [], u'Memory': 256, u'Command': [u'server', u'-automigrate=true'], u'PortMappings': [{u'ContainerPort': 8080, u'HostPort': 8080}], u'Cpu': 256, u'VolumesFrom': []}]"
 Parameters.AmiId.Description,The AMI id of the AMI to run the instances with. This defaults to the official ECS ami.
-Resources.AWS::SQS::QueuePolicy.Properties.Queues,[{u'Ref': u'CustomResourcesQueue'}]
 Resources.AWS::IAM::Policy.Properties.PolicyName,ecs
 Outputs.ServiceRole.Description,Role to assume when creating an ECS service with an ELB attached
 Resources.AWS::S3::Bucket.Properties.AccessControl,Private
-Outputs.InternalELBSG.Value,{u'Ref': u'InternalLoadBalancerSecurityGroup'}
 Resources.AWS::RDS::DBInstance.Properties.DBName,empire
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.DependsOn,AttachGateway
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EventsBackend.default,Send events to
-Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Statement,"[{u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'AllowCustomResourcesTopicToSendMessages', u'Action': [u'sqs:SendMessage'], u'Condition': {u'ArnEquals': {u'aws:SourceArn': {u'Ref': u'CustomResourcesTopic'}}}, u'Principal': u'*'}]"
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'Vpc'}
 Resources.AWS::ECS::Service.Properties.DesiredCount,1
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'User'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RunLogsBackend.default,Send interactive run logs to
-Outputs.VPC.Value,{u'Ref': u'Vpc'}

@@ -17,7 +17,6 @@ Outputs.InstanceSecurityGroup.Export.Name,${AWS::StackName}-InstanceSecurityGrou
 Resources.AWS::EC2::Instance.Properties.UserData,{u'Fn::Base64': u'#!/bin/bash -xe\napt-add-repository -y ppa:ansible/ansible\napt-get update\napt-get -y install python-setuptools\napt-get -y install software-properties-common\napt-get -y install ansible\nsudo easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\ngit clone https://github.com/aemruli/ansible-teamcity\ncd ansible-teamcity\nansible-galaxy install -r requirements.yml\nansible-playbook site.yml\ncfn-signal -e $? --stack ${AWS::StackName} --resource CIServer --region ${AWS::Region}\n'}
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,NetworkAcl
 Outputs.InstanceSecurityGroup.Value,InstanceSecurityGroup
-Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"[u'0', {u'Ref': u'AWS::Region'}]"
 Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': u'SubnetA', u'DeviceIndex': u'0', u'GroupSet': [u'InstanceSecurityGroup'], u'DeleteOnTermination': u'true', u'AssociatePublicIpAddress': u'true'}]"
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,102
 Resources.AWS::EC2::NetworkAcl.Properties.VpcId,VPC

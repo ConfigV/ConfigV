@@ -1,16 +1,12 @@
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.endpointtype,Interface
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.subnet,{u'Ref': u'Subnet'}
 Parameters.Subnet.Description,Subnet ID
 Resources.AWS::Lambda::Function.Properties.Timeout,30
 Resources.Custom::VPCEInterface.Properties.ServiceToken,"{u'Fn::GetAtt': [u'LambdaFunction', u'Arn']}"
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'\n', [u'import boto3', u'import json', u'import os', u'import cfnresponse', u'def lambda_handler(event, context):', u"" client = boto3.client('ec2')"", u' responseData = {}', u' responseValue = client.create_vpc_endpoint(', u""  VpcEndpointType = os.environ['endpointtype'],"", u""  VpcId = os.environ['vpcid'],"", u""  ServiceName = os.environ['servicename'],"", u""  SubnetIds = [os.environ['subnet']],"", u""  SecurityGroupIds = [os.environ['securitygroup']],"", u'  PrivateDnsEnabled = True', u' )', u"" responseData['Data'] = str(responseValue)"", u' cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, ""CustomResourcePhysicalID"")']]}"
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.servicename,{u'Ref': u'Servicename'}
 Resources.AWS::Lambda::Function.Properties.Handler,index.lambda_handler
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.vpcid,{u'Ref': u'VPC'}
 Resources.AWS::IAM::Role.Description,IAM role to allow Lambda permissions to create interafce endpoint
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.securitygroup,{u'Ref': u'SecurityGroup'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,python3.6

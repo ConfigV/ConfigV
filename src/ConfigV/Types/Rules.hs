@@ -5,24 +5,24 @@
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE RecordWildCards #-} 
 
-module Types.Rules 
-  ( module Types.Rules
-  , module Types.SMTRules 
+module ConfigV.Types.Rules 
+  ( module ConfigV.Types.Rules
+  , module ConfigV.Types.SMTRules 
   ) where
 
-import Types.Common
-import Types.IR
-import Types.Errors
-import Types.Countable
-import Types.SMTRules
-import Types.Locatable
+import ConfigV.Types.Common
+import ConfigV.Types.IR
+import ConfigV.Types.Errors
+import ConfigV.Types.Countable
+import ConfigV.Types.SMTRules
+import ConfigV.Types.Locatable
 
 import Prelude hiding (Ordering)
 import           Data.Aeson
 import           GHC.Generics     (Generic)
 
 import Control.Monad.Reader
-import Settings.Config
+import ConfigV.Settings.Config
 
 --TODO Strict or Lazy maps?
 import qualified Data.Map.Strict as M
@@ -53,9 +53,7 @@ emptyRuleMap :: RuleDataMap a b
 emptyRuleMap = M.empty
 
 data RuleSet = RuleSet
-  { missing   :: RuleDataMap KeywordCoor AntiRule
-  , keyvalkey :: RuleDataMap KeyValKeyCoor NontrivRule
-  , order     :: RuleDataMap Ordering AntiRule
+  { order     :: RuleDataMap Ordering AntiRule
   , intRel    :: RuleDataMap IntRel Formula
   , fineInt   :: RuleDataMap FineGrained Formula
   , smtRules  :: RuleDataMap SMTFormula AntiRule
@@ -63,9 +61,7 @@ data RuleSet = RuleSet
   } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
 emptyRuleSet  = RuleSet
-  { missing   = M.empty
-  , keyvalkey = M.empty
-  , order     = M.empty
+  { order     = M.empty
   , intRel    = M.empty
   , fineInt   = M.empty
   , smtRules  = M.empty
@@ -75,22 +71,6 @@ emptyRuleSet  = RuleSet
 -- The specific types of relations we want to learn
 -- go below here
 -----------
-
--- | these keywords should appear in the same file
--- TODO give explicit Eq instances to be used in merging
-data KeywordCoor = KeywordCoor (Keyword,Keyword) 
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
-instance Locatable KeywordCoor where
-  keys (KeywordCoor (k1,k2)) = [k1,k2]
-
-data KeyValKeyCoor = KeyValKeyCoor 
-  { k1 :: Keyword
-  , v1 :: Val
-  , k2 :: Keyword
-  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
-instance Locatable KeyValKeyCoor where
-  keys (KeyValKeyCoor {..}) = [k1,k2]
-
 
 data Ordering = Ordering (Keyword,Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)

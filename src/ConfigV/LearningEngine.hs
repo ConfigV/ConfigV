@@ -3,19 +3,17 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE NoMonoPatBinds #-}
 
-module LearningEngine where
+module ConfigV.LearningEngine where
 
-import Types.IR
-import Types.Rules
-import Types.Common
+import ConfigV.Types
 
-import Learners()
-import Convert
+import ConfigV.Learners
+import ConfigV.Convert
 
 import Control.Parallel.Strategies
 import Control.DeepSeq
 
-import Settings.Config
+import ConfigV.Settings.Config
 import Control.Monad.Reader
 
 import Debug.Trace
@@ -29,12 +27,10 @@ learnRules configVconfig fs = let
  in
   resolveRules configVconfig rs --`using` parRuleSet
 
--- | use the learning module instances to decide probabiliity cutoff and the sort
+-- | use the learning module ConfigV.instances to decide probabiliity cutoff and the sort
 resolveRules :: ConfigVConfiguration -> [RuleSet] -> RuleSet
 resolveRules configVconfig rs = RuleSet
   { order     = applyThresholds "order" order
-  , missing   = applyThresholds "missing" missing
-  , keyvalkey = applyThresholds "keyvalkey" keyvalkey
   , intRel    = applyThresholds "coarse grain" intRel
   , typeErr   = applyThresholds "type" typeErr
   , fineInt   = applyThresholds "fine grain" fineInt
@@ -55,11 +51,9 @@ buildAllRelations configVconfig f = let
  in
   RuleSet
     { order     = getRules enableOrder
-    , keyvalkey = getRules enableKeyvalkey
     , intRel    = getRules enableCoarseGrain
     , fineInt   = getRules enableFineGrain
     , typeErr   = getRules enableTypeRules
-    , missing   = getRules enableMissing  
     , smtRules  = getRules enableSMT
     }
 
@@ -67,16 +61,13 @@ mapOverRuleSet :: (forall a. a -> a) -> RuleSet -> RuleSet
 mapOverRuleSet f r = 
   r {
       order = f (order r)
-    , keyvalkey = f (keyvalkey r)
     }
 
 parRuleSet :: Strategy RuleSet
 parRuleSet rs = do
   o' <- rpar $ force $order rs
-  m' <- rpar $ force $missing rs
-  k' <- rpar $ force $keyvalkey rs
   i' <- rpar $ force $intRel rs
   t' <- rpar $ force $typeErr rs
   f' <- rpar $ force $fineInt rs
-  let newRs = RuleSet { order = o', missing = m', intRel = i', typeErr = t', fineInt = f', keyvalkey = k'}
+  let newRs = RuleSet { order = o', intRel = i', typeErr = t', fineInt = f'}
   return newRs

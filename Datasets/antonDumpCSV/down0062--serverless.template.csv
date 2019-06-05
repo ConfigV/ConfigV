@@ -1,8 +1,6 @@
 Resources.AWS::Serverless::Function.Properties.CodeUri,
 Resources.AWS::Serverless::Function.Properties.Policies,"[u'AWSLambdaFullAccess', u'AmazonRekognitionReadOnlyAccess']"
-Outputs.BucketForImages.Value,{u'Ref': u'Bucket'}
 Resources.AWS::Serverless::Function.Properties.MemorySize,256
-Resources.AWS::Serverless::Function.Properties.Events.NewImagesBucket.Properties.Bucket,{u'Ref': u'Bucket'}
 Resources.AWS::Serverless::Function.Properties.Events.NewImagesBucket.Properties.Events,[u's3:ObjectCreated:*']
 Resources.AWS::Serverless::Function.Properties.Timeout,30
 Resources.AWS::Serverless::Function.Properties.Role,
@@ -12,4 +10,3 @@ Resources.AWS::Serverless::Function.Properties.Description,Default function
 Parameters.BucketName.Description,Name of S3 bucket to be created. The Lambda function will be invoked when new objects are upload to the bucket. If left blank a name will be generated.
 Resources.AWS::Serverless::Function.Properties.Runtime,dotnetcore2.1
 Outputs.BucketForImages.Description,Upload images to this bucket to trigger the Lambda function
-Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::If': [u'BucketNameGenerated', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'BucketName'}]}"

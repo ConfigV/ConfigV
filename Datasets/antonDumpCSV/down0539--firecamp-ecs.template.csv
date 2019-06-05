@@ -1,6 +1,5 @@
 Resources.AWS::CloudFormation::Stack.DependsOn,ECSCluster
 Resources.AWS::ECS::Service.DependsOn,ServiceAutoScalingGroup
-Resources.AWS::ECS::Cluster.Properties.ClusterName,{u'Ref': u'ClusterName'}
 Parameters.ClusterName.MinLength,1
 Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,120
 Parameters.ClusterName.Description,Name of the ECS cluster.
@@ -10,44 +9,27 @@ Parameters.AvailabilityZones.Description,List of Availability Zones to use for t
 Parameters.Release.Description,The FireCamp System Services release version
 Parameters.Release.Default,latest
 Parameters.NumberOfNodes.Description,Number of instances to launch.
-Resources.AWS::ECS::TaskDefinition.Properties.Family,"{u'Fn::Join': [u'-', [{u'Ref': u'ClusterName'}, u'firecamp-manageserver']]}"
-Resources.AWS::Logs::LogGroup.Properties.LogGroupName,"{u'Fn::Join': [u'-', [{u'Ref': u'ClusterName'}, u'catalogservice-firecamp']]}"
 Parameters.InternalAccessSecurityGroupID.Description,The internal SecurityGroup for the cluster nodes to access each other.
 Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.Release,{u'Ref': u'Release'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ServiceSecurityGroupID,{u'Ref': u'ServiceSecurityGroupID'}
-Resources.AWS::ECS::Service.Properties.Cluster,{u'Ref': u'ClusterName'}
 Parameters.QSS3BucketName.ConstraintDescription,"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
 Parameters.QSS3KeyPrefix.Default,quickstart-cloudstax-firecamp/
 Parameters.ClusterName.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
 Parameters.QSS3BucketName.Description,"S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfNodes,{u'Ref': u'NumberOfNodes'}
 Parameters.DBType.Default,clouddb
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerPlatform,ecs
 Parameters.NodeInstanceProfileID.Description,ID of the instance IAM Profile
-Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'MemoryReservation': u'128', u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-stream-prefix': u'manageserver', u'awslogs-region': {u'Ref': u'AWS::Region'}, u'awslogs-group': {u'Ref': u'ManageServerLogGroup'}}}, u'Name': {u'Fn::Join': [u'-', [{u'Ref': u'ClusterName'}, u'firecamp-manageserver-container']]}, u'Image': {u'Fn::Join': [u':', [u'cloudstax/firecamp-manageserver', {u'Ref': u'Release'}]]}, u'Cpu': u'128', u'PortMappings': [{u'Protocol': u'tcp', u'ContainerPort': u'27040', u'HostPort': u'27040'}], u'Memory': u'2048', u'Essential': u'true', u'Environment': [{u'Name': u'CONTAINER_PLATFORM', u'Value': u'ecs'}, {u'Name': u'CLUSTER', u'Value': {u'Ref': u'ClusterName'}}, {u'Name': u'DB_TYPE', u'Value': {u'Ref': u'DBType'}}, {u'Name': u'AVAILABILITY_ZONES', u'Value': {u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}}]}]"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterName,{u'Ref': u'ClusterName'}
 Parameters.NodeAMIOS.Description,The Linux distribution for the AMI to be used for the service instances
 Parameters.CatalogRelease.Default,latest
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeAMIOS,{u'Ref': u'NodeAMIOS'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.InternalAccessSecurityGroupID,{u'Ref': u'InternalAccessSecurityGroupID'}
 Parameters.CatalogRelease.Description,The FireCamp Catalog Service release version
 Parameters.QSS3BucketName.Default,aws-quickstart
 Parameters.ClusterName.Default,default
 Parameters.NodeInstanceProfileID.Default,
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyPairName'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetIDs,"{u'Fn::Join': [u',', {u'Ref': u'SubnetIDs'}]}"
 Parameters.DBType.AllowedValues,[u'clouddb']
 Parameters.SubnetIDs.Description,Subnet-ID the existing subnet in your VPC where you want to deploy node(s).
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeInstanceProfileID,{u'Ref': u'NodeInstanceProfileID'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}"
 Parameters.NodeAMIOS.Default,Amazon-Linux-HVM
 Parameters.ServiceSecurityGroupID.Description,The SecurityGroup to access the services in the cluster.
 Resources.AWS::ECS::Service.Properties.DesiredCount,1
-Resources.AWS::ECS::Service.Properties.TaskDefinition,{u'Ref': u'CatalogServiceTaskdefinition'}
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Sub': [u'https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/firecamp-autoscalegroup.template', {u'QSS3Region': {u'Fn::If': [u'GovCloudCondition', u's3-us-gov-west-1', u's3']}}]}"
 Parameters.ClusterName.MaxLength,255
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Ref': u'QSS3KeyPrefix'}
 Resources.AWS::ECS::Service.Properties.ServiceName,firecamp-catalogservice

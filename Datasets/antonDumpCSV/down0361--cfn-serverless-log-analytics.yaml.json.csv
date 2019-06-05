@@ -1,32 +1,23 @@
 Resources.AWS::Lambda::Function.Properties.TracingConfig.Mode,Active
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.ReferenceSchema.RecordColumns,"[{u'SqlType': u'VARCHAR(64)', u'Name': u'Host'}, {u'SqlType': u'VARCHAR(64)', u'Name': u'ApplicationName'}, {u'SqlType': u'VARCHAR(64)', u'Name': u'Contact'}]"
 Resources.AWS::Kinesis::Stream.Properties.ShardCount,1
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.ReferenceSchema.RecordFormat.RecordFormatType,CSV
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::KinesisAnalytics::Application.Properties.ApplicationName,LogAnalyticsApp
 Resources.AWS::KinesisAnalytics::ApplicationOutput.DependsOn,BasicApplication
 Resources.AWS::Lambda::EventSourceMapping.Properties.EventSourceArn,OutputKinesisStream.Arn
 Resources.AWS::Lambda::EventSourceMapping.Properties.Enabled,True
 Resources.AWS::Lambda::Function.Properties.Timeout,120
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.S3ReferenceDataSource.FileKey,HostApplicationMap.csv
 Resources.AWS::Lambda::EventSourceMapping.Properties.FunctionName,PublishLogMetrics.Arn
 Resources.AWS::Lambda::Function.Properties.Handler,com.amazonaws.lambda.ProcessKinesisEvents::recordHandler
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.DependsOn,BasicApplicationOutputs
 Resources.AWS::KinesisAnalytics::ApplicationOutput.Properties.Output.KinesisStreamsOutput.RoleARN,KinesisAnalyticsRole.Arn
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ApplicationName,BasicApplication
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.TableName,ApplicationHostMapping
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,publish-log-metrics
 Outputs.ApplicationPhysicalResourceId.Value,BasicApplication
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.ReferenceSchema.RecordFormat.MappingParameters.CSVMappingParameters.RecordColumnDelimiter,","
 Resources.AWS::Lambda::Function.Properties.FunctionName,PublishAggregrationMetrics
 Resources.AWS::KinesisAnalytics::ApplicationOutput.Properties.ApplicationName,BasicApplication
 Resources.AWS::KinesisAnalytics::Application.Properties.Inputs,"[{u'KinesisStreamsInput': {u'ResourceARN': u'InputKinesisStream.Arn', u'RoleARN': u'KinesisAnalyticsRole.Arn'}, u'InputSchema': {u'RecordColumns': [{u'SqlType': u'VARCHAR(16)', u'Mapping': u'$.host', u'Name': u'host'}, {u'SqlType': u'VARCHAR(32)', u'Mapping': u'$.datetime', u'Name': u'datetime'}, {u'SqlType': u'VARCHAR(64)', u'Mapping': u'$.request', u'Name': u'request'}, {u'SqlType': u'SMALLINT', u'Mapping': u'$.response', u'Name': u'response'}, {u'SqlType': u'SMALLINT', u'Mapping': u'$.bytes', u'Name': u'bytes'}, {u'SqlType': u'VARCHAR(128)', u'Mapping': u'$.agent', u'Name': u'agent'}, {u'SqlType': u'VARCHAR(32)', u'Mapping': u'$.referrer', u'Name': u'referrer'}], u'RecordFormat': {u'MappingParameters': {u'JSONMappingParameters': {u'RecordRowPath': u'$'}}, u'RecordFormatType': u'JSON'}, u'RecordEncoding': u'UTF-8'}, u'NamePrefix': u'SOURCE_SQL_STREAM'}]"
 Resources.AWS::Lambda::EventSourceMapping.Properties.StartingPosition,TRIM_HORIZON
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.ReferenceSchema.RecordFormat.MappingParameters.CSVMappingParameters.RecordRowDelimiter,"
 "
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'Open', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'cloudwatch:*', u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents', u'lambda:InvokeFunction', u'kinesis:ListStreams', u'kinesis:DescribeStream', u'kinesis:GetRecords', u'kinesis:GetShardIterator', u'xray:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::KinesisAnalytics::ApplicationOutput.Properties.Output.Name,DESTINATION_SQL_STREAM
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.S3ReferenceDataSource.BucketARN,arn:aws:s3:::referenced-data
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::KinesisAnalytics::Application.Properties.ApplicationCode,"-- Create the destination stream that stores the response count as per the source application. 
@@ -49,7 +40,6 @@ INSERT INTO ""DESTINATION_SQL_STREAM""
 ""}'"
 Resources.AWS::Lambda::Function.Properties.Runtime,java8
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
-Resources.AWS::KinesisAnalytics::ApplicationReferenceDataSource.Properties.ReferenceDataSource.S3ReferenceDataSource.ReferenceRoleARN,KinesisAnalyticsRole.Arn
 Resources.AWS::KinesisAnalytics::Application.Properties.ApplicationDescription,Analyze Streaming Logs
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,log-metrics-cloudwatch-0.0.1-SNAPSHOT.jar
 Resources.AWS::KinesisAnalytics::ApplicationOutput.Properties.Output.KinesisStreamsOutput.ResourceARN,OutputKinesisStream.Arn

@@ -11,7 +11,6 @@ Parameters.Username.Description,VPN Username
 Parameters.VPNPassword.MaxLength,255
 Parameters.Size.AllowedValues,"[u'Standard.VPN-t2.micro', u'High.Speed.VPN-t2.medium', u'Ultra.High.Speed.VPN-m3.xlarge']"
 Mappings.AWSRegionArch2AMI.ca-central-1.HVM64,ami-b3d965d7
-Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'VPNSecurityGroup'}]
 Parameters.VPNPhrase.ConstraintDescription,must contain atleast 4 characters.
 Parameters.VPNPassword.Description,VPN Password (Min 4 characters)
 Parameters.VPNPhrase.NoEcho,true
@@ -24,9 +23,7 @@ Parameters.Username.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-060cde69
 Outputs.WebdigiNotes.Description,Allow upto 5 minutes after setup to connect. Please contact us at https://www.webdigi.co.uk/blog/2015/how-to-setup-your-own-private-secure-free-vpn-on-the-amazon-aws-cloud-in-10-minutes/ for any help!
 Outputs.VPNServerAddress.Value,"{u'Fn::GetAtt': [u'VPNServerInstance', u'PublicIp']}"
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'HVM64']}"
 Parameters.VPNPhrase.MinLength,4
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
 Parameters.Size.Default,Standard.VPN-t2.micro
 Parameters.Username.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.VPNPassword.NoEcho,true

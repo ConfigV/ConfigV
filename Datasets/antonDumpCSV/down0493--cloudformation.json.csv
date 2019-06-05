@@ -1,50 +1,37 @@
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'ExecutionRole'}]
-Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[{u'Fn::If': [u'UseInternalExecutionRolePolicy', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'ExecutionRoleManagedPolicyArn'}]}]"
 Parameters.SourceBucketName.MaxLength,63
 Resources.AWS::IAM::Policy.Condition,UseInternalExecutionRolePolicy
 Resources.AWS::IAM::Policy.DependsOn,ExecutionRole
 Parameters.DestinationBucketName.AllowedPattern,^[a-z]+[a-z0-9.\-]+[a-z0-9]$
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'Lambda', u'Arn']}"
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'LambdaS3Key'}
 Resources.AWS::Lambda::Permission.DependsOn,[u'Lambda']
 Parameters.ExecutionRoleManagedPolicyArn.Default,
 Resources.AWS::Lambda::Permission.Properties.Principal,s3.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:invokeFunction
 Parameters.LambdaS3Key.Description,The S3 key for the lambda function code
 Resources.AWS::Lambda::Function.Properties.Timeout,30
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.FFMPEG_ARGS,{u'Ref': u'FFmpegArgs'}
 Parameters.SourceBucketName.AllowedPattern,^[a-z]+[a-z0-9.\-]+[a-z0-9]$
 Resources.AWS::IAM::Role.Properties.Path,/aws-lambda-ffmpeg/
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ExecutionRole', u'Arn']}"
 Parameters.VideoMaxDuration.Default,30
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.VIDEO_MAX_DURATION,{u'Ref': u'VideoMaxDuration'}
 Parameters.DestinationBucketName.MaxLength,63
 Parameters.SourceBucketName.Description,The S3 source bucket
 Resources.AWS::Lambda::Function.Properties.Handler,aws/index.handler
 Parameters.VideoMaxDuration.Description,"The maximum duration of a video, in seconds"
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaS3Bucket'}
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.DESTINATION_BUCKET,{u'Ref': u'DestinationBucketName'}
 Parameters.LambdaS3Key.AllowedPattern,.*\.zip
 Parameters.ExecutionRoleManagedPolicyArn.Description,ARN of the external execution role policy
 Resources.AWS::Lambda::Function.Properties.MemorySize,1536
 Resources.AWS::Lambda::Function.DependsOn,[u'ExecutionRole']
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Parameters.FFmpegArgs.Description,The arguments for the FFmpeg command
-Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': u's3:GetObject', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'SourceBucketName'}, u'/*']]}, u'Effect': u'Allow'}, {u'Action': u's3:PutObject', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'DestinationBucketName'}, u'/*']]}, u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::Lambda::Permission.Properties.SourceAccount,{u'Ref': u'AWS::AccountId'}
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
 Parameters.VideoMaxDuration.AllowedPattern,^\d+(\.\d+)*$
 Resources.AWS::IAM::Policy.Properties.PolicyName,ExecutionRolePolicy
 Parameters.LambdaS3Bucket.Description,The S3 bucket in which the lambda function code is stored
 Parameters.UseGzip.AllowedPattern,^(true|false)$
 Parameters.DestinationBucketName.Description,The S3 destination bucket
-Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'SourceBucketName'}]]}"
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.MIME_TYPES,{u'Ref': u'MimeTypes'}
 Parameters.UseGzip.Description,Whether to use gzip or not
 Parameters.MimeTypes.Description,A JSON map of extensions to MIME types
 Resources.AWS::S3::Bucket.Properties.NotificationConfiguration.LambdaConfigurations,"[{u'Function': {u'Fn::GetAtt': [u'Lambda', u'Arn']}, u'Event': u's3:ObjectCreated:*'}]"
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.USE_GZIP,{u'Ref': u'UseGzip'}
 Resources.AWS::S3::Bucket.DependsOn,"[u'Lambda', u'LambdaPermission']"
-Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::If': [u'HasNoDestinationBucketName', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'DestinationBucketName'}]}"

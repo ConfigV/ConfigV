@@ -1,9 +1,5 @@
-Resources.Custom::LambdaConfiguration.Properties.Settings.StagingBucket,{u'Ref': u'ContentBucket'}
-Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'WriteCapacityUnits'}
 Resources.AWS::S3::Bucket.Metadata.CloudCanvas.Permissions,"[{u'Action': [u's3:GetObject', u's3:DeleteObject'], u'ResourceSuffix': u'/*', u'AbstractRole': u'ServiceLambda'}, {u'Action': [u's3:ListBucket'], u'ResourceSuffix': u'', u'AbstractRole': u'ServiceLambda'}]"
-Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
-Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clustering is enabled for the service API.
 Resources.Custom::LambdaConfiguration.Properties.FunctionName,ServiceLambda
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationKey']}"
@@ -13,8 +9,6 @@ Parameters.WriteCapacityUnits.MaxValue,10000
 Resources.Custom::AccessControl.DependsOn,"[u'ServiceLambda', u'ServiceApi', u'ContentBucket', u'StagingSettingsTable']"
 Resources.AWS::Lambda::Function.Properties.Timeout,15
 Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
-Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
-Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
 Parameters.DeploymentName.Description,Name of the resource group's deployment.
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
@@ -30,29 +24,19 @@ Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn:
 Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions.AbstractRole,ServiceApi
 Resources.Custom::DynamoDBTable.Properties.AttributeDefinitions,"[{u'AttributeName': u'FileName', u'AttributeType': u'S'}]"
 Parameters.ReadCapacityUnits.MinValue,1
-Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
-Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
 Parameters.ResourceGroupName.Description,Name of the resource group.
-Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Parameters.ReadCapacityUnits.Description,Provisioned read throughput
 Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Runtime']}"
 Parameters.CloudCanvasStack.Default,ResourceGroup
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Parameters.WriteCapacityUnits.Default,2
 Parameters.WriteCapacityUnits.MinValue,1
-Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
 Parameters.ReadCapacityUnits.MaxValue,10000
 Parameters.ServiceApiCacheClusterEnabled.Default,false
-Resources.Custom::LambdaConfiguration.Properties.Settings.StagingTable,{u'Ref': u'StagingSettingsTable'}
-Resources.Custom::DynamoDBTable.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Parameters.WriteCapacityUnits.Description,Provisioned write throughput
 Metadata.CloudCanvas.Id,$Revision: #7 $
 Resources.Custom::DynamoDBTable.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:GetItem', u'dynamodb:Scan', u'dynamodb:UpdateItem', u'dynamodb:DeleteItem'], u'AbstractRole': u'ServiceLambda'}]"
-Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceApiCacheClusterEnabled'}
 Parameters.ReadCapacityUnits.ConstraintDescription,must be between 1 and 10000
-Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Parameters.WriteCapacityUnits.ConstraintDescription,must be between 1 and 10000
 Resources.Custom::DynamoDBTable.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'FileName'}]"
 Parameters.ServiceApiCacheClusterSize.Default,0.5

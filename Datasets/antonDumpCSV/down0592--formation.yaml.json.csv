@@ -48,7 +48,6 @@ Outputs.BastionHostPublicIp.Description,IP Address of the bastion host for the n
 Parameters.NetworkingProvider.Description,Choose the networking provider to use for communication between pods in the Kubernetes cluster. Supported configurations are calico (http://docs.projectcalico.org/v2.0/getting-started/kubernetes/installation/hosted/kubeadm/) and weave (https://github.com/weaveworks/weave/blob/master/site/kube-addon.md).
 Parameters.Subnet0CIDR.Description,Public subnet 0 CIDR block
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,InternetGateway
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'64']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Zone0.default,Availability Zone
 Resources.AWS::EC2::NatGateway.Properties.SubnetId,PublicSubnet1
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'Public Subnets', u'Key': u'Name'}, {u'Value': u'Public', u'Key': u'Network'}]"
@@ -60,7 +59,6 @@ Resources.AWS::EC2::Route.Properties.RouteTableId,PublicSubnet0RouteTable
 Resources.AWS::EC2::Route.DependsOn,VPCGatewayAttachment
 Outputs.SSHProxyCommand.Description,"Run locally - SSH command to proxy to the master instance through the bastion host, to access port 8080 (command to SSH to the master Kubernetes node)."
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': 0, u'GroupSet': [{u'Ref': u'BastionSecurityGroup'}], u'DeleteOnTermination': True, u'AssociatePublicIpAddress': True, u'SubnetId': u'PublicSubnet0', u'PrivateIpAddress': u'10.0.1.5'}]"
 Resources.AWS::EC2::RouteTable.Properties.VpcId,VPC
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NetworkingProvider,NetworkingProvider
 Resources.AWS::EC2::NatGateway.DependsOn,VPCGatewayAttachment

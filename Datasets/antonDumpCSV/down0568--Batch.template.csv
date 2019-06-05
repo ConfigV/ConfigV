@@ -2,13 +2,10 @@ Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role']
 Resources.AWS::Batch::JobQueue.Properties.Priority,1
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable access to Batch instances
-Outputs.BatchComputeEnvironment.Value,{u'Ref': u'BatchComputeEnvironment'}
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.MinvCpus,0
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Batch::JobQueue.Properties.JobQueueName,example-job-queue
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Tags.Name,batch-compute-environment
-Outputs.ExampleJobQueue.Value,{u'Ref': u'ExampleJobQueue'}
-Resources.AWS::Batch::ComputeEnvironment.Properties.ServiceRole,{u'Ref': u'BatchServiceRole'}
 Resources.AWS::Batch::JobQueue.Properties.State,ENABLED
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Tags.Project,example
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.MaxvCpus,10
@@ -16,11 +13,5 @@ Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Acti
 Parameters.Vpc.ConstraintDescription,Must be a valid VPC ID.
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.DesiredvCpus,0
 Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.SecurityGroupIds,"[{u'Fn::GetAtt': [u'BatchSecurityGroup', u'GroupId']}]"
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'Vpc'}
-Resources.AWS::Batch::JobQueue.Properties.ComputeEnvironmentOrder,"[{u'ComputeEnvironment': {u'Ref': u'BatchComputeEnvironment'}, u'Order': 1}]"
-Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.Subnets,"[{u'Ref': u'PrivateSubnetA'}, {u'Ref': u'PrivateSubnetB'}]"
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'batch-sg', u'Key': u'Name'}]"
 Resources.AWS::IAM::Role.Properties.Policies,[]
-Outputs.BatchSecurityGroup.Value,{u'Ref': u'BatchSecurityGroup'}
-Resources.AWS::Batch::ComputeEnvironment.Properties.ComputeResources.InstanceRole,{u'Ref': u'BatchInstanceProfile'}
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'BatchInstanceRole'}]

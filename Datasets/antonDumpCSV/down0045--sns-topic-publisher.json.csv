@@ -1,4 +1,3 @@
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaFunctionRole'}]
 Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.health']
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'SNSPublishFunction', u'Arn']}"
@@ -12,9 +11,7 @@ Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'SNSPublishFunction', u'Arn': {u'Fn::GetAtt': [u'SNSPublishFunction', u'Arn']}}]"
 Parameters.SNSTopicName.Description,Please enter your SNS Topic Name. (SNS Topic must exist in the same region where this stack is launched).
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.SNSARN,"{u'Fn::Join': [u'', [u'arn:aws:sns:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'SNSTopicName'}]]}"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
-Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow', u'Sid': u'Stmt1477516473539'}, {u'Action': [u'sns:Publish'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:sns:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'SNSTopicName'}]]}, u'Effect': u'Allow', u'Sid': u'Stmt1484080345748'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.1
 Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaPolicy

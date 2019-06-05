@@ -1,8 +1,4 @@
-Outputs.DomainName.Value,{u'Ref': u'myDNSRecord'}
 Resources.AWS::Route53::RecordSet.Properties.TTL,900
-Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Ref': u'HostedZone'}, u'.']]}"
 Resources.AWS::Route53::RecordSet.Properties.Comment,DNS name for my instance.
 Parameters.HostedZone.Description,The DNS name of an existing Amazon Route 53 hosted zone
-Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'Ec2Instance'}, u'.', {u'Ref': u'AWS::Region'}, u'.', {u'Ref': u'HostedZone'}, u'.']]}"
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'Ec2Instance', u'PublicIp']}]"

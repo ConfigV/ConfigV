@@ -7,13 +7,10 @@ Parameters.RemoteAccessCIDR.ConstraintDescription,CIDR block parameter must be i
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.BastionAMIOS.default,Bastion AMI Operating System
 Parameters.RemoteAccessCIDR.Description,Allowed CIDR block for external SSH access to the bastions
 Mappings.LinuxAMINameMap.UbuntuServer1404LTSHVM.Code,US1404HVM
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'RemoteAccessCIDR'}, u'FromPort': u'22'}, {u'ToPort': u'-1', u'IpProtocol': u'icmp', u'CidrIp': {u'Ref': u'RemoteAccessCIDR'}, u'FromPort': u'-1'}]"
 Mappings.AWSAMIRegionMap.AMI.US1404HVM,ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-20161205
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPCID'}
 Parameters.Bastion1PrivateIP.Default,10.0.128.5
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enables SSH Access
 Outputs.LinuxBastion2PublicDNSName.Description,Public DNS name of the Linux Bastion 2 in Avalability Zone 2
-Rules.SubnetsInVPC.Assertions,"[{u'Assert': {u'Fn::EachMemberIn': [{u'Fn::ValueOfAll': [u'AWS::EC2::Subnet::Id', u'VpcId']}, {u'Fn::RefAll': u'AWS::EC2::VPC::Id'}]}, u'AssertDescription': u'All subnets must in the VPC'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RemoteAccessCIDR.default,Allowed Bastion External Access CIDR
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyPairName.default,Key Pair Name
 Mappings.AWSAMIRegionMap.ca-central-1.AMZNLINUXHVM,ami-730ebd17
@@ -21,7 +18,6 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,Q
 Mappings.LinuxAMINameMap.CentOS7HVM.Code,CENTOS7HVM
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Bastion1PrivateIP.default,Bastion 1 Private IP Address
 Mappings.AWSInfoRegionMap.ca-central-1.QuickStartS3URL,https://s3.amazonaws.com
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyPairName'}
 Parameters.Bastion2PrivateIP.ConstraintDescription,IP address parameter must be in the form x.x.x.x
 Parameters.PublicSubnet2ID.Description,"ID of the public subnet 2 you want to provision the second bastion into (e.g., subnet-e3246d8e)"
 Parameters.KeyPairName.Description,Public/private key pair
@@ -41,17 +37,12 @@ Parameters.BastionAMIOS.Default,AmazonLinuxHVM
 Mappings.AWSAMIRegionMap.ca-central-1.US1404HVM,ami-374dff53
 Parameters.Bastion1PrivateIP.Description,Fixed private IP for the first bastion located in Availability Zone 1
 Mappings.AWSInfoRegionMap.eu-central-1.QuickStartS3URL,https://s3.amazonaws.com
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'BASTION_SETUP=/tmp/setup.sh \n', u'BASTION_BOOTSTRAP_FILE=', {u'Ref': u'BastionSetupScript'}, u'\n', u'echo ${BASTION_BOOTSTRAP_FILE}', u'\n', u'curl -s ${BASTION_BOOTSTRAP_FILE} > ${BASTION_SETUP}', u'\n', u'chmod +x ${BASTION_SETUP}\n', u'./${BASTION_SETUP} ', u' --banner ', {u'Ref': u'BastionBanner'}, u' --enable ', {u'Ref': u'EnableBanner'}, u'\n']]}}"
 Parameters.Bastion1PrivateIP.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
 Mappings.AWSInfoRegionMap.ca-central-1.Partition,aws
-Outputs.LinuxBastion1ElasticIP.Value,{u'Ref': u'LinuxBastion1EIP'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet2ID.default,Public Subnet 2 ID
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': 0, u'GroupSet': [{u'Ref': u'BastionSecurityGroup'}], u'DeleteOnTermination': u'true', u'AssociatePublicIpAddress': True, u'SubnetId': {u'Ref': u'PublicSubnet1ID'}, u'PrivateIpAddress': {u'Ref': u'Bastion1PrivateIP'}}]"
 Mappings.AWSAMIRegionMap.eu-central-1.US1404HVM,ami-51db1d3e
 Parameters.BastionBanner.Default,https://s3-us-west-2.amazonaws.com/armstrongonline.org/templateData/Bastion/banner.txt
-Outputs.LinuxBastion2ElasticIP.Value,{u'Ref': u'LinuxBastion2EIP'}
 Outputs.LinuxBastion1PublicDNSName.Value,"{u'Fn::GetAtt': [u'LinuxBastion1', u'PublicDnsName']}"
-Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'LinuxBastion2'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet1ID.default,Public Subnet 1 ID
 Mappings.LinuxAMINameMap.AmazonLinuxHVM.Code,AMZNLINUXHVM
 Parameters.Bastion2PrivateIP.Default,10.0.144.5
@@ -60,7 +51,6 @@ Parameters.Bastion2PrivateIP.Description,Fixed private IP for the second bastion
 Parameters.BastionBanner.Description,Banner text to display upon login
 Parameters.EnableBanner.Default,false
 Parameters.PublicSubnet1ID.Description,"ID of the public subnet 1 that you want to provision the first bastion into (e.g., subnet-a0246dcd)"
-Outputs.BastionSecurityGroupID.Value,{u'Ref': u'BastionSecurityGroup'}
 Parameters.BastionSetupScript.Default,https://s3-us-west-2.amazonaws.com/armstrongonline.org/templateData/Bastion/setup.sh
 Parameters.Bastion1PrivateIP.ConstraintDescription,IP address parameter must be in the form x.x.x.x
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCID.default,VPC ID
@@ -69,7 +59,6 @@ Parameters.BastionAMIOS.AllowedValues,"[u'AmazonLinuxHVM', u'CentOS7HVM', u'Ubun
 Mappings.AWSAMIRegionMap.eu-central-1.CENTOS7HVM,ami-9bf712f4
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,Quick Start S3 Key Prefix
 Mappings.AWSAMIRegionMap.ca-central-1.CENTOS7HVM,ami-af62d0cb
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSAMIRegionMap', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'LinuxAMINameMap', {u'Ref': u'BastionAMIOS'}, u'Code']}]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EnableBanner.default,Enable Banner
 Outputs.BastionSecurityGroupID.Description,Bastion Security Group ID
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'LinuxBastion1', u'Key': u'Name'}]"

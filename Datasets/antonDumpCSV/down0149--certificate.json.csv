@@ -1,21 +1,13 @@
 Resources.Custom::AWSCertificateRequest.Version,1.0
-Resources.Custom::AWSCertificateDNSApproval.Properties.ServiceToken,{u'Ref': u'CertificateApprovalLambdaARN'}
-Resources.Custom::AWSCertificateDNSApproval.Properties.hostName,{u'Ref': u'HostName'}
 Parameters.HostName.Description,The HostName address
-Resources.Custom::AWSCertificateDNSApproval.Properties.hostedZoneId,{u'Ref': u'HostedZone'}
 Parameters.AlternativeDomains.Description,Alternative Domains to be configured in the Certificate
 Resources.Custom::AWSCertificateApprovalCheck.DependsOn,[u'AWSPublicCertificateValidation']
 Outputs.CertificateARN.Value,"{u'Fn::GetAtt': [u'AWSPublicCertificateRequest', u'ResourceId']}"
 Parameters.CertificateRequestLambdaARN.Description,The ARN of lambda request Function
-Resources.Custom::AWSCertificateRequest.Properties.ServiceToken,{u'Ref': u'CertificateRequestLambdaARN'}
 Resources.Custom::AWSCertificateDNSApproval.Properties.certificateARN,"{u'Fn::GetAtt': [u'AWSPublicCertificateRequest', u'ResourceId']}"
 Outputs.CertificateARN.Export.Name,{u'Fn::Sub': u'${AWS::StackName}-CertificateARN'}
-Resources.Custom::AWSCertificateRequest.Properties.hostedZoneId,{u'Ref': u'HostedZone'}
-Resources.Custom::AWSCertificateRequest.Properties.extraDomains,{u'Ref': u'AlternativeDomains'}
-Resources.Custom::AWSCertificateRequest.Properties.hostName,{u'Ref': u'HostName'}
 Parameters.HostName.Default,www
 Parameters.HostName.ConstraintDescription,must be a valid DNS zone name.
-Resources.Custom::AWSCertificateApprovalCheck.Properties.ServiceToken,{u'Ref': u'CheckCertificateLambdaARN'}
 Parameters.HostedZone.Description,The DNS name of an existing Amazon Route 53 hosted zone
 Resources.Custom::AWSCertificateApprovalCheck.Version,1.0
 Parameters.HostName.AllowedPattern,"(?!-)[a-zA-Z0-9-.]{1,63}(?<!-)"

@@ -2,10 +2,7 @@ Parameters.WriteCapacityUnits.MaxValue,10000
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'Category'}, {u'KeyType': u'RANGE', u'AttributeName': u'Title'}]"
 Outputs.TableName.Description,Name of the newly created DynamoDB table
 Parameters.ReadCapacityUnits.Default,5
-Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'Title'}], u'IndexName': u'TitleIndex', u'Projection': {u'ProjectionType': u'KEYS_ONLY'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': {u'Ref': u'WriteCapacityUnits'}, u'ReadCapacityUnits': {u'Ref': u'ReadCapacityUnits'}}}]"
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'WriteCapacityUnits'}
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'Title', u'AttributeType': u'S'}, {u'AttributeName': u'Category', u'AttributeType': u'S'}, {u'AttributeName': u'Language', u'AttributeType': u'S'}]"
-Outputs.TableName.Value,{u'Ref': u'TableOfBooks'}
 Parameters.ReadCapacityUnits.Description,Provisioned read throughput
 Parameters.WriteCapacityUnits.ConstraintDescription,should be between 5 and 10000
 Parameters.WriteCapacityUnits.Default,10
@@ -13,6 +10,5 @@ Parameters.WriteCapacityUnits.MinValue,5
 Parameters.ReadCapacityUnits.MaxValue,10000
 Resources.AWS::DynamoDB::Table.Properties.LocalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'Category'}, {u'KeyType': u'RANGE', u'AttributeName': u'Language'}], u'IndexName': u'LanguageIndex', u'Projection': {u'ProjectionType': u'KEYS_ONLY'}}]"
 Parameters.WriteCapacityUnits.Description,Provisioned write throughput
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
 Parameters.ReadCapacityUnits.ConstraintDescription,should be between 5 and 10000
 Parameters.ReadCapacityUnits.MinValue,5

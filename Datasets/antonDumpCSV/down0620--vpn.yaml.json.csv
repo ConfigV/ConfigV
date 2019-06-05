@@ -19,7 +19,6 @@ Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'SSHCIDR'}, {u'ToPort': u'443', u'FromPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'943', u'FromPort': u'943', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'1194', u'FromPort': u'1194', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0'}]"
 Resources.Custom::ExecuteLambda.Properties.Version,Version
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPCStackName'], u'Label': {u'default': u'VPC'}}, {u'Parameters': [u'InstanceType', u'KeyName'], u'Label': {u'default': u'Instance'}}, {u'Parameters': [u'Version', u'NumberOfDevices'], u'Label': {u'default': u'OpenVPN'}}, {u'Parameters': [u'HostName', u'DomainName'], u'Label': {u'default': u'DNS'}}, {u'Parameters': [u'SSHCIDR'], u'Label': {u'default': u'Public SSH Ingress'}}]"
-Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,[{u'Ref': u'EIP'}]
 Outputs.DomainName.Description,The domain name of the OpenVPN instsance.
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,17
 Resources.AWS::EC2::Instance.Properties.KeyName,KeyName
@@ -33,11 +32,9 @@ Parameters.HostName.Default,vpn.corp.us-east-1
 Parameters.NumberOfDevices.Default,2 | Free
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfDevices.default,Number Of Users
-Resources.AWS::EC2::EIPAssociation.Properties.InstanceId,{u'Ref': u'Instance'}
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Outputs.AMI.Description,The OpenVPN AMI used.
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'AllowLogsWrite', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}]"
-Resources.AWS::EC2::EIPAssociation.Properties.EIP,{u'Ref': u'EIP'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,1194
 Outputs.DomainName.Value,${HostName}.${DomainName}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,AWS::StackName

@@ -2,23 +2,15 @@ Parameters.ParamInstSubnet.Description,Subnet for instance
 Parameters.ParamRSAKeyName.Description,RSA Key for instances
 Parameters.ParamInstanceAMI.Description,ID of instance AMI
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Security group for instance
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'ParamRSAKeyName'}
 Parameters.ParamUseElasticIP.Description,Whether to create and assign an elastic ip to the instance
 Resources.AWS::EC2::EIP.Condition,UseElasticIP
 Parameters.ParamIamInstanceProfile.Description,IAM Role Profile for instances
 Parameters.ParamVPC.Description,VPC ID
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"[{u'Ref': u'ParamInstanceDefaultSG'}, {u'Ref': u'SGInstance'}]"
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n']]}}"
 Resources.AWS::EC2::Instance.Properties.SourceDestCheck,true
 Resources.AWS::EC2::EIP.DependsOn,Instance
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'ParamInstSubnet'}
 Parameters.ParamUseElasticIP.Default,false
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,[]
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'ParamIamInstanceProfile'}
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'Instance'}
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ParamVPC'}
-Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'ParamInstanceAMI'}
 Parameters.ParamUseElasticIP.AllowedValues,"[u'true', u'false']"
 Parameters.ParamInstanceDefaultSG.Description,ID of Default Management SG
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'@', [u'inst', {u'Ref': u'AWS::StackName'}]]}, u'Key': u'Name'}]"

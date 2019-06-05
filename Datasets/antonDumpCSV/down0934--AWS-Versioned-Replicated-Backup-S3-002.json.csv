@@ -1,7 +1,5 @@
 Outputs.BackupBucket.Description,Backup Bucket
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'ReplicaRole'}]
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::S3::Bucket.Properties.ReplicationConfiguration.Rules,"[{u'Status': u'Enabled', u'Prefix': u'', u'Destination': {u'Bucket': {u'Ref': u'ReplicaBucketArn'}}}]"
 Parameters.SourceBucketExpirationInDays.Default,365
 Resources.AWS::S3::Bucket.Properties.ReplicationConfiguration.Role,"{u'Fn::GetAtt': [u'ReplicaRole', u'Arn']}"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u's3.amazonaws.com']}}]"
@@ -9,10 +7,8 @@ Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.ReplicaBucketArn.ConstraintDescription,Replica Bucket ARN
 Resources.AWS::IAM::Policy.Properties.PolicyName,ReplicaRoleAccess
-Outputs.BackupBucket.Value,{u'Ref': u'BackupBucket'}
 Parameters.SourceBucketExpirationInDays.MinValue,1
 Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
 Parameters.ReplicaBucketArn.AllowedPattern,^arn:aws:s3::[0-9]*:[A-Za-z0-9/-]+$
 Parameters.ReplicaBucketArn.Description,Replica Bucket Bucket ARN
 Parameters.SourceBucketExpirationInDays.Description,Source Bucket Expiration in Days
-Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'ExpirationInDays': {u'Ref': u'SourceBucketExpirationInDays'}}]"

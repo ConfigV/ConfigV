@@ -3,8 +3,6 @@ Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.z,0
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'LoadBalancer', u'DNSName']}]]}"
-Outputs.ETHStatsIP.Value,"{u'Fn::Join': [u'', [u'http://', {u'Ref': u'ETHStatsIP'}, u':3000']]}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,{u'Ref': u'InstanceCount'}
 Parameters.SSHLocation.ConstraintDescription,Must be a valid IP CIDR range of the form x.x.x.x/x
 Mappings.AWSRegionArch2AMI.eu-central-1.64,ami-1c45e273
 Parameters.KeyName.ConstraintDescription,Can contain only ASCII characters.
@@ -13,7 +11,6 @@ Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.posi
 Metadata.AWS::CloudFormation::Designer.54b037ce-872c-458e-8876-ff95f9b58d1d.size.height,60
 Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.size.height,60
 Resources.AWS::EC2::SecurityGroup.Metadata.AWS::CloudFormation::Designer.id,54b037ce-872c-458e-8876-ff95f9b58d1d
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'ETHRPCSecurity'}]
 Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.z,0
 Parameters.SSHLocation.Description,The IP address range that can be used to SSH to the EC2 instances
 Metadata.AWS::CloudFormation::Designer.54b037ce-872c-458e-8876-ff95f9b58d1d.size.width,60
@@ -22,7 +19,6 @@ Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.size
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Parameters.ETHStatsIP.Description,The IP address of the EthStats server
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'apt -y update\n', u'DEBIAN_FRONTEND=noninteractive apt-get -y upgrade\n', u'apt install -y docker.io screen\n', u'mkdir /ethereum\n', {u'Fn::If': [u'IsNVME', {u'Fn::Join': [u'', [u'mkfs.ext4 -F /dev/nvme0n1\n', u'mount /dev/nvme0n1 /ethereum\n', u'chmod a+w /ethereum/\n', u'echo UUID=`sudo blkid -s UUID -o value /dev/disk/by-id/nvme-Amazon*` /ethereum/ ext4 discard,defaults,nofail 0 2 | sudo tee -a /etc/fstab\n']]}, u'']}, u'export INSTANCEID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n', u'docker pull myetherwallet/docker-geth-lb:parity-prebuilt-instance\n', u""/usr/bin/screen -m -d -S docker docker run -e WS_SECRET='"", {u'Ref': u'ETHStatsPassword'}, u""' -e WS_SERVER='ws://"", {u'Ref': u'ETHStatsIP'}, u':3000\' -e INSTANCE_NAME=""mew-parity-instance-$INSTANCEID"" -it -p 8545:8545 -p 30303:30303 -v /ethereum:/root/.local --restart unless-stopped myetherwallet/docker-geth-lb:parity-prebuilt-instance\n']]}}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Designer.id,61d5b9ec-16cf-48f4-8d7d-861cc7e781e7
 Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.isassociatedwith,[u'54b037ce-872c-458e-8876-ff95f9b58d1d']
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
@@ -38,13 +34,10 @@ Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.size
 Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.position.y,180
 Metadata.AWS::CloudFormation::Designer.61d5b9ec-16cf-48f4-8d7d-861cc7e781e7.position.x,140
 Parameters.InstanceCount.ConstraintDescription,Integers only
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'8545', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'8545'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.embeds,[]
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable Geth RPC Port
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'8545', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfiguration'}
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.position.y,50
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.position.x,140
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.embeds,[]
@@ -61,15 +54,12 @@ Parameters.InstanceCount.Description,Number of instances to deploy
 Parameters.ETHStatsPassword.ConstraintDescription,String only
 Parameters.SSHLocation.MinLength,9
 Metadata.AWS::CloudFormation::Designer.54b037ce-872c-458e-8876-ff95f9b58d1d.embeds,[]
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Metadata.AWS::CloudFormation::Designer.d509e6f2-dd24-460d-8532-e98791c13777.size.width,60
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'InstanceCount'}
 Mappings.AWSRegionArch2AMI.ca-central-1.64,ami-7ed56a1a
 Metadata.AWS::CloudFormation::Designer.4369026b-a90f-474b-8fcd-b636341ea415.z,0
 Metadata.AWS::CloudFormation::Designer.65efe09a-0f3e-48c2-a30a-84d0c993d132.size.width,60
 Resources.AWS::AutoScaling::AutoScalingGroup.Metadata.AWS::CloudFormation::Designer.id,d509e6f2-dd24-460d-8532-e98791c13777
 Parameters.SSHLocation.Default,0.0.0.0/0
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'LoadBalancer'}]
 Parameters.ETHStatsIP.ConstraintDescription,Must be a valid IP x.x.x.x
 Metadata.AWS::CloudFormation::Designer.54b037ce-872c-458e-8876-ff95f9b58d1d.position.y,180
 Metadata.AWS::CloudFormation::Designer.54b037ce-872c-458e-8876-ff95f9b58d1d.position.x,250

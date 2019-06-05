@@ -1,7 +1,5 @@
-Resources.AWS::IAM::InstanceProfile.Properties.Path,"{u'Fn::Join': [u'', [u'/', {u'Ref': u'DeploymentName'}, u'/', {u'Ref': u'ResourceGroupName'}, u'/']]}"
 Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
 Resources.Custom::AccessControl.DependsOn,"[u'ServiceApi', u'ServiceLambda', u'computefarm']"
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Resources.AWS::Lambda::Function.Properties.Timeout,300
 Resources.Custom::SWF.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'swf:StartWorkflowExecution', u'swf:DescribeWorkflowExecution', u'swf:CancelWorkflowExecution', u'swf:TerminateWorkflowExecution'], u'AbstractRole': u'ServiceLambda'}]"
 Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
@@ -12,91 +10,52 @@ Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.ReadCapacityUnits,4
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.ResourceGroupName.Description,Name of the resource group.
-Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'AllowedHeaders': [u'*'], u'MaxAge': 3000, u'ExposedHeaders': [u'ETag'], u'AllowedMethods': [u'GET', u'PUT', u'POST', u'DELETE'], u'Id': u'compute_farm_upload_Policy', u'AllowedOrigins': [u'*']}]"
 Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.ResourceSuffix,"[u'/api/GET/example', u'/api/POST/example']"
-Resources.Custom::LambdaConfiguration.Properties.Settings.EC2SubnetB,{u'Ref': u'EC2SubnetB'}
-Resources.Custom::LambdaConfiguration.Properties.Settings.EC2SubnetC,{u'Ref': u'EC2SubnetC'}
-Resources.Custom::LambdaConfiguration.Properties.Settings.EC2SubnetA,{u'Ref': u'EC2SubnetA'}
 Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
-Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.128.0/18
 Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
 Parameters.DeploymentName.Description,Name of the resource group's deployment.
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'EC2InternetGateway'}
 Resources.Custom::LambdaConfiguration.Properties.Settings.BuildTask,"{u'Fn::Select': [1, {u'Fn::GetAtt': [u'Workflow', u'ActivityTypes']}]}"
-Resources.Custom::LambdaConfiguration.Properties.Settings.LogDB,{u'Ref': u'LogDB'}
 Resources.Custom::LambdaConfiguration.Properties.Settings.WorkflowTypeName,"{u'Fn::GetAtt': [u'Workflow', u'WorkflowTypeName']}"
-Outputs.ComputeFarmBucketName.Value,{u'Ref': u'computefarm'}
 Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions,"[{u'Action': u'lambda:InvokeFunction', u'AbstractRole': u'ServiceApi'}, {u'Action': u'execute-api:Invoke', u'ResourceSuffix': [u'/api/GET/stream'], u'AbstractRole': u'Server'}]"
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'EC2RouteTable'}
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Resources.AWS::EC2::Route.DependsOn,[u'EC2VPCGatewayAttachment']
-Resources.Custom::LambdaConfiguration.Properties.Settings.EC2SecurityGroup,{u'Ref': u'EC2SecurityGroup'}
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'EC2VPC'}
 Resources.Custom::SWF.Properties.TaskList.name,dev-task-list
-Resources.Custom::LambdaConfiguration.Properties.Settings.Workflow,{u'Ref': u'Workflow'}
 Resources.Custom::SWF.Properties.ChildPolicy,ABANDON
 Resources.Custom::DynamoDBTable.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:Query', u'dynamodb:Scan', u'dynamodb:BatchWriteItem', u'dynamodb:PutItem', u'dynamodb:DeleteItem'], u'AbstractRole': u'ServiceLambda'}]"
 Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.AbstractRole,Player
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'instancePolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'swf:PollForActivityTask', u'swf:PollForDecisionTask', u'swf:RespondActivityTaskCompleted', u'swf:RespondActivityTaskCanceled', u'swf:RespondActivityTaskFailed', u'swf:RespondDecisionTaskCompleted', u'swf:RecordActivityTaskHeartbeat', u'swf:RespondDecisionTaskCompleted', u'swf:ScheduleActivityTask', u'swf:CompleteWorkflowExecution'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:swf:*:', {u'Ref': u'AWS::AccountId'}, u':/domain/', {u'Fn::GetAtt': [u'Workflow', u'DomainName']}]]}, u'Effect': u'Allow'}, {u'Action': u's3:*', u'Resource': [{u'Fn::GetAtt': [u'computefarm', u'Arn']}, {u'Fn::Join': [u'', [{u'Fn::GetAtt': [u'computefarm', u'Arn']}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:PutItem'], u'Resource': [{u'Fn::GetAtt': [u'LogDB', u'Arn']}], u'Effect': u'Allow'}, {u'Action': [u'autoscaling:UpdateAutoScalingGroup'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:autoscaling:*:', {u'Ref': u'AWS::AccountId'}, u':*']]}, u'Effect': u'Allow'}]}}]"
-Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Resources.Custom::DynamoDBTable.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'key'}]"
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'EC2VPC'}
-Resources.Custom::LambdaConfiguration.Properties.Settings.S3Bucket,{u'Ref': u'computefarm'}
-Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn::GetAtt': [u'ServiceLambda', u'Arn']}"
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'EC2VPC'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,CloudGemComputeFarm security options
-Resources.Custom::SWF.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
-Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
 Resources.Custom::LambdaConfiguration.Properties.Settings.DivTask,"{u'Fn::Select': [0, {u'Fn::GetAtt': [u'Workflow', u'ActivityTypes']}]}"
 Resources.AWS::IAM::InstanceProfile.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'iam:PassRole'], u'AbstractRole': u'ServiceLambda'}]"
 Resources.Custom::LambdaConfiguration.Properties.Settings.TaskList,"{u'Fn::GetAtt': [u'Workflow', u'TaskList']}"
-Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Join': [u'', [{u'Ref': u'AWS::Region'}, u'b']]}"
 Outputs.ComputeFarmBucketName.Description,Name of the computefarm bucket.
 Resources.Custom::SWF.Properties.ExecutionStartToCloseTimeout,31536000
 Resources.Custom::SWF.Properties.ActivityTypes,"[u'task-divide', u'task-build', u'task-merge']"
-Resources.Custom::LambdaConfiguration.Properties.Settings.InstanceProfile,{u'Ref': u'InstanceProfile'}
 Resources.Custom::DynamoDBTable.Properties.AttributeDefinitions,"[{u'AttributeName': u'key', u'AttributeType': u'S'}]"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'EC2RouteTable'}
-Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'ec2.amazonaws.com'}}, {u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'AWS': {u'Ref': u'AWS::AccountId'}}}]"
-Resources.Custom::LambdaConfiguration.Properties.Settings.computefarm,{u'Ref': u'computefarm'}
 Resources.AWS::EC2::Subnet.DependsOn,[u'EC2SubnetA']
 Parameters.CloudCanvasStack.Default,ResourceGroup
 Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
 Parameters.ServiceApiCacheClusterSize.Description,Indicates whether cache clustering is enabled for the service API.
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'EC2VPC'}
-Resources.Custom::AutoscalingPermissions.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Resources.Custom::DynamoDBTable.Properties.ProvisionedThroughput.WriteCapacityUnits,4
 Resources.Custom::LambdaConfiguration.Properties.Settings.MergeTask,"{u'Fn::Select': [2, {u'Fn::GetAtt': [u'Workflow', u'ActivityTypes']}]}"
 Resources.Custom::LambdaConfiguration.Properties.FunctionName,ServiceLambda
-Resources.Custom::LambdaConfiguration.Properties.Settings.KVS,{u'Ref': u'KVS'}
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'ConfigurationKey']}"
 Parameters.ServiceApiCacheClusterEnabled.Default,false
 Resources.AWS::S3::Bucket.Metadata.CloudCanvas.Permissions,"[{u'Action': [u's3:GetObject', u's3:PutObject'], u'ResourceSuffix': u'/*', u'AbstractRole': [u'CloudGemPortalAdministratorRole']}, {u'Action': u's3:ListBucket', u'AbstractRole': u'CloudGemPortalAdministratorRole'}, {u'Action': [u's3:GetObject', u's3:PutObject'], u'ResourceSuffix': u'/*', u'AbstractRole': [u'CloudGemPortalUserRole']}, {u'Action': u's3:ListBucket', u'AbstractRole': u'CloudGemPortalUserRole'}, {u'Action': [u's3:PutObject', u's3:GetObject', u's3:DeleteObject'], u'ResourceSuffix': u'/*', u'AbstractRole': [u'ServiceLambda']}]"
 Resources.Custom::AutoscalingPermissions.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'autoscaling:CreateLaunchConfiguration', u'autoscaling:DeleteLaunchConfiguration', u'autoscaling:CreateAutoScalingGroup', u'autoscaling:UpdateAutoScalingGroup', u'autoscaling:DeleteAutoScalingGroup', u'autoscaling:DescribeAutoScalingGroups', u'ec2:DescribeKeyPairs'], u'AbstractRole': u'ServiceLambda'}]"
-Resources.AWS::IAM::Role.Properties.Path,"{u'Fn::Join': [u'', [u'/', {u'Ref': u'DeploymentName'}, u'/', {u'Ref': u'ResourceGroupName'}, u'/']]}"
 Resources.Custom::SWF.Properties.TaskStartToCloseTimeout,NONE
 Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clustering is enabled for the service API.
 Metadata.CloudCanvas.Id,$Revision: #1 $
 Resources.Custom::AmiPermissions.Metadata.CloudCanvas.Permissions,"[{u'Action': u'ec2:DescribeImages', u'AbstractRole': u'ServiceLambda'}]"
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'EC2InternetGateway'}
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
-Resources.Custom::AmiPermissions.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'EC2SubnetC'}
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,True
 Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Runtime']}"
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ServiceLambdaConfiguration', u'Role']}"
-Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::DynamoDBTable.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3389', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'3389'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}]"
 Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.Action,execute-api:Invoke
-Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceApiCacheClusterEnabled'}
 Resources.Custom::LambdaConfiguration.Properties.Settings.DomainName,"{u'Fn::GetAtt': [u'Workflow', u'DomainName']}"
 Parameters.ServiceApiCacheClusterSize.Default,0.5

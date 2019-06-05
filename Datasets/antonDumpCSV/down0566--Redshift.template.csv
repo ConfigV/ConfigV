@@ -1,9 +1,6 @@
-Resources.AWS::Redshift::Cluster.Properties.MasterUsername,{u'Ref': u'MasterUsername'}
 Parameters.MasterUsername.Default,defaultuser
-Resources.AWS::Redshift::Cluster.Properties.NumberOfNodes,"{u'Fn::If': [u'IsMultiNodeCluster', {u'Ref': u'NumberOfNodes'}, {u'Ref': u'AWS::NoValue'}]}"
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.Parameters,"[{u'ParameterName': u'enable_user_activity_logging', u'ParameterValue': u'true'}]"
 Parameters.DatabaseName.AllowedPattern,([a-z]|[0-9])+
-Resources.AWS::Redshift::Cluster.Properties.NodeType,{u'Ref': u'NodeType'}
 Parameters.MasterUsername.Description,The user name associated with the master user account for the redshift cluster that is being created
 Parameters.NumberOfNodes.Default,1
 Parameters.NodeType.Description,The node type to be provisioned for the redshift cluster
@@ -11,18 +8,14 @@ Parameters.ClusterType.AllowedValues,"[u'single-node', u'multi-node']"
 Parameters.MasterUsername.NoEcho,True
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.ParameterGroupFamily,redshift-1.0
 Parameters.ClusterType.Description,The type of the cluster
-Resources.AWS::Redshift::Cluster.Properties.DBName,{u'Ref': u'DatabaseName'}
 Parameters.NodeType.Default,dw2.large
 Parameters.NumberOfNodes.Description,"The number of compute nodes in the redshift cluster. When cluster type is specified as: 1) single-node, the NumberOfNodes parameter should be specified as 1, 2) multi-node, the NumberOfNodes parameter should be greater than 1"
 Parameters.MasterUserPassword.Description,The password associated with the master user account for the redshift cluster that is being created.
 Parameters.MasterUsername.AllowedPattern,([a-z])([a-z]|[0-9])*
 Parameters.MasterUserPassword.NoEcho,True
 Parameters.DatabaseName.Default,defaultdb
-Resources.AWS::Redshift::Cluster.Properties.MasterUserPassword,{u'Ref': u'MasterUserPassword'}
-Resources.AWS::Redshift::Cluster.Properties.ClusterType,{u'Ref': u'ClusterType'}
 Outputs.ClusterEndpoint.Value,"{u'Fn::Join': [u':', [{u'Fn::GetAtt': [u'RedshiftCluster', u'Endpoint.Address']}, {u'Fn::GetAtt': [u'RedshiftCluster', u'Endpoint.Port']}]]}"
 Parameters.ClusterType.Default,single-node
-Resources.AWS::Redshift::Cluster.Properties.ClusterParameterGroupName,{u'Ref': u'RedshiftClusterParameterGroup'}
 Parameters.DatabaseName.Description,The name of the first database to be created when the redshift cluster is created
 Resources.AWS::Redshift::Cluster.DeletionPolicy,Snapshot
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.Description,Cluster parameter group

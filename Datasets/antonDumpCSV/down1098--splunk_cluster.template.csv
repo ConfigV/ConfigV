@@ -5,7 +5,6 @@ Parameters.SubnetCount.Default,1
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'22'}, {u'ToPort': u'8089', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'8089'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'443'}]"
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
 Parameters.KeyName.MaxLength,64
-Outputs.MasterNodeURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Ref': u'MasterNodeDNSRecord'}]]}"
 Parameters.CIDRBlock.MaxLength,18
 Parameters.SubnetCount.AllowedValues,"[u'1', u'2', u'3']"
 Parameters.HostedZoneName.ConstraintDescription,Must be a valid DNS domain.
@@ -31,7 +30,6 @@ Parameters.Subdomain.ConstraintDescription,"can contain only alphanumeric charac
 Parameters.CIDRBlock.ConstraintDescription,must be a valid CIDR range of the form x.x.x.x/x.
 Mappings.SubnetCount2NodeAZDistribution.2.AZs,"[u'0', u'1', u'0', u'1', u'0', u'1', u'0', u'1', u'0']"
 Parameters.Subdomain.MaxLength,255
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterSecurityKey,{u'Ref': u'ClusterSecurityKey'}
 Outputs.MasterNodeIpAddress.Description,Public IP address of cluster master
 Resources.AWS::CloudFormation::Stack.Metadata.Comment,Splunk cluster peer node 5.
 Outputs.MasterNodeURL.Condition,AddDNSRecords
@@ -41,42 +39,31 @@ Mappings.SubnetCount2NodeAZDistribution.3.AZs,"[u'0', u'1', u'2', u'0', u'1', u'
 Parameters.KeyName.MinLength,1
 Outputs.PeerNodesURL.Condition,AddDNSRecords
 Parameters.SubnetCount.MinValue,1
-Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Join': [u'/', [{u'Fn::FindInMap': [u'AWSRegion2s3Bucket', {u'Ref': u'AWS::Region'}, u's3Bucket']}, u'cloudformation-templates', u'splunk_server.template']]}"
 Outputs.MasterNodeIpAddress.Value,"{u'Fn::GetAtt': [u'MasterNode', u'Outputs.PublicIp']}"
 Parameters.HostedZoneName.AllowedPattern,^(([a-zA-Z0-9]|[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][-A-Za-z0-9]*[A-Za-z0-9])?$
 Outputs.SearchHeadURL.Description,Splunk URL of cluster search head
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,"Enable internal access for SSH and Splunk management, and allow public HTTP/HTTPS access to Splunk web"
 Parameters.HostedZoneName.Description,[Optional] Hosted zone name e.g. 'example.com' (without trailing dot) - Route 53 must be the DNS service for specified domain
 Parameters.VpcId.Description,Vpc ID of your existing Virtual Private Cloud (VPC)
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterMasterIP,"{u'Fn::If': [u'AddDNSRecords', {u'Fn::Join': [u'', [u'cm', u'.', u'int', u'.', {u'Ref': u'Subdomain'}, {u'Fn::If': [u'SubdomainEmpty', u'', u'.']}, {u'Ref': u'HostedZoneName'}]]}, {u'Fn::GetAtt': [u'MasterNode', u'Outputs.PrivateIp']}]}"
 Parameters.Subdomain.Description,[Optional] Subdomain to use for new DNS records for cluster (without trailing dot)
 Outputs.SearchHeadURL.Condition,AddDNSRecords
 Parameters.Subdomain.MinLength,0
-Outputs.PeerNodesURL.Value,"{u'Fn::Join': [u'', [{u'Ref': u'PeerNodesDNSRecord'}, u':9997']]}"
 Resources.AWS::Route53::RecordSet.Properties.Comment,Private DNS name for Search Head.
 Mappings.SubnetCount2NodeAZDistribution.1.AZs,"[u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0', u'0']"
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SecurityGroup,{u'Ref': u'SplunkIndexerSecurityGroup'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,{u'Ref': u'KeyName'}
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
-Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [u'sh', u'.', u'int', u'.', {u'Ref': u'Subdomain'}, {u'Fn::If': [u'SubdomainEmpty', u'', u'.']}, {u'Ref': u'HostedZoneName'}, u'.']]}"
 Parameters.VpcId.Default,vpc-
 Parameters.ClusterSecurityKey.Default,password
-Outputs.SearchHeadURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Ref': u'SearchHeadDNSRecord'}]]}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SplunkRole,cluster-peer
 Parameters.SubnetIds.Default,subnet-
-Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Ref': u'HostedZoneName'}, u'.']]}"
 Parameters.ClusterSecurityKey.Description,Security key to authenticate traffic between cluster nodes.
 Parameters.ClusterSize.MaxValue,9
 Outputs.MasterNodeURL.Description,Splunk URL of cluster master
 Resources.AWS::CloudFormation::Stack.Condition,CreatePeerNode05
 Parameters.SubnetCount.MaxValue,3
 Parameters.SplunkLicenseBucket.Default,
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetId,"{u'Fn::Select': [{u'Fn::Select': [u'4', {u'Fn::FindInMap': [u'SubnetCount2NodeAZDistribution', {u'Ref': u'SubnetCount'}, u'AZs']}]}, {u'Ref': u'SubnetIds'}]}"
 Parameters.SplunkLicensePath.Default,
 Outputs.SearchHeadIpAddress.Value,"{u'Fn::GetAtt': [u'SearchHead', u'Outputs.PublicIp']}"
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'SearchHead', u'Outputs.PrivateDnsName']}]"
 Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcId,{u'Ref': u'VpcId'}
 Outputs.PeerNodesIpAddresses.Value,"{u'Fn::Join': [u'', [{u'Fn::GetAtt': [u'PeerNode01', u'Outputs.PublicIp']}, {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode02', u'Outputs.PublicIp']}]]}, {u'Fn::If': [u'CreatePeerNode03', {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode03', u'Outputs.PublicIp']}]]}, u'']}, {u'Fn::If': [u'CreatePeerNode04', {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode04', u'Outputs.PublicIp']}]]}, u'']}, {u'Fn::If': [u'CreatePeerNode05', {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode05', u'Outputs.PublicIp']}]]}, u'']}, {u'Fn::If': [u'CreatePeerNode06', {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode06', u'Outputs.PublicIp']}]]}, u'']}, {u'Fn::If': [u'CreatePeerNode07', {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode07', u'Outputs.PublicIp']}]]}, u'']}, {u'Fn::If': [u'CreatePeerNode08', {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode08', u'Outputs.PublicIp']}]]}, u'']}, {u'Fn::If': [u'CreatePeerNode09', {u'Fn::Join': [u',', [u'', {u'Fn::GetAtt': [u'PeerNode09', u'Outputs.PublicIp']}]]}, u'']}]]}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ResourceName,PeerNode05

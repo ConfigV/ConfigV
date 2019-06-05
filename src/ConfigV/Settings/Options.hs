@@ -2,10 +2,11 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-cse #-}
 
-module Settings.Options where
+module ConfigV.Settings.Options where
+
 import System.Console.CmdArgs
 
-import Types.IR
+import ConfigV.Types.IR
 import Control.Monad
 import System.Exit
 

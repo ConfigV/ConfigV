@@ -1,14 +1,9 @@
 Outputs.PublicName.Description,Public name (connect via SSH as user ec2-user)
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,My security group
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.Subnet.Description,Just select one of the available subnets
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecurityGroup'}]
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
 Outputs.PublicName.Value,"{u'Fn::GetAtt': [u'Server', u'PublicDnsName']}"
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'Subnet'}
 Parameters.KeyName.Default,mykey
 Parameters.VPC.Description,Just select the one and only default VPC
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 22, u'FromPort': 22, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Parameters.KeyName.Description,Key Pair name
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"

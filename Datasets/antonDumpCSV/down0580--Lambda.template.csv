@@ -1,8 +1,6 @@
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
-Resources.AWS::CloudFormation::CustomResource.Properties.AppendedItem,{u'Ref': u'SecurityGroup'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allow HTTP traffic to the host
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-ac221fb1
-Resources.AWS::Lambda::Function.Properties.Timeout,{u'Ref': u'LambdaTimeout'}
 Parameters.LambdaTimeout.Default,60
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
@@ -10,7 +8,6 @@ Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'', [u"
 Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"{u'Fn::GetAtt': [u'AllSecurityGroups', u'Value']}"
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Parameters.LambdaMemorySize.Description,Amount of memory to allocate to the Lambda Function
-Resources.AWS::Lambda::Function.Properties.MemorySize,{u'Ref': u'LambdaMemorySize'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
@@ -20,10 +17,7 @@ Outputs.AllSecurityGroups.Description,Security Groups that are associated with t
 Resources.AWS::CloudFormation::CustomResource.Properties.ServiceToken,"{u'Fn::GetAtt': [u'AppendItemToListFunction', u'Arn']}"
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-a8221fb5
 Parameters.ExistingVPC.Description,The VPC ID that includes the security groups in the ExistingSecurityGroups parameter.
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ExistingVPC'}
-Resources.AWS::CloudFormation::CustomResource.Properties.List,{u'Ref': u'ExistingSecurityGroups'}
 Parameters.LambdaMemorySize.AllowedValues,"[128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1088, 1152, 1216, 1280, 1344, 1408, 1472, 1536, 1600, 1664, 1728, 1792, 1856, 1920, 1984, 2048, 2112, 2176, 2240, 2304, 2368, 2432, 2496, 2560, 2624, 2688, 2752, 2816, 2880, 2944, 3008]"
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Parameters.LambdaTimeout.Description,Timeout in seconds for the Lambda function
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:*'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}]"
 Parameters.LambdaMemorySize.Default,128

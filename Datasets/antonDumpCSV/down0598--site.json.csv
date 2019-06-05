@@ -1,10 +1,5 @@
 Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
-Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
-Resources.AWS::Route53::RecordSetGroup.Properties.HostedZoneId,{u'Ref': u'HostedZoneId'}
 Outputs.SiteUrl.Description,Site URL
 Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
-Outputs.SiteUrl.Value,"{u'Fn::Join': [u'', [u'http://', {u'Ref': u'SiteBucketName'}]]}"
-Resources.AWS::Route53::RecordSetGroup.Properties.RecordSets,"[{u'AliasTarget': {u'HostedZoneId': {u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'S3hostedzoneID']}, u'DNSName': {u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'websiteendpoint']}}, u'Type': u'A', u'Name': {u'Fn::Join': [u'', [{u'Ref': u'SiteBucketName'}, u'.']]}}]"
 Parameters.SiteBucketName.Description,The bucket name to use for the site
 Parameters.HostedZoneId.Description,The hosted zone id to create this record in
-Resources.AWS::S3::Bucket.Properties.BucketName,{u'Ref': u'SiteBucketName'}

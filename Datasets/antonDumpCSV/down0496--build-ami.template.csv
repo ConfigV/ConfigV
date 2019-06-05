@@ -10,19 +10,14 @@ Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,1500
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,BuilderInstance
 Parameters.NetworkSecurityEnv.Default,prod
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/sysconfig/httpd.mode,000644
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/sysconfig/httpd.content,"{u'Fn::Join': [u'', [u'export FLASK_DEBUG=""false""\n', u'export THEME=""', {u'Ref': u'AppTheme'}, u'""\n', u'export AWS_REGION=""', {u'Ref': u'AWS::Region'}, u'""\n', u'export STARTUP_SIGNUP_RDBMS=""', {u'Ref': u'MySqlEndpoint'}, u'""\n', u'export NEW_SIGNUP_TOPIC=""', {u'Ref': u'SnsTopicArn'}, u'""\n']]}"
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mod24_wsgi-python26,[]
-Outputs.BuilderInstance.Value,{u'Ref': u'BuilderInstance'}
 Parameters.AppTheme.Description,Bootstrap theme for web application
 Parameters.ReleaseBundleURL.Default,https://github.com/aws-tools/py-flask-signup/zipball/master
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'# Apply updates cfn-init bootstrapper helper scripts\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackName'}, u' -r BuilderInstance --region ', {u'Ref': u'AWS::Region'}, u"" || echo 'Failed to run cfn-init'\n"", u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WaitConditionHandle'}, u""'\n""]]}}"
 Parameters.ReleaseBundleURL.Description,URL of Python Flask Signup bundle (zip)
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/sysconfig/httpd.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.python.Werkzeug,[u'0.9.4']
-Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'BootstrapSecurityGroup'}]
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitConditionHandle'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.owner,apache
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.encoding,base64
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
@@ -41,17 +36,13 @@ Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.mode,000444
 Parameters.AppTheme.Default,superhero
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.python.Jinja2,[u'2.7.1']
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'AppAccessDatastoreInstanceProfile'}
 Parameters.MySqlEndpoint.Description,MySql server instance DNS endpoint
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.python.Flask-MySQL,[u'1.2']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/httpd/conf.d/wsgi.conf.content,PFZpcnR1YWxIb3N0ICo+DQoNCkFsaWFzIC9zdGF0aWMvIC92YXIvd3d3L2h0bWwvc3RhdGljLw0KPERpcmVjdG9yeSAvdmFyL3d3dy9odG1sL3N0YXRpYy8+DQogIE9yZGVyIGFsbG93LGRlbnkNCiAgQWxsb3cgZnJvbSBhbGwNCjwvRGlyZWN0b3J5Pg0KDQoNCldTR0lTY3JpcHRBbGlhcyAvIC92YXIvd3d3L2h0bWwvYXBwbGljYXRpb24ucHkNCldTR0lQYXNzQXV0aG9yaXphdGlvbiBPbg0KDQo8RGlyZWN0b3J5IC92YXIvd3d3L2h0bWw+DQogIFJlcXVpcmUgYWxsIGdyYW50ZWQNCjwvRGlyZWN0b3J5Pg0KDQpXU0dJRGFlbW9uUHJvY2VzcyB3c2dpIHVzZXI9d3NnaSBncm91cD13c2dpIHByb2Nlc3Nlcz0xIHRocmVhZHM9MTUgZGlzcGxheS1uYW1lPSV7R1JPVVB9DQpXU0dJUHJvY2Vzc0dyb3VwIHdzZ2kNCg0KPC9WaXJ0dWFsSG9zdD4=
 Mappings.AMIID.eu-central-1.prod,ami-04003319
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.python26-pip,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.python.itsdangerous,[u'0.23']
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AMIID', {u'Ref': u'AWS::Region'}, {u'Ref': u'NetworkSecurityEnv'}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.python.MySQL-python,[u'1.2.3']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.python.MarkupSafe,[u'0.18']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.MySQL-python26,[]
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./var/www/html/,{u'Ref': u'ReleaseBundleURL'}
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'AppAccessDatastoreRole'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.python.Flask-SQLAlchemy,[]

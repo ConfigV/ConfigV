@@ -2,7 +2,6 @@ Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(5 minutes)
 Outputs.Documentation.Description,"For more details, see this blog post"
 Parameters.TagKey.Description,Tag key that will be used to find AWS resources. Mandatory
 Outputs.ScheduledEvent.Description,CloudWatch Events schedule that will trigger the Lambda function
-Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'LambdaRealtimeCalculatePricingFunction'}
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,lambda-near-realtime-pricing/calculate-near-realtime-pricing-v3.6.zip
 Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
@@ -13,13 +12,9 @@ Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRealtimeCalculatePricingRole', u'Arn']}"
 Parameters.TagKey.ConstraintDescription,Tag key is mandatory.
 Resources.AWS::Events::Rule.Properties.State,ENABLED
-Outputs.ScheduledEvent.Value,{u'Ref': u'ScheduledPricingCalculationRule'}
 Resources.AWS::Lambda::Function.Properties.Handler,functions/calculate-near-realtime.handler
 Outputs.Documentation.Value,https://www.concurrencylabs.com/blog/aws-pricing-lambda-realtime-calculation-function/
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::Join': [u'', [u'concurrencylabs-deployment-artifacts-public-', {u'Ref': u'AWS::Region'}]]}"
-Resources.AWS::Events::Rule.Properties.Targets,"[{u'Input': {u'Fn::Join': [u'', [u'{""tag"":{""key"":""', {u'Ref': u'TagKey'}, u'"",""value"":""', {u'Ref': u'TagValue'}, u'""}}']]}, u'Id': u'NearRealTimePriceCalculatorFunctionv1', u'Arn': {u'Fn::GetAtt': [u'LambdaRealtimeCalculatePricingFunction', u'Arn']}}]"
 Parameters.TagValue.MinLength,1
-Outputs.LambdaFunction.Value,{u'Ref': u'LambdaRealtimeCalculatePricingFunction'}
 Resources.AWS::Events::Rule.Properties.Description,Invoke Pricing Calculator Lambda function every 5 minutes
 Parameters.TagValue.ConstraintDescription,Tag value is mandatory.
 Resources.AWS::Lambda::Function.DependsOn,[u'LambdaRealtimeCalculatePricingRole']

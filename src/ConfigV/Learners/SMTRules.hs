@@ -3,18 +3,12 @@
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE OverloadedStrings #-} 
 
-module Learners.SMTRules where
+module ConfigV.Learners.SMTRules where
 
-import Types.IR
-import Types.Common
-import Types.Errors
-import Types.Rules 
-import Types.SMTRules 
-import qualified Types.Rules as R
-import Types.Countable
-import qualified Types.Locatable as R
+import ConfigV.Types
+import qualified ConfigV.Types.Locatable as R
 
-import Learners.Common
+import ConfigV.Learners.Common
 
 import qualified Data.Map as M
 import qualified Data.Text as T
@@ -22,11 +16,11 @@ import qualified Data.Text as T
 import Data.Interned
 import Data.Maybe
 
-import Settings.Config
 import Control.Monad.Reader
 import Control.Monad.Omega
 
-import Utils
+import ConfigV.Utils
+import ConfigV.Settings.Config
 
 instance Learnable SMTFormula AntiRule where
 
@@ -82,5 +76,5 @@ addFalse allRules smtRule rd = let
                             (not $ M.null $ M.filterWithKey (\r' _ -> antecedent r' == antecedent smtRule && consequent r' /= consequent smtRule) rmap))
                 allRules
  in
-  rd{fls= fCount}
+  rd{fls= fCount, tot = (tot rd) + fCount}
   

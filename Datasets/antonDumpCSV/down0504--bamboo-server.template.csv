@@ -5,11 +5,9 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/m
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/bamboo.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.Jinja2,[u'2.7.1']
 Parameters.Application.Description,Application name
-Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,{u'Ref': u'WaitTimer'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/bamboo.authentication,S3AccessCreds
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.Werkzeug,[u'0.9.4']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/AMIregister.owner,root
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'        yum update -y aws-cli\n', u'        CFNDIR=/opt/aws/bin\n', u'        $CFNDIR/cfn-init -v -c amzn -s ', {u'Ref': u'AWS::StackName'}, u' -r Instance --region ', {u'Ref': u'AWS::Region'}, u' --role ', {u'Ref': u'InstanceRole'}, u'\n', u'aws cloudformation describe-stacks --stack-name ', {u'Ref': u'AWS::StackName'}, u' --region ', {u'Ref': u'AWS::Region'}, u'  --output text | grep PARAM | sed -e \'s/^PARAMETERS\\s/export /g\' |sed -e \'s/\t/=""/g\' | sed -e \'s/$/""/g\' >> /etc/profile\n', u""echo 'StackName="", {u'Ref': u'AWS::StackName'}, u""' >> /etc/profile\n"", u""sed -i -e 's/Defaults    requiretty/#Defaults    requiretty/g' /etc/sudoers\n"", u'if [[ -e /home/ec2-user/app_postmetadata.sh ]];then /bin/su -c ""/home/ec2-user/app_postmetadata.sh ', {u'Ref': u'NetworkSecurityEnv'}, u'"" -s /bin/sh ec2-user ;fi\n', u""$CFNDIR/cfn-signal -e 0 '"", {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.git,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./home/ec2-user/app_postmetadata.sh.group,root
@@ -26,23 +24,16 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.pyt
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/bamboo.group,root
 Parameters.BambooInstallDir.Default,/data/atlassian/bamboo
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.roleName,{u'Ref': u'InstanceRole'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.MySQL-python,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/ec2-user/app_postmetadata.sh.group,ec2-user
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo.tar.gz.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/jdk-7u45-linux-x64.rpm.group,root
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.rubygems.bundler,[]
-Outputs.InstanceId.Value,{u'Ref': u'Instance'}
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./home/ec2-user/app_postmetadata.sh.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/builds/', {u'Ref': u'Product'}, u'-', {u'Ref': u'Branch'}, u'-', {u'Ref': u'BuildNumber'}, u'-', {u'Ref': u'Application'}, u'/files/app_postmetadata.sh']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.boto,[u'2.14.0']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/ec2-user/app_postmetadata.sh.authentication,S3AccessCreds
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"[{u'Ref': u'BaseSecurityGroup'}, {u'Ref': u'BambooSecurityGroup'}]"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/bamboo.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/builds/', {u'Ref': u'Product'}, u'-', {u'Ref': u'Branch'}, u'-', {u'Ref': u'BuildNumber'}, u'-', {u'Ref': u'Application'}, u'/files/bamboo.startup']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/mysql-connector-java-5.1.29-bin.jar.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.wsgiref,[u'0.1.2']
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo.tar.gz.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/repo/products/devsupt/', {u'Ref': u'Tarball'}, u'.tar.gz']]}"
 Outputs.BambooServer.Description,Hostname for the Bamboo Server
 Parameters.KeyName.Default,
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/mysql-connector-java-5.1.29-bin.jar.owner,root
@@ -50,43 +41,32 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/j
 Parameters.BambooHomeDir.Default,/data/atlassian/bamboo/data
 Parameters.HostedZone.Default,reinvent.cicd-bootcamp.com
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.MySQL-python,[u'1.2.3']
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/builds/', {u'Ref': u'Product'}, u'-', {u'Ref': u'Branch'}, u'-', {u'Ref': u'BuildNumber'}, u'-', {u'Ref': u'Application'}, u'/files/ajp.conf']]}"
 Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvda', u'Ebs': {u'VolumeSize': u'50', u'VolumeType': u'gp2'}}]"
 Parameters.WaitTimer.Default,3300
 Parameters.Product.Default,bambooserver
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.services.sysvinit.httpd.ensureRunning,true
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'DynamoDB', u'PolicyDocument': {u'Statement': [{u'Action': [u'dynamodb:*'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}, {u'PolicyName': u'bamboo', u'PolicyDocument': {u'Statement': [{u'Action': [u'cloudformation:ValidateTemplate'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}, {u'PolicyName': u'S3Access', u'PolicyDocument': {u'Statement': [{u'Action': [u's3:ListBucket'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}]]}], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u's3:ListBucket'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}]]}], u'Effect': u'Allow'}, {u'Action': [u's3:GetObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}, u'/*']]}], u'Effect': u'Allow'}]}}, {u'PolicyName': u'cfninit', u'PolicyDocument': {u'Statement': [{u'Action': [u'cloudformation:DescribeStacks', u'cloudformation:DescribeStackResource'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.authentication,S3AccessCreds
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.MarkupSafe,[u'0.18']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./home/ec2-user/app_postmetadata.sh.owner,root
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allow SSH access to the Bamboo server
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/server.xml.authentication,S3AccessCreds
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/mysql-connector-java-5.1.29-bin.jar.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/repo/products/devsupt/mysql-connector-java-5.1.29-bin.jar']]}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/AMIregister.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/builds/', {u'Ref': u'Product'}, u'-', {u'Ref': u'Branch'}, u'-', {u'Ref': u'BuildNumber'}, u'-', {u'Ref': u'Application'}, u'/files/AMIregister']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/mysql-connector-java-5.1.29-bin.jar.mode,000777
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.amzn,"[u'ops', u'dev']"
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
 Outputs.InstanceId.Description,InstanceId of the Bamboo Server
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/jdk-7u45-linux-x64.rpm.authentication,S3AccessCreds
 Parameters.NetworkSecurityEnv.Description,Name of the environment for network and security
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.httpd24,[]
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/ec2-user/app_postmetadata.sh.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/builds/', {u'Ref': u'Product'}, u'-', {u'Ref': u'Branch'}, u'-', {u'Ref': u'BuildNumber'}, u'-', {u'Ref': u'Application'}, u'/files/app_postmetadata.sh']]}"
 Parameters.KeyName.Description,SSH key for instances
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/AMIregister.mode,000755
 Parameters.BuildNumber.Description,Bamboo build number.
 Mappings.AMIID.eu-central-1.prod,ami-0a003317
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.python26-pip,[]
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.buckets,[{u'Ref': u'Bucket'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.type,S3
-Outputs.BambooServer.Value,"{u'Fn::Join': [u'', [u'http://', {u'Ref': u'EIP'}]]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/ec2-user/app_postmetadata.sh.mode,000755
 Parameters.BambooUser.Description,Bamboo User
 Parameters.Product.Description,Tag for Product
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/server.xml.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/builds/', {u'Ref': u'Product'}, u'-', {u'Ref': u'Branch'}, u'-', {u'Ref': u'BuildNumber'}, u'-', {u'Ref': u'Application'}, u'/files/server.xml']]}"
 Parameters.BuildNumber.Default,1
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/jdk-7u45-linux-x64.rpm.source,"{u'Fn::Join': [u'', [u'https://s3-us-west-2.amazonaws.com/', {u'Ref': u'Bucket'}, u'/repo/products/devsupt/jdk-7u45-linux-x64.rpm']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.services.sysvinit.httpd.files,[u'/etc/httpd/conf.d/ajp.conf']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.mod24_wsgi,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/AMIregister.group,root
@@ -103,17 +83,13 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/s
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.services.sysvinit.httpd.enabled,true
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./home/ec2-user/app_postmetadata.sh.mode,000755
 Parameters.Branch.Default,prod
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Parameters.Bucket.Description,S3 Bucket ID
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/server.xml.group,root
 Parameters.Tarball.Default,atlassian-bamboo-5.4.2
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/jdk-7u45-linux-x64.rpm.mode,000644
 Parameters.Bucket.Default,reinvent-continuous-integration-delivery
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.itsdangerous,[u'0.23']
-Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'Instance'}
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AMIID', {u'Ref': u'AWS::Region'}, {u'Ref': u'NetworkSecurityEnv'}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/ec2-user/app_postmetadata.sh.owner,ec2-user
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.SQLAlchemy,[u'0.9.8']
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'Bamboo Server', u'Key': u'Name'}, {u'Value': {u'Fn::Join': [u'', [{u'Ref': u'Product'}, u'-', {u'Ref': u'Branch'}, u'-', {u'Ref': u'BuildNumber'}, u'-', {u'Ref': u'Application'}]]}, u'Key': u'Type'}]"
 Parameters.Application.Default,bamboo

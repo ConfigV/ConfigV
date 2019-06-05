@@ -6,7 +6,7 @@
 {-# LANGUAGE RecordWildCards    #-}
 
 
-module Types.IR where
+module ConfigV.Types.IR where
 
 import           Control.DeepSeq
 
@@ -15,7 +15,7 @@ import           Data.Data
 import qualified Data.Text       as T
 import           GHC.Generics    (Generic)
 
-import Types.Common
+import ConfigV.Types.Common
 
 import Data.Interned.Internal.Text
 

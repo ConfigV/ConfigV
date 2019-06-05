@@ -7,10 +7,7 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDSUsername.default,RDS 
 Parameters.ElasticsearchVolumeType.AllowedValues,"[u'gp2', u'standard', u'io1']"
 Parameters.RedshiftClusterType.Description,Redshift instance type
 Parameters.RDSPassword.MinLength,8
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1,{u'Ref': u'PrivateSubnet1ID'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElasticsearchVolumeType.default,Elasticsearch Instance volume type
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBInstanceClass,{u'Ref': u'RDSInstanceType'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBName,{u'Ref': u'RDSDatabaseName'}
 Parameters.RDSPassword.NoEcho,true
 Outputs.LambdaFunction.Value,"{u'Fn::GetAtt': [u'DatalakeResourceStack', u'Outputs.LambdaFunction']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElasticsearchVolumeSize.default,Elasticsearch Instance volume size
@@ -22,21 +19,17 @@ Parameters.RDSDatabaseName.MinLength,4
 Parameters.RDSUsername.Description,DB Username must start with a letter & no special characters(MinLength=4;MaxLength=20)
 Parameters.RedshiftNodeType.Description,Redshift node type
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RedshiftNodeType.default,Redshift node type
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.MasterStackID,{u'Ref': u'AWS::StackId'}
 Parameters.AdministratorEmail.AllowedPattern,"^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
 Outputs.FirehoseDeliveryStream.Value,"{u'Fn::GetAtt': [u'DatalakeResourceStack', u'Outputs.FirehoseDeliveryStream']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticsearchInstanceCount,{u'Ref': u'ElasticsearchInstanceCount'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.RedshiftVpcSecurityGroupIds,"{u'Fn::GetAtt': [u'SecurityGroupStack', u'Outputs.RedshiftSecurityGroup']}"
 Parameters.RDSUsername.Default,admin
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,AWS Quick Start S3 Bucket Name
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPC,{u'Ref': u'VPCID'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebserverSecurityGroups,"{u'Fn::GetAtt': [u'SecurityGroupStack', u'Outputs.WebserverSecurityGroup']}"
 Outputs.RDSEndpoint.Description,RDS endpoint
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPCID', u'VPCCIDR', u'PrivateSubnet1ID', u'PrivateSubnet2ID', u'PublicSubnet1ID', u'PublicSubnet2ID'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'RDSInstanceType', u'RDSAllocatedStorage', u'RDSDatabaseName', u'RDSUsername', u'RDSPassword'], u'Label': {u'default': u'Amazon RDS Configuration'}}, {u'Parameters': [u'ElasticsearchInstanceType', u'ElasticsearchInstanceCount', u'ElasticsearchVolumeSize', u'ElasticsearchVolumeType'], u'Label': {u'default': u'Elasticsearch Configuration'}}, {u'Parameters': [u'RedshiftClusterType', u'RedshiftNodeType', u'NumberOfNodes'], u'Label': {u'default': u'Amazon RedShift Configuration'}}, {u'Parameters': [u'KeyPairName', u'PortalInstanceType', u'NATInstanceType'], u'Label': {u'default': u'Amazon EC2 Configuration'}}, {u'Parameters': [u'AdministratorName', u'AdministratorEmail'], u'Label': {u'default': u'Data Lake Administrator Configuration'}}, {u'Parameters': [u'QSS3BucketName', u'QSS3KeyPrefix'], u'Label': {u'default': u'AWS Quick Start Configuration'}}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet2CIDR.default,Public Subnet 2 CIDR
 Parameters.QSS3BucketName.ConstraintDescription,"AWS Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Parameters.RedshiftClusterType.AllowedValues,"[u'single-node', u'multi-node']"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet1,{u'Ref': u'PublicSubnet1ID'}
 Parameters.RedshiftNodeType.Default,dc1.large
 Parameters.RDSAllocatedStorage.MaxValue,1024
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet2CIDR.default,Private Subnet 2 CIDR
@@ -59,20 +52,14 @@ Parameters.PublicSubnet2ID.Description,Public Subnet Id 2
 Parameters.RDSDatabaseName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Outputs.RedshiftClusterEndpoint.Description,Redshift Cluster endpoint
 Parameters.RDSPassword.ConstraintDescription,"Must be at least 8 characters containing letters, numbers and symbols."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.TagSuffix,"{u'Fn::Select': [u'4', {u'Fn::Split': [u'-', {u'Fn::Select': [u'2', {u'Fn::Split': [u'/', {u'Ref': u'AWS::StackId'}]}]}]}]}"
 Parameters.QSS3KeyPrefix.ConstraintDescription,"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCCIDR,{u'Ref': u'VPCCIDR'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDSAllocatedStorage.default,RDS Allocated Storage
 Outputs.LambdaFunction.Description,Lambda Function
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDSPassword.default,RDS Password
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Ref': u'QSS3KeyPrefix'}
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,{u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/datalake-resources.template'}
 Parameters.RDSAllocatedStorage.MinValue,5
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AdminEmailID,{u'Ref': u'AdministratorEmail'}
 Parameters.AdministratorEmail.Description,Admin email id - email will be sent to this address on stack completion with further instructions (check inbox/spam in about 15-20mins)
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticsearchVolumeSize,{u'Ref': u'ElasticsearchVolumeSize'}
 Parameters.QSS3KeyPrefix.Description,"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet2,{u'Ref': u'PrivateSubnet2ID'}
 Outputs.RDSEndpoint.Value,"{u'Fn::GetAtt': [u'DatalakeResourceStack', u'Outputs.RDSEndpoint']}"
 Parameters.RDSUsername.MaxLength,16
 Parameters.NumberOfNodes.Default,1
@@ -84,8 +71,6 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.RDSVpcSecurityGroups,
 Parameters.RDSPassword.Description,"DB Password. Must be at least 8 characters containing letters, numbers and symbols"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AdministratorName.default,Administrator Name
 Parameters.ElasticsearchVolumeType.Default,gp2
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.MasterUsername,{u'Ref': u'RDSUsername'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2,{u'Ref': u'PublicSubnet2ID'}
 Parameters.RedshiftClusterType.Default,single-node
 Outputs.FirehoseDeliveryStream.Description,Firehose delivery stream
 Parameters.ElasticsearchVolumeType.Description,Elasticsearch instance Volume type
@@ -108,7 +93,6 @@ Parameters.RDSAllocatedStorage.Description,Size of the database(Gb) Range: 5~102
 Outputs.DatalakeWebUrl.Description,Datalake Webapp URL
 Parameters.VPCCIDR.ConstraintDescription,Must be a valid IP range in x.x.x.x/x notation
 Outputs.RedshiftClusterEndpoint.Value,"{u'Fn::GetAtt': [u'DatalakeResourceStack', u'Outputs.RedshiftClusterEndpoint']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterType,{u'Ref': u'RedshiftClusterType'}
 Parameters.RDSDatabaseName.Description,DB Name must start with a letter & no special characters(MinLength=4;MaxLength=20)
 Parameters.RDSUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.RDSPassword.MaxLength,16
@@ -116,18 +100,11 @@ Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])
 Parameters.RedshiftNodeType.AllowedValues,"[u'dc1.large', u'dw.hs1.xlarge', u'dw1.xlarge', u'dw1.8xlarge', u'dw2.large', u'dw2.8xlarge']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ELBSecurityGroups,"{u'Fn::GetAtt': [u'SecurityGroupStack', u'Outputs.ELBSecurityGroup']}"
 Parameters.NumberOfNodes.Description,Number of nodes in the redshift cluster(=1 if single-node)
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
 Outputs.CloudTrail.Value,"{u'Fn::GetAtt': [u'DatalakeResourceStack', u'Outputs.CloudTrail']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfNodes,{u'Ref': u'NumberOfNodes'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet1CIDR.default,Public Subnet 1 CIDR
 Parameters.KeyPairName.ConstraintDescription,Can contain only ASCII characters.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticsearchVolumeType,{u'Ref': u'ElasticsearchVolumeType'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RedshiftClusterType.default,Redshift cluster type
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,AWS Quick Start S3 Key Prefix
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.MasterUserPassword,{u'Ref': u'RDSPassword'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyPairName'}
 Parameters.RDSDatabaseName.ConstraintDescription,DB name must start with a letter & no special characters(Min=4;Max=20 AlphaNumerics)
 Parameters.VPCCIDR.Description,The CIDR IP range of VPC
 Parameters.ElasticsearchInstanceCount.Description,Elasticsearch instance count
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeType,{u'Ref': u'RedshiftNodeType'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AllocatedStorage,{u'Ref': u'RDSAllocatedStorage'}

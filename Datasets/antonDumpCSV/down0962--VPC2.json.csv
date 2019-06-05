@@ -1,52 +1,25 @@
-Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'PrivateSubnetAcl'}
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'NATSecurityGroup'}]
-Outputs.PrivateSubnets.Value,"{u'Fn::Join': [u'', [{u'Ref': u'PrivateSubnet1'}, u' (in ', {u'Fn::GetAtt': [u'PrivateSubnet1', u'AvailabilityZone']}, u'), ', {u'Ref': u'PrivateSubnet2'}, u' (in ', {u'Fn::GetAtt': [u'PrivateSubnet2', u'AvailabilityZone']}, u')']]}"
 Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,true
 Outputs.DomainMemberSG.Description,Domain Member Security Group
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'PublicSubnet1'}
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'BastionSG'}, u'FromPort': u'22'}, {u'ToPort': u'3389', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'BastionSG'}, u'FromPort': u'3389'}, {u'ToPort': u'-1', u'IpProtocol': u'icmp', u'SourceSecurityGroupId': {u'Ref': u'BastionSG'}, u'FromPort': u'-1'}]"
 Outputs.PrivateSubnets.Description,Private Subnets
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'PublicSubnet2'}
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Outputs.DomainControllerSG.Value,{u'Ref': u'DomainControllerSG'}
 Parameters.CorporateCidrIp.Default,0.0.0.0/0
 Outputs.BastionSG.Description,Bastion Security Group
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,-1
 Parameters.CorporateCidrIp.Description,Your Company's CidrIp (to restrict traffic to be authorized ONLY from corporate office)
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.10.0/24
 Resources.AWS::EC2::Instance.Properties.DisableApiTermination,true
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'PublicSubnetAcl'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,32000
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PrivateRouteTable'}
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Outputs.PublicSubnets.Description,Public Subnets
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::Route.Properties.InstanceId,{u'Ref': u'NAT'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Servers in the Private Subnets
-Outputs.BastionSG.Value,{u'Ref': u'BastionSG'}
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'1', {u'Fn::GetAZs': u''}]}"
-Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Instance.Properties.SourceDestCheck,false
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,1
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PrivateRouteTable'}
-Outputs.PublicSubnets.Value,"{u'Fn::Join': [u'', [{u'Ref': u'PublicSubnet1'}, u' (in ', {u'Fn::GetAtt': [u'PublicSubnet1', u'AvailabilityZone']}, u'), ', {u'Ref': u'PublicSubnet2'}, u' (in ', {u'Fn::GetAtt': [u'PublicSubnet2', u'AvailabilityZone']}, u')']]}"
-Outputs.PrivateSG.Value,{u'Ref': u'PrivateSG'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
 Outputs.PrivateSG.Description,Private Security Group
-Outputs.DomainMemberSG.Value,{u'Ref': u'DomainMemberSG'}
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Outputs.DomainControllerSG.Description,Domain Controller Security Group
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PrivateSubnet1'}
-Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'NAT'}
 Outputs.VPC.Description,VPC
 Resources.AWS::EC2::NetworkAclEntry.Properties.Icmp.Code,-1
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'NATInstanceType'}, u'Arch']}]}"
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'', [u'NAT-', {u'Ref': u'VPC'}]]}, u'Key': u'Name'}]"
-Outputs.VPC.Value,{u'Ref': u'VPC'}

@@ -1,13 +1,8 @@
 Resources.AWS::CloudTrail::Trail.Properties.IsLogging,true
 Parameters.OperatorEmail.Description,Email address to notify when new logs are published.
-Resources.AWS::CloudTrail::Trail.Properties.S3BucketName,{u'Ref': u'S3Bucket'}
-Resources.AWS::SNS::TopicPolicy.Properties.Topics,[{u'Ref': u'Topic'}]
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
-Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Ref': u'OperatorEmail'}, u'Protocol': u'email'}]"
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Version,2008-10-17
 Resources.AWS::CloudTrail::Trail.DependsOn,"[u'BucketPolicy', u'TopicPolicy']"
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u'SNS:Publish', u'Sid': u'AWSCloudTrailSNSPolicy', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}]"
-Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetBucketAcl', u'Sid': u'AWSCloudTrailAclCheck', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3Bucket'}]]}, u'Effect': u'Allow', u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}, {u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3Bucket'}, u'/AWSLogs/', {u'Ref': u'AWS::AccountId'}, u'/*']]}, u'Effect': u'Allow', u'Sid': u'AWSCloudTrailWrite', u'Action': u's3:PutObject', u'Condition': {u'StringEquals': {u's3:x-amz-acl': u'bucket-owner-full-control'}}, u'Principal': {u'Service': u'cloudtrail.amazonaws.com'}}]"
-Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'S3Bucket'}
 Resources.AWS::CloudTrail::Trail.Properties.SnsTopicName,"{u'Fn::GetAtt': [u'Topic', u'TopicName']}"
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17

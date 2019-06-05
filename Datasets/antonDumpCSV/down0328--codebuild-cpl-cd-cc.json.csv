@@ -6,32 +6,22 @@ Resources.AWS::CloudFormation::Stack.Properties.TimeoutInMinutes,60
 Resources.AWS::CodeBuild::Project.DependsOn,CodeBuildRole
 Parameters.TagKey.Description,The tag name that is associated with EC2 instances on which CodeDeploy agent is installed
 Outputs.CodePipelineURL.Description,CodePipeline URL
-Outputs.CodePipelineURL.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codepipeline/home?region=', {u'Ref': u'AWS::Region'}, u'#/view/', {u'Ref': u'CodePipelineStack'}]]}"
 Parameters.TagKey.Default,Name
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2KeyPairName.default,EC2 KeyPair Name
-Resources.AWS::CodeCommit::Repository.Properties.Triggers,"[{u'CustomData': {u'Ref': u'AWS::StackName'}, u'Events': [u'all'], u'Name': u'MasterTrigger', u'DestinationArn': {u'Ref': u'MySNSTopic'}}]"
-Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Ec2TagFilters,"[{u'Type': u'KEY_AND_VALUE', u'Value': {u'Ref': u'TagValue'}, u'Key': {u'Ref': u'TagKey'}}]"
-Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeCommit'}, u'OutputArtifacts': [{u'Name': u'MyApp'}], u'Configuration': {u'BranchName': {u'Ref': u'RepositoryBranch'}, u'RepositoryName': {u'Ref': u'AWS::StackName'}}, u'Name': u'Source'}]}, {u'Name': u'Build', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeBuild'}, u'OutputArtifacts': [{u'Name': u'MyAppBuild'}], u'Configuration': {u'ProjectName': {u'Ref': u'CodeBuildJavaProject'}}, u'Name': u'Build'}]}, {u'Name': u'Deploy', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyAppBuild'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeDeploy'}, u'OutputArtifacts': [], u'Configuration': {u'ApplicationName': {u'Ref': u'MyApplication'}, u'DeploymentGroupName': {u'Ref': u'MyDeploymentGroup'}}, u'Name': u'DemoFleet'}]}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RepositoryBranch.default,CodeCommit Repository Branch
 Resources.AWS::CodePipeline::Pipeline.DependsOn,CodeBuildJavaProject
-Outputs.CodeBuildURL.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codebuild/home?region=', {u'Ref': u'AWS::Region'}, u'#/projects/', {u'Ref': u'CodeBuildJavaProject'}, u'/view']]}"
 Parameters.RepositoryBranch.Default,master
-Resources.AWS::CodeCommit::Repository.Properties.RepositoryName,{u'Ref': u'AWS::StackName'}
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::CodeBuild::Project.Properties.Environment.ComputeType,BUILD_GENERAL1_SMALL
 Parameters.RepositoryBranch.AllowedPattern,[\x20-\x7E]*
 Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/java:openjdk-8
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.TagValue,{u'Ref': u'TagValue'}
-Resources.AWS::CodeBuild::Project.Properties.Name,{u'Ref': u'AWS::StackName'}
 Outputs.CodeBuildURL.Description,CodeBuild URL
-Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ApplicationName,{u'Ref': u'MyApplication'}
 Outputs.CodeCommitURL.Description,Git Repository URL
 Resources.AWS::CodeBuild::Project.Properties.TimeoutInMinutes,10
 Parameters.EC2KeyPairName.ConstraintDescription,Can contain only ASCII characters.
 Parameters.EC2KeyPairName.MaxLength,255
 Parameters.TagValue.ConstraintDescription,Can contain only ASCII characters.
 Parameters.RepositoryBranch.Description,The name of the branch for the CodeCommit repo
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,"{u'Fn::Join': [u'', [u'codepipeline-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}]]}"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codebuild.amazonaws.com']}}]"
 Parameters.EC2KeyPairName.MinLength,1
 Parameters.TagValue.AllowedPattern,[\x20-\x7E]*
@@ -39,19 +29,13 @@ Resources.AWS::CodeDeploy::DeploymentGroup.Properties.DeploymentConfigName,CodeD
 Parameters.TagValue.Default,CodeDeployEC2Tag
 Parameters.RepositoryBranch.ConstraintDescription,Can contain only ASCII characters.
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ServiceRoleArn,"{u'Fn::GetAtt': [u'CodeDeployEC2InstancesStack', u'Outputs.CodeDeployTrustRoleARN']}"
-Resources.AWS::CodeBuild::Project.Properties.Source.Location,"{u'Fn::Join': [u'', [u'https://git-codecommit.', {u'Ref': u'AWS::Region'}, u'.amazonaws.com/v1/repos/', {u'Ref': u'AWS::StackName'}]]}"
-Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/', {u'Ref': u'CodePipelineRole'}]]}"
 Outputs.CodeDeployURL.Description,CodeDeploy URL
 Outputs.CloneUrlSsh.Value,"{u'Fn::Join': [u'', [u'git clone ', {u'Fn::GetAtt': [u'CodeCommitJavaRepo', u'CloneUrlSsh']}, u'']]}"
-Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Ref': u'EmailAddress'}, u'Protocol': u'email'}]"
 Outputs.CloneUrlSsh.Description,Git command for CodeCommit repository
 Resources.AWS::CodeBuild::Project.Properties.ServiceRole,"{u'Fn::GetAtt': [u'CodeBuildRole', u'Arn']}"
-Outputs.CodeDeployURL.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codedeploy/home?region=', {u'Ref': u'AWS::Region'}, u'#/deployments/']]}"
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'EC2KeyPairName', u'RepositoryBranch'], u'Label': {u'default': u'Dynamic Configuration'}}]"
 Parameters.EmailAddress.Description,Email Address for sending SNS notifications for CodeCommit
 Resources.AWS::CodeDeploy::Application.DependsOn,CodeDeployEC2InstancesStack
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'EC2KeyPairName'}
-Outputs.CodeCommitURL.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codecommit/home?region=', {u'Ref': u'AWS::Region'}, u'#/repository/', {u'Ref': u'AWS::StackName'}, u'/browse/HEAD/--/']]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RepositoryName.default,CodeCommit Repository Name
 Parameters.EC2KeyPairName.AllowedPattern,[\x20-\x7E]*
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'codebuild-service', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]}}]"

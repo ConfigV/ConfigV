@@ -5,24 +5,17 @@ Outputs.JenkinsServerDNSName.Description,DNS Name of Jenkins Server
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-ac221fb1
 Parameters.YourIPRange.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -v ', u' --stack ', {u'Ref': u'AWS::StackName'}, u' --resource JenkinsServer ', u' --configsets install_all ', u' --region ', {u'Ref': u'AWS::Region'}, u'\n', u'# Install Jenkins\n', u'wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo\n', u'rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key\n', u'yum install -y jenkins\n', u'service jenkins start\n', u'chkconfig jenkins on\n', u'# Update the AWS CLI to the latest version\n', u'yum update -y aws-cli\n', u'# Wait 30 seconds to allow Jenkins to startup\n', u'echo ""Waiting 30 seconds for Jenkins to start.....""\n', u'sleep 30\n', u'gem install rake\n', u'gem install haml\n', u'gem install minitest\n', u'# Install the required plugins\n', u'cd /var/lib/jenkins/plugins\n', u'curl -O -L https://updates.jenkins-ci.org/latest/multiple-scms.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/github-api.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/scm-api.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/git-client.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/github.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/git.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/codedeploy.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/aws-codepipeline.hpi\n', u'curl -O -L https://updates.jenkins-ci.org/latest/rake.hpi\n', u'chown jenkins:jenkins *.hpi\n', u'# Restarting Jenkins\n', u'service jenkins restart\n']]}}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.install_all,"[u'install_base', u'install_nginx']"
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'YourIPRange'}, u'FromPort': u'22'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'YourIPRange'}, u'FromPort': u'80'}]"
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/AWSCodePipelineCustomActionAccess']
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_nginx.services.sysvinit.nginx.ensureRunning,true
 Parameters.VpcId.ConstraintDescription,must be the name of an existing VPC.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_nginx.files./etc/nginx/nginx.conf.owner,root
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'VPCSubnet'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Ref': u'JenkinsSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'JenkinsRole'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_nginx.services.sysvinit.nginx.files,[u'/etc/nginx/nginx.conf']
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH and HTTP access from specific CIDR block
 Parameters.VpcId.Description,The VPC Id where the EC2 instances will be launched.
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-a8221fb5
 Parameters.KeyName.Description,The EC2 Key Pair to allow SSH access to EC2 instances
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'JenkinsInstanceProfile'}
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
 Parameters.YourIPRange.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
 Parameters.YourIPRange.Description,CIDR block of the network from where you will connect to the Jenkins server using HTTP and SSH
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_base.packages.yum.git,[]
@@ -35,5 +28,4 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_nginx.pa
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_nginx.files./etc/nginx/nginx.conf.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.install_nginx.services.sysvinit.nginx.enabled,true
 Outputs.JenkinsServerDNSName.Value,"{u'Fn::GetAtt': [u'JenkinsServer', u'PublicDnsName']}"
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'Jenkins Server', u'Key': u'Name'}]"

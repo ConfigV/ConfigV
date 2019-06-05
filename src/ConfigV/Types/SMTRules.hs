@@ -3,11 +3,11 @@
 {-# LANGUAGE RecordWildCards #-} 
 {-# LANGUAGE LambdaCase #-} 
 
-module Types.SMTRules where
+module ConfigV.Types.SMTRules where
 
-import Types.Common
-import Types.IR
-import Types.Locatable
+import ConfigV.Types.Common
+import ConfigV.Types.IR
+import ConfigV.Types.Locatable
 
 import Control.Monad.Omega
 

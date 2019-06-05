@@ -1,10 +1,8 @@
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'ElastiCacheBrokerUser'}
 Resources.AWS::EC2::SecurityGroup.Condition,CreateElastiCacheInfrastructure
 Outputs.ElastiCacheAz2Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-ElastiCacheAz2Cidr'}
 Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CloudFoundryVpc'}}
 Outputs.ElastiCacheBrokerSecretAccessKey.Condition,CreateElastiCacheInfrastructure
 Outputs.ElastiCacheAz1Cidr.Description,ElastiCache AZ1 CIDR
-Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'ElastiCacheAz1Cidr'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,ElastiCache Security Group
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
 Parameters.ElastiCacheAz1Cidr.Default,10.0.20.0/24
@@ -21,7 +19,6 @@ Resources.AWS::ElastiCache::SubnetGroup.Condition,CreateElastiCacheInfrastructur
 Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
 Resources.AWS::IAM::User.Condition,CreateElastiCacheInfrastructure
 Outputs.ElastiCacheBrokerAccessKeyId.Description,ElastiCache Broker Access Key Id
-Resources.AWS::ElastiCache::SubnetGroup.Properties.SubnetIds,"[{u'Ref': u'ElastiCacheAz1Subnet'}, {u'Ref': u'ElastiCacheAz2Subnet'}]"
 Parameters.ElastiCacheAz2Cidr.ConstraintDescription,Valid CIDR
 Outputs.ElastiCacheAz2Subnet.Description,ElastiCache AZ2 Subnet
 Parameters.ElastiCacheAz1Cidr.Description,ElastiCache AZ1 CIDR
@@ -30,37 +27,26 @@ Resources.AWS::ElastiCache::SubnetGroup.Properties.Description,ElastiCache Subne
 Outputs.CreateElastiCacheInfrastructure.Description,Created ElastiCache Broker Infrastructure
 Outputs.ElastiCacheAz1Cidr.Condition,CreateElastiCacheInfrastructure
 Outputs.ElastiCacheAz1Cidr.Export.Name,{u'Fn::Sub': u'${DeploymentName}-ElastiCacheAz1Cidr'}
-Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:ElastiCacheAz1Subnet'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Parameters.DeploymentName.MaxLength,16
-Outputs.ElastiCacheAz1Subnet.Value,{u'Ref': u'ElastiCacheAz1Subnet'}
-Outputs.ElastiCacheSecurityGroup.Value,{u'Ref': u'ElastiCacheSecurityGroup'}
 Outputs.ElastiCacheBrokerSecretAccessKey.Description,ElastiCache Broker Access Key
 Outputs.ElastiCacheSubnetGroup.Description,ElastiCache Subnet Group
-Outputs.CreateElastiCacheInfrastructure.Value,{u'Ref': u'CreateElastiCacheInfrastructure'}
 Parameters.ElastiCacheAz2Cidr.Default,10.0.21.0/24
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,False
 Outputs.ElastiCacheAz2Cidr.Description,ElastiCache AZ1 CIDR
 Parameters.ElastiCacheAz2Cidr.AllowedPattern,^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2])$
-Outputs.ElastiCacheAz2Subnet.Value,{u'Ref': u'ElastiCacheAz2Subnet'}
 Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': {u'Fn::Sub': u'${DeploymentName}-CfElastiCachePolicy'}, u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'elasticache:CreateCacheCluster', u'elasticache:CreateReplicationGroup', u'elasticache:DeleteCacheCluster', u'elasticache:DescribeCacheClusters', u'elasticache:ModifyCacheCluster', u'elasticache:RebootCacheCluster'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'iam:GetUser'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Outputs.ElastiCacheSecurityGroup.Condition,CreateElastiCacheInfrastructure
-Outputs.ElastiCacheAz1Cidr.Value,{u'Ref': u'ElastiCacheAz1Cidr'}
 Outputs.ElastiCacheAz2Subnet.Export.Name,{u'Fn::Sub': u'${DeploymentName}-ElastiCacheAz2Subnet'}
 Resources.AWS::EC2::Subnet.Condition,CreateElastiCacheInfrastructure
-Outputs.ElastiCacheAz2Cidr.Value,{u'Ref': u'ElastiCacheAz2Cidr'}
-Outputs.ElastiCacheSubnetGroup.Value,{u'Ref': u'ElastiCacheSubnetGroup'}
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CloudFoundryVpc'}}
-Outputs.ElastiCacheBrokerUserName.Value,{u'Ref': u'ElastiCacheBrokerUser'}
 Outputs.ElastiCacheAz1Subnet.Condition,CreateElastiCacheInfrastructure
 Outputs.ElastiCacheBrokerSecretAccessKey.Value,"{u'Fn::GetAtt': [u'ElastiCacheBrokerAccessKey', u'SecretAccessKey']}"
 Outputs.ElastiCacheAz1Subnet.Description,ElastiCache AZ1 Subnet
 Outputs.ElastiCacheBrokerAccessKeyId.Condition,CreateElastiCacheInfrastructure
 Resources.AWS::IAM::User.Properties.Path,{u'Fn::Sub': u'/Cloudfoundry/Cloudformation/${DeploymentName}/'}
-Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:ElastiCacheSecurityGroup'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Outputs.ElastiCacheSubnetGroup.Condition,CreateElastiCacheInfrastructure
 Outputs.ElastiCacheBrokerUserName.Condition,CreateElastiCacheInfrastructure
 Parameters.CreateElastiCacheInfrastructure.Description,Create ElastiCache Networks
-Outputs.ElastiCacheBrokerAccessKeyId.Value,{u'Ref': u'ElastiCacheBrokerAccessKey'}
 Parameters.DeploymentName.MinLength,1
 Outputs.ElastiCacheSecurityGroup.Export.Name,{u'Fn::Sub': u'${DeploymentName}-ElastiCacheSecurityGroup'}
 Parameters.ElastiCacheAz1Cidr.ConstraintDescription,Valid CIDR

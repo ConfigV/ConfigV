@@ -5,109 +5,71 @@ Parameters.DBUsername.Description,The database master account username
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': u'Application', u'Key': u'Name'}]"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,900
 Parameters.SSHFrom.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUsername'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,{u'Ref': u'WebFleetSize'}
 Parameters.SSHFrom.MaxLength,18
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#! /bin/bash -v\n', u'yum update -y\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'BastionWaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'# Install packages\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r BastionInstance ', u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n"", u'# All is well so signal success\n', u'/opt/aws/bin/cfn-signal -e $? -r ""BastionInstance setup complete"" \'', {u'Ref': u'BastionWaitHandle'}, u""'\n""]]}}"
 Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,35
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'FrontendSubnet1'}
 Parameters.KeyName.MaxLength,64
 Resources.AWS::RDS::DBInstance.DeletionPolicy,Snapshot
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
 Parameters.DBName.Description,The name of a DB01 database
 Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
 Resources.AWS::EC2::VPC.Properties.InstanceTenancy,default
 Parameters.SSHFrom.MinLength,9
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Ref': u'VPCDefaultSecurityGroup'}, {u'Ref': u'ApplicationSecurityGroup'}]"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'WebFleetSize'}
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'65535', u'IpProtocol': u'tcp', u'CidrIp': {u'Fn::FindInMap': [u'StackConfig', u'VPC', u'CIDR']}, u'FromPort': u'0'}, {u'ToPort': u'65535', u'IpProtocol': u'udp', u'CidrIp': {u'Fn::FindInMap': [u'StackConfig', u'VPC', u'CIDR']}, u'FromPort': u'0'}, {u'ToPort': u'-1', u'IpProtocol': u'icmp', u'CidrIp': {u'Fn::FindInMap': [u'StackConfig', u'VPC', u'CIDR']}, u'FromPort': u'-1'}]"
 Parameters.HostedZone.Description,The DNS name of an existing Amazon Route 53 hosted zone
-Resources.AWS::RDS::DBInstance.Properties.DBSnapshotIdentifier,"{u'Fn::If': [u'UseDBSnapshot', {u'Ref': u'DBSnapshotName'}, {u'Ref': u'AWS::NoValue'}]}"
 Parameters.DBSnapshotName.Description,The name of a DB snapshot (optional)
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.python-magic,[]
 Parameters.DBUsername.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[{u'Fn::GetAtt': [u'ApplicationSubnet1', u'AvailabilityZone']}, {u'Fn::GetAtt': [u'ApplicationSubnet2', u'AvailabilityZone']}]"
 Parameters.SSHFrom.Description,Lockdown SSH access to the bastion host (default can be accessed from anywhere)
-Resources.AWS::Route53::RecordSetGroup.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Ref': u'HostedZone'}, u'.']]}"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,2
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Address']}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#! /bin/bash -v\n', u'yum update -y\n', u'# Install packages\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r ApplicationServerLaunchConfig ', u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n""]]}}"
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.skip-character-set-client-handshake,TRUE
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.character_set_results,utf8mb4
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,"{u'Fn::FindInMap': [u'StackConfig', u'ApplicationSubnet2', u'CIDR']}"
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,true
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,6
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Database subnets for RDS
 Parameters.SSHFrom.ConstraintDescription,must be a valid CIDR range of the form x.x.x.x/x.
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.InstanceMonitoring,false
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"[{u'Ref': u'SSHSecurityGroup'}, {u'Ref': u'VPCDefaultSecurityGroup'}]"
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::RouteTable.DependsOn,AttachGateway
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'PowerUserProfile'}
-Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
 Mappings.StackConfig.DatastoreSubnet1.CIDR,10.0.200.0/24
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.character_set_connection,utf8mb4
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[{u'Ref': u'FrontendSubnet1'}, {u'Ref': u'FrontendSubnet2'}]"
 Mappings.StackConfig.ApplicationSubnet1.CIDR,10.0.100.0/24
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
 Mappings.StackConfig.DatastoreSubnet2.CIDR,10.0.201.0/24
 Resources.AWS::EC2::Route.DependsOn,AttachGateway
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Parameters.DBSnapshotName.Default,
-Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,"[{u'Ref': u'VPCDefaultSecurityGroup'}, {u'Ref': u'MySQLSecurityGroup'}]"
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'PowerUserPolicy', u'PolicyDocument': {u'Statement': [{u'NotAction': u'iam:*', u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'PowerUserStmt'}]}}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.html.group,apache
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MinInstancesInService,1
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.character_set_database,utf8mb4
-Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'LogBucket'}
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'DBSubnetGroup'}
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'PowerUserRole'}]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.DBUsername.MinLength,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql55,[]
 Parameters.WebFleetSize.Default,2
-Resources.AWS::RDS::DBInstance.Properties.DBParameterGroupName,{u'Ref': u'DBParamGroup'}
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
 Resources.AWS::RDS::DBInstance.Properties.PreferredBackupWindow,19:00-19:30
 Resources.AWS::RDS::DBParameterGroup.Properties.Family,MySQL5.6
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allow all communications in VPC
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'ApplicationServerLaunchConfig'}
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,BastionInstance
-Outputs.SSHToBackendServer.Value,"{u'Fn::Join': [u'', [u'ssh -i /path/to/', {u'Ref': u'KeyName'}, u'.pem', u"" -oProxyCommand='ssh -i /path/to/"", {u'Ref': u'KeyName'}, u'.pem -W %h:%p ec2-user@', {u'Ref': u'BastionDNSRecord'}, u""'"", u' ec2-user@<private-ip>']]}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.mysql55,[]
 Parameters.DBPassword.NoEcho,true
 Mappings.StackConfig.FrontendSubnet2.CIDR,10.0.1.0/24
-Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'1', {u'Fn::GetAZs': {u'Ref': u'AWS::Region'}}]}"
 Parameters.WebFleetSize.Description,Number of EC2 instances to launch for the web server
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'BastionWaitHandle'}
 Parameters.WebFleetSize.MinValue,1
 Parameters.SSHFrom.Default,0.0.0.0/0
 Resources.AWS::RDS::DBInstance.Properties.EngineVersion,5.6.13
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Id,LogBucketPolicy
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PrivateRouteTable'}
 Resources.AWS::Route53::RecordSet.Properties.Comment,CNAME for the database.
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBInstanceType'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
-Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.DependsOn,AttachGateway
 Resources.AWS::EC2::Subnet.DependsOn,AttachGateway
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'PowerUserProfile'}
 Outputs.JdbcConnectionString.Description,-
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [u'db.local.', {u'Ref': u'HostedZone'}, u'.']]}"
-Resources.AWS::Route53::RecordSetGroup.Properties.RecordSets,"[{u'AliasTarget': {u'HostedZoneId': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'CanonicalHostedZoneNameID']}, u'DNSName': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'CanonicalHostedZoneName']}}, u'Type': u'A', u'Name': {u'Fn::Join': [u'', [{u'Ref': u'HostedZone'}, u'.']]}}]"
 Parameters.DBAllocatedStorage.Default,5
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.PauseTime,PT2M30S
 Mappings.StackConfig.VPC.CIDR,10.0.0.0/16
@@ -117,44 +79,29 @@ Mappings.StackConfig.FrontendSubnet1.CIDR,10.0.0.0/24
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MaxBatchSize,1
 Parameters.KeyName.MinLength,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.jq,[]
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSAmazonLinuxAMI', {u'Ref': u'AWS::Region'}, u'201403']}"
 Resources.AWS::RDS::DBInstance.Properties.PreferredMaintenanceWindow,sat:20:00-sat:20:30
-Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Ref': u'HostedZone'}, u'.']]}"
 Parameters.DBName.Default,
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSAmazonLinuxAMI', {u'Ref': u'AWS::Region'}, u'201403']}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'WebFleetSize'}
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::RDS::DBParameterGroup.Properties.Description,Default parameter group for Portnoy
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,true
-Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'DBAllocatedStorage'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Ref': u'ApplicationSubnet1'}, {u'Ref': u'ApplicationSubnet2'}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.html.mode,000644
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.character_set_client,utf8mb4
 Parameters.DBPassword.Description,Password of RDS master password
 Resources.AWS::EC2::EIP.DependsOn,AttachGateway
 Resources.AWS::RDS::DBParameterGroup.Properties.Parameters.character_set_server,utf8mb4
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'PublicWebSecurityGroup'}]
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
 Mappings.StackConfig.ApplicationSubnet2.CIDR,10.0.101.0/24
 Resources.AWS::EC2::VPC.Properties.CidrBlock,"{u'Fn::FindInMap': [u'StackConfig', u'VPC', u'CIDR']}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'DatastoreSubnet2'}
-Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:PutObject'], u'Principal': {u'AWS': {u'Fn::FindInMap': [u'ELBLogger', {u'Ref': u'AWS::Region'}, u'AccountID']}}, u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'LogBucket'}, u'/AWSLogs/', {u'Ref': u'AWS::AccountId'}, u'/*']]}, u'Effect': u'Allow', u'Sid': u'WriteAccess'}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/index.html.content,"<html><head><title>Hello</title></head><body>Hello, world!</body></html>"
 Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.WebFleetSize.MaxValue,100
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'DatastoreSubnet1'}, {u'Ref': u'DatastoreSubnet2'}]"
 Resources.AWS::Route53::RecordSetGroup.Properties.Comment,Zone apex alias targeted to LoadBalancer.
-Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'BastionInstance'}
 Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
 Parameters.DBUsername.MaxLength,16
 Parameters.DBAllocatedStorage.Description,DB instance disk size
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/index.html
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'Bastion', u'Key': u'Name'}]"
 Outputs.SSHToBackendServer.Description,SSH command to connect to the backend servers
-Outputs.JdbcConnectionString.Value,"{u'Fn::Join': [u'', [u'jdbc:mysql://', {u'Ref': u'DatabaseDNSRecord'}, u':', {u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Port']}, u'/', {u'Ref': u'DBName'}]]}"
 Parameters.DBUsername.Default,admin
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true

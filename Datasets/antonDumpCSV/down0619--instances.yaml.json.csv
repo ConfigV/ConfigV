@@ -4,21 +4,16 @@ Parameters.LaunchPublic1.Default,Yes
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.LaunchPrivate2.default,Private Subnet 2
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Parameters.LaunchPublic3.Description,"Yes, to launch an instance in the third public subnet."
-Outputs.Private2Instance.Value,{u'Ref': u'Private2Instance'}
 Parameters.LaunchPrivate2.Default,No
 Parameters.LaunchPublic1.Description,"Yes, to launch an instance in the first public subnet."
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.LaunchPrivate3.Default,No
 Resources.AWS::EC2::Instance.Condition,Private2
 Outputs.Private1Instance.Export.Name,${AWS::StackName}-private-1-instance
 Parameters.LaunchPublic2.Default,No
-Outputs.Public1Instance.Value,{u'Ref': u'Public1Instance'}
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecurityGroup'}]
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCStackName.default,VPC Stack
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPCStackName', u'InstanceType', u'KeyName'], u'Label': {u'default': u'VPC & Instance Information'}}, {u'Parameters': [u'LaunchPublic1', u'LaunchPublic2', u'LaunchPublic3', u'LaunchPrivate1', u'LaunchPrivate2', u'LaunchPrivate3'], u'Label': {u'default': u'Launch Zones'}}]"
 Parameters.LaunchPrivate3.AllowedValues,"[u'Yes', u'No']"
 Parameters.LaunchPublic2.Description,"Yes, to launch an instance in the second public subnet."
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
 Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Fn::ImportValue': {u'Fn::Sub': u'${VPCStackName}:private-subnet-2'}}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.LaunchPrivate1.default,Private Subnet 1
 Parameters.LaunchPublic3.Default,No
@@ -31,12 +26,8 @@ Outputs.Public2Instance.Export.Name,${AWS::StackName}-public-2-instance
 Parameters.LaunchPublic1.AllowedValues,"[u'Yes', u'No']"
 Parameters.LaunchPrivate1.Default,No
 Outputs.Public3Instance.Export.Name,${AWS::StackName}-public-3-instance
-Outputs.Private3Instance.Value,{u'Ref': u'Private3Instance'}
-Outputs.Public3Instance.Value,{u'Ref': u'Public3Instance'}
 Parameters.KeyName.Description,The key that will be used to SSH into the instance.
 Parameters.LaunchPublic3.AllowedValues,"[u'Yes', u'No']"
-Outputs.Public2Instance.Value,{u'Ref': u'Public2Instance'}
-Outputs.Private1Instance.Value,{u'Ref': u'Private1Instance'}
 Parameters.LaunchPublic2.AllowedValues,"[u'Yes', u'No']"
 Outputs.Public1Instance.Export.Name,${AWS::StackName}-public-1-instance
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${VPCStackName}:vpc'}}

@@ -1,15 +1,10 @@
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,"{u'Fn::Select': [u'0', {u'Ref': u'VPC'}]}"
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.DependsOn,"[u'EIP2', u'EIP1']"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,10
-Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': {u'Ref': u'TargetGroup'}, u'Type': u'forward'}]"
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,TCP
 Parameters.Subnet2.Description,"ID of the Subnet the instance should be launched in, this will link the instance to the same VPC."
 Parameters.Subnet1.Description,"ID of the Subnet the instance should be launched in, this will link the instance to the same VPC."
 Parameters.ELBIpAddressType.AllowedValues,"[u'ipv4', u'dualstack']"
-Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,{u'Ref': u'loadBalancer'}
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,TCP
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SubnetMappings,"[{u'SubnetId': {u'Fn::Select': [u'0', {u'Ref': u'Subnet1'}]}, u'AllocationId': {u'Fn::GetAtt': [u'EIP1', u'AllocationId']}}, {u'SubnetId': {u'Fn::Select': [u'0', {u'Ref': u'Subnet2'}]}, u'AllocationId': {u'Fn::GetAtt': [u'EIP2', u'AllocationId']}}]"
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.IpAddressType,{u'Ref': u'ELBIpAddressType'}
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetGroupAttributes,"[{u'Value': u'20', u'Key': u'deregistration_delay.timeout_seconds'}]"
 Parameters.ELBIpAddressType.Default,ipv4
 Resources.AWS::EC2::EIP.Properties.Domain,vpc

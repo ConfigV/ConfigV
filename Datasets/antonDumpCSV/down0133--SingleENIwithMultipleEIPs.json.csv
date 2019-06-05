@@ -1,5 +1,3 @@
-Resources.AWS::EC2::NetworkInterface.Properties.SubnetId,"{u'Fn::Select': [u'0', {u'Ref': u'Subnet'}]}"
-Resources.AWS::EC2::EIPAssociation.Properties.NetworkInterfaceId,{u'Ref': u'ENI'}
 Resources.AWS::EC2::EIPAssociation.DependsOn,"[u'ENI', u'EIP1']"
 Resources.AWS::EC2::EIPAssociation.Properties.PrivateIpAddress,"{u'Fn::Select': [u'0', {u'Fn::GetAtt': [u'ENI', u'SecondaryPrivateIpAddresses']}]}"
 Resources.AWS::EC2::NetworkInterface.Properties.SecondaryPrivateIpAddressCount,2

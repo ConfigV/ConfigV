@@ -1,23 +1,19 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE PartialTypeSignatures #-}
-module Checker where
+module ConfigV.Checker where
 
-import Types.IR
-import Types.Rules
-import Types.Errors
-import Types.Common
-import Types.Locatable
+import ConfigV.Types
 
-import LearningEngine
-import Convert (convert)
-import Settings.Config
+import ConfigV.LearningEngine
+import ConfigV.Convert (convert)
+import ConfigV.Settings.Config
 
 import qualified Data.Map.Merge.Strict as M
 import qualified Data.Map.Strict as M
 import Data.Interned
 
 import qualified Data.Text as T
-import Utils
+import ConfigV.Utils
 
 verifyOn :: _ -> RuleSet -> ConfigFile Language -> ErrorReport
 verifyOn settings rs configFile  =
@@ -43,8 +39,6 @@ checkFile settings rs f =
 filterRules :: [Keyword] -> RuleSet -> RuleSet
 filterRules fKs rs = RuleSet {
        order   = f order
-      ,missing = f' missing 
-      ,keyvalkey = f' keyvalkey --why only require one key match?
       ,intRel  = f intRel 
       ,typeErr = f'' typeErr 
       ,fineInt = f fineInt
@@ -63,8 +57,6 @@ filterRules fKs rs = RuleSet {
 ruleDiff :: RuleSet -> RuleSet -> RuleSet
 ruleDiff rs1 rs2 = RuleSet {
        order   = f order 
-      ,missing = f missing
-      ,keyvalkey = f keyvalkey
       ,intRel  = f' intRel
       ,typeErr = f typeErr
       ,fineInt = f' fineInt
@@ -85,8 +77,6 @@ genErrReport cf@(fname,_,_) rs =
     f classOfErr= map (\rd -> toError (convert cf) fname rd) $ M.toList $ classOfErr rs
   in 
     f order ++ 
-    f missing ++ 
-    f keyvalkey ++ 
     f intRel ++
     f typeErr ++
     f fineInt

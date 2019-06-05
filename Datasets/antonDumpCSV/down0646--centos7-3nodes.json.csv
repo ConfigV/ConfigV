@@ -1,27 +1,20 @@
 Resources.AWS::EC2::Instance.Properties.InstanceInitiatedShutdownBehavior,stop
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'MySSHKeyPairName'}
 Parameters.MyAvailabilityZone.Description,Availability Zone
 Resources.AWS::EC2::Instance.Properties.DisableApiTermination,false
 Parameters.MyAMI.Default,ami-33734044
-Resources.AWS::EC2::Instance.Properties.AvailabilityZone,{u'Ref': u'MyAvailabilityZone'}
 Resources.AWS::EC2::Instance.Properties.Monitoring,false
 Parameters.MySecurityGroup.Description,Security Group ID
 Parameters.MyDataVolumeSize.Description,EBS Data Volume Size
 Parameters.MyDataVolumeSize.Default,100
 Parameters.MyAvailabilityZone.Default,eu-west-1a
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': 0, u'GroupSet': [{u'Ref': u'MySecurityGroup'}], u'Description': u'Primary network interface', u'DeleteOnTermination': u'true', u'SubnetId': u'subnet-XXXXXXXX', u'AssociatePublicIpAddress': u'true'}]"
 Parameters.MyPlacementGroup.Default,MyExistingPlacementGroup
 Parameters.MySSHKeyPairName.Description,SSH Key
 Parameters.MyTag.Default,MyHadoopCluster1
-Resources.AWS::EC2::Instance.Properties.PlacementGroupName,{u'Ref': u'MyPlacementGroup'}
 Parameters.MyRootVolumeSize.Description,EBS Root Volume Size
 Parameters.MyRootVolumeSize.Default,50
 Parameters.MyPlacementGroup.Description,Placement Group
-Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'VolumeSize': {u'Ref': u'MyRootVolumeSize'}}}, {u'DeviceName': u'/dev/sdb', u'Ebs': {u'VolumeSize': {u'Ref': u'MyDataVolumeSize'}}}]"
 Parameters.MyTag.Description,Tag for convenience
-Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'MyAMI'}
 Resources.AWS::EC2::Instance.Properties.EbsOptimized,true
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'hadoop-node01', u'Key': u'Name'}, {u'Value': {u'Ref': u'MyTag'}, u'Key': u'name'}]"
 Parameters.MySecurityGroup.Default,sg-XXXXXXXX
 Parameters.MySSHKeyPairName.Default,hari
 Parameters.MyAMI.Description,AMI (CentOS 7 by default)

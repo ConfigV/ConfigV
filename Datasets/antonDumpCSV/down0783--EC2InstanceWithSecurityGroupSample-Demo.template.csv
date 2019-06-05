@@ -3,11 +3,9 @@ Parameters.KeyName.MinLength,1
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Outputs.AZ.Description,Availability Zone of the newly created EC2 instance
 Outputs.PublicDNS.Description,Public DNSName of the newly created EC2 instance
-Outputs.InstanceId.Value,{u'Ref': u'Ec2Instance'}
 Parameters.KeyName.ConstraintDescription,can contain only ASCII characters.
 Outputs.AZ.Value,"{u'Fn::GetAtt': [u'Ec2Instance', u'AvailabilityZone']}"
 Outputs.PublicDNS.Value,"{u'Fn::GetAtt': [u'Ec2Instance', u'PublicDnsName']}"
-Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Parameters.KeyName.MaxLength,255
 Outputs.InstanceId.Description,InstanceId of the newly created EC2 instance
 Parameters.SSHLocation.MaxLength,18
@@ -18,7 +16,4 @@ Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of th
 Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
 Outputs.PublicIP.Description,Public IP address of the newly created EC2 instance
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access via port 22
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}]"
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.SSHLocation.MinLength,9

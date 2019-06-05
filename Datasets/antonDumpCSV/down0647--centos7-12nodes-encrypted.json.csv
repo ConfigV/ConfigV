@@ -1,32 +1,22 @@
-Resources.AWS::EC2::Instance.Properties.Volumes,"[{u'Device': u'/dev/sdb', u'VolumeId': {u'Ref': u'volumeInstance04Data'}}]"
 Resources.AWS::EC2::Instance.Properties.InstanceInitiatedShutdownBehavior,stop
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'MySSHKeyPairName'}
 Parameters.MyDataVolumeSize.Description,EBS Data Volume Size
 Parameters.MyAvailabilityZone.Description,Availability Zone
 Resources.AWS::EC2::Instance.Properties.DisableApiTermination,false
 Resources.AWS::EC2::Volume.Properties.Encrypted,True
 Parameters.MyAMI.Default,ami-33734044
-Resources.AWS::EC2::Instance.Properties.AvailabilityZone,{u'Ref': u'MyAvailabilityZone'}
 Resources.AWS::EC2::Instance.Properties.Monitoring,false
-Resources.AWS::EC2::Volume.Properties.AvailabilityZone,{u'Ref': u'MyAvailabilityZone'}
 Resources.AWS::EC2::Volume.Properties.VolumeType,gp2
 Parameters.MyDataVolumeSize.Default,100
 Parameters.MyAvailabilityZone.Default,eu-west-1a
 Parameters.MyPlacementGroup.Default,MyExistingPlacementGroup
-Resources.AWS::EC2::Volume.Properties.Size,{u'Ref': u'MyDataVolumeSize'}
 Parameters.MySSHKeyPairName.Description,SSH Key
 Parameters.MyTag.Default,MyHadoopCluster1
-Resources.AWS::EC2::Instance.Properties.PlacementGroupName,{u'Ref': u'MyPlacementGroup'}
 Parameters.MyRootVolumeSize.Description,EBS Root Volume Size
 Parameters.MyRootVolumeSize.Default,50
 Parameters.MySecurityGroup.Description,Security Group ID
 Parameters.MyPlacementGroup.Description,Placement Group
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': 0, u'GroupSet': [{u'Ref': u'MySecurityGroup'}], u'Description': u'Primary network interface', u'DeleteOnTermination': u'true', u'SubnetId': u'subnet-XXXXXXXX', u'AssociatePublicIpAddress': u'true'}]"
-Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'VolumeSize': {u'Ref': u'MyRootVolumeSize'}}}]"
 Parameters.MyTag.Description,Tag for convenience
-Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'MyAMI'}
 Resources.AWS::EC2::Instance.Properties.EbsOptimized,true
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'MyTag'}, u'Key': u'name'}, {u'Value': u'hadoop-node04', u'Key': u'Name'}]"
 Parameters.MySecurityGroup.Default,sg-XXXXXXXX
 Parameters.MySSHKeyPairName.Default,hari
 Parameters.MyAMI.Description,AMI (CentOS 7 by default)

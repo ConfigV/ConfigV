@@ -1,4 +1,3 @@
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'IamRoleLambda'}]
 Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.PriceClass,PriceClass_200
 Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ViewerProtocolPolicy,allow-all
 Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ForwardedValues.Cookies.Forward,none
@@ -13,13 +12,11 @@ Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Aliases,"[
 Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Logging.Prefix,cloudfront
 Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Enabled,true
 Resources.AWS::Route53::RecordSetGroup.Properties.HostedZoneId,${hostedZoneId}
-Outputs.LogsBucket.Value,{u'Ref': u'LogsBucket'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::S3::Bucket.Properties.AccessControl,PublicRead
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:${region}:*:*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'WWWBucket'}, u'/*']]}, u'Effect': u'Allow', u'Principal': u'*'}]"
 Resources.AWS::IAM::Policy.Properties.PolicyName,${stage}-${project}-lambda
 Outputs.IamRoleArnLambda.Value,"{u'Fn::GetAtt': [u'IamRoleLambda', u'Arn']}"
 Outputs.IamRoleArnLambda.Description,ARN of the lambda IAM role
@@ -29,6 +26,5 @@ Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.ht
 Outputs.WebsiteURL.Description,URL for website hosted on S3
 Resources.AWS::Route53::RecordSetGroup.Properties.RecordSets,"[{u'AliasTarget': {u'HostedZoneId': u'Z2FDTNDATAQYW2', u'DNSName': {u'Fn::GetAtt': [u'webDistribution', u'DomainName']}}, u'Type': u'A', u'Name': u'${stage}.${domain}'}]"
 Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.Logging.IncludeCookies,false
-Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'WWWBucket'}
 Resources.AWS::CloudFront::Distribution.Properties.DistributionConfig.DefaultCacheBehavior.ForwardedValues.QueryString,false
 Resources.AWS::S3::Bucket.Properties.BucketName,${stage}.${domain}

@@ -4,7 +4,6 @@ Parameters.EBSKMSKeyId.Description,"KMS ARN for customer created master key, wil
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.shellForkClusterReadyInstall.commands.clusterreadyinstall.command,/opt/cfncluster/scripts/fetch_and_run -clusterreadyinstall
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_node_type,MasterServer
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ComputeWaitConditionCount.default,WAIT COUNT
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_postinstall_args,{u'Ref': u'PostInstallArgs'}
 Metadata.AWS::CloudFormation::Designer.bb5a532f-bb43-472a-9965-c4054cd61cc9.position.y,70
 Metadata.AWS::CloudFormation::Designer.bb5a532f-bb43-472a-9965-c4054cd61cc9.position.x,-150
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PreInstallArgs.default,pre_install_args
@@ -13,19 +12,14 @@ Resources.AWS::EC2::RouteTable.Condition,CreateComputeSubnetForCompute
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'instanceId'}]"
 Metadata.AWS::CloudFormation::Designer.d3204db6-c821-400d-bf31-6afd5739923c.position.y,480
 Parameters.ScalingEvaluationPeriods.Description,Number of periods consective periods required to trigger the scaling adjustment
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,"{u'Fn::If': [u'MaintainInitialASGSize', {u'Ref': u'InitialQueueSize'}, u'0']}"
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,"{u'Fn::If': [u'UseEC2IAMRole', {u'Ref': u'EC2IAMRoleName'}, {u'Ref': u'RootInstanceProfile'}]}"
 Parameters.PlacementGroup.Default,NONE
-Resources.AWS::EC2::Volume.Properties.AvailabilityZone,{u'Ref': u'AvailabilityZone'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.owner,root
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.getCookbooks.commands.berk.command,. /tmp/proxy.sh; for d in `ls /tmp/cookbooks`; do cd /tmp/cookbooks/$d;LANG=en_US.UTF-8 /opt/chef/embedded/bin/berks vendor /etc/chef/cookbooks --delete; done 
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EBSEncryption.default,ebs_encryption
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_postinstall,{u'Ref': u'PostInstallScript'}
 Metadata.AWS::CloudFormation::Designer.3fa053e5-8ab7-4cdf-a737-4d20386e4717.size.height,60
 Metadata.AWS::CloudFormation::Designer.e9ac6c41-8110-49b9-a92c-de57be8a292a.source.id,d5bad569-ad14-487d-bcc6-5569373bc8cd
 Metadata.AWS::CloudFormation::Designer.d3204db6-c821-400d-bf31-6afd5739923c.size.height,60
 Parameters.AdditionalSG.Default,NONE
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'InitialQueueSize'}
 Parameters.MasterRootVolumeSize.Description,Size of MasterServer EBS root volume in GB
 Resources.AWS::CloudWatch::Alarm.Metadata.AWS::CloudFormation::Designer.id,127f78c3-d47a-4770-8aad-3fd733c3e1b0
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
@@ -37,13 +31,11 @@ Metadata.AWS::CloudFormation::Designer.a8fbc80f-2514-4cc9-aee8-ba7936add0a7.isas
 Metadata.AWS::CloudFormation::Designer.a8fbc80f-2514-4cc9-aee8-ba7936add0a7.z,1
 Parameters.EBSKMSKeyId.Default,NONE
 Parameters.AccessFrom.MaxLength,18
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_region,{u'Ref': u'AWS::Region'}
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPCId', u'MasterSubnetId'], u'Label': {u'default': u'Network - Basic Settings'}}, {u'Parameters': [u'KeyName', u'AvailabilityZone', u'MasterInstanceType', u'ComputeInstanceType', u'BaseOS', u'Scheduler'], u'Label': {u'default': u'Cluster - Basic Setting'}}, {u'Parameters': [u'VolumeSize'], u'Label': {u'default': u'EBS - Basic Settings'}}, {u'Parameters': [u'AccessFrom', u'ComputeSubnetId', u'ComputeSubnetCidr', u'UsePublicIps', u'AdditionalSG', u'VPCSecurityGroupId'], u'Label': {u'default': u'Network - Advanced Settings'}}, {u'Parameters': [u'InitialQueueSize', u'ComputeWaitConditionCount', u'MaxQueueSize', u'SpotPrice', u'ClusterType', u'ProxyServer', u'CustomAMI', u'MaintainInitialSize', u'PreInstallScript', u'PreInstallArgs', u'PostInstallArgs', u'PostInstallScript', u'S3ReadResource', u'S3ReadWriteResource', u'Placement', u'PlacementGroup', u'EncryptedEphemeral', u'EphemeralDir', u'SharedDir', u'CWLRegion', u'CWLLogGroup', u'CustomChefRunList', u'CustomChefCookbook', u'ExtraJson', u'Tenancy', u'EphemeralKMSKeyId', u'ClusterReadyScript', u'MasterRootVolumeSize', u'ComputeRootVolumeSize', u'EC2IAMRoleName'], u'Label': {u'default': u'Cluster - Advanced Setting'}}, {u'Parameters': [u'VolumeType', u'EBSSnapshotId', u'VolumeIOPS', u'EBSEncryption', u'EBSKMSKeyId', u'EBSVolumeId'], u'Label': {u'default': u'EBS - Advanced Settings'}}, {u'Parameters': [u'ScalingPeriod', u'ScalingEvaluationPeriods', u'ScalingThreshold', u'ScalingAdjustment', u'ScalingThreshold2', u'ScalingAdjustment2', u'ScalingCooldown', u'ScaleDownIdleTime'], u'Label': {u'default': u'Scaling Settings'}}, {u'Parameters': [u'CLITemplate'], u'Label': {u'default': u'Additonal Settings'}}]"
 Resources.AWS::EC2::Volume.Metadata.AWS::CloudFormation::Designer.id,c8d3da13-fd27-4377-b606-0f41728c17e1
 Parameters.ScalingAdjustment.Default,1
 Mappings.AWSRegionOS2AMI.eu-central-1.ubuntu1604,ami-089e9903d9c3bee1b
 Resources.AWS::EC2::SubnetRouteTableAssociation.Condition,CreateComputeSubnetForCompute
-Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'ComputeSubnetCidr'}
 Metadata.AWS::CloudFormation::Designer.596ddc76-44b9-4747-921c-c000c5b636c0.size.width,60
 Metadata.AWS::CloudFormation::Designer.2522b048-2b7c-44ed-9d35-6cc66069ca5b.z,1
 Metadata.AWS::CloudFormation::Designer.0c5a1e92-ffdd-4344-8ba0-65270e5fd472.position.y,30
@@ -52,7 +44,6 @@ Metadata.AWS::CloudFormation::Designer.8e63b592-a50f-4b89-a40b-e991adaef77b.size
 Metadata.AWS::CloudFormation::Designer.23ed10e0-7726-4099-8370-4116c0bc78a2.position.x,-50
 Metadata.AWS::CloudFormation::Designer.23ed10e0-7726-4099-8370-4116c0bc78a2.size.width,60
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CLITemplate.default,CLI TEMPLATE
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_preinstall_args,{u'Ref': u'PreInstallArgs'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2IAMRoleName.default,ec2_iam_role
 Resources.AWS::CloudWatch::Alarm.Properties.MetricName,pending
 Metadata.AWS::CloudFormation::Designer.8e63b592-a50f-4b89-a40b-e991adaef77b.z,1
@@ -74,11 +65,9 @@ Parameters.EBSEncryption.Default,false
 Parameters.CustomChefRunList.Default,NONE
 Parameters.ScalingCooldown.Description,Period in seconds to wait before allowing further scaling actions
 Mappings.CfnClusterVersions.default.berkshelf,7.0.4
-Resources.AWS::AutoScaling::ScalingPolicy.Properties.AutoScalingGroupName,{u'Ref': u'ComputeFleet'}
 Metadata.AWS::CloudFormation::Designer.8e63b592-a50f-4b89-a40b-e991adaef77b.position.y,600
 Metadata.AWS::CloudFormation::Designer.8e63b592-a50f-4b89-a40b-e991adaef77b.position.x,-50
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./etc/chef/client.rb.mode,000644
-Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvdba', u'VirtualName': u'ephemeral0'}, {u'DeviceName': u'/dev/xvdbb', u'VirtualName': u'ephemeral1'}, {u'DeviceName': u'/dev/xvdbc', u'VirtualName': u'ephemeral2'}, {u'DeviceName': u'/dev/xvdbd', u'VirtualName': u'ephemeral3'}, {u'DeviceName': u'/dev/xvdbe', u'VirtualName': u'ephemeral4'}, {u'DeviceName': u'/dev/xvdbf', u'VirtualName': u'ephemeral5'}, {u'DeviceName': u'/dev/xvdbg', u'VirtualName': u'ephemeral6'}, {u'DeviceName': u'/dev/xvdbh', u'VirtualName': u'ephemeral7'}, {u'DeviceName': u'/dev/xvdbi', u'VirtualName': u'ephemeral8'}, {u'DeviceName': u'/dev/xvdbj', u'VirtualName': u'ephemeral9'}, {u'DeviceName': u'/dev/xvdbk', u'VirtualName': u'ephemeral10'}, {u'DeviceName': u'/dev/xvdbl', u'VirtualName': u'ephemeral11'}, {u'DeviceName': u'/dev/xvdbm', u'VirtualName': u'ephemeral12'}, {u'DeviceName': u'/dev/xvdbn', u'VirtualName': u'ephemeral13'}, {u'DeviceName': u'/dev/xvdbo', u'VirtualName': u'ephemeral14'}, {u'DeviceName': u'/dev/xvdbp', u'VirtualName': u'ephemeral15'}, {u'DeviceName': u'/dev/xvdbq', u'VirtualName': u'ephemeral16'}, {u'DeviceName': u'/dev/xvdbr', u'VirtualName': u'ephemeral17'}, {u'DeviceName': u'/dev/xvdbs', u'VirtualName': u'ephemeral18'}, {u'DeviceName': u'/dev/xvdbt', u'VirtualName': u'ephemeral19'}, {u'DeviceName': u'/dev/xvdbu', u'VirtualName': u'ephemeral20'}, {u'DeviceName': u'/dev/xvdbv', u'VirtualName': u'ephemeral21'}, {u'DeviceName': u'/dev/xvdbw', u'VirtualName': u'ephemeral22'}, {u'DeviceName': u'/dev/xvdbx', u'VirtualName': u'ephemeral23'}, {u'DeviceName': {u'Fn::FindInMap': [u'OSFeatures', {u'Ref': u'BaseOS'}, u'RootDevice']}, u'Ebs': {u'VolumeSize': {u'Ref': u'MasterRootVolumeSize'}, u'VolumeType': u'gp2'}}]"
 Metadata.AWS::CloudFormation::Designer.2f599618-92e8-49cf-92bd-551ba9775f39.position.y,380
 Metadata.AWS::CloudFormation::Designer.2f599618-92e8-49cf-92bd-551ba9775f39.position.x,450
 Parameters.CWLRegion.Description,CloudWatch Logs region
@@ -87,16 +76,13 @@ Parameters.S3ReadWriteResource.Default,NONE
 Metadata.AWS::CloudFormation::Designer.619070e4-82e5-445a-93a0-4795ff69d61c.isrelatedto,[u'2904615e-c0ad-4325-b0c5-b9ea7c482b4e']
 Parameters.Scheduler.Description,Cluster scheduler
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ScalingAdjustment2.default,scaling_adjustment2
-Resources.AWS::EC2::Volume.Properties.SnapshotId,"{u'Fn::If': [u'UseEBSSnapshot', {u'Ref': u'EBSSnapshotId'}, {u'Ref': u'AWS::NoValue'}]}"
 Parameters.ComputeWaitConditionCount.Description,Specific number of instances to wait for while creating the cluster
 Parameters.Scheduler.AllowedValues,"[u'sge', u'torque', u'slurm', u'custom', u'test']"
 Metadata.AWS::CloudFormation::Designer.596ddc76-44b9-4747-921c-c000c5b636c0.z,0
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Metadata.AWS::CloudFormation::Designer.127f78c3-d47a-4770-8aad-3fd733c3e1b0.z,1
 Metadata.AWS::CloudFormation::Designer.3fa053e5-8ab7-4cdf-a737-4d20386e4717.size.width,60
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Metadata.AWS::CloudFormation::Designer.d3204db6-c821-400d-bf31-6afd5739923c.ismemberof,[u'619070e4-82e5-445a-93a0-4795ff69d61c']
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_proxy,{u'Ref': u'ProxyServer'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/extra.json.owner,root
 Outputs.MasterPublicIP.Description,Public IP Address of the Master host
 Metadata.AWS::CloudFormation::Designer.9dd9772e-03a3-4983-b28e-a52ac42f0ffe.source.id,0824f592-a72b-4bb5-8c67-4ce6df509cdd
@@ -106,19 +92,15 @@ Parameters.Placement.Default,cluster
 Resources.AWS::EC2::PlacementGroup.Condition,CreatePlacementGroup
 Metadata.AWS::CloudFormation::Designer.127f78c3-d47a-4770-8aad-3fd733c3e1b0.isrelatedto,[u'89b41ceb-a2fb-4e17-a808-9bedc37b2b2c']
 Parameters.PreInstallScript.Description,Preinstall script URL. This is run before any host configuration.
-Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,{u'Ref': u'AvailabilityZone'}
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_postinstall_args,{u'Ref': u'PostInstallArgs'}
 Parameters.BaseOS.ConstraintDescription,must be a supported base OS
 Metadata.AWS::CloudFormation::Designer.7b0e0a3f-3a02-4e70-9e79-7647b98fd579.z,1
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.NotificationConfiguration.NotificationTypes,[u'autoscaling:EC2_INSTANCE_TERMINATE']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.shellRunPreInstall.commands.runpreinstall.command,/opt/cfncluster/scripts/fetch_and_run -preinstall
 Resources.AWS::IAM::Policy.Metadata.AWS::CloudFormation::Designer.id,a8fbc80f-2514-4cc9-aee8-ba7936add0a7
-Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Statement,"[{u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Allow-SendMessage-From-AS-SNS-Topic', u'Action': [u'sqs:SendMessage'], u'Condition': {u'ArnEquals': {u'aws:SourceArn': {u'Ref': u'SNS'}}}, u'Principal': {u'AWS': u'*'}}]"
 Parameters.EncryptedEphemeral.Default,false
 Parameters.VolumeSize.Description,"Size of EBS volume in GB, if creating a new one"
 Parameters.VPCSecurityGroupId.AllowedPattern,(NONE|^sg-[0-9a-z]{8}$|^sg-[0-9a-z]{17}$)
 Resources.AWS::EC2::Subnet.Condition,CreateComputeSubnetForCompute
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPCId'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./etc/chef/client.rb.content,"{u'Fn::Join': [u'', [u""cookbook_path ['/etc/chef/cookbooks']""]]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.MasterRootVolumeSize.default,master_root_volume_size
 Parameters.PreInstallScript.Default,NONE
@@ -129,13 +111,11 @@ Metadata.AWS::CloudFormation::Designer.ce1cdcde-8551-4c33-b846-e1b0ab9ac8fb.embe
 Metadata.AWS::CloudFormation::Designer.89b41ceb-a2fb-4e17-a808-9bedc37b2b2c.position.y,600
 Metadata.AWS::CloudFormation::Designer.89b41ceb-a2fb-4e17-a808-9bedc37b2b2c.position.x,60
 Parameters.AdditionalCfnTemplate.Description,A second CloudFormation template to launch with the cluster
-Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:*'], u'Resource': [{u'Ref': u'S3ReadWriteResource'}], u'Effect': u'Allow', u'Sid': u'S3ReadWrite'}]"
 Parameters.SharedDir.Default,/shared
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.getCookbooks.commands.berk.cwd,/tmp/cookbooks
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::SQS::QueuePolicy.Metadata.AWS::CloudFormation::Designer.id,6a874346-80de-4412-9677-00590371a8a2
 Metadata.AWS::CloudFormation::Designer.619070e4-82e5-445a-93a0-4795ff69d61c.size.height,60
-Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,{u'Ref': u'ComputeSecurityGroup'}
 Resources.AWS::EC2::EIPAssociation.Condition,MasterPublicIp
 Resources.AWS::SQS::Queue.Metadata.AWS::CloudFormation::Designer.id,2f599618-92e8-49cf-92bd-551ba9775f39
 Resources.AWS::CloudFormation::Stack.Condition,CreateSubStack
@@ -159,7 +139,6 @@ Parameters.VPCId.Description,ID of the VPC you want to provision cluster into. O
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'SQS', u'Arn']}, u'Protocol': u'sqs'}]"
 Parameters.EncryptedEphemeral.AllowedValues,"[u'true', u'false']"
 Parameters.ComputeSubnetId.Default,NONE
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_scheduler,{u'Ref': u'Scheduler'}
 Mappings.OSFeatures.alinux.RootDevice,/dev/xvda
 Parameters.VolumeIOPS.Default,100
 Parameters.CustomChefCookbook.Default,NONE
@@ -169,10 +148,7 @@ Parameters.CustomAMI.Default,NONE
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CWLLogGroup.default,cwl_log_group
 Metadata.AWS::CloudFormation::Designer.8e63b592-a50f-4b89-a40b-e991adaef77b.isassociatedwith,[u'3fa053e5-8ab7-4cdf-a737-4d20386e4717']
 Metadata.AWS::CloudFormation::Designer.0c5a1e92-ffdd-4344-8ba0-65270e5fd472.size.height,60
-Resources.AWS::EC2::Instance.Properties.Tenancy,{u'Ref': u'Tenancy'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_proxy,{u'Ref': u'ProxyServer'}
 Metadata.AWS::CloudFormation::Designer.7b0e0a3f-3a02-4e70-9e79-7647b98fd579.size.width,60
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.PlacementTenancy,"{u'Fn::If': [u'UseDedicatedTenancy', {u'Ref': u'Tenancy'}, {u'Ref': u'AWS::NoValue'}]}"
 Parameters.ClusterType.AllowedValues,"[u'ondemand', u'spot']"
 Metadata.AWS::CloudFormation::Designer.466554d3-0e10-4ae4-bfee-51b0aadbf923.source.id,2904615e-c0ad-4325-b0c5-b9ea7c482b4e
 Parameters.AdditionalSG.AllowedPattern,(NONE|^sg-[0-9a-z]{8}$|^sg-[0-9a-z]{17}$)
@@ -181,25 +157,19 @@ Resources.AWS::AutoScaling::ScalingPolicy.Properties.AdjustmentType,ChangeInCapa
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.BaseOS.default,base_os
 Resources.AWS::IAM::InstanceProfile.Condition,CreateEC2IAMRole
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_node_type,ComputeFleet
-Resources.AWS::EC2::Volume.Properties.Size,"{u'Fn::If': [u'UseEBSSnapshot', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'VolumeSize'}]}"
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'instanceId', u'AttributeType': u'S'}]"
 Parameters.CustomChefCookbook.Description,URL of custom cookbook that will override the default. This will be unpacked and then dependencies resolved with Berkshelf.
 Metadata.AWS::CloudFormation::Designer.619070e4-82e5-445a-93a0-4795ff69d61c.z,1
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPCId'}
-Resources.AWS::EC2::Instance.Properties.PlacementGroupName,"{u'Fn::If': [u'UseClusterPlacement', {u'Fn::If': [u'CreatePlacementGroup', {u'Ref': u'DynamicPlacementGroup'}, {u'Ref': u'PlacementGroup'}]}, {u'Ref': u'AWS::NoValue'}]}"
 Parameters.EBSVolumeId.AllowedPattern,(NONE|^vol-[0-9a-z]{8}$|^vol-[0-9a-z]{17}$)
 Mappings.CfnClusterVersions.default.chef,14.2.0
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'SourceSecurityGroupId': {u'Ref': u'MasterSecurityGroup'}, u'IpProtocol': u'-1', u'ToPort': u'65535', u'FromPort': u'0'}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chefPrepEnv.commands.chef.cwd,/etc/chef
 Parameters.InitialQueueSize.Description,Initial number of EC2 instances to launch as compute nodes within the cluster. This value maps to the DesiredSize parameter for the ComputeFleet AutoScaling Group.
 Metadata.AWS::CloudFormation::Designer.789cb442-3b1a-4673-a07e-8acb1c59c271.embeds,[]
 Parameters.AccessFrom.ConstraintDescription,must be a valid CIDR range of the form x.x.x.x/x.
 Metadata.AWS::CloudFormation::Designer.210b5501-b505-4ee1-917c-a20cae3ac837.embeds,[]
 Mappings.AWSRegionOS2AMI.ca-central-1.alinux,ami-099a5f4b65d56215e
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SpotPrice,"{u'Fn::If': [u'UseSpotInstances', {u'Ref': u'SpotPrice'}, {u'Ref': u'AWS::NoValue'}]}"
 Metadata.AWS::CloudFormation::Designer.210b5501-b505-4ee1-917c-a20cae3ac837.size.height,60
 Parameters.ComputeSubnetId.Description,ID of the Subnet you want to provision the Compute Servers into
-Resources.AWS::EC2::EIPAssociation.Properties.NetworkInterfaceId,{u'Ref': u'MasterENI'}
 Metadata.AWS::CloudFormation::Designer.88da1502-8179-4be3-9123-fdc5eac0b6a3.size.width,60
 Parameters.VolumeType.Default,gp2
 Parameters.UsePublicIps.Description,"Boolean flag to use public IP's for instances. If false, the VPC must be correctly setup to use NAT for all traffic."
@@ -210,22 +180,17 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.S3ReadWriteResource.defa
 Parameters.EphemeralKMSKeyId.Description,"KMS ARN for customer created master key, will be used for ephemeral encryption"
 Parameters.ComputeWaitConditionCount.Default,2
 Metadata.AWS::CloudFormation::Designer.619070e4-82e5-445a-93a0-4795ff69d61c.size.width,60
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.run_list,"{u'Fn::If': [u'UseCustomRunList', {u'Ref': u'CustomChefRunList'}, {u'Fn::Join': [u'', [u'recipe[cfncluster::', {u'Ref': u'Scheduler'}, u'_config]']]}]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Scheduler.default,scheduler
 Metadata.AWS::CloudFormation::Designer.0c5a1e92-ffdd-4344-8ba0-65270e5fd472.embeds,[]
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'RootRole'}]
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_region,{u'Ref': u'AWS::Region'}
 Mappings.OSFeatures.centos6.User,centos
 Mappings.OSFeatures.ubuntu1404.User,ubuntu
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,"{u'Fn::If': [u'ComputePublicIps', u'true', u'false']}"
 Resources.AWS::EC2::NetworkInterface.Metadata.AWS::CloudFormation::Designer.id,45360a4f-64aa-49f8-b016-78fe5ed86819
 Resources.AWS::EC2::Subnet.Metadata.AWS::CloudFormation::Designer.id,bb5a532f-bb43-472a-9965-c4054cd61cc9
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_preinstall,{u'Ref': u'PreInstallScript'}
 Metadata.AWS::CloudFormation::Designer.6a874346-80de-4412-9677-00590371a8a2.size.height,60
 Outputs.GangliaPrivateURL.Description,Private URL to access Ganglia
 Metadata.AWS::CloudFormation::Designer.d5bad569-ad14-487d-bcc6-5569373bc8cd.z,1
 Parameters.ClusterReadyScript.Description,"Cluster ready script URL. This is only on the MasterServer, when the cluster reaches CREATE_COMPLETE."
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_scale_down_idle_time,{u'Ref': u'ScaleDownIdleTime'}
 Mappings.AWSRegionOS2AMI.eu-central-1.centos6,ami-0362d5eb8ec477a30
 Mappings.AWSRegionOS2AMI.eu-central-1.centos7,ami-0842b79de396801b5
 Metadata.AWS::CloudFormation::Designer.2f599618-92e8-49cf-92bd-551ba9775f39.z,1
@@ -240,11 +205,7 @@ Metadata.AWS::CloudFormation::Designer.d5bad569-ad14-487d-bcc6-5569373bc8cd.posi
 Metadata.AWS::CloudFormation::Designer.d5bad569-ad14-487d-bcc6-5569373bc8cd.position.x,180
 Mappings.OSFeatures.centos7.User,centos
 Metadata.AWS::CloudFormation::Designer.d5bad569-ad14-487d-bcc6-5569373bc8cd.embeds,[]
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'ComputeRouteTable'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/xvdba', u'VirtualName': u'ephemeral0'}, {u'DeviceName': u'/dev/xvdbb', u'VirtualName': u'ephemeral1'}, {u'DeviceName': u'/dev/xvdbc', u'VirtualName': u'ephemeral2'}, {u'DeviceName': u'/dev/xvdbd', u'VirtualName': u'ephemeral3'}, {u'DeviceName': u'/dev/xvdbe', u'VirtualName': u'ephemeral4'}, {u'DeviceName': u'/dev/xvdbf', u'VirtualName': u'ephemeral5'}, {u'DeviceName': u'/dev/xvdbg', u'VirtualName': u'ephemeral6'}, {u'DeviceName': u'/dev/xvdbh', u'VirtualName': u'ephemeral7'}, {u'DeviceName': u'/dev/xvdbi', u'VirtualName': u'ephemeral8'}, {u'DeviceName': u'/dev/xvdbj', u'VirtualName': u'ephemeral9'}, {u'DeviceName': u'/dev/xvdbk', u'VirtualName': u'ephemeral10'}, {u'DeviceName': u'/dev/xvdbl', u'VirtualName': u'ephemeral11'}, {u'DeviceName': u'/dev/xvdbm', u'VirtualName': u'ephemeral12'}, {u'DeviceName': u'/dev/xvdbn', u'VirtualName': u'ephemeral13'}, {u'DeviceName': u'/dev/xvdbo', u'VirtualName': u'ephemeral14'}, {u'DeviceName': u'/dev/xvdbp', u'VirtualName': u'ephemeral15'}, {u'DeviceName': u'/dev/xvdbq', u'VirtualName': u'ephemeral16'}, {u'DeviceName': u'/dev/xvdbr', u'VirtualName': u'ephemeral17'}, {u'DeviceName': u'/dev/xvdbs', u'VirtualName': u'ephemeral18'}, {u'DeviceName': u'/dev/xvdbt', u'VirtualName': u'ephemeral19'}, {u'DeviceName': u'/dev/xvdbu', u'VirtualName': u'ephemeral20'}, {u'DeviceName': u'/dev/xvdbv', u'VirtualName': u'ephemeral21'}, {u'DeviceName': u'/dev/xvdbw', u'VirtualName': u'ephemeral22'}, {u'DeviceName': u'/dev/xvdbx', u'VirtualName': u'ephemeral23'}, {u'DeviceName': {u'Fn::FindInMap': [u'OSFeatures', {u'Ref': u'BaseOS'}, u'RootDevice']}, u'Ebs': {u'VolumeSize': {u'Ref': u'ComputeRootVolumeSize'}, u'VolumeType': u'gp2'}}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_encrypted_ephemeral,{u'Ref': u'EncryptedEphemeral'}
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,65535
-Resources.AWS::CloudWatch::Alarm.Properties.Period,{u'Ref': u'ScalingPeriod'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCId.default,vpc_id
 Parameters.SpotPrice.Description,"Spot bid price for the ComputeFleet AutoScaling Group when the ClusterType = ""spot""."
 Metadata.AWS::CloudFormation::Designer.6a874346-80de-4412-9677-00590371a8a2.position.y,470
@@ -261,7 +222,6 @@ Parameters.EBSEncryption.Description,Boolean flag to use EBS encryption for /sha
 Metadata.AWS::CloudFormation::Designer.c8d3da13-fd27-4377-b606-0f41728c17e1.size.width,60
 Parameters.Tenancy.Default,default
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Allow access to resources in subnets behind front
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.run_list,"{u'Fn::If': [u'UseCustomRunList', {u'Ref': u'CustomChefRunList'}, {u'Fn::Join': [u'', [u'recipe[cfncluster::', {u'Ref': u'Scheduler'}, u'_config]']]}]}"
 Parameters.ScalingAdjustment2.Description,Number of instances to add to cluster when the CloudWatch ScaleUp2 action is called.
 Parameters.PostInstallScript.Description,Postinstall script URL. This is run before any host configuration.
 Metadata.AWS::CloudFormation::Designer.ce1cdcde-8551-4c33-b846-e1b0ab9ac8fb.z,1
@@ -277,7 +237,6 @@ Parameters.Scheduler.Default,sge
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ComputeRootVolumeSize.default,compute_volume_size
 Resources.AWS::EC2::Volume.Condition,CreateEBSVolume
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./etc/chef/client.rb.content,"{u'Fn::Join': [u'', [u""cookbook_path ['/etc/chef/cookbooks']""]]}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_postinstall,{u'Ref': u'PostInstallScript'}
 Metadata.AWS::CloudFormation::Designer.619070e4-82e5-445a-93a0-4795ff69d61c.position.x,180
 Metadata.AWS::CloudFormation::Designer.210b5501-b505-4ee1-917c-a20cae3ac837.size.width,60
 Metadata.AWS::CloudFormation::Designer.23ed10e0-7726-4099-8370-4116c0bc78a2.position.y,680
@@ -286,13 +245,10 @@ Outputs.GangliaPrivateURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt'
 Resources.AWS::EC2::RouteTable.Metadata.AWS::CloudFormation::Designer.id,0824f592-a72b-4bb5-8c67-4ce6df509cdd
 Parameters.EBSEncryption.ConstraintDescription,true/false
 Resources.AWS::EC2::NetworkInterface.Properties.Description,cfncluster Master Server
-Resources.AWS::EC2::NetworkInterface.Properties.GroupSet,"[{u'Fn::If': [u'CreateSecurityGroups', {u'Ref': u'MasterSecurityGroup'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'AddAdditionalSG', {u'Ref': u'AdditionalSG'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'UseExistingSecurityGroup', {u'Ref': u'VPCSecurityGroupId'}, {u'Ref': u'AWS::NoValue'}]}]"
 Metadata.AWS::CloudFormation::Designer.7b0e0a3f-3a02-4e70-9e79-7647b98fd579.size.height,60
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'MaxQueueSize'}
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances using the default cluster user.
 Parameters.EncryptedEphemeral.Description,Boolean flag to encrypt local ephemeral drives. The keys are in-memory and non-recoverable.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ClusterReadyScript.default,cluster_ready
-Resources.AWS::EC2::Volume.Properties.Iops,"{u'Fn::If': [u'UseEBSPIOPS', {u'Ref': u'VolumeIOPS'}, {u'Ref': u'AWS::NoValue'}]}"
 Parameters.MaintainInitialSize.AllowedValues,"[u'true', u'false']"
 Mappings.AWSRegion2Capabilites.ca-central-1.arn,aws
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chefPrepEnv.commands.chef.command,chef-client --local-mode --config /etc/chef/client.rb --log_level auto --force-formatter --no-color --chef-zero-port 8889 --json-attributes /etc/chef/dna.json --override-runlist cfncluster::_prep_env
@@ -301,15 +257,11 @@ Metadata.AWS::CloudFormation::Designer.89b41ceb-a2fb-4e17-a808-9bedc37b2b2c.size
 Metadata.AWS::CloudFormation::Designer.8e63b592-a50f-4b89-a40b-e991adaef77b.embeds,[]
 Parameters.AccessFrom.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Resources.AWS::EC2::Route.Condition,CreateComputeSubnetForCompute
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/extra.json.content,{u'Ref': u'ExtraJson'}
 Parameters.VolumeSize.Default,20
 Resources.AWS::EC2::Route.Metadata.AWS::CloudFormation::Designer.id,596ddc76-44b9-4747-921c-c000c5b636c0
 Metadata.AWS::CloudFormation::Designer.596ddc76-44b9-4747-921c-c000c5b636c0.embeds,[]
 Mappings.AWSRegion2Capabilites.eu-central-1.arn,aws
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_scheduler,{u'Ref': u'Scheduler'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::If': [u'UseCustomAMI', {u'Ref': u'CustomAMI'}, {u'Fn::FindInMap': [u'AWSRegionOS2AMI', {u'Ref': u'AWS::Region'}, {u'Ref': u'BaseOS'}]}]}"
 Resources.AWS::EC2::EIPAssociation.Properties.AllocationId,"{u'Fn::GetAtt': [u'MasterEIP', u'AllocationId']}"
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::If': [u'UseCustomAMI', {u'Ref': u'CustomAMI'}, {u'Fn::FindInMap': [u'AWSRegionOS2AMI', {u'Ref': u'AWS::Region'}, {u'Ref': u'BaseOS'}]}]}"
 Parameters.ProxyServer.Description,"hostname and port of HTTP proxy server for cfn-init, boto and yum i.e. proxy.example.com:8080"
 Resources.AWS::EC2::EIP.Condition,MasterPublicIp
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ComputeSubnetId.default,compute_subnet_id
@@ -319,7 +271,6 @@ Metadata.AWS::CloudFormation::Designer.6a874346-80de-4412-9677-00590371a8a2.embe
 Mappings.CfnClusterVersions.default.cfncluster,cfncluster-1.5.3
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyName.default,key_name
 Metadata.AWS::CloudFormation::Designer.2522b048-2b7c-44ed-9d35-6cc66069ca5b.isassociatedwith,[u'ce1cdcde-8551-4c33-b846-e1b0ab9ac8fb']
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'ComputeRouteTable'}
 Parameters.ComputeSubnetCidr.Default,NONE
 Metadata.AWS::CloudFormation::Designer.c8d3da13-fd27-4377-b606-0f41728c17e1.size.height,60
 Metadata.AWS::CloudFormation::Designer.127f78c3-d47a-4770-8aad-3fd733c3e1b0.position.x,60
@@ -328,7 +279,6 @@ Metadata.AWS::CloudFormation::Designer.d3204db6-c821-400d-bf31-6afd5739923c.z,1
 Metadata.AWS::CloudFormation::Designer.0c5a1e92-ffdd-4344-8ba0-65270e5fd472.isassociatedwith,[u'ce1cdcde-8551-4c33-b846-e1b0ab9ac8fb']
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'ComputeSubnet', u'Key': u'Network'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PostInstallScript.default,post_install
-Outputs.ClusterUser.Value,"{u'Fn::FindInMap': [u'OSFeatures', {u'Ref': u'BaseOS'}, u'User']}"
 Parameters.ScalingThreshold.Default,1
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VolumeIOPS.default,volume_iops
 Metadata.AWS::CloudFormation::Designer.0c5a1e92-ffdd-4344-8ba0-65270e5fd472.size.width,60
@@ -343,9 +293,7 @@ Metadata.AWS::CloudFormation::Designer.bb5a532f-bb43-472a-9965-c4054cd61cc9.z,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.group,root
 Metadata.AWS::CloudFormation::Designer.bb5a532f-bb43-472a-9965-c4054cd61cc9.size.width,150
 Parameters.ClusterReadyScript.Default,NONE
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'ComputeServerLaunchConfig'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ScalingEvaluationPeriods.default,scaling_evaluation_periods
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.stack_name,{u'Ref': u'AWS::StackName'}
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::AutoScaling::AutoScalingGroup.DependsOn,MasterServer
 Resources.AWS::EC2::PlacementGroup.Properties.Strategy,cluster
@@ -357,7 +305,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.getCookbooks.com
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EphemeralKMSKeyId.default,ephemeral_kms_key_id
 Metadata.AWS::CloudFormation::Designer.2904615e-c0ad-4325-b0c5-b9ea7c482b4e.size.height,60
 Parameters.VPCSecurityGroupId.Default,NONE
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': u'0', u'NetworkInterfaceId': {u'Ref': u'MasterENI'}}]"
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Parameters.CWLLogGroup.Default,NONE
 Parameters.EBSSnapshotId.Description,Id of EBS snapshot if using snapshot as source for volume
@@ -376,7 +323,6 @@ Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CWLRegion.default,cwl_region
 Parameters.MasterSubnetId.Description,ID of the Subnet you want to provision the Master server into
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.commands.mkdir.command,mkdir -p /etc/chef/ohai/hints
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_cluster_user,"{u'Fn::FindInMap': [u'OSFeatures', {u'Ref': u'BaseOS'}, u'User']}"
 Metadata.AWS::CloudFormation::Designer.789cb442-3b1a-4673-a07e-8acb1c59c271.size.width,60
 Metadata.AWS::CloudFormation::Designer.ce1cdcde-8551-4c33-b846-e1b0ab9ac8fb.position.x,270
 Metadata.AWS::CloudFormation::Designer.ce1cdcde-8551-4c33-b846-e1b0ab9ac8fb.position.y,30
@@ -390,7 +336,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.getCookbooks.com
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.mode,000644
 Metadata.AWS::CloudFormation::Designer.7b0e0a3f-3a02-4e70-9e79-7647b98fd579.position.x,270
 Metadata.AWS::CloudFormation::Designer.7b0e0a3f-3a02-4e70-9e79-7647b98fd579.position.y,130
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_preinstall,{u'Ref': u'PreInstallScript'}
 Outputs.ClusterUser.Description,Username to login to Master host
 Parameters.VPCSecurityGroupId.Description,Existing VPC security group Id
 Metadata.AWS::CloudFormation::Designer.3fa053e5-8ab7-4cdf-a737-4d20386e4717.z,1
@@ -401,12 +346,10 @@ Metadata.AWS::CloudFormation::Designer.789cb442-3b1a-4673-a07e-8acb1c59c271.posi
 Metadata.AWS::CloudFormation::Designer.789cb442-3b1a-4673-a07e-8acb1c59c271.position.y,380
 Parameters.VolumeType.AllowedValues,"[u'standard', u'gp2', u'io1', u'st1', u'sc1']"
 Metadata.AWS::CloudFormation::Designer.596ddc76-44b9-4747-921c-c000c5b636c0.size.height,60
-Resources.AWS::EC2::Route.Properties.NetworkInterfaceId,{u'Ref': u'MasterENI'}
 Outputs.GangliaPublicURL.Condition,MasterPublicIp
 Outputs.MasterPrivateIP.Description,Private IP Address of the Master host
 Metadata.AWS::CloudFormation::Designer.2522b048-2b7c-44ed-9d35-6cc66069ca5b.embeds,[]
 Parameters.PlacementGroup.Description,The name of an existing placement group
-Resources.AWS::CloudWatch::Alarm.Properties.AlarmActions,[{u'Ref': u'ScaleUpPolicy2'}]
 Metadata.AWS::CloudFormation::Designer.6a874346-80de-4412-9677-00590371a8a2.size.width,60
 Metadata.AWS::CloudFormation::Designer.789cb442-3b1a-4673-a07e-8acb1c59c271.size.height,60
 Metadata.AWS::CloudFormation::Designer.d3204db6-c821-400d-bf31-6afd5739923c.position.x,60
@@ -415,19 +358,13 @@ Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,0
 Metadata.AWS::CloudFormation::Designer.7b0e0a3f-3a02-4e70-9e79-7647b98fd579.isrelatedto,"[u'2f599618-92e8-49cf-92bd-551ba9775f39', u'789cb442-3b1a-4673-a07e-8acb1c59c271']"
 Parameters.AccessFrom.Default,0.0.0.0/0
 Parameters.CWLRegion.Default,NONE
-Resources.AWS::EC2::Volume.Properties.KmsKeyId,"{u'Fn::If': [u'UseEBSKMSKey', {u'Ref': u'EBSKMSKeyId'}, {u'Ref': u'AWS::NoValue'}]}"
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_shared_dir,{u'Ref': u'SharedDir'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./etc/chef/client.rb.owner,root
 Parameters.BaseOS.AllowedValues,"[u'centos6', u'centos7', u'alinux', u'ubuntu1404', u'ubuntu1604']"
 Parameters.S3ReadResource.Default,NONE
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_sqs_queue,{u'Ref': u'SQS'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCSecurityGroupId.default,vpc_security_group_id
-Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,{u'Ref': u'AdditionalCfnTemplate'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AccessFrom.default,access_from
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'RootRole'}]
 Parameters.MaintainInitialSize.Default,false
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PreInstallScript.default,pre_install
-Resources.AWS::AutoScaling::ScalingPolicy.Properties.ScalingAdjustment,{u'Ref': u'ScalingAdjustment2'}
 Metadata.AWS::CloudFormation::Designer.2522b048-2b7c-44ed-9d35-6cc66069ca5b.size.height,60
 Resources.AWS::DynamoDB::Table.Metadata.AWS::CloudFormation::Designer.id,789cb442-3b1a-4673-a07e-8acb1c59c271
 Resources.AWS::EC2::PlacementGroup.Metadata.AWS::CloudFormation::Designer.id,ee5f3006-419e-4786-b527-e9503a662e5e
@@ -436,14 +373,10 @@ Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Timeout,PT30M
 Metadata.AWS::CloudFormation::Designer.127f78c3-d47a-4770-8aad-3fd733c3e1b0.size.height,60
 Parameters.VolumeType.Description,Type of volume to create either new or from snapshot
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Tenancy.default,tenancy
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.PlacementGroup,"{u'Fn::If': [u'UsePlacementGroup', {u'Fn::If': [u'CreatePlacementGroup', {u'Ref': u'DynamicPlacementGroup'}, {u'Ref': u'PlacementGroup'}]}, {u'Ref': u'AWS::NoValue'}]}"
-Resources.AWS::AutoScaling::ScalingPolicy.Properties.Cooldown,{u'Ref': u'ScalingCooldown'}
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'Content-Type: multipart/mixed; boundary=""==BOUNDARY==""\n', u'MIME-Version: 1.0\n\n', u'--==BOUNDARY==\n', u'Content-Type: text/cloud-config; charset=""us-ascii""\n', u'MIME-Version: 1.0\n\n', u'#cloud-config:\n', u'runcmd:\n', u' - [  sh, ""which yum && echo ', {u'Ref': u'ProxyServer'}, u' >> /etc/yum.conf"" ]\n', u' - [ sh, ""which apt-get && echo Acquire::http::Proxy ', {u'Ref': u'ProxyServer'}, u'; >> /etc/apt/apt.conf"" ]\n', u'--==BOUNDARY==\n', u'Content-Type: text/x-shellscript; charset=""us-ascii""\n', u'MIME-Version: 1.0\n\n', u'#!/bin/bash -x\n\n', u'function error_exit\n', u'{\n', u'  cfn-signal ${proxy_args} --exit-code=1 --reason=""$1"" --stack=', {u'Ref': u'AWS::StackName'}, u' --resource=MasterServer --region=', {u'Ref': u'AWS::Region'}, u'\n', u'  exit 1\n', u'}\n', u'function bootstrap_instance\n', u'{\n', u'  which yum 2>/dev/null; yum=$?\n', u'  which apt-get 2>/dev/null; apt=$?\n', u'  if [ ""$yum"" == ""0"" ]; then\n', u'    yum -y groupinstall development && yum -y install curl wget\n', u'  fi\n', u'  if [ ""$apt"" == ""0"" ]; then\n', u'    apt-cache search build-essential; apt-get clean; apt-get update; apt-get -y install build-essential curl wget\n', u'  fi\n', u'  which cfn-init 2>/dev/null || ( curl -s -L -o /tmp/aws-cfn-bootstrap-latest.tar.gz https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz; easy_install -U /tmp/aws-cfn-bootstrap-latest.tar.gz)\n', u'  mkdir -p /etc/chef && chown -R root:root /etc/chef\n', u'  curl -L https://www.chef.io/chef/install.sh | bash -s -- -v $chef_version\n', u'  /opt/chef/embedded/bin/gem install --no-rdoc --no-ri ridley:$ridley_version berkshelf:$berkshelf_version\n', u'  curl -s -L -o /etc/chef/cfncluster-cookbook.tgz $cookbook_url\n', u'  curl -s -L -o /etc/chef/cfncluster-cookbook.tgz.date $cookbook_url.date\n', u'  curl -s -L -o /etc/chef/cfncluster-cookbook.tgz.md5 $cookbook_url.md5\n', u'  mkdir /opt/cfncluster && echo $cfncluster_version | tee /opt/cfncluster/.bootstrapped\n', u'}\n', u'proxy=', {u'Ref': u'ProxyServer'}, u'\n', u'custom_cookbook=', {u'Ref': u'CustomChefCookbook'}, u'\n', u'if [ ""$proxy"" != ""NONE"" ]; then\n', u'  proxy_args=""--http-proxy=${proxy} --https-proxy=${proxy}""\n', u'  proxy_host=$(echo ""$proxy"" | awk -F/ \'{print $3}\' | cut -d: -f1)\n', u'  proxy_port=$(echo ""$proxy"" | awk -F/ \'{print $3}\' | cut -d: -f2)\n', u'  export http_proxy=$proxy; export https_proxy=$http_proxy\n', u'  export HTTP_PROXY=$proxy; export HTTPS_PROXY=$http_proxy\n', u'  export no_proxy=169.254.169.254; export NO_PROXY=169.254.169.254\n', u'  echo -e ""export http_proxy=$proxy; export https_proxy=$http_proxy\nexport HTTP_PROXY=$proxy; export HTTPS_PROXY=$http_proxy\nexport no_proxy=169.254.169.254; export NO_PROXY=169.254.169.254\n"" >/tmp/proxy.sh\n', u'  echo -e ""[Boto]\nproxy = ${proxy_host}\nproxy_port = ${proxy_port}\n"" >/etc/boto.cfg\n', u'else\n', u'  proxy_args=""""\n', u'  touch /tmp/proxy.sh\n', u'fi\n', u'if [ ""$custom_cookbook"" != ""NONE"" ]; then\n', u'  cookbook_url=$custom_cookbook\n', u'else\n', u'  if [ ""', {u'Ref': u'AWS::Region'}, u'"" == ""us-east-1"" ]; then\n', u'    s3_prefix=s3\n', u'  else\n', u'    s3_prefix=s3-', {u'Ref': u'AWS::Region'}, u'\n', u'  fi\n', u'  cookbook_url=https://${s3_prefix}.amazonaws.com/cfncluster-resources-', {u'Ref': u'AWS::Region'}, u'/cookbooks/', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'cookbook']}, u'.tgz\n', u'fi\n', u'export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/aws/bin\n', u'export cfncluster_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'cfncluster']}, u'\n', u'export cookbook_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'cookbook']}, u'\n', u'export chef_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'chef']}, u'\n', u'export ridley_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'ridley']}, u'\n', u'export berkshelf_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'berkshelf']}, u'\n', u'if [ -f /opt/cfncluster/.bootstrapped ]; then\n', u'  installed_version=$(cat /opt/cfncluster/.bootstrapped)\n', u'  if [ ""$cfncluster_version"" != ""$installed_version"" ]; then\n', u'    bootstrap_instance\n', u'  fi\n', u'else\n', u'  bootstrap_instance\n', u'fi\n', u'mkdir /tmp/cookbooks\n', u'cd /tmp/cookbooks\n', u'curl -v -L -o /etc/chef/cfncluster-cookbook.tgz -z ""$(cat /etc/chef/cfncluster-cookbook.tgz.date)"" $cookbook_url\n', u'tar -xzf /etc/chef/cfncluster-cookbook.tgz\n', u'cd /tmp\n', u'# Call CloudFormation\n', u'cfn-init ${proxy_args} -s ', {u'Ref': u'AWS::StackName'}, u' -v -c default -r MasterServer --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init. If --norollback was specified, check /var/log/cfn-init.log and /var/log/cloud-init-output.log.'\n"", u'cfn-signal ${proxy_args} --exit-code=0 --reason=""MasterServer setup complete"" --stack=', {u'Ref': u'AWS::StackName'}, u' --resource=MasterServer --region=', {u'Ref': u'AWS::Region'}, u'\n', u'# End of file\n', u'--==BOUNDARY==\n']]}}"
 Metadata.AWS::CloudFormation::Designer.127f78c3-d47a-4770-8aad-3fd733c3e1b0.embeds,[]
 Parameters.EphemeralDir.Description,The path/mountpoint for the ephemeral drive
 Metadata.AWS::CloudFormation::Designer.7b0e0a3f-3a02-4e70-9e79-7647b98fd579.embeds,[]
 Parameters.ScalingThreshold2.Default,200
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_ephemeral_dir,{u'Ref': u'EphemeralDir'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.signalComputeReady.commands.compute_ready.command,/opt/cfncluster/scripts/compute_ready
 Mappings.OSFeatures.centos7.RootDevice,/dev/sda1
 Resources.AWS::EC2::EIPAssociation.Metadata.AWS::CloudFormation::Designer.id,e9ac6c41-8110-49b9-a92c-de57be8a292a
@@ -452,7 +385,6 @@ Parameters.ScalingPeriod.Default,60
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EBSSnapshotId.default,ebs_snapshot_id
 Metadata.AWS::CloudFormation::Designer.88da1502-8179-4be3-9123-fdc5eac0b6a3.position.x,-50
 Metadata.AWS::CloudFormation::Designer.88da1502-8179-4be3-9123-fdc5eac0b6a3.position.y,310
-Resources.AWS::CloudWatch::Alarm.Properties.Dimensions,"[{u'Name': u'Stack', u'Value': {u'Ref': u'AWS::StackName'}}]"
 Parameters.ScaleDownIdleTime.Default,10
 Parameters.CustomChefRunList.Description,"Custom run list, which will override the default"
 Metadata.AWS::CloudFormation::Designer.45360a4f-64aa-49f8-b016-78fe5ed86819.size.height,60
@@ -461,7 +393,6 @@ Metadata.AWS::CloudFormation::Designer.88da1502-8179-4be3-9123-fdc5eac0b6a3.z,1
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.chefConfig.commands.chef.command,chef-client --local-mode --config /etc/chef/client.rb --log_level auto --force-formatter --no-color --chef-zero-port 8889 --json-attributes /etc/chef/dna.json
 Parameters.ScalingPeriod.Description,Period in seconds to measure ScalingThreshold
 Parameters.S3ReadWriteResource.Description,Addtional policy document to be added to EC2 IAM role created and assigned to all nodes.
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPCId'}
 Metadata.AWS::CloudFormation::Designer.3fa053e5-8ab7-4cdf-a737-4d20386e4717.isassociatedwith,[u'd3204db6-c821-400d-bf31-6afd5739923c']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.commands.touch.command,touch /etc/chef/ohai/hints/ec2.json
 Parameters.EBSSnapshotId.AllowedPattern,(NONE|^snap-[0-9a-z]{8}$|^snap-[0-9a-z]{17}$)
@@ -486,19 +417,13 @@ Parameters.ComputeRootVolumeSize.Default,15
 Metadata.AWS::CloudFormation::Designer.2522b048-2b7c-44ed-9d35-6cc66069ca5b.position.x,390
 Metadata.AWS::CloudFormation::Designer.d3204db6-c821-400d-bf31-6afd5739923c.size.width,60
 Metadata.AWS::CloudFormation::Designer.23ed10e0-7726-4099-8370-4116c0bc78a2.embeds,[]
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_cluster_user,"{u'Fn::FindInMap': [u'OSFeatures', {u'Ref': u'BaseOS'}, u'User']}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.chefPrepEnv.commands.chef.command,chef-client --local-mode --config /etc/chef/client.rb --log_level auto --force-formatter --no-color --chef-zero-port 8889 --json-attributes /etc/chef/dna.json --override-runlist cfncluster::_prep_env
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_shared_dir,{u'Ref': u'SharedDir'}
 Metadata.AWS::CloudFormation::Designer.89b41ceb-a2fb-4e17-a808-9bedc37b2b2c.isassociatedwith,[u'3fa053e5-8ab7-4cdf-a737-4d20386e4717']
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SharedDir.default,shared_dir
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VolumeType.default,volume_type
 Parameters.PostInstallArgs.Default,NONE
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'ComputeSubnet'}
 Mappings.AWSRegionOS2AMI.eu-central-1.ubuntu1404,ami-0174c3f5501fc441b
-Resources.AWS::SQS::QueuePolicy.Properties.Queues,[{u'Ref': u'SQS'}]
-Resources.AWS::EC2::Volume.Properties.VolumeType,{u'Ref': u'VolumeType'}
 Metadata.AWS::CloudFormation::Designer.619070e4-82e5-445a-93a0-4795ff69d61c.embeds,[]
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/extra.json.content,{u'Ref': u'ExtraJson'}
 Resources.AWS::EC2::Instance.Metadata.Comment,cfncluster Master server
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.ComputeSubnetCidr.AllowedPattern,"(NONE|(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2}))"
@@ -528,17 +453,14 @@ Outputs.MasterPrivateIP.Value,"{u'Fn::GetAtt': [u'MasterServer', u'PrivateIp']}"
 Metadata.AWS::CloudFormation::Designer.2904615e-c0ad-4325-b0c5-b9ea7c482b4e.z,1
 Resources.AWS::IAM::Role.Condition,CreateEC2IAMRole
 Parameters.ScaleDownIdleTime.Description,Period in minutes without jobs after which compute node will terminate 
-Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'MasterSecurityGroup'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.mode,000644
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.chefPrepEnv.commands.chef.cwd,/etc/chef
 Resources.AWS::EC2::SecurityGroup.Metadata.AWS::CloudFormation::Designer.id,619070e4-82e5-445a-93a0-4795ff69d61c
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Fn::If': [u'CreateSecurityGroups', {u'Ref': u'ComputeSecurityGroup'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'AddAdditionalSG', {u'Ref': u'AdditionalSG'}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'UseExistingSecurityGroup', {u'Ref': u'VPCSecurityGroupId'}, {u'Ref': u'AWS::NoValue'}]}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Designer.id,88da1502-8179-4be3-9123-fdc5eac0b6a3
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.shellRunPreInstall.commands.runpreinstall.command,/opt/cfncluster/scripts/fetch_and_run -preinstall
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.MaxQueueSize.default,max_queue_size
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.getCookbooks.commands.berk.env.HOME,/tmp
 Metadata.AWS::CloudFormation::Designer.45360a4f-64aa-49f8-b016-78fe5ed86819.ismemberof,[u'2904615e-c0ad-4325-b0c5-b9ea7c482b4e']
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_encrypted_ephemeral,{u'Ref': u'EncryptedEphemeral'}
 Parameters.SharedDir.Description,The path/mountpoint for the shared drive
 Metadata.AWS::CloudFormation::Designer.bb5a532f-bb43-472a-9965-c4054cd61cc9.embeds,[]
 Metadata.AWS::CloudFormation::Designer.d3204db6-c821-400d-bf31-6afd5739923c.isrelatedto,[u'2522b048-2b7c-44ed-9d35-6cc66069ca5b']
@@ -546,33 +468,24 @@ Metadata.AWS::CloudFormation::Designer.d5bad569-ad14-487d-bcc6-5569373bc8cd.size
 Outputs.GangliaPublicURL.Description,Public URL to access Ganglia
 Parameters.EphemeralDir.Default,/scratch
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'Content-Type: multipart/mixed; boundary=""==BOUNDARY==""\n', u'MIME-Version: 1.0\n\n', u'--==BOUNDARY==\n', u'Content-Type: text/cloud-config; charset=""us-ascii""\n', u'MIME-Version: 1.0\n\n', u'#cloud-config:\n', u'runcmd:\n', u' - [  sh, ""which yum && echo ', {u'Ref': u'ProxyServer'}, u' >> /etc/yum.conf"" ]\n', u' - [ sh, ""which apt-get && echo Acquire::http::Proxy ', {u'Ref': u'ProxyServer'}, u'; >> /etc/apt/apt.conf"" ]\n', u'--==BOUNDARY==\n', u'Content-Type: text/x-shellscript; charset=""us-ascii""\n', u'MIME-Version: 1.0\n\n', u'#!/bin/bash -x\n\n', u'function error_exit\n', u'{\n', u'  cfn-signal ${proxy_args} --exit-code=1 --reason=""$1"" --stack=', {u'Ref': u'AWS::StackName'}, u' --resource=ComputeFleet --region=', {u'Ref': u'AWS::Region'}, u'\n', u'  exit 1\n', u'}\n', u'function bootstrap_instance\n', u'{\n', u'  which yum 2>/dev/null; yum=$?\n', u'  which apt-get 2>/dev/null; apt=$?\n', u'  if [ ""$yum"" == ""0"" ]; then\n', u'    yum -y groupinstall development && yum -y install curl wget\n', u'  fi\n', u'  if [ ""$apt"" == ""0"" ]; then\n', u'    apt-cache search build-essential; apt-get clean; apt-get update; apt-get -y install build-essential curl wget\n', u'  fi\n', u'  which cfn-init 2>/dev/null || ( curl -s -L -o /tmp/aws-cfn-bootstrap-latest.tar.gz https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz; easy_install -U /tmp/aws-cfn-bootstrap-latest.tar.gz)\n', u'  mkdir -p /etc/chef && chown -R root:root /etc/chef\n', u'  curl -L https://www.chef.io/chef/install.sh | bash -s -- -v $chef_version\n', u'  /opt/chef/embedded/bin/gem install --no-rdoc --no-ri ridley:$ridley_version berkshelf:$berkshelf_version\n', u'  curl -s -L -o /etc/chef/cfncluster-cookbook.tgz $cookbook_url\n', u'  curl -s -L -o /etc/chef/cfncluster-cookbook.tgz.date $cookbook_url.date\n', u'  curl -s -L -o /etc/chef/cfncluster-cookbook.tgz.md5 $cookbook_url.md5\n', u'  mkdir /opt/cfncluster && echo $cfncluster_version | tee /opt/cfncluster/.bootstrapped\n', u'}\n', u'proxy=', {u'Ref': u'ProxyServer'}, u'\n', u'custom_cookbook=', {u'Ref': u'CustomChefCookbook'}, u'\n', u'if [ ""$proxy"" != ""NONE"" ]; then\n', u'  proxy_args=""--http-proxy=${proxy} --https-proxy=${proxy}""\n', u'  proxy_host=$(echo ""$proxy"" | awk -F/ \'{print $3}\' | cut -d: -f1)\n', u'  proxy_port=$(echo ""$proxy"" | awk -F/ \'{print $3}\' | cut -d: -f2)\n', u'  export http_proxy=$proxy; export https_proxy=$http_proxy\n', u'  export HTTP_PROXY=$proxy; export HTTPS_PROXY=$http_proxy\n', u'  export no_proxy=169.254.169.254; export NO_PROXY=169.254.169.254\n', u'  echo -e ""export http_proxy=$proxy; export https_proxy=$http_proxy\nexport HTTP_PROXY=$proxy; export HTTPS_PROXY=$http_proxy\nexport no_proxy=169.254.169.254; export NO_PROXY=169.254.169.254\n"" >/tmp/proxy.sh\n', u'  echo -e ""[Boto]\nproxy = ${proxy_host}\nproxy_port = ${proxy_port}\n"" >/etc/boto.cfg\n', u'else\n', u'  proxy_args=""""\n', u'  touch /tmp/proxy.sh\n', u'fi\n', u'if [ ""$custom_cookbook"" != ""NONE"" ]; then\n', u'  cookbook_url=$custom_cookbook\n', u'else\n', u'  if [ ""', {u'Ref': u'AWS::Region'}, u'"" == ""us-east-1"" ]; then\n', u'    s3_prefix=s3\n', u'  else\n', u'    s3_prefix=s3-', {u'Ref': u'AWS::Region'}, u'\n', u'  fi\n', u'  cookbook_url=https://${s3_prefix}.amazonaws.com/cfncluster-resources-', {u'Ref': u'AWS::Region'}, u'/cookbooks/', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'cookbook']}, u'.tgz\n', u'fi\n', u'export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/aws/bin\n', u'export cfncluster_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'cfncluster']}, u'\n', u'export cookbook_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'cookbook']}, u'\n', u'export chef_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'chef']}, u'\n', u'export ridley_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'ridley']}, u'\n', u'export berkshelf_version=', {u'Fn::FindInMap': [u'CfnClusterVersions', u'default', u'berkshelf']}, u'\n', u'if [ -f /opt/cfncluster/.bootstrapped ]; then\n', u'  installed_version=$(cat /opt/cfncluster/.bootstrapped)\n', u'  if [ ""$cfncluster_version"" != ""$installed_version"" ]; then\n', u'    bootstrap_instance\n', u'  fi\n', u'else\n', u'  bootstrap_instance\n', u'fi\n', u'mkdir /tmp/cookbooks\n', u'cd /tmp/cookbooks\n', u'curl -v -L -o /etc/chef/cfncluster-cookbook.tgz -z ""$(cat /etc/chef/cfncluster-cookbook.tgz.date)"" $cookbook_url\n', u'tar -xzf /etc/chef/cfncluster-cookbook.tgz\n', u'cd /tmp\n', u'# Call CloudFormation\n', u'cfn-init ${proxy_args} -s ', {u'Ref': u'AWS::StackName'}, u' -v -c default -r ComputeServerLaunchConfig --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init. If --norollback was specified, check /var/log/cfn-init.log and /var/log/cloud-init-output.log.'\n"", u'cfn-signal ${proxy_args} --exit-code=0 --reason=""MasterServer setup complete"" --stack=', {u'Ref': u'AWS::StackName'}, u' --resource=ComputeFleet --region=', {u'Ref': u'AWS::Region'}, u'\n', u'# End of file\n', u'--==BOUNDARY==\n']]}}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Designer.id,d3204db6-c821-400d-bf31-6afd5739923c
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.getCookbooks.commands.berk.command,. /tmp/proxy.sh; for d in `ls /tmp/cookbooks`; do cd /tmp/cookbooks/$d;LANG=en_US.UTF-8 /opt/chef/embedded/bin/berks vendor /etc/chef/cookbooks --delete; done 
 Parameters.ScalingEvaluationPeriods.Default,2
 Parameters.EBSEncryption.AllowedValues,"[u'true', u'false']"
 Metadata.AWS::CloudFormation::Designer.ce1cdcde-8551-4c33-b846-e1b0ab9ac8fb.size.width,60
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.MasterRootVolumeSize.MinValue,15
 Parameters.ExtraJson.Description,Extra json to be added to Chef dna.json
-Resources.AWS::EC2::Volume.Properties.Encrypted,"{u'Fn::If': [u'UseEBSEncryption', {u'Ref': u'EBSEncryption'}, {u'Ref': u'AWS::NoValue'}]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.S3ReadResource.default,s3_read_resource
 Parameters.ScalingCooldown.Default,300
 Metadata.AWS::CloudFormation::Designer.210b5501-b505-4ee1-917c-a20cae3ac837.z,1
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_volume,"{u'Fn::If': [u'UseExistingEBSVolume', {u'Ref': u'EBSVolumeId'}, {u'Ref': u'SharedVolume'}]}"
 Metadata.AWS::CloudFormation::Designer.89b41ceb-a2fb-4e17-a808-9bedc37b2b2c.embeds,[]
 Parameters.EC2IAMRoleName.Description,Existing EC2 IAM role name
-Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'ComputeSubnet', u'Key': u'Network'}]"
 Mappings.AWSRegionOS2AMI.ca-central-1.centos6,ami-0af06655a7341c2b5
 Mappings.AWSRegionOS2AMI.ca-central-1.centos7,ami-089b3d6d4ef8c5772
 Resources.AWS::SQS::Queue.Properties.MessageRetentionPeriod,1209600
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_ephemeral_dir,{u'Ref': u'EphemeralDir'}
 Outputs.MasterPublicIP.Value,"{u'Fn::GetAtt': [u'MasterServer', u'PublicIp']}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_ddb_table,{u'Ref': u'DynamoDBTable'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.stack_name,{u'Ref': u'AWS::StackName'}
 Metadata.AWS::CloudFormation::Designer.6a874346-80de-4412-9677-00590371a8a2.z,1
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ScalingThreshold.default,scaling_threshold
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,"{u'Fn::If': [u'UseEC2IAMRole', {u'Ref': u'EC2IAMRoleName'}, {u'Ref': u'RootInstanceProfile'}]}"
 Metadata.AWS::CloudFormation::Designer.ee5f3006-419e-4786-b527-e9503a662e5e.embeds,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.chefConfig.commands.chef.command,chef-client --local-mode --config /etc/chef/client.rb --log_level auto --force-formatter --no-color --chef-zero-port 8889 --json-attributes /etc/chef/dna.json
 Mappings.OSFeatures.ubuntu1604.RootDevice,/dev/sda1
@@ -584,7 +497,6 @@ Metadata.AWS::CloudFormation::Designer.0824f592-a72b-4bb5-8c67-4ce6df509cdd.embe
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EphemeralDir.default,ephemeral_dir
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.configSets.default,"[u'deployConfigFiles', u'getCookbooks', u'chefPrepEnv', u'shellRunPreInstall', u'chefConfig', u'shellRunPostInstall', u'shellForkClusterReadyInstall', u'signalComputeReady']"
 Metadata.AWS::CloudFormation::Designer.2f599618-92e8-49cf-92bd-551ba9775f39.embeds,[]
-Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Count,{u'Ref': u'ComputeWaitConditionCount'}
 Resources.AWS::EC2::SubnetRouteTableAssociation.Metadata.AWS::CloudFormation::Designer.id,9dd9772e-03a3-4983-b28e-a52ac42f0ffe
 Parameters.EncryptedEphemeral.ConstraintDescription,true/false
 Metadata.AWS::CloudFormation::Designer.45360a4f-64aa-49f8-b016-78fe5ed86819.embeds,[]
@@ -602,7 +514,6 @@ Mappings.CfnClusterVersions.default.ami,dev
 Parameters.ClusterType.Description,"Type of cluster to launch. Can either be ""ondemand"" or ""spot"". Choosing ""spot"" will cause the ComputeFleet AutoScaling group to launch EC2 Spot instances. Default value is ""ondemand""."
 Parameters.BaseOS.Description,Base OS type for cluster AMI
 Mappings.OSFeatures.alinux.User,ec2-user
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./tmp/dna.json.content.cfncluster.cfn_preinstall_args,{u'Ref': u'PreInstallArgs'}
 Metadata.AWS::CloudFormation::Designer.ee5f3006-419e-4786-b527-e9503a662e5e.size.width,60
 Metadata.AWS::CloudFormation::Designer.2522b048-2b7c-44ed-9d35-6cc66069ca5b.size.width,60
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
@@ -611,23 +522,18 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.MasterSubnetId.default,m
 Parameters.ClusterType.Default,ondemand
 Mappings.OSFeatures.ubuntu1604.User,ubuntu
 Parameters.MaxQueueSize.Description,Maximum number of EC2 instances that can be launched in the cluster. This value maps to the MaxSize parameter for the ComputeFleet AutoScaling Group.
-Resources.AWS::EC2::NetworkInterface.Properties.SubnetId,{u'Ref': u'MasterSubnetId'}
 Mappings.CfnClusterVersions.default.ridley,5.1.1
 Parameters.UsePublicIps.AllowedValues,"[u'true', u'false']"
 Parameters.AdditionalSG.Description,Additional VPC secuirty group to be added to instances. Defaults to NONE
 Parameters.ScalingThreshold.Description,Threshold for triggering CloudWatch ScaleUp action
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.deployConfigFiles.files./etc/chef/client.rb.mode,000644
-Resources.AWS::CloudWatch::Alarm.Properties.Threshold,{u'Ref': u'ScalingThreshold2'}
 Parameters.EBSSnapshotId.Default,NONE
 Metadata.AWS::CloudFormation::Designer.e9ac6c41-8110-49b9-a92c-de57be8a292a.target.id,45360a4f-64aa-49f8-b016-78fe5ed86819
-Resources.AWS::CloudWatch::Alarm.Properties.EvaluationPeriods,{u'Ref': u'ScalingEvaluationPeriods'}
 Resources.AWS::EC2::SecurityGroup.Condition,CreateSecurityGroups
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VolumeSize.default,volume_size
 Mappings.OSFeatures.centos6.RootDevice,/dev/sda1
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.NotificationConfiguration.TopicARN,{u'Ref': u'SNS'}
 Metadata.AWS::CloudFormation::Designer.45360a4f-64aa-49f8-b016-78fe5ed86819.z,1
 Parameters.ComputeRootVolumeSize.Description,Size of ComputeFleet EBS root volume in GB
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Fn::If': [u'UseMasterSubnetForCompute', {u'Ref': u'MasterSubnetId'}, {u'Fn::If': [u'CreateComputeSubnetForCompute', {u'Ref': u'ComputeSubnet'}, {u'Ref': u'ComputeSubnetId'}]}]}]"
 Parameters.ScalingAdjustment2.Default,10
 Metadata.AWS::CloudFormation::Designer.ee5f3006-419e-4786-b527-e9503a662e5e.size.height,60
 Resources.AWS::AutoScaling::ScalingPolicy.Metadata.AWS::CloudFormation::Designer.id,89b41ceb-a2fb-4e17-a808-9bedc37b2b2c
@@ -642,6 +548,5 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Metadata.AWS::CloudFormation::Designer.45360a4f-64aa-49f8-b016-78fe5ed86819.position.y,310
 Metadata.AWS::CloudFormation::Designer.45360a4f-64aa-49f8-b016-78fe5ed86819.position.x,60
 Outputs.MasterPublicIP.Condition,MasterPublicIp
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Master', u'Key': u'Name'}]"
 Metadata.AWS::CloudFormation::Designer.0824f592-a72b-4bb5-8c67-4ce6df509cdd.size.width,240
 Parameters.BaseOS.Default,alinux

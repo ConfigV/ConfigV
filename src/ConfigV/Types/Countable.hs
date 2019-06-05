@@ -1,9 +1,9 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass#-}
 {-# LANGUAGE TypeSynonymInstances #-}
-module Types.Countable where
+module ConfigV.Types.Countable where
 
-import Types.Common
+import ConfigV.Types.Common
 
 import qualified Data.Map        as M
 import           Data.Aeson

@@ -4,21 +4,13 @@ Resources.AWS::OpsWorks::Stack.Properties.ServiceRoleArn,"{u'Fn::GetAtt': [u'Ops
 Resources.AWS::OpsWorks::Layer.Properties.Name,MyPHPApp
 Resources.AWS::OpsWorks::App.Properties.AppSource.Url,git://github.com/amazonwebservices/opsworks-demo-php-simple-app.git
 Resources.AWS::IAM::Role.Properties.Path,/
-Outputs.AppId.Value,{u'Ref': u'myApp'}
-Resources.AWS::OpsWorks::App.Properties.StackId,{u'Ref': u'myStack'}
-Resources.AWS::OpsWorks::Instance.Properties.StackId,{u'Ref': u'myStack'}
 Resources.AWS::OpsWorks::App.Properties.AppSource.Revision,version1
-Resources.AWS::OpsWorks::Instance.Properties.LayerIds,[{u'Ref': u'myLayer'}]
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::OpsWorks::Layer.Properties.Shortname,php-app
 Resources.AWS::OpsWorks::App.Properties.Attributes.DocumentRoot, 
-Resources.AWS::OpsWorks::Stack.Properties.Name,{u'Ref': u'AWS::StackName'}
 Resources.AWS::OpsWorks::App.Properties.Name,MyPHPApp
-Outputs.StackId.Value,{u'Ref': u'myStack'}
 Resources.AWS::OpsWorks::Layer.Properties.AutoAssignElasticIps,false
-Resources.AWS::OpsWorks::Layer.Properties.StackId,{u'Ref': u'myStack'}
 Resources.AWS::OpsWorks::Layer.DependsOn,myApp
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'opsworks-service', u'PolicyDocument': {u'Statement': [{u'Action': [u'ec2:*', u'iam:PassRole', u'cloudwatch:GetMetricStatistics', u'elasticloadbalancing:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::OpsWorks::Stack.Properties.DefaultInstanceProfileArn,"{u'Fn::GetAtt': [u'OpsWorksInstanceProfile', u'Arn']}"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'OpsWorksInstanceRole'}]
 Resources.AWS::OpsWorks::Layer.Properties.AutoAssignPublicIps,true

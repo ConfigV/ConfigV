@@ -1,24 +1,13 @@
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyPair'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'TestAZ']}]"
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': {u'Ref': u'WebServerPort'}, u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,"[{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'TestAZ']}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}]]}"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,2
 Parameters.WebServerPort.Description,The TCP port for the Web Server
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
 Outputs.URL.Description,The URL of the Load Balanced Web Site
 Parameters.WebServerPort.Default,8888
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u':', [{u'Ref': u'WebServerPort'}]]}}"
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,"{u'Fn::Join': [u'', [u'HTTP:', {u'Ref': u'WebServerPort'}, u'/']]}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
 Parameters.KeyPair.Description,The EC2 Key Pair to allow SSH access to the instances
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access and HTTP access on the inbound port
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}, {u'ToPort': {u'Ref': u'WebServerPort'}, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': {u'Ref': u'WebServerPort'}}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,2
 Parameters.KeyPair.Default,FooBar
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3

@@ -1,6 +1,6 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Learners.Common where
+module ConfigV.Learners.Common where
 
 -- I expect that the resolve stage of all the learners will have a lot of repitition
 -- that can all go here
@@ -11,10 +11,9 @@ import qualified Data.Set as S
 import qualified Data.Text as T
 import qualified Data.Map as M
 import Data.Interned
-import           Data.Maybe
+import Data.Maybe
 
-import Types.IR
-import Types.Countable
+import ConfigV.Types
 
 {-
 showErr :: (Show k, Show v) => Maybe (M.Map k v) -> ((k,v) -> Error) -> [Error]
@@ -102,7 +101,7 @@ sockport (ir1,ir2) = not $
   T.isInfixOf "port"   (getMod ir2))
 
 --according to Ennan modules do not interact with anything except themselves for Ordering
---so take the string before the first '_' as the module and only compare those that have equal modules
+--so take the string before the first '_' as the module ConfigV.and only compare those that have equal modules
 --if no modules, the keys are in the same module
 --Additoianlly restict the context, eg [mysql], to be the same
 --Are these lines in the same moudle
@@ -110,7 +109,7 @@ sameConfigModule :: (IRLine,IRLine) -> Bool
 sameConfigModule (ir1,ir2) = let
   sameMod = ((emptyMod ir1 && emptyMod ir2) || (getMod ir1 == getMod ir2)) && (getContext ir1 == getContext ir2)
   --special case for socket and port
-  --cant be the same module if only one is socket or port
+  --cant be the same module ConfigV.if only one is socket or port
  in
   (sockport (ir1,ir2)) && sameMod
 

@@ -18,14 +18,12 @@ Mappings.RegionMap.eu-central-1.aznlinux,ami-43eec3a8
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535
 Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,PublicNACL
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,100
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::RouteTable.DependsOn,[u'VPC']
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'ResourceName', u'Key': u'Name'}]"
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
 Resources.AWS::EC2::Route.Properties.RouteTableId,RouteTable
 Resources.AWS::EC2::Route.DependsOn,"[u'RouteTable', u'GatewayAttachment']"
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'Subnet'}, u'DeviceIndex': 0, u'GroupSet': [u'CompromisedSecurityGroup'], u'PrivateIpAddress': u'10.0.0.15', u'AssociatePublicIpAddress': True}]"
 Resources.AWS::EC2::RouteTable.Properties.VpcId,VPC
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CompromisedPolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'guardduty:GetDetector', u'guardduty:ListDetectors', u'guardduty:CreateThreatIntelSet', u'guardduty:UpdateThreatIntelSet', u'dynamodb:ListTables'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'iam:PutRolePolicy'], u'Resource': {u'Fn::Join': [u':', [u'arn:aws:iam:', u'AWS::AccountId', u'role/aws-service-role/guardduty.amazonaws.com/*']]}, u'Effect': u'Allow'}, {u'Action': u's3:PutObject', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'ResourceName', u'-', u'AWS::AccountId', u'-', u'AWS::Region', u'-', u'gd-threatlist', u'/*']]}, u'Effect': u'Allow'}, {u'Action': [u'ssm:PutParameter', u'ssm:DescribeParameters', u'ssm:GetParameters', u'ssm:DeleteParameter'], u'Resource': {u'Fn::Join': [u':', [u'arn:aws:ssm', u'AWS::Region', u'AWS::AccountId', u'parameter/*']]}, u'Effect': u'Allow'}, {u'Action': [u'ssm:DescribeParameters'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'dynamodb:ListTables', u'dynamodb:DescribeTable'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'logs:PutLogEvents', u'logs:DescribeLogStreams', u'logs:CreateLogStream', u'logs:CreateLogGroup'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u's3:*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'ResourceName', u'-', u'AWS::AccountId', u'-', u'AWS::Region', u'-', u'data', u'/*']]}, u'Effect': u'Allow'}, {u'Action': [u's3:*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'ResourceName', u'-', u'AWS::AccountId', u'-', u'AWS::Region', u'-', u'data']]}, u'Effect': u'Allow'}]}}]"

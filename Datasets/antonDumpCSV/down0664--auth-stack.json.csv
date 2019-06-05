@@ -1,12 +1,8 @@
-Resources.AWS::ApiGateway::Method.Properties.Integration.Uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'Testfct1LambdaFunction', u'Arn']}, u'/invocations']]}"
-Resources.AWS::ApiGateway::Deployment.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::ApiGateway::Method.Properties.Integration.IntegrationHttpMethod,POST
-Outputs.Testfct1LambdaFunctionQualifiedArn.Value,{u'Ref': u'Testfct1LambdaVersionrvZ7KY7UgzQ2OKbOvZoG1zLgodltc7toF3qYeORU'}
 Resources.AWS::Lambda::Function.Properties.Description,Echo function echoes alias
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'TestauthLambdaFunction', u'Arn']}"
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,serverless/sls-test-project/dev/1496754891214-2017-06-06T13:14:51.214Z/sls-test-project.zip
-Resources.AWS::ApiGateway::Method.Properties.AuthorizerId,{u'Ref': u'TestauthApiGatewayAuthorizer'}
 Resources.AWS::ApiGateway::Deployment.DependsOn,[u'ApiGatewayMethodFunc1Get']
 Outputs.ServiceEndpoint.Description,URL of the service endpoint
 Resources.AWS::ApiGateway::Method.DependsOn,TestauthApiGatewayAuthorizer
@@ -14,41 +10,29 @@ Resources.AWS::Lambda::Function.Properties.Environment.Variables.SERVERLESS_PROJ
 Resources.AWS::Lambda::Function.Properties.MemorySize,512
 Resources.AWS::ApiGateway::Deployment.Properties.StageName,dev
 Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/aws/lambda/sls-test-project-dev-testauth
-Resources.AWS::ApiGateway::Authorizer.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
 Resources.AWS::IAM::Role.Properties.RoleName,"{u'Fn::Join': [u'-', [u'sls-test-project', u'dev', u'us-east-1', u'lambdaRole']]}"
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SERVERLESS_STAGE,dev
 Resources.AWS::Lambda::Function.Properties.Handler,handlers/testfct1/handler.handle
-Resources.AWS::ApiGateway::Resource.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
 Resources.AWS::Lambda::Function.Properties.Timeout,15
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'ServerlessDeploymentBucket'}
 Resources.AWS::Lambda::Function.Properties.FunctionName,sls-test-project-dev-testfct1
-Resources.AWS::ApiGateway::Method.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SERVERLESS_PROJECT_NAME,sls-test-project
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.TEST_TABLE_NAME,{u'Ref': u'TestDynamoDbTable'}
 Resources.AWS::ApiGateway::Authorizer.Properties.Name,testauth
-Outputs.ServerlessDeploymentBucketName.Value,{u'Ref': u'ServerlessDeploymentBucket'}
 Resources.AWS::ApiGateway::Method.Properties.HttpMethod,GET
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Lambda::Function.DependsOn,"[u'Testfct1LogGroup', u'IamRoleLambdaExecution']"
-Resources.AWS::Lambda::Version.Properties.FunctionName,{u'Ref': u'TestauthLambdaFunction'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::Lambda::Version.Properties.Description,A custom authorizer
 Resources.AWS::ApiGateway::RestApi.Properties.Name,dev-sls-test-project
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Outputs.ServiceEndpoint.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'ApiGatewayRestApi'}, u'.execute-api.us-east-1.amazonaws.com/dev']]}"
-Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:execute-api:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'ApiGatewayRestApi'}, u'/*/*']]}"
-Outputs.TestauthLambdaFunctionQualifiedArn.Value,{u'Ref': u'TestauthLambdaVersionrvZ7KY7UgzQ2OKbOvZoG1zLgodltc7toF3qYeORU'}
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs4.3
 Resources.AWS::ApiGateway::Authorizer.Properties.IdentitySource,method.request.header.Authorization
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'IamRoleLambdaExecution', u'Arn']}"
 Resources.AWS::ApiGateway::Resource.Properties.PathPart,func1
-Resources.AWS::ApiGateway::Method.Properties.ResourceId,{u'Ref': u'ApiGatewayResourceFunc1'}
 Resources.AWS::Lambda::Version.Properties.CodeSha256,rvZ7KY7UgzQ2OKbOvZoG1zLgodltc7+to/F3q+YeORU=
 Resources.AWS::ApiGateway::Method.Properties.MethodResponses,[]
 Resources.AWS::Lambda::Version.DeletionPolicy,Retain
 Resources.AWS::ApiGateway::Authorizer.Properties.ProviderARNs,[u'arn:aws:cognito-idp:us-west-2:xxxxx:userpool/us-west-xxxx']
 Resources.AWS::ApiGateway::Resource.Properties.ParentId,"{u'Fn::GetAtt': [u'ApiGatewayRestApi', u'RootResourceId']}"
-Resources.AWS::ApiGateway::Authorizer.Properties.AuthorizerUri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'TestauthLambdaFunction', u'Arn']}, u'/invocations']]}"
 Outputs.Testfct1LambdaFunctionQualifiedArn.Description,Current Lambda function version
 Resources.AWS::ApiGateway::Authorizer.Properties.AuthorizerResultTtlInSeconds,0
 Outputs.TestauthLambdaFunctionQualifiedArn.Description,Current Lambda function version

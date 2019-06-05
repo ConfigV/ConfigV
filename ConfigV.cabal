@@ -18,32 +18,30 @@ cabal-version:       >=1.10
 
 library 
   exposed-modules:         ConfigV
-  other-modules:           Benchmarks
-                         , OutputPrinter
-                         , Checker
-                         , Convert
-                         , Learners
-                         , Learners.Common
-                         , Learners.FineGrained
-                         , Learners.IntRel
-                         , Learners.KeywordCoor
-                         , Learners.KeyValKeyCoor
-                         , Learners.Ordering
-                         , Learners.TypeErr
-                         , Learners.SMTRules
-                         , LearningEngine
-                         , Settings.Config
-                         , Settings.Options
-                         , Settings.Thresholds
-                         , Types.Common
-                         , Types.Countable
-                         , Types.Errors
-                         , Types.IR
-                         , Types.Locatable
-                         , Types.SMTRules
-                         , Types.JSON
-                         , Types.Rules
-                         , Utils
+                         , ConfigV.Learners.Common
+                         , ConfigV.Types.IR
+  other-modules:           ConfigV.OutputPrinter
+                         , ConfigV.Checker
+                         , ConfigV.Convert
+                         , ConfigV.Learners
+                         , ConfigV.Learners.FineGrained
+                         , ConfigV.Learners.IntRel
+                         , ConfigV.Learners.Ordering
+                         , ConfigV.Learners.TypeErr
+                         , ConfigV.Learners.SMTRules
+                         , ConfigV.LearningEngine
+                         , ConfigV.Settings.Config
+                         , ConfigV.Settings.Options
+                         , ConfigV.Settings.Thresholds
+                         , ConfigV.Types
+                         , ConfigV.Types.Common
+                         , ConfigV.Types.Countable
+                         , ConfigV.Types.Errors
+                         , ConfigV.Types.Locatable
+                         , ConfigV.Types.SMTRules
+                         , ConfigV.Types.JSON
+                         , ConfigV.Types.Rules
+                         , ConfigV.Utils
   ghc-options: 
     -O2 
     -Wunused-imports
@@ -104,6 +102,23 @@ executable Cells
   build-depends:       base >=4.9 && <4.12, 
                        ConfigV,
                        cmdargs
+
+
+Test-Suite UnitTests
+   type: exitcode-stdio-1.0
+   default-language: Haskell2010
+   hs-source-dirs: Tests
+   main-is: UnitTests.hs
+   ghc-options:
+     -O2
+     -threaded
+     "-with-rtsopts=-N4"
+   build-depends:       
+       base >=4.10
+     , ConfigV
+     , tasty
+     , tasty-hunit
+     , containers
 
 
 Test-Suite CSV

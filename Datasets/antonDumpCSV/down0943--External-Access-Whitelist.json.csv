@@ -13,14 +13,11 @@ Resources.AWS::EC2::SecurityGroupIngress.Condition,AllowDirectorAccess
 Parameters.DirectorSecurityGroup.Description,Director Security Group
 Parameters.ApplicationLbSecurityGroup.ConstraintDescription,Valid security group
 Parameters.DirectorSecurityGroup.Default,
-Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'DirectorSecurityGroup'}
 Parameters.CidrDescription.ConstraintDescription,Valid description
 Parameters.CfSshSecurityGroup.Description,SSH ELB Security Group
-Resources.AWS::EC2::SecurityGroupIngress.Properties.Description,"{u'Fn::Join': [u' ', [{u'Fn::If': [u'CidrDescription', {u'Ref': u'CidrDescription'}, {u'Ref': u'DefaultCidrDescription'}]}, u'To Direcrtor Load Balancer Security Group TCP Port 25555 (messagebus)']]}"
 Parameters.WhitelistedCidr.Description,CIDR to whitelist
 Parameters.CidrDescription.Description,Description of CIDR
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,25555
-Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,{u'Ref': u'WhitelistedCidr'}
 Parameters.DefaultCidrDescription.ConstraintDescription,Valid description
 Parameters.DefaultCidrDescription.AllowedPattern,^[0-9a-zA-Z -]+$
 Parameters.DefaultCidrDescription.Default,Whitelisted CIDR

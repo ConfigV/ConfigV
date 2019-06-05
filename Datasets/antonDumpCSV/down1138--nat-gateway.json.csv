@@ -2,29 +2,21 @@ Parameters.PublicNetworkAcl.Description,Enter Public Network ACL ID.
 Parameters.DeleteAfter.Default,00/00/201x
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DeleteAfter.default,Delete After Date
 Parameters.Owner.Default,FirstName LastName
-Resources.AWS::EC2::Route.Properties.NatGatewayId,{u'Ref': u'NatGateway'}
 Parameters.AllowNatRuleNumber.Default,120
-Resources.AWS::EC2::NatGateway.Properties.SubnetId,{u'Ref': u'PublicSubnet'}
-Outputs.PublicNetworkACLRuleNumbers.Value,"{u'Fn::Join': [u'', [u'Inbound (', {u'Ref': u'AllowNatRuleNumber'}, u')']]}"
 Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,false
 Parameters.PublicSubnet.Description,Public Subnet to Attach NAT Gateway.
 Parameters.AllowNatRuleNumber.Description,Enter Public Network ACL Rule Number to Allow Return NAT Traffic.
-Outputs.Owner.Value,{u'Ref': u'Owner'}
-Outputs.NatEIP.Value,{u'Ref': u'NatEIP'}
 Parameters.Project.Description,Enter Project Name.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet.default,Public Subnet
 Outputs.VPC.Description,VPC Used
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateRouteTable.default,Private Route Table
 Resources.AWS::EC2::Route.DependsOn,NatGateway
-Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,{u'Ref': u'AllowNatRuleNumber'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicNetworkAcl.default,Public Network ACL
-Outputs.Project.Value,{u'Ref': u'Project'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,1024
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Outputs.Project.Description,The project name
 Outputs.NatEIP.Description,NAT Elastic IP Address
 Parameters.PublicNetworkAcl.Default,acl-0000000
-Outputs.DeleteAfter.Value,{u'Ref': u'DeleteAfter'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
 Outputs.PublicNetworkACLRuleNumbers.Description,Public Network ACL Rules Number Created.
 Parameters.PrivateRouteTable.Default,rtb-0000000
@@ -32,16 +24,13 @@ Parameters.VPC.Description,Select VPC.
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
 Resources.AWS::EC2::NatGateway.Properties.AllocationId,"{u'Fn::GetAtt': [u'NatEIP', u'AllocationId']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Owner.default,Team or Individual Owner
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PrivateRouteTable'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.To,65535
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Outputs.DeleteAfter.Description,It is ok to delete the Formation after this date
-Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'PublicNetworkAcl'}
 Resources.AWS::EC2::NatGateway.DependsOn,NatEIP
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AllowNatRuleNumber.default,Public Network ACL Rule Number
 Parameters.DeleteAfter.Description,Enter Date It's Ok to Delete the Stack or 'Never' if meant to be persistent.
-Outputs.VPC.Value,{u'Ref': u'VPC'}
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Owner', u'Project', u'DeleteAfter'], u'Label': {u'default': u'Ownership'}}, {u'Parameters': [u'VPC', u'PublicSubnet', u'PrivateRouteTable', u'PublicNetworkAcl', u'AllowNatRuleNumber'], u'Label': {u'default': u'Network Configuration'}}]"
 Outputs.Owner.Description,Team or Individual that Owns this Formation.
 Parameters.Project.Default,NAT Gateway Creation

@@ -4,9 +4,6 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.rpm.aws-cfn-resource-bridge,https://raw.githubusercontent.com/aws-staging/aws-labs/master/aws-cfn-resource-bridge-0.1-4.noarch.rpm
 Resources.AWS::SQS::Queue.Properties.ReceiveMessageWaitTimeSeconds,20
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': True, u'Value': u'Custom Resource Runner - AMI Lookup', u'Key': u'Name'}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AwsRegionAmznLinuxAmi', {u'Ref': u'AWS::Region'}, u'hvm']}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'RunnerLaunchConfig'}
-Outputs.CustomResourceTopicArn.Value,{u'Ref': u'CustomResourceTopic'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-resource-bridge.ensureRunning,true
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,RunnerAutoScalingGroup
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'hash'}, {u'KeyType': u'RANGE', u'AttributeName': u'range'}]"
@@ -18,7 +15,6 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Resources.AWS::DynamoDB::Table.Properties.TableName,ami-lookup-table
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Version,2008-10-17
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'RunnerWaitConditionHandle'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Fn::GetAtt': [u'RunnerSecurityGroup', u'GroupId']}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,"{u'Fn::GetAtt': [u'RunnerSecurityGroup', u'GroupId']}"
@@ -28,15 +24,11 @@ Resources.AWS::CloudFormation::WaitCondition.Properties.Count,1
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-resource-bridge.enabled,true
 Outputs.CustomResourceTopicArn.Description,Custom Resource SNS topic ARN
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/bridge.d/schema.conf.content,"{u'Fn::Join': [u'', [u'[schema]\n', u'resource_type=Custom::AmiLookup\n', u'flatten=false\n', u'queue_url=', {u'Ref': u'CustomResourceQueue'}, u'\n', u'timeout=600\n', u'default_action=/home/ec2-user/ami-ddb-lookup.py\n']]}"
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,22
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2008-10-17
-Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Statement,"[{u'Resource': {u'Fn::GetAtt': [u'CustomResourceQueue', u'Arn']}, u'Effect': u'Allow', u'Sid': u'AllowTopicToPublishMessages', u'Action': [u'sqs:SendMessage'], u'Condition': {u'ArnEquals': {u'aws:SourceArn': {u'Ref': u'CustomResourceTopic'}}}, u'Principal': {u'AWS': u'*'}}]"
 Mappings.AwsRegionAmznLinuxAmi.eu-central-1.pvm,ami-0600331b
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./home/ec2-user/ami-ddb-lookup.py.source,https://raw.githubusercontent.com/aws-staging/aws-labs/master/ami-ddb-lookup.py
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,600
-Resources.AWS::SQS::QueuePolicy.Properties.Queues,[{u'Ref': u'CustomResourceQueue'}]
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'RunnerInstanceProfile'}
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,22
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Id,"{u'Fn::Join': [u'/', [{u'Fn::GetAtt': [u'CustomResourceQueue', u'Arn']}, u'CustomResourceQueuePolicy']]}"
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'CustomResourceQueue', u'Arn']}, u'Protocol': u'sqs'}]"
@@ -44,8 +36,5 @@ Mappings.AwsRegionAmznLinuxAmi.eu-central-1.hvm,ami-04003319
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CustomResourceRunner', u'PolicyDocument': {u'Statement': [{u'Action': [u'sqs:ChangeMessageVisibility', u'sqs:DeleteMessage', u'sqs:ReceiveMessage'], u'Resource': {u'Fn::GetAtt': [u'CustomResourceQueue', u'Arn']}, u'Effect': u'Allow'}, {u'Action': [u'dynamodb:GetItem', u'dynamodb:Query'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -x\n', u'exec &> /home/ec2-user/userdata.log\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init --region ', {u'Ref': u'AWS::Region'}, u' -s ', {u'Ref': u'AWS::StackId'}, u' -r RunnerLaunchConfig -v\n', u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'RunnerWaitConditionHandle'}, u""'\n""]]}}"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Access to Custom Resource Runner instances
 Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,"{u'Fn::GetAtt': [u'RunnerSecurityGroup', u'GroupId']}"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'RunnerRole'}]
-Outputs.DynamoDbAmiTableName.Value,{u'Ref': u'DynamoDbAmiTable'}

@@ -1,13 +1,13 @@
 {-# LANGUAGE FlexibleContexts #-}
 
-module Utils where
+module ConfigV.Utils where
 
 import Text.Printf
 import System.IO.Unsafe
-import Types.Errors
-import           Debug.Trace
+import ConfigV.Types.Errors
+import Debug.Trace
 
-import Settings.Config
+import ConfigV.Settings.Config
 import Control.Monad.Reader
 
 roundToStr :: (PrintfArg a, Floating a) => Int -> a -> String

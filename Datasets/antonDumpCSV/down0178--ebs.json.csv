@@ -1,18 +1,12 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Outputs.VolumeId.Value,{u'Ref': u'Volume'}
 Outputs.PublicName.Description,Public name (connect via SSH as user ec2-user)
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,My security group
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Outputs.VolumeId.Description,Volume id
 Parameters.Subnet.Description,Just select one of the available subnets
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::EC2::VolumeAttachment.Properties.InstanceId,{u'Ref': u'Server'}
 Resources.AWS::EC2::Volume.Properties.AvailabilityZone,"{u'Fn::GetAtt': [u'Server', u'AvailabilityZone']}"
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecurityGroup'}]
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
 Outputs.PublicName.Value,"{u'Fn::GetAtt': [u'Server', u'PublicDnsName']}"
-Resources.AWS::EC2::VolumeAttachment.Properties.VolumeId,{u'Ref': u'Volume'}
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'Subnet'}
 Resources.AWS::EC2::Volume.Properties.Size,5
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Parameters.KeyName.Default,mykey
@@ -20,14 +14,10 @@ Parameters.VPC.Description,Just select the one and only default VPC
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 22, u'FromPort': 22, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Resources.AWS::EC2::VolumeAttachment.Properties.Device,/dev/xvdf
 Parameters.KeyName.Description,Key Pair name
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'IamInstanceProfile'}
 Resources.AWS::EC2::Volume.Properties.VolumeType,gp2
 Parameters.AttachVolume.AllowedValues,"[u'yes', u'no']"
 Resources.AWS::EC2::VolumeAttachment.Condition,Attached
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.AttachVolume.Description,Should the volume be attached?
 Parameters.AttachVolume.Default,yes
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ec2', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ec2:DescribeVolumes', u'ec2:CreateSnapshot', u'ec2:DescribeSnapshots', u'ec2:DeleteSnapshot'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'IamRole'}]

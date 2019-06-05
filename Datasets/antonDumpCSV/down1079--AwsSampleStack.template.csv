@@ -3,8 +3,6 @@ Resources.AWS::ElastiCache::CacheCluster.Properties.Engine,memcached
 Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,elasticspring.org.
 Resources.AWS::RDS::DBInstance.Properties.Engine,mysql
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'SampleStackVpc'}
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,True
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.0.0/24
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,MySQL
@@ -15,46 +13,28 @@ Resources.AWS::RDS::DBInstance.Properties.MasterUsername,admin
 Resources.AWS::RDS::DBInstance.Properties.PubliclyAccessible,True
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::EC2::Instance.Properties.AvailabilityZone,"{u'Fn::GetAtt': [u'SubnetA', u'AvailabilityZone']}"
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'SampleStackVpc'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,5
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,eu-west-1a
 Parameters.RdsPassword.Description,The master password for the RDS instance
 Resources.AWS::ElastiCache::CacheCluster.Properties.AutoMinorVersionUpgrade,true
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'cd /home/ec2-user\n', u'wget https://s3.amazonaws.com/repo.elasticspring.org/org/springframework/cloud/aws/sample/spring-cloud-aws-reference-app/1.0.0-BUILD/spring-cloud-aws-reference-app-1.0.0-BUILD.war -O application.jar', u'\n', u""printf 'cloud.aws.region.auto\ncloud.aws.credentials.instanceProfile\ncloud.aws.stack.auto\ncloud.aws.rds.RdsInstance.password="", {u'Ref': u'RdsPassword'}, u""' > application.properties\n"", u'nohup java -jar application.jar --spring.config.location=/home/ec2-user/application.properties > application.log & \n', u'\n']]}}"
 Resources.AWS::EC2::SecurityGroup.DependsOn,WebSecurityGroup
 Resources.AWS::RDS::DBInstance.Properties.AvailabilityZone,"{u'Fn::GetAtt': [u'SubnetA', u'AvailabilityZone']}"
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'SubnetA'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Ref': u'WebSecurityGroup'}], u'AssociatePublicIpAddress': True}]"
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'RdsPassword'}
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.t2.micro
 Resources.AWS::EC2::Instance.DependsOn,RdsInstance
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'3306', u'IpProtocol': u'tcp', u'CidrIp': u'46.237.207.188/32', u'FromPort': u'3306'}, {u'ToPort': u'3306', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'WebSecurityGroup'}, u'FromPort': u'3306'}]"
 Resources.AWS::ElastiCache::SubnetGroup.Properties.Description,Subnet group
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'RouteTable'}
 Parameters.RdsPassword.MinLength,8
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'ApplicationInstanceProfile'}
 Resources.AWS::EC2::Route.DependsOn,AttachGateway
 Resources.AWS::ElastiCache::CacheCluster.Properties.NumCacheNodes,1
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'SubnetA'}, {u'Ref': u'SubnetB'}]"
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'SpringBootServer', u'PublicDnsName']}, u':8080/sns/receive']]}, u'Protocol': u'http'}]"
-Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'SampleStackVpc'}
 Resources.AWS::RDS::DBInstance.Properties.DBName,reference
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'SubnetA'}
 Resources.AWS::Route53::RecordSet.Properties.Name,refapp.elasticspring.org.
 Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,True
-Resources.AWS::ElastiCache::SubnetGroup.Properties.SubnetIds,"[{u'Ref': u'SubnetA'}, {u'Ref': u'SubnetB'}]"
 Resources.AWS::ElastiCache::CacheCluster.Properties.CacheNodeType,cache.t2.micro
 Resources.AWS::EC2::Instance.Properties.ImageId,ami-6e7bd919
-Resources.AWS::ElastiCache::CacheCluster.Properties.CacheSubnetGroupName,{u'Ref': u'CacheSubnetGroup'}
 Resources.AWS::ElastiCache::CacheCluster.Properties.VpcSecurityGroupIds,"[{u'Fn::GetAtt': [u'CacheSecurityGroup', u'GroupId']}]"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'RouteTable'}
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'application', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'rds:DescribeDBInstances', u'rds:ListTagsForResource'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'elasticache:DescribeCacheClusters'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'sns:ConfirmSubscription', u'sns:CreateTopic', u'sns:GetEndpointAttributes', u'sns:GetSubscriptionAttributes', u'sns:GetTopicAttributes', u'sns:ListSubscriptions', u'sns:ListSubscriptionsByTopic', u'sns:ListTopics', u'sns:Subscribe', u'sns:Unsubscribe', u'sns:Publish'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'sqs:CreateQueue', u'sqs:DeleteMessage', u'sqs:GetQueueAttributes', u'sqs:GetQueueUrl', u'sqs:ListQueues', u'sqs:ReceiveMessage', u'sqs:SendMessage'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'ses:SendEmail', u'ses:SendRawEmail'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'cloudformation:ListStackResources', u'cloudformation:DescribeStackResources'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'SpringBootServer', u'PublicIp']}]"
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,description
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'ApplicationRole'}]
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'SampleStackVpc'}
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'SampleStackSubnetGroup'}

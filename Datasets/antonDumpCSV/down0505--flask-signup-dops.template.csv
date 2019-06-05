@@ -15,56 +15,45 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.Werkzeug,[u'0.9.4']
 Resources.AWS::SQS::Queue.Properties.VisibilityTimeout,30
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/AMIregister.owner,root
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'# Apply updates cfn-init bootstrapper helper scripts\n', u'yum update -y aws-cfn-bootstrap\n', u""sed -i -e 's/Defaults    requiretty/#Defaults    requiretty/g' /etc/sudoers\n"", u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackName'}, u' -r DevOpsInstance -c cicd --role ', {u'Ref': u'InstanceRole'}, u' --region ', {u'Ref': u'AWS::Region'}, u"" || echo 'Failed to run cfn-init'\n"", u'if [ -e /home/ec2-user/app_postmetadata.sh ];then /bin/su -c ""/home/ec2-user/app_postmetadata.sh"" -s /bin/sh ec2-user;fi\n', u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./etc/sysctl.d/nat.conf.mode,000644
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Version,2008-10-17
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.mode,000644
 Resources.AWS::EC2::Instance.Properties.SubnetId,"{u'Fn::GetAtt': [u'Vpc', u'Outputs.PubSubnetIdAz2']}"
 Parameters.PriNetCidrAz1.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.git,[]
-Outputs.DynamoDbAmiTable.Value,{u'Ref': u'DynamoDbAmiTable'}
 Outputs.DeploymentS3Bucket.Description,Deployment S3 Bucket Name
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/server.xml.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.run.files./home/ec2-user/ami-ddb-lookup.py.mode,000755
 Parameters.PubNetCidrAz2.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.rubygems.cloudformation-ruby-dsl,[]
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]"
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'AdminCidr'}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.jq,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/SetPlanConfig.source,http://cicd-delivery.s3-website-ap-southeast-2.amazonaws.com/scripts/SetPlanConfig
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.owner,root
-Outputs.AmiLookupTopicArn.Value,{u'Ref': u'AmiLookupTopic'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./tmp/cicd-lab-simulation.sh.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./etc/sysctl.d/nat.conf.owner,root
-Outputs.AwsRegion.Value,{u'Ref': u'AWS::Region'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./tmp/cicd-lab-simulation.sh.mode,000755
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./etc/httpd/conf.d/ajp.conf.group,root
 Parameters.PubNetCidrAz1.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PriNetCidrAz2,{u'Ref': u'PriNetCidrAz2'}
 Parameters.PubNetCidrAz2.Description,CIDR block for public subnet located in AZ2
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/mysql-connector-java-5.1.29-bin.jar.owner,root
 Outputs.PubSubnetIdAz2.Description,Subnet Id for Public Subnet in AZ2
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo-5.4.2.tar.gz.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/ec2-user/app_postmetadata.sh.group,ec2-user
-Outputs.DeploymentS3Bucket.Value,{u'Ref': u'DeploymentS3Bucket'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.run.services.sysvinit.cfn-resource-bridge.enabled,true
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/jdk-7u45-linux-x64.rpm.group,root
 Parameters.VpcCidr.Description,VPC CIDR block between /16 and /28
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PriNetCidrAz1,{u'Ref': u'PriNetCidrAz1'}
 Outputs.DevOpsUserAccessKey.Description,IAM Access Key for DevOps Tools
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.run.files./etc/cfn/bridge.d/schema.conf.content,"{u'Fn::Join': [u'', [u'[schema]\n', u'resource_type=Custom::AmiLookup\n', u'flatten=false\n', u'queue_url=', {u'Ref': u'AmiLookupQueue'}, u'\n', u'timeout=600\n', u'default_action=/home/ec2-user/ami-ddb-lookup.py\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo.tar.gz.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo.tar.gz.source,http://awsinfo.me.s3.amazonaws.com/media/atlassian-bamboo-5.8.1.tar.gz
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/GetPlanConfig.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo-5.4.2.tar.gz.source,https://s3-us-west-2.amazonaws.com/reinvent-continuous-integration-delivery/repo/products/devsupt/atlassian-bamboo-5.4.2.tar.gz
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.boto,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.MarkupSafe,[u'0.18']
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"[{u'Ref': u'AdminSecurityGroup'}, {u'Ref': u'NatSecurityGroup'}, {u'Ref': u'WebSecurityGroup'}]"
 Parameters.PubNetCidrAz1.Description,CIDR block for public subnet located in AZ1
 Parameters.PubNetCidrAz1.ConstraintDescription,CIDR block address must be in the form n.n.n.n/m
 Outputs.DevOpsServerLinuxDns.Value,"{u'Fn::GetAtt': [u'DevOpsInstance', u'PublicDnsName']}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/bamboo.source,https://s3-us-west-2.amazonaws.com/reinvent-continuous-integration-delivery/builds/bambooserver-prod-1-bamboo/files/bamboo.startup
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/bamboo/.aws/config.content,"{u'Fn::Join': [u'', [u'[profile r53]\n', u'aws_access_key_id = ', {u'Ref': u'R53AccessKey'}, u'\n', u'aws_secret_access_key = ', {u'Ref': u'R53SecretAccessKey'}, u'\n', u'region = ', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/mysql-connector-java-5.1.29-bin.jar.group,root
 Parameters.VpcCidr.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/GetPlanConfig.owner,root
@@ -73,7 +62,6 @@ Outputs.PubSubnetIdAz1.Description,Subnet Id for Public Subnet in AZ1
 Parameters.PriNetCidrAz1.ConstraintDescription,CIDR block address must be in the form n.n.n.n/m
 Outputs.BambooServer.Description,URL for newly created Bamboo server
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
-Outputs.DevOpsUserAccessKey.Value,{u'Ref': u'DevOpsUserAccessKey'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/jdk-7u45-linux-x64.rpm.owner,root
 Parameters.PubNetCidrAz1.Default,10.100.0.0/25
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.MySQL-python,[u'1.2.3']
@@ -87,14 +75,9 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./tmp/c
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.packages.yum.mysql55,[]
 Outputs.PriSubnetIdAz1.Description,Subnet Id for Private Subnet in AZ1
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'admin', u'PolicyDocument': {u'Statement': [{u'Action': u'*', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PubNetCidrAz2,{u'Ref': u'PubNetCidrAz2'}
-Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'DeploymentS3Bucket'}
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,http://awsinfo.me.s3.amazonaws.com/services/cloudformation/templates/flask-signup-vpc.template
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Parameters.AdminCidr.Default,192.168.0.1/32
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'DevOpsUser'}
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'80'}, {u'ToPort': u'443', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'443'}]"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PubNetCidrAz1,{u'Ref': u'PubNetCidrAz1'}
 Parameters.R53SecretAccessKey.Default,NIjsxO5tO5oeV1UXhNQ5bQV95ipL3fU+28sgO2of
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/SetPlanConfig.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.mod24_wsgi-python26,[]
@@ -114,7 +97,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/m
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo.tar.gz.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.packages.rubygems.cloudformation-ruby-dsl,[]
 Resources.AWS::EC2::Instance.Properties.SourceDestCheck,False
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
 Parameters.R53SecretAccessKey.Description,Secret Access Key that provides access to update Route53 Resource Record Sets
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.packages.yum.jq,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/SwitchStack.owner,root
@@ -134,7 +116,6 @@ Parameters.PriNetCidrAz2.Description,CIDR block for private subnet located in AZ
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/SetPlanConfig.mode,000755
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.run.services.sysvinit.cfn-resource-bridge.ensureRunning,true
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable remote access to the development server
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/AMIregister.mode,000755
 Outputs.AmiLookupTopicArn.Description,AMI Lookup Custom Resource SNS topic ARN
 Outputs.VpcId.Description,VPC Id
@@ -149,10 +130,7 @@ Outputs.PriSubnetIdAz1.Value,"{u'Fn::GetAtt': [u'Vpc', u'Outputs.PriSubnetIdAz1'
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./etc/sysctl.d/nat.conf.content,"{u'Fn::Join': [u'', [u'net.ipv4.ip_forward = 1\n', u'net.ipv4.conf.eth0.send_redirects = 0\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./usr/local/bin/AMIregister.group,root
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'hash', u'AttributeType': u'S'}, {u'AttributeName': u'range', u'AttributeType': u'S'}]"
-Outputs.DynamoDbConfigTable.Value,{u'Ref': u'DynamoDbConfigTable'}
-Resources.AWS::IAM::Policy.Properties.Users,[{u'Ref': u'DevOpsUser'}]
 Outputs.PubSubnetIdAz1.Value,"{u'Fn::GetAtt': [u'Vpc', u'Outputs.PubSubnetIdAz1']}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.commands.1-config-forwarding.command,"{u'Fn::Join': [u'', [u'sysctl -e -p /etc/sysctl.d/nat.conf\n', u'/sbin/iptables -t nat -A POSTROUTING -o eth0 -s ', {u'Ref': u'VpcCidr'}, u' -j MASQUERADE\n', u'/sbin/iptables-save > /etc/sysconfig/iptables\n', u'INSTANCEID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n', u'aws ec2 modify-instance-attribute --instance-id $INSTANCEID --source-dest-check \'{""Value"": false}\' --region ', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.services.sysvinit.httpd.enabled,true
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.services.sysvinit.httpd.files,[u'/etc/httpd/conf.d/ajp.conf']
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.pytz,[]
@@ -160,7 +138,6 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.packages.rub
 Resources.AWS::SQS::Queue.Properties.ReceiveMessageWaitTimeSeconds,20
 Outputs.DevOpsServerLinuxDns.Description,DNS Name of the newly created Linux DevOps instance
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.Flask,[u'0.10.1']
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.commands.2-config-routing.command,"{u'Fn::Join': [u'', [u'INSTANCEID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n', u'aws ec2 replace-route --route-table-id ', {u'Fn::GetAtt': [u'Vpc', u'Outputs.PriSubnetRouteTable']}, u' --destination-cidr-block 0.0.0.0/0 --instance-id $INSTANCEID --region ', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.yum.MySQL-python26,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./home/ec2-user/app_postmetadata-5.4.2.sh.group,ec2-user
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.rubygems.bundler,[]
@@ -179,28 +156,21 @@ Outputs.AwsRegion.Description,AWS Region to be used for deployment
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./etc/sysctl.d/nat.conf.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.services.sysvinit.httpd.ensureRunning,true
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcCidr,{u'Ref': u'VpcCidr'}
 Resources.AWS::IAM::Role.Properties.Path,/
 Parameters.PriNetCidrAz1.Description,CIDR block for private subnet located in AZ1
 Parameters.AdminCidr.Description,Source CIDR block that can access Development Server instance via admin tools
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/server.xml.group,root
 Parameters.AdminCidr.ConstraintDescription,CIDR block address must be in the form n.n.n.n/m
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/jdk-7u45-linux-x64.rpm.mode,000644
-Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:GetObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'DeploymentS3Bucket'}, u'/*']]}, u'Effect': u'Allow', u'Principal': u'*'}]"
-Resources.AWS::SQS::QueuePolicy.Properties.Queues,[{u'Ref': u'AmiLookupQueue'}]
 Resources.AWS::IAM::Policy.Properties.PolicyName,DevOpsUsers
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.FileChunkIO,[]
 Outputs.VpcId.Value,"{u'Fn::GetAtt': [u'Vpc', u'Outputs.VpcId']}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.ops.files./tmp/cicd-lab-simulation.sh.source,http://awsinfo.me.s3.amazonaws.com/services/cloudformation/templates/simulated/cicd-lab-simulation.sh
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'AmiLookupQueue', u'Arn']}, u'Protocol': u'sqs'}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.itsdangerous,[u'0.23']
-Resources.AWS::EC2::EIP.Properties.InstanceId,{u'Ref': u'DevOpsInstance'}
 Mappings.AmazonLinuxDevOpsAmi.eu-central-1.hvm,ami-04003319
 Parameters.PubNetCidrAz2.ConstraintDescription,CIDR block address must be in the form n.n.n.n/m
-Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Statement,"[{u'Resource': {u'Fn::GetAtt': [u'AmiLookupQueue', u'Arn']}, u'Effect': u'Allow', u'Sid': u'AllowTopicToPublishMessages', u'Action': [u'sqs:SendMessage'], u'Condition': {u'ArnEquals': {u'aws:SourceArn': {u'Ref': u'AmiLookupTopic'}}}, u'Principal': {u'AWS': u'*'}}]"
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AmazonLinuxDevOpsAmi', {u'Ref': u'AWS::Region'}, u'hvm']}"
 Parameters.VpcCidr.Default,10.100.0.0/23
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.packages.python.SQLAlchemy,[u'0.9.8']
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'Linux DevOps Instance', u'Key': u'Name'}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.dev.files./tmp/atlassian-bamboo-5.4.2.tar.gz.mode,000644

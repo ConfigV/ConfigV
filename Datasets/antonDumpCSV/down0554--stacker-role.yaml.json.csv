@@ -1,9 +1,7 @@
 Outputs.StackerRole.Value,"{u'Fn::GetAtt': [u'StackerRole', u'Arn']}"
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'StackerRole'}]
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Parameters.MasterAccountId.MaxLength,12
 Parameters.RoleName.Default,Stacker
-Resources.AWS::IAM::Role.Properties.RoleName,{u'Ref': u'RoleName'}
 Parameters.MasterAccountId.MinLength,12
 Parameters.MasterAccountId.AllowedPattern,[0-9]+
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"{u'Fn::If': [u'InMasterAccount', {u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Condition': {u'Null': {u'aws:MultiFactorAuthAge': False}}, u'Principal': {u'AWS': {u'Fn::Sub': u'arn:aws:iam::${MasterAccountId}:root'}}}, {u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Condition': {u'Null': {u'aws:MultiFactorAuthAge': False}}, u'Principal': {u'AWS': {u'Fn::Sub': u'arn:aws:iam::${MasterAccountId}:role/${RoleName}'}}}]}"

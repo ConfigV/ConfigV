@@ -1,4 +1,4 @@
-module Types.Common where
+module ConfigV.Types.Common where
 
 import Data.Interned.Text 
 

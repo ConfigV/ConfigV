@@ -16,13 +16,11 @@ Resources.AWS::Events::Rule.Properties.EventPattern.detail.eventTypeCategory,[u'
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'CodePipelineDisableStageTransitionFunction', u'Arn': {u'Fn::GetAtt': [u'LambdaFunction', u'Arn']}}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.stageName.default,stageName
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.pipelineName,{u'Ref': u'pipelineName'}
 Parameters.stageName.Description,The name of your AWS Pipeline stage
 Resources.AWS::Events::Rule.Properties.Description,AWS Health EC2 Issues
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.pipelineName.default,pipelineName
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.stageName,{u'Ref': u'stageName'}
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.1
 Parameters.stageName.Default,Beta
 Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'CloudWatchEventRule', u'Arn']}"

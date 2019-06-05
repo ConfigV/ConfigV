@@ -3,10 +3,11 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 {-# OPTIONS_GHC -fno-cse #-}
+
 module ConfigV (
   executeLearning,
   executeVerification,
-  module Settings.Config
+  module ConfigV.Settings.Config
   ) where
 
 
@@ -18,19 +19,19 @@ import qualified Data.Text             as T
 import qualified Data.Text.IO          as T
 import Data.List
 
-import qualified LearningEngine
-import           Checker
-import           OutputPrinter
-import Utils
+import qualified ConfigV.LearningEngine as L
+import           ConfigV.Checker
+import           ConfigV.OutputPrinter
+import ConfigV.Utils
 
-import Types.Rules
-import Types.IR
-import Types.Common
+import ConfigV.Types.Rules
+import ConfigV.Types.IR
+import ConfigV.Types.Common
 
-import Types.JSON
+import ConfigV.Types.JSON
 
 import System.Console.CmdArgs()
-import Settings.Config
+import ConfigV.Settings.Config
 
 import           System.Directory
 
@@ -46,7 +47,7 @@ executeLearning settings userThresholds = do
                         thresholdSettings = thresholds}
   targets <- gatherLearnTargets settings
   let learnedRules = 
-        (toLists $ LearningEngine.learnRules configVconfig targets) :: RuleSetLists
+        (toLists $ L.learnRules configVconfig targets) :: RuleSetLists
 
   B.writeFile (cacheLocation settings) $ A.encode learnedRules 
   putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)

@@ -3,14 +3,11 @@
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE OverloadedStrings #-} 
 
-module Learners.IntRel where
+module ConfigV.Learners.IntRel where
 
-import Types.IR
-import Types.Errors
-import Types.Rules 
-import Types.Countable
-import qualified Types.Rules as R
-import Learners.Common
+import ConfigV.Types
+import qualified ConfigV.Types.Rules as R
+import ConfigV.Learners.Common
 
 import qualified Data.Map as M
 import qualified Data.Text as T
@@ -19,7 +16,7 @@ import           Data.Maybe
 
 import Data.Interned
 
-import Settings.Config
+import ConfigV.Settings.Config
 import Control.Monad.Reader
 
 

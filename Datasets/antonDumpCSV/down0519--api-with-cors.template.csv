@@ -1,6 +1,4 @@
 Resources.Custom::RestApi.Properties.corsConfiguration.allowHeaders,"[u'x-my-header', u'some-other-header']"
-Resources.Custom::ApiMethod.Properties.ServiceToken,{u'Ref': u'ApiGatewayServiceToken'}
-Resources.Custom::ApiResource.Properties.restApiId,{u'Ref': u'RestApi'}
 Resources.Custom::ApiMethod.Properties.method.httpMethod,GET
 Resources.Custom::RestApi.Properties.corsConfiguration.allowOrigin,https://www.example.com
 Resources.Custom::ApiResource.Properties.parentId,"{u'Fn::GetAtt': [u'RestApi', u'parentResourceId']}"
@@ -9,17 +7,13 @@ Resources.Custom::ApiResource.Properties.pathPart,child
 Resources.Custom::RestApi.Properties.corsConfiguration.allowDefaultHeaders,True
 Resources.Custom::ApiResource.Properties.corsConfiguration.allowOrigin,https://www.example.com
 Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/json,"{""statusCode"": 200}"
-Resources.Custom::ApiMethod.Properties.restApiId,{u'Ref': u'RestApi'}
 Resources.Custom::RestApi.Properties.corsConfiguration.allowCredentials,True
 Resources.Custom::RestApi.Properties.corsConfiguration.maxAge,1800
 Resources.Custom::ApiResource.Properties.corsConfiguration.allowDefaultHeaders,True
 Resources.Custom::ApiMethod.Properties.responses..*NotFound.*.statusCode,404
 Resources.Custom::RestApi.Properties.name,CorsTest
-Resources.Custom::ApiResource.Properties.ServiceToken,{u'Ref': u'ApiGatewayServiceToken'}
 Parameters.ApiGatewayServiceToken.Description,ServiceToken Lambda Arn for API Gateway.
 Resources.Custom::RestApi.Properties.corsConfiguration.exposeHeaders,"[u'some-header', u'x-another-header']"
 Resources.Custom::ApiMethod.Properties.responses.default.statusCode,200
 Resources.Custom::ApiMethod.Properties.integration.type,MOCK
 Resources.Custom::RestApi.Properties.description,Testing cors on parent
-Resources.Custom::ApiMethod.Properties.resourceId,{u'Ref': u'TestResource'}
-Resources.Custom::RestApi.Properties.ServiceToken,{u'Ref': u'ApiGatewayServiceToken'}

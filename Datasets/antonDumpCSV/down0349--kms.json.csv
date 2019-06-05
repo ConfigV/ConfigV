@@ -1,7 +1,6 @@
 Outputs.LUKSKey.Value,"{u'Fn::GetAtt': [u'KMSLUKSKey', u'Arn']}"
 Parameters.KMSEMRAlias.Description,KMS alias to be used for EMR CSE
 Resources.AWS::KMS::Key.Properties.Enabled,true
-Resources.AWS::KMS::Alias.Properties.AliasName,{u'Ref': u'KMSLUKSAlias'}
 Resources.AWS::KMS::Key.Properties.Description,Master Key that will be used for LUKS Encryption
 Outputs.LUKSKey.Description,KMS Key for LUKS
 Resources.AWS::KMS::Key.Properties.KeyPolicy.Version,2012-10-17
@@ -10,5 +9,3 @@ Outputs.EMRKey.Value,"{u'Fn::GetAtt': [u'KMSEMRKey', u'Arn']}"
 Parameters.KMSLUKSAlias.Description,KMS alias to be used for LUKS Encryption
 Outputs.EMRKey.Description,KMS Key for EMR CSE
 Parameters.KMSLUKSAlias.Default,alias/LUKS-Encryption-Key
-Resources.AWS::KMS::Alias.Properties.TargetKeyId,{u'Ref': u'KMSLUKSKey'}
-Resources.AWS::KMS::Key.Properties.KeyPolicy.Statement,"[{u'Action': [u'kms:*'], u'Resource': [u'*'], u'Effect': u'Allow', u'Principal': {u'AWS': [{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':root']]}, {u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/EMR_EC2_DefaultRole']]}, {u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/EMR_DefaultRole']]}]}}]"

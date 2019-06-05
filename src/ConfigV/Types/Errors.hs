@@ -1,6 +1,6 @@
-module Types.Errors where
+module ConfigV.Types.Errors where
 
-import           Types.Common
+import ConfigV.Types.Common
 
 --printing  stuff
 type ErrorReport = [Error]

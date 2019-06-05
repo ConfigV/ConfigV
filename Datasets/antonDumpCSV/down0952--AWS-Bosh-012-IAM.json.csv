@@ -1,14 +1,10 @@
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'BoshAwsUser'}
 Outputs.BoshAwsSecretAccessKey.Value,"{u'Fn::GetAtt': [u'BoshAwsAccessKey', u'SecretAccessKey']}"
 Outputs.BoshAwsSecretAccessKey.Description,Bosh Broker Access Key
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
-Outputs.DirectorInstanceProfile.Value,{u'Ref': u'DirectorInstanceProfile'}
-Outputs.BlobstoreBucketAccessInstanceProfile.Value,{u'Ref': u'BlobstoreBucketAccessInstanceProfile'}
 Outputs.BlobstoreBackupBucketAccessInstanceProfile.Description,Blobstore & Backup S3 Bucket Access Instance Profile
 Parameters.DeploymentName.MaxLength,16
 Resources.AWS::IAM::Role.Properties.Path,{u'Fn::Sub': u'/Cloudfoundry/Cloudformation/${DeploymentName}/'}
 Parameters.DeploymentName.Description,Deployment Name
-Outputs.BoshAwsAccessKeyId.Value,{u'Ref': u'BoshAwsAccessKey'}
 Outputs.CompileNodesBucketAccessInstanceProfile.Description,Compile Nodes S3 Bucket Access Instance Profile
 Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
 Outputs.BlobstoreBucketAccessInstanceProfile.Description,Blobstore S3 Bucket Access Instance Profile
@@ -19,13 +15,7 @@ Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Actio
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': {u'Fn::Sub': u'${DeploymentName}-DirectorPassRolePolicy'}, u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'iam:PassRole'], u'Resource': {u'Fn::GetAtt': [u'DirectorRole', u'Arn']}, u'Effect': u'Allow'}]}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::ManagedPolicy.Properties.Users,[{u'Ref': u'BoshAwsUser'}]
 Resources.AWS::IAM::User.Properties.Path,{u'Fn::Sub': u'/Cloudfoundry/Cloudformation/${DeploymentName}/'}
-Resources.AWS::IAM::ManagedPolicy.Properties.Roles,[{u'Ref': u'DirectorRole'}]
-Outputs.BlobstoreBackupBucketAccessInstanceProfile.Value,{u'Ref': u'BlobstoreBackupBucketAccessInstanceProfile'}
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
-Outputs.CcBucketAccessInstanceProfile.Value,{u'Ref': u'CcBucketAccessInstanceProfile'}
-Outputs.CompileNodesBucketAccessInstanceProfile.Value,{u'Ref': u'CompileNodesBucketAccessInstanceProfile'}
 Outputs.BoshAwsAccessKeyId.Description,Bosh Access Key Id
 Parameters.DeploymentName.MinLength,1
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'BlobstoreBucketAccessRole'}]

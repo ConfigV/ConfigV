@@ -1,27 +1,16 @@
 Parameters.LambdaFunctionTagKey.Default,Name
 Parameters.FilterByTags.Default,
 Resources.AWS::Lambda::Function.Properties.Description,Implements SPOT instance automation
-Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'LambdaFunction'}
-Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,{u'Ref': u'LogRetentionPeriod'}
 Resources.AWS::Lambda::Function.Properties.Timeout,300
-Resources.AWS::Lambda::Function.Properties.Handler,{u'Ref': u'LambdaHandlerFunction'}
 Parameters.SpotProductDescription.Default,Linux/UNIX (Amazon VPC)
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaS3Bucket'}
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'AutoSpottingEventGenerator', u'Arn': {u'Fn::GetAtt': [u'LambdaFunction', u'Arn']}}]"
-Resources.AWS::Lambda::Function.Properties.MemorySize,{u'Ref': u'LambdaMemorySize'}
 Parameters.OnDemandPriceMultiplier.Description,"""Multiplier for the on-demand price. This is useful for volume discounts or if you want to set your bid price to be higher than the on demand price to reduce the chances that your spot instances will be terminated.""
 "
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'autoscaling:DescribeAutoScalingGroups', u'autoscaling:DescribeLaunchConfigurations', u'autoscaling:AttachInstances', u'autoscaling:DetachInstances', u'autoscaling:TerminateInstanceInAutoScalingGroup', u'autoscaling:DescribeTags', u'autoscaling:UpdateAutoScalingGroup', u'ec2:CreateTags', u'ec2:DescribeInstances', u'ec2:DescribeRegions', u'ec2:DescribeSpotPriceHistory', u'ec2:RunInstances', u'ec2:TerminateInstances', u'iam:PassRole', u'iam:CreateServiceLinkedRole', u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Parameters.OnDemandPriceMultiplier.Default,1.0
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.INSTANCE_TERMINATION_METHOD,{u'Ref': u'InstanceTerminationMethod'}
 Parameters.InstanceTerminationMethod.Default,autoscaling
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.MIN_ON_DEMAND_PERCENTAGE,{u'Ref': u'MinOnDemandPercentage'}
 Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'ScheduledRule', u'Arn']}"
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.DISALLOWED_INSTANCE_TYPES,{u'Ref': u'DisallowedInstanceTypes'}
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.SPOT_PRICE_BUFFER_PERCENTAGE,{u'Ref': u'SpotPricePercentageBuffer'}
-Resources.AWS::Events::Rule.Properties.ScheduleExpression,{u'Ref': u'ExecutionFrequency'}
 Parameters.TagFilteringMode.AllowedValues,"[u'opt-in', u'opt-out']"
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.MIN_ON_DEMAND_NUMBER,{u'Ref': u'MinOnDemandNumber'}
 Parameters.ExecutionFrequency.Default,rate(5 minutes)
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Parameters.FilterByTags.Description,"""Comma separated list of tag=value on which to filter the ASGs that autospotting considers.  By default (if no filters are specific) then 'spot-enabled=true' is used.  Example: 'spot-enabled=true,environment=dev'""
@@ -32,7 +21,6 @@ Parameters.LambdaFunctionTagKey.Description,Name of the to be applied to the Lam
 Parameters.ExecutionFrequency.Description,"""Frequency of executing the Lambda function, influences the speed of replacing your instances. Can accept any value documented at http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html""
 "
 Parameters.TagFilteringMode.Default,opt-in
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.TAG_FILTERING_MODE,{u'Ref': u'TagFilteringMode'}
 Parameters.LogRetentionPeriod.Description,Number of days to keep the Lambda function logs in CloudWatch.
 Parameters.SpotProductDescription.Description,"""The Spot Product or operating system to use when looking up spot price history in the market. Valid choices: Linux/UNIX | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)""
 "
@@ -41,14 +29,12 @@ Parameters.LambdaMemorySize.Default,1024
 Parameters.BiddingPolicy.Default,normal
 Parameters.InstanceTerminationMethod.Description,"""Instance termination method.  Must be one of 'autoscaling' (default) or 'detach' (compatibility mode, not recommended)""
 "
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaExecutionRole'}]
 Parameters.TagFilteringMode.Description,"""Controls the behavior against the AutoScaling groups tagged as per the FilterByTags option. Defaults to 'opt-in', only processing the tagged groups. The opposite behavior can be configured using the opt-out mode""
 "
 Parameters.LambdaZipPath.Default,nightly/lambda.zip
 Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
 Parameters.SpotProductDescription.AllowedValues,"[u'Linux/UNIX', u'SUSE Linux', u'Windows', u'Linux/UNIX (Amazon VPC)', u'SUSE Linux (Amazon VPC)', u'Windows (Amazon VPC)']"
 Parameters.BiddingPolicy.AllowedValues,"[u'normal', u'aggressive']"
-Resources.AWS::Logs::LogGroup.Properties.LogGroupName,"{u'Fn::Join': [u'', [u'/aws/lambda/', {u'Ref': u'LambdaFunction'}]]}"
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaPolicy
 Parameters.LambdaFunctionTagValue.Description,Value of the tag to be applied to the Lambda function
@@ -57,29 +43,21 @@ Parameters.LambdaS3Bucket.Default,cloudprowess
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Parameters.LambdaS3Bucket.Description,S3 bucket that contains the function
 Parameters.LambdaHandlerFunction.Default,autospotting
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.REGIONS,{u'Ref': u'Regions'}
 Parameters.SpotPricePercentageBuffer.Description,"""Percentage Value of the bid above the current spot price. A spot bid would be placed at a value = current_spot_price * [1 + (spot_price_buffer_percentage/100.0)]. The main benefit is that it protects the group from running spot instances that got significantly more expensive than when they were initially launched, but still somewhat less than the on-demand price.""
 "
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.ON_DEMAND_PRICE_MULTIPLIER,{u'Ref': u'OnDemandPriceMultiplier'}
 Parameters.LambdaZipPath.Description,"""Path to the Lambda function zip file inside the S3 bucket. Can be used to update to a more recent version, such as 'nightly/lambda_build_57.zip'. Build numbers can be taken from TravisCI: https://travis-ci.org/cristim/autospotting/builds""
 "
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.BIDDING_POLICY,{u'Ref': u'BiddingPolicy'}
 Parameters.MinOnDemandPercentage.Description,"""Minimum on-demand instances (percentage of the instances currently running in each group) that will be kept when replacing with spot instances. It is also a global default value that can be overridden on a per-group basis using the autospotting_min_on_demand_percentage tag. MinOnDemandNumber takes precedence if both these parameters are passed""
 "
-Resources.AWS::Lambda::Function.Properties.Tags,"[{u'Value': {u'Ref': u'LambdaFunctionTagValue'}, u'Key': {u'Ref': u'LambdaFunctionTagKey'}}]"
 Parameters.Regions.Description,"""Space separated list of regions where it should run (supports globs), in case you may want to limit it to a smaller set of regions. If unset it will run against all available regions. Example: 'us-east-1 eu-*'""
 "
 Parameters.LambdaFunctionTagValue.Default,autospotting
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'LambdaZipPath'}
 Parameters.MinOnDemandNumber.Default,0
 Resources.AWS::IAM::Role.Properties.Path,/lambda/
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.ALLOWED_INSTANCE_TYPES,{u'Ref': u'AllowedInstanceTypes'}
 Parameters.LambdaMemorySize.Description,Memory allocated to the Lambda function
 Parameters.BiddingPolicy.Description,"""Policy choice for spot bid. If set to 'normal', we bid at the on-demand price. If set to 'aggressive', we bid at a multiple of the spot price.""
 "
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.SPOT_PRODUCT_DESCRIPTION,{u'Ref': u'SpotProductDescription'}
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.TAG_FILTERS,{u'Ref': u'FilterByTags'}
 Resources.AWS::Lambda::Function.Properties.Runtime,go1.x
 Parameters.LogRetentionPeriod.Default,7
 Parameters.LambdaHandlerFunction.Description,Handler function for Lambda

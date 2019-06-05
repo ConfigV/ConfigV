@@ -6,14 +6,11 @@ Parameters.DBUsername.Description,The database admin account username
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,MyDatabase
 Parameters.DBUsername.NoEcho,true
-Resources.AWS::RDS::DBSecurityGroup.Properties.EC2VpcId,{u'Ref': u'VpcId'}
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUsername'}
 Parameters.VpcId.Description,VpcId of your existing Virtual Private Cloud (VPC)
 Parameters.DBPassword.NoEcho,true
 Resources.AWS::RDS::DBSecurityGroup.Properties.GroupDescription,Security group for RDS DB Instance
 Parameters.Subnets.Description,"The list of SubnetIds, one in each Availability Zone in the region in your Virtual Private Cloud (VPC)"
 Parameters.DBAllocatedStorage.Description,The size of the database (Gb)
-Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'DBAllocatedStorage'}
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
 Parameters.DBAllocatedStorage.ConstraintDescription,must be between 5 and 1024Gb.
 Parameters.DBPassword.Description,The database admin account password
@@ -23,17 +20,11 @@ Parameters.DBClass.AllowedValues,"[u'db.m1.small', u'db.m1.large', u'db.m1.xlarg
 Parameters.DBAllocatedStorage.MinValue,5
 Parameters.DBPassword.Default,password
 Outputs.JDBCConnectionString.Description,JDBC connection string for database
-Resources.AWS::RDS::DBInstance.Properties.DBSecurityGroups,[{u'Ref': u'MyDBSecurityGroup'}]
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
 Parameters.DBName.MaxLength,64
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBClass'}
 Parameters.DBClass.ConstraintDescription,must select a valid database instance type.
-Outputs.JDBCConnectionString.Value,"{u'Fn::Join': [u'', [u'jdbc:mysql://', {u'Fn::GetAtt': [u'MyDB', u'Endpoint.Address']}, u':', {u'Fn::GetAtt': [u'MyDB', u'Endpoint.Port']}, u'/', {u'Ref': u'DBName'}]]}"
 Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBClass.Default,db.m1.small
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,{u'Ref': u'Subnets'}
 Parameters.DBClass.Description,Database instance class
-Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
 Parameters.DBUsername.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
 Parameters.DBUsername.MaxLength,16
@@ -43,4 +34,3 @@ Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Subnets av
 Parameters.DBAllocatedStorage.MaxValue,1024
 Parameters.DBUsername.Default,admin
 Parameters.DBPassword.MinLength,8
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'MyDBSubnetGroup'}

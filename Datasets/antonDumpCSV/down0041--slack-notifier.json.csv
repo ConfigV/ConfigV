@@ -1,4 +1,3 @@
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambdaFunctionRole'}]
 Resources.AWS::Events::Rule.Properties.EventPattern.source,[u'aws.health']
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'SlackNotifierLambdaFn', u'Arn']}"
@@ -7,7 +6,6 @@ Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::Lambda::Function.Properties.Timeout,60
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaFunctionRole', u'Arn']}"
-Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'', [u'#Sample Lambda Function to post notifications to a slack channel when an AWS Health event happens\n', u'from __future__ import print_function \n', u'import boto3 \n', u'import json \n', u'import logging \n', u'import os \n', u'from urllib2 import Request, urlopen, URLError, HTTPError \n', u'# Setting up logging \n', u'logger = logging.getLogger() \n', u'logger.setLevel(logging.INFO) \n', u'# main function \n', u'def handler(event, context): \n', u'  message =  str(event[\'detail\'][\'eventDescription\'][0][\'latestDescription\'] + ""\\n\\n<https://phd.aws.amazon.com/phd/home?region=us-east-1#/event-log?eventID="" + event[\'detail\'][\'eventArn\'] + ""|Click here> for details."") \n', u'  json.dumps(message) \n', u'  slack_message = { \n', u""    'channel': '"", {u'Ref': u'SlackChannel'}, u""',\n    'text': message \n"", u'} \n', u'  logger.info(str(slack_message)) \n', u'  req = Request(""', {u'Ref': u'HookURL'}, u'"", json.dumps(slack_message)) \n', u'  try: \n', u'   response = urlopen(req) \n', u'   response.read() \n', u'   logger.info(""Message posted to %s"", slack_message[\'channel\']) \n', u'  except HTTPError as e: \n', u'   logger.error(""Request failed : %d %s"", e.code, e.reason) \n', u'  except URLError as e: \n', u'   logger.error(""Server connection failed: %s"", e.reason) \n']]}"
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'SlackNotifierLambdaFn', u'Arn': {u'Fn::GetAtt': [u'SlackNotifierLambdaFn', u'Arn']}}]"

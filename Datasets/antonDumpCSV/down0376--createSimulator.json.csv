@@ -1,15 +1,12 @@
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[{u'Ref': u'AWSRolePolicy'}]
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,index.zip
 Resources.AWS::Elasticsearch::Domain.Properties.SnapshotOptions.AutomatedSnapshotStartHour,0
 Resources.AWS::Lambda::Function.Properties.Timeout,60
 Resources.AWS::Elasticsearch::Domain.Properties.AdvancedOptions.rest.action.multi.allow_explicit_index,true
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'SrcCodeBucket'}
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.ZoneAwarenessEnabled,false
 Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.EBSEnabled,False
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.InstanceCount,1
-Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'iot:connect', u'iot:publish', u'iot:subscribe', u'iot:createTopicRule', u'iot:getTopicRule', u'iot:DescribeEndpoint'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:getObject'], u'Resource': [u'arn:aws:s3:::iot-simulator-publicbucket/*', {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'S3BucketName'}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u'iam:createPolicy', u'iam:createRole', u'iam:getRole', u'iam:attachRolePolicy', u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': u'lambda.amazonaws.com'}, u'Effect': u'Allow', u'Sid': u''}]"
 Parameters.S3BucketName.Description,Enter S3 bucket name you are about to create
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
@@ -20,4 +17,3 @@ Parameters.SrcCodeBucket.Default,iot-simulator-publicbucket
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.DedicatedMasterEnabled,false
 Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Version,2012-10-17
 Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Statement,"[{u'Action': u'es:*', u'Resource': u'*', u'Effect': u'Allow', u'Principal': {u'AWS': u'*'}}]"
-Resources.AWS::S3::Bucket.Properties.BucketName,{u'Ref': u'S3BucketName'}

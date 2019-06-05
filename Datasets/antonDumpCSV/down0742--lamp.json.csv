@@ -4,37 +4,28 @@ Parameters.DBName.ConstraintDescription,must begin with a letter and contain onl
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.mysqld.ensureRunning,true
 Parameters.DBRootPassword.ConstraintDescription,must contain only alphanumeric characters.
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.01_set_mysql_root_password.test,"{u'Fn::Join': [u'', [u'$(mysql ', {u'Ref': u'DBName'}, u"" -u root --password='"", {u'Ref': u'DBRootPassword'}, u""' >/dev/null 2>&1 </dev/null); (( $? != 0 ))""]]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages.yum.mysql-libs,[]
 Parameters.DBUser.MaxLength,16
 Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum update -y aws-cfn-bootstrap\n', u'# Install the files and packages from the metadata\n', u'/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerInstance ', u'         --configsets InstallAndRun ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'# Signal the status from cfn-init\n', u'/opt/aws/bin/cfn-signal -e $? ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerInstance ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.cfn-hup.files,"[u'/etc/cfn/cfn-hup.conf', u'/etc/cfn/hooks.d/cfn-auto-reloader.conf']"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php,[]
 Parameters.DBName.Description,MySQL database name
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.InstallAndRun,"[u'Install', u'Configure']"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.owner,root
 Parameters.DBRootPassword.Description,Root password for MySQL
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'FromPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php-mysql,[]
 Parameters.DBUser.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.content,"{u'Fn::Join': [u'', [u'[cfn-auto-reloader-hook]\n', u'triggers=post.update\n', u'path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init\n', u'action=/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource WebServerInstance ', u'         --configsets InstallAndRun ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'runas=root\n']]}"
 Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
 Parameters.DBPassword.MinLength,1
 Parameters.DBRootPassword.NoEcho,true
 Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'WebServerInstance', u'PublicDnsName']}]]}"
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Mappings.AWSRegionArch2AMI.eu-central-1.PV64,ami-794a5915
 Parameters.DBUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages.yum.mysql,[]
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.01_set_mysql_root_password.command,"{u'Fn::Join': [u'', [u""mysqladmin -u root password '"", {u'Ref': u'DBRootPassword'}, u""'""]]}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.02_create_database.command,"{u'Fn::Join': [u'', [u""mysql -u root --password='"", {u'Ref': u'DBRootPassword'}, u""' < /tmp/setup.mysql""]]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./var/www/html/index.php.owner,apache
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.cfn-hup.ensureRunning,true
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.content,"{u'Fn::Join': [u'', [u'CREATE DATABASE ', {u'Ref': u'DBName'}, u';\n', u'GRANT ALL ON ', {u'Ref': u'DBName'}, u"".* TO '"", {u'Ref': u'DBUser'}, u""'@localhost IDENTIFIED BY '"", {u'Ref': u'DBPassword'}, u""';\n""]]}"
 Mappings.AWSRegionArch2AMI.eu-central-1.HVMG2,ami-ba1a09d6
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.mode,000400
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./tmp/setup.mysql.group,root
@@ -53,14 +44,11 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.packages
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.cfn-hup.enabled,true
 Parameters.SSHLocation.MinLength,9
 Parameters.DBName.MinLength,1
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.02_create_database.test,"{u'Fn::Join': [u'', [u'$(mysql ', {u'Ref': u'DBName'}, u"" -u root --password='"", {u'Ref': u'DBRootPassword'}, u""' >/dev/null 2>&1 </dev/null); (( $? != 0 ))""]]}"
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,MyDatabase
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.owner,root
 Parameters.DBRootPassword.AllowedPattern,[a-zA-Z0-9]*
-Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
 Parameters.DBPassword.Description,Password for MySQL database access
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./var/www/html/index.php.content,"{u'Fn::Join': [u'', [u'<html>\n', u'  <head>\n', u'    <title>AWS CloudFormation PHP Sample</title>\n', u'    <meta http-equiv=""Content-Type"" content=""text/html; charset=ISO-8859-1"">\n', u'  </head>\n', u'  <body>\n', u'    <h1>Welcome to the AWS CloudFormation PHP Sample</h1>\n', u'    <p/>\n', u'    <?php\n', u'      // Print out the current data and time\n', u'      print ""The Current Date and Time is: <br/>"";\n', u'      print date(""g:i A l, F j Y."");\n', u'    ?>\n', u'    <p/>\n', u'    <?php\n', u'      // Setup a handle for CURL\n', u'      $curl_handle=curl_init();\n', u'      curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);\n', u'      curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);\n', u'      // Get the hostname of the intance from the instance metadata\n', u""      curl_setopt($curl_handle,CURLOPT_URL,'http://169.254.169.254/latest/meta-data/public-hostname');\n"", u'      $hostname = curl_exec($curl_handle);\n', u'      if (empty($hostname))\n', u'      {\n', u'        print ""Sorry, for some reason, we got no hostname back <br />"";\n', u'      }\n', u'      else\n', u'      {\n', u'        print ""Server = "" . $hostname . ""<br />"";\n', u'      }\n', u'      // Get the instance-id of the intance from the instance metadata\n', u""      curl_setopt($curl_handle,CURLOPT_URL,'http://169.254.169.254/latest/meta-data/instance-id');\n"", u'      $instanceid = curl_exec($curl_handle);\n', u'      if (empty($instanceid))\n', u'      {\n', u'        print ""Sorry, for some reason, we got no instance id back <br />"";\n', u'      }\n', u'      else\n', u'      {\n', u'        print ""EC2 instance-id = "" . $instanceid . ""<br />"";\n', u'      }\n', u'      $Database   = ""localhost"";\n', u'      $DBUser     = ""', {u'Ref': u'DBUser'}, u'"";\n', u'      $DBPassword = ""', {u'Ref': u'DBPassword'}, u'"";\n', u'      print ""Database = "" . $Database . ""<br />"";\n', u'      $dbconnection = mysql_connect($Database, $DBUser, $DBPassword)\n', u'                      or die(""Could not connect: "" . mysql_error());\n', u'      print (""Connected to $Database successfully"");\n', u'      mysql_close($dbconnection);\n', u'    ?>\n', u'    <h2>PHP Information</h2>\n', u'    <p/>\n', u'    <?php\n', u'      phpinfo();\n', u'    ?>\n', u'  </body>\n', u'</html>\n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.httpd.enabled,true
 Parameters.DBName.MaxLength,64
 Parameters.SSHLocation.MaxLength,18
@@ -68,7 +56,6 @@ Parameters.SSHLocation.Default,0.0.0.0/0
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./var/www/html/index.php.group,apache
 Mappings.AWSRegionArch2AMI.eu-central-1.HVM64,ami-bc5b48d0
 Outputs.WebsiteURL.Description,URL for newly created LAMP stack
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.httpd.ensureRunning,true
 Parameters.SSHLocation.Description, The IP address range that can be used to SSH to the EC2 instances
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.group,root

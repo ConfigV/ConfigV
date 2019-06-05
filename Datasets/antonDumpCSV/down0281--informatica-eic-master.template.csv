@@ -6,19 +6,14 @@ Parameters.QSS3KeyPrefix.Default,quickstart-informatica-eic/
 Parameters.DBUser.MaxLength,64
 Parameters.KeyName.ConstraintDescription,Specifying EC2 keypair is mandatory
 Parameters.QSS3BucketName.Default,aws-quickstart
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet2ACIDR,{u'Ref': u'PrivateSubnet2CIDR'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.InformaticaAdminPassword.default,Informatica Administrator Password
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ConfirmInformaticaAdminPassword,{u'Ref': u'ConfirmInformaticaAdminPassword'}
 Parameters.InformaticaEICKeyName.MinLength,1
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ConfirmInformaticaAdminPassword.default,Confirm Password
 Parameters.QSS3BucketName.Description,"S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Parameters.IPAddressRange.MinLength,9
 Parameters.ICSClusterSize.AllowedValues,"[u'Small', u'Medium', u'Large']"
 Parameters.InformaticaAdminPassword.MinLength,1
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet1CIDR,{u'Ref': u'PublicSubnet1CIDR'}
 Parameters.PublicSubnet2CIDR.Default,10.0.144.0/20
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2CIDR,{u'Ref': u'PublicSubnet2CIDR'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ImportSampleData,{u'Ref': u'ImportSampleData'}
 Parameters.DBUser.MinLength,1
 Parameters.DBUser.ConstraintDescription,Database Username should be alphanumeric and start with an alphabet only 
 Parameters.DBPassword.AllowedPattern,"[^/""@]*"
@@ -47,12 +42,9 @@ Parameters.ConfirmDBPassword.MinLength,1
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DBPassword.default,Informatica Database Instance Password
 Parameters.QSS3KeyPrefix.ConstraintDescription,"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended."
 Parameters.InformaticaEICKeyName.Description,"The Informatica Enterprise Data Catalog license key name. For example, <license key name> or <bucket sub folder/license key name>"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCCIDR,{u'Ref': u'VPCCIDR'}
 Parameters.InformaticaAdminPassword.NoEcho,True
 Parameters.PrivateSubnet1CIDR.Description,CIDR block for private subnet 1 located in Availability Zone 1.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Ref': u'QSS3KeyPrefix'}
 Parameters.InformaticaAdminUsername.ConstraintDescription,Informatica Admin Username is mandatory
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Sub': [u'https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/informatica-eic.template', {u'QSS3Region': {u'Fn::If': [u'GovCloudCondition', u's3-us-gov-west-1', u's3']}}]}"
 Parameters.ConfirmDBPassword.NoEcho,True
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCCIDR.default,VPC CIDR
@@ -66,53 +58,38 @@ Parameters.ConfirmInformaticaAdminPassword.ConstraintDescription,Confirm Passwor
 Parameters.ConfirmInformaticaAdminPassword.Description,Confirm the password for Informatica Administrator
 Parameters.DBPassword.NoEcho,True
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet1CIDR.default,Public Subnet 1 CIDR
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1ACIDR,{u'Ref': u'PrivateSubnet1CIDR'}
 Parameters.PrivateSubnet1CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Parameters.ICSClusterSize.Default,Small
 Parameters.PrivateSubnet1CIDR.Default,10.0.0.0/19
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.IPAddressRange.default,IP Address Range
 Parameters.ConfirmInformaticaAdminPassword.NoEcho,True
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.IPAddressRange,{u'Ref': u'IPAddressRange'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ConfirmDBPassword,{u'Ref': u'ConfirmDBPassword'}
 Parameters.VPCCIDR.Default,10.0.0.0/16
-Rules.matchDBPasswords.Assertions,"[{u'Assert': {u'Fn::Equals': [{u'Ref': u'DBPassword'}, {u'Ref': u'ConfirmDBPassword'}]}, u'AssertDescription': u'Passwords do not match'}]"
 Parameters.PublicSubnet1CIDR.Description,CIDR Block for the public DMZ subnet 1 located in Availability Zone 1
 Parameters.KeyName.Description,Name of an existing Amazon EC2 keypair. You must specify this option to enable SSH access to Informatica domain and cluster instances
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ImportSampleData.default,Import Sample Content
 Parameters.PrivateSubnet2CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ICSClusterSize,{u'Ref': u'ICSClusterSize'}
 Parameters.InformaticaAdminUsername.MinLength,1
 Parameters.InformaticaAdminPassword.Description,Password to access Informatica Administrator
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.InformaticaAdminUsername,{u'Ref': u'InformaticaAdminUsername'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBPassword,{u'Ref': u'DBPassword'}
 Parameters.DBUser.Description,"Username for the database instance associated with Informatica domain and services (such as Model Repository Service, Data Integration Service, Content Management Service)"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet1CIDR.default,Private Subnet 1 CIDR
 Parameters.DBPassword.MinLength,8
 Parameters.ConfirmInformaticaAdminPassword.MinLength,1
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyName'}
 Parameters.KeyName.MinLength,1
 Parameters.InformaticaAdminPassword.ConstraintDescription,Informatica Admin Password is mandatory
 Parameters.PublicSubnet1CIDR.Default,10.0.128.0/20
 Parameters.ConfirmDBPassword.ConstraintDescription,Confirm Password is mandatory 
 Parameters.AvailabilityZones.Description,List of Availability Zones to use for the subnets in the VPC. Note: The logical order is preserved and only 2 AZs are used for this deployment.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBUser,{u'Ref': u'DBUser'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.InformaticaEICKeyS3Bucket,{u'Ref': u'InformaticaEICKeyS3Bucket'}
 Parameters.VPCCIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPCID']}"
 Parameters.ImportSampleData.AllowedValues,"[u'Yes', u'No']"
 Parameters.PrivateSubnet2CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ICSClusterSize.default,Informatica Embedded Cluster Size
-Rules.matchAdministratorPasswords.Assertions,"[{u'Assert': {u'Fn::Equals': [{u'Ref': u'InformaticaAdminPassword'}, {u'Ref': u'ConfirmInformaticaAdminPassword'}]}, u'AssertDescription': u'Passwords do not match'}]"
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
 Parameters.DBPassword.Description,"Password for the database instance associated with Informatica domain and services (such as Model Repository Service, Data Integration Service, Content Management Service). Password should be at least 8 characters long and cannot contain "" @ and / "
 Parameters.PublicSubnet1CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.PrivateSubnet2CIDR.Description,CIDR block for private subnet 2 located in Availability Zone 2.
 Parameters.InformaticaAdminUsername.Default,Administrator
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
 Parameters.PublicSubnet2CIDR.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.InformaticaEICKeyName,{u'Ref': u'InformaticaEICKeyName'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.InformaticaAdminPassword,{u'Ref': u'InformaticaAdminPassword'}
 Parameters.PrivateSubnet2CIDR.Default,10.0.32.0/19
 Parameters.ConfirmDBPassword.Description,Confirm the password for the database instance
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,Quick Start S3 Key Prefix

@@ -5,14 +5,12 @@ Parameters.CIDRBlock.Default,0.0.0.0/0
 Parameters.SSHFrom.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Parameters.SSHFrom.MaxLength,18
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SSHFrom,{u'Ref': u'SSHFrom'}
 Outputs.MasterNodeURL.Description,Splunk URL of cluster master
 Outputs.MasterNodeURL.Value,"{u'Fn::GetAtt': [u'SplunkCluster', u'Outputs.MasterNodeURL']}"
 Parameters.CIDRBlock.MaxLength,18
 Parameters.SSHFrom.MinLength,9
 Parameters.HostedZoneName.ConstraintDescription,Must be a valid DNS domain.
 Outputs.SearchHeadIpAddress.Description,Public IP address of cluster search head
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.BastionKeyName,{u'Ref': u'BastionKeyName'}
 Parameters.ClusterSecurityKey.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
 Parameters.HostedZoneName.Default,
 Parameters.ClusterSize.Description,Splunk Cluster size or number of peer nodes; must be between 2 and 9
@@ -33,25 +31,19 @@ Parameters.CIDRBlock.ConstraintDescription,must be a valid CIDR range of the for
 Parameters.ClusterAZCount.AllowedValues,"[u'1', u'2', u'3']"
 Parameters.Subdomain.MaxLength,255
 Parameters.SSHFrom.ConstraintDescription,must be a valid CIDR range of the form x.x.x.x/x.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterSecurityKey,{u'Ref': u'ClusterSecurityKey'}
 Outputs.MasterNodeIpAddress.Description,Public IP address of cluster master
 Resources.AWS::CloudFormation::Stack.Metadata.Comment,VPC with 1 or more subnets across different AZs.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.HostedZoneName,{u'Ref': u'HostedZoneName'}
 Outputs.MasterNodeURL.Condition,AddDNSRecords
 Parameters.ClusterAZCount.MaxValue,3
 Parameters.Subdomain.AllowedPattern,[-_a-zA-Z0-9]*
 Parameters.ClusterAZCount.Default,1
 Parameters.KeyName.MinLength,1
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.Subdomain,{u'Ref': u'Subdomain'}
 Outputs.PeerNodesURL.Condition,AddDNSRecords
 Parameters.BastionKeyName.Default,bastion_key
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,{u'Ref': u'BastionKeyName'}
-Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Join': [u'/', [{u'Fn::FindInMap': [u'AWSRegion2s3Bucket', {u'Ref': u'AWS::Region'}, u's3Bucket']}, u'cloudformation-templates', u'vpc_multi_subnets.template']]}"
 Outputs.BastionPublicIp.Value,"{u'Fn::GetAtt': [u'BastionHost', u'Outputs.PublicIp']}"
 Outputs.MasterNodeIpAddress.Value,"{u'Fn::GetAtt': [u'SplunkCluster', u'Outputs.MasterNodeIpAddress']}"
 Parameters.HostedZoneName.AllowedPattern,^(([a-zA-Z0-9]|[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][-A-Za-z0-9]*[A-Za-z0-9])?$
 Outputs.SearchHeadURL.Description,Splunk URL of cluster search head
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.CIDRBlock,{u'Ref': u'CIDRBlock'}
 Parameters.Subdomain.Default,
 Parameters.Subdomain.Description,[Optional] Subdomain to use for new DNS records for cluster (without trailing dot)
 Parameters.BastionKeyName.MaxLength,64
@@ -72,14 +64,10 @@ Parameters.ClusterAZCount.MinValue,1
 Parameters.ClusterSize.AllowedValues,"[u'2', u'3', u'4', u'5', u'6', u'7', u'8', u'9']"
 Outputs.SubnetIds.Value,"{u'Fn::GetAtt': [u'VPC', u'Outputs.SubnetIds']}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcId,"{u'Fn::GetAtt': [u'VPC', u'Outputs.VpcId']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SplunkLicensePath,{u'Ref': u'SplunkLicensePath'}
 Parameters.ClusterSecurityKey.Description,Security key to authenticate traffic between cluster nodes
 Parameters.ClusterAZCount.Description,"Number of Availability Zones [1,2,3] to distribute nodes over; set to > 1 for Multi-AZ Clustering"
 Parameters.ClusterSize.MaxValue,9
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterSize,{u'Ref': u'ClusterSize'}
 Parameters.SplunkLicenseBucket.Default,
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetCount,{u'Ref': u'ClusterAZCount'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SplunkLicenseBucket,{u'Ref': u'SplunkLicenseBucket'}
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetId,"{u'Fn::GetAtt': [u'VPC', u'Outputs.MainSubnetId']}"
 Parameters.SplunkLicensePath.Default,
 Parameters.BastionKeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."

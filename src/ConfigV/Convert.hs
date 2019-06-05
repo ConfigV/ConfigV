@@ -1,8 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Convert where
+module ConfigV.Convert where
 
-import Types.IR
+import ConfigV.Types.IR
 
 import qualified Data.Text as T
 import Data.Interned

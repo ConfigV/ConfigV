@@ -6,12 +6,8 @@ Resources.AWS::Serverless::Function.Properties.MemorySize,1536
 Resources.AWS::Serverless::Api.Properties.StageName,prod
 Resources.AWS::Serverless::Function.Properties.Description,MXNet Lambda Function
 Resources.AWS::Serverless::Function.Properties.Timeout,60
-Resources.AWS::Serverless::Api.Properties.Variables.LambdaFunctionName,{u'Ref': u'LambdaFunction'}
 Resources.AWS::Serverless::Function.Properties.Handler,lambda_function.lambda_handler
-Outputs.ApiUrl.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'ApiGatewayApi'}, u'.execute-api.', {u'Ref': u'AWS::Region'}, u'.amazonaws.com/prod']]}"
-Resources.AWS::Serverless::Function.Properties.Events.ProxyApiRoot.Properties.RestApiId,{u'Ref': u'ApiGatewayApi'}
 Outputs.ApiUrl.Description,URL of your API endpoint
 Resources.AWS::Serverless::Function.Properties.Events.ProxyApiRoot.Properties.Path,/
 Resources.AWS::Serverless::Function.Properties.Runtime,python2.7
 Resources.AWS::Serverless::Function.Properties.Events.ProxyApiRoot.Properties.Method,ANY
-Resources.AWS::Serverless::Function.Properties.Events.ProxyApiGreedy.Properties.RestApiId,{u'Ref': u'ApiGatewayApi'}

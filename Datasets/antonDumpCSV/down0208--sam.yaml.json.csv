@@ -38,12 +38,10 @@ Resources.AWS::Serverless::Function.Properties.Events.CupGet.Properties.Method,G
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.consumes,[u'application/json']
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.authenticated,GoogleRole.Arn
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.responses.200.headers.Access-Control-Allow-Methods.type,string
-Resources.AWS::Serverless::Function.Properties.Events.CipPost.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.AWS::Cognito::IdentityPool.Properties.AllowUnauthenticatedIdentities,False
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.produces,[u'application/json']
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.x-amazon-apigateway-integration.responses.default.statusCode,200
-Resources.AWS::Serverless::Function.Properties.Events.CipGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
 Resources.AWS::Serverless::Function.Properties.Events.CipInfoGet.Properties.Path,/cip/info
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.options.responses.200.description,200 response
@@ -65,7 +63,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon
     }
 }"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.consumes,[u'application/json']
-Resources.AWS::Serverless::Function.Properties.Events.CipInfoGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.sigv4.type,apiKey
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.responses.200.headers.Access-Control-Allow-Origin.type,string
 Resources.AWS::Cognito::UserPool.Properties.UserPoolName,CognitoAPIGWAngular
@@ -165,7 +162,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.x-amazo
 }"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.x-amazon-apigateway-integration.requestTemplates.application/json,"{""statusCode"": 200}"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.responses.200.schema.$ref,#/definitions/Empty
-Resources.AWS::Serverless::Function.Properties.Events.GooglePost.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.produces,[u'application/json']
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.myApiUsers.x-amazon-apigateway-authorizer.providerARNs,[{u'Fn::Sub': u'${CognitoUserPool.Arn}'}]
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.responses.200.headers.Access-Control-Allow-Methods.type,string
@@ -179,7 +175,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.resp
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.responses.200.headers.Access-Control-Allow-Methods.type,string
 Resources.AWS::Serverless::Function.Properties.Events.GoogleGet.Properties.Path,/google
-Resources.AWS::Serverless::Function.Properties.Events.GoogleGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.options.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Cognito::UserPoolClient.Properties.ClientName,myApp
@@ -200,7 +195,6 @@ Resources.AWS::Serverless::Function.Properties.Events.CipGet.Properties.Method,G
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.post.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.security,[{u'sigv4': []}]
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.sigv4.name,Authorization
-Resources.AWS::Serverless::Function.Properties.Events.CupGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.x-amazon-apigateway-integration.requestTemplates.application/json,"{""statusCode"": 200}"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.responses.200.headers.Access-Control-Allow-Origin.type,string
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.responses.200.headers.Access-Control-Allow-Origin.type,string
@@ -220,7 +214,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.uri,{u'Fn::Sub': u'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CognitoDemoFunction.Arn}/invocations'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.responses.200.schema.$ref,#/definitions/Empty
-Resources.AWS::Serverless::Function.Properties.Events.CupPost.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.myApiUsers.x-amazon-apigateway-authtype,cognito_user_pools
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.responses.200.description,200 response
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.post.x-amazon-apigateway-integration.requestTemplates.application/json,"#set($inputRoot = $input.path('$'))

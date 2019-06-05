@@ -11,38 +11,25 @@ Parameters.AvailabilityZones.Description,List of Availability Zones to use for t
 Parameters.Release.Description,The FireCamp System Services release version
 Parameters.Release.Default,latest
 Parameters.NumberOfNodes.Description,Number of the Swarm worker instances to launch.
-Resources.AWS::Logs::LogGroup.Properties.LogGroupName,"{u'Fn::Join': [u'-', [{u'Ref': u'ClusterName'}, u'manageserver-firecamp']]}"
 Parameters.InternalAccessSecurityGroupID.Description,The internal SecurityGroup for the cluster nodes to access each other.
 Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.Release,{u'Ref': u'Release'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ServiceSecurityGroupID,{u'Ref': u'ServiceSecurityGroupID'}
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
 Parameters.QSS3KeyPrefix.Default,quickstart-cloudstax-firecamp/
 Parameters.ClusterName.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
 Parameters.ClusterName.Description,Name of the cluster.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfNodes,{u'Ref': u'NumberOfManagers'}
 Parameters.DBType.Default,clouddb
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerPlatformRole,manager
 Parameters.NodeInstanceProfileID.Description,ID of the instance IAM Profile
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterName,{u'Ref': u'ClusterName'}
 Parameters.NodeAMIOS.Description,The Linux distribution for the AMI to be used for the service instances
 Parameters.CatalogRelease.Default,latest
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeAMIOS,{u'Ref': u'NodeAMIOS'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.InternalAccessSecurityGroupID,{u'Ref': u'InternalAccessSecurityGroupID'}
 Parameters.CatalogRelease.Description,The FireCamp Catalog Service release version
 Parameters.ClusterName.Default,default
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ContainerPlatform,swarm
 Parameters.NodeInstanceProfileID.Default,
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyPairName'}
 Parameters.NumberOfNodes.Default,3
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetIDs,"{u'Fn::Join': [u',', {u'Ref': u'SubnetIDs'}]}"
 Parameters.DBType.AllowedValues,[u'clouddb']
 Parameters.SubnetIDs.Description,Subnet-ID the existing subnet in your VPC where you want to deploy node(s).
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NodeInstanceProfileID,{u'Ref': u'NodeInstanceProfileID'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}"
 Parameters.NodeAMIOS.Default,Amazon-Linux-HVM
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,"{u'Fn::Sub': [u'https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/firecamp-autoscalegroup.template', {u'QSS3Region': {u'Fn::If': [u'GovCloudCondition', u's3-us-gov-west-1', u's3']}}]}"
 Parameters.ClusterName.MaxLength,255
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Ref': u'QSS3KeyPrefix'}
 Parameters.QSS3BucketName.ConstraintDescription,"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
