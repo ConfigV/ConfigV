@@ -18,6 +18,8 @@ git checkout smtRuleLearning
 cabal build
 ```
 
+This assumes GHC 8.4.3 and cabal 3.0.0.
+If you are on Ubuntu, the can be easily installed here https://launchpad.net/~hvr/+archive/ubuntu/ghc
 
 ## Basic Usage
 
