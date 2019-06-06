@@ -6,8 +6,8 @@ import Test.Tasty.HUnit
 import System.Exit
 import Control.Exception
 
-import Learners.Common
-import Types.IR
+import ConfigV.Learners.Common
+import ConfigV.Types.IR
 
 import qualified Data.Set as S
 

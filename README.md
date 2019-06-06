@@ -2,26 +2,21 @@
 
 # ConfigV
 
-A tool for learning rules about configuration langauges. 
+A tool for learning rules about configuration languages. 
 
 ConfigV uses a generalization of Association Rule Learning to learn user-defined predicates over datasets of configuration files. You can think of this as data science meets programming languages meets systems.
 
 ## Basic Setup and Testing
 
-To get ConfigV installed (assuming you have Haskell on your system)
+To get ConfigV installed (assuming you have Haskell on your system), follow these steps.
+The first installation will take a bit of time to download packages, but will be quick(er) after that.
 
 ```
-cabal sandbox init
-cabal install
+git clone https://github.com/ConfigV/ConfigV
+cd ConfigV
+git checkout smtRuleLearning
+cabal build
 ```
-
-Then to run the learning process on a small benchmark:
-
-```
-cabal test 
-```
-
-You can the check the log for details on the test run, and inspect the test code in the Tests directory.
 
 
 ## Basic Usage
@@ -29,10 +24,24 @@ You can the check the log for details on the test run, and inspect the test code
 For usage on your own dataset, you can use the command line tool, in a similar way to below. Your exact location of the executable may vary.
 
 ```
-.cabal-sandbox/bin/ConfigV learn --learntarget "benchmarks/CSVTest/" --enableorder --enablemissing
+cabal run ConfigVtool -- learn --learntarget "Datasets/benchmarks/CSVTest/" --enableorder 
 ```
 
 You can also use ConfigV as an API from a Haskell program. For an example of this usage, see how the command line tool is built in the ```Executables``` directory, or inspect some of the tests in the ```Tests``` directory.
+
+## CloudFormation Templates
+
+To build a datset of Amazon CFN templates, we need to first preprocess the templates into a form ConfigV can handle (key-value pairs).
+First collect a set of json CFN templates into a directory.
+Note, yaml is not supported at the moment, though I was able to use the tool ```yq``` at one point for fairly good conversion.
+To then convert the json to CSV for ConfigV, use the ```preprocessCFN.py``` file. You just need to change the constants in the .py code, then run with ```python preprocessCFN.py```.
+This might not work for every file (some templates are malformed), so these templates might need to be discarded.
+
+To run the learning process on the Amazon CFN templates, check the settings in ```Executables/AmazonCFN.hs```, then run:
+
+```
+cabal run AmazonCFN
+```
 
 ## Datasets
 
@@ -45,7 +54,7 @@ The default location of the learned rules is ```cachedRules.json```
 This can file be manually inspected as a sanity check. 
 To pretty print this file, you use ```python -m json.tool cachedRules.json```
 
-To see the files in a benchmark set use ```tail -n +1 benchmarks/MissingCSV/*```
+To see the files in a benchmark set use ```tail -n +1 Datasets/benchmarks/MissingCSV/*```
 
 ## Support and Confidence 
 
@@ -69,5 +78,5 @@ Feel free to reach out if you have any questions about the tool or how to use it
 
 ## TODO
 
-- [ ] Merge AntiRule and Formula (maybe by splitting Formula into seperate rules?)
-- [ ] Merge all Learners into one module to make it easier to extend with new rules (this is a big job)
+- [ ] Merge all Learners into one module (SMTRules) to make it easier to extend with new rules
+- [ ] Build implication lattice
