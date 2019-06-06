@@ -21,7 +21,6 @@ main = do
 settings = learnConfig {
         learnTarget = "Datasets/rahul/ConfigVExperiments/exp2/train/"
       , learnFileLimit = 999
-      , enableMissing = True
       , enableCoarseGrain = True
       , enableFineGrain = True
       , verbose = True
@@ -32,15 +31,15 @@ pthresholds = defaultPercentageThresholds {
       , intRelConfidence_P = 0.95
       , fineGrainSupport_P = 0.01
       , fineGrainConfidence_P = 0.95
-      , keywordCoorSupport_P = 0.01
-      , keywordCoorConfidence_P = 0.95
+      , smtSupport_P = 0.01
+      , smtConfidence_P = 0.95
       , orderSupport_P = 0.01
       , orderConfidence_P = 0.95
       }
 
 csvThresholds = defaultThresholds {
-        keywordCoorSupport = 4
-      , keywordCoorConfidence = 1
+        smtSupport = 4
+      , smtConfidence = 1
       , intRelSupport = 5
       , intRelConfidence = 1
       , fineGrainSupport = 6

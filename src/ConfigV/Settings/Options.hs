@@ -15,8 +15,6 @@ data Options
     learnTarget :: FilePath
   , language :: Language
   , enableOrder :: Bool
-  , enableMissing :: Bool
-  , enableKeyvalkey :: Bool
   , enableCoarseGrain :: Bool
   , enableFineGrain :: Bool 
   , enableTypeRules :: Bool
@@ -47,8 +45,6 @@ learnConfig = Learning {
     learnTarget = "" &= help "The files to learn from" &= typDir
   , language = CSV &= help ("The language of the verification files, select from "++(show allLanguages))
   , enableOrder = False
-  , enableMissing = False
-  , enableKeyvalkey = False
   , enableCoarseGrain = False
   , enableFineGrain = False
   , enableTypeRules = False
@@ -64,8 +60,6 @@ learnConfig = Learning {
 
 defaultCheckConfig = learnConfig {
     enableOrder = True
-  , enableMissing = True
-  , enableKeyvalkey = True
   , enableCoarseGrain = True
   , enableFineGrain = True
   , enableTypeRules = True

@@ -17,14 +17,14 @@ main = do
 
 settings = learnConfig {
         learnTarget = "Datasets/docker-configv/"
-      , enableMissing = True
+      , enableSMT = True
       , enableOrder = True
       , verbose = True
       }
 
 csvThresholds = defaultThresholds {
-        keywordCoorSupport = 12
-      , keywordCoorConfidence = 1
+        smtSupport = 12
+      , smtConfidence = 1
       , orderSupport = 12
       , orderConfidence = 1 
       }

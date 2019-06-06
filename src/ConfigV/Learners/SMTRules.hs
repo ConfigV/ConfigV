@@ -39,8 +39,8 @@ instance Learnable SMTFormula AntiRule where
     settings <- ask
     let 
       --TODO need specialized support and conf
-      minTrue = keywordCoorSupport $ thresholdSettings settings
-      maxFalse = keywordCoorConfidence $ thresholdSettings settings
+      minTrue = smtSupport $ thresholdSettings settings
+      maxFalse = smtConfidence $ thresholdSettings settings
       rsAdded = M.unionsWith add rs
       rsWithFalse = M.mapWithKey (addFalse rs) rsAdded
     return $ filterByThresholds minTrue maxFalse rsWithFalse

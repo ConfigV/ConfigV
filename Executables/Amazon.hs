@@ -23,8 +23,8 @@ settings = learnConfig {
       }
 
 csvThresholds = Left $ defaultThresholds {
-        keywordCoorSupport = 15
-      , keywordCoorConfidence = 2
+        smtSupport = 15
+      , smtConfidence = 2
       }
 
 

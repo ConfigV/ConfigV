@@ -26,14 +26,13 @@ verify = do
 
 settings = learnConfig {
         learnTarget = "Datasets/benchmarks/MissingCSV/"
-      , enableMissing = True
       , enableSMT = True
       , verbose = True
       }
 
 csvThresholds = defaultThresholds {
-        keywordCoorSupport = 3
-      , keywordCoorConfidence = 1
+        smtSupport = 3
+      , smtConfidence = 1
       }
 
 
