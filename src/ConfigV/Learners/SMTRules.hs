@@ -11,16 +11,18 @@ import qualified ConfigV.Types.Locatable as R
 import ConfigV.Learners.Common
 
 import qualified Data.Map as M
-import qualified Data.Text as T
 
-import Data.Interned
 import Data.Maybe
+import Data.List
 
 import Control.Monad.Reader
 import Control.Monad.Omega
 
-import ConfigV.Utils
+import Algebra.PartialOrd
+
 import ConfigV.Settings.Config
+import ConfigV.Utils
+import Debug.Trace
 
 instance Learnable SMTFormula AntiRule where
 
@@ -31,9 +33,16 @@ instance Learnable SMTFormula AntiRule where
       if True -- evalSMT potentialSMTRule
       then Just $ head $ embedAsTrueAntiRule [potentialSMTRule]
       else Nothing
-    assignSMTs irPairs template = mapMaybe (\p -> checkSMTRule $ (uncurry template) p) irPairs
+    assignSMTs1 irs template = mapMaybe (\p -> checkSMTRule $ template p) irs
+    assignSMTs2 irPairs template = mapMaybe (\p -> checkSMTRule $ (uncurry template) p) irPairs
+    allRules = M.union 
+       (M.fromList $ concatMap (assignSMTs1 f) $ formulasSize1)
+       (M.fromList $ concatMap (assignSMTs2 $ orderPreservingPairs $ sort f) $ runOmega formulasSize2)
    in
-    return $ M.fromList $ filter (\(s,_) -> containsIsSetTo s) $ concatMap (assignSMTs $ pairs f) $ runOmega templatesArity2
+    return allRules
+       
+
+-- filter (\(s,_) -> containsIsSetTo s) $ 
 
   merge rs = do
     settings <- ask
@@ -43,7 +52,10 @@ instance Learnable SMTFormula AntiRule where
       maxFalse = smtConfidence $ thresholdSettings settings
       rsAdded = M.unionsWith add rs
       rsWithFalse = M.mapWithKey (addFalse rs) rsAdded
-    return $ filterByThresholds minTrue maxFalse rsWithFalse
+      filteredRules = filterByThresholds minTrue maxFalse rsWithFalse
+      
+      implicationLattice = buildImplGraph filteredRules
+    return $ M.map snd $ trace (unlines . (map show) . M.toList $ M.map fst implicationLattice)implicationLattice
 
 
   --   should we report the relation r2 found in the target file
@@ -65,6 +77,21 @@ instance Learnable SMTFormula AntiRule where
     ,errIdent = KEYVALKEY
     ,errMsg = "TODO"
     ,errSupport = (tru rd) + (fls rd)}
+
+
+instance PartialOrd SMTFormula where
+  leq r1 r2 = 
+    antecedent r1 `implies` antecedent r2 &&
+    consequent r2 `implies` consequent r1
+
+
+-- | build a graph based on partial order of rules
+buildImplGraph :: M.Map SMTFormula AntiRule -> M.Map SMTFormula ([SMTFormula], AntiRule)
+buildImplGraph rs =
+  M.mapWithKey 
+     (\r a -> (M.keys $ M.filterWithKey (\k _ -> comparable k r && r `leq` k) rs, a))
+     rs
+
 
 -- false is equal to how many files had a rule with the same antecedent clause, but not the consequent clause
 addFalse:: [M.Map SMTFormula AntiRule] -> SMTFormula -> AntiRule -> AntiRule
