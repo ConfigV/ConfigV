@@ -19,11 +19,11 @@ settings = learnConfig {
         learnTarget = "Datasets/antonDumpCSV/"
       , enableSMT = True
       , verbose = True
-      , learnFileLimit = 80
+      , learnFileLimit = 800
       }
 
 csvThresholds = Left $ defaultThresholds {
-        smtSupport = 15
+        smtSupport = 35
       , smtConfidence = 2
       }
 

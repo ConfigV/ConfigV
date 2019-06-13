@@ -2,6 +2,7 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE NoMonoPatBinds #-}
+{-# LANGUAGE BangPatterns #-}
 
 module ConfigV.LearningEngine where
 

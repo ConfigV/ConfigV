@@ -43,12 +43,13 @@ library
                          , ConfigV.Types.Rules
                          , ConfigV.Utils
   ghc-options: 
-    -O2 
+    -O2
+    -funfolding-use-threshold=16
+    -optc-O3
+    -optc-ffast-math 
     -Wunused-imports
     -threaded 
     -rtsopts 
-    -fprof-auto
-    "-with-rtsopts= -N4 -s -h -i1" 
   other-extensions:     DeriveAnyClass, 
                         DeriveDataTypeable, 
                         DeriveGeneric, 
@@ -89,6 +90,15 @@ executable AmazonCFN
   build-depends:       base >=4.9 && <4.12, 
                        ConfigV,
                        cmdargs
+  ghc-options:
+    -O2
+    -funfolding-use-threshold=16
+    -optc-O3
+    -optc-ffast-math 
+    -threaded
+    -fprof-auto
+    -prof
+    "-with-rtsopts=-N -s -h -i0.1 -p"
 
 executable Docker
   main-is:             Docker.hs

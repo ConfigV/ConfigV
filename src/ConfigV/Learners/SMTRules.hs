@@ -10,7 +10,7 @@ import qualified ConfigV.Types.Locatable as R
 
 import ConfigV.Learners.Common
 
-import qualified Data.Map as M
+import qualified Data.Map.Strict as M
 
 import Data.Maybe
 import Data.List
@@ -26,23 +26,26 @@ import Debug.Trace
 
 instance Learnable SMTFormula AntiRule where
 
-  buildRelations f = let
+  buildRelations f = {-# SCC "SMT" #-} let
     checkSMTRule :: SMTFormula -> Maybe (SMTFormula, AntiRule)
     checkSMTRule potentialSMTRule = 
       -- TODO all rules are correct by construction, until we add IntRel
       if True -- evalSMT potentialSMTRule
       then Just $ head $ embedAsTrueAntiRule [potentialSMTRule]
       else Nothing
-    assignSMTs1 irs template = mapMaybe (\p -> checkSMTRule $ template p) irs
-    assignSMTs2 irPairs template = mapMaybe (\p -> checkSMTRule $ (uncurry template) p) irPairs
-    allRules = M.union 
-       (M.fromList $ concatMap (assignSMTs1 f) $ formulasSize1)
-       (M.fromList $ concatMap (assignSMTs2 $ orderPreservingPairs $ sort f) $ runOmega formulasSize2)
+    assignSMTs1 irs template =  {-# SCC "assignSMTs1" #-} mapMaybe (\p -> checkSMTRule $ template p) irs
+    assignSMTs2 irPairs template = {-# SCC "assignSMTs2" #-} mapMaybe (\p -> checkSMTRule $ (uncurry template) p) irPairs
+    filterForms = {-# SCC "filterForms" #-} filter (containsIsSetTo . fst)  
+    allRules = {-# SCC "allRules" #-} smts1 ++ smts2
+    smts1 = {-# SCC "smts1" #-} flcm (assignSMTs1 f) $ formulasSize1
+    smts2 = {-# SCC "smts2" #-} flcm (assignSMTs2 $ orderPreservingPairs $ sort f) $ runOmega formulasSize2
+    flcm f xs = {-# SCC "fromList-concatMap" #-} concatMap f xs
    in
-    return allRules
-       
+    return $ 
+      M.fromList $ 
+      filterForms 
+        allRules
 
--- filter (\(s,_) -> containsIsSetTo s) $ 
 
   merge rs = do
     settings <- ask
@@ -95,13 +98,20 @@ buildImplGraph rs =
 
 -- false is equal to how many files had a rule with the same antecedent clause, but not the consequent clause
 addFalse:: [M.Map SMTFormula AntiRule] -> SMTFormula -> AntiRule -> AntiRule
-addFalse allRules smtRule rd = let
+addFalse ruleSets smtRule rd = let
     
     fCount = 
-      sum $ map (\rmap -> fromEnum $
-                            (not $ M.member smtRule rmap) &&
-                            (not $ M.null $ M.filterWithKey (\r' _ -> antecedent r' == antecedent smtRule && consequent r' /= consequent smtRule) rmap))
-                allRules
+      sum $ map (\rmap -> fromEnum $ f smtRule rmap)
+                ruleSets
  in
   rd{fls= fCount, tot = (tot rd) + fCount}
-  
+
+f :: SMTFormula -> M.Map SMTFormula AntiRule -> Bool
+f r rs =
+    (not $ M.member r rs) &&
+    containsKeyBy r (\r' -> antecedent r' == antecedent r && consequent r' /= consequent r) rs
+
+-- | if the file we are comparing to has support for this rule, and we dont see the rule itself, then this file is 1 unit of evidence that the rule does not hold
+containsKeyBy :: k -> (k -> Bool) -> M.Map k v -> Bool
+containsKeyBy r p rs = 
+   M.foldrWithKey (\k v res -> res || p k) False rs

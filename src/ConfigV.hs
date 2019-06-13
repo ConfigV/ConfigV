@@ -38,6 +38,8 @@ import           System.Directory
 executeLearning :: Options -> Either RawThresholds PercentageThresholds -> IO()
 executeLearning settings userThresholds = do
   checkSettings settings
+  putStrLn $ "Learning on directoty: \n"++(learnTarget settings)
+  putStrLn $ "Using file limit: \n"++(show $ learnFileLimit settings)
   thresholds <- 
     case userThresholds of
       Left rawThresholds -> return rawThresholds
