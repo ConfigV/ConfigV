@@ -23,6 +23,7 @@ import qualified ConfigV.LearningEngine as L
 import           ConfigV.Checker
 import           ConfigV.OutputPrinter
 import ConfigV.Utils
+import ConfigV.BuildImplGraph
 
 import ConfigV.Types.Rules
 import ConfigV.Types.IR
@@ -48,13 +49,15 @@ executeLearning settings userThresholds = do
                         optionsSettings = settings, 
                         thresholdSettings = thresholds}
   targets <- gatherLearnTargets settings
-  let learnedRules = 
-        (toLists $ L.learnRules configVconfig targets) :: RuleSetLists
-
-  B.writeFile (cacheLocation settings) $ A.encode learnedRules 
-  putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
-  print learnedRules
-
+  let learnedRules = L.learnRules configVconfig targets
+      learnedRulesL = toLists learnedRules :: RuleSetLists
+  B.writeFile (cacheLocation settings) $ A.encode learnedRulesL 
+  putStrLn $ "Learned rules: \n"++(ruleSizes learnedRulesL)
+  print learnedRulesL
+ 
+  putStrLn $ "Building Implication Lattice: "
+  implGraph $ smtRules learnedRules
+  
 executeVerification :: Options -> _
 executeVerification settings = do
   rules <- (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)

@@ -18,7 +18,6 @@ import Data.List
 import Control.Monad.Reader
 import Control.Monad.Omega
 
-import Algebra.PartialOrd
 
 import ConfigV.Settings.Config
 import ConfigV.Utils
@@ -43,7 +42,7 @@ instance Learnable SMTFormula AntiRule where
    in
     return $ 
       M.fromList $ 
-      filterForms 
+--      filterForms 
         allRules
 
 
@@ -56,9 +55,10 @@ instance Learnable SMTFormula AntiRule where
       rsAdded = M.unionsWith add rs
       rsWithFalse = M.mapWithKey (addFalse rs) rsAdded
       filteredRules = filterByThresholds minTrue maxFalse rsWithFalse
-      
-      implicationLattice = buildImplGraph filteredRules
-    return $ M.map snd $ trace (unlines . (map show) . M.toList $ M.map fst implicationLattice)implicationLattice
+
+    return $ 
+      filteredRules 
+      --M.map snd $ trace (unlines . (map show) . M.toList $ M.map fst implicationLattice) implicationLattice
 
 
   --   should we report the relation r2 found in the target file
@@ -80,21 +80,6 @@ instance Learnable SMTFormula AntiRule where
     ,errIdent = KEYVALKEY
     ,errMsg = "TODO"
     ,errSupport = (tru rd) + (fls rd)}
-
-
-instance PartialOrd SMTFormula where
-  leq r1 r2 = 
-    antecedent r1 `implies` antecedent r2 &&
-    consequent r2 `implies` consequent r1
-
-
--- | build a graph based on partial order of rules
-buildImplGraph :: M.Map SMTFormula AntiRule -> M.Map SMTFormula ([SMTFormula], AntiRule)
-buildImplGraph rs =
-  M.mapWithKey 
-     (\r a -> (M.keys $ M.filterWithKey (\k _ -> comparable k r && r `leq` k) rs, a))
-     rs
-
 
 -- false is equal to how many files had a rule with the same antecedent clause, but not the consequent clause
 addFalse:: [M.Map SMTFormula AntiRule] -> SMTFormula -> AntiRule -> AntiRule

@@ -15,6 +15,47 @@ import           Data.Aeson
 import           GHC.Generics     (Generic)
 import Control.DeepSeq
 
+import Algebra.PartialOrd
+
+-- TODO add IntRels
+data SMTFormula = SMTFormula {
+         antecedent :: SMTSubFormula -- ^ called source in ARL
+       , consequent :: SMTSubFormula -- ^ called target in ARL
+       }
+  deriving (Eq, Ord,Generic,ToJSON,FromJSON,NFData)
+
+data SMTSubFormula = 
+    And SMTSubFormula SMTSubFormula
+  | IsSet Keyword 
+  | IsSetTo Keyword Val
+  | STrue
+  deriving (Eq, Ord,Generic,ToJSON,FromJSON,NFData)
+
+instance Show SMTFormula where
+  show SMTFormula{..} = show antecedent ++ " => " ++ show consequent
+
+instance Show SMTSubFormula where
+  show = \case
+    And s1 s2 -> show s1 ++ " /\\ " ++ show s2
+    IsSet k -> "isSet(" ++ show k ++ ")"
+    IsSetTo k v -> "isSetTo(" ++ show k ++ ", " ++ show v ++ ")"
+    STrue -> "True"
+
+instance Locatable SMTFormula where
+  keys SMTFormula{..} = keys antecedent ++ keys consequent
+
+instance Locatable SMTSubFormula where
+  keys = \case
+    And s1 s2     -> keys s1 ++ keys s2
+    IsSet k       -> [k]
+    IsSetTo k _   -> [k]
+
+instance PartialOrd SMTFormula where
+  leq r1 r2 = 
+    antecedent r1 `implies` antecedent r2 &&
+    consequent r2 `implies` consequent r1
+
+-- Util functions for SMTFormula - TODO move to seperate module
 constructImplication :: Omega (SMTSubFormula -> SMTSubFormula -> SMTFormula)
 constructImplication = each [
      (\s1 s2 -> SMTFormula {antecedent = s1, consequent = s2})
@@ -80,38 +121,4 @@ implies s1 s2
   | (IsSetTo k1 _) <- s1, 
     (IsSet k2)     <- s2 = k1 == k2
   | otherwise = False
-  
-  
--- TODO add IntRels
-data SMTFormula = SMTFormula {
-         antecedent :: SMTSubFormula -- ^ called source in ARL
-       , consequent :: SMTSubFormula -- ^ called target in ARL
-       }
-  deriving (Eq, Ord,Generic,ToJSON,FromJSON,NFData)
-
-data SMTSubFormula = 
-    And SMTSubFormula SMTSubFormula
-  | IsSet Keyword 
-  | IsSetTo Keyword Val
-  | STrue
-  deriving (Eq, Ord,Generic,ToJSON,FromJSON,NFData)
-
-instance Show SMTFormula where
-  show SMTFormula{..} = show antecedent ++ " => " ++ show consequent
-
-instance Show SMTSubFormula where
-  show = \case
-    And s1 s2 -> show s1 ++ " /\\ " ++ show s2
-    IsSet k -> "isSet(" ++ show k ++ ")"
-    IsSetTo k v -> "isSetTo(" ++ show k ++ ", " ++ show v ++ ")"
-    STrue -> "True"
-
-instance Locatable SMTFormula where
-  keys SMTFormula{..} = keys antecedent ++ keys consequent
-
-instance Locatable SMTSubFormula where
-  keys = \case
-    And s1 s2     -> keys s1 ++ keys s2
-    IsSet k       -> [k]
-    IsSetTo k _   -> [k]
 
