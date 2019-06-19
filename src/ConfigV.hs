@@ -52,6 +52,7 @@ executeLearning settings userThresholds = do
   let learnedRules = L.learnRules configVconfig targets
       learnedRulesL = toLists learnedRules :: RuleSetLists
   B.writeFile (cacheLocation settings) $ A.encode learnedRulesL 
+  writeFile ((cacheLocation settings)++".pretty") $ show learnedRulesL 
   putStrLn $ "Learned rules: \n"++(ruleSizes learnedRulesL)
   print learnedRulesL
  
