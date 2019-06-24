@@ -2,6 +2,7 @@
 {-# LANGUAGE FlexibleContexts          #-}
 {-# LANGUAGE TypeFamilies              #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module ConfigV.BuildImplGraph where
 
@@ -24,19 +25,19 @@ import qualified Data.List.Split as L
 
 implGraph :: M.Map SMTFormula AntiRule -> IO ()
 implGraph rs = do 
-  let g = (uncurry mkGraph) $ asVerteciesAndEdges $ buildImplGraph rs
+  let m = buildImplGraph rs
+  let g = (uncurry mkGraph) $ asVerteciesAndEdges m
   gr <- layoutGraph Dot g 
   let grRendered = drawGraph
                      (\label loc -> place (formatRule label) loc)
                      (\_ p1 _ p2 _ p -> arrowBetween' (opts p) p1 p2)  
                      gr
-      opts p = with & gaps .~ 26 & arrowShaft .~ (unLoc . head $ pathTrails p)
-  renderSVG "implicationGraph.svg" (dims2D 400 400) $ bgFrame 20 white grRendered
+      opts p = with & gaps .~ 16 & arrowShaft .~ (unLoc . head $ pathTrails p)
+  renderSVG "implicationGraph.svg" (dims2D (fromIntegral $ (M.size m) *40) 400) $ bgFrame 20 white grRendered
 
-formatRule r = let
-  r' = show r
-  line1 = head $ L.splitOn "=>" r'
-  line2 = head $ tail $ L.splitOn "=>" r'
+formatRule SMTFormula{..} = let
+  line1 = shortShow antecedent
+  line2 = shortShow consequent
   asDia = fontSizeL 8 . text 
  in
   translateY (8) $ vsep 8 $ map asDia [(line1 ++ " =>"), line2]

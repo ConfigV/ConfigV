@@ -16,6 +16,7 @@ import           GHC.Generics     (Generic)
 import Control.DeepSeq
 
 import Algebra.PartialOrd
+import Data.Interned.Text
 
 -- TODO add IntRels
 data SMTFormula = SMTFormula {
@@ -40,6 +41,15 @@ instance Show SMTSubFormula where
     IsSet k -> "isSet(" ++ show k ++ ")"
     IsSetTo k v -> "isSetTo(" ++ show k ++ ", " ++ show v ++ ")"
     STrue -> "True"
+
+shortShow :: SMTSubFormula -> String
+shortShow = \case
+    And s1 s2 -> shortShow s1 ++ " /\\ " ++ shortShow s2
+    IsSet k -> "isSet(" ++ (s k) ++ ")"
+    IsSetTo k v -> "isSetTo(" ++ (s k) ++ ", " ++ (s v) ++ ")"
+    STrue -> "T"
+  where 
+   s = show. internedTextId
 
 instance Locatable SMTFormula where
   keys SMTFormula{..} = keys antecedent ++ keys consequent

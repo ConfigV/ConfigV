@@ -74,11 +74,12 @@ For more information on ConfigV and the theory behind how/why it works see:
 ## Maintainers
 
 - Mark Santolucito
-- Jurgen Cito 
 
 Feel free to reach out if you have any questions about the tool or how to use it - happy to help!
 
 ## TODO
 
-- [ ] Merge all Learners into one module (SMTRules) to make it easier to extend with new rules
-- [ ] Build implication lattice
+- [x] Merge all Learners into one module (SMTRules) to make it easier to extend with new rules
+- [x] Build implication lattice
+- [ ] only learn rules with at least on ecounter eaxmple, then deploy that template to check if rule is true
+- [ ] add more datasets
