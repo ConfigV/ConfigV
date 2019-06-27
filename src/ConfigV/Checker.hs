@@ -42,10 +42,10 @@ filterRules fKs rs = RuleSet {
       ,intRel  = f intRel 
       ,typeErr = f'' typeErr 
       ,fineInt = f fineInt
+      ,smtRules = f smtRules
      }
    where
      f classOfErr  =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
-     f' classOfErr =  M.filterWithKey (\e _ -> oneKeyMatch (keys e)) (classOfErr rs)
      f'' classOfErr=  M.filterWithKey (\(e::TypeErr) _ -> keyPartMatch (map unintern $ keys e)) (classOfErr rs)
      keysMatch ks   = and $ map (\k->elem k fKs) ks
      oneKeyMatch ks = or $ map (\k->elem k fKs) ks
@@ -60,6 +60,7 @@ ruleDiff rs1 rs2 = RuleSet {
       ,intRel  = f' intRel
       ,typeErr = f typeErr
       ,fineInt = f' fineInt
+      ,smtRules = f smtRules
      }
    where
      --only use the key to resolve type ambiguity

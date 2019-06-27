@@ -21,7 +21,6 @@ import Data.List
 
 import qualified ConfigV.LearningEngine as L
 import           ConfigV.Checker
-import           ConfigV.OutputPrinter
 import ConfigV.Utils
 import ConfigV.BuildImplGraph
 
@@ -59,7 +58,7 @@ executeLearning settings userThresholds = do
   putStrLn $ "Building Implication Lattice: "
   implGraph $ smtRules learnedRules
   
-executeVerification :: Options -> _
+executeVerification :: Options -> IO ()
 executeVerification settings = do
   rules <- (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)
   degrees <- ((M.fromList. fromJust. A.decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
@@ -92,7 +91,7 @@ vFilePaths Verification{..} =
     then [verifyTarget]
     else map ((verifyTarget++"/")++) $ u $ listDirectory verifyTarget
 
-runVerify :: _ -> RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
+runVerify :: a -> RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
 runVerify settings rules ds vTargets  = do  
  
   let errors = map (verifyOn settings rules) vTargets

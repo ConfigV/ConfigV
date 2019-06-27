@@ -8,7 +8,7 @@ module ConfigV.LearningEngine where
 
 import ConfigV.Types
 
-import ConfigV.Learners
+import ConfigV.Learners()
 import ConfigV.Convert
 
 import Control.Parallel.Strategies

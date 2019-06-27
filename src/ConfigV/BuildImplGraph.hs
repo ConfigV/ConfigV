@@ -7,7 +7,6 @@
 module ConfigV.BuildImplGraph where
 
 import ConfigV.Types
-import qualified ConfigV.Types.Locatable as R
 
 import qualified Data.Map.Strict as M
 
@@ -18,10 +17,6 @@ import Diagrams.Prelude
 import Diagrams.TwoD.GraphViz
 
 import Data.GraphViz
-import Data.GraphViz.Commands
-import Diagrams.TwoD.Size
-
-import qualified Data.List.Split as L
 
 implGraph :: M.Map SMTFormula AntiRule -> IO ()
 implGraph rs = do 

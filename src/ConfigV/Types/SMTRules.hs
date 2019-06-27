@@ -59,6 +59,7 @@ instance Locatable SMTSubFormula where
     And s1 s2     -> keys s1 ++ keys s2
     IsSet k       -> [k]
     IsSetTo k _   -> [k]
+    STrue         -> []
 
 instance PartialOrd SMTFormula where
   leq r1 r2 = 
