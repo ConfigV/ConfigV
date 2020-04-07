@@ -10,6 +10,8 @@ import ConfigV.Types.IR
 import Control.Monad
 import System.Exit
 
+import ConfigV.Types.SMTRules
+
 data Options
   = Learning {
     learnTarget :: FilePath
@@ -24,6 +26,7 @@ data Options
   , thresholdsPath :: FilePath
   , learnFileLimit :: Int
   , verbose :: Bool
+  --, smtFilterCriteria :: SMTFormula -> Bool -- ^ TODO should this be something i can specify with a string on the command line?
   }
 
   | Verification {
@@ -55,6 +58,7 @@ learnConfig = Learning {
   , thresholdsPath = def &= help "The location from which to read threshold values (unsupported)" &= typFile
   , learnFileLimit = 9999 &= help "the limit for files to be used in learning. useful for benchmarking learning times" &= typ "INT"
   , verbose = False
+  --, smtFilterCriteria = containsIsSetTo
   } &=
     help "Use Predicate Rule Learning to learn rules"
 

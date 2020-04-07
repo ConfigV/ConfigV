@@ -25,26 +25,26 @@ import Debug.Trace
 
 instance Learnable SMTFormula AntiRule where
 
-  buildRelations f = {-# SCC "SMT" #-} let
-    checkSMTRule :: SMTFormula -> Maybe (SMTFormula, AntiRule)
-    checkSMTRule potentialSMTRule = 
-      -- TODO all rules are correct by construction, until we add IntRel
-      if True -- evalSMT potentialSMTRule
-      then Just $ head $ embedAsTrueAntiRule [potentialSMTRule]
-      else Nothing
-    assignSMTs1 irs template =  {-# SCC "assignSMTs1" #-} mapMaybe (\p -> checkSMTRule $ template p) irs
-    assignSMTs2 irPairs template = {-# SCC "assignSMTs2" #-} mapMaybe (\p -> checkSMTRule $ (uncurry template) p) irPairs
-    filterForms = {-# SCC "filterForms" #-} filter (containsIsSetTo . fst)  
-    allRules = {-# SCC "allRules" #-} smts1 ++ smts2
-    smts1 = {-# SCC "smts1" #-} flcm (assignSMTs1 f) $ formulasSize1
-    smts2 = {-# SCC "smts2" #-} flcm (assignSMTs2 $ orderPreservingPairs $ sort f) $ runOmega formulasSize2
-    flcm f xs = {-# SCC "fromList-concatMap" #-} concatMap f xs
-   in
+  buildRelations f = {-# SCC "SMT" #-} do
+    settings <- ask
+    let 
+						checkSMTRule :: SMTFormula -> Maybe (SMTFormula, AntiRule)
+						checkSMTRule potentialSMTRule = 
+								-- TODO all rules are correct by construction, until we add IntRel
+								if True -- evalSMT potentialSMTRule
+								then Just $ head $ embedAsTrueAntiRule [potentialSMTRule]
+								else Nothing
+						assignSMTs1 irs template =  {-# SCC "assignSMTs1" #-} mapMaybe (\p -> checkSMTRule $ template p) irs
+						assignSMTs2 irPairs template = {-# SCC "assignSMTs2" #-} mapMaybe (\p -> checkSMTRule $ (uncurry template) p) irPairs
+						--filterForms = {-# SCC "filterForms" #-} filter (smtFilterCriteria $ options settings)
+						allRules = {-# SCC "allRules" #-} smts1 ++ smts2
+						smts1 = {-# SCC "smts1" #-} flcm (assignSMTs1 f) $ formulasSize1
+						smts2 = {-# SCC "smts2" #-} flcm (assignSMTs2 $ orderPreservingPairs $ sort f) $ runOmega formulasSize2
+						flcm f xs = {-# SCC "fromList-concatMap" #-} concatMap f xs
     return $ 
       M.fromList $ 
 --      filterForms 
         allRules
-
 
   merge rs = do
     settings <- ask

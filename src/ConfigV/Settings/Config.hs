@@ -7,6 +7,7 @@ module ConfigV.Settings.Config (
 import ConfigV.Settings.Options
 import ConfigV.Settings.Thresholds
 
+
 data ConfigVConfiguration = ConfigVConfiguration {
     optionsSettings :: Options
   , thresholdSettings :: RawThresholds

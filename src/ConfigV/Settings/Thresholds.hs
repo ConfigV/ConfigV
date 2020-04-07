@@ -3,6 +3,7 @@ module ConfigV.Settings.Thresholds where
 import System.Directory
 import ConfigV.Settings.Options
 
+
 -- | You can set support and confidence as percentages, or as a # of files (usually specific for a trainging set)
 data PercentageThresholds = PercentageThresholds {
     intRelSupport_P :: Double
