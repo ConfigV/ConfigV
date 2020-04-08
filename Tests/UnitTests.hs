@@ -24,7 +24,7 @@ ir2 = IRLine{keyword="k2", value="b"}
 
 -- | can an implication graph be rendered without crashing
 implicationGraphRender :: TestTree
-implicationGraphRender = testGroup "impl graph tests" [implGraphEmpty, implGraphOne]
+implicationGraphRender = testGroup "impl graph tests" [implGraphEmpty, implGraphTiny]
 
 -- | render an empty graph
 implGraphEmpty :: TestTree

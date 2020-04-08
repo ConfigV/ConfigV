@@ -14,13 +14,12 @@ The first installation will take a bit of time to download packages, but will be
 ```
 git clone https://github.com/ConfigV/ConfigV
 cd ConfigV
-git checkout smtRuleLearning
 cabal build
 ```
 
-This assumes GHC 8.4.3 and cabal 3.0.0.
-If you are on Ubuntu, the can be easily installed here https://launchpad.net/~hvr/+archive/ubuntu/ghc
-If you want to test you need to install the ghv-$VERS-prof package from the hvr repo as well
+This assumes GHC 8.4.3 or 8.6.3 and cabal 3.0.0.
+If you are on Ubuntu, these can be easily installed here https://launchpad.net/~hvr/+archive/ubuntu/ghc
+If you want to run the test suites you need to install the ghv-$VERS-prof package from the hvr repo as well
 
 ## Basic Usage
 
