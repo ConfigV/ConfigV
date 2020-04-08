@@ -3,14 +3,11 @@ Parameters.MysqlRootPassword.NoEcho,True
 Parameters.InstanceRole.MaxLength,64
 Parameters.ServiceRole.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
 Parameters.AppName.Default,myapp
-Resources.AWS::OpsWorks::Stack.Properties.ServiceRoleArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/', {u'Ref': u'ServiceRole'}]]}"
 Parameters.AppName.MinLength,1
 Resources.AWS::OpsWorks::Layer.Properties.Name,MyPHPApp
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP', u'InstanceProtocol': u'HTTP'}]"
-Resources.AWS::OpsWorks::Stack.Properties.CustomCookbooksSource.Type,git
 Parameters.InstanceRole.Description,The OpsWorks instance role
 Parameters.AppName.Description,The app name
-Resources.AWS::OpsWorks::Layer.Properties.Type,php-app
 Resources.AWS::OpsWorks::App.Properties.AppSource.Url,git://github.com/amazonwebservices/opsworks-demo-php-simple-app.git
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/
 Parameters.ServiceRole.MinLength,1
@@ -20,46 +17,24 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interva
 Parameters.ServiceRole.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.AppName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Resources.AWS::OpsWorks::Layer.Properties.Attributes.MysqlRootPasswordUbiquitous,true
-Resources.AWS::OpsWorks::ElasticLoadBalancerAttachment.Properties.ElasticLoadBalancerName,{u'Ref': u'ELB'}
 Parameters.InstanceRole.MinLength,1
 Parameters.ServiceRole.Description,The OpsWorks service role
 Parameters.ServiceRole.Default,aws-opsworks-service-role
-Resources.AWS::OpsWorks::ElasticLoadBalancerAttachment.Type,AWS::OpsWorks::ElasticLoadBalancerAttachment
 Resources.AWS::OpsWorks::Stack.Properties.CustomCookbooksSource.Url,git://github.com/amazonwebservices/opsworks-example-cookbooks.git
-Resources.AWS::OpsWorks::Layer.Properties.Attributes.MysqlRootPassword,{u'Ref': u'MysqlRootPassword'}
-Parameters.ServiceRole.Type,String
-Parameters.MysqlRootPassword.Type,String
-Parameters.InstanceRole.Type,String
-Resources.AWS::OpsWorks::App.Type,AWS::OpsWorks::App
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
-Resources.AWS::OpsWorks::App.Properties.StackId,{u'Ref': u'myStack'}
-Resources.AWS::OpsWorks::Instance.Properties.StackId,{u'Ref': u'myStack'}
 Resources.AWS::OpsWorks::App.Properties.AppSource.Revision,version2
-Resources.AWS::OpsWorks::Instance.Properties.LayerIds,[{u'Ref': u'DBLayer'}]
 Parameters.ServiceRole.MaxLength,64
-Resources.AWS::OpsWorks::Instance.Type,AWS::OpsWorks::Instance
-Resources.AWS::OpsWorks::App.Properties.AppSource.Type,git
 Parameters.AppName.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.InstanceRole.Default,aws-opsworks-ec2-role
-Resources.AWS::OpsWorks::App.Properties.Type,php
 Resources.AWS::OpsWorks::Layer.Properties.Shortname,php-app
 Parameters.AppName.MaxLength,64
 Resources.AWS::OpsWorks::App.Properties.Attributes.DocumentRoot,web
-Resources.AWS::OpsWorks::Stack.Type,AWS::OpsWorks::Stack
-Resources.AWS::OpsWorks::Stack.Properties.Name,{u'Ref': u'AWS::StackName'}
 Parameters.InstanceRole.AllowedPattern,[a-zA-Z][a-zA-Z0-9-]*
-Parameters.AppName.Type,String
-Resources.AWS::OpsWorks::App.Properties.Name,{u'Ref': u'AppName'}
-Resources.AWS::OpsWorks::ElasticLoadBalancerAttachment.Properties.LayerId,{u'Ref': u'myLayer'}
 Resources.AWS::OpsWorks::Layer.Properties.AutoAssignElasticIps,false
-Resources.AWS::OpsWorks::Layer.Properties.StackId,{u'Ref': u'myStack'}
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,10
 Resources.AWS::OpsWorks::Stack.Properties.UseCustomCookbooks,true
 Resources.AWS::OpsWorks::Layer.Properties.CustomRecipes.Setup,[u'phpapp::dbsetup']
 Resources.AWS::OpsWorks::Layer.Properties.AutoAssignPublicIps,true
 Parameters.MysqlRootPassword.Description,MysqlRootPassword
-Resources.AWS::OpsWorks::Layer.Type,AWS::OpsWorks::Layer
-Resources.AWS::OpsWorks::Stack.Properties.DefaultInstanceProfileArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':instance-profile/', {u'Ref': u'InstanceRole'}]]}"
 Resources.AWS::OpsWorks::Layer.Properties.CustomRecipes.Configure,[u'phpapp::appsetup']
 Parameters.InstanceRole.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2

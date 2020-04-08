@@ -1,28 +1,14 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/pyfarm/
 Parameters.ImageId.Description,The AMI image to use when creating the instance
 Parameters.SSHKey.Default,opalmer
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'SSHKey'}
 Parameters.SubnetId.Description,The subnet the instance will assign its network adapter to.
 Resources.AWS::IAM::Role.Properties.Path,/pyfarm/
-Resources.AWS::EC2::Instance.Properties.AvailabilityZone,{u'Ref': u'AvailabilityZone'}
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.AvailabilityZone.Type,AWS::EC2::AvailabilityZone::Name
 Parameters.SSHKey.Description,SSH key pair to be used for accessing the host.
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'\n', [u'#!/bin/bash -ex', u'curl https://raw.githubusercontent.com/opalmer/aws/master/hosts/pyfarm/bootstrap.sh -o /tmp/bootstrap.sh', u'chmod +x /tmp/bootstrap.sh', u'/tmp/bootstrap.sh >>/var/log/bootstrap.log 2>&1']]}}"
-Parameters.ImageId.Type,AWS::EC2::Image::Id
-Parameters.SubnetId.Type,AWS::EC2::Subnet::Id
 Parameters.AvailabilityZone.Description,The AZ to place the instance in.
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
-Parameters.SecurityGroupId.Type,AWS::EC2::SecurityGroup::Id
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.SecurityGroupId.Description,The id of the security group the network adapter(s) will live in.
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'SubnetId'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Ref': u'SecurityGroupId'}], u'AssociatePublicIpAddress': u'true'}]"
 Parameters.AvailabilityZone.Default,us-east-1e
-Parameters.SSHKey.Type,AWS::EC2::KeyPair::KeyName
-Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'ImageId'}
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'pyfarm', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u's3:GetObject', u'Resource': [u'arn:aws:s3:::opalmer/aws/ssl/httpbin.key', u'arn:aws:s3:::opalmer/aws/ssl/pyfarm.key'], u'Effect': u'Allow'}, {u'Action': u'route53:ListHostedZones', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'route53:ChangeResourceRecordSets', u'route53:ListResourceRecordSets'], u'Resource': u'arn:aws:route53:::hostedzone/Z2CTVQDHJD6FSK', u'Effect': u'Allow'}]}}]"
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'pyfarm', u'Key': u'Name'}]"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'AccessRole'}]

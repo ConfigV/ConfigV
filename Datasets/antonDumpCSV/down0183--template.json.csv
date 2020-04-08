@@ -1,48 +1,28 @@
 Resources.AWS::SQS::Queue.Properties.RedrivePolicy.maxReceiveCount,10
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::ElasticBeanstalk::Environment.Properties.Tier.Version,1.0
-Resources.AWS::ElasticBeanstalk::Environment.Type,AWS::ElasticBeanstalk::Environment
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::SQS::Queue.Properties.RedrivePolicy.deadLetterTargetArn,"{u'Fn::GetAtt': [u'SQSDLQueue', u'Arn']}"
 Parameters.KeyName.Description,Key Pair name
-Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.OptionSettings,"[{u'OptionName': u'EC2KeyName', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': {u'Ref': u'KeyName'}}, {u'OptionName': u'IamInstanceProfile', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': {u'Ref': u'WorkerInstanceProfile'}}, {u'OptionName': u'WorkerQueueURL', u'Namespace': u'aws:elasticbeanstalk:sqsd', u'Value': {u'Ref': u'SQSQueue'}}, {u'OptionName': u'HttpPath', u'Namespace': u'aws:elasticbeanstalk:sqsd', u'Value': u'/sqs'}, {u'OptionName': u'NodeCommand', u'Namespace': u'aws:elasticbeanstalk:container:nodejs', u'Value': u'node worker.js'}, {u'OptionName': u'ImageQueue', u'Namespace': u'aws:elasticbeanstalk:application:environment', u'Value': {u'Ref': u'SQSQueue'}}, {u'OptionName': u'ImageBucket', u'Namespace': u'aws:elasticbeanstalk:application:environment', u'Value': {u'Ref': u'Bucket'}}]"
 Outputs.EndpointURL.Description,Load Balancer URL
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'id'}]"
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.IndexDocument,index.html
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Outputs.EndpointURL.Value,"{u'Fn::GetAtt': [u'EBServerEnvironment', u'EndpointURL']}"
-Resources.AWS::ElasticBeanstalk::Environment.Properties.Tier.Type,SQS/HTTP
 Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Bucket,awsinaction
-Resources.AWS::ElasticBeanstalk::Application.Type,AWS::ElasticBeanstalk::Application
-Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::Join': [u'-', [u'imagery', {u'Ref': u'AWS::AccountId'}]]}"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
 Resources.AWS::SQS::Queue.Properties.QueueName,message
 Resources.AWS::S3::Bucket.Properties.WebsiteConfiguration.ErrorDocument,error.html
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'id', u'AttributeType': u'S'}]"
-Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Key,chapter13/build/worker.zip
 Resources.AWS::DynamoDB::Table.Properties.TableName,imagery-image
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Parameters.KeyName.Default,mykey
-Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.ApplicationName,{u'Ref': u'EBWorkerApplication'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::ElasticBeanstalk::ApplicationVersion.Type,AWS::ElasticBeanstalk::ApplicationVersion
-Resources.AWS::ElasticBeanstalk::Environment.Properties.ApplicationName,{u'Ref': u'EBWorkerApplication'}
 Resources.AWS::ElasticBeanstalk::Environment.Properties.Description,Imagery worker: AWS in Action: chapter 13
 Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.SolutionStackName,64bit Amazon Linux 2015.03 v1.4.6 running Node.js
 Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.Description,Imagery worker: AWS in Action: chapter 13
 Resources.AWS::ElasticBeanstalk::Application.Properties.ApplicationName,imagery-worker
-Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.ApplicationName,{u'Ref': u'EBWorkerApplication'}
-Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Type,AWS::ElasticBeanstalk::ConfigurationTemplate
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'sqs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'sqs:SendMessage'], u'Resource': {u'Fn::GetAtt': [u'SQSQueue', u'Arn']}, u'Effect': u'Allow', u'Sid': u'Stmt1425388787000'}]}}, {u'PolicyName': u'cloudwatch', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'cloudwatch:PutMetricData'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'Stmt1425388787000'}]}}, {u'PolicyName': u's3-elasticbeanstalk', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:Get*', u's3:List*', u's3:PutObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::elasticbeanstalk-*-', {u'Ref': u'AWS::AccountId'}, u'/*']]}, {u'Fn::Join': [u'', [u'arn:aws:s3:::elasticbeanstalk-*-', {u'Ref': u'AWS::AccountId'}, u'-*/*']]}], u'Effect': u'Allow', u'Sid': u'Stmt1425388787000'}]}}, {u'PolicyName': u's3-image', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:PutObject'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}, u'/*']]}], u'Effect': u'Allow', u'Sid': u'Stmt1425388787000'}]}}, {u'PolicyName': u'dynamodb', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:GetItem', u'dynamodb:PutItem', u'dynamodb:UpdateItem'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/', {u'Ref': u'Table'}]]}, u'Effect': u'Allow', u'Sid': u'Stmt1425388787000'}]}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
 Resources.AWS::ElasticBeanstalk::Application.Properties.Description,Imagery worker: AWS in Action: chapter 13
-Resources.AWS::ElasticBeanstalk::Environment.Properties.VersionLabel,{u'Ref': u'EBWorkerApplicationVersion'}
 Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.Description,Imagery worker: AWS in Action: chapter 13
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'WorkerRole'}]
 Resources.AWS::ElasticBeanstalk::Environment.Properties.Tier.Name,Worker
-Resources.AWS::ElasticBeanstalk::Environment.Properties.TemplateName,{u'Ref': u'EBWorkerConfigurationTemplate'}

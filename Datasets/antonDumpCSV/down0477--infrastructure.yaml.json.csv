@@ -1,16 +1,9 @@
 Outputs.ALBPrivateCNAME.Value,ALBPrivate.DNSName
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.VpcId,VPC
-Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
-Resources.AWS::EC2::Route.Properties.NatGatewayId,{u'Ref': u'NAT1'}
 Outputs.ALBPublic.Value,ALBPublic
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Scheme,internet-facing
 Resources.AWS::EC2::NatGateway.Properties.SubnetId,PublicSubnet1
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::EC2::SecurityGroup.Properties.GroupName,WebAppSecurityGroup
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,InternetGateway
 Resources.AWS::EC2::NatGateway.Properties.AllocationId,"{u'Fn::GetAtt': [u'EIP1', u'AllocationId']}"
@@ -19,10 +12,7 @@ Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [1, {u'F
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Outputs.PrivateSubnet1.Value,PrivateSubnet1
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,SecurityGroupWebapp.GroupId
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
 Resources.AWS::EC2::Route.Properties.GatewayId,InternetGateway
 Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,SecurityGroupWebapp.GroupId
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,PrivateRouteTable1
@@ -39,14 +29,10 @@ Outputs.ALBPublicCNAME.Value,ALBPublic.DNSName
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.0.192/26
 Resources.AWS::EC2::RouteTable.Properties.VpcId,VPC
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VPC
-Resources.AWS::ECS::Cluster.Type,AWS::ECS::Cluster
 Outputs.PublicSubnet2.Value,PublicSubnet2
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,[u'SecurityGroupPublic.GroupId']
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,WebAppSecurityGroupRules
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[u'PublicSubnet1', u'PublicSubnet2']"
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/24
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Outputs.VPC.Value,VPC
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,VPC

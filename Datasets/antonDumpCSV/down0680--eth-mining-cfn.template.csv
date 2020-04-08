@@ -1,15 +1,10 @@
 Parameters.SpotPrice.MinValue,0.01
-Resources.AWS::EC2::SpotFleet.Properties.SpotFleetRequestConfigData.LaunchSpecifications,"[{u'UserData': {u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'ethminer -U -F http://eth-us-east1.nanopool.org:8888/', {u'Ref': u'Wallet'}, u""/aws$(ec2metadata --instance-id)/a@b.com --cuda-devices $(nvidia-smi | grep 'Off' | awk '{print $2}' ORS=' ') --farm-recheck 200""]]}}, u'ImageId': {u'Fn::FindInMap': [u'AWSRegion2AMI', {u'Ref': u'AWS::Region'}, u'AMI']}, u'SecurityGroups': [{u'GroupId': {u'Fn::GetAtt': [u'InstanceSecurityGroup', u'GroupId']}}], u'InstanceType': u'g3.4xlarge', u'WeightedCapacity': 1}, {u'UserData': {u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'ethminer -U -F http://eth-us-east1.nanopool.org:8888/', {u'Ref': u'Wallet'}, u""/aws$(ec2metadata --instance-id)/a@b.com --cuda-devices $(nvidia-smi | grep 'Off' | awk '{print $2}' ORS=' ') --farm-recheck 200""]]}}, u'ImageId': {u'Fn::FindInMap': [u'AWSRegion2AMI', {u'Ref': u'AWS::Region'}, u'AMI']}, u'SecurityGroups': [{u'GroupId': {u'Fn::GetAtt': [u'InstanceSecurityGroup', u'GroupId']}}], u'InstanceType': u'g3.8xlarge', u'WeightedCapacity': 2}, {u'UserData': {u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'ethminer -U -F http://eth-us-east1.nanopool.org:8888/', {u'Ref': u'Wallet'}, u""/aws$(ec2metadata --instance-id)/a@b.com --cuda-devices $(nvidia-smi | grep 'Off' | awk '{print $2}' ORS=' ') --farm-recheck 200""]]}}, u'ImageId': {u'Fn::FindInMap': [u'AWSRegion2AMI', {u'Ref': u'AWS::Region'}, u'AMI']}, u'SecurityGroups': [{u'GroupId': {u'Fn::GetAtt': [u'InstanceSecurityGroup', u'GroupId']}}], u'InstanceType': u'g3.16xlarge', u'WeightedCapacity': 4}]"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access via port 22
 Parameters.FleetSize.MinValue,1
 Resources.AWS::EC2::SpotFleet.Properties.SpotFleetRequestConfigData.AllocationStrategy,lowestPrice
-Parameters.FleetSize.Type,Number
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::EC2::SpotFleet.Properties.SpotFleetRequestConfigData.IamFleetRole,"{u'Fn::GetAtt': [u'SpotFleetRole', u'Arn']}"
 Parameters.FleetSize.Description,The target number of GPUs you want to use for mining
-Resources.AWS::EC2::SpotFleet.Type,AWS::EC2::SpotFleet
 Resources.AWS::EC2::SpotFleet.Condition,useast2
-Resources.AWS::EC2::SpotFleet.Properties.SpotFleetRequestConfigData.SpotPrice,{u'Ref': u'SpotPrice'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': u'spotfleet.amazonaws.com'}, u'Effect': u'Allow', u'Sid': u''}]"
 Parameters.Wallet.Description,Your Ethereum wallet address
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
@@ -18,10 +13,6 @@ Parameters.SpotPrice.MaxValue,10
 Parameters.SpotPrice.Default,0.2
 Parameters.FleetSize.MaxValue,100
 Parameters.Wallet.Default,0xf395eed96579a679859dacaf0bfda096f18fbffb
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.SpotPrice.Description,"The maximum amount, in USD, you're willing to spend per GPU, per hour (default $0.20)"
-Parameters.SpotPrice.Type,Number
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ec2:DescribeImages', u'ec2:DescribeSubnets', u'ec2:RequestSpotInstances', u'ec2:TerminateInstances', u'ec2:DescribeInstanceStatus', u'ec2:CreateTags'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': u'iam:PassRole', u'Resource': [u'*'], u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'iam:PassedToService': u'ec2.amazonaws.com'}}}]}}]"
-Resources.AWS::EC2::SpotFleet.Properties.SpotFleetRequestConfigData.TargetCapacity,{u'Ref': u'FleetSize'}
 Parameters.FleetSize.Default,1
-Parameters.Wallet.Type,String

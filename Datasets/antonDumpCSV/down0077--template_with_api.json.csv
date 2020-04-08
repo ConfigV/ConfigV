@@ -2,60 +2,39 @@ Resources.AWS::Lambda::Function.Properties.Description,generic handler
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'Lambda', u'Arn']}"
 Parameters.S3Key.Default,lambda.zip
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.path.category,True
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Lambda::Function.Properties.Timeout,3
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'uid'}]"
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.due.type,integer
 Resources.AWS::ApiGateway::Deployment.Properties.StageName,v1
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.withoutdue,False
 Resources.AWS::Lambda::Function.Properties.Handler,lambda.handler
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.dueafter,False
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.path.userId,True
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'S3Bucket'}
-Resources.AWS::ApiGateway::Method.Properties.RestApiId,{u'Ref': u'RestApi'}
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'uid', u'AttributeType': u'S'}]"
 Resources.AWS::Lambda::Function.Properties.MemorySize,128
 Resources.AWS::ApiGateway::RestApi.Properties.Name,API Gateway ToDo
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::ApiGateway::Model.Properties.RestApiId,{u'Ref': u'RestApi'}
-Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:execute-api:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', {u'Ref': u'RestApi'}, u'/*']]}"
 Parameters.S3Bucket.Description,The name of the S3 bucket that contains the source code of your Lambda function.
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
-Resources.AWS::ApiGateway::Method.Properties.RequestModels.application/json,{u'Ref': u'CreateTaskModel'}
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.due,False
-Resources.AWS::ApiGateway::Deployment.Properties.RestApiId,{u'Ref': u'RestApi'}
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:invokeFunction
-Resources.AWS::ApiGateway::Method.Type,AWS::ApiGateway::Method
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.description.type,string
 Parameters.S3Key.Description,The location and name of your source code .zip file.
-Resources.AWS::ApiGateway::Resource.Properties.RestApiId,{u'Ref': u'RestApi'}
-Resources.AWS::ApiGateway::RestApi.Type,AWS::ApiGateway::RestApi
 Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'category'}, {u'KeyType': u'RANGE', u'AttributeName': u'tid'}], u'IndexName': u'category-index', u'Projection': {u'ProjectionType': u'ALL'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': 1, u'ReadCapacityUnits': 1}}]"
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.next,False
 Resources.AWS::ApiGateway::Method.Properties.HttpMethod,DELETE
-Resources.AWS::ApiGateway::Model.Properties.Schema.items.$ref,"{u'Fn::Join': [u'', [u'https://apigateway.amazonaws.com/restapis/', {u'Ref': u'RestApi'}, u'/models/', {u'Ref': u'TaskModel'}]]}"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
-Parameters.S3Bucket.Type,String
 Resources.AWS::ApiGateway::Resource.Properties.PathPart,{category}
 Resources.AWS::ApiGateway::Method.Properties.Integration.PassthroughBehavior,NEVER
-Resources.AWS::ApiGateway::Deployment.Type,AWS::ApiGateway::Deployment
-Resources.AWS::ApiGateway::Method.Properties.ResourceId,{u'Ref': u'UserTaskResource'}
 Resources.AWS::ApiGateway::Method.Properties.MethodResponses,"[{u'ResponseModels': {u'application/json': u'Empty'}, u'StatusCode': 204}]"
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.path.taskId,True
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.phone.type,string
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'logs', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:*'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'dynamodb', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:Scan', u'dynamodb:PutItem', u'dynamodb:GetItem', u'dynamodb:DeleteItem', u'dynamodb:Query', u'dynamodb:UpdateItem'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/todo-user*']]}, {u'Fn::Join': [u'', [u'arn:aws:dynamodb:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':table/todo-task*']]}], u'Effect': u'Allow', u'Sid': u'1'}]}}]"
-Resources.AWS::ApiGateway::Resource.Type,AWS::ApiGateway::Resource
 Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
 Resources.AWS::ApiGateway::Deployment.DependsOn,"[u'UsersGet', u'UsersPost', u'UserGet', u'UserDelete', u'UserTasksGet', u'UserTasksPost', u'UserTaskPut', u'UserTaskDelete', u'CategoryTasksGet']"
-Resources.AWS::ApiGateway::Resource.Properties.ParentId,{u'Ref': u'CategoriesResource'}
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.category,False
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.completed.type,integer
-Outputs.ApiId.Value,{u'Ref': u'RestApi'}
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.email.type,string
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.category.type,string
 Resources.AWS::ApiGateway::Method.Properties.Integration.IntegrationHttpMethod,POST
-Resources.AWS::ApiGateway::Model.Type,AWS::ApiGateway::Model
 Resources.AWS::DynamoDB::Table.Properties.TableName,todo-user
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Resources.AWS::ApiGateway::Model.Properties.Schema.type,object
@@ -67,20 +46,15 @@ Resources.AWS::ApiGateway::Model.Properties.Schema.required,[u'description']
 Resources.AWS::ApiGateway::Method.Properties.Integration.RequestTemplates.application/json,"{""fun"": ""deleteTask"", ""body"": $input.json('$'), ""parameters"": {""userId"": ""$input.params('userId')"", ""taskId"": ""$input.params('taskId')""}}"
 Resources.AWS::ApiGateway::Model.Properties.Schema.title,CreateTask
 Resources.AWS::ApiGateway::Method.Properties.AuthorizationType,NONE
-Resources.AWS::ApiGateway::Method.Properties.Integration.Uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'Lambda', u'Arn']}, u'/invocations']]}"
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.created.type,integer
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.overdue,False
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'S3Key'}
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
 Resources.AWS::ApiGateway::Model.Properties.ContentType,application/json
 Resources.AWS::ApiGateway::Model.Properties.Schema.additionalProperties,False
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
 Resources.AWS::ApiGateway::Model.Properties.Schema.properties.tid.type,integer
-Parameters.S3Key.Type,String
-Resources.AWS::ApiGateway::Method.Properties.Integration.Type,AWS
 Resources.AWS::ApiGateway::Model.Properties.Schema.$schema,http://json-schema.org/draft-04/schema#
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.futuredue,False
 Resources.AWS::ApiGateway::Method.Properties.RequestParameters.method.request.querystring.limit,False

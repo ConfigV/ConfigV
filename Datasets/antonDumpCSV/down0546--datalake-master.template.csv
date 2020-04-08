@@ -11,58 +11,39 @@ Parameters.RedshiftClusterType.Description,Redshift instance type
 Parameters.RDSPassword.MinLength,8
 Parameters.RedshiftNodeType.Default,dc1.large
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElasticsearchVolumeType.default,Elasticsearch Instance volume type
-Parameters.VPCCIDR.Type,String
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet2ACIDR,{u'Ref': u'PrivateSubnet2CIDR'}
 Outputs.PrivateSubnet2.Description,Private Subnet ID
-Parameters.NumberOfNodes.Type,Number
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AccessCIDR.default,Permitted IP range
-Parameters.RDSDatabaseName.Type,String
 Parameters.RDSPassword.NoEcho,true
 Outputs.LambdaFunction.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.LambdaFunction']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElasticsearchVolumeSize.default,Elasticsearch Instance volume size
 Parameters.QSS3BucketName.Description,"S3 bucket name for the AWS Quick Start assets.AWS Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Parameters.AvailabilityZones.Description,List of Availability Zones to use for the subnets in the VPC(Minimum 2 AZs required). Note: The logical order is preserved.
-Parameters.RDSUsername.Type,String
 Parameters.ElasticsearchVolumeSize.Default,20
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RedshiftClusterType,{u'Ref': u'RedshiftClusterType'}
 Outputs.PublicSubnet1.Value,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet1ID']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet1CIDR,{u'Ref': u'PublicSubnet1CIDR'}
 Parameters.PublicSubnet2CIDR.Default,10.0.144.0/20
 Parameters.RDSUsername.Description,DB Username must start with a letter & no special characters(MinLength=4;MaxLength=20)
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDSUsername.default,RDS User Name
 Parameters.RedshiftNodeType.Description,Redshift node type
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RedshiftNodeType.default,Redshift node type
-Parameters.PrivateSubnet2CIDR.Type,String
 Parameters.AdministratorEmail.AllowedPattern,"^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
 Outputs.FirehoseDeliveryStream.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.FirehoseDeliveryStream']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RedshiftNodeType,{u'Ref': u'RedshiftNodeType'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RDSUsername,{u'Ref': u'RDSUsername'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticsearchInstanceCount,{u'Ref': u'ElasticsearchInstanceCount'}
 Outputs.PublicSubnet2.Description,Public Subnet ID
 Parameters.RDSUsername.Default,admin
 Outputs.VPCInfo.Value,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPCID']}"
 Parameters.PrivateSubnet1CIDR.ConstraintDescription,Must be a valid IP range in x.x.x.x/x notation
-Parameters.AccessCIDR.Type,String
-Parameters.QSS3KeyPrefix.Type,String
 Outputs.RDSEndpoint.Description,RDS endpoint
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'AvailabilityZones', u'NoOfAzs', u'VPCCIDR', u'PrivateSubnet1CIDR', u'PrivateSubnet2CIDR', u'PublicSubnet1CIDR', u'PublicSubnet2CIDR', u'AccessCIDR', u'AddBastion'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'RDSInstanceType', u'RDSAllocatedStorage', u'RDSDatabaseName', u'RDSUsername', u'RDSPassword'], u'Label': {u'default': u'Amazon RDS Configuration'}}, {u'Parameters': [u'ElasticsearchInstanceType', u'ElasticsearchInstanceCount', u'ElasticsearchVolumeSize', u'ElasticsearchVolumeType'], u'Label': {u'default': u'Elasticsearch Configuration'}}, {u'Parameters': [u'RedshiftClusterType', u'RedshiftNodeType', u'NumberOfNodes'], u'Label': {u'default': u'Amazon Redshift Configuration'}}, {u'Parameters': [u'KeyPairName', u'NATInstanceType', u'PortalInstanceType'], u'Label': {u'default': u'Amazon EC2 Configuration'}}, {u'Parameters': [u'AdministratorName', u'AdministratorEmail'], u'Label': {u'default': u'Data Lake Administrator Configuration'}}, {u'Parameters': [u'QSS3BucketName', u'QSS3KeyPrefix'], u'Label': {u'default': u'AWS Quick Start Configuration'}}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet2CIDR.default,Public Subnet 2 CIDR
-Parameters.RedshiftClusterType.Type,String
 Parameters.QSS3BucketName.ConstraintDescription,"AWS Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,AWS Quick Start S3 Bucket Name
 Parameters.RedshiftClusterType.AllowedValues,"[u'single-node', u'multi-node']"
-Parameters.ElasticsearchVolumeType.Type,String
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1ACIDR,{u'Ref': u'PrivateSubnet1CIDR'}
-Parameters.NoOfAzs.Type,Number
 Parameters.ElasticsearchVolumeType.Default,gp2
 Parameters.RDSAllocatedStorage.MaxValue,1024
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet2CIDR.default,Private Subnet 2 CIDR
 Outputs.DatalakeWebUrl.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.WebServerELBEndpoint']}"
 Parameters.VPCCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
 Parameters.AddBastion.Default,No
-Parameters.QSS3BucketName.Type,String
 Parameters.RDSDatabaseName.Default,awsdatalakeqs
-Parameters.AdministratorEmail.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet2ID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet2AID']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfNodes.default,Number of Amazon Redshift nodes
 Parameters.AdministratorName.ConstraintDescription,Can contain only ASCII characters.
@@ -71,11 +52,9 @@ Parameters.ElasticsearchInstanceCount.Default,1
 Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the NAT instance
 Outputs.BastionHost.Condition,IsLinuxBastion
 Outputs.WebServerELBEndpoint.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.WebServerELBEndpoint']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AdministratorEmail,{u'Ref': u'AdministratorEmail'}
 Outputs.S3Bucket.Description,S3 Bucket
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AvailabilityZones.default,Availability Zones
 Parameters.PublicSubnet1CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-Parameters.RedshiftNodeType.Type,String
 Parameters.RDSPassword.AllowedPattern,"(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*"
 Parameters.RedshiftNodeType.ConstraintDescription,must select a valid Redshift node type.
 Mappings.RDSEngineVersionMapping.mysql.latest,5.7
@@ -88,9 +67,6 @@ Parameters.RDSPassword.ConstraintDescription,"Must be 8 characters or more conta
 Parameters.AddBastion.AllowedValues,"[u'Yes', u'No']"
 Parameters.QSS3KeyPrefix.ConstraintDescription,"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
 Parameters.RDSAllocatedStorage.MinValue,5
-Parameters.AdministratorName.Type,String
-Parameters.RDSAllocatedStorage.Type,Number
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCCIDR,{u'Ref': u'VPCCIDR'}
 Parameters.PrivateSubnet1CIDR.Description,CIDR block for private subnet 1 located in Availability Zone 1.
 Outputs.PublicSubnet2.Value,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet2ID']}"
 Outputs.ElasticSearchEndpoint.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.ElasticsearchEndpoint']}"
@@ -101,17 +77,12 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDSPassword.default,RDS 
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Fn::Sub': u'${QSS3KeyPrefix}submodules/quickstart-linux-bastion/'}
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,{u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template'}
 Parameters.AdministratorEmail.Description,Admin email id - email will be sent to this address on stack completion with further instructions (check inbox/spam in about 15-20mins)
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticsearchVolumeSize,{u'Ref': u'ElasticsearchVolumeSize'}
 Parameters.QSS3KeyPrefix.Description,"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
-Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.PublicSubnet2CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfAZs,{u'Ref': u'NoOfAzs'}
 Outputs.RDSEndpoint.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.RDSEndpoint']}"
 Parameters.AccessCIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
 Parameters.RDSUsername.MaxLength,16
 Parameters.NumberOfNodes.Default,1
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RDSDatabaseName,{u'Ref': u'RDSDatabaseName'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2CIDR,{u'Ref': u'PublicSubnet2CIDR'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NoOfAzs.default,Number of Availability Zones
 Parameters.RDSUsername.MinLength,4
 Parameters.AddBastion.Description,Add linux bastion instance in the VPC?
@@ -123,9 +94,7 @@ Outputs.PrivateSubnet1.Value,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSub
 Parameters.PrivateSubnet1CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
 Parameters.PrivateSubnet1CIDR.Default,10.0.0.0/19
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AdministratorName.default,Administrator Name
-Parameters.RDSPassword.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateSubnet1ID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PrivateSubnet1AID']}"
-Parameters.ElasticsearchInstanceCount.Type,Number
 Parameters.RedshiftClusterType.Default,single-node
 Outputs.FirehoseDeliveryStream.Description,Firehose delivery stream
 Parameters.ElasticsearchVolumeType.Description,Elasticsearch instance Volume type
@@ -135,14 +104,12 @@ Outputs.CloudTrail.Description,CloudTrail
 Parameters.QSS3KeyPrefix.Default,datalake/cloudwick/latest/
 Outputs.PrivateSubnet1.Description,Private Subnet ID
 Parameters.PrivateSubnet2CIDR.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-Parameters.ElasticsearchVolumeSize.Type,Number
 Parameters.RDSDatabaseName.MaxLength,16
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2ID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet2ID']}"
 Outputs.S3Bucket.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.S3Bucket']}"
 Outputs.BastionHost.Value,"{u'Fn::GetAtt': [u'LinuxBastionHostStack', u'Outputs.EIP1']}"
 Parameters.AdministratorEmail.ConstraintDescription,Can contain only ASCII characters.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyPairName.default,Keypair Name
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZones,"{u'Fn::Join': [u',', {u'Ref': u'AvailabilityZones'}]}"
 Parameters.ElasticsearchVolumeSize.Description,Elasticsearch instance Volume size (in GiB)
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PrivateSubnet1CIDR.default,Private Subnet 1 CIDR
 Parameters.RedshiftClusterType.ConstraintDescription,must select a valid Redshift cluster type.
@@ -152,47 +119,34 @@ Parameters.AdministratorName.Description,Admin name
 Parameters.PublicSubnet1CIDR.Default,10.0.128.0/20
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDSDatabaseName.default,RDS Database Name
 Outputs.WebServerELBEndpoint.Description,Datalake WebServer ELB Endpoint
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RemoteAccessCIDR,{u'Ref': u'AccessCIDR'}
-Parameters.AvailabilityZones.Type,List<AWS::EC2::AvailabilityZone::Name>
 Parameters.RDSAllocatedStorage.Description,Size of the database(Gb) Range: 5~1024Gb
 Outputs.DatalakeWebUrl.Description,Datalake Webapp URL
 Parameters.VPCCIDR.ConstraintDescription,Must be a valid IP range in x.x.x.x/x notation
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.VPCID']}"
 Outputs.RedshiftClusterEndpoint.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.RedshiftClusterEndpoint']}"
-Parameters.PrivateSubnet1CIDR.Type,String
 Parameters.AccessCIDR.Description,The CIDR IP range that is permitted to access datalake webserver instances. Note: a value of 0.0.0.0/0 will allow access from ANY ip address
 Parameters.PrivateSubnet2CIDR.ConstraintDescription,Must be a valid IP range in x.x.x.x/x notation
 Parameters.RDSUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.RDSPassword.MaxLength,16
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.BastionAMIOS,Amazon-Linux-HVM
-Parameters.PublicSubnet1CIDR.Type,String
 Parameters.PublicSubnet1CIDR.ConstraintDescription,Must be a valid IP range in x.x.x.x/x notation
 Parameters.PrivateSubnet2CIDR.Description,CIDR block for private subnet 2 located in Availability Zone 2.
 Parameters.RedshiftNodeType.AllowedValues,"[u'dc1.large', u'dw.hs1.xlarge', u'dw1.xlarge', u'dw1.8xlarge', u'dw2.large', u'dw2.8xlarge']"
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Parameters.NumberOfNodes.Description,Number of nodes in the redshift cluster(=1 if single-node)
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
 Outputs.CloudTrail.Value,"{u'Fn::GetAtt': [u'DatalakeStack', u'Outputs.CloudTrail']}"
 Outputs.BastionHost.Description,Bastion host IP
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfNodes,{u'Ref': u'NumberOfNodes'}
 Parameters.PublicSubnet2CIDR.ConstraintDescription,Must be a valid IP range in x.x.x.x/x notation
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet1CIDR.default,Public Subnet 1 CIDR
 Parameters.PrivateSubnet2CIDR.Default,10.0.32.0/19
 Parameters.KeyPairName.ConstraintDescription,Can contain only ASCII characters.
-Parameters.AddBastion.Type,String
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticsearchVolumeType,{u'Ref': u'ElasticsearchVolumeType'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RedshiftClusterType.default,Redshift cluster type
 Parameters.NoOfAzs.Description,Number of Availability Zones to use in the VPC. This must match your selections in the list of Availability Zones parameter.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,AWS Quick Start S3 Key Prefix
 Outputs.VPCInfo.Description,VPC ID
 Outputs.PublicSubnet1.Description,Public Subnet ID
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'KeyPairName'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RDSPassword,{u'Ref': u'RDSPassword'}
 Parameters.RDSDatabaseName.ConstraintDescription,DB name must start with a letter & no special characters(Min=4;Max=20 AlphaNumerics)
 Parameters.VPCCIDR.Description,CIDR Block for the VPC
-Parameters.PublicSubnet2CIDR.Type,String
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RDSAllocatedStorage,{u'Ref': u'RDSAllocatedStorage'}
 Parameters.RDSDatabaseName.MinLength,4
 Parameters.ElasticsearchInstanceCount.Description,Elasticsearch instance count
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet1ID,"{u'Fn::GetAtt': [u'VPCStack', u'Outputs.PublicSubnet1ID']}"

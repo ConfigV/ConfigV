@@ -1,46 +1,30 @@
 Parameters.MultiAz.Description,Deploy multiple AZs
 Parameters.RdsInstancePreferredBackupWindow.Description,RDS Preferred backup window
-Parameters.RdsInstancePreferredMaintenanceWindow.Type,String
 Parameters.RdsInstanceSnapshotIdentifier.ConstraintDescription,"AWS RDS snapshot identifier, or empty to create a new database"
 Parameters.RdsInstancePreferredMaintenanceWindow.Description,Cloudfoundry RDS Preferred maintenance window
-Parameters.RdsAz2Cidr.Type,String
 Outputs.RdsInstanceDns.Description,RDS Instance DNS Name
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'RdsInstancePassword'}
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'RdsInstanceUsername'}
-Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
 Parameters.RdsAz2Cidr.AllowedPattern,^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2])$
 Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
 Parameters.RdsInstanceName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
-Parameters.MultiAz.Type,String
-Parameters.RdsInstanceSnapshotIdentifier.Type,String
-Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,{u'Ref': u'RdsInstanceBackupRetentionPeriod'}
-Resources.AWS::RDS::DBInstance.Properties.AvailabilityZone,"{u'Fn::If': [u'MultiAz', {u'Ref': u'AWS::NoValue'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-AwsAvailabilityZone1'}}]}"
 Parameters.RdsInstanceUsername.ConstraintDescription,Alphanumeric characters only and must start with a letter
 Outputs.RdsInstancePort.Description,RDS Port
 Resources.AWS::RDS::DBInstance.DeletionPolicy,Delete
 Parameters.RdsInstancePreferredBackupWindow.AllowedPattern,^([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9]$
-Resources.AWS::RDS::DBInstance.Properties.MultiAZ,{u'Ref': u'MultiAz'}
 Parameters.DeploymentName.MaxLength,16
-Outputs.RdsSecurityGroup.Value,{u'Ref': u'RdsSecurityGroup'}
 Parameters.RdsInstanceBackupRetentionPeriod.MaxValue,30
 Parameters.RdsInstanceEngine.AllowedValues,[u'postgres']
 Parameters.RdsInstanceUsername.MinLength,1
-Resources.AWS::RDS::DBInstance.Properties.DBSnapshotIdentifier,{u'Ref': u'RdsInstanceSnapshotIdentifier'}
 Outputs.RdsInstanceAddress.Value,"{u'Fn::GetAtt': [u'RdsInstance', u'Endpoint.Address']}"
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
 Parameters.RdsInstanceSize.Default,db.t2.medium
-Parameters.RdsInstanceUsername.Type,String
 Parameters.RdsSubnetGroup.Description,RDS Subnet Group
 Parameters.RdsInstancePreferredMaintenanceWindow.AllowedPattern,^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([0-1][0-9]|2[0-3]):[0-5][0-9]-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([0-1][0-9]|2[0-3]):[0-5][0-9]$
 Parameters.RdsInstanceStorageSize.Default,25
-Parameters.RdsInstanceSize.Type,String
 Parameters.RdsAz1Cidr.Description,RDS AZ1 CIDR
 Resources.AWS::Route53::RecordSet.Properties.TTL,3600
 Parameters.RdsAz2Cidr.Default,10.0.61.0/24
 Parameters.DeploymentName.Description,DeploymentName
-Parameters.RdsAz1Cidr.Type,String
 Parameters.RdsInstanceBackupRetentionPeriod.MinValue,5
-Outputs.RdsInstance.Value,{u'Ref': u'RdsInstance'}
 Parameters.RdsInstanceStorageSize.Description,RDS Instance Storage Size
 Outputs.RdsInstancePort.Value,"{u'Fn::GetAtt': [u'RdsInstance', u'Endpoint.Port']}"
 Parameters.RdsInstanceUsername.Description,RDS user
@@ -48,23 +32,17 @@ Outputs.RdsInstance.Description,RDS Instance
 Parameters.RdsInstanceName.MinLength,1
 Parameters.RdsInstancePreferredBackupWindow.ConstraintDescription,"hh24:mi-hh24:mi, eg 23:59-01:24"
 Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,"[{u'Fn::GetAtt': [u'RdsInstance', u'Endpoint.Address']}]"
-Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[{u'Ref': u'RdsSecurityGroup'}]
 Parameters.RdsInstanceName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
-Parameters.RdsSubnetGroup.Type,String
 Parameters.RdsAz1Cidr.Default,10.0.60.0/24
 Parameters.RdsInstanceUsername.MaxLength,63
-Parameters.DeploymentName.Type,String
 Parameters.RdsInstanceEngine.Default,postgres
 Parameters.DeploymentName.MinLength,1
 Parameters.RdsInstanceBackupRetentionPeriod.Description,RDS Instance Backup Retention Period
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.RdsInstanceUsername.AllowedPattern,^[A-Za-z][A-Za-z0-9]+$
-Resources.AWS::RDS::DBInstance.Properties.Engine,{u'Ref': u'RdsInstanceEngine'}
 Parameters.MultiAz.AllowedValues,"[u'true', u'false']"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,RDS Security Group
 Parameters.RdsInstancePassword.MinLength,1
 Parameters.RdsInstancePassword.AllowedPattern,"^[^""@]+$"
-Resources.AWS::RDS::DBInstance.Properties.PreferredBackupWindow,{u'Ref': u'RdsInstancePreferredBackupWindow'}
 Parameters.RdsInstanceName.Description,RDS Instance Name
 Parameters.RdsAz2Cidr.ConstraintDescription,Valid CIDR
 Parameters.RdsInstanceSize.Description,RDS Size (instance size affects max_connections)
@@ -72,45 +50,30 @@ Parameters.RdsInstancePassword.Default,password
 Parameters.RdsAz2Cidr.Description,RDS AZ2 CIDR
 Parameters.RdsSubnetGroup.MinLength,10
 Parameters.RdsInstanceEngine.Description,RDS Engine
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
-Parameters.RdsInstancePreferredBackupWindow.Type,String
 Parameters.MultiAz.Default,true
 Parameters.RdsInstancePassword.MaxLength,63
 Outputs.RdsInstanceAddress.Description,RDS Instance Address
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'RdsSubnetGroup'}
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CloudFoundryVpc'}}
 Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'.', [{u'Fn::Sub': u'${RdsInstanceName}-rds'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
 Parameters.RdsInstanceSize.AllowedValues,"[u'db.t2.micro', u'db.t2.small', u'db.t2.medium', u'db.t2.large', u'db.m4.large', u'db.m4.xlarge']"
-Parameters.RdsInstanceName.Type,String
 Parameters.RdsInstanceStorageSize.MinValue,5
 Parameters.RdsInstancePreferredBackupWindow.Default,01:00-04:00
 Parameters.RdsInstanceUsername.Default,postgres
-Parameters.RdsInstanceBackupRetentionPeriod.Type,Number
 Parameters.RdsInstancePreferredMaintenanceWindow.ConstraintDescription,"ddd:hh24:mi-hh24:mi, eg Mon:23:59-Tue:01:24"
 Outputs.RdsSecurityGroup.Description,RDS Security Group
 Parameters.RdsInstanceSnapshotIdentifier.AllowedPattern,^[a-z0-9:.-]*$
 Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,"{u'Fn::Join': [u'', [{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-HostedZone'}}, u'.']]}"
-Resources.AWS::Route53::RecordSet.Properties.Type,CNAME
 Parameters.RdsSubnetGroup.AllowedPattern,^[a-z0-9-]+$
-Parameters.RdsInstanceStorageSize.Type,Number
 Parameters.RdsInstanceStorageSize.MaxValue,6144
-Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'RdsInstanceStorageSize'}
 Parameters.RdsInstanceSnapshotIdentifier.Default,
 Parameters.RdsAz1Cidr.ConstraintDescription,Valid CIDR
-Parameters.RdsInstancePassword.Type,String
 Parameters.RdsInstanceName.MaxLength,16
-Resources.AWS::RDS::DBInstance.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:${RdsInstanceName}RdsInstance'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'RdsInstanceSize'}
-Parameters.RdsInstanceEngine.Type,String
 Parameters.RdsInstanceBackupRetentionPeriod.Default,28
 Resources.AWS::RDS::DBInstance.Properties.CopyTagsToSnapshot,true
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceIdentifier,"{u'Fn::Join': [u'-', [{u'Fn::Sub': u'${RdsInstanceName}-DB'}, {u'Ref': u'DeploymentName'}]]}"
 Parameters.RdsAz1Cidr.AllowedPattern,^(([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))\.){3}([01]?[0-9]?[0-9]|2([0-4][0-9]|5[0-5]))/([0-2]?[0-9]|3[0-2])$
 Outputs.RdsInstanceDns.Value,"{u'Fn::Join': [u'.', [{u'Fn::Sub': u'${RdsInstanceName}-rds'}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-DomainName'}}]]}"
 Parameters.RdsInstancePassword.Description,RDS Password
 Parameters.RdsInstancePassword.ConstraintDescription,"Can be any printable ASCII character except ""/"", """""", or ""@"""
 Parameters.RdsSubnetGroup.MaxLength,255
 Parameters.RdsInstancePreferredMaintenanceWindow.Default,Mon:04:00-Mon:06:00
-Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': {u'Fn::Sub': u'${DeploymentName}:${RdsInstanceName}RdsSecurityGroup'}, u'Key': u'Name'}, {u'Value': {u'Ref': u'DeploymentName'}, u'Key': u'deployment'}]"
 Parameters.RdsInstanceSnapshotIdentifier.Description,RDS snapshot identifier - for restores
-Resources.AWS::RDS::DBInstance.Properties.PreferredMaintenanceWindow,{u'Ref': u'RdsInstancePreferredMaintenanceWindow'}

@@ -11,9 +11,6 @@ Resources.AWS::Lambda::Function.Properties.Timeout,300
 Parameters.HIPCHATTOKEN.Description,Token to use when posting notifications to Hipchat
 Resources.AWS::Events::Rule.Properties.EventPattern.detail-type,[u'EC2 Instance State-change Notification']
 Resources.AWS::Logs::SubscriptionFilter.DependsOn,SchemaEnforcerHipchatNotifierPermission
-Parameters.HIPCHATTOKEN.Type,String
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,ReaperRole.Arn
 Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/aws/lambda/${LambdaTerminator}
 Resources.AWS::Events::Rule.Properties.State,ENABLED
@@ -21,29 +18,21 @@ Resources.AWS::Lambda::Function.Properties.Handler,reaper.terminate_expired_inst
 Parameters.TerminatorRate.Default,rate(1 hour)
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,${S3BucketPrefix}-${AWS::Region}
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'LambdaTerminator', u'Arn': u'LambdaTerminator.Arn'}]"
-Parameters.TerminatorRate.Type,String
-Resources.AWS::Logs::SubscriptionFilter.Type,AWS::Logs::SubscriptionFilter
 Parameters.S3BucketPrefix.Default,ec2-reaper
 Resources.AWS::Logs::SubscriptionFilter.Properties.FilterPattern,REAPER TERMINATION
 Resources.AWS::Lambda::Function.DependsOn,ReaperRole
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Parameters.TerminatorRate.Description,The rate at which to check for expired instances
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.LIVEMODE.Description,Toggle for if the reaper actually deletes ec2 instances.
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
-Parameters.S3BucketPrefix.Type,String
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.HIPCHATTOKEN,HIPCHATTOKEN
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.LIVEMODE,LIVEMODE
 Resources.AWS::Lambda::Permission.Properties.SourceArn,LambdaTerminatorRule.Arn
-Parameters.HIPCHATROOMID.Type,String
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,reaper.zip
 Parameters.LIVEMODE.Default,False
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.HIPCHATROOMID,HIPCHATROOMID
-Parameters.LIVEMODE.Type,String
 Parameters.S3BucketPrefix.Description,Prefix for the S3 Bucket with resources created by the deploy_to_s3 job.
 Resources.AWS::Events::Rule.Properties.Description,Rule for Terminator Lambda
 Parameters.HIPCHATROOMID.Description,Which Hipchat room to post to
 Resources.AWS::Logs::SubscriptionFilter.Properties.DestinationArn,LambdaHipchatNotifier.Arn
-Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup

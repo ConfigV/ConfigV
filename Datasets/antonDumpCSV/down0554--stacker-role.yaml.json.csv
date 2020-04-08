@@ -1,11 +1,7 @@
 Outputs.StackerRole.Value,"{u'Fn::GetAtt': [u'StackerRole', u'Arn']}"
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'StackerRole'}]
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Parameters.MasterAccountId.MaxLength,12
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Parameters.RoleName.Default,Stacker
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::IAM::Role.Properties.RoleName,{u'Ref': u'RoleName'}
 Parameters.MasterAccountId.MinLength,12
 Parameters.MasterAccountId.AllowedPattern,[0-9]+
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"{u'Fn::If': [u'InMasterAccount', {u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Condition': {u'Null': {u'aws:MultiFactorAuthAge': False}}, u'Principal': {u'AWS': {u'Fn::Sub': u'arn:aws:iam::${MasterAccountId}:root'}}}, {u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Condition': {u'Null': {u'aws:MultiFactorAuthAge': False}}, u'Principal': {u'AWS': {u'Fn::Sub': u'arn:aws:iam::${MasterAccountId}:role/${RoleName}'}}}]}"
@@ -13,7 +9,5 @@ Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.RoleName.Description,The name of the stacker role.
 Resources.AWS::IAM::Policy.Properties.PolicyName,Stacker
-Parameters.MasterAccountId.Type,String
 Parameters.MasterAccountId.ConstraintDescription,Must contain a 12 digit account ID
 Parameters.MasterAccountId.Description,The 12-digit ID for the master account
-Parameters.RoleName.Type,String

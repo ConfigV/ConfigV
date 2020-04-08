@@ -1,7 +1,8 @@
-module Settings.Thresholds where
+module ConfigV.Settings.Thresholds where
 
 import System.Directory
-import Settings.Options
+import ConfigV.Settings.Options
+
 
 -- | You can set support and confidence as percentages, or as a # of files (usually specific for a trainging set)
 data PercentageThresholds = PercentageThresholds {
@@ -9,10 +10,8 @@ data PercentageThresholds = PercentageThresholds {
   , intRelConfidence_P :: Double
   , fineGrainSupport_P :: Double
   , fineGrainConfidence_P :: Double
-  , keywordCoorSupport_P :: Double
-  , keywordCoorConfidence_P :: Double 
-  , keyValKeyCoorSupport_P :: Double
-  , keyValKeyCoorConfidence_P :: Double 
+  , smtSupport_P :: Double
+  , smtConfidence_P :: Double 
   , trivEvidenceThreshold_P :: Int -- ^ This can only be provided as an Int
   , orderSupport_P :: Double
   , orderConfidence_P :: Double
@@ -26,10 +25,8 @@ data RawThresholds = RawThresholds {
   , intRelConfidence :: Int
   , fineGrainSupport :: Int
   , fineGrainConfidence :: Int
-  , keywordCoorSupport  :: Int
-  , keywordCoorConfidence :: Int 
-  , keyValKeyCoorSupport :: Int
-  , keyValKeyCoorConfidence :: Int 
+  , smtSupport :: Int
+  , smtConfidence :: Int 
   , trivEvidenceThreshold :: Int
   , orderSupport :: Int
   , orderConfidence :: Int
@@ -60,8 +57,7 @@ calcThresholds settings thresholds = do
     totalFiles = length fileList
     is = (intRelSupport_P thresholds :: Double, intRelConfidence_P thresholds)
     fs = (fineGrainSupport_P thresholds, fineGrainConfidence_P thresholds)
-    ks = (keywordCoorSupport_P thresholds, keywordCoorConfidence_P thresholds)
-    kvks = (keyValKeyCoorSupport_P thresholds, keyValKeyCoorConfidence_P thresholds)
+    ss = (smtSupport_P thresholds, smtConfidence_P thresholds)
     os = (orderSupport_P thresholds, orderConfidence_P thresholds)
     f = thresholdConvert totalFiles
   return $ RawThresholds {
@@ -71,11 +67,9 @@ calcThresholds settings thresholds = do
       , fineGrainSupport        = fst $ f fs 
       , fineGrainConfidence     = snd $ f fs 
 
-      , keywordCoorSupport      = fst $ f ks
-      , keywordCoorConfidence   = snd $ f ks
+      , smtSupport      = fst $ f ss
+      , smtConfidence   = snd $ f ss
 
-      , keyValKeyCoorSupport    = fst $ f kvks
-      , keyValKeyCoorConfidence = fst $ f kvks
       , trivEvidenceThreshold   = trivEvidenceThreshold_P thresholds
 
       , orderSupport            = fst $ f os
@@ -93,11 +87,9 @@ defaultThresholds = let
     (fineGrainSupport, fineGrainConfidence) = 
       (1, 0) :: (Int,Int)
 
-    (keywordCoorSupport, keywordCoorConfidence)  = 
-      (1,0) :: (Int,Int)
+    (smtSupport, smtConfidence)  = 
+      (1,0) :: (Int,Int)--(minTrue,maxFalse)
     
-    (keyValKeyCoorSupport, keyValKeyCoorConfidence)  = 
-      (1,0) :: (Int,Int) --(minTrue,maxFalse)
     trivEvidenceThreshold = 0
 
     (orderSupport, orderConfidence) = 
@@ -112,10 +104,8 @@ defaultThresholds = let
       , intRelConfidence = intRelConfidence
       , fineGrainSupport = fineGrainSupport
       , fineGrainConfidence = fineGrainConfidence
-      , keywordCoorSupport = keywordCoorSupport
-      , keywordCoorConfidence = keywordCoorConfidence
-      , keyValKeyCoorSupport = keyValKeyCoorSupport
-      , keyValKeyCoorConfidence = keyValKeyCoorConfidence
+      , smtSupport = smtSupport
+      , smtConfidence = smtConfidence
       , trivEvidenceThreshold = trivEvidenceThreshold
       , orderSupport = orderSupport
       , orderConfidence = orderConfidence
@@ -129,10 +119,8 @@ defaultPercentageThresholds =
       , intRelConfidence_P = 1
       , fineGrainSupport_P = 0.01
       , fineGrainConfidence_P = 1
-      , keywordCoorSupport_P = 0.01
-      , keywordCoorConfidence_P = 1 
-      , keyValKeyCoorSupport_P = 0.01
-      , keyValKeyCoorConfidence_P = 1 
+      , smtSupport_P = 0.01
+      , smtConfidence_P = 1 
       , trivEvidenceThreshold_P = 0 
       , orderSupport_P = 0.01
       , orderConfidence_P = 1

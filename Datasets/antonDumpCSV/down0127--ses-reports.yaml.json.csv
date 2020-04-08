@@ -1,8 +1,6 @@
 Resources.AWS::Events::Rule.Properties.ScheduleExpression,Frequency
 Parameters.BucketPrefix.Description,"[OPTIONAL] The S3 Bucket Key Prefix, Example: Prefix/"
-Resources.AWS::SQS::QueuePolicy.Type,AWS::SQS::QueuePolicy
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.Key,Value
-Parameters.Frequency.Type,String
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
 Resources.Custom::RunLambdaFunctionCode.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CustomResourceLambdaFunctionDownloadCode', u'Arn']}"
 Resources.Custom::RunLambdaFunctionCode.DependsOn,[u'CustomResourceLambdaExecutionRole']
@@ -15,13 +13,8 @@ Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.Custom::RunLambdaFunction.Properties.MySNSTopic,MySNSTopic
 Resources.Custom::RunLambdaFunction.Properties.Identity,Identity
 Resources.AWS::Lambda::Function.Properties.Timeout,300
-Parameters.DestinationEmail.Type,String
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::Lambda::Function.Properties.MemorySize,1024
 Resources.AWS::SQS::Queue.DependsOn,MySNSTopic
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
 Resources.AWS::SQS::Queue.Properties.VisibilityTimeout,300
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"var AWS = require('aws-sdk');
@@ -81,25 +74,18 @@ exports.handler = (event, context, callback) => {
 "
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.Custom::RunLambdaFunction.Properties.MyQueue,MyQueue
-Parameters.SourceEmail.Type,String
 Resources.AWS::SQS::QueuePolicy.DependsOn,MyQueue
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Parameters.SourceEmail.Description,Email address that will be used as FROM address (Must be SES Verified) -> yourRecipient@yourDomain.com. The solution will send you a daily email with the Report link using the From address specified in this parameter.
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,MyS3Bucket
 Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'SESReportCronjob', u'Arn': u'LambdaFunction.Arn'}]"
-Parameters.BucketPrefix.Type,String
 Resources.AWS::SNS::Subscription.Properties.Protocol,sqs
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.BucketPrefix,BucketPrefix
 Resources.AWS::SNS::Subscription.Properties.TopicArn,MySNSTopic
-Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::Events::Rule.Properties.Description,CloudWatch Event that triggers SESReport Lambda Function
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::Lambda::Function.DependsOn,RunLambdaCodeSource
-Resources.Custom::RunLambdaFunctionCode.Type,Custom::RunLambdaFunctionCode
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
-Resources.Custom::RunLambdaFunction.Type,Custom::RunLambdaFunction
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.Region,AWS::Region
 Parameters.BucketName.Description,"Bucket that will be created to save the reports (It will create a new bucket for you, please choose a non-existent bucket name)"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
@@ -112,7 +98,6 @@ Resources.AWS::SNS::Subscription.Properties.Endpoint,"{u'Fn::GetAtt': [u'MyQueue
 Resources.Custom::RunLambdaFunction.Properties.ServiceToken,"{u'Fn::GetAtt': [u'CustomResourceLambdaFunction', u'Arn']}"
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.Bucket,BucketName
 Resources.AWS::SQS::QueuePolicy.Properties.Queues,[u'MyQueue']
-Parameters.Identity.Type,String
 Resources.AWS::SQS::QueuePolicy.Properties.PolicyDocument.Id,MyQueuePolicy
 Resources.AWS::Lambda::Permission.Properties.SourceArn,CronjobEvent.Arn
 Parameters.Frequency.Description,cron(00 23 * * ? *) = Once a day at 23h00
@@ -121,11 +106,9 @@ Parameters.DestinationEmail.Description,"The recipient that will receive the rep
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.ToAddr,DestinationEmail
 Resources.Custom::RunLambdaFunctionCode.Properties.Bucket,MyS3Bucket
 Parameters.Frequency.Default,cron(00 23 * * ? *)
-Resources.AWS::SNS::Subscription.Type,AWS::SNS::Subscription
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.QueueURL,MyQueue
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'SQSPermissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'sqs:ChangeMessageVisibility', u'sqs:ChangeMessageVisibilityBatch', u'sqs:DeleteMessage', u'sqs:DeleteMessageBatch', u'sqs:GetQueueAttributes', u'sqs:GetQueueUrl', u'sqs:ReceiveMessage'], u'Resource': {u'Fn::GetAtt': [u'MyQueue', u'Arn']}, u'Effect': u'Allow'}]}}, {u'PolicyName': u'S3Permissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:PutObject', u's3:PutObjectAcl'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', u'BucketName', u'/*']]}, u'Effect': u'Allow'}]}}, {u'PolicyName': u'SESPermissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ses:SendEmail'], u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'CWLogsPermissions', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents', u'logs:DescribeLogStreams'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SrcAddr,SourceEmail
 Resources.AWS::SNS::Topic.Properties.TopicName,SESReportSNSTopic
 Resources.AWS::S3::Bucket.Properties.BucketName,BucketName
-Parameters.BucketName.Type,String
 Resources.AWS::SQS::Queue.Properties.QueueName,SESReportQueue

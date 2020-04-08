@@ -3,10 +3,8 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.BucketName.default,Websi
 Parameters.CodeBucket.Description,S3 bucket containing the code deployed by this template
 Resources.AWS::Lambda::Function.Properties.Description,Copies objects from a source S3 bucket to a destination
 Resources.Custom::S3Objects.Properties.SourceBucket,CodeBucket
-Resources.Custom::S3Objects.Type,Custom::S3Objects
 Resources.AWS::Lambda::Function.Properties.Timeout,120
 Resources.AWS::IAM::Role.Properties.Path,/wildrydes/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,S3CopyRole.Arn
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"import os
 import json
@@ -61,17 +59,13 @@ def delete_objects(bucket, prefix):
 "
 Resources.Custom::S3Objects.Properties.SourcePrefix,${CodeKeyPrefix}/website/
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Parameters.CodeKeyPrefix.Default,WebApplication/1_StaticWebHosting
 Parameters.BucketName.Description,"The name of your S3 bucket, e.g. 'wildrydes-yourname'"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Parameters.CodeKeyPrefix.Type,String
-Parameters.CodeBucket.Type,String
 Parameters.CodeBucket.Default,wildrydes-us-east-1
 Parameters.CodeKeyPrefix.Description,Key prefix for resources referenced from the CodeBucket
-Parameters.BucketName.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'BucketName'], u'Label': {u'default': u'Bucket Configuration'}}, {u'Parameters': [u'CodeBucket', u'CodeKeyPrefix'], u'Label': {u'default': u'Advanced Configuration'}}]"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'S3Access', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'*', u'Effect': u'Allow', u'Sid': u'AllowLogging'}, {u'Action': [u's3:ListBucket', u's3:GetObject'], u'Resource': [u'arn:aws:s3:::${CodeBucket}', u'arn:aws:s3:::${CodeBucket}/${CodeKeyPrefix}/*'], u'Effect': u'Allow', u'Sid': u'SourceBucketReadAccess'}, {u'Action': [u's3:ListBucket', u's3:GetObject', u's3:PutObject', u's3:PutObjectAcl', u's3:PutObjectVersionAcl', u's3:DeleteObject', u's3:DeleteObjectVersion'], u'Resource': [u'arn:aws:s3:::${BucketName}', u'arn:aws:s3:::${BucketName}/*'], u'Effect': u'Allow', u'Sid': u'DestBucketWriteAccess'}]}}]"
 Resources.Custom::S3Objects.Properties.Bucket,BucketName

@@ -2,19 +2,16 @@
 {-# LANGUAGE MultiParamTypeClasses #-} 
 {-# LANGUAGE TupleSections #-} 
 
-module Learners.Ordering where
+module ConfigV.Learners.Ordering where
 
-import Types.IR
-import Types.Errors
-import Types.Rules 
-import Types.Countable
+import ConfigV.Types
 
 import Prelude hiding (Ordering)
 import qualified Data.Map as M
 
-import Learners.Common
+import ConfigV.Learners.Common
 
-import Settings.Config
+import ConfigV.Settings.Config
 import Control.Monad.Reader
 
 -- | We assume that all IRConfigFiles have a set of unique keywords

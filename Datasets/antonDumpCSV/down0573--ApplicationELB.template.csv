@@ -1,5 +1,3 @@
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,{u'Ref': u'VpcId'}
-Parameters.subnetA.Type,String
 Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Conditions,"[{u'Field': u'path-pattern', u'Values': [u'/api/*']}]"
 Parameters.subnetB.Default,subnet-1313ef4b
 Parameters.ApiServerPort.Default,8889
@@ -9,43 +7,20 @@ Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Scheme,internet-f
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckTimeoutSeconds,10
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ApplicationElasticLB', u'DNSName']}]]}"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthyThresholdCount,4
-Parameters.subnetB.Type,String
-Parameters.VpcId.Type,String
-Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': {u'Ref': u'TargetGroupWeb'}, u'Type': u'forward'}]"
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
-Parameters.KeyName.Type,String
 Parameters.ApiServerPort.Description,TCP/IP port of the api server
 Parameters.WebServerPort.Description,TCP/IP port of the web server
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,30
-Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
-Resources.AWS::EC2::Instance.Properties.UserData,{u'Fn::Base64': {u'Ref': u'ApiServerPort'}}
-Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,{u'Ref': u'ApplicationElasticLB'}
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'AMI']}"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,3
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
-Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
 Parameters.WebServerPort.Default,8888
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.KeyName.Default,mark
-Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.ListenerArn,{u'Ref': u'Listener'}
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': {u'Ref': u'WebServerPort'}, u'FromPort': {u'Ref': u'WebServerPort'}, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}, {u'ToPort': {u'Ref': u'ApiServerPort'}, u'FromPort': {u'Ref': u'ApiServerPort'}, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Priority,1
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Targets,"[{u'Id': {u'Ref': u'WebInstance'}, u'Port': {u'Ref': u'WebServerPort'}}]"
 Outputs.URL.Description,URL of the sample website
-Parameters.ApiServerPort.Type,String
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Matcher.HttpCode,200
 Parameters.VpcId.Default,vpc-82c514e6
-Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Actions,"[{u'TargetGroupArn': {u'Ref': u'TargetGroupApi'}, u'Type': u'forward'}]"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckProtocol,HTTP
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,{u'Ref': u'WebServerPort'}
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,WebTarget
-Parameters.WebServerPort.Type,String
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Type,AWS::ElasticLoadBalancingV2::ListenerRule
 Parameters.subnetA.Default,subnet-096fd06d
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,80
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[{u'Ref': u'subnetA'}, {u'Ref': u'subnetB'}]"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup

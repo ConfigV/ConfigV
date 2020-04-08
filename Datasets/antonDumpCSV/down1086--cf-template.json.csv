@@ -1,23 +1,8 @@
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'User'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Security group
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': True, u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,True
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfiguration'}
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
 Resources.AWS::IAM::User.Properties.Path,/
-Parameters.KeyName.Type,String
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'SecurityGroup'}]
 Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'cloudformation', u'PolicyDocument': {u'Statement': [{u'Action': [u'cloudformation:DescribeStackResource', u'ec2:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'22'}]"
 Parameters.KeyName.Description,Key pair name
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
-Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'# Install cfn bootstraping tools\n', u'apt-get update\n', u'apt-get -y install python-setuptools python-pip\n', u'easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n', u'# Make sure we have the latest aws-ec2-assign-elastic-ip\n', u""pip install aws-ec2-assign-elastic-ip==0.1.0b1 || error_exit 'Failed upgrading aws-ec2-assign-elastic-ip to the latest version'\n"", u'# Assign an Elastic IP\n', u'aws-ec2-assign-elastic-ip', u'    --access-key ', {u'Ref': u'AccessKeys'}, u'    --secret-key ', {u'Fn::GetAtt': [u'AccessKeys', u'SecretAccessKey']}, u'    --region ', {u'Ref': u'AWS::Region'}, u' >> /var/log/aws-ec2-assign-elastic-ip.log\n']]}}"

@@ -2,11 +2,9 @@ Outputs.ALBPrivateCNAME.Value,ALBPrivate.DNSName
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetType,"[u'EC2', u'instance', u'ip']"
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,[u'SecurityGroupWebapp.GroupId']
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.VpcId,VpcId
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Outputs.ALBPublic.Value,ALBPublic
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Scheme,internal
 Outputs.SecurityGroup.Value,SecurityGroupPublic
-Parameters.VpcId.Type,String
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': u'TargetGroup002', u'Type': u'forward'}]"
 Outputs.ServiceUrl.Value,http://${ALBPublic.DNSName}
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
@@ -16,7 +14,6 @@ Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,60
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.DependsOn,ALBPublic
 Outputs.ServiceUrl.Description,URL of the load balancer for the sample service.
-Parameters.Subnet1.Type,String
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,ALBPublic
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.UnhealthyThresholdCount,10
@@ -24,27 +21,19 @@ Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,SecurityGroupWebapp.
 Parameters.LaunchType.Default,Fargate
 Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,SecurityGroupWebapp.GroupId
 Resources.AWS::EC2::SecurityGroup.Properties.GroupName,PublicSecurityGroup
-Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
 Outputs.ALBPrivate.Value,ALBPrivate
 Outputs.TargetGroup002.Value,TargetGroup002
-Parameters.LaunchType.Type,String
-Parameters.Subnet2.Type,String
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,8081
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 80, u'FromPort': 80, u'IpProtocol': u'TCP', u'CidrIp': u'0.0.0.0/0'}]"
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,8080
 Outputs.SecurityGroupWebapp.Value,SecurityGroupWebapp.GroupId
 Outputs.TargetGroup001.Value,TargetGroup001
 Outputs.ALBPublicCNAME.Value,ALBPublic.DNSName
 Outputs.TargetGroup.Value,TargetGroup
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VpcId
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckProtocol,HTTP
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,${AWS::StackName}-alb
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Name,webapp
-Parameters.Subnet3.Type,String
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Parameters.Subnet4.Type,String
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[u'Subnet3', u'Subnet4']"
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,80

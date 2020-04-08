@@ -1,36 +1,19 @@
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'NIPAP Deamon Instance', u'Key': u'purpose'}, {u'Value': {u'Ref': u'EnvironmentName'}, u'Key': u'stack'}, {u'Value': {u'Ref': u'AppName'}, u'Key': u'app'}, {u'Value': u'NIPAP Daemon Instance', u'Key': u'Name'}]"
 Parameters.AppName.Default,tailor
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,NIPAP Deamon
 Parameters.AppName.Description,What is the name of the application? This is used to tag the resources
-Parameters.ApplicationSubnetAZ1.Type,AWS::EC2::Subnet::Id
-Parameters.TailorNipapDaemonAmi.Type,AWS::EC2::Image::Id
 Parameters.EnvironmentName.AllowedValues,"[u'prd', u'stg', u'dev', u'tst']"
 Parameters.TailorComponentsSecurityGroup.Description,TailorComponentsSg Id from NIPAP Backend CFN Stack
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,"[{u'Ref': u'NipapDaemonSg'}, {u'Ref': u'TailorComponentsSecurityGroup'}]"
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash \n', u'apt-get update -y\n', u'apt-get upgrade -y\n']]}}"
 Parameters.EnvironmentName.Description,"What is the environment type, e.g. prd/stg/dev/tst."
 Parameters.EnvironmentName.MaxLength,5
 Outputs.NipapDaemonIp.Description,NIPAP Daemon IP address
-Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'NIPAP Deamon', u'Key': u'purpose'}, {u'Value': {u'Ref': u'EnvironmentName'}, u'Key': u'stack'}, {u'Value': {u'Ref': u'AppName'}, u'Key': u'app'}]"
 Outputs.NipapDaemonIp.Value,"{u'Fn::GetAtt': [u'NipapDaemonInstance', u'PrivateIp']}"
 Parameters.AppName.MinLength,3
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Outputs.TailorRequestId.Value,{u'Ref': u'TailorRequestId'}
 Parameters.ApplicationSubnetAZ1.Description,Subnet ID for the Application subnet in AZ1
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'ApplicationSubnetAZ1'}
 Parameters.TailorRequestId.Description,Tailor requestId
 Parameters.EnvironmentName.MinLength,3
-Parameters.TailorComponentsSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
-Parameters.EnvironmentName.Type,String
 Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'VolumeSize': u'8', u'VolumeType': u'gp2'}}]"
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPCID'}
-Parameters.AppName.Type,String
 Parameters.TailorNipapDaemonAmi.Description,NIPAP Daemon AMI
-Parameters.TailorRequestId.Type,String
-Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'TailorNipapDaemonAmi'}
 Outputs.TailorRequestId.Description,Tailor requestId
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'1337', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'TailorComponentsSecurityGroup'}, u'FromPort': u'1337'}]"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.AppName.MaxLength,25
 Parameters.VPCID.Description,VPC ID
-Parameters.VPCID.Type,AWS::EC2::VPC::Id

@@ -5,91 +5,62 @@ Parameters.DBUsername.Description,The WordPress database admin account username
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php-mysql,[]
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUsername'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
 Parameters.MultiAZDatabase.Default,true
 Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.mode,000644
 Parameters.DBName.Description,The WordPress database name
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.owner,root
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'WebServerCapacity'}
 Parameters.SSHLocation.Description, The IP address range that can be used to SSH to the EC2 instances
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,300
 Parameters.DBClass.AllowedValues,"[u'db.m1.small', u'db.m1.large', u'db.m1.xlarge', u'db.m2.xlarge', u'db.m2.2xlarge', u'db.m2.4xlarge']"
 Parameters.DBUsername.ConstraintDescription,must begin with a letter and contain only alphanumeric characters.
 Parameters.DBPassword.AllowedPattern,[a-zA-Z0-9]*
-Parameters.DBAllocatedStorage.Type,Number
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.php,[]
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.enabled,false
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'yum update -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r LaunchConfig ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WaitHandle'}, u""'\n"", u'# Setup correct file ownership\n', u'chown -R apache:apache /var/www/html/wordpress\n']]}}"
 Parameters.WebServerCapacity.Description,The initial number of WebServer instances
 Outputs.WebsiteURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}, u'/wordpress']]}"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
-Parameters.KeyName.Type,String
 Parameters.DBPassword.ConstraintDescription,must contain only alphanumeric characters.
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Parameters.DBAllocatedStorage.ConstraintDescription,must be between 5 and 1024Gb.
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.WebServerCapacity.MaxValue,5
-Resources.AWS::RDS::DBInstance.Properties.DBSecurityGroups,[{u'Ref': u'DBSecurityGroup'}]
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
 Parameters.WebServerCapacity.ConstraintDescription,must be between 1 and 5 EC2 instances.
-Parameters.DBUsername.Type,String
 Parameters.DBAllocatedStorage.MaxValue,1024
 Parameters.DBClass.Description,Database instance class
 Parameters.DBName.MinLength,1
-Parameters.DBName.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.sendmail.ensureRunning,false
 Parameters.WebServerCapacity.MinValue,1
 Parameters.DBPassword.MinLength,8
 Parameters.MultiAZDatabase.AllowedValues,"[u'true', u'false']"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,2
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Parameters.DBUsername.MinLength,1
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.content,"{u'Fn::Join': [u'', [u'<?php\n', u""define('DB_NAME',          '"", {u'Ref': u'DBName'}, u""');\n"", u""define('DB_USER',          '"", {u'Ref': u'DBUsername'}, u""');\n"", u""define('DB_PASSWORD',      '"", {u'Ref': u'DBPassword'}, u""');\n"", u""define('DB_HOST',          '"", {u'Fn::GetAtt': [u'DBInstance', u'Endpoint.Address']}, u""');\n"", u""define('DB_CHARSET',       'utf8');\n"", u""define('DB_COLLATE',       '');\n"", u""define('AUTH_KEY',         'f@A17vs{ mO0}:&I,6SB.QzV`E?!`/tN5:~GZX%=@ZA%!_T0-]9>g]4ll6~,6G|R');\n"", u""define('SECURE_AUTH_KEY',  'gTFTI|~rYHY)|mlu:Cv7RN]GQ^3ngyUbw;L0o!12]0c-ispR<-yt3qj]xjquz^&9');\n"", u""define('LOGGED_IN_KEY',    'Jd:HG9M)1p5t2<v~+R-vd{p-Q*|*RB^&PUI{vIrydAEEiV!{HS{jN:nErCmLv`p}');\n"", u""define('NONCE_KEY',        '4aMj4KZV;,Gu7(B|qOCve[c5?*J5x1+x93i:Ey6hh/6jXh+V_{V4+hw!qE^d*U,-');\n"", u""define('AUTH_SALT',        '_Y_&8m)FH)Cns)8}Yb8b88KDSn:p1#p(qBa<~VW&Y1v}P.*9/8S8@P`{mkNxV lC');\n"", u""define('SECURE_AUTH_SALT', '%nG3Ag41^Lew5c86,#zbN:yPFs.GA5a)z5*:Oce1>v6uF~D`,.o1pzS)F8[bM9i[');\n"", u""define('LOGGED_IN_SALT',   '~K<y+Ly+_Ww1~dtq>;rSQ^+{P5/k|=!]k%RXAF-Y@XMY6GSp+wJ5{(|rCzaWjZ%/');\n"", u""define('NONCE_SALT',       ',Bs_*Y9:b/1Z:apVLHtz35uim|okkA,b|Jt[-&Nla=T{<l_#D?~6Tj-.2.]FonI~');\n"", u""define('WPLANG'            , '');\n"", u""define('WP_DEBUG'          , false);\n"", u""$table_prefix  = 'wp_';\n"", u""if ( !defined('ABSPATH') )\n"", u""    define('ABSPATH', dirname(__FILE__) . '/');\n"", u""require_once(ABSPATH . 'wp-settings.php');\n""]]}"
 Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
-Resources.AWS::RDS::DBSecurityGroup.Type,AWS::RDS::DBSecurityGroup
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable HTTP access via port 80 locked down to the load balancer + SSH access
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'PolicyNames': [u'CookieBasedPolicy'], u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Parameters.DBUsername.NoEcho,true
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebServerGroup
 Resources.AWS::RDS::DBSecurityGroup.Properties.GroupDescription,Frontend Access
 Parameters.DBPassword.NoEcho,true
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LBCookieStickinessPolicy,"[{u'PolicyName': u'CookieBasedPolicy', u'CookieExpirationPeriod': u'30'}]"
-Resources.AWS::RDS::DBSecurityGroup.Properties.DBSecurityGroupIngress.EC2SecurityGroupName,{u'Ref': u'WebServerSecurityGroup'}
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
 Parameters.MultiAZDatabase.ConstraintDescription,must be either true or false.
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBClass'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.ensureRunning,true
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances
 Parameters.MultiAZDatabase.Description,Create a multi-AZ MySQL Amazon RDS database instance
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Metadata.Comment1,Configure the Load Balancer with a simple health check and cookie-based stickiness
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Metadata.Comment2,Use install path for healthcheck to avoid redirects - ELB healthcheck does not handle 302 return codes
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/wordpress/wp-admin/install.php
 Parameters.DBAllocatedStorage.Default,5
-Parameters.DBPassword.Type,String
 Parameters.SSHLocation.MinLength,9
-Resources.AWS::RDS::DBInstance.Properties.MultiAZ,{u'Ref': u'MultiAZDatabase'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Parameters.DBPassword.Default,password
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,wordpress
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,5
 Parameters.DBClass.ConstraintDescription,must select a valid database instance type.
-Parameters.SSHLocation.Type,String
-Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'DBAllocatedStorage'}
 Parameters.WebServerCapacity.Default,2
-Parameters.DBClass.Type,String
 Parameters.DBPassword.Description,The WordPress database admin account password
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'WebServerSecurityGroup'}]
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./var/www/html/wordpress/wp-config.php.group,root
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.packages.yum.httpd,[]
 Parameters.DBClass.Default,db.m1.small
@@ -97,15 +68,9 @@ Parameters.DBAllocatedStorage.MinValue,5
 Parameters.DBName.MaxLength,64
 Parameters.SSHLocation.MaxLength,18
 Parameters.SSHLocation.Default,0.0.0.0/0
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.DBUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'ElasticLoadBalancer'}]
-Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
 Parameters.DBUsername.Default,admin
 Parameters.DBUsername.MaxLength,16
 Outputs.WebsiteURL.Description,WordPress Website
 Parameters.DBAllocatedStorage.Description,The size of the database (Gb)
-Parameters.WebServerCapacity.Type,Number
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'80', u'IpProtocol': u'tcp', u'SourceSecurityGroupOwnerId': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.OwnerAlias']}, u'SourceSecurityGroupName': {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'SourceSecurityGroup.GroupName']}, u'FromPort': u'80'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}]"
-Parameters.MultiAZDatabase.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.httpd.enabled,true

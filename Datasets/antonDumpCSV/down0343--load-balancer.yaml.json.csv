@@ -5,7 +5,6 @@ Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,[u
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,${AWS::StackName}-alb
 Outputs.SecurityGroup.Value,SecurityGroup
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthyThresholdCount,2
-Parameters.VpcId.Type,String
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': u'TargetGroup', u'Type': u'forward'}]"
 Outputs.ServiceUrl.Value,http://${LoadBalancer.DNSName}
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
@@ -13,24 +12,17 @@ Parameters.LaunchType.AllowedValues,"[u'Fargate', u'EC2']"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckIntervalSeconds,10
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.DependsOn,LoadBalancer
 Outputs.ServiceUrl.Description,URL of the load balancer for the sample service.
-Parameters.Subnets.Type,List<AWS::EC2::Subnet::Id>
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,LoadBalancer
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.TargetGroupAttributes,"[{u'Value': 30, u'Key': u'deregistration_delay.timeout_seconds'}]"
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
-Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,HTTP
-Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Type,AWS::ElasticLoadBalancingV2::ListenerRule
-Parameters.LaunchType.Type,String
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckPath,/
 Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.ListenerArn,LoadBalancerListener
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 80, u'FromPort': 80, u'IpProtocol': u'TCP', u'CidrIp': u'0.0.0.0/0'}]"
 Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Priority,1
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
 Parameters.LaunchType.Default,Fargate
 Outputs.TargetGroup.Value,TargetGroup
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VpcId
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Matcher.HttpCode,200-299
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancingV2::ListenerRule.Properties.Actions,"[{u'TargetGroupArn': u'TargetGroup', u'Type': u'forward'}]"
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.HealthCheckProtocol,HTTP
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Port,80

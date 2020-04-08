@@ -1,16 +1,11 @@
-Resources.AWS::EC2::VPCEndpoint.Type,AWS::EC2::VPCEndpoint
 Resources.AWS::EC2::VPCEndpoint.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:*'], u'Resource': [u'arn:aws:s3:::*', u'arn:aws:s3:::*/*'], u'Effect': u'Allow', u'Principal': u'*'}]"
 Parameters.DeploymentName.Description,Deployment Name
-Resources.AWS::EC2::VPCEndpoint.Properties.RouteTableIds,"[{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-InternetRouteTable'}}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-NatAz1RouteTable'}}, {u'Fn::If': [u'MultiAz', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-NatAz2RouteTable'}}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::If': [u'MultiAz', {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-NatAz3RouteTable'}}, {u'Ref': u'AWS::NoValue'}]}, {u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-S3OnlyRouteTable'}}]"
 Resources.AWS::EC2::VPCEndpoint.Properties.VpcId,{u'Fn::ImportValue': {u'Fn::Sub': u'${DeploymentName}-CloudFoundryVpc'}}
 Parameters.DeploymentName.AllowedPattern,^([A-Za-z0-9]+[A-Za-z0-9-]?)+[A-Za-z0-9]$
-Parameters.DeploymentName.Type,String
 Parameters.Availability.AllowedValues,"[u'SingleAZ', u'SingleAZ-HA', u'MultiAZ']"
 Resources.AWS::EC2::VPCEndpoint.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::EC2::VPCEndpoint.Properties.ServiceName,"{u'Fn::Join': [u'.', [u'com.amazonaws', {u'Ref': u'AWS::Region'}, u's3']]}"
 Parameters.DeploymentName.ConstraintDescription,Must be a valid domain label matching /^([A-Za-z0-9]+[A-Za-z0-9-])+[A-Za-z0-9]$/
 Parameters.Availability.Description,Availability Type
-Parameters.Availability.Type,String
 Parameters.DeploymentName.MinLength,1
 Parameters.Availability.Default,SingleAZ
 Parameters.DeploymentName.MaxLength,16

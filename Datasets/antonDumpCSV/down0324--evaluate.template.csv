@@ -7,13 +7,10 @@ Parameters.KeyName.Description,Name of an existing EC2 KeyPair
 Parameters.DBAdminUser.MinLength,1
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.S3Bucket.default,S3 Bucket
 Parameters.KinesisStream.AllowedPattern,[a-zA-Z0-9].*
-Parameters.RDPFrom.Type,String
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.ESDomain,{u'Ref': u'ESDomain'}
 Parameters.DBAdminPassword.ConstraintDescription,Password does not meet complexity requirements
 Parameters.DomainNetBiosName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainAdminPassword.default,Domain Admin Password
-Parameters.ESDomain.Type,String
 Parameters.DBAdminUser.Default,EvaluateAdmin
 Parameters.QSS3BucketName.Description,"S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RDPFrom.default,RDP From
@@ -21,17 +18,12 @@ Parameters.DBAdminPassword.NoEcho,true
 Parameters.DomainAdminUser.ConstraintDescription,"Must not be empty, must begin with a letter and contain only alphanumeric characters"
 Parameters.RDPFrom.ConstraintDescription,"Must not be empty, must be valid IPv4 address with valid Mask Bit from 1-32, format of x.x.x.x/x"
 Outputs.EvaluateUrl.Description,Url for Evaluate for Amazon Connect web application (Active Directory)
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DomainDNSName,{u'Ref': u'DomainDNSName'}
 Parameters.DomainDNSName.ConstraintDescription,"Must not be empty, allowed ASCII letters, case insensitive, digits, hyphens ('-'), labels, cannot start or end with a hyphen, trailings dots are allowed, labels can start with numbers, max length of hostname is 253 characters, underscores are not allowed"
 Parameters.DomainIPs.NoEcho,false
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBEvaluatePassword,{u'Ref': u'DBEvaluatePassword'}
 Parameters.KinesisStream.ConstraintDescription,Must not be empty and must contain only alphanumeric characters
 Parameters.S3Bucket.MaxLength,63
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,QS S3 BucketName
-Parameters.DBAdminUser.Type,String
-Parameters.QSS3KeyPrefix.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'InstanceType', u'KeyName', u'RDPFrom', u'VPCID', u'SubnetID'], u'Label': {u'default': u'Amazon EC2 Configuration'}}, {u'Parameters': [u'DBAdminUser', u'DBAdminPassword', u'DBEvaluateUser', u'DBEvaluatePassword'], u'Label': {u'default': u'Amazon RDS Configuration'}}, {u'Parameters': [u'S3EvaluateBucket'], u'Label': {u'default': u'Amazon S3 Configuration'}}, {u'Parameters': [u'DomainDNSName', u'DomainIPs', u'DomainNetBiosName', u'DomainAdminUser', u'DomainAdminPassword'], u'Label': {u'default': u'Microsoft Active Directory Configuration'}}, {u'Parameters': [u'S3Bucket', u'KinesisStream'], u'Label': {u'default': u'Amazon Connect Configuration'}}, {u'Parameters': [u'ESDomain', u'ESInstanceType'], u'Label': {u'default': u'Amazon ElasticSearch Configuration'}}, {u'Parameters': [u'QSS3BucketName', u'QSS3KeyPrefix'], u'Label': {u'default': u'AWS Quick Start Configuration'}}]"
-Parameters.DBEvaluateUser.Type,String
 Parameters.S3Bucket.Description,Amazon Connect Data Streaming S3 Bucket
 Parameters.DBEvaluatePassword.MaxLength,64
 Parameters.S3EvaluateBucket.Description,"The name of a new bucket that will be used to store Attachments. The actual name will be evaluate-<AccountId>-<whatever-you-enter-here>, e.g. evaluate-344201342714-my.new.bucket"
@@ -48,28 +40,18 @@ Parameters.SubnetID.Description,Must select 2 or more. 1st is required by EC2 in
 Parameters.DBEvaluateUser.Default,EvaluateUser
 Parameters.DomainIPs.Description,A comma separated list of DNS IP addresses for the AD Domain
 Parameters.DomainIPs.ConstraintDescription,"Must be 2 valid IPv4 addresses separated by a ',' with no white spaces. e.g. 11.0.2.10,11.0.3.10"
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DomainNetBiosName,{u'Ref': u'DomainNetBiosName'}
 Outputs.TlmUrl.Description,Url for Tenant Management System web application (Windows Authentication)
-Parameters.DBAdminPassword.Type,String
-Parameters.DomainAdminUser.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainAdminUser.default,Domain Admin User
-Rules.RegionSupport.Assertions,"[{u'Assert': {u'Fn::Contains': [[u'us-east-1', u'us-west-2', u'eu-central-1', u'ap-southeast-2'], {u'Ref': u'AWS::Region'}]}, u'AssertDescription': u'Region must be either US East (N. Virginia) - us-east-1, US West (Oregon) - us-west-2, EU (Frankfurt) - eu-central-1, Asia Pacific (Sydney) - ap-southeast-2'}]"
 Parameters.DBAdminPassword.Description,"Password must contain 8 to 64 printable ASCII characters excluding /, "", ', \, , and @. It must contain 1 uppercase letter, 1 lowercase letter, and 1 number."
 Parameters.DBEvaluateUser.Description,The database non-admin account username
 Parameters.DomainAdminUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBEvaluatePassword.MinLength,8
-Parameters.S3Bucket.Type,String
 Parameters.QSS3KeyPrefix.ConstraintDescription,"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)"
 Parameters.DomainIPs.AllowedPattern,"^(2[0-4]\d|25[0-5]|1?\d?\d)(?:\.(1?[0-9]{1,2})){3},(2[0-4]\d|25[0-5]|1?\d?\d)(?:\.(1?[0-9]{1,2})){3}$"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DomainIPs,{u'Ref': u'DomainIPs'}
 Outputs.PrivateIp.Value,"{u'Fn::GetAtt': [u'AMIStack', u'Outputs.PrivateIp']}"
 Outputs.ClusterStatusUrl.Value,"{u'Fn::GetAtt': [u'AMIStack', u'Outputs.ClusterStatusUrl']}"
 Parameters.DomainDNSName.MaxLength,253
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,{u'Ref': u'QSS3KeyPrefix'}
-Parameters.SubnetID.Type,List<AWS::EC2::Subnet::Id>
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,{u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/amazonconnect.template'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DomainAdminUser,{u'Ref': u'DomainAdminUser'}
 Parameters.DBAdminPassword.MinLength,8
 Parameters.DomainAdminPassword.Description,"Password of the Domain Administrator's account. This is separate from the default ""EC2 Administrator"" account"
 Parameters.QSS3KeyPrefix.Description,"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)"
@@ -80,29 +62,19 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainDNSName.default,Do
 Parameters.DomainAdminUser.Description,"User name for the account that will be added as Domain Administrator. This is separate from the default ""EC2 Administrator"" account"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainNetBiosName.default,Domain NetBios Name
 Parameters.ESDomain.Default,evaluate
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DomainAdminPassword,{u'Ref': u'DomainAdminPassword'}
-Parameters.DomainNetBiosName.Type,String
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBAdminPassword,{u'Ref': u'DBAdminPassword'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KinesisStream.default,Kinesis Stream
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBEvaluateUser,{u'Ref': u'DBEvaluateUser'}
-Parameters.DomainAdminPassword.Type,String
 Parameters.DBAdminUser.MaxLength,16
-Parameters.DomainDNSName.Type,String
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,{u'Ref': u'KeyName'}
 Outputs.TlmUrl.Value,"{u'Fn::GetAtt': [u'AMIStack', u'Outputs.TlmUrl']}"
-Parameters.DBEvaluatePassword.Type,String
 Parameters.S3EvaluateBucket.AllowedPattern,^[a-z0-9]+([0-9a-zA-Z-.]*[0-9a-z])*$
 Outputs.EvaluateUrl.Value,"{u'Fn::GetAtt': [u'AMIStack', u'Outputs.EvaluateUrl']}"
 Parameters.QSS3KeyPrefix.Default,connect-integration-qualtrak-evaluate/
 Parameters.DBEvaluateUser.ConstraintDescription,"Must not be empty, must begin with a letter and contain only alphanumeric characters"
 Parameters.DBAdminUser.ConstraintDescription,"Must not be empty, must begin with a letter and contain only alphanumeric characters."
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.S3EvaluateBucket,{u'Ref': u'S3EvaluateBucket'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ESDomain.default,ES Domain
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PrivateIp,"{u'Fn::GetAtt': [u'AMISecurityStack', u'Outputs.PrivateIp']}"
 Parameters.S3EvaluateBucket.MinLength,3
 Parameters.RDPFrom.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]|3[0-2]))$
 Parameters.DBAdminUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.RDPFrom,{u'Ref': u'RDPFrom'}
 Outputs.ClusterStatusUrl.Description,Url for Cluster Status web application (Windows Authentication)
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DomainIPs.default,Domain IPs
 Parameters.VPCID.Description,ID of your existing VPC for deployment
@@ -110,24 +82,17 @@ Parameters.DBEvaluatePassword.AllowedPattern,"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])
 Outputs.PrivateIp.Description,Private Ip Address
 Parameters.S3Bucket.AllowedPattern,^[a-z0-9]+([0-9a-zA-Z-.]*[0-9a-z])*$
 Parameters.RDPFrom.Description,"Lockdown RDP access to EC2 instance from valid IPv4 address, e.g. 201.0.1.3/19"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.S3Bucket,{u'Ref': u'S3Bucket'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.DBAdminUser,{u'Ref': u'DBAdminUser'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ESDomainName.default,ES Domain Name
 Outputs.PublicIp.Value,"{u'Fn::GetAtt': [u'AMIStack', u'Outputs.PublicIp']}"
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCID,{u'Ref': u'VPCID'}
 Parameters.S3Bucket.ConstraintDescription,"Must not be empty, must begin with a letter or number and contain only alphanumeric, lowercase characters, must not end with . or -, no longer than 63 characters in length"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyName.default,Key Name
 Parameters.DBAdminPassword.MaxLength,64
-Parameters.QSS3BucketName.Type,String
 Parameters.DBEvaluateUser.NoEcho,false
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-Parameters.DomainIPs.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.CidrBlock,"{u'Fn::Join': [u'', [{u'Fn::GetAtt': [u'AMISecurityStack', u'Outputs.ElasticIp']}, u'/32']]}"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticIp,"{u'Fn::GetAtt': [u'AMISecurityStack', u'Outputs.ElasticIp']}"
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DBAdminUser.default,DB Admin User
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCID.default,VPC ID
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,{u'Ref': u'QSS3BucketName'}
 Outputs.PublicIp.Description,Public Ip Address
 Parameters.DBAdminUser.NoEcho,false
 Parameters.DomainNetBiosName.Description,"Netbios name for the domain, e.g. MYCOMPANY"
@@ -137,12 +102,7 @@ Parameters.S3EvaluateBucket.ConstraintDescription,"Must not be empty, must begin
 Parameters.DBAdminPassword.AllowedPattern,"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?!.*[@/""',]).*$"
 Parameters.DomainNetBiosName.ConstraintDescription,"Must not be empty, must begin with a letter and contain only alphanumeric characters"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,QS S3 Key Prefix
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KinesisStream,{u'Ref': u'KinesisStream'}
-Parameters.S3EvaluateBucket.Type,String
 Parameters.DomainAdminUser.Default,Administrator
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.SubnetID,"{u'Fn::Select': [u'0', {u'Ref': u'SubnetID'}]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SubnetID.default,Subnet ID
 Parameters.KinesisStream.Description,The name of your existing Kinesis Stream
-Parameters.KinesisStream.Type,String
 Parameters.ESDomain.Description,This is the name for the ElasticSearch Domain
-Parameters.VPCID.Type,AWS::EC2::VPC::Id

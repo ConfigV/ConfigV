@@ -1,15 +1,11 @@
-Resources.AWS::Elasticsearch::Domain.Type,AWS::Elasticsearch::Domain
 Resources.AWS::Elasticsearch::Domain.Properties.DomainName,data-lake
-Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.DedicatedMasterType,"[u'RegionMap', {u'Ref': u'AWS::Region'}, u'DedicatedMasterType']"
 Outputs.EsCluster.Description,Elasticsearch cluster domain endpoint
 Parameters.ESAccessIpAddress.MinLength,9
 Resources.AWS::Elasticsearch::Domain.Properties.SnapshotOptions.AutomatedSnapshotStartHour,1
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'package_id'}, {u'KeyType': u'RANGE', u'AttributeName': u'metadata_id'}]"
 Outputs.EsCluster.Value,DataLakeElasticsearchCluster.DomainEndpoint
 Parameters.ESAccessIpAddress.MaxLength,18
 Resources.AWS::Elasticsearch::Domain.Properties.AdvancedOptions.rest.action.multi.allow_explicit_index,True
-Parameters.ESAccessIpAddress.Type,String
 Resources.AWS::DynamoDB::Table.DeletionPolicy,Delete
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.ZoneAwarenessEnabled,True
@@ -18,7 +14,6 @@ Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.VolumeSize,50
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'package_id', u'AttributeType': u'S'}, {u'AttributeName': u'metadata_id', u'AttributeType': u'S'}]"
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.InstanceCount,2
 Resources.AWS::DynamoDB::Table.Properties.TableName,data-lake-metadata
-Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Statement,"[{u'Action': [u'es:*'], u'Resource': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/data-lake/*']], u'Effect': u'Allow', u'Condition': {u'IpAddress': {u'aws:SourceIp': u'ESAccessIpAddress'}}, u'Principal': {u'AWS': u'*'}}]"
 Mappings.RegionMap.ca-central-1.DedicatedMasterType,t2.small.elasticsearch
 Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.VolumeType,gp2
 Parameters.ESAccessIpAddress.Description,IP CIDR range that can access the Amazon Elasticsearch Cluster

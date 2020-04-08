@@ -1,57 +1,32 @@
-Resources.Custom::ApiBasePathMapping.Properties.restApiId,{u'Ref': u'TestRestApi'}
-Parameters.BasePath.Type,String
-Outputs.RestApiId.Value,{u'Ref': u'TestRestApi'}
 Resources.Custom::ApiResource.Properties.corsConfiguration.allowCredentials,True
 Resources.Custom::ApiModel.Properties.restApiId,"{u'Fn::GetAtt': [u'TestRestApi', u'id']}"
-Resources.Custom::ApiMethod.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
 Resources.Custom::ApiResource.Properties.restApiId,"{u'Fn::GetAtt': [u'TestRestApi', u'id']}"
-Parameters.CertificateChain.Type,String
 Parameters.DnsHostedZoneId.Description,HostedZoneId where your custom domain name alias will be created.
 Outputs.ApiUri.Value,"{u'Fn::GetAtt': [u'TestDomainName', u'domainName']}"
 Resources.Custom::ApiMethod.Properties.responses.default.headers.X-Custom-Header,'hardcodedValue'
-Resources.AWS::Route53::RecordSet.Properties.HostedZoneId,{u'Ref': u'DnsHostedZoneId'}
 Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/json.statusCode,200
-Parameters.StageName.Type,String
-Resources.Custom::ApiDomainName.Properties.domainName,{u'Ref': u'ApiDns'}
 Resources.Custom::ApiResource.Properties.parentId,"{u'Fn::GetAtt': [u'TestRestApi', u'parentResourceId']}"
 Parameters.BasePath.Default,
 Resources.Custom::ApiModel.Properties.name,TestModelWithParent
-Resources.AWS::Route53::RecordSet.Properties.Type,A
-Resources.Custom::ApiDomainName.Type,Custom::ApiDomainName
 Resources.Custom::ApiBasePathMapping.DependsOn,"[u'TestApiMethod1', u'TestApiMethod2', u'TestApiMethod3']"
 Resources.Custom::ApiResource.Properties.pathPart,test-resource
-Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
-Resources.Custom::ApiBasePathMapping.Type,Custom::ApiBasePathMapping
-Parameters.ServiceToken.Type,String
-Resources.Custom::ApiDomainName.Properties.certificateChain,{u'Ref': u'CertificateChain'}
 Mappings.CloudFront.HostedZone.Id,Z2FDTNDATAQYW2
 Resources.Custom::RestApi.Properties.description,This is a test API with a new description
-Parameters.ApiDns.Type,String
 Resources.AWS::Route53::RecordSet.Properties.AliasTarget.HostedZoneId,"{u'Fn::FindInMap': [u'CloudFront', u'HostedZone', u'Id']}"
 Resources.Custom::ApiBasePathMapping.Properties.domainName,"{u'Fn::GetAtt': [u'TestDomainName', u'domainName']}"
 Resources.Custom::ApiDomainName.Properties.certificateName,testCertificate
-Resources.Custom::ApiBasePathMapping.Properties.basePath,{u'Ref': u'BasePath'}
-Resources.Custom::ApiModel.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
 Resources.Custom::ApiMethod.Properties.restApiId,"{u'Fn::GetAtt': [u'TestRestApi', u'id']}"
 Resources.Custom::ApiResource.Properties.corsConfiguration.allowMethods,"[u'GET', u'POST']"
-Resources.Custom::ApiDomainName.Properties.certificatePrivateKey,{u'Ref': u'CertificatePrivateKey'}
 Resources.Custom::ApiResource.Properties.corsConfiguration.maxAge,1800
-Resources.Custom::ApiBasePathMapping.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
-Resources.Custom::ApiModel.Type,Custom::ApiModel
 Resources.Custom::ApiResource.Properties.corsConfiguration.allowOrigin,www.example.com
 Resources.Custom::ApiMethod.Properties.integration.requestTemplates.application/json,"{""statusCode"": 200}"
 Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::GetAtt': [u'TestDomainName', u'domainName']}"
 Resources.AWS::Route53::RecordSet.Properties.AliasTarget.DNSName,"{u'Fn::GetAtt': [u'TestDomainName', u'distributionDomainName']}"
 Parameters.CertificateChain.Description,Certificate chain.
-Resources.Custom::ApiResource.Type,Custom::ApiResource
 Parameters.StageName.Description,Name of the stage (existing or not) that you want the API to be deployed in.
 Resources.Custom::ApiMethod.Properties.method.httpMethod,POST
-Resources.Custom::RestApi.Type,Custom::RestApi
-Parameters.CertificatePrivateKey.Type,String
-Resources.Custom::ApiMethod.Type,Custom::ApiMethod
 Resources.Custom::ApiResource.Properties.corsConfiguration.allowDefaultHeaders,True
 Parameters.BasePath.Description,"Base path of the API, to be appended after the custom domain name. Can be empty."
-Parameters.CertificateBody.Type,String
 Resources.Custom::ApiModel.Properties.contentType,application/json
 Parameters.CertificateBody.Description,Certificate body.
 Resources.Custom::ApiMethod.Properties.responses..*NotFound.*.statusCode,404
@@ -61,20 +36,14 @@ Resources.Custom::ApiResource.Properties.corsConfiguration.exposeHeaders,"[u'som
 Resources.Custom::ApiModel.Properties.schema.allOf,"[{u'$ref': {u'Fn::Join': [u'', [u'https://apigateway.amazonaws.com/restapis/', {u'Fn::GetAtt': [u'TestRestApi', u'id']}, u'/models/', {u'Fn::GetAtt': [u'TestModel', u'name']}]]}}, {u'type': u'object', u'properties': {u'accountName': {u'type': u'string'}}}]"
 Resources.Custom::ApiModel.Properties.schema.properties.country.type,string
 Resources.Custom::RestApi.Properties.name,Test API
-Resources.Custom::ApiResource.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
-Resources.Custom::ApiDomainName.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
 Parameters.CertificatePrivateKey.Description,Certificate private key.
 Parameters.ApiDns.Description,Domain name where the API will be available at. e.g api.example.com.
-Resources.Custom::ApiBasePathMapping.Properties.stage,{u'Ref': u'StageName'}
 Resources.Custom::ApiMethod.Properties.responses.default.statusCode,200
 Parameters.ServiceToken.Description,CustomResource Lambda ARN
 Resources.Custom::ApiMethod.Properties.integration.type,MOCK
-Resources.Custom::ApiDomainName.Properties.certificateBody,{u'Ref': u'CertificateBody'}
 Resources.Custom::ApiMethod.Properties.integration.passthroughBehavior,WHEN_NO_MATCH
 Resources.Custom::ApiModel.Properties.schema.type,object
 Resources.Custom::ApiMethod.Properties.resourceId,"{u'Fn::GetAtt': [u'TestApiResource', u'id']}"
 Resources.Custom::ApiMethod.Properties.method.parameters,"[u'querystring.sortBy', u'header.x-test-header', u'path.entityType']"
-Parameters.DnsHostedZoneId.Type,String
 Parameters.CertificatePrivateKey.NoEcho,True
-Resources.Custom::RestApi.Properties.ServiceToken,{u'Ref': u'ServiceToken'}
 Resources.Custom::ApiMethod.Properties.method.requestModels.application/json,"{u'Fn::GetAtt': [u'TestModel', u'name']}"

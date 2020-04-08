@@ -3,14 +3,11 @@
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE OverloadedStrings #-} 
 
-module Learners.FineGrained where
+module ConfigV.Learners.FineGrained where
 
-import Types.IR
-import Types.Errors
-import Types.Rules 
-import Types.Countable
-import qualified Types.Rules as R
-import Learners.Common
+import ConfigV.Types
+import qualified ConfigV.Types.Rules as R
+import ConfigV.Learners.Common
 
 import qualified Data.Map as M
 import qualified Data.Text as T
@@ -19,12 +16,12 @@ import qualified Data.Bits as B
 import           Data.Maybe 
 import Data.Interned
 
-import Settings.Config
+import ConfigV.Settings.Config
 import Control.Monad.Reader
 
 
 import Control.Parallel
-import Utils
+import ConfigV.Utils
 
 -- | We assume that all IRConfigFiles have a set of unique keywords
 --   this should be upheld by the tranlsation from ConfigFile to IRConfigFile

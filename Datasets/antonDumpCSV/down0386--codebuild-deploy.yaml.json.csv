@@ -1,13 +1,10 @@
 Parameters.CognitoIdentityPoolId.Description,"Cognito Identity Pool Id to used in the web app configuration.
 "
 Outputs.CodeBuildProject.Value,CodeBuild
-Parameters.BotName.Type,String
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
-Resources.Custom::S3Cleanup.Type,Custom::S3Cleanup
 Resources.Custom::CodeBuildStarter.Properties.ProjectName,CodeBuild
 Resources.AWS::Lambda::Function.Properties.Timeout,120
 Parameters.CognitoIdentityPoolId.MinLength,1
-Parameters.CustomResourceCodeObject.Type,String
 Outputs.WebAppUrl.Description,URL of the web application
 Parameters.WebAppConfBotInitialText.Default,"You can ask me for help ordering flowers. Just type ""Buy flowers"" or click on the mic and say it.
 "
@@ -22,8 +19,6 @@ Parameters.CustomResourceCodeObject.Default,artifacts/aws-lex-web-ui/artifacts/c
 Resources.Custom::S3Cleanup.Condition,ShouldCleanupBuckets
 Parameters.SourceBucket.Description,S3 bucket where the source is located
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Parameters.CognitoIdentityPoolId.Type,String
-Parameters.CodeBuildName.Type,String
 Parameters.WebAppConfToolbarTitle.Description,Title displayed in the chatbot UI toobar
 Resources.AWS::IAM::Role.Condition,ShouldCleanupBuckets
 Resources.AWS::CodeBuild::Project.Properties.ServiceRole,CodeBuildRole.Arn
@@ -31,7 +26,6 @@ Parameters.CustomResourceCodeObject.Description,"S3 object zip file containing L
 "
 Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
 Outputs.SnippetUrl.Description,URL of a page showing the snippet to load the chatbot UI as an iframe
-Parameters.SourceObject.Type,String
 Parameters.CodeBuildName.Description,CodeBuild project used to configure and deploy the Lex Web UI
 Parameters.SourceObject.Default,artifacts/aws-lex-web-ui/artifacts/src.zip
 Parameters.ParentOrigin.Description,"Browser origin (e.g. http://mysite.example.com:8080) of an existing site that is allowed to send/receive data and events from the web ui in an iframe setup. This is an optional parameter. If left empty, an S3 bucket will be created to host a sample parent site embedding the webapp as an iframe.
@@ -40,11 +34,7 @@ Parameters.CodeBuildName.MaxLength,255
 Parameters.WebAppConfBotInitialSpeech.Default,Say 'Buy Flowers' to get started.
 Parameters.CodeBuildName.ConstraintDescription,"Should start with Alphanumeric. May contain alphanumeric, undescore and dash.
 "
-Resources.AWS::CodeBuild::Project.Properties.Source.Type,S3
-Resources.AWS::CodeBuild::Project.Properties.Artifacts.Type,NO_ARTIFACTS
 Parameters.CodeBuildName.MinLength,2
-Parameters.WebAppConfToolbarTitle.Type,String
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Parameters.WebAppConfBotInitialSpeech.Description,"Message spoken by bot when the microphone is first pressed in a conversation
 "
 Outputs.ParentPageUrl.Value,https://${WebAppBucket.DomainName}/parent.html
@@ -55,7 +45,6 @@ Resources.AWS::Lambda::Function.Condition,ShouldCleanupBuckets
 Resources.Custom::CodeBuildStarter.Properties.ServiceToken,CodeBuildStarterLambda.Arn
 Parameters.CleanupBuckets.Description,"If set to True, buckets and their associated data will be deleted on CloudFormation stack delete. If set to False, S3 buckets will be retained.
 "
-Resources.Custom::CodeBuildStarter.Type,Custom::CodeBuildStarter
 Parameters.ParentOrigin.AllowedPattern,(^$|^https?://[\w\.-]+(:\d+)?$)
 Parameters.CleanupBuckets.Default,True
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'S3GetObject', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:GetObject*'], u'Resource': [u'arn:aws:s3:::${SourceBucket}/${SourceObject}'], u'Effect': u'Allow'}]}}, {u'PolicyName': u'S3ReadWrite', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:Get*', u's3:Head*', u's3:List*', u's3:CreateMultipartUpload', u's3:CompleteMultipartUpload', u's3:AbortMultipartUpload', u's3:CopyObject', u's3:PutObject*', u's3:DeleteObject*', u's3:Upload*'], u'Resource': [u'arn:aws:s3:::${WebAppBucket}', u'arn:aws:s3:::${WebAppBucket}/*'], u'Effect': u'Allow'}]}}, {u'PolicyName': u'CloudWatchLogsCodeBuild', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': [u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${CodeBuildName}', u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${CodeBuildName}:*'], u'Effect': u'Allow'}]}}]"
@@ -65,15 +54,12 @@ Resources.Custom::S3Cleanup.Properties.ServiceToken,S3CleanupLambda.Arn
 Resources.AWS::CodeBuild::Project.Properties.Name,CodeBuildName
 Parameters.BotName.MinLength,2
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Parameters.CleanupBuckets.Type,String
 Resources.Custom::S3Cleanup.Properties.Buckets,[u'WebAppBucket']
 Parameters.CognitoIdentityPoolId.ConstraintDescription,"Alphanumeric followed by a colum and ending with a hex uuid type.
 "
 Outputs.SnippetUrl.Value,https://${WebAppBucket.DomainName}/iframe-snippet.html
 Parameters.CognitoIdentityPoolId.MaxLength,55
-Resources.AWS::CodeBuild::Project.Properties.Environment.Type,LINUX_CONTAINER
 Parameters.CodeBuildName.Default,lex-web-ui-conf-deploy
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codebuild.amazonaws.com']}}]"
 Resources.AWS::CodeBuild::Project.Properties.TimeoutInMinutes,10
 Resources.AWS::CodeBuild::Project.Properties.Source.Location,${SourceBucket}/${SourceObject}
@@ -93,11 +79,8 @@ Parameters.CodeBuildName.AllowedPattern,"^[A-Za-z0-9][A-Za-z0-9\-_]{1,254}$"
 Parameters.SourceObject.Description,S3 object zip file containing the project source
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,CustomResourceCodeObject
 Parameters.SourceBucket.Default,aws-bigdata-blog
-Resources.AWS::CodeBuild::Project.Type,AWS::CodeBuild::Project
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Outputs.LoaderScriptUrl.Value,https://${WebAppBucket.DomainName}/lex-web-ui-loader.min.js
-Parameters.WebAppConfBotInitialSpeech.Type,String
 Parameters.WebAppConfToolbarTitle.Default,Order Flowers
 Resources.AWS::CodeBuild::Project.Properties.Environment.Image,aws/codebuild/nodejs:8.11.0
 Parameters.ParentOrigin.ConstraintDescription,Empty or valid browser origin
@@ -107,7 +90,4 @@ Parameters.CleanupBuckets.AllowedValues,"[True, False]"
 Outputs.ParentPageUrl.Description,URL of the sample parent page
 Resources.AWS::Lambda::Function.Properties.Role,CodeBuildStarterLambdaRole.Arn
 Parameters.BotName.AllowedPattern,^[a-zA-Z]+((_[a-zA-Z]+)*|([a-zA-Z]+_)*|_)
-Parameters.WebAppConfBotInitialText.Type,String
-Parameters.ParentOrigin.Type,String
-Parameters.SourceBucket.Type,String
 Resources.AWS::CodeBuild::Project.Properties.Environment.EnvironmentVariables,"[{u'Name': u'BUILD_TYPE', u'Value': u'dist'}, {u'Name': u'POOL_ID', u'Value': u'CognitoIdentityPoolId'}, {u'Name': u'WEBAPP_BUCKET', u'Value': u'WebAppBucket'}, {u'Name': u'AWS_DEFAULT_REGION', u'Value': u'${AWS::Region}'}, {u'Name': u'BOT_NAME', u'Value': u'BotName'}, {u'Name': u'BOT_INITIAL_TEXT', u'Value': u'WebAppConfBotInitialText'}, {u'Name': u'BOT_INITIAL_SPEECH', u'Value': u'WebAppConfBotInitialSpeech'}, {u'Name': u'UI_TOOLBAR_TITLE', u'Value': u'WebAppConfToolbarTitle'}, {u'Name': u'PARENT_ORIGIN', u'Value': [u'NeedsParentOrigin', u'https://${WebAppBucket.DomainName}', u'ParentOrigin']}, {u'Name': u'IFRAME_ORIGIN', u'Value': u'https://${WebAppBucket.DomainName}'}]"

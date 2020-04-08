@@ -1,6 +1,5 @@
 Parameters.DatabaseMasterPassword.AllowedPattern,"^([a-z0-9A-Z`~!#$%^&*()_+,\\-])*$"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseMasterPassword.default,DB Master Password
-Parameters.DatabaseName.Type,String
 Parameters.DatabaseName.AllowedPattern,^([a-zA-Z0-9]*)$
 Parameters.Subnet.Description,Select existing subnets. The number selected must match the number of subnets above. Subnets selected must be in separate AZs.
 Parameters.DatabaseEncrpytedBoolean.Default,True
@@ -8,18 +7,15 @@ Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates
 Parameters.DatabaseCmk.Description,AWS KMS Customer Master Key (CMK) to encrypt database cluster
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NumberOfSubnets.default,Number of subnets
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Subnet.default,Subnets
-Parameters.DatabaseMasterUsername.Type,String
 Resources.AWS::RDS::DBInstance.DeletionPolicy,Delete
 Resources.AWS::RDS::DBSubnetGroup.Properties.Tags,"[{u'Value': [u'', [u'WordPress / ', u'AWS::StackName']], u'Key': u'Name'}]"
 Outputs.DatabaseClusterEndpointAddress.Value,DatabaseCluster.Endpoint.Address
 Outputs.DatabaseInstance1.Value,DatabaseInstance1
 Resources.AWS::RDS::DBCluster.Properties.VpcSecurityGroupIds,[u'DatabaseSecurityGroup']
 Parameters.DatabaseMasterUsername.Description,The Amazon RDS master username.
-Parameters.DatabaseEncrpytedBoolean.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'DatabaseInstanceType', u'DatabaseMasterUsername', u'DatabaseMasterPassword', u'DatabaseName', u'DatabaseEncrpytedBoolean', u'DatabaseCmk', u'DatabaseSecurityGroup', u'NumberOfSubnets', u'Subnet'], u'Label': {u'default': u'Database Parameters'}}]"
 Parameters.DatabaseSecurityGroup.Description,Select the database security group.
 Resources.AWS::RDS::DBCluster.Properties.Port,3306
-Parameters.NumberOfSubnets.Type,String
 Parameters.DatabaseMasterPassword.NoEcho,True
 Parameters.DatabaseMasterPassword.MaxLength,41
 Resources.AWS::RDS::DBCluster.Properties.SnapshotIdentifier,"[u'NoSnapshot', u'AWS::NoValue', u'DatabaseRestoreSnapshot']"
@@ -29,7 +25,6 @@ Parameters.DatabaseMasterUsername.MaxLength,16
 Resources.AWS::RDS::DBCluster.Properties.DatabaseName,DatabaseName
 Resources.AWS::RDS::DBInstance.Properties.DBClusterIdentifier,DatabaseCluster
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseMasterUsername.default,DB Master Username
-Parameters.Subnet.Type,List<AWS::EC2::Subnet::Id>
 Parameters.DatabaseMasterPassword.ConstraintDescription,"Must be letters (upper or lower), numbers, and these special characters '_'`~!#$%^&*()_+,-"
 Resources.AWS::RDS::DBCluster.Properties.KmsKeyId,"[u'UseAWS-ManagedCMK', u'AWS::NoValue', u'DatabaseCmk']"
 Outputs.DatabaseCluster.Value,DatabaseCluster
@@ -37,22 +32,17 @@ Resources.AWS::RDS::DBCluster.Properties.BackupRetentionPeriod,30
 Resources.AWS::RDS::DBCluster.Properties.Engine,aurora
 Parameters.DatabaseEncrpytedBoolean.AllowedValues,"[True, False]"
 Resources.AWS::RDS::DBInstance.Properties.Engine,aurora
-Parameters.DatabaseCmk.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseName.default,DB Name
 Parameters.NumberOfSubnets.AllowedValues,"[2, 3, 4, 5, 6]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseSecurityGroup.default,DB Security Group
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,RDS Database Subnet Group for WordPress
-Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
 Parameters.DatabaseEncrpytedBoolean.Description,Indicates whether the DB instances in the cluster are encrypted.
 Parameters.NumberOfSubnets.Default,3
 Resources.AWS::RDS::DBCluster.Properties.DBSubnetGroupName,DataSubnetGroup
 Resources.AWS::RDS::DBCluster.Properties.StorageEncrypted,DatabaseEncrpytedBoolean
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,DatabaseInstanceType
 Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
 Resources.AWS::RDS::DBCluster.Properties.Tags,"[{u'Value': [u'', [u'WordPress / ', u'AWS::StackName']], u'Key': u'Name'}]"
-Resources.AWS::RDS::DBCluster.Type,AWS::RDS::DBCluster
-Parameters.DatabaseSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
 Outputs.DatabaseName.Value,DatabaseName
 Parameters.DatabaseName.Description,The Amazon RDS master database name.
 Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,DataSubnetGroup
@@ -65,12 +55,10 @@ Resources.AWS::RDS::DBCluster.Properties.MasterUsername,"[u'NoSnapshot', u'Datab
 Resources.AWS::RDS::DBInstance.Properties.Tags,"[{u'Value': [u'', [u'WordPress / ', u'AWS::StackName']], u'Key': u'Name'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseCmk.default,AWS KMS Customer Master Key (CMK) to encrypt DB
 Resources.AWS::RDS::DBInstance.Properties.AllowMajorVersionUpgrade,False
-Parameters.DatabaseRestoreSnapshot.Type,String
 Outputs.DatabaseInstance0.Value,DatabaseInstance0
 Parameters.DatabaseMasterUsername.AllowedPattern,^([a-zA-Z0-9]*)$
 Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[u'NumberOfSubnets1', [[0, u'Subnet']], [u'NumberOfSubnets2', [[0, u'Subnet'], [1, u'Subnet']], [u'NumberOfSubnets3', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet']], [u'NumberOfSubnets4', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet']], [u'NumberOfSubnets5', [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet']], [[0, u'Subnet'], [1, u'Subnet'], [2, u'Subnet'], [3, u'Subnet'], [4, u'Subnet'], [5, u'Subnet']]]]]]]"
 Resources.AWS::RDS::DBCluster.Properties.MasterUserPassword,"[u'NoSnapshot', u'DatabaseMasterPassword', u'AWS::NoValue']"
-Parameters.DatabaseMasterPassword.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseRestoreSnapshot.default,Snapshot to restore from
 Parameters.DatabaseMasterUsername.ConstraintDescription,Must contain only alphanumeric characters (minimum 8; maximum 16).
 Parameters.DatabaseMasterPassword.Description,The Amazon RDS master password.

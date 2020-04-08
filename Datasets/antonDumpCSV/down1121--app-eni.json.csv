@@ -1,35 +1,16 @@
-Outputs.EniId.Value,{u'Ref': u'ENI'}
 Resources.AWS::Route53::RecordSet.Condition,Route53Update
 Resources.AWS::Route53::RecordSet.Properties.TTL,120
-Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,{u'Ref': u'Domain'}
 Resources.AWS::EC2::EIPAssociation.Properties.AllocationId,"{u'Fn::GetAtt': [u'EIP', u'AllocationId']}"
-Resources.AWS::Route53::RecordSet.Properties.Type,A
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Parameters.SubnetId.Default,
-Resources.AWS::EC2::NetworkInterface.Properties.SubnetId,{u'Ref': u'SubnetId'}
-Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
-Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
-Parameters.SubnetId.Type,String
-Resources.AWS::EC2::NetworkInterface.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
 Outputs.EniId.Description,Elastic Network Interface Id
 Parameters.SecurityGroupId.Default,
 Parameters.Hostname.Description,DNS Hostname for prod IP (but not domainname)
-Resources.AWS::EC2::EIPAssociation.Type,AWS::EC2::EIPAssociation
 Parameters.Domain.Description,Route53 Hosted Zone name for prod IP (include trailing .)
 Resources.AWS::Route53::RecordSet.Properties.Comment,DNS name for Dromedary prod.
-Resources.AWS::Route53::RecordSet.Properties.ResourceRecords,[{u'Ref': u'EIP'}]
 Outputs.PublicIp.Description,Public IP Address of ENI
 Resources.AWS::EC2::NetworkInterface.Properties.Description,Dromedary Prod ENI
-Resources.AWS::EC2::NetworkInterface.Properties.GroupSet,"{u'Fn::If': [u'NoSecurityGroup', {u'Ref': u'AWS::NoValue'}, [{u'Ref': u'SecurityGroupId'}]]}"
-Parameters.Domain.Type,String
-Outputs.PublicIp.Value,{u'Ref': u'EIP'}
 Parameters.SecurityGroupId.Description,Security Group id with which to associate app ENI
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::NetworkInterface.Type,AWS::EC2::NetworkInterface
 Parameters.Hostname.Default,
-Resources.AWS::EC2::EIPAssociation.Properties.NetworkInterfaceId,{u'Ref': u'ENI'}
-Resources.AWS::Route53::RecordSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'Hostname'}, u'.', {u'Ref': u'Domain'}]]}"
-Parameters.Hostname.Type,String
-Parameters.SecurityGroupId.Type,String
 Parameters.Domain.Default,
 Parameters.SubnetId.Description,TODO: Modify this later. VPC subnet id in which to place ENI

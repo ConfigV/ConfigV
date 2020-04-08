@@ -3,51 +3,29 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/node-install.tar.gz.owner,root
 Outputs.JenkinsURL.Description,Jenkins URL
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.15-install-node-modules.command,npm install -g gulp
-Parameters.SshCidr.Type,String
-Parameters.CfnInitRole.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Open ALL the ports
-Resources.AWS::EC2::Instance.Properties.KeyName,"{u'Fn::If': [u'NoEc2Key', {u'Ref': u'AWS::NoValue'}, {u'Ref': u'Ec2Key'}]}"
-Parameters.VPC.Type,String
 Resources.AWS::EC2::Instance.CreationPolicy.ResourceSignal.Timeout,PT15M
 Outputs.SecurityGroup.Value,"{u'Fn::GetAtt': [u'JenkinsSecurityGroup', u'GroupId']}"
-Parameters.Ec2Key.Type,String
 Outputs.PublicDns.Description,Public DNS of Jenkins instance
 Outputs.SecurityGroup.Description,Jenkins Security Group
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/job-configs.tgz.group,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.10-install-node.command,"{u'Fn::Join': [u'', [u'yum remove -y nodejs npm\n', u'\n', u'cd /usr/local && tar --strip-components 1 -xzf /tmp/node-install.tar.gz\n', u'if [ ! -e /usr/bin/node ]; then\n', u'  ln -s /usr/local/bin/node /usr/bin/node\n', u'fi\n', u'if [ ! -e /usr/bin/npm ]; then\n', u'  ln -s /usr/local/bin/npm /usr/bin/npm\n', u'fi\n']]}"
 Parameters.InstanceProfile.Description,Instance profile for jenkins instance
-Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/node-install.tar.gz.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/node-install.tar.gz.group,root
 Parameters.SshCidr.Description,Whitelisted network CIDR for inbound SSH
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum update -y aws-cfn-bootstrap\n', u'yum -y upgrade\n', u'\n', u'service jenkins stop\n', u'/opt/aws/bin/cfn-init -v', u' --stack ', {u'Ref': u'AWS::StackName'}, u' --resource JenkinsInstance ', u' --role ', {u'Ref': u'CfnInitRole'}, u' --region ', {u'Ref': u'AWS::Region'}, u'\n', u'\n', u'service jenkins start\n', u'node -v \n', u'npm -v\n', u'\n', u'/opt/aws/bin/cfn-signal -e $? ', u' --stack ', {u'Ref': u'AWS::StackName'}, u' --resource JenkinsInstance ', u' --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
 Outputs.PublicDns.Value,"{u'Fn::GetAtt': [u'JenkinsInstance', u'PublicIp']}"
-Parameters.SubnetId.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/job-configs.tgz.owner,root
 Outputs.JenkinsURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'JenkinsInstance', u'PublicIp']}, u':8080/']]}"
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Parameters.S3Bucket.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/job-configs.tgz.authentication,S3AccessCreds
 Parameters.VPC.Description,VPC ID in which to place Jenkins
-Parameters.InstanceProfile.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/node-install.tar.gz.source,https://nodejs.org/dist/v0.12.7/node-v0.12.7-linux-x64.tar.gz
 Parameters.SshCidr.Default,0.0.0.0/0
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/job-configs.tgz.mode,000644
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
 Parameters.Ec2Key.Description,Ec2 key for ssh access
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeleteOnTermination': u'true', u'DeviceIndex': u'0', u'SubnetId': {u'Ref': u'SubnetId'}, u'GroupSet': [{u'Ref': u'JenkinsSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.commands.00-extract-configs.command,"{u'Fn::Join': [u'', [u'cd /var/lib/jenkins/jobs/\n', u'tar xzf /tmp/job-configs.tgz\n', u'chown -R jenkins:jenkins .\n']]}"
-Parameters.JobConfigsTarball.Type,String
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.buckets,[{u'Ref': u'S3Bucket'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.type,S3
 Parameters.CfnInitRole.Description,IAM Role for cfn-init
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionConfig', {u'Ref': u'AWS::Region'}, u'ami']}"
 Parameters.JobConfigsTarball.Description,Path to config tarball in S3Bucket
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'65535', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SshCidr'}, u'FromPort': u'1'}]"
 Parameters.S3Bucket.Description,Artifact Bucket
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackId'}, u'Key': u'Application'}, {u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Name'}]"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.roleName,{u'Ref': u'CfnInitRole'}
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./tmp/job-configs.tgz.source,"{u'Fn::Join': [u'', [u'https://s3.amazonaws.com/', {u'Ref': u'S3Bucket'}, u'/', {u'Ref': u'JobConfigsTarball'}]]}"
 Parameters.SubnetId.Description,VPC subnet id in which to place jenkins

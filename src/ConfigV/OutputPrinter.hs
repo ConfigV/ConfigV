@@ -1,17 +1,17 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE RecordWildCards #-}
-module OutputPrinter where
+module ConfigV.OutputPrinter where
 
 import qualified Data.List             as L
 import qualified Data.Map             as M
 
 import           Control.Monad
 
-import           Utils
-import Settings.Config
+import           ConfigV.Utils
+import ConfigV.Settings.Config
 
-import Types.Common
-import Types.Errors
+import ConfigV.Types.Common
+import ConfigV.Types.Errors
 
 
 printSummary :: RawThresholds -> [ErrorReport] -> [Int] -> IO ()

@@ -1,36 +1,23 @@
 Parameters.SecurityGroup.Default,mykey
 Parameters.StackName.ConstraintDescription,A short name to identify this Stack (USE LOWERCASE ONLY)
 Outputs.PublicIP.Value,"{u'Fn::GetAtt': [u'Instance', u'PublicIp']}"
-Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.AppName.Description,AppName for the machine
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyPairName'}
 Parameters.StackName.MinLength,1
 Parameters.Subnet.Description,Subnet Id for the machine
 Parameters.Subnet.Default,mykey
-Outputs.InstanceId.Value,{u'Ref': u'Instance'}
 Outputs.Hostname.Value,"{u'Fn::GetAtt': [u'Instance', u'PrivateDnsName']}"
-Parameters.AMI.Type,AWS::EC2::Image::Id
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecurityGroup'}]
 Parameters.KeyPairName.Description,The keypair name to use for the machine
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'\n', [u'#!/bin/bash -v ', u'export HOSTNAME=`curl http://169.254.169.254/latest/meta-data/hostname`']]}}"
 Parameters.StackName.Default,Instances
 Outputs.Hostname.Description,Hostname of the newly created instance
 Parameters.KeyPairName.Default,mykey
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'Subnet'}
 Outputs.InstanceId.Description,Instance Id of the newly created instance
 Parameters.StackName.Description, The name of the Stack
-Parameters.StackName.Type,String
 Outputs.PublicDnsName.Value,"{u'Fn::GetAtt': [u'Instance', u'PublicDnsName']}"
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Parameters.Subnet.Type,String
-Parameters.SecurityGroup.Type,String
 Outputs.PublicDnsName.Description,Public dns of the machine
 Parameters.AMI.Default,ami-7881df12
 Resources.AWS::EC2::Instance.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'DeleteOnTermination': u'true'}}]"
-Parameters.AppName.Type,String
 Parameters.AMI.Description,AMI id to use for the Instances
 Outputs.PublicIP.Description,Public IP of the machine
-Resources.AWS::EC2::Instance.Properties.ImageId,{u'Ref': u'AMI'}
 Parameters.StackName.MaxLength,32
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'', [{u'Ref': u'StackName'}, u'_', {u'Ref': u'AppName'}, u'_', u'Instance']]}, u'Key': u'Name'}]"
 Parameters.SecurityGroup.Description,SecurityGroup for the machine

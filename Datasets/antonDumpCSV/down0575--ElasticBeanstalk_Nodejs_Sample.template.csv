@@ -1,34 +1,16 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'WebServerRole'}]
-Resources.AWS::ElasticBeanstalk::Environment.Type,AWS::ElasticBeanstalk::Environment
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the AWS Elastic Beanstalk instance
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Mappings.Region2Principal.eu-central-1.EC2Principal,ec2.amazonaws.com
-Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.OptionSettings,"[{u'OptionName': u'EC2KeyName', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': {u'Ref': u'KeyName'}}, {u'OptionName': u'IamInstanceProfile', u'Namespace': u'aws:autoscaling:launchconfiguration', u'Value': {u'Ref': u'WebServerInstanceProfile'}}]"
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'SampleEnvironment', u'EndpointURL']}]]}"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
 Resources.AWS::ElasticBeanstalk::Application.Properties.Description,AWS Elastic Beanstalk Sample Node.js Application
-Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Bucket,"{u'Fn::Join': [u'-', [u'elasticbeanstalk-samples', {u'Ref': u'AWS::Region'}]]}"
 Resources.AWS::ElasticBeanstalk::Environment.Properties.Description,AWS Elastic Beanstalk Environment running Sample Node.js Application
-Resources.AWS::ElasticBeanstalk::Application.Type,AWS::ElasticBeanstalk::Application
 Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.Description,Version 1.0
 Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.SolutionStackName,64bit Amazon Linux 2014.03 v1.0.9 running Node.js
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.SourceBundle.S3Key,nodejs-sample.zip
-Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [{u'Fn::FindInMap': [u'Region2Principal', {u'Ref': u'AWS::Region'}, u'EC2Principal']}]}}]"
-Resources.AWS::ElasticBeanstalk::ApplicationVersion.Properties.ApplicationName,{u'Ref': u'SampleApplication'}
 Mappings.Region2Principal.eu-central-1.OpsWorksPrincipal,opsworks.amazonaws.com
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'NotAction': u'iam:*', u'Resource': [u'*'], u'Effect': u'Allow'}]"
-Resources.AWS::ElasticBeanstalk::ApplicationVersion.Type,AWS::ElasticBeanstalk::ApplicationVersion
-Resources.AWS::ElasticBeanstalk::Environment.Properties.ApplicationName,{u'Ref': u'SampleApplication'}
 Resources.AWS::IAM::Policy.Properties.PolicyName,WebServerRole
 Outputs.URL.Description,URL of the AWS Elastic Beanstalk Environment
 Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.Description,SSH access to Node.JS Application
-Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Properties.ApplicationName,{u'Ref': u'SampleApplication'}
-Resources.AWS::ElasticBeanstalk::Environment.Properties.VersionLabel,{u'Ref': u'SampleApplicationVersion'}
-Resources.AWS::ElasticBeanstalk::ConfigurationTemplate.Type,AWS::ElasticBeanstalk::ConfigurationTemplate
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'WebServerRole'}]
-Resources.AWS::ElasticBeanstalk::Environment.Properties.TemplateName,{u'Ref': u'SampleConfigurationTemplate'}

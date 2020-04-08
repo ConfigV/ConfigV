@@ -1,25 +1,16 @@
 Parameters.AdminIngressLocation.MaxLength,18
 Parameters.QSS3KeyPrefix.AllowedPattern,^[0-9a-zA-Z-]+(/[0-9a-zA-Z-]+)*$
 Parameters.AdminIngressLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
-Parameters.AdminIngressLocation.Type,String
 Parameters.QSS3BucketName.Default,quickstart-reference
-Parameters.ArtifactBucket.Type,String
 Outputs.MasterPrivateIp.Value,K8sStack.Outputs.MasterPrivateIp
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.LoadBalancerSubnetId,PublicSubnet0
 Parameters.KeyName.Description,Existing EC2 KeyPair for SSH access.
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
-Parameters.Zone0.Type,AWS::EC2::AvailabilityZone::Name
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DiskSizeGb,DiskSizeGb
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'id'}]"
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
-Parameters.Subnet1CIDR.Type,String
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
-Parameters.VPCCIDR.Type,String
 Outputs.NodeGroupInstanceId.Value,K8sStack.Outputs.NodeGroupInstanceId
-Parameters.SettingBucket.Type,String
 Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Sub': u'#!/bin/bash\napt-get install unzip --yes\n\nmkdir -p /opt/datacol &&\n  curl -Ls /tmp https://storage.googleapis.com/${ArtifactBucket}/binaries/${DatacolVersion}/apictl.zip > /tmp/apictl.zip &&\n  unzip /tmp/apictl.zip -d /opt/datacol &&\n  chmod +x /opt/datacol/apictl\n\ncat <<EOF >> /opt/datacol/${KeyName}.pem\n${KeyMaterial}\nEOF\n\nchmod 600 /opt/datacol/${KeyName}.pem\nchown -R ubuntu /opt/datacol\nsystemctl daemon-reload && systemctl enable apictl\n\ncat <<EOF >> /etc/environment\nDATACOL_PROVIDER=aws\nDATACOL_STACK=${AWS::StackName}\nDATACOL_VERSION=${DatacolVersion}\nDATACOL_BUCKET=${SettingBucket}\nDATACOL_API_KEY=${ApiKey}\nAWS_VPC_ID=${PublicSubnet0.VpcId}\nDATACOL_KEY_NAME=${KeyName}\nAWS_SUBNETS=${PublicSubnet0},${PublicSubnet1}\nAWS_SUBNETS_PRIVATE=${PrivateSubnet0},${PrivateSubnet1}\nAWS_SECURITY_GROUP=${BastionSecurityGroup.GroupId}\nAWS_VPC_CIDR=${VPC.CidrBlock}\nAWS_ACCOUNT_ID=${AWS::AccountId}\nAWS_REGION=${AWS::Region}\nAWS_ACCESS_KEY_ID=${AWSAccessKey}\nAWS_SECRET_ACCESS_KEY=${AWSSecretAccessKey}\nEOF\n\nsystemctl start apictl\n'}}"
 Resources.AWS::EC2::VPCDHCPOptionsAssociation.Properties.VpcId,VPC
-Parameters.DiskSizeGb.Type,Number
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'Public subnet', u'Key': u'Name'}, {u'Value': u'Public', u'Key': u'Network'}, {u'Value': u'AWS::StackName', u'Key': u'KubernetesCluster'}]"
 Parameters.Subnet1CIDR.Default,10.0.2.0/24
@@ -32,44 +23,35 @@ Resources.AWS::CloudFormation::Stack.Condition,ShouldCreateK8s
 Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'FromPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'AdminIngressLocation'}, {u'ToPort': u'8080', u'FromPort': u'8080', u'IpProtocol': u'tcp', u'CidrIp': u'AdminIngressLocation'}, {u'ToPort': u'10000', u'FromPort': u'10000', u'IpProtocol': u'tcp', u'CidrIp': u'AdminIngressLocation'}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
-Parameters.AWSSecretAccessKey.Type,String
 Outputs.GetKubeConfigCommand.Condition,ShouldCreateK8s
 Parameters.CreateK8sCluster.Default,True
 Outputs.DatacolApiKey.Value,ApiKey
 Parameters.DatacolVersion.Description,version of Datacol Controller API
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterSubnetId,PrivateSubnet0
 Outputs.GetKubeConfigCommand.Value,"SSH_KEY=""path/to/${KeyName}.pem""; scp -i $SSH_KEY -o ProxyCommand=""ssh -i \""${!SSH_KEY}\"" ubuntu@${BastionHost.PublicIp} nc %h %p"" ubuntu@${K8sStack.Outputs.MasterPrivateIp}:~/kubeconfig ./kubeconfig"
-Parameters.SubnetPrivate0CIDR.Type,String
-Parameters.QSS3KeyPrefix.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Zone0', u'Zone1', u'AdminIngressLocation', u'KeyName'], u'Label': {u'default': u'Required'}}, {u'Parameters': [u'NetworkingProvider', u'K8sNodeCapacity', u'InstanceType', u'DiskSizeGb', u'BastionInstanceType', u'QSS3BucketName', u'QSS3KeyPrefix'], u'Label': {u'default': u'Advanced'}}]"
 Outputs.MasterPrivateIp.Condition,ShouldCreateK8s
 Outputs.SubnetsPrivate.Description,List of private subnets
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
 Parameters.Subnet0CIDR.Default,10.0.1.0/24
-Parameters.AWSAccessKey.Type,String
 Parameters.NetworkingProvider.Default,calico
-Parameters.Zone1.Type,AWS::EC2::AvailabilityZone::Name
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,S3 Bucket
 Outputs.GetKubeConfigCommand.Description,"Run locally - SCP command to download the Kubernetes configuration file for accessing the new cluster via kubectl, a Kubernetes command line tool. Creates a ""kubeconfig"" file in the current directory. Then, you can run ""export KUBECONFIG=$(pwd)/kubeconfig"" to ensure kubectl uses this configuration file. About kubectl - https://kubernetes.io/docs/user-guide/prereqs/"
 Parameters.Zone0.ConstraintDescription,must be the name of an AWS Availability Zone
 Parameters.ArtifactBucket.Description,Name of google storage bucket to download datacol binary
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,Subnet0CIDR
 Resources.AWS::EC2::DHCPOptions.Properties.DomainName,"{u'Fn::If': [u'UsEast1Condition', u'ec2.internal', u'${AWS::Region}.compute.internal']}"
-Parameters.QSS3BucketName.Type,String
 Parameters.DiskSizeGb.Default,40
 Resources.AWS::EC2::NatGateway.Properties.AllocationId,NATEIP1.AllocationId
 Parameters.ApiKey.Description,Password for Datacol Controller API
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Outputs.BastionHostPublicIp.Description,IP Address of the bastion host for the newly-created EC2 VPC.
 Parameters.NetworkingProvider.Description,Choose the networking provider to use for communication between pods in the Kubernetes cluster. Supported configurations are calico (http://docs.projectcalico.org/v2.0/getting-started/kubernetes/installation/hosted/kubeadm/) and weave (https://github.com/weaveworks/weave/blob/master/site/kube-addon.md).
 Parameters.Subnet0CIDR.Description,Public subnet 0 CIDR block
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,InternetGateway
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'RegionMap', {u'Ref': u'AWS::Region'}, u'64']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Zone0.default,Availability Zone
 Resources.AWS::EC2::NatGateway.Properties.SubnetId,PublicSubnet1
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'Public Subnets', u'Key': u'Name'}, {u'Value': u'Public', u'Key': u'Network'}]"
 Parameters.NetworkingProvider.ConstraintDescription,"Currently supported values are ""calico"" and ""weave"""
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.QSS3KeyPrefix.ConstraintDescription,"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended."
 Outputs.MasterPrivateIp.Description,Private IP address of the master.
 Parameters.NetworkingProvider.AllowedValues,"[u'calico', u'weave']"
@@ -77,46 +59,33 @@ Resources.AWS::EC2::Route.Properties.RouteTableId,PublicSubnet0RouteTable
 Resources.AWS::EC2::Route.DependsOn,VPCGatewayAttachment
 Outputs.SSHProxyCommand.Description,"Run locally - SSH command to proxy to the master instance through the bastion host, to access port 8080 (command to SSH to the master Kubernetes node)."
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': 0, u'GroupSet': [{u'Ref': u'BastionSecurityGroup'}], u'DeleteOnTermination': True, u'AssociatePublicIpAddress': True, u'SubnetId': u'PublicSubnet0', u'PrivateIpAddress': u'10.0.1.5'}]"
 Resources.AWS::EC2::RouteTable.Properties.VpcId,VPC
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NetworkingProvider,NetworkingProvider
 Resources.AWS::EC2::NatGateway.DependsOn,VPCGatewayAttachment
 Parameters.SettingBucket.Description,bucket for storing code and environment variables
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Outputs.BastionHostPublicDNS.Description,Public DNS FQDN of the bastion host for the newly-created EC2 VPC.
 Outputs.SubnetsPrivate.Value,"{u'Fn::Join': [u',', [u'PrivateSubnet0', u'PrivateSubnet1']]}"
-Parameters.SubnetPrivate1CIDR.Type,String
 Parameters.QSS3BucketName.ConstraintDescription,"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
-Parameters.NetworkingProvider.Type,String
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,VPC
 Outputs.VPCID.Description,ID of the newly-created EC2 VPC.
-Parameters.DatacolVersion.Type,String
-Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,Zone0
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
 Parameters.QSS3KeyPrefix.Description,"Only change this if you have set up assets in an S3 bucket, as explained in the S3 Bucket parameter. The S3 key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). It cannot start or end with forward slashes (/) because they are automatically appended."
 Outputs.JoinNodes.Description,Command to join more nodes to this cluster.
 Outputs.JoinNodes.Condition,ShouldCreateK8s
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.K8sNodeCapacity,K8sNodeCapacity
 Outputs.MasterInstanceId.Value,K8sStack.Outputs.MasterInstanceId
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,"Enable SSH access via port 22, Api via port 8080 and Grpc via port 10000"
 Parameters.SubnetPrivate1CIDR.Default,10.0.4.0/24
 Outputs.BastionHostPublicIp.Value,BastionHost.PublicIp
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.K8sNodeCapacity.default,Node Capacity
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ApiLbLocation,AdminIngressLocation
-Parameters.K8sNodeCapacity.Type,Number
 Parameters.CreateK8sCluster.AllowedValues,"[True, False]"
 Parameters.K8sNodeCapacity.Default,2
 Parameters.CreateK8sCluster.Description,Create a kubernetes stack or not (mostly used for development purpose.)
 Parameters.Zone1.Description,The second Availability Zone for this stack.
-Parameters.Subnet0CIDR.Type,String
 Resources.AWS::EC2::VPCDHCPOptionsAssociation.Properties.DhcpOptionsId,DHCPOptions
 Parameters.Zone1.ConstraintDescription,must be the name of an AWS Availability Zone
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::EC2::DHCPOptions.Type,AWS::EC2::DHCPOptions
 Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': u'Public', u'Key': u'Network'}]"
 Outputs.NodeGroupInstanceId.Description,InstanceId of the newly-created NodeGroup.
 Parameters.VPCCIDR.Default,10.0.0.0/16
@@ -124,11 +93,9 @@ Parameters.KeyMaterial.Description,Existing EC2 KeyPair Material for SSH access.
 Parameters.QSS3KeyPrefix.Default,heptio/latest
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.AvailabilityZone,Zone0
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ClusterAssociation,AWS::StackName
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,KeyName
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VPC
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AdminIngressLocation.default,Admin Ingress Location
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DiskSizeGb.default,Disk Size (GiB)
 Outputs.SSHProxyCommand.Condition,ShouldCreateK8s
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,PrivateSubnet1RouteTable
@@ -141,12 +108,10 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3KeyPrefix,QSS3Key
 Parameters.DiskSizeGb.MinValue,8
 Outputs.DatacolApiKey.Description,Api key for datacol CLI
 Parameters.AdminIngressLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Parameters.SubnetPrivate0CIDR.Description,Private subnet 0 CIDR block
 Parameters.K8sNodeCapacity.MaxValue,20
 Outputs.VPCID.Value,VPC
 Parameters.K8sNodeCapacity.ConstraintDescription,must be between 1 and 20 EC2 instances.
-Parameters.ApiKey.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPCID,VPC
 Parameters.AdminIngressLocation.MinLength,9
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyName.default,SSH Key
@@ -162,22 +127,17 @@ Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])
 Resources.AWS::EC2::EIP.DependsOn,VPCGatewayAttachment
 Outputs.Subnets.Description,List of public subnets
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Mappings.RegionMap.ca-central-1.64,ami-7112a015
-Parameters.KeyMaterial.Type,String
 Outputs.BastionHostPublicDNS.Value,BastionHost.PublicDnsName
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.QSS3BucketName,QSS3BucketName
 Parameters.AdminIngressLocation.Description,CIDR block (IP address range) to allow SSH access to the bastion host and HTTPS access to the Kubernetes API. Use 0.0.0.0/0 to allow access from all locations.
 Outputs.MasterInstanceId.Description,InstanceId of the master EC2 instance.
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,PrivateSubnet1
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,True
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.NetworkingProvider.default,Networking Provider
-Parameters.CreateK8sCluster.Type,String
 Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': u'AWS::StackName', u'Key': u'Name'}]"
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}/templates/kubernetes-cluster.template
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3KeyPrefix.default,S3 Key Prefix
-Resources.AWS::EC2::VPCDHCPOptionsAssociation.Type,AWS::EC2::VPCDHCPOptionsAssociation
 Parameters.DiskSizeGb.MaxValue,1024
 Parameters.SubnetPrivate0CIDR.Default,10.0.3.0/24
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Zone1.default,Second Availability Zone

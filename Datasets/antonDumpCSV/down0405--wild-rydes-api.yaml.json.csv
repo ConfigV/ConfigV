@@ -8,7 +8,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.options.x
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Methods,"'POST,GET,OPTIONS'"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./ticket.options.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.get.x-amazon-apigateway-integration.httpMethod,POST
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./ticket.options.responses.200.headers.Access-Control-Allow-Methods.type,string
 Resources.AWS::Serverless::Api.Properties.StageName,prod
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'id'}]"
@@ -33,7 +32,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.options.x
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./ticket.options.responses.200.headers.Access-Control-Allow-Origin.type,string
 Resources.AWS::Serverless::Function.Properties.Policies,"[u'AWSLambdaDynamoDBExecutionRole', {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'dynamodb:Scan', u'dynamodb:GetItem'], u'Resource': u'DynamoDBTicketTable.Arn', u'Effect': u'Allow'}]}]"
 Outputs.ApiUrl.Value,"[u'', [u'https://', u'TicketServiceAPI', u'.execute-api.', u'AWS::Region', u'.amazonaws.com/prod/']]"
-Resources.AWS::Serverless::Api.Properties.DefinitionBody.info.title,{u'Ref': u'AWS::StackName'}
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.TABLE_NAME,DynamoDBTicketTable
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.options.responses.200.headers.Access-Control-Allow-Methods.type,string
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.get.x-amazon-apigateway-integration.type,aws_proxy
@@ -45,14 +43,11 @@ Outputs.ApiUrl.Description,URL of your API endpoint
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./ticket.get.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./ticket.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Headers,"'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
 Resources.AWS::Serverless::Function.Properties.Events.GetResource.Properties.RestApiId,TicketServiceAPI
-Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./ticket.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Methods,"'POST,GET,OPTIONS'"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Headers,"'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.swagger,2.0
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.options.responses.200.headers.Access-Control-Allow-Origin.type,string
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./health.options.produces,[u'application/json']
-Resources.AWS::Serverless::Function.Properties.Events.GetResource.Type,Api
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./ticket.post.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
 Resources.AWS::Serverless::Function.Properties.FunctionName,TicketGetFunction
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5

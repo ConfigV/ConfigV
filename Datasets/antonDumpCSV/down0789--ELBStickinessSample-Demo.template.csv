@@ -1,22 +1,13 @@
 Parameters.KeyName.MinLength,1
 Parameters.SSHLocation.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})"
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': {u'Ref': u'WebServerPort'}, u'PolicyNames': [u'MyLBPolicy'], u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
 Outputs.URL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'ElasticLoadBalancer', u'DNSName']}]]}"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
-Parameters.SSHLocation.Type,String
-Parameters.KeyName.Type,String
 Parameters.KeyName.ConstraintDescription,can contain only ASCII characters.
 Parameters.WebServerPort.Description,TCP/IP port of the web server
-Resources.AWS::EC2::Instance.Properties.SecurityGroups,[{u'Ref': u'InstanceSecurityGroup'}]
-Resources.AWS::EC2::Instance.Properties.UserData,{u'Fn::Base64': {u'Ref': u'WebServerPort'}}
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Parameters.KeyName.MaxLength,255
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Parameters.WebServerPort.Default,8888
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.SSHLocation.MaxLength,18
 Parameters.SSHLocation.Description,The IP address range that can be used to SSH to the EC2 instances
 Parameters.SSHLocation.Default,0.0.0.0/0
@@ -25,12 +16,7 @@ Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LBCookieStickinessP
 Outputs.URL.Description,URL of the sample website
 Parameters.SSHLocation.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
 Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable SSH access and HTTP access on the inbound port
-Parameters.WebServerPort.Type,String
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,"{u'Fn::Join': [u'', [u'HTTP:', {u'Ref': u'WebServerPort'}, u'/']]}"
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}, {u'ToPort': {u'Ref': u'WebServerPort'}, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': {u'Ref': u'WebServerPort'}}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Instances,"[{u'Ref': u'Ec2Instance1'}, {u'Ref': u'Ec2Instance2'}]"
 Parameters.SSHLocation.MinLength,9

@@ -3,10 +3,11 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 {-# OPTIONS_GHC -fno-cse #-}
+
 module ConfigV (
   executeLearning,
   executeVerification,
-  module Settings.Config
+  module ConfigV.Settings.Config
   ) where
 
 
@@ -18,25 +19,27 @@ import qualified Data.Text             as T
 import qualified Data.Text.IO          as T
 import Data.List
 
-import qualified LearningEngine
-import           Checker
-import           OutputPrinter
-import Utils
+import qualified ConfigV.LearningEngine as L
+import           ConfigV.Checker
+import ConfigV.Utils
+import ConfigV.BuildImplGraph
 
-import Types.Rules
-import Types.IR
-import Types.Common
+import ConfigV.Types.Rules
+import ConfigV.Types.IR
+import ConfigV.Types.Common
 
-import Types.JSON
+import ConfigV.Types.JSON
 
 import System.Console.CmdArgs()
-import Settings.Config
+import ConfigV.Settings.Config
 
 import           System.Directory
 
 executeLearning :: Options -> Either RawThresholds PercentageThresholds -> IO()
 executeLearning settings userThresholds = do
   checkSettings settings
+  putStrLn $ "Learning on directoty: \n"++(learnTarget settings)
+  putStrLn $ "Using file limit: \n"++(show $ learnFileLimit settings)
   thresholds <- 
     case userThresholds of
       Left rawThresholds -> return rawThresholds
@@ -45,13 +48,17 @@ executeLearning settings userThresholds = do
                         optionsSettings = settings, 
                         thresholdSettings = thresholds}
   targets <- gatherLearnTargets settings
-  let learnedRules = 
-        (toLists $ LearningEngine.learnRules configVconfig targets) :: RuleSetLists
-
-  B.writeFile (cacheLocation settings) $ A.encode learnedRules 
-  putStrLn $ "Learned rules: \n"++(ruleSizes learnedRules)
-
-executeVerification :: Options -> _
+  let learnedRules = L.learnRules configVconfig targets
+      learnedRulesL = toLists learnedRules :: RuleSetLists
+  B.writeFile (cacheLocation settings) $ A.encode learnedRulesL 
+  writeFile ((cacheLocation settings)++".pretty") $ show learnedRulesL 
+  putStrLn $ "Learned rules: \n"++(ruleSizes learnedRulesL)
+  print learnedRulesL
+ 
+  putStrLn $ "Building Implication Lattice: "
+  implGraph $ smtRules learnedRules
+  
+executeVerification :: Options -> IO ()
 executeVerification settings = do
   rules <- (fromLists. fromJust. A.decode) <$> (B.readFile $ cacheLocation settings)
   degrees <- ((M.fromList. fromJust. A.decode) <$> B.readFile "graphAnalysis/sorted_degrees.json") :: IO (M.Map Keyword Double)
@@ -84,7 +91,7 @@ vFilePaths Verification{..} =
     then [verifyTarget]
     else map ((verifyTarget++"/")++) $ u $ listDirectory verifyTarget
 
-runVerify :: _ -> RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
+runVerify :: a -> RuleSet -> M.Map Keyword Double -> [ConfigFile Language] -> IO Int
 runVerify settings rules ds vTargets  = do  
  
   let errors = map (verifyOn settings rules) vTargets

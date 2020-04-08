@@ -1,48 +1,26 @@
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
 Parameters.MasterUserPassword.MinLength,1
-Parameters.DatabaseName.Type,String
 Parameters.DatabaseName.AllowedPattern,([a-z]|[0-9])+
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.Description,Cluster paraeter group
 Parameters.NodeType.Description,The node type to be provisioned for the redshift cluster
 Parameters.ClusterType.AllowedValues,"[u'single-node', u'multi-node']"
-Resources.AWS::Redshift::Cluster.Properties.ClusterSubnetGroupName,{u'Ref': u'RedshiftClusterSubnetGroup'}
 Parameters.DatabasePort.Description,The port that Redshift will listen on and that will be allowed through the Security Group. 
-Parameters.NumberOfNodes.Type,Number
 Resources.AWS::EC2::InternetGateway.DependsOn,VPC
 Resources.AWS::EC2::SubnetRouteTableAssociation.DependsOn,"[u'PublicRouteTable', u'Subnet', u'AttachGateway']"
 Parameters.MasterUserPassword.Description,The password associated with the master user account for the redshift cluster that is being created. 
 Parameters.NodeType.ConstraintDescription,must be a valid RedShift node type.
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': {u'Ref': u'DatabasePort'}, u'FromPort': {u'Ref': u'DatabasePort'}, u'IpProtocol': u'tcp', u'CidrIp': u'10.0.0.0/0'}]"
-Parameters.MasterUsername.Type,String
-Resources.AWS::Redshift::Cluster.Properties.ClusterType,{u'Ref': u'ClusterType'}
-Parameters.MasterUserPassword.Type,String
-Resources.AWS::Redshift::Cluster.Properties.NumberOfNodes,"{u'Fn::If': [u'IsMultiNodeCluster', {u'Ref': u'NumberOfNodes'}, {u'Ref': u'AWS::NoValue'}]}"
-Resources.AWS::Redshift::Cluster.Properties.Port,{u'Ref': u'DatabasePort'}
 Parameters.NodeType.AllowedValues,"[u'dw1.xlarge', u'dw1.8xlarge', u'dw2.large', u'dw2.8xlarge']"
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.0.0/24
-Resources.AWS::Redshift::Cluster.Properties.NodeType,{u'Ref': u'NodeType'}
 Parameters.MasterUsername.Description,The user name associated with the master user account for the redshift cluster that is being created
 Parameters.MasterUserPassword.MaxLength,41
 Parameters.MasterUsername.NoEcho,true
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.ParameterGroupFamily,redshift-1.0
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::EC2::RouteTable.DependsOn,[u'AttachGateway']
-Resources.AWS::Redshift::Cluster.Properties.DBName,{u'Ref': u'DatabaseName'}
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'Public Route Table', u'Key': u'Name'}]"
-Resources.AWS::Redshift::Cluster.Properties.VpcSecurityGroupIds,[{u'Ref': u'SecurityGroup'}]
-Parameters.RedshiftSnapshotId.Type,String
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
 Parameters.DatabaseName.ConstraintDescription,must contain a-z or 0-9 only.
 Resources.AWS::EC2::Route.DependsOn,[u'PublicRouteTable']
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Parameters.MasterUsername.ConstraintDescription,must start with a-z and contain only a-z or 0-9.
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/16
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::Redshift::Cluster.Properties.MasterUsername,{u'Ref': u'MasterUsername'}
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Security group
 Parameters.NumberOfNodes.Default,1
 Resources.AWS::Redshift::ClusterSubnetGroup.Properties.Description,Cluster subnet group
@@ -50,37 +28,18 @@ Parameters.RedshiftSnapshotId.Description,The id of the snapshot from which to r
 Resources.AWS::Redshift::Cluster.Properties.PubliclyAccessible,true
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Fn::GetAZs': u''}]}"
 Parameters.ClusterType.ConstraintDescription,must be single-node or multi-node.
-Resources.AWS::Redshift::ClusterParameterGroup.Type,AWS::Redshift::ClusterParameterGroup
 Parameters.ClusterType.Description,The type of the cluster
 Parameters.NodeType.Default,dw1.xlarge
-Parameters.ClusterType.Type,String
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
 Parameters.MasterUsername.AllowedPattern,([a-z])([a-z]|[0-9])*
-Resources.AWS::Redshift::ClusterSubnetGroup.Properties.SubnetIds,[{u'Ref': u'Subnet'}]
-Parameters.NodeType.Type,String
 Parameters.MasterUserPassword.NoEcho,true
 Parameters.DatabaseName.Default,defaultdb
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Outputs.ClusterEndpoint.Description,Endpoint for the newly created RedShift cluster
 Parameters.ClusterType.Default,single-node
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Parameters.DatabasePort.Type,String
 Parameters.DatabaseName.Description,The name of the first database to be created when the redshift cluster is created
 Parameters.DatabasePort.Default,5439
 Resources.AWS::EC2::VPCGatewayAttachment.DependsOn,"[u'VPC', u'InternetGateway']"
 Parameters.MasterUserPassword.ConstraintDescription,must contain only alphanumeric characters.
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.Parameters,"[{u'ParameterName': u'enable_user_activity_logging', u'ParameterValue': u'true'}]"
 Parameters.MasterUserPassword.AllowedPattern,[a-zA-Z0-9]*
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
-Resources.AWS::Redshift::Cluster.Type,AWS::Redshift::Cluster
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::Redshift::ClusterSubnetGroup.Type,AWS::Redshift::ClusterSubnetGroup
 Parameters.NumberOfNodes.Description,"The nuber of compute nodes in the redshift cluster.  When cluster type is specified as: 1) single-node, the NumberOfNodes parameter should be specified as 1, 2) multi-node, the NumberOfNodes parameter should be greater than 1"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'Subnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
-Resources.AWS::Redshift::Cluster.Properties.MasterUserPassword,{u'Ref': u'MasterUserPassword'}
 Outputs.ClusterEndpoint.Value,"{u'Fn::GetAtt': [u'RedshiftCluster', u'Endpoint.Address']}"
-Resources.AWS::Redshift::Cluster.Properties.ClusterParameterGroupName,{u'Ref': u'RedshiftClusterParameterGroup'}
-Resources.AWS::Redshift::Cluster.Properties.SnapshotIdentifier,{u'Ref': u'RedshiftSnapshotId'}

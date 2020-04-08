@@ -1,26 +1,17 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,yourkey
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'EcsClusterRole'}]
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM']
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.group,root
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,true
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,ami-13f84d60
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'ContainerInstances'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.cfn-hup.ensureRunning,true
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.cfn-hup.enabled,true
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.mode,000400
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[u'subnet-72849a0a', u'subnet-72849a08']"
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.content,"{u'Fn::Join': [u'', [u'[cfn-auto-reloader-hook]\n', u'triggers=post.update\n', u'path=Resources.ContainerInstances.Metadata.AWS::CloudFormation::Init\n', u'action=/opt/aws/bin/cfn-init -v ', u'--stack ', {u'Ref': u'AWS::StackName'}, u' --resource ContainerInstances ', u' --region ', {u'Ref': u'AWS::Region'}, u'\n', u'runas=root\n']]}"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'EC2InstanceProfile'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.owner,root
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.owner,root
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.group,root
@@ -28,14 +19,9 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[u'sg-96114ef2']
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.02_install_ssm_agent.command,"{u'Fn::Join': [u'', [u'#!/bin/bash\n', u'yum -y update\n', u'curl https://amazon-ssm-eu-west-1.s3.amazonaws.com/latest/linux_amd64/amazon-ssm-agent.rpm -o amazon-ssm-agent.rpm\n', u'yum install -y amazon-ssm-agent.rpm']]}"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'ec2.amazonaws.com'}}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackId'}, u'\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'ecs:CreateCluster', u'ecs:RegisterContainerInstance', u'ecs:DeregisterContainerInstance', u'ecs:DiscoverPollEndpoint', u'ecs:Submit*', u'ecs:Poll', u'ecs:StartTelemetrySession'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.01_add_instance_to_cluster.command,"{u'Fn::Join': [u'', [u'#!/bin/bash\n', u'echo ECS_CLUSTER=', {u'Ref': u'ECSCluster'}, u' >> /etc/ecs/ecs.config']]}"
 Resources.AWS::IAM::Policy.Properties.PolicyName,EcsPolicy
-Resources.AWS::ECS::Cluster.Type,AWS::ECS::Cluster
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.mode,000400
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[u'eu-west-1a', u'eu-west-1b']"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xe\n', u'yum install -y aws-cfn-bootstrap\n', u'/opt/aws/bin/cfn-init -v ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource ContainerInstances ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n', u'/opt/aws/bin/cfn-signal -e $? ', u'         --stack ', {u'Ref': u'AWS::StackName'}, u'         --resource ECSAutoScalingGroup ', u'         --region ', {u'Ref': u'AWS::Region'}, u'\n']]}}"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'EcsClusterRole'}]

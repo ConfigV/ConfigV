@@ -1,9 +1,5 @@
 Parameters.RequesterAccountNumber.Description,AWS requestor account number
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Outputs.RoleName.Value,{u'Ref': u'VPCPeeringAuthorizerRole'}
-Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'AWS': {u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'RequesterAccountNumber'}, u':root']]}}}]"
 Parameters.RequesterAccountNumber.AllowedPattern,^[0-9]*$
 Outputs.RoleName.Description,Cross account role name
-Parameters.RequesterAccountNumber.Type,String
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'VPCAuthorizer', u'PolicyDocument': {u'Statement': [{u'Action': [u'ec2:AcceptVpcPeeringConnection'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
 Parameters.RequesterAccountNumber.ConstraintDescription,Valid AWS account number

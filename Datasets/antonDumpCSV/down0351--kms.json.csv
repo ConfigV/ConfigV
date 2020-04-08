@@ -1,10 +1,7 @@
 Outputs.LUKSKey.Value,"{u'Fn::GetAtt': [u'KMSLUKSKey', u'Arn']}"
-Parameters.KMSEMRAlias.Type,String
 Parameters.KMSEMRAlias.Description,KMS alias to be used for EMRFS
 Resources.AWS::KMS::Key.Properties.Enabled,true
-Resources.AWS::KMS::Alias.Properties.AliasName,{u'Ref': u'KMSLUKSAlias'}
 Resources.AWS::KMS::Key.Properties.Description,Master Key that will be used for LUKS Encryption
-Resources.AWS::KMS::Alias.Type,AWS::KMS::Alias
 Outputs.LUKSKey.Description,KMS Key for LUKS
 Resources.AWS::KMS::Key.Properties.KeyPolicy.Version,2012-10-17
 Parameters.KMSEMRAlias.Default,alias/EMRFS-Encryption-Key
@@ -12,7 +9,3 @@ Outputs.EMRKey.Value,"{u'Fn::GetAtt': [u'KMSEMRFSKey', u'Arn']}"
 Parameters.KMSLUKSAlias.Description,KMS alias to be used for LUKS Encryption
 Outputs.EMRKey.Description,KMS Key for EMRFS
 Parameters.KMSLUKSAlias.Default,alias/LUKS-Encryption-Key
-Resources.AWS::KMS::Alias.Properties.TargetKeyId,{u'Ref': u'KMSLUKSKey'}
-Parameters.KMSLUKSAlias.Type,String
-Resources.AWS::KMS::Key.Properties.KeyPolicy.Statement,"[{u'Action': [u'kms:Encrypt', u'kms:Decrypt', u'kms:GenerateDataKey'], u'Sid': u'Stmt3', u'Resource': [u'*'], u'Effect': u'Allow', u'Principal': {u'AWS': [{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/EMR_EC2_DefaultRole']]}]}}, {u'Action': [u'kms:Put*', u'kms:ScheduleKeyDeletion', u'kms:CancelKeyDeletion', u'kms:Describe*', u'kms:Revoke*', u'kms:Disable*', u'kms:Enable*', u'kms:Delete*', u'kms:List*', u'kms:Update*', u'kms:Create*'], u'Sid': u'Stmt4', u'Resource': [u'*'], u'Effect': u'Allow', u'Principal': {u'AWS': [{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':root']]}]}}]"
-Resources.AWS::KMS::Key.Type,AWS::KMS::Key

@@ -1,15 +1,10 @@
 Parameters.AdditionalReportInfoWriteCapacityUnits.Description,Number of writes per second.
 Resources.AWS::Lambda::Function.Properties.Description,Lambda used to sanitize uploaded attachments.
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'SanitizationLambda', u'Arn']}"
-Resources.Custom::PatchS3Notifications.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
-Resources.Custom::LambdaConfiguration.Properties.Settings.RecentSearches,{u'Ref': u'RecentSearches'}
 Resources.Custom::AccessControl.DependsOn,"[u'AttachmentBucket', u'ServiceApi', u'ServiceLambda', u'SanitizationLambda', u'SanitizedBucket', u'AdditionalReportInfo', u'RecentSearches', u'ClientConfiguration']"
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Lambda::Function.Properties.Timeout,30
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'universal_unique_identifier'}, {u'KeyType': u'RANGE', u'AttributeName': u'section'}]"
-Resources.Custom::ServiceApi.Type,Custom::ServiceApi
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
 Resources.AWS::Lambda::Function.Properties.Handler,sanitization_lambda.main
 Outputs.ServiceUrl.Description,The service url.
@@ -18,60 +13,29 @@ Parameters.ServiceApiCacheClusterSize.Description,Indicates whether cache cluste
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'universal_unique_identifier', u'AttributeType': u'S'}, {u'AttributeName': u'section', u'AttributeType': u'S'}]"
 Resources.AWS::Lambda::Function.Properties.MemorySize,768
 Parameters.AdditionalReportInfoWriteCapacityUnits.Default,1
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Parameters.ResourceGroupName.Description,Name of the resource group.
-Parameters.AdditionalReportInfoReadCapacityUnits.Type,Number
 Resources.AWS::S3::Bucket.Properties.CorsConfiguration.CorsRules,"[{u'AllowedHeaders': [u'*'], u'MaxAge': 3000, u'AllowedMethods': [u'GET'], u'Id': u'defect_reporter_cgp_policy', u'AllowedOrigins': [u'*']}]"
-Parameters.RecentSearchesWriteCapacityUnits.Type,Number
 Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::GetAtt': [u'AttachmentBucket', u'Arn']}"
 Resources.Custom::PatchS3Notifications.DependsOn,"[u'SanitizationLambda', u'SanitizationLambdaConfiguration', u'SanitizationLambdaInvokePermission']"
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'AdditionalReportInfoReadCapacityUnits'}
 Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.ResourceSuffix,"[u'/api/POST/service/upload', u'/api/GET/clientconfiguration']"
-Resources.Custom::AccessControl.Type,Custom::AccessControl
 Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
-Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Parameters.ConfigurationKey.Type,String
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Parameters.RecentSearchesReadCapacityUnits.Default,1
 Outputs.ServiceUrl.Value,"{u'Fn::GetAtt': [u'ServiceApi', u'Url']}"
 Parameters.DeploymentName.Description,Name of the resource group's deployment.
-Resources.Custom::LambdaConfiguration.Properties.Settings.SanitizedBucket,{u'Ref': u'SanitizedBucket'}
 Parameters.AdditionalReportInfoReadCapacityUnits.Default,1
-Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'section'}], u'IndexName': u'SectionIndex', u'Projection': {u'ProjectionType': u'INCLUDE', u'NonKeyAttributes': [u'value']}, u'ProvisionedThroughput': {u'WriteCapacityUnits': {u'Ref': u'AdditionalReportInfoWriteCapacityUnits'}, u'ReadCapacityUnits': {u'Ref': u'AdditionalReportInfoReadCapacityUnits'}}}]"
-Parameters.ResourceGroupName.Type,String
-Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions,"[{u'Action': u'lambda:InvokeFunction', u'AbstractRole': u'ServiceApi'}, {u'Action': [u's3:GetObject', u's3:PutObject'], u'ResourceSuffix': u'/*', u'AbstractRole': [u'CloudGemPortalAdministratorRole']}, {u'Action': [u's3:GetObject', u's3:PutObject'], u'ResourceSuffix': u'/*', u'AbstractRole': [u'CloudGemPortalUserRole']}]"
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
-Resources.Custom::PatchS3Notifications.Type,Custom::PatchS3Notifications
-Resources.Custom::PatchS3Notifications.Properties.AttachmentBucket,{u'Ref': u'AttachmentBucket'}
 Parameters.ServiceApiCacheClusterEnabled.Default,false
-Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
-Parameters.DeploymentName.Type,String
 Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.AbstractRole,Player
 Parameters.RecentSearchesWriteCapacityUnits.Description,Number of writes per second.
-Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
-Parameters.AdditionalReportInfoWriteCapacityUnits.Type,Number
 Resources.Custom::PatchS3Notifications.Properties.SanitizationLambdaArn,"{u'Fn::GetAtt': [u'SanitizationLambda', u'Arn']}"
 Resources.Custom::ServiceApi.Properties.SwaggerSettings.ServiceLambdaArn,"{u'Fn::GetAtt': [u'ServiceLambda', u'Arn']}"
 Resources.AWS::Lambda::Permission.Properties.Principal,s3.amazonaws.com
-Resources.Custom::ServiceApi.Properties.CacheClusterSize,{u'Ref': u'ServiceApiCacheClusterSize'}
-Parameters.ProjectResourceHandler.Type,String
 Outputs.SanitizedBucketName.Description,Name of the attachment bucket.
-Parameters.ServiceApiCacheClusterEnabled.Type,String
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Parameters.CloudCanvasStack.Default,ResourceGroup
-Resources.Custom::LambdaConfiguration.Properties.Settings.ClientConfiguration,{u'Ref': u'ClientConfiguration'}
-Resources.Custom::LambdaConfiguration.Properties.Settings.AttachmentBucket,{u'Ref': u'AttachmentBucket'}
-Parameters.CloudCanvasStack.Type,String
 Parameters.AdditionalReportInfoReadCapacityUnits.Description,Number of reads per second.
 Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
-Parameters.ConfigurationBucket.Type,String
-Parameters.RecentSearchesReadCapacityUnits.Type,Number
-Resources.Custom::ServiceApi.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
-Parameters.DeploymentStackArn.Type,String
 Resources.Custom::LambdaConfiguration.Properties.FunctionName,ServiceLambda
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'SanitizationLambdaConfiguration', u'ConfigurationKey']}"
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
@@ -80,15 +44,8 @@ Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'Sanitization
 Parameters.ServiceApiCacheClusterEnabled.Description,Indicates whether cache clustering is enabled for the service API.
 Resources.AWS::DynamoDB::Table.Metadata.CloudCanvas.Permissions,"[{u'Action': [u'dynamodb:GetItem', u'dynamodb:PutItem', u'dynamodb:UpdateItem', u'dynamodb:Query'], u'ResourceSuffix': [u'', u'/*'], u'AbstractRole': u'ServiceLambda'}]"
 Metadata.CloudCanvas.Id,$Revision: #1 $
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'AdditionalReportInfoWriteCapacityUnits'}
 Parameters.RecentSearchesReadCapacityUnits.Description,Number of reads per second.
-Outputs.SanitizedBucketName.Value,{u'Ref': u'SanitizedBucket'}
 Parameters.RecentSearchesWriteCapacityUnits.Default,1
 Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'SanitizationLambdaConfiguration', u'Runtime']}"
-Parameters.ServiceApiCacheClusterSize.Type,String
-Resources.Custom::ServiceApi.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::LambdaConfiguration.Properties.Settings.AdditionalReportInfo,{u'Ref': u'AdditionalReportInfo'}
-Resources.Custom::ServiceApi.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
 Resources.Custom::ServiceApi.Metadata.CloudCanvas.Permissions.Action,execute-api:Invoke
-Resources.Custom::ServiceApi.Properties.CacheClusterEnabled,{u'Ref': u'ServiceApiCacheClusterEnabled'}
 Parameters.ServiceApiCacheClusterSize.Default,0.5

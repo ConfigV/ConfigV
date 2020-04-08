@@ -1,12 +1,9 @@
-Resources.AWS::ApiGateway::Method.Properties.Integration.Uri,"{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u':lambda:path/2015-03-31/functions/', {u'Fn::GetAtt': [u'Testfct1LambdaFunction', u'Arn']}, u'/invocations']]}"
 Resources.AWS::Lambda::EventSourceMapping.Properties.EventSourceArn,"{u'Fn::GetAtt': [u'TestDynamoDbTable', u'StreamArn']}"
 Resources.AWS::Lambda::EventSourceMapping.DependsOn,IamRoleLambdaExecution
 Outputs.TestDynamoDbTableName.Description,Test DynamoDB Table Name
 Resources.AWS::DynamoDB::Table.DeletionPolicy,Delete
 Resources.AWS::ApiGateway::Method.Properties.Integration.IntegrationHttpMethod,POST
 Resources.AWS::ApiGateway::Method.Properties.HttpMethod,GET
-Resources.AWS::ApiGateway::Resource.Type,AWS::ApiGateway::Resource
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Lambda::Function.Properties.Description,Echo function echoes alias
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'Testfct1LambdaFunction', u'Arn']}"
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,serverless/sls-test-project/dev/1496054947737-2017-05-29T10:49:07.737Z/sls-test-project.zip
@@ -15,58 +12,37 @@ Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Outputs.ServiceEndpoint.Description,URL of the service endpoint
 Resources.AWS::Lambda::EventSourceMapping.Properties.Enabled,True
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SERVERLESS_PROJECT,sls-test-project
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Resources.AWS::Lambda::EventSourceMapping.Properties.FunctionName,"{u'Fn::GetAtt': [u'Testfct1LambdaFunction', u'Arn']}"
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'myKey'}]"
 Resources.AWS::Lambda::Function.Properties.MemorySize,512
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Outputs.TestDynamoDbTableName.Value,{u'Ref': u'TestDynamoDbTable'}
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Logs::LogGroup.Properties.LogGroupName,/aws/lambda/sls-test-project-dev-testfct1
 Resources.AWS::IAM::Role.Properties.RoleName,"{u'Fn::Join': [u'-', [u'sls-test-project', u'dev', u'us-east-1', u'lambdaRole']]}"
-Resources.AWS::Lambda::EventSourceMapping.Type,AWS::Lambda::EventSourceMapping
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SERVERLESS_STAGE,dev
 Resources.AWS::Lambda::Function.Properties.Handler,handlers/testfct1/handler.handle
-Resources.AWS::ApiGateway::Resource.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
 Resources.AWS::DynamoDB::Table.Properties.StreamSpecification.StreamViewType,NEW_AND_OLD_IMAGES
 Resources.AWS::Lambda::Function.Properties.Timeout,15
 Resources.AWS::Lambda::EventSourceMapping.Properties.StartingPosition,TRIM_HORIZON
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,1
 Resources.AWS::Lambda::Function.Properties.FunctionName,sls-test-project-dev-testfct1
-Resources.AWS::ApiGateway::Method.Properties.RestApiId,{u'Ref': u'ApiGatewayRestApi'}
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'myKey', u'AttributeType': u'S'}]"
 Resources.AWS::SNS::Subscription.Properties.TopicArn,"{u'Fn::GetAtt': [u'SNSTopicSlstestprojecttopic', u'Arn']}"
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SERVERLESS_PROJECT_NAME,sls-test-project
 Resources.AWS::SNS::Subscription.Properties.Protocol,lambda
-Resources.AWS::Lambda::Function.Properties.Environment.Variables.TEST_TABLE_NAME,{u'Ref': u'TestDynamoDbTable'}
-Outputs.ServerlessDeploymentBucketName.Value,{u'Ref': u'ServerlessDeploymentBucket'}
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::Lambda::Function.DependsOn,"[u'Testfct1LogGroup', u'IamRoleLambdaExecution']"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'ServerlessDeploymentBucket'}
 Resources.AWS::ApiGateway::RestApi.Properties.Name,dev-sls-test-project
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Outputs.ServiceEndpoint.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'ApiGatewayRestApi'}, u'.execute-api.us-east-1.amazonaws.com/dev']]}"
 Resources.AWS::Lambda::Function.Properties.Runtime,nodejs4.3
 Resources.AWS::SNS::Subscription.Properties.Endpoint,"{u'Fn::GetAtt': [u'Testfct1LambdaFunction', u'Arn']}"
-Resources.AWS::SNS::Subscription.Type,AWS::SNS::Subscription
 Resources.AWS::SNS::Topic.Properties.DisplayName,
 Resources.AWS::ApiGateway::Resource.Properties.PathPart,func1
 Resources.AWS::SNS::Topic.Properties.Subscription,"[{u'Endpoint': {u'Fn::GetAtt': [u'Testfct1LambdaFunction', u'Arn']}, u'Protocol': u'lambda'}]"
-Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:sns:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':', u'sls-test-project-topic']]}"
-Resources.AWS::ApiGateway::Method.Properties.ResourceId,{u'Ref': u'ApiGatewayResourceFunc1'}
 Resources.AWS::ApiGateway::Method.Properties.MethodResponses,[]
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'IamRoleLambdaExecution', u'Arn']}"
-Resources.AWS::ApiGateway::Method.Properties.Integration.Type,AWS_PROXY
 Resources.AWS::ApiGateway::Resource.Properties.ParentId,"{u'Fn::GetAtt': [u'ApiGatewayRestApi', u'RootResourceId']}"
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': {u'Fn::Join': [u'-', [u'dev', u'sls-test-project', u'lambda']]}, u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogStream'], u'Resource': [{u'Fn::Sub': u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sls-test-project-dev-testfct1:*'}], u'Effect': u'Allow'}, {u'Action': [u'logs:PutLogEvents'], u'Resource': [{u'Fn::Sub': u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sls-test-project-dev-testfct1:*:*'}], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:*'], u'Resource': [{u'Fn::Join': [u'/', [{u'Fn::Join': [u':', [u'arn:aws:dynamodb', {u'Ref': u'AWS::Region'}, {u'Ref': u'AWS::AccountId'}, u'table']]}, {u'Ref': u'TestDynamoDbTable'}]]}], u'Effect': u'Allow'}, {u'Action': [u'dynamodb:GetRecords', u'dynamodb:GetShardIterator', u'dynamodb:DescribeStream', u'dynamodb:ListStreams'], u'Resource': [{u'Fn::GetAtt': [u'TestDynamoDbTable', u'StreamArn']}], u'Effect': u'Allow'}]}}]"
-Resources.AWS::ApiGateway::RestApi.Type,AWS::ApiGateway::RestApi
-Resources.AWS::ApiGateway::Method.Type,AWS::ApiGateway::Method
 Resources.AWS::Lambda::EventSourceMapping.Properties.BatchSize,10
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,1
 Resources.AWS::SNS::Topic.Properties.TopicName,sls-test-project-topic
 Resources.AWS::ApiGateway::Method.Properties.AuthorizationType,NONE
-Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SERVERLESS_REGION,us-east-1

@@ -1,12 +1,9 @@
 Resources.AWS::Events::Rule.Properties.ScheduleExpression,rate(5 minutes)
-Resources.AWS::Lambda::Permission.Properties.FunctionName,{u'Ref': u'EBSFunction'}
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,ebs_snapshots.zip
 Resources.AWS::Lambda::Permission.Properties.Principal,events.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::Lambda::Function.Properties.Timeout,60
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::IAM::Role.Properties.RoleName,ebs-snapshots
 Resources.AWS::Lambda::Function.Properties.Handler,ebs_snapshots.lambda_handler
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,timush-lambda-functions
@@ -15,11 +12,9 @@ Resources.AWS::Lambda::Function.Description,Create Lambda EBS Snapshot Function
 Resources.AWS::IAM::Role.Description,Create Lambda EBS Role
 Resources.AWS::Lambda::Function.Properties.FunctionName,ebs-snapshots
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'Lambda-ebs-snapshots', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'logs:*', u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': u'ec2:Describe*', u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'ec2:CreateSnapshot', u'ec2:DeleteSnapshot', u'ec2:CreateTags', u'ec2:ModifySnapshotAttribute', u'ec2:ResetSnapshotAttribute'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
 Resources.AWS::Lambda::Function.Properties.Role,LambdaEBSRole.Arn
 Resources.AWS::Lambda::Permission.Properties.SourceArn,ScheduledRule.Arn
 Resources.AWS::Events::Rule.Properties.Description,Automatic EBS snapshotting job

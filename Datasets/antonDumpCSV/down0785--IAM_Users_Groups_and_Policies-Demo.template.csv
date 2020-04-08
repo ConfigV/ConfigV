@@ -1,21 +1,9 @@
 Outputs.SecretKey.Description,AWSSecretKey of new user
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'CFNUser'}
 Parameters.Password.Description,New account password
-Resources.AWS::IAM::UserToGroupAddition.Type,AWS::IAM::UserToGroupAddition
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Parameters.Password.Type,String
-Outputs.AccessKey.Value,{u'Ref': u'CFNKeys'}
-Resources.AWS::IAM::User.Type,AWS::IAM::User
 Outputs.AccessKey.Description,AWSAccessKeyId of new user
-Resources.AWS::IAM::Policy.Properties.Groups,[{u'Ref': u'CFNUserGroup'}]
 Parameters.Password.MaxLength,41
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
-Resources.AWS::IAM::UserToGroupAddition.Properties.GroupName,{u'Ref': u'CFNAdminGroup'}
-Resources.AWS::IAM::User.Properties.LoginProfile.Password,{u'Ref': u'Password'}
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'cloudformation:Describe*', u'cloudformation:List*', u'cloudformation:Get*'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Parameters.Password.NoEcho,true
-Resources.AWS::IAM::UserToGroupAddition.Properties.Users,[{u'Ref': u'CFNUser'}]
 Resources.AWS::IAM::Policy.Properties.PolicyName,CFNUsers
 Outputs.SecretKey.Value,"{u'Fn::GetAtt': [u'CFNKeys', u'SecretAccessKey']}"
-Resources.AWS::IAM::Group.Type,AWS::IAM::Group
 Parameters.Password.MinLength,1

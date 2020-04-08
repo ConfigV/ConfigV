@@ -1,4 +1,3 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass#-}
 {-# LANGUAGE MultiParamTypeClasses #-} 
@@ -6,24 +5,30 @@
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE RecordWildCards #-} 
 
-module Types.Rules where
+module ConfigV.Types.Rules 
+  ( module ConfigV.Types.Rules
+  , module ConfigV.Types.SMTRules 
+  ) where
 
-import Types.Common
-import Types.IR
-import Types.Errors
-import Types.Countable
+import ConfigV.Types.Common
+import ConfigV.Types.IR
+import ConfigV.Types.Errors
+import ConfigV.Types.Countable
+import ConfigV.Types.SMTRules
+import ConfigV.Types.Locatable
 
 import Prelude hiding (Ordering)
 import           Data.Aeson
 import           GHC.Generics     (Generic)
 
 import Control.Monad.Reader
-import Settings.Config
+import ConfigV.Settings.Config
 
 --TODO Strict or Lazy maps?
 import qualified Data.Map.Strict as M
 
 import Control.DeepSeq
+
 -- | every instance of Learnable is a template of rules we can learn
 --   instance provided in the Learners dir
 class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
@@ -40,9 +45,6 @@ class (Eq a, Show a, Ord a, Countable b) => Learnable a b where
   -- | How to convert a rule to an error message
   toError :: IRConfigFile -> FilePath -> (a, b) -> Error
 
-class Locatable a where
-  keys :: a -> [Keyword]
-
 -- | A rule is the structure for tracking and merging evidence relations
 --   We need to track how much evidence we have for the rule, against the rule, and how often we have seen the rule
 type RuleDataMap a b = M.Map a b
@@ -51,42 +53,24 @@ emptyRuleMap :: RuleDataMap a b
 emptyRuleMap = M.empty
 
 data RuleSet = RuleSet
-  { missing   :: RuleDataMap KeywordCoor AntiRule
-  , keyvalkey :: RuleDataMap KeyValKeyCoor NontrivRule
-  , order     :: RuleDataMap Ordering AntiRule
+  { order     :: RuleDataMap Ordering AntiRule
   , intRel    :: RuleDataMap IntRel Formula
   , fineInt   :: RuleDataMap FineGrained Formula
+  , smtRules  :: RuleDataMap SMTFormula AntiRule
   , typeErr   :: RuleDataMap TypeErr QType
   } deriving (Eq, Show, Generic, NFData)--, Typeable)
 
 emptyRuleSet  = RuleSet
-  { missing   = M.empty
-  , keyvalkey = M.empty
-  , order     = M.empty
+  { order     = M.empty
   , intRel    = M.empty
   , fineInt   = M.empty
+  , smtRules  = M.empty
   , typeErr   = M.empty}
 
 ------------
 -- The specific types of relations we want to learn
 -- go below here
 -----------
-
--- | these keywords should appear in the same file
--- TODO give explicit Eq instances to be used in merging
-data KeywordCoor = KeywordCoor (Keyword,Keyword) 
-  deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
-instance Locatable KeywordCoor where
-  keys (KeywordCoor (k1,k2)) = [k1,k2]
-
-data KeyValKeyCoor = KeyValKeyCoor 
-  { k1 :: Keyword
-  , v1 :: Val
-  , k2 :: Keyword
-  } deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)
-instance Locatable KeyValKeyCoor where
-  keys (KeyValKeyCoor {..}) = [k1,k2]
-
 
 data Ordering = Ordering (Keyword,Keyword)
   deriving (Eq, Show,Ord,Generic,ToJSON,FromJSON,NFData)

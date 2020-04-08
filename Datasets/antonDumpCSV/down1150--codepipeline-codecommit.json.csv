@@ -1,16 +1,11 @@
 Parameters.EC2KeyPairName.Description,Name of an existing Amazon EC2 key pair to enable SSH access to the instances.
 Parameters.TagValue.Description,The tag value that identifies this as a target for deployments.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.TagValue.default,Tag Value for CodeDeploy EC2 instances
-Parameters.RepositoryName.Type,String
 Resources.AWS::CodeDeploy::DeploymentGroup.DependsOn,MyApplication
 Resources.AWS::CloudFormation::Stack.Properties.TimeoutInMinutes,60
 Parameters.TagKey.Description,The tag name that is associated with EC2 instances on which CodeDeploy agent is installed
 Parameters.TagKey.Default,Name
 Parameters.S3Key.Default,samples/latest/SampleApp_Linux.zip
-Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeCommit'}, u'OutputArtifacts': [{u'Name': u'MyApp'}], u'Configuration': {u'BranchName': {u'Ref': u'RepositoryBranch'}, u'RepositoryName': {u'Ref': u'RepositoryName'}}, u'Name': u'Source'}]}, {u'Name': u'Beta', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeDeploy'}, u'OutputArtifacts': [], u'Configuration': {u'ApplicationName': {u'Ref': u'MyApplication'}, u'DeploymentGroupName': {u'Ref': u'MyDeploymentGroup'}}, u'Name': u'DemoFleet'}]}]"
-Parameters.TagValue.Type,String
-Resources.AWS::CodeDeploy::DeploymentGroup.Type,AWS::CodeDeploy::DeploymentGroup
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Parameters.S3Bucket.Default,aws-codedeploy-us-east-1
 Parameters.RepositoryName.ConstraintDescription,Can contain only ASCII characters.
 Parameters.RepositoryBranch.Default,master
@@ -18,49 +13,29 @@ Parameters.S3Key.Description,The unique bucket name where deployment distributio
 Resources.AWS::IAM::Role.Properties.Path,/
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RepositoryName.default,CodeCommit Repository Name
 Parameters.RepositoryBranch.AllowedPattern,[\x20-\x7E]*
-Outputs.CodeDeployDeploymentGroup.Value,{u'Ref': u'MyDeploymentGroup'}
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.TagValue,{u'Ref': u'TagValue'}
-Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ApplicationName,{u'Ref': u'MyApplication'}
-Outputs.PipelineUrl.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codepipeline/home?region=', {u'Ref': u'AWS::Region'}, u'#/view/', {u'Ref': u'CodePipelineStack'}]]}"
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
-Resources.AWS::CodeDeploy::Application.Type,AWS::CodeDeploy::Application
 Parameters.EC2KeyPairName.ConstraintDescription,Can contain only ASCII characters.
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
-Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.S3Location.Bucket,{u'Ref': u'S3Bucket'}
 Parameters.EC2KeyPairName.MaxLength,255
 Outputs.PipelineUrl.Description,Pipeline Url
 Parameters.TagValue.ConstraintDescription,Can contain only ASCII characters.
 Parameters.RepositoryBranch.Description,The name of the branch for the CodeCommit repo
-Outputs.CodePipelineRole.Value,{u'Ref': u'CodePipelineRole'}
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.IgnoreApplicationStopFailures,true
-Parameters.S3Bucket.Type,String
 Parameters.EC2KeyPairName.MinLength,1
 Parameters.RepositoryName.AllowedPattern,[\x20-\x7E]*
-Parameters.EC2KeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.TagValue.AllowedPattern,[\x20-\x7E]*
 Parameters.TagValue.Default,CodeDeployEC2Tag
 Parameters.RepositoryBranch.ConstraintDescription,Can contain only ASCII characters.
-Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Ec2TagFilters,"[{u'Type': u'KEY_AND_VALUE', u'Value': {u'Ref': u'TagValue'}, u'Key': {u'Ref': u'TagKey'}}]"
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.RevisionType,S3
 Parameters.RepositoryName.Default,codecommit-demo
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Description,First time
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'codepipeline.amazonaws.com']}}]"
-Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/', {u'Ref': u'CodePipelineRole'}]]}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RepositoryBranch.default,CodeCommit Repository Branch
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2KeyPairName.default,EC2 KeyPair Name
-Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.S3Location.Key,{u'Ref': u'S3Key'}
-Parameters.TagKey.Type,String
-Parameters.S3Key.Type,String
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.Deployment.Revision.S3Location.BundleType,Zip
 Resources.AWS::CodeDeploy::Application.DependsOn,CodeDeployEC2InstancesStack
-Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyPairName,{u'Ref': u'EC2KeyPairName'}
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,"{u'Fn::Join': [u'', [u'codepipeline-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}]]}"
 Resources.AWS::CodeDeploy::DeploymentGroup.Properties.ServiceRoleArn,"{u'Fn::GetAtt': [u'CodeDeployEC2InstancesStack', u'Outputs.CodeDeployTrustRoleARN']}"
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'EC2KeyPairName', u'RepositoryName', u'RepositoryBranch', u'TagValue'], u'Label': {u'default': u'Dynamic Configuration'}}]"
 Parameters.EC2KeyPairName.AllowedPattern,[\x20-\x7E]*
 Parameters.S3Bucket.Description,The unique bucket name where deployment distribution is located
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'codepipeline-service', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'codecommit:GetBranch', u'codecommit:GetCommit', u'codecommit:UploadArchive', u'codecommit:GetUploadArchiveStatus', u'codecommit:CancelUploadArchive'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:GetObjectVersion', u's3:GetBucketVersioning'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:PutObject'], u'Resource': [u'arn:aws:s3:::codepipeline*', u'arn:aws:s3:::elasticbeanstalk*'], u'Effect': u'Allow'}, {u'Action': [u'codedeploy:CreateDeployment', u'codedeploy:GetApplicationRevision', u'codedeploy:GetDeployment', u'codedeploy:GetDeploymentConfig', u'codedeploy:RegisterApplicationRevision'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'elasticbeanstalk:*', u'ec2:*', u'elasticloadbalancing:*', u'autoscaling:*', u'cloudwatch:*', u's3:*', u'sns:*', u'cloudformation:*', u'rds:*', u'sqs:*', u'ecs:*', u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction', u'lambda:ListFunctions'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
-Parameters.RepositoryBranch.Type,String
 Parameters.RepositoryName.Description,The name of the CodeCommit repo
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,http://s3.amazonaws.com/aws-codedeploy-us-east-1/templates/latest/CodeDeploy_SampleCF_Template.json
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

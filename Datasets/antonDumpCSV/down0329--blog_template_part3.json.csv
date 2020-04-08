@@ -1,35 +1,22 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
 Resources.AWS::IAM::Policy.DependsOn,[u'DevSecOpsLambdaRole']
 Parameters.CodeBuildProject.Description,CodeBuildProject name
 Resources.AWS::Lambda::Function.Properties.Description,Always return success
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'LambdaS3Key'}
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Parameters.LambdaS3Key.Description,"The file name of the source artifact of the Lambda code, such as myfolder/myartifact.zip"
 Resources.AWS::Lambda::Function.Properties.Timeout,300
-Parameters.CodeDeploymentGroup.Type,String
-Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': u'1', u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeCommit'}, u'OutputArtifacts': [{u'Name': u'MyApp'}], u'Configuration': {u'BranchName': {u'Ref': u'RepositoryBranch'}, u'RepositoryName': {u'Ref': u'CodeCommitRepo'}}, u'Name': u'Source'}]}, {u'Name': u'BuildGoldenAMI', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': u'2', u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [{u'Name': u'MyApp1'}], u'Configuration': {u'FunctionName': {u'Ref': u'AutomationExecuteDocument'}, u'UserParameters': {u'Fn::Join': [u'', [u'{', u'""ssm_document_name""', u':', u'""', {u'Ref': u'SSMAutomationDocument'}, u'""', u',', u'""iam_instanceprofile_name""', u':', u'""', {u'Ref': u'InstanceRoleInstanceProfile'}, u'""', u',', u'""elb_name""', u':', u'""', {u'Ref': u'ElasticLoadBalancer'}, u'""', u',', u'""deployment_group_name""', u':', u'""', {u'Ref': u'CodeDeploymentGroup'}, u'""', u',', u'""application_name""', u':', u'""', {u'Ref': u'CodeDeployApplication'}, u'""', u'}']]}}, u'Name': u'AutomationExecuteDocument'}]}, {u'Name': u'Build', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyApp'}], u'RunOrder': u'2', u'ActionTypeId': {u'Category': u'Build', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeBuild'}, u'OutputArtifacts': [{u'Name': u'MyAppBuild'}], u'Configuration': {u'ProjectName': {u'Ref': u'CodeBuildProject'}}, u'Name': u'Build'}]}, {u'Name': u'Deploy', u'Actions': [{u'InputArtifacts': [{u'Name': u'MyAppBuild'}], u'RunOrder': u'3', u'ActionTypeId': {u'Category': u'Deploy', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'CodeDeploy'}, u'OutputArtifacts': [], u'Configuration': {u'ApplicationName': {u'Ref': u'CodeDeployApplication'}, u'DeploymentGroupName': {u'Ref': u'CodeDeploymentGroup'}}, u'Name': u'DemoFleet'}]}]"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::CodePipeline::Pipeline.DependsOn,"[u'AutomationExecuteDocument', u'InstanceRoleInstanceProfile', u'PipelineS3Bucket']"
 Parameters.RepositoryBranch.Default,master
 Parameters.CodeCommitRepo.Default,devsecopspart1
 Parameters.ElasticLoadBalancer.Description,ElasticLoadBalancer name
 Resources.AWS::Lambda::Function.Properties.Handler,AutomationExecuteDocument.lambda_handler
 Parameters.RepositoryBranch.AllowedPattern,[\x20-\x7E]*
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaS3Bucket'}
 Parameters.CodeDeploymentGroup.Description,CodeDeploymentGroup name
-Parameters.CodeBuildProject.Type,String
 Parameters.CodeDeployApplication.Description,CodeDeployApplication name
 Parameters.SSMAutomationDocument.Description,SSMAutomationDocument name
 Resources.AWS::Lambda::Function.Properties.FunctionName,AutomationExecuteDocument
-Parameters.LambdaS3Key.Type,String
 Parameters.LambdaS3Bucket.Default,devsecopsblog
-Parameters.CodeCommitRepo.Type,String
 Parameters.RepositoryBranch.Description,The name of the branch for the CodeCommit repo
 Resources.AWS::Lambda::Function.DependsOn,"[u'DevSecOpsLambdaRole', u'LambdaExecutionPolicy']"
 Parameters.CodeCommitRepo.Description,Code commit repo name
@@ -37,21 +24,10 @@ Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Acti
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Parameters.CodeBuildProject.Default,devsecopspart1
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Parameters.SSMAutomationDocument.Type,String
 Parameters.RepositoryBranch.ConstraintDescription,Can contain only ASCII characters.
 Parameters.LambdaS3Key.Default,devsecops-part3.zip
 Parameters.LambdaS3Bucket.Description,"The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack"
-Parameters.CodeDeployApplication.Type,String
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'ec2:*', u'codedeploy:*', u'autoscaling:Describe*', u'cloudformation:Describe*', u'cloudformation:GetTemplate', u's3:Get*', u's3:List*'], u'Resource': u'*', u'Effect': u'Allow'}]"
-Parameters.ElasticLoadBalancer.Type,String
-Parameters.LambdaS3Bucket.Type,String
 Resources.AWS::IAM::Policy.Properties.PolicyName,InstanceRole
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,"{u'Fn::Join': [u'', [{u'Ref': u'AWS::StackName'}, u'-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}]]}"
-Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/', {u'Ref': u'CodePipelineRole'}]]}"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'codepipeline-service', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'codecommit:GetBranch', u'codecommit:GetCommit', u'codecommit:UploadArchive', u'codecommit:GetUploadArchiveStatus', u'codecommit:CancelUploadArchive', u'codebuild:*'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:GetObject', u's3:GetObjectVersion', u's3:GetBucketVersioning'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:PutObject'], u'Resource': [u'arn:aws:s3:::codepipeline*', u'arn:aws:s3:::elasticbeanstalk*'], u'Effect': u'Allow'}, {u'Action': [u'codedeploy:CreateDeployment', u'codedeploy:GetApplicationRevision', u'codedeploy:GetDeployment', u'codedeploy:GetDeploymentConfig', u'codedeploy:RegisterApplicationRevision'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'elasticbeanstalk:*', u'ec2:*', u'elasticloadbalancing:*', u'autoscaling:*', u'cloudwatch:*', u's3:*', u'sns:*', u'cloudformation:*', u'rds:*', u'sqs:*', u'ecs:*', u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction', u'lambda:ListFunctions'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
-Parameters.RepositoryBranch.Type,String
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'DevSecOpsLambdaRole', u'Arn']}"
-Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::Join': [u'', [{u'Ref': u'AWS::StackName'}, u'-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}]]}"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

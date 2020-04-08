@@ -4,65 +4,39 @@ Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,1200
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.aggrprefix.owner,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.sk.group,ubuntu
 Parameters.BackupBucket.Description,Name of the s3 bucket where cloudtrail logs backup will live
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.backupbucket.content,{u'Ref': u'BackupBucket'}
 Resources.AWS::IAM::User.Properties.Path,/
-Parameters.TrailBucketPrefix.Type,String
 Parameters.AggrPrefix.Description,"MUST BE CREATE BY YOU on the root of the cloudtrail bucket, This is the monitored Logstash Prefix"
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'# Helper function\n', u'function error_exit \n', u'{\n', u'/usr/local/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WebAppServerWaitHandle'}, u""'\n"", u'exit 1\n', u'}\n', u'STATUS=0\n', u'#Installing cfn tools\n', u""apt-get -y update || error_exit 'Failed to apt-get -y update'\n"", u""apt-get -y install awscli || error_exit 'Failed To Install aws cli'\n"", u""apt-get -y install python-setuptools || error_exit 'Failed To install python setuptools'\n"", u'mkdir aws-cfn-bootstrap-latest\n', u'curl https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz | tar xz -C aws-cfn-bootstrap-latest --strip-components 1\n', u'easy_install aws-cfn-bootstrap-latest\n', u'export ARTIF=', {u'Ref': u'ArtifactsBucketPrefix'}, u'\n', u'export REGION=', {u'Ref': u'AWS::Region'}, u'\n', u'echo $ARTIF >> /tmp/env\n', u'echo $REGION >> /tmp/env\n', u""aws s3 cp s3://${ARTIF}/bootstrap.sh /root/ --region $REGION || error_exit 'Failed to download bootstrap.sh rolling back stack !'\n"", u""/bin/chmod +x /root/bootstrap.sh || error_exit 'Failed To +x /root/bootstrap.sh' \n"", u'#Calling cfn-init to parse and install the above metadata section\n', u'/usr/local/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r Ec2Instance ', u'    --region ', {u'Ref': u'AWS::Region'}, u"" || error_exit 'Failed to run cfn-init'\n"", u""cd /root && ./bootstrap.sh || error_exit 'Failed Execute /root/bootstrap.sh' \n"", u'# All is well so signal success\n', u'/usr/local/bin/cfn-signal -e 0 -r ""Bootstrap has ended successfully"" \'', {u'Ref': u'WebAppServerWaitHandle'}, u""'\n""]]}}"
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'SubnetID'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.regionlist.group,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.regionlist.owner,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.sk.content,"{u'Fn::GetAtt': [u'AccessKey', u'SecretAccessKey']}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucketprefix.content,{u'Ref': u'TrailBucketPrefix'}
-Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'CloudTrailLogAccess', u'PolicyDocument': {u'Statement': [{u'Action': [u's3:ListBucket', u's3:ListBucketMultipartUploads'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'TrailBucket'}]]}, u'Effect': u'Allow'}, {u'Action': [u's3:ListBucket', u's3:ListBucketMultipartUploads'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'BackupBucket'}]]}, u'Effect': u'Allow'}, {u'Action': [u's3:Get*', u's3:PutObject*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'BackupBucket'}, u'/*']]}, u'Effect': u'Allow'}, {u'Action': [u's3:Get*', u's3:DeleteObject*', u's3:PutObject*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'TrailBucket'}, u'/*']]}, u'Effect': u'Allow'}]}}]"
-Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:ListBucket', u's3:ListBucketMultipartUploads'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'TrailBucket'}]]}, u'Effect': u'Allow'}, {u'Action': [u's3:ListBucket', u's3:ListBucketMultipartUploads'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ArtifactsBucket'}]]}, u'Effect': u'Allow'}, {u'Action': [u's3:Get*', u's3:DeleteObject*', u's3:PutObject*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'TrailBucket'}, u'/*']]}, u'Effect': u'Allow'}, {u'Action': u's3:GetObject', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ArtifactsBucket'}, u'/*']]}, u'Effect': u'Allow'}, {u'Action': u's3:PutObject', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'ArtifactsBucket'}, u'/*']]}, u'Effect': u'Allow'}]"
 Parameters.TrailBucketPrefix.Description,"The Cloudtrail bucket full prefix (excluding region name), replacing xxxxxxxxxxxx with your AWS Account ID i.e. ctrail-logs/AWSLogs/111111111111/CloudTrail/"
 Outputs.Instance.Description,DNS Name Of the Kibana Web Page
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucketprefix.owner,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.aggrprefix.group,ubuntu
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.ak.content,{u'Ref': u'AccessKey'}
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'LogStashS3User'}
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'EC2TrustAccessRole'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./root/.bootstrap.cfg.mode,000644
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Parameters.ArtifactsBucket.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.backupbucket.mode,000644
 Parameters.SubnetID.Description,VPC Subnet-ID (Must have Internet Connectivity&Accesible from the internet)
 Parameters.SecGroupID.Default,sg-xxxxxx
-Parameters.KeyName.Type,String
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecGroupID'}]
-Parameters.ArtifactsBucketPrefix.Type,String
 Mappings.AWSRegionArch2AMI.eu-central-1.64,ami-b83c0aa5
-Parameters.SecGroupID.Type,String
 Parameters.TrailBucket.Description,Name of your cloudtrail bucket where all cloudtrail logs live
 Parameters.ArtifactsBucket.Default,ArtifcatsS3Bucket
 Parameters.AggrPrefix.Default,combined/
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.backupbucket.group,ubuntu
-Parameters.SubnetID.Type,String
 Parameters.ArtifactsBucketPrefix.Default,ArtifcatsS3BucketName/stashtrail
 Parameters.TrailBucket.Default,MyCloudTrailS3BucketName
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'EC2TrustAccessRole'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.ak.group,ubuntu
 Parameters.ArtifactsBucketPrefix.Description,Name of your Artifacts S3 bucket including the prefix (CREATED BY YOU) where we can find the artifacts 
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.regionlist.content,{u'Ref': u'CloudTrailMultiRegion'}
 Parameters.CloudTrailMultiRegion.Default,eu-west-1
-Parameters.BackupBucket.Type,String
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,Ec2Instance
-Parameters.CloudTrailMultiRegion.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucketprefix.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucket.group,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Comment1,Generate hidden files that will be used at arguments for chef role file attribute
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WebAppServerWaitHandle'}
 Parameters.CloudTrailMultiRegion.Description,"MultiRegion Support? enter region list where cloudtrail is enabled (Comma separated region list) i.e. eu-west-1,eu-central-1 MUST Contain at least a single region where cloudtrail is enabled"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.region.group,ubuntu
 Parameters.SecGroupID.Description,An Existing Security Group with TCP Inbound Access On Port 80/9200
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./root/.bootstrap.cfg.content,"{u'Fn::Join': [u'', [u'ARTIFACTS=', {u'Ref': u'ArtifactsBucketPrefix'}, u'\n', u'REGION=', {u'Ref': u'AWS::Region'}, u'\n', u""LOG='/var/log/bootstrap.log'"", u'\n', u""SOLOLOG='/var/log/chef-solo-install.sh.log'"", u'\n']]}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.aggrprefix.content,{u'Ref': u'AggrPrefix'}
 Parameters.ArtifactsBucket.Description,Name of your Artifacts S3 bucket
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'EC2InstanceProfile'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./root/.bootstrap.cfg.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.backupbucket.owner,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucket.owner,ubuntu
@@ -70,27 +44,15 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./ho
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.sk.mode,000644
 Parameters.TrailBucketPrefix.Default,MyCloudTrailS3BucketName/OptionalPrefix/AWSLogs/xxxxxxxxxxxx/CloudTrail
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucket.mode,000644
-Parameters.TrailBucket.Type,String
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucket.content,{u'Ref': u'TrailBucket'}
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.ak.owner,ubuntu
 Outputs.Instance.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'Ec2Instance', u'PublicDnsName']}, u'/kibana-latest/']]}"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.regionlist.mode,000644
 Parameters.BackupBucket.Default,LogBackupS3BucketName
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Parameters.AggrPrefix.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./root/.bootstrap.cfg.group,root
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.region.content,{u'Ref': u'AWS::Region'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.sk.owner,ubuntu
 Parameters.SubnetID.Default,subnet-xxxxxxxx
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.ak.mode,000644
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Resources.AWS::IAM::Policy.Properties.PolicyName,cron-rw-s3-access
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.trailbucketprefix.group,ubuntu
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./home/ubuntu/.region.owner,ubuntu

@@ -1,21 +1,10 @@
 Outputs.TaskDefinition.Value,TaskDefinition
 Parameters.SpringCloudConfigServerGitPrivateKey.Description,"The private access key needed for cloning the config repository, used by the ConfigService, shoud be present in the AWS Systems Manager Parameter Store"
-Parameters.ContainerDefinitionName.Type,String
 Resources.AWS::ECS::TaskDefinition.Properties.Family,ContainerDefinitionName
-Parameters.ContainerPort.Type,Number
 Mappings.GitHostKeys.Bitbucket.Key,AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
-Parameters.GitHost.Type,String
-Parameters.ContainerImage.Type,String
-Parameters.SpringProfilesActive.Type,String
-Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
-Parameters.LogGroupName.Type,String
-Parameters.SpringCloudConfigServerGitPrivateKey.Type,AWS::SSM::Parameter::Value<String>
 Parameters.SpringCloudConfigServerGitPrivateKey.Default,SpringCloudConfigServerGitPrivateKeySSMParameterName
 Parameters.SpringCloudConfigServerGitPrivateKey.NoEcho,true
 Mappings.GitHostKeys.Github.Key,AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
-Parameters.ConfigServerImageVersion.Type,String
 Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'LogGroupName', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ContainerDefinitionName', u'Image': u'ContainerImage', u'Environment': [{u'Name': u'SPRING_PROFILES_ACTIVE', u'Value': u'SpringProfilesActive'}, {u'Name': u'SPRING_CLOUD_CONFIG_SERVER_GIT_URI', u'Value': u'SpringCloudConfigServerURI'}, {u'Name': u'SPRING_CLOUD_CONFIG_SERVER_GIT_IGNORE_LOCAL_SSH_SETTINGS', u'Value': True}, {u'Name': u'SPRING_CLOUD_CONFIG_SERVER_GIT_HOST_KEY', u'Value': [u'GitHostKeys', u'GitHost', u'Key']}, {u'Name': u'SPRING_CLOUD_CONFIG_SERVER_GIT_HOST_KEY_ALGORITHM', u'Value': u'ssh-rsa'}, {u'Name': u'SPRING_CLOUD_CONFIG_SERVER_GIT_PRIVATE_KEY', u'Value': u'SpringCloudConfigServerGitPrivateKey'}, {u'Name': u'JAVA_OPTS', u'Value': u'-Xmx128m'}], u'Memory': u'ContainerMemory', u'PortMappings': [{u'ContainerPort': u'ContainerPort'}]}]"
 Parameters.GitHost.AllowedValues,"[u'Github', u'Bitbucket']"
 Parameters.SpringCloudConfigServerURI.Description,The URI for the config server of the application
-Parameters.ContainerMemory.Type,Number
-Parameters.SpringCloudConfigServerURI.Type,String

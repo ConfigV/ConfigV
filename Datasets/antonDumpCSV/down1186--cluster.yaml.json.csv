@@ -2,22 +2,16 @@ Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,WorkerSecurityGroup
 Resources.AWS::KMS::Key.Properties.EnableKeyRotation,False
 Resources.AWS::EC2::SecurityGroupIngress.Properties.Tags,"[{u'Value': u'owned', u'Key': u'kubernetes.io/cluster/{{.Cluster.ID}}'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LoadBalancerName,{{.Cluster.LocalID}}
-Resources.AWS::KMS::Alias.Type,AWS::KMS::Alias
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Enabled,True
 Resources.AWS::KMS::Key.Properties.KeyPolicy.Id,{{.Cluster.LocalID}}-deployment-key
 Outputs.MasterSecurityGroup.Export.Name,{{.Cluster.ID}}:master-security-group
 Outputs.WorkerSecurityGroup.Value,WorkerSecurityGroup
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,AWS::StackName
-Resources.AWS::KMS::Key.Type,AWS::KMS::Key
 Resources.AWS::Route53::RecordSet.Properties.HostedZoneName,{{.Values.hosted_zone}}.
 Resources.AWS::KMS::Alias.Properties.TargetKeyId,DeploymentSecretKey
-Resources.AWS::Route53::RecordSet.Properties.Type,A
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,10
 Resources.AWS::Route53::RecordSet.Properties.AliasTarget.HostedZoneId,"[u'MasterLoadBalancer', u'CanonicalHostedZoneNameID']"
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::Route53::RecordSet.Type,AWS::Route53::RecordSet
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.ConnectionDrainingPolicy.Timeout,60
 Resources.AWS::IAM::Role.Properties.RoleName,{{.Cluster.LocalID}}-static-egress-controller
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,tcp
@@ -28,7 +22,6 @@ Outputs.MasterSecurityGroup.Value,MasterSecurityGroup
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[u'MasterLoadBalancerSecurityGroup']
 Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,WorkerSecurityGroup
 Outputs.MasterLoadBalancer.Export.Name,{{.Cluster.ID}}:master-load-balancer
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Resources.AWS::Route53::RecordSet.Properties.AliasTarget.DNSName,"[u'MasterLoadBalancer', u'DNSName']"
 Resources.AWS::KMS::Alias.Properties.AliasName,alias/{{.Cluster.LocalID}}-deployment-secret
 Outputs.MasterIAMRole.Export.Name,{{.Cluster.ID}}:master-iam-role
@@ -49,7 +42,6 @@ Resources.AWS::KMS::Key.Properties.Enabled,True
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Scheme,internet-facing
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{{.Cluster.ConfigItems.vpc_id}}
 Outputs.MasterIAMRole.Value,MasterIAMRole
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::Route53::RecordSet.Properties.Name,{{.Cluster.LocalID}}.{{.Values.hosted_zone}}.
 Resources.AWS::KMS::Key.Properties.KeyPolicy.Version,2012-10-17
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:8080/healthz

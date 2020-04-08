@@ -1,34 +1,17 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Parameters.Lifetime.Type,Number
 Outputs.PublicName.Description,Public name (connect via SSH as user ec2-user)
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,My security group
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Parameters.VPC.Type,AWS::EC2::VPC::Id
 Parameters.Subnet.Description,Just select one of the available subnets
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecurityGroup'}]
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -ex\n', u'INSTANCEID=`curl -s http://169.254.169.254/latest/meta-data/instance-id`\n', u'echo ""aws --region ', {u'Ref': u'AWS::Region'}, u' ec2 stop-instances --instance-ids $INSTANCEID"" | at now + ', {u'Ref': u'Lifetime'}, u' minutes\n']]}}"
 Outputs.PublicName.Value,"{u'Fn::GetAtt': [u'Server', u'PublicDnsName']}"
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'Subnet'}
 Parameters.Lifetime.Description,Lifetime in minutes (2-59)
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.Lifetime.MinValue,2
 Parameters.KeyName.Default,mykey
 Parameters.VPC.Description,Just select the one and only default VPC
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': 22, u'FromPort': 22, u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
-Parameters.Subnet.Type,AWS::EC2::Subnet::Id
 Parameters.KeyName.Description,Key Pair name
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"
 Parameters.Lifetime.Default,2
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ec2', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'ec2:StopInstances'], u'Resource': [u'*'], u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'ec2:ResourceTag/aws:cloudformation:stack-id': {u'Ref': u'AWS::StackId'}}}, u'Sid': u'Stmt1425388787000'}]}}]"
 Parameters.Lifetime.MaxValue,59
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'Role'}]

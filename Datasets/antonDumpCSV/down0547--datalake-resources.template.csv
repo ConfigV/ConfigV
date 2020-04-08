@@ -2,17 +2,13 @@ Parameters.QSS3KeyPrefix.AllowedPattern,^[0-9a-zA-Z-/]*$
 Resources.AWS::RDS::DBInstance.DeletionPolicy,Delete
 Parameters.MasterUserPassword.MinLength,8
 Parameters.DBName.ConstraintDescription,DB name must start with a letter & no special characters(Min=4;Max=20 AlphaNumerics)
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Parameters.PublicSubnet1.Description,Public Subnet for web server group
 Resources.AWS::S3::Bucket.DeletionPolicy,Delete
 Parameters.QSS3KeyPrefix.Default,datalake-latest/
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./etc/yum.repos.d/dlpackages.repo.group,root
 Parameters.ElasticsearchVolumeType.AllowedValues,"[u'gp2', u'standard', u'io1']"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,800
-Parameters.AdminEmailID.Type,String
 Resources.AWS::Lambda::Function.Properties.Timeout,180
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'MasterUserPassword'}
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'MasterUsername'}
 Parameters.NodeType.Description,Redshift node type
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.CloudWatchLoggingOptions.LogStreamName,ElasticsearchDelivery
 Parameters.ClusterType.AllowedValues,"[u'single-node', u'multi-node']"
@@ -20,7 +16,6 @@ Parameters.WebserverSecurityGroups.Description,Security Groups for data lake web
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.CloudWatchLoggingOptions.Enabled,True
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.mysql55-server,[]
-Resources.AWS::CloudTrail::Trail.Properties.S3BucketName,"{u'Fn::Join': [u'', [u'datalake-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CloudWatchLoggingOptions.LogStreamName,S3Delivery
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3BackupMode,AllDocuments
@@ -34,62 +29,36 @@ Parameters.AllocatedStorage.Default,5
 Parameters.AdminEmailID.Description,Admin email id - email will be sent to this address on stack completion with further instructions( check inbox/spam in about 15-20mins)
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.ZoneAwarenessEnabled,False
 Outputs.ElasticsearchEndpoint.Description,Elasticsearch Endpoint
-Outputs.LambdaFunction.Value,{u'Ref': u'LambdafunctionES'}
 Resources.AWS::CloudTrail::Trail.DependsOn,S3InterimBucketPolicy
 Parameters.DBName.Description,DB Name must start with a letter & no special characters(MinLength=4;MaxLength=20)
 Parameters.TagSuffix.Description,StackID suffix to append to the resources
 Parameters.QSS3BucketName.Description,"S3 bucket name for the AWS Quick Start assets.AWS Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
 Resources.AWS::IAM::Role.DependsOn,RedshiftSecondaryRole
-Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.InstanceCount,{u'Ref': u'ElasticsearchInstanceCount'}
 Parameters.MasterUserPassword.Description,"DB Password. Must be at least 8 characters containing letters, numbers and symbols"
 Parameters.ElasticsearchVolumeSize.Default,20
 Resources.AWS::Lambda::Function.DependsOn,WebserverWaitCondtion
 Parameters.NodeType.ConstraintDescription,must select a valid Redshift node type.
-Resources.AWS::RDS::DBInstance.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'', [u'datalake-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}, u'Key': u'solution'}, {u'Value': {u'Fn::Join': [u'', [u'datalake-rds-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}, u'Key': u'Name'}]"
-Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
-Parameters.ElasticsearchVolumeSize.Type,Number
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/zeppelin-0.7.2-bin-all.tgz.mode,000644
 Parameters.MasterUsername.MaxLength,16
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/configure.sh.mode,000644
 Parameters.RDSVpcSecurityGroups.Description,Security Groups for RDS database
 Resources.AWS::KinesisFirehose::DeliveryStream.DependsOn,FirehoseRole
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
-Resources.AWS::Logs::LogStream.Properties.LogGroupName,"{u'Fn::Join': [u'', [u'/aws/kinesisfirehose/datalake-firehose-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
-Outputs.FirehoseDeliveryStream.Value,{u'Ref': u'DatalakeFirehoseStream'}
 Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.EBSEnabled,True
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.configSets.Install,"[u'Fileset', u'Install']"
 Mappings.AWSAMItoRegionMap.AMI.AMZNLINUXPVM,amzn-ami-pv-2016.09.1.20170119-x86_64-ebs
-Parameters.MasterUsername.Type,String
-Resources.AWS::Redshift::Cluster.Properties.ClusterType,{u'Ref': u'ClusterType'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.httpd.ensureRunning,true
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/configure.sh.source,{u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/configure.sh'}
 Resources.AWS::Lambda::Function.Properties.Handler,lambda_function.lambda_handler
 Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/TaskRunner-1.0.jar.group,root
-Parameters.QSS3KeyPrefix.Type,String
 Outputs.RDSEndpoint.Description,RDS endpoint
-Parameters.PublicSubnet1.Type,String
-Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Statement,"[{u'Action': [u'es:AddTags', u'es:ListTags', u'es:ESHttpGet', u'es:ESHttpPut', u'es:ESHttpHead', u'es:RemoveTags', u'es:ESHttpPost', u'es:ListDomainNames', u'es:CreateElasticsearchDomain', u'es:DescribeElasticsearchDomain', u'es:DescribeElasticsearchDomains', u'es:UpdateElasticsearchDomainConfig', u'es:DescribeElasticsearchDomainConfig'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/dles-', {u'Ref': u'TagSuffix'}, u'/*']]}, u'Effect': u'Allow', u'Principal': {u'AWS': [u'*']}}]"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -xev \n', u'yum install -y aws-cfn-bootstrap\n', u'yum clean all\n', u'/opt/aws/bin/cfn-init ', u' --stack ', {u'Ref': u'AWS::StackName'}, u' --resource LaunchConfig ', u' --configsets Install ', u' --region ', {u'Ref': u'AWS::Region'}, u'\n', u""cat /home/ec2-user/configure.sh | tr -d '\r' > configure_l.sh;chmod 777 configure_l.sh;./configure_l.sh ""]]}}"
-Parameters.MasterUserPassword.Type,String
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.TypeName,fromFirehose
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./etc/yum.repos.d/dlpackages.repo.owner,root
 Parameters.QSS3BucketName.ConstraintDescription,"AWS Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
-Resources.AWS::Elasticsearch::Domain.Type,AWS::Elasticsearch::Domain
-Resources.AWS::Redshift::Cluster.Properties.NumberOfNodes,"{u'Fn::If': [u'IsMultiNodeCluster', {u'Ref': u'NumberOfNodes'}, {u'Ref': u'AWS::NoValue'}]}"
-Parameters.ElasticsearchVolumeType.Type,String
-Resources.Custom::LambdaInvoke.Properties.tagsuffixparam,{u'Ref': u'TagSuffix'}
 Parameters.AllocatedStorage.MaxValue,1024
 Parameters.NodeType.AllowedValues,"[u'dc1.large', u'dw.hs1.xlarge', u'dw1.xlarge', u'dw1.8xlarge', u'dw2.large', u'dw2.8xlarge']"
-Parameters.NoOfAzs.Type,Number
 Parameters.ElasticsearchVolumeType.Default,gp2
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'RDSdbSubnetGroup'}
-Resources.AWS::Redshift::Cluster.Properties.NodeType,{u'Ref': u'NodeType'}
 Parameters.MasterUsername.Description,DB Username must start with a letter & no special characters(MinLength=4;MaxLength=20)
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfig'}
 Parameters.MasterUserPassword.MaxLength,16
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.DeliveryStreamName,"{u'Fn::Join': [u'', [u'datalake-firehose-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
-Parameters.QSS3BucketName.Type,String
 Resources.AWS::CloudTrail::Trail.Properties.S3KeyPrefix,CloudTrailLogs
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.DedicatedMasterEnabled,false
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Subnets available for the RDS DB Instance
@@ -99,152 +68,93 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::In
 Resources.AWS::Elasticsearch::Domain.Properties.AdvancedOptions.rest.action.multi.allow_explicit_index,true
 Parameters.ElasticsearchInstanceCount.Default,1
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/writetoES.zip.source,{u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/lambdas/writetoES.zip'}
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CloudWatchLoggingOptions.LogGroupName,"{u'Fn::Join': [u'', [u'/aws/kinesisfirehose/datalake-firehose-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
 Parameters.KeyPairName.Description,Name of an existing EC2 KeyPair to enable SSH access to the Webserver instance
-Outputs.WebServerELBEndpoint.Value,"{u'Fn::Join': [u'', [u'Please Visit the http://', {u'Fn::GetAtt': [u'WebServerLoadBalancer', u'DNSName']}, u'/ to access the Data Lake Webportal. Login credentials for the portal are: ', {u'Ref': u'MasterUsername'}, u' / < password you chosen during stack launch >']]}"
 Outputs.S3Bucket.Description,S3 Bucket
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.roleName,{u'Ref': u'EC2WebserverRole'}
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'PrivateSubnet1'}, {u'Ref': u'PrivateSubnet2'}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/writetoES.zip.owner,root
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php56w-mbstring,[]
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'EC2WebserverIamProfile'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/datalake.zip.owner,root
-Resources.AWS::Redshift::Cluster.Properties.DBName,{u'Ref': u'DBName'}
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.ParameterGroupFamily,redshift-1.0
 Mappings.RDSEngineVersionMapping.mysql.latest,5.7
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.mysqld.ensureRunning,true
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.BucketARN,"{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'DataLakeS3Bucket'}]]}"
-Resources.AWS::Redshift::Cluster.Properties.VpcSecurityGroupIds,[{u'Ref': u'RedshiftVpcSecurityGroupIds'}]
-Parameters.AllocatedStorage.Type,Number
-Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
-Resources.AWS::CloudTrail::Trail.Type,AWS::CloudTrail::Trail
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Outputs.RedshiftClusterEndpoint.Description,Redshift Cluster endpoint
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyPairName'}
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,"[{u'Ref': u'PublicSubnet1'}, {u'Ref': u'PublicSubnet2'}]"
 Resources.AWS::RDS::DBInstance.Properties.StorageType,gp2
 Parameters.QSS3KeyPrefix.ConstraintDescription,"Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/datalake.zip.group,root
-Resources.Custom::LambdaInvoke.Properties.accountparam,{u'Ref': u'AWS::AccountId'}
 Resources.AWS::Redshift::ClusterSubnetGroup.Properties.Description,Cluster subnet group
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::Join': [u'', [u'datalake-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
-Resources.AWS::KinesisFirehose::DeliveryStream.Type,AWS::KinesisFirehose::DeliveryStream
-Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.VolumeType,{u'Ref': u'ElasticsearchVolumeType'}
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.CloudWatchLoggingOptions.LogGroupName,"{u'Fn::Join': [u'', [u'/aws/kinesisfirehose/datalake-firehose-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
-Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[{u'Ref': u'RDSVpcSecurityGroups'}]
-Parameters.ClusterType.Type,String
 Resources.AWS::Logs::LogGroup.DependsOn,DatalakeFirehoseStream
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php56w-xml,[]
-Parameters.PrivateSubnet1.Type,String
-Parameters.WebserverSecurityGroups.Type,String
-Resources.Custom::LambdaInvoke.Properties.regionparam,{u'Ref': u'AWS::Region'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/writetoES.zip.mode,000644
-Parameters.DBName.Type,String
 Parameters.DBInstanceClass.AllowedValues,"[u'db.t2.micro', u'db.t2.small', u'db.t2.medium', u'db.t2.large', u'db.m4.large', u'db.m4.xlarge', u'db.m4.2xlarge', u'db.m4.4xlarge', u'db.m4.10xlarge']"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./tmp/dl-parameters.file.owner,root
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': {u'Fn::Join': [u'', [u'datalake-firehose-policy-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}, u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:GetObject', u's3:PutObject', u's3:ListBucket', u's3:GetBucketLocation', u's3:AbortMultipartUpload', u's3:ListBucketMultipartUploads'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'DataLakeS3Bucket'}, u'/*']]}, {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'DataLakeS3Bucket'}]]}], u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction', u'lambda:GetFunctionConfiguration'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:lambda:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':function:%FIREHOSE_DEFAULT_FUNCTION%:%FIREHOSE_DEFAULT_VERSION%']]}, u'Effect': u'Allow'}, {u'Action': [u'es:ESHttpPut', u'es:ESHttpPost', u'es:DescribeElasticsearchDomain', u'es:DescribeElasticsearchDomains', u'es:DescribeElasticsearchDomainConfig'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}]]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/*']]}], u'Effect': u'Allow'}, {u'Action': [u'es:ESHttpGet'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/_all/_settings']]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/_cluster/stats']]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/_nodes']]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/_nodes/stats']]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/_nodes/*/stats']]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/_stats']]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/datalakedeliverystream*/_mapping/fromFirehose']]}, {u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}, u'/datalakedeliverystream*/_stats']]}], u'Effect': u'Allow'}, {u'Action': [u'logs:PutLogEvents', u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:DescribeLogStreams'], u'Resource': [u'arn:aws:logs:*:*:*', {u'Fn::Join': [u'', [u'arn:aws:logs:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':log-group:/aws/kinesisfirehose/datalake-firehose-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}, u':log-stream:*']]}], u'Effect': u'Allow'}]}}]"
-Resources.AWS::S3::BucketPolicy.Properties.Bucket,{u'Ref': u'DataLakeS3Bucket'}
 Parameters.AllocatedStorage.Description,Size of the database(Gb) Range: 5~1024Gb
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'EC2WebserverRole'}]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
-Resources.AWS::Redshift::Cluster.Properties.MasterUsername,{u'Ref': u'MasterUsername'}
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.DomainARN,"{u'Fn::Join': [u'', [u'arn:aws:es:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':domain/', {u'Ref': u'ElasticsearchDomain'}]]}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/datalake.zip.mode,000644
 Parameters.QSS3KeyPrefix.Description,"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
-Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.DBInstanceClass.ConstraintDescription,must select a valid RDS database class.
 Resources.AWS::RDS::DBInstance.Properties.Engine,mysql
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Outputs.RDSEndpoint.Value,"{u'Fn::GetAtt': [u'RDSdb', u'Endpoint.Address']}"
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'80', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}, {u'InstancePort': u'8080', u'LoadBalancerPort': u'8080', u'Protocol': u'TCP'}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php56w-gd,[]
 Parameters.NumberOfNodes.Default,1
 Parameters.AllocatedStorage.MinValue,5
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,WebServerGroup
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php56w,[]
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./tmp/dl-parameters.file.content,"{u'Fn::Join': [u'', [u'AWSAccountID|', {u'Ref': u'AWS::AccountId'}, u'\n', u'AWSRegion|', {u'Ref': u'AWS::Region'}, u'\n', u'DatabaseUserName|', {u'Ref': u'MasterUsername'}, u'\n', u'DatabaseUserPassword|', {u'Ref': u'MasterUserPassword'}, u'\n', u'AdminEmailID|', {u'Ref': u'AdminEmailID'}, u'\n', u'RDSdbEndPointAddr|', {u'Fn::GetAtt': [u'RDSdb', u'Endpoint.Address']}, u'\n', u'RedshiftClusterEndPointAddr|', {u'Fn::GetAtt': [u'RedshiftCluster', u'Endpoint.Address']}, u'\n', u'RedshiftSecondaryRoleARN|', {u'Fn::GetAtt': [u'RedshiftSecondaryRole', u'Arn']}, u'\n', u'RDSIdentifier|', {u'Ref': u'RDSdb'}, u'\n', u'RDSDatabaseName|', {u'Ref': u'DBName'}, u'\n', u'RedshiftClusterIdentifier|', {u'Ref': u'RedshiftCluster'}, u'\n', u'RedshiftDatabase|', {u'Ref': u'DBName'}, u'\n', u'ElasticSearchEndPoint|', {u'Fn::GetAtt': [u'ElasticsearchDomain', u'DomainEndpoint']}, u'\n', u'DatalakeS3Bucket|', {u'Ref': u'DataLakeS3Bucket'}, u'\n', u'StackID|', {u'Ref': u'MasterStackID'}, u'\n', u'StackPartSuffix|', {u'Ref': u'TagSuffix'}, u'\n', u'StackName|', {u'Ref': u'AWS::StackName'}, u'\n', u'WaitCondition|', {u'Fn::Base64': {u'Ref': u'WebserverWaitHandle'}}, u'\n', u'FirehoseStreamName|', {u'Ref': u'DatalakeFirehoseStream'}, u'\n', u'DatalakeCloudTrail|', {u'Ref': u'DatalakeCloudtrail'}, u'\n', u'QuickStartS3URL|', {u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/'}, u'\n', u'QSS3BucketName|', {u'Ref': u'QSS3BucketName'}, u'\n', u'QSS3KeyPrefix|', {u'Ref': u'QSS3KeyPrefix'}, u'\n', u'WebServerELBEndpoint|', {u'Fn::GetAtt': [u'WebServerLoadBalancer', u'DNSName']}, u'\n']]}"
-Parameters.NumberOfNodes.Type,Number
 Resources.AWS::Logs::LogStream.DependsOn,DatalakeFirehoseLogGroup
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"
-Resources.AWS::Logs::LogGroup.Properties.LogGroupName,"{u'Fn::Join': [u'', [u'/aws/kinesisfirehose/datalake-firehose-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
 Resources.Custom::LambdaInvoke.DependsOn,DataLakeS3Bucket
-Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::datalake-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}, u'/*']]}, u'Effect': u'Deny', u'NotPrincipal': {u'AWS': {u'Fn::GetAtt': [u'FirehoseRole', u'Arn']}, u'Service': u'firehose.amazonaws.com'}, u'Sid': u'DenyIncorrectEncryptionHeader', u'Action': u's3:PutObject', u'Condition': {u'StringNotEquals': {u's3:x-amz-server-side-encryption': u'AES256'}}}, {u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::datalake-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}, u'/*']]}, u'Effect': u'Deny', u'NotPrincipal': {u'AWS': {u'Fn::GetAtt': [u'FirehoseRole', u'Arn']}, u'Service': u'firehose.amazonaws.com'}, u'Sid': u'DenyUnEncryptedObjectUploads', u'Action': u's3:PutObject', u'Condition': {u'Null': {u's3:x-amz-server-side-encryption': u'true'}}}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/writetoES.zip.authentication,S3AccessCreds
-Parameters.RedshiftVpcSecurityGroupIds.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.mysql-config,[]
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/datalake.zip.authentication,S3AccessCreds
 Parameters.NoOfAzs.Default,2
 Parameters.ClusterType.ConstraintDescription,must select a valid Redshift cluster type.
-Resources.AWS::Redshift::ClusterParameterGroup.Type,AWS::Redshift::ClusterParameterGroup
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WebserverWaitHandle'}
 Parameters.ClusterType.Description,Redshift instance type
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php56w-cli,[]
-Outputs.Tags.Value,"{u'Fn::Join': [u'', [u'Key=""solution"" ; Value=""', u'datalake-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}, u'""']]}"
 Resources.AWS::Logs::LogStream.Properties.LogStreamName,ElasticsearchDelivery
 Parameters.AdminEmailID.AllowedPattern,"^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
 Resources.AWS::RDS::DBInstance.Properties.EngineVersion,"{u'Fn::FindInMap': [u'RDSEngineVersionMapping', u'mysql', u'latest']}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.type,S3
 Parameters.NodeType.Default,dc1.large
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.LoadBalancerName,"{u'Fn::Join': [u'', [u'dl-elb-', {u'Ref': u'TagSuffix'}]]}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./etc/yum.repos.d/dlpackages.repo.mode,000644
 Resources.AWS::RDS::DBInstance.Properties.Port,3306
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Parameters.ElasticsearchInstanceCount.Type,Number
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'DBInstanceClass'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'firehose.amazonaws.com']}}]"
 Outputs.FirehoseDeliveryStream.Description,Firehose delivery stream
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/zeppelin-0.7.2-bin-all.tgz.source,http://apache.claz.org/zeppelin/zeppelin-0.7.2/zeppelin-0.7.2-bin-all.tgz
 Parameters.ElasticsearchVolumeType.Description,Elasticsearch instance Volume type
 Parameters.AdminEmailID.ConstraintDescription,Can contain only ASCII characters.
-Resources.AWS::Redshift::ClusterSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'PrivateSubnet1'}, {u'Ref': u'PrivateSubnet2'}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
-Parameters.NodeType.Type,String
-Resources.AWS::Redshift::Cluster.Properties.ClusterSubnetGroupName,{u'Ref': u'RedshiftClusterSubnetGroup'}
 Parameters.MasterUserPassword.NoEcho,true
 Outputs.CloudTrail.Description,CloudTrail
-Parameters.RDSVpcSecurityGroups.Type,String
 Parameters.MasterUserPassword.ConstraintDescription,"Must be at least 8 characters containing letters, numbers and symbols."
 Resources.AWS::Elasticsearch::Domain.Properties.SnapshotOptions.AutomatedSnapshotStartHour,0
-Parameters.ELBSecurityGroups.Type,String
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.RoleARN,"{u'Fn::GetAtt': [u'FirehoseRole', u'Arn']}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/TaskRunner-1.0.jar.owner,root
 Parameters.ClusterType.Default,single-node
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/configure.sh.authentication,S3AccessCreds
 Outputs.ElasticsearchEndpoint.Value,"{u'Fn::GetAtt': [u'ElasticsearchDomain', u'DomainEndpoint']}"
-Outputs.S3Bucket.Value,{u'Ref': u'DataLakeS3Bucket'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.mysqld.enabled,true
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:80/home/
-Resources.Custom::LambdaInvoke.Type,Custom::LambdaInvoke
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchVersion,5.1
 Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Version,2012-10-17
 Parameters.ElasticsearchVolumeSize.Description,Elasticsearch instance Volume size
 Parameters.AllocatedStorage.ConstraintDescription,RDSAllocatedStorage must be between 5 and 1024Gb.
 Parameters.RedshiftVpcSecurityGroupIds.Description,Security Groups for Redshift cluster
-Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.Comment1,Configure the bootstrap helpers to install the Apache Web Server and PHP
 Parameters.DBName.MinLength,4
 Outputs.WebServerELBEndpoint.Description,Datalake WebServer ELB Endpoint
 Parameters.MasterUsername.Default,admin
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/TaskRunner-1.0.jar.authentication,S3AccessCreds
-Resources.AWS::Elasticsearch::Domain.Properties.DomainName,"{u'Fn::Join': [u'', [u'dles-', {u'Ref': u'TagSuffix'}]]}"
 Parameters.MasterUsername.ConstraintDescription,DB Username must start with a letter & no special characters(Min=4;Max=20 AlphaNumerics)
 Parameters.ELBSecurityGroups.Description,Security Groups for data lake web server ELB
 Resources.AWS::CloudTrail::Trail.Properties.IsLogging,True
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.Parameters,"[{u'ParameterName': u'enable_user_activity_logging', u'ParameterValue': u'true'}]"
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CompressionFormat,UNCOMPRESSED
-Resources.AWS::Elasticsearch::Domain.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'', [u'datalake-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}, u'Key': u'solution'}, {u'Value': {u'Fn::Join': [u'', [u'datalake-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}, u'Key': u'Name'}]"
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,lambdas/writetoESX.zip
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Parameters.DBName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Parameters.DBName.Default,awsdatalakeqs
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/configure.sh.group,root
 Resources.AWS::S3::BucketPolicy.DependsOn,"[u'DatalakeCloudtrail', u'FirehoseRole']"
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSAMItoRegionMap', {u'Ref': u'AWS::Region'}, u'AMZNLINUXPVM']}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LoadBalancerNames,[{u'Ref': u'WebServerLoadBalancer'}]
 Outputs.LambdaFunction.Description,Lambda Function
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php56w-pgsql,[]
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'DeleteOnTermination': u'true', u'VolumeType': u'gp2', u'VolumeSize': u'30'}}]"
@@ -253,46 +163,27 @@ Parameters.PrivateSubnet2.Description,Private Subnet for RDS and Redshift cluste
 Outputs.RedshiftClusterEndpoint.Value,"{u'Fn::GetAtt': [u'RedshiftCluster', u'Endpoint.Address']}"
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'\n', [u'import boto3', u'import cfnresponse', u'import json', u'def handler(event,context):', u"" if event['RequestType'] == 'Delete':"", u""   REGION     = event['ResourceProperties']['regionparam']"", u""   ACCOUNT    = event['ResourceProperties']['accountparam']"", u""   TAGSUFFIX  = event['ResourceProperties']['tagsuffixparam']"", u""   s3 = boto3.resource('s3')"", u""   BUCKET = 'datalake-'+REGION+'-'+ACCOUNT+'-'+TAGSUFFIX"", u'   bucket = s3.Bucket(BUCKET)', u'   bucket.object_versions.delete()', u'   bucket.delete()', u'   responseData = {}', u""   responseData['Data'] = 'asset_bucket_deleted'"", u'   cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)', u"" if event['RequestType'] == 'Create':"", u'   responseData = {}', u""   responseData['Data'] = 'stack_creation'"", u'   cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)']]}"
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,true
-Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,{u'Ref': u'AllocatedStorage'}
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.BufferingHints.SizeInMBs,5
 Resources.Custom::LambdaInvoke.Properties.ServiceToken,"{u'Fn::GetAtt': [u'ResourceDeletionLambda', u'Arn']}"
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Ref': u'PrivateSubnet1'}, {u'Ref': u'PrivateSubnet2'}]"
 Parameters.MasterStackID.Description,Master StackID for use within the resources
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceIdentifier,"{u'Fn::Join': [u'', [u'datalake-rds-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
 Parameters.MasterUserPassword.AllowedPattern,"(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*"
-Parameters.TagSuffix.Type,String
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'WebserverSecurityGroups'}]
-Parameters.DBInstanceClass.Type,String
 Parameters.MasterUsername.MinLength,4
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'ELBSecurityGroups'}]
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
-Resources.AWS::Redshift::Cluster.Type,AWS::Redshift::Cluster
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.Prefix,FirehoseDatalake/
-Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.VolumeSize,{u'Ref': u'ElasticsearchVolumeSize'}
-Resources.AWS::Redshift::ClusterSubnetGroup.Type,AWS::Redshift::ClusterSubnetGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/writetoES.zip.group,root
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::Logs::LogStream.Type,AWS::Logs::LogStream
 Parameters.NumberOfNodes.Description,Number of nodes in the redshift cluster(=1 if single-node)
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.BufferingHints.SizeInMBs,1
 Parameters.DBName.MaxLength,16
-Outputs.CloudTrail.Value,{u'Ref': u'DatalakeCloudtrail'}
 Parameters.DBInstanceClass.Description,Database instance class
-Resources.AWS::Lambda::Function.Properties.FunctionName,"{u'Fn::Join': [u'', [u'datalake-catlamb-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.IndexRotationPeriod,NoRotation
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.BufferingHints.IntervalInSeconds,60
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.IndexName,datalakedeliverystream
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/zeppelin-0.7.2-bin-all.tgz.group,root
-Parameters.PublicSubnet2.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.services.sysvinit.httpd.enabled,true
 Parameters.KeyPairName.ConstraintDescription,Can contain only ASCII characters.
-Parameters.MasterStackID.Type,String
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': {u'Fn::Join': [u'', [u'datalake-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}, u'Key': u'solution'}, {u'PropagateAtLaunch': u'true', u'Value': {u'Fn::Join': [u'', [u'datalake-webserver-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}, u'Key': u'Name'}]"
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CloudWatchLoggingOptions.Enabled,True
-Resources.AWS::Redshift::Cluster.Properties.MasterUserPassword,{u'Ref': u'MasterUserPassword'}
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Install.packages.yum.php56w-mysql,[]
 Resources.AWS::RDS::DBInstance.Properties.PubliclyAccessible,true
 Parameters.MasterUsername.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
@@ -300,13 +191,10 @@ Parameters.NoOfAzs.Description,Number of Availability Zones to use in the VPC. T
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./etc/yum.repos.d/dlpackages.repo.source,{u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/repo/dlpackages.repo'}
 Parameters.PublicSubnet2.Description,Public Subnet for web server group
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.RoleARN,"{u'Fn::GetAtt': [u'FirehoseRole', u'Arn']}"
-Resources.AWS::RDS::DBInstance.Properties.DBName,{u'Ref': u'DBName'}
 Resources.AWS::S3::Bucket.Properties.AccessControl,PublicReadWrite
 Resources.AWS::Redshift::ClusterParameterGroup.Properties.Description,Cluster parameter group
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/TaskRunner-1.0.jar.source,https://s3.amazonaws.com/datapipeline-us-east-1/us-east-1/software/latest/TaskRunner/TaskRunner-1.0.jar
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/datalake.zip.source,{u'Fn::Sub': u'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/web/datalake.zip'}
-Resources.AWS::Redshift::Cluster.Properties.ClusterParameterGroupName,{u'Ref': u'RedshiftClusterParameterGroup'}
-Parameters.PrivateSubnet2.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./home/ec2-user/zeppelin-0.7.2-bin-all.tgz.owner,root
 Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.Iops,0
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./tmp/dl-parameters.file.group,root
@@ -315,4 +203,3 @@ Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinati
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.Fileset.files./tmp/dl-parameters.file.mode,000440
 Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'Transitions': [{u'TransitionInDays': 30, u'StorageClass': u'GLACIER'}], u'Id': u'DatalakeLCP', u'ExpirationInDays': 45}]"
 Outputs.Tags.Description,Use this Tag for creating Resource Group
-Resources.AWS::S3::Bucket.Properties.BucketName,"{u'Fn::Join': [u'', [u'datalake-', {u'Ref': u'AWS::Region'}, u'-', {u'Ref': u'AWS::AccountId'}, u'-', {u'Ref': u'TagSuffix'}]]}"

@@ -1,22 +1,17 @@
 Resources.AWS::Serverless::Function.Properties.CodeUri,main.zip
 Resources.AWS::Serverless::Function.Properties.Events.RegisterInstance.Properties.Method,POST
 Resources.AWS::Serverless::Function.Properties.Tags.App,OmniSSM
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Serverless::Function.Properties.Events.Periodically.Properties.Schedule,rate(5 minutes)
-Resources.AWS::Serverless::Function.Properties.Events.RegisterInstance.Type,Api
 Resources.AWS::Serverless::Function.Properties.Tracing,Active
 Resources.AWS::Serverless::Function.Properties.Events.RegisterInstance.Properties.Path,/register
-Resources.AWS::Serverless::Function.Properties.Events.ConfigFeed.Type,CloudWatchEvent
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'id'}]"
 Parameters.AccountIDs.Description,IDs of accounts permitted to register
-Resources.AWS::Serverless::Function.Properties.Events.Periodically.Type,Schedule
 Resources.AWS::Serverless::Function.Properties.Events.RegisterId.Properties.Path,/register
 Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'ManagedId'}], u'IndexName': u'ManagedId-index', u'Projection': {u'ProjectionType': u'ALL'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': 5, u'ReadCapacityUnits': 5}}]"
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
 Resources.AWS::Serverless::Function.Properties.Role,arn:aws:iam::644160558196:role/CloudCustodianRole
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'id', u'AttributeType': u'S'}, {u'AttributeName': u'ManagedId', u'AttributeType': u'S'}]"
 Resources.AWS::Serverless::Function.Properties.Handler,main
-Resources.AWS::SQS::Queue.Type,AWS::SQS::Queue
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.OMNISSM_REGISTRATIONS_TABLE,RegistrationsTable
 Resources.AWS::Serverless::Function.Properties.Events.ConfigFeed.Properties.Pattern.source,[u'aws.config']
 Resources.AWS::DynamoDB::Table.Properties.TableName,TableName
@@ -24,10 +19,7 @@ Resources.AWS::DynamoDB::Table.Properties.Tags,"[{u'Value': u'OmniSSM', u'Key': 
 Resources.AWS::Serverless::Function.Properties.Runtime,go1.x
 Resources.AWS::Serverless::Function.Properties.Events.ConfigFeed.Properties.Pattern.detail-type,[u'Config Configuration Item Change']
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.OMNISSM_ACCOUNT_WHITELIST,"[u',', u'AccountIDs']"
-Resources.AWS::Serverless::Function.Properties.Events.RegisterId.Type,Api
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
 Resources.AWS::Serverless::Function.Properties.Events.RegisterId.Properties.Method,PATCH
-Parameters.AccountIDs.Type,CommaDelimitedList
 Resources.AWS::Serverless::Function.Properties.FunctionName,omnissm-handle-registrations
 Resources.AWS::Serverless::Function.Properties.Events.ConfigFeed.Properties.Pattern.detail.configurationItem.resourceType,[u'AWS::EC2::Instance']
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5

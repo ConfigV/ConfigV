@@ -1,10 +1,7 @@
 Parameters.GatewaysPasswordHash.Description,"Admin user's password hash (use command ""openssl passwd -1 PASSWORD"" to get the PASSWORD's hash) (optional)"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GatewaysBlades.default,Default Blades
-Parameters.ServersSubnets.Type,String
 Parameters.ServersSubnets.Description,"Provide at least 2 private subnet IDs in the chosen VPC, separated by commas (e.g. subnet-0d72417c,subnet-1f61306f,subnet-1061d06f)"
-Parameters.VPC.Type,AWS::EC2::VPC::Id
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.AdminAddressCIDR.default,Administrator addresses
-Parameters.GatewaysAddresses.Type,String
 Parameters.ManagementPasswordHash.Default,
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GatewaysLicense.default,License
 Parameters.GatewaysBlades.Description,"Turn on/off the Intrusion Prevention System, Application Control, Anti-Virus and Anti-Bot Blades (additional Blades can be manually turned on later)"
@@ -25,21 +22,16 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.MinSize,GatewaysMinSi
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Version,ManagementLicense
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.BootstrapScript,sed -i '/template_name/c\template_name: quickstart-autoscale' /etc/cloud-version
 Parameters.VPC.MinLength,1
-Parameters.Certificate.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PasswordHash,GatewaysPasswordHash
-Parameters.GatewaysMaxSize.Type,Number
-Parameters.GatewayAllowUploadDownload.Type,String
 Resources.AWS::EC2::SecurityGroup.Condition,ALB
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Certificates,[{u'CertificateArn': u'Certificate'}]
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VPC
 Parameters.AdminAddressCIDR.AllowedPattern,"^(([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[1-2][0-9]|3[0-2]))?$"
-Parameters.ManagementLicense.Type,String
 Parameters.AdminEmail.Description,Notifications about scaling events will be sent to this email address (optional)
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VPC,VPC
 Parameters.GatewaysMaxSize.MinValue,1
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPC', u'Protocol', u'ServicePort', u'Certificate', u'ExternalLoadBalancerType', u'AdminEmail', u'KeyPairName', u'Tag'], u'Label': {u'default': u'General Settings'}}, {u'Parameters': [u'GatewaysSubnets', u'GatewaysInstanceType', u'GatewaysMinSize', u'GatewaysMaxSize', u'GatewaysLicense', u'GatewaysPasswordHash', u'GatewaysSIC', u'GatewayAllowUploadDownload'], u'Label': {u'default': u'Check Point CloudGuard IaaS Security Gateways Auto Scaling Group Configuration'}}, {u'Parameters': [u'ManagementDeploy', u'ManagementInstanceType', u'ManagementLicense', u'ManagementPasswordHash', u'GatewaysPolicy', u'GatewaysBlades', u'AdminAddressCIDR', u'GatewaysAddresses'], u'Label': {u'default': u'Check Point CloudGuard IaaS Security Management Server Configuration'}}, {u'Parameters': [u'ServersDeploy', u'ServersSubnets', u'ServersInstanceType', u'ServersAMI'], u'Label': {u'default': u'Web Servers Auto Scaling Group Configuration'}}]"
 Outputs.InternalPort.Description,The internal Load Balancer should listen to this port
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Outputs.ConfigurationTemplateName.Value,${Tag}-template
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GatewaysSubnets.default,Subnets
 Parameters.Certificate.Description,"Amazon Resource Name (ARN) of an HTTPS Certificate, ignored if the selected protocol is HTTP"
@@ -57,46 +49,34 @@ Parameters.KeyPairName.MinLength,1
 Parameters.ManagementLicense.Default,R80.10-PAYG-MGMT5
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GatewaysMaxSize.default,Maximum group size
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.LoadBalancerArn,ExternalApplicationLoadBalancer
-Parameters.GatewaysSubnets.Type,List<AWS::EC2::Subnet::Id>
 Parameters.GatewayAllowUploadDownload.AllowedValues,"[u'Yes', u'No']"
 Outputs.ManagementName.Value,${Tag}-management
-Parameters.GatewaysMinSize.Type,Number
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Certificate.default,HTTPS certificate
-Parameters.GatewaysPasswordHash.Type,String
 Parameters.KeyPairName.Description,The EC2 Key Pair to allow SSH access to the instances created by this stack
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Name,${Tag}-security-gateway
 Parameters.AdminEmail.ConstraintDescription,Must be a valid email address
 Outputs.NLBURL.Value,"[u'ExternalNetworkLoadBalancer', u'DNSName']"
-Parameters.ServersAMI.Type,String
-Parameters.ManagementDeploy.Type,String
 Parameters.Protocol.Description,The protocol to use
-Parameters.ServicePort.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ManagementDeploy.default,Deploy Management Server
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ManagementLicense.default,License
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.MaxSize,GatewaysMaxSize
 Parameters.ManagementPasswordHash.Description,"Admin user's password hash (use command ""openssl passwd -1 PASSWORD"" to get the PASSWORD's hash) (optional)"
 Parameters.GatewaysPasswordHash.NoEcho,True
-Parameters.AdminAddressCIDR.Type,String
 Parameters.ServersSubnets.ConstraintDescription,"Subnet IDs must be in the form subnet-xxxxxxxx or subnet-xxxxxxxxxxxxxxxxx, separated by commas without spaces"
-Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Type,AWS::ElasticLoadBalancingV2::TargetGroup
 Parameters.GatewaysPasswordHash.Default,
 Parameters.GatewaysAddresses.AllowedPattern,"^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[1-2][0-9]|3[0-2])$"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.License,GatewaysLicense
 Outputs.ALBURL.Description,The URL of the external Application Load Balancer
 Parameters.ServicePort.ConstraintDescription,Custom service port must be a number between 0 and 65535
-Parameters.GatewaysLicense.Type,String
 Parameters.GatewaysSIC.NoEcho,True
 Parameters.VPC.Description,Select an existing VPC
 Parameters.GatewaysMinSize.Description,The minimal number of Security Gateways
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.Tag.default,Auto Provision tag
-Parameters.GatewaysSIC.Type,String
 Parameters.GatewaysPolicy.Default,Standard
-Parameters.AdminEmail.Type,String
 Outputs.ControllerName.Description,"The name that represents the controller. Configurations required to connect to your AWS environment, such as credentials and regions, will be placed under this controller name"
 Parameters.Tag.Default,QuickStart
 Parameters.Protocol.AllowedValues,"[u'HTTP', u'HTTPS']"
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Port,"[u'ProvidedPort', u'ServicePort', [u'HTTP', u'80', u'443']]"
-Parameters.KeyPairName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.Protocol.Default,HTTP
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ServersDeploy.default,Deploy servers
 Parameters.GatewaysSIC.MinLength,8
@@ -119,7 +99,6 @@ Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Tags,"[{u'Value':
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.TargetGroups,ExternalLBTargetGroup
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GatewaysPolicy.default,Security Policy
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.KeyName,KeyPairName
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Condition,DeployServers
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GatewaysMinSize.default,Minimum group size
 Parameters.ServersAMI.Description,The Amazon Machine Image ID of a preconfigured web server (e.g. ami-0dc7dc63)
@@ -141,7 +120,6 @@ Parameters.GatewaysBlades.Default,On
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.DefaultActions,"[{u'TargetGroupArn': u'ExternalLBTargetGroup', u'Type': u'forward'}]"
 Parameters.GatewaysMaxSize.Description,The maximal number of Security Gateways
 Parameters.ManagementLicense.Description,The license to install on the Security Management Server
-Parameters.ExternalLoadBalancerType.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ImageId,ServersAMI
 Parameters.ManagementDeploy.Default,Yes
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ServersAMI.default,AMI ID
@@ -150,30 +128,23 @@ Parameters.ServicePort.AllowedPattern,"^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[u',', u'ServersSubnets']"
 Parameters.ExternalLoadBalancerType.AllowedValues,"[u'Network Load Balancer', u'Application Load Balancer']"
 Outputs.ControllerName.Value,${Tag}-controller
-Parameters.ServersDeploy.Type,String
-Parameters.Protocol.Type,String
 Parameters.ManagementDeploy.Description,Select 'No' to use an existing Security Management Server or to deploy one later and to ignore the other parameters of this section
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ConfigurationTemplate,${Tag}-template
 Parameters.ManagementDeploy.AllowedValues,"[u'Yes', u'No']"
 Parameters.GatewayAllowUploadDownload.Description,Automatically download Blade Contracts and other important data. Improve product experience by sending data to Check Point
 Outputs.InternalPort.Value,8081
-Parameters.ManagementPasswordHash.Type,String
 Resources.AWS::ElasticLoadBalancingV2::Listener.Properties.Protocol,HTTP
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.IpAddressType,ipv4
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Condition,DeployServers
 Parameters.ExternalLoadBalancerType.Description,Use Network Load Balancer if you wish to preserve the source IP address and Application Load Balancer if you wish to perform SSL Offloading
-Parameters.Tag.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.GatewaysAddresses.default,Gateways addresses
 Parameters.GatewaysSIC.AllowedPattern,[a-zA-Z0-9]*
 Parameters.AdminAddressCIDR.Description,"Allow web, SSH, and graphical clients only from this network to communicate with the Security Management Server"
 Parameters.GatewaysMinSize.Default,2
 Parameters.GatewaysAddresses.Description,Allow gateways only from this network to communicate with the Security Management Server
 Resources.AWS::ElasticLoadBalancingV2::TargetGroup.Properties.Protocol,Protocol
-Parameters.GatewaysBlades.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.AdminSubnet,AdminAddressCIDR
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyPairName.default,Key name
-Resources.AWS::ElasticLoadBalancingV2::Listener.Type,AWS::ElasticLoadBalancingV2::Listener
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPC.default,VPC
 Parameters.ServersDeploy.Default,No
 Parameters.GatewaysPolicy.MinLength,1
@@ -186,10 +157,8 @@ Parameters.Certificate.AllowedPattern,(|arn:aws:[a-z]+::[0-9]{12}:server-certifi
 Parameters.GatewayAllowUploadDownload.Default,Yes
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.AllowUploadDownload,"[u'AllowUploadDownload', u'true', u'false']"
 Parameters.ServersSubnets.AllowedPattern,"^((subnet-(([0-9a-f]{8})|([0-9a-f]{17})),)*(subnet-(([0-9a-f]{8})|([0-9a-f]{17})))+)$|^$"
-Parameters.GatewaysPolicy.Type,String
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': [u'ProvidedPort', u'ServicePort', [u'HTTP', u'80', u'443']], u'FromPort': [u'ProvidedPort', u'ServicePort', [u'HTTP', u'80', u'443']], u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0'}]"
 Parameters.Certificate.ConstraintDescription,"Must be a valid Amazon Resource Name (ARN), for example: arn:aws:iam::123456789012:server-certificate/web-server-certificate"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.GatewaysAddresses,GatewaysAddresses
 Parameters.ServersDeploy.Description,Select 'Yes' to deploy web servers and an internal Application Load Balancer. If you select 'No' the other parameters of this section will be ignored
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Type,network
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SICKey,GatewaysSIC

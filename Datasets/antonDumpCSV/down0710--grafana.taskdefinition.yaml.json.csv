@@ -1,13 +1,6 @@
 Resources.AWS::ECS::TaskDefinition.Properties.Family,ixortalk-grafana
 Resources.AWS::Logs::LogGroup.Properties.LogGroupName,nginx-grafana-logs
 Resources.AWS::Logs::LogGroup.Properties.RetentionInDays,365
-Parameters.SpringCloudConfigLabel.Type,String
-Parameters.SpringProfilesActive.Type,String
 Parameters.SpringCloudConfigLabel.Description,The branch of the config environment to use
 Outputs.TaskDefinition.Value,TaskDefinition
-Parameters.GrafanaImageVersion.Type,String
-Resources.AWS::ECS::TaskDefinition.Type,AWS::ECS::TaskDefinition
 Resources.AWS::ECS::TaskDefinition.Properties.ContainerDefinitions,"[{u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'nginx-grafana-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-nginx-grafana', u'Links': [u'ixortalk-grafana'], u'Image': u'ixortalk/ixortalk-nginx-docker-proxy:${NginxImageVersion}', u'Hostname': u'ixortalk-nginx-grafana', u'Environment': [{u'Name': u'IXORTALK_NGINX_PROFILE', u'Value': u'SpringProfilesActive'}, {u'Name': u'IXORTALK_CONFIG_SERVER_LABEL', u'Value': u'SpringCloudConfigLabel'}, {u'Name': u'IXORTALK_NGINX_ENABLE_BASIC_AUTH', u'Value': u'false'}, {u'Name': u'IXORTALK_CONFIG_SERVER_URL', u'Value': u'https://${LoadbalancerDNS}/config'}, {u'Name': u'IXORTALK_NGINX_SUFFIX', u'Value': u'grafana'}], u'Memory': 64, u'PortMappings': [{u'ContainerPort': 3001}]}, {u'LogConfiguration': {u'LogDriver': u'awslogs', u'Options': {u'awslogs-group': u'grafana-logs', u'awslogs-region': u'AWS::Region'}}, u'Name': u'ixortalk-grafana', u'Image': u'ixortalk/ixortalk-grafana:${GrafanaImageVersion}', u'Hostname': u'ixortalk-grafana', u'Environment': [{u'Name': u'IXORTALK_PROFILE', u'Value': u'SpringProfilesActive'}, {u'Name': u'IXORTALK_CONFIG_SERVER_LABEL', u'Value': u'SpringCloudConfigLabel'}, {u'Name': u'IXORTALK_CONFIG_SERVER_URL', u'Value': u'https://${LoadbalancerDNS}/config'}, {u'Name': u'GF_SECURITY_ADMIN_PASSWORD', u'Value': u'adminadmin'}, {u'Name': u'GF_USERS_ALLOW_SIGN_UP', u'Value': u'false'}, {u'Name': u'GF_AUTH_BASIC_ENABLED', u'Value': u'false'}, {u'Name': u'GF_AUTH_ANONYMOUS_ENABLED', u'Value': u'true'}, {u'Name': u'GF_AUTH_ANONYMOUS_ORG_ROLE', u'Value': u'Admin'}, {u'Name': u'GF_SERVER_ROOT_URL', u'Value': u'https://${LoadbalancerDNS}/grafana'}, {u'Name': u'GF_INSTALL_PLUGINS', u'Value': u'grafana-clock-panel,grafana-simple-json-datasource'}], u'Memory': 128}]"
-Parameters.LoadbalancerDNS.Type,String
-Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
-Parameters.NginxImageVersion.Type,String

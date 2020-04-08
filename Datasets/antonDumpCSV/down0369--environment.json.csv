@@ -1,6 +1,4 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
-Parameters.DevPrivateSubnetCidr.Type,String
 Resources.AWS::IAM::User.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/AWSCodeCommitPowerUser']
 Resources.AWS::EC2::SecurityGroup.DependsOn,DevAttachGateway
 Parameters.KeyName.ConstraintDescription,must be the name of an existing EC2 KeyPair.
@@ -9,93 +7,48 @@ Resources.AWS::EC2::InternetGateway.DependsOn,DevVpc
 Resources.AWS::EC2::SubnetRouteTableAssociation.DependsOn,"[u'DevPublicRouteTable', u'DevPrivateSubnet', u'DevAttachGateway']"
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'ec2:*', u'logs:*', u'cloudformation:*', u's3:*', u'iam:PassRole', u'iam:ListInstanceProfiles', u'iam:UploadSSHPublicKey', u'codepipeline:AcknowledgeJob', u'codepipeline:GetJobDetails', u'codepipeline:PollForJobs', u'codepipeline:PutJobFailureResult', u'codepipeline:PutJobSuccessResult'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'1024', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'DevPrivateSubnetCidr'}, u'FromPort': u'0'}, {u'ToPort': u'1024', u'IpProtocol': u'udp', u'CidrIp': {u'Ref': u'DevPrivateSubnetCidr'}, u'FromPort': u'0'}]"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,1800
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
 Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
 Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.UnhealthyThreshold,5
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CIInstanceEC2TrustAccessRole'}]
-Resources.AWS::EC2::Subnet.Properties.CidrBlock,{u'Ref': u'DevPrivateSubnetCidr'}
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'Dev Private Subnet', u'Key': u'Name'}, {u'Value': u'Development', u'Key': u'Environment'}]"
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Instances,[{u'Ref': u'CIInstance'}]
 Parameters.DevPrivateSubnetCidr.Default,10.1.2.0/24
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Timeout,5
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Interval,30
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'DevInternetGateway'}
 Resources.AWS::EC2::RouteTable.DependsOn,"[u'DevVpc', u'DevAttachGateway']"
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'Dev Public Route Table', u'Key': u'Name'}]"
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Type,AWS::ElasticLoadBalancing::LoadBalancer
 Mappings.AmazonLinuxAMI.eu-central-1.AMI,ami-a8221fb5
 Resources.AWS::EC2::NetworkAcl.DependsOn,DevAttachGateway
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Subnets,[{u'Ref': u'DevPublicSubnet'}]
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'DevPublicRouteTable'}
 Resources.AWS::EC2::Route.DependsOn,"[u'DevPublicRouteTable', u'DevAttachGateway']"
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'SubnetId': {u'Ref': u'DevPublicSubnet'}, u'DeviceIndex': u'0', u'GroupSet': [{u'Ref': u'CIInstanceSecurityGroup'}], u'AssociatePublicIpAddress': u'true'}]"
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'DevVpc'}
 Outputs.JenkinsEndpoint.Description,Endpoint used to connect to the Jenkins Server
-Resources.AWS::EC2::VPC.Properties.CidrBlock,{u'Ref': u'DevVpcCidr'}
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:GetObject', u's3:GetObjectVersion', u's3:GetBucketVersioning'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:PutObject'], u'Resource': [u'arn:aws:s3:::codepipeline*', u'arn:aws:s3:::elasticbeanstalk*'], u'Effect': u'Allow'}, {u'Action': [u'codedeploy:CreateDeployment', u'codedeploy:GetApplicationRevision', u'codedeploy:GetDeployment', u'codedeploy:GetDeploymentConfig', u'codedeploy:RegisterApplicationRevision'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'elasticbeanstalk:*', u'ec2:*', u'elasticloadbalancing:*', u'autoscaling:*', u'cloudwatch:*', u's3:*', u'sns:*', u'cloudformation:*', u'rds:*', u'sqs:*', u'ecs:*', u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction', u'lambda:ListFunctions'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'CIInstanceEC2TrustAccessRole'}]
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'DevVpc'}
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupEgress,"[{u'ToPort': u'65535', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'0'}, {u'ToPort': u'65535', u'IpProtocol': u'udp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'0'}]"
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'DevVpc'}
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
-Parameters.DevVpcCidr.Type,String
-Resources.AWS::EC2::Route.Properties.InstanceId,{u'Ref': u'DevNatInstance'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable internal access to the NAT device
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.Listeners,"[{u'InstancePort': u'8080', u'LoadBalancerPort': u'80', u'Protocol': u'HTTP'}]"
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,CIInstance
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -x\n', u'yum update -y\n', u'#Install Git, Apache Bench, PostgreSQL, PHP, and CloudWatch Logs\n', u'yum install -y git httpd-tools awslogs postgresql php\n', u'sleep 30\n', u'#Set up environment variables\n', u'export REGION=', {u'Ref': u'AWS::Region'}, u'\n', u'export AMI_ID=', {u'Fn::FindInMap': [u'AmazonLinuxAMI', {u'Ref': u'AWS::Region'}, u'AMI']}, u'\n', u'export SG_ID=', {u'Ref': u'CIInstanceSecurityGroup'}, u'\n', u'export SUBNET_ID=', {u'Ref': u'DevPublicSubnet'}, u'\n', u'export KEYNAME=', {u'Ref': u'KeyName'}, u'\n', u'mkdir /home/ec2-user/setup\n', u'#####################################################################################################################\n', u'# Update sudoers file to not require a TTY for sudo.\n', u""sed -i 's/^Defaults    requiretty/#&/' /etc/sudoers\n"", u'mkdir /home/ec2-user/.aws \n', u'cat > /home/ec2-user/.aws/config <<EOF\n', u'[default]\n', u'region = ', {u'Ref': u'AWS::Region'}, u'\n', u'EOF\n', u'chown -R ec2-user:ec2-user /home/ec2-user/.aws\n', u'#Installing Jenkins \n', u'wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo\n', u'rpm --import http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key\n', u'sleep 5 && yum install -y jenkins\n', u'chkconfig jenkins on\n', u'# Download CodePipeline plugin and Cloudformation plugin (prior to starting Jenkins Service)\n', u'mkdir /var/lib/jenkins/plugins && chown -R jenkins:jenkins /var/lib/jenkins\n', u'wget -O /var/lib/jenkins/plugins/aws-codepipeline-plugin-for-jenkins.hpi http://updates.jenkins-ci.org/latest/aws-codepipeline.hpi\n', u'wget -O /var/lib/jenkins/plugins/jenkins-cloudformation-plugin.hpi http://updates.jenkins-ci.org/latest/jenkins-cloudformation-plugin.hpi\n', u'# Start jenkins, pause for a few, then install remaining plugins\n', u'service jenkins start && sleep 30\n', u'# Generate SSH key for Jenkins - CodeCommit integration\n', u""ssh-keygen -b 2048 -t rsa -f /home/ec2-user/.ssh/id_rsa -q -N '' && chown -R ec2-user:ec2-user /home/ec2-user\n"", u'mkdir /var/lib/jenkins/.ssh && cp /home/ec2-user/.ssh/id_rsa /var/lib/jenkins/.ssh/id_rsa\n', u'ciUserName=', {u'Ref': u'CIUser'}, u'\n', u""ciPubKeyId=$(aws iam upload-ssh-public-key --user-name $ciUserName --ssh-public-key-body file:///home/ec2-user/.ssh/id_rsa.pub --query 'SSHPublicKey.SSHPublicKeyId')\n"", u'# setup ssh config file for AWS CodeCommit\n', u'echo ""Host git-codecommit.*.amazonaws.com"" >> /var/lib/jenkins/.ssh/config\n', u'echo ""  User $ciPubKeyId"" >> /var/lib/jenkins/.ssh/config\n', u'echo ""  IdentityFile /var/lib/jenkins/.ssh/id_rsa"" >> /var/lib/jenkins/.ssh/config\n', u'echo ""  StrictHostKeyChecking no"" >> /var/lib/jenkins/.ssh/config\n', u'sudo chown -R jenkins:jenkins /var/lib/jenkins/.ssh/\n', u'# Jenkins: Install plugs and set up environment\n', u'cd /var/lib/jenkins && wget http://localhost:8080/jnlpJars/jenkins-cli.jar && mkdir tmp\n', u'echo ""export KEYNAME=$KEYNAME"" >> /var/lib/jenkins/.env_config\n', u'echo ""export REGION=$REGION"" >> /var/lib/jenkins/.env_config\n', u'chown -R jenkins:jenkins /var/lib/jenkins\n', u'java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin git git-client s3 awseb-deployment-plugin codedeploy -deploy -restart && sleep 30\n', u'# All is well so signal success\n', u""/opt/aws/bin/cfn-signal -s true '"", {u'Ref': u'CIInstanceWaitHandle01'}, u""'\n""]]}}"
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Fn::GetAZs': u''}]}"
-Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'DevVpc'}
 Outputs.JenkinsEndpoint.Value,"{u'Fn::GetAtt': [u'DevWebAppLoadBalancer', u'DNSName']}"
 Resources.AWS::EC2::Instance.Properties.SourceDestCheck,false
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'CIInstanceWaitHandle01'}
 Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': u'Dev Private NACL', u'Key': u'Network'}, {u'Value': u'Development', u'Key': u'Environment'}]"
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'DevPrivateRouteTable'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': u'Dev VPC', u'Key': u'VPC'}, {u'Value': u'Dev VPC', u'Key': u'Name'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.DependsOn,CIInstance
 Resources.AWS::EC2::Subnet.DependsOn,DevAttachGateway
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instance
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'CIInstanceEC2InstanceProfile'}
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'DevVpc'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.DevVpcCidr.Default,10.1.0.0/16
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.Target,HTTP:8080/login
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::VPCGatewayAttachment.DependsOn,"[u'DevVpc', u'DevInternetGateway']"
 Parameters.DevVpcCidr.Description,CIDR Block for Developer VPC
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
-Parameters.DevPublicSubnetCidr.Type,String
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Parameters.DevPublicSubnetCidr.Description,Dev Environment Public Subnet
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Outputs.CodePipeLineARN.Value,"{u'Fn::GetAtt': [u'CodePipeLineRole', u'Arn']}"
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
-Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.SecurityGroups,[{u'Ref': u'DevJenkinsSecurityGroup'}]
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'DevInternetGateway'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::Instance.DependsOn,"[u'DevPublicSubnet', u'CIUser', u'CIInstanceSecurityGroup', u'DevAttachGateway']"
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'DevPrivateSubnet'}
 Parameters.DevPublicSubnetCidr.Default,10.1.0.0/24
 Parameters.DevVpcCidr.AllowedValues,[u'10.1.0.0/16']
 Parameters.DevPrivateSubnetCidr.Description,Dev Environment Private Subnet
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Resources.AWS::IAM::Policy.Properties.PolicyName,CIInstance_RestrictedAccess
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AmazonLinuxAMI', {u'Ref': u'AWS::Region'}, u'AMI']}"
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'DevJenkinsSecurityGroup', u'Key': u'Name'}, {u'Value': u'Development', u'Key': u'Environment'}]"
 Resources.AWS::ElasticLoadBalancing::LoadBalancer.Properties.HealthCheck.HealthyThreshold,3
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': u'CI-Instance', u'Key': u'Name'}, {u'Value': u'Development', u'Key': u'DeploymentType'}]"

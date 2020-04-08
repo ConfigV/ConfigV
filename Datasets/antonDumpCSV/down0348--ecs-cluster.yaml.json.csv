@@ -9,13 +9,10 @@ Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': u'${AW
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,LaunchConfiguration
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"[u'AWSRegionToAMI', u'AWS::Region', u'AMI']"
 Resources.AWS::IAM::Role.Condition,EC2
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Parameters.VpcId.Type,AWS::EC2::VPC::Id
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,ClusterSize
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,ClusterSize
 Resources.AWS::IAM::InstanceProfile.Condition,EC2
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.content,"[main]
 stack=${AWS::StackId}
 region=${AWS::Region}
@@ -28,21 +25,15 @@ path=Resources.ContainerInstances.Metadata.AWS::CloudFormation::Init
 action=/opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName} --resource LaunchConfiguration
 "
 Resources.AWS::AutoScaling::AutoScalingGroup.Condition,EC2
-Parameters.Subnets.Type,List<AWS::EC2::Subnet::Id>
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[u'SecurityGroup']
-Resources.AWS::ECS::Cluster.Type,AWS::ECS::Cluster
-Parameters.ClusterSize.Type,Number
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,${AWS::StackName}-hosts
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.enabled,True
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MaxBatchSize,1
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.group,root
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Mappings.AWSRegionToAMI.eu-central-1.AMI,ami-509a053f
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,{u'Fn::Base64': u'#!/bin/bash\nyum install -y aws-cfn-bootstrap\n/opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName} --resource LaunchConfiguration\n/opt/aws/bin/cfn-signal -e $? --region ${AWS::Region} --stack ${AWS::StackName} --resource AutoScalingGroup\n'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,ClusterSize
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'ec2.amazonaws.com'}}]"
-Parameters.LaunchType.Type,String
-Parameters.SourceSecurityGroup.Type,AWS::EC2::SecurityGroup::Id
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'SourceSecurityGroupId': u'SourceSecurityGroup', u'IpProtocol': -1}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.01_add_instance_to_cluster.command,echo ECS_CLUSTER=${Cluster} > /etc/ecs/ecs.config
 Resources.AWS::AutoScaling::AutoScalingGroup.CreationPolicy.ResourceSignal.Timeout,PT15M
@@ -51,10 +42,8 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,In
 Parameters.LaunchType.Default,Fargate
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VpcId
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role']
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.mode,256
 Resources.AWS::ECS::Cluster.Properties.ClusterName,AWS::StackName
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.ensureRunning,True
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.files,"[u'/etc/cfn/cfn-hup.conf', u'/etc/cfn/hooks.d/cfn-auto-reloader.conf']"
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MinInstancesInService,1

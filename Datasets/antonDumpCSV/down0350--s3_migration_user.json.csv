@@ -1,16 +1,8 @@
-Parameters.Bucket.Type,String
-Outputs.User.Value,{u'Ref': u'User'}
 Resources.AWS::IAM::User.Properties.Path,/
-Outputs.UserKeyCreateCmd.Value,"{u'Fn::Join': [u'', [u'aws iam create-access-key --user-name ', {u'Ref': u'User'}, u"" --query '{aws_access_key_id:AccessKey.AccessKeyId,"", u""aws_secret_access_key:AccessKey.SecretAccessKey}' --output text"", u' | awk \'{print ""[profile name]\\naws_access_key_id=""$1""\\n', u'aws_secret_access_key=""$2""\\n""}\' >> .boto']]}"
 Resources.AWS::IAM::Policy.Condition,Write
-Resources.AWS::IAM::User.Type,AWS::IAM::User
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:List*', u's3:GetBucketLocation'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Bucket'}]]}], u'Effect': u'Allow'}]"
 Parameters.Bucket.Description,S3 Bucket
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Resources.AWS::IAM::Policy.Properties.Users,[{u'Ref': u'User'}]
 Outputs.UserKeyCreateCmd.Description,Command to create new access keys and write to .boto. Update the [profile name] accordingly
 Parameters.Operation.Description,Read or Write
-Parameters.Operation.Type,String
 Resources.AWS::IAM::Policy.Properties.PolicyName,s3_all_policy
 Parameters.Operation.AllowedValues,"[u'Read', u'Write']"

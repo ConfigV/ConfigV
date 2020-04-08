@@ -1,16 +1,10 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
 Outputs.CodePipelineTrustRoleARN.Value,"{u'Fn::GetAtt': [u'CodePipelineTrustRole', u'Arn']}"
 Outputs.CodeDeployServiceRoleARN.Value,"{u'Fn::GetAtt': [u'CodeDeployTrustRole', u'Arn']}"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': [u'codedeploy.us-east-1.amazonaws.com', u'codedeploy.us-west-2.amazonaws.com']}, u'Effect': u'Allow', u'Sid': u'1'}]"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CodeDeployPolicy', u'PolicyDocument': {u'Statement': [{u'Action': [u'ec2:Describe*'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'autoscaling:CompleteLifecycleAction', u'autoscaling:DeleteLifecycleHook', u'autoscaling:DescribeLifecycleHooks', u'autoscaling:DescribeAutoScalingGroups', u'autoscaling:PutLifecycleHook', u'autoscaling:RecordLifecycleActionHeartbeat'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
-Outputs.InstanceProfile.Value,{u'Ref': u'InstanceProfile'}
 Outputs.CodePipelineTrustRoleARN.Description,"The ARN of the Code Pipeline Trust Role, which is needed to configure Code Pipeline"
 Outputs.InstanceRole.Description,IAM Role for Jenkins and application instance profile
 Outputs.CodeDeployServiceRoleARN.Description,"The ARN of the Code Deploy Trust Role, which is needed to configure Code Deploy"
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
-Outputs.InstanceRole.Value,{u'Ref': u'InstanceRole'}
 Outputs.InstanceProfile.Description,Name if instance-profile for Jenkins and application instances

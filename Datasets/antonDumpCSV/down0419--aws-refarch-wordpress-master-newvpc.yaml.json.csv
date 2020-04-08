@@ -1,10 +1,7 @@
 Parameters.DatabaseMasterPassword.AllowedPattern,"^([a-zA-Z0-9`~!#$%^&*()_+,\\-])*$"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPTitle,WPTitle
 Parameters.WebSubnet2Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-Parameters.DatabaseName.Type,String
-Parameters.PublicSubnet3Cidr.Type,String
 Parameters.UseRoute53Boolean.Description,Specifies whether a record set should be created in Route 53 for your WordPress domain name.
-Parameters.EC2KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebSubnet1Cidr,WebSubnet1Cidr
 Metadata.License.Description,"Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved. Licensed under the Amazon Software License (the ""License""). You may not use this file except in compliance with the License. A copy of the License is located at http://aws.amazon.com/asl/ or in the ""license"" file accompanying this file. This file is distributed on an ""AS IS"" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
 Parameters.DataSubnet0Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -17,7 +14,6 @@ Parameters.DataSubnet5Cidr.Description,CIDR block for data subnet 5 located in A
 Parameters.WPAdminPassword.ConstraintDescription,"Must be letters (upper or lower), numbers, spaces, and these special characters `~!#$%^&*()_+,-"
 Parameters.WebSubnet2Cidr.Description,CIDR block for Web subnet 2 located in Availability Zone 2
 Resources.AWS::CloudFormation::Stack.Condition,AvailableAWSRegion
-Parameters.CloudFrontAcmCertificate.Type,String
 Parameters.WebSubnet2Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.VpcTenancy.Default,default
 Parameters.EfsPerformanceMode.Description,Select the performance mode of the file system.
@@ -29,7 +25,6 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.CloudFrontAcmCertific
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet5Cidr,PublicSubnet5Cidr
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebAsgMin.default,Web ASG Min
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsWarningThreshold.default,Warning Threshold (Minutes)
-Parameters.EfsWarningThreshold.Type,String
 Parameters.EfsCmk.AllowedPattern,^$|(arn:aws:kms:)([a-z0-9/:-])*([a-z0-9])$
 Parameters.DatabaseMasterPassword.MaxLength,41
 Parameters.PublicSubnet0Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
@@ -46,7 +41,6 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElasticFileSystem,"[u
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.UseRoute53Boolean.default,DNS record set (Route53)
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet3Cidr,PublicSubnet3Cidr
 Parameters.WebSubnet3Cidr.Description,CIDR block for Web subnet 3 located in Availability Zone 3
-Parameters.DataSubnet3Cidr.Type,String
 Parameters.DataSubnet2Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebSubnet0Cidr,WebSubnet0Cidr
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseName.default,DB Name
@@ -58,45 +52,30 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.EC2KeyName.default,EC2 K
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsCmk.default,AWS KMS CMK for EFS
 Parameters.VpcCidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.EC2KeyName.Description,Name of an EC2 KeyPair. Your bastion & Web instances will launch with this KeyPair.
-Parameters.DataSubnet2Cidr.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfSubnets,NumberOfAZs
-Parameters.WebSubnet5Cidr.Type,String
 Metadata.Authors.Description,Darryl Osborne (darrylo@amazon.com)
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Vpc,"[u'newvpc', u'Outputs.Vpc']"
 Parameters.WPTitle.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9 _-]*)([a-zA-Z0-9])$
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SecurityGroup,"[u'securitygroups', u'Outputs.EfsSecurityGroup']"
 Parameters.SshAccessCidr.Default,0.0.0.0/0
-Parameters.WPAdminUsername.Type,String
 Parameters.DataSubnet1Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Parameters.PHPVersion.Description,The version of PHP to install.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPTitle.default,Site Title
-Parameters.EfsCmk.Type,String
-Parameters.EfsCreateAlarms.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseClusterEndpointAddress,"[u'rds', u'Outputs.DatabaseClusterEndpointAddress']"
-Parameters.WebSubnet2Cidr.Type,String
-Parameters.ElastiCacheNodeType.Type,String
-Outputs.OpCacheValidationUrl.Description,A page to validate OpCache has been enabled for each instance in the ASG. Refresh the page to see the status of each instance in the ASG.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbTargetGroupArn,"[u'publicalb', u'Outputs.PublicAlbTargetGroupArn']"
-Parameters.AvailabilityZones.Type,List<AWS::EC2::AvailabilityZone::Name>
-Parameters.WebSubnet4Cidr.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.SshAccessCidr.default,SSH Access From
 Parameters.WPVersion.AllowedValues,"[u'latest', u'nightly', 4.5, 4.6, 4.7, 4.8, 4.9]"
 Parameters.WPAdminPassword.NoEcho,True
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseCmk.default,AWS KMS CMK for RDS
-Parameters.VpcCidr.Type,String
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbDnsName,"[u'publicalb', u'Outputs.PublicAlbDnsName']"
 Parameters.WebSubnet3Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.WebAsgMax.ConstraintDescription,Must be a number between 1 and 30.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebSubnet4Cidr.default,Web Subnet 4
 Parameters.PublicSubnet1Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
-Parameters.WebSubnet1Cidr.Type,String
-Parameters.WebSubnet0Cidr.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VpcCidr.default,VpcCidr
 Parameters.PublicSubnet4Cidr.Default,10.0.204.0/24
 Outputs.WPSiteUrl.Value,"[u'CreateRecordSet', [u'', [u'http://www.', u'WPDomainName']], [u'DeployCloudFront', [u'cloudfront', u'Outputs.DnsHostname'], [u'publicalb', u'Outputs.PublicAlbHostname']]]"
 Parameters.SshAccessCidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-Parameters.VpcTenancy.Type,String
 Parameters.WebSubnet1Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet2Cidr.default,Public Subnet 2
 Parameters.DataSubnet4Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -109,7 +88,6 @@ Parameters.EfsEncrpytedBoolean.Default,True
 Parameters.WPAdminPassword.AllowedPattern,"^([a-zA-Z0-9`~!#$%^&*()_+,\\-])*$"
 Parameters.EfsCmk.Description,[ Optional ] The AWS KMS customer-managed CMK ARN to encrypt & decrypt the EFS file system.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebSubnet2Cidr.default,Web Subnet 2
-Parameters.WPTitle.Type,String
 Parameters.DatabaseEncrpytedBoolean.AllowedValues,"[True, False]"
 Parameters.EfsCmk.ConstraintDescription,Must be an existing ARN for an AWS KMS CMK.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbFullName,"[u'publicalb', u'Outputs.PublicAlbFullName']"
@@ -119,7 +97,6 @@ Parameters.PublicSubnet1Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4]
 Parameters.PublicSubnet1Cidr.Default,10.0.201.0/24
 Parameters.AdminEmail.Description,The admin email address for WordPress and AWS notifications.
 Parameters.PublicSubnet2Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-Parameters.DatabaseEncrpytedBoolean.Type,String
 Parameters.EfsCreateAlarms.AllowedValues,"[True, False]"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebAsgMin,WebAsgMin
 Parameters.WPAdminUsername.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9_-])*([a-zA-Z0-9])$
@@ -135,12 +112,8 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsCriticalThreshold.def
 Parameters.WebSubnet5Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.PublicSubnet3Cidr.Default,10.0.203.0/24
 Parameters.DataSubnet4Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
-Parameters.WPDomainName.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DataSubnet2Cidr.default,Data Subnet 2
-Parameters.SshAccessCidr.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet2Cidr,PublicSubnet2Cidr
-Parameters.AdminEmail.Type,String
-Parameters.WPDirectory.Type,String
 Parameters.WPDomainName.Description,[ Optional ] The main domain name of the WordPress site (e.g. example.com).
 Parameters.WPVersion.Description,The WordPress version (make sure this version is compatible with the PHP version selected above).
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsGrowth.default,Add dummy data (GiB)
@@ -152,14 +125,12 @@ Parameters.ElastiCacheNodeType.Default,cache.t2.medium
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WarningThreshold,EfsWarningThreshold
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.EfsEncrpytedBoolean.default,Encrpyted EFS?
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseMasterUsername,DatabaseMasterUsername
-Parameters.EfsPerformanceMode.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DataSubnet5Cidr,DataSubnet5Cidr
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebSubnet5Cidr.default,Web Subnet 5
 Parameters.PublicSubnet5Cidr.Default,10.0.205.0/24
 Outputs.WPSiteUrl.Description,The URL of the WordPress site
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.BurstCreditBalanceDecreaseAlarmArn,"[u'efsalarms', u'Outputs.BurstCreditBalanceDecreaseAlarmArn']"
 Parameters.WebSubnet4Cidr.Description,CIDR block for Web subnet 4 located in Availability Zone 4
-Parameters.WPVersion.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PHPIniOverride,PHPIniOverride
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebSubnet1Cidr.default,Web Subnet 1
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DatabaseSecurityGroup,"[u'securitygroups', u'Outputs.DatabaseSecurityGroup']"
@@ -171,17 +142,14 @@ Parameters.DataSubnet3Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPAdminPassword.default,Admin Password
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.UseElastiCacheBoolean.default,Cache Cluster (ElastiCache)
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPLocale.default,Language Code
-Parameters.PHPIniOverride.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElastiCacheNodeType,ElastiCacheNodeType
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PHPVersion,PHPVersion
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebSubnet2Cidr,WebSubnet2Cidr
-Parameters.PublicSubnet1Cidr.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicAlbHostname,"[u'publicalb', u'Outputs.PublicAlbHostname']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebSubnet4Cidr,WebSubnet4Cidr
 Parameters.EfsWarningThreshold.Default,180
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.BastionSecurityGroup,"[u'securitygroups', u'Outputs.BastionSecurityGroup']"
 Parameters.EfsPerformanceMode.Default,generalPurpose
-Parameters.PublicSubnet5Cidr.Type,String
 Parameters.DataSubnet5Cidr.Default,10.0.105.0/24
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.ElastiCacheSecurityGroup,"[u'securitygroups', u'Outputs.ElastiCacheSecurityGroup']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcCidr,VpcCidr
@@ -190,7 +158,6 @@ Parameters.UseCloudFrontBoolean.Default,True
 Parameters.CloudFrontAcmCertificate.Description,[ Optional ] The AWS Certification Manager certificate ARN for the CloudFront distribution certificate - this certificate should be created in the us-east-1 (N. Virginia) region and must reference the WordPress domain name you use below.
 Parameters.DatabaseMasterUsername.AllowedPattern,^([a-zA-Z0-9]*)$
 Parameters.ElastiCacheNodeType.AllowedValues,"[u'cache.t2.micro', u'cache.t2.small', u'cache.t2.medium', u'cache.m4.large', u'cache.m4.xlarge', u'cache.m4.2xlarge', u'cache.m4.4xlarge', u'cache.m4.10xlarge', u'cache.m3.medium', u'cache.m3.large', u'cache.m3.xlarge', u'cache.m3.2xlarge', u'cache.r3.large', u'cache.r3.xlarge', u'cache.r3.2xlarge', u'cache.r3.4xlarge', u'cache.r3.8xlarge']"
-Parameters.DatabaseMasterPassword.Type,String
 Parameters.PublicSubnet5Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.PublicSubnet5Cidr.Description,CIDR block for Public subnet 5 located in Availability Zone 5
 Parameters.EfsGrowth.MinValue,0
@@ -212,7 +179,6 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.WarningAlarmArn,"[u'e
 Parameters.WebAsgMax.Description,Specifies the maximum number of EC2 instances in the Web Autoscaling Group.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DataSubnet5Cidr.default,Data Subnet 5
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DataSubnet4Cidr.default,Data Subnet 4
-Parameters.PublicSubnet4Cidr.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet4Cidr.default,Public Subnet 4
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SslCertificate,"[u'publicalb', u'Outputs.SslCertificate']"
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.VpcTenancy,VpcTenancy
@@ -229,29 +195,24 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.WebSubnet3Cidr,WebSub
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseMasterUsername.default,DB Master Username
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPAdminEmail,AdminEmail
 Parameters.EfsPerformanceMode.AllowedValues,"[u'generalPurpose', u'maxIO']"
-Parameters.PublicAlbAcmCertificate.Type,String
 Parameters.DatabaseMasterUsername.MinLength,8
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-publicalb.yaml
 Parameters.DataSubnet2Cidr.Description,CIDR block for data subnet 2 located in Availability Zone 2
 Parameters.WebSubnet0Cidr.Description,CIDR block for Web subnet 0 located in Availability Zone 0
 Parameters.PublicSubnet4Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-Parameters.DataSubnet5Cidr.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WPAdminUsername.default,Admin Username
 Parameters.PublicSubnet0Cidr.Description,CIDR block for Public subnet 0 located in Availability Zone 0
-Parameters.WebAsgMin.Type,String
 Parameters.WebAsgMax.AllowedPattern,^((?!0$)[1-2]?[0-9]|30)$
 Parameters.DatabaseEncrpytedBoolean.Description,Indicates whether the DB instances in the cluster are encrypted.
 Parameters.EfsCriticalThreshold.Default,60
 Parameters.ElastiCacheNodeType.ConstraintDescription,Must be a valid Amazon ElastiCache node type.
 Parameters.WPLocale.Default,en_GB
-Parameters.WPAdminPassword.Type,String
 Parameters.WebSubnet0Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Parameters.WebSubnet3Cidr.Default,10.0.12.0/22
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DataSubnet3Cidr,DataSubnet3Cidr
 Parameters.DatabaseName.Description,The Amazon RDS master database name.
 Parameters.PublicSubnet3Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Outputs.StackStatus.Description,Master Stack Status
-Parameters.UseRoute53Boolean.Type,String
 Parameters.DatabaseMasterPassword.MinLength,8
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DataSubnet3Cidr.default,Data Subnet 3
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.DataSubnet2Cidr,DataSubnet2Cidr
@@ -273,30 +234,21 @@ Parameters.WPTitle.Description,The WordPress website title.
 Parameters.VpcCidr.Default,10.0.0.0/16
 Parameters.WebAsgMin.ConstraintDescription,Must be a number between 0 and 10.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet4Cidr,PublicSubnet4Cidr
-Parameters.UseElastiCacheBoolean.Type,String
 Parameters.PublicAlbAcmCertificate.AllowedPattern,^$|(arn:aws:acm:)([a-z0-9/:-])*([a-z0-9])$
 Parameters.WebSubnet5Cidr.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WebSubnet3Cidr.default,Web Subnet 3
-Parameters.DataSubnet1Cidr.Type,String
 Parameters.UseElastiCacheBoolean.AllowedValues,"[True, False]"
-Parameters.EfsCriticalThreshold.Type,String
 Parameters.NumberOfAZs.Description,Number of Availability Zones to use in the VPC. This must match your selections in the list of Availability Zones parameter.
 Parameters.DataSubnet3Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.EfsCriticalThreshold.ConstraintDescription,Must be an integer.
 Parameters.DataSubnet0Cidr.Default,10.0.100.0/24
-Parameters.EfsEncrpytedBoolean.Type,String
-Parameters.DatabaseMasterUsername.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.BurstCreditBalanceIncreaseAlarmArn,"[u'efsalarms', u'Outputs.BurstCreditBalanceIncreaseAlarmArn']"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ElastiCacheNodeType.default,Cache Cluster Node Type
 Parameters.PublicSubnet0Cidr.Default,10.0.200.0/24
-Parameters.PHPVersion.Type,String
-Parameters.PublicSubnet0Cidr.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.NumberOfAZs,NumberOfAZs
-Parameters.DataSubnet0Cidr.Type,String
 Parameters.DatabaseMasterUsername.Description,The Amazon RDS master username.
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PublicSubnet0Cidr,PublicSubnet0Cidr
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Cmk,EfsCmk
-Parameters.DatabaseCmk.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.UseCloudFrontBoolean.default,CDN (CloudFront)
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.Growth,EfsGrowth
 Parameters.WebSubnet0Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
@@ -319,7 +271,6 @@ Resources.AWS::CloudFormation::Stack.Properties.Parameters.EC2KeyName,EC2KeyName
 Parameters.UseRoute53Boolean.AllowedValues,"[True, False]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CloudFrontAcmCertificate.default,CloudFront Certificate ARN
 Parameters.WebSubnet0Cidr.Default,10.0.0.0/22
-Parameters.WebSubnet3Cidr.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPLocale,WPLocale
 Parameters.PublicSubnet2Cidr.Description,CIDR block for Public subnet 2 located in Availability Zone 2
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPAdminPassword,WPAdminPassword
@@ -329,7 +280,6 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicAlbAcmCertificate.
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet3Cidr.default,Public Subnet 3
 Parameters.DataSubnet3Cidr.Description,CIDR block for data subnet 3 located in Availability Zone 3
 Parameters.WPAdminUsername.Description,The WordPress admin username.
-Parameters.PublicSubnet2Cidr.Type,String
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.PerformanceMode,EfsPerformanceMode
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DatabaseEncrpytedBoolean.default,Encrypted DB Cluster
 Parameters.NumberOfAZs.AllowedValues,"[2, 3, 4, 5, 6]"
@@ -340,23 +290,17 @@ Parameters.EfsGrowth.ConstraintDescription,Must be an integer.
 Parameters.EfsCriticalThreshold.Description,Send critical alarm approx. this many minutes before Amazon EFS burst credit balance is zero.
 Parameters.WPDirectory.Description,The WordPress site directory.
 Parameters.VpcCidr.Description,CIDR block for the VPC
-Parameters.WPLocale.Type,String
 Parameters.VpcTenancy.Description,The allowed tenancy of instances launched into the VPC
-Parameters.WebAsgMax.Type,String
 Parameters.WPDomainName.AllowedPattern,^$|(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$
 Parameters.WebSubnet4Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
-Parameters.UseCloudFrontBoolean.Type,String
-Parameters.EfsGrowth.Type,Number
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.PublicSubnet0Cidr.default,Public Subnet 0
 Parameters.DataSubnet1Cidr.Default,10.0.101.0/24
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.WPAdminUsername,WPAdminUsername
-Parameters.DataSubnet4Cidr.Type,String
 Parameters.EfsCriticalThreshold.AllowedPattern,^[0-9]+$
 Parameters.WebAsgMin.Description,Specifies the minimum number of EC2 instances in the Web Autoscaling Group.
 Parameters.PHPVersion.AllowedValues,"[5.5, 5.6, 7]"
 Parameters.PublicSubnet2Cidr.ConstraintDescription,CIDR block parameter must be in the form x.x.x.x/16-28
 Parameters.WPDirectory.AllowedPattern,^([a-zA-Z0-9])([a-zA-Z0-9_-])*([a-zA-Z0-9])$
-Parameters.NumberOfAZs.Type,Number
 Parameters.WebSubnet1Cidr.Default,10.0.4.0/22
 Parameters.ElastiCacheNodeType.Description,The Amazon ElastiCache cluster node type.
 Parameters.EfsWarningThreshold.Description,Send warning alarm approx. this many minutes before Amazon EFS burst credit balance is zero.

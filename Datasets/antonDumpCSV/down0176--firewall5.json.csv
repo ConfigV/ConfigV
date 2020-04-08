@@ -1,31 +1,17 @@
 Outputs.Server2PublicName.Description,Server2 public name
 Outputs.Server1PublicName.Description,Server1 public name
 Parameters.IpForSSH.Description,Your public IP address to allow SSH access
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,My security group
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Parameters.VPC.Type,AWS::EC2::VPC::Id
 Parameters.Subnet.Description,Just select one of the available subnets
 Outputs.Server1PublicName.Value,"{u'Fn::GetAtt': [u'Server1', u'PublicDnsName']}"
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,icmp
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecurityGroupPrivate'}]
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
 Outputs.BastionHostPublicName.Description,Bastion host public name (connect via SSH as user ec2-user)
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'Subnet'}
-Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'SecurityGroup'}
-Resources.AWS::EC2::SecurityGroupIngress.Properties.SourceSecurityGroupId,{u'Ref': u'SecurityGroup'}
 Outputs.BastionHostPublicName.Value,"{u'Fn::GetAtt': [u'BastionHost', u'PublicDnsName']}"
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.KeyName.Default,mykey
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,-1
 Parameters.VPC.Description,Just select the one and only default VPC
-Parameters.Subnet.Type,AWS::EC2::Subnet::Id
 Parameters.KeyName.Description,Key Pair name
 Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,0.0.0.0/0
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,-1
 Outputs.Server2PublicName.Value,"{u'Fn::GetAtt': [u'Server2', u'PublicDnsName']}"
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Parameters.IpForSSH.Type,String
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"

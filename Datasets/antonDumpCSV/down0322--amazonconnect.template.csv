@@ -1,34 +1,22 @@
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'FirehoseRole'}]
-Resources.AWS::Elasticsearch::Domain.Type,AWS::Elasticsearch::Domain
 Parameters.CidrBlock.Description,VPC CIDR Block (eg 10.0.0.0/16)
-Resources.AWS::Elasticsearch::Domain.Properties.DomainName,{u'Ref': u'ESDomain'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.CidrBlock.default,Cidr Block
 Parameters.S3Bucket.AllowedPattern,connect-[0-9a-f]{12}
-Outputs.CidrBlock.Value,{u'Ref': u'CidrBlock'}
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CompressionFormat,UNCOMPRESSED
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.DomainARN,"{u'Fn::GetAtt': [u'ElasticsearchDomain', u'DomainArn']}"
 Resources.AWS::Elasticsearch::Domain.Properties.SnapshotOptions.AutomatedSnapshotStartHour,0
-Resources.AWS::Logs::LogStream.Type,AWS::Logs::LogStream
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CloudWatchLoggingOptions.Enabled,True
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CloudWatchLoggingOptions.LogGroupName,{u'Ref': u'DeliveryStream'}
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.DeliveryStreamType,KinesisStreamAsSource
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.CloudWatchLoggingOptions.LogStreamName,{u'Ref': u'ESLogStream'}
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.CloudWatchLoggingOptions.Enabled,True
 Parameters.S3Bucket.ConstraintDescription,Invalid S3 Bucket format. Must be in the form connect-xxxxxxxxxxxx
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.CloudWatchLoggingOptions.LogStreamName,{u'Ref': u'S3LogStream'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.S3Bucket.default,S3 Bucket
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3BackupMode,FailedDocumentsOnly
 Resources.AWS::Elasticsearch::Domain.Properties.AdvancedOptions.rest.action.multi.allow_explicit_index,true
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.BufferingHints.SizeInMBs,50
 Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.VolumeType,gp2
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.RetryOptions.DurationInSeconds,300
-Outputs.S3BucketName.Value,{u'Ref': u'S3Bucket'}
-Parameters.ESDomain.Type,String
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.BufferingHints.SizeInMBs,10
-Resources.AWS::Logs::LogStream.Properties.LogGroupName,{u'Ref': u'DeliveryStream'}
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.RoleARN,"{u'Fn::GetAtt': [u'FirehoseRole', u'Arn']}"
 Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.EBSEnabled,True
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.Prefix,firehose/
@@ -38,8 +26,6 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.KinesisStream.default,Ki
 Resources.AWS::IAM::Policy.DependsOn,FirehoseRole
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.S3Configuration.BucketARN,{u'Fn::Sub': u'arn:aws:s3:::${S3Bucket}'}
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.InstanceCount,1
-Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'sts:ExternalId': {u'Ref': u'AWS::AccountId'}}}, u'Principal': {u'Service': u'firehose.amazonaws.com'}}]"
-Parameters.S3Bucket.Type,String
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:AbortMultipartUpload', u's3:GetBucketLocation', u's3:GetObject', u's3:ListBucket', u's3:ListBucketMultipartUploads', u's3:PutObject'], u'Resource': [{u'Fn::Sub': u'arn:aws:s3:::${S3Bucket}'}, {u'Fn::Sub': u'arn:aws:s3:::${S3Bucket}/*'}], u'Effect': u'Allow'}, {u'Action': [u'es:DescribeElasticsearchDomain', u'es:DescribeElasticsearchDomains', u'es:DescribeElasticsearchDomainConfig', u'es:ESHttpPost', u'es:ESHttpPut'], u'Resource': [{u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/*'}], u'Effect': u'Allow'}, {u'Action': [u'es:ESHttpGet'], u'Resource': [{u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/_all/_settings'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/_cluster/stats'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/ac*/_mapping/ctr'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/_nodes'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/_nodes/stats'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/_nodes/*/stats'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/_stats'}, {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/ac*/_stats'}], u'Effect': u'Allow'}, {u'Action': [u'logs:PutLogEvents'], u'Resource': [{u'Fn::Sub': u'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:${DeliveryStream}:log-stream:*'}], u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.BufferingHints.IntervalInSeconds,300
@@ -48,15 +34,11 @@ Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinati
 Outputs.ESDomainEndpoint.Value,"{u'Fn::GetAtt': [u'ElasticsearchDomain', u'DomainEndpoint']}"
 Parameters.CidrBlock.AllowedPattern,^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/([0-9]|[1-2][0-9]|3[0-2]))$
 Resources.AWS::KinesisFirehose::DeliveryStream.DependsOn,"[u'ElasticsearchDomain', u'FirehoseRole']"
-Resources.AWS::KinesisFirehose::DeliveryStream.Type,AWS::KinesisFirehose::DeliveryStream
 Resources.AWS::IAM::Policy.Properties.PolicyName,S3LambdaElasticsearchPolicy
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.CloudWatchLoggingOptions.LogGroupName,{u'Ref': u'DeliveryStream'}
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.ZoneAwarenessEnabled,false
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.RoleARN,"{u'Fn::GetAtt': [u'FirehoseRole', u'Arn']}"
-Parameters.CidrBlock.Type,String
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.IndexRotationPeriod,NoRotation
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ESDomain.default,ES Domain
-Resources.AWS::Logs::LogGroup.Type,AWS::Logs::LogGroup
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.KinesisStreamSourceConfiguration.RoleARN,{u'Fn::Sub': u'arn:aws:iam::${AWS::AccountId}:role/${KinesisRole}'}
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchClusterConfig.DedicatedMasterEnabled,false
 Resources.AWS::Elasticsearch::Domain.Properties.ElasticsearchVersion,5.5
@@ -64,10 +46,6 @@ Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Version,2012-10-1
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'KinesisStream', u'S3Bucket'], u'Label': {u'default': u'Amazon Connect Configuration'}}, {u'Parameters': [u'ESDomain', u'ESInstanceType', u'CidrBlock'], u'Label': {u'default': u'Amazon ElasticSearch Configuration'}}]"
 Parameters.S3Bucket.Description,Please refer to http://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instance.html#datastorage for details on how retrieve the S3 bucket associated with your Amazon Connect instance. This is the S3 bucket where Amazon Connect stores call recordings and scheduled reports.
 Resources.AWS::Elasticsearch::Domain.Properties.EBSOptions.Iops,0
-Resources.AWS::Elasticsearch::Domain.Properties.AccessPolicies.Statement,"[{u'Action': u'es:*', u'Resource': {u'Fn::Sub': u'arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/${ESDomain}/*'}, u'Effect': u'Allow', u'Condition': {u'IpAddress': {u'aws:SourceIp': [{u'Ref': u'CidrBlock'}]}}, u'Principal': {u'AWS': u'*'}}]"
 Parameters.KinesisStream.Description,The name of your existing Kinesis Stream
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Parameters.KinesisStream.Type,String
-Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ElasticsearchDestinationConfiguration.TypeName,ctr
 Parameters.ESDomain.Description,This is the name for the ElasticSearch Domain
 Parameters.CidrBlock.ConstraintDescription,"Must not be empty, must be valid IPv4 address with valid Mask Bit from 1-32"

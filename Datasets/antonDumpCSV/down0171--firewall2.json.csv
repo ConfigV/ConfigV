@@ -1,24 +1,12 @@
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Outputs.PublicName.Description,Public name (connect via SSH as user ec2-user)
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,My security group
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
-Parameters.VPC.Type,AWS::EC2::VPC::Id
 Parameters.Subnet.Description,Just select one of the available subnets
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Resources.AWS::EC2::SecurityGroupIngress.Properties.IpProtocol,icmp
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'SecurityGroup'}]
 Mappings.EC2RegionMap.eu-central-1.AmazonLinuxAMIHVMEBSBacked64bit,ami-a8221fb5
 Outputs.PublicName.Value,"{u'Fn::GetAtt': [u'Server', u'PublicDnsName']}"
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'Subnet'}
-Resources.AWS::EC2::SecurityGroupIngress.Properties.GroupId,{u'Ref': u'SecurityGroup'}
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.KeyName.Default,mykey
 Resources.AWS::EC2::SecurityGroupIngress.Properties.FromPort,-1
 Parameters.VPC.Description,Just select the one and only default VPC
-Parameters.Subnet.Type,AWS::EC2::Subnet::Id
 Parameters.KeyName.Description,Key Pair name
 Resources.AWS::EC2::SecurityGroupIngress.Properties.CidrIp,0.0.0.0/0
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,-1
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPC'}
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'EC2RegionMap', {u'Ref': u'AWS::Region'}, u'AmazonLinuxAMIHVMEBSBacked64bit']}"

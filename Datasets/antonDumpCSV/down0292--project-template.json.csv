@@ -1,19 +1,12 @@
 Metadata.CloudCanvas.Id,$Revision: #1 $
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'ProjectResourceHandlerExecution', u'Arn']}"
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::Join': [u'/', [{u'Ref': u'ConfigurationKey'}, u'project-code.zip']]}"
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
 Resources.AWS::Lambda::Function.Properties.Handler,custom_resource.handler
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'Configuration'}
-Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'ProjectAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow', u'Sid': u'WriteLogs'}, {u'Action': [u's3:GetObject', u's3:PutObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Configuration'}, u'/upload/*']]}, u'Effect': u'Allow', u'Sid': u'ReadAndWriteUploadedConfiguration'}, {u'Action': [u'cloudformation:DescribeStackResources', u'cloudformation:DescribeStackResource', u'cloudformation:DescribeStacks'], u'Resource': [u'*'], u'Effect': u'Allow', u'Sid': u'DescribeStacksAndResources'}, {u'Action': [u'iam:CreateRole', u'iam:DeleteRole', u'iam:GetRole', u'iam:DeleteRolePolicy', u'iam:PutRolePolicy'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/', {u'Ref': u'AWS::StackName'}, u'/*']]}, u'Effect': u'Allow', u'Sid': u'ManagePlayerAndFunctionRoles'}, {u'Action': [u'cognito-identity:*'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:cognito-identity:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':identitypool/*']]}, u'Effect': u'Allow', u'Sid': u'CreateUpdateCognitoIdentity'}, {u'Action': [u's3:GetObject'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:s3:::', {u'Ref': u'Configuration'}, u'/player-access/auth-settings.json']]}, u'Effect': u'Allow', u'Sid': u'ReadPlayerAccessConfiguration'}, {u'Action': u'apigateway:*', u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u'::/restapis/*']]}, {u'Fn::Join': [u'', [u'arn:aws:apigateway:', {u'Ref': u'AWS::Region'}, u'::/restapis']]}], u'Effect': u'Allow', u'Sid': u'ManageAPIGatewayResources'}, {u'Action': u'iam:PassRole', u'Resource': {u'Fn::Join': [u'', [u'arn:aws:iam::554229317296:role/', {u'Ref': u'AWS::StackName'}, u'/*']]}, u'Effect': u'Allow', u'Sid': u'PassRolesToServices'}]}}]"
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Resources.AWS::Lambda::Function.Properties.Timeout,90
 Resources.AWS::Lambda::Function.Properties.Description,Implements the custom resources used in this project's templates.
 Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'Id': u'DeleteOldVersions', u'NoncurrentVersionExpirationInDays': u'2'}, {u'Status': u'Enabled', u'Prefix': u'uploads', u'Id': u'DeleteUploads', u'ExpirationInDays': 2}]"
-Parameters.ConfigurationKey.Type,String

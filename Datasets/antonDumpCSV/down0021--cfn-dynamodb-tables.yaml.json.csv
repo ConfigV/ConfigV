@@ -2,15 +2,10 @@ Resources.AWS::IAM::Policy.Properties.Roles,[u'dynamodbAutoscalingRole']
 Outputs.dynamodbTableNameTalrDxInterface.Value,dynamodbTableDxInterface
 Outputs.dynamodbTableNameTalrOps.Description,talr-ops DynamoDB table name
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Type,AWS::ApplicationAutoScaling::ScalingPolicy
-Parameters.stage.Type,String
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.ScalingTargetId,autoscaleTargetTableAccountInfoTableReadCapacity
 Outputs.dynamodbTableNameTalrNipapCfn.Value,dynamodbTableNipapCfn
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'requestId'}]"
 Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyType,TargetTrackingScaling
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.PolicyName,ReadAutoScalingPolicy
 Resources.AWS::ApplicationAutoScaling::ScalingPolicy.Properties.TargetTrackingScalingPolicyConfiguration.ScaleInCooldown,60
 Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.RoleARN,dynamodbAutoscalingRole.Arn
@@ -26,7 +21,6 @@ Resources.AWS::DynamoDB::Table.Properties.TableName,"[u'-', [u'talr-claStatus', 
 Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MaxCapacity,10
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'application-autoscaling.amazonaws.com']}}]"
 Resources.AWS::ApplicationAutoScaling::ScalableTarget.Properties.MinCapacity,1
-Resources.AWS::ApplicationAutoScaling::ScalableTarget.Type,AWS::ApplicationAutoScaling::ScalableTarget
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'dynamodb:DescribeTable', u'dynamodb:UpdateTable', u'cloudwatch:PutMetricAlarm', u'cloudwatch:DescribeAlarms', u'cloudwatch:GetMetricStatistics', u'cloudwatch:SetAlarmState', u'cloudwatch:DeleteAlarms'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Outputs.dynamodbStreamsTalrTaskStatus.Description,talr-taskStatus DynamoDB stream name

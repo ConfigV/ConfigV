@@ -5,12 +5,10 @@ Parameters.SourceLambdaBucket.ConstraintDescription,"Enter the name not the ARN,
 Parameters.CentralizedS3BucketComplianceEventName.MinLength,10
 Resources.AWS::IAM::Policy.DependsOn,[u'LambdaRuleIAMRole']
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::S3::BucketPolicy.DependsOn,CentralizedS3Bucket
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.DeliveryStreamName,Firehose-Compliance-as-code
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ExtendedS3DestinationConfiguration.BufferingHints.IntervalInSeconds,900
 Resources.AWS::IAM::Role.Properties.Path,/service-role/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::IAM::Role.Properties.RoleName,LambdaForComplianceRuleRole
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ExtendedS3DestinationConfiguration.CompressionFormat,GZIP
 Parameters.SourceLambdaBucket.MaxLength,63
@@ -22,21 +20,16 @@ Parameters.CentralizedS3BucketConfig.Default,centralized-config
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ExtendedS3DestinationConfiguration.Prefix,compliance-as-code-events/
 Parameters.CentralizedS3BucketComplianceEventName.Description,Bucket prefix where Compliance Event will be stored. The Bucket will be created with a dash and the account ID (12-digit) appended to the prefix you have entered.
 Parameters.CentralizedS3BucketComplianceEventName.Default,compliance-events-centralized
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.SourceLambdaBucket,SourceLambdaBucket
 Resources.AWS::IAM::Role.DependsOn,CentralizedS3BucketComplianceEvent
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
-Resources.AWS::S3::BucketPolicy.Type,AWS::S3::BucketPolicy
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'lambda.amazonaws.com'}}]"
 Resources.AWS::S3::Bucket.Properties.Tags,"[{u'Value': u'Security', u'Key': u'Owner'}]"
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Parameters.SourceLambdaBucket.MinLength,3
-Parameters.CentralizedS3BucketComplianceEventName.Type,String
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u's3:GetBucketAcl', u'Sid': u'ConfigAllowGetBucketAcl', u'Resource': [u'', [u'arn:aws:s3:::', u'CentralizedS3BucketConfig', u'-', u'AWS::AccountId']], u'Effect': u'Allow', u'Principal': {u'Service': u'config.amazonaws.com'}}, {u'Resource': [u'', [u'arn:aws:s3:::', u'CentralizedS3BucketConfig', u'-', u'AWS::AccountId', u'/AWSLogs/*']], u'Effect': u'Allow', u'Sid': u'ConfigAllowPutObject', u'Action': u's3:PutObject', u'Condition': {u'StringEquals': {u's3:x-amz-acl': u'bucket-owner-full-control'}}, u'Principal': {u'Service': u'config.amazonaws.com'}}]"
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ExtendedS3DestinationConfiguration.ProcessingConfiguration.Enabled,false
 Resources.AWS::KinesisFirehose::DeliveryStream.DependsOn,FirehoseDeliveryStreamIAMRole
-Resources.AWS::KinesisFirehose::DeliveryStream.Type,AWS::KinesisFirehose::DeliveryStream
 Resources.AWS::IAM::Policy.Properties.PolicyName,AssumeRole
 Resources.AWS::S3::BucketPolicy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::KinesisFirehose::DeliveryStream.Properties.ExtendedS3DestinationConfiguration.BucketARN,CentralizedS3BucketComplianceEvent.Arn
@@ -48,9 +41,7 @@ Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
 Resources.AWS::CloudFormation::Stack.Properties.Parameters.LambdaRuleIAMRoleARN,"[u'LambdaRuleIAMRole', u'Arn']"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'S3-access-for-Firehose', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u's3:AbortMultipartUpload', u's3:GetBucketLocation', u's3:GetObject', u's3:ListBucket', u's3:ListBucketMultipartUploads', u's3:PutObject'], u'Resource': [u'CentralizedS3BucketComplianceEvent.Arn', [u'', [u'CentralizedS3BucketComplianceEvent.Arn', u'/*']]], u'Effect': u'Allow'}]}}]"
 Parameters.CentralizedS3BucketConfig.MaxLength,63
-Parameters.CentralizedS3BucketConfig.Type,String
 Resources.AWS::S3::BucketPolicy.Properties.Bucket,"[u'-', [u'CentralizedS3BucketConfig', u'AWS::AccountId']]"
 Resources.AWS::S3::Bucket.Properties.LifecycleConfiguration.Rules,"[{u'Status': u'Enabled', u'Transitions': [{u'TransitionInDays': 30, u'StorageClass': u'STANDARD_IA'}]}]"
 Parameters.CentralizedS3BucketComplianceEventName.MaxLength,63
-Parameters.SourceLambdaBucket.Type,String
 Resources.AWS::S3::Bucket.Properties.BucketName,"[u'-', [u'CentralizedS3BucketComplianceEventName', u'AWS::AccountId']]"

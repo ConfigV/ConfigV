@@ -1,58 +1,35 @@
-Parameters.SecurityGroupIds.Type,CommaDelimitedList
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'LambadaExecutionRole'}]
-Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,{u'Ref': u'LambdaExecutionRoleManagedPolicyARNs'}
 Parameters.LambdaExecutionRoleManagedPolicyARNs.Description,Managed Policy ARNs for Lambda Execution IAM Role
 Parameters.SecurityGroupIds.Description,Lambda VPC Security Group Ids
-Resources.AWS::Lambda::Function.Properties.VpcConfig,"{u'Fn::If': [u'UseVpcForLambda', {u'SubnetIds': {u'Fn::If': [u'UseVpcForLambda', {u'Ref': u'SubnetIds'}, {u'Ref': u'AWS::NoValue'}]}, u'SecurityGroupIds': {u'Fn::If': [u'UseVpcForLambda', {u'Ref': u'SecurityGroupIds'}, {u'Ref': u'AWS::NoValue'}]}}, {u'Ref': u'AWS::NoValue'}]}"
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'LambdaFunction', u'Arn']}"
-Parameters.LambdaHandler.Type,String
 Parameters.SubnetIds.Description,Lambda VPC Subnet Ids
 Parameters.SubnetIds.Default,
 Resources.AWS::Lambda::Permission.Properties.Principal,apigateway.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Parameters.LambdaMaximumExecutionTime.Default,3
-Resources.AWS::Lambda::Function.Properties.Timeout,{u'Ref': u'LambdaMaximumExecutionTime'}
 Parameters.DeploymentS3Bucket.Description,Deployment S3 Bucket is where project is deployed after mvn deploy command.
 Outputs.LambdaFunctionArn.Value,"{u'Fn::GetAtt': [u'LambdaFunction', u'Arn']}"
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Parameters.LambdaDescription.MinLength,1
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Parameters.LambdaHandler.MinLength,1
-Parameters.LambdaMaximumExecutionTime.Type,Number
-Parameters.DeploymentS3Bucket.Type,String
-Resources.AWS::Lambda::Function.Properties.Handler,{u'Ref': u'LambdaHandler'}
-Parameters.LambdaMemorySize.Type,Number
 Parameters.LambdaMemorySize.Description,AWS Lambda Function Maximum Allowed Memory.
 Parameters.LambdaDescription.Description,Lambda Description
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'DeploymentS3Bucket'}
-Parameters.LambdaDescription.Type,String
 Outputs.LambdaExecutionRoleArn.Value,"{u'Fn::GetAtt': [u'LambadaExecutionRole', u'Arn']}"
 Parameters.LambdaHandler.Default,org.lambadaframework.runtime.Handler
 Parameters.DeploymentS3Bucket.MinLength,3
 Parameters.LambdaExecutionRoleManagedPolicyARNs.Default,arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
-Parameters.DeploymentS3Key.Type,String
-Resources.AWS::Lambda::Function.Properties.MemorySize,{u'Ref': u'LambdaMemorySize'}
 Parameters.SecurityGroupIds.Default,
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com', u'apigateway.amazonaws.com']}}]"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Outputs.LambdaExecutionRoleArn.Description,Lambada Execution Role ARN
 Parameters.LambdaMaximumExecutionTime.Description,AWS Lambda Function Maximum Execution Time (seconds).
 Outputs.LambdaFunctionArn.Description,Lambada Function ARN
 Parameters.DeploymentS3Key.MinLength,1
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::Lambda::Function.Properties.Description,{u'Ref': u'LambdaDescription'}
 Resources.AWS::Lambda::Function.Properties.Runtime,java8
 Resources.AWS::IAM::Policy.Properties.PolicyName,${stage}-${project}-lambda
 Parameters.LambdaHandler.MaxLength,512
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'ec2:CreateNetworkInterface', u'ec2:DescribeNetworkInterfaces', u'ec2:DeleteNetworkInterface'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*', u'Effect': u'Allow'}, {u'Action': [u'lambda:InvokeFunction'], u'Resource': [u'*'], u'Effect': u'Allow'}, {u'Action': [u'apigateway:*', u'iam:PassRole'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
-Resources.AWS::Lambda::Permission.Properties.SourceArn,"{u'Fn::Join': [u'', [u'arn:aws:execute-api:', {u'Ref': u'AWS::Region'}, u':', {u'Ref': u'AWS::AccountId'}, u':*']]}"
-Parameters.SubnetIds.Type,CommaDelimitedList
 Parameters.LambdaHandler.Description,AWS Lambda Function entry point.
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'DeploymentS3Key'}
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambadaExecutionRole', u'Arn']}"
 Parameters.DeploymentS3Bucket.MaxLength,63
-Parameters.LambdaExecutionRoleManagedPolicyARNs.Type,CommaDelimitedList
 Parameters.DeploymentS3Key.Description,Deployment S3 Key is the S3 Path where project is deployed after mvn deploy command.
 Parameters.LambdaMemorySize.Default,128
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17

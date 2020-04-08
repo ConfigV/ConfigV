@@ -1,48 +1,23 @@
 Resources.AWS::RDS::DBInstance.Properties.StorageType,gp2
 Parameters.dbMasterUserPassword.NoEcho,true
-Resources.AWS::RDS::OptionGroup.Properties.OptionConfigurations,"[{u'VpcSecurityGroupMemberships': [{u'Ref': u'dbSecurityGroupId'}], u'OptionName': u'MEMCACHED'}]"
-Resources.AWS::RDS::DBInstance.Properties.DBParameterGroupName,{u'Ref': u'mySQLRDSParameterGroup57'}
 Resources.AWS::RDS::DBInstance.Properties.Engine,MySQL
-Parameters.dbMasterUserPassword.Type,String
 Resources.AWS::RDS::DBParameterGroup.Properties.Family,MySQL5.7
-Parameters.privateSubnet1Id.Type,AWS::EC2::Subnet::Id
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Subnet group for MySQL
 Parameters.vpcID.Description,The VPC ID where to deploy the RDS instance
 Resources.AWS::RDS::DBInstance.Properties.PubliclyAccessible,False
-Parameters.vpcID.Type,AWS::EC2::VPC::Id
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'dbMasterUserName'}
-Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
 Resources.AWS::RDS::DBParameterGroup.Properties.Description,Parameter group for MySQL 5.7
-Resources.AWS::RDS::DBParameterGroup.Type,AWS::RDS::DBParameterGroup
 Parameters.dbMasterUserName.Description,Set the Administrator password for the RDS instance
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,10
 Parameters.dbMasterUserPassword.AllowedPattern,[a-zA-Z0-9]*
 Resources.AWS::RDS::DBInstance.Properties.AutoMinorVersionUpgrade,True
 Resources.AWS::RDS::OptionGroup.Properties.OptionGroupDescription,Option group for MySQL 5.7
-Resources.AWS::RDS::DBParameterGroup.Properties.Tags,"[{u'Value': u'parameter-group-mysql57', u'Key': u'Name'}, {u'Value': {u'Ref': u'projectTag'}, u'Key': u'project-code'}, {u'Value': {u'Ref': u'departmentTag'}, u'Key': u'department-code'}]"
 Resources.AWS::RDS::OptionGroup.Properties.EngineName,mysql
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'dbMasterUserPassword'}
-Resources.AWS::RDS::DBInstance.Properties.Tags,"[{u'Value': u'mysql-rds', u'Key': u'Name'}, {u'Value': {u'Ref': u'projectTag'}, u'Key': u'project-code'}, {u'Value': {u'Ref': u'departmentTag'}, u'Key': u'department-code'}]"
 Parameters.dbSecurityGroupId.Description,The Security Group ID to use with the RDS instance
-Parameters.privateSubnet0Id.Type,AWS::EC2::Subnet::Id
-Resources.AWS::RDS::DBSubnetGroup.Properties.Tags,"[{u'Value': u'subnet-group-mysql57', u'Key': u'Name'}, {u'Value': {u'Ref': u'projectTag'}, u'Key': u'project-code'}, {u'Value': {u'Ref': u'departmentTag'}, u'Key': u'department-code'}]"
 Resources.AWS::RDS::DBInstance.Properties.AllowMajorVersionUpgrade,False
 Resources.AWS::RDS::DBInstance.Properties.EngineVersion,5.7.11
-Parameters.dbSecurityGroupId.Type,AWS::EC2::SecurityGroup::Id
 Resources.AWS::RDS::DBInstance.Properties.MultiAZ,True
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
-Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,{u'Ref': u'dbInstanceType'}
 Resources.AWS::RDS::DBInstance.Properties.BackupRetentionPeriod,7
 Resources.AWS::RDS::OptionGroup.Properties.MajorEngineVersion,5.7
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,"[{u'Ref': u'privateSubnet1Id'}, {u'Ref': u'privateSubnet0Id'}]"
-Parameters.dbMasterUserName.Type,String
-Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[{u'Ref': u'dbSecurityGroupId'}]
 Parameters.privateSubnet1Id.Description,The second private subnet for your subnet group
-Parameters.departmentTag.Type,String
-Resources.AWS::RDS::OptionGroup.Type,AWS::RDS::OptionGroup
-Resources.AWS::RDS::DBInstance.Properties.OptionGroupName,{u'Ref': u'mySQLRDSOptionGroup57'}
 Parameters.dbMasterUserPassword.Description,Set the Administrator name for the RDS instance
 Parameters.privateSubnet0Id.Description,The first private subnet for your subnet group
-Resources.AWS::RDS::OptionGroup.Properties.Tags,"[{u'Value': u'option-group-mysql57', u'Key': u'Name'}, {u'Value': {u'Ref': u'projectTag'}, u'Key': u'project-code'}, {u'Value': {u'Ref': u'departmentTag'}, u'Key': u'department-code'}]"
-Parameters.projectTag.Type,String
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'mySQLRDSSubnetGroup57'}

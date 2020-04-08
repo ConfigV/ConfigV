@@ -3,16 +3,13 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./e
 Parameters.QSS3BucketName.Default,aws-quickstart
 Parameters.DBPassword.MaxLength,128
 Resources.AWS::RDS::DBInstance.Properties.StorageType,gp2
-Resources.AWS::RDS::DBSubnetGroup.Type,AWS::RDS::DBSubnetGroup
 Parameters.InformaticaServerSubnetID.ConstraintDescription,Specifying subnet ID is mandatory
 Resources.AWS::EC2::NetworkInterface.Condition,CreateLargeClusterCnd
 Parameters.QSS3KeyPrefix.Default,quickstart-informatica-eic/
-Parameters.ICSClusterSize.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ICSClusterSize.default,Informatica Embedded Cluster Size
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,3600
 Resources.AWS::EC2::NetworkInterface.Properties.SourceDestCheck,true
 Mappings.MultiAZRegionMapping.ca-central-1.Supporting,YES
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.01_ReplaceHostname.command,sudo /home/ec2-user/Mercury_Setup/replaceHostname.sh
 Parameters.DBUser.MaxLength,64
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
@@ -21,40 +18,28 @@ Parameters.KeyName.ConstraintDescription,Specifying EC2 keypair is mandatory
 Parameters.IPAddressRange.Description,The CIDR IP range that is permitted to access the Informatica domain and the Informatica embedded cluster
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.InformaticaEICKeyS3Bucket.default,Enterprise Data Catalog License Key Location
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'function error_exit\n', u'{\n', u"" /opt/aws/bin/cfn-signal -e 1 '"", {u'Ref': u'WaitForClusterInstancesHandle'}, u""'\n"", u' exit 1\n', u'}\n', u'\n', u' sudo yum update -y aws-cfn-bootstrap || error_exit\n', u'# Install the files and packages from the metadata\n', u' sudo /home/ec2-user/Mercury_Setup/replaceHostname.sh || error_exit\n', u'\n', u' response=$(sudo /bin/systemctl status sshd.service || error_exit)\n', u' if echo ""$response"" | grep -q ""running""; then\n', u'    echo sshd service is running\n', u' else\n', u'    sudo /bin/systemctl start sshd.service || error_exit\n', u' fi\n', u'# Signal the status from cfn-init\n', u'\n', u"" /opt/aws/bin/cfn-signal -e 0 '"", {u'Ref': u'WaitForClusterInstancesHandle'}, u""'\n""]]}}"
 Parameters.InformaticaEICKeyName.MinLength,1
 Outputs.InformaticaAdminConsoleURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'AdministrationServer', u'PublicDnsName']}, u':6008']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.02_ReplaceValues.command,sudo /home/ec2-user/Mercury_Setup/replaceValues.sh
 Mappings.AWSAMIRegionMap.AMI.INFAEICADMINHVM,Administrator-Server Image EIC on AWS
 Parameters.ConfirmInformaticaAdminPassword.MinLength,1
-Parameters.InformaticaEICKeyS3Bucket.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.configSets.InstallAndRun,"[u'Install', u'Configure']"
 Parameters.IPAddressRange.MinLength,9
 Parameters.InformaticaAdminUsername.Default,Administrator
 Parameters.ICSClusterSize.AllowedValues,"[u'Small', u'Medium', u'Large']"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.owner,ec2-user
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.06_AnalystServiceSetup.command,sudo /home/ec2-user/Mercury_Setup/launchAnalystService.sh
-Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u's3:Get*', u's3:List*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:', {u'Fn::FindInMap': [u'AWSInfoRegionMap', {u'Ref': u'AWS::Region'}, u'Partition']}, u':s3:::', {u'Ref': u'InformaticaEICKeyS3Bucket'}, u'/', {u'Ref': u'InformaticaEICKeyName'}]]}], u'Effect': u'Allow'}]"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DBPassword.default,Informatica Database Instance Password
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'1433', u'IpProtocol': u'tcp', u'SourceSecurityGroupId': {u'Ref': u'InfaDomainSecurityGroup'}, u'FromPort': u'1433'}]"
 Parameters.InformaticaAdminPassword.Description,Password to access Informatica Administrator
-Parameters.ImportSampleData.Type,String
 Parameters.DBUser.ConstraintDescription,Database Username should be alphanumeric and start with an alphabet only 
-Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.content,"{u'Fn::Join': [u'', [u'[cfn-auto-reloader-hook]\n', u'triggers=post.update\n', u'path=Resources.AdministrationServer.Metadata.AWS::CloudFormation::Init\n', u'action=/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r AdministrationServer ', u' --region ', {u'Ref': u'AWS::Region'}, u'\n', u'runas=root\n']]}"
 Parameters.InformaticaEICKeyS3Bucket.Description,Name of the Amazon S3 bucket in your account that contains the Informatica Enterprise Data Catalog Key
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceHostname.sh.content,"{u'Fn::Join': [u'', [u'#!/bin/bash\n', u'chmod 600 /var/log/cfn-init.log \n', u'chmod 600 /var/log/cfn-init-cmd.log \n', u'privateIp=$(curl http://169.254.169.254/latest/meta-data/local-ipv4) \n', u'publicDnsName=$(curl http://169.254.169.254/latest/meta-data/public-hostname) \n', u'hostname $publicDnsName \n', u'sudo su -c ""sed --in-place \'1s/.*/$publicDnsName/\' /etc/hostname"" \n', u'sudo su -c ""sed -i \'$ a $privateIp $publicDnsName\' /etc/hosts"" \n', u'sudo su -c ""echo HOSTNAME=$publicDnsName >> /etc/sysconfig/network"" \n', u'sudo su -c ""sed -i \'$ a preserve_hostname: true\' /etc/cloud/cloud.cfg"" \n', u'etcHostsConfigOfCluster=""', {u'Fn::If': [u'SingleNodeCnd', {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'HadoopGateway', u'PrivateIp']}, {u'Fn::GetAtt': [u'HadoopGateway', u'PublicDnsName']}]]}, {u'Fn::If': [u'CreateLargeClusterCnd', {u'Fn::Join': [u'\\\\\\n', [{u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}]]}, {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PublicDnsName']}]]}, {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PublicDnsName']}]]}, {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopNode4', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode4', u'PublicDnsName']}]]}, {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopNode5', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode5', u'PublicDnsName']}]]}, {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopNode6', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode6', u'PublicDnsName']}]]}]]}, {u'Fn::Join': [u'\\\\\\n', [{u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}]]}, {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PublicDnsName']}]]}, {u'Fn::Join': [u' ', [{u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PrivateIp']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PublicDnsName']}]]}]]}]}]}, u'""\n', u'sudo su -c ""echo -e $etcHostsConfigOfCluster >> /etc/hosts"" \n', {u'Fn::If': [u'SingleNodeCnd', {u'Fn::Join': [u'', [u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'HadoopGateway', u'PublicDnsName']}, u' ""sudo su -c \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n']]}, {u'Fn::If': [u'CreateLargeClusterCnd', {u'Fn::Join': [u'', [u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}, u' ""sudo su -c \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n', u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PublicDnsName']}, u' ""sudo su -c  \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n', u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PublicDnsName']}, u' ""sudo su -c  \'echo -e $etcHostsConfigOfCluster >>  /etc/hosts\'"" \n', u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopNode4', u'PublicDnsName']}, u' ""sudo su -c  \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n', u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopNode5', u'PublicDnsName']}, u' ""sudo su -c  \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n', u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopNode6', u'PublicDnsName']}, u' ""sudo su -c  \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n']]}, {u'Fn::Join': [u'', [u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}, u' ""sudo su -c \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n', u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PublicDnsName']}, u' ""sudo su -c  \'echo -e $etcHostsConfigOfCluster >> /etc/hosts\'"" \n', u'sudo ssh -o StrictHostKeyChecking=no -o PasswordAuthentication=no ', {u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PublicDnsName']}, u' ""sudo su -c  \'echo -e $etcHostsConfigOfCluster >>  /etc/hosts\'"" \n']]}]}]}]]}"
 Parameters.DBPassword.AllowedPattern,"[^/""@]*"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceHostname.sh.group,ec2-user
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.InformaticaAdminUsername.default,Informatica Administrator Username
-Parameters.QSS3KeyPrefix.Type,String
-Resources.AWS::IAM::ManagedPolicy.Properties.Roles,[{u'Ref': u'InstanceRole'}]
-Rules.SubnetsInVPC.Assertions,"[{u'Assert': {u'Fn::EachMemberIn': [{u'Fn::ValueOfAll': [u'AWS::EC2::Subnet::Id', u'VpcId']}, {u'Fn::RefAll': u'AWS::EC2::VPC::Id'}]}, u'AssertDescription': u'All subnets must in the VPC'}]"
 Outputs.ICSMultiNodeClusterURL.Description,ICS Hadoop Gateway node
 Parameters.IPAddressRange.ConstraintDescription,must be a valid IP CIDR range of the form x.x.x.x/x.
 Mappings.MultiAZRegionMapping.eu-central-1.Supporting,NO
-Resources.AWS::EC2::EIPAssociation.Type,AWS::EC2::EIPAssociation
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
 Parameters.InformaticaEICKeyS3Bucket.MinLength,1
 Resources.AWS::IAM::Role.Properties.Path,/
@@ -62,23 +47,14 @@ Outputs.ICSSingleNodeClusterURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::G
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceHostname.sh.mode,000770
 Parameters.DBSubnetIDs.Description,IDs of two private subnets in the selected VPC. These must be in different Availability Zones in the selected VPC
 Mappings.AWSInfoRegionMap.ca-central-1.QuickStartS3URL,https://s3.amazonaws.com
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/launchAnalystService.sh.owner,ec2-user
 Parameters.DBUser.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
-Parameters.QSS3BucketName.Type,String
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.VPCID.default,VPC
 Outputs.ICSMultiNodeClusterURL.Condition,MultipleNodeCnd
-Resources.AWS::RDS::DBInstance.Properties.MasterUsername,{u'Ref': u'DBUser'}
 Resources.AWS::EC2::EIP.Condition,CreateLargeClusterCnd
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
 Parameters.DBPassword.ConstraintDescription,"Database Password should be atleast 8 characters and cannot contain "" @ and / "
-Parameters.InformaticaAdminPassword.Type,String
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.content,"{u'Fn::Join': [u'', [u'[main]\n', u'stack=', {u'Ref': u'AWS::StackName'}, u'\n', u'interval=1\n', u'region=', {u'Ref': u'AWS::Region'}, u'\n']]}"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./mnt1/EICLicense.key.source,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'InformaticaEICKeyS3Bucket'}, u'.s3.amazonaws.com/', {u'Ref': u'InformaticaEICKeyName'}]]}"
 Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'VPCID', u'InformaticaServerSubnetID', u'DBSubnetIDs', u'IPAddressRange'], u'Label': {u'default': u'Network Configuration'}}, {u'Parameters': [u'KeyName', u'InformaticaServerInstanceType', u'ICSClusterSize'], u'Label': {u'default': u'Amazon EC2 Configuration'}}, {u'Parameters': [u'DBUser', u'DBPassword', u'ConfirmDBPassword'], u'Label': {u'default': u'Amazon RDS Configuration'}}, {u'Parameters': [u'InformaticaAdminUsername', u'InformaticaAdminPassword', u'ConfirmInformaticaAdminPassword', u'InformaticaEICKeyS3Bucket', u'InformaticaEICKeyName', u'ImportSampleData'], u'Label': {u'default': u'Informatica Enterprise Data Catalog Configuration'}}, {u'Parameters': [u'QSS3BucketName', u'QSS3KeyPrefix'], u'Label': {u'default': u'AWS Quick Start Configuration'}}]"
-Parameters.ConfirmInformaticaAdminPassword.Type,String
 Resources.AWS::EC2::NetworkInterface.Properties.Tags,"[{u'Value': u'Informatica Domain Network Interface', u'Key': u'Name'}]"
-Resources.AWS::RDS::DBInstance.Properties.MasterUserPassword,{u'Ref': u'DBPassword'}
 Parameters.InformaticaAdminPassword.MinLength,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./mnt1/EICLicense.key.mode,000400
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceValues.sh.owner,ec2-user
@@ -86,7 +62,6 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.ConfirmDBPassword.defaul
 Parameters.InformaticaEICKeyS3Bucket.ConstraintDescription,Informatica EDC Key S3 Bucket is mandatory
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.KeyName.default,Key Pair Name
 Outputs.InstanceSetupLogs.Description,Informatica Domain EC2 Instance setup Log Location
-Parameters.InformaticaAdminUsername.Type,String
 Parameters.DBPassword.NoEcho,True
 Parameters.ImportSampleData.Default,Yes
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceValues.sh.group,ec2-user
@@ -96,21 +71,16 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./h
 Parameters.InformaticaEICKeyName.Description,"The Informatica Enterprise Data Catalog license key name. For example, <license key name> or <bucket sub folder/license key name>"
 Parameters.InformaticaServerSubnetID.MinLength,1
 Outputs.InstanceID.Description,Informatica Domain Host Name
-Resources.AWS::EC2::Instance.Properties.NetworkInterfaces,"[{u'DeviceIndex': u'0', u'NetworkInterfaceId': {u'Ref': u'Node6NetInterface'}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceHostname.sh.owner,ec2-user
-Parameters.DBPassword.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/cleanupScripts.sh.content,"{u'Fn::Join': [u'', [u'#!/bin/bash\n', u'rm -f /home/ec2-user/Mercury_Setup/config_template.xml \n', u'rm -f /home/ec2-user/Mercury_Setup/reindexCatalogData.sh \n', u'rm -f /home/ec2-user/Mercury_Setup/launchAnalystService.sh \n', u'rm -f /home/ec2-user/Mercury_Setup/replaceValues.sh \n', u'rm -f /home/ec2-user/Mercury_Setup/replaceHostname.sh \n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceValues.sh.mode,000700
 Parameters.VPCID.MinLength,1
-Parameters.ConfirmDBPassword.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/reindexCatalogData.sh.group,ec2-user
 Parameters.InformaticaAdminUsername.ConstraintDescription,Informatica Admin Username is mandatory
 Parameters.QSS3BucketName.ConstraintDescription,"Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'InstanceRole'}]
 Parameters.VPCID.ConstraintDescription,Specifying VPC ID is mandatory 
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/reindexCatalogData.sh.mode,000770
 Resources.AWS::RDS::DBInstance.Properties.AllocatedStorage,200
-Parameters.InformaticaEICKeyName.Type,String
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:*'], u'Resource': u'*', u'Effect': u'Allow'}]"
 Parameters.QSS3KeyPrefix.Description,"S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended."
 Parameters.InformaticaEICKeyName.ConstraintDescription,Informatica EDC Key Name is mandatory
@@ -126,56 +96,36 @@ Parameters.IPAddressRange.AllowedPattern,"(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1
 Resources.AWS::RDS::DBSubnetGroup.Properties.DBSubnetGroupDescription,Subnets available for the RDS DB Instance
 Parameters.ConfirmInformaticaAdminPassword.ConstraintDescription,Confirm Password is mandatory 
 Outputs.InformaticaAdminConsoleServerLogs.Value,/installation.log
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Mappings.AWSInfoRegionMap.eu-central-1.QuickStartS3URL,https://s3.amazonaws.com
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./mnt1/EICLicense.key.group,ec2-user
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./mnt1/EICLicense.key.authentication,S3AccessCreds
-Resources.AWS::RDS::DBInstance.Properties.MultiAZ,"{u'Fn::If': [u'SupportMultiAZCnd', u'true', {u'Ref': u'AWS::NoValue'}]}"
 Mappings.AWSAMIRegionMap.ca-central-1.INFAEICCLUSTERHVM,ami-23ec6847
 Outputs.ICSSingleNodeClusterURL.Description,ICS Hadoop Gateway node
 Mappings.AWSInfoRegionMap.ca-central-1.Partition,aws
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitForClusterInstancesHandle'}
 Parameters.ICSClusterSize.Default,Small
-Resources.AWS::RDS::DBSubnetGroup.Properties.SubnetIds,{u'Ref': u'DBSubnetIDs'}
 Mappings.ClusterSizeMapping.Medium.NumberOfInstances,3
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.IPAddressRange.default,IP Address Range
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ImportSampleData.default,Import Sample Content
 Mappings.AWSAMIRegionMap.AMI.INFAEICCLUSTERHVM,Informatica Hadoop-Cluster Image for ICS
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/replaceValues.sh.content,"{u'Fn::Join': [u'', [u'#!/bin/bash\n', u'THISHOST=$(hostname -f)\n', u'sed -i -e ', {u'Fn::Join': [u'', [u'""s/DomainHostValue/$THISHOST/g""', u' /home/ec2-user/Mercury_Setup/config_template.xml\n']]}, u""sed -i -e 's/domainname/Domain/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/nodename/Node/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/licensename/License/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/adminusername/"", {u'Ref': u'InformaticaAdminUsername'}, u""/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/adminpassword/"", {u'Ref': u'InformaticaAdminPassword'}, u""/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/dbtypevalue/MSSQLServer/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/dbloginvalue/"", {u'Ref': u'DBUser'}, u""/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/dbpasswordvalue/"", {u'Ref': u'DBPassword'}, u""/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/dbhostname/"", {u'Fn::GetAtt': [u'InfaDB', u'Endpoint.Address']}, u""/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/dbportvalue/1433/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/dbservicenamevalue/infadb/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/mrsservicename/infamrsdb/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/cmsdbtype/SQLServer/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/cmsdbname/infacmsdb/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/pwhdbname/infapwhdb/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/hadoopgatewayhost/"", {u'Fn::If': [u'SingleNodeCnd', {u'Fn::GetAtt': [u'HadoopGateway', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}]}, u""/g'  /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/hadoopnodes/"", {u'Fn::If': [u'SingleNodeCnd', {u'Fn::GetAtt': [u'HadoopGateway', u'PublicDnsName']}, {u'Fn::If': [u'CreateLargeClusterCnd', {u'Fn::Join': [u',', [{u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode4', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode5', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode6', u'PublicDnsName']}]]}, {u'Fn::Join': [u',', [{u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode2', u'PublicDnsName']}, {u'Fn::GetAtt': [u'MultiNodeHadoopNode3', u'PublicDnsName']}]]}]}]}, u""/g'  /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/ldmloadtype/"", {u'Fn::If': [u'SingleNodeCnd', u'low', {u'Fn::If': [u'CreateLargeClusterCnd', u'high', u'medium']}]}, u""/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/repocontentcreatetimeout/1200000/g' /home/ec2-user/Mercury_Setup/config_template.xml\n"", u""sed -i -e 's/importsampledata/"", {u'Fn::If': [u'ImportSampleCnd', u'true', u'false']}, u""/g'  /home/ec2-user/Mercury_Setup/config_template.xml\n""]]}"
-Resources.AWS::RDS::DBInstance.Type,AWS::RDS::DBInstance
 Resources.AWS::RDS::DBInstance.Properties.DBInstanceClass,db.m4.2xlarge
 Resources.AWS::RDS::DBInstance.Properties.LicenseModel,license-included
 Parameters.QSS3BucketName.Description,"S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
-Resources.AWS::EC2::NetworkInterface.Type,AWS::EC2::NetworkInterface
 Resources.AWS::EC2::NetworkInterface.Properties.Description,Interface for Administrator Server traffic
-Resources.AWS::EC2::NetworkInterface.Properties.GroupSet,[{u'Ref': u'InfaDomainSecurityGroup'}]
 Outputs.ICSSingleNodeClusterURL.Condition,SingleNodeCnd
-Resources.AWS::RDS::DBInstance.Properties.VPCSecurityGroups,[{u'Ref': u'InfaDBSecurityGroup'}]
-Rules.matchDBPasswords.Assertions,"[{u'Assert': {u'Fn::Equals': [{u'Ref': u'DBPassword'}, {u'Ref': u'ConfirmDBPassword'}]}, u'AssertDescription': u'Passwords do not match'}]"
 Parameters.KeyName.Description,Name of an existing Amazon EC2 keypair. You must specify this option to enable SSH access to Informatica domain and cluster instances
-Resources.AWS::EC2::Instance.Properties.IamInstanceProfile,{u'Ref': u'InstanceProfile'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.ConfirmInformaticaAdminPassword.default,Confirm Password
 Parameters.InformaticaAdminUsername.MinLength,1
 Parameters.DBUser.MinLength,1
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VPCID'}
-Parameters.DBUser.Type,String
 Parameters.DBUser.Description,"Username for the database instance associated with Informatica domain and services (such as Model Repository Service, Data Integration Service, Content Management Service)"
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Outputs.InformaticaAdminConsoleURL.Description,Informatica Administrator Console
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.type,S3
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/launchAnalystService.sh.content,"{u'Fn::Join': [u'', [u'#!/bin/bash\n', u'administratorName=', {u'Ref': u'InformaticaAdminUsername'}, u'\n', u'administratorPassword=', {u'Ref': u'InformaticaAdminPassword'}, u'\n', u'echo "" /opt/informatica/isp/bin/infacmd.sh as createService -dn Domain -nn Node -sn Analyst_Service -un $administratorName -pd ****** -rs Model_Repository_Service -ds Data_Integration_Service -ffl /tmp -cs Catalog_Service -csau $administratorName -csap ****** -au $administratorName -ap ****** -bgefd /tmp -HttpPort 8089 "" >> /installation.log \n', u'/opt/informatica/isp/bin/infacmd.sh as createService -dn Domain -nn Node -sn Analyst_Service -un $administratorName -pd $administratorPassword -rs Model_Repository_Service -ds Data_Integration_Service -ffl /tmp -cs Catalog_Service -csau $administratorName -csap $administratorPassword -au $administratorName -ap $administratorPassword -bgefd /tmp -HttpPort 8089 >> /installation.log 2>&1 \n', u'echo "" /opt/informatica/isp/bin/infacmd.sh assignLicense -dn Domain -un $administratorName -pd ****** -ln License -sn Analyst_Service "" >> /installation.log \n', u'/opt/informatica/isp/bin/infacmd.sh assignLicense -dn Domain -un $administratorName -pd $administratorPassword -ln License -sn Analyst_Service >> /installation.log 2>&1 \n', u'echo "" /opt/informatica/isp/bin/infacmd.sh as updateServiceOptions -dn Domain -sn Analyst_Service -un $administratorName -pd ******  -o BGExport.BGPermanentAttachmentFileLocation=/tmp "" >> /installation.log \n', u'/opt/informatica/isp/bin/infacmd.sh as updateServiceOptions -dn Domain -sn Analyst_Service -un $administratorName -pd $administratorPassword  -o BGExport.BGPermanentAttachmentFileLocation=/tmp >> /installation.log 2>&1 \n', u'echo "" /opt/informatica/isp/bin/infacmd.sh enableService -dn Domain -un $administratorName -pd ****** -sn Analyst_Service "" >> /installation.log \n', u'/opt/informatica/isp/bin/infacmd.sh enableService -dn Domain -un $administratorName -pd $administratorPassword -sn Analyst_Service >> /installation.log 2>&1 \n']]}"
 Outputs.InformaticaAdminConsoleServerLogs.Description,Informatica Domain Installation Log Location
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/cleanupScripts.sh.group,ec2-user
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DBSubnetIDs.default,Informatica Database Subnets
-Parameters.InformaticaServerSubnetID.Type,AWS::EC2::Subnet::Id
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./mnt1/EICLicense.key.owner,ec2-user
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.03_DatabaseCreation.command,"{u'Fn::Join': [u'', [u'touch /installation.log \n', u'chmod 600 /installation.log \n', u'sudo java -cp /home/ec2-user/mssqlutil/MSSQLUtility.jar:/home/ec2-user/mssqlutil/com.informatica.datadirect-dwsqlserver-5.1.4_B.jar mssqlutil/MSSQLUtility jdbc:informatica:sqlserver://', {u'Fn::GetAtt': [u'InfaDB', u'Endpoint.Address']}, u':1433 ', {u'Ref': u'DBUser'}, u' ', {u'Ref': u'DBPassword'}, u' infadb ', u'infamrsdb ', u'infacmsdb ', u'infapwhdb']]}"
-Outputs.InstanceID.Value,{u'Ref': u'AdministrationServer'}
 Parameters.VPCID.Description,ID of your existing VPC where you want to deploy Enterprise Data Catalog
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.group,ec2-user
 Parameters.DBPassword.MinLength,8
-Resources.AWS::RDS::DBInstance.Properties.DBSubnetGroupName,{u'Ref': u'InfaDBSubnetGroup'}
 Parameters.ConfirmInformaticaAdminPassword.NoEcho,True
 Parameters.InformaticaAdminUsername.Description,Username to access Informatica Administrator
 Parameters.KeyName.MinLength,1
@@ -185,33 +135,24 @@ Parameters.ConfirmDBPassword.ConstraintDescription,Confirm Password is mandatory
 Mappings.AWSAMIRegionMap.eu-central-1.INFAEICADMINHVM,ami-af5430c0
 Resources.AWS::EC2::EIPAssociation.Properties.AllocationId,"{u'Fn::GetAtt': [u'AdministrationServerEIP', u'AllocationId']}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/cfn-hup.conf.owner,ec2-user
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::EC2::Instance.Condition,CreateLargeClusterCnd
-Parameters.DBSubnetIDs.Type,List<AWS::EC2::Subnet::Id>
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.InformaticaServerSubnetID.default,Informatica Domain Subnet
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.group,ec2-user
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/launchAnalystService.sh.group,ec2-user
 Parameters.ImportSampleData.AllowedValues,"[u'Yes', u'No']"
-Parameters.IPAddressRange.Type,String
 Resources.AWS::EC2::EIPAssociation.Condition,CreateLargeClusterCnd
-Rules.matchAdministratorPasswords.Assertions,"[{u'Assert': {u'Fn::Equals': [{u'Ref': u'InformaticaAdminPassword'}, {u'Ref': u'ConfirmInformaticaAdminPassword'}]}, u'AssertDescription': u'Passwords do not match'}]"
 Mappings.ClusterSizeMapping.Small.NumberOfInstances,1
 Parameters.QSS3BucketName.AllowedPattern,^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
 Parameters.DBPassword.Description,"Password for the database instance associated with Informatica domain and services (such as Model Repository Service, Data Integration Service, Content Management Service). Password should be at least 8 characters long and cannot contain "" @ and / "
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.04_MercurySetup.command,sudo java -jar /home/ec2-user/Mercury_Setup/mercury_setup.jar -cf /home/ec2-user/Mercury_Setup/config_template.xml -s -uei
 Parameters.ImportSampleData.Description,Select Yes to import the sample catalog data. You can use the sample data to get started with the product
 Mappings.AWSAMIRegionMap.ca-central-1.INFAEICADMINHVM,ami-fa991d9e
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/launchAnalystService.sh.mode,000770
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/cleanupScripts.sh.owner,ec2-user
 Outputs.ICSMultiNodeClusterURL.Value,"{u'Fn::Join': [u'', [u'http://', {u'Fn::GetAtt': [u'MultiNodeHadoopGateway', u'PublicDnsName']}, u':8080']]}"
 Resources.AWS::EC2::Instance.DependsOn,Node6IPAssoc
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
-Resources.AWS::EC2::NetworkInterface.Properties.SubnetId,{u'Ref': u'InformaticaServerSubnetID'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Configure.commands.05_ReindexCatalogData.command,sudo /home/ec2-user/Mercury_Setup/reindexCatalogData.sh
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./home/ec2-user/Mercury_Setup/reindexCatalogData.sh.content,"{u'Fn::Join': [u'', [u'#!/bin/bash\n', u'administratorName=', {u'Ref': u'InformaticaAdminUsername'}, u'\n', u'administratorPassword=', {u'Ref': u'InformaticaAdminPassword'}, u'\n', u'clusterSize=', {u'Ref': u'ICSClusterSize'}, u'\n', u'if [ $clusterSize != ""Small"" ] ; then \n', u'publicDnsName=$(curl http://169.254.169.254/latest/meta-data/public-hostname) \n', u'echo ""Performing the reindexing of Catalog Data"" >>/installation.log \n', u'curl -I -u $administratorName:$administratorPassword -X POST --header ""Content-Type: application/json"" --header ""Accept: application/json"" ""http://$publicDnsName:8085/access/1/catalog/data/search/index "" >> /installation.log 2>&1 \n', u'fi \n']]}"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.Install.files./etc/cfn/hooks.d/cfn-auto-reloader.conf.mode,000400
 Resources.AWS::IAM::Policy.Properties.PolicyName,S3Download
 Parameters.InformaticaServerSubnetID.Description,Select a publicly accessible subnet ID for the Informatica domain
@@ -220,14 +161,8 @@ Metadata.AWS::CloudFormation::Interface.ParameterLabels.InformaticaEICKeyName.de
 Parameters.ICSClusterSize.Description,"The cluster size (i.) Small (c4.8xlarge, single node) (ii.) Medium (c4.8xlarge, three nodes) (iii.)  Large (c4.8xlarge, six nodes)"
 Parameters.IPAddressRange.MaxLength,18
 Parameters.ConfirmDBPassword.MinLength,1
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.buckets,[{u'Ref': u'InformaticaEICKeyS3Bucket'}]
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSAMIRegionMap', {u'Ref': u'AWS::Region'}, u'INFAEICCLUSTERHVM']}"
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.DBUser.default,Informatica Database Instance Username
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.QSS3BucketName.default,Quick Start S3 Bucket Name
 Parameters.ConfirmDBPassword.NoEcho,True
 Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Fn::Join': [u'-', [u'HadoopNode', u'6']]}, u'Key': u'Name'}]"
-Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Authentication.S3AccessCreds.roleName,{u'Ref': u'InstanceRole'}
-Resources.AWS::CloudFormation::WaitCondition.Properties.Count,"{u'Fn::FindInMap': [u'ClusterSizeMapping', {u'Ref': u'ICSClusterSize'}, u'NumberOfInstances']}"
-Resources.AWS::EC2::EIPAssociation.Properties.NetworkInterfaceId,{u'Ref': u'AdministrationServerNetInterface'}
 Mappings.ClusterSizeMapping.Large.NumberOfInstances,6
-Parameters.VPCID.Type,AWS::EC2::VPC::Id

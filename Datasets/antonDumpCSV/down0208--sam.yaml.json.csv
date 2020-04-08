@@ -1,7 +1,6 @@
 Outputs.CognitoUserPoolsGroupRole.Value,CUPGroupRole
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.post.responses.200.schema.$ref,#/definitions/Empty
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.x-amazon-apigateway-integration.type,mock
-Resources.AWS::Serverless::Function.Properties.Events.GoogleGet.Type,Api
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.responses.200.schema.$ref,#/definitions/Empty
 Resources.AWS::Serverless::Function.Properties.CodeUri,s3://<S3 BUCKET>/lambda.zip
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.responses.200.headers.Access-Control-Allow-Headers.type,string
@@ -9,12 +8,9 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.x-a
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Methods,"'POST,GET,OPTIONS'"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Methods,"'POST,GET,OPTIONS'"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.responses.200.schema.$ref,#/definitions/Empty
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.x-amazon-apigateway-integration.contentHandling,CONVERT_TO_TEXT
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.produces,[u'application/json']
-Resources.AWS::Cognito::IdentityPool.Type,AWS::Cognito::IdentityPool
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'userId'}]"
-Resources.AWS::Serverless::Function.Properties.Events.CupGet.Type,Api
 Outputs.LamdbaFunction.Value,CognitoDemoFunction
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.security,[{u'sigv4': []}]
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.options.x-amazon-apigateway-integration.responses.default.statusCode,200
@@ -38,17 +34,14 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.get.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.x-amazon-apigateway-integration.contentHandling,CONVERT_TO_TEXT
-Resources.AWS::Serverless::Api.Type,AWS::Serverless::Api
 Resources.AWS::Serverless::Function.Properties.Events.CupGet.Properties.Method,GET
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.consumes,[u'application/json']
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.Roles.authenticated,GoogleRole.Arn
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.responses.200.headers.Access-Control-Allow-Methods.type,string
-Resources.AWS::Serverless::Function.Properties.Events.CipPost.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.AWS::Cognito::IdentityPool.Properties.AllowUnauthenticatedIdentities,False
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.produces,[u'application/json']
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.x-amazon-apigateway-integration.responses.default.statusCode,200
-Resources.AWS::Serverless::Function.Properties.Events.CipGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,5
 Resources.AWS::Serverless::Function.Properties.Events.CipInfoGet.Properties.Path,/cip/info
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.options.responses.200.description,200 response
@@ -59,7 +52,6 @@ Outputs.CognitoIdentityAuthRole.Value,GoogleRole
 Resources.AWS::Cognito::UserPoolGroup.Properties.GroupName,cip-group
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.passthroughBehavior,when_no_templates
 Outputs.CognitoUserPool.Description,Cognito User Pool
-Resources.AWS::Serverless::Function.Properties.Events.CupPost.Type,Api
 Resources.AWS::Serverless::Function.Properties.Environment.Variables.TABLE_NAME,Table
 Outputs.DDB.Description,DynamoDB Table
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.requestTemplates.application/json,"#set($inputRoot = $input.path('$'))
@@ -71,7 +63,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon
     }
 }"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.consumes,[u'application/json']
-Resources.AWS::Serverless::Function.Properties.Events.CipInfoGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.sigv4.type,apiKey
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.responses.200.headers.Access-Control-Allow-Origin.type,string
 Resources.AWS::Cognito::UserPool.Properties.UserPoolName,CognitoAPIGWAngular
@@ -151,7 +142,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.get.x-amazon
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.httpMethod,POST
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'CognitoAPIGWAngularCIP', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'execute-api:Invoke', u'Resource': [[u'/', [[u':', [u'arn:aws:execute-api', u'AWS::Region', u'AWS::AccountId', u'CognitoDemoApi']], u'*/GET/cip']], [u'/', [[u':', [u'arn:aws:execute-api', u'AWS::Region', u'AWS::AccountId', u'CognitoDemoApi']], u'*/POST/cip']]], u'Effect': u'Allow'}]}}]"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.responses.200.description,200 response
-Resources.AWS::Serverless::Function.Properties.Events.CipGet.Type,Api
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.get.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Methods,"'GET,OPTIONS'"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.get.x-amazon-apigateway-integration.passthroughBehavior,when_no_templates
@@ -172,7 +162,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.x-amazo
 }"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.x-amazon-apigateway-integration.requestTemplates.application/json,"{""statusCode"": 200}"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.responses.200.schema.$ref,#/definitions/Empty
-Resources.AWS::Serverless::Function.Properties.Events.GooglePost.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.produces,[u'application/json']
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.myApiUsers.x-amazon-apigateway-authorizer.providerARNs,[{u'Fn::Sub': u'${CognitoUserPool.Arn}'}]
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.responses.200.headers.Access-Control-Allow-Methods.type,string
@@ -186,12 +175,10 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.resp
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.options.responses.200.headers.Access-Control-Allow-Methods.type,string
 Resources.AWS::Serverless::Function.Properties.Events.GoogleGet.Properties.Path,/google
-Resources.AWS::Serverless::Function.Properties.Events.GoogleGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.options.x-amazon-apigateway-integration.passthroughBehavior,when_no_match
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Cognito::UserPoolClient.Properties.ClientName,myApp
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
-Resources.AWS::Cognito::UserPoolGroup.Type,AWS::Cognito::UserPoolGroup
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.get.x-amazon-apigateway-integration.requestTemplates.application/json,"#set($inputRoot = $input.path('$'))
@@ -206,10 +193,8 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.x-am
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.responses.200.description,200 response
 Resources.AWS::Serverless::Function.Properties.Events.CipGet.Properties.Method,GET
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.post.x-amazon-apigateway-integration.responses.default.responseParameters.method.response.header.Access-Control-Allow-Origin,'*'
-Resources.AWS::Cognito::UserPool.Type,AWS::Cognito::UserPool
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.security,[{u'sigv4': []}]
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.sigv4.name,Authorization
-Resources.AWS::Serverless::Function.Properties.Events.CupGet.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.x-amazon-apigateway-integration.requestTemplates.application/json,"{""statusCode"": 200}"
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.responses.200.headers.Access-Control-Allow-Origin.type,string
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.responses.200.headers.Access-Control-Allow-Origin.type,string
@@ -224,14 +209,11 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.sec
 Outputs.CognitoIdentityAuthRole.Description,Cognito Identity IAM Auth Role
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.swagger,2.0
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.post.x-amazon-apigateway-integration.responses.default.statusCode,200
-Resources.AWS::Serverless::Function.Properties.Events.CipInfoGet.Type,Api
-Resources.AWS::Serverless::Function.Type,AWS::Serverless::Function
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.x-amazon-apigateway-integration.uri,{u'Fn::Sub': u'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CognitoDemoFunction.Arn}/invocations'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.options.produces,[u'application/json']
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.uri,{u'Fn::Sub': u'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CognitoDemoFunction.Arn}/invocations'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.options.responses.200.schema.$ref,#/definitions/Empty
-Resources.AWS::Serverless::Function.Properties.Events.CupPost.Properties.RestApiId,{u'Ref': u'CognitoDemoApi'}
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.securityDefinitions.myApiUsers.x-amazon-apigateway-authtype,cognito_user_pools
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.responses.200.description,200 response
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.post.x-amazon-apigateway-integration.requestTemplates.application/json,"#set($inputRoot = $input.path('$'))
@@ -260,10 +242,8 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.x-a
 Resources.AWS::Cognito::UserPoolClient.Properties.UserPoolId,CognitoUserPool
 Resources.AWS::IAM::Role.Properties.Path,/
 Outputs.LamdbaFunction.Description,Lambda Function
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.basePath,/demo
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.post.consumes,[u'application/json']
-Resources.AWS::Serverless::Function.Properties.Events.GooglePost.Type,Api
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.get.x-amazon-apigateway-integration.requestTemplates.application/json,"#set($inputRoot = $input.path('$'))
 {
   ""operation"": ""list"",
@@ -286,9 +266,6 @@ Resources.AWS::Serverless::Api.Properties.DefinitionBody.definitions.Empty.type,
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cup.post.x-amazon-apigateway-integration.responses.default.statusCode,200
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip/info.get.consumes,[u'application/json']
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./google.get.x-amazon-apigateway-integration.contentHandling,CONVERT_TO_TEXT
-Resources.AWS::Cognito::UserPoolClient.Type,AWS::Cognito::UserPoolClient
-Resources.AWS::Cognito::IdentityPoolRoleAttachment.Type,AWS::Cognito::IdentityPoolRoleAttachment
-Resources.AWS::Serverless::Function.Properties.Events.CipPost.Type,Api
 Resources.AWS::Serverless::Api.Properties.DefinitionBody.paths./cip.get.x-amazon-apigateway-integration.contentHandling,CONVERT_TO_TEXT
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRoleWithWebIdentity'], u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'cognito-identity.amazonaws.com:aud': [u'CognitoIdPool']}, u'ForAnyValue:StringLike': {u'cognito-identity.amazonaws.com:amr': [u'authenticated']}}, u'Principal': {u'Federated': [u'cognito-identity.amazonaws.com']}}]"
 Resources.AWS::Serverless::Function.Properties.Events.GooglePost.Properties.Method,POST

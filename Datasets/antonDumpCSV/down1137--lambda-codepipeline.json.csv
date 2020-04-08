@@ -1,31 +1,18 @@
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'CodePipelineLambdaRole'}]
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Type,S3
 Resources.AWS::IAM::Policy.DependsOn,[u'CodePipelineLambdaRole']
-Outputs.CodePipelineURL.Value,"{u'Fn::Join': [u'', [u'https://console.aws.amazon.com/codepipeline/home?region=', {u'Ref': u'AWS::Region'}, u'#/view/', {u'Ref': u'CodePipelineStack'}]]}"
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Description,Always return success
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,Archive.zip
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Resources.AWS::Lambda::Function.Properties.Timeout,20
-Resources.AWS::CodePipeline::Pipeline.Properties.Stages,"[{u'Name': u'Source', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Source', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'S3'}, u'OutputArtifacts': [{u'Name': u'MyApp'}], u'Configuration': {u'S3Bucket': {u'Ref': u'S3BucketLambdaFunction'}, u'S3ObjectKey': u'public/codepipeline/aws-codepipeline-s3-aws-codedeploy_linux.zip'}, u'Name': u'Source'}]}, {u'Name': u'Commit', u'Actions': [{u'InputArtifacts': [], u'RunOrder': 1, u'ActionTypeId': {u'Category': u'Invoke', u'Owner': u'AWS', u'Version': u'1', u'Provider': u'Lambda'}, u'OutputArtifacts': [], u'Configuration': {u'FunctionName': {u'Ref': u'CodePipelineLambdaDummy'}, u'UserParameters': {u'Ref': u'AWS::StackName'}}, u'Name': u'Build'}]}]"
 Resources.AWS::IAM::Role.Properties.Path,/
 Parameters.S3BucketLambdaFunction.Default,stelligent-training-public
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Resources.AWS::CodePipeline::Pipeline.Properties.RoleArn,"{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':role/AWS-CodePipeline-Service']]}"
-Outputs.StackName.Value,{u'Ref': u'AWS::StackName'}
 Parameters.Version.Default,1
 Resources.AWS::CodePipeline::Pipeline.DependsOn,[u'CodePipelineLambdaDummy']
 Resources.AWS::Lambda::Function.Properties.Handler,lambdadummy.handler
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'S3BucketLambdaFunction'}
-Resources.AWS::CodePipeline::Pipeline.Properties.ArtifactStore.Location,{u'Ref': u'S3BucketLambdaFunction'}
 Parameters.S3BucketLambdaFunction.Description,S3 bucket to use for artifacts. Just bucket Name; not URL. IAM user should have access to the bucket.
 Outputs.StackName.Description,StackName for this stack
-Parameters.Version.Type,String
 Resources.AWS::Lambda::Function.Properties.MemorySize,128
 Resources.AWS::Lambda::Function.DependsOn,"[u'CodePipelineLambdaRole', u'LambdaCodePipelineExecutionPolicy']"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Principal': {u'Service': u'lambda.amazonaws.com'}, u'Effect': u'Allow', u'Sid': u''}]"
-Parameters.S3BucketLambdaFunction.Type,String
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'logs:*'], u'Resource': [u'arn:aws:logs:*:*:*'], u'Effect': u'Allow'}, {u'Action': [u'codepipeline:PutJobSuccessResult', u'codepipeline:PutJobFailureResult'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Outputs.CodePipelineURL.Description,URL for generated pipeline in CodePipeline console
@@ -33,4 +20,3 @@ Resources.AWS::Lambda::Function.Properties.Runtime,nodejs
 Resources.AWS::IAM::Policy.Properties.PolicyName,LambdaRolePolicy
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'CodePipelineLambdaRole', u'Arn']}"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:*'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'lambda:AddPermission'], u'Resource': [u'*'], u'Effect': u'Allow'}]}}]"
-Resources.AWS::CodePipeline::Pipeline.Type,AWS::CodePipeline::Pipeline

@@ -1,7 +1,5 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
 Outputs.ALBPrivateCNAME.Value,ALBPrivate.DNSName
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
-Resources.AWS::EC2::Route.Properties.NatGatewayId,{u'Ref': u'NAT1'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'Value': u'${AWS::StackName} - ECS Host', u'PropagateAtLaunch': True, u'Key': u'Name'}]"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupName,WebAppSecurityGroup
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
@@ -23,7 +21,6 @@ Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,{u'Fn::Base6
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.services.sysvinit.cfn-hup.ensureRunning,True
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,[u'arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role']
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.WaitOnResourceSignals,True
-Resources.AWS::EC2::SecurityGroupIngress.Type,AWS::EC2::SecurityGroupIngress
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,10.0.0.192/26
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.PauseTime,PT15M
 Resources.AWS::EC2::NatGateway.Properties.SubnetId,PublicSubnet1
@@ -38,18 +35,14 @@ Resources.AWS::EC2::Route.Properties.RouteTableId,PublicRouteTable
 Resources.AWS::EC2::EIP.Properties.Domain,vpc
 Resources.AWS::EC2::RouteTable.Properties.VpcId,VPC
 Outputs.PublicSubnet2.Value,PublicSubnet2
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::AutoScaling::AutoScalingGroup.UpdatePolicy.AutoScalingRollingUpdate.MinInstancesInService,1
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
 Resources.AWS::IAM::InstanceProfile.Properties.Roles,[u'ECSRole']
 Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,VPC
-Resources.AWS::EC2::NatGateway.Type,AWS::EC2::NatGateway
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
 Resources.AWS::EC2::Subnet.Properties.VpcId,VPC
 Outputs.ALBPublic.Value,ALBPublic
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Scheme,internet-facing
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,PrivateLaunchConfiguration
-Resources.AWS::EC2::EIP.Type,AWS::EC2::EIP
 Resources.AWS::EC2::SecurityGroupIngress.Properties.ToPort,8082
 Outputs.PrivateSubnet2.Value,PrivateSubnet2
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [1, {u'Fn::GetAZs': u''}]}"
@@ -60,36 +53,25 @@ path=Resources.ContainerInstances.Metadata.AWS::CloudFormation::Init
 action=/opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName} --resource LaunchConfiguration
 "
 Outputs.PrivateSubnet1.Value,PrivateSubnet1
-Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Type,AWS::ElasticLoadBalancingV2::LoadBalancer
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,PrivateRouteTable1
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRole', u'Effect': u'Allow', u'Principal': {u'Service': u'ec2.amazonaws.com'}}]"
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.content,"[main]
 stack=${AWS::StackId}
 region=${AWS::Region}
 "
-Resources.AWS::ECS::Cluster.Type,AWS::ECS::Cluster
 Outputs.ECSCluster.Value,ECSCluster
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Resources.AWS::EC2::SecurityGroup.Properties.VpcId,VPC
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.SecurityGroups,[u'SecurityGroupPublic.GroupId']
 Resources.AWS::ElasticLoadBalancingV2::LoadBalancer.Properties.Subnets,"[u'PublicSubnet1', u'PublicSubnet2']"
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"[u'AWSRegionToAMI', u'AWS::Region', u'AMI']"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,1
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,[u'PrivateSubnet1']
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
 Resources.AWS::EC2::Route.Properties.GatewayId,InternetGateway
 Resources.AWS::EC2::VPC.Properties.CidrBlock,10.0.0.0/24
 Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.files./etc/cfn/cfn-hup.conf.group,root
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Outputs.ALBPrivate.Value,ALBPrivate
 Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,PrivateSubnet1
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::EC2::Subnet.Properties.MapPublicIpOnLaunch,True
 Outputs.SecurityGroupWebapp.Value,SecurityGroupWebapp.GroupId
 Mappings.AWSRegionToAMI.ca-central-1.AMI,ami-435bde27

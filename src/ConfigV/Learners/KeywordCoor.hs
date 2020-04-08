@@ -3,7 +3,7 @@
 {-# LANGUAGE MultiWayIf #-} 
 {-# LANGUAGE PartialTypeSignatures #-} 
 
-module Learners.KeywordCoor where
+module ConfigV.Learners.KeywordCoor where
 
 import Types.IR
 import Types.Common

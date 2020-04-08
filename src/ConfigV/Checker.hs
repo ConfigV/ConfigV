@@ -1,22 +1,19 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE PartialTypeSignatures #-}
-module Checker where
+module ConfigV.Checker where
 
-import Types.IR
-import Types.Rules
-import Types.Errors
-import Types.Common
+import ConfigV.Types
 
-import LearningEngine
-import Convert (convert)
-import Settings.Config
+import ConfigV.LearningEngine
+import ConfigV.Convert (convert)
+import ConfigV.Settings.Config
 
 import qualified Data.Map.Merge.Strict as M
 import qualified Data.Map.Strict as M
 import Data.Interned
 
 import qualified Data.Text as T
-import Utils
+import ConfigV.Utils
 
 verifyOn :: _ -> RuleSet -> ConfigFile Language -> ErrorReport
 verifyOn settings rs configFile  =
@@ -31,7 +28,7 @@ checkFile settings rs f =
      configVconfig = ConfigVConfiguration { 
                         optionsSettings = defaultCheckConfig, 
                         thresholdSettings = defaultThresholds}
-     fRules = buildAllRelations configVconfig keyCounts $ convert f --TODO what in gods name is this doing here?
+     fRules = buildAllRelations configVconfig $ convert f --TODO what in gods name is this doing here?
      fKs = map keyword $ convert f
      rs' = filterRules fKs rs
      diff = ruleDiff (traceMe rs') (traceMe fRules) --the difference between the two rule sets
@@ -42,15 +39,13 @@ checkFile settings rs f =
 filterRules :: [Keyword] -> RuleSet -> RuleSet
 filterRules fKs rs = RuleSet {
        order   = f order
-      ,missing = f' missing 
-      ,keyvalkey = f' keyvalkey --why only require one key match?
       ,intRel  = f intRel 
       ,typeErr = f'' typeErr 
       ,fineInt = f fineInt
+      ,smtRules = f smtRules
      }
    where
      f classOfErr  =  M.filterWithKey (\e _ -> keysMatch (keys e)) (classOfErr rs)
-     f' classOfErr =  M.filterWithKey (\e _ -> oneKeyMatch (keys e)) (classOfErr rs)
      f'' classOfErr=  M.filterWithKey (\(e::TypeErr) _ -> keyPartMatch (map unintern $ keys e)) (classOfErr rs)
      keysMatch ks   = and $ map (\k->elem k fKs) ks
      oneKeyMatch ks = or $ map (\k->elem k fKs) ks
@@ -62,11 +57,10 @@ filterRules fKs rs = RuleSet {
 ruleDiff :: RuleSet -> RuleSet -> RuleSet
 ruleDiff rs1 rs2 = RuleSet {
        order   = f order 
-      ,missing = f missing
-      ,keyvalkey = f keyvalkey
       ,intRel  = f' intRel
       ,typeErr = f typeErr
       ,fineInt = f' fineInt
+      ,smtRules = f smtRules
      }
    where
      --only use the key to resolve type ambiguity
@@ -84,8 +78,6 @@ genErrReport cf@(fname,_,_) rs =
     f classOfErr= map (\rd -> toError (convert cf) fname rd) $ M.toList $ classOfErr rs
   in 
     f order ++ 
-    f missing ++ 
-    f keyvalkey ++ 
     f intRel ++
     f typeErr ++
     f fineInt

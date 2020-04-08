@@ -1,16 +1,7 @@
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'RdsSnapshotUser'}
-Resources.AWS::IAM::Group.Properties.Policies.PolicyName,"{u'Fn::Join': [u'-', [{u'Ref': u'RdsIdentifier'}, u'RdsSnapshotPolicy']]}"
-Resources.AWS::IAM::User.Properties.Groups,[{u'Ref': u'RdsSnapshotGroup'}]
-Resources.AWS::IAM::Group.Properties.GroupName,"{u'Fn::Join': [u'-', [{u'Ref': u'RdsIdentifier'}, u'RdsSnapshotGroup']]}"
-Parameters.RdsIdentifier.Type,String
 Outputs.RdsSnapshotAccessKeyId.Description,RDS Snapshot User Access Key Id
 Resources.AWS::IAM::Group.Properties.Policies.PolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Outputs.RdsSnapshotGroupName.Value,{u'Ref': u'RdsSnapshotGroup'}
 Parameters.RdsIdentifier.AllowedPattern,^[A-Za-z0-9-]+(\*)?$
 Parameters.RdsIdentifier.Description,RDS Instance Name
-Resources.AWS::IAM::Group.Properties.Policies.PolicyDocument.Statement,"[{u'Action': [u'rds:DeleteDBSnapshot'], u'Resource': {u'Fn::Join': [u'', [u'arn:aws:rds:*:*:snapshot:', {u'Ref': u'RdsIdentifier'}, u'*']]}, u'Effect': u'Allow'}, {u'Action': [u'rds:CreateDBSnapshot'], u'Resource': [{u'Fn::Join': [u':', [u'arn:aws:rds:*:*:db', {u'Ref': u'RdsIdentifier'}]]}, {u'Fn::Join': [u'', [u'arn:aws:rds:*:*:snapshot:', {u'Ref': u'RdsIdentifier'}, u'*']]}], u'Effect': u'Allow'}, {u'Action': [u'rds:DescribeDBSnapshots'], u'Resource': [{u'Fn::Join': [u':', [u'arn:aws:rds:*:*:db', {u'Ref': u'RdsIdentifier'}]]}], u'Effect': u'Allow'}]"
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
 Parameters.RdsIdentifier.MaxLength,16
 Outputs.RdsSnapshotSecretAccessKey.Description,RDS Snapshot User Broker Access Key
 Parameters.RdsIdentifier.ConstraintDescription,"Valid RDS instance identifier or identifier prefix + *
@@ -19,6 +10,4 @@ aws rds create-db-snapshot $FOO
 aws rds describe-db-snapshots"
 Outputs.RdsSnapshotGroupName.Description,RDS Snapshot Group Name
 Outputs.RdsSnapshotSecretAccessKey.Value,"{u'Fn::GetAtt': [u'RdsSnapshotAccessKey', u'SecretAccessKey']}"
-Outputs.RdsSnapshotAccessKeyId.Value,{u'Ref': u'RdsSnapshotAccessKey'}
-Resources.AWS::IAM::Group.Type,AWS::IAM::Group
 Parameters.RdsIdentifier.MinLength,1

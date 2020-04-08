@@ -1,17 +1,7 @@
-Parameters.Password.Type,String
-Resources.AWS::IAM::ManagedPolicy.Type,AWS::IAM::ManagedPolicy
 Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::IAM::User.Properties.LoginProfile.PasswordResetRequired,True
-Resources.AWS::IAM::ManagedPolicy.Properties.PolicyDocument.Statement,"[{u'Action': [u'iam:*LoginProfile', u'iam:*AccessKey*'], u'Resource': [{u'Fn::Join': [u'', [u'arn:aws:iam::', {u'Ref': u'AWS::AccountId'}, u':user/${aws:username}']]}], u'Effect': u'Allow'}, {u'Action': [u'iam:ListAccount*', u'iam:GetAccount*', u'iam:ListUsers'], u'Resource': [u'*'], u'Effect': u'Allow'}]"
-Outputs.ConsoleAccess.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'AWS::AccountId'}, u'.signin.aws.amazon.com/console']]}"
-Resources.AWS::IAM::User.Properties.LoginProfile.Password,{u'Ref': u'Password'}
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Outputs.User.Value,{u'Ref': u'User'}
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': [u'autoscaling:Describe*', u'cloudformation:Describe*', u'cloudformation:GetTemplate', u'cloudformation:List*', u'ec2:Describe*', u'ec2:GetConsoleOutput', u's3:List*', u's3:GetBucketLocation', u's3:GetBucketPolicy', u's3:GetLifecycleConfiguration', u'tag:Get*'], u'Resource': u'*', u'Effect': u'Allow'}]"
-Resources.AWS::IAM::ManagedPolicy.Properties.Users,[{u'Ref': u'User'}]
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
-Resources.AWS::IAM::Policy.Properties.Users,[{u'Ref': u'User'}]
 Resources.AWS::IAM::User.Properties.Path,/
 Parameters.Password.Description,"IAM user's console password, that follows accounts IAM password policy"
 Resources.AWS::IAM::Policy.Properties.PolicyName,read_only_policy

@@ -1,35 +1,19 @@
 Parameters.CloudCanvasStack.Description,Identifies this stack as a Lumberyard Cloud Canvas managed stack.
-Resources.Custom::AccessControl.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
-Resources.Custom::AccessControl.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Resources.Custom::LambdaConfiguration.Properties.Runtime,python2.7
-Resources.Custom::LambdaConfiguration.Properties.ServiceToken,{u'Ref': u'ProjectResourceHandler'}
 Resources.AWS::Lambda::Function.Properties.Description,Function called by the game to perform some action.
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,"{u'Fn::GetAtt': [u'LambdaConfiguration', u'ConfigurationKey']}"
 Parameters.DeploymentStackArn.Description,ARN of the deployment stack that owns this resource group stack.
-Parameters.ConfigurationKey.Type,String
 Resources.Custom::AccessControl.DependsOn,[u'Lambda']
 Metadata.CloudCanvas.Id,$Revision: #1 $
 Parameters.DeploymentName.Description,Name of the resource group's deployment.
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaConfiguration', u'Role']}"
 Parameters.ConfigurationBucket.Description,Bucket that contains configuration data.
-Parameters.DeploymentStackArn.Type,String
-Parameters.ProjectResourceHandler.Type,String
 Resources.AWS::Lambda::Function.Properties.Handler,main.handler
 Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::GetAtt': [u'LambdaConfiguration', u'ConfigurationBucket']}"
 Parameters.ConfigurationKey.Description,Location in the configuration bucket of configuration data.
-Parameters.ResourceGroupName.Type,String
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
-Resources.Custom::AccessControl.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationKey,{u'Ref': u'ConfigurationKey'}
 Parameters.ResourceGroupName.Description,Name of the resource group.
 Resources.AWS::Lambda::Function.Metadata.CloudCanvas.Permissions,"[{u'Action': u'lambda:InvokeFunction', u'AbstractRole': u'Player'}]"
 Resources.Custom::LambdaConfiguration.Properties.FunctionName,Lambda
 Resources.AWS::Lambda::Function.Properties.Runtime,"{u'Fn::GetAtt': [u'LambdaConfiguration', u'Runtime']}"
 Parameters.CloudCanvasStack.Default,ResourceGroup
-Resources.Custom::LambdaConfiguration.Properties.ConfigurationBucket,{u'Ref': u'ConfigurationBucket'}
-Parameters.CloudCanvasStack.Type,String
 Parameters.ProjectResourceHandler.Description,Service token of the custom resource handler.
-Resources.Custom::LambdaConfiguration.Type,Custom::LambdaConfiguration
-Parameters.DeploymentName.Type,String
-Parameters.ConfigurationBucket.Type,String
-Resources.Custom::AccessControl.Type,Custom::AccessControl

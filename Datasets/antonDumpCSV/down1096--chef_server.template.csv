@@ -2,33 +2,23 @@ Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.owner,chef
 Parameters.ResourceName.AllowedPattern,[a-zA-Z][a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.automake,[]
-Parameters.ResourceName.Type,String
 Parameters.ResourceName.Description,The Logical Resource Name - commonly set by parent stack
-Parameters.VpcId.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.python-boto,[]
 Resources.AWS::IAM::User.Properties.Path,/
 Parameters.KeyName.ConstraintDescription,"can contain only alphanumeric characters, spaces, dashes and underscores."
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.mode,000644
-Resources.AWS::EC2::Instance.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash -v\n', u'#enable epel here as a test\n', u'yum-config-manager --enablerepo=epel\n', u'yum update -y aws-cfn-bootstrap\n', u'#do some chef things before the cfn-init due to race issues\n', u'/bin/mkdir -p /etc/chef\n', u'/bin/mkdir -p /var/lib/chef\n', u'/bin/mkdir -p /var/log/chef\n', u'/usr/sbin/groupadd chef -r\n', u'/usr/sbin/useradd chef -r -s /bin/sh -d /var/lib/chef -g chef\n', u""#setup some basic config files we'll need\n"", u'wget https://splunk-cloud.s3.amazonaws.com/config/chef.json -O /etc/chef/chef.json\n', u'wget https://splunk-cloud.s3.amazonaws.com/config/solo.rb -O /etc/chef/solo.rb\n', u'wget https://splunk-cloud.s3.amazonaws.com/config/client.rb -O /etc/chef/client.rb\n', u'#set the ip in the client.rb so we can chef ourselves and others\n', u'MYIP=$(/sbin/ifconfig eth0 | grep ""inet addr"" | awk -F: \'{print $2}\' | awk \'{print $1}\')\n', u'/bin/sed -i ""s/0.0.0.0/$MYIP/g"" /etc/chef/client.rb\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'function retry {\n', u'   nTrys=0\n', u'   maxTrys=5\n', u'   status=256\n', u'   until [ $status == 0 ] ; do\n', u'      $1\n', u'      status=$?\n', u'      nTrys=$(($nTrys + 1))\n', u'      if [ $nTrys -gt $maxTrys ] ; then\n', u'            echo ""Number of re-trys exceeded. Exit code: $status""\n', u'            exit $status\n', u'      fi\n', u'      if [ $status != 0 ] ; then\n', u'            echo ""Failed (exit code $status)... retry $nTrys""\n', u'            sleep 10\n', u'      fi\n', u'   done\n', u'}\n', u'retry ""/opt/aws/bin/cfn-init -v -s ', {u'Ref': u'AWS::StackName'}, u' -r ChefServerHost ', u'    --access-key ', {u'Ref': u'CfnKeys'}, u'    --secret-key ', {u'Fn::GetAtt': [u'CfnKeys', u'SecretAccessKey']}, u'    --region ', {u'Ref': u'AWS::Region'}, u'"" || error_exit \'Failed to run cfn-init\'\n', u""#Ruby 1.8 doesn't quite cut it with the latest versions of chef. uninstall them and install 1.9\n"", u'yum erase -y ruby-libs ruby-1.8.7\n', u'yum update -y \n', u'ln -sf /usr/bin/ruby1.9 /usr/bin/ruby \n', u'ln -sf /usr/bin/rake1.9 /usr/bin/rake\n', u'ln -sf /usr/bin/rdoc1.9 /usr/bin/rdoc\n', u'ln -sf /usr/bin/irb1.9 /usr/bin/irb\n', u'ln -sf /usr/bin/gem1.9 /usr/bin/gem\n', u'yum install -y couchdb js\n', u'#chef needs the gecode package, but its broken in epel for ALinux. install from rbel instead\n', u'yum install -y https://splunk-cloud.s3.amazonaws.com/amazon-linux/gecode-3.5.0-1.el6.x86_64.rpm\n', u'yum install -y https://splunk-cloud.s3.amazonaws.com/amazon-linux/gecode-devel-3.5.0-1.el6.x86_64.rpm\n', u'/sbin/ldconfig\n', u'#bug in chef installer puts things in the wrong places, this fixes that\n', u'ln -s /usr/local/bin/chef-solr /usr/bin/chef-solr\n', u'ln -s /usr/local/bin/chef-expander /usr/bin/chef-expander\n', u'ln -s /usr/local/bin/chef-server /usr/bin/chef-server\n', u'#instead of letting the bootstrap install things, we do it here first for versioning\n', u'gem update --system 2.2.2\n', u'gem install dep_selector --version 0.1.1 --no-ri --no-rdoc\n', u'gem install thin --version 1.6.2 --no-ri --no-rdoc\n', u'gem install ohai --version 6.20.0 --no-ri --no-rdoc\n', u'gem install chef --version 10.24.0 --no-ri --no-rdoc\n', u'gem install eventmachine --version 1.0.0 --no-ri --no-rdoc\n', u'gem install em-http-request --version 0.2.11 --no-ri --no-rdoc\n', u'gem install chef-server-api --version 10.24.0 --no-ri --no-rdoc --conservative --minimal-deps\n', u'#need to do some manual linking here to fix an issue w/ em-http-request which has a bug of some sort on ALinux. making these links makes it work.\n', u'GEMFOLDER=""/usr/local/share/gems1.9/gems""\n', u'EMVERSION=""0.2.11""\n', u'ln -s ${GEMFOLDER}/em-http-request-${EMVERSION}/ext/http11_client/http11_client.so ${GEMFOLDER}/em-http-request-${EMVERSION}/lib\n', u'ln -s ${GEMFOLDER}/em-http-request-${EMVERSION}/ext/buffer/em_buffer.so ${GEMFOLDER}/em-http-request-${EMVERSION}/lib\n', u'gem install chef-expander --version 10.24.0 --no-ri --no-rdoc\n', u'#here we go! install the custom chefbootstrap\n', u'chown -R chef /etc/chef/*\n', u'/usr/local/bin/chef-solo -c /etc/chef/solo.rb -j /etc/chef/chef.json -r https://splunk-cloud.s3.amazonaws.com/chefbootstrap.tar.gz\n', u'sleep 60\n', u'#need to make validation.pem available for clients\n', u'/bin/mkdir -p /var/www/html/chef\n', u'/bin/cp /etc/chef/validation.pem /var/www/html/chef\n', u'/bin/cp /etc/chef/client.rb /var/www/html/chef\n', u'wget https://splunk-cloud.s3.amazonaws.com/config/chefme.sh -O /var/www/html/chef/chefme.sh\n', u'/bin/sed -i ""s/0.0.0.0/$MYIP/g"" /var/www/html/chef/chefme.sh\n', u'/bin/chmod -R 755 /var/www/html/chef\n', u'/etc/init.d/httpd start\n', u'/bin/sed -i ""s/192.168.1.116/$MYIP/g"" /home/ec2-user/chefrepo/cookbooks/chef/recipes/chef-client.rb\n', u'chown -R ec2-user:ec2-user /home/ec2-user/chefrepo\n', u'#configure knife and populate Chef with cookbooks & roles\n', u'wget https://splunk-cloud.s3.amazonaws.com/config/setupchef.sh -O /etc/chef/setupchef.sh\n', u""/bin/sh /etc/chef/setupchef.sh || error_exit 'Failed to run setupchef.sh'\n"", u'# All is well so signal success\n', u'/opt/aws/bin/cfn-signal -e 0 -r ""Chef server setup complete"" \'', {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
-Resources.AWS::EC2::Instance.Properties.SubnetId,{u'Ref': u'SubnetId'}
 Parameters.KeyName.MaxLength,64
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.kernel-devel,[]
-Outputs.InstanceID.Value,{u'Ref': u'ChefServerHost'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.flex,[]
 Resources.AWS::IAM::User.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Statement': [{u'Action': [u'cloudformation:DescribeStackResource', u's3:GetObject'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.git,[]
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'22'}, {u'ToPort': u'80', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'80'}, {u'ToPort': u'4000', u'IpProtocol': u'tcp', u'CidrIp': u'192.168.0.0/16', u'FromPort': u'4000'}]"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,1800
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.group,root
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.group,root
-Resources.AWS::IAM::AccessKey.Properties.UserName,{u'Ref': u'CfnUser'}
-Resources.AWS::EC2::Instance.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.sources./home/ec2-user/chefrepo/,https://splunk-cloud.s3.amazonaws.com/chefrepo.tar.gz
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.rubygems19,[]
-Parameters.KeyName.Type,String
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.ruby19-devel,[]
-Resources.AWS::EC2::Instance.Properties.SecurityGroupIds,[{u'Ref': u'ChefServerSecurityGroup'}]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.owner,root
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.autoconf,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/chef/client-attribs.json.content,"{u'Fn::Join': [u'', [u'{""run_list"": [ ""role[Chef-server]"" ]}']]}"
@@ -46,27 +36,17 @@ Parameters.SubnetId.Default,subnet-
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.ruby19-irb,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.gcc,[]
 Parameters.ResourceName.Default,ChefServer
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.rubygem19-rdoc,[]
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.zlib-devel,[]
 Parameters.KeyName.Description,Name of an existing EC2 KeyPair to enable SSH access to the instances (use bastion KeyPair if available)
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'VpcId'}
 Parameters.VpcId.Default,vpc-
 Mappings.AWSRegionArch2AMI.eu-central-1.64HVM,ami-a8221fb5
 Outputs.PrivateIp.Description,Private IP address of instance
 Parameters.KeyName.MinLength,1
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.source,https://splunk-cloud.s3.amazonaws.com/amazon-linux/enable-epel-on-amazon-linux-ami
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.rubygem19-rake,[]
-Resources.AWS::IAM::User.Type,AWS::IAM::User
-Parameters.SubnetId.Type,String
-Resources.AWS::IAM::AccessKey.Type,AWS::IAM::AccessKey
-Resources.AWS::EC2::Instance.Type,AWS::EC2::Instance
 Parameters.ResourceName.MaxLength,128
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Parameters.KeyName.AllowedPattern,[-_ a-zA-Z0-9]*
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.files./etc/yum.repos.d/epel.repo.mode,000644
 Resources.AWS::EC2::Instance.Metadata.AWS::CloudFormation::Init.config.packages.yum.gcc-c++,[]
-Resources.AWS::EC2::Instance.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, u'64HVM']}"
-Resources.AWS::EC2::Instance.Properties.Tags,"[{u'Value': {u'Ref': u'ResourceName'}, u'Key': u'Name'}]"
 Parameters.SubnetId.Description,SubnetId of an existing Private subnet in your Virtual Private Cloud (VPC)

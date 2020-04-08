@@ -2,23 +2,15 @@ Resources.AWS::WAF::Rule.Properties.MetricName,ManualBlockRule
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.RequestThreshold.default,Request Threshold
 Outputs.AutoBlockIPSetID.Description,Auto Block IP Set ID
-Resources.AWS::WAF::WebACL.Type,AWS::WAF::WebACL
 Parameters.RequestThreshold.Default,50
-Resources.AWS::Lambda::Function.Properties.Description,"{u'Fn::Join': [u':', [{u'Ref': u'RequestThreshold'}, {u'Ref': u'WAFBlockPeriod'}]]}"
 Outputs.ManualBlockIPSetID.Description,Manual Block IP Set ID
-Parameters.WAFBlockPeriod.Type,Number
 Resources.AWS::Lambda::Permission.DependsOn,LambdaWAFBlacklistingFunction
-Resources.AWS::WAF::IPSet.Type,AWS::WAF::IPSet
-Outputs.ManualBlockIPSetID.Value,{u'Ref': u'WAFManualBlockSet'}
 Resources.AWS::Lambda::Permission.Properties.Principal,s3.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:*
-Outputs.RequestThreshold.Value,{u'Ref': u'RequestThreshold'}
 Outputs.RequestThreshold.Description,Request Threshold
 Resources.AWS::Lambda::Function.Properties.Timeout,300
 Resources.AWS::Lambda::Function.Properties.Handler,parser.lambda_handler
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Resources.AWS::WAF::WebACL.Properties.Name,Malicious Requesters
-Resources.AWS::WAF::WebACL.Properties.DefaultAction.Type,ALLOW
 Parameters.RequestThreshold.Description,"Enter the maximum bad requests per minute to accept, per IP. Default: 50"
 Resources.AWS::WAF::WebACL.DependsOn,"[u'WAFManualBlockRule', u'WAFAutoBlockRule']"
 Parameters.WAFBlockPeriod.Default,240
@@ -26,28 +18,16 @@ Resources.AWS::WAF::IPSet.Properties.Name,Manual Block Set
 Resources.AWS::WAF::WebACL.Properties.MetricName,MaliciousRequesters
 Outputs.CloudFrontAccessLogBucket.Description,CloudFront Access Log Bucket
 Outputs.WAFBlockPeriod.Description,WAF Block Period
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,"{u'Fn::Join': [u'.', [u'awswaf', {u'Ref': u'AWS::Region'}]]}"
 Resources.AWS::WAF::Rule.Properties.Name,Manual Block Rule
 Metadata.AWS::CloudFormation::Interface.ParameterLabels.WAFBlockPeriod.default,WAF Block Period
-Parameters.CloudFrontAccessLogBucket.Type,String
 Parameters.WAFBlockPeriod.Description,Enter duration (in minutes) the IP will be blocked for. Default: 4 hours (240 minutes)
-Resources.AWS::WAF::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFManualBlockSet'}, u'Type': u'IPMatch', u'Negated': False}]"
 Resources.AWS::Lambda::Function.Properties.MemorySize,512
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Resources.AWS::IAM::Role.Properties.Path,/
 Resources.AWS::S3::Bucket.DeletionPolicy,Retain
 Resources.AWS::Lambda::Function.DependsOn,LambdaRole
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Outputs.AutoBlockIPSetID.Value,{u'Ref': u'WAFAutoBlockSet'}
-Resources.AWS::Lambda::Permission.Properties.SourceAccount,{u'Ref': u'AWS::AccountId'}
-Parameters.RequestThreshold.Type,Number
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Permission.Properties.FunctionName,"{u'Fn::GetAtt': [u'LambdaWAFBlacklistingFunction', u'Arn']}"
-Outputs.CloudFrontAccessLogBucket.Value,{u'Ref': u'CloudFrontAccessLogBucket'}
-Resources.AWS::WAF::Rule.Type,AWS::WAF::Rule
-Outputs.WAFBlockPeriod.Value,{u'Ref': u'WAFBlockPeriod'}
 Resources.AWS::S3::Bucket.Properties.AccessControl,Private
 Resources.AWS::Lambda::Function.Properties.Code.S3Key,block-bad-behaving-ips/parser.zip
 Parameters.CloudFrontAccessLogBucket.Default,
@@ -57,7 +37,5 @@ Metadata.AWS::CloudFormation::Interface.ParameterGroups,"[{u'Parameters': [u'Clo
 Resources.AWS::S3::Bucket.Properties.NotificationConfiguration.LambdaConfigurations,"[{u'Filter': {u'S3Key': {u'Rules': [{u'Name': u'suffix', u'Value': u'gz'}]}}, u'Function': {u'Fn::GetAtt': [u'LambdaWAFBlacklistingFunction', u'Arn']}, u'Event': u's3:ObjectCreated:*'}]"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'S3Access', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u's3:*', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'WAFAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'waf:*', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'LogsAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'logs:*', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'LambdAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'lambda:*', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'CloudFormationAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'cloudformation:DescribeStacks', u'Resource': u'*', u'Effect': u'Allow'}]}}, {u'PolicyName': u'CloudWatchAccess', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': u'cloudwatch:PutMetricData', u'Resource': u'*', u'Effect': u'Allow'}]}}]"
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaRole', u'Arn']}"
-Resources.AWS::WAF::WebACL.Properties.Rules,"[{u'Action': {u'Type': u'BLOCK'}, u'Priority': 1, u'RuleId': {u'Ref': u'WAFManualBlockRule'}}, {u'Action': {u'Type': u'BLOCK'}, u'Priority': 2, u'RuleId': {u'Ref': u'WAFAutoBlockRule'}}]"
 Parameters.CloudFrontAccessLogBucket.Description,Enter the name of a new S3 bucket where the CloudFront log files are to be stored. Rules for bucket naming: http://amzn.to/1QXbleZ
 Resources.AWS::S3::Bucket.DependsOn,LambdaWAFBlacklistingFunction
-Resources.AWS::S3::Bucket.Properties.BucketName,{u'Ref': u'CloudFrontAccessLogBucket'}

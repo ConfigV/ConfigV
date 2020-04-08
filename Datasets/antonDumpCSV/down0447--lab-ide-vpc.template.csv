@@ -1,80 +1,37 @@
 Resources.AWS::IAM::InstanceProfile.Properties.Path,/
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
-Resources.Custom::AddRoleToInstance.Properties.EnvironmentId,{u'Ref': u'LabIDE'}
-Resources.Custom::AddRoleToInstance.Properties.BucketName,{u'Ref': u'KopsStateStore'}
-Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'PublicNetworkAcl'}
 Mappings.SubnetConfig.VPC.CIDR,10.0.0.0/16
 Resources.AWS::Lambda::Function.Properties.Timeout,30
 Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,false
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
-Resources.Custom::AddRoleToInstance.Properties.Region,{u'Ref': u'AWS::Region'}
-Outputs.Cloud9IDE.Value,"{u'Fn::Join': [u'', [u'https://', {u'Ref': u'AWS::Region'}, u'.console.aws.amazon.com/cloud9/ide/', {u'Ref': u'LabIDE'}, u'?region=', {u'Ref': u'AWS::Region'}]]}"
-Resources.AWS::Cloud9::EnvironmentEC2.Type,AWS::Cloud9::EnvironmentEC2
-Resources.AWS::Cloud9::EnvironmentEC2.Properties.SubnetId,{u'Ref': u'PublicSubnet'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.SubnetId,{u'Ref': u'PublicSubnet'}
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
 Resources.AWS::EC2::VPC.Properties.EnableDnsSupport,true
 Resources.AWS::S3::Bucket.Properties.VersioningConfiguration.Status,Enabled
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Type,AWS::EC2::SubnetNetworkAclAssociation
-Resources.AWS::EC2::NetworkAclEntry.Type,AWS::EC2::NetworkAclEntry
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,6
 Resources.AWS::IAM::Role.Properties.ManagedPolicyArns,"[u'arn:aws:iam::aws:policy/AmazonEC2FullAccess', u'arn:aws:iam::aws:policy/AmazonRoute53FullAccess', u'arn:aws:iam::aws:policy/AmazonS3FullAccess', u'arn:aws:iam::aws:policy/IAMFullAccess', u'arn:aws:iam::aws:policy/AmazonVPCFullAccess', u'arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess']"
-Resources.Custom::AddRoleToInstance.Properties.LabIdeInstanceProfileName,{u'Ref': u'LabIdeInstanceProfile'}
 Resources.AWS::EC2::Subnet.Properties.CidrBlock,"{u'Fn::FindInMap': [u'SubnetConfig', u'Public', u'CIDR']}"
-Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'PublicNetworkAcl'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,101
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
 Outputs.EksVpcSecurityGroups.Value,"{u'Fn::GetAtt': [u'EksVpc', u'Outputs.SecurityGroups']}"
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
-Resources.Custom::AddRoleToInstance.Type,Custom::AddRoleToInstance
-Resources.AWS::EC2::Route.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
 Resources.AWS::EC2::Route.DependsOn,GatewayToInternet
 Mappings.SubnetConfig.Public.CIDR,10.0.0.0/24
 Resources.Custom::AddRoleToInstance.Properties.LabIdeInstanceProfileArn,"{u'Fn::GetAtt': [u'LabIdeInstanceProfile', u'Arn']}"
-Resources.AWS::EC2::RouteTable.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.Custom::AddRoleToInstance.Properties.ServiceToken,"{u'Fn::GetAtt': [u'AddRoleToInstanceFunction', u'Arn']}"
 Resources.AWS::EC2::VPC.Properties.CidrBlock,"{u'Fn::FindInMap': [u'SubnetConfig', u'VPC', u'CIDR']}"
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'root', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream', u'logs:PutLogEvents'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'cloudformation:DescribeStacks', u'cloudformation:DescribeStackEvents', u'cloudformation:DescribeStackResource', u'cloudformation:DescribeStackResources', u'ec2:DescribeInstances', u'ec2:AssociateIamInstanceProfile', u'ec2:ReplaceIamInstanceProfileAssociation', u'iam:ListInstanceProfiles', u'iam:PassRole'], u'Resource': u'*', u'Effect': u'Allow'}, {u'Action': [u's3:*'], u'Resource': [{u'Fn::GetAtt': [u'KopsStateStore', u'Arn']}, {u'Fn::Join': [u'', [{u'Fn::GetAtt': [u'KopsStateStore', u'Arn']}, u'/*']]}], u'Effect': u'Allow'}]}}]"
 Resources.AWS::CloudFormation::Stack.Properties.TemplateURL,https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/amazon-eks-vpc-sample.yaml
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'LabIdeRole'}]
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
 Outputs.EksServiceRoleArn.Value,"{u'Fn::GetAtt': [u'EksServiceRole', u'Outputs.RoleArn']}"
-Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,22
-Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.AWS::S3::Bucket.Type,AWS::S3::Bucket
 Outputs.EksVpcSubnetIds.Value,"{u'Fn::GetAtt': [u'EksVpc', u'Outputs.SubnetIds']}"
 Resources.AWS::S3::Bucket.Description,-
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'lambda.amazonaws.com']}}]"
-Resources.AWS::EC2::InternetGateway.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.AWS::EC2::VPC.Properties.Tags,"[{u'Value': {u'Ref': u'AWS::StackName'}, u'Key': u'Application'}, {u'Value': u'Public', u'Key': u'Network'}]"
-Resources.Custom::AddRoleToInstance.Properties.StackName,{u'Ref': u'AWS::StackName'}
-Resources.AWS::EC2::InternetGateway.Type,AWS::EC2::InternetGateway
 Resources.AWS::Cloud9::EnvironmentEC2.Properties.AutomaticStopTimeMinutes,60
 Resources.Custom::AddRoleToInstance.DependsOn,"[u'AddRoleToInstanceFunction', u'KopsStateStore']"
 Resources.Custom::AddRoleToInstance.Description,Add LabIdeRole to Cloud9 IDE Instance
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Code.ZipFile,"{u'Fn::Join': [u'\n', [u'from __future__ import print_function', u'import boto3', u'import logging', u'import json', u'import time', u'import traceback', u'import cfnresponse', u'', u'logger = logging.getLogger()', u'logger.setLevel(logging.INFO)', u'', u'def handler(event, context):', u""    logger.debug('Event: {}'.format(event))"", u""    logger.debug('Context: {}'.format(context))"", u'    responseData = {}', u'    ', u'    # Immediately respond on Delete', u""    if event['RequestType'] == 'Delete':"", u'        # Empty Bucket before CloudFormation deletes it', u'        session = boto3.Session()', u""        s3 = session.resource(service_name='s3')"", u'        try:', u""            bucket = s3.Bucket(event['ResourceProperties']['BucketName'])"", u'            bucket.object_versions.delete()', u'            ', u""            logger.info('Bucket '+event['ResourceProperties']['BucketName']+' objects/versions deleted.')"", u""            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')"", u'        except Exception as e:', u'            logger.error(e, exc_info=True)', u""            responseData = {'Error': traceback.format_exc(e)}"", u""            cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')"", u'    ', u""    if event['RequestType'] == 'Create':"", u'        try:', u'            # Open AWS clients', u""            ec2 = boto3.client('ec2')"", u'            ', u'            # Get the InstanceId of the Cloud9 IDE', u""            instance = ec2.describe_instances(Filters=[{'Name': 'tag:Name','Values': ['aws-cloud9-'+event['ResourceProperties']['StackName']+'-'+event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]"", u'            ', u'            # Create the IamInstanceProfile request object', u'            iam_instance_profile = {', u""                'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn'],"", u""                'Name': event['ResourceProperties']['LabIdeInstanceProfileName']"", u'            }', u'            ', u'            # Wait for Instance to become ready before adding Role', u""            instance_state = instance['State']['Name']"", u""            while instance_state != 'running':"", u'                time.sleep(5)', u""                instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])"", u""            ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])"", u'            ', u""            responseData = {'Success': 'Role added to instance'+instance['InstanceId']+'.'}"", u""            cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')"", u'        except Exception as e:', u'            logger.error(e, exc_info=True)', u""            responseData = {'Error': traceback.format_exc(e)}"", u""            cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')""]]}"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'PublicRouteTable'}
-Resources.AWS::EC2::VPCGatewayAttachment.Type,AWS::EC2::VPCGatewayAttachment
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
-Resources.AWS::CloudFormation::Stack.Type,AWS::CloudFormation::Stack
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
-Resources.AWS::Cloud9::EnvironmentEC2.Properties.Name,{u'Ref': u'AWS::StackName'}
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.SubnetId,{u'Ref': u'PublicSubnet'}
-Resources.AWS::EC2::RouteTable.Type,AWS::EC2::RouteTable
 Resources.AWS::Cloud9::EnvironmentEC2.Properties.Description,Lab IDE for container workshop
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Resources.AWS::Lambda::Function.Properties.Role,"{u'Fn::GetAtt': [u'LambdaExecutionRole', u'Arn']}"

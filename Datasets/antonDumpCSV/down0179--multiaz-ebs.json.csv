@@ -1,43 +1,21 @@
 Resources.AWS::EC2::NetworkAclEntry.Properties.Protocol,-1
 Resources.AWS::AutoScaling::AutoScalingGroup.DependsOn,GatewayToInternet
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Resources.AWS::EC2::Route.Type,AWS::EC2::Route
-Resources.AWS::EC2::SubnetRouteTableAssociation.Type,AWS::EC2::SubnetRouteTableAssociation
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleAction,allow
 Resources.AWS::EC2::Route.Properties.DestinationCidrBlock,0.0.0.0/0
-Resources.AWS::EC2::Subnet.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::VPC.Properties.EnableDnsHostnames,true
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckGracePeriod,600
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
-Resources.AWS::EC2::NetworkAclEntry.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': True, u'Value': u'jenkins-multiaz', u'Key': u'Name'}]"
-Parameters.AMISnapshot.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.AssociatePublicIpAddress,True
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,{u'Ref': u'AMISnapshot'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'LaunchConfiguration'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.Egress,true
-Parameters.JenkinsAdminPassword.Type,String
 Parameters.JenkinsAdminPassword.AllowedPattern,[a-zA-Z0-9]*
 Resources.AWS::EC2::NetworkAclEntry.Properties.CidrBlock,0.0.0.0/0
-Resources.AWS::EC2::VPCGatewayAttachment.Properties.InternetGatewayId,{u'Ref': u'InternetGateway'}
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,1
-Parameters.KeyName.Type,AWS::EC2::KeyPair::KeyName
-Resources.AWS::EC2::Subnet.Type,AWS::EC2::Subnet
-Resources.AWS::EC2::SubnetNetworkAclAssociation.Properties.NetworkAclId,{u'Ref': u'NetworkAcl'}
 Resources.AWS::EC2::Subnet.Properties.AvailabilityZone,"{u'Fn::Select': [u'0', {u'Fn::GetAZs': u''}]}"
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.InstanceMonitoring,False
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Ref': u'SubnetA'}, {u'Ref': u'SubnetB'}]"
 Resources.AWS::EC2::NetworkAclEntry.Properties.RuleNumber,10
-Resources.AWS::EC2::NetworkAcl.Properties.VpcId,{u'Ref': u'VPC'}
 Resources.AWS::EC2::NetworkAclEntry.Properties.PortRange.From,0
 Resources.AWS::EC2::NetworkAcl.Properties.Tags,"[{u'Value': u'jenkins-multiaz', u'Key': u'Name'}]"
 Resources.AWS::EC2::SecurityGroup.Properties.Tags,"[{u'Value': u'jenkins-multiaz', u'Key': u'Name'}]"
-Resources.AWS::EC2::NetworkAcl.Type,AWS::EC2::NetworkAcl
-Resources.AWS::EC2::Route.Properties.GatewayId,{u'Ref': u'InternetGateway'}
-Resources.AWS::EC2::VPC.Type,AWS::EC2::VPC
 Resources.AWS::EC2::RouteTable.Properties.Tags,"[{u'Value': u'jenkins-multiaz', u'Key': u'Name'}]"
 Resources.AWS::EC2::Subnet.Properties.Tags,"[{u'Value': u'jenkins-multiaz', u'Key': u'Name'}]"
-Resources.AWS::EC2::SubnetRouteTableAssociation.Properties.RouteTableId,{u'Ref': u'RouteTable'}
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'SecurityGroupJenkins'}]
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,1

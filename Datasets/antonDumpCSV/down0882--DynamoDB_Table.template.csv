@@ -1,10 +1,5 @@
-Parameters.HashKeyElementType.Type,String
-Parameters.HashKeyElementName.Type,String
 Parameters.HashKeyElementType.MinLength,1
 Parameters.WriteCapacityUnits.MaxValue,10000
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
-Parameters.ReadCapacityUnits.Type,Number
-Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': {u'Ref': u'HashKeyElementName'}}]"
 Outputs.TableName.Description,Table name of the newly created DynamoDB table
 Parameters.HashKeyElementName.MaxLength,2048
 Parameters.HashKeyElementName.MinLength,1
@@ -12,21 +7,16 @@ Parameters.ReadCapacityUnits.Default,5
 Parameters.HashKeyElementName.Description,HashType PrimaryKey Name
 Parameters.HashKeyElementType.AllowedPattern,[S|N]
 Parameters.HashKeyElementType.Default,S
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'WriteCapacityUnits'}
 Parameters.HashKeyElementName.ConstraintDescription,must contain only alphanumberic characters
-Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': {u'Ref': u'HashKeyElementName'}, u'AttributeType': {u'Ref': u'HashKeyElementType'}}]"
 Parameters.HashKeyElementType.Description,HashType PrimaryKey Type
 Parameters.HashKeyElementName.AllowedPattern,[a-zA-Z0-9]*
-Outputs.TableName.Value,{u'Ref': u'myDynamoDBTable'}
 Parameters.ReadCapacityUnits.Description,Provisioned read throughput
 Parameters.WriteCapacityUnits.ConstraintDescription,must be between 5 and 10000
 Parameters.WriteCapacityUnits.Default,10
 Parameters.WriteCapacityUnits.MinValue,5
-Parameters.WriteCapacityUnits.Type,Number
 Parameters.ReadCapacityUnits.MaxValue,10000
 Parameters.HashKeyElementType.ConstraintDescription,must be either S or N
 Parameters.WriteCapacityUnits.Description,Provisioned write throughput
 Parameters.HashKeyElementType.MaxLength,1
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
 Parameters.ReadCapacityUnits.ConstraintDescription,must be between 5 and 10000
 Parameters.ReadCapacityUnits.MinValue,5

@@ -1,23 +1,6 @@
-Resources.AWS::WAF::Rule.Properties.MetricName,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'ManualIPBlockRule']]}"
-Resources.AWS::WAF::SqlInjectionMatchSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'SqliMatch']]}"
 Parameters.WebACLName.Description,"Enter the name you want to use for the WebACL. This value is also added as a prefix for the names of the rules, conditions, and CloudWatch metrics created by this template."
 Resources.AWS::WAF::XssMatchSet.Properties.XssMatchTuples,"[{u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'URI'}}]"
-Resources.AWS::WAF::XssMatchSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'XssMatch']]}"
-Resources.AWS::WAF::SqlInjectionMatchSet.Type,AWS::WAF::SqlInjectionMatchSet
-Resources.AWS::WAF::IPSet.Type,AWS::WAF::IPSet
-Resources.AWS::WAF::WebACL.Type,AWS::WAF::WebACL
 Resources.AWS::WAF::SizeConstraintSet.Properties.SizeConstraints,"[{u'ComparisonOperator': u'GT', u'TextTransformation': u'NONE', u'FieldToMatch': {u'Type': u'BODY'}, u'Size': u'8192'}]"
-Resources.AWS::WAF::WebACL.Properties.Name,{u'Ref': u'WebACLName'}
-Resources.AWS::WAF::WebACL.Properties.DefaultAction.Type,ALLOW
-Resources.AWS::WAF::XssMatchSet.Type,AWS::WAF::XssMatchSet
 Resources.AWS::WAF::IPSet.Properties.Name,Manual IP Block Set
-Resources.AWS::WAF::WebACL.Properties.MetricName,{u'Ref': u'WebACLName'}
 Parameters.WebACLName.Default,CommonAttackProtection
-Resources.AWS::WAF::Rule.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'ManualIPBlockRule']]}"
-Resources.AWS::WAF::WebACL.Properties.Rules,"[{u'Action': {u'Type': u'BLOCK'}, u'Priority': 1, u'RuleId': {u'Ref': u'ManualIPBlockRule'}}, {u'Action': {u'Type': u'COUNT'}, u'Priority': 2, u'RuleId': {u'Ref': u'SizeMatchRule'}}, {u'Action': {u'Type': u'BLOCK'}, u'Priority': 3, u'RuleId': {u'Ref': u'SqliRule'}}, {u'Action': {u'Type': u'BLOCK'}, u'Priority': 4, u'RuleId': {u'Ref': u'XssRule'}}]"
-Resources.AWS::WAF::Rule.Properties.Predicates,"[{u'DataId': {u'Ref': u'WAFManualIPBlockSet'}, u'Type': u'IPMatch', u'Negated': u'false'}]"
 Resources.AWS::WAF::SqlInjectionMatchSet.Properties.SqlInjectionMatchTuples,"[{u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'QUERY_STRING'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'HTML_ENTITY_DECODE', u'FieldToMatch': {u'Type': u'BODY'}}, {u'TextTransformation': u'URL_DECODE', u'FieldToMatch': {u'Type': u'URI'}}]"
-Resources.AWS::WAF::Rule.Type,AWS::WAF::Rule
-Resources.AWS::WAF::SizeConstraintSet.Type,AWS::WAF::SizeConstraintSet
-Parameters.WebACLName.Type,String
-Resources.AWS::WAF::SizeConstraintSet.Properties.Name,"{u'Fn::Join': [u'', [{u'Ref': u'WebACLName'}, u'LargeBodyMatch']]}"

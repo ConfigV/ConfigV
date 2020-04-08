@@ -1,52 +1,36 @@
 Resources.AWS::Events::Rule.Properties.EventPattern.detail.errorMessage,"[u'Access Denied', u'Failed authentication']"
 Parameters.SlackChannel.Description,Enter the SlackChannel to be notified. Blank for none.
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Principal.Service,lambda.amazonaws.com
-Resources.AWS::SNS::TopicPolicy.Type,AWS::SNS::TopicPolicy
-Parameters.SlackChannel.Type,String
 Parameters.LambdaS3BucketName.Default,sydney-summit-incident-response
 Resources.AWS::Lambda::Permission.Properties.FunctionName,PublishAccessDeniedLambda.Arn
-Resources.AWS::Lambda::Function.Properties.Code.S3Key,{u'Ref': u'PublishLambdaS3KeyName'}
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.SlackChannel,SlackChannel
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Statement,"[{u'Action': u'sns:Publish', u'Resource': u'AccessDeniedTopic', u'Effect': u'Allow', u'Principal': {u'Service': u'events.amazonaws.com'}}]"
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
 Resources.AWS::Lambda::Function.Properties.Timeout,300
-Resources.AWS::SNS::Topic.Type,AWS::SNS::Topic
 Parameters.LambdaS3BucketName.Description,Bucket name where lambda functions reside
 Resources.AWS::SNS::TopicPolicy.DependsOn,[u'AccessDeniedTopic']
-Parameters.GenerateMessagesLambdaS3KeyName.Type,String
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Action,[u'sts:AssumeRole']
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,PublishSecurityMessageLambdaExecutionRole.Arn
 Parameters.APIKey.Description,Key for the WhoisXMLAPI. Leave as blank to skip IP detail lookup
 Resources.AWS::SNS::TopicPolicy.Properties.Topics,[u'AccessDeniedTopic']
-Parameters.SlackHookUrl.Type,String
 Resources.AWS::Events::Rule.Properties.State,ENABLED
 Resources.AWS::Events::Rule.Properties.Name,sec-ir-YouAreNotAuthEvent
 Resources.AWS::SNS::TopicPolicy.Properties.PolicyDocument.Version,2012-10-17
-Parameters.APIKey.Type,String
-Resources.AWS::Lambda::Function.Properties.Code.S3Bucket,{u'Ref': u'LambdaS3BucketName'}
-Resources.AWS::Events::Rule.Properties.Targets,"[{u'Id': u'TargetTopic', u'Arn': {u'Ref': u'AccessDeniedTopic'}}]"
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.APIKey,APIKey
 Resources.AWS::Events::Rule.DependsOn,AccessDeniedTopic
 Resources.AWS::Lambda::Function.Properties.FunctionName,sec-ir-PublishSecuirtyMessageToSlack
-Parameters.LambdaS3BucketName.Type,String
 Parameters.ChimeHookUrl.Description,Enter the Chime Hook URL. Blank for none.
 Resources.AWS::SNS::Subscription.Properties.TopicArn,SecurityMessagesTopic
 Resources.AWS::SNS::Subscription.Properties.Protocol,lambda
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement.Effect,Allow
-Resources.AWS::SNS::Subscription.Type,AWS::SNS::Subscription
 Resources.AWS::Lambda::Function.Properties.Handler,index.publish_to_slack_handler
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::Lambda::Permission.Condition,CreateChimePublisher
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Condition,CreateSlackPublisher
 Parameters.GenerateMessagesLambdaS3KeyName.Description,The zip file name of the lambda functions to generate security messages
 Resources.AWS::Lambda::Function.Properties.Runtime,python2.7
 Resources.AWS::SNS::Subscription.Properties.Endpoint,"{u'Fn::GetAtt': [u'PublishSecurityMessageToSlackLambda', u'Arn']}"
-Resources.AWS::Events::Rule.Type,AWS::Events::Rule
-Parameters.ChimeHookUrl.Type,String
 Resources.AWS::SNS::Subscription.DependsOn,"[u'SecurityMessagesTopic', u'PublishSecurityMessageToSlackLambda']"
 Resources.AWS::SNS::Topic.Properties.DisplayName,sec-ir-AccessDeniedTopic
 Parameters.PublishLambdaS3KeyName.Default,publish-security-messages.zip
@@ -56,7 +40,6 @@ Resources.AWS::Lambda::Function.Properties.Environment.Variables.SlackHookUrl,Sl
 Parameters.SlackHookUrl.Description,Enter the SlackChannel Hook URL. Blank for none.
 Resources.AWS::SNS::Subscription.Condition,CreateSlackPublisher
 Resources.AWS::Events::Rule.Properties.EventPattern.detail.errorCode,[u'Client.UnauthorizedOperation']
-Parameters.PublishLambdaS3KeyName.Type,String
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.ChimeHookUrl,ChimeHookUrl
 Parameters.PublishLambdaS3KeyName.Description,The zip file name of the lambda functions to publish security messages
 Resources.AWS::IAM::Role.Properties.Policies,"[{u'PolicyName': u'sec-ir-LambdaCloudTrailPolicy', u'PolicyDocument': {u'Version': u'2012-10-17', u'Statement': [{u'Action': [u'logs:CreateLogGroup', u'logs:CreateLogStream'], u'Resource': u'arn:aws:logs:*:*:*', u'Effect': u'Allow'}, {u'Action': [u'logs:PutLogEvents', u'cloudtrail:LookupEvents', u'sns:*'], u'Resource': u'*', u'Effect': u'Allow'}]}}]"

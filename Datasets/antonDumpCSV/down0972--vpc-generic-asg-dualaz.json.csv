@@ -1,35 +1,15 @@
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'ParamRSAKeyName'}
 Parameters.ParamInstSubnet1AZ.AllowedPattern,[a-z][a-z]-[a-z]+-[0-9][a-z]
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Parameters.ParamInstSubnet1.Type,AWS::EC2::Subnet::Id
 Parameters.ParamRSAKeyName.Description,RSA Key for instances
 Parameters.ParamInstSubnet1AZ.ConstraintDescription,Must select a valid AZ name within the target region
 Parameters.ParamASGMinCapacity.Default,0
 Parameters.ParamInstanceAMI.Description,ID of instance AMI
 Parameters.ParamInstSubnet2AZ.ConstraintDescription,Must select a valid AZ name within the target region
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
-Parameters.ParamASGDesiredCapacity.Type,Number
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.Tags,"[{u'PropagateAtLaunch': u'true', u'Value': {u'Fn::Join': [u'@', [u'inst', {u'Ref': u'AWS::StackName'}]]}, u'Key': u'Name'}]"
-Parameters.ParamInstSubnet2.Type,AWS::EC2::Subnet::Id
 Parameters.ParamASGMaxCapacity.Default,10
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,{u'Ref': u'ParamInstanceAMI'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'InstLanuchConf'}
-Parameters.ParamRSAKeyName.Type,AWS::EC2::KeyPair::KeyName
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,{u'Ref': u'ParamASGMaxCapacity'}
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MinSize,{u'Ref': u'ParamASGMinCapacity'}
 Parameters.ParamVPC.Description,VPC ID
-Parameters.ParamASGMaxCapacity.Type,Number
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.VPCZoneIdentifier,"[{u'Ref': u'ParamInstSubnet1'}, {u'Ref': u'ParamInstSubnet2'}]"
-Parameters.ParamInstanceAMI.Type,String
 Parameters.ParamASGMaxCapacity.Description,Maximum capacity for the ASG
-Parameters.ParamVPC.Type,AWS::EC2::VPC::Id
 Parameters.ParamASGDesiredCapacity.Default,2
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'ParamIamInstanceProfile'}
 Parameters.ParamInstSubnet2AZ.Description,Subnet 2 Availability zone
 Parameters.ParamInstSubnet2.Description,Subnet 2 for auto-scaling-group
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,"[{u'Ref': u'ParamInstanceDefaultSG'}, {u'Ref': u'SGInstances'}]"
-Parameters.ParamInstSubnet1AZ.Type,String
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'ParamASGDesiredCapacity'}
 Parameters.ParamInstSubnet1.Description,Subnet 1 for auto-scaling-group
 Parameters.ParamIamInstanceProfile.Description,IAM Role Profile for instances
 Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,[]
@@ -37,15 +17,8 @@ Parameters.ParamInstSubnet1AZ.Description,Subnet 1 Availability zone
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.BlockDeviceMappings,"[{u'DeviceName': u'/dev/sda1', u'Ebs': {u'VolumeSize': u'25'}}]"
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.HealthCheckType,EC2
 Parameters.ParamASGMinCapacity.Description,Minimum capacity for the ASG
-Parameters.ParamInstanceDefaultSG.Type,AWS::EC2::SecurityGroup::Id
 Parameters.ParamASGDesiredCapacity.Description,Desired capacity for the ASG
-Resources.AWS::EC2::SecurityGroup.Properties.VpcId,{u'Ref': u'ParamVPC'}
-Parameters.ParamASGMinCapacity.Type,Number
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,"[{u'Ref': u'ParamInstSubnet1AZ'}, {u'Ref': u'ParamInstSubnet2AZ'}]"
-Parameters.ParamIamInstanceProfile.Type,String
 Parameters.ParamInstSubnet2AZ.AllowedPattern,[a-z][a-z]-[a-z]+-[0-9][a-z]
 Parameters.ParamInstanceDefaultSG.Description,ID of Default Management SG
-Parameters.ParamInstSubnet2AZ.Type,String
 Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n']]}}"
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Security Group for the ASG instances

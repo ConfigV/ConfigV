@@ -9,49 +9,25 @@ Parameters.KeyName.ConstraintDescription,KeyPair name from 1 to 255 ASCII charac
 Mappings.ElasticsearchVersion2ServiceWrapperHash.1.4.2.Hash,4943d5a
 Parameters.KeyName.MaxLength,255
 Parameters.ElasticsearchVersion.Description,The version number of Elasticsearch used throughout the application
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.SecurityGroups,[{u'Ref': u'ElasticsearchSecurityGroup'}]
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.DesiredCapacity,{u'Ref': u'ClusterSize'}
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Statement,"[{u'Action': u'ec2:*', u'Resource': u'*', u'Effect': u'Allow'}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
-Resources.AWS::EC2::SecurityGroup.Properties.SecurityGroupIngress,"[{u'ToPort': u'9200', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'9200'}, {u'ToPort': u'9300', u'IpProtocol': u'tcp', u'CidrIp': u'0.0.0.0/0', u'FromPort': u'9300'}, {u'ToPort': u'22', u'IpProtocol': u'tcp', u'CidrIp': {u'Ref': u'SSHLocation'}, u'FromPort': u'22'}]"
 Resources.AWS::CloudFormation::WaitCondition.Properties.Timeout,600
 Parameters.ClusterSize.Description,The number of Elasticsearch instances to launch in the Auto Scaling group
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.AvailabilityZones,{u'Fn::GetAZs': u''}
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.UserData,"{u'Fn::Base64': {u'Fn::Join': [u'', [u'#!/bin/bash\n', u'yum update -y aws-cfn-bootstrap\n', u'# Helper function\n', u'function error_exit\n', u'{\n', u'  /opt/aws/bin/cfn-signal -e 1 -r ""$1"" \'', {u'Ref': u'WaitHandle'}, u""'\n"", u'  exit 1\n', u'}\n', u'# Install application\n', u'#/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r ElasticsearchServer ', u'#    --region ', {u'Ref': u'AWS::Region'}, u'\n', u'#get and unzip elasticsearch\n', u'wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-', {u'Ref': u'ElasticsearchVersion'}, u'.zip || error_exit ""Failed to retrieve elasticsearch archive""\n', u'unzip elasticsearch-', {u'Ref': u'ElasticsearchVersion'}, u'.zip -d /usr/local/elasticsearch\n', u'#install aws plugin\n', u'cd /usr/local/elasticsearch/elasticsearch-', {u'Ref': u'ElasticsearchVersion'}, u'\n', u'res=$(bin/plugin -install org.elasticsearch/elasticsearch-cloud-aws/', {u'Fn::FindInMap': [u'ElasticsearchVersion2AWSCloudPluginVersion', {u'Ref': u'ElasticsearchVersion'}, u'Ver']}, u')\n', u'if [ ""$?"" -ne ""0"" ]; then\n', u'   error_exit ""Failed to install aws plugin: ${res}""\n', u'fi\n', u'# Install elasticsearch config.yml\n', u'/opt/aws/bin/cfn-init -s ', {u'Ref': u'AWS::StackId'}, u' -r ElasticsearchServer ', u'    --region ', {u'Ref': u'AWS::Region'}, u'|| error_exit ""failed to run cfn-init""\n', u'#install elasticsearch servicewrapper daemon\n', u'cd ~\n', u'wget https://github.com/elasticsearch/elasticsearch-servicewrapper/zipball/', {u'Fn::FindInMap': [u'ElasticsearchVersion2ServiceWrapperHash', {u'Ref': u'ElasticsearchVersion'}, u'Hash']}, u'\n', u'unzip ', {u'Fn::FindInMap': [u'ElasticsearchVersion2ServiceWrapperHash', {u'Ref': u'ElasticsearchVersion'}, u'Hash']}, u'\n', u'mv elasticsearch-elasticsearch-servicewrapper-', {u'Fn::FindInMap': [u'ElasticsearchVersion2ServiceWrapperHash', {u'Ref': u'ElasticsearchVersion'}, u'Hash']}, u'/service/ /usr/local/elasticsearch/elasticsearch-', {u'Ref': u'ElasticsearchVersion'}, u'/bin/\n', u'cd /usr/local/elasticsearch/elasticsearch-', {u'Ref': u'ElasticsearchVersion'}, u'\n', u""sed -i 's#set.default.ES_HOME=.*#set.default.ES_HOME='$PWD'#g' bin/service/elasticsearch.conf\n"", u'#changing default heap size for smaller instances\n', u""sed -i 's#set.default.ES_HEAP_SIZE=.*#set.default.ES_HEAP_SIZE=512#g' bin/service/elasticsearch.conf\n"", u'bin/service/elasticsearch64 install || error_exit ""Failed install elasticsearch daemon""\n', u'res=$(bin/service/elasticsearch64 start)\n', u'if [ ""$?"" -ne ""0"" ]; then\n', u'   error_exit ""Failed to start elasticsearch servicewrapper: ${res}""\n', u'fi\n', u'# All is well so signal success\n', u""/opt/aws/bin/cfn-signal -e $? '"", {u'Ref': u'WaitHandle'}, u""'\n""]]}}"
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'ElasticsearchDiscoveryRole'}]
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Mappings.ElasticsearchVersion2AWSCloudPluginVersion.1.4.2.Ver,2.4.1
-Resources.AWS::AutoScaling::LaunchConfiguration.Metadata.AWS::CloudFormation::Init.config.commands.createfile.command,"{u'Fn::Join': [u'', [u'echo ""', u'cloud.aws.region:\n', u' ', {u'Ref': u'AWS::Region'}, u'\n', u'discovery:\n', u' type: ec2\n', u'\n', u'discovery.ec2.groups: ', {u'Ref': u'ElasticsearchSecurityGroup'}, u'\n', u'discovery.ec2.tag.type: elasticsearch\n', u'\n', u'cloud.node.auto_attributes: true\n', u' "" > ', u'/usr/local/elasticsearch/elasticsearch-', {u'Ref': u'ElasticsearchVersion'}, u'/config/elasticsearch.yml']]}"
-Parameters.KeyName.Type,String
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.IamInstanceProfile,{u'Ref': u'ElasticsearchInstanceProfile'}
 Parameters.KeyName.MinLength,1
-Parameters.ElasticsearchVersion.Type,String
-Resources.AWS::IAM::InstanceProfile.Properties.Roles,[{u'Ref': u'ElasticsearchDiscoveryRole'}]
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.KeyName,{u'Ref': u'KeyName'}
 Resources.AWS::EC2::SecurityGroup.Properties.GroupDescription,Enable Elasticsearch access
 Parameters.ElasticsearchVersion.Default,1.4.2
-Resources.AWS::AutoScaling::AutoScalingGroup.Properties.LaunchConfigurationName,{u'Ref': u'ElasticsearchServer'}
 Resources.AWS::CloudFormation::WaitCondition.DependsOn,ElasticsearchServer
-Resources.AWS::CloudFormation::WaitCondition.Properties.Handle,{u'Ref': u'WaitHandle'}
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': [u'sts:AssumeRole'], u'Effect': u'Allow', u'Principal': {u'Service': [u'ec2.amazonaws.com']}}]"
 Parameters.KeyName.Description,The name of an existing key pair to enable SSH access to Amazon EC2 instances
-Resources.AWS::EC2::SecurityGroup.Type,AWS::EC2::SecurityGroup
 Parameters.SSHLocation.MinLength,9
-Resources.AWS::AutoScaling::LaunchConfiguration.Type,AWS::AutoScaling::LaunchConfiguration
-Parameters.ClusterSize.Type,Number
-Resources.AWS::AutoScaling::AutoScalingGroup.Type,AWS::AutoScaling::AutoScalingGroup
 Parameters.ElasticsearchVersion.ConstraintDescription,Must be a supported version number.
-Resources.AWS::AutoScaling::LaunchConfiguration.Properties.ImageId,"{u'Fn::FindInMap': [u'AWSRegionArch2AMI', {u'Ref': u'AWS::Region'}, {u'Fn::FindInMap': [u'AWSInstanceType2Arch', {u'Ref': u'InstanceType'}, u'Arch']}]}"
-Resources.AWS::CloudFormation::WaitConditionHandle.Type,AWS::CloudFormation::WaitConditionHandle
 Resources.AWS::AutoScaling::AutoScalingGroup.Properties.MaxSize,12
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
-Parameters.SSHLocation.Type,String
 Parameters.ElasticsearchVersion.AllowedValues,[u'1.4.2']
-Resources.AWS::IAM::InstanceProfile.Type,AWS::IAM::InstanceProfile
 Parameters.SSHLocation.MaxLength,18
 Parameters.SSHLocation.Default,0.0.0.0/0
-Resources.AWS::CloudFormation::WaitCondition.Type,AWS::CloudFormation::WaitCondition
 Resources.AWS::IAM::Policy.Properties.PolicyName,esdicovery
 Parameters.KeyName.AllowedPattern,[\x20-\x7E]*
 Parameters.SSHLocation.Description,The range of IP addresses with access to SSH into the instances

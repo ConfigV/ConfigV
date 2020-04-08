@@ -9,27 +9,19 @@ Resources.AWS::Lambda::Function.Properties.Runtime,nodejs6.10
 Resources.AWS::DynamoDB::Table.Properties.TimeToLiveSpecification.Enabled,True
 Resources.AWS::Lambda::Permission.Properties.Principal,iot.amazonaws.com
 Resources.AWS::Lambda::Permission.Properties.Action,lambda:InvokeFunction
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
-Parameters.AwsIoTEndpoint.Type,String
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'room'}, {u'KeyType': u'RANGE', u'AttributeName': u'timestamp'}]"
-Resources.AWS::Lambda::Permission.Type,AWS::Lambda::Permission
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Resources.AWS::Lambda::Function.Properties.Role,ChatFunctionRole.Arn
 Resources.AWS::Lambda::Function.Properties.Handler,index.handler
 Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,5
 Resources.AWS::Cognito::IdentityPoolRoleAttachment.Properties.IdentityPoolId,ChatIdentityPool
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'room', u'AttributeType': u'S'}, {u'AttributeName': u'timestamp', u'AttributeType': False}]"
 Resources.AWS::Lambda::Function.Properties.Environment.Variables.AWS_IOT_ENDPOINT,AwsIoTEndpoint
-Resources.AWS::Cognito::IdentityPoolRoleAttachment.Type,AWS::Cognito::IdentityPoolRoleAttachment
 Resources.AWS::DynamoDB::Table.Properties.TableName,chat
-Resources.AWS::Lambda::Function.Type,AWS::Lambda::Function
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRoleWithWebIdentity', u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'cognito-identity.amazonaws.com:aud': u'ChatIdentityPool'}}, u'Principal': {u'Federated': u'cognito-identity.amazonaws.com'}}]"
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Version,2012-10-17
 Resources.AWS::Lambda::Function.Properties.Code,../fn
 Resources.AWS::Lambda::Permission.Properties.SourceAccount,AWS::AccountId
 Resources.AWS::DynamoDB::Table.Properties.TimeToLiveSpecification.AttributeName,ttl
-Resources.AWS::Cognito::IdentityPool.Type,AWS::Cognito::IdentityPool
-Resources.AWS::IoT::TopicRule.Type,AWS::IoT::TopicRule
 Resources.AWS::Lambda::Permission.Properties.SourceArn,arn:aws:iot:${AWS::Region}:${AWS::AccountId}:rule/${ChatPresenceRule}
 Resources.AWS::Cognito::IdentityPool.Properties.IdentityPoolName,chatPool
 Outputs.IdentityPoolId.Value,ChatIdentityPool

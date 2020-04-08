@@ -2,28 +2,31 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-cse #-}
 
-module Settings.Options where
+module ConfigV.Settings.Options where
+
 import System.Console.CmdArgs
 
-import Types.IR
+import ConfigV.Types.IR
 import Control.Monad
 import System.Exit
+
+import ConfigV.Types.SMTRules
 
 data Options
   = Learning {
     learnTarget :: FilePath
   , language :: Language
   , enableOrder :: Bool
-  , enableMissing :: Bool
-  , enableKeyvalkey :: Bool
   , enableCoarseGrain :: Bool
   , enableFineGrain :: Bool 
   , enableTypeRules :: Bool
+  , enableSMT :: Bool
   , enableProbTypeInference :: Bool
   , cacheLocation :: FilePath
   , thresholdsPath :: FilePath
   , learnFileLimit :: Int
   , verbose :: Bool
+  --, smtFilterCriteria :: SMTFormula -> Bool -- ^ TODO should this be something i can specify with a string on the command line?
   }
 
   | Verification {
@@ -45,27 +48,26 @@ learnConfig = Learning {
     learnTarget = "" &= help "The files to learn from" &= typDir
   , language = CSV &= help ("The language of the verification files, select from "++(show allLanguages))
   , enableOrder = False
-  , enableMissing = False
-  , enableKeyvalkey = False
   , enableCoarseGrain = False
   , enableFineGrain = False
   , enableTypeRules = False
+  , enableSMT = False
   , enableProbTypeInference = False
   , cacheLocation = cachedRulesDefaultLoc &= 
       help ("The location where the cache of learned rules wll be written. Default: "++ cachedRulesDefaultLoc) &= typFile
   , thresholdsPath = def &= help "The location from which to read threshold values (unsupported)" &= typFile
   , learnFileLimit = 9999 &= help "the limit for files to be used in learning. useful for benchmarking learning times" &= typ "INT"
   , verbose = False
+  --, smtFilterCriteria = containsIsSetTo
   } &=
     help "Use Predicate Rule Learning to learn rules"
 
 defaultCheckConfig = learnConfig {
     enableOrder = True
-  , enableMissing = True
-  , enableKeyvalkey = True
   , enableCoarseGrain = True
   , enableFineGrain = True
   , enableTypeRules = True
+  , enableSMT = True
   , enableProbTypeInference = True
   , cacheLocation = cachedRulesDefaultLoc 
   } 

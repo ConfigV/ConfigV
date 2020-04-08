@@ -1,16 +1,9 @@
-Resources.AWS::IAM::Policy.Properties.Roles,[{u'Ref': u'unauthRole'}]
 Resources.AWS::IAM::Policy.Properties.PolicyDocument.Version,2012-10-17
-Resources.AWS::IAM::Policy.Type,AWS::IAM::Policy
 Parameters.ReadCapacityUnits.MinValue,5
-Resources.AWS::DynamoDB::Table.Type,AWS::DynamoDB::Table
 Mappings.PoolId.Id.MyPoolId,CHANGE ME!
-Parameters.ReadCapacityUnits.Type,Number
 Resources.AWS::DynamoDB::Table.Properties.KeySchema,"[{u'KeyType': u'HASH', u'AttributeName': u'userId'}]"
 Resources.AWS::IAM::Role.Properties.Path,/
-Resources.AWS::IAM::Role.Type,AWS::IAM::Role
 Parameters.ReadCapacityUnits.Default,5
-Resources.AWS::DynamoDB::Table.Properties.GlobalSecondaryIndexes,"[{u'KeySchema': [{u'KeyType': u'HASH', u'AttributeName': u'gameId'}, {u'KeyType': u'RANGE', u'AttributeName': u'score'}], u'IndexName': u'gameIdIndex', u'Projection': {u'ProjectionType': u'ALL'}, u'ProvisionedThroughput': {u'WriteCapacityUnits': {u'Ref': u'WriteCapacityUnits'}, u'ReadCapacityUnits': {u'Ref': u'ReadCapacityUnits'}}}]"
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.WriteCapacityUnits,{u'Ref': u'WriteCapacityUnits'}
 Resources.AWS::DynamoDB::Table.Properties.AttributeDefinitions,"[{u'AttributeName': u'userId', u'AttributeType': u'S'}, {u'AttributeName': u'gameId', u'AttributeType': u'N'}, {u'AttributeName': u'score', u'AttributeType': u'N'}]"
 Resources.AWS::DynamoDB::Table.Properties.TableName,NumberGuessHighScore
 Resources.AWS::IAM::Role.Properties.AssumeRolePolicyDocument.Statement,"[{u'Action': u'sts:AssumeRoleWithWebIdentity', u'Principal': {u'Federated': u'cognito-identity.amazonaws.com'}, u'Effect': u'Allow', u'Condition': {u'StringEquals': {u'cognito-identity.amazonaws.com:aud': {u'Fn::FindInMap': [u'PoolId', u'Id', u'MyPoolId']}}, u'ForAnyValue:StringLike': {u'cognito-identity.amazonaws.com:amr': u'unauthenticated'}}, u'Sid': u''}]"
@@ -21,9 +14,7 @@ Parameters.WriteCapacityUnits.ConstraintDescription,must be between 5 and 10000
 Parameters.WriteCapacityUnits.Default,10
 Resources.AWS::IAM::Policy.Properties.PolicyName,DynamoDB_fine_grained_access_control_write_unauth
 Parameters.WriteCapacityUnits.MinValue,5
-Parameters.WriteCapacityUnits.Type,Number
 Parameters.ReadCapacityUnits.MaxValue,10000
 Parameters.WriteCapacityUnits.Description,Provisioned write throughput
-Resources.AWS::DynamoDB::Table.Properties.ProvisionedThroughput.ReadCapacityUnits,{u'Ref': u'ReadCapacityUnits'}
 Parameters.ReadCapacityUnits.ConstraintDescription,must be between 5 and 10000
 Parameters.WriteCapacityUnits.MaxValue,10000
