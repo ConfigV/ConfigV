@@ -31,10 +31,14 @@ instance Learnable R.FineGrained Formula where
   buildRelations f = do
     settings <- ask
     let
-      rs = mapMaybe intLike f
-      --dont want anything with these
-      xs = ["dir","socket","port"]
-      tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) xs) rs
+      -- rs = mapMaybe intLike f 
+      --xs = ["dir","socket","port"]
+      --tris = triples $ filter (\ir -> not $ any (\k -> T.isInfixOf k (unintern $ keyword ir)) xs) rs
+
+      --tris = triples f
+      tris = triples $ filter (\ir -> not $ ",0" == (unintern $ value ir)) f
+      
+
       -- TODO should use learning result from TypeErr module
       wellTypedTris = 
           filter 
@@ -45,7 +49,7 @@ instance Learnable R.FineGrained Formula where
              all (validAsInt.unintern.value) [ir1,ir2,ir3]) 
           tris
       eqs = map toFineGrained $ if (enableProbTypeInference $ optionsSettings settings) then wellTypedTris else tris
-    return $ M.fromList $ eqs
+    return $ M.fromList eqs
 
   merge rs = do
     settings <- ask
@@ -87,13 +91,14 @@ pfold full  = let
 --all IRLines must have only ints as values (filtered out by this point)
 toFineGrained :: (IRLine,IRLine,IRLine) -> (FineGrained,Formula)
 toFineGrained (IRLine k1 v1, IRLine k2 v2, IRLine k3 v3) = let
-    asInt v = ((either (\x->0) fst $T.decimal v) * (fromMaybe 1 $ units v)) ::Int
+    --TODO asInt allows to process size values - this should be moved to a preprocessing stage
+    myRead v = ((either (\x->0) fst $T.double v) * (fromMaybe 1 $ units v)) :: Double
     formula v1 v2 v3 = if
      | v1*v2 < v3  -> Formula {gt=0,eq=0,lt=1}
      | v1*v2 == v3 -> Formula {gt=0,eq=1,lt=0}
      | v1*v2 > v3  -> Formula {gt=1,eq=0,lt=0}
   in
-    ((FineGrained k1 k2 k3), formula (asInt $ unintern v1) (asInt $ unintern v2) (asInt $ unintern v3))
+    ((FineGrained k1 k2 k3), formula (myRead $ unintern v1) (myRead $ unintern v2) (myRead $ unintern v3))
 
 -- | Combine k1 k2 k3 with k2 k1 k3 rules
 -- unionsWith work by Ord, so just providing a custom instance of Eq wont work, also need Ord

@@ -24,6 +24,7 @@ data Language =
        MySQL 
      | HTTPD
      | CSV --when your config file preprocessing happens elsewhere and you just have a key,value csv
+           -- TODO Should only allow CSV and break other languages into seperate packages
        deriving (Eq,Show,Enum,Bounded,Ord,Data)
 
 -- | all the languages we support, used in help file

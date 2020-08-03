@@ -26,7 +26,7 @@ If you want to run the test suites you need to install the ghv-$VERS-prof packag
 For usage on your own dataset, you can use the command line tool, in a similar way to below. Your exact location of the executable may vary.
 
 ```
-cabal run ConfigVtool -- learn --learntarget "Datasets/benchmarks/CSVTest/" --enableorder 
+cabal run ConfigVTool -- learn --learntarget "Datasets/benchmarks/CSVTest/" --enableorder 
 ```
 
 You can also use ConfigV as an API from a Haskell program. For an example of this usage, see how the command line tool is built in the ```Executables``` directory, or inspect some of the tests in the ```Tests``` directory.

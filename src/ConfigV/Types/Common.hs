@@ -13,4 +13,5 @@ data ConfigType =
     Flag -- (0 || 1)
   | Int  
   | String
+  | Float
 --  etc..
